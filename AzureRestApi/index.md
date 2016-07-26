@@ -10,7 +10,7 @@ layout: HubPage
 
     <aside class="alert section-border">
         <ol class="action-list">
-            <li><a href="api/index" class="button-bordered button-translucent">API reference</a></li>
+            <li><a href="swagger/index" class="button-bordered button-translucent">API reference</a></li>
         </ol>
     </aside>
 </article>
