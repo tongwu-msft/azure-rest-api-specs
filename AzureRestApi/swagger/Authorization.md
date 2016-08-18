@@ -8,10 +8,8 @@ tryFeature: true
 
 
 ---
-uid: batch.core.windows.net/BatchService/2016-02-01.3.0/Certificate_List
+uid: batch.core.windows.net/BatchService/2016-02-01.3.0/Certificate_Delete
 tryFeature: true
 ---
-
-## Test overwrite for h2
 
 Test overwrite text.
