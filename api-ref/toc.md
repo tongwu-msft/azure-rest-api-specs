@@ -37,7 +37,7 @@
 # Usage Management Client
 ## [Rate Card](commerce/RateCard.json)
 ## [Usage Aggregates](commerce/UsageAggregates.json)
-# Azure  M L  Commitment  Plans  Management  Client
+# Azure ML Commitment Plans Management Client
 ## [Commitment Associations](commitmentPlans/CommitmentAssociations.json)
 ## [Commitment Plans](commitmentPlans/CommitmentPlans.json)
 ## [Usage History](commitmentPlans/UsageHistory.json)
@@ -49,7 +49,7 @@
 ## [Virtual Machine Images](compute/VirtualMachineImages.json)
 ## [Virtual Machines](compute/VirtualMachines.json)
 ## [Virtual Machine Scale Sets](compute/VirtualMachineScaleSets.json)
-## [Virtual Machine Scale Set V Ms](compute/VirtualMachineScaleSetVMs.json)
+## [Virtual Machine Scale Set VMs](compute/VirtualMachineScaleSetVMs.json)
 ## [Virtual Machine Sizes](compute/VirtualMachineSizes.json)
 # Container Service Client
 ## [Container Service](containerService/ContainerService.json)
@@ -95,15 +95,15 @@
 ## [Get Apps](intune/GetApps.json)
 ## [Get Location By Host Name](intune/GetLocationByHostName.json)
 ## [Get Locations](intune/GetLocations.json)
-## [Get M A M Flagged User By Name](intune/GetMAMFlaggedUserByName.json)
-## [Get M A M Flagged Users](intune/GetMAMFlaggedUsers.json)
-## [Get M A M Statuses](intune/GetMAMStatuses.json)
-## [Get M A M User Device By Device Name](intune/GetMAMUserDeviceByDeviceName.json)
-## [Get M A M User Devices](intune/GetMAMUserDevices.json)
-## [Get M A M User Flagged Enrolled Apps](intune/GetMAMUserFlaggedEnrolledApps.json)
+## [Get MAM Flagged User By Name](intune/GetMAMFlaggedUserByName.json)
+## [Get MAM Flagged Users](intune/GetMAMFlaggedUsers.json)
+## [Get MAM Statuses](intune/GetMAMStatuses.json)
+## [Get MAM User Device By Device Name](intune/GetMAMUserDeviceByDeviceName.json)
+## [Get MAM User Devices](intune/GetMAMUserDevices.json)
+## [Get MAM User Flagged Enrolled Apps](intune/GetMAMUserFlaggedEnrolledApps.json)
 ## [Get Operation Results](intune/GetOperationResults.json)
 ## [Ios](intune/Ios.json)
-## [Wipe M A M User Device](intune/WipeMAMUserDevice.json)
+## [Wipe MAM User Device](intune/WipeMAMUserDevice.json)
 # iot Hub Client
 ## [Iot Hub Resource](iothub/IotHubResource.json)
 # Data Lake Analytics Job Management Client
@@ -140,7 +140,7 @@
 ## [Local Network Gateways](network/LocalNetworkGateways.json)
 ## [Network Interfaces](network/NetworkInterfaces.json)
 ## [Network Security Groups](network/NetworkSecurityGroups.json)
-## [Public I P Addresses](network/PublicIPAddresses.json)
+## [Public IP Addresses](network/PublicIPAddresses.json)
 ## [Routes](network/Routes.json)
 ## [Route Tables](network/RouteTables.json)
 ## [Security Rules](network/SecurityRules.json)
@@ -156,7 +156,7 @@
 # Policy Client
 ## [Policy Assignments](policy/PolicyAssignments.json)
 ## [Policy Definitions](policy/PolicyDefinitions.json)
-# Power  B I  Embedded  Management  Client
+# Power BI Embedded Management Client
 ## [get Available Operations](powerbiembedded/getAvailableOperations.json)
 ## [Workspace Collections](powerbiembedded/WorkspaceCollections.json)
 ## [Workspaces](powerbiembedded/Workspaces.json)
@@ -213,7 +213,7 @@
 ## [Node](servermanagement/Node.json)
 ## [Power Shell](servermanagement/PowerShell.json)
 ## [Session](servermanagement/Session.json)
-# Web Site  Management  Client
+# WebSite Management Client
 ## [Certificate Orders](service/CertificateOrders.json)
 ## [Certificates](service/Certificates.json)
 ## [Classic Mobile Services](service/ClassicMobileServices.json)
@@ -287,5 +287,5 @@
 # Traffic Manager Management Client
 ## [Endpoints](trafficmanager/Endpoints.json)
 ## [Profiles](trafficmanager/Profiles.json)
-# Azure  M L  Web  Services  Management  Client
+# Azure ML Web Services Management Client
 ## [Web Services](webservices/WebServices.json)
