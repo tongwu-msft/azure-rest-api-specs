@@ -1,7 +1,7 @@
 # Data Lake Analytics Account Management Client
 ## [Account](account/Account.json)
 # Azure Analysis Services
-## [Servers](asazure/Servers.json)
+## [Servers](analysisservices/Servers.json)
 # Authorization Management Client
 ## [Classic Administrators](authorization/ClassicAdministrators.json)
 ## [Permissions](authorization/Permissions.json)
