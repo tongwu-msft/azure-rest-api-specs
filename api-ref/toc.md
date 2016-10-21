@@ -121,7 +121,7 @@
 ## [Workflow Versions](logic/WorkflowVersions.json)
 # Media Services Management Client
 ## [Media Service](media/MediaService.json)
-# Engagement. Management Client
+# Mobile Engagement
 ## [App Collections](mobile-engagement/AppCollections.json)
 ## [Apps](mobile-engagement/Apps.json)
 ## [Campaigns](mobile-engagement/Campaigns.json)
