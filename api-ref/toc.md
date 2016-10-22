@@ -1,5 +1,5 @@
-# Data Lake Analytics Account Management Client
-## [Account](account/Account.json)
+# Data Lake
+## [Account](datalake/Account.json)
 # Azure Analysis Services
 ## [Servers](analysisservices/Servers.json)
 # Authorization Management Client
@@ -23,8 +23,8 @@
 ## [Job Schedule](BatchService/JobSchedule.json)
 ## [Pool](BatchService/Pool.json)
 ## [Task](BatchService/Task.json)
-# Data Lake Analytics Catalog Management Client
-## [Catalog](catalog/Catalog.json)
+# Data Lake
+## [Catalog](datalake/Catalog.json)
 # Cdn Management Client
 ## [Custom Domains](cdn/CustomDomains.json)
 ## [Endpoints](cdn/Endpoints.json)
@@ -75,8 +75,8 @@
 ## [Namespaces](EventHub/Namespaces.json)
 # Feature Client
 ## [Features](features/Features.json)
-# Data Lake Store File System Management Client
-## [File System](filesystem/FileSystem.json)
+# Data Lake
+## [File System](datalake/FileSystem.json)
 # Graph Rbac Management Client
 ## [Applications](graphrbac/Applications.json)
 ## [Groups](graphrbac/Groups.json)
@@ -106,8 +106,8 @@
 ## [Wipe MAM User Device](intune/WipeMAMUserDevice.json)
 # iot Hub Client
 ## [Iot Hub Resource](iothub/IotHubResource.json)
-# Data Lake Analytics Job Management Client
-## [Job](job/Job.json)
+# Data Lake
+## [Job](datalake/Job.json)
 # Key Vault Management Client
 ## [Vaults](keyvault/Vaults.json)
 # Management Lock Client
