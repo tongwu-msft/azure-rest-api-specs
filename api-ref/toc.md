@@ -1,8 +1,3 @@
-# Data Lake
-## [Account](datalake/Account.json)
-## [Catalog](datalake/Catalog.json)
-## [File System](datalake/FileSystem.json)
-## [Job](datalake/Job.json)
 # Analysis Services
 ## [Servers](analysisservices/Servers.json)
 # Authorization
@@ -26,6 +21,11 @@
 ## [Job Schedule](BatchService/JobSchedule.json)
 ## [Pool](BatchService/Pool.json)
 ## [Task](BatchService/Task.json)
+# Data Lake
+## [Account](datalake/Account.json)
+## [Catalog](datalake/Catalog.json)
+## [File System](datalake/FileSystem.json)
+## [Job](datalake/Job.json)
 # CDN
 ## [Custom Domains](cdn/CustomDomains.json)
 ## [Endpoints](cdn/Endpoints.json)
