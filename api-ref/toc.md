@@ -48,10 +48,10 @@
 ## [Virtual Machine Extension Images](compute/VirtualMachineExtensionImages.json)
 ## [Virtual Machine Extensions](compute/VirtualMachineExtensions.json)
 ## [Virtual Machine Images](compute/VirtualMachineImages.json)
-## [Virtual Machines](compute/VirtualMachines.json)
-## [Virtual Machine Scale Sets](compute/VirtualMachineScaleSets.json)
 ## [Virtual Machine Scale Set VMs](compute/VirtualMachineScaleSetVMs.json)
+## [Virtual Machine Scale Sets](compute/VirtualMachineScaleSets.json)
 ## [Virtual Machine Sizes](compute/VirtualMachineSizes.json)
+## [Virtual Machines](compute/VirtualMachines.json)
 # Container Service Client
 ## [Container Service](containerService/ContainerService.json)
 # Dns Management Client
@@ -112,10 +112,10 @@
 # Logic Management Client
 ## [Workflow Run Actions](logic/WorkflowRunActions.json)
 ## [Workflow Runs](logic/WorkflowRuns.json)
-## [Workflows](logic/Workflows.json)
 ## [Workflow Trigger Histories](logic/WorkflowTriggerHistories.json)
 ## [Workflow Triggers](logic/WorkflowTriggers.json)
 ## [Workflow Versions](logic/WorkflowVersions.json)
+## [Workflows](logic/Workflows.json)
 # Media Services Management Client
 ## [Media Service](media/MediaService.json)
 # Mobile Engagement
@@ -138,8 +138,8 @@
 ## [Network Interfaces](network/NetworkInterfaces.json)
 ## [Network Security Groups](network/NetworkSecurityGroups.json)
 ## [Public IP Addresses](network/PublicIPAddresses.json)
-## [Routes](network/Routes.json)
 ## [Route Tables](network/RouteTables.json)
+## [Routes](network/Routes.json)
 ## [Security Rules](network/SecurityRules.json)
 ## [Subnets](network/Subnets.json)
 ## [Usages](network/Usages.json)
@@ -154,9 +154,9 @@
 ## [Policy Assignments](policy/PolicyAssignments.json)
 ## [Policy Definitions](policy/PolicyDefinitions.json)
 # Power BI Embedded Management Client
-## [get Available Operations](powerbiembedded/getAvailableOperations.json)
 ## [Workspace Collections](powerbiembedded/WorkspaceCollections.json)
 ## [Workspaces](powerbiembedded/Workspaces.json)
+## [get Available Operations](powerbiembedded/getAvailableOperations.json)
 # Recovery Services Client
 ## [Vaults](recoveryservices/Vaults.json)
 # Recovery Services Backup Client
@@ -235,10 +235,10 @@
 # Service Fabric Client
 ## [Application Healths](servicefabric/ApplicationHealths.json)
 ## [Application Manifests](servicefabric/ApplicationManifests.json)
-## [Applications](servicefabric/Applications.json)
 ## [Application Types](servicefabric/ApplicationTypes.json)
 ## [Application Upgrade Rollbacks](servicefabric/ApplicationUpgradeRollbacks.json)
 ## [Application Upgrades](servicefabric/ApplicationUpgrades.json)
+## [Applications](servicefabric/Applications.json)
 ## [Cluster Healths](servicefabric/ClusterHealths.json)
 ## [Cluster Load Informations](servicefabric/ClusterLoadInformations.json)
 ## [Cluster Manifests](servicefabric/ClusterManifests.json)
@@ -252,8 +252,8 @@
 ## [Deployed Service Types](servicefabric/DeployedServiceTypes.json)
 ## [Node Healths](servicefabric/NodeHealths.json)
 ## [Node Load Informations](servicefabric/NodeLoadInformations.json)
-## [Nodes](servicefabric/Nodes.json)
 ## [Node States](servicefabric/NodeStates.json)
+## [Nodes](servicefabric/Nodes.json)
 ## [Partition Healths](servicefabric/PartitionHealths.json)
 ## [Partition Lists](servicefabric/PartitionLists.json)
 ## [Partition Load Informations](servicefabric/PartitionLoadInformations.json)
@@ -270,8 +270,8 @@
 ## [Service Groups](servicefabric/ServiceGroups.json)
 ## [Service Healths](servicefabric/ServiceHealths.json)
 ## [Service Manifests](servicefabric/ServiceManifests.json)
-## [Services](servicefabric/Services.json)
 ## [Service Types](servicefabric/ServiceTypes.json)
+## [Services](servicefabric/Services.json)
 ## [Upgrade Progresses](servicefabric/UpgradeProgresses.json)
 # Sql Management Client
 ## [Security Alert Policy](sql/SecurityAlertPolicy.json)
