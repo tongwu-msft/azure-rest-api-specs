@@ -3,9 +3,9 @@
 ## [Catalog](datalake/Catalog.json)
 ## [File System](datalake/FileSystem.json)
 ## [Job](datalake/Job.json)
-# Azure Analysis Services
+# Analysis Services
 ## [Servers](analysisservices/Servers.json)
-# Authorization Management Client
+# Authorization
 ## [Classic Administrators](authorization/ClassicAdministrators.json)
 ## [Permissions](authorization/Permissions.json)
 ## [Provider Operations Metadata](authorization/ProviderOperationsMetadata.json)
@@ -26,23 +26,24 @@
 ## [Job Schedule](BatchService/JobSchedule.json)
 ## [Pool](BatchService/Pool.json)
 ## [Task](BatchService/Task.json)
-# Cdn Management Client
+# CDN
 ## [Custom Domains](cdn/CustomDomains.json)
 ## [Endpoints](cdn/Endpoints.json)
 ## [Name Availability](cdn/NameAvailability.json)
 ## [Operations](cdn/Operations.json)
 ## [Origins](cdn/Origins.json)
 ## [Profiles](cdn/Profiles.json)
-# Cognitive Services Management Client
+# Cognitive Services
 ## [Cognitive Services Accounts](cognitiveservices/CognitiveServicesAccounts.json)
-# Usage Management Client
+# Commerce
 ## [Rate Card](commerce/RateCard.json)
 ## [Usage Aggregates](commerce/UsageAggregates.json)
-# Azure ML Commitment Plans Management Client
-## [Commitment Associations](commitmentPlans/CommitmentAssociations.json)
-## [Commitment Plans](commitmentPlans/CommitmentPlans.json)
-## [Usage History](commitmentPlans/UsageHistory.json)
-# Compute Management Client
+# Azure Machine Learning
+## [Commitment Associations](machineLearning/CommitmentAssociations.json)
+## [Commitment Plans](machineLearning/CommitmentPlans.json)
+## [Usage History](machineLearning/UsageHistory.json)
+## [Web Services](machineLearning/WebServices.json)
+# Compute
 ## [Availability Sets](compute/AvailabilitySets.json)
 ## [Usage](compute/Usage.json)
 ## [Virtual Machine Extension Images](compute/VirtualMachineExtensionImages.json)
@@ -52,12 +53,12 @@
 ## [Virtual Machine Scale Sets](compute/VirtualMachineScaleSets.json)
 ## [Virtual Machine Sizes](compute/VirtualMachineSizes.json)
 ## [Virtual Machines](compute/VirtualMachines.json)
-# Container Service Client
+# Container Service
 ## [Container Service](containerService/ContainerService.json)
-# Dns Management Client
+# DNS
 ## [Record Sets](dns/RecordSets.json)
 ## [Zones](dns/Zones.json)
-# Dev Test Labs Client
+# Dev Test Labs
 ## [Artifact](DTL/Artifact.json)
 ## [Artifact Source](DTL/ArtifactSource.json)
 ## [Cost](DTL/Cost.json)
@@ -70,26 +71,25 @@
 ## [Schedule](DTL/Schedule.json)
 ## [Virtual Machine](DTL/VirtualMachine.json)
 ## [Virtual Network](DTL/VirtualNetwork.json)
-# Event Hub Management Client
+# Event Hub
 ## [Consumer Groups](EventHub/ConsumerGroups.json)
 ## [Event Hubs](EventHub/EventHubs.json)
 ## [Namespaces](EventHub/Namespaces.json)
 # Feature Client
 ## [Features](features/Features.json)
-# Graph Rbac Management Client
+# Graph RBAC
 ## [Applications](graphrbac/Applications.json)
 ## [Groups](graphrbac/Groups.json)
 ## [Objects](graphrbac/Objects.json)
 ## [Service Principals](graphrbac/ServicePrincipals.json)
 ## [Users](graphrbac/Users.json)
-# Insights Client
-## [Metrics](insightsClient/Metrics.json)
-# Insights Management Client
-## [Alert Rule Incidents](insightsManagementClient/AlertRuleIncidents.json)
-## [Alert Rules](insightsManagementClient/AlertRules.json)
-## [Incidents](insightsManagementClient/Incidents.json)
-## [Log Profiles](insightsManagementClient/LogProfiles.json)
-# Intune Resource Management Client
+# Insights
+## [Alert Rule Incidents](insights/AlertRuleIncidents.json)
+## [Alert Rules](insights/AlertRules.json)
+## [Incidents](insights/Incidents.json)
+## [Log Profiles](insights/LogProfiles.json)
+## [Metrics](insights/Metrics.json)
+# Intune
 ## [Android](intune/Android.json)
 ## [Get Apps](intune/GetApps.json)
 ## [Get Location By Host Name](intune/GetLocationByHostName.json)
@@ -103,20 +103,20 @@
 ## [Get Operation Results](intune/GetOperationResults.json)
 ## [Ios](intune/Ios.json)
 ## [Wipe MAM User Device](intune/WipeMAMUserDevice.json)
-# iot Hub Client
+# IoT Hub
 ## [Iot Hub Resource](iothub/IotHubResource.json)
-# Key Vault Management Client
+# Key Vault
 ## [Vaults](keyvault/Vaults.json)
 # Management Lock Client
 ## [Management Locks](locks/ManagementLocks.json)
-# Logic Management Client
+# Logic Apps
 ## [Workflow Run Actions](logic/WorkflowRunActions.json)
 ## [Workflow Runs](logic/WorkflowRuns.json)
 ## [Workflow Trigger Histories](logic/WorkflowTriggerHistories.json)
 ## [Workflow Triggers](logic/WorkflowTriggers.json)
 ## [Workflow Versions](logic/WorkflowVersions.json)
 ## [Workflows](logic/Workflows.json)
-# Media Services Management Client
+# Media Services
 ## [Media Service](media/MediaService.json)
 # Mobile Engagement
 ## [App Collections](mobile-engagement/AppCollections.json)
@@ -126,7 +126,7 @@
 ## [Export Tasks](mobile-engagement/ExportTasks.json)
 ## [Import Tasks](mobile-engagement/ImportTasks.json)
 ## [Supported Platforms](mobile-engagement/SupportedPlatforms.json)
-# Network Management Client
+# Network
 ## [Application Gateways](network/ApplicationGateways.json)
 ## [Check Dns Name Availability](network/CheckDnsNameAvailability.json)
 ## [Express Route Circuit Authorizations](network/ExpressRouteCircuitAuthorizations.json)
@@ -147,42 +147,41 @@
 ## [Virtual Network Gateways](network/VirtualNetworkGateways.json)
 ## [Virtual Network Peerings](network/VirtualNetworkPeerings.json)
 ## [Virtual Networks](network/VirtualNetworks.json)
-# Notification Hubs Management Client
+# Notification Hubs
 ## [Namespaces](notificationhubs/Namespaces.json)
 ## [Notification Hubs](notificationhubs/NotificationHubs.json)
 # Policy Client
 ## [Policy Assignments](policy/PolicyAssignments.json)
 ## [Policy Definitions](policy/PolicyDefinitions.json)
-# Power BI Embedded Management Client
+# Power BI Embedded
 ## [Workspace Collections](powerbiembedded/WorkspaceCollections.json)
 ## [Workspaces](powerbiembedded/Workspaces.json)
 ## [get Available Operations](powerbiembedded/getAvailableOperations.json)
-# Recovery Services Client
+# Recovery Services
+## [Backup Engines](recoveryservices/BackupEngines.json)
+## [Backup Operation Results](recoveryservices/BackupOperationResults.json)
+## [Backup Operation Statuses](recoveryservices/BackupOperationStatuses.json)
+## [Backups](recoveryservices/Backups.json)
+## [Export Jobs Operation Results](recoveryservices/ExportJobsOperationResults.json)
+## [Item Level Recovery Connections](recoveryservices/ItemLevelRecoveryConnections.json)
+## [Job Cancellations](recoveryservices/JobCancellations.json)
+## [Job Details](recoveryservices/JobDetails.json)
+## [Job Operation Results](recoveryservices/JobOperationResults.json)
+## [Jobs](recoveryservices/Jobs.json)
+## [Protectable Items](recoveryservices/ProtectableItems.json)
+## [Protected Item Operation Results](recoveryservices/ProtectedItemOperationResults.json)
+## [Protected Item Operation Statuses](recoveryservices/ProtectedItemOperationStatuses.json)
+## [Protected Items](recoveryservices/ProtectedItems.json)
+## [Protection Container Operation Results](recoveryservices/ProtectionContainerOperationResults.json)
+## [Protection Container Refresh Operation Results](recoveryservices/ProtectionContainerRefreshOperationResults.json)
+## [Protection Containers](recoveryservices/ProtectionContainers.json)
+## [Protection Policies](recoveryservices/ProtectionPolicies.json)
+## [Protection Policy Operation Results](recoveryservices/ProtectionPolicyOperationResults.json)
+## [Protection Policy Operation Statuses](recoveryservices/ProtectionPolicyOperationStatuses.json)
+## [Recovery Points](recoveryservices/RecoveryPoints.json)
+## [Restores](recoveryservices/Restores.json)
 ## [Vaults](recoveryservices/Vaults.json)
-# Recovery Services Backup Client
-## [Backup Engines](recoveryservicesbackup/BackupEngines.json)
-## [Backup Operation Results](recoveryservicesbackup/BackupOperationResults.json)
-## [Backup Operation Statuses](recoveryservicesbackup/BackupOperationStatuses.json)
-## [Backups](recoveryservicesbackup/Backups.json)
-## [Export Jobs Operation Results](recoveryservicesbackup/ExportJobsOperationResults.json)
-## [Item Level Recovery Connections](recoveryservicesbackup/ItemLevelRecoveryConnections.json)
-## [Job Cancellations](recoveryservicesbackup/JobCancellations.json)
-## [Job Details](recoveryservicesbackup/JobDetails.json)
-## [Job Operation Results](recoveryservicesbackup/JobOperationResults.json)
-## [Jobs](recoveryservicesbackup/Jobs.json)
-## [Protectable Items](recoveryservicesbackup/ProtectableItems.json)
-## [Protected Item Operation Results](recoveryservicesbackup/ProtectedItemOperationResults.json)
-## [Protected Item Operation Statuses](recoveryservicesbackup/ProtectedItemOperationStatuses.json)
-## [Protected Items](recoveryservicesbackup/ProtectedItems.json)
-## [Protection Container Operation Results](recoveryservicesbackup/ProtectionContainerOperationResults.json)
-## [Protection Container Refresh Operation Results](recoveryservicesbackup/ProtectionContainerRefreshOperationResults.json)
-## [Protection Containers](recoveryservicesbackup/ProtectionContainers.json)
-## [Protection Policies](recoveryservicesbackup/ProtectionPolicies.json)
-## [Protection Policy Operation Results](recoveryservicesbackup/ProtectionPolicyOperationResults.json)
-## [Protection Policy Operation Statuses](recoveryservicesbackup/ProtectionPolicyOperationStatuses.json)
-## [Recovery Points](recoveryservicesbackup/RecoveryPoints.json)
-## [Restores](recoveryservicesbackup/Restores.json)
-# Redis Management Client
+# Redis Cache
 ## [Patch Schedules](redis/PatchSchedules.json)
 ## [Redis](redis/Redis.json)
 # Resource Management Client
@@ -192,19 +191,17 @@
 ## [Resource Groups](resources/ResourceGroups.json)
 ## [Resources](resources/Resources.json)
 ## [Tags](resources/Tags.json)
-# Scheduler Management Client
+# Scheduler
 ## [Job Collections](scheduler/JobCollections.json)
 ## [Jobs](scheduler/Jobs.json)
-# Search Management Client
+# Search
 ## [Admin Keys](search/AdminKeys.json)
+## [Data Sources](search/DataSources.json)
+## [Documents](search/Documents.json)
+## [Indexers](search/Indexers.json)
+## [Indexes](search/Indexes.json)
 ## [Query Keys](search/QueryKeys.json)
 ## [Services](search/Services.json)
-# Search Index Client
-## [Documents](searchindex/Documents.json)
-# Search Service Client
-## [Data Sources](searchservice/DataSources.json)
-## [Indexers](searchservice/Indexers.json)
-## [Indexes](searchservice/Indexes.json)
 # Server Management
 ## [Gateway](servermanagement/Gateway.json)
 ## [Node](servermanagement/Node.json)
@@ -227,12 +224,12 @@
 ## [Sites](service/Sites.json)
 ## [Top Level Domains](service/TopLevelDomains.json)
 ## [Usage](service/Usage.json)
-# Service Bus Management Client
+# Service Bus
 ## [Namespaces](servicebus/Namespaces.json)
 ## [Queues](servicebus/Queues.json)
 ## [Subscriptions](servicebus/Subscriptions.json)
 ## [Topics](servicebus/Topics.json)
-# Service Fabric Client
+# Service Fabrice
 ## [Application Healths](servicefabric/ApplicationHealths.json)
 ## [Application Manifests](servicefabric/ApplicationManifests.json)
 ## [Application Types](servicefabric/ApplicationTypes.json)
@@ -273,16 +270,14 @@
 ## [Service Types](servicefabric/ServiceTypes.json)
 ## [Services](servicefabric/Services.json)
 ## [Upgrade Progresses](servicefabric/UpgradeProgresses.json)
-# Sql Management Client
+# SQL Databases
 ## [Security Alert Policy](sql/SecurityAlertPolicy.json)
-# Storage Management Client
+# Storage
 ## [Storage Accounts](storage/StorageAccounts.json)
 ## [Usage](storage/Usage.json)
 # Subscription Client
 ## [Subscriptions](subscriptions/Subscriptions.json)
 ## [Tenants](subscriptions/Tenants.json)
-# Traffic Manager Management Client
+# Traffic Manager
 ## [Endpoints](trafficmanager/Endpoints.json)
 ## [Profiles](trafficmanager/Profiles.json)
-# Azure ML Web Services Management Client
-## [Web Services](webservices/WebServices.json)
