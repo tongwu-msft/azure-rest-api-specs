@@ -15,9 +15,9 @@ The components of a REST API call are:
 REST API calls minimally return an HTTP status code from the 200 code list upon success; otherwise, they return a different code (as indicated in the documentation). They can also return MIME-encoded response objects in the HTTP response body.
 
 > For almost all Azure service REST APIs, there is a corresponding client SDK call which handles much of the client code for you. See:
-> [Azure .NET SDK]()
-> [Azure Java SDK]()
-> [Azure CLI 2.0 SDK]()
+> [Azure .NET SDK](https://docs.microsoft.com/en-us/dotnet/api)
+> [Azure Java SDK](https://docs.microsoft.com/en-us/java/api)
+> [Azure CLI 2.0 SDK](https://docs.microsoft.com/en-us/cli/azure)
 
 ## Authenticate with your Azure account
 
