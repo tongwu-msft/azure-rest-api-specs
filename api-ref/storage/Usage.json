@@ -1,0 +1,634 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "StorageManagementClient",
+    "description": "The Storage Management Client.",
+    "version": "2016-01-01"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json",
+    "text/json"
+  ],
+  "produces": [
+    "application/json",
+    "text/json"
+  ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/usages": {
+      "get": {
+        "tags": [
+          "Usage"
+        ],
+        "operationId": "Usage_List",
+        "description": "Gets the current usage count and the limit for the resources under the subscription.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UsageListResult"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": null
+        }
+      }
+    }
+  },
+  "definitions": {
+    "StorageAccountCheckNameAvailabilityParameters": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Microsoft.Storage/storageAccounts"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ]
+    },
+    "CheckNameAvailabilityResult": {
+      "properties": {
+        "nameAvailable": {
+          "readOnly": true,
+          "type": "boolean",
+          "description": "Gets a boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken or invalid and cannot be used."
+        },
+        "reason": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the reason that a storage account name could not be used. The Reason element is only returned if NameAvailable is false.",
+          "enum": [
+            "AccountNameInvalid",
+            "AlreadyExists"
+          ],
+          "x-ms-enum": {
+            "name": "Reason",
+            "modelAsString": false
+          }
+        },
+        "message": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets an error message explaining the Reason value in more detail."
+        }
+      },
+      "description": "The CheckNameAvailability operation response."
+    },
+    "Sku": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Gets or sets the sku name. Required for account creation, optional for update. Note that in older versions, sku name was called accountType.",
+          "enum": [
+            "Standard_LRS",
+            "Standard_GRS",
+            "Standard_RAGRS",
+            "Standard_ZRS",
+            "Premium_LRS"
+          ],
+          "x-ms-enum": {
+            "name": "SkuName",
+            "modelAsString": false
+          }
+        },
+        "tier": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the sku tier. This is based on the SKU name.",
+          "enum": [
+            "Standard",
+            "Premium"
+          ],
+          "x-ms-enum": {
+            "name": "SkuTier",
+            "modelAsString": false
+          }
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "description": "The SKU of the storage account."
+    },
+    "CustomDomain": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Gets or sets the custom domain name. Name is the CNAME source."
+        },
+        "useSubDomain": {
+          "type": "boolean",
+          "description": "Indicates whether indirect CName validation is enabled. Default value is false. This should only be set on updates"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "description": "The custom domain assigned to this storage account. This can be set via Update."
+    },
+    "EncryptionService": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "A boolean indicating whether or not the service is encrypted."
+        },
+        "lastEnabledTime": {
+          "readOnly": true,
+          "type": "string",
+          "format": "date-time",
+          "description": "Gets a time value indicating when was the encryption enabled by the user last time. We return this value only when encryption is enabled. There might be some unencrypted blobs which were written after this time. This time is just to give a rough estimate of when encryption was enabled."
+        }
+      },
+      "description": "An encrypted service."
+    },
+    "EncryptionServices": {
+      "properties": {
+        "blob": {
+          "$ref": "#/definitions/EncryptionService",
+          "description": "The blob service."
+        }
+      },
+      "description": "The encrypted services."
+    },
+    "Encryption": {
+      "properties": {
+        "services": {
+          "$ref": "#/definitions/EncryptionServices",
+          "description": "Gets the services which are encrypted."
+        },
+        "keySource": {
+          "type": "string",
+          "description": "Gets the encryption keySource(provider). Possible values (case-insensitive):  Microsoft.Storage",
+          "enum": [
+            "Microsoft.Storage"
+          ]
+        }
+      },
+      "required": [
+        "keySource"
+      ],
+      "description": "The encryption settings on the account."
+    },
+    "StorageAccountPropertiesCreateParameters": {
+      "properties": {
+        "customDomain": {
+          "$ref": "#/definitions/CustomDomain",
+          "description": "User domain assigned to the storage account. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property."
+        },
+        "encryption": {
+          "$ref": "#/definitions/Encryption",
+          "description": "Provides the encryption settings on the account. If left unspecified the account encryption settings will remain. The default setting is unencrypted."
+        },
+        "accessTier": {
+          "type": "string",
+          "description": "Required for StandardBlob accounts. The access tier used for billing. Access tier cannot be changed more than once every 7 days (168 hours). Access tier cannot be set for StandardLRS, StandardGRS, StandardRAGRS, or PremiumLRS account types.",
+          "enum": [
+            "Hot",
+            "Cool"
+          ],
+          "x-ms-enum": {
+            "name": "AccessTier",
+            "modelAsString": false
+          }
+        }
+      }
+    },
+    "StorageAccountCreateParameters": {
+      "properties": {
+        "sku": {
+          "$ref": "#/definitions/Sku",
+          "description": "Required. Gets or sets the sku type."
+        },
+        "kind": {
+          "type": "string",
+          "description": "Required. Indicates the type of storage account.",
+          "enum": [
+            "Storage",
+            "BlobStorage"
+          ],
+          "x-ms-enum": {
+            "name": "Kind",
+            "modelAsString": false
+          }
+        },
+        "location": {
+          "type": "string",
+          "description": "Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is created, but if an identical geo region is specified on update the request will succeed."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters."
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/StorageAccountPropertiesCreateParameters"
+        }
+      },
+      "required": [
+        "sku",
+        "kind",
+        "location"
+      ],
+      "description": "The parameters to provide for the account."
+    },
+    "Endpoints": {
+      "properties": {
+        "blob": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the blob endpoint."
+        },
+        "queue": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the queue endpoint."
+        },
+        "table": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the table endpoint."
+        },
+        "file": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the file endpoint."
+        }
+      },
+      "description": "The URIs that are used to perform a retrieval of a public blob, queue or table object."
+    },
+    "StorageAccountProperties": {
+      "properties": {
+        "provisioningState": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the status of the storage account at the time the operation was called.",
+          "enum": [
+            "Creating",
+            "ResolvingDNS",
+            "Succeeded"
+          ],
+          "x-ms-enum": {
+            "name": "ProvisioningState",
+            "modelAsString": false
+          }
+        },
+        "primaryEndpoints": {
+          "$ref": "#/definitions/Endpoints",
+          "readOnly": true,
+          "description": "Gets the URLs that are used to perform a retrieval of a public blob, queue or table object.Note that StandardZRS and PremiumLRS accounts only return the blob endpoint."
+        },
+        "primaryLocation": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the location of the primary for the storage account."
+        },
+        "statusOfPrimary": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the status indicating whether the primary location of the storage account is available or unavailable.",
+          "enum": [
+            "Available",
+            "Unavailable"
+          ],
+          "x-ms-enum": {
+            "name": "AccountStatus",
+            "modelAsString": false
+          }
+        },
+        "lastGeoFailoverTime": {
+          "readOnly": true,
+          "type": "string",
+          "format": "date-time",
+          "description": "Gets the timestamp of the most recent instance of a failover to the secondary location. Only the most recent timestamp is retained. This element is not returned if there has never been a failover instance. Only available if the accountType is StandardGRS or StandardRAGRS."
+        },
+        "secondaryLocation": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the location of the geo replicated secondary for the storage account. Only available if the accountType is StandardGRS or StandardRAGRS."
+        },
+        "statusOfSecondary": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the status indicating whether the secondary location of the storage account is available or unavailable. Only available if the accountType is StandardGRS or StandardRAGRS.",
+          "enum": [
+            "Available",
+            "Unavailable"
+          ],
+          "x-ms-enum": {
+            "name": "AccountStatus",
+            "modelAsString": false
+          }
+        },
+        "creationTime": {
+          "readOnly": true,
+          "type": "string",
+          "format": "date-time",
+          "description": "Gets the creation date and time of the storage account in UTC."
+        },
+        "customDomain": {
+          "$ref": "#/definitions/CustomDomain",
+          "readOnly": true,
+          "description": "Gets the user assigned custom domain assigned to this storage account."
+        },
+        "secondaryEndpoints": {
+          "$ref": "#/definitions/Endpoints",
+          "readOnly": true,
+          "description": "Gets the URLs that are used to perform a retrieval of a public blob, queue or table object from the secondary location of the storage account. Only available if the accountType is StandardRAGRS."
+        },
+        "encryption": {
+          "$ref": "#/definitions/Encryption",
+          "readOnly": true,
+          "description": "Gets the encryption settings on the account. If unspecified the account is unencrypted."
+        },
+        "accessTier": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The access tier used for billing. Access tier cannot be changed more than once every 7 days (168 hours). Access tier cannot be set for StandardLRS, StandardGRS, StandardRAGRS, or PremiumLRS account types.",
+          "enum": [
+            "Hot",
+            "Cool"
+          ],
+          "x-ms-enum": {
+            "name": "AccessTier",
+            "modelAsString": false
+          }
+        }
+      }
+    },
+    "StorageAccount": {
+      "properties": {
+        "sku": {
+          "$ref": "#/definitions/Sku",
+          "readOnly": true,
+          "description": "Gets the SKU."
+        },
+        "kind": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the Kind.",
+          "enum": [
+            "Storage",
+            "BlobStorage"
+          ],
+          "x-ms-enum": {
+            "name": "Kind",
+            "modelAsString": false
+          }
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/StorageAccountProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "The storage account."
+    },
+    "StorageAccountKey": {
+      "properties": {
+        "keyName": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Name of the key."
+        },
+        "value": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Base 64 encoded value of the key."
+        },
+        "permissions": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Permissions for the key.",
+          "enum": [
+            "READ",
+            "FULL"
+          ],
+          "x-ms-enum": {
+            "name": "KeyPermission",
+            "modelAsString": false
+          }
+        }
+      },
+      "description": "An access key for the storage account."
+    },
+    "StorageAccountListResult": {
+      "properties": {
+        "value": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StorageAccount"
+          },
+          "description": "Gets the list of storage accounts and their properties."
+        }
+      },
+      "description": "The list storage accounts operation response."
+    },
+    "StorageAccountListKeysResult": {
+      "properties": {
+        "keys": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StorageAccountKey"
+          },
+          "description": "Gets the list of account keys and their properties."
+        }
+      },
+      "description": "The ListKeys operation response."
+    },
+    "StorageAccountRegenerateKeyParameters": {
+      "properties": {
+        "keyName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "keyName"
+      ]
+    },
+    "StorageAccountPropertiesUpdateParameters": {
+      "properties": {
+        "customDomain": {
+          "$ref": "#/definitions/CustomDomain",
+          "description": "User domain assigned to the storage account. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property."
+        },
+        "encryption": {
+          "$ref": "#/definitions/Encryption",
+          "description": "Provides the encryption settings on the account. The default setting is unencrypted."
+        },
+        "accessTier": {
+          "type": "string",
+          "description": "The access tier used for billing. Access tier cannot be changed more than once every 7 days (168 hours). Access tier cannot be set for StandardLRS, StandardGRS, StandardRAGRS, or PremiumLRS account types.",
+          "enum": [
+            "Hot",
+            "Cool"
+          ],
+          "x-ms-enum": {
+            "name": "AccessTier",
+            "modelAsString": false
+          }
+        }
+      }
+    },
+    "StorageAccountUpdateParameters": {
+      "properties": {
+        "sku": {
+          "$ref": "#/definitions/Sku",
+          "description": "Gets or sets the sku type. Note that sku cannot be updated to StandardZRS or ProvisionedLRS, nor can accounts of that sku type be updated to any other value."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters."
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/StorageAccountPropertiesUpdateParameters"
+        }
+      },
+      "description": "The parameters to provide for the account."
+    },
+    "UsageName": {
+      "properties": {
+        "value": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets a string describing the resource name."
+        },
+        "localizedValue": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets a localized string describing the resource name."
+        }
+      },
+      "description": "The Usage Names."
+    },
+    "Usage": {
+      "properties": {
+        "unit": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the unit of measurement.",
+          "enum": [
+            "Count",
+            "Bytes",
+            "Seconds",
+            "Percent",
+            "CountsPerSecond",
+            "BytesPerSecond"
+          ],
+          "x-ms-enum": {
+            "name": "UsageUnit",
+            "modelAsString": false
+          }
+        },
+        "currentValue": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32",
+          "description": "Gets the current count of the allocated resources in the subscription."
+        },
+        "limit": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32",
+          "description": "Gets the maximum count of the resources that can be allocated in the subscription."
+        },
+        "name": {
+          "$ref": "#/definitions/UsageName",
+          "readOnly": true,
+          "description": "Gets the name of the type of usage."
+        }
+      },
+      "description": "Describes Storage Resource Usage."
+    },
+    "UsageListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Usage"
+          },
+          "description": "Gets or sets the list Storage Resource Usages."
+        }
+      },
+      "description": "The List Usages operation response."
+    },
+    "Resource": {
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource Id"
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name"
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type"
+        },
+        "location": {
+          "type": "string",
+          "description": "Resource location"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags"
+        }
+      },
+      "x-ms-azure-resource": true
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version."
+    }
+  }
+}
