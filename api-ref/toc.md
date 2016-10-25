@@ -54,7 +54,7 @@
 ## [Virtual Machine Sizes](compute/VirtualMachineSizes.json)
 ## [Virtual Machines](compute/VirtualMachines.json)
 # Container Service
-## [Container Service](containerService/ContainerService.json)
+## [Container Services](containerService/ContainerServices.json)
 # DNS
 ## [Record Sets](dns/RecordSets.json)
 ## [Zones](dns/Zones.json)
