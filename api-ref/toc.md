@@ -275,7 +275,7 @@
 # Storage
 ## [Storage Accounts](storage/StorageAccounts.json)
 ## [Usage](storage/Usage.json)
-# Subscriptions
+# Subscription Client
 ## [Subscriptions](subscriptions/Subscriptions.json)
 ## [Tenants](subscriptions/Tenants.json)
 # Traffic Manager
