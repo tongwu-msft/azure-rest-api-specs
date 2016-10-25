@@ -76,7 +76,7 @@
 ## [Event Hubs](EventHub/EventHubs.json)
 ## [Namespaces](EventHub/Namespaces.json)
 # Feature Client
-## [Features](features/Features.json)
+## [Features](resources/Features.json)
 # Graph RBAC
 ## [Applications](graphrbac/Applications.json)
 ## [Groups](graphrbac/Groups.json)
@@ -108,7 +108,7 @@
 # Key Vault
 ## [Vaults](keyvault/Vaults.json)
 # Management Lock Client
-## [Management Locks](locks/ManagementLocks.json)
+## [Management Locks](resources/ManagementLocks.json)
 # Logic Apps
 ## [Workflow Run Actions](logic/WorkflowRunActions.json)
 ## [Workflow Runs](logic/WorkflowRuns.json)
@@ -151,8 +151,8 @@
 ## [Namespaces](notificationhubs/Namespaces.json)
 ## [Notification Hubs](notificationhubs/NotificationHubs.json)
 # Policy Client
-## [Policy Assignments](policy/PolicyAssignments.json)
-## [Policy Definitions](policy/PolicyDefinitions.json)
+## [Policy Assignments](resources/PolicyAssignments.json)
+## [Policy Definitions](resources/PolicyDefinitions.json)
 # Power BI Embedded
 ## [Workspace Collections](powerbiembedded/WorkspaceCollections.json)
 ## [Workspaces](powerbiembedded/Workspaces.json)
@@ -229,7 +229,7 @@
 ## [Queues](servicebus/Queues.json)
 ## [Subscriptions](servicebus/Subscriptions.json)
 ## [Topics](servicebus/Topics.json)
-# Service Fabrice
+# Service Fabric
 ## [Application Healths](servicefabric/ApplicationHealths.json)
 ## [Application Manifests](servicefabric/ApplicationManifests.json)
 ## [Application Types](servicefabric/ApplicationTypes.json)
@@ -276,8 +276,10 @@
 ## [Storage Accounts](storage/StorageAccounts.json)
 ## [Usage](storage/Usage.json)
 # Subscription Client
-## [Subscriptions](subscriptions/Subscriptions.json)
-## [Tenants](subscriptions/Tenants.json)
+## [Subscriptions](resources/Subscriptions.json)
+## [Tenants](resources/Tenants.json)
+# Management Link Client
+## [Resource Links](resources/ResourceLinks.json)
 # Traffic Manager
 ## [Endpoints](trafficmanager/Endpoints.json)
 ## [Profiles](trafficmanager/Profiles.json)
