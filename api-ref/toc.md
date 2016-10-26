@@ -21,11 +21,10 @@
 ## [Job Schedule](BatchService/JobSchedule.json)
 ## [Pool](BatchService/Pool.json)
 ## [Task](BatchService/Task.json)
-# Data Lake
-## [Account](datalake/Account.json)
-## [Catalog](datalake/Catalog.json)
-## [File System](datalake/FileSystem.json)
-## [Job](datalake/Job.json)
+# Data Lake Analytics
+## [Account](datalakeanalytics/Account.json)
+## [Catalog](datalakeanalytics/Catalog.json)
+## [Job](datalakeanalytics/Job.json)
 # CDN
 ## [Custom Domains](cdn/CustomDomains.json)
 ## [Endpoints](cdn/Endpoints.json)
@@ -75,8 +74,22 @@
 ## [Consumer Groups](EventHub/ConsumerGroups.json)
 ## [Event Hubs](EventHub/EventHubs.json)
 ## [Namespaces](EventHub/Namespaces.json)
-# Feature Client
+# Resource Management
+## [Deployment Operations](resources/DeploymentOperations.json)
+## [Deployments](resources/Deployments.json)
 ## [Features](resources/Features.json)
+## [Management Locks](resources/ManagementLocks.json)
+## [Policy Assignments](resources/PolicyAssignments.json)
+## [Policy Definitions](resources/PolicyDefinitions.json)
+## [Providers](resources/Providers.json)
+## [Resource Groups](resources/ResourceGroups.json)
+## [Resource Links](resources/ResourceLinks.json)
+## [Resources](resources/Resources.json)
+## [Subscriptions](resources/Subscriptions.json)
+## [Tags](resources/Tags.json)
+## [Tenants](resources/Tenants.json)
+# Data Lake Store
+## [File System](datalakestore/FileSystem.json)
 # Graph RBAC
 ## [Applications](graphrbac/Applications.json)
 ## [Groups](graphrbac/Groups.json)
@@ -107,8 +120,6 @@
 ## [Iot Hub Resource](iothub/IotHubResource.json)
 # Key Vault
 ## [Vaults](keyvault/Vaults.json)
-# Management Lock Client
-## [Management Locks](resources/ManagementLocks.json)
 # Logic Apps
 ## [Workflow Run Actions](logic/WorkflowRunActions.json)
 ## [Workflow Runs](logic/WorkflowRuns.json)
@@ -150,9 +161,6 @@
 # Notification Hubs
 ## [Namespaces](notificationhubs/Namespaces.json)
 ## [Notification Hubs](notificationhubs/NotificationHubs.json)
-# Policy Client
-## [Policy Assignments](resources/PolicyAssignments.json)
-## [Policy Definitions](resources/PolicyDefinitions.json)
 # Power BI Embedded
 ## [Workspace Collections](powerbiembedded/WorkspaceCollections.json)
 ## [Workspaces](powerbiembedded/Workspaces.json)
@@ -184,13 +192,6 @@
 # Redis Cache
 ## [Patch Schedules](redis/PatchSchedules.json)
 ## [Redis](redis/Redis.json)
-# Resource Management Client
-## [Deployment Operations](resources/DeploymentOperations.json)
-## [Deployments](resources/Deployments.json)
-## [Providers](resources/Providers.json)
-## [Resource Groups](resources/ResourceGroups.json)
-## [Resources](resources/Resources.json)
-## [Tags](resources/Tags.json)
 # Scheduler
 ## [Job Collections](scheduler/JobCollections.json)
 ## [Jobs](scheduler/Jobs.json)
@@ -275,11 +276,6 @@
 # Storage
 ## [Storage Accounts](storage/StorageAccounts.json)
 ## [Usage](storage/Usage.json)
-# Subscription Client
-## [Subscriptions](resources/Subscriptions.json)
-## [Tenants](resources/Tenants.json)
-# Management Link Client
-## [Resource Links](resources/ResourceLinks.json)
 # Traffic Manager
 ## [Endpoints](trafficmanager/Endpoints.json)
 ## [Profiles](trafficmanager/Profiles.json)
