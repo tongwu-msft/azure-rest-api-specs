@@ -47,30 +47,28 @@ The steps below will create of 2 related objects in the Azure AD tenant where it
     - [native/public](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#native-client) clients (installed/run on a device) can only access resources under delegated authorization using the identity of the signed-in user. 
 2. Next, register your client application with Azure AD. 
     - To register a client that will access an Azure Resource Manager REST API, see [Use portal to create Active Directory application and service principal that can access resources](https://azure.microsoft.com/documentation/articles/resource-group-create-service-principal-portal/) for step-by-step registration instructions. This article will not only show you how to register the client application with Azure AD, it will also walk you through the steps required by Azure Resource Manager to properly configure it's Role Based Access Control (RBAC) settings for authorizing the client. It also includes PowerShell and CLI versions of the article, if you prefer automated registration.
-    - For all other clients, refer to the following sections in [Integrating applications with Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-integrating-applications). In the "Adding an application" section you will create a baseline registration for the client. Then follow the steps under the "Updating an application" section, to:  
+    - For all other clients, refer to [Integrating applications with Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-integrating-applications). In the "Adding an application" section you will create a baseline registration for the client. Then follow the steps under the "Updating an application" section, to:  
         - Gain an understanding of the Azure AD Consent Framework  
-        - Create a secret key if you are registering a web client. This is required in order for your client to authenticate with Azure AD in order to acquire an access token token to access the REST API.  
-        - Add any required [permission requests](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#permissions) to allow your client to access the API
+        - Create a secret key, if you are registering a web client. Because web clients are considered "confidential clients" by OAuth2, they must present their own credentials during Azure AD authentication to acquire an access token.  
+        - Add any required [permission requests](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#permissions) as required by the API
 
 ## Create the request
-If you are calling a REST API that does not require integrated Azure AD authentication, you can start at step #2. Otherwise, begin with step #1 to set up your authorization header.
-
-1. Authorization header
-
-Azure AD exposes service endpoints to facilitate application integration, and the 2 you will be interested in using are the /authorize and /token endpoints. How you use those endpoints will be dependent on your application's registration, and the type of [authorization grant flow](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant) required in order to support your application at runtime. For the purposes of this article, we will also assume that your client will be using one of the following authorization grant flows:
-
-- authorization code grant, which can be used by both web and native clients, and uses an end-user's credentials for delegating resource access to the client application.  
-- client credentials grant, which can only be used by web clients, and allows the client application to access resources directly using it's own credentials (provided at registration time). 
+If you are calling a REST API that does not require integrated Azure AD authentication, you can start at step #2 below. 
 
 If your client application will be calling a secured REST API, the first step is to add code to your client application to acquire an access token. This will serve as proof of your client application's authenticity and enable it to make secured REST API requests:  
 
-1. See [X]() for instructions on adding the code required to authenticate with Azure AD and acquire an access token
-2. Construct an HTTP Authorization header 
+1. Add the Authorization request header
+
+    Azure AD exposes service endpoints to facilitate application integration, and the 2 you will be interested in using are the /authorize and /token endpoints. How you use those endpoints will be dependent on your application's registration, and the type of [authorization grant flow](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant) required in order to support your application at runtime. For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows:
+
+    - authorization code grant: can be used by both web and native clients, and uses an end-user's credentials for delegating resource access to the client application. This grant uses both the /authorize and /token endpoint.  
+    - client credentials grant: can only be used by web clients, and allows the client application to access resources directly using it's own credentials (provided at registration time). This grant only uses Azure AD's /token endpoint.
+
+    See [X]() for instructions on adding the code required to authenticate with Azure AD and acquire an access token
 
 2. test
 
-Now you are ready to call the REST API. As mentioned earlier, you will need to consider 3 of the 5 components required when making the request:
-    -   
+3. Now you are ready to call the REST API. As mentioned earlier, you will need to consider 3 of the 5 components required when making the request:
 
 > [!NOTE] If you prefer to use client libraries to manage token acquisition instead of using the Azure AD REST endpoints. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries](https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/).
 
