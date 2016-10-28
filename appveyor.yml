@@ -8,16 +8,28 @@ install:
   - git checkout master
 
 before_build:
-  - git config --global credential.helper store
-  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
-  - git config --global user.email "vscopbld@microsoft.com"
-  - git config --global user.name "OpenPublishBuild"
-  - ps: scripts\UpdateSrcRepo.ps1
-  
+  - ps: |
+        if($env:APPVEYOR_SCHEDULED_BUILD -or ($env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL -ne "vscopbld@microsoft.com"))
+        {
+          git config --global credential.helper store
+          Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
+          git config --global user.email "vscopbld@microsoft.com"
+          git config --global user.name "OpenPublishBuild"
+          scripts\UpdateSrcRepo.ps1
+        }
+        
 build_script:
-  - ps: scripts\build.ps1
+  - ps: |
+        if($env:APPVEYOR_SCHEDULED_BUILD -or ($env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL -ne "vscopbld@microsoft.com"))
+        {
+          scripts\build.ps1
+        }
 
 on_success:
-  - git add .
-  - git diff --quiet --exit-code --cached || git commit -m "Rest document Updated by CI" && git push -u origin master
-  - appveyor AddMessage "Rest document Updated"
+  - ps: |
+        if($env:APPVEYOR_SCHEDULED_BUILD -or ($env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL -ne "vscopbld@microsoft.com"))
+        {
+          git add .
+          git diff --quiet --exit-code --cached || git commit -m "Rest document Updated by CI" && git push -u origin master
+          appveyor AddMessage "Rest document Updated"
+        }
