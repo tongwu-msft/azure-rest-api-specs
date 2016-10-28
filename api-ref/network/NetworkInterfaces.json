@@ -1839,9 +1839,6 @@
           "description": "path ."
         }
       },
-      "required": [
-        "nextHopType"
-      ],
       "description": "The routes table associated with the ExpressRouteCircuit"
     },
     "ExpressRouteCircuitsRoutesTableListResult": {
@@ -2626,10 +2623,14 @@
           "description": "Gets or sets resource guid property of the LocalNetworkGateway resource"
         },
         "provisioningState": {
+          "readOnly": true,
           "type": "string",
           "description": "Gets provisioning state of the LocalNetworkGateway resource Updating/Deleting/Failed"
         }
       },
+      "required": [
+        "localNetworkAddressSpace"
+      ],
       "description": "LocalNetworkGateway properties"
     },
     "LocalNetworkGateway": {
@@ -2647,6 +2648,9 @@
         {
           "$ref": "#/definitions/Resource"
         }
+      ],
+      "required": [
+        "properties"
       ],
       "description": "A common class for general resource information"
     },
@@ -3839,10 +3843,15 @@
           "description": "Gets or sets the reference of the PublicIP resource"
         },
         "provisioningState": {
+          "readOnly": true,
           "type": "string",
           "description": "Gets provisioning state of the PublicIP resource Updating/Deleting/Failed"
         }
       },
+      "required": [
+        "subnet",
+        "publicIPAddress"
+      ],
       "description": "Properties of VirtualNetworkGatewayIPConfiguration"
     },
     "VirtualNetworkGatewayIPConfiguration": {
@@ -3864,6 +3873,9 @@
         {
           "$ref": "#/definitions/SubResource"
         }
+      ],
+      "required": [
+        "properties"
       ],
       "description": "IpConfiguration for Virtual network gateway"
     },
@@ -3929,10 +3941,16 @@
           "description": "Gets or sets resource guid property of the VirtualNetworkGateway resource"
         },
         "provisioningState": {
+          "readOnly": true,
           "type": "string",
           "description": "Gets provisioning state of the VirtualNetworkGateway resource Updating/Deleting/Failed"
         }
       },
+      "required": [
+        "ipConfigurations",
+        "gatewayType",
+        "vpnType"
+      ],
       "description": "VirtualNetworkGateway properties"
     },
     "VirtualNetworkGateway": {
@@ -3950,6 +3968,9 @@
         {
           "$ref": "#/definitions/Resource"
         }
+      ],
+      "required": [
+        "properties"
       ],
       "description": "A common class for general resource information"
     },
@@ -4012,6 +4033,10 @@
           "description": "The capacity"
         }
       },
+      "required": [
+        "name",
+        "tier"
+      ],
       "description": "VirtualNetworkGatewaySku details"
     },
     "VpnClientParameters": {
@@ -4029,7 +4054,52 @@
           }
         }
       },
+      "required": [
+        "ProcessorArchitecture"
+      ],
       "description": "VpnClientParameters"
+    },
+    "TunnelConnectionHealth": {
+      "properties": {
+        "tunnel": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Tunnel name."
+        },
+        "connectionStatus": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Virtual network Gateway connection status",
+          "enum": [
+            "Unknown",
+            "Connecting",
+            "Connected",
+            "NotConnected"
+          ],
+          "x-ms-enum": {
+            "name": "VirtualNetworkGatewayConnectionStatus",
+            "modelAsString": true
+          }
+        },
+        "ingressBytesTransferred": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int64",
+          "description": "The Ingress Bytes Transferred in this connection"
+        },
+        "egressBytesTransferred": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int64",
+          "description": "The Egress Bytes Transferred in this connection"
+        },
+        "lastConnectionEstablishedUtcTime": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The time at which connection was established in Utc format."
+        }
+      },
+      "description": "VirtualNetworkGatewayConnection properties"
     },
     "VirtualNetworkGatewayConnectionPropertiesFormat": {
       "properties": {
@@ -4070,6 +4140,7 @@
           "description": "The Ipsec share key."
         },
         "connectionStatus": {
+          "readOnly": true,
           "type": "string",
           "description": "Virtual network Gateway connection status",
           "enum": [
@@ -4083,12 +4154,22 @@
             "modelAsString": true
           }
         },
+        "tunnelConnectionStatus": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TunnelConnectionHealth"
+          },
+          "description": "Collection of all tunnels' connection health status."
+        },
         "egressBytesTransferred": {
+          "readOnly": true,
           "type": "integer",
           "format": "int64",
           "description": "The Egress Bytes Transferred in this connection"
         },
         "ingressBytesTransferred": {
+          "readOnly": true,
           "type": "integer",
           "format": "int64",
           "description": "The Ingress Bytes Transferred in this connection"
@@ -4106,10 +4187,15 @@
           "description": "Gets or sets resource guid property of the VirtualNetworkGatewayConnection resource"
         },
         "provisioningState": {
+          "readOnly": true,
           "type": "string",
           "description": "Gets provisioning state of the VirtualNetworkGatewayConnection resource Updating/Deleting/Failed"
         }
       },
+      "required": [
+        "virtualNetworkGateway1",
+        "connectionType"
+      ],
       "description": "VirtualNetworkGatewayConnection properties"
     },
     "VirtualNetworkGatewayConnection": {
@@ -4128,6 +4214,9 @@
           "$ref": "#/definitions/Resource"
         }
       ],
+      "required": [
+        "properties"
+      ],
       "description": "A common class for general resource information"
     },
     "VpnClientRevokedCertificatePropertiesFormat": {
@@ -4137,6 +4226,7 @@
           "description": "Gets or sets the revoked Vpn client certificate thumbprint"
         },
         "provisioningState": {
+          "readOnly": true,
           "type": "string",
           "description": "Gets provisioning state of the VPN client revoked certificate resource Updating/Deleting/Failed"
         }
@@ -4172,10 +4262,14 @@
           "description": "Gets or sets the certificate public data"
         },
         "provisioningState": {
+          "readOnly": true,
           "type": "string",
           "description": "Gets provisioning state of the VPN client root certificate resource Updating/Deleting/Failed"
         }
       },
+      "required": [
+        "publicCertData"
+      ],
       "description": "Properties of SSL certificates of application gateway"
     },
     "VpnClientRootCertificate": {
@@ -4198,16 +4292,10 @@
           "$ref": "#/definitions/SubResource"
         }
       ],
+      "required": [
+        "properties"
+      ],
       "description": "VPN client root certificate of virtual network gateway"
-    },
-    "ConnectionSharedKeyResult": {
-      "properties": {
-        "value": {
-          "type": "string",
-          "description": "The virtual network connection shared key value"
-        }
-      },
-      "description": "Response for CheckConnectionSharedKey Api service call"
     },
     "VirtualNetworkGatewayConnectionListResult": {
       "properties": {
@@ -4230,9 +4318,14 @@
         "keyLength": {
           "type": "integer",
           "format": "int64",
+          "minLength": 1,
+          "maxLength": 128,
           "description": "The virtual network connection reset shared key length"
         }
-      }
+      },
+      "required": [
+        "keyLength"
+      ]
     },
     "ConnectionSharedKey": {
       "properties": {
@@ -4241,6 +4334,9 @@
           "description": "The virtual network connection shared key value"
         }
       },
+      "required": [
+        "value"
+      ],
       "description": "Response for GetConnectionSharedKey Api service call"
     },
     "VirtualNetworkGatewayListResult": {
