@@ -1,4 +1,4 @@
-# AnalysisServices
+# Analysis Services
 ## [Servers](analysisservices/Servers.json)
 # Authorization
 ## [Classic Administrators](authorization/ClassicAdministrators.json)
