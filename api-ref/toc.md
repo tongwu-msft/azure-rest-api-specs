@@ -197,10 +197,6 @@
 ## [Jobs](scheduler/Jobs.json)
 # Search
 ## [Admin Keys](search/AdminKeys.json)
-## [Data Sources](search/DataSources.json)
-## [Documents](search/Documents.json)
-## [Indexers](search/Indexers.json)
-## [Indexes](search/Indexes.json)
 ## [Query Keys](search/QueryKeys.json)
 ## [Services](search/Services.json)
 # Server Management
