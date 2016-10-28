@@ -2,24 +2,24 @@
 
 Welcome to the Azure REST API Reference.
 
-Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create/retrieve/update/delete access to the service's resources. The sections below will walk you through the basics of [REST API request and response components](#components-of-a-rest-api-requestresponse), how to [register your client application](#register-your-client-application-with-azure-ad) before making REST requests, how to [create a REST request](#create-the-request), and [handling the REST response](#process-the-response).
+Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create/retrieve/update/delete access to the service's resources. The sections below will walk you through the basics of [REST API request and response components](#components-of-a-rest-api-requestresponse), how to [register your client application](#register-your-client-application-with-azure-ad) before making REST requests, how to [create a REST request](#create-the-request), and how to [handle the REST response](#process-the-response).
 
 ## Components of a REST API request/response
 
 A REST API request/response pair can be separated into 5 components:
 
-- The **URI**, which consists of the following: `{URI-scheme} :// {URI-host} / {resource-path} ? {query-string}`
+1. The **URI**, which consists of the following: `{URI-scheme} :// {URI-host} / {resource-path} ? {query-string}`
     - URI scheme: indicates the protocol used to transmit the request. For example, `http` or `https`.  
     - URI host: the domain name or IP address of the server where the REST service endpoint is hosted.  
     - Resource path: specifies the resource or resource collection, which may include multiple segments used by the service in determining the selection of those resources. For example: `applications/f586155a-cbb2-4b13-9b56-16de60101cb9/owners` could be used to query the list of owners of a specific application within the applications collection.
     - Query string (optional): used to provide additional simple parameters, such as the API version, selection criteria, etc.
-- HTTP **request message header** fields
+2. HTTP **request message header** fields
     - A required [HTTP method](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) (also known as an operation or verb). Azure REST APIs support GET, HEAD, PUT, POST, and PATCH methods.
     - Optional additional header fields as required by the specified URI and HTTP method. For example, an Authorization header that provides a bearer token containing client authorization information for the request.
-- Optional HTTP **request message body** fields, to support the URI and HTTP operation. For example, POST operations contain MIME-encoded objects passed as complex parameters. The MIME encoding type for the body should be provided in the `Content-type` request header as well, for POST/PUT operations. Note that some services require you to use a specific MIME type, such as `application/json`.  
-- HTTP **response message header** fields
+3. Optional HTTP **request message body** fields, to support the URI and HTTP operation. For example, POST operations contain MIME-encoded objects passed as complex parameters. The MIME encoding type for the body should be provided in the `Content-type` request header as well, for POST/PUT operations. Note that some services require you to use a specific MIME type, such as `application/json`.  
+4. HTTP **response message header** fields
     - An [HTTP status code](http://www.w3.org/Protocols/HTTP/HTRESP.html), ranging from 2xx success codes to 4xx/5xx error codes. Alternatively, a service-defined status code may be returned, as indicated in the API documentation. 
-- Optional HTTP **response message body** fields
+5. Optional HTTP **response message body** fields
     - MIME-encoded response objects may be returned in the HTTP response body, such as a response from a GET method that is returning data. Typically these will be returned in a structured format as JSON or XML, as indicated by the `Content-type` response header. For example, when requesting an access token from Azure AD, it will be returned in the response body as the `access_token` element, one of several name/value paired objects in a data collection. In this example, a response header of `Content-Type: application/json` will also be included.
 
 > For almost all Azure service REST APIs, there is a corresponding client SDK library which handles much of the client code for you. See:  
@@ -31,7 +31,7 @@ A REST API request/response pair can be separated into 5 components:
 
 Many Azure services require your client code to authenticate with valid credentials before you can call the service API, which also allows the service to perform any required authorization. Azure Resource Manager REST APIs require authentication, therefore client applications **must** authenticate with Azure Active Directory (AD), and provide proof of the authentication/authorization by passing the resulting OAuth2 bearer token in the HTTP Authorization header of subsequent REST API requests. 
 
-Before you begin writing your client's request code, follow the instructions below to first register your [client application](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#client-application) with Azure AD. If you've already registered a client application, you can skip to the [Create the request](#create-the-request) section. 
+Before you begin writing your client's request code, follow the instructions below to first register your [client application](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#client-application) with Azure AD. If you are using a REST API that does not use integrated Azure AD authentication, or you've already registered a client application, you can skip to the [Create the request](#create-the-request) section. 
 
 1. Azure AD and the OAuth2 Authorization Framework support 2 types of clients. Before you register your application, decide which is the most appropriate for your scenario:  
     - [confidential/web](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#web-client) clients can access resources under either their own identity (as a service/daemon), or a signed-in end-user (an interactive resource owner) identity.  
