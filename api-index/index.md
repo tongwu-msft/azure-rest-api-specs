@@ -37,7 +37,7 @@ A REST API request/response pair can be separated into 5 components:
 5. Optional HTTP **response message body** fields
     - MIME-encoded response objects may be returned in the HTTP response body, such as a response from a GET method that is returning data. Typically these will be returned in a structured format as JSON or XML, as indicated by the `Content-type` response header. For example, when requesting an access token from Azure AD, it will be returned in the response body as the `access_token` element, one of several name/value paired objects in a data collection. In this example, a response header of `Content-Type: application/json` will also be included.
 
-> For almost all Azure service REST APIs, there is a corresponding client SDK library which handles much of the client code for you. See:  
+> [!NOTE] For almost all Azure service REST APIs, there is a corresponding client SDK library which handles much of the client code for you. See:  
 > 
 > [Azure .NET SDK](https://docs.microsoft.com/dotnet/api)  
 > [Azure Java SDK](https://docs.microsoft.com/java/api)  
