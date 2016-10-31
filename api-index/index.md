@@ -18,9 +18,9 @@ Welcome to the Azure REST API Reference.
 
 Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create/retrieve/update/delete access to the service's resources. The sections below will first walk you through the basics of [REST API request and response components](#components-of-a-rest-api-requestresponse), then provide detailed stops on how to:
 
-1. [register your client application with Azure Active Directory (Azure AD)](#1-register-your-client-application-with-azure-ad) to secure your REST requests
-2. [create a REST request](#2-create-the-request)
-3. [handle the REST response](#3-process-the-response).
+1. [register your client application with Azure Active Directory (Azure AD)](#register-your-client-application-with-azure-ad) to secure your REST requests
+2. [create a REST request](#create-the-request)
+3. [handle the REST response](#process-the-response).
 
 > [!NOTE] For almost all Azure service REST APIs, there is a corresponding client SDK library which handles much of the client code for you. See:  
 > 
@@ -48,7 +48,7 @@ A REST API request/response pair can be separated into 5 components:
 5. Optional HTTP **response message body** fields
     - MIME-encoded response objects may be returned in the HTTP response body, such as a response from a GET method that is returning data. Typically these will be returned in a structured format as JSON or XML, as indicated by the `Content-type` response header. For example, when requesting an access token from Azure AD, it will be returned in the response body as the `access_token` element, one of several name/value paired objects in a data collection. In this example, a response header of `Content-Type: application/json` will also be included.
 
-## 1. Register your client application with Azure AD
+## Register your client application with Azure AD
 
 Most Azure services (such as Azure Resource Manager providers) require your client code to authenticate with valid credentials before you can call the service's API. Authentication is coordinated between the parties by Azure AD, which provides your client with an [access token](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#access-token) as proof of the authentication/authorization. The token is then sent to the Azure service in the HTTP Authorization header of all subsequent REST API requests. The token's [claims](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#claim) also provide information to the service, allowing it to validate the client and perform any required authorization.
 
@@ -71,7 +71,7 @@ The steps below will create of 2 related objects in the Azure AD tenant where it
         - Create a secret key, if you are registering a web client. Because web clients are considered "confidential clients" by OAuth2, they must present their own credentials during Azure AD authentication to acquire an access token.  
         - Add any required [permission requests](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#permissions) as required by the API
 
-## 2. Create the request
+## Create the request
 If you are calling a REST API that does not require integrated Azure AD authentication, please jump to step #2 below. 
 
 If your client application will be calling a secured REST API, the first step is to add code to acquire an access token. This will serve as proof of your client application's authenticity and enable it to make secured REST API requests:  
@@ -101,7 +101,7 @@ If your client application will be calling a secured REST API, the first step is
 > [!NOTE] If you prefer to use client libraries to manage token acquisition instead of using the Azure AD REST endpoints. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries](https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/).
 
 
-## 3. Process the response
+## Process the response
 In the example provided above, we used the /subscriptions endpoint to retrieve the list of subscriptions for our sample client application.
 
 ## Related content
