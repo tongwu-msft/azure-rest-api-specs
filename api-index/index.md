@@ -16,8 +16,18 @@ ms.assetid: D35E3780-B2BC-4450-8EF6-2710A11F99A7
 
 Welcome to the Azure REST API Reference.
 
-Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create/retrieve/update/delete access to the service's resources. The sections below will walk you through the basics of [REST API request and response components](#components-of-a-rest-api-requestresponse), how to [register your client application](#register-your-client-application-with-azure-ad) with Azure Active Directory (Azure AD) to secure your REST requests, how to [create a REST request](#create-the-request), and how to [handle the REST response](#process-the-response).
+Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create/retrieve/update/delete access to the service's resources. The sections below will first walk you through the basics of [REST API request and response components](#components-of-a-rest-api-requestresponse), then provide detailed stops on
 
+1. how to [register your client application](#register-your-client-application-with-azure-ad) with Azure Active Directory (Azure AD) to secure your REST requests
+2. how to [create a REST request](#create-the-request)
+3. how to [handle the REST response](#process-the-response).
+
+> [!NOTE] For almost all Azure service REST APIs, there is a corresponding client SDK library which handles much of the client code for you. See:  
+> 
+> [Azure .NET SDK](https://docs.microsoft.com/dotnet/api)  
+> [Azure Java SDK](https://docs.microsoft.com/java/api)  
+> [Azure CLI 2.0 SDK](https://docs.microsoft.com/cli/azure)  
+> 
 ## Components of a REST API request/response
 
 A REST API request/response pair can be separated into 5 components:
@@ -36,12 +46,6 @@ A REST API request/response pair can be separated into 5 components:
     - Optional additional header fields as required to support the request's response, such as a `Content-type` response header.
 5. Optional HTTP **response message body** fields
     - MIME-encoded response objects may be returned in the HTTP response body, such as a response from a GET method that is returning data. Typically these will be returned in a structured format as JSON or XML, as indicated by the `Content-type` response header. For example, when requesting an access token from Azure AD, it will be returned in the response body as the `access_token` element, one of several name/value paired objects in a data collection. In this example, a response header of `Content-Type: application/json` will also be included.
-
-> [!NOTE] For almost all Azure service REST APIs, there is a corresponding client SDK library which handles much of the client code for you. See:  
-> 
-> [Azure .NET SDK](https://docs.microsoft.com/dotnet/api)  
-> [Azure Java SDK](https://docs.microsoft.com/java/api)  
-> [Azure CLI 2.0 SDK](https://docs.microsoft.com/cli/azure)  
 
 ## 1. Register your client application with Azure AD
 
