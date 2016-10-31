@@ -27,7 +27,8 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 > [Azure .NET SDK](https://docs.microsoft.com/dotnet/api)  
 > [Azure Java SDK](https://docs.microsoft.com/java/api)  
 > [Azure CLI 2.0 SDK](https://docs.microsoft.com/cli/azure)  
-> 
+
+
 ## Components of a REST API request/response
 
 A REST API request/response pair can be separated into 5 components:
