@@ -1,3 +1,17 @@
+---
+title: Azure REST API Reference 
+description: Azure REST API Reference 
+keywords: Azure REST, Azure REST API Reference
+author: bryanla
+manager: douge
+ms.date: 11/15/2016
+ms.topic: reference
+ms.prod: azure
+ms.technology: azure
+ms.devlang: rest-api
+ms.assetid: D35E3780-B2BC-4450-8EF6-2710A11F99A7
+---
+
 # Azure REST API Reference
 
 Welcome to the Azure REST API Reference.
@@ -29,7 +43,7 @@ A REST API request/response pair can be separated into 5 components:
 > [Azure Java SDK](https://docs.microsoft.com/java/api)  
 > [Azure CLI 2.0 SDK](https://docs.microsoft.com/cli/azure)  
 
-## Register your client application with Azure AD
+## 1. Register your client application with Azure AD
 
 Most Azure services (such as Azure Resource Manager providers) require your client code to authenticate with valid credentials before you can call the service's API. Authentication is coordinated between the parties by Azure AD, which provides your client with an [access token](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#access-token) as proof of the authentication/authorization. The token is then sent to the Azure service in the HTTP Authorization header of all subsequent REST API requests. The token's [claims](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#claim) also provide information to the service, allowing it to validate the client and perform any required authorization.
 
@@ -52,7 +66,7 @@ The steps below will create of 2 related objects in the Azure AD tenant where it
         - Create a secret key, if you are registering a web client. Because web clients are considered "confidential clients" by OAuth2, they must present their own credentials during Azure AD authentication to acquire an access token.  
         - Add any required [permission requests](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#permissions) as required by the API
 
-## Create the request
+## 2. Create the request
 If you are calling a REST API that does not require integrated Azure AD authentication, please jump to step #2 below. 
 
 If your client application will be calling a secured REST API, the first step is to add code to acquire an access token. This will serve as proof of your client application's authenticity and enable it to make secured REST API requests:  
@@ -82,7 +96,7 @@ If your client application will be calling a secured REST API, the first step is
 > [!NOTE] If you prefer to use client libraries to manage token acquisition instead of using the Azure AD REST endpoints. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries](https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/).
 
 
-## Process the response
+## 3. Process the response
 In the example provided above, we used the /subscriptions endpoint to retrieve the list of subscriptions for our sample client application.
 
 ## Related content
