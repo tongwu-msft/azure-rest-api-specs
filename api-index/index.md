@@ -58,13 +58,12 @@ If you are using a REST API that does not use integrated Azure AD authentication
 
 [Client applications](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#client-application) must make their configuration known to Azure AD before run-time, via Azure AD's application registry. In order to register your client, you must first obtain access to an Azure AD [tenant](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#tenant). If you do not have an Azure AD tenant yet, please see [How to get an Azure Active Directory tenant](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/) before continuing. 
 
-Once you have access to an Azure AD tenant, consider the following background information:
-
-- The registration process will create 2 related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at run-time, please review [Application and service principal objects in Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-application-objects/) before continuing.
+Once you have access to an Azure AD tenant, its helpful to review and consider the following background information:
 
 - Azure AD and the OAuth2 Authorization Framework support 2 types of clients. Before you register your application, decide which is the most appropriate for your scenario:  
     - [web/confidential](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#web-client) clients (run on a web server) can access resources under either their own identity (as a service/daemon), or obtain delegated authorization to access resources under the identity of the signed-in user.  
     - [native/public](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#native-client) clients (installed/run on a device) can only access resources under delegated authorization using the identity of the signed-in user. 
+- The registration process will create 2 related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at run-time, please review [Application and service principal objects in Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-application-objects/) before continuing.
 
 Now we are ready to register your client application with Azure AD.
 
