@@ -71,14 +71,18 @@ Now we are ready to register your client application with Azure AD.
 To register a client that will access an Azure Resource Manager REST API, see [Use portal to create Active Directory application and service principal that can access resources](https://azure.microsoft.com/documentation/articles/resource-group-create-service-principal-portal/) for step-by-step registration instructions. This article will show you how to:
 
 - register the client application with Azure AD
-- set permission requests to allow the client to access the Azure Resource Manager API (aka: Windows Azure Service Management API)
-- configure Azure Resource Manager's Role Based Access Control (RBAC) settings for authorizing the client. It also includes PowerShell and CLI versions of the article, if you prefer automated registration.
+- set [permission requests](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#permissions) to allow the client to access the Azure Resource Manager API (aka: Windows Azure Service Management API)
+- configure Azure Resource Manager's Role Based Access Control (RBAC) settings for authorizing the client
+
+The article also includes PowerShell and CLI versions, if you prefer automated registration.
 
 For all other clients, refer to [Integrating applications with Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-integrating-applications). This article will show you how to: 
 
-- register the client application in the "Adding an application" section
-- create a secret key (if you are registering a web client) in the "Updating an application" section.  
-- Add any required [permission requests](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#permissions) as required by the API
+- register the client application with Azure AD, in the "Adding an application" section
+- create a secret key (if you are registering a web client), in the "Updating an application" section
+- add permission requests as required by the API
+
+Now that you've completed registration of your client application, we can move to your client's code, where we will add code to create the REST request and handle the response.
 
 ## Create the request
 If you are calling a REST API that does not require integrated Azure AD authentication, please jump to step #3 below. 
