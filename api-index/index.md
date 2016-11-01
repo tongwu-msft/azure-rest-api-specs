@@ -58,27 +58,32 @@ If you are using a REST API that does not use integrated Azure AD authentication
 
 [Client applications](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#client-application) must make their configuration known to Azure AD before run-time, via Azure AD's application registry. In order to register your client, you must first obtain access to an Azure AD [tenant](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#tenant). If you do not have an Azure AD tenant yet, please see [How to get an Azure Active Directory tenant](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/) before continuing. 
 
-Once you have access to an Azure AD tenant, its helpful to review and consider the following background information:
+Once you have access to an Azure AD tenant, its helpful to consider the following concepts before you register your client:
 
-- Azure AD and the OAuth2 Authorization Framework support 2 types of clients. Before you register your application, decide which is the most appropriate for your scenario:  
-    - [web/confidential](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#web-client) clients (run on a web server) can access resources under either their own identity (as a service/daemon), or obtain delegated authorization to access resources under the identity of the signed-in user.  
-    - [native/public](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#native-client) clients (installed/run on a device) can only access resources under delegated authorization using the identity of the signed-in user. 
+- Per the OAuth2 Authorization Framework, Azure AD supports 2 types of clients. Understanding each will help you decide which is the most appropriate for your scenario:  
+    - [web/confidential](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#web-client) clients (run on a web server) can access resources under either their own identity (service/daemon), or obtain delegated authorization to access resources under the identity of the signed-in user (web app UI). Only a web client has the ability to securely maintain and present it's own credentials during Azure AD authentication to acquire an access token.  
+    - [native/public](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#native-client) clients (installed/run on a device) can only access resources under delegated authorization, using the identity of the signed-in user to acquire an access token on behalf of the user.
 - The registration process will create 2 related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at run-time, please review [Application and service principal objects in Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-application-objects/) before continuing.
 
 Now we are ready to register your client application with Azure AD.
 
 ### Client registration
-To register a client that will access an Azure Resource Manager REST API, see [Use portal to create Active Directory application and service principal that can access resources](https://azure.microsoft.com/documentation/articles/resource-group-create-service-principal-portal/) for step-by-step registration instructions. This article will first show you how to register the client application with Azure AD. Then it walks you through the steps required by Azure Resource Manager to configure its Role Based Access Control (RBAC) settings for authorizing the client. It also includes PowerShell and CLI versions of the article, if you prefer automated registration.
+To register a client that will access an Azure Resource Manager REST API, see [Use portal to create Active Directory application and service principal that can access resources](https://azure.microsoft.com/documentation/articles/resource-group-create-service-principal-portal/) for step-by-step registration instructions. This article will show you how to:
 
-For all other clients, refer to [Integrating applications with Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-integrating-applications). In the "Adding an application" section you will create a baseline registration for the client. Then follow the steps under the "Updating an application" section, to:
+- register the client application with Azure AD
+- set permission requests to allow the client to access the Azure Resource Manager API (aka: Windows Azure Service Management API)
+- configure Azure Resource Manager's Role Based Access Control (RBAC) settings for authorizing the client. It also includes PowerShell and CLI versions of the article, if you prefer automated registration.
 
-- Gain an understanding of the Azure AD Consent Framework  
-- Create a secret key, if you are registering a web client. Because web clients are considered "confidential clients" by OAuth2, they must present their own credentials during Azure AD authentication to acquire an access token.  
+For all other clients, refer to [Integrating applications with Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-integrating-applications). This article will show you how to: 
+
+- register the client application in the "Adding an application" section
+- create a secret key (if you are registering a web client) in the "Updating an application" section.  
 - Add any required [permission requests](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#permissions) as required by the API
 
 ## Create the request
-If you are calling a REST API that does not require integrated Azure AD authentication, please jump to step #2 below. 
+If you are calling a REST API that does not require integrated Azure AD authentication, please jump to step #3 below. 
 
+### Acquire an access token
 If your client application will be calling a secured REST API, the first step is to add code to acquire an access token. This will serve as proof of your client application's authenticity and enable it to make secured REST API requests:  
 
 1. Obtain an access token from Azure AD
@@ -101,6 +106,7 @@ If your client application will be calling a secured REST API, the first step is
 
 2. Add the Authorization request header
 
+### Assemble the request
 3. Now you are ready to call the REST API. As mentioned earlier, you will need to consider 3 of the 5 components required when making the request:
 
 > [!NOTE] If you prefer to use client libraries to manage token acquisition instead of using the Azure AD REST endpoints. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries](https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/).
