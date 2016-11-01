@@ -32,7 +32,7 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 
 A REST API request/response pair can be separated into 5 components:
 
-1. The **URI**, which consists of the following: `{URI-scheme} :// {URI-host} / {resource-path} ? {query-string}`
+1. The **URI**, which consists of: `{URI-scheme} :// {URI-host} / {resource-path} ? {query-string}`
     - URI scheme: indicates the protocol used to transmit the request. For example, `http` or `https`.  
     - URI host: the domain name or IP address of the server where the REST service endpoint is hosted, such as `graph.microsoft.com`  
     - Resource path: specifies the resource or resource collection, which may include multiple segments used by the service in determining the selection of those resources. For example: `beta/applications/00003f25-7e1f-4278-9488-efc7bac53c4a/owners` could be used to query the list of owners of a specific application within the applications collection.
@@ -67,13 +67,11 @@ After you have access to an Azure AD tenant, consider the following important co
 Now we are ready to register your client application with Azure AD.
 
 ### Client registration
-To register a client that will access an Azure Resource Manager REST API, see [Use portal to create Active Directory application and service principal that can access resources](https://azure.microsoft.com/documentation/articles/resource-group-create-service-principal-portal/) for step-by-step registration instructions. This article will show you how to:
+To register a client that will access an Azure Resource Manager REST API, see [Use portal to create Active Directory application and service principal that can access resources](https://azure.microsoft.com/documentation/articles/resource-group-create-service-principal-portal/) for step-by-step registration instructions. This article (also available in PowerShell and CLI versions for automating registration) will show you how to:
 
 - register the client application with Azure AD
-- set [permission requests](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#permissions) to allow the client to access the Azure Resource Manager API (aka: Windows Azure Service Management API)
+- set [permission requests](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#permissions) to allow the client to access the Azure Resource Manager API
 - configure Azure Resource Manager's Role Based Access Control (RBAC) settings for authorizing the client
-
-The article also includes PowerShell and CLI versions, if you prefer automated registration.
 
 For all other clients, refer to [Integrating applications with Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-integrating-applications). This article will show you how to: 
 
@@ -84,13 +82,13 @@ For all other clients, refer to [Integrating applications with Azure Active Dire
 Now that you've completed registration of your client application, we can move to your client's code, where we will add code to create the REST request and handle the response.
 
 ## Create the request
-If you are calling a REST API that does not require integrated Azure AD authentication, please jump to step #2 below. 
+Now lets review the structure for the first 3 of the 5 components we discussed earlier. First we need to acquire the access token from Azure AD, which we will use in our request message header.
 
 ### Acquire an access token
 
 There are essentially 2 ways of interacting with Azure AD to obtain an access token:  
-- Using raw HTTPS requests against Azure AD's service endpoints, which is the focus of this section, given the platform/language-neutral appeal 
-- If you prefer to use client libraries to manage token acquisition instead of using the Azure AD REST endpoints. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries](https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/).
+- Using platform/language-neutral HTTPS requests against Azure AD's service endpoints, which is the focus of this section 
+- If you prefer to use platform/language-specific client libraries to manage token acquisition instead, you can use the Azure AD Authentication Libraries instead. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries](https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/).
 
 
 In order for your client to prove it's authenticity when making secured REST API requests, it needs to acquire and present an access token. The instructions provided in this section make no assumptions about your client's platform or language/script, only that it has the ability to send/receive HTTPS requests.
