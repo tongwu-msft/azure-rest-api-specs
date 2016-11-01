@@ -28,7 +28,6 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 > [Azure Java SDK](https://docs.microsoft.com/java/api)  
 > [Azure CLI 2.0 SDK](https://docs.microsoft.com/cli/azure)  
 
-
 ## Components of a REST API request/response
 
 A REST API request/response pair can be separated into 5 components:
@@ -50,7 +49,7 @@ A REST API request/response pair can be separated into 5 components:
 
 ## Register your client application with Azure AD
 
-Most Azure services (such as Azure Resource Manager providers and Service Management APIs) require your client code to authenticate with valid credentials before you can call the service's API. Authentication is coordinated between the parties by Azure AD, which provides your client with an [access token](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#access-token) as proof of the authentication/authorization. The token is then sent to the Azure service in the HTTP Authorization header of all subsequent REST API requests. The token's [claims](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#claim) also provide information to the service, allowing it to validate the client and perform any required authorization.
+Most Azure services (such as [Azure Resource Manager providers](https://azure.microsoft.com/documentation/articles/resource-manager-supported-services/) and the classic Service Management APIs) require your client code to authenticate with valid credentials before you can call the service's API. Authentication is coordinated between the parties by Azure AD, which provides your client with an [access token](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#access-token) as proof of the authentication/authorization. The token is then sent to the Azure service in the HTTP Authorization header of all subsequent REST API requests. The token's [claims](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#claim) also provide information to the service, allowing it to validate the client and perform any required authorization.
 
 If you are using a REST API that does not use integrated Azure AD authentication, or you've already registered your client, you can skip to the [Create the request](#create-the-request) section. 
 
@@ -104,10 +103,10 @@ In order for your client to prove it's authenticity when making secured REST API
 
  - **Authorization code grant**: can be used by both web and native clients, and requires credentials from a signed-in end-user in order to delegate resource access to the client application. This grant uses the /authorize endpoint to obtain an authorization code (in response to user sign-in/consent), and the /token endpoint to exchange the authorization code for an access token.  
 
-     1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for an examples of the required HTTPS request and response messages. Note that the URI you'll need for the `resource` parameter is specified by the service/resource. Resources can expose one or more URI, in the [`identifierUris` property of their application object](https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity). For example:
-            - Azure Resource Manager providers use `https://management.azure.com/`
-            - Azure Service Management APIs use `https://management.core.windows.net/`
-            - sdf
+     1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for details on the HTTPS request URI and request/response messages. Note that the URI you'll need for the `resource` parameter is specified by the service/resource. Resources can expose one or more URI, in the [`identifierUris` property of their application object](https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity). For example:  
+            - Azure Resource Manager providers use `https://management.azure.com/`  
+            - Classic Azure Service Management APIs use `https://management.core.windows.net/`  
+
      - Next, your client will need to redeemn the authorization code received in step #1, for an access token.
 
  - **Client credentials grant**: can only be used by web clients, and allows the client application to access resources directly (no user delegation) using its own credentials (provided at registration time). This grant is typically used by headless (no UI) clients running as a daemon/service, and uses only Azure AD's /token endpoint to acquire an access token. 
