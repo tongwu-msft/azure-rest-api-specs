@@ -227,10 +227,11 @@
 ## [Topics](servicebus/Topics.json)
 # SQL Databases
 ## [Databases](sql/Databases.json)
+## [Databases](sql/Databases.json)
 ## [Elastic Pools](sql/ElasticPools.json)
 ## [Recommended Elastic Pools](sql/RecommendedElasticPools.json)
 ## [Servers](sql/Servers.json)
-## [Servers](sql/Servers.json)
+## [Servers](sql/firewallrules/Servers.json)
 # Storage
 ## [Storage Accounts](storage/StorageAccounts.json)
 ## [Usage](storage/Usage.json)
