@@ -1,6 +1,6 @@
-# Analysis Services
+# [Analysis Services](../documentation/analysisservices/index.md)
 ## [Servers](analysisservices/Servers.json)
-# API Management
+# [API Management](../documentation/apimanagement/index.md)
 ## [Api Management Services](apimanagement/ApiManagementServices.json)
 ## [Api Operations](apimanagement/ApiOperations.json)
 ## [Api Products](apimanagement/ApiProducts.json)
@@ -28,7 +28,7 @@
 ## [User Identities](apimanagement/UserIdentities.json)
 ## [User Subscriptions](apimanagement/UserSubscriptions.json)
 ## [Users](apimanagement/Users.json)
-# App Service
+# [App Service](../documentation/appservice/index.md)
 ## [App Service Certificate Orders](appservice/AppServiceCertificateOrders.json)
 ## [App Service Environments](appservice/AppServiceEnvironments.json)
 ## [App Service Plans](appservice/AppServicePlans.json)
@@ -43,7 +43,7 @@
 ## [Provider Operations Metadata](authorization/ProviderOperationsMetadata.json)
 ## [Role Assignments](authorization/RoleAssignments.json)
 ## [Role Definitions](authorization/RoleDefinitions.json)
-# Batch Management
+# [Batch Management](../documentation/batchmanagement/index.md)
 ## [Application](BatchManagement/Application.json)
 ## [Application Package](BatchManagement/ApplicationPackage.json)
 ## [Batch Account](BatchManagement/BatchAccount.json)
@@ -61,28 +61,28 @@
 ## [Job Schedule](BatchService/JobSchedule.json)
 ## [Pool](BatchService/Pool.json)
 ## [Task](BatchService/Task.json)
-# Data Lake Analytics
+# [Data Lake Analytics](../documentation/datalakeanalytics/index.md)
 ## [Account](datalakeanalytics/Account.json)
 ## [Catalog](datalakeanalytics/Catalog.json)
 ## [Job](datalakeanalytics/Job.json)
-# CDN
+# [CDN](../documentation/cdn/index.md)
 ## [Custom Domains](cdn/CustomDomains.json)
 ## [Endpoints](cdn/Endpoints.json)
 ## [Name Availability](cdn/NameAvailability.json)
 ## [Operations](cdn/Operations.json)
 ## [Origins](cdn/Origins.json)
 ## [Profiles](cdn/Profiles.json)
-# Cognitive Services
+# [Cognitive Services](../documentation/cognitiveservices/index.md)
 ## [Cognitive Services Accounts](cognitiveservices/CognitiveServicesAccounts.json)
-# Commerce
+# [Commerce](../documentation/commerce/index.md)
 ## [Rate Card](commerce/RateCard.json)
 ## [Usage Aggregates](commerce/UsageAggregates.json)
-# Azure Machine Learning
+# [Azure Machine Learning](../documentation/machinelearning/index.md)
 ## [Commitment Associations](machineLearning/CommitmentAssociations.json)
 ## [Commitment Plans](machineLearning/CommitmentPlans.json)
 ## [Usage History](machineLearning/UsageHistory.json)
 ## [Web Services](machineLearning/WebServices.json)
-# Compute
+# [Compute](../documentation/compute/index.md)
 ## [Availability Sets](compute/AvailabilitySets.json)
 ## [Container Services](compute/ContainerServices.json)
 ## [Usage](compute/Usage.json)
@@ -93,10 +93,10 @@
 ## [Virtual Machine Scale Sets](compute/VirtualMachineScaleSets.json)
 ## [Virtual Machine Sizes](compute/VirtualMachineSizes.json)
 ## [Virtual Machines](compute/VirtualMachines.json)
-# DNS
+# [DNS](../documentation/dns/index.md)
 ## [Record Sets](dns/RecordSets.json)
 ## [Zones](dns/Zones.json)
-# Dev Test Labs
+# [Dev Test Labs](../documentation/DTL/index.md)
 ## [Artifact](DTL/Artifact.json)
 ## [Artifact Source](DTL/ArtifactSource.json)
 ## [Cost](DTL/Cost.json)
@@ -109,11 +109,11 @@
 ## [Schedule](DTL/Schedule.json)
 ## [Virtual Machine](DTL/VirtualMachine.json)
 ## [Virtual Network](DTL/VirtualNetwork.json)
-# Event Hub
+# [Event Hub](../documentation/EventHub/index.md)
 ## [Consumer Groups](EventHub/ConsumerGroups.json)
 ## [Event Hubs](EventHub/EventHubs.json)
 ## [Namespaces](EventHub/Namespaces.json)
-# Resource Management
+# [Resource Management](../documentation/resources/index.md)
 ## [Deployment Operations](resources/DeploymentOperations.json)
 ## [Deployments](resources/Deployments.json)
 ## [Features](resources/Features.json)
@@ -127,16 +127,16 @@
 ## [Subscriptions](resources/Subscriptions.json)
 ## [Tags](resources/Tags.json)
 ## [Tenants](resources/Tenants.json)
-# Data Lake Store
+# [Data Lake Store](../documentation/datalakestore/index.md)
 ## [Account](datalakestore/Account.json)
 ## [File System](datalakestore/FileSystem.json)
-# Graph RBAC
+# [Graph RBAC](../documentation/graphrbac/index.md)
 ## [Applications](graphrbac/Applications.json)
 ## [Groups](graphrbac/Groups.json)
 ## [Objects](graphrbac/Objects.json)
 ## [Service Principals](graphrbac/ServicePrincipals.json)
 ## [Users](graphrbac/Users.json)
-# Insights
+# [Insights](../documentation/insights/index.md)
 ## [Alert Rule Incidents](insights/AlertRuleIncidents.json)
 ## [Alert Rules](insights/AlertRules.json)
 ## [Autoscale Settings](insights/AutoscaleSettings.json)
@@ -149,7 +149,7 @@
 ## [Service Diagnostic Settings](insights/ServiceDiagnosticSettings.json)
 ## [Tenant Events](insights/TenantEvents.json)
 ## [Usage Metrics](insights/UsageMetrics.json)
-# Intune
+# [Intune](../documentation/intune/index.md)
 ## [Android](intune/Android.json)
 ## [Get Apps](intune/GetApps.json)
 ## [Get Location By Host Name](intune/GetLocationByHostName.json)
@@ -163,20 +163,20 @@
 ## [Get Operation Results](intune/GetOperationResults.json)
 ## [Ios](intune/Ios.json)
 ## [Wipe MAM User Device](intune/WipeMAMUserDevice.json)
-# IoT Hub
+# [IoT Hub](../documentation/iothub/index.md)
 ## [Iot Hub Resource](iothub/IotHubResource.json)
-# Key Vault
+# [Key Vault](../documentation/keyvault/index.md)
 ## [Vaults](keyvault/Vaults.json)
-# Logic Apps
+# [Logic Apps](../documentation/logic/index.md)
 ## [Workflow Run Actions](logic/WorkflowRunActions.json)
 ## [Workflow Runs](logic/WorkflowRuns.json)
 ## [Workflow Trigger Histories](logic/WorkflowTriggerHistories.json)
 ## [Workflow Triggers](logic/WorkflowTriggers.json)
 ## [Workflow Versions](logic/WorkflowVersions.json)
 ## [Workflows](logic/Workflows.json)
-# Media Services
+# [Media Services](../documentation/media/index.md)
 ## [Media Service](media/MediaService.json)
-# Mobile Engagement
+# [Mobile Engagement](../documentation/mobile-engagement/index.md)
 ## [App Collections](mobile-engagement/AppCollections.json)
 ## [Apps](mobile-engagement/Apps.json)
 ## [Campaigns](mobile-engagement/Campaigns.json)
@@ -184,7 +184,7 @@
 ## [Export Tasks](mobile-engagement/ExportTasks.json)
 ## [Import Tasks](mobile-engagement/ImportTasks.json)
 ## [Supported Platforms](mobile-engagement/SupportedPlatforms.json)
-# Network
+# [Network](../documentation/network/index.md)
 ## [Application Gateways](network/ApplicationGateways.json)
 ## [Check Dns Name Availability](network/CheckDnsNameAvailability.json)
 ## [Express Route Circuit Authorizations](network/ExpressRouteCircuitAuthorizations.json)
@@ -205,14 +205,14 @@
 ## [Virtual Network Gateways](network/VirtualNetworkGateways.json)
 ## [Virtual Network Peerings](network/VirtualNetworkPeerings.json)
 ## [Virtual Networks](network/VirtualNetworks.json)
-# Notification Hubs
+# [Notification Hubs](../documentation/notificationhubs/index.md)
 ## [Namespaces](notificationhubs/Namespaces.json)
 ## [Notification Hubs](notificationhubs/NotificationHubs.json)
-# Power BI Embedded
+# [Power BI Embedded](../documentation/powerbiembedded/index.md)
 ## [Workspace Collections](powerbiembedded/WorkspaceCollections.json)
 ## [Workspaces](powerbiembedded/Workspaces.json)
 ## [get Available Operations](powerbiembedded/getAvailableOperations.json)
-# Recovery Services
+# [Recovery Services](../documentation/recoveryservices/index.md)
 ## [Backup Engines](recoveryservices/BackupEngines.json)
 ## [Backup Operation Results](recoveryservices/BackupOperationResults.json)
 ## [Backup Operation Statuses](recoveryservices/BackupOperationStatuses.json)
@@ -237,34 +237,35 @@
 ## [Recovery Points](recoveryservices/RecoveryPoints.json)
 ## [Restores](recoveryservices/Restores.json)
 ## [Vaults](recoveryservices/Vaults.json)
-# Redis Cache
+# [Redis Cache](../documentation/redis/index.md)
 ## [Patch Schedules](redis/PatchSchedules.json)
 ## [Redis](redis/Redis.json)
-# Scheduler
+# [Scheduler](../documentation/scheduler/index.md)
 ## [Job Collections](scheduler/JobCollections.json)
 ## [Jobs](scheduler/Jobs.json)
 # [Search](../documentation/search/index.md)
+## [How to use the Management REST API](../documentation/search/search-howto-management-rest-api.md)
 ## [Admin Keys](search/AdminKeys.json)
 ## [Query Keys](search/QueryKeys.json)
 ## [Services](search/Services.json)
-# Server Management
+# [Server Management](../documentation/servermanagement/index.md)
 ## [Gateway](servermanagement/Gateway.json)
 ## [Node](servermanagement/Node.json)
 ## [Power Shell](servermanagement/PowerShell.json)
 ## [Session](servermanagement/Session.json)
-# Service Bus
+# [Service Bus](../documentation/servicebus/index.md)
 ## [Namespaces](servicebus/Namespaces.json)
 ## [Queues](servicebus/Queues.json)
 ## [Subscriptions](servicebus/Subscriptions.json)
 ## [Topics](servicebus/Topics.json)
-# SQL Databases
+# [SQL Databases](../documentation/sql/index.md)
 ## [Database Replication Links](sql/DatabaseReplicationLinks.json)
 ## [Databases](sql/Databases.json)
 ## [Elastic Pools](sql/ElasticPools.json)
 ## [Recommended Elastic Pools](sql/RecommendedElasticPools.json)
 ## [Servers](sql/Servers.json)
 ## [Servers Firewall Rules](sql/ServersFirewallRules.json)
-# Storage
+# [Storage](../documentation/storage/index.md)
 ## [Storage Accounts](storage/StorageAccounts.json)
 ## [Usage](storage/Usage.json)
 # Traffic Manager
