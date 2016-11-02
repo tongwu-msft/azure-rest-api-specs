@@ -84,7 +84,7 @@ Now that you've completed registration of your client application, we can move t
 ## Create the request
 This section covers the first 3 of the 5 components we discussed earlier. First we need to acquire the access token from Azure AD, which we will use in our request message header.
 
-#### Acquire an access token
+### Acquire an access token
 
 Once you have a valid client registration, there are essentially 2 ways of integrating with Azure AD to acquire an access token:
 
