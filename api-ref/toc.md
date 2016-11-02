@@ -37,7 +37,7 @@
 ## [Recommendations](appservice/Recommendations.json)
 ## [Top Level Domains](appservice/TopLevelDomains.json)
 ## [Web Apps](appservice/WebApps.json)
-# Authorization
+# [Authorization](../documentation/authorization/index.md)
 ## [Classic Administrators](authorization/ClassicAdministrators.json)
 ## [Permissions](authorization/Permissions.json)
 ## [Provider Operations Metadata](authorization/ProviderOperationsMetadata.json)
