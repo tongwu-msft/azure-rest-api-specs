@@ -95,7 +95,8 @@ Just like the Azure REST API endpoints you are using, the instructions provided 
 
 For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows: Authorization Code or Client Credentials. Follow the instructions for each to acquire the access token you will use in the remaining sections:
 
-- **Authorization code grant**: can be used by both web and native clients, and requires credentials from a signed-in end-user in order to delegate resource access to the client application. This grant uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in/consent), and the `/token` endpoint to exchange the authorization code for an access token.  
+#### Authorization code grant
+Can be used by both web and native clients, and requires credentials from a signed-in end-user in order to delegate resource access to the client application. This grant uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in/consent), and the `/token` endpoint to exchange the authorization code for an access token.  
 
     1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for details on the HTTPS GET request URI format, and example request/response messages. The URI will contain query string parameters, including the following that are specific to your client application:
 
