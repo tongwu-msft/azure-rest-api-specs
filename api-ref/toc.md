@@ -48,7 +48,10 @@
 ## [Application Package](BatchManagement/ApplicationPackage.json)
 ## [Batch Account](BatchManagement/BatchAccount.json)
 ## [Location](BatchManagement/Location.json)
-# Batch Service
+# [Batch Service](../documentation/batch/Authenticate-Requests-to-the-Azure-Batch-Service.md)
+## [Batch-Service-REST-API-Versioning](../documentation/batch/Batch-Service-REST-API-Versioning.md)
+## [Batch-Status-and-Error-Codes](../documentation/batch/Batch-Status-and-Error-Codes.md)
+## [Common-Parameters-and-Headers](../documentation/batch/Common-Parameters-and-Headers.md)
 ## [Account](BatchService/Account.json)
 ## [Application](BatchService/Application.json)
 ## [Certificate](BatchService/Certificate.json)
