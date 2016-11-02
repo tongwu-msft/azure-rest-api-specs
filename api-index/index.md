@@ -102,7 +102,6 @@ For the purposes of this article, we will assume that your client will be using 
         - Azure Resource Manager providers use `https://management.azure.com/`  
         - Classic Azure Service Management APIs use `https://management.core.windows.net/`  
 
-
     2. Next, your client will need to redeem the authorization code received in step #1, for an access token.  
 
 - **Client credentials grant**: can only be used by web clients, and allows the client application to access resources directly (no user delegation) using its own credentials (provided at registration time). This grant is typically used by headless (no UI) clients running as a daemon/service, and uses only Azure AD's /token endpoint to acquire an access token. 
