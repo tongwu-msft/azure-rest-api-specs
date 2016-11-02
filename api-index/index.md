@@ -95,16 +95,17 @@ As such, the instructions provided in this section make no assumptions about you
 
 For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows. Follow the instructions for each to acquire the access token you will use in the remaining sections:
 
- - **Authorization code grant**: can be used by both web and native clients, and requires credentials from a signed-in end-user in order to delegate resource access to the client application. This grant uses the /authorize endpoint to obtain an authorization code (in response to user sign-in/consent), and the /token endpoint to exchange the authorization code for an access token.  
+- **Authorization code grant**: can be used by both web and native clients, and requires credentials from a signed-in end-user in order to delegate resource access to the client application. This grant uses the /authorize endpoint to obtain an authorization code (in response to user sign-in/consent), and the /token endpoint to exchange the authorization code for an access token.  
 
     1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for details on the HTTPS request URI and request/response messages. Note that the URI you'll need for the `resource` parameter is specified by the service/resource. Resources can expose one or more URI, in the [`identifierUris` property of their application object](https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity). For example:  
 
         - Azure Resource Manager providers use `https://management.azure.com/`  
         - Classic Azure Service Management APIs use `https://management.core.windows.net/`  
 
-    2. Next, your client will need to redeem the authorization code received in step #1, for an access token.
 
- - **Client credentials grant**: can only be used by web clients, and allows the client application to access resources directly (no user delegation) using its own credentials (provided at registration time). This grant is typically used by headless (no UI) clients running as a daemon/service, and uses only Azure AD's /token endpoint to acquire an access token. 
+    2. Next, your client will need to redeem the authorization code received in step #1, for an access token.  
+
+- **Client credentials grant**: can only be used by web clients, and allows the client application to access resources directly (no user delegation) using its own credentials (provided at registration time). This grant is typically used by headless (no UI) clients running as a daemon/service, and uses only Azure AD's /token endpoint to acquire an access token. 
         - First https://azure.microsoft.com/en-us/documentation/articles/active-directory-protocols-oauth-service-to-service/  
 
 Once your application successfully acquires the access token, it should look similar to the following:
