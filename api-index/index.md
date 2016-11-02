@@ -91,18 +91,25 @@ Once you have a valid client registration, there are essentially 2 ways of integ
 - Using Azure AD's platform/language-neutral OAuth2 service endpoints, which is the focus of this section  
 - Using the platform/language-specific Azure AD Authentication Libraries (ADAL). The libraries provide asynchronous wrappers for the OAuth2 endpoint requests, and more robust token handling features such as caching and refresh token management. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries](https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/).
 
-As such, the instructions provided in this section make no assumptions about your client's platform or language/script, only that it has the ability to send/receive HTTPS requests to/from Azure AD and parse the response message content. The 2 Azure AD endpoints you will be interested in using are the /authorize and /token endpoints. How you use those endpoints will be dependent on your application's registration, and the type of [authorization grant flow](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant) you use to support your application at runtime.  
+Just like the Azure REST API endpoints you are using, the instructions provided in this section make no assumptions about your client's platform or language/script when using the Azure AD endpoints; only that it can send/receive HTTPS requests to/from Azure AD, and parse the response message. The 2 Azure AD endpoints you will be using are referred to as the `/authorize` and `/token` endpoints. How you use those endpoints will be dependent on your application's registration, and the type of [authorization grant flow](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant) you use to support your application at run-time.  
 
 For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows. Follow the instructions for each to acquire the access token you will use in the remaining sections:
 
 - **Authorization code grant**: can be used by both web and native clients, and requires credentials from a signed-in end-user in order to delegate resource access to the client application. This grant uses the /authorize endpoint to obtain an authorization code (in response to user sign-in/consent), and the /token endpoint to exchange the authorization code for an access token.  
 
-    1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for details on the HTTPS request URI and request/response messages. Note that the URI you'll need for the `resource` parameter is specified by the service/resource. Resources can expose one or more URI, in the [`identifierUris` property of their application object](https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity). For example:  
+    1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for details on the HTTPS GET request URI and request/response messages. The URI will contain query string parameter, including the following that are specific to your client application:
 
-        - Azure Resource Manager providers use `https://management.azure.com/`  
-        - Classic Azure Service Management APIs use `https://management.core.windows.net/`  
+        - `client_id` - also known as an application ID, this is the GUID assigned to your client application when you registered in the section above
+        - `redirect_uri` - also specified during registration of your client application. Note that the value you pass must match exactly to your registration!
+        - `resource` - an indentifying URI as specified by the service/resource. Resources can expose one or more URI, in the [`identifierUris` property of their application object](https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity). For example:  
 
-    2. Next, your client will need to redeem the authorization code received in step #1, for an access token.  
+            - Azure Resource Manager provider APIs use `https://management.azure.com/`  
+            - Classic Azure Service Management APIs use `https://management.core.windows.net/`  
+            - For any other resources, see the API documentation or the resource application's configuration in the Azure portal
+
+        The response you get back will be delivered as a redirect (302) to the URI you specified in `redirect_uri`. 
+
+    2. Next, your client will need to redeem the authorization code received in step #1, for an access token. See [Use the authorization code to request an access token](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#use-the-authorization-code-to-request-an-access-token) for details on the HTTPS POST request URI and request/response messages.  
 
 - **Client credentials grant**: can only be used by web clients, and allows the client application to access resources directly (no user delegation) using its own credentials (provided at registration time). This grant is typically used by headless (no UI) clients running as a daemon/service, and uses only Azure AD's /token endpoint to acquire an access token. 
         - First https://azure.microsoft.com/en-us/documentation/articles/active-directory-protocols-oauth-service-to-service/  
