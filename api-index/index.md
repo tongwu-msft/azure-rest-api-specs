@@ -95,13 +95,13 @@ Just like the Azure REST API endpoints you are using, the instructions provided 
 
 For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows: Authorization Code or Client Credentials. Follow the instructions for each to acquire the access token you will use in the remaining sections:
 
-- **Authorization code grant**: can be used by both web and native clients, and requires credentials from a signed-in end-user in order to delegate resource access to the client application. This grant uses the /authorize endpoint to obtain an authorization code (in response to user sign-in/consent), and the /token endpoint to exchange the authorization code for an access token.  
+- **Authorization code grant**: can be used by both web and native clients, and requires credentials from a signed-in end-user in order to delegate resource access to the client application. This grant uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in/consent), and the `/token` endpoint to exchange the authorization code for an access token.  
 
-    1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for details on the HTTPS GET request URI format, and example request/response messages. The URI will contain query string parameter, including the following that are specific to your client application:
+    1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for details on the HTTPS GET request URI format, and example request/response messages. The URI will contain query string parameters, including the following that are specific to your client application:
 
         - `client_id` - also known as an application ID, this is the GUID assigned to your client application when you registered in the section above
-        - `redirect_uri` - a URL-encoded version of the one specified during registration of your client application. Note that the value you pass must match exactly to your registration!
-        - `resource` - a URL-encoded indentifying URI as specified by the service/resource. Resources can expose one or more identifier URIs. For example:  
+        - `redirect_uri` - a URL-encoded version of [one of] the reply/redirect URIs specified during registration of your client application. Note that the value you pass must match exactly to your registration!
+        - `resource` - a URL-encoded indentifying URI specified by the REST API you are calling. Web/REST APIs (also known as resource applications) can expose one or more application ID URIs in their configuration. For example:  
 
             - Azure Resource Manager provider (and classic Service Management) APIs use `https://management.core.windows.net/`  
             - For any other resources, see the API documentation or the resource application's configuration in the Azure portal. See also the [`identifierUris` property](https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity) of the Azure AD application object.
