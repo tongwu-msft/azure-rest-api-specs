@@ -230,7 +230,7 @@
 ## [Protection Container Operation Results](recoveryservices/ProtectionContainerOperationResults.json)
 ## [Protection Container Refresh Operation Results](recoveryservices/ProtectionContainerRefreshOperationResults.json)
 ## [Protection Containers](recoveryservices/ProtectionContainers.json)
-## [Protection Containers](recoveryservices/ProtectionContainers.json)
+## [Protection Containers Registered Identities](recoveryservices/ProtectionContainersRegisteredIdentities.json)
 ## [Protection Policies](recoveryservices/ProtectionPolicies.json)
 ## [Protection Policy Operation Results](recoveryservices/ProtectionPolicyOperationResults.json)
 ## [Protection Policy Operation Statuses](recoveryservices/ProtectionPolicyOperationStatuses.json)
@@ -258,12 +258,12 @@
 ## [Subscriptions](servicebus/Subscriptions.json)
 ## [Topics](servicebus/Topics.json)
 # SQL Databases
-## [Databases](sql/Databases.json)
+## [Database Replication Links](sql/DatabaseReplicationLinks.json)
 ## [Databases](sql/Databases.json)
 ## [Elastic Pools](sql/ElasticPools.json)
 ## [Recommended Elastic Pools](sql/RecommendedElasticPools.json)
 ## [Servers](sql/Servers.json)
-## [Servers](sql/firewallrules/Servers.json)
+## [Servers Firewall Rules](sql/ServersFirewallRules.json)
 # Storage
 ## [Storage Accounts](storage/StorageAccounts.json)
 ## [Usage](storage/Usage.json)
