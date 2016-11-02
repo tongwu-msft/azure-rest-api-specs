@@ -84,7 +84,7 @@ Now that you've completed registration of your client application, we can move t
 ## Create the request
 Now lets review the structure for the first 3 of the 5 components we discussed earlier. First we need to acquire the access token from Azure AD, which we will use in our request message header.
 
-### Acquire an access token
+#### Acquire an access token
 
 There are essentially 2 ways of interacting with Azure AD to obtain an access token:  
 - Using platform/language-neutral HTTPS requests against Azure AD's service endpoints, which is the focus of this section 
@@ -118,15 +118,19 @@ In order for your client to prove it's authenticity when making secured REST API
     
     - Set the Content-Type header to application/json
 
-### Assemble the request
-3. Now you are ready to call the REST API. As mentioned earlier, you will need to consider the first 3 of the 5 components required when making the request:
+#### URI
+Your request URI will be determined by the REST API spec. Here's an example of
 
-Your request URI should be as follows:
+#### Request message header
+Your request message head fields will also be determined by the REST API spec, but 
 
-First create the request header
 - Set the Content-Type header to application/json
 
-Next, create the request body, depending on the request URI
+#### Request message body
+Finally, as mentioned earlier, the request message body is optional, depending on the specific operation you're requesting and its parameter requirements.
+
+#### Make the request
+
 
 ## Process the response
 In the example provided above, we used the /subscriptions endpoint to retrieve the list of subscriptions for our sample client application.
