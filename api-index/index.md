@@ -86,18 +86,14 @@ Now lets build the first 3 of the 5 components we discussed earlier. First we ne
 
 #### Acquire an access token
 
-In order for your client application to prove it's authenticity when making secured REST API requests, it needs to acquire and present an access token. Once you have a valid client registration, there are essentially 2 ways of interacting with Azure AD to acquire an access token:
+Once you have a valid client registration, there are essentially 2 ways of integrating with Azure AD to acquire an access token:
 
-- Using platform/language-neutral requests to Azure AD's OAuth2 service endpoints, which is the focus of this section  
-- Using platform/language-specific client libraries, as supported by the Azure AD Authentication Libraries. The libraries provide asynchronous wrappers for the OAuth2 and OpenID Connect endpoint requests, and more robust token handling features such as caching and refresh token management. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries](https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/).
+- Using Azure AD's platform/language-neutral OAuth2 service endpoints, which is the focus of this section  
+- Using the platform/language-specific Azure AD Authentication Libraries (ADAL). The libraries provide asynchronous wrappers for the OAuth2 endpoint requests, and more robust token handling features such as caching and refresh token management. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries](https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/).
 
-As such, the instructions provided in this section make no assumptions about your client's platform or language/script, only that it has the ability to send/receive HTTPS requests and parse the response message header/body content.
+As such, the instructions provided in this section make no assumptions about your client's platform or language/script, only that it has the ability to send/receive HTTPS requests to/from Azure AD and parse the response message content. The 2 Azure AD endpoints you will be interested in using are the /authorize and /token endpoints. How you use those endpoints will be dependent on your application's registration, and the type of [authorization grant flow](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant) you use to support your application at runtime.  
 
-1. Obtain an access token from Azure AD, for the service/resource you wish to access.
-
-    Azure AD exposes service endpoints to facilitate application integration, and the 2 you will be interested in using are the /authorize and /token endpoints. How you use those endpoints will be dependent on your application's registration, and the type of [authorization grant flow](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant) required in order to support your application at runtime.  
-
-    For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows. Follow the instructions for each to acquire the access token you will use in the remaining sections:
+For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows. Follow the instructions for each to acquire the access token you will use in the remaining sections:
 
  - **Authorization code grant**: can be used by both web and native clients, and requires credentials from a signed-in end-user in order to delegate resource access to the client application. This grant uses the /authorize endpoint to obtain an authorization code (in response to user sign-in/consent), and the /token endpoint to exchange the authorization code for an access token.  
 
@@ -110,9 +106,9 @@ As such, the instructions provided in this section make no assumptions about you
  - **Client credentials grant**: can only be used by web clients, and allows the client application to access resources directly (no user delegation) using its own credentials (provided at registration time). This grant is typically used by headless (no UI) clients running as a daemon/service, and uses only Azure AD's /token endpoint to acquire an access token. 
         - First https://azure.microsoft.com/en-us/documentation/articles/active-directory-protocols-oauth-service-to-service/  
 
-    Once your application successfully acquires the access token, it should look similar to the following:
+Once your application successfully acquires the access token, it should look similar to the following:
 
-    If you are debugging your application, here are a couple of useful tools for inspecting the token and its claims 
+If you are debugging your application, here are a couple of useful tools for inspecting the token and its claims 
 
 #### URI
 Your request URI will be determined by the REST API spec. Here's an example of
