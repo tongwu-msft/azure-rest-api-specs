@@ -56,7 +56,7 @@ If you are using a REST API that does not use integrated Azure AD authentication
 
 ### Prerequisites
 
-[Client applications](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#client-application) must make their configuration known to Azure AD before run-time, via Azure AD's application registry. In order to register your client, you must first obtain access to an Azure AD [tenant](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#tenant). If you do not have an Azure AD tenant yet, please see [How to get an Azure Active Directory tenant](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/) before continuing. 
+[Client applications](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#client-application) must make their configuration known to Azure AD before run-time, via an [Azure AD tenant's](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#tenant) application registry. If you do not have an Azure AD tenant yet, please see [How to get an Azure Active Directory tenant](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/) before continuing. 
 
 After you have access to an Azure AD tenant, consider the following important concepts before you register your client:
 
