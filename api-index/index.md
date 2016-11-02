@@ -16,11 +16,12 @@ ms.assetid: D35E3780-B2BC-4450-8EF6-2710A11F99A7
 
 Welcome to the Azure REST API Reference.
 
-Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create/retrieve/update/delete access to the service's resources. The sections below will first walk you through the basics of [REST API request and response components](#components-of-a-rest-api-requestresponse), then provide detailed stops on how to:
+Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create/retrieve/update/delete access to the service's resources. The sections below will walk you through:
 
-- [Register your client application with Azure Active Directory (Azure AD)](#register-your-client-application-with-azure-ad) to secure your REST requests
-- [Create a REST request](#create-the-request)
-- [Handle the REST response](#process-the-response).
+- The basics of REST API request and response components
+- How to register your client application with Azure Active Directory (Azure AD) to secure your REST requests
+- How to create a REST request
+- How to handle the REST response
 
 > [!NOTE] For almost all Azure service REST APIs, there is a corresponding client SDK library which handles much of the client code for you. See:  
 > 
@@ -98,7 +99,7 @@ For the purposes of this article, we will assume that your client will be using 
 #### Authorization code grant (interactive clients)
 This grant can be used by both web and native clients, and requires credentials from a signed-in end-user in order to delegate resource access to the client application. This grant uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in/consent), and the `/token` endpoint to exchange the authorization code for an access token.  
 
-1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for details on the HTTPS GET request URI format, and example request/response messages. The URI will contain query string parameters, including the following that are specific to your client application:
+1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for details on the format of the HTTPS GET request to the `/authorize` endpoint, and example request/response messages. The URI will contain query string parameters, including the following that are specific to your client application:
 
     - `client_id` - also known as an application ID, this is the GUID assigned to your client application when you registered in the section above
     - `redirect_uri` - a URL-encoded version of [one of] the reply/redirect URIs specified during registration of your client application. Note that the value you pass must match exactly to your registration!
@@ -107,9 +108,9 @@ This grant can be used by both web and native clients, and requires credentials 
         - Azure Resource Manager provider (and classic Service Management) APIs use `https://management.core.windows.net/`  
         - For any other resources, see the API documentation or the resource application's configuration in the Azure portal. See also the [`identifierUris` property](https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity) of the Azure AD application object for more details.
 
-    The request to the /authorize endpoint will also trigger a sign-in prompt to authenticate the end-user. The response you get back will be delivered as a redirect (302) to the URI you specified in `redirect_uri`. The response message will contain a `location` header field, which contains the redirect URI followed by a `code` query parameter, containing the authorization code you will need for step #2. 
+    The request to the /authorize endpoint will also trigger a sign-in prompt to authenticate the end-user. The response you get back will be delivered as a redirect (302) to the URI you specified in `redirect_uri`. The response header message will contain a `location` field, which contains the redirect URI followed by a `code` query parameter, containing the authorization code you will need for step #2. 
 
-2. Next, your client will need to redeem the authorization code for an access token. See [Use the authorization code to request an access token](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#use-the-authorization-code-to-request-an-access-token) for details on the HTTPS POST request URI format, and example request/response messages. Again, the request URI will contain query string parameters, specific to your application. In addition to some of the same ones mentioned above (along with other new ones), you will pass :
+2. Next, your client will need to redeem the authorization code for an access token. See [Use the authorization code to request an access token](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#use-the-authorization-code-to-request-an-access-token) for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages. This time, the request will contain parameters in the request body, specific to your application. Including some of the same ones mentioned above (along with other new ones), you will pass :
 
     - `code` - this is the query parameter that will contain the authorization code you obtained in step #1.
     - `client_secret` - you will only need this parameter if your client is configured as a web application. This is the same secret/key value you generated earlier, in [client registration](#client-registration).
@@ -119,25 +120,25 @@ This grant can only be used by web clients, allowing the application to access r
 
 Many of the interactions were illustrated earlier in steps #1 and #2 of the authorization code grant. For brevity, we will only highlight the interactions for this grant.
 
-#### Request URI
+### Request URI
 Your request URI will be determined by it's related REST API specification. 
 
 
 Here's an example of
 
-            - Azure Resource Manager provider (and classic Service Management) APIs use `https://management.azure.com/`  
-            - Classic Azure Service Management APIs use `https://management.core.windows.net/`  
+- Azure Resource Manager provider (and classic Service Management) APIs use `https://management.azure.com/`  
+- Classic Azure Service Management APIs use `https://management.core.windows.net/`  
 
 
-#### Request message header
+### Request message header
 Your request message head fields will also be determined by the REST API spec, but 
 
 - Set the Content-Type header to application/json
 
-#### Request message body
+### Request message body
 Finally, as mentioned earlier, the request message body is optional, depending on the specific operation you're requesting and its parameter requirements.
 
-#### Make the request
+### Make the request
 You are now ready to send the request to the REST service endpoint. After you make the request, a the response message header and optional body will be returned.
 
 ## Process the response
