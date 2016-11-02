@@ -243,7 +243,7 @@
 # Scheduler
 ## [Job Collections](scheduler/JobCollections.json)
 ## [Jobs](scheduler/Jobs.json)
-# Search
+# [Search](../documentation/search/search-howto-management-rest-api.md)
 ## [Admin Keys](search/AdminKeys.json)
 ## [Query Keys](search/QueryKeys.json)
 ## [Services](search/Services.json)
