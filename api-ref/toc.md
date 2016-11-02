@@ -48,7 +48,7 @@
 ## [Application Package](BatchManagement/ApplicationPackage.json)
 ## [Batch Account](BatchManagement/BatchAccount.json)
 ## [Location](BatchManagement/Location.json)
-# [Batch Service](../documentation/batch/Authenticate-Requests-to-the-Azure-Batch-Service.md)
+# [Batch Service](../documentation/batch/index.md)
 ## [Batch-Service-REST-API-Versioning](../documentation/batch/Batch-Service-REST-API-Versioning.md)
 ## [Batch-Status-and-Error-Codes](../documentation/batch/Batch-Status-and-Error-Codes.md)
 ## [Common-Parameters-and-Headers](../documentation/batch/Common-Parameters-and-Headers.md)
@@ -243,7 +243,7 @@
 # Scheduler
 ## [Job Collections](scheduler/JobCollections.json)
 ## [Jobs](scheduler/Jobs.json)
-# [Search](../documentation/search/search-howto-management-rest-api.md)
+# [Search](../documentation/search/index.md)
 ## [Admin Keys](search/AdminKeys.json)
 ## [Query Keys](search/QueryKeys.json)
 ## [Services](search/Services.json)
