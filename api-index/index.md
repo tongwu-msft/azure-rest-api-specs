@@ -101,7 +101,6 @@ For the purposes of this article, we will assume that your client will be using 
 
         - Azure Resource Manager providers use `https://management.azure.com/`  
         - Classic Azure Service Management APIs use `https://management.core.windows.net/`  
-</br>
 
     2. Next, your client will need to redeem the authorization code received in step #1, for an access token.
 
