@@ -120,11 +120,11 @@ The client/resource interactions for this grant are very similar to step #2 of t
 
 ### Assemble the request URI and message header/body
 
-All secured REST requests require HTTPS protocol for the URI scheme, as the request and response must be able to rely on a secure channel, due to the fact that sensitive information is transmitted/received. This information (ie: the Azure AD authorization code, access/bearer token) must therefore be encrypted by a lower transport layer, to ensure the integrity of the messages. 
+All secured REST requests require the HTTPS protocol for the URI scheme, as the request and response require a secure channel, due to the fact that sensitive information is transmitted/received. This information (ie: the Azure AD authorization code, access/bearer token, sensitive request/response data) must therefore be encrypted by a lower transport layer, to ensure the privacy of the messages. 
 
-For the remainder of your service's request URI (the host, resource path, and any required query string parameters) will be determined by it's related REST API specification. For instance, Azure Resource Manager provider APIs use `https://management.azure.com/`, classic Azure Service Management APIs use `https://management.core.windows.net/`, both require an `api-version` query string parameter, etc.
+The remainder of your service's request URI (the host, resource path, and any required query string parameters) will be determined by it's related REST API specification. For instance, Azure Resource Manager provider APIs use `https://management.azure.com/`, classic Azure Service Management APIs use `https://management.core.windows.net/`, both require an `api-version` query string parameter, etc.
 
-Your request message head fields will also be determined by your service's REST API specification, along with the HTTP specification. Here are some common headers you might need in your request:
+All of this will be bundled in the request message header, along with any other fields as determined by your service's REST API specification and the HTTP specification. Here are some common headers you might need in your request:
 
 - `Authorization`: contains the OAuth2 bearer token issued by Azure AD to secure the request
 - `Content-Type`: typically set to "application/json"
@@ -134,15 +134,17 @@ As mentioned earlier, the request message body is optional, depending on the spe
 
 Now that you have the service's request URI and have created the related request message header, you are ready to send the request to the REST service endpoint. After you make the request, the response message header and optional body will be returned.
 
-For example, an HTTPS GET request method for an Azure Resource Manager provider might require request header fields similar to the following:
+For example, an HTTPS GET request method for an Azure Resource Manager provider might require request header fields similar to the following, but notice the request body is empty:
 
 ```
 GET /subscriptions?api-version=2014-04-01-preview HTTP/1.1
 Authorization: Bearer <bearer-token>
 Host: management.azure.com
+
+<no body>
 ```
 
-For example, an HTTPS PUT request method for an Azure Resource Manager provider might require request header and body fields similar to the following:
+And an HTTPS PUT request method for an Azure Resource Manager provider might require request header and body fields similar to the following:
 
 ```
 PUT /subscriptions/03f09293-ce69-483a-a092-d06ea46dfb8c/resourcegroups/ExampleResourceGroup?api-version=2016-02-01  HTTP/1.1
