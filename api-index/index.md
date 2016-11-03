@@ -118,7 +118,7 @@ This grant can only be used by web clients, allowing the application to access r
 
 The client/resource interactions for this grant are very similar to step #2 of the authorization code grant. Please see the "Request an Access Token" section in [Service to service calls using client credentials](https://azure.microsoft.com/en-us/documentation/articles/active-directory-protocols-oauth-service-to-service/#request-an-access-token) for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages.
 
-### Build the request
+### Assemble the request URI and message header/body
 
 All secured REST requests require HTTPS protocol for the URI scheme, as the request and response must be able to rely on a secure channel, due to the fact that sensitive information is transmitted/received. This information (ie: the Azure AD authorization code, access/bearer token) must therefore be encrypted by a lower transport layer, to ensure the integrity of the messages. 
 
@@ -145,7 +145,7 @@ Host: management.azure.com
 For example, an HTTPS PUT request method for an Azure Resource Manager provider might require request header and body fields similar to the following:
 
 ```
-PUT /subscriptions?api-version=2014-04-01-preview HTTP/1.1
+PUT /subscriptions/03f09293-ce69-483a-a092-d06ea46dfb8c/resourcegroups/ExampleResourceGroup?api-version=2016-02-01  HTTP/1.1
 Authorization: Bearer <bearer-token>
 Content-Length: 29
 Content-Type: application/json
@@ -158,9 +158,9 @@ Host: management.azure.com
 
 ## Process the response
 
-Now we'll finish with the last 2 of the 5 components, and build out your client code to handle the response message. To process the response, you will need to parse the response header and optionally the response body (depending on the request).
+Now we'll finish with the last 2 of the 5 components. To process the response, you will need to parse the response header and optionally the response body (depending on the request).
 
-In the example provided above, we used the /subscriptions endpoint to retrieve the list of subscriptions for a user, from our sample client application. Assuming the response was successful, we would receive response header fields similar to the following:
+In the HTTPS GET example provided above, we used the /subscriptions endpoint to retrieve the list of subscriptions for a user, from our sample client application. Assuming the response was successful, we would receive response header fields similar to the following:
 
 ```
 HTTP/1.1 200 OK
@@ -183,6 +183,27 @@ and a response body similar to:
             "spendingLimit":"On"}
         }
     ]
+}
+```
+
+Similarly, for the HTTPS PUT example, we would receive a response header similar to the following, confirming that our PUT operation to add the "ExampleResourceGroup" was successful :
+
+```
+HTTP/1.1 200 OK
+Content-Length: 193
+Content-Type: application/json;
+```
+
+and a response body similar to:
+```
+{
+    "id":"/subscriptions/03f09293-ce69-483a-a092-d06ea46dfb8c/resourceGroups/ExampleResourceGroup",
+    "name":"ExampleResourceGroup",
+    "location":"westus",
+    "properties":
+        {
+        "provisioningState":"Succeeded"
+        }
 }
 ```
 
