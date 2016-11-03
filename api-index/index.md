@@ -94,7 +94,7 @@ Once you have a valid client registration, there are essentially 2 ways of integ
 
 The 2 Azure AD endpoints you will be using to authenticate your client and acquire an access token are referred to as the OAuth2 `/authorize` and `/token` endpoints. How you use them will be dependent on your application's registration, and the type of [OAuth2 authorization grant flow](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant) you need in order to support your application at run-time. For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows: authorization code or client credentials. Follow the instructions for the one that best matches your scenario, to acquire the access token you will use in the remaining sections.
 
-#### Authorization code grant (interactive clients)
+**Authorization code grant (interactive clients)**  
 This grant can be used by both web and native clients, and requires credentials from a signed-in user in order to delegate resource access to the client application. It uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in/consent), followed by the `/token` endpoint to exchange the authorization code for an access token.  
 
 1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for details on the format of the HTTPS GET request to the `/authorize` endpoint, and example request/response messages. The URI will contain query string parameters, including the following that are specific to your client application:
@@ -113,7 +113,7 @@ This grant can be used by both web and native clients, and requires credentials 
     - `code` - this is the query parameter that will contain the authorization code you obtained in step #1.
     - `client_secret` - you will only need this parameter if your client is configured as a web application. This is the same secret/key value you generated earlier, in [client registration](#client-registration).
 
-#### Client credentials grant (non-interactive clients)
+**Client credentials grant (non-interactive clients)**  
 This grant can only be used by web clients, allowing the application to access resources directly (no user delegation) using its own credentials, which are provided at registration time. It's typically used by non-interactive (no UI) clients running as a daemon/service, and requires only the `/token` endpoint to acquire an access token.
 
 The client/resource interactions for this grant are very similar to step #2 of the authorization code grant. Please see the "Request an Access Token" section in [Service to service calls using client credentials](https://azure.microsoft.com/en-us/documentation/articles/active-directory-protocols-oauth-service-to-service/#request-an-access-token) for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages.
@@ -131,7 +131,7 @@ Your request message head fields will also be determined by your service's REST 
 
 Here are some common headers you might need in your request:
 
-- `Authorize`: contains the OAuth2 bearer token issued by Azure AD to secure the request
+- `Authorization`: contains the OAuth2 bearer token issued by Azure AD to secure the request
 - `Content-Type`: typically set to "application/json"
 - `Host`: this is the domain name or IP address of the server where the REST service endpoint is hosted
 
