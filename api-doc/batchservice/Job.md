@@ -19,7 +19,7 @@ The value for `{filter}` can be the following or any AND-ed or OR-ed combination
 uid: batch.core.windows.net/BatchService/2016-07-01.3.1/Job_ListFromJobSchedule
 description: *content
 ---
-Replace `{jobschedule-id}` with the ID of the job schedule from which you want to get a list of jobs.
+Replace `{jobScheduleId}` with the ID of the job schedule from which you want to get a list of jobs.
 
 The value for `{filter}` can be the following or any AND-ed or OR-ed combination of the following:
 
@@ -37,7 +37,7 @@ The value for `{filter}` can be the following or any AND-ed or OR-ed combination
 uid: batch.core.windows.net/BatchService/2016-07-01.3.1/Job_ListPreparationAndReleaseTaskStatus
 description: *content
 ---
-Replace `{job-id}` with the ID of the job for which to get job preparation and job release task execution status.
+Replace `{jobId}` with the ID of the job for which to get job preparation and job release task execution status.
 
 The value for `{filter}` can be the following, or any AND-ed or OR-ed combination of the following:
 

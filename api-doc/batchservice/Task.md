@@ -4,7 +4,7 @@ description: *content
 ---
 For multi-instance tasks, information such as affinityId, executionInfo, and nodeInfo refer to the primary task. Use the list subtasks API to retrieve information about subtasks.
 
-Replace `{job-id}` with the ID of the job whose tasks you want to retrieve.
+Replace `{jobId}` with the ID of the job whose tasks you want to retrieve.
 
 The value for `{filter}` can be the following or any AND-ed or OR-ed combination of the following:
 
