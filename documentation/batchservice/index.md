@@ -16,22 +16,22 @@ Azure Batch enables you to run large-scale parallel and high-performance computi
 
 The Batch REST API provides operations for working with the following resources.
 
-| Operation group     | Description |
-|---------------------|-------------|
-| [Account](./account) | test            |
-| Application         |             |
-| Certificate         |             |
-| Compute Node        |             |
-| File                |             |
-| Job                 |             |
-| Job Schedule        |             |
-| Pool                |             |
-| Task                |             |
+| Operation group               | Description |
+|-------------------------------|-------------|
+| [Account](./account)          | Provides operations for working with account-level resources. |
+| [Application](./application)  | Application packages provide management and deployment of applications run by your tasks. |
+| [Certificate](./certificate)  | Operations for managing certificates on compute nodes. |
+| [Compute Node](./computenode) | Compute nodes are the virtual machines (VMs) in a pool that execute a job's tasks. |
+| [File](./file)                | Operations for working with the files on a compute node or associated with a task. |
+| [Job](./job)                  | A job manages a collection of tasks. |
+| [Job Schedule](./jobschedule) | Create and manage recurring jobs. |
+| [Pool](./pool)                | A pool is a collection of compute nodes. |
+| [Task](./task)                | A task executes one or more applications on a compute node. |
 
 ## See also
 
-- [link to conceptual](http://microsoft.com)
-- [link to .NET](http://microsoft.com)
-- [link to whathaveyou](http://microsoft.com)
+- [Azure Batch documentation](http://microsoft.com)
+- [Azure Batch .NET reference](http://microsoft.com)
+- [Azure Batch code samples on GitHub](http://microsoft.com)
 
 
