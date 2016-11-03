@@ -120,11 +120,9 @@ The client/resource interactions for this grant are very similar to step #2 of t
 
 ### Build the request
 
-Your service's request URI and any required query string parameters will be determined by it's related REST API specification.
+All secured REST requests require HTTPS protocol for the URI scheme, as the request and response must be able to rely on a secure channel, due to the fact that sensitive information is transmitted/received. This information (ie: the Azure AD authorization code, access/bearer token) must therefore be encrypted by a lower transport layer, to ensure the integrity of the messages. 
 
-- Azure Resource Manager provider APIs use `https://management.azure.com/`  
-- Classic Azure Service Management APIs use `https://management.core.windows.net/`  
-- etc.
+For the remainder of your service's request URI (the host, resource path, and any required query string parameters) will be determined by it's related REST API specification. For instance, Azure Resource Manager provider APIs use `https://management.azure.com/`, classic Azure Service Management APIs use `https://management.core.windows.net/`, both require an `api-version` query string parameter, etc.
 
 Your request message head fields will also be determined by your service's REST API specification, along with the HTTP specification. Here are some common headers you might need in your request:
 
