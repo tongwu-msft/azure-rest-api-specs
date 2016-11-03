@@ -122,37 +122,47 @@ The client/resource interactions for this grant are very similar to step #2 of t
 
 Your service's request URI and any required query string parameters will be determined by it's related REST API specification.
 
-- Azure Resource Manager provider (and classic Service Management) APIs use `https://management.azure.com/`  
+- Azure Resource Manager provider APIs use `https://management.azure.com/`  
 - Classic Azure Service Management APIs use `https://management.core.windows.net/`  
 - etc.
 
 ### Request message header
-Your request message head fields will also be determined by your service's REST API specification, along with the HTTP specification. For a request secured by an OAuth2 bearer token, the request header will also include the `Authorize` header. 
+Your request message head fields will also be determined by your service's REST API specification, along with the HTTP specification.
 
 Here are some common headers you might need in your request:
 
-- Authorize: contains the bearer token issued by Azure AD to secure the request
-- Content-Type: typically set to "application/json"
-- Host: this is the domain name or IP address of the server where the REST service endpoint is hosted
+- `Authorize`: contains the OAuth2 bearer token issued by Azure AD to secure the request
+- `Content-Type`: typically set to "application/json"
+- `Host`: this is the domain name or IP address of the server where the REST service endpoint is hosted
 
 ### Request message body
 As mentioned earlier, the request message body is optional, depending on the specific operation you're requesting and its parameter requirements. If it's required, the API specification for the service you are requesting will also specify the requirements.
 
-
-
 ### Make the request
 Now that you have the service's request URI and have created the related request message header, you are ready to send the request to the REST service endpoint. After you make the request, a the response message header and optional body will be returned.
 
-For example, a GET request method for an Azure Resource Manager provider might look like this:
+For example, an HTTPS GET request method for an Azure Resource Manager provider might require request header fields similar to the following:
 
 ```
-GET https://management.azure.com/subscriptions?api-version=2014-04-01-preview`
+GET /subscriptions?api-version=2014-04-01-preview HTTP/1.1
+Authorization: Bearer <bearer-token>
+Host: management.azure.com
+
+<empty-body>
 ```
 
-For example, a PUT request method for an Azure Resource Manager provider might look like this:
+For example, an HTTPS PUT request method for an Azure Resource Manager provider might require request header and body fields similar to the following:
 
 ```
-GET https://management.azure.com/subscriptions?api-version=2014-04-01-preview`
+PUT /subscriptions?api-version=2014-04-01-preview HTTP/1.1
+Authorization: Bearer <bearer-token>
+Content-Length: 29
+Content-Type: application/json
+Host: management.azure.com
+
+{
+  "location": "West US"
+}
 ```
 
 ## Process the response
