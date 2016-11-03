@@ -1,7 +1,6 @@
 ---
 uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_CreateOrUpdate
 summary: Create or update a virtual machine in the specified subscription.
-vmName: Specifies the name of the virtual machine. This name should be unique within the resource group.
 description: *content
 ---
 
