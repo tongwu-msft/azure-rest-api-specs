@@ -118,7 +118,7 @@ This grant can only be used by web clients, allowing the application to access r
 
 The client/resource interactions for this grant are very similar to step #2 of the authorization code grant. Please see the "Request an Access Token" section in [Service to service calls using client credentials](https://azure.microsoft.com/en-us/documentation/articles/active-directory-protocols-oauth-service-to-service/#request-an-access-token) for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages.
 
-### Request URI
+### Build the request
 
 Your service's request URI and any required query string parameters will be determined by it's related REST API specification.
 
@@ -126,20 +126,15 @@ Your service's request URI and any required query string parameters will be dete
 - Classic Azure Service Management APIs use `https://management.core.windows.net/`  
 - etc.
 
-### Request message header
-Your request message head fields will also be determined by your service's REST API specification, along with the HTTP specification.
-
-Here are some common headers you might need in your request:
+Your request message head fields will also be determined by your service's REST API specification, along with the HTTP specification. Here are some common headers you might need in your request:
 
 - `Authorization`: contains the OAuth2 bearer token issued by Azure AD to secure the request
 - `Content-Type`: typically set to "application/json"
 - `Host`: this is the domain name or IP address of the server where the REST service endpoint is hosted
 
-### Request message body
 As mentioned earlier, the request message body is optional, depending on the specific operation you're requesting and its parameter requirements. If it's required, the API specification for the service you are requesting will also specify the requirements.
 
-### Make the request
-Now that you have the service's request URI and have created the related request message header, you are ready to send the request to the REST service endpoint. After you make the request, a the response message header and optional body will be returned.
+Now that you have the service's request URI and have created the related request message header, you are ready to send the request to the REST service endpoint. After you make the request, the response message header and optional body will be returned.
 
 For example, an HTTPS GET request method for an Azure Resource Manager provider might require request header fields similar to the following:
 
@@ -147,8 +142,6 @@ For example, an HTTPS GET request method for an Azure Resource Manager provider 
 GET /subscriptions?api-version=2014-04-01-preview HTTP/1.1
 Authorization: Bearer <bearer-token>
 Host: management.azure.com
-
-<empty-body>
 ```
 
 For example, an HTTPS PUT request method for an Azure Resource Manager provider might require request header and body fields similar to the following:
@@ -166,12 +159,43 @@ Host: management.azure.com
 ```
 
 ## Process the response
-Now we'll finish with the last 2 of the 5 components, and build out your client code to handle the response message.
 
-In the example provided above, we used the /subscriptions endpoint to retrieve the list of subscriptions for our sample client application.
+Now we'll finish with the last 2 of the 5 components, and build out your client code to handle the response message. To process the response, you will need to parse the response header and optionally the response body (depending on the request).
+
+In the example provided above, we used the /subscriptions endpoint to retrieve the list of subscriptions for a user, from our sample client application. Assuming the response was successful, we would receive response header fields similar to the following:
+
+```
+HTTP/1.1 200 OK
+Content-Length: 303
+Content-Type: application/json;
+```
+
+and a response body similar to:
+```
+{
+    "value":[
+        {
+        "id":"/subscriptions/04f09293-ce69-583a-a091-z06ea46dfb8c",
+        "subscriptionId":"04f09293-ce69-583a-a091-z06ea46dfb8c",
+        "displayName":"My Azure Subscription",
+        "state":"Enabled",
+        "subscriptionPolicies":{
+            "locationPlacementId":"Public_2015-09-01",
+            "quotaId":"MSDN_2014-05-01",
+            "spendingLimit":"On"}
+        }
+    ]
+}
+```
+
+Most programming languages/frameworks make it easy to process the response message, and typically provide this information to you following the request, in a structured format. Mainly, you will be interested in confirming the HTTP status code in the response header, and if succsessful, parsing the response body according to the API specification (or the `Content-Type` response header field).
+
+That's it! Once you have your Azure AD application registered and a canned technique for acquiring and access token and creating and processing HTTP requests, it's fairly easy to replicate your code to take advantage of new REST APIs.
 
 ## Related content
-- [Integrating applications with Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-integrating-applications/)
-- For testing HTTP requests/responses, checkout [Fiddler](http://www.telerik.com/fiddler)
 
-- Token inspection
+- See [Integrating applications with Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-integrating-applications/) for more information on application registration and the the Azure AD programming model.
+- For testing HTTP requests/responses, checkout [Fiddler](http://www.telerik.com/fiddler). Fiddler provides the ability to diagnose your HTTP request and response messages.
+- Tools like the [JWT Decoder](http://jwt.calebb.net/) and [JWT.io](https://jwt.io/) make it quick and easier to dump the claims in a bearer token.
+
+Please use the LiveFyre comments section that follows this article to provide feedback and help us refine and shape our content.
