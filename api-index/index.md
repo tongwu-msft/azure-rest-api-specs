@@ -23,7 +23,8 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 - How to create a REST request
 - How to handle the REST response
 
-> [!NOTE] For almost all Azure service REST APIs, there is a corresponding client SDK library which handles much of the client code for you. See:  
+> [!NOTE] 
+> For almost all Azure service REST APIs, there is a corresponding client SDK library which handles much of the client code for you. See:  
 > 
 > [Azure .NET SDK](https://docs.microsoft.com/dotnet/api)  
 > [Azure Java SDK](https://docs.microsoft.com/java/api)  
@@ -56,14 +57,13 @@ If you are using a REST API that does not use integrated Azure AD authentication
 
 ### Prerequisites
 
-[Client applications](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#client-application) must make their configuration known to Azure AD before run-time, via an [Azure AD tenant's](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#tenant) application registry. If you do not have an Azure AD tenant yet, please see [How to get an Azure Active Directory tenant](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/) before continuing. 
+Your [client application](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#client-application) must make it's identity configuration known to Azure AD before run-time, by registering it in an [Azure AD tenant](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#tenant). Below is a list of items to consider before registering your client with Azure AD: 
 
-After you have access to an Azure AD tenant, consider the following important concepts before you register your client:
-
+- If you do not have an Azure AD tenant yet, please see [How to get an Azure Active Directory tenant](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/). 
 - Per the OAuth2 Authorization Framework, Azure AD supports 2 types of clients. Understanding each will help you decide which is the most appropriate for your scenario:  
     - [web/confidential](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#web-client) clients (run on a web server) can access resources under either their own identity (service/daemon), or obtain delegated authorization to access resources under the identity of the signed-in user (web app UI). Only a web client has the ability to securely maintain and present it's own credentials during Azure AD authentication to acquire an access token.  
     - [native/public](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#native-client) clients (installed/run on a device) can only access resources under delegated authorization, using the identity of the signed-in user to acquire an access token on behalf of the user.
-- The registration process will create 2 related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at run-time, please review [Application and service principal objects in Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-application-objects/) before continuing.
+- The registration process will create 2 related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at run-time, please review [Application and service principal objects in Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-application-objects/).
 
 Now we are ready to register your client application with Azure AD.
 
