@@ -268,6 +268,6 @@
 # [Storage](../documentation/storage/index.md)
 ## [Storage Accounts](storage/StorageAccounts.json)
 ## [Usage](storage/Usage.json)
-# Traffic Manager
+# [Traffic Manager](../documentation/trafficmanager/index.md)
 ## [Endpoints](trafficmanager/Endpoints.json)
 ## [Profiles](trafficmanager/Profiles.json)
