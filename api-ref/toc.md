@@ -77,7 +77,7 @@
 ## [Operations](cdn/Operations.json)
 ## [Origins](cdn/Origins.json)
 ## [Profiles](cdn/Profiles.json)
-# Container Registry
+# [Container Registry](../documentation/containerregistry/index.md)
 ## [Registries](containerregistry/Registries.json)
 # [Cognitive Services](../documentation/cognitiveservices/index.md)
 ## [Cognitive Services Accounts](cognitiveservices/CognitiveServicesAccounts.json)
