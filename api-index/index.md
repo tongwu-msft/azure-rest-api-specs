@@ -61,7 +61,7 @@ Your [client application](https://azure.microsoft.com/documentation/articles/act
 
 - If you do not have an Azure AD tenant yet, please see [How to get an Azure Active Directory tenant](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/). 
 - Per the OAuth2 Authorization Framework, Azure AD supports 2 types of clients. Understanding each will help you decide which is the most appropriate for your scenario:  
-    - [web/confidential](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#web-client) clients (runs on a web server) can access resources under either their own identity (ie: service/daemon), or obtain delegated authorization to access resources under the identity of the signed-in user (ie: web app). Only a web client has the ability to securely maintain and present it's own credentials during Azure AD authentication to acquire an access token.  
+    - [web/confidential](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#web-client) clients (runs on a web server) can access resources under either their own identity (ie: service/daemon), or obtain delegated authorization to access resources under the identity of the signed-in user (ie: web app). Only a web client has the ability to securely maintain and present it's own credentials during Azure AD authentication to acquire an access token.
     - [native/public](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#native-client) clients (installed/runs on a device) can only access resources under delegated authorization, using the identity of the signed-in user to acquire an access token on behalf of the user.
 - The registration process will create 2 related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at run-time, please review [Application and service principal objects in Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-application-objects/).
 
@@ -89,13 +89,13 @@ This section covers the first 3 of the 5 components we discussed earlier. First 
 
 Once you have a valid client registration, there are essentially 2 ways of integrating with Azure AD to acquire an access token:
 
-- Using Azure AD's platform/language-neutral OAuth2 service endpoints. Just like the Azure REST API endpoints you are using, the instructions provided in this section make no assumptions about your client's platform or language/script when using the Azure AD endpoints; only that it can send/receive HTTPS requests to/from Azure AD, and parse the response message.  
-- Using the platform/language-specific Azure AD Authentication Libraries (ADAL). The libraries provide asynchronous wrappers for the OAuth2 endpoint requests, and robust token handling features such as caching and refresh token management. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries](https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/).
+- Azure AD's platform/language-neutral OAuth2 service endpoints, which is what we will use. Just like the Azure REST API endpoints you are using, the instructions provided in this section make no assumptions about your client's platform or language/script when using the Azure AD endpoints; only that it can send/receive HTTPS requests to/from Azure AD, and parse the response message.  
+- The platform/language-specific Azure AD Authentication Libraries (ADAL). The libraries provide asynchronous wrappers for the OAuth2 endpoint requests, and robust token handling features such as caching and refresh token management. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries](https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/).
 
 The 2 Azure AD endpoints you will be using to authenticate your client and acquire an access token are referred to as the OAuth2 `/authorize` and `/token` endpoints. How you use them will be dependent on your application's registration, and the type of [OAuth2 authorization grant flow](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant) you need in order to support your application at run-time. For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows: authorization code or client credentials. Follow the instructions for the one that best matches your scenario, to acquire the access token you will use in the remaining sections.
 
 #### Authorization code grant (interactive clients)
-This grant can be used by both web and native clients, and requires credentials from a signed-in end-user in order to delegate resource access to the client application. This grant uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in/consent), and the `/token` endpoint to exchange the authorization code for an access token.  
+This grant can be used by both web and native clients, and requires credentials from a signed-in user in order to delegate resource access to the client application. It uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in/consent), followed by the `/token` endpoint to exchange the authorization code for an access token.  
 
 1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for details on the format of the HTTPS GET request to the `/authorize` endpoint, and example request/response messages. The URI will contain query string parameters, including the following that are specific to your client application:
 
@@ -104,40 +104,56 @@ This grant can be used by both web and native clients, and requires credentials 
     - `resource` - a URL-encoded identifier URI specified by the REST API you are calling. Web/REST APIs (also known as resource applications) can expose one or more application ID URIs in their configuration. For example:  
 
         - Azure Resource Manager provider (and classic Service Management) APIs use `https://management.core.windows.net/`  
-        - For any other resources, see the API documentation or the resource application's configuration in the Azure portal. See also the [`identifierUris` property](https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity) of the Azure AD application object for more details.
+        - For any other resources, see the API documentation or the resource application's configuration in the Azure portal. See also the [`identifierUris` property](https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity) of the Azure AD application object for more details.  
 
-    The request to the /authorize endpoint will also trigger a sign-in prompt to authenticate the end-user. The response you get back will be delivered as a redirect (302) to the URI you specified in `redirect_uri`. The response header message will contain a `location` field, which contains the redirect URI followed by a `code` query parameter, containing the authorization code you will need for step #2. 
+    The request to the `/authorize` endpoint will first trigger a sign-in prompt to authenticate the end-user. The response you get back will be delivered as a redirect (302) to the URI you specified in `redirect_uri`. The response header message will contain a `location` field, which contains the redirect URI followed by a `code` query parameter, containing the authorization code you will need for step #2. 
 
-2. Next, your client will need to redeem the authorization code for an access token. See [Use the authorization code to request an access token](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#use-the-authorization-code-to-request-an-access-token) for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages. This time, the request will contain parameters in the request body, specific to your application. Including some of the same ones mentioned above (along with other new ones), you will pass :
+2. Next, your client will need to redeem the authorization code for an access token. See [Use the authorization code to request an access token](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#use-the-authorization-code-to-request-an-access-token) for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages. Because this is a POST request, this time you will package your application-specific parameters in the request body. In addition to some of the ones mentioned above (along with other new ones), you will pass :
 
     - `code` - this is the query parameter that will contain the authorization code you obtained in step #1.
     - `client_secret` - you will only need this parameter if your client is configured as a web application. This is the same secret/key value you generated earlier, in [client registration](#client-registration).
 
 #### Client credentials grant (non-interactive clients)
-This grant can only be used by web clients, allowing the application to access resources directly (no user delegation) using its own credentials, which are provided at registration time. This grant is typically used by non-interactive (no UI) clients running as a daemon/service, and uses only the `/token` endpoint to acquire an access token.
+This grant can only be used by web clients, allowing the application to access resources directly (no user delegation) using its own credentials, which are provided at registration time. It's typically used by non-interactive (no UI) clients running as a daemon/service, and requires only the `/token` endpoint to acquire an access token.
 
-Many of the interactions were illustrated earlier in steps #1 and #2 of the authorization code grant. For brevity, we will only highlight the interactions for this grant.
+The client/resource interactions for this grant are very similar to step #2 of the authorization code grant. Please see the "Request an Access Token" section in [Service to service calls using client credentials](https://azure.microsoft.com/en-us/documentation/articles/active-directory-protocols-oauth-service-to-service/#request-an-access-token) for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages.
 
 ### Request URI
-Your request URI will be determined by it's related REST API specification. 
 
-
-Here's an example of
+Your service's request URI and any required query string parameters will be determined by it's related REST API specification.
 
 - Azure Resource Manager provider (and classic Service Management) APIs use `https://management.azure.com/`  
 - Classic Azure Service Management APIs use `https://management.core.windows.net/`  
-
+- etc.
 
 ### Request message header
-Your request message head fields will also be determined by the REST API spec, but 
+Your request message head fields will also be determined by your service's REST API specification, along with the HTTP specification. For a request secured by an OAuth2 bearer token, the request header will also include the `Authorize` header. 
 
-- Set the Content-Type header to application/json
+Here are some common headers you might need in your request:
+
+- Authorize: contains the bearer token issued by Azure AD to secure the request
+- Content-Type: typically set to "application/json"
+- Host: this is the domain name or IP address of the server where the REST service endpoint is hosted
 
 ### Request message body
-Finally, as mentioned earlier, the request message body is optional, depending on the specific operation you're requesting and its parameter requirements.
+As mentioned earlier, the request message body is optional, depending on the specific operation you're requesting and its parameter requirements. If it's required, the API specification for the service you are requesting will also specify the requirements.
+
+
 
 ### Make the request
-You are now ready to send the request to the REST service endpoint. After you make the request, a the response message header and optional body will be returned.
+Now that you have the service's request URI and have created the related request message header, you are ready to send the request to the REST service endpoint. After you make the request, a the response message header and optional body will be returned.
+
+For example, a GET request method for an Azure Resource Manager provider might look like this:
+
+```
+GET https://management.azure.com/subscriptions?api-version=2014-04-01-preview`
+```
+
+For example, a PUT request method for an Azure Resource Manager provider might look like this:
+
+```
+GET https://management.azure.com/subscriptions?api-version=2014-04-01-preview`
+```
 
 ## Process the response
 Now we'll finish with the last 2 of the 5 components, and build out your client code to handle the response message.
