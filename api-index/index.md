@@ -164,5 +164,4 @@ In the example provided above, we used the /subscriptions endpoint to retrieve t
 - [Integrating applications with Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-integrating-applications/)
 - For testing HTTP requests/responses, checkout [Fiddler](http://www.telerik.com/fiddler)
 
-Token inspection
-
+- Token inspection
