@@ -24,7 +24,7 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 - How to handle the REST response
 
 > [!NOTE] 
-> For almost all Azure service REST APIs, there is a corresponding client SDK library which handles much of the client code for you. See:  
+> Most Azure service REST APIs have a corresponding client SDK library, which handles much of the client code for you. See:  
 > 
 > [Azure .NET SDK](https://docs.microsoft.com/dotnet/api)  
 > [Azure Java SDK](https://docs.microsoft.com/java/api)  
@@ -61,8 +61,8 @@ Your [client application](https://azure.microsoft.com/documentation/articles/act
 
 - If you do not have an Azure AD tenant yet, please see [How to get an Azure Active Directory tenant](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/). 
 - Per the OAuth2 Authorization Framework, Azure AD supports 2 types of clients. Understanding each will help you decide which is the most appropriate for your scenario:  
-    - [web/confidential](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#web-client) clients (run on a web server) can access resources under either their own identity (service/daemon), or obtain delegated authorization to access resources under the identity of the signed-in user (web app UI). Only a web client has the ability to securely maintain and present it's own credentials during Azure AD authentication to acquire an access token.  
-    - [native/public](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#native-client) clients (installed/run on a device) can only access resources under delegated authorization, using the identity of the signed-in user to acquire an access token on behalf of the user.
+    - [web/confidential](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#web-client) clients (runs on a web server) can access resources under either their own identity (ie: service/daemon), or obtain delegated authorization to access resources under the identity of the signed-in user (ie: web app). Only a web client has the ability to securely maintain and present it's own credentials during Azure AD authentication to acquire an access token.  
+    - [native/public](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#native-client) clients (installed/runs on a device) can only access resources under delegated authorization, using the identity of the signed-in user to acquire an access token on behalf of the user.
 - The registration process will create 2 related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at run-time, please review [Application and service principal objects in Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-application-objects/).
 
 Now we are ready to register your client application with Azure AD.
@@ -89,12 +89,10 @@ This section covers the first 3 of the 5 components we discussed earlier. First 
 
 Once you have a valid client registration, there are essentially 2 ways of integrating with Azure AD to acquire an access token:
 
-- Using Azure AD's platform/language-neutral OAuth2 service endpoints, which is the focus of this section  
+- Using Azure AD's platform/language-neutral OAuth2 service endpoints. Just like the Azure REST API endpoints you are using, the instructions provided in this section make no assumptions about your client's platform or language/script when using the Azure AD endpoints; only that it can send/receive HTTPS requests to/from Azure AD, and parse the response message.  
 - Using the platform/language-specific Azure AD Authentication Libraries (ADAL). The libraries provide asynchronous wrappers for the OAuth2 endpoint requests, and robust token handling features such as caching and refresh token management. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries](https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/).
 
-Just like the Azure REST API endpoints you are using, the instructions provided in this section make no assumptions about your client's platform or language/script when using the Azure AD endpoints; only that it can send/receive HTTPS requests to/from Azure AD, and parse the response message. The 2 Azure AD endpoints you will be using are referred to as the OAuth2 `/authorize` and `/token` endpoints. How you use those endpoints will be dependent on your application's registration, and the type of [OAuth2 authorization grant flow](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant) you use to support your application at run-time.  
-
-For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows: authorization code or client credentials. Follow the instructions for the one that best matches your scenario, to acquire the access token you will use in the remaining sections:
+The 2 Azure AD endpoints you will be using to authenticate your client and acquire an access token are referred to as the OAuth2 `/authorize` and `/token` endpoints. How you use them will be dependent on your application's registration, and the type of [OAuth2 authorization grant flow](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant) you need in order to support your application at run-time. For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows: authorization code or client credentials. Follow the instructions for the one that best matches your scenario, to acquire the access token you will use in the remaining sections.
 
 #### Authorization code grant (interactive clients)
 This grant can be used by both web and native clients, and requires credentials from a signed-in end-user in order to delegate resource access to the client application. This grant uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in/consent), and the `/token` endpoint to exchange the authorization code for an access token.  
