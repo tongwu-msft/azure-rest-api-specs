@@ -1,6 +1,7 @@
 ---
 uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_CreateOrUpdate
-remarks: *content
+summary: Create or update a virtual machine in the specified subscription.
+description: *content
 ---
 
-This shows an example of creating a VM from a generalized/sysprepped user image. The key things to notice are the value fromImage for the createOption property and image.uri and vhd.uri properties in the osDisk object. image.uri is the location of your image and vhd.uri is where that disk will be copied to and the VM be booted from.
+For the update scenario, a PUT or PATCH request can be submitted with a subset of the VM properties. Alternatively, the RESTful way is to do a GET, tweak the properties and submit a PUT request. For non-updateable properties, it’s OK to be specify them in Update request but they must have the same values as returned by GET. For examples of different VM configurations, see [VM configurations](vm-configurations.md).
