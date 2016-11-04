@@ -241,6 +241,7 @@ Please use the LiveFyre comments section that follows this article to provide fe
 
 
 <!--Reference style links: ACOM -->
+<!--
 [AAD-Apps-And-Sps]: https://azure.microsoft.com/documentation/articles/active-directory-application-objects/
 [AAD-Auth-Libraries]: https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/
 [AAD-Dev-Guide]: https://azure.microsoft.com/documentation/articles/active-directory-developers-guide/
@@ -260,10 +261,9 @@ Please use the LiveFyre comments section that follows this article to provide fe
 [AAD-Oauth-Code-Token]: https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#use-the-authorization-code-to-request-an-access-token
 [ARM-Create-Sp-Portal]: https://azure.microsoft.com/documentation/articles/resource-group-create-service-principal-portal/
 [ARM-Provider-Summary]: https://azure.microsoft.com/documentation/articles/resource-manager-supported-services/
-
+-->
 <!--Reference style links: DOCS -->
 
-<!--
 [AAD-Apps-And-Sps]: ../../Azure/active-directory/active-directory-application-objects.md
 [AAD-Auth-Libraries]: ../../Azure/active-directory/active-directory-authentication-libraries.md
 [AAD-Dev-Guide]: ../../Azure/active-directory/active-directory-developers-guide.md
@@ -284,4 +284,3 @@ Please use the LiveFyre comments section that follows this article to provide fe
 [ARM-Create-Sp-Portal]: ../../Azure/active-directory/resource-group-create-service-principal-portal.md
 [ARM-Provider-Summary]: ../../Azure/active-directory/active-directory-editions.md
 
--->
