@@ -44,6 +44,7 @@
 ## [Role Assignments](authorization/RoleAssignments.json)
 ## [Role Definitions](authorization/RoleDefinitions.json)
 # [Azure Machine Learning](../documentation/machinelearning/index.md)
+## [Common Parameters and Headers](../documentation/machinelearning/common-parameters-headers.md)
 ## [Commitment Associations](machineLearning/CommitmentAssociations.json)
 ## [Commitment Plans](machineLearning/CommitmentPlans.json)
 ## [Usage History](machineLearning/UsageHistory.json)
