@@ -83,7 +83,7 @@ For all other clients, refer to [Integrating applications with Azure Active Dire
 Now that you've completed registration of your client application, we can move to your client's code, where we will add code to create the REST request and handle the response.
 
 ## Create the request
-This section covers the first 3 of the 5 components we discussed earlier. First we need to acquire the access token from Azure AD, which we will use in our request message header.
+This section covers the first 3 of the 5 components we discussed earlier. First we need to acquire the access token from Azure AD, which we will use in assembling our request message header.
 
 ### Acquire an access token
 
@@ -94,7 +94,8 @@ Once you have a valid client registration, there are essentially 2 ways of integ
 
 The 2 Azure AD endpoints you will be using to authenticate your client and acquire an access token are referred to as the OAuth2 `/authorize` and `/token` endpoints. How you use them will be dependent on your application's registration, and the type of [OAuth2 authorization grant flow](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant) you need in order to support your application at run-time. For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows: authorization code or client credentials. Follow the instructions for the one that best matches your scenario, to acquire the access token you will use in the remaining sections.
 
-**Authorization code grant (interactive clients)**  
+#### Authorization code grant (interactive clients)
+
 This grant can be used by both web and native clients, and requires credentials from a signed-in user in order to delegate resource access to the client application. It uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in/consent), followed by the `/token` endpoint to exchange the authorization code for an access token.  
 
 1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for details on the format of the HTTPS GET request to the `/authorize` endpoint, and example request/response messages. The URI will contain query string parameters, including the following that are specific to your client application:
@@ -113,12 +114,13 @@ This grant can be used by both web and native clients, and requires credentials 
     - `code` - this is the query parameter that will contain the authorization code you obtained in step #1.
     - `client_secret` - you will only need this parameter if your client is configured as a web application. This is the same secret/key value you generated earlier, in [client registration](#client-registration).
 
-**Client credentials grant (non-interactive clients)**  
+#### Client credentials grant (non-interactive clients)
+
 This grant can only be used by web clients, allowing the application to access resources directly (no user delegation) using the client's own credentials, which are provided at registration time. It's typically used by non-interactive clients (no UI) running as a daemon/service, and requires only the `/token` endpoint to acquire an access token.
 
 The client/resource interactions for this grant are very similar to step #2 of the authorization code grant. Please see the "Request an Access Token" section in [Service to service calls using client credentials](https://azure.microsoft.com/en-us/documentation/articles/active-directory-protocols-oauth-service-to-service/#request-an-access-token) for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages.
 
-### Assemble the request
+### Assemble the request message
 
 #### Request URI
 Note that most programming languages/frameworks and scripting environments make it easy to create and send the request message. They typically provide a web/HTTP class or API that abstracts the creation/formatting of the request, making it easier to write the client code (ie: the HttpWebRequest class in the .NET Framework, for example). For brevity, we will only cover the important elements of the request, given that most of this will be handled for you.
@@ -137,8 +139,8 @@ All of this will be bundled in the request message header, along with any other 
 #### Request body
 As mentioned earlier, the request message body is optional, depending on the specific operation you're requesting and its parameter requirements. If it's required, the API specification for the service you are requesting will also specify the requirements.
 
-#### Sending the request
-Now that you have the service's request URI and have created the related request message header, you are ready to send the request to the REST service endpoint. After you make the request, the response message header and optional body will be returned.
+## Send the request
+Now that you have the service's request URI and have created the related request message header, you are ready to send the request to the REST service endpoint. 
 
 For example, an HTTPS GET request method for an Azure Resource Manager provider might require request header fields similar to the following, but notice the request body is empty:
 
@@ -164,7 +166,9 @@ Host: management.azure.com
 }
 ```
 
-## Process the response
+After you make the request, the response message header and optional body will be returned.
+
+## Process the response message
 
 Now we'll finish with the last 2 of the 5 components. To process the response, you will need to parse the response header and optionally the response body (depending on the request).
 
