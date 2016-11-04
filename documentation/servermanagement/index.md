@@ -10,7 +10,7 @@ ms.manager: douge
 
 # Azure Server Manager
 
-Azure Server Management REST API provides programmatic access to much of the functionality available through the [Azure Portal](https://portal.azure.com).
+The Azure Server Management REST API provides programmatic access to much of the functionality available through the [Azure Portal](https://portal.azure.com).
 
 > [!IMPORTANT]
 > The Azure Server Management REST API provides access to the classic model of deployment, which is not supported by all new services. Microsoft recommends using the Resource Manager deployment model. For more information, see [Azure Resource Manager vs. classic deployment: Understand deployment models and the state of your resources](https://azure.microsoft.com/en-us/documentation/articles/resource-manager-deployment-model/).
