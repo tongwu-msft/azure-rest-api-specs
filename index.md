@@ -1,3 +1,3 @@
 --- 
-redirect_url: /api/rest/index
+redirect_url: /api/index
 ---

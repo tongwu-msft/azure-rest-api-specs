@@ -118,22 +118,26 @@ This grant can only be used by web clients, allowing the application to access r
 
 The client/resource interactions for this grant are very similar to step #2 of the authorization code grant. Please see the "Request an Access Token" section in [Service to service calls using client credentials](https://azure.microsoft.com/en-us/documentation/articles/active-directory-protocols-oauth-service-to-service/#request-an-access-token) for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages.
 
-### Assemble the request URI and message header/body
+### Assemble the request
 
-Note that most programming languages/frameworks and scripting environments make it easy to create and send the request message. They typically provide a web/HTTP class or API that abstracts the creation/handling of the request, making it easier to write the client code (ie: the HttpWebRequest class in the .NET Framework, for example). For brevity, we will only cover the important elements of the request, given that most of this will be handled for you.
+#### Request URI
+Note that most programming languages/frameworks and scripting environments make it easy to create and send the request message. They typically provide a web/HTTP class or API that abstracts the creation/formatting of the request, making it easier to write the client code (ie: the HttpWebRequest class in the .NET Framework, for example). For brevity, we will only cover the important elements of the request, given that most of this will be handled for you.
 
 All secured REST requests require the HTTPS protocol for the URI scheme, providing the request and response with a secure channel, due to the fact that sensitive information is transmitted/received. This information (ie: the Azure AD authorization code, access/bearer token, sensitive request/response data) gets encrypted by a lower transport layer, ensuring the privacy of the messages. 
 
 The remainder of your service's request URI (the host, resource path, and any required query string parameters) will be determined by it's related REST API specification. For example, Azure Resource Manager provider APIs use `https://management.azure.com/`, classic Azure Service Management APIs use `https://management.core.windows.net/`, both require an `api-version` query string parameter, etc.
 
+#### Request header
 All of this will be bundled in the request message header, along with any other fields as determined by your service's REST API specification and the HTTP specification. Here are some common headers you might need in your request:
 
 - `Authorization`: contains the OAuth2 bearer token issued by Azure AD to secure the request
 - `Content-Type`: typically set to "application/json"
 - `Host`: this is the domain name or IP address of the server where the REST service endpoint is hosted
 
+#### Request body
 As mentioned earlier, the request message body is optional, depending on the specific operation you're requesting and its parameter requirements. If it's required, the API specification for the service you are requesting will also specify the requirements.
 
+#### Sending the request
 Now that you have the service's request URI and have created the related request message header, you are ready to send the request to the REST service endpoint. After you make the request, the response message header and optional body will be returned.
 
 For example, an HTTPS GET request method for an Azure Resource Manager provider might require request header fields similar to the following, but notice the request body is empty:
