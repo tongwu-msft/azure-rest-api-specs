@@ -1,3 +1,3 @@
-# [Application](HDInsightREST/hdinsight-application.md)
-# [Cluster](HDInsightREST/hdinsight-cluster.md)
+# [Application](hdinsight-application.md)
+# [Cluster](hdinsight-cluster.md)
 
