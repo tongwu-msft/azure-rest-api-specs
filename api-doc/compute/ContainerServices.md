@@ -15,8 +15,9 @@ description: *content
 
 These links will be useful when creating the request:
 
+- [Create a resource group](../../api-ref/resources/resourcegroups.json#ResourceGroups_CreateOrUpdate)
+- [Create a storage account](../../api-ref/storage/storageaccounts.json#StorageAccounts_Create)
 - [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations)
-- [Using tags to organize your resources](https://azure.microsoft.com/en-us/documentation/articles/resource-group-using-tags/)
 
 See examples of requests for [different container service configurations](acs-createexamples.md).
 
