@@ -1,0 +1,144 @@
+# Staging an overwrite
+
+What follows is a how-to (from a git perspective) for getting an overwrite staged on [review.docs.microsoft.com](https://review.docs.microsoft.com).
+
+## Prerequisites
+
+### Request write permissions to azure-docs-rest-apis
+
+**NOTE: This is a temprorary requirement.** This step will be unnecessary in the future, and your write permissions will (likely) be revoked on or around 14 November 2016.
+
+**How:** Send an email to [Brady Gaster](mailto:bradyg@microsoft.com) and request **write access** to the **azure-docs-rest-apis** repository, stating that you need to be able to add overwrites for your service.
+
+**Why:** This allows you to create branches in the repo, a current requirement for triggering OPS builds when you commit > push > issue PRs for your overwrites.
+
+### Clone the azure-docs-rest-apis repo
+
+If you haven't already, create a local clone of the the **azure-docs-rest-apis** repo and `cd` into the new clone's directory:
+
+```bash
+marsma@MARSMA-01 MINGW64 /c/repos
+$ git clone https://mmacy:12345678abcdef12345678@github.com/Azure/azure-docs-rest-apis.git
+Cloning into 'azure-docs-rest-apis'...
+remote: Counting objects: 1581, done.
+remote: Compressing objects: 100% (11/11), done.
+remote: Total R15e81 (delta 2), reused 0 (delta 0), pack-reused 1570
+Receiving objects: 100% (1581/1581), 2.61 MiB | 1.72 MiB/s, done.
+Resolving deltas: 100% (982/982), done.
+Checking connectivity... done.
+Checking out files: 100% (224/224), done.
+
+marsma@MARSMA-01 MINGW64 /c/repos
+$ cd azure-docs-rest-apis
+```
+
+**IMPORTANT!** This process differs from our azure-content-pr setup in that we're cloning the "main" **Azure/azure-docs-rest-apis** repo, NOT our *fork* of the repo.
+
+## Step-by-step: staging an overwrite
+
+1. Checkout `master` and `pull` to ensure you're local clone is up to date
+
+```bash
+marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (some-other-branch)
+$ git checkout master
+Switched to branch 'master'
+Your branch is behind 'origin/master' by 11 commits, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+
+marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (master)
+$ git pull
+Updating fa16bdb..f30ea4c
+Fast-forward
+ api-ref/apimanagement/ApiManagementServices.json   | 1160 ++++++++
+ api-ref/apimanagement/ApiOperations.json           | 2687 +++++++++++++++++++
+ api-ref/apimanagement/ApiProducts.json             | 2489 +++++++++++++++++
+ ...
+```
+
+2. Create a local working branch
+
+```bash
+marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (master)
+$ git checkout -b batch-overwrite-pool_list
+Switched to a new branch 'batch-overwrite-pool_list'
+```
+
+3. Make your edits, add files, etc.
+4. `add`, `commit`, and `push` to remote
+
+```bash
+marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
+$ git status
+On branch batch-overwrite-pool_list
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        api-doc/batch/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
+$ git add .
+
+marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
+$ git commit -m "[batch] overwrite adding pool_list filter options"
+[batch-overwrite-pool_list e6e4427] [batch] overwrite adding pool_list filter options
+ 1 file changed, 20 insertions(+)
+ create mode 100644 api-doc/batch/Pool.md
+
+marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
+$ git push origin batch-overwrite-pool_list
+Counting objects: 5, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (5/5), 770 bytes | 0 bytes/s, done.
+Total 5 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local objects.
+To https://mmacy:4c86badadadfe072b3cbab94d2f7531b46a0d961@github.com/Azure/azure-docs-rest-apis.git
+ * [new branch]      batch-overwrite-pool_list -> batch-overwrite-pool_list
+```
+
+5. Verify the build was completed and published in the [OPS Publishing History](https://op-portal-prod.azurewebsites.net/#/containers/history/repositories/All)
+
+![OPS build portal](./images/overwrites_in_gitbash_03.png)
+
+6. Check the published changes in your branch on review.docs.microsoft.com. The URL is in the form:
+
+```
+https://review.docs.microsoft.com/en-us/rest/api/<servicename>/index?branch=<my-branch-name>
+```
+
+Example:
+```
+https://review.docs.microsoft.com/en-us/rest/api/batch/index?branch=batch-overwrite-pool_list
+```
+
+In this particular overwrite, I replaced the Pool_List `description`, adding a table that specifies the supported filter values:
+
+![PR creation in GitHub](./images/overwrites_in_gitbash_04.png)
+
+7. Create the PR in GitHub
+
+![Image of PR creation in GitHub](./images/overwrites_in_gitbash_01.png)
+
+8. Verify **All checks have passed** on the PR
+
+![CI check status GitHub](./images/overwrites_in_gitbash_02.png)
+
+9. Merging is now in the hands of those with the permissions to do so.
+
+## `git` command summary
+
+The abbreviated process to stage (not including [cloning the repo](#prerequisites)) is as such:
+
+```bash
+$ git checkout master
+$ git pull
+$ git checkout -b my_local_branch
+...add/edit your overwrite files...
+$ git add my_awesome_overwrite.md
+$ git commit -m "commit message detailing overwrite intention"
+$ git push origin my_local_branch
+ ```
+
+After that last `push` command, you're at **step 5** above.
