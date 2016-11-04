@@ -32,98 +32,98 @@ marsma@MARSMA-01 MINGW64 /c/repos
 $ cd azure-docs-rest-apis
 ```
 
-**IMPORTANT!** This process differs from our azure-content-pr setup in that we're cloning the "main" **Azure/azure-docs-rest-apis** repo, NOT our *fork* of the repo.
+**IMPORTANT!** This process differs from our azure-content-pr setup in that you need to clone the "main" **Azure/azure-docs-rest-apis** repo, NOT our *fork* of the repo.
 
 ## Step-by-step: staging an overwrite
 
 1. Checkout `master` and `pull` to ensure you're local clone is up to date
 
-```bash
-marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (some-other-branch)
-$ git checkout master
-Switched to branch 'master'
-Your branch is behind 'origin/master' by 11 commits, and can be fast-forwarded.
-  (use "git pull" to update your local branch)
+  ```bash
+  marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (some-other-branch)
+  $ git checkout master
+  Switched to branch 'master'
+  Your branch is behind 'origin/master' by 11 commits, and can be fast-forwarded.
+    (use "git pull" to update your local branch)
 
-marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (master)
-$ git pull
-Updating fa16bdb..f30ea4c
-Fast-forward
- api-ref/apimanagement/ApiManagementServices.json   | 1160 ++++++++
- api-ref/apimanagement/ApiOperations.json           | 2687 +++++++++++++++++++
- api-ref/apimanagement/ApiProducts.json             | 2489 +++++++++++++++++
- ...
-```
+  marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (master)
+  $ git pull
+  Updating fa16bdb..f30ea4c
+  Fast-forward
+  api-ref/apimanagement/ApiManagementServices.json   | 1160 ++++++++
+  api-ref/apimanagement/ApiOperations.json           | 2687 +++++++++++++++++++
+  api-ref/apimanagement/ApiProducts.json             | 2489 +++++++++++++++++
+  ...
+  ```
 
 2. Create a local working branch
 
-```bash
-marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (master)
-$ git checkout -b batch-overwrite-pool_list
-Switched to a new branch 'batch-overwrite-pool_list'
+  ```bash
+  marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (master)
+  $ git checkout -b batch-overwrite-pool_list
+  Switched to a new branch 'batch-overwrite-pool_list'
 ```
 
 3. Make your edits, add files, etc.
 4. `add`, `commit`, and `push` to remote
 
-```bash
-marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
-$ git status
-On branch batch-overwrite-pool_list
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
+  ```bash
+  marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
+  $ git status
+  On branch batch-overwrite-pool_list
+  Untracked files:
+    (use "git add <file>..." to include in what will be committed)
 
-        api-doc/batch/
+          api-doc/batch/
 
-nothing added to commit but untracked files present (use "git add" to track)
+  nothing added to commit but untracked files present (use "git add" to track)
 
-marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
-$ git add .
+  marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
+  $ git add .
 
-marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
-$ git commit -m "[batch] overwrite adding pool_list filter options"
-[batch-overwrite-pool_list e6e4427] [batch] overwrite adding pool_list filter options
- 1 file changed, 20 insertions(+)
- create mode 100644 api-doc/batch/Pool.md
+  marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
+  $ git commit -m "[batch] overwrite adding pool_list filter options"
+  [batch-overwrite-pool_list e6e4427] [batch] overwrite adding pool_list filter options
+  1 file changed, 20 insertions(+)
+  create mode 100644 api-doc/batch/Pool.md
 
-marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
-$ git push origin batch-overwrite-pool_list
-Counting objects: 5, done.
-Delta compression using up to 4 threads.
-Compressing objects: 100% (4/4), done.
-Writing objects: 100% (5/5), 770 bytes | 0 bytes/s, done.
-Total 5 (delta 1), reused 0 (delta 0)
-remote: Resolving deltas: 100% (1/1), completed with 1 local objects.
-To https://mmacy:4c86badadadfe072b3cbab94d2f7531b46a0d961@github.com/Azure/azure-docs-rest-apis.git
- * [new branch]      batch-overwrite-pool_list -> batch-overwrite-pool_list
-```
+  marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
+  $ git push origin batch-overwrite-pool_list
+  Counting objects: 5, done.
+  Delta compression using up to 4 threads.
+  Compressing objects: 100% (4/4), done.
+  Writing objects: 100% (5/5), 770 bytes | 0 bytes/s, done.
+  Total 5 (delta 1), reused 0 (delta 0)
+  remote: Resolving deltas: 100% (1/1), completed with 1 local objects.
+  To https://mmacy:4c86badadadfe072b3cbab94d2f7531b46a0d961@github.com/Azure/azure-docs-rest-apis.git
+  * [new branch]      batch-overwrite-pool_list -> batch-overwrite-pool_list
+  ```
 
 5. Verify the build was completed and published in the [OPS Publishing History](https://op-portal-prod.azurewebsites.net/#/containers/history/repositories/All)
 
-![OPS build portal](./images/overwrites_in_gitbash_03.png)
+  ![OPS build portal](./images/overwrites_in_gitbash_03.png)
 
 6. Check the published changes in your branch on review.docs.microsoft.com. The URL is in the form:
 
-```
-https://review.docs.microsoft.com/en-us/rest/api/<servicename>/index?branch=<my-branch-name>
-```
+  ```
+  https://review.docs.microsoft.com/en-us/rest/api/<servicename>/index?branch=<my-branch-name>
+  ```
 
-Example:
-```
-https://review.docs.microsoft.com/en-us/rest/api/batch/index?branch=batch-overwrite-pool_list
-```
+  Example:
+  ```
+  https://review.docs.microsoft.com/en-us/rest/api/batch/index?branch=batch-overwrite-pool_list
+  ```
 
-In this particular overwrite, I replaced the Pool_List `description`, adding a table that specifies the supported filter values:
+  In this particular overwrite, I replaced the Pool_List `description`, adding a table that specifies the supported filter values:
 
-![PR creation in GitHub](./images/overwrites_in_gitbash_04.png)
+  ![PR creation in GitHub](./images/overwrites_in_gitbash_04.png)
 
 7. Create the PR in GitHub
 
-![Image of PR creation in GitHub](./images/overwrites_in_gitbash_01.png)
+  ![Image of PR creation in GitHub](./images/overwrites_in_gitbash_01.png)
 
 8. Verify **All checks have passed** on the PR
 
-![CI check status GitHub](./images/overwrites_in_gitbash_02.png)
+  ![CI check status GitHub](./images/overwrites_in_gitbash_02.png)
 
 9. Merging is now in the hands of those with the permissions to do so.
 
