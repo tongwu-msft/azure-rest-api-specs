@@ -22,7 +22,7 @@ The DocumentDB Resource Provider API requires all requests to be versioned. To m
 |[Database Accounts](./databaseaccounts)| Provides operations to manage DocumentDB accounts, including key management, and failover region priority changes for geo-distributed accounts. |
 
 
-## See Also [OPTIONAL]
+## See Also
 
 - [Azure DocumentDB](https://azure.microsoft.com/services/documentdb/)
 - [Azure DocumentDB REST API](https://msdn.microsoft.com/library/azure/dn781481.aspx)
