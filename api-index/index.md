@@ -51,7 +51,7 @@ A REST API request/response pair can be separated into 5 components:
 
 ## Register your client application with Azure AD
 
-Most Azure services (such as [Azure Resource Manager providers](https://azure.microsoft.com/documentation/articles/resource-manager-supported-services/) and the classic Service Management APIs) require your client code to authenticate with valid credentials before you can call the service's API. Authentication is coordinated between the various actors by Azure AD, which provides your client with an [access token](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#access-token) as proof of the authentication/authorization. The token is then sent to the Azure service in the HTTP Authorization header of all subsequent REST API requests. The token's [claims](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#claim) also provide information to the service, allowing it to validate the client and perform any required authorization.
+Most Azure services (such as [Azure Resource Manager providers][ARM-Providers] and the classic Service Management APIs) require your client code to authenticate with valid credentials before you can call the service's API. Authentication is coordinated between the various actors by Azure AD, which provides your client with an [access token](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#access-token) as proof of the authentication/authorization. The token is then sent to the Azure service in the HTTP Authorization header of all subsequent REST API requests. The token's [claims](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#claim) also provide information to the service, allowing it to validate the client and perform any required authorization.
 
 If you are using a REST API that does not use integrated Azure AD authentication, or you've already registered your client, you can skip to the [Create the request](#create-the-request) section. 
 
@@ -114,15 +114,17 @@ This grant can be used by both web and native clients, and requires credentials 
     - `client_secret` - you will only need this parameter if your client is configured as a web application. This is the same secret/key value you generated earlier, in [client registration](#client-registration).
 
 **Client credentials grant (non-interactive clients)**  
-This grant can only be used by web clients, allowing the application to access resources directly (no user delegation) using its own credentials, which are provided at registration time. It's typically used by non-interactive (no UI) clients running as a daemon/service, and requires only the `/token` endpoint to acquire an access token.
+This grant can only be used by web clients, allowing the application to access resources directly (no user delegation) using the client's own credentials, which are provided at registration time. It's typically used by non-interactive clients (no UI) running as a daemon/service, and requires only the `/token` endpoint to acquire an access token.
 
 The client/resource interactions for this grant are very similar to step #2 of the authorization code grant. Please see the "Request an Access Token" section in [Service to service calls using client credentials](https://azure.microsoft.com/en-us/documentation/articles/active-directory-protocols-oauth-service-to-service/#request-an-access-token) for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages.
 
 ### Assemble the request URI and message header/body
 
-All secured REST requests require the HTTPS protocol for the URI scheme, as the request and response require a secure channel, due to the fact that sensitive information is transmitted/received. This information (ie: the Azure AD authorization code, access/bearer token, sensitive request/response data) must therefore be encrypted by a lower transport layer, to ensure the privacy of the messages. 
+Note that most programming languages/frameworks and scripting environments make it easy to create and send the request message. They typically provide a web/HTTP class or API that abstracts the creation/handling of the request, making it easier to write the client code (ie: the HttpWebRequest class in the .NET Framework, for example). For brevity, we will only cover the important elements of the request, given that most of this will be handled for you.
 
-The remainder of your service's request URI (the host, resource path, and any required query string parameters) will be determined by it's related REST API specification. For instance, Azure Resource Manager provider APIs use `https://management.azure.com/`, classic Azure Service Management APIs use `https://management.core.windows.net/`, both require an `api-version` query string parameter, etc.
+All secured REST requests require the HTTPS protocol for the URI scheme, providing the request and response with a secure channel, due to the fact that sensitive information is transmitted/received. This information (ie: the Azure AD authorization code, access/bearer token, sensitive request/response data) gets encrypted by a lower transport layer, ensuring the privacy of the messages. 
+
+The remainder of your service's request URI (the host, resource path, and any required query string parameters) will be determined by it's related REST API specification. For example, Azure Resource Manager provider APIs use `https://management.azure.com/`, classic Azure Service Management APIs use `https://management.core.windows.net/`, both require an `api-version` query string parameter, etc.
 
 All of this will be bundled in the request message header, along with any other fields as determined by your service's REST API specification and the HTTP specification. Here are some common headers you might need in your request:
 
@@ -209,7 +211,7 @@ and a response body similar to:
 }
 ```
 
-Most programming languages/frameworks make it easy to process the response message, and typically provide this information to you following the request, in a structured format. Mainly, you will be interested in confirming the HTTP status code in the response header, and if succsessful, parsing the response body according to the API specification (or the `Content-Type` response header field).
+As with the request, most programming languages/frameworks make it easy to process the response message. They typically provide this information to you following the request, in a structured format. Mainly, you will be interested in confirming the HTTP status code in the response header, and if succsessful, parsing the response body according to the API specification (or the `Content-Type` response header field).
 
 That's it! Once you have your Azure AD application registered and a canned technique for acquiring and access token and creating and processing HTTP requests, it's fairly easy to replicate your code to take advantage of new REST APIs.
 
@@ -220,3 +222,9 @@ That's it! Once you have your Azure AD application registered and a canned techn
 - Tools like the [JWT Decoder](http://jwt.calebb.net/) and [JWT.io](https://jwt.io/) make it quick and easier to dump the claims in a bearer token.
 
 Please use the LiveFyre comments section that follows this article to provide feedback and help us refine and shape our content.
+
+[ARM-Providers]: https://azure.microsoft.com/documentation/articles/resource-manager-supported-services/
+
+<!--
+[ARM-Providers]: ../../Azure/active-directory/active-directory-editions.md
+-->
