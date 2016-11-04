@@ -10,7 +10,7 @@ parameters:
       description: Use the latest version of 2016-03-30.
     - name: location
       description: Specifies the supported Azure location where the resource exists. For more information, see [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations).
-properties:
+definitions:
     - name: tags
       description: Specifies the tags that will be assigned to the availability set. A tag is a key value pair used to identify a resource. For more information, see [Using tags to organize your resources](https://azure.microsoft.com/en-us/documentation/articles/resource-group-using-tags/).
     - name: platformUpdateDomainCount
