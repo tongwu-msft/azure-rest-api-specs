@@ -77,7 +77,7 @@
 # Commerce
 ## [Rate Card](commerce/RateCard.json)
 ## [Usage Aggregates](commerce/UsageAggregates.json)
-# Machine Learning
+# Azure Machine Learning
 ## [Commitment Associations](machineLearning/CommitmentAssociations.json)
 ## [Commitment Plans](machineLearning/CommitmentPlans.json)
 ## [Usage History](machineLearning/UsageHistory.json)
