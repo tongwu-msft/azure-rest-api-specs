@@ -19,6 +19,7 @@ These links will be useful when creating the request:
 - [Using tags to organize your resources](https://azure.microsoft.com/en-us/documentation/articles/resource-group-using-tags/)
 
 See examples of requests for [different container service configurations](acs-createexamples.md).
+
 ---
 uid: management.azure.com/ContainerServiceClient/2016-09-30/ContainerServices_Get
 parameters:
