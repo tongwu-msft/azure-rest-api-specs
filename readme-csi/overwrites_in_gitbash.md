@@ -94,7 +94,7 @@ Compressing objects: 100% (4/4), done.
 Writing objects: 100% (5/5), 770 bytes | 0 bytes/s, done.
 Total 5 (delta 1), reused 0 (delta 0)
 remote: Resolving deltas: 100% (1/1), completed with 1 local objects.
-To https://mmacy:4c86badadadfe072b3cbab94d2f7531b46a0d961@github.com/Azure/azure-docs-rest-apis.git
+To https://mmacy:12345678abcdef12345678@github.com/Azure/azure-docs-rest-apis.git
  * [new branch]      batch-overwrite-pool_list -> batch-overwrite-pool_list
 ```
 
