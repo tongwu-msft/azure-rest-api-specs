@@ -18,10 +18,9 @@ Welcome to the Azure REST API Reference.
 
 Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create/retrieve/update/delete access to the service's resources. The sections below will walk you through:
 
-- The basics of REST API request and response components
+- The basic components of a REST API request/response pair
 - How to register your client application with Azure Active Directory (Azure AD) to secure your REST requests
-- How to create a REST request
-- How to handle the REST response
+- Overviews of creating and sending a REST request, and handling the response
 
 > [!NOTE] 
 > Most Azure service REST APIs have a corresponding client SDK library, which handles much of the client code for you. See:  
@@ -234,8 +233,9 @@ That's it! Once you have your Azure AD application registered, and a componentiz
 ## Related content
 
 - See the [Azure AD Developers Guide][AAD-Dev-Guide] for more information on application registration and the the Azure AD programming model, including a comprehensive index of HowTo and QuickStart articles, and sample code.
-- For testing HTTP requests/responses, checkout [Fiddler](http://www.telerik.com/fiddler). Fiddler provides the ability to diagnose your HTTP request and response messages.
-- Tools like the [JWT Decoder](http://jwt.calebb.net/) and [JWT.io](https://jwt.io/) make it quick and easy to dump the claims in your bearer token to validate the contents.
+- For testing HTTP requests/responses, check out
+    - [Fiddler](http://www.telerik.com/fiddler). Fiddler is a free web debugging proxy that can intercept your REST requests, making it easy to diagnose the HTTP request and response messages.
+    - [JWT Decoder](http://jwt.calebb.net/) and [JWT.io](https://jwt.io/), which make it quick and easy to dump the claims in your bearer token so you can validate their contents.
 
 Please use the LiveFyre comments section that follows this article to provide feedback and help us refine and shape our content.
 
