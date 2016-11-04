@@ -130,19 +130,27 @@ All secured REST requests require the HTTPS protocol for the URI scheme, providi
 The remainder of your service's request URI (the host, resource path, and any required query string parameters) will be determined by it's related REST API specification. For example, Azure Resource Manager provider APIs use `https://management.azure.com/`, classic Azure Service Management APIs use `https://management.core.windows.net/`, both require an `api-version` query string parameter, etc.
 
 #### Request header
-All of this will be bundled in the request message header, along with any other fields as determined by your service's REST API specification and the HTTP specification. Here are some common headers you might need in your request:
+All of this will be bundled in the request message header, along with any other fields as determined by your service's REST API specification and the [HTTP specification](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). Here are some common header fields you might need in your request:
 
 - `Authorization`: contains the OAuth2 bearer token issued by Azure AD to secure the request
-- `Content-Type`: typically set to "application/json"
+- `Content-Type`: typically set to "application/json" (name/value pairs in JSON format), and specifies the MIME type of the request body.
 - `Host`: this is the domain name or IP address of the server where the REST service endpoint is hosted
 
 #### Request body
-As mentioned earlier, the request message body is optional, depending on the specific operation you're requesting and its parameter requirements. If it's required, the API specification for the service you are requesting will also specify the requirements.
+As mentioned earlier, the request message body is optional, depending on the specific operation you're requesting and its parameter requirements. If it's required, the API specification for the service you are requesting will also specify the encoding and format. 
+
+The request body is separated from the header by an empty line, should be formatted per the `Content-Type` header field. An example of an "application/json" formatted body would appear as follows: 
+
+```
+{
+  "<name>": "<value>"
+}
+```
 
 ## Send the request
 Now that you have the service's request URI and have created the related request message header, you are ready to send the request to the REST service endpoint. 
 
-For example, an HTTPS GET request method for an Azure Resource Manager provider might require request header fields similar to the following, but notice the request body is empty:
+For example, an HTTPS GET request method for an Azure Resource Manager provider might be sent using request header fields similar to the following, but notice the request body is empty:
 
 ```
 GET /subscriptions?api-version=2014-04-01-preview HTTP/1.1
@@ -152,7 +160,7 @@ Host: management.azure.com
 <no body>
 ```
 
-And an HTTPS PUT request method for an Azure Resource Manager provider might require request header and body fields similar to the following:
+And an HTTPS PUT request method for an Azure Resource Manager provider might be sent using request header AND body fields similar to the following:
 
 ```
 PUT /subscriptions/03f09293-ce69-483a-a092-d06ea46dfb8c/resourcegroups/ExampleResourceGroup?api-version=2016-02-01  HTTP/1.1
@@ -170,9 +178,9 @@ After you make the request, the response message header and optional body will b
 
 ## Process the response message
 
-Now we'll finish with the last 2 of the 5 components. To process the response, you will need to parse the response header and optionally the response body (depending on the request).
+Now we'll finish with the last 2 of the 5 components. 
 
-In the HTTPS GET example provided above, we used the /subscriptions endpoint to retrieve the list of subscriptions for a user, from our sample client application. Assuming the response was successful, we would receive response header fields similar to the following:
+To process the response, you will need to parse the response header and optionally the response body (depending on the request). In the HTTPS GET example provided above, we used the /subscriptions endpoint to retrieve the list of subscriptions for a user. Assuming the response was successful, we should receive response header fields similar to the following, containing the list of Azure subscriptions and their individual properties :
 
 ```
 HTTP/1.1 200 OK
@@ -198,7 +206,7 @@ and a response body similar to:
 }
 ```
 
-Similarly, for the HTTPS PUT example, we would receive a response header similar to the following, confirming that our PUT operation to add the "ExampleResourceGroup" was successful :
+Similarly, for the HTTPS PUT example, we should receive a response header similar to the following, confirming that our PUT operation to add the "ExampleResourceGroup" was successful :
 
 ```
 HTTP/1.1 200 OK
@@ -219,9 +227,9 @@ and a response body similar to:
 }
 ```
 
-As with the request, most programming languages/frameworks make it easy to process the response message. They typically provide this information to you following the request, in a structured format. Mainly, you will be interested in confirming the HTTP status code in the response header, and if succsessful, parsing the response body according to the API specification (or the `Content-Type` response header field).
+As with the request, most programming languages/frameworks make it easy to process the response message. They typically return this information to your application following the request, allowing you to process it in a typed/structured format. Mainly, you will be interested in confirming the HTTP status code in the response header, and if succsessful, parsing the response body according to the API specification (or the `Content-Type` and `Content-Length` response header fields).
 
-That's it! Once you have your Azure AD application registered and a canned technique for acquiring and access token and creating and processing HTTP requests, it's fairly easy to replicate your code to take advantage of new REST APIs.
+That's it! Once you have your Azure AD application registered, and a componentized technique for acquiring an access token and creating and processing HTTP requests, it's fairly easy to replicate your code to take advantage of new REST APIs.
 
 ## Related content
 
