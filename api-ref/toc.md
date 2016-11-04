@@ -109,6 +109,7 @@
 ## [Record Sets](dns/RecordSets.json)
 ## [Zones](dns/Zones.json)
 # [DocumentDB](../documentation/documentdb/index.md)
+## [Database Accounts](documentdb/DatabaseAccounts.json)
 # [Dev Test Labs](../documentation/DTL/index.md)
 ## [Artifact](DTL/Artifact.json)
 ## [Artifact Source](DTL/ArtifactSource.json)
