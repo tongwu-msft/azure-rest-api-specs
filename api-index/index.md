@@ -51,30 +51,30 @@ A REST API request/response pair can be separated into 5 components:
 
 ## Register your client application with Azure AD
 
-Most Azure services (such as [Azure Resource Manager providers][ARM-Providers] and the classic Service Management APIs) require your client code to authenticate with valid credentials before you can call the service's API. Authentication is coordinated between the various actors by Azure AD, which provides your client with an [access token](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#access-token) as proof of the authentication/authorization. The token is then sent to the Azure service in the HTTP Authorization header of all subsequent REST API requests. The token's [claims](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#claim) also provide information to the service, allowing it to validate the client and perform any required authorization.
+Most Azure services (such as [Azure Resource Manager providers][ARM-Provider-Summary] and the classic Service Management APIs) require your client code to authenticate with valid credentials before you can call the service's API. Authentication is coordinated between the various actors by Azure AD, which provides your client with an [access token][AAD-Glossary-Access-Token] as proof of the authentication/authorization. The token is then sent to the Azure service in the HTTP Authorization header of all subsequent REST API requests. The token's [claims][AAD-Glossary-Claim] also provide information to the service, allowing it to validate the client and perform any required authorization.
 
 If you are using a REST API that does not use integrated Azure AD authentication, or you've already registered your client, you can skip to the [Create the request](#create-the-request) section. 
 
 ### Prerequisites
 
-Your [client application](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#client-application) must make it's identity configuration known to Azure AD before run-time, by registering it in an [Azure AD tenant](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#tenant). Below is a list of items to consider before registering your client with Azure AD: 
+Your [client application][AAD-Glossary-Client-Application] must make it's identity configuration known to Azure AD before run-time, by registering it in an [Azure AD tenant][AAD-Glossary-Tenant]. Below is a list of items to consider before registering your client with Azure AD: 
 
-- If you do not have an Azure AD tenant yet, please see [How to get an Azure Active Directory tenant](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/). 
+- If you do not have an Azure AD tenant yet, please see [How to get an Azure Active Directory tenant][AAD-Howto-Tenant]. 
 - Per the OAuth2 Authorization Framework, Azure AD supports 2 types of clients. Understanding each will help you decide which is the most appropriate for your scenario:  
-    - [web/confidential](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#web-client) clients (runs on a web server) can access resources under either their own identity (ie: service/daemon), or obtain delegated authorization to access resources under the identity of the signed-in user (ie: web app). Only a web client has the ability to securely maintain and present it's own credentials during Azure AD authentication to acquire an access token.
-    - [native/public](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#native-client) clients (installed/runs on a device) can only access resources under delegated authorization, using the identity of the signed-in user to acquire an access token on behalf of the user.
-- The registration process will create 2 related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at run-time, please review [Application and service principal objects in Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-application-objects/).
+    - [web/confidential][AAD-Glossary-Web-Client] clients (runs on a web server) can access resources under either their own identity (ie: service/daemon), or obtain delegated authorization to access resources under the identity of the signed-in user (ie: web app). Only a web client has the ability to securely maintain and present it's own credentials during Azure AD authentication to acquire an access token.
+    - [native/public][AAD-Glossary-Native-Client] clients (installed/runs on a device) can only access resources under delegated authorization, using the identity of the signed-in user to acquire an access token on behalf of the user.
+- The registration process will create 2 related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at run-time, please review [Application and service principal objects in Azure Active Directory][AAD-Apps-And-Sps].
 
 Now we are ready to register your client application with Azure AD.
 
 ### Client registration
-To register a client that will access an Azure Resource Manager REST API, see [Use portal to create Active Directory application and service principal that can access resources](https://azure.microsoft.com/documentation/articles/resource-group-create-service-principal-portal/) for step-by-step registration instructions. This article (also available in PowerShell and CLI versions for automating registration) will show you how to:
+To register a client that will access an Azure Resource Manager REST API, see [Use portal to create Active Directory application and service principal that can access resources][ARM-Create-Sp-Portal] for step-by-step registration instructions. This article (also available in PowerShell and CLI versions for automating registration) will show you how to:
 
 - register the client application with Azure AD
-- set [permission requests](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#permissions) to allow the client to access the Azure Resource Manager API
+- set [permission requests][AAD-Glossary-Permissions] to allow the client to access the Azure Resource Manager API
 - configure Azure Resource Manager's Role Based Access Control (RBAC) settings for authorizing the client
 
-For all other clients, refer to [Integrating applications with Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-integrating-applications). This article will show you how to: 
+For all other clients, refer to [Integrating applications with Azure Active Directory][AAD-Integrating-Apps]. This article will show you how to: 
 
 - register the client application with Azure AD, in the "Adding an application" section
 - create a secret key (if you are registering a web client), in the "Updating an application" section
@@ -90,26 +90,26 @@ This section covers the first 3 of the 5 components we discussed earlier. First 
 Once you have a valid client registration, there are essentially 2 ways of integrating with Azure AD to acquire an access token:
 
 - Azure AD's platform/language-neutral OAuth2 service endpoints, which is what we will use. Just like the Azure REST API endpoints you are using, the instructions provided in this section make no assumptions about your client's platform or language/script when using the Azure AD endpoints; only that it can send/receive HTTPS requests to/from Azure AD, and parse the response message.  
-- The platform/language-specific Azure AD Authentication Libraries (ADAL). The libraries provide asynchronous wrappers for the OAuth2 endpoint requests, and robust token handling features such as caching and refresh token management. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries](https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/).
+- The platform/language-specific Azure AD Authentication Libraries (ADAL). The libraries provide asynchronous wrappers for the OAuth2 endpoint requests, and robust token handling features such as caching and refresh token management. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries][AAD-Auth-Libraries].
 
-The 2 Azure AD endpoints you will be using to authenticate your client and acquire an access token are referred to as the OAuth2 `/authorize` and `/token` endpoints. How you use them will be dependent on your application's registration, and the type of [OAuth2 authorization grant flow](https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant) you need in order to support your application at run-time. For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows: authorization code or client credentials. Follow the instructions for the one that best matches your scenario, to acquire the access token you will use in the remaining sections.
+The 2 Azure AD endpoints you will be using to authenticate your client and acquire an access token are referred to as the OAuth2 `/authorize` and `/token` endpoints. How you use them will be dependent on your application's registration, and the type of [OAuth2 authorization grant flow][AAD-Glossary-Authorization-Grant] you need in order to support your application at run-time. For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows: authorization code or client credentials. Follow the instructions for the one that best matches your scenario, to acquire the access token you will use in the remaining sections.
 
 #### Authorization code grant (interactive clients)
 
 This grant can be used by both web and native clients, and requires credentials from a signed-in user in order to delegate resource access to the client application. It uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in/consent), followed by the `/token` endpoint to exchange the authorization code for an access token.  
 
-1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code) for details on the format of the HTTPS GET request to the `/authorize` endpoint, and example request/response messages. The URI will contain query string parameters, including the following that are specific to your client application:
+1. First your client will need to request an authorization code from Azure AD. See [Request an authorization code][AAD-Oauth-Code-Authz] for details on the format of the HTTPS GET request to the `/authorize` endpoint, and example request/response messages. The URI will contain query string parameters, including the following that are specific to your client application:
 
     - `client_id` - also known as an application ID, this is the GUID assigned to your client application when you registered in the section above
     - `redirect_uri` - a URL-encoded version of [one of] the reply/redirect URIs specified during registration of your client application. Note that the value you pass must match exactly to your registration!
     - `resource` - a URL-encoded identifier URI specified by the REST API you are calling. Web/REST APIs (also known as resource applications) can expose one or more application ID URIs in their configuration. For example:  
 
         - Azure Resource Manager provider (and classic Service Management) APIs use `https://management.core.windows.net/`  
-        - For any other resources, see the API documentation or the resource application's configuration in the Azure portal. See also the [`identifierUris` property](https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity) of the Azure AD application object for more details.  
+        - For any other resources, see the API documentation or the resource application's configuration in the Azure portal. See also the [`identifierUris` property][AAD-Graph-Application] of the Azure AD application object for more details.  
 
     The request to the `/authorize` endpoint will first trigger a sign-in prompt to authenticate the end-user. The response you get back will be delivered as a redirect (302) to the URI you specified in `redirect_uri`. The response header message will contain a `location` field, which contains the redirect URI followed by a `code` query parameter, containing the authorization code you will need for step #2. 
 
-2. Next, your client will need to redeem the authorization code for an access token. See [Use the authorization code to request an access token](https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#use-the-authorization-code-to-request-an-access-token) for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages. Because this is a POST request, this time you will package your application-specific parameters in the request body. In addition to some of the ones mentioned above (along with other new ones), you will pass :
+2. Next, your client will need to redeem the authorization code for an access token. See [Use the authorization code to request an access token][AAD-Oauth-Code-Token] for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages. Because this is a POST request, this time you will package your application-specific parameters in the request body. In addition to some of the ones mentioned above (along with other new ones), you will pass :
 
     - `code` - this is the query parameter that will contain the authorization code you obtained in step #1.
     - `client_secret` - you will only need this parameter if your client is configured as a web application. This is the same secret/key value you generated earlier, in [client registration](#client-registration).
@@ -118,7 +118,7 @@ This grant can be used by both web and native clients, and requires credentials 
 
 This grant can only be used by web clients, allowing the application to access resources directly (no user delegation) using the client's own credentials, which are provided at registration time. It's typically used by non-interactive clients (no UI) running as a daemon/service, and requires only the `/token` endpoint to acquire an access token.
 
-The client/resource interactions for this grant are very similar to step #2 of the authorization code grant. Please see the "Request an Access Token" section in [Service to service calls using client credentials](https://azure.microsoft.com/en-us/documentation/articles/active-directory-protocols-oauth-service-to-service/#request-an-access-token) for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages.
+The client/resource interactions for this grant are very similar to step #2 of the authorization code grant. Please see the "Request an Access Token" section in [Service to service calls using client credentials][AAD-Oauth-Client-Creds] for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages.
 
 ### Assemble the request message
 
@@ -225,14 +225,55 @@ That's it! Once you have your Azure AD application registered and a canned techn
 
 ## Related content
 
-- See [Integrating applications with Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-integrating-applications/) for more information on application registration and the the Azure AD programming model.
+- See the [Azure AD Developers Guide][AAD-Dev-Guide] for more information on application registration and the the Azure AD programming model, including a comprehensive index of HowTo and QuickStart articles, and sample code.
 - For testing HTTP requests/responses, checkout [Fiddler](http://www.telerik.com/fiddler). Fiddler provides the ability to diagnose your HTTP request and response messages.
-- Tools like the [JWT Decoder](http://jwt.calebb.net/) and [JWT.io](https://jwt.io/) make it quick and easier to dump the claims in a bearer token.
+- Tools like the [JWT Decoder](http://jwt.calebb.net/) and [JWT.io](https://jwt.io/) make it quick and easy to dump the claims in your bearer token to validate the contents.
 
 Please use the LiveFyre comments section that follows this article to provide feedback and help us refine and shape our content.
 
-<!--
-[ARM-Providers]: https://azure.microsoft.com/documentation/articles/resource-manager-supported-services/
--->
 
-[ARM-Providers]: ../../Azure/active-directory/active-directory-editions.md
+<!--Reference style links: ACOM -->
+[AAD-Apps-And-Sps]: https://azure.microsoft.com/documentation/articles/active-directory-application-objects/
+[AAD-Auth-Libraries]: https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/
+[AAD-Dev-Guide]: https://azure.microsoft.com/documentation/articles/active-directory-developers-guide/
+[AAD-Glossary-Access-Token]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#access-token
+[AAD-Glossary-Authorization-Grant]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant
+[AAD-Glossary-Claim]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#claim
+[AAD-Glossary-Client-Application]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#client-application
+[AAD-Glossary-Permissions]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#permissions
+[AAD-Glossary-Tenant]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#tenant
+[AAD-Glossary-Native-Client]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#native-client
+[AAD-Glossary-Web-Client]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#web-client
+[AAD-Graph-Application]: https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity
+[AAD-Howto-Tenant]: https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/
+[AAD-Integrating-Apps]: https://azure.microsoft.com/documentation/articles/active-directory-integrating-applications
+[AAD-OAuth-Client-Creds]: https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-service-to-service/#request-an-access-token
+[AAD-Oauth-Code-Authz]: https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code
+[AAD-Oauth-Code-Token]: https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#use-the-authorization-code-to-request-an-access-token
+[ARM-Create-Sp-Portal]: https://azure.microsoft.com/documentation/articles/resource-group-create-service-principal-portal/
+[ARM-Provider-Summary]: https://azure.microsoft.com/documentation/articles/resource-manager-supported-services/
+
+<!--Reference style links: DOCS -->
+
+<!--
+[AAD-Apps-And-Sps]: ../../Azure/active-directory/active-directory-application-objects.md
+[AAD-Auth-Libraries]: ../../Azure/active-directory/active-directory-authentication-libraries.md
+[AAD-Dev-Guide]: ../../Azure/active-directory/active-directory-developers-guide.md
+[AAD-Glossary-Access-Token]: ../../Azure/active-directory/active-directory-dev-glossary.md#access-token
+[AAD-Glossary-Authorization-Grant]: ../../Azure/active-directory/active-directory-dev-glossary.md#authorization-grant
+[AAD-Glossary-Claim]: ../../Azure/active-directory/active-directory-dev-glossary.md#claim
+[AAD-Glossary-Client-Application]: ../../Azure/active-directory/active-directory-dev-glossary.md#client-application
+[AAD-Glossary-Permissions]: ../../Azure/active-directory/active-directory-dev-glossary.md#permissions
+[AAD-Glossary-Tenant]: ../../Azure/active-directory/active-directory-dev-glossary.md#tenant
+[AAD-Glossary-Native-Client]: ../../Azure/active-directory/active-directory-dev-glossary.md#native-client
+[AAD-Glossary-Web-Client]: ../../Azure/active-directory/active-directory-dev-glossary.md#web-client
+[AAD-Graph-Application]: https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity
+[AAD-Howto-Tenant]: ../../Azure/active-directory/active-directory-howto-tenant.md
+[AAD-Integrating-Apps]: ../../Azure/active-directory/active-directory-integrating-applications.md
+[AAD-OAuth-Client-Creds]: ../../Azure/active-directory/active-directory-protocols-oauth-service-to-service.md#request-an-access-token
+[AAD-Oauth-Code-Authz]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#request-an-authorization-code
+[AAD-Oauth-Code-Token]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#use-the-authorization-code-to-request-an-access-token
+[ARM-Create-Sp-Portal]: ../../Azure/active-directory/resource-group-create-service-principal-portal.md
+[ARM-Provider-Summary]: ../../Azure/active-directory/active-directory-editions.md
+
+-->
