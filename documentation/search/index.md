@@ -10,9 +10,11 @@ ms.manager: jhubbard
 
 # Search Management
 
-Azure Search provides a REST API used with [Azure Resource Manager](http://msdn.microsoft.com/library/azure/dn790568.aspx) to provision and administer a search service in your Azure subscription. To manage your search service programmatically, specify the ARM endpoint `https://management.azure.com` with a search management operation: `PUT   https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2015-08-19`.
+Azure Search provides a REST API used with [Azure Resource Manager (ARM)](http://msdn.microsoft.com/library/azure/dn790568.aspx) to provision and administer a search service in your Azure subscription. ARM elements include the endpoint **https://management.azure.com**, a subscription ID, and a provider (in this case, Search). In the following example, HTTP PUT plus a service name results in a new search service for your subscription:  
 
-You can [use PowerShell](https://azure.microsoft.com/documentation/articles/search-manage-powershell/) for search management or write code that includes an HTTP client. Currently, the Azure Search.NET SDK does not support service administration.
+    PUT   https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2015-08-19
+
+You can [use PowerShell](https://azure.microsoft.com/documentation/articles/search-manage-powershell/) or write code that includes an HTTP client. Currently, the Azure Search.NET SDK does not support service administration.
 
 ## REST Operation Groups
 
