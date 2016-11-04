@@ -281,6 +281,6 @@ Please use the LiveFyre comments section that follows this article to provide fe
 [AAD-OAuth-Client-Creds]: ../../Azure/active-directory/active-directory-protocols-oauth-service-to-service.md#request-an-access-token
 [AAD-Oauth-Code-Authz]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#request-an-authorization-code
 [AAD-Oauth-Code-Token]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#use-the-authorization-code-to-request-an-access-token
-[ARM-Create-Sp-Portal]: ../../Azure/active-directory/resource-group-create-service-principal-portal.md
-[ARM-Provider-Summary]: ../../Azure/active-directory/active-directory-editions.md
+[ARM-Create-Sp-Portal]: ../../Azure/resource-group-create-service-principal-portal.md
+[ARM-Provider-Summary]: ../../Azure/resource-manager-supported-services.md
 
