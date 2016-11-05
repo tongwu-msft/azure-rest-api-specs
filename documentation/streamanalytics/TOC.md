@@ -1,0 +1,6 @@
+# [Definition](StreamAnalyticsREST/stream-analytics-definition.md)
+# [Function](StreamAnalyticsREST/stream-analytics-function.md)
+# [Input](StreamAnalyticsREST/stream-analytics-input.md)
+# [Job](StreamAnalyticsREST/stream-analytics-job.md)
+# [Output](StreamAnalyticsREST/stream-analytics-output.md)
+# [Transformation](StreamAnalyticsREST/stream-analytics-transformation.md)
