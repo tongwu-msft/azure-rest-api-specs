@@ -15,6 +15,9 @@ ms.manager: jhubbard
 
 The DocumentDB Resource Provider API requires all requests to be versioned. To make a request, you must specify the version that you want to use for that operation. The currently supported version is 2015-05-08.
 
+## Authorization Token
+All Azure Resource Manager REST calls require a valid authorization token in the request header to succeed. See  [Create the request: Acquire an access token](../api-index/index.md#createtherequest) for details on how to obtain this authorization token.
+
 ## REST Operation Groups
 
 | Operation Group | Description |
