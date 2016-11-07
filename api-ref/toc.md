@@ -672,7 +672,7 @@
 ## [Storage Accounts](storagerp/StorageAccounts.json)
 ## [Usage](storagerp/Usage.json)
 # [Storage Services](../documentation/storageservices/index.md)
-## [Blog, Queue, Table & File Services](../documentation/storageservices/StorageServicesREST/azure-storage-services-rest-api-reference.md)
+## [Blob, Queue, Table & File Services](../documentation/storageservices/StorageServicesREST/azure-storage-services-rest-api-reference.md)
 ### [Versioning for the Azure Storage Services](../documentation/storageservices/StorageServicesREST/versioning-for-the-azure-storage-services.md)
 #### [Versioning Best Practices](../documentation/storageservices/StorageServicesREST/versioning-best-practices.md)
 #### [Protocol Version Support for .NET Client Library Versions](../documentation/storageservices/StorageServicesREST/protocol-version-support-for-.net-client-library-versions.md)
