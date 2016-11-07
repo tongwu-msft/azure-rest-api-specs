@@ -24,10 +24,10 @@ For information common to all these APIs, see [Common parameters and headers](co
 
 | Operation Group | Description |
 |-----------------|-------------|
-|  [Web Services](./webservices.md) | Provides operations that allow you to create and manage web services. |
-|  [Commitment Plans](./commitmentplans.md) | Provides operations that allow you to create and manage commitment plans. |
-|  [Commitment Plans Usage History](./usagehistory.md) | Provides an operation that allow you to retrieve commitment plan usage history. |
-|  [Commitment Associations](./commitmentassociations.md) | Provides operations that allow you to manage commitment associations. |
+|  [Web Services](./webservices) | Provides operations that allow you to create and manage web services. |
+|  [Commitment Plans](./commitmentplans) | Provides operations that allow you to create and manage commitment plans. |
+|  [Commitment Plans Usage History](./usagehistory) | Provides an operation that allow you to retrieve commitment plan usage history. |
+|  [Commitment Associations](./commitmentassociations) | Provides operations that allow you to manage commitment associations. |
 
 ## Common parameters and headers
 
@@ -43,30 +43,30 @@ The following information is common to all tasks related to web services:
 ## Web services tasks
 You can do the following tasks with the REST APIs for Machine Learning web services:
 
-- [Create or update a web Service](./webservices.md#WebServices_CreateOrUpdate)
-- [Get information about a web service](./webservices.md#WebServices_Get)
-- [Get access keys for a web service](./webservices.md#WebServices_ListKeys)
-- [Modify a web service](./webservices.md#WebServices_Patch)
-- [Delete a web service](./webservices.md#WebServices_Remove)
-- [Get all web services in a resource group](./webservices.md#WebServices_ListInResourceGroup)
-- [Get all web services in a subscription](./webservices.md#WebServices_List)
+- [Create or update a web Service](./webservices#WebServices_CreateOrUpdate)
+- [Get information about a web service](./webservices#WebServices_Get)
+- [Get access keys for a web service](./webservices#WebServices_ListKeys)
+- [Modify a web service](./webservices#WebServices_Patch)
+- [Delete a web service](./webservices#WebServices_Remove)
+- [Get all web services in a resource group](./webservices#WebServices_ListInResourceGroup)
+- [Get all web services in a subscription](./webservices#WebServices_List)
 
 ## Commitment plan tasks
 You can do the following tasks with the REST APIs for Azure Machine Learning commitment plans:
 
 Commitment plans
-- [Create or update a commitment plan](./commitmentplans.md#CommitmentPlans_CreateOrUpdate)
-- [Get information about a commitment plan](./commitmentplans.md#CommitmentPlans_Get)
-- [Modify a commitment plan](./commitmentplans.md#CommitmentPlans_Patch)
-- [Delete a commitment plan](./commitmentplans.md#CommitmentPlans_Remove)
-- [Get the usage history of a commitment plan](./machinelearning/usagehistory.md)
-- [Get all commitment plans in a resource group](./commitmentplans.md#CommitmentPlans_ListInResourceGroup)
-- [Get all commitment plans in a subscription](./commitmentplans.md#CommitmentPlans_List)
+- [Create or update a commitment plan](./commitmentplans#CommitmentPlans_CreateOrUpdate)
+- [Get information about a commitment plan](./commitmentplans#CommitmentPlans_Get)
+- [Modify a commitment plan](./commitmentplans#CommitmentPlans_Patch)
+- [Delete a commitment plan](./commitmentplans#CommitmentPlans_Remove)
+- [Get the usage history of a commitment plan](./machinelearning/usagehistory)
+- [Get all commitment plans in a resource group](./commitmentplans#CommitmentPlans_ListInResourceGroup)
+- [Get all commitment plans in a subscription](./commitmentplans#CommitmentPlans_List)
 
 Commitment associations
-- [Get a commitment association](./commitmentassociations.md#CommitmentAssociations_Get)
-- [Change the parent of a commitment association](./commitmentassociations.md#CommitmentAssociations_Move)
-- [Get all commitment associations for a parent plan](./commitmentassociations.md#CommitmentAssociations_List)
+- [Get a commitment association](./commitmentassociations#CommitmentAssociations_Get)
+- [Change the parent of a commitment association](./commitmentassociations#CommitmentAssociations_Move)
+- [Get all commitment associations for a parent plan](./commitmentassociations#CommitmentAssociations_List)
 
 
 ## See Also
