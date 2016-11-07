@@ -39,7 +39,7 @@ translation.priority.mt:
 Creates a Service Fabric service instance from a service template.  
   
 ## Request  
- See [Service](../ServiceFabricREST/service.md) for headers and parameters that are used by all requests related to services.  
+ See [Service](service.md) for headers and parameters that are used by all requests related to services.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -60,4 +60,4 @@ Creates a Service Fabric service instance from a service template.
 |InitializationData|No|Array|The initialization data as an array of bytes. Initialization data is passed to service instances or replicas when they are created.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).

@@ -30,13 +30,13 @@ IngestManifestAssets represent Assets within an IngestManifest that are used wit
   
  This topic gives an overview of the `IngestManifestAsset` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [IngestManifestAsset Entity Properties](../MediaServicesREST/ingestmanifestasset.md#ingestmanifestasset_entity_properties)  
+-   [IngestManifestAsset Entity Properties](../services/ingestmanifestasset.md#ingestmanifestasset_entity_properties)  
   
--   [Create an IngestManifestAsset](../MediaServicesREST/ingestmanifestasset.md#create_an_ingestmanifestasset)  
+-   [Create an IngestManifestAsset](../services/ingestmanifestasset.md#create_an_ingestmanifestasset)  
   
--   [List an IngestManifestAsset](../MediaServicesREST/ingestmanifestasset.md#list_an_ingestmanifestasset)  
+-   [List an IngestManifestAsset](../services/ingestmanifestasset.md#list_an_ingestmanifestasset)  
   
--   [Delete an IngestManifestAsset](../MediaServicesREST/ingestmanifestasset.md#delete_an_ingestmanifestasset)  
+-   [Delete an IngestManifestAsset](../services/ingestmanifestasset.md#delete_an_ingestmanifestasset)  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -54,8 +54,8 @@ IngestManifestAssets represent Assets within an IngestManifest that are used wit
 |`Created`<br /><br /> Read-only. Set by Media Services at creation time.|Edm.DateTime|Represents the number of milliseconds since midnight Jan 1, 1970.|  
 |`LastModified`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|This value is updated by Media Services after any property changes are made. It represents the number of milliseconds since midnight Jan 1, 1970.|  
 |`ParentIngestManifestId`<br /><br /> Required.|Edm.String|IngestManifest that will contain this IngestManifestAsset.|  
-|`IngestManifestFiles`<br /><br /> Read-only.|[IngestManifestFile](../MediaServicesREST/ingestmanifestfile.md) entity set|Navigation property that can be used to access the collection of IngestManifestFiles that make up the IngestManifestAsset. Individual IngestManifestFiles can be referenced using the IngestManifestFile Id.|  
-|`Asset`<br /><br /> Required.|[Asset](../MediaServicesREST/asset.md) entity|Navigation property that can be used to reference the Asset associated to this IngestManifestAsset.|  
+|`IngestManifestFiles`<br /><br /> Read-only.|[IngestManifestFile](../services/ingestmanifestfile.md) entity set|Navigation property that can be used to access the collection of IngestManifestFiles that make up the IngestManifestAsset. Individual IngestManifestFiles can be referenced using the IngestManifestFile Id.|  
+|`Asset`<br /><br /> Required.|[Asset](../services/asset.md) entity|Navigation property that can be used to reference the Asset associated to this IngestManifestAsset.|  
   
 ##  <a name="create_an_ingestmanifestasset"></a> Create an IngestManifestAsset  
  IngestManifestAssets can be created using an HTTP POST request. IngestManifestAssets must associate with a parent IngestManifest Id and an asset Id in the request body.  
@@ -69,7 +69,7 @@ IngestManifestAssets represent Assets within an IngestManifest that are used wit
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 POST https://media.windows.net /API/IngestManifestAssets HTTP/1.1  
@@ -98,7 +98,7 @@ Expect: 100-continue
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net /API/IngestManifestAssets('nb:maid:UUID:6422b0a7-15f1-3442-b800-dac3195df54f') HTTP/1.1  
@@ -124,7 +124,7 @@ Host: media.windows.net
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 DELETE https://media.windows.net /API/IngestManifestAssets('nb:maid:UUID:9c6e7256-fefd-c541-aa69-fd04cf1cc1a6') HTTP/1.1  
@@ -139,9 +139,9 @@ Content-Length: 0
 ```  
   
 ## See Also  
- [Asset](../MediaServicesREST/asset.md)   
- [AssetFile](../MediaServicesREST/assetfile.md)   
- [IngestManifest](../MediaServicesREST/ingestmanifest.md)   
- [IngestManifestFile](../MediaServicesREST/ingestmanifestfile.md)   
- [IngestManifestStatistics](../MediaServicesREST/ingestmanifeststatistics.md)   
+ [Asset](../services/asset.md)   
+ [AssetFile](../services/assetfile.md)   
+ [IngestManifest](../services/ingestmanifest.md)   
+ [IngestManifestFile](../services/ingestmanifestfile.md)   
+ [IngestManifestStatistics](../services/ingestmanifeststatistics.md)   
  [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)

@@ -46,36 +46,36 @@ APIs to manage the Azure Service Fabric cluster.
 ## Tasks  
  You can do the following with cluster resources:  
   
--   [Get a list of system services ](../ServiceFabricREST/get-a-list-of-system-services .md)  
+-   [Get a list of system services ](get-a-list-of-system-services .md)  
   
--   [Get a cluster manifest](../ServiceFabricREST/get-a-cluster-manifest.md)  
+-   [Get a cluster manifest](get-a-cluster-manifest.md)  
   
--   [Get provisioned cluster code package versions](../ServiceFabricREST/get-provisioned-cluster-code-package-versions.md)  
+-   [Get provisioned cluster code package versions](get-provisioned-cluster-code-package-versions.md)  
   
--   [Get provisioned cluster config package versions](../ServiceFabricREST/get-provisioned-cluster-config-package-versions.md)  
+-   [Get provisioned cluster config package versions](get-provisioned-cluster-config-package-versions.md)  
   
--   [Get the progress of a cluster upgrade ](../ServiceFabricREST/get-the-progress-of-a-cluster-upgrade .md)  
+-   [Get the progress of a cluster upgrade ](get-the-progress-of-a-cluster-upgrade .md)  
   
--   [Get the health of a cluster](../ServiceFabricREST/get-the-health-of-a-cluster.md)  
+-   [Get the health of a cluster](get-the-health-of-a-cluster.md)  
   
--   [Get the health of a cluster using health chunks](../ServiceFabricREST/get-the-health-of-a-cluster-using-health-chunks.md)  
+-   [Get the health of a cluster using health chunks](get-the-health-of-a-cluster-using-health-chunks.md)  
   
--   [Get the health of a cluster using health chunks with advanced health state filters and health policies](../ServiceFabricREST/health-of-cluster.md)  
+-   [Get the health of a cluster using health chunks with advanced health state filters and health policies](health-of-cluster.md)  
   
--   [Get the health of a cluster by using a health policy](../ServiceFabricREST/get-the-health-of-a-cluster-by-using-a-health-policy.md)  
+-   [Get the health of a cluster by using a health policy](get-the-health-of-a-cluster-by-using-a-health-policy.md)  
   
--   [Register a cluster package](../ServiceFabricREST/register-a-cluster-package.md)  
+-   [Register a cluster package](register-a-cluster-package.md)  
   
--   [Update a cluster upgrade](../ServiceFabricREST/update-a-cluster-upgrade.md)  
+-   [Update a cluster upgrade](update-a-cluster-upgrade.md)  
   
--   [Upgrade a cluster](../ServiceFabricREST/upgrade-a-cluster.md)  
+-   [Upgrade a cluster](upgrade-a-cluster.md)  
   
--   [Move to the next upgrade domain in the cluster](../ServiceFabricREST/move-to-the-next-upgrade-domain-in-the-cluster.md)  
+-   [Move to the next upgrade domain in the cluster](move-to-the-next-upgrade-domain-in-the-cluster.md)  
   
--   [Report the health of a cluster](../ServiceFabricREST/report-the-health-of-a-cluster.md)  
+-   [Report the health of a cluster](report-the-health-of-a-cluster.md)  
   
--   [Update a cluster upgrade](../ServiceFabricREST/update-a-cluster-upgrade.md)  
+-   [Update a cluster upgrade](update-a-cluster-upgrade.md)  
   
--   [Rollback a cluster upgrade](../ServiceFabricREST/rollback-a-cluster-upgrade.md)  
+-   [Rollback a cluster upgrade](rollback-a-cluster-upgrade.md)  
   
--   [Get the load of the cluster](../ServiceFabricREST/get-the-load-of-the-cluster.md)
+-   [Get the load of the cluster](get-the-load-of-the-cluster.md)

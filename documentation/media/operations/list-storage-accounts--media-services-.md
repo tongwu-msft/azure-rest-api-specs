@@ -37,7 +37,7 @@ translation.priority.mt:
 |Method|Request URI|  
 |GET|https://endpoint/\<subscriptionId>/services/mediaservices/Accounts/\<accountName>/StorageAccounts|  
   
- A successful operation returns status code 200 (OK). For information about error codes, see [Media Services Management Error Codes](../MediaServicesOperations_RESTAPI/media-services-management-error-codes.md).  
+ A successful operation returns status code 200 (OK). For information about error codes, see [Media Services Management Error Codes](../operations/media-services-management-error-codes.md).  
   
  When attaching multiple storage accounts to your Media Services account, the following considerations apply:  
   
@@ -68,11 +68,11 @@ public class StorageAccountDetails
   
 ```  
   
- For more information about request and response formats, see [Media Services Operations REST](../MediaServicesOperations_RESTAPI/media-services-operations-rest.md)  
+ For more information about request and response formats, see [Media Services Operations REST](../operations/media-services-operations-rest.md)  
   
 ## Example  
- See the `ListStorageAccountDetails` method in [How to: Use Media Services Management REST API](../MediaServicesOperations_RESTAPI/how-to--use-media-services-management-rest-api.md).  
+ See the `ListStorageAccountDetails` method in [How to: Use Media Services Management REST API](../operations/how-to--use-media-services-management-rest-api.md).  
   
 ## See Also  
- [Media Services Operations REST](../MediaServicesOperations_RESTAPI/media-services-operations-rest.md)   
- [Media Services Management Error Codes](../MediaServicesOperations_RESTAPI/media-services-management-error-codes.md)
+ [Media Services Operations REST](../operations/media-services-operations-rest.md)   
+ [Media Services Management Error Codes](../operations/media-services-management-error-codes.md)

@@ -39,7 +39,7 @@ translation.priority.mt:
 Gets the health reports of a Service Fabric service, by using the specified health policy.  
   
 ## Request  
- See [Common parameters and headers](../ServiceFabricREST/service.md#bk_common) for headers and parameters that are used by all requests related to services.  
+ See [Common parameters and headers](service.md#bk_common) for headers and parameters that are used by all requests related to services.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -99,7 +99,7 @@ Gets the health reports of a Service Fabric service, by using the specified heal
 |MaxPercentUnhealthyReplicasPerPartition|Yes|Number|The maximum allowed percentage of unhealthy replicas per partition.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
     "HealthEvents": [  

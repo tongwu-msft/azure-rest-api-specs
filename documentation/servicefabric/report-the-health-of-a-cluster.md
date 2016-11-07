@@ -39,7 +39,7 @@ translation.priority.mt:
 Reports the health state on the Service Fabric cluster.  
   
 ## Request  
- See [Cluster](../ServiceFabricREST/cluster.md) for headers and parameters that are used by all requests related to clusters.  
+ See [Cluster](cluster.md) for headers and parameters that are used by all requests related to clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -68,7 +68,7 @@ Reports the health state on the Service Fabric cluster.
 |RemoveWhenExpired|No|Boolean|Value of `true` to remove the health report after the time to live expires; `false` to keep the health event after the time to live expires. If not specified, the default is `false`.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ## Examples  
   

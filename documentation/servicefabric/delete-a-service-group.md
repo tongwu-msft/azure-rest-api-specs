@@ -39,7 +39,7 @@ translation.priority.mt:
 Deletes a Service Fabric service group.  
   
 ## Request  
- See [Service](../ServiceFabricREST/service.md) for headers and parameters that are used by all requests related to services.  
+ See [Service](service.md) for headers and parameters that are used by all requests related to services.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -55,7 +55,7 @@ Deletes a Service Fabric service group.
 |api-version|Yes|The API Version, which is "1.0”.|  
   
 ## Repsonse  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ## Examples  
  The following example deletes a service.  

@@ -39,7 +39,7 @@ translation.priority.mt:
 Gets the health of a Service Fabric node, by using the specified health policy.  
   
 ## Request  
- See [Common parameters and headers](../ServiceFabricREST/node.md#bk_common) for headers and parameters that are used by all requests related to nodes.  
+ See [Common parameters and headers](node.md#bk_common) for headers and parameters that are used by all requests related to nodes.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -80,7 +80,7 @@ Gets the health of a Service Fabric node, by using the specified health policy.
 |ApplicationTypeHealthPolicyMap|Yes|Object|Specifies the map that defines the maximum percentage of unhealthy applications that are allowed per application type. Application types in this map are evaluated using specific percentages rather than the global *MaxPercentUnhealthyApplications* percentage.<br /><br /> For example, if some applications of a type are critical, the cluster administrator can add an entry to the map for that application type and assign it a value of 0% (that is, do not tolerate any failures). All other applications can be evaluated with *MaxPercentUnhealthyApplications* set to 20% to tolerate some failures out of the thousands of application instances.<br /><br /> The application type health policy map is used only if the cluster manifest enables application type health evaluation using the configuration entry for **HealthManager/EnableApplicationTypeHealthEvaluation**.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 {  

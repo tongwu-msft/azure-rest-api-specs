@@ -48,7 +48,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 ## Request  
  HTTPS is required for all service requests. The **Create Data Source** request can be constructed using either a POST or PUT method. When using POST, you must provide a data source name in the request body along with the data source definition. With PUT, the name is part of the URL. If the data source doesn't exist, it is created. If it already exists, it is updated to the new definition  
   
- The data source name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the data source name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](../SearchServiceREST/naming-rules.md) for details.  
+ The data source name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the data source name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](naming-rules.md) for details.  
   
  The **api-version** is required. The current version is `2015-02-28`. [Azure Search Service Versioning](../Topic/Azure%20Search%20Service%20Versioning.md) has details, including more information about alternative versions.  
   
@@ -96,7 +96,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
  The purpose of a data change detection policy is to efficiently identify changed data items. Supported policies vary based on the data source type. Sections below describe each policy  
   
 > [!NOTE]  
->  You can switch data detection policies after the indexer is already created, using [Reset Indexer &#40;Azure Search Service REST API&#41;](../SearchServiceREST/reset-indexer.md).  
+>  You can switch data detection policies after the indexer is already created, using [Reset Indexer &#40;Azure Search Service REST API&#41;](reset-indexer.md).  
   
  **High Watermark Change Detection Policy**  
   
@@ -193,10 +193,10 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
  For a successful request: 201 Created.  
   
 ## See Also  
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
- [HTTP status codes &#40;Azure Search&#41;](../SearchServiceREST/http-status-codes.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](../SearchServiceREST/indexer-operations.md)   
- [Naming rules &#40;Azure Search&#41;](../SearchServiceREST/naming-rules.md)   
- [Data type map for indexers in Azure Search](../SearchServiceREST/data-type-map-for-indexers-in-azure-search.md)  
+ [Azure Search Service REST](service-rest.md)   
+ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
+ [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
+ [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
+ [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md)  
   
   

@@ -39,7 +39,7 @@ translation.priority.mt:
 Gets the health of a Service Fabric service package.  
   
 ## Request  
- See [Service package](../ServiceFabricREST/service-package.md) for headers and parameters that are used by all requests related to service packages.  
+ See [Service package](service-package.md) for headers and parameters that are used by all requests related to service packages.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -61,7 +61,7 @@ Gets the health of a Service Fabric service package.
     -   All - Filter that matches input with any HealthState value. The value is 65535.  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 {  

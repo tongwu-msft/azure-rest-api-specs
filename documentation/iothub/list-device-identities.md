@@ -33,7 +33,7 @@ translation.priority.mt:
 This method retrieves up to 1000 device identities from an IoT hub. If you want to export all the identities, see [IoT Hub Developer Guide – Export](https://azure.microsoft.com/documentation/articles/iot-hub-devguide/#importexport).  
   
 ## Request  
- See [Common parameters and headers](../IoTREST/device-identities-rest.md#bk_common) for headers and parameters that are used by all requests related to IoT Hub.  
+ See [Common parameters and headers](device-identities-rest.md#bk_common) for headers and parameters that are used by all requests related to IoT Hub.  
   
 |Method|Request URI|  
 |------------|-----------------|  

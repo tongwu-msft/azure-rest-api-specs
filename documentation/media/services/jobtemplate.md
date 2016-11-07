@@ -30,13 +30,13 @@ A JobTemplate provides reusable settings for Jobs that need to be run repeatedly
   
  This topic gives an overview of the `JobTemplate` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [Job Template Entity Properties](../MediaServicesREST/jobtemplate.md#jobtemplate_entity_properties)  
+-   [Job Template Entity Properties](../services/jobtemplate.md#jobtemplate_entity_properties)  
   
--   [Create a JobTemplate](../MediaServicesREST/jobtemplate.md#create_a_jobtemplate)  
+-   [Create a JobTemplate](../services/jobtemplate.md#create_a_jobtemplate)  
   
--   [List JobTemplates](../MediaServicesREST/jobtemplate.md#list_jobtemplates)  
+-   [List JobTemplates](../services/jobtemplate.md#list_jobtemplates)  
   
--   [Delete a JobTemplate](../MediaServicesREST/jobtemplate.md#delete_a_jobtemplate)  
+-   [Delete a JobTemplate](../services/jobtemplate.md#delete_a_jobtemplate)  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -54,7 +54,7 @@ A JobTemplate provides reusable settings for Jobs that need to be run repeatedly
 |`Name`<br /><br /> Optional.|Edm.String|Friendly name for the job template.|  
 |`Created`<br /><br /> Read-only. Set by Media Services at creation time.|Edm.DateTime|Represents the number of milliseconds since midnight Jan 1, 1970.|  
 |`LastModified`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|This value is updated by Media Services after any property changes are made. It represents the number of milliseconds since midnight Jan 1, 1970.|  
-|`JobTemplateBody`<br /><br /> Required.|Edm.String|An Xml document that defines what TaskTemplates and the number of input and output assets to use. For example,<br /><br /> `<?xml version="1.0" encoding="utf-8"?>      <jobTemplate>         <taskBody taskTemplateId=”nb:ttid:UUID:0749DF78-5167-413D-91AA-31564ED1EF34”> … </taskBody>         <taskBody taskTemplateId=”nb:ttid:UUID:0432DF78-5167-4132-942A-88241ED1AC34”> … </taskBody>     </jobtemplate>`<br /><br /> The format for the `TaskBody` content is the same as the [Task](../MediaServicesREST/task.md)’s `TaskBody` property plus the `TaskTemplateId` (or `taskTemplateId`) attribute. Each `TaskTemplateId` should be unique and correspond to the `TaskTemplate` in the `TaskTemplates` collection. The number of `TaskBody` elements has to be the same as the count of the `TaskTemplates` collection.|  
+|`JobTemplateBody`<br /><br /> Required.|Edm.String|An Xml document that defines what TaskTemplates and the number of input and output assets to use. For example,<br /><br /> `<?xml version="1.0" encoding="utf-8"?>      <jobTemplate>         <taskBody taskTemplateId=”nb:ttid:UUID:0749DF78-5167-413D-91AA-31564ED1EF34”> … </taskBody>         <taskBody taskTemplateId=”nb:ttid:UUID:0432DF78-5167-4132-942A-88241ED1AC34”> … </taskBody>     </jobtemplate>`<br /><br /> The format for the `TaskBody` content is the same as the [Task](../services/task.md)’s `TaskBody` property plus the `TaskTemplateId` (or `taskTemplateId`) attribute. Each `TaskTemplateId` should be unique and correspond to the `TaskTemplate` in the `TaskTemplates` collection. The number of `TaskBody` elements has to be the same as the count of the `TaskTemplates` collection.|  
 |`NumberofInputAssets`<br /><br /> Optional. Cannot be updated after the entity has been created.|Edm.Int32|The number of input assets that can be used with this JobTemplate.|  
 |`TemplateType`<br /><br /> Required. Cannot be updated after the entity has been created.|Edm.Int32|The type of JobTemplate that can be created. Valid values are:<br /><br /> - SystemLevel = 0<br /><br /> - AccountLevel  = 1<br /><br /> **Note**: SystemLevel JobTemplate types are reserved for Media Services. You must set this value to AccountLevel (that is "1").|  
 |`TaskTemplates`<br /><br /> Required.|TaskTemplates entity set|Navigation property that references all associated TaskTemplate entities.|  
@@ -71,7 +71,7 @@ A JobTemplate provides reusable settings for Jobs that need to be run repeatedly
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 POST https://media.windows.net/API/JobTemplates HTTP/1.1  
@@ -105,7 +105,7 @@ Expect: 100-continue
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/JobTemplates('nb:jtid:UUID:ed10f137-7a8e-8343-9110-f54603d1136f') HTTP/1.1  
@@ -131,7 +131,7 @@ Host: media.windows.net
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 DELETE https://media.windows.net/API/JobTemplates('nb:jtid:UUID:1149a161-92c6-be40-8e9c-7bf640c05df6') HTTP/1.1  
@@ -147,13 +147,13 @@ Content-Length: 0
 ```  
   
 ## See Also  
- [ContentKey](../MediaServicesREST/contentkey.md)   
- [Asset](../MediaServicesREST/asset.md)   
- [AccessPolicy](../MediaServicesREST/accesspolicy.md)   
- [AssetFile](../MediaServicesREST/assetfile.md)   
- [Job](../MediaServicesREST/job.md)   
- [Locator](../MediaServicesREST/locator.md)   
- [MediaProcessor](../MediaServicesREST/mediaprocessor.md)   
- [Task](../MediaServicesREST/task.md)   
- [TaskTemplate](../MediaServicesREST/tasktemplate.md)   
+ [ContentKey](../services/contentkey.md)   
+ [Asset](../services/asset.md)   
+ [AccessPolicy](../services/accesspolicy.md)   
+ [AssetFile](../services/assetfile.md)   
+ [Job](../services/job.md)   
+ [Locator](../services/locator.md)   
+ [MediaProcessor](../services/mediaprocessor.md)   
+ [Task](../services/task.md)   
+ [TaskTemplate](../services/tasktemplate.md)   
  [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)

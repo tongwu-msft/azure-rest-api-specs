@@ -56,16 +56,16 @@ APIs to list replicas and report on replica health.
 ## Tasks  
  You can do the following with replica resources:  
   
--   [Get a list of replicas](../ServiceFabricREST/get-a-list-of-replicas.md)  
+-   [Get a list of replicas](get-a-list-of-replicas.md)  
   
--   [Get a list of replicas for a service package](../ServiceFabricREST/get-a-list-of-replicas-for-a-service-package.md)  
+-   [Get a list of replicas for a service package](get-a-list-of-replicas-for-a-service-package.md)  
   
--   [Get details of a deployed replica’s status](../ServiceFabricREST/get-details-of-a-deployed-replica’s-status.md)  
+-   [Get details of a deployed replica’s status](get-details-of-a-deployed-replica’s-status.md)  
   
--   [Get the health of a replica](../ServiceFabricREST/get-the-health-of-a-replica.md)  
+-   [Get the health of a replica](get-the-health-of-a-replica.md)  
   
--   [Get the health of a replica by using a health policy](../ServiceFabricREST/get-the-health-of-a-replica-by-using-a-health-policy.md)  
+-   [Get the health of a replica by using a health policy](get-the-health-of-a-replica-by-using-a-health-policy.md)  
   
--   [Report the health of a replica](../ServiceFabricREST/report-the-health-of-a-replica.md)  
+-   [Report the health of a replica](report-the-health-of-a-replica.md)  
   
--   [Get the load of a replica](../ServiceFabricREST/get-the-load-of-a-replica.md)
+-   [Get the load of a replica](get-the-load-of-a-replica.md)

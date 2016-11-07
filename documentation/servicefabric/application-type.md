@@ -52,12 +52,12 @@ APIs to manage Azure Service Fabric application types.
 ## Tasks  
  You can do the following with application type resources:  
   
--   [Get a list of application types](../ServiceFabricREST/get-a-list-of-application-types.md)  
+-   [Get a list of application types](get-a-list-of-application-types.md)  
   
--   [Get the application manifest for an application type](../ServiceFabricREST/get-the-application-manifest-for-an-application-type.md)  
+-   [Get the application manifest for an application type](get-the-application-manifest-for-an-application-type.md)  
   
--   [Get the service manifest for an application type](../ServiceFabricREST/get-the-service-manifest-for-an-application-type.md)  
+-   [Get the service manifest for an application type](get-the-service-manifest-for-an-application-type.md)  
   
--   [Provision an application](../ServiceFabricREST/provision-an-application.md)  
+-   [Provision an application](provision-an-application.md)  
   
--   [Unprovision an application](../ServiceFabricREST/unprovision-an-application.md)
+-   [Unprovision an application](unprovision-an-application.md)

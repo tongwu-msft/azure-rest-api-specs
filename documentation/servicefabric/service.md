@@ -50,22 +50,22 @@ APIs to manage Azure Service Fabric services.
 ## Tasks  
  You can do the following with service resources:  
   
--   [Get a list of services](../ServiceFabricREST/get-a-list-of-services.md)  
+-   [Get a list of services](get-a-list-of-services.md)  
   
--   [Create a service](../ServiceFabricREST/create-a-service.md)  
+-   [Create a service](create-a-service.md)  
   
--   [Create service from a template ](../ServiceFabricREST/create-service-from-a-template .md)  
+-   [Create service from a template ](create-service-from-a-template .md)  
   
--   [Get the health of a service](../ServiceFabricREST/get-the-health-of-a-service.md)  
+-   [Get the health of a service](get-the-health-of-a-service.md)  
   
--   [Get the health of a service by using a health policy](../ServiceFabricREST/get-the-health-of-a-service-by-using-a-health-policy.md)  
+-   [Get the health of a service by using a health policy](get-the-health-of-a-service-by-using-a-health-policy.md)  
   
--   [Report the health of a service ](../ServiceFabricREST/report-the-health-of-a-service .md)  
+-   [Report the health of a service ](report-the-health-of-a-service .md)  
   
--   [Get the description of a service](../ServiceFabricREST/get-the-description-of-a-service.md)  
+-   [Get the description of a service](get-the-description-of-a-service.md)  
   
--   [Update a service](../ServiceFabricREST/update-a-service.md)  
+-   [Update a service](update-a-service.md)  
   
--   [Delete a service](../ServiceFabricREST/delete-a-service.md)  
+-   [Delete a service](delete-a-service.md)  
   
--   [Resolve a service ](../ServiceFabricREST/resolve-a-service .md)
+-   [Resolve a service ](resolve-a-service .md)

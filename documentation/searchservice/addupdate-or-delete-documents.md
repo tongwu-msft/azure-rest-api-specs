@@ -37,7 +37,7 @@ api-key: [admin key]
 ```  
   
 > [!NOTE]  
->  For supported data sources, indexers offer an alternative methodology for loading and refreshing rowsets to Azure Search on an ad hoc or scheduled basis. See [Indexer operations &#40;Azure Search Service REST API&#41;](../SearchServiceREST/indexer-operations.md) for details.  
+>  For supported data sources, indexers offer an alternative methodology for loading and refreshing rowsets to Azure Search on an ad hoc or scheduled basis. See [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md) for details.  
   
 ## Request  
  HTTPS is required for all service requests. You can upload, merge, merge-or-upload, or delete documents from a specified index using HTTP POST.  
@@ -62,7 +62,7 @@ api-key: [admin key]
  The body of the request contains one or more documents to be indexed. Documents are identified by a unique key. Each document is associated with an action: upload, merge, mergeOrupload, or delete. Upload requests must include the document data as a set of key/value pairs.  
   
 > [!NOTE]  
->  Document keys can only contain letters, numbers, dashes ("-"), underscores ("_"), and equal signs ("="). For more details, see [Naming rules &#40;Azure Search&#41;](../SearchServiceREST/naming-rules.md).  
+>  Document keys can only contain letters, numbers, dashes ("-"), underscores ("_"), and equal signs ("="). For more details, see [Naming rules &#40;Azure Search&#41;](naming-rules.md).  
   
 ```  
 {  
@@ -178,8 +178,8 @@ Successful indexing is indicated by the `status` property being set to true for 
 ```  
   
 ## See Also  
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
- [HTTP status codes &#40;Azure Search&#41;](../SearchServiceREST/http-status-codes.md)   
+ [Azure Search Service REST](service-rest.md)   
+ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Azure Search Service Versioning](https://azure.microsoft.com/documentation/articles/search-api-versions/)   
  [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
   

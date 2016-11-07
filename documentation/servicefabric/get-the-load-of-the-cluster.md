@@ -26,14 +26,14 @@ manager: "timlt"
 Gets the load related information of the entire Service Fabric cluster.  
   
 ## Request  
- See [Partition](../ServiceFabricREST/partition.md) for headers and parameters that are used by all requests related to partitions.  
+ See [Partition](partition.md) for headers and parameters that are used by all requests related to partitions.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`<URI>/$/GetLoadInformation?api-version=1.0`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 {    

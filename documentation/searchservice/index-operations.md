@@ -105,7 +105,7 @@ translation.priority.mt:
    } 
 ```  
   
- After the index is created, you'll upload documents that populate the index. See [Add, Update or Delete Documents &#40;Azure Search Service REST API&#41;](../SearchServiceREST/addupdate-or-delete-documents.md) for this next step.  
+ After the index is created, you'll upload documents that populate the index. See [Add, Update or Delete Documents &#40;Azure Search Service REST API&#41;](addupdate-or-delete-documents.md) for this next step.  
   
  For a code sample that shows how to create and build an index using the REST API, see [Get Started with Azure Search using REST](https://github.com/Azure-Samples/search-rest-api-getting-started).  
   
@@ -113,25 +113,25 @@ translation.priority.mt:
   
 ## Operations on indexes  
   
--   [Create Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/create-index.md)  
+-   [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  
   
--   [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/add-scoring-profiles-to-a-search-index.md)  
+-   [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md)  
   
--   [Language support &#40;Azure Search Service REST API&#41;](../SearchServiceREST/language-support.md)  
+-   [Language support &#40;Azure Search Service REST API&#41;](language-support.md)  
   
--   [Update Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/update-index.md)  
+-   [Update Index &#40;Azure Search Service REST API&#41;](update-index.md)  
   
--   [Get Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/get-index.md)  
+-   [Get Index &#40;Azure Search Service REST API&#41;](get-index.md)  
   
--   [List Indexes &#40;Azure Search Service REST API&#41;](../SearchServiceREST/list-indexes.md)  
+-   [List Indexes &#40;Azure Search Service REST API&#41;](list-indexes.md)  
   
--   [Delete Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/delete-index.md)  
+-   [Delete Index &#40;Azure Search Service REST API&#41;](delete-index.md)  
   
--   [Get Index Statistics &#40;Azure Search Service REST API&#41;](../SearchServiceREST/get-index-statistics.md)  
+-   [Get Index Statistics &#40;Azure Search Service REST API&#41;](get-index-statistics.md)  
   
 ## See Also  
  [Azure Search Developer Reference](http://msdn.microsoft.com/en-us/a47e2a88-f9f9-4731-ab5f-e30ba1b5262b)   
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
+ [Azure Search Service REST](service-rest.md)   
  [Service limits in Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)   
  [Azure Search .NET library](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
   

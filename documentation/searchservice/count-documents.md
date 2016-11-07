@@ -62,9 +62,9 @@ api-key: [admin key]
  The response body contains the count value as an integer formatted in plain text.  
   
 ## See Also  
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
- [HTTP status codes &#40;Azure Search&#41;](../SearchServiceREST/http-status-codes.md)   
- [OData Expression Syntax for Azure Search](../SearchServiceREST/odata-expression-syntax-for-azure-search.md)   
+ [Azure Search Service REST](service-rest.md)   
+ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
+ [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
  [Azure Search Service Versioning](../Topic/Azure%20Search%20Service%20Versioning.md)  
   
   

@@ -52,16 +52,16 @@ APIs to manage Azure Service Fabric partitions.
 ## Tasks  
  You can do the following with partition resources:  
   
--   [Get a list of partitions](../ServiceFabricREST/get-a-list-of-partitions.md)  
+-   [Get a list of partitions](get-a-list-of-partitions.md)  
   
--   [Get the health of a partition](../ServiceFabricREST/get-the-health-of-a-partition.md)  
+-   [Get the health of a partition](get-the-health-of-a-partition.md)  
   
--   [Get the health of a partition by using a health policy](../ServiceFabricREST/get-the-health-of-a-partition-by-using-a-health-policy.md)  
+-   [Get the health of a partition by using a health policy](get-the-health-of-a-partition-by-using-a-health-policy.md)  
   
--   [Report the health of a partition](../ServiceFabricREST/report-the-health-of-a-partition.md)  
+-   [Report the health of a partition](report-the-health-of-a-partition.md)  
   
--   [Recover a partition from quorum loss state](../ServiceFabricREST/recover-a-partition-from-quorum-loss-state.md)  
+-   [Recover a partition from quorum loss state](recover-a-partition-from-quorum-loss-state.md)  
   
--   [Get the load of a partition](../ServiceFabricREST/get-the-load-of-a-partition.md)  
+-   [Get the load of a partition](get-the-load-of-a-partition.md)  
   
--   [Reset the load of a partition](../ServiceFabricREST/reset-the-load-of-a-partition.md)
+-   [Reset the load of a partition](reset-the-load-of-a-partition.md)

@@ -39,7 +39,7 @@ translation.priority.mt:
 Provisions a Service Fabric application.  
   
 ## Request  
- See [Application type](../ServiceFabricREST/application-type.md) for headers and parameters that are used by all requests related to application types.  
+ See [Application type](application-type.md) for headers and parameters that are used by all requests related to application types.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -57,7 +57,7 @@ Provisions a Service Fabric application.
 |ApplicationTypeBuildPath|Yes|String|The application type build path.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ### Examples  
  The following example provisions the application WordCount from the ImageStore.  

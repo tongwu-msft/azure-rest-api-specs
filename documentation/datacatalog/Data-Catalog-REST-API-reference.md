@@ -35,11 +35,11 @@ To perform operations on Data Catalog resources, you send HTTP requests with a s
   
 The Data Catalog REST API has the following operations:  
   
--   Register data asset operations: [Register Data Asset](../AzureDataCatalogREST/Register-Data-Asset.md), [Delete Data Asset](https://msdn.microsoft.com/library/mt267568.aspx), and [Search Data Asset](https://msdn.microsoft.com/library/mt267569.aspx).  
--   Annotate data asset operations: [Annotate Data Asset](../AzureDataCatalogREST/Annotate-Data-Asset.md), [Update Annotation](../AzureDataCatalogREST/Update-Annotation.md), [Get Data Asset with Annotations](https://msdn.microsoft.com/library/mt267562.aspx), and [Delete Annotation](../AzureDataCatalogREST/Delete-Annotation.md).  
+-   Register data asset operations: [Register Data Asset](Register-Data-Asset.md), [Delete Data Asset](https://msdn.microsoft.com/library/mt267568.aspx), and [Search Data Asset](https://msdn.microsoft.com/library/mt267569.aspx).  
+-   Annotate data asset operations: [Annotate Data Asset](Annotate-Data-Asset.md), [Update Annotation](Update-Annotation.md), [Get Data Asset with Annotations](https://msdn.microsoft.com/library/mt267562.aspx), and [Delete Annotation](Delete-Annotation.md).  
   
 The Data Catalog has a Search query syntax:  
   
--   [Search data assets](../AzureDataCatalogREST/Data-Catalog-Search-syntax-reference.md)  
+-   [Search data assets](Data-Catalog-Search-syntax-reference.md)  
   
 To learn the types of assets and annotations supported in **Data Catalog**, see [Azure Data Catalog developer concepts](https://azure.microsoft.com/documentation/articles/data-catalog-developer-concepts/).  

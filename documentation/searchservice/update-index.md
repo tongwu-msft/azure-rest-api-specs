@@ -28,7 +28,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Update Index (Azure Search Service REST API)
-  You can update an existing index within Azure Search to change its schema, including adding new fields, modifying CORS options, and adding or changing scoring profiles (see [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/add-scoring-profiles-to-a-search-index.md) for more information). You can specify the name of the index to update on the request URI.  
+  You can update an existing index within Azure Search to change its schema, including adding new fields, modifying CORS options, and adding or changing scoring profiles (see [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md) for more information). You can specify the name of the index to update on the request URI.  
   
 ```  
 PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]  
@@ -38,7 +38,7 @@ api-key: [admin key]
 ```  
   
 > [!IMPORTANT]  
->  Support for index schema updates is limited to operations that don't require rebuilding the search index. Any changes that require re-indexing, such as changing field types, are not currently supported. New fields can be added at any time, although existing fields cannot be changed or deleted. The same applies to **suggesters**. New fields may be added to **suggesters** at the time the fields are added, but fields cannot be removed from **suggesters** and existing fields cannot be added. For more information, see [Suggesters](../SearchServiceREST/suggesters.md).  
+>  Support for index schema updates is limited to operations that don't require rebuilding the search index. Any changes that require re-indexing, such as changing field types, are not currently supported. New fields can be added at any time, although existing fields cannot be changed or deleted. The same applies to **suggesters**. New fields may be added to **suggesters** at the time the fields are added, but fields cannot be removed from **suggesters** and existing fields cannot be added. For more information, see [Suggesters](suggesters.md).  
   
  When adding a new field to an index, all existing documents in the index be automatically have a null value for that field. No additional storage space will be consumed until new documents are added to the index.  
   
@@ -62,7 +62,7 @@ api-key: [admin key]
 ### Request Body Syntax  
  When updating an existing index, the body must include the original schema definition, plus the new fields you are adding, as well as the modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT.  
   
- The schema syntax used to create an index is reproduced here for convenience. See [Create Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/create-index.md) for descriptions of the index attributes, suggesters, scoring profiles, and corsOptions.  
+ The schema syntax used to create an index is reproduced here for convenience. See [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) for descriptions of the index attributes, suggesters, scoring profiles, and corsOptions.  
   
 ```  
 {  
@@ -137,9 +137,9 @@ api-key: [admin key]
  By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK.  
   
 ## See Also  
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
- [Create Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/create-index.md)   
- [Index operations &#40;Azure Search Service REST API&#41;](../SearchServiceREST/index-operations.md)   
+ [Azure Search Service REST](service-rest.md)   
+ [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
+ [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
  [Azure Search Service Versioning](../Topic/Azure%20Search%20Service%20Versioning.md)   
  [Azure Search .NET library](https://msdn.microsoft.com/en-us/library/azure/dn951165.aspx)   
  [Create an index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  

@@ -26,7 +26,7 @@ manager: "timlt"
 Reset the  load of a Service Fabric partition to its default value.  
   
 ## Request  
- See [Partition](../ServiceFabricREST/partition.md) for headers and parameters that are used by all requests related to partitions.  
+ See [Partition](partition.md) for headers and parameters that are used by all requests related to partitions.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -35,7 +35,7 @@ Reset the  load of a Service Fabric partition to its default value.
 |POST|`<URI>/Partitions/{partition-id}/$/ResetLoad?api-version=1.0`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ## Examples  
  The following example resets the load of a specified partition da10ff1c-c69a-4ac8-8e5f-19264f807f6c to it's default load. The localhost:19007 is the endpoint of the http gateway.  

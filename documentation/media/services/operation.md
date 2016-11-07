@@ -66,7 +66,7 @@ Represents the current state of a long-running operation. Examples of long-runni
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET api/Operations('nb:opid:UUID:ab66eff9-8945-4323-9f91-d257a695899b') HTTP/1.1  

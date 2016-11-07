@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # IngestManifestStatistics
-IngestManifestStatistics is a complex type provided by the **Statistics** property of an [IngestManifest](../MediaServicesREST/ingestmanifest.md). IngestManifestStatistics are used to determine the progress of bulk ingesting operations for an IngestManifest. For more information on bulk ingesting, see [Ingesting Assets in Bulk with the REST API](http://msdn.microsoft.com/en-us/3caa81ea-c840-4265-b8fa-f958cdde12b6).  
+IngestManifestStatistics is a complex type provided by the **Statistics** property of an [IngestManifest](../services/ingestmanifest.md). IngestManifestStatistics are used to determine the progress of bulk ingesting operations for an IngestManifest. For more information on bulk ingesting, see [Ingesting Assets in Bulk with the REST API](http://msdn.microsoft.com/en-us/3caa81ea-c840-4265-b8fa-f958cdde12b6).  
   
 ## IngestManifestStatistics Entity Properties  
   
@@ -38,6 +38,6 @@ IngestManifestStatistics is a complex type provided by the **Statistics** proper
 |`ErrorFilesDetails`<br /><br /> Read-only. Set by Media Services.|Edm.String|This value provides error details for errors encountered processing assets files.|  
   
 ## See Also  
- [IngestManifest](../MediaServicesREST/ingestmanifest.md)   
- [IngestManifestAsset](../MediaServicesREST/ingestmanifestasset.md)   
- [IngestManifestFile](../MediaServicesREST/ingestmanifestfile.md)
+ [IngestManifest](../services/ingestmanifest.md)   
+ [IngestManifestAsset](../services/ingestmanifestasset.md)   
+ [IngestManifestFile](../services/ingestmanifestfile.md)

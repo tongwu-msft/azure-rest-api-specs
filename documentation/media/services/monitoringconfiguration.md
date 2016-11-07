@@ -27,7 +27,7 @@ This topic gives an overview of the Azure Media Services telemetry/monitoring RE
   
 -   Get the credentials of the storage account attached to the Media Services account.  
   
--   Create a Notification Endpoint with EndPointType set to AzureTable (2) and endPontAddress pointing to the storage table (for example, https://telemetryvalidationstore.table.core.windows.net/). For information about how to create notification endpoint see  [NotificationEndPoint](../MediaServicesREST/notificationendpoint.md) topic.  
+-   Create a Notification Endpoint with EndPointType set to AzureTable (2) and endPontAddress pointing to the storage table (for example, https://telemetryvalidationstore.table.core.windows.net/). For information about how to create notification endpoint see  [NotificationEndPoint](../services/notificationendpoint.md) topic.  
   
 -   Create a monitoring configuration settings for the services you want to monitor. No more than one monitoring configuration settings is allowed. For details, see [Monitoring configuration operations](#MonitoringConfiguration) section.  
    
@@ -61,7 +61,7 @@ This topic gives an overview of the Azure Media Services telemetry/monitoring RE
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ### Get  monitoring configurations  
 

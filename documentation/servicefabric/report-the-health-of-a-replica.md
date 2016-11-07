@@ -39,7 +39,7 @@ translation.priority.mt:
 Reports the health state of the specified Service Fabric replica.  
   
 ## Request  
- See [Replica](../ServiceFabricREST/replica.md) for headers and parameters that are used by all requests related to replicas.  
+ See [Replica](replica.md) for headers and parameters that are used by all requests related to replicas.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -81,7 +81,7 @@ Reports the health state of the specified Service Fabric replica.
 |RemoveWhenExpired|No|Boolean|`true` to remove the health report after the time to live expires; `false` to keep the health event after the time to live expires. If not specified, the default is `false`.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ## Examples  
  The following example reports the health of a replica.  

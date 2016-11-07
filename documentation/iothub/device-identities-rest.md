@@ -48,28 +48,28 @@ Use these APIs to manage device identities in the identity registry of an IoT hu
 ### Tasks  
  You can do the following with device identities:  
   
--   [Create a new device identity](../IoTREST/create-a-new-device-identity.md)  
+-   [Create a new device identity](create-a-new-device-identity.md)  
   
--   [Delete a device identity](../IoTREST/delete-a-device-identity.md)  
+-   [Delete a device identity](delete-a-device-identity.md)  
   
--   [Retrieve a device identity](../IoTREST/retrieve-a-device-identity.md)  
+-   [Retrieve a device identity](retrieve-a-device-identity.md)  
   
--   [List device identities](../IoTREST/list-device-identities.md)  
+-   [List device identities](list-device-identities.md)  
   
--   [Update an existing device identity](../IoTREST/update-an-existing-device-identity.md)  
+-   [Update an existing device identity](update-an-existing-device-identity.md)  
   
--   [Retrieve device identities statistics](../IoTREST/retrieve-device-identities-statistics.md)  
+-   [Retrieve device identities statistics](retrieve-device-identities-statistics.md)  
   
--   [Retrieve service statistics](../IoTREST/retrieve-service-statistics.md)  
+-   [Retrieve service statistics](retrieve-service-statistics.md)  
   
--   [Export device identities](../IoTREST/export-device-identities1.md)  
+-   [Export device identities](export-device-identities1.md)  
   
--   [Import device identities](../IoTREST/import-device-identities.md)  
+-   [Import device identities](import-device-identities.md)  
   
--   [Import or update device identities](../IoTREST/import-or-update-device-identities.md)  
+-   [Import or update device identities](import-or-update-device-identities.md)  
   
--   [Retrieve import-export job](../IoTREST/retrieve-import-export-job.md)  
+-   [Retrieve import-export job](retrieve-import-export-job.md)  
   
--   [Cancel import/export job](../IoTREST/cancel-import-export-job.md)  
+-   [Cancel import/export job](cancel-import-export-job.md)  
   
--   [List import-export jobs](../IoTREST/list-import-export-jobs.md)
+-   [List import-export jobs](list-import-export-jobs.md)

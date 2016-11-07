@@ -29,7 +29,7 @@ translation.priority.mt:
 This method is used to retrieve a cloud-to-device message.  
   
 ## Request  
- See [Common parameters and headers](../IoTREST/device-messaging-rest-apis.md#bk_common) for headers and parameters that are used by all IoT Hub messaging requests.  
+ See [Common parameters and headers](device-messaging-rest-apis.md#bk_common) for headers and parameters that are used by all IoT Hub messaging requests.  
   
 |Method|Request URI|  
 |------------|-----------------|  

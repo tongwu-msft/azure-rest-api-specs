@@ -39,7 +39,7 @@ translation.priority.mt:
 Reports the health state of the specified Service Fabric service.  
   
 ## Request  
- See [Common parameters and headers](../ServiceFabricREST/service.md#bk_common) for headers and parameters that are used by all requests related to services.  
+ See [Common parameters and headers](service.md#bk_common) for headers and parameters that are used by all requests related to services.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -70,7 +70,7 @@ Reports the health state of the specified Service Fabric service.
 |RemoveWhenExpired|No|Boolean|Value of `true` to remove the health report after the time to live expires; `false` to keep the health event after the time to live expires. If not specified, the default is `false`.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ## Examples  
  The following example reports the health of a service.  

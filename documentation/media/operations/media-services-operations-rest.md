@@ -69,22 +69,22 @@ x-ms-version: 2011-10-01
  Response with non-204 (No Content) status code will have a response body. In this case, the response will have Content-Length and Content-Type header. The format of the body will be either XML or JSON depending on the `Accept` header in the request. If the Accept header is not specified in the request, server returns XML response body.  
   
 ## In This Section  
- [List Available Regions](../MediaServicesOperations_RESTAPI/list-available-regions.md)  
+ [List Available Regions](../operations/list-available-regions.md)  
   
- [List Media Services Accounts](../MediaServicesOperations_RESTAPI/list-media-services-accounts.md)  
+ [List Media Services Accounts](../operations/list-media-services-accounts.md)  
   
- [Create Media Services Account](../MediaServicesOperations_RESTAPI/create-media-services-account.md)  
+ [Create Media Services Account](../operations/create-media-services-account.md)  
   
- [Delete Media Services Account](../MediaServicesOperations_RESTAPI/delete-media-services-account.md)  
+ [Delete Media Services Account](../operations/delete-media-services-account.md)  
   
- [Get Media Services Account Details](../MediaServicesOperations_RESTAPI/get-media-services-account-details.md)  
+ [Get Media Services Account Details](../operations/get-media-services-account-details.md)  
   
- [List Storage Accounts](../MediaServicesOperations_RESTAPI/list-storage-accounts--media-services-.md)  
+ [List Storage Accounts](../operations/list-storage-accounts--media-services-.md)  
   
- [Update Storage Account Key](../MediaServicesOperations_RESTAPI/update-storage-account-key--media-services-.md)  
+ [Update Storage Account Key](../operations/update-storage-account-key--media-services-.md)  
   
- [Regenerate Media Services Primary Account Key](../MediaServicesOperations_RESTAPI/regenerate-media-services-primary-account-key.md)  
+ [Regenerate Media Services Primary Account Key](../operations/regenerate-media-services-primary-account-key.md)  
   
- [Regenerate Media Services Secondary Account Key](../MediaServicesOperations_RESTAPI/regenerate-media-services-secondary-account-key.md)  
+ [Regenerate Media Services Secondary Account Key](../operations/regenerate-media-services-secondary-account-key.md)  
   
- [Media Services Management Error Codes](../MediaServicesOperations_RESTAPI/media-services-management-error-codes.md)
+ [Media Services Management Error Codes](../operations/media-services-management-error-codes.md)

@@ -29,12 +29,12 @@ translation.priority.mt:
   
 The Data Catalog REST API is a REST-based API that provides programmatic access to Data Catalog resources to register, annotate and search data assets programmatically. **Azure Data Catalog** is a cloud-based service that you can use to register and discover enterprise data assets. The service gives you capabilities that enable any user, from analysts to data scientists to developers, to register, discover, understand, and consume data assets.  
   
-To learn more, see [Data Catalog REST API reference](../AzureDataCatalogREST/Data-Catalog-REST-API-reference.md).  
+To learn more, see [Data Catalog REST API reference](Data-Catalog-REST-API-reference.md).  
   
 ## Search syntax reference  
 **Azure Data Catalog** is a fully managed service hosted in Microsoft Azure that serves as a system of registration and system of discovery for enterprise data sources. **Azure Data Catalog** has capabilities that enable technical and non-technical users to discover, understand, and consume data sources.  
   
-To learn more, see [Data Catalog Search syntax reference](../AzureDataCatalogREST/Data-Catalog-Search-syntax-reference.md).  
+To learn more, see [Data Catalog Search syntax reference](Data-Catalog-Search-syntax-reference.md).  
   
 ## Code samples  
 * [Get started creating a Data Catalog app](https://github.com/Azure-Samples/data-catalog-dotnet-get-started) - Shows you how to Register, Search, and Delete a data asset using the Data Catalog REST API.   

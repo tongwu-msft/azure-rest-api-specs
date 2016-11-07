@@ -35,6 +35,6 @@ APIs to manage the Azure Service Fabric native image store.
 ## Tasks  
  You can do the following with the native image store:  
   
--   [Get a list of native image store content](../ServiceFabricREST/get-a-list-of-native-image-store-content.md)  
+-   [Get a list of native image store content](get-a-list-of-native-image-store-content.md)  
   
--   [Delete native image store content](../ServiceFabricREST/delete-native-image-store-content.md)
+-   [Delete native image store content](delete-native-image-store-content.md)

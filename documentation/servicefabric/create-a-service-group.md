@@ -39,7 +39,7 @@ translation.priority.mt:
 Creates the specified service group.  
   
 ## Request  
- See [Common parameters and headers](../ServiceFabricREST/service.md#bk_common) for headers and parameters that are used by all requests related to services.  
+ See [Common parameters and headers](service.md#bk_common) for headers and parameters that are used by all requests related to services.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -108,7 +108,7 @@ Creates the specified service group.
 |SecondaryDefaultLoad|No|Number|The default amount of load, as a number, that this service creates for this metric when it is a Secondary replica.|  
   
 ## Response  
- A successful operation will return 202 Accepted. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 202 Accepted. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ## Examples  
  The following example creates a service.  

@@ -39,7 +39,7 @@ translation.priority.mt:
 Moves to the next upgrade domain.  
   
 ## Request  
- See [Application](../ServiceFabricREST/application2.md) for headers and parameters that are used by all requests related to applications.  
+ See [Application](application2.md) for headers and parameters that are used by all requests related to applications.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -57,4 +57,4 @@ Moves to the next upgrade domain.
 |UpgradeDomainName|Yes|String|The next upgrade domain.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).

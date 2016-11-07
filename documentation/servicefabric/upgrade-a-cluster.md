@@ -39,7 +39,7 @@ translation.priority.mt:
 Upgrade a Service Fabric cluster.  
   
 ## Request  
- See [Cluster](../ServiceFabricREST/cluster.md) for headers and parameters that are used by all requests related to the cluster  
+ See [Cluster](cluster.md) for headers and parameters that are used by all requests related to the cluster  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -182,4 +182,4 @@ Upgrade a Service Fabric cluster.
 |MaxPercentUnhealthyReplicasPerPartition|Yes|Number|The maximum allowed percentage of unhealthy replicas per partition.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).

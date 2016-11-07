@@ -37,11 +37,11 @@ translation.priority.mt:
 Restarts a code package deployed on a node in a cluster. This aborts the code package process, which will restart all the user service replicas hosted in that process.  
   
 ## Request  
- See [Application type](../ServiceFabricREST/application-type.md) for headers and parameters that are used by all requests related to code packages.  
+ See [Application type](application-type.md) for headers and parameters that are used by all requests related to code packages.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |POST|`<URI>/Nodes/{node-name}/$/GetApplication/{Application-name}/$/GetCodePackages/$/Restart?api-version={api-version}`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).

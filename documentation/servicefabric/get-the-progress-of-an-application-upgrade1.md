@@ -37,14 +37,14 @@ translation.priority.mt:
 Gets the progress of the Service Fabric application upgrade process.  
   
 ## Request  
- See [Application type](../ServiceFabricREST/application-type.md) for headers and parameters that are used by all requests related to code packages.  
+ See [Application type](application-type.md) for headers and parameters that are used by all requests related to code packages.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`<URI>/Applications/{application-name}/$/GetUpgradeProgress?api-version={api-version}`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 {  

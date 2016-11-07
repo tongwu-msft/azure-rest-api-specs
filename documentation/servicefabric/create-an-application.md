@@ -39,7 +39,7 @@ translation.priority.mt:
 Creates a Service Fabric application.  
   
 ## Request  
- See [Application](../ServiceFabricREST/application2.md) for headers and parameters that are used by all requests related to applications.  
+ See [Application](application2.md) for headers and parameters that are used by all requests related to applications.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -63,7 +63,7 @@ Creates a Service Fabric application.
 |ParameterList|Yes|Array|The parameter list as an array of name/value pairs.|  
   
 ## Response  
- A successful operation will return 201 Created. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 201 Created. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ## Examples  
  The following example creates an application.  
