@@ -50,7 +50,7 @@
 ## [Location](BatchManagement/Location.json)
 # [Batch Service](../documentation/batchservice/index.md)
 ## [Batch REST API versioning](../documentation/batchservice/Batch-Service-REST-API-Versioning.md)
-## [Authenticate requests to the Batch service](../documentation/batchservice/Authenticate-Requests-to-the-Azure-Batch-Service)
+## [Authenticate requests to the Batch service](../documentation/batchservice/Authenticate-Requests-to-the-Azure-Batch-Service.md)
 ## [Batch status and error codes](../documentation/batchservice/Batch-Status-and-Error-Codes.md)
 ## [Common parameters and headers](../documentation/batchservice/Common-Parameters-and-Headers.md)
 ## [Specifying conditional headers](../documentation/batchservice/Specifying-Conditional-Headers.md)
