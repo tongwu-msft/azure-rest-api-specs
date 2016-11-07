@@ -1,4 +1,6 @@
-  The following information is common to all operations that you might do related to Batch resources:
+# Common parameters and headers
+
+The following information is common to all operations that you might do related to Batch resources:
 
 -   Replace {api-version} with the api-version in the URI.
 
