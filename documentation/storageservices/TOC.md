@@ -1,4 +1,4 @@
-# [Blog, Queue, Table & File Services](StorageServicesREST/azure-storage-services-rest-api-reference.md)
+# [Blob, Queue, Table & File Services](StorageServicesREST/azure-storage-services-rest-api-reference.md)
 ## [Versioning for the Azure Storage Services](StorageServicesREST/versioning-for-the-azure-storage-services.md)
 ### [Versioning Best Practices](StorageServicesREST/versioning-best-practices.md)
 ### [Protocol Version Support for .NET Client Library Versions](StorageServicesREST/protocol-version-support-for-.net-client-library-versions.md)
