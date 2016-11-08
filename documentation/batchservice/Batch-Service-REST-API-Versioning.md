@@ -14,22 +14,22 @@ To specify which version of an operation to use, specify the *api-version* query
 
 -   Capability to create a pool and an auto-pool with Network configuration
 
-    -   A new property [networkConfiguration](../Topic/Add%20a%20pool%20to%20an%20account.md#bk_netconf), has been added to both the pool and auto-pool resources. This property can be used to specify the pool's network configuration, such as the subnet in which the pool's compute nodes will be created.
+    -   A new property [networkConfiguration](~/api-ref/batchservice/pool.json#Pool_Add), has been added to both the pool and auto-pool resources. This property can be used to specify the pool's network configuration, such as the subnet in which the pool's compute nodes will be created.
 
 - Automatically terminate a job when all tasks are complete.
-    - A new property [onAllTasksComplete](../Topic/Add%20a%20job%20to%20an%20account.md) has been added to the job resource. You can specify this when you create or update a job.
+    - A new property [onAllTasksComplete](~/api-ref/batchservice/job.json#Job_Add) has been added to the job resource. You can specify this when you create or update a job.
 
 - Automatically terminate or disable a job when a task fails.
 
-    - A new property [onTaskFailure](../Topic/Add%20a%20job%20to%20an%20account.md) has been added to the job resource, and a new property [exitConditions](../Topic/Add%20a%20task%20to%20a%20job.md) has been added to the task resource. The job onTaskFailure setting indicates whether task failure may have a job-level impact, and the task exitConditions property allows tasks to tailor the job-level impact to the nature of the failure.
+    - A new property [onTaskFailure](~/api-ref/batchservice/job.json#Job_Add) has been added to the job resource, and a new property [exitConditions](~/api-ref/batchservice/task.json#Task_Add) has been added to the task resource. The job onTaskFailure setting indicates whether task failure may have a job-level impact, and the task exitConditions property allows tasks to tailor the job-level impact to the nature of the failure.
 
 - Associate application packages with tasks as well as pools.
 
-    - A new property [applicationPackageReferences](../Topic/Add%20a%20job%20to%20an%20account.md) has been added to the task resource and to the job jobManagerTask settings. This allows application packages to be deployed on demand as tasks require them rather than requiring them to be specified at pool creation time. This is particularly valuable for long-lived pools that may be called on to run different kinds of jobs or different application versions over their lifetime, or if you have a large application package that is not required by all tasks.
+    - A new property [applicationPackageReferences](~/api-ref/batchservice/job.json#Job_Add) has been added to the task resource and to the job jobManagerTask settings. This allows application packages to be deployed on demand as tasks require them rather than requiring them to be specified at pool creation time. This is particularly valuable for long-lived pools that may be called on to run different kinds of jobs or different application versions over their lifetime, or if you have a large application package that is not required by all tasks.
 
 - Capability to reactivate a failed task.
 
-    - A new operation [Reactivate a task](../Topic/Reactivate%20a%20task.md) has been added to reset a failed task's state to active. This allows failures to be retried, for example if the failure was transient or if you have been able to fix the cause of the failure, without recreating the task.
+    - A new operation [Reactivate a task](~/api-ref/batchservice/task.json#Task_Reactivate) has been added to reset a failed task's state to active. This allows failures to be retried, for example if the failure was transient or if you have been able to fix the cause of the failure, without recreating the task.
 
 ### Version 2016-02-01.3.0
  This version release extends all support from previous version, 2015-12-01.2.2. Additionally, it supports the following capabilities:
@@ -40,15 +40,15 @@ To specify which version of an operation to use, specify the *api-version* query
 
     -   A new property 'virtualMachineConfiguration' is added to both the Pool and AutoPool resources. This property can be specified to configure a pool/auto pool with IaaS VMs.
 
-    -   A new API is added to obtain information about all the node agent SKUs supported by the Batch service. See [List supported node agent SKUs](../Topic/List%20supported%20node%20agent%20SKUs.md).
+    -   A new API is added to obtain information about all the node agent SKUs supported by the Batch service. See [List supported node agent SKUs](~/api-ref/batchservice/account.json#Account_ListNodeAgentSkus).
 
-    -   A new API is added to obtain remote login settings which can be used to remotely login to a compute node created with IaaS VM configuration. See [Get remote login settings for a node](../Topic/Get%20remote%20login%20settings%20for%20a%20node.md).
+    -   A new API is added to obtain remote login settings which can be used to remotely login to a compute node created with IaaS VM configuration. See [Get remote login settings for a node](~/api-ref/batchservice/computenode.json#ComputeNode_GetRemoteLoginSettings).
 
-    -   A new API is added to add a collection of tasks to a job. See [Add a collection of tasks to a job](../Topic/Add%20a%20collection%20of%20tasks%20to%20a%20job.md).
+    -   A new API is added to add a collection of tasks to a job. See [Add a collection of tasks to a job](~/api-ref/batchservice/task.json#Task_AddCollection).
 
     -   A new optional property 'sshPublicKey' is added to the User resource which can be used for adding/updating users on a Linux compute node.
 
-    -   Two new properties 'totalTasksSucceeded' and 'runningTasksCount' are added to the Node resource. These properties can be obtained via [Get information about a node](../Topic/Get%20information%20about%20a%20node.md) or [List the compute nodes in a pool](../Topic/List%20the%20compute%20nodes%20in%20a%20pool.md).
+    -   Two new properties 'totalTasksSucceeded' and 'runningTasksCount' are added to the Node resource. These properties can be obtained via [Get information about a node](~/api-ref/batchservice/computenode.json#ComputeNode_Get) or [List the compute nodes in a pool](~/api-ref/batchservice/computenode.json#ComputeNode_List).
 
     -   A new property 'fileMode' is added to the 'ResourceFile' complex type. This property is applied only on Linux compute nodes and ignored for Windows compute nodes.
 
@@ -58,45 +58,45 @@ To specify which version of an operation to use, specify the *api-version* query
 
 -   The URLs of the following APIs are changed to replace "?" for the action name to "/":
 
-    -   [Replace the properties of a pool](../Topic/Replace%20the%20properties%20of%20a%20pool.md)
+    -   [Replace the properties of a pool](~/api-ref/batchservice/pool.json#Pool_UpdateProperties)
 
-    -   [Disable automatic scaling on a pool](../Topic/Disable%20automatic%20scaling%20on%20a%20pool.md)
+    -   [Disable automatic scaling on a pool](~/api-ref/batchservice/pool.json#Pool_DisableAutoScale)
 
-    -   [Enable automatic scaling on a pool](../Topic/Enable%20automatic%20scaling%20on%20a%20pool.md)
+    -   [Enable automatic scaling on a pool](~/api-ref/batchservice/pool.json#Pool_EnableAutoScale)
 
-    -   [Evaluate an automatic scaling formula](../Topic/Evaluate%20an%20automatic%20scaling%20formula.md)
+    -   [Evaluate an automatic scaling formula](~/api-ref/batchservice/pool.json#Pool_EvaluateAutoScale)
 
-    -   [Change the size of a pool](../Topic/Change%20the%20size%20of%20a%20pool.md)
+    -   [Change the size of a pool](~/api-ref/batchservice/pool.json#Pool_Resize)
 
-    -   [Stop changing the size of a pool](../Topic/Stop%20changing%20the%20size%20of%20a%20pool.md)
+    -   [Stop changing the size of a pool](~/api-ref/batchservice/pool.json#Pool_StopResize)
 
-    -   [Upgrade the operating system of compute nodes in a pool](../Topic/Upgrade%20the%20operating%20system%20of%20compute%20nodes%20in%20a%20pool.md)
+    -   [Upgrade the operating system of compute nodes in a pool](~/api-ref/batchservice/pool.json#Pool_UpgradeOS)
 
-    -   [Remove compute nodes from a pool](../Topic/Remove%20compute%20nodes%20from%20a%20pool.md)
+    -   [Remove compute nodes from a pool](~/api-ref/batchservice/pool.json#Pool_RemoveNodes)
 
-    -   [Reboot a node](../Topic/Reboot%20a%20node.md)
+    -   [Reboot a node](~/api-ref/batchservice/computenode.json#ComputeNode_Reboot)
 
-    -   [Reimage a node](../Topic/Reimage%20a%20node.md)
+    -   [Reimage a node](~/api-ref/batchservice/computenode.json#ComputeNode_Reimage)
 
-    -   [Disable task scheduling on a node](../Topic/Disable%20task%20scheduling%20on%20a%20node.md)
+    -   [Disable task scheduling on a node](~/api-ref/batchservice/computenode.json#ComputeNode_DisableScheduling)
 
-    -   [Enable task scheduling on a node](../Topic/Enable%20task%20scheduling%20on%20a%20node.md)
+    -   [Enable task scheduling on a node](~/api-ref/batchservice/computenode.json#ComputeNode_EnableScheduling)
 
-    -   [Disable a job schedule](../Topic/Disable%20a%20job%20schedule.md)
+    -   [Disable a job schedule](~/api-ref/batchservice/jobschedule.json#JobSchedule_Disable)
 
-    -   [Enable a job schedule](../Topic/Enable%20a%20job%20schedule.md)
+    -   [Enable a job schedule](~/api-ref/batchservice/jobschedule.json#JobSchedule_Enable)
 
-    -   [Terminate a job schedule](../Topic/Terminate%20a%20job%20schedule.md)
+    -   [Terminate a job schedule](~/api-ref/batchservice/jobschedule.json#JobSchedule_Terminate)
 
-    -   [Disable a job](../Topic/Disable%20a%20job.md)
+    -   [Disable a job](~/api-ref/batchservice/job.json#Job_Disable)
 
-    -   [Enable a job](../Topic/Enable%20a%20job.md)
+    -   [Enable a job](~/api-ref/batchservice/job.json#Job_Enable)
 
-    -   [Terminate a job](../Topic/Terminate%20a%20job.md)
+    -   [Terminate a job](~/api-ref/batchservice/job.json#Job_Terminate)
 
-    -   [Terminate a task](../Topic/Terminate%20a%20task.md)
+    -   [Terminate a task](~/api-ref/batchservice/task.json#Task_Terminate)
 
-    -   [Cancel the deletion of a certificate](../Topic/Cancel%20the%20deletion%20of%20a%20certificate.md)
+    -   [Cancel the deletion of a certificate](~/api-ref/batchservice/certificate.json#Certificate_CancelDeletion)
 
 ### Version 2015-12-01.2.2
  This version release extends all support from previous version, 2015-11-01.2.1. Additionally, it supports the following capabilities:

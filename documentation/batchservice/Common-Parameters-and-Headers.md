@@ -6,7 +6,7 @@ The following information is common to all operations that you might do related 
 
 -   Replace {account-name} with the name of your Batch account in the URI.
 
--   Specify the *ocp-date* value as a request header or a URI parameter. A date must be specified according to [Representation of Date/Time Values](#BKMK_DateTime).
+-   Specify the *ocp-date* value as a request header or a URI parameter. A date must be specified according to [Representation of Date/Time Values](#representation-of-datetime-values).
 
 -   Specify the optional *$select* value as a list of properties to return for a resource.
 
@@ -26,11 +26,11 @@ The following information is common to all operations that you might do related 
 
     -   A maximum of 1000 tasks can be returned.
 
--   Set the *Authorization* header to a string that contains the authentication scheme, the account name, and the authentication signature. For more information, see [Authenticate Requests to the Azure Batch Service](../Topic/Authenticate%20Requests%20to%20the%20Azure%20Batch%20Service.md).
+-   Set the *Authorization* header to a string that contains the authentication scheme, the account name, and the authentication signature. For more information, see [Authenticate Requests to the Azure Batch Service](~/documentation/batchservice/authenticate-requests-to-the-azure-batch-service.md).
 
 -   Set the optional *client-request-id* header to a GUID that can be used to identify the request and its related response. You can also set the optional *return-client-request-id* to **true** or **false** depending on whether you want the identifier to be included in the response. The default value is **false**.
 
-##  <a name="BKMK_DateTime"></a> Representation of Date/Time Values
+## Representation of Date/Time Values
 
 ### Specifying Date/Time values in HTTP headers
  The Batch service follows RFC 1123 for representation of date/time values in headers. This is the preferred format for HTTP/1.1 operations, as described in section 3.3 of the [HTTP/1.1 Protocol Parameters](http://go.microsoft.com/fwlink/?linkid=133333) specification. An example of this format is:
@@ -59,5 +59,5 @@ Sunday, 06-Nov-94 08:49:37 GMT
  For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, and `ss` is the two-digit second representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone.
 
 ## See Also
- [Azure Batch REST API Reference](../Topic/Azure%20Batch%20REST%20API%20Reference.md)
+ [Azure Batch REST API Reference](~/documentation/batchservice/index.md)
 
