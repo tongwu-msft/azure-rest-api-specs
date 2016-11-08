@@ -30,7 +30,7 @@ Azure Resource Manager enables you to deploy and manage the infrastructure for y
 | [Tenants](./tenants)                            | Provides operations to view the Azure Active Directory tenants for your account. |
 
 
-## See Also [OPTIONAL]
+## See Also
 
 - [Authoring Azure Resource Manager templates](https://azure.microsoft.com/documentation/articles/resource-group-authoring-templates/)
 - [Resource Manager providers, regions, API versions and schemas](https://azure.microsoft.com/documentation/articles/resource-manager-supported-services/)
