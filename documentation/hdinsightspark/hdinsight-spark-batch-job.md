@@ -1,10 +1,21 @@
-# Batch Job
+﻿# Batch Job
+
+###  <a name="bk_common"></a> Common parameters and headers  
+ The following information is common to all tasks that you might do related to clusters:  
+  
+-   Replace {cluster-endpoint} with the url of your cluster’s management endpoint. (e.g. myendpoint.azurehdinsight.net)  
+  
+-   Replace {batch-id} with the batch id returned on job submission.  
+  
+-   Set the Content-Type header to **application/json**.  
+  
+-   Authenticate with the endpoint using HTTP basic authentication.  
 
 ## Create a new batch job
 Submit a new batch job from a jar.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightSparkREST/batch-jobs.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -70,7 +81,7 @@ Submit a new batch job from a jar.
 
 ## Get the full log of a batch job
 ### Request  
- See [Common parameters and headers](../HDInsightSparkREST/batch-jobs.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -134,7 +145,7 @@ Submit a new batch job from a jar.
 
 ## Kill a batch job
 ### Request  
- See [Common parameters and headers](../HDInsightSparkREST/batch-jobs.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -164,7 +175,7 @@ Submit a new batch job from a jar.
 
 ## Return all active batch jobs
 ### Request  
- See [Common parameters and headers](../HDInsightSparkREST/batch-jobs.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  

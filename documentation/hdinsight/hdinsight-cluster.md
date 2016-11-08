@@ -4,7 +4,7 @@
 Creates a cluster in the specified subscription.  
   
 ###  <a name="bk_createrequest"></a> Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -296,7 +296,7 @@ Creates a cluster in the specified subscription.
 Deletes an HDInsight cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -313,7 +313,7 @@ Deletes an HDInsight cluster.
 Gets the details/properties of the specified cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -427,7 +427,7 @@ Gets the details/properties of the specified cluster.
 Gets cluster configuration details.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -463,7 +463,7 @@ Gets cluster configuration details.
 Gets details about a single configuration type.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -492,7 +492,7 @@ Gets details about a single configuration type.
 Lists all the clusters in the user’s subscription in the specified resource group.  
   
 ### Request  
- See  [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See  [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -503,7 +503,7 @@ Lists all the clusters in the user’s subscription in the specified resource gr
   
  **Status code**: 200 OK  
   
- Response body is an array of cluster details. For more information, see [Get cluster properties](../HDInsightREST/get-cluster-properties.md).  
+ Response body is an array of cluster details. For more information, see [Get cluster properties](#get).  
   
 ```  
 {  
@@ -519,7 +519,7 @@ Lists all the clusters in the user’s subscription in the specified resource gr
 Lists all the clusters in the user’s subscription.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -545,7 +545,7 @@ Lists all the clusters in the user’s subscription.
 This operation allows users to enable/disable the HTTPS connectivity to the cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/clusters.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -588,7 +588,7 @@ This operation allows users to enable/disable the HTTPS connectivity to the clus
 This operation allows a user to enable/disable RDP. It applies to Windows based clusters.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -649,14 +649,14 @@ This operation allows a user to enable/disable RDP. It applies to Windows based 
   
  **Status code:** 200 OK  
   
- Response body is the same as [Create a cluster](../HDInsightREST/create-a-cluster.md).
+ Response body is the same as [Create a cluster](#create).
 
 
 ## Run Script Actions on a running cluster (Linux cluster only)
 Execute Script action on a running cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -703,7 +703,7 @@ Execute Script action on a running cluster.
 This operation returns all the persisted scripts actions of the specified cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -745,7 +745,7 @@ This operation returns all the persisted scripts actions of the specified cluste
 This operation removes an HDInsight persisted script action for a cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -762,7 +762,7 @@ This operation removes an HDInsight persisted script action for a cluster.
 This operation returns latest scripts action execution of the specified cluster or execution details for an individual script execution.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -822,7 +822,7 @@ This operation returns latest scripts action execution of the specified cluster 
 This operation promotes an HDInsight script from script execution history to be persisted.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -839,7 +839,7 @@ This operation promotes an HDInsight script from script execution history to be 
 Resizes an existing HDInsight cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -870,7 +870,7 @@ Updates tags for a cluster.
  All other updates are separate actions described separately.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -894,20 +894,20 @@ Updates tags for a cluster.
   
  **Status code:** 200 OK  
   
- Response body is the same as [Create a cluster](../HDInsightREST/create-a-cluster.md).
+ Response body is the same as [Create a cluster](#create).
 
 
 ## Validate creation request
 This operation allows users to validate the request to create a cluster. If the submitted request has some errors, the API returns an error information about properties that have invalid or missing values.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/hdinsight-resource-provider-rest.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |PUT|`https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/validateCreateRequest?api-version={api-version}`|  
   
- The request body for this operation will be the same as that for [Request](../HDInsightREST/create-a-cluster.md#bk_createrequest).  If any of the required properties is null or missing, the API still tries to validate the remaining properties and provide actionable error messages. Below is an example of the request body of a cluster creation request with some missing and invalid fields:  
+ The request body for this operation will be the same as that for [Request](#create).  If any of the required properties is null or missing, the API still tries to validate the remaining properties and provide actionable error messages. Below is an example of the request body of a cluster creation request with some missing and invalid fields:  
   
 ```  
 {  
