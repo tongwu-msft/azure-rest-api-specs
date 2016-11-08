@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # ContentKeyAuthorizationPolicy
-Media Services supports multiple ways of authenticating users who make key requests. The content key authorization policy must be configured by you and met by the client (player) in order for the key to be delivered to the client. The content key authorization policy could have one or more authorization restrictions: open, token restriction, or IP restriction. You use [ContentKeyAuthorizationPolicyOption](../MediaServicesREST/contentkeyauthorizationpolicyoption.md) to specify the authorization options. You then add the created options to `ContentKeyAuthorizationPolicy`.  
+Media Services supports multiple ways of authenticating users who make key requests. The content key authorization policy must be configured by you and met by the client (player) in order for the key to be delivered to the client. The content key authorization policy could have one or more authorization restrictions: open, token restriction, or IP restriction. You use [ContentKeyAuthorizationPolicyOption](../services/contentkeyauthorizationpolicyoption.md) to specify the authorization options. You then add the created options to `ContentKeyAuthorizationPolicy`.  
   
  If you plan to have multiple content keys that require the sample policy configuration, it is strongly recommended to create a single authorization policy and reuse it with multiple content keys.  
   
@@ -48,7 +48,7 @@ Media Services supports multiple ways of authenticating users who make key reque
 |--------------|----------|-----------------|  
 |`Id`<br /><br /> Read-only. Set by Media Services.|Edm.String|Unique identifier.|  
 |`Name`|Edm.String|Friendly name of the content key authorization policy.|  
-|`Options`|A collection of [ContentKeyAuthorizationPolicyOption](../MediaServicesREST/contentkeyauthorizationpolicyoption.md)s.|A list of different ways a client can be authorized to access the content key.|  
+|`Options`|A collection of [ContentKeyAuthorizationPolicyOption](../services/contentkeyauthorizationpolicyoption.md)s.|A list of different ways a client can be authorized to access the content key.|  
   
 ## Create ContentKeyAuthorizationPolicy  
   
@@ -59,7 +59,7 @@ Media Services supports multiple ways of authenticating users who make key reque
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -94,7 +94,7 @@ x-ms-version: 2.11
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -133,7 +133,7 @@ x-ms-version: 2.11
   
  The following example creates a ContentKeyAuthorizationPolicyOption with the following values set: a `Token` authorization restriction (`"KeyRestrictionType":1`) and BaselineHttp (MPEG baseline HTTP key protocol) key delivery method (`"KeyDeliveryType":2`).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -178,7 +178,7 @@ x-ms-version: 2.11
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   

@@ -48,24 +48,24 @@ APIs to manage Azure Service Fabric nodes.
 ## Tasks  
  You can do the following with node resources:  
   
--   [Get a list of nodes](../ServiceFabricREST/get-a-list-of-nodes.md)  
+-   [Get a list of nodes](get-a-list-of-nodes.md)  
   
--   [Activate a node](../ServiceFabricREST/activate-a-node.md)  
+-   [Activate a node](activate-a-node.md)  
   
--   [Deactivate a node](../ServiceFabricREST/deactivate-a-node.md)  
+-   [Deactivate a node](deactivate-a-node.md)  
   
--   [Remove the state of a node](../ServiceFabricREST/remove-the-state-of-a-node.md)  
+-   [Remove the state of a node](remove-the-state-of-a-node.md)  
   
--   [Get the health of a node](../ServiceFabricREST/get-the-health-of-a-node.md)  
+-   [Get the health of a node](get-the-health-of-a-node.md)  
   
--   [Get the health of a node by using a health policy](../ServiceFabricREST/get-the-health-of-a-node-by-using-a-health-policy.md)  
+-   [Get the health of a node by using a health policy](get-the-health-of-a-node-by-using-a-health-policy.md)  
   
--   [Report the health of a node](../ServiceFabricREST/report-the-health-of-a-node.md)  
+-   [Report the health of a node](report-the-health-of-a-node.md)  
   
--   [Start a node](../ServiceFabricREST/start-a-node.md)  
+-   [Start a node](start-a-node.md)  
   
--   [Stop a node](../ServiceFabricREST/stop-a-node.md)  
+-   [Stop a node](stop-a-node.md)  
   
--   [Restart a node](../ServiceFabricREST/restart-a-node.md)  
+-   [Restart a node](restart-a-node.md)  
   
--   [Get the load of a node](../ServiceFabricREST/get-the-load-of-a-node.md)
+-   [Get the load of a node](get-the-load-of-a-node.md)

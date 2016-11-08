@@ -1,3 +1,5 @@
+# Authenticate requests to the Batch service
+
 Every request made against the Batch service must be authenticated.  The Batch service supports the Shared Key authentication scheme to make REST requests.
 
 An authenticated request requires two headers: the *Date* or *ocp-date* header and the *Authorization* header. The following sections describe how to construct these headers.

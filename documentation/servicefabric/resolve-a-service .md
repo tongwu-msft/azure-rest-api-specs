@@ -39,7 +39,7 @@ translation.priority.mt:
 Resolves a Service Fabric service partition, to get the endpoints of the service replicas.  
   
 ## Request  
- See [Service](../ServiceFabricREST/service.md) for headers and parameters that are used by all requests related to services.  
+ See [Service](service.md) for headers and parameters that are used by all requests related to services.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -60,7 +60,7 @@ Resolves a Service Fabric service partition, to get the endpoints of the service
 |PreviousRspVersion|No|Gives the value in the Version field of the response that was received previously. This is required if the user knows that the result that was got previously is stale.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 |Element name|Description|  
 |------------------|-----------------|  

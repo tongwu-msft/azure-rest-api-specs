@@ -39,7 +39,7 @@ translation.priority.mt:
 Removes a service fabric replica. This is a destructive operation and can cause loss of data.  
   
 ## Request  
- See [Common parameters and headers](../ServiceFabricREST/replica.md#bk_common) for parameters and headers that are used by all requests related to replicas.  
+ See [Common parameters and headers](replica.md#bk_common) for parameters and headers that are used by all requests related to replicas.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -47,4 +47,4 @@ Removes a service fabric replica. This is a destructive operation and can cause 
 |POST|Force the removal of the replica without performing an API calls on the replica informing it.<br /><br /> `<URI>/Nodes/{node-name}/Partitions/{partition-id}/Replicas/{replica-id}/$/Delete?api-version={api-version}&ForceRemove=true`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).

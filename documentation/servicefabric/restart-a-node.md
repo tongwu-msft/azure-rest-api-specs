@@ -37,11 +37,11 @@ translation.priority.mt:
 Restarts a Service Fabric cluster node that is in a start state.  
   
 ## Request  
- See [Cluster](../ServiceFabricREST/cluster.md) for headers and parameters that are used by all requests related to the cluster  
+ See [Cluster](cluster.md) for headers and parameters that are used by all requests related to the cluster  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |POST|`<URI>/Nodes/{node-name}/$/Restart?api-version={api-version}`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).

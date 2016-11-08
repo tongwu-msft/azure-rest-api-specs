@@ -33,7 +33,7 @@ translation.priority.mt:
 Updates an existing device identity.  
   
 ## Request  
- See [Common parameters and headers](../IoTREST/device-identities-rest.md#bk_common) for headers and parameters that are used by all requests related to IoT Hub.  
+ See [Common parameters and headers](device-identities-rest.md#bk_common) for headers and parameters that are used by all requests related to IoT Hub.  
   
 |Method|Request URI|  
 |------------|-----------------|  

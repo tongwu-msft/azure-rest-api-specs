@@ -67,7 +67,7 @@ A Program enables you to control the publishing and storage of segments in a liv
 |`ManifestName`|Edm.String|The manifest file name, without extension. This property can be updated only when the Program is in the **Stopped** state.|  
 |`State`<br /><br /> Read-only. Set by Media Services.|Edm.String|Gets the current state. Possible values include:<br /><br /> -   Stopped. After creating a Program, it is in the **Stopped** state. In this state, the Program properties can be updated, but streaming is not allowed. The Program can be started, updated, or deleted from this state.<br />-   Starting. Program is being started. No updates or streaming is allowed during this state.<br />-   Running. Program is capable of processing and archiving live streams.<br />-   Stopping. Program is being stopped. No updates or streaming is allowed during this state.|  
 |`ChannelId`<br /><br /> Read-only. Set by Media Services.|Edm.String|The ID of the Program's parent Channel.|  
-|`Channel`|[Channel](../MediaServicesREST/channel.md)|The Program's parent channel specified by the **ChannelId**.|  
+|`Channel`|[Channel](../services/channel.md)|The Program's parent channel specified by the **ChannelId**.|  
   
 ##  <a name="create_programs"></a> Create Programs  
  Create a new Program.  
@@ -83,7 +83,7 @@ A Program enables you to control the publishing and storage of segments in a liv
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -131,7 +131,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -165,7 +165,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -199,7 +199,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -233,7 +233,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -273,7 +273,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -297,4 +297,4 @@ Authorization: Bearer <token value>
 >  This operation completes synchronously, so therefore, there is no operation-id to track.  
   
 ## See Also  
- [Channel](../MediaServicesREST/channel.md)
+ [Channel](../services/channel.md)

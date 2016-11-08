@@ -30,15 +30,15 @@ The `AssetFile` entity represents an actual video or audio file that is stored i
   
  This topic gives an overview of the `AssetFile` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [AssetFile Entity Properties](../MediaServicesREST/assetfile.md#file_entity_properties)  
+-   [AssetFile Entity Properties](../services/assetfile.md#file_entity_properties)  
   
--   [Create an AssetFile](../MediaServicesREST/assetfile.md#create_a_file)  
+-   [Create an AssetFile](../services/assetfile.md#create_a_file)  
   
--   [List AssetFiles](../MediaServicesREST/assetfile.md#list_files)  
+-   [List AssetFiles](../services/assetfile.md#list_files)  
   
--   [Update an AssetFile](../MediaServicesREST/assetfile.md#Update_a_file)  
+-   [Update an AssetFile](../services/assetfile.md#Update_a_file)  
   
--   [Delete an AssetFile](../MediaServicesREST/assetfile.md#delete_a_file)  
+-   [Delete an AssetFile](../services/assetfile.md#delete_a_file)  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -68,7 +68,7 @@ The `AssetFile` entity represents an actual video or audio file that is stored i
 |`ContentChecksum`<br /><br /> Optional.|Edm.String|A hexadecimal number representing a MD5 (RFC 1321) message digest value.  This value is set by the client or client library to serve as a validation of the successful upload of the content. Maximum length is 4000.|  
   
 ##  <a name="create_a_file"></a> Create an AssetFile  
- The CreateFileInfos function is used to create a new AssetFile entity. For more information, see [REST API Functions](../MediaServicesREST/rest-api-functions.md).  
+ The CreateFileInfos function is used to create a new AssetFile entity. For more information, see [REST API Functions](../services/rest-api-functions.md).  
   
 ##  <a name="list_files"></a> List AssetFiles  
  AssetFiles are retrieved using a GET HTTP request.  
@@ -90,7 +90,7 @@ The `AssetFile` entity represents an actual video or audio file that is stored i
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/Files('nb:cid:UUID:d0214595-fff0-164e-9c67-d576eba09605') HTTP/1.1  
@@ -115,7 +115,7 @@ Host: media.windows.net
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 MERGE https://media.windows.net/API/Files('nb:cid:UUID:2710e174-3165-a34c-96ad-618714b0d504') HTTP/1.1  
@@ -133,16 +133,16 @@ Expect: 100-continue
 ```  
   
 ##  <a name="delete_a_file"></a> Delete an AssetFile  
- AssetFiles are deleted when their associated Asset has been deleted. For an example, see [Delete an Asset](../MediaServicesREST/asset.md#delete_an_asset).  
+ AssetFiles are deleted when their associated Asset has been deleted. For an example, see [Delete an Asset](../services/asset.md#delete_an_asset).  
   
 ## See Also  
- [ContentKey](../MediaServicesREST/contentkey.md)   
- [Asset](../MediaServicesREST/asset.md)   
- [AccessPolicy](../MediaServicesREST/accesspolicy.md)   
- [Job](../MediaServicesREST/job.md)   
- [JobTemplate](../MediaServicesREST/jobtemplate.md)   
- [Locator](../MediaServicesREST/locator.md)   
- [MediaProcessor](../MediaServicesREST/mediaprocessor.md)   
- [Task](../MediaServicesREST/task.md)   
- [TaskTemplate](../MediaServicesREST/tasktemplate.md)   
+ [ContentKey](../services/contentkey.md)   
+ [Asset](../services/asset.md)   
+ [AccessPolicy](../services/accesspolicy.md)   
+ [Job](../services/job.md)   
+ [JobTemplate](../services/jobtemplate.md)   
+ [Locator](../services/locator.md)   
+ [MediaProcessor](../services/mediaprocessor.md)   
+ [Task](../services/task.md)   
+ [TaskTemplate](../services/tasktemplate.md)   
  [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)

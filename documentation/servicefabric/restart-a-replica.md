@@ -39,11 +39,11 @@ translation.priority.mt:
 Restarts a service fabric replica. This is only applicable for replicas belonging to a persisted service. It invokes the CloseAsync and OpenAsync methods on them.  
   
 ## Request  
- See [Common parameters and headers](../ServiceFabricREST/replica.md#bk_common) for parameters and headers that are used by all requests related to replicas.  
+ See [Common parameters and headers](replica.md#bk_common) for parameters and headers that are used by all requests related to replicas.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |POST|`<URI>/Nodes/{node-name}/Partitions/{partition-id}/Replicas/{replica-id}/$/Restart?api-version={api-version}`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).

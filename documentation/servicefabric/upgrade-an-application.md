@@ -39,7 +39,7 @@ translation.priority.mt:
 Upgrades Service Fabric applications by application name.  
   
 ## Request  
- See [Application](../ServiceFabricREST/application2.md) for headers and parameters that are used by all requests related to applications.  
+ See [Application](application2.md) for headers and parameters that are used by all requests related to applications.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -112,7 +112,7 @@ Upgrades Service Fabric applications by application name.
 ```  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ## Examples  
  The following example upgrades an application.  

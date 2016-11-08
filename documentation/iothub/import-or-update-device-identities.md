@@ -31,7 +31,7 @@ Applies To: IoT Hub
  This method enables bulk updates (creation, update, deletion) of device identities from IoT Hub identity registry. It takes a blob as an input parameter. For more information, see [IoT Hub Developer Guide – Import](https://azure.microsoft.com/en-us/documentation/articles/iot-hub-devguide/#import-device-identities).  
   
 ## Request  
- See [Common parameters and headers](../IoTREST/device-identities-rest.md#bk_common) for headers and parameters that are used by all requests related to IoT Hub.  
+ See [Common parameters and headers](device-identities-rest.md#bk_common) for headers and parameters that are used by all requests related to IoT Hub.  
   
 |Method|Request URI|  
 |------------|-----------------|  

@@ -39,14 +39,14 @@ translation.priority.mt:
 Get a Service Fabric service manifest for an application type.  
   
 ## Request  
- See [Application type](../ServiceFabricREST/application-type.md) for headers and parameters that are used by all requests related to application types.  
+ See [Application type](application-type.md) for headers and parameters that are used by all requests related to application types.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`<URI>/ApplicationTypes/{application-type-name}/$/GetServiceManifest?ApplicationTypeVersion={application-type-version}&ServiceManifestName={service-manifest-name>&api-version={api-version}`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 {  

@@ -39,14 +39,14 @@ translation.priority.mt:
 Get the upgrade progress of the Service Fabric cluster.  
   
 ## Request  
- See [Cluster](../ServiceFabricREST/cluster.md) for headers and parameters that are used by all requests related to the cluster.  
+ See [Cluster](cluster.md) for headers and parameters that are used by all requests related to the cluster.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`<URI>/$/GetUpgradeProgress?api-version=1.0`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 {  

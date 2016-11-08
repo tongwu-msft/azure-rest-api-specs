@@ -53,7 +53,7 @@ translation.priority.mt:
 |ETag|String|An opaque string representing the current version of a resource (returned for indexers, indexes, and data sources, but not documents). Use this string in the If-Match or If-None-Match header for [optimistic concurrency control](http://www.ietf.org/rfc/rfc7232.txt).|  
   
 ## See Also  
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
+ [Azure Search Service REST](service-rest.md)   
  [Azure Search Management REST](../Topic/Azure%20Search%20Management%20REST.md)   
  [Azure Search Developer Reference](http://msdn.microsoft.com/en-us/a47e2a88-f9f9-4731-ab5f-e30ba1b5262b)  
   

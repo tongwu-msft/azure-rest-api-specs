@@ -92,9 +92,9 @@ GET /indexes/hotels/docs('3')?api-version=2015-02-28
 ```  
   
 ## See Also  
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
- [Document operations &#40;Azure Search Service REST API&#41;](../SearchServiceREST/document-operations.md)   
- [OData Expression Syntax for Azure Search](../SearchServiceREST/odata-expression-syntax-for-azure-search.md)   
+ [Azure Search Service REST](service-rest.md)   
+ [Document operations &#40;Azure Search Service REST API&#41;](document-operations.md)   
+ [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
  [Azure Search Service Versioning](../Topic/Azure%20Search%20Service%20Versioning.md)  
   
   

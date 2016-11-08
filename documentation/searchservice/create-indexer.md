@@ -47,7 +47,7 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
   
  The **api-version** is required. The current version is `2015-02-28`. [Azure Search Service Versioning](../Topic/Azure%20Search%20Service%20Versioning.md) has details, including more information about alternative versions.  
   
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](../SearchServiceREST/service-rest.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+ The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](service-rest.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
   
 ## Request  
  The body of the request contains an indexer definition, which specifies the data source and the target index for indexing, as well as optional indexing schedule and parameters.  
@@ -75,7 +75,7 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 ### Indexer parameters  
  An indexer can optionally specify several parameters that affect its behavior. All of the parameters are optional.  
   
--   **maxFailedItems**: The number of items that can fail to be indexed before an indexer run is considered a failure. Default is 0. Information about failed items is returned by the [Get Indexer Status &#40;Azure Search Service REST API&#41;](../SearchServiceREST/get-indexer-status.md) operation.  
+-   **maxFailedItems**: The number of items that can fail to be indexed before an indexer run is considered a failure. Default is 0. Information about failed items is returned by the [Get Indexer Status &#40;Azure Search Service REST API&#41;](get-indexer-status.md) operation.  
   
 -   **maxFailedItemsPerBatch**: The number of items that can fail to be indexed in each batch before an indexer run is considered a failure. Default is 0.  
   
@@ -101,9 +101,9 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
  201 Created for a successful request.  
   
 ## See Also  
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
- [HTTP status codes &#40;Azure Search&#41;](../SearchServiceREST/http-status-codes.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](../SearchServiceREST/indexer-operations.md)   
- [Naming rules &#40;Azure Search&#41;](../SearchServiceREST/naming-rules.md)  
+ [Azure Search Service REST](service-rest.md)   
+ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
+ [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
+ [Naming rules &#40;Azure Search&#41;](naming-rules.md)  
   
   

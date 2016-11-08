@@ -101,9 +101,9 @@ Use these APIs to manage your Azure Networking resources. All task operations co
   
  **Load Balancer**  
   
--   Configure [Load balancer](../Load_Balancers/load-balancer.md)  
+-   Configure [Load balancer](../LoadBalancers/load-balancer.md)  
   
--   Configure [Load balancer inbound NAT rules](../Load_Balancers/load-balancer-inbound-nat-rules.md)  
+-   Configure [Load balancer inbound NAT rules](../LoadBalancers/load-balancer-inbound-nat-rules.md)  
   
  **Supporting Tasks**  
   

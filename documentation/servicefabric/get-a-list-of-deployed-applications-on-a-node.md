@@ -39,7 +39,7 @@ translation.priority.mt:
 Get the deployed applications running on a Service Fabric cluster node.  
   
 ## Request  
- See [Deployed application](../ServiceFabricREST/deployed-application.md) for headers and parameters that are used by all requests related to applications.  
+ See [Deployed application](deployed-application.md) for headers and parameters that are used by all requests related to applications.  
   
 |Method|Request URI|  
 |------------|-----------------|  

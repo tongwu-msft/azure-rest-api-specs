@@ -31,13 +31,13 @@ Applies To: IoT Hub
  This method lists all import or export jobs for an IoT hub. For more information, see [IoT Hub Developer Guide – Import](https://azure.microsoft.com/documentation/articles/iot-hub-devguide/#import-device-identities).  
   
 ## Request  
- See [Common parameters and headers](../IoTREST/device-identities-rest.md#bk_common) for headers and parameters that are used by all requests related to IoT Hub.  
+ See [Common parameters and headers](device-identities-rest.md#bk_common) for headers and parameters that are used by all requests related to IoT Hub.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`https://{IoTHubName}.azure-devices.net/jobs?api-version={api-version}`|  
   
 ## Response  
- JSON array with job description as described in [Retrieve import-export job](../IoTREST/retrieve-import-export-job.md).  
+ JSON array with job description as described in [Retrieve import-export job](retrieve-import-export-job.md).  
   
  Status code: 200

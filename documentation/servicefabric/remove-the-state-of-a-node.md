@@ -48,4 +48,4 @@ Indicate to Service Fabric that a specific node (which is down) has been lost an
 |POST|`<URI>/Nodes/{node-name}/$/RemoveNodeState?api-version={api-version}`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).

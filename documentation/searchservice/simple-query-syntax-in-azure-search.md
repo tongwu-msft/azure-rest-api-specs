@@ -31,7 +31,7 @@ translation.priority.mt:
   Azure Search implements two Lucene-based query languages: [Simple Query Parser](https://lucene.apache.org/core/4_7_0/queryparser/org/apache/lucene/queryparser/simple/SimpleQueryParser.html) and the [Lucene Query Parser](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html). In Azure Search, the simple query syntax excludes the fuzzy/slop options.  
   
 > [!NOTE]  
->  Azure Search provides the [Lucene Query Syntax](../SearchServiceREST/lucene-query-syntax-in-azure-search.md) for cases that require fine-grained control.  
+>  Azure Search provides the [Lucene Query Syntax](lucene-query-syntax-in-azure-search.md) for cases that require fine-grained control.  
   
 ## How the simple parser works with your application  
  As noted, any text with one or more terms is considered a valid starting point for query execution. Azure Search will match documents containing any or all of the terms, including any variations found during analysis of the text.  
@@ -81,9 +81,9 @@ The precedence operator encloses the string in parentheses. For example, `motel+
 - The suffix operator `*`only needs to be escaped if it's the last character before whitespace, not if it's in the middle of a term. For example, `wi*fi` is treated as a single token. 
   
 > [!NOTE]  
->  Although escaping keeps tokens together, text analysis may split them up, depending on the analysis mode. See [Language support &#40;Azure Search Service REST API&#41;](../SearchServiceREST/language-support.md) for details.  
+>  Although escaping keeps tokens together, text analysis may split them up, depending on the analysis mode. See [Language support &#40;Azure Search Service REST API&#41;](language-support.md) for details.  
   
 ## See Also  
- [Search Documents &#40;Azure Search Service REST API&#41;](../SearchServiceREST/search-documents.md)  
+ [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md)  
   
   

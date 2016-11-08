@@ -39,7 +39,7 @@ translation.priority.mt:
 Creates the specified service.  
   
 ## Request  
- See [Common parameters and headers](../ServiceFabricREST/service.md#bk_common) for headers and parameters that are used by all requests related to services.  
+ See [Common parameters and headers](service.md#bk_common) for headers and parameters that are used by all requests related to services.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -125,7 +125,7 @@ Creates the specified service.
 |Type|||The service placement policy type.<br /><br /> Possible values are:<br /><br /> -   Invalid - Indicates that the type of the policy specified was unknown or invalid. All Service Fabric enumerations have the invalid type. The value is zero.<br />-   InvalidDomain - Indicates that the ServicePlacementPolicyDescription is a ServicePlacementInvalidDomainPolicyDescription, which indicates that a particular fault or upgrade domain cannot be used for placement of this service. The value is 1.<br />-   RequireDomain - Indicates that the ServicePlacementPolicyDescription is a ServicePlacementRequireDomainDistributionPolicyDescription indicating that the replicas of the service must be placed in a specific domain. The value is 2.<br />-   PreferPrimaryDomain - Indicates that the ServicePlacementPolicyDescription is a ServicePlacementPreferPrimaryDomainPolicyDescription, which indicates that if possible the Primary replica for the partitions of the service should be located in a particular domain as an optimization.<br />-   RequireDomainDistribution - Indicates that the ServicePlacementPolicyDescription is a ServicePlacementRequireDomainDistributionPolicyDescription, indicating that the system will disallow placement of any two replicas from the same partition in the same domain at any time.|  
   
 ## Response  
- A successful operation will return 202 Accepted. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 202 Accepted. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ## Examples  
  The following example creates a service.  

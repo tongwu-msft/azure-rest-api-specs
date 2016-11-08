@@ -39,14 +39,14 @@ translation.priority.mt:
 Gets the names of the service packages for the specified deployed application.  
   
 ## Request  
- See [Service package](../ServiceFabricREST/service-package.md) for headers and parameters that are used by all requests related to service packages.  
+ See [Service package](service-package.md) for headers and parameters that are used by all requests related to service packages.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`<URI>/Nodes/{node-name}/$/GetApplications/{application-name}/$/GetServicePackages?api-version={api-version}`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 [  

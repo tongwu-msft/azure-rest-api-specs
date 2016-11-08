@@ -54,7 +54,7 @@ translation.priority.mt:
  Use the **searchFields** query parameter to specify which language-specific field to search against in your queries. You can review query examples that include the analyzer property in Search Documents.  
 Analyzer list  
 Below is the list of supported languages together with Lucene and Microsoft analyzer names.  
-See [Create Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/create-index.md) for details on how to specify the language analyzer on a field in the index.  
+See [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) for details on how to specify the language analyzer on a field in the index.  
   
 > [!IMPORTANT]  
 >  Support for Microsoft's natural language processors via the REST API in Azure Search is now out of preview and in the generally available release. Additionally, both Lucene analyzers and Microsoft's natural language  processors are available in the Azure Search .NET library.  
@@ -130,7 +130,7 @@ See [Create Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/
  All analyzers with names annotated with **Lucene** are powered by [Apache Lucene's language analyzers](http://lucene.apache.org/core/4_9_0/analyzers-common/overview-summary.html). More information about the ASCII folding filter can be found [Class ASCIIFoldingFilter](http://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.html).  
   
 ## See Also  
- [Create Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/create-index.md)  
+ [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  
  [AnalyzerName Class](https://msdn.microsoft.com/library/microsoft.azure.search.models.analyzername.aspx)  
   
   

@@ -37,7 +37,7 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
   
  The **api-version** is required. The current version is `2015-02-28`. [Azure Search Service Versioning](../Topic/Azure%20Search%20Service%20Versioning.md) has details, including more information about alternative versions.  
   
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](../SearchServiceREST/service-rest.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+ The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](service-rest.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
   
 ## Response  
  Status Code: 200 OK for a successful response. The response body contains information about overall indexer health status, the last indexer invocation, as well as the history of recent indexer invocations (if present).  
@@ -110,15 +110,15 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
   
 -   **transientFailure** indicates that an indexer execution has failed. See **errorMessage** property for details. The failure may or may not require human intervention to fix it. For example, fixing a schema incompatibility between the data source and the target index requires user action, while a temporary data source downtime does not. Indexer invocations will continue per schedule, if one is defined.  
   
--   **persistentFailure** indicates that the indexer has failed in a way that requires human intervention . Scheduled indexer executions stop. After addressing the issue, use [Reset Indexer &#40;Azure Search Service REST API&#41;](../SearchServiceREST/reset-indexer.md) to restart the scheduled executions.  
+-   **persistentFailure** indicates that the indexer has failed in a way that requires human intervention . Scheduled indexer executions stop. After addressing the issue, use [Reset Indexer &#40;Azure Search Service REST API&#41;](reset-indexer.md) to restart the scheduled executions.  
   
--   **Reset** indicates that the indexer has been reset by a call to [Reset Indexer &#40;Azure Search Service REST API&#41;](../SearchServiceREST/reset-indexer.md).  
+-   **Reset** indicates that the indexer has been reset by a call to [Reset Indexer &#40;Azure Search Service REST API&#41;](reset-indexer.md).  
   
 ## See Also  
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
- [HTTP status codes &#40;Azure Search&#41;](../SearchServiceREST/http-status-codes.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](../SearchServiceREST/indexer-operations.md)   
- [Naming rules &#40;Azure Search&#41;](../SearchServiceREST/naming-rules.md)   
+ [Azure Search Service REST](service-rest.md)   
+ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
+ [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
+ [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
  [Azure Search Service Versioning](../Topic/Azure%20Search%20Service%20Versioning.md)   
  [Limits and constraints (Azure Search)](http://msdn.microsoft.com/en-us/a8b1e21e-7703-4718-8e29-c8825354b3ec)  
   

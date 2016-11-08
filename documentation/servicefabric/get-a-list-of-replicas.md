@@ -39,7 +39,7 @@ translation.priority.mt:
 Gets the list of replicas for the specified Service Fabric partition.  
   
 ## Request  
- See [Common parameters and headers](../ServiceFabricREST/replica.md#bk_common) for parameters and headers that are used by all requests related to replicas.  
+ See [Common parameters and headers](replica.md#bk_common) for parameters and headers that are used by all requests related to replicas.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -61,7 +61,7 @@ Gets the list of replicas for the specified Service Fabric partition.
 |ContinuationToken|No|String that represents a continuation token. Returned from a previous get service list call when the results do not fit one message. Can be used to get next page of results.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 {“Items”:  

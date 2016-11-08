@@ -30,17 +30,17 @@ A job is an entity that contains metadata about a set of tasks. Each task perfor
   
  This topic gives an overview of the `Job` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [Job Entity Properties](../MediaServicesREST/job.md#job_entity_properties)  
+-   [Job Entity Properties](../services/job.md#job_entity_properties)  
   
--   [Create a Job with Notification Subscriptions](../MediaServicesREST/job.md#create_jobs_with_notifications)  
+-   [Create a Job with Notification Subscriptions](../services/job.md#create_jobs_with_notifications)  
   
--   [Create a Job](../MediaServicesREST/job.md#create_a_job)  
+-   [Create a Job](../services/job.md#create_a_job)  
   
--   [List Jobs](../MediaServicesREST/job.md#list_jobs)  
+-   [List Jobs](../services/job.md#list_jobs)  
   
--   [Cancel a Job](../MediaServicesREST/job.md#cancel_a_job)  
+-   [Cancel a Job](../services/job.md#cancel_a_job)  
   
--   [Delete a Job](../MediaServicesREST/job.md#delete_job)  
+-   [Delete a Job](../services/job.md#delete_job)  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -66,9 +66,9 @@ A job is an entity that contains metadata about a set of tasks. Each task perfor
 |`State`<br /><br /> Read-only. Set by Media Services.|Edm.Int32|The State of the job. This is an aggregate of the Tasks state. If one Task fails, this property would be set to Failed. Valid values are:<br /><br /> -   Queued = 0<br />-   Scheduled = 1<br />-   Processing = 2<br />-   Finished = 3<br />-   Error = 4<br />-   Canceled = 5<br />-   Canceling = 6|  
 |`TemplateId`<br /><br /> Optional.|Edm.String|Id of the JobTemplate entity.|  
 |`InputMediaAssets`<br /><br /> Required.|Assets entity set|Navigation property that references all associated Asset entities that act as input assets to the Job.|  
-|`OutputMediaAssets`<br /><br /> Read-only. Set by Media Services.|Assets entity set|Navigation property that references all associated Asset entities that act as output assets to the Job. The assets and their blob storage containers are created upon job creation.<br /><br /> Output assets contain files (including video, audio, thumbnails, etc.) and also the metadata about the input and output assets. For more information, see the [Asset](../MediaServicesREST/asset.md) and [Output Metadata](../Topic/Output%20Metadata.md) topics.|  
+|`OutputMediaAssets`<br /><br /> Read-only. Set by Media Services.|Assets entity set|Navigation property that references all associated Asset entities that act as output assets to the Job. The assets and their blob storage containers are created upon job creation.<br /><br /> Output assets contain files (including video, audio, thumbnails, etc.) and also the metadata about the input and output assets. For more information, see the [Asset](../services/asset.md) and [Output Metadata](../Topic/Output%20Metadata.md) topics.|  
 |`Tasks`<br /><br /> Optional.|Tasks entity set|Navigation property that references all associated Task entities.|  
-|`JobNotificationSubscriptions`<br /><br /> Optional. Cannot be updated after the entity has been created.|[JobNotificationSubscription](../MediaServicesREST/jobnotificationsubscription.md)<br /><br /> This property was added in Media Services version 2.1. **Warning:**  Azure queue notification may have some delay.|Navigation property that references notification subscriptions for the job.<br /><br /> This property cannot be updated after the job has been created.|  
+|`JobNotificationSubscriptions`<br /><br /> Optional. Cannot be updated after the entity has been created.|[JobNotificationSubscription](../services/jobnotificationsubscription.md)<br /><br /> This property was added in Media Services version 2.1. **Warning:**  Azure queue notification may have some delay.|Navigation property that references notification subscriptions for the job.<br /><br /> This property cannot be updated after the job has been created.|  
   
 ##  <a name="create_a_job"></a> Create a Job without notification subscriptions  
  Jobs can be created with a HTTP POST request.  
@@ -110,7 +110,7 @@ Expect: 100-continue
   
  The following example code creates an encoding `Job` with notification subscriptions for the job. Note that the `JobNotificationSubscriptions` property was added in Media Services version 2.5. Remember that when using JSON and specifying to use the __metadata keyword in the request (for example, to references a linked object) you MUST set the Accept header to JSON Verbose format (Accept: application/json;odata=verbose). Odata does not understand the \__metadata property in the request, unless you set it to verbose.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 POST https://media.windows.net/API/$batch HTTP/1.1  
@@ -302,7 +302,7 @@ Location: https://media.windows.net/api/Tasks('nb%3Atid%3AUUID%3A94d3c509-24c2-4
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/Jobs('nb:jid:UUID:b1f956b3-774c-bb44-a3f7-ee47e23add31') HTTP/1.1  
@@ -317,7 +317,7 @@ Host: media.windows.net
 ```  
   
 ##  <a name="cancel_a_job"></a> Cancel a Job  
- Running Jobs can be canceled using the CancelJob function. For an example, see [REST API Functions](../MediaServicesREST/rest-api-functions.md).  
+ Running Jobs can be canceled using the CancelJob function. For an example, see [REST API Functions](../services/rest-api-functions.md).  
   
 ##  <a name="delete_job"></a> Delete a Job  
  Jobs can be deleted using a HTTP DELETE request. This is useful to clean old completed jobs from the An Azure Media Service account database.  
@@ -331,7 +331,7 @@ Host: media.windows.net
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 DELETE https://media.windows.net/api/Jobs('nb:jid:UUID:9f5b35d0-68ac-c249-8ece-ece9ea22a461') HTTP/1.1  
@@ -347,13 +347,13 @@ Content-Length: 0
 ```  
   
 ## See Also  
- [ContentKey](../MediaServicesREST/contentkey.md)   
- [Asset](../MediaServicesREST/asset.md)   
- [AccessPolicy](../MediaServicesREST/accesspolicy.md)   
- [AssetFile](../MediaServicesREST/assetfile.md)   
- [JobTemplate](../MediaServicesREST/jobtemplate.md)   
- [Locator](../MediaServicesREST/locator.md)   
- [MediaProcessor](../MediaServicesREST/mediaprocessor.md)   
- [Task](../MediaServicesREST/task.md)   
- [TaskTemplate](../MediaServicesREST/tasktemplate.md)   
+ [ContentKey](../services/contentkey.md)   
+ [Asset](../services/asset.md)   
+ [AccessPolicy](../services/accesspolicy.md)   
+ [AssetFile](../services/assetfile.md)   
+ [JobTemplate](../services/jobtemplate.md)   
+ [Locator](../services/locator.md)   
+ [MediaProcessor](../services/mediaprocessor.md)   
+ [Task](../services/task.md)   
+ [TaskTemplate](../services/tasktemplate.md)   
  [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)

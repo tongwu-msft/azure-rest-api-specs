@@ -26,7 +26,7 @@ manager: "timlt"
 Gets the image store content from the given relative path.  
   
 ## Request  
- See [Application](../ServiceFabricREST/application2.md) for headers and parameters that are used by all requests related the image store.  
+ See [Application](application2.md) for headers and parameters that are used by all requests related the image store.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -41,7 +41,7 @@ Gets the image store content from the given relative path.
 |remote-location|Yes|Relative path in the native image store.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 {  

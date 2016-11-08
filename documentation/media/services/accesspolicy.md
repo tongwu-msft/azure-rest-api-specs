@@ -30,13 +30,13 @@ An AccessPolicy defines the permissions and duration of access to an Asset.
   
  This topic gives an overview of the `AccessPolicy` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [AccessPolicy Entity Properties](../MediaServicesREST/accesspolicy.md#accesspolicy_properties)  
+-   [AccessPolicy Entity Properties](../services/accesspolicy.md#accesspolicy_properties)  
   
--   [Create an AccessPolicy](../MediaServicesREST/accesspolicy.md#create_an_accesspolicy)  
+-   [Create an AccessPolicy](../services/accesspolicy.md#create_an_accesspolicy)  
   
--   [List AccessPolicies](../MediaServicesREST/accesspolicy.md#list_accesspolicies)  
+-   [List AccessPolicies](../services/accesspolicy.md#list_accesspolicies)  
   
--   [Delete an AccessPolicy](../MediaServicesREST/accesspolicy.md#delete_an_accesspolicy)  
+-   [Delete an AccessPolicy](../services/accesspolicy.md#delete_an_accesspolicy)  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -69,7 +69,7 @@ An AccessPolicy defines the permissions and duration of access to an Asset.
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 POST https://media.windows.net/API/AccessPolicies HTTP/1.1  
@@ -106,7 +106,7 @@ Expect: 100-continue
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/AccessPolicies('nb:pid:UUID:ad05d8fa-06a2-4e2f-8fb4-fac57875135a') HTTP/1.1  
@@ -132,7 +132,7 @@ Host: media.windows.net
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 DELETE https://media.windows.net/API/AccessPolicies('nb:pid:UUID:ad05d8fa-06a2-4e2f-8fb4-fac57875135a') HTTP/1.1  
@@ -148,13 +148,13 @@ Content-Length: 0
 ```  
   
 ## See Also  
- [ContentKey](../MediaServicesREST/contentkey.md)   
- [Asset](../MediaServicesREST/asset.md)   
- [AssetFile](../MediaServicesREST/assetfile.md)   
- [Job](../MediaServicesREST/job.md)   
- [JobTemplate](../MediaServicesREST/jobtemplate.md)   
- [Locator](../MediaServicesREST/locator.md)   
- [MediaProcessor](../MediaServicesREST/mediaprocessor.md)   
- [Task](../MediaServicesREST/task.md)   
- [TaskTemplate](../MediaServicesREST/tasktemplate.md)   
+ [ContentKey](../services/contentkey.md)   
+ [Asset](../services/asset.md)   
+ [AssetFile](../services/assetfile.md)   
+ [Job](../services/job.md)   
+ [JobTemplate](../services/jobtemplate.md)   
+ [Locator](../services/locator.md)   
+ [MediaProcessor](../services/mediaprocessor.md)   
+ [Task](../services/task.md)   
+ [TaskTemplate](../services/tasktemplate.md)   
  [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)

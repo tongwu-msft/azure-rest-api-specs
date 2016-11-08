@@ -39,7 +39,7 @@ translation.priority.mt:
 Unprovisions a Service Fabric application.  
   
 ## Request  
- See [Application type](../ServiceFabricREST/application-type.md) for headers and parameters that are used by all requests related to application types.  
+ See [Application type](application-type.md) for headers and parameters that are used by all requests related to application types.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -57,7 +57,7 @@ Unprovisions a Service Fabric application.
 |ApplicationTypeVersion|Yes|String|The application type version.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ### Examples  
  The following example unprovisions the 1.0.0.0 version of the WordCount application.  

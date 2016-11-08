@@ -56,41 +56,41 @@ translation.priority.mt:
   
 ## In this section  
   
--   [RESTful interactions with DocumentDB resources](DocumentDBREST/restful-interactions-with-documentdb-resources.md)  
+-   [RESTful interactions with DocumentDB resources](restful-interactions-with-documentdb-resources.md)  
   
--   [DocumentDB Resource URI Syntax for REST](DocumentDBREST/documentdb-resource-uri-syntax-for-rest.md)  
+-   [DocumentDB Resource URI Syntax for REST](documentdb-resource-uri-syntax-for-rest.md)  
   
--   [Access Control on DocumentDB Resources](DocumentDBREST/access-control-on-documentdb-resources.md)  
+-   [Access Control on DocumentDB Resources](access-control-on-documentdb-resources.md)  
   
--   [Querying DocumentDB resources using the REST API](DocumentDBREST/querying-documentdb-resources-using-the-rest-api.md)  
+-   [Querying DocumentDB resources using the REST API](querying-documentdb-resources-using-the-rest-api.md)  
   
--   [HTTP Status Codes for DocumentDB](DocumentDBREST/http-status-codes-for-documentdb.md)  
+-   [HTTP Status Codes for DocumentDB](http-status-codes-for-documentdb.md)  
   
--   [Common DocumentDB REST request headers](DocumentDBREST/common-documentdb-rest-request-headers.md)  
+-   [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md)  
   
--   [Common DocumentDB REST response headers](DocumentDBREST/common-documentdb-rest-response-headers.md)  
+-   [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md)  
   
--   [Common tasks using the DocumentDB REST API](DocumentDBREST/common-tasks-using-the-documentdb-rest-api.md)  
+-   [Common tasks using the DocumentDB REST API](common-tasks-using-the-documentdb-rest-api.md)  
   
--   [Offers](DocumentDBREST/offers.md)  
+-   [Offers](offers.md)  
   
--   [Databases](DocumentDBREST/databases.md)  
+-   [Databases](databases.md)  
   
--   [Users](DocumentDBREST/users.md)  
+-   [Users](users.md)  
   
--   [Permissions](DocumentDBREST/permissions.md)  
+-   [Permissions](permissions.md)  
   
--   [Collections](DocumentDBREST/collections.md)  
+-   [Collections](collections.md)  
   
--   [Documents](DocumentDBREST/documents.md)  
+-   [Documents](documents.md)  
   
--   [Attachments](DocumentDBREST/attachments.md)  
+-   [Attachments](attachments.md)  
   
--   [Stored Procedures](DocumentDBREST/stored-procedures.md)  
+-   [Stored Procedures](stored-procedures.md)  
   
--   [User Defined Functions](DocumentDBREST/user-defined-functions.md)  
+-   [User Defined Functions](user-defined-functions.md)  
   
--   [Triggers](DocumentDBREST/triggers.md)  
+-   [Triggers](triggers.md)  
   
 ## See Also  
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   

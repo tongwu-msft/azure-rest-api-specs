@@ -39,7 +39,7 @@ translation.priority.mt:
 Provision or register a Service Fabric cluster package in the ImageStore.  
   
 ## Request  
- See [Cluster](../ServiceFabricREST/cluster.md) for headers and parameters that are used by all requests related to the cluster.  
+ See [Cluster](cluster.md) for headers and parameters that are used by all requests related to the cluster.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -53,4 +53,4 @@ Provision or register a Service Fabric cluster package in the ImageStore.
 |ClusterManifestFilePath|At least one of CodeFilePath or ClusterManifestFilePath should be provided|String|The path to the cluster manifest.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).

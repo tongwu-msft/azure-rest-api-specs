@@ -52,10 +52,10 @@ APIs to manage Azure Service Fabric service packages.
 ## Tasks  
  You can do the following with service package resources:  
   
--   [Get a list of service packages](../ServiceFabricREST/get-a-list-of-service-packages.md)  
+-   [Get a list of service packages](get-a-list-of-service-packages.md)  
   
--   [Get the health of a service package](../ServiceFabricREST/get-the-health-of-a-service-package.md)  
+-   [Get the health of a service package](get-the-health-of-a-service-package.md)  
   
--   [Get the health of a service package by using a health policy](../ServiceFabricREST/get-the-health-of-a-service-package-by-using-a-health-policy.md)  
+-   [Get the health of a service package by using a health policy](get-the-health-of-a-service-package-by-using-a-health-policy.md)  
   
--   [Report the health of a service package](../ServiceFabricREST/report-the-health-of-a-service-package.md)
+-   [Report the health of a service package](report-the-health-of-a-service-package.md)

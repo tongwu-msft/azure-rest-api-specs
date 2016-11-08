@@ -26,19 +26,19 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # ContentKey
-A ContentKey provides secure access to an Asset. In addition to creating a ContentKey entity, you must also use a protection key to encrypt the content key that you generate. For more information on retrieving the protection key, see [Encrypt the Asset (Optional)](http://msdn.microsoft.com/en-us/efeb5012-9a00-4d02-9712-5fe4b2043257) and [REST API Functions](../MediaServicesREST/rest-api-functions.md).  
+A ContentKey provides secure access to an Asset. In addition to creating a ContentKey entity, you must also use a protection key to encrypt the content key that you generate. For more information on retrieving the protection key, see [Encrypt the Asset (Optional)](http://msdn.microsoft.com/en-us/efeb5012-9a00-4d02-9712-5fe4b2043257) and [REST API Functions](../services/rest-api-functions.md).  
   
  This topic gives an overview of the `ContentKey` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [ContentKey Entity Properties](../MediaServicesREST/contentkey.md#contentkey_properties)  
+-   [ContentKey Entity Properties](../services/contentkey.md#contentkey_properties)  
   
--   [Create a ContentKey](../MediaServicesREST/contentkey.md#create_a_contentkey)  
+-   [Create a ContentKey](../services/contentkey.md#create_a_contentkey)  
   
 -   [Get Key Delivery URL](#get_delivery_service_url)  
   
--   [List ContentKeys](../MediaServicesREST/contentkey.md#list_a_contentkey)  
+-   [List ContentKeys](../services/contentkey.md#list_a_contentkey)  
   
--   [Delete a ContentKey](../MediaServicesREST/contentkey.md#delete_a_contentkey)  
+-   [Delete a ContentKey](../services/contentkey.md#delete_a_contentkey)  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -77,7 +77,7 @@ A ContentKey provides secure access to an Asset. In addition to creating a Conte
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 POST https://media.windows.net/api/ContentKeys HTTP/1.1  
@@ -159,7 +159,7 @@ Content-Length: 21
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/ContentKeys('nb:kid:UUID:58b522a5-be4e-4988-8958-ee0cdb179273') HTTP/1.1  
@@ -189,7 +189,7 @@ Host: media.windows.net
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 DELETE https://media.windows.net/API/ContentKeys('nb:kid:UUID:58b522a5-be4e-4988-8958-ee0cdb179273') HTTP/1.1  
@@ -205,13 +205,13 @@ Content-Length: 0
 ```  
   
 ## See Also  
- [AccessPolicy](../MediaServicesREST/accesspolicy.md)   
- [Asset](../MediaServicesREST/asset.md)   
- [AssetFile](../MediaServicesREST/assetfile.md)   
- [Job](../MediaServicesREST/job.md)   
- [JobTemplate](../MediaServicesREST/jobtemplate.md)   
- [Locator](../MediaServicesREST/locator.md)   
- [MediaProcessor](../MediaServicesREST/mediaprocessor.md)   
- [Task](../MediaServicesREST/task.md)   
- [TaskTemplate](../MediaServicesREST/tasktemplate.md)   
+ [AccessPolicy](../services/accesspolicy.md)   
+ [Asset](../services/asset.md)   
+ [AssetFile](../services/assetfile.md)   
+ [Job](../services/job.md)   
+ [JobTemplate](../services/jobtemplate.md)   
+ [Locator](../services/locator.md)   
+ [MediaProcessor](../services/mediaprocessor.md)   
+ [Task](../services/task.md)   
+ [TaskTemplate](../services/tasktemplate.md)   
  [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)

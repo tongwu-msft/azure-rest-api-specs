@@ -89,8 +89,8 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
 |`Input`|[ChannelInput ComplexType](#ChannelInput)|Channel input (ingest) settings.|  
 |`Output`|[ChannelOutput ComplexType](#ChannelOutput)|Channel output settings.|  
 |`Preview`|[ChannelPreview ComplexType](#ChannelPreview)|Channel preview settings.|  
-|`CrossSiteAccessPolicies`|[CrossSiteAccessPolicies](../MediaServicesREST/crosssiteaccesspolicies.md)|Cross site access policies.|  
-|`Programs`<br /><br /> Read-only. Set by Media Services.|A collection of [Program](../MediaServicesREST/program.md)s.|A reference to the collection of programs associated with the channel.|  
+|`CrossSiteAccessPolicies`|[CrossSiteAccessPolicies](../services/crosssiteaccesspolicies.md)|Cross site access policies.|  
+|`Programs`<br /><br /> Read-only. Set by Media Services.|A collection of [Program](../services/program.md)s.|A reference to the collection of programs associated with the channel.|  
 |`EncodingType`|Edm.String|`Optional`. Describes the configuration of the Channel. Allowed values are:<br /><br /> -   `None` – This is the default value. When you select this value, the incoming stream passed through to the output without any encoding (this is the behavior of a Channel prior to 2.10 release).<br />-   `Standard` – The incoming single bitrate stream is sent to the Channel and transcoded into a multi-bitrate stream using [System presets](#SystemPreset)|  
 |`Encoding`|[Encoding ComplexType](#encoding)|Azure live encoder settings.|  
 |`Slate`|[Slate](#slate)|This setting is supported only when the `Encoding Type` of the Channel is set to `Standard`.<br /><br /> The live encoder within the Channel can be signaled to switch to a slate image. It can also be signaled to end an on-going slate.<br /><br /> The live encoder can be configured to switch to a slate image and mask the incoming video signal in certain situations – for example, during an ad break. If such a slate is not configured, input video is not masked during that ad break.|  
@@ -239,7 +239,7 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -405,7 +405,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -439,7 +439,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -473,7 +473,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -507,7 +507,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -541,7 +541,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -594,7 +594,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -643,7 +643,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -691,7 +691,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -739,7 +739,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -773,7 +773,7 @@ Authorization: Bearer <token value>
   
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -795,5 +795,5 @@ Authorization: Bearer <token value>
   
 ## See Also  
  [Delivering Live Streaming with Azure Media Services](http://azure.microsoft.com/en-us/documentation/articles/media-services-live-streaming-workflow/)   
- [Origin](../MediaServicesREST/origin1.md)   
- [Program](../MediaServicesREST/program.md)
+ [Origin](../services/origin1.md)   
+ [Program](../services/program.md)
