@@ -10,7 +10,7 @@ ms.manager: douge
 
 # Azure API Management
 
-Azure Redis Cache is based on the popular open-source [Redis cache](http://redis.io). It gives you access to a secure, dedicated Redis cache, managed by Microsoft and accessible from any application within Azure. For a more detailed overview, see the [Azure Redis Cache product page](https://azure.microsoft.com/services/cache/).
+Azure API Management provides a REST API for performing operations on selected entities, such as users, groups, products, and subscriptions. This reference provides a guide for working with the API Management REST API, as well as specific reference information for each available operation, grouped by entity.
 
 ## REST Operation Groups
 
