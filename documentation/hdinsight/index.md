@@ -15,6 +15,21 @@ Use these APIs to create and manage HDInsight resources through Azure Resource M
   
  These APIs allow you to create and manage an HDInsight cluster.
 
+##  <a name="bk_common"></a> Common parameters and headers  
+ The following information is common to all tasks that you might do related to clusters:  
+  
+-   Replace {api-version} with 2015-03-01-preview  
+  
+-   Replace {subscription-id} with your subscription identifier in the URI.  
+  
+-   Replace {resource-group-name} with the resource group. For more information, see [Using Resource groups to manage your Azure resources](http://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
+  
+-   Replace {cluster-name} with your HDInsight cluster name in the URI.  
+  
+-   Set the Content-Type header to **application/json**.  
+  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/en-us/library/azure/dn790557.aspx). 
+
 ## REST Operation Groups
 
 | Operation Group | Description |
