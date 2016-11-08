@@ -10,9 +10,10 @@ ms.manager: jhubbard
 
 # Azure Machine Learning Web Services
 
-Microsoft Azure Machine Learning enables you to build and test a predictive analytics solution, and then deploy it as an Azure web service. For more information, see [Publish an Azure Machine Learning web service](https://review.docs.microsoft.com/azure/machine-learning/machine-learning-deploy-consume-web-service-guide).
+Microsoft Azure Machine Learning enables you to build and test a predictive analytics solution, and then deploy it as an Azure web service. 
+For an overview of the process, see [Azure Machine Learning Web Services: Deployment and consumption](https://review.docs.microsoft.com/azure/machine-learning/machine-learning-deploy-consume-web-service-guide).
 
-The Azure Machine Learning Web Service REST APIs enable you to create and manage Azure Resource Manager based web services and commitment plans.
+The following Azure Machine Learning REST APIs enable you to create and manage Azure Resource Manager based web services and commitment plans.
 
 <!--
 For information common to all these APIs, see [Common parameters and headers](common-parameters-headers.md)
@@ -20,12 +21,13 @@ For information common to all these APIs, see [Common parameters and headers](co
 
 ## REST Operation Groups
 
+
 | Operation Group | Description |
 |-----------------|-------------|
-|  [Commitment Associations](./commitmentassociations) | Provides operations that allow you to manage commitment associations. |
-|  [Commitment Plans](./commitmentplans) | Provides operations that allow you to create and manage commitment plans. |
-|  [Usage History](./usagehistory) | Provides an operation that allow you to retrieve commitment plan usage history. |
 |  [Web Services](./webservices) | Provides operations that allow you to create and manage web services. |
+|  [Commitment Plans](./commitmentplans) | Provides operations that allow you to create and manage commitment plans. |
+|  [Commitment Plans Usage History](./usagehistory) | Provides an operation that allow you to retrieve commitment plan usage history. |
+|  [Commitment Associations](./commitmentassociations) | Provides operations that allow you to manage commitment associations. |
 
 ## Common parameters and headers
 
@@ -57,18 +59,18 @@ Commitment plans
 - [Get information about a commitment plan](./commitmentplans#CommitmentPlans_Get)
 - [Modify a commitment plan](./commitmentplans#CommitmentPlans_Patch)
 - [Delete a commitment plan](./commitmentplans#CommitmentPlans_Remove)
-- [Get the usage history of a commitment plan](./machinelearning/usagehistory#UsageHistory_List)
+- [Get the usage history of a commitment plan](./machinelearning/usagehistory)
 - [Get all commitment plans in a resource group](./commitmentplans#CommitmentPlans_ListInResourceGroup)
 - [Get all commitment plans in a subscription](./commitmentplans#CommitmentPlans_List)
 
 Commitment associations
-- [Get a commitment association](./commitmentassociations#CommitmentAssociations_List)
+- [Get a commitment association](./commitmentassociations#CommitmentAssociations_Get)
 - [Change the parent of a commitment association](./commitmentassociations#CommitmentAssociations_Move)
-- [Get all commitment associations for a parent plan](./commitmentassociations#CommitmentAssociations_Get)
+- [Get all commitment associations for a parent plan](./commitmentassociations#CommitmentAssociations_List)
 
 
 ## See Also
 
-- [Manage a web service using PowerShell cmdlets](../../../powershell/resourcemanager/azurerm.machinelearning/v0.11.0/azurerm.machinelearning)
+- [Manage a web service using PowerShell cmdlets](../../../powershell/resourcemanager/azurerm.machinelearning/v0.11.0/azurerm.machinelearning.md)
 - [Manage a web service using the Azure Machine Learning Web Services portal](https://review.docs.microsoft.com/azure/machine-learning/machine-learning-manage-new-webservice)
 - [Overview of deploying and consuming Azure Machine Learning web services](https://review.docs.microsoft.com/azure/machine-learning/machine-learning-deploy-consume-web-service-guide)
