@@ -26,7 +26,7 @@ translation.priority.mt:
 ---
 # List Available Regions
 > [!NOTE]
->  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services Management API Reference](../Topic/Media%20Services%20Management%20API%20Reference.md).  
+>  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services Management API Reference](../api/media/mediaservice).  
   
  The `GET` request method described in this topic returns `SupportedRegion`s in the specified subscription. The data contract for `SupportedRegion` is defined later in this topic.  
   

@@ -225,7 +225,7 @@ HTTP/1.1 200 Ok
   
  [Query DocumentDB](https://azure.microsoft.com/documentation/articles/documentdb-sql-query/)  
   
- [DocumentDB SQL Query Language](../Topic/DocumentDB%20SQL%20Syntax.md)  
+ [DocumentDB SQL Query Language](DocumentDB%20SQL%20Syntax.md)  
   
  [DocumentDB Programming: Stored procedures, triggers, and UDFs](https://azure.microsoft.com/documentation/articles/documentdb-programming/)  
   
