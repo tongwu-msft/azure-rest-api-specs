@@ -1,10 +1,21 @@
-# Interactive session
+﻿# Interactive session
+
+###  <a name="bk_common"></a> Common parameters and headers  
+ The following information is common to all tasks that you might do related to clusters:  
+  
+-   Replace {cluster-endpoint} with the url of your cluster’s management endpoint. (e.g. myendpoint.azurehdinsight.net)  
+  
+-   Replace {session-id} with the session id returned on session startup.  
+  
+-   Set the Content-Type header to **application/json**.  
+  
+-   Authenticate with the endpoint using HTTP basic authentication.  
 
 ## Create a new interactive session
 Start a new interactive session.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightSparkREST/interactive-sessions.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -67,7 +78,7 @@ Start a new interactive session.
 
 ## Get the state of an interactive session
 ### Request  
- See [Common parameters and headers](../HDInsightSparkREST/interactive-sessions.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -100,7 +111,7 @@ Start a new interactive session.
 
 ## Retrieve statement results of an interactive session
 ### Request  
- See [Common parameters and headers](../HDInsightSparkREST/interactive-sessions.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -161,7 +172,7 @@ Start a new interactive session.
 
 ## Return all active interactive sessions
 ### Request  
- See [Common parameters and headers](../HDInsightSparkREST/interactive-sessions.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -212,7 +223,7 @@ Start a new interactive session.
 
 ## Submit statement(s) to an interactive session
 ### Request  
- See [Common parameters and headers](../HDInsightSparkREST/interactive-sessions.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -253,7 +264,7 @@ Start a new interactive session.
 
 ## Terminate an interactive session
 ### Request  
- See [Common parameters and headers](../HDInsightSparkREST/interactive-sessions.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
