@@ -9,7 +9,7 @@ ms.manager: timlt
 
 # Azure Resource Manager
 
-Azure Resource Manager enables you to deploy and manage the infrastructure for your Azure solutions. You organize related resources in resource groups, and deploy your resources with JSON templates. For an introduction to deploying and managing resources with Resource Manager, see [Azure Resource Manager overview](https://azure.microsoft.com/documentation/articles/resource-group-overview/).
+Azure Resource Manager enables you to deploy and manage the infrastructure for your Azure solutions. You organize related resources in resource groups, and deploy your resources with JSON templates. For an introduction to deploying and managing resources with Resource Manager, see [Azure Resource Manager overview](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview).
 
 ## REST Operation Groups
 
@@ -32,5 +32,5 @@ Azure Resource Manager enables you to deploy and manage the infrastructure for y
 
 ## See Also
 
-- [Authoring Azure Resource Manager templates](https://azure.microsoft.com/documentation/articles/resource-group-authoring-templates/)
-- [Resource Manager providers, regions, API versions and schemas](https://azure.microsoft.com/documentation/articles/resource-manager-supported-services/)
+- [Authoring Azure Resource Manager templates](https://docs.microsoft.com/azure/resource-group-authoring-templates?toc=%2fazure%2fazure-resource-manager%2ftoc.json)
+- [Resource Manager providers, regions, API versions and schemas](https://docs.microsoft.com/azure/resource-manager-supported-services?toc=%2fazure%2fazure-resource-manager%2ftoc.json)
