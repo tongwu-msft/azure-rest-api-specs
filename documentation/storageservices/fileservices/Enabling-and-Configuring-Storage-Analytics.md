@@ -104,8 +104,8 @@ This topic describes how to enable and configure Storage Analytics for a storage
  To change Storage Analytics settings for a storage service, call the `Set Service Properties` operation again. Ensure that your new XML request body retains your desired configuration options, such as enabling/disabling Storage Analytics and/or a retention policy for the service. Each time one of these operations is called, it changes the applicable service’s settings immediately.  
   
 ## See Also  
- [Set Storage Service Properties](../Topic/Set%20Storage%20Service%20Properties.md)   
- [Get Storage Service Properties](../Topic/Get%20Storage%20Service%20Properties.md)   
+ [Set Storage Service Properties](../fileservices/Set%20Storage%20Service%20Properties.md)   
+ [Get Storage Service Properties](../fileservices/Get%20Storage%20Service%20Properties.md)   
  [Setting a Storage Analytics Data Retention Policy](../fileservices/Setting-a-Storage-Analytics-Data-Retention-Policy.md)   
  [Set Blob Service Properties](../fileservices/Set-Blob-Service-Properties.md)   
  [Get Blob Service Properties](../fileservices/Get-Blob-Service-Properties.md)   

@@ -390,7 +390,7 @@ Content-Length: 12
 Hello World.  
 ```  
   
- With this signature, [Upload File](../Topic/Upload%20File.md) will be called if the following criteria are met:  
+ With this signature, [Upload File](../fileservices/Upload%20File.md) will be called if the following criteria are met:  
   
 -   The signature in the request successfully authenticates against the storage account.  
   
