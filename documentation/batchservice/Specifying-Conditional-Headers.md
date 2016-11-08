@@ -1,8 +1,10 @@
-  The Batch service supports conditional headers on all the PUT, PATCH, DELETE, HEAD and GET operations on the following resources: pool, job schedule, job, task and files. A PUT/PATCH and possibly a POST call (the exact list of operations is listed below) on these resources can cause the ETag and Last-Modified-Time to change.  Both write operations (PUT/PATCH/POST) and read operations (GET/HEAD) will return the current ETag and a Last-Modified-Time for the resource.  These can be used in for subsequent conditional PUT, PATCH, POST, DELETE, HEAD or GET operations.
+# Specifying conditional headers
 
- Pool, job schedule, job and task support both ETag and Last-Modified-Time. Files only support Last-Modified-Time because files are modified directly by tasks on the node using Windows File System APIs.  The Last-Modified-Time for files are based on the file system maintained file attributes. Nodes do not support any conditional operations.
+The Batch service supports conditional headers on all the PUT, PATCH, DELETE, HEAD and GET operations on the following resources: pool, job schedule, job, task and files. A PUT/PATCH and possibly a POST call (the exact list of operations is listed below) on these resources can cause the ETag and Last-Modified-Time to change.  Both write operations (PUT/PATCH/POST) and read operations (GET/HEAD) will return the current ETag and a Last-Modified-Time for the resource.  These can be used in for subsequent conditional PUT, PATCH, POST, DELETE, HEAD or GET operations.
 
- The following table lists the APIs which support conditional operations and also the APIs which return the current ETag and Last-Modified time of the resource. All other APIs which are not listed in the below table do not support conditional headers and also do not return E-Tag/Last-Modified.
+Pool, job schedule, job and task support both ETag and Last-Modified-Time. Files only support Last-Modified-Time because files are modified directly by tasks on the node using Windows File System APIs.  The Last-Modified-Time for files are based on the file system maintained file attributes. Nodes do not support any conditional operations.
+
+The following table lists the APIs which support conditional operations and also the APIs which return the current ETag and Last-Modified time of the resource. All other APIs which are not listed in the below table do not support conditional headers and also do not return E-Tag/Last-Modified.
 
 |Operation|Supports Conditional Headers?|Returns E-Tag/Last-Modified Headers?|
 |---------------|-----------------------------------|---------------------------------------------|
