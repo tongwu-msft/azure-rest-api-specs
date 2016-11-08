@@ -26,7 +26,7 @@ translation.priority.mt:
 ---
 # Media Services Management Error Codes
 > [!NOTE]
->  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services Management API Reference](../Topic/Media%20Services%20Management%20API%20Reference.md).  
+>  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services Management API Reference](../api/media/mediaservice).  
   
  The Media Service Management REST API may return the following error codes. . For more information about status error codes, see [Service Management Status and Error Codes](http://msdn.microsoft.com/en-us/10f8d244-4649-4063-b6c9-7a20765513fa).  
   
