@@ -17,12 +17,12 @@ Azure SQL Database is a managed cloud database for app developers.
 
 | Operation Group | Description |
 |-----------------|-------------|
-|[Database Replication Links](./databasereplicationlinks)| Get, list, delete, and failover a replication link.|
-|[Databases](./databases)| Create, get, update, and delete SQL databases, data warehouses, restore points, tier advisors, and transparent data encryption configuration.|
+|[Databases](./databases)| Create, get, update, and delete SQL databases, data warehouses, restore points, service tier advisors, and transparent data encryption configuration.|
+|[Servers](./servers)|Create, get, update, or list information about an Azure SQL server.|
+|[Server Firewall Rules](./serversfirewallrules)|Create, get, update, delete, or list firewall rules.|
 |[Elastic Pools](./elasticpools)|Create, get, update, or delete elastic pools.|
-|[Recommended Elastic Pools](./recommendedelasticpools)|Get and list information about Azure SQL Recommended Elastic Pool and Azure SQL Databases inside an Elastic Pool.|
-|[Servers](./servers)|Create, get, update, or list information about an Azure SQL Server.|
-|[Servers Rirewall Rules](./serversfirewallrules)|Create, get, update, delete, or list firewall rules.|
+|[Recommended Elastic Pools](./recommendedelasticpools)|Get and list information about Azure SQL recommended pools and Azure SQL databases inside pools.|
+|[Database Replication Links](./databasereplicationlinks)| Get, list, delete, and failover a replication link.|
 
 
 ## See Also
