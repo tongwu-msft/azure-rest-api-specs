@@ -8,7 +8,7 @@ parameters:
 description: *content
 ---
 
-For more information ... , see [About Keys, Secrets, and Certificates](../about-keys-secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+For more information, see [About Keys, Secrets, and Certificates](../about-keys-secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
 
 ---
 uid: management.azure.com/KeyVaultClient/2016-10-01/Vaults_Delete
