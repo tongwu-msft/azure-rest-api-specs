@@ -1,6 +1,6 @@
 ---
 ms.assetid: 044adbd9-f1d2-4f77-9bec-35615e61d5f5
-ms.title: Azure Resource Manager
+ms.title: Azure Resource Manager REST API | Microsoft Docs
 ms.service: azure-resource-manager
 author: tfitzmac
 ms.author: tomfitz
