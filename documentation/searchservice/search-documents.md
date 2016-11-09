@@ -74,7 +74,7 @@ api-key: [admin or query key]
 ### Query Parameters  
 A query accepts several parameters that provide query criteria and also specify search behavior. You provide these parameters in the URL query string when calling via GET, and as JSON properties in the request body when calling via POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted as applicable below.  
 
-#### search=[string] (optional)
+#### search=[string]  (optional)
 
 The text to search for. All `searchable` fields are searched by default unless `searchFields` is specified. When searching `searchable` fields, the search text itself is tokenized, so multiple terms can be separated by white space (e.g.: search=hello world). To match any term, use \* (this can be useful for boolean filter queries). Omitting this parameter has the same effect as setting it to \*. See  [Simple query syntax](simple-query-syntax-in-azure-search.md) for specifics on the search syntax.
 
@@ -113,11 +113,11 @@ Optional, defaults to `false`. When calling via POST, this parameter is named `c
 
 A list of comma-separated expressions to sort the results by. When calling via POST, this parameter is named `orderby` instead of `$orderby`. Each expression can be either a field name or a call to the `geo.distance()` function. Each expression can be followed by `asc` to indicate ascending, and `desc` to indicate descending. The default is ascending order. Ties will be broken by the match scores of documents. If no `$orderby` is specified, the default sort order is descending by document match score. There is a limit of 32 clauses for `$orderby`.
 
-#### $select=[string] (optional)
+#### $select=[string]  (optional)
 
 A list of comma-separated fields to retrieve. When calling via POST, this parameter is named `select` instead of `$select`. If unspecified, all fields marked as retrievable in the schema are included. You can also explicitly request all fields by setting this parameter to `*`.
 
-#### facet=[string] (zero or more)
+#### facet=[string]  (zero or more)
 
 A field to facet by. Optionally, the string may contain parameters to customize the faceting, expressed as comma-separated `name:value` pairs. When calling via POST, this parameter is named `facets` instead of `$facet`.
 
@@ -138,28 +138,28 @@ Valid parameters are:
 - `timeoffset ([+-]hh:mm, [+-]hhmm, or [+-]hh)`. If used, the `timeoffset` parameter must be combined with the `interval` option, and only when applied to a field of type `Edm.DateTimeOffset`. The value specifies the UTC time offset to account for in setting time boundaries. For example: `facet=lastRenovationDate,interval:day,timeoffset:-01:00` uses the day boundary that starts at 01:00:00 UTC (midnight in the target time zone).
 
 
-#### $filter=[string] (optional)
+#### $filter=[string]  (optional)
 
 A structured search expression in standard OData syntax. When calling via POST, this parameter is named `filter` instead of `$filter`. See [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md) for details on the subset of the OData expression grammar that Azure Search supports.
 
 
-#### highlight=[string] (optional)
+#### highlight=[string]  (optional)
 
 A set of comma-separated field names used for hit highlights. Only `searchable` fields can be used for hit highlighting. Azure Search returns only up to 5 highlights per field. This limit is not configurable.
 
-#### highlightPreTag=[string] (optional)
+#### highlightPreTag=[string]  (optional)
 
 Defaults to `</em>`. A string tag that appends to hit highlights. Must be set with `highlightPostTag`. Reserved characters in URL must be percent-encoded (for example, %23 instead of #).  
 
-#### highlightPostTag=[string] (optional)
+#### highlightPostTag=[string]  (optional)
 
 Defaults to `</em>`. A string tag that appends to hit highlights. Must be set with `highlightPreTag`. Reserved characters in URL must be percent-encoded (for example, %23 instead of #).  
 
-#### scoringProfile=[string] (optional)
+#### scoringProfile=[string]  (optional)
 
 The name of a scoring profile to evaluate match scores for matching documents in order to sort the results.
 
-#### scoringParameter=[string] (zero or more)
+#### scoringParameter=[string]  (zero or more)
 
 Indicates the values for each parameter defined in a scoring function (such as `referencePointParameter`) using the format `name-value1,value2,...` When calling via POST, this parameter is named `scoringParameters` instead of `scoringParameter`. Also, you specify it as a JSON array of strings where each string is a separate name:values pair.
 
@@ -174,9 +174,9 @@ A number between 0 and 100 indicating the percentage of the index that must be c
    > [!NOTE]  
    >   Setting this parameter to a value lower than 100 can be useful for ensuring search availability even for services with only one replica. However, not all matching documents are guaranteed to be present in the search results. If search recall is more important to your application than availability, then it's best to leave `minimumCoverage` at its default value of 100.
 
-#### api-version=[string] (required)
+#### api-version=[string]  (required)
 
-The `api-version` parameter is required. See [API versioning in Azure Search](https://azure.microsoft.com/documentation/articles/search-api-versions/) for a list of available versions. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Search Documents** with GET or POST.  
+The `api-version` parameter is required. See [API versioning in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Search Documents** with GET or POST.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -494,7 +494,7 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
     ```  
 
 ## See Also  
- [Azure Search Service REST](service-rest.md)   
+ [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
  [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md)    
