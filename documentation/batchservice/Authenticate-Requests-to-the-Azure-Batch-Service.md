@@ -33,7 +33,7 @@ When you construct the signature string, keep in mind the following:
 
 -   When the verb is POST, the Content-Type and Content-Length values are required as request headers and as values in the signature string. Content-Type must be set to **application/json;odata\=minimalmetadata**.
 
--   If the *ocp-date* header is specified, the *Date* header is not required, simply specify an empty line for the *Date* portion of the signature string. In this case, follow the instructions in the [Construct the canonicalized headers string](../Topic/Authenticate%20Requests%20to%20the%20Azure%20Batch%20Service.md#bk_canonicalizedhead) section for adding the *ocp-date* header.
+-   If the *ocp-date* header is specified, the *Date* header is not required, simply specify an empty line for the *Date* portion of the signature string. In this case, follow the instructions in the [Construct the canonicalized headers string](#construct-the-canonicalized-headers-string) section for adding the *ocp-date* header.
 
 -   All new line characters (\\n) shown are required within the signature string.
 
@@ -58,7 +58,7 @@ StringToSign = VERB + "\n" +
   CanonicalizedResource;
 ```
 
- The following example shows a signature string for a request to [List the jobs in an account](../Topic/List%20the%20jobs%20in%20an%20account.md) with a timeout of 20 seconds. When a header value does not exist, only the new line character is specified.
+ The following example shows a signature string for a request to [List the jobs in an account](~/api-ref/batchservice/job.json#Job_List) with a timeout of 20 seconds. When a header value does not exist, only the new line character is specified.
 
 ```
 GET\n\n\n\n\n\n\n\n\n\n\n\nocp-date:Tue, 29 Jul 2014 21:49:13 GMT\n /myaccount/jobs\napi-version:2014-01-01.1.0\ntimeout:20
@@ -89,7 +89,7 @@ Next, encode this string by using the HMAC-SHA256 algorithm over the UTF-8-encod
 Authorization: SharedKey myaccount:ctzMq410TV3wS7upTBcunJTDLEJwMAZuFPfr0mrrA08=
 ```
 
-####  <a name="bk_canonicalizedhead"></a> Construct the canonicalized headers string
+#### Construct the canonicalized headers string
 To construct the `CanonicalizedHeaders` portion of the signature string, follow these steps:
 
 1.  Retrieve all headers for the resource that begin with *ocp-*, including the *ocp-date* header.
@@ -149,5 +149,5 @@ Signature=Base64(HMAC-SHA256(UTF8(StringToSign)))
 ```
 
 ## See Also
-[Azure Batch REST API Reference](../Topic/Azure%20Batch%20REST%20API%20Reference.md)
+[Azure Batch REST API Reference](~/documentation/batchservice/index.md)
 

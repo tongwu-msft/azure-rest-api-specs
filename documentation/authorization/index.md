@@ -21,7 +21,7 @@ You use role-based access control to manage the actions users in your organizati
 | [Role Assignments](./roleassignments)             | Provides operations for working with role assignments, such as assigning a role to a user or group. |
 | [Role Definitions](./roledefinitions)             | Provides operations for defining roles, such as what actions are permitted. |
 
-## See Also [OPTIONAL]
+## See Also
 
-- [Add new users to Azure Active Directory](https://azure.microsoft.com/documentation/articles/active-directory-users-create-azure-portal/)
-- [Use role assignments to manage access to your Azure subscription resources](https://azure.microsoft.com/documentation/articles/role-based-access-control-configure/)
+- [Add new users to Azure Active Directory](https://docs.microsoft.com/azure/active-directory/active-directory-users-create-azure-portal)
+- [Use role assignments to manage access to your Azure subscription resources](https://docs.microsoft.com/azure/active-directory/role-based-access-control-configure)

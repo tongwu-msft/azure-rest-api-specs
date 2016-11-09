@@ -12,7 +12,7 @@ caps.latest.revision: 7
 author: "Juliako"
 ms.author: "juliako"
 manager: "erikre"
-translation.priority.mt: 
+translation.priority.mt:
   - "de-de"
   - "es-es"
   - "fr-fr"
@@ -26,22 +26,22 @@ translation.priority.mt:
 ---
 # Delete Media Services Account
 > [!NOTE]
->  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described [Media Services Management API Reference](../Topic/Media%20Services%20Management%20API%20Reference.md).  
-  
+>  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described [Media Services Management API Reference](../api/media/mediaservice).  
+
  The `DELETE` request method described in this topic deletes the specified Media Services account in the specified subscription.  
-  
+
  The request may be specified as follows (replace `<subscription-id>` with your subscription ID, and `<accountName>` with your account name):  
-  
+
 |||  
 |-|-|  
 |Method|Request URI|  
 |DELETE|https://endpoint/\<subscriptionId>/services/mediaservices/Accounts/\<accountName>|  
-  
+
  A successful operation returns status code 200 (OK). For information about error codes, see [Media Services Management Error Codes](../operations/media-services-management-error-codes.md).  
-  
+
 ## Example  
  See the `DeleteAccount` method defined in [How to: Use Media Services Management REST API](../operations/how-to--use-media-services-management-rest-api.md).  
-  
+
 ## See Also  
  [Media Services Operations REST](../operations/media-services-operations-rest.md)   
  [Media Services Management Error Codes](../operations/media-services-management-error-codes.md)
