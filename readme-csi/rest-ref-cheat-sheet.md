@@ -2,6 +2,11 @@
 
 Being a collection of guidance assembled throughout the migration of REST API documentation from ACOM to [docs.microsoft.com](http://docs.microsoft.com).
 
+* [Repo layout](#azure-docs-rest-apis-repo-layout)
+* [Linking](#linking)
+* [Metadata](#metadata)
+* [Definitions](#definitions)
+
 ## azure-docs-rest-apis repo layout
 
 | Directory | Contents | Editable by/contact | Notes/intended usage |
