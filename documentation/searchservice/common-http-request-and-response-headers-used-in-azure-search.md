@@ -8,14 +8,14 @@ ms.service: "search"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to: 
+applies_to:
   - "Azure"
 ms.assetid: 59c1f5bf-9e8d-4b40-9377-19a5479a46c8
 caps.latest.revision: 8
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 manager: "jhubbard"
-translation.priority.mt: 
+translation.priority.mt:
   - "de-de"
   - "es-es"
   - "fr-fr"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # Common HTTP request and response headers used in Azure Search
   The Azure Search Service APIs support a set of common HTTP request/response headers, summarized here for reference:  
-  
+
 |Request Header|Type|Description|  
 |--------------------|----------|-----------------|  
 |Accept|Content type|The requested content type for the response. Default is application/json;odata.metadata=minimal. Other allowable values are application/json, application/json;odata.metata=full, application/json;odata.metadata=none, and text/plain (for $count only).|  
@@ -41,7 +41,7 @@ translation.priority.mt:
 |return-client-request-id|True or False|If specified when client-request-id is specified, instructs the server to include the client-request-id header in the response. Default is False.|  
 |If-Match|ETag or *|Used to change a resource only if the current version matches the specified ETag. Use this header with POST, PUT, or DELETE methods on resources (such as indexers, indexes, and data sources, but not documents) to enable [optimistic concurrency control](http://www.ietf.org/rfc/rfc7232.txt).|  
 |If-None-Match|ETag or *|Used to change a resource only if the current version does not match the specified ETag. Use this header with POST, PUT, or DELETE methods on resources (such as indexers, indexes, and data sources, but not documents) to enable [optimistic concurrency control](http://www.ietf.org/rfc/rfc7232.txt).|  
-  
+
 |Response Header|Type|Description|  
 |---------------------|----------|-----------------|  
 |client-request-id|GUID|An identifier specified by the caller in the original request, if present.|  
@@ -53,8 +53,6 @@ translation.priority.mt:
 |ETag|String|An opaque string representing the current version of a resource (returned for indexers, indexes, and data sources, but not documents). Use this string in the If-Match or If-None-Match header for [optimistic concurrency control](http://www.ietf.org/rfc/rfc7232.txt).|  
   
 ## See Also  
- [Azure Search Service REST](service-rest.md)   
+ [Azure Search Service REST](index.md)   
  [Azure Search Management REST](../Topic/Azure%20Search%20Management%20REST.md)   
  [Azure Search Developer Reference](http://msdn.microsoft.com/en-us/a47e2a88-f9f9-4731-ab5f-e30ba1b5262b)  
-  
-  

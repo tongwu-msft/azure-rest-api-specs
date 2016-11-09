@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # Custom analyzers in Azure Search
 
-> [!NOTE] 
+> [!NOTE]
 > Custom analyzers are a preview feature provided in the [2015-02-28-Preview version of the Azure Search Service REST API](https://azure.microsoft.com/documentation/articles/search-api-2015-02-28-preview/) or the [preview version of the .NET SDK](https://msdn.microsoft.com/library/azure/mt761536(v=azure.103).aspx). Preview features are not under service level agreement and should not be used in production code.
 >   
 >  Analyzers are specific component of search technology. If you came to this page looking for information on how to analyze log or traffic data in Azure Search, please see [Enabling and using Search Traffic Analytics](https://azure.microsoft.com/documentation/articles/search-traffic-analytics/) on the Azure web site instead.  
@@ -535,5 +535,5 @@ Fields containing strings in different languages can use a language analyzer, wh
 ~~~~
 
 ## See Also  
- [Azure Search Service REST](service-rest.md)   
+ [Azure Search Service REST](index.md)   
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  

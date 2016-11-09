@@ -1,21 +1,21 @@
 ---
 title: "Data type map for indexers in Azure Search"
 ms.custom: ""
-ms.date: "2016-08-10"
+ms.date: "2016-11-09"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to: 
+applies_to:
   - "Azure"
 ms.assetid: 4350e176-696f-4a89-b4bb-794ace3c251e
 caps.latest.revision: 10
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 manager: "jhubbard"
-translation.priority.mt: 
+translation.priority.mt:
   - "de-de"
   - "es-es"
   - "fr-fr"
@@ -29,17 +29,17 @@ translation.priority.mt:
 ---
 # Data type map for indexers in Azure Search
   When building a schema for an indexer, the data types used in the data source must map to an allowed data type for the fields in the target index.  
-  
+
  This topic provides data type comparisons between SQL Data Types, JSON data types, and Azure Search. It contains the following:  
-  
+
 -   [SQL Server Data Types to Azure Search Data Types](#bkmk_sql_search)  
-  
+
 -   [JSON Data Types to Azure Search Data Types](#bkmk_json_search)  
-  
+
  See [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md) for links to topics about **indexers** and **data sources**.  
-  
+
 ##  <a name="bkmk_sql_search"></a> SQL Server Data Types to Azure Search Data Types  
-  
+
 |SQL Server Data Type|Allowed target index field types|Notes|  
 |--------------------------|--------------------------------------|-----------|  
 |bit|Edm.Boolean, Edm.String||  
@@ -53,9 +53,9 @@ translation.priority.mt:
 |rowversion|N/A|Row-version columns cannot be stored in the search index, but they can be used for change tracking.|  
 |geography|Edm.GeographyPoint|Only geography instances of type POINT with SRID 4326 (which is the default) are supported.|  
 |time, timespan<br /><br /> varbinary<br /><br /> image<br /><br /> xml<br /><br /> geometry<br /><br /> CLR types|N/A|Not supported.|  
-  
+
 ##  <a name="bkmk_json_search"></a> JSON Data Types to Azure Search Data Types  
-  
+
 |JSON data type|Allowed target index field types|  
 |--------------------|--------------------------------------|  
 |bool|Edm.Boolean, Edm.String|  
@@ -72,6 +72,4 @@ translation.priority.mt:
  [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
  [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
- [Azure Search Service REST](service-rest.md)  
-  
-  
+ [Azure Search Service REST](index.md)  

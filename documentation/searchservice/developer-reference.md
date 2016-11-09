@@ -26,7 +26,7 @@ Microsoft Azure Search is a search-as-a-service cloud offering that offloads the
 * [Service REST API (Preview)](https://azure.microsoft.com/documentation/articles/search-api-2015-02-28-preview/)
 * [Management REST API (GA)](https://msdn.microsoft.com/library/azure/dn832684.aspx)
 
-Programmable interfaces are either GA or preview status. Status is indicated in documentation, `api-version` URL parameter (for REST APIs), and build numbers for .NET libraries. See [API Versions](https://azure.microsoft.com/documentation/articles/search-api-versions/) for more information.
+Programmable interfaces are either GA or preview status. Status is indicated in documentation, `api-version` URL parameter (for REST APIs), and build numbers for .NET libraries. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for more information.
 
 | | |
 |-----|-----|
@@ -38,9 +38,6 @@ Programmable interfaces are either GA or preview status. Status is indicated in 
 
 [Upgrade Azure Search .NET libraries](https://azure.microsoft.com/documentation/articles/search-dotnet-sdk-migration/)
 
-[Azure Search Github Repo](https://github.com/AzureSearch) 
+[Azure Search Github Repo](https://github.com/AzureSearch)
 
 [Azure Search: tutorials, video demos, and samples list](https://azure.microsoft.com/documentation/articles/search-video-demo-tutorial-list/)
-
-
-  
