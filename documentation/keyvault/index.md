@@ -25,5 +25,5 @@ Azure Key Vault enables users to store and use cryptographic keys within the Mic
 
 ## See Also
 
-- [About keys, secrets, and certificates]()
+- [About keys, secrets, and certificates](../about-keys-secrets-and-certificates.md)
 
