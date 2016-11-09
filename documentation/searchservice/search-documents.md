@@ -74,20 +74,20 @@ api-key: [admin or query key]
 ### Query Parameters  
 A query accepts several parameters that provide query criteria and also specify search behavior. You provide these parameters in the URL query string when calling via GET, and as JSON properties in the request body when calling via POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted as applicable below.  
 
-#### search=[string]  (optional)
+#### `search=[string] (optional)`
 
 The text to search for. All `searchable` fields are searched by default unless `searchFields` is specified. When searching `searchable` fields, the search text itself is tokenized, so multiple terms can be separated by white space (e.g.: search=hello world). To match any term, use \* (this can be useful for boolean filter queries). Omitting this parameter has the same effect as setting it to \*. See  [Simple query syntax](simple-query-syntax-in-azure-search.md) for specifics on the search syntax.
 
 > [!NOTE]  
 >  The results can sometimes be surprising when querying over searchable fields. The tokenizer includes logic to handle cases common to English text like apostrophes, commas in numbers, and so forth. For example, `search=123,456` will match a single term 123,456 rather than the individual terms 123 and 456, since commas are used as thousand-separators for large numbers in English. For this reason, we recommend using white space rather than punctuation to separate terms in the `search` parameter.
 
-#### searchMode=any | all (optional)
+#### `searchMode=any | all (optional)`
 Defaults to `any`. Specifies whether any or all of the search terms must be matched in order to count the document as a match.
 
-#### searchFields=[string] (optional)
+#### `searchFields=[string] (optional)`
 The list of comma-separated field names to search for the specified text. Target fields must be marked as `searchable`.
 
-#### queryType=simple | full (optional)
+#### `queryType=simple | full (optional)`
 
 Defaults to `simple`. When set to `simple`, search text is interpreted using a simple query language that allows for symbols such as +, \* and "". Queries are evaluated across all `searchable` fields (or fields indicated in `searchFields`) in each document by default.
 
@@ -96,28 +96,28 @@ When the query type is set to `full`, search text is interpreted using the Lucen
 > [!NOTE]  
 >  Range search in the Lucene query language is not supported in favor of `$filter` which offers similar functionality.
 
-#### $skip=# (optional)
+#### `$skip=# (optional)`
 
 The number of search results to skip. When calling via POST, this parameter is named `skip` instead of `$skip`. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use `$skip` due to this limitation, consider using `$orderby` on a totally-ordered key and `$filter` with a range query instead.
 
-#### $top=# (optional)
+#### `$top=# (optional)`
 The number of search results to retrieve. This defaults to 50. When calling via POST, this parameter is named `top` instead of `$top`. If you specify a value greater than 1000 and there are more than 1000 results, only the first 1000 results will be returned, along with a link to the next page of results (see @odata.nextLink in the example below).
 
 Azure Search uses *server-side paging* to prevent queries from retrieving too many documents at once. The default page size is 50, while the maximum page size is 1000. This means that by default **Search Documents** returns at most 50 results if you don't specify `$top`. If there are more than 50 results, the response includes information to retrieve the next page of at most 50 results (see `@odata.nextLink` and `@search.nextPageParameters` in the [Examples](#bkmk_examples) below. Similarly, if you specify a value greater than 1000 for `$top` and there are more than 1000 results, only the first 1000 results are returned, along with information to retrieve the next page of at most 1000 results.
 
-#### $count=true | false
+#### `$count=true | false`
 
 Optional, defaults to `false`. When calling via POST, this parameter is named `count` instead of `$count`. Specifies whether to fetch the total count of results. This is the count of all documents that match the \`search\` and \`$filter\` parameters, ignoring \`$top\` and \`$skip\`. Setting this value to \`true\` may have a performance impact. Note that the count returned is an approximation.
 
-#### $orderby=[string] (optional)
+#### `$orderby=[string] (optional)`
 
 A list of comma-separated expressions to sort the results by. When calling via POST, this parameter is named `orderby` instead of `$orderby`. Each expression can be either a field name or a call to the `geo.distance()` function. Each expression can be followed by `asc` to indicate ascending, and `desc` to indicate descending. The default is ascending order. Ties will be broken by the match scores of documents. If no `$orderby` is specified, the default sort order is descending by document match score. There is a limit of 32 clauses for `$orderby`.
 
-#### $select=[string]  (optional)
+#### `$select=[string] (optional)`
 
 A list of comma-separated fields to retrieve. When calling via POST, this parameter is named `select` instead of `$select`. If unspecified, all fields marked as retrievable in the schema are included. You can also explicitly request all fields by setting this parameter to `*`.
 
-#### facet=[string]  (zero or more)
+#### `facet=[string] (zero or more)`
 
 A field to facet by. Optionally, the string may contain parameters to customize the faceting, expressed as comma-separated `name:value` pairs. When calling via POST, this parameter is named `facets` instead of `$facet`.
 
@@ -138,28 +138,28 @@ Valid parameters are:
 - `timeoffset ([+-]hh:mm, [+-]hhmm, or [+-]hh)`. If used, the `timeoffset` parameter must be combined with the `interval` option, and only when applied to a field of type `Edm.DateTimeOffset`. The value specifies the UTC time offset to account for in setting time boundaries. For example: `facet=lastRenovationDate,interval:day,timeoffset:-01:00` uses the day boundary that starts at 01:00:00 UTC (midnight in the target time zone).
 
 
-#### $filter=[string]  (optional)
+#### `$filter=[string] (optional)`
 
 A structured search expression in standard OData syntax. When calling via POST, this parameter is named `filter` instead of `$filter`. See [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md) for details on the subset of the OData expression grammar that Azure Search supports.
 
 
-#### highlight=[string]  (optional)
+#### `highlight=[string] optional)`
 
 A set of comma-separated field names used for hit highlights. Only `searchable` fields can be used for hit highlighting. Azure Search returns only up to 5 highlights per field. This limit is not configurable.
 
-#### highlightPreTag=[string]  (optional)
+#### `highlightPreTag=[string] (optional)`
 
 Defaults to `</em>`. A string tag that appends to hit highlights. Must be set with `highlightPostTag`. Reserved characters in URL must be percent-encoded (for example, %23 instead of #).  
 
-#### highlightPostTag=[string]  (optional)
+#### `highlightPostTag=[string] (optional)`
 
 Defaults to `</em>`. A string tag that appends to hit highlights. Must be set with `highlightPreTag`. Reserved characters in URL must be percent-encoded (for example, %23 instead of #).  
 
-#### scoringProfile=[string]  (optional)
+#### `scoringProfile=[string] (optional)`
 
 The name of a scoring profile to evaluate match scores for matching documents in order to sort the results.
 
-#### scoringParameter=[string]  (zero or more)
+#### `scoringParameter=[string] (zero or more)`
 
 Indicates the values for each parameter defined in a scoring function (such as `referencePointParameter`) using the format `name-value1,value2,...` When calling via POST, this parameter is named `scoringParameters` instead of `scoringParameter`. Also, you specify it as a JSON array of strings where each string is a separate name:values pair.
 
@@ -167,14 +167,14 @@ Indicates the values for each parameter defined in a scoring function (such as `
 
 - For scoring parameters such as for tag boosting that can contain commas, you can escape any such values in the list using single quotes. If the values themselves contain single quotes, you can escape them by doubling. Suppose you have a tag boosting parameter called "mytag" and you want to boost on the tag values "Hello, O'Brien" and "Smith", the query string option would then be `&scoringParameter=mytag-'Hello, O''Brien',Smith`. Note that quotes are only required for values that contain commas.   
 
-#### minimumCoverage (optional, defaults to 100)
+#### `minimumCoverage (optional, defaults to 100)`
 
 A number between 0 and 100 indicating the percentage of the index that must be covered by a search query in order for the query to be reported as a success. By default, the entire index must be available or the Search operation will return HTTP status code 503. If you set `minimumCoverage` and Search succeeds, it will return HTTP 200 and include a `@search.coverage` value in the response indicating the percentage of the index that was included in the query.
 
    > [!NOTE]  
    >   Setting this parameter to a value lower than 100 can be useful for ensuring search availability even for services with only one replica. However, not all matching documents are guaranteed to be present in the search results. If search recall is more important to your application than availability, then it's best to leave `minimumCoverage` at its default value of 100.
 
-#### api-version=[string]  (required)
+#### `api-version=[string] (required)`
 
 The `api-version` parameter is required. See [API versioning in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Search Documents** with GET or POST.  
 
