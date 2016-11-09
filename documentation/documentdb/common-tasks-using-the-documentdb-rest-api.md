@@ -47,7 +47,7 @@ translation.priority.mt:
   
 -   [Get a Database](get-a-database.md)  
   
--   [Delete a Database retired](delete-a-database1.md)  
+-   [Delete a Database](delete-a-database1.md)  
   
 ## Users  
   
