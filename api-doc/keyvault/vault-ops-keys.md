@@ -11,14 +11,14 @@ description: *content
 For more information, see [About Keys, Secrets, and Certificates](../about-keys-secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
 
 ---
-uid: management.azure.com/KeyVaultClient/2016-10-01/Vaults_Delete
-summary: Imports a key into the specified vault.
+uid: management.azure.com/KeyVaultClient/2016-10-01/DeleteKey
+summary: Deletes a key in the specified vault.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 ---
 
-Test text from Bruce for Vaults_Delete
+Test text from Bruce for DeleteKey
 
 ---
 uid: management.azure.com/KeyVaultClient/2016-10-01/ImportKey

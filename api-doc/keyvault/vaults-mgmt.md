@@ -7,7 +7,9 @@ parameters:
 description: *content
 ---
 
-Test text from Bruce create or update.
+See Common parameters and headers for headers and parameters that are used by key vaults.
+
+NOTE – An alternative to using PUT is to use PATCH for update only behavior. PATCH will allow you to specify as few as one property in the request such that only that property will be updated. If you specify all properties, then it is equivalent to using PUT.
 
 ---
 uid: management.azure.com/KeyVaultManagementClient/2015-06-01/Vaults_Delete
