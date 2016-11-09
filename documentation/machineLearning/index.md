@@ -1,5 +1,5 @@
 ---
-ms.assetid: 062e3d6c-f110-418c-978a-0b54df289ddd
+ms.assetid: 
 ms.title: Machine Learning API Web Service
 ms.prod:
 ms.service: machine-learning
