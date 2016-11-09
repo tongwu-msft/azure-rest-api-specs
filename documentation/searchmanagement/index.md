@@ -18,9 +18,9 @@ You can [use PowerShell](https://azure.microsoft.com/documentation/articles/sear
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Admin Keys](../../api-ref/searchmanagement/AdminKeys.json#AdminKeys)  | Create or refresh admin api-keys providing read-write access to a service. |
-| [Query Keys](../../api-ref/searchmanagement/QueryKeys.json#QueryKeys)  | Create or delete query api-query providing read-only access to a service from a calling application. |
-| [Services](../../api-ref/searchmanagement/Services.json#Services)  | Create, update, delete, or list search services in your Azure subscription. |
+| [Admin Keys](../../api-ref/searchmanagement/AdminKeys.json)  | Create or refresh admin api-keys providing read-write access to a service. |
+| [Query Keys](../../api-ref/searchmanagement/QueryKeys.json)  | Create or delete query api-query providing read-only access to a service from a calling application. |
+| [Services](../../api-ref/searchmanagement/Services.json)  | Create, update, delete, or list search services in your Azure subscription. |
 
 ## See Also
 
