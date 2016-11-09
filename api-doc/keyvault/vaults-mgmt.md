@@ -7,7 +7,7 @@ parameters:
 description: *content
 ---
 
-See Common parameters and headers for headers and parameters that are used by key vaults.
+See [Common parameters and headers]() for headers and parameters that are used by key vaults.
 
 NOTE – An alternative to using PUT is to use PATCH for update only behavior. PATCH will allow you to specify as few as one property in the request such that only that property will be updated. If you specify all properties, then it is equivalent to using PUT.
 
