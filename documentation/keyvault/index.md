@@ -10,7 +10,7 @@ ms.manager: douge
 
 # Azure Key Vault REST API reference
 
-The Azure Key Vault REST API provides operations for managing Key Vaults as well as keys, secrets, and certificates within Key Vaults.
+The Azure Key Vault REST API provides operations for managing Key Vaults as well as keys, secrets, and certificates within key vaults.
 
 
 
