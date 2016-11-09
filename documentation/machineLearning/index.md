@@ -8,7 +8,7 @@ ms.author: garye
 ms.manager: jhubbard
 ---
 
-# Azure Machine Learning REST APIs
+# Azure Machine Learning Management REST APIs
 
 <!--
 Microsoft Azure Machine Learning enables you to build and test a predictive analytics solution, and then deploy it as an Azure web service. 
@@ -34,7 +34,7 @@ For information common to all these APIs, see [Common parameters and headers](co
 
 | Operation Group | Description |
 |-----------------|-------------|
-|  [Commitment Associations](./commitmentassociations) | Provides operations that allow you to manage commitment associations. |
+|  [Commitment Associations](~/commitmentassociations) | Provides operations that allow you to manage commitment associations. |
 |  [Commitment Plans](./commitmentplans) | Provides operations that allow you to create and manage commitment plans. |
 |  [Commitment Plans Usage History](./usagehistory) | Provides an operation that allow you to retrieve commitment plan usage history. |
 |  [Web Services](./webservices) | Provides operations that allow you to create and manage web services. |
@@ -43,6 +43,7 @@ For information common to all these APIs, see [Common parameters and headers](co
 
 The following information is common to tasks related to these APIs:
 
+- The host URI for Machine Learning REST APIs is **https://management.azure.com/**
 - Replace {api-version} with **2016-05-01-preview**
 - Replace {subscription-id} with your subscription identifier in the URI
 - Replace {resource-group-name} with the resource group name
@@ -85,4 +86,4 @@ You can do the following tasks with the REST APIs for Azure Machine Learning web
 
 - [Manage a web service using PowerShell cmdlets](/powershell/resourcemanager/azurerm.machinelearning/v0.11.0/azurerm.machinelearning)
 - [Manage a web service using the Azure Machine Learning Web Services portal](/azure/machine-learning/machine-learning-manage-new-webservice)
- - [Overview of deploying and consuming Azure Machine Learning web services](/azure/machine-learning/machine-learning-deploy-consume-web-service-guide)
+- [Overview of deploying and consuming Azure Machine Learning web services](/azure/machine-learning/machine-learning-deploy-consume-web-service-guide)
