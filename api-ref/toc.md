@@ -302,6 +302,7 @@
 ## [Update Certificate Policy](keyvault/UpdateCertificatePolicy.json)
 ## [Update Key](keyvault/UpdateKey.json)
 ## [Update Secret](keyvault/UpdateSecret.json)
+## [Vaults](keyvault/Vaults.json)
 ## [decrypt](keyvault/decrypt.json)
 ## [encrypt](keyvault/encrypt.json)
 ## [sign](keyvault/sign.json)
