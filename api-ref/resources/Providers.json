@@ -2,7 +2,8 @@
   "swagger": "2.0",
   "info": {
     "title": "ResourceManagementClient",
-    "version": "2016-09-01"
+    "version": "2016-09-01",
+    "description": "Provides operations for working with resources and resource groups."
   },
   "host": "management.azure.com",
   "schemes": [
@@ -39,14 +40,14 @@
           "Providers"
         ],
         "operationId": "Providers_Unregister",
-        "description": "Unregisters provider from a subscription.",
+        "description": "Unregisters a subscription from a resource provider.",
         "parameters": [
           {
             "name": "resourceProviderNamespace",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Namespace of the resource provider."
+            "description": "The namespace of the resource provider to unregister."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -57,7 +58,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK - Returns informatin about the resource provider.",
             "schema": {
               "$ref": "#/definitions/Provider"
             }
@@ -71,14 +72,14 @@
           "Providers"
         ],
         "operationId": "Providers_Register",
-        "description": "Registers provider to be used with a subscription.",
+        "description": "Registers a subscription with a resource provider.",
         "parameters": [
           {
             "name": "resourceProviderNamespace",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Namespace of the resource provider."
+            "description": "The namespace of the resource provider to register."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -89,7 +90,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK - Returns information about the resource provider.",
             "schema": {
               "$ref": "#/definitions/Provider"
             }
@@ -103,7 +104,7 @@
           "Providers"
         ],
         "operationId": "Providers_List",
-        "description": "Gets a list of resource providers.",
+        "description": "Gets all resource providers for a subscription.",
         "parameters": [
           {
             "name": "$top",
@@ -111,14 +112,14 @@
             "required": false,
             "type": "integer",
             "format": "int32",
-            "description": "Query parameters. If null is passed returns all deployments."
+            "description": "The number of results to return. If null is passed returns all deployments."
           },
           {
             "name": "$expand",
             "in": "query",
             "required": false,
             "type": "string",
-            "description": "The $expand query parameter. e.g. To include property aliases in response, use $expand=resourceTypes/aliases."
+            "description": "The properties to include in the results. For example, use &$expand=metadata in the query string to retrieve resource provider metadata. To include property aliases in response, use $expand=resourceTypes/aliases."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -129,7 +130,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK - Returns an array of resource providers.",
             "schema": {
               "$ref": "#/definitions/ProviderListResult"
             }
@@ -146,21 +147,21 @@
           "Providers"
         ],
         "operationId": "Providers_Get",
-        "description": "Gets a resource provider.",
+        "description": "Gets the specified resource provider.",
         "parameters": [
           {
             "name": "$expand",
             "in": "query",
             "required": false,
             "type": "string",
-            "description": "The $expand query parameter. e.g. To include property aliases in response, use $expand=resourceTypes/aliases."
+            "description": "The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases."
           },
           {
             "name": "resourceProviderNamespace",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Namespace of the resource provider."
+            "description": "The namespace of the resource provider."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -171,7 +172,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK - Returns information about the resource provider.",
             "schema": {
               "$ref": "#/definitions/Provider"
             }
@@ -224,11 +225,11 @@
       "properties": {
         "uri": {
           "type": "string",
-          "description": "URI referencing the template."
+          "description": "The URI of the template to deploy."
         },
         "contentVersion": {
           "type": "string",
-          "description": "If included it must match the ContentVersion in the template."
+          "description": "If included, must match the ContentVersion in the template."
         }
       },
       "required": [
@@ -240,11 +241,11 @@
       "properties": {
         "uri": {
           "type": "string",
-          "description": "URI referencing the template."
+          "description": "The URI of the parameters file."
         },
         "contentVersion": {
           "type": "string",
-          "description": "If included it must match the ContentVersion in the template."
+          "description": "If included, must match the ContentVersion in the template."
         }
       },
       "required": [
@@ -256,23 +257,23 @@
       "properties": {
         "template": {
           "type": "object",
-          "description": "The template content. It can be a JObject or a well formed JSON string. Use only one of Template or TemplateLink."
+          "description": "The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both."
         },
         "templateLink": {
           "$ref": "#/definitions/TemplateLink",
-          "description": "The template URI. Use only one of Template or TemplateLink."
+          "description": "The URI of the template. Use either the templateLink property or the template property, but not both."
         },
         "parameters": {
           "type": "object",
-          "description": "Deployment parameters. It can be a JObject or a well formed JSON string. Use only one of Parameters or ParametersLink."
+          "description": "Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string."
         },
         "parametersLink": {
           "$ref": "#/definitions/ParametersLink",
-          "description": "The parameters URI. Use only one of Parameters or ParametersLink."
+          "description": "The URI of parameters file. You use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both."
         },
         "mode": {
           "type": "string",
-          "description": "The deployment mode.",
+          "description": "The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.",
           "enum": [
             "Incremental",
             "Complete"
@@ -297,7 +298,7 @@
         "detailLevel": {
           "x-ms-client-flatten": true,
           "type": "string",
-          "description": "The debug detail level."
+          "description": "Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information you are passing in during deployment. By logging information about the request or response, you could potentially expose sensitive data that is retrieved through the deployment operations."
         }
       }
     },
@@ -324,12 +325,12 @@
         "code": {
           "readOnly": true,
           "type": "string",
-          "description": "The error code returned from the server."
+          "description": "The error code returned when exporting the template."
         },
         "message": {
           "readOnly": true,
           "type": "string",
-          "description": "The error message returned from the server."
+          "description": "The error message describing the export error."
         },
         "target": {
           "readOnly": true,
@@ -357,7 +358,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The api versions."
+          "description": "The API versions."
         }
       },
       "description": "The type of the paths for alias. "
@@ -389,7 +390,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The collection of locations where this resource type can be created in."
+          "description": "The collection of locations where this resource type can be created."
         },
         "aliases": {
           "type": "array",
@@ -403,7 +404,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The api version."
+          "description": "The API version."
         },
         "properties": {
           "type": "object",
@@ -421,11 +422,11 @@
         "id": {
           "readOnly": true,
           "type": "string",
-          "description": "The provider id."
+          "description": "The provider ID."
         },
         "namespace": {
           "type": "string",
-          "description": "The namespace of the provider."
+          "description": "The namespace of the resource provider."
         },
         "registrationState": {
           "readOnly": true,
@@ -538,7 +539,7 @@
         },
         "mode": {
           "type": "string",
-          "description": "The deployment mode.",
+          "description": "The deployment mode. Possible values are Incremental and Complete.",
           "enum": [
             "Incremental",
             "Complete"
@@ -595,12 +596,12 @@
           "items": {
             "$ref": "#/definitions/DeploymentExtended"
           },
-          "description": "The list of deployments."
+          "description": "An array of deployments."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of deployments."
@@ -612,12 +613,12 @@
           "items": {
             "$ref": "#/definitions/Provider"
           },
-          "description": "The list of resource providers."
+          "description": "An array of resource providers."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of resource providers."
@@ -639,11 +640,11 @@
         },
         "managedBy": {
           "type": "string",
-          "description": "Id of the resource that manages this resource."
+          "description": "ID of the resource that manages this resource."
         },
         "sku": {
           "$ref": "#/definitions/Sku",
-          "description": "The sku of the resource."
+          "description": "The SKU of the resource."
         },
         "identity": {
           "$ref": "#/definitions/Identity",
@@ -682,43 +683,43 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "The sku name."
+          "description": "The SKU name."
         },
         "tier": {
           "type": "string",
-          "description": "The sku tier."
+          "description": "The SKU tier."
         },
         "size": {
           "type": "string",
-          "description": "The sku size."
+          "description": "The SKU size."
         },
         "family": {
           "type": "string",
-          "description": "The sku family."
+          "description": "The SKU family."
         },
         "model": {
           "type": "string",
-          "description": "The sku model."
+          "description": "The SKU model."
         },
         "capacity": {
           "type": "integer",
           "format": "int32",
-          "description": "The sku capacity."
+          "description": "The SKU capacity."
         }
       },
-      "description": "Sku for the resource."
+      "description": "SKU for the resource."
     },
     "Identity": {
       "properties": {
         "principalId": {
           "readOnly": true,
           "type": "string",
-          "description": "The principal id of resource identity."
+          "description": "The principal ID of resource identity."
         },
         "tenantId": {
           "readOnly": true,
           "type": "string",
-          "description": "The tenant id of resource."
+          "description": "The tenant ID of resource."
         },
         "type": {
           "type": "string",
@@ -741,12 +742,12 @@
           "items": {
             "$ref": "#/definitions/GenericResource"
           },
-          "description": "The list of resources."
+          "description": "An array of resources."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of resource groups."
@@ -760,18 +761,18 @@
         },
         "name": {
           "type": "string",
-          "description": "The Name of the resource group."
+          "description": "The name of the resource group."
         },
         "properties": {
           "$ref": "#/definitions/ResourceGroupProperties"
         },
         "location": {
           "type": "string",
-          "description": "The location of the resource group. It cannot be changed after the resource group has been created. Has to be one of the supported Azure Locations, such as West US, East US, West Europe, East Asia, etc."
+          "description": "The location of the resource group. It cannot be changed after the resource group has been created. It muct be one of the supported Azure locations."
         },
         "managedBy": {
           "type": "string",
-          "description": "Id of the resource that manages this resource group."
+          "description": "The ID of the resource that manages this resource group."
         },
         "tags": {
           "type": "object",
@@ -804,12 +805,12 @@
           "items": {
             "$ref": "#/definitions/ResourceGroup"
           },
-          "description": "The list of resource groups."
+          "description": "An array of resource groups."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of resource groups."
@@ -821,7 +822,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The ids of the resources."
+          "description": "The IDs of the resources."
         },
         "targetResourceGroup": {
           "type": "string",
@@ -837,7 +838,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The ids of the resources. The only supported string currently is '*' (all resources). Future api updates will support exporting specific resources."
+          "description": "The IDs of the resources. The only supported string currently is '*' (all resources). Future updates will support exporting specific resources."
         },
         "options": {
           "type": "string",
@@ -888,7 +889,7 @@
         },
         "count": {
           "$ref": "#/definitions/TagCount",
-          "description": "The tag count."
+          "description": "The total number of resources that use the resource tag. When a tag is initially created and has no associated resources, the value is 0."
         },
         "values": {
           "type": "array",
@@ -907,12 +908,12 @@
           "items": {
             "$ref": "#/definitions/TagDetails"
           },
-          "description": "The list of tags."
+          "description": "An array of tags."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of subscription tags."
@@ -993,12 +994,12 @@
         "id": {
           "readOnly": true,
           "type": "string",
-          "description": "Full deployment operation id."
+          "description": "Full deployment operation ID."
         },
         "operationId": {
           "readOnly": true,
           "type": "string",
-          "description": "Deployment operation id."
+          "description": "Deployment operation ID."
         },
         "properties": {
           "$ref": "#/definitions/DeploymentOperationProperties",
@@ -1014,12 +1015,12 @@
           "items": {
             "$ref": "#/definitions/DeploymentOperation"
           },
-          "description": "The list of deployments."
+          "description": "An array of deployment operations."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of deployment operations."
@@ -1054,7 +1055,7 @@
         "id": {
           "readOnly": true,
           "type": "string",
-          "description": "Resource Id"
+          "description": "Resource ID"
         },
         "name": {
           "readOnly": true,
@@ -1084,7 +1085,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Resource Id"
+          "description": "Resource ID"
         }
       },
       "x-ms-azure-resource": true
@@ -1108,14 +1109,14 @@
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+      "description": "The ID of the target subscription."
     },
     "ApiVersionParameter": {
       "name": "api-version",
       "in": "query",
       "required": true,
       "type": "string",
-      "description": "Client Api Version."
+      "description": "The API version to use for this operation."
     }
   }
 }
