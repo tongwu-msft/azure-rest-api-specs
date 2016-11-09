@@ -65,11 +65,11 @@ translation.priority.mt:
   
 -   [Get a Database](get-a-database.md)  
   
--   [Delete a Database retired](delete-a-database1.md)  
+-   [Delete a Database](delete-a-database1.md)  
   
 ## See Also  
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](Azure%20DocumentDB%20Reference%20Documentation.md)   
+ [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
  [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
