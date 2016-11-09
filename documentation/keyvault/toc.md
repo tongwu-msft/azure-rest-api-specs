@@ -1,0 +1,7 @@
+# [Get Started with certificates](certificate-scenarios.md)
+## [Certificates and Policies](certificates-and-policies.md)
+## [Create a Certificate](create-a-certificate.md)
+## [Monitor and manage certificate creation](create-certificate-scenarios.md)
+# [About Keys, Secrets and Certificates](about-keys--secrets-and-certificates.md)
+# [Authentication, Requests and Responses](authentication--requests-and-responses.md)
+# [Key Vault Versions](key-vault-versions.md)
