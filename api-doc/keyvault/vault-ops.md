@@ -1,5 +1,5 @@
 ---
-uid: management.azure.com/KeyVaultManagementClient/2016-10-01/CreateKey
+uid: management.azure.com/KeyVaultClient/2016-10-01/CreateKey
 summary: Creates a new, named, key in the specified vault.
 parameters:
     - name: api-version
@@ -10,7 +10,7 @@ description: *content
 Test text from Bruce create key.
 
 ---
-uid: management.azure.com/KeyVaultManagementClient/2016-10-01/Vaults_Delete
+uid: management.azure.com/KeyVaultClient/2016-10-01/Vaults_Delete
 summary: Imports a key into the specified vault.
 parameters:
     - name: api-version
@@ -20,7 +20,7 @@ parameters:
 Test text from Bruce for Vaults_Delete
 
 ---
-uid: management.azure.com/KeyVaultManagementClient/2016-10-01/ImportKey
+uid: management.azure.com/KeyVaultClient/2016-10-01/ImportKey
 summary: Gets the specified Azure key vault.
 parameters:
     - name: api-version
@@ -29,7 +29,7 @@ parameters:
 Test text from Bruce for import key
 
 ---
-uid: management.azure.com/KeyVaultManagementClient/2016-10-01/DeleteKey
+uid: management.azure.com/KeyVaultClient/2016-10-01/DeleteKey
 summary: Deletes the specified key.
 parameters:
     - name: api-version
@@ -39,7 +39,7 @@ Test text from Bruce for delete key
 
 
 ---
-uid: management.azure.com/KeyVaultManagementClient/2016-10-01/UpdateKey
+uid: management.azure.com/KeyVaultClient/2016-10-01/UpdateKey
 summary: Updates the key attributes associated with the specified key.
 parameters:
     - name: api-version
