@@ -43,7 +43,7 @@ ms.manager: msalias
 ```
 
 * Use only *one* of `ms.prod` or `ms.service`, do not use both.
-* You can find the list of appropriate metadata field values at [aka.ms/skyeye/meta](https://aka.ms/skyeye/meta).
+* You can find the **get from list** list of available metadata field values at [aka.ms/skyeye/meta](https://aka.ms/skyeye/meta).
 
 ## Definitions
 
