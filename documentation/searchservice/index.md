@@ -155,7 +155,7 @@ translation.priority.mt:
     ```  
 
 
- To create the service, see [Create an Azure Search service](http://azure.microsoft.com/documentation/articles/search-create-service-portal/). followed by [How to build a .NET application with Azure Search](http://azure.microsoft.com/documentation/articles//search-howto-dotnet-sdk/).  
+ To create the service, see [Create an Azure Search service](http://azure.microsoft.com/documentation/articles/search-create-service-portal/). followed by [How to build a .NET application with Azure Search](http://azure.microsoft.com/documentation/articles/search-howto-dotnet-sdk/).  
 
 ## See Also  
  [Azure Search: tutorials, video demos, and samples](http://azure.microsoft.com/documentation/articles/search-video-demo-tutorial-list/)     
@@ -165,5 +165,5 @@ translation.priority.mt:
  [Manage your search service on Microsoft Azure](http://go.microsoft.com/fwlink/?LinkId=509793)   
  [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
  [Common HTTP request and response headers used in Azure Search](common-http-request-and-response-headers-used-in-azure-search.md)   
- [Azure Search Management REST](../../api-ref/searchmanagement/index.md)   
+ [Azure Search Management REST](~/documentation/searchmanagement/index.md)   
  [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
