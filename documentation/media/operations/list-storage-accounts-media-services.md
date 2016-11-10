@@ -25,8 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # List Storage Accounts (Media Services)
+
 > [!NOTE]
->  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services Management API Reference](../api/media/mediaservice).  
+>  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](../../../api-ref/media/MediaService.json).
+  
   
  The `GET` request method described in this topic returns a list of `StorageAccountDetails` for the Storage Account associated with the specified Media Services account. The data contract for `StorageAccountDetails` is defined later in this topic.  
   
@@ -71,7 +73,8 @@ public class StorageAccountDetails
  For more information about request and response formats, see [Media Services Operations REST](../operations/media-services-operations-rest.md)  
   
 ## Example  
- See the `ListStorageAccountDetails` method in [How to: Use Media Services Management REST API](../operations/how-to--use-media-services-management-rest-api.md).  
+
+See [How to: Use Media Services Management REST API](../operations/how-to-use-media-services-management-rest-api.md). 
   
 ## See Also  
  [Media Services Operations REST](../operations/media-services-operations-rest.md)   

@@ -1,21 +1,21 @@
 ---
 title: "HTTP status codes (Azure Search)"
 ms.custom: ""
-ms.date: "2016-09-30"
+ms.date: "2016-11-09"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to: 
+applies_to:
   - "Azure"
 ms.assetid: 6a961914-989b-4381-8d23-3ed75ad246a3
 caps.latest.revision: 22
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 manager: "jhubbard"
-translation.priority.mt: 
+translation.priority.mt:
   - "de-de"
   - "es-es"
   - "fr-fr"
@@ -29,9 +29,9 @@ translation.priority.mt:
 ---
 # HTTP status codes (Azure Search)
   This page describes the HTTP status codes that are frequently returned when using the Azure Search API.  
-  
+
 ## Common HTTP status codes  
-  
+
 |Code|Description|  
 |----------|-----------------|  
 |200 OK|Success on GET, PUT, or POST. Returned for a successful response. During indexing, this code indicates all items have been stored durably and will start to be indexed. Indexing runs in the background and makes new documents queryable and searchable a few seconds after the indexing operation completed.|  
@@ -45,10 +45,8 @@ translation.priority.mt:
 |502 Bad Gateway|This error occurs when you enter HTTP instead of HTTPS in the connection.|  
 |503 Service Unavailable|This error means that the system is under heavy load and your request can't be processed at this time. **Important:**  In this case, we highly recommend that your client code back off and wait before retrying. This will give the system some time to recover, increasing the chances that future requests will succeed. Rapidly retrying your requests will only prolong the situation.|  
 |504: Gateway Timeout|Azure Search listens on HTTPS port 443. If your search service URL contains HTTP instead of HTTPS, a 504 status code will be returned.|  
-  
+
 ## See Also  
 [Azure Search .NET SDK](Search%20.NET%20SDK.xml)
- [Azure Search Service REST](service-rest.md)   
+ [Azure Search Service REST](index.md)   
  [Azure Search Management REST](../Topic/Azure%20Search%20Management%20REST.md)  
-  
-  

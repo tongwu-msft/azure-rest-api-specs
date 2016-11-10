@@ -69,7 +69,7 @@ translation.priority.mt:
 
  You should plan on creating one indexer for every target index and data source combination. You can have multiple indexers writing into the same index, and you can reuse the same data source for multiple indexers. However, an indexer can only consume one data source at a time, and can only write to a single index. As the following graphic illustrates, one data source provides input to one indexer, which then populates a single index:  
 
- ![Data Source, Indexer, Index chain in Azure Search](./media/azsrch-ds-indxr-index.png "Azsrch-ds-indxr-index")  
+ ![Data Source, Indexer, Index chain in Azure Search](/media/azsrch-ds-indxr-index.png "Azsrch-ds-indxr-index")  
 
  Although you can only use one at a time, resources can be used in different combinations. The main takeaway of the next illustration is to notice is that a data source can be paired with more than one indexer, and multiple indexers can write to same index.  
 
@@ -184,5 +184,5 @@ POST https://[service name].search.windows.net/indexers/[indexer name]/reset?api
 ```  
 
 ## See Also  
- [Azure Search Service REST](service-rest.md)   
+ [Azure Search Service REST](index.md)   
  [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)  
