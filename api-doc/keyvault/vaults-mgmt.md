@@ -11,7 +11,7 @@ NOTE – An alternative to using PUT is to use PATCH for update only behavior. PAT
 
 ---
 uid: management.azure.com/KeyVaultManagementClient/2015-06-01/Vaults_Delete
-summary: Deletes the specified Azure key vault.
+summary: Deletes the specified key vault.
 parameters:
     - name: api-version
       description: Use the latest version of 2015-06-01.
@@ -21,7 +21,7 @@ Aux content for Vaults_Delete
 
 ---
 uid: management.azure.com/KeyVaultManagementClient/2015-06-01/Vaults_Get
-summary: Gets the specified Azure key vault.
+summary: Gets the specified key vault.
 parameters:
     - name: api-version
       description: Use the latest version of 2015-06-01.
@@ -30,7 +30,7 @@ Aux content for Vaults_Get
 
 ---
 uid: management.azure.com/KeyVaultManagementClient/2015-06-01/Vaults_ListByResourceGroup
-summary: Gets the specified Azure key vault.
+summary: Gets the specified key vault.
 parameters:
     - name: api-version
       description: Use the latest version of 2015-06-01.
@@ -40,7 +40,7 @@ Aux content for Vaults_ListByResourceGroup
 
 ---
 uid: management.azure.com/KeyVaultManagementClient/2015-06-01/Vaults_ListByResourceGroup
-summary: Gets the specified Azure key vault.
+summary: Gets the specified key vault.
 parameters:
     - name: api-version
       description: Use the latest version of 2015-06-01.
