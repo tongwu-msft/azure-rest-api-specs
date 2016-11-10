@@ -5,9 +5,9 @@ parameters:
     - name: api-version
       description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
     - name: subscriptionId
-      description: The identifier of the target subscription. To get a list of subscriptions for a tenant, use [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List).
+      description: The identifier of the target subscription.
     - name: resourceGroupName
-      description: The name of the resource group that will contains the availability set. For more information about creating and managing resource groups, see [Resource Groups](../../api-ref/resources/resourcegroups.json).
+      description: The name of the resource group that will contains the availability set.
 description: *content
 ---
 
@@ -16,6 +16,8 @@ These links will be useful when creating the request:
 - [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations)
 - [Using tags to organize your resources](https://review.docs.microsoft.com/en-us/azure/resource-group-using-tags?toc=%2fazure%2fazure-resource-manager%2ftoc.json)
 - [Manage the availability of virtual machines](https://review.docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
+- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../api-ref/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -26,11 +28,16 @@ parameters:
     - name: api-version
       description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
     - name: subscriptionId
-      description: The identifier of the target subscription. To get a list of subscriptions for a tenant, use [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List).
+      description: The identifier of the target subscription.
     - name: resourceGroupName
-      description: The name of the resource group that contains the availability set. For more information about managing resource groups, see [Resource Groups](../../api-ref/resources/resourcegroups.json).
+      description: The name of the resource group that contains the availability set.
 description: *content
 ---
+
+These links will be useful when creating the request:
+
+- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../api-ref/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -41,13 +48,17 @@ parameters:
     - name: api-version
       description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
     - name: subscriptionId
-      description: The identifier of the target subscription. To get a list of subscriptions for a tenant, use [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List).
+      description: The identifier of the target subscription.
     - name: resourceGroupName
-      description: The name of the resource group that contains the availability set. For more information about managing resource groups, see [Resource Groups](../../api-ref/resources/resourcegroups.json).
+      description: The name of the resource group that contains the availability set.
 description: *content
 ---
 
-For more information about the location of rescources, see [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations).
+These links will be useful when creating the request:
+
+- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../api-ref/resources/resourcegroups.json)
+- [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -58,11 +69,16 @@ parameters:
     - name: api-version
       description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
     - name: subscriptionId
-      description: The identifier of the target subscription. To get a list of subscriptions for a tenant, use [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List).
+      description: The identifier of the target subscription.
     - name: resourceGroupName
-      description: The name of the resource group that contains the availability set. For more information about managing resource groups, see [Resource Groups](../../api-ref/resources/resourcegroups.json).
+      description: The name of the resource group that contains the availability set.
 description: *content
 ---
+
+These links will be useful when creating the request:
+
+- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../api-ref/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -73,10 +89,16 @@ parameters:
     - name: api-version
       description: The API version of the resource provider to use for this operation.Use the latest version of 2016-03-30.
     - name: subscriptionId
-      description: The identifier of the target subscription. To get a list of subscriptions for a tenant, use [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List).
+      description: The identifier of the target subscription.
     - name: resourceGroupName
-      description: The name of the resource group that contains the availability set. For more information about managing resource groups, see [Resource Groups](../../api-ref/resources/resourcegroups.json).
+      description: The name of the resource group that contains the availability set.
+      
 description: *content
 ---
+
+These links will be useful when creating the request:
+
+- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../api-ref/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
