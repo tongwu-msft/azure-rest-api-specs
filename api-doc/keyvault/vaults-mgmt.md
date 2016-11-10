@@ -7,8 +7,6 @@ parameters:
 description: *content
 ---
 
-See [Common parameters and headers]() for headers and parameters that are used by key vaults.
-
 NOTE – An alternative to using PUT is to use PATCH for update only behavior. PATCH will allow you to specify as few as one property in the request such that only that property will be updated. If you specify all properties, then it is equivalent to using PUT.
 
 ---
@@ -19,7 +17,7 @@ parameters:
       description: Use the latest version of 2015-06-01.
 ---
 
-Test text from Bruce for Vaults_Delete
+Aux content for Vaults_Delete
 
 ---
 uid: management.azure.com/KeyVaultManagementClient/2015-06-01/Vaults_Get
@@ -28,7 +26,7 @@ parameters:
     - name: api-version
       description: Use the latest version of 2015-06-01.
 ---
-Test text from Bruce for Vaults_Get
+Aux content for Vaults_Get
 
 ---
 uid: management.azure.com/KeyVaultManagementClient/2015-06-01/Vaults_ListByResourceGroup
@@ -37,7 +35,7 @@ parameters:
     - name: api-version
       description: Use the latest version of 2015-06-01.
 ---
-Test text from Bruce for Vaults_ListByResourceGroup
+Aux content for Vaults_ListByResourceGroup
 
 
 ---
@@ -47,5 +45,5 @@ parameters:
     - name: api-version
       description: Use the latest version of 2015-06-01.
 ---
-Test text from Bruce for Vaults_ListByResourceGroup
+Aux content for Vaults_ListByResourceGroup
 
