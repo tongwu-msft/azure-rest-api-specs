@@ -9,7 +9,7 @@
 ## [Create service group from a template](create-service-group-from-a-template.md)
 ## [Get the health of a service](get-the-health-of-a-service.md)
 ## [Get the health of a service by using a health policy](get-the-health-of-a-service-by-using-a-health-policy.md)
-## [Report the health of a service ](report-the-health-of-a-service .md)
+## [Report the health of a service ](report-the-health-of-a-service.md)
 ## [Get the description of a service](get-the-description-of-a-service.md)
 ## [Get the description of a service group](get-the-description-of-a-service-group.md)
 ## [Get the members of a service group](get-the-members-of-a-service-group.md)
