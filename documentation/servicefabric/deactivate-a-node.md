@@ -41,7 +41,7 @@ Deactivate a Service Fabric cluster node with the specified deactivation intent.
  Once the deactivation is in progress, the deactivation intent can be “increased” but not decreased (for example, a node which is was deactivated with the Pause intent can be deactivated further with Restart, but not the other way around. Nodes may be reactivated using the [Activate a node](activate-a-node.md) operation any time after they are deactivated. If the deactivation is not complete this will cancel the deactivation. A node which goes down and comes back up while deactivated will still need to be reactivated before services will be placed on that node.  
   
 ## Request  
- See [Common parameters and headers](25e94f89a-bd8e-4a3b-9274-46934469c073) for headers and parameters that are used by all requests related to nodes.  
+ See [Node](node.md) for headers and parameters that are used by all requests related to nodes.  
   
 |Method|Request URI|  
 |------------|-----------------|  
