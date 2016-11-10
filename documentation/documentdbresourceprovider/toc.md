@@ -1,0 +1,1 @@
+# [Common headers](documentdbresourceprovider-headers.md)
