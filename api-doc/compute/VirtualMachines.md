@@ -3,17 +3,17 @@ uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_Cap
 summary: Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
 parameters:
     - name: api-version
-      description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
+      description: The API version of the resource provider to use for this operation. See the top of this page for the latest API version.
     - name: subscriptionId
-      description: The identifier of the target subscription.
+      description: The identifier of the target subscription. See the links listed above for information about finding the subscription identifier.
     - name: resourceGroupName
-      description: The name of the resource group that contains the virtual machine.
+      description: The name of the resource group that contains the virtual machine. See the links listed above for information about creating and managing resource groups.
 description: *content
 ---
 
 These links will be useful when creating the request:
 
-- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
 - [Resource Groups](../../api-ref/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
@@ -23,11 +23,11 @@ uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_Cre
 summary: Create or update a virtual machine in the specified subscription.
 parameters:
     - name: api-version
-      description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
+      description: The API version of the resource provider to use for this operation. See the top of this page for the latest API version.
     - name: subscriptionId
-      description: The identifier of the target subscription.
+      description: The identifier of the target subscription. See the links listed above for information about finding the subscription identifier.
     - name: resourceGroupName
-      description: The name of the resource group that will contain the virtual machine.
+      description: The name of the resource group that will contain the virtual machine. See the links listed above for information about creating and managing resource groups.
 description: *content
 ---
 
@@ -44,7 +44,7 @@ For the update scenario, a PUT or PATCH request can be submitted with a subset o
 
 These links will be useful when creating the request:
 
-- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
 - [Resource Groups](../../api-ref/resources/resourcegroups.json)
 - [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations)
 - [Using tags to organize your resources](https://review.docs.microsoft.com/en-us/azure/resource-group-using-tags?toc=%2fazure%2fazure-resource-manager%2ftoc.json)
@@ -62,17 +62,17 @@ uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_Del
 summary: Delete a virtual machine from the specified resource group.
 parameters:
     - name: api-version
-      description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
+      description: The API version of the resource provider to use for this operation. See the top of this page for the latest API version.
     - name: subscriptionId
-      description: The identifier of the target subscription.
+      description: The identifier of the target subscription. See the links listed above for information about finding the subscription identifier.
     - name: resourceGroupName
-      description: The name of the resource group that contains the virtual machine.
+      description: The name of the resource group that contains the virtual machine. See the links listed above for information about creating and managing resource groups.
 description: *content
 ---
 
 These links will be useful when creating the request:
 
-- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
 - [Resource Groups](../../api-ref/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
@@ -82,17 +82,17 @@ uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_Get
 summary: Gets information about a virtual machine.
 parameters:
     - name: api-version
-      description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
+      description: The API version of the resource provider to use for this operation. See the top of this page for the latest API version.
     - name: subscriptionId
-      description: The identifier of the target subscription.
+      description: The identifier of the target subscription. See the links listed above for information about finding the subscription identifier.
     - name: resourceGroupName
-      description: The name of the resource group that contains the virtual machine.
+      description: The name of the resource group that contains the virtual machine. See the links listed above for information about creating and managing resource groups.
 description: *content
 ---
 
 These links will be useful when creating the request:
 
-- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
 - [Resource Groups](../../api-ref/resources/resourcegroups.json)
 - [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations)
 
@@ -103,17 +103,17 @@ uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_Dea
 summary: Shuts down the Virtual Machine and releases the compute resources.
 parameters:
     - name: api-version
-      description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
+      description: The API version of the resource provider to use for this operation. See the top of this page for the latest API version.
     - name: subscriptionId
-      description: The identifier of the target subscription.
+      description: The identifier of the target subscription. See the links listed above for information about finding the subscription identifier.
     - name: resourceGroupName
-      description: The name of the resource group that contains the virtual machine.
+      description: The name of the resource group that contains the virtual machine. See the links listed above for information about creating and managing resource groups.
 description: *content
 ---
 
 These links will be useful when creating the request:
 
-- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
 - [Resource Groups](../../api-ref/resources/resourcegroups.json)
 
 You are not billed for the compute resources that this Virtual Machine uses.
@@ -125,11 +125,11 @@ uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_Gen
 summary: Generalizes the operating system on the virtual machine disk.
 parameters:
     - name: api-version
-      description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
+      description: The API version of the resource provider to use for this operation. See the top of this page for the latest API version.
     - name: subscriptionId
-      description: The identifier of the target subscription.
+      description: The identifier of the target subscription. See the links listed above for information about finding the subscription identifier.
     - name: resourceGroupName
-      description: The name of the resource group that contains the virtual machine.
+      description: The name of the resource group that contains the virtual machine. See the links listed above for information about creating and managing resource groups.
 description: *content
 ---
 
@@ -140,7 +140,7 @@ You need to do these tasks to run this operation:
 
 These links will be useful when creating the request:
 
-- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
 - [Resource Groups](../../api-ref/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
@@ -150,17 +150,17 @@ uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_Lis
 summary: Lists all of the virtual machine in the specified resource group.
 parameters:
     - name: api-version
-      description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
+      description: The API version of the resource provider to use for this operation. See the top of this page for the latest API version.
     - name: subscriptionId
-      description: The identifier of the target subscription.
+      description: The identifier of the target subscription. See the links listed above for information about finding the subscription identifier.
     - name: resourceGroupName
-      description: The name of the resource group that contains the virtual machine.
+      description: The name of the resource group that contains the virtual machine. See the links listed above for information about creating and managing resource groups.
 description: *content
 ---
 
 These links will be useful when creating the request:
 
-- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
 - [Resource Groups](../../api-ref/resources/resourcegroups.json)
 - [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations)
 
@@ -171,17 +171,17 @@ uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_Lis
 summary: Lists all of the virtual machines in the specified subscription.
 parameters:
     - name: api-version
-      description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
+      description: The API version of the resource provider to use for this operation. See the top of this page for the latest API version.
     - name: subscriptionId
-      description: The identifier of the target subscription.
+      description: The identifier of the target subscription. See the links listed above for information about finding the subscription identifier.
     - name: resourceGroupName
-      description: The name of the resource group that contains the virtual machine.
+      description: The name of the resource group that contains the virtual machine. See the links listed above for information about creating and managing resource groups.
 description: *content
 ---
 
 These links will be useful when creating the request:
 
-- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
 - [Resource Groups](../../api-ref/resources/resourcegroups.json)
 - [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations).
 
@@ -207,11 +207,11 @@ uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_Pow
 summary: Stops a virtual machine. 
 parameters:
     - name: api-version
-      description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
+      description: The API version of the resource provider to use for this operation. See the top of this page for the latest API version.
     - name: subscriptionId
-      description: The identifier of the target subscription.
+      description: The identifier of the target subscription. See the links listed above for information about finding the subscription identifier.
     - name: resourceGroupName
-      description: The name of the resource group that contains the virtual machine.
+      description: The name of the resource group that contains the virtual machine. See the links listed above for information about creating and managing resource groups.
 description: *content
 ---
 
@@ -219,7 +219,7 @@ This operation only stops the virtual machine. The virtual machine can be restar
 
 These links will be useful when creating the request:
 
-- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
 - [Resource Groups](../../api-ref/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
@@ -229,17 +229,17 @@ uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_Res
 summary: Restarts a virtual machine.
 parameters:
     - name: api-version
-      description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
+      description: The API version of the resource provider to use for this operation. See the top of this page for the latest API version.
     - name: subscriptionId
-      description: The identifier of the target subscription.
+      description: The identifier of the target subscription. See the links listed above for information about finding the subscription identifier.
     - name: resourceGroupName
-      description: The name of the resource group that contains the virtual machine.
+      description: The name of the resource group that contains the virtual machine. See the links listed above for information about creating and managing resource groups.
 description: *content    
 ---
 
 These links will be useful when creating the request:
 
-- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
 - [Resource Groups](../../api-ref/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
@@ -249,17 +249,17 @@ uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_Sta
 summary: Starts a virtual machine.
 parameters:
     - name: api-version
-      description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
+      description: The API version of the resource provider to use for this operation. See the top of this page for the latest API version.
     - name: subscriptionId
-      description: The identifier of the target subscription.
+      description: The identifier of the target subscription. See the links listed above for information about finding the subscription identifier.
     - name: resourceGroupName
-      description: The name of the resource group that contains the virtual machine.
+      description: The name of the resource group that contains the virtual machine. See the links listed above for information about creating and managing resource groups.
 description: *content
 ---
 
 These links will be useful when creating the request:
 
-- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
 - [Resource Groups](../../api-ref/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
@@ -269,17 +269,17 @@ uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_Red
 summary: Redeploys a virtual machine.
 parameters:
     - name: api-version
-      description: The API version of the resource provider to use for this operation. Use the latest version of 2016-03-30.
+      description: The API version of the resource provider to use for this operation. See the top of this page for the latest API version.
     - name: subscriptionId
-      description: The identifier of the target subscription.
+      description: The identifier of the target subscription. See the links listed above for information about finding the subscription identifier.
     - name: resourceGroupName
-      description: The name of the resource group that contains the virtual machine.
+      description: The name of the resource group that contains the virtual machine. See the links listed above for information about creating and managing resource groups.
 description: *content
 ---
 
 These links will be useful when creating the request:
 
-- [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
+- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
 - [Resource Groups](../../api-ref/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
