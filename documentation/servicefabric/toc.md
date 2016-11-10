@@ -17,7 +17,7 @@
 ## [Update a service group](update-a-service-group.md)
 ## [Delete a service](delete-a-service.md)
 ## [Delete a service group](delete-a-service-group.md)
-## [Resolve a service ](resolve-a-service .md)
+## [Resolve a service ](resolve-a-service.md)
 # [Application](application2.md)
 ## [Get a list of applications](get-a-list-of-applications.md)
 ## [Get the progress of an application upgrade2](get-the-progress-of-an-application-upgrade2.md)
