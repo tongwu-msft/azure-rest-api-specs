@@ -18,7 +18,7 @@ The Azure Key Vault REST API provides operations for managing Key Vaults as well
 The Key Vault REST API provides operations for working with the following resources.
 
 | Operation group            | Description                                           |
-|------------------------------------------------------------------------------------|
+|-----------------------------|-------------------------------------------------------|
 | [Key Vault management](~/api-ref/keyvault/vaults.json) | Provides operations for workign with key vaults |
 | Keys | Operations for workign with keys in a key vault |
 | Secrets | Operations for working with secrets in a key vault |
