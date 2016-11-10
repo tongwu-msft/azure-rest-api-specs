@@ -5,7 +5,7 @@
 ## [Get a list of services](get-a-list-of-services.md)
 ## [Create a service](create-a-service.md)
 ## [Create a service group](create-a-service-group.md)
-## [Create service from a template ](create-service-from-a-template .md)
+## [Create service from a template ](create-service-from-a-template.md)
 ## [Create service group from a template](create-service-group-from-a-template.md)
 ## [Get the health of a service](get-the-health-of-a-service.md)
 ## [Get the health of a service by using a health policy](get-the-health-of-a-service-by-using-a-health-policy.md)
