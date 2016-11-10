@@ -114,7 +114,7 @@
 ### [Data Catalog Search syntax reference](../documentation/datacatalog/Data-Catalog-Search-syntax-reference.md)
 ### [Get started creating a Data Catalog app](../documentation/datacatalog/Get-started-creating-a-Data-Catalog-app.md)
 ### [Register a client app](../documentation/datacatalog/Register-a-client-app.md)
-# [Data factory](../documentation/datafactory/index.md)
+# [Data Factory](../documentation/datafactory/index.md)
 ## [Data Factory](../documentation/datafactory/data-factory-data-factory.md)
 ## [Dataset](../documentation/datafactory/data-factory-dataset.md)
 ## [Gateway](../documentation/datafactory/data-factory-gateway.md)
