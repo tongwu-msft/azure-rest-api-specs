@@ -27,5 +27,5 @@ The service will use HTTP status codes to indicate success or failure. In additi
 
 
 ## See Also
- [Azure Key Vault REST API Reference](~/documentation/keyvault/index.md)
+ [Azure Key Vault REST API Reference](../keyvault/index.md)
 

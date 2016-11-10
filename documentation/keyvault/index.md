@@ -30,5 +30,5 @@ The Key Vault REST API provides operations for working with the following resour
 
 - [Azure Key Vault service overview](https://azure.microsoft.com/services/key-vault/)
 - [Azure Key Vault documentation](https://review.docs.microsoft.com/azure/key-vault/)
-- [About keys, secrets, and certificates](~/about-keys--secrets-and-certifictes.md)
+- [About keys, secrets, and certificates](../about-keys--secrets-and-certifictes.md)
 
