@@ -54,5 +54,3 @@ translation.priority.mt:
 
 ## See Also  
  [Azure Search Service REST](index.md)   
- [Azure Search Management REST](../../api-ref/searchmanagement/index.md)    
- [Azure Search Developer Reference](http://msdn.microsoft.com/a47e2a88-f9f9-4731-ab5f-e30ba1b5262b)  

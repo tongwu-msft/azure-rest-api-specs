@@ -46,7 +46,6 @@ translation.priority.mt:
 
 ## See Also  
  [Azure Search Service REST](index.md)   
- [Azure Search Management REST](../../api-ref/searchmanagement/index.md)    
  [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
  [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   
  [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)   

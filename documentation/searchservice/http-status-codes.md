@@ -49,4 +49,3 @@ translation.priority.mt:
 ## See Also  
 [Azure Search .NET SDK](https://go.microsoft.com/fwlink/?linkid=834796)
  [Azure Search Service REST](index.md)   
- [Azure Search Management REST](../../api-ref/searchmanagement/index.md)  
