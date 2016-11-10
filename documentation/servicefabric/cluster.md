@@ -46,7 +46,7 @@ APIs to manage the Azure Service Fabric cluster.
 ## Tasks  
  You can do the following with cluster resources:  
   
--   [Get a list of system services ](get-a-list-of-system-services .md)  
+-   [Get a list of system services ](get-a-list-of-system-services.md)  
   
 -   [Get a cluster manifest](get-a-cluster-manifest.md)  
   
@@ -54,7 +54,7 @@ APIs to manage the Azure Service Fabric cluster.
   
 -   [Get provisioned cluster config package versions](get-provisioned-cluster-config-package-versions.md)  
   
--   [Get the progress of a cluster upgrade ](get-the-progress-of-a-cluster-upgrade .md)  
+-   [Get the progress of a cluster upgrade ](get-the-progress-of-a-cluster-upgrade.md)  
   
 -   [Get the health of a cluster](get-the-health-of-a-cluster.md)  
   
