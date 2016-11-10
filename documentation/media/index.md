@@ -28,4 +28,6 @@ Azure Media Services (AMS) resources may be created and managed programmatically
 |Regenerate a REST endpoint key|Regenerates the specified (primary or secondary) key for a Media Service account.|
 |Sync storage account keys|Synchronizes storage account keys for a storage account associated with the Media Service account.|
 
+## See Also
 
+[Media Services management REST API reference](../../api-ref/media/MediaService.json)

@@ -25,8 +25,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Media Services Operations REST
+
 > [!NOTE]
->  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services Management API Reference](../api/media/mediaservice).  
+>  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](../../../api-ref/media/MediaService.json).
   
  The Service Management API includes Operations on Media Services. This section demonstrates how to create requests and receive responses using Media Services Management REST API.  
   
