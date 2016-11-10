@@ -27,3 +27,4 @@ You can [use PowerShell](https://azure.microsoft.com/documentation/articles/sear
 - [How to use the search management API](search-howto-management-rest-api.md)
 - [Get started with Azure Search management API](http://go.microsoft.com/fwlink/p/?LinkId=516968)
 - [Azure Search documentation](https://azure.microsoft.com/documentation/services/search/)
+- [Search Service REST](~/documentation/searchservice/index.md)   
