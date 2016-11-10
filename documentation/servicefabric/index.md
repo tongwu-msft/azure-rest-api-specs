@@ -108,7 +108,7 @@ Content-Type: application/json; charset=utf-8
 ## Common tasks  
  **Cluster**  
   
--   [Get a list of system services ](get-a-list-of-system-services .md)  
+-   [Get a list of system services ](get-a-list-of-system-services.md)  
   
 -   [Register a cluster package](register-a-cluster-package.md)  
   

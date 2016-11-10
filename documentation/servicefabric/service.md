@@ -54,13 +54,13 @@ APIs to manage Azure Service Fabric services.
   
 -   [Create a service](create-a-service.md)  
   
--   [Create service from a template ](create-service-from-a-template .md)  
+-   [Create service from a template ](create-service-from-a-template.md)  
   
 -   [Get the health of a service](get-the-health-of-a-service.md)  
   
 -   [Get the health of a service by using a health policy](get-the-health-of-a-service-by-using-a-health-policy.md)  
   
--   [Report the health of a service ](report-the-health-of-a-service .md)  
+-   [Report the health of a service ](report-the-health-of-a-service.md)  
   
 -   [Get the description of a service](get-the-description-of-a-service.md)  
   
@@ -68,4 +68,4 @@ APIs to manage Azure Service Fabric services.
   
 -   [Delete a service](delete-a-service.md)  
   
--   [Resolve a service ](resolve-a-service .md)
+-   [Resolve a service ](resolve-a-service.md)

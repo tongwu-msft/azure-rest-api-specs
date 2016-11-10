@@ -41,7 +41,7 @@ Indicate to Service Fabric that a specific node (which is down) has been lost an
  For persistent services, Service Fabric will wait for state and services on a down node to be recovered, particularly persistent services. In some cases, the administrator knows that a node (and its state) has been permanently lost. In these cases this operation should be called in order to get Service Fabric to stop waiting for that node to recover.  
   
 ## Request  
- See [Common parameters and headers](25e94f89a-bd8e-4a3b-9274-46934469c073) for headers and parameters that are used by all requests related to nodes.  
+ See [Node](node.md) for headers and parameters that are used by all requests related to nodes.  
   
 |Method|Request URI|  
 |------------|-----------------|  

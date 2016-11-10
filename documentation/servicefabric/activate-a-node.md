@@ -41,7 +41,7 @@ Activate a Service Fabric cluster node which is currently deactivated.
  Once reactivated, the node will again become a viable target for placing new replicas, and any deactivated replicas remaining on the node will be reactivated.  
   
 ## Request  
- See [Common parameters and headers](25e94f89a-bd8e-4a3b-9274-46934469c073) for headers and parameters that are used by all requests related to nodes.  
+ See [Node](node.md) for headers and parameters that are used by all requests related to nodes.  
   
 |Method|Request URI|  
 |------------|-----------------|  

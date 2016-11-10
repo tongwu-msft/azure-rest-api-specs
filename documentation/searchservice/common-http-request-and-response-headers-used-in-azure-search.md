@@ -51,8 +51,6 @@ translation.priority.mt:
 |request-id|GUID|A unique identifier for the current operation. Equal to client-request-id if specified; otherwise the value is generated on the server.|  
 |elapsed-time|Number|Time, in milliseconds, that the service spent processing the request. This only includes the time spent on processing the request, and does not include network transfer time.|  
 |ETag|String|An opaque string representing the current version of a resource (returned for indexers, indexes, and data sources, but not documents). Use this string in the If-Match or If-None-Match header for [optimistic concurrency control](http://www.ietf.org/rfc/rfc7232.txt).|  
-  
+
 ## See Also  
  [Azure Search Service REST](index.md)   
- [Azure Search Management REST](../Topic/Azure%20Search%20Management%20REST.md)   
- [Azure Search Developer Reference](http://msdn.microsoft.com/en-us/a47e2a88-f9f9-4731-ab5f-e30ba1b5262b)  
