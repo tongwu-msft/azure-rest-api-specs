@@ -38,7 +38,7 @@ Each topic that you place in your service's directory in [/documentation](../doc
 ```yaml
 ---
 ms.assetid: leave BLANK for now
-ms.title: page title
+ms.title: page title | Microsoft Docs
 ms.prod: get from list
 ms.service: get from list
 author: githubalias
