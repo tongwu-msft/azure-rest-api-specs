@@ -31,54 +31,54 @@ translation.priority.mt:
 
 The Azure Key Vault REST API supports the following operations for key objects.
 
-- [Create a key](../CreateKey.json)
+- [Create a key](../../api-ref/keyvault/CreateKey.json)
 
 
-- [Update a key](../UpdateKey.json)
+- [Update a key](../../api-ref/keyvault/UpdateKey.json)
 
 
-- [Delete a key](../DeleteKey.json)
+- [Delete a key](../../api-ref/keyvault/DeleteKey.json)
 
-- [Get information about a key](../GetKey.json)
-
-
-- [List the keys in a vault](../GetKeys.json)
+- [Get information about a key](../../api-ref/keyvault/GetKey.json)
 
 
-- [List the versions of a key](../GetKeyVersions.json)
+- [List the keys in a vault](../../api-ref/keyvault/GetKeys.json)
 
 
-- [Import a key into a vault](../ImportKey.json)
+- [List the versions of a key](../../api-ref/keyvault/GetKeyVersions.json)
 
 
-- [Backup a key](../BackupKey.json)
+- [Import a key into a vault](../../api-ref/keyvault/ImportKey.json)
 
 
-- [Restore a key](../Key.json)
+- [Backup a key](../../api-ref/keyvault/BackupKey.json)
 
 
-- [Encrypt with a key](../encrypt.json)
+- [Restore a key](../../api-ref/keyvault/Key.json)
 
 
-- [Decrypt with a key](../decrypt.json)
+- [Encrypt with a key](../../api-ref/keyvault/encrypt.json)
 
 
-- [Sign with a key](../sign.json)
+- [Decrypt with a key](../../api-ref/keyvault/decrypt.json)
 
 
-- [Verify with a key](../verify.json)
+- [Sign with a key](../../api-ref/keyvault/sign.json)
 
 
-- [Wrap a key](../wrapKey.json)
+- [Verify with a key](../../api-ref/keyvault/verify.json)
 
 
-- [Unwrap a key](../unwrapKey.json)
+- [Wrap a key](../../api-ref/keyvault/wrapKey.json)
+
+
+- [Unwrap a key](../../api-ref/keyvault/unwrapKey.json)
 
 
 
 ## See Also
-[Common parameters and headers](../common-parameters-and-headers.md)
-[About keys, secrets, and certificates](../about-keys--secrets-and-certifictes.md)
+- [Common parameters and headers](common-parameters-and-headers.md)
+- [About keys, secrets, and certificates](about-keys--secrets-and-certifictes.md)
 
 
 
