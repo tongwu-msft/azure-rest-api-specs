@@ -29,7 +29,7 @@ The following are outlined:
 Certificates are composed of three interrelated resources linked together as a Key Vault certificate; certificate metadata, a key and a secret.
 
 
-![Certificates are complex](./media/azure-key-vault.png)
+![Certificates are complex](/media/azure-key-vault.png)
 
 
 ## Creating your first Key Vault certificate  
@@ -69,7 +69,7 @@ Note - This process, through step 3.1, is a onetime operation.
 
 ## Creating a certificate with a Certificate Authority that is partnered with Key Vault
 
-![Create a certificate with a Key Vault partnered certificate authority](./media/certificate-authority-2.png)
+![Create a certificate with a Key Vault partnered certificate authority](/media/certificate-authority-2.png)
 
 Step 4.
 The following step descriptions correspond to the green numbered steps in the preceding diagram.  
@@ -128,7 +128,7 @@ The following step descriptions correspond to the green numbered steps in the pr
 
 
 
-![Create a certificate with your own certificate authority](./media/certificate-authority-1.png)  
+![Create a certificate with your own certificate authority](/media/certificate-authority-1.png)  
 
  The following step descriptions correspond to the green lettered steps in the preceding diagram.  
 
