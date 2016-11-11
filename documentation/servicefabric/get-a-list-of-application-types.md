@@ -39,7 +39,7 @@ translation.priority.mt:
 Gets a list of Service Fabric application types.  
   
 ## Request  
- See [Application type](../ServiceFabricREST/application-type.md) for headers and parameters that are used by all requests related to application types.  
+ See [Application type](application-type.md) for headers and parameters that are used by all requests related to application types.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -53,7 +53,7 @@ Gets a list of Service Fabric application types.
 |`/<typeName>`|No|When using "\<URI>/ApplicationTypes/\<typeName>", gets a specific type name as a special filtered query.|  
   
 ### Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 [  

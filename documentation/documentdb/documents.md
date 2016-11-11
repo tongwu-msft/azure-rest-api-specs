@@ -33,11 +33,11 @@ translation.priority.mt:
   
  DocumentDB does not mandate any schema and does not require secondary indexes in order to support querying over documents in a collection. By default, documents are automatically and indexed in a consistent manner, thus making a document queryable as soon as it is created  
   
--   Documents are stored within collections. For more information on collections, see [Collections](../DocumentDBREST/collections.md).  
+-   Documents are stored within collections. For more information on collections, see [Collections](collections.md).  
   
--   A document can contain one or more attachments. For more information on attachments, see [Attachments](../DocumentDBREST/attachments.md).  
+-   A document can contain one or more attachments. For more information on attachments, see [Attachments](attachments.md).  
   
--   User access to documents can be managed via permissions. For more information on permissions, see [Permissions](../DocumentDBREST/permissions.md).  
+-   User access to documents can be managed via permissions. For more information on permissions, see [Permissions](permissions.md).  
   
  This sample JSON document shows the entry for a volcano in a DocumentDB collection. The entry includes the volcano name, location information including geospatial data, and system defined elements such as _rid, _ts, _self, _etag, and _attachments.  
   
@@ -81,17 +81,17 @@ translation.priority.mt:
 ## Tasks  
  You can do the following with documents:  
   
--   [Create a Document](../DocumentDBREST/create-a-document.md)  
+-   [Create a Document](create-a-document.md)  
   
--   [List Documents](../DocumentDBREST/list-documents.md)  
+-   [List Documents](list-documents.md)  
   
--   [Get a Document](../DocumentDBREST/get-a-document.md)  
+-   [Get a Document](get-a-document.md)  
   
--   [Replace a Document](../DocumentDBREST/replace-a-document.md)  
+-   [Replace a Document](replace-a-document.md)  
   
--   [Delete a Document](../DocumentDBREST/delete-a-document.md)  
+-   [Delete a Document](delete-a-document.md)  
   
--   [Query Documents](../DocumentDBREST/query-documents.md)  
+-   [Query Documents](query-documents.md)  
   
 ## See Also  
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   

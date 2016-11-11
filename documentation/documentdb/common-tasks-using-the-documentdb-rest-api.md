@@ -31,117 +31,117 @@ translation.priority.mt:
   
 ## Offers  
   
--   [Get an Offer](../DocumentDBREST/get-an-offer.md)  
+-   [Get an Offer](get-an-offer.md)  
   
--   [List Offers](../DocumentDBREST/list-offers.md)  
+-   [List Offers](list-offers.md)  
   
--   [Replace an Offer](../DocumentDBREST/replace-an-offer.md)  
+-   [Replace an Offer](replace-an-offer.md)  
   
--   [Querying Offers](../DocumentDBREST/querying-offers.md)  
+-   [Querying Offers](querying-offers.md)  
   
 ## Databases  
   
--   [Create a Database](../DocumentDBREST/create-a-database.md)  
+-   [Create a Database](create-a-database.md)  
   
--   [List Databases](../DocumentDBREST/list-databases.md)  
+-   [List Databases](list-databases.md)  
   
--   [Get a Database](../DocumentDBREST/get-a-database.md)  
+-   [Get a Database](get-a-database.md)  
   
 -   [Delete a Database retired](../Topic/Delete%20a%20Database%20retired.md)  
   
 ## Users  
   
--   [Create a User](../DocumentDBREST/create-a-user.md)  
+-   [Create a User](create-a-user.md)  
   
--   [List Users](../DocumentDBREST/list-users.md)  
+-   [List Users](list-users.md)  
   
--   [Get a User](../DocumentDBREST/get-a-user.md)  
+-   [Get a User](get-a-user.md)  
   
--   [Replace a User](../DocumentDBREST/replace-a-user.md)  
+-   [Replace a User](replace-a-user.md)  
   
--   [Delete a User](../DocumentDBREST/delete-a-user.md)  
+-   [Delete a User](delete-a-user.md)  
   
 ## Permissions  
   
--   [Create a Permission](../DocumentDBREST/create-a-permission.md)  
+-   [Create a Permission](create-a-permission.md)  
   
--   [List Permissions](../DocumentDBREST/list-permissions.md)  
+-   [List Permissions](list-permissions.md)  
   
--   [Get a Permission](../DocumentDBREST/get-a-permission.md)  
+-   [Get a Permission](get-a-permission.md)  
   
--   [Replace a Permission](../DocumentDBREST/replace-a-permission.md)  
+-   [Replace a Permission](replace-a-permission.md)  
   
--   [Delete a Permission](../DocumentDBREST/delete-a-permission.md)  
+-   [Delete a Permission](delete-a-permission.md)  
   
 ## Documents  
   
--   [Create a Document](../DocumentDBREST/create-a-document.md)  
+-   [Create a Document](create-a-document.md)  
   
--   [List Documents](../DocumentDBREST/list-documents.md)  
+-   [List Documents](list-documents.md)  
   
--   [Get a Document](../DocumentDBREST/get-a-document.md)  
+-   [Get a Document](get-a-document.md)  
   
--   [Replace a Document](../DocumentDBREST/replace-a-document.md)  
+-   [Replace a Document](replace-a-document.md)  
   
--   [Delete a Document](../DocumentDBREST/delete-a-document.md)  
+-   [Delete a Document](delete-a-document.md)  
   
 ## Attachments  
   
--   [Create an Attachment](../DocumentDBREST/create-an-attachment.md)  
+-   [Create an Attachment](create-an-attachment.md)  
   
--   [Replace an Attachment](../DocumentDBREST/replace-an-attachment.md)  
+-   [Replace an Attachment](replace-an-attachment.md)  
   
--   [List Attachments](../DocumentDBREST/list-attachments.md)  
+-   [List Attachments](list-attachments.md)  
   
--   [Delete Attachments](../DocumentDBREST/delete-attachments.md)  
+-   [Delete Attachments](delete-attachments.md)  
   
 ## Document Collections  
   
--   [Create a Collection](../DocumentDBREST/create-a-collection.md)  
+-   [Create a Collection](create-a-collection.md)  
   
--   [List Collections](../DocumentDBREST/list-collections.md)  
+-   [List Collections](list-collections.md)  
   
--   [Get a Collection](../DocumentDBREST/get-a-collection.md)  
+-   [Get a Collection](get-a-collection.md)  
   
--   [Delete a Collection](../DocumentDBREST/delete-a-collection.md)  
+-   [Delete a Collection](delete-a-collection.md)  
   
 ## Stored Procedures  
   
--   [Create a Stored Procedure](../DocumentDBREST/create-a-stored-procedure.md)  
+-   [Create a Stored Procedure](create-a-stored-procedure.md)  
   
--   [Create a Stored Procedure](../DocumentDBREST/create-a-stored-procedure.md)  
+-   [Create a Stored Procedure](create-a-stored-procedure.md)  
   
--   [List Stored Procedures](../DocumentDBREST/list-stored-procedures.md)  
+-   [List Stored Procedures](list-stored-procedures.md)  
   
--   [Delete a Stored Procedure](../DocumentDBREST/delete-a-stored-procedure.md)  
+-   [Delete a Stored Procedure](delete-a-stored-procedure.md)  
   
--   [Execute a Stored Procedure](../DocumentDBREST/execute-a-stored-procedure.md)  
+-   [Execute a Stored Procedure](execute-a-stored-procedure.md)  
   
 ## User Defined Functions  
   
--   [Create a User Defined Function](../DocumentDBREST/create-a-user-defined-function.md)  
+-   [Create a User Defined Function](create-a-user-defined-function.md)  
   
--   [Replace a User Defined Function](../DocumentDBREST/replace-a-user-defined-function.md)  
+-   [Replace a User Defined Function](replace-a-user-defined-function.md)  
   
--   [List User Defined Functions](../DocumentDBREST/list-user-defined-functions.md)  
+-   [List User Defined Functions](list-user-defined-functions.md)  
   
--   [Delete a User Defined Function](../DocumentDBREST/delete-a-user-defined-function.md)  
+-   [Delete a User Defined Function](delete-a-user-defined-function.md)  
   
 ## Triggers  
   
--   [Create a Trigger](../DocumentDBREST/create-a-trigger.md)  
+-   [Create a Trigger](create-a-trigger.md)  
   
--   [Replace a Trigger](../DocumentDBREST/replace-a-trigger.md)  
+-   [Replace a Trigger](replace-a-trigger.md)  
   
--   [List Triggers](../DocumentDBREST/list-triggers.md)  
+-   [List Triggers](list-triggers.md)  
   
--   [Delete a Trigger](../DocumentDBREST/delete-a-trigger.md)  
+-   [Delete a Trigger](delete-a-trigger.md)  
   
 ## See Also  
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [DocumentDB Resource URI Syntax for REST](../DocumentDBREST/documentdb-resource-uri-syntax-for-rest.md)   
- [Access Control on DocumentDB Resources](../DocumentDBREST/access-control-on-documentdb-resources.md)   
- [Querying DocumentDB resources using the REST API](../DocumentDBREST/querying-documentdb-resources-using-the-rest-api.md)   
+ [DocumentDB Resource URI Syntax for REST](documentdb-resource-uri-syntax-for-rest.md)   
+ [Access Control on DocumentDB Resources](access-control-on-documentdb-resources.md)   
+ [Querying DocumentDB resources using the REST API](querying-documentdb-resources-using-the-rest-api.md)   
  [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   

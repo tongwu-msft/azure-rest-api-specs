@@ -38,13 +38,13 @@ A Data Catalog app uses a **Client ID** to identify itself to Azure AD. See [Azu
   
 To learn how to register and authenticate a Data Catalog app:  
   
-- **Data Catalog client app**: See [Register a client app](../AzureDataCatalogREST/Register-a-client-app.md) and [Authenticate a Data Catalog client app](../AzureDataCatalogREST/Authenticate-a-client-app.md).  
+- **Data Catalog client app**: See [Register a client app](Register-a-client-app.md) and [Authenticate a Data Catalog client app](Authenticate-a-client-app.md).  
   
 - To learn how to use Azure authentication on different platforms: The [Azure Authentication Libraries](https://msdn.microsoft.com/library/azure/dn151135.aspx) are available on different platforms to help developers easily authenticate users to cloud or on premise Active Directory (AD) to obtain access tokens for securing API calls. This topic contains a roadmap to the authentication libraries available on different platforms and to helpful resources for each, including source code and samples.  
   
 <a name="clientID"/>  
 ## Azure app client ID  
-An Azure app has a **Client ID** that is used by the application to identify themselves to the users that they are requesting permissions from. You use a **Client ID** to get an authentication token. To get an Azure **Client ID**, see [How to get a client app id](../AzureDataCatalogREST/Register-a-client-app.md#clientID).  
+An Azure app has a **Client ID** that is used by the application to identify themselves to the users that they are requesting permissions from. You use a **Client ID** to get an authentication token. To get an Azure **Client ID**, see [How to get a client app id](Register-a-client-app.md#clientID).  
   
-For a complete sample of how to use an Azure **Client ID** to authenticate a client app, see [Authenticate a client app](../AzureDataCatalogREST/Authenticate-a-client-app.md).  
+For a complete sample of how to use an Azure **Client ID** to authenticate a client app, see [Authenticate a client app](Authenticate-a-client-app.md).  
   

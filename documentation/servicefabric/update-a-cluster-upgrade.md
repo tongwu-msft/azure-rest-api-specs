@@ -165,7 +165,7 @@ Modifies various parameters of an upgrade at any time while the upgrade is still
 |MaxPercentUnhealthyReplicasPerPartition|Yes|Number|The maximum allowed percentage of unhealthy replicas per partition.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ## Examples  
  The following example updates a cluster upgrade to set UpgradeReplicaSetCheckTimeoutInSeconds to 0 while leaving all other upgrade parameters unchanged.  

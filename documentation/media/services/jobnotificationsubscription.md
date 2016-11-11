@@ -41,4 +41,4 @@ Contains information about the state of the job and the endpoint from which the 
 |`NotificationEndPointId`<br /><br /> Required.|Edm.String|The id of the endpoint from which the subscriber receives notifications about the job state.|  
   
 ## See Also  
- [Job](../MediaServicesREST/job.md)
+ [Job](../services/job.md)

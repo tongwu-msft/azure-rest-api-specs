@@ -39,7 +39,7 @@ translation.priority.mt:
 Gets information on the specified partition, or gets information on all partitions if no partition is specified.  
   
 ## Request  
- See [Common parameters and headers](../ServiceFabricREST/partition.md#bk_common) for headers and parameters that are used by all requests related to partitions.  
+ See [Common parameters and headers](partition.md#bk_common) for headers and parameters that are used by all requests related to partitions.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -57,7 +57,7 @@ Gets information on the specified partition, or gets information on all partitio
 |ContinuationToken|No|String that represents a continuation token. Returned from a previous GetPartitions call when the results do not fit one message. Can be used to get next page of results.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 {"Items":[  

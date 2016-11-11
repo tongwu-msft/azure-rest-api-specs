@@ -36,7 +36,7 @@ translation.priority.mt:
 |POST|`https://{databaseaccount}.documents.azure.com/offers`|Note that {databaseaccount} is the name of the DocumentDB account you created under your subscription.|  
   
 ### Headers  
- See [Common DocumentDB REST request headers](../DocumentDBREST/common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests.  
+ See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests.  
   
 |Header|Required|Description|  
 |------------|--------------|-----------------|  
@@ -57,7 +57,7 @@ translation.priority.mt:
  Returns an array of object resources that match the query.  
   
 ### Headers  
- See [Common DocumentDB REST response headers](../DocumentDBREST/common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  
+ See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  
   
 |Header|Description|  
 |------------|-----------------|  
@@ -78,7 +78,7 @@ translation.priority.mt:
 |--------------|-----------------|  
 |**_rid**|This is a system generated property. The **_rid** value is empty for this operation.|  
 |**_count**|This property shows the number of offers returned as part of the operation.|  
-|**Offers**|This the array containing the offers returned as part of the  operation.<br />See [Offers](../DocumentDBREST/offers.md) to find the properties of the offer resource.|  
+|**Offers**|This the array containing the offers returned as part of the  operation.<br />See [Offers](offers.md) to find the properties of the offer resource.|  
   
 ```  
 {"_rid":"","Offers":[],"_count":0}  

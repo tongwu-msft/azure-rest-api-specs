@@ -97,13 +97,13 @@ The offer resource is represented by offers in the DocumentDB resource model. He
 ## Tasks  
  You can do the following with offers:  
   
--   [Get an Offer](../DocumentDBREST/get-an-offer.md)  
+-   [Get an Offer](get-an-offer.md)  
   
--   [List Offers](../DocumentDBREST/list-offers.md)  
+-   [List Offers](list-offers.md)  
   
--   [Replace an Offer](../DocumentDBREST/replace-an-offer.md)  
+-   [Replace an Offer](replace-an-offer.md)  
   
--   [Querying Offers](../DocumentDBREST/querying-offers.md)  
+-   [Querying Offers](querying-offers.md)  
   
 ## See Also  
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   

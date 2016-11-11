@@ -39,7 +39,7 @@ translation.priority.mt:
 Instructs Service Fabric to upgrade the next upgrade domain in the cluster if the current upgrade domain has been completed.  
   
 ## Request  
- See [Cluster](../ServiceFabricREST/cluster.md) for headers and parameters that are used by all requests related to the cluster  
+ See [Cluster](cluster.md) for headers and parameters that are used by all requests related to the cluster  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -56,4 +56,4 @@ Instructs Service Fabric to upgrade the next upgrade domain in the cluster if th
 |UpgradeDomain|Yes|String|The name of the next upgrade domain.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).

@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # TaskHistoricalEvent
-A collection of [TaskHistoricalEvent](../MediaServicesREST/taskhistoricalevent.md) objects that describe events associated with task execution.  
+A collection of [TaskHistoricalEvent](../services/taskhistoricalevent.md) objects that describe events associated with task execution.  
   
 ## TaskHistoricalEvent Complex Type Properties  
   

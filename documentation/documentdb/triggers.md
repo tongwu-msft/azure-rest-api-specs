@@ -88,13 +88,13 @@ function updateMetadata() {
 ## Tasks  
  You can do the following with triggers:  
   
--   [Create a Trigger](../DocumentDBREST/create-a-trigger.md)  
+-   [Create a Trigger](create-a-trigger.md)  
   
--   [Replace a Trigger](../DocumentDBREST/replace-a-trigger.md)  
+-   [Replace a Trigger](replace-a-trigger.md)  
   
--   [List Triggers](../DocumentDBREST/list-triggers.md)  
+-   [List Triggers](list-triggers.md)  
   
--   [Delete a Trigger](../DocumentDBREST/delete-a-trigger.md)  
+-   [Delete a Trigger](delete-a-trigger.md)  
   
  For information on how UDFs work including invoking a trigger, see [DocumentDB programming: Stored procedures, triggers, and UDFs](https://azure.microsoft.com/en-us/documentation/articles/documentdb-programming/).  
   

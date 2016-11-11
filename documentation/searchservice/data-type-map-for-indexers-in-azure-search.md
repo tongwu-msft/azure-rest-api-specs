@@ -36,7 +36,7 @@ translation.priority.mt:
   
 -   [JSON Data Types to Azure Search Data Types](#bkmk_json_search)  
   
- See [Indexer operations &#40;Azure Search Service REST API&#41;](../SearchServiceREST/indexer-operations.md) for links to topics about **indexers** and **data sources**.  
+ See [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md) for links to topics about **indexers** and **data sources**.  
   
 ##  <a name="bkmk_sql_search"></a> SQL Server Data Types to Azure Search Data Types  
   
@@ -68,10 +68,10 @@ translation.priority.mt:
 |JSON objects|N/A<br /><br /> Not supported; Azure Search currently supports only primitive types and string collections|  
   
 ## See Also  
- [Create Data Source &#40;Azure Search Service REST API&#41;](../SearchServiceREST/create-data-source.md)   
- [Create Indexer &#40;Azure Search Service REST API&#41;](../SearchServiceREST/create-indexer.md)   
- [Supported data types &#40;Azure Search&#41;](../SearchServiceREST/supported-data-types.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](../SearchServiceREST/indexer-operations.md)   
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)  
+ [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   
+ [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
+ [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
+ [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
+ [Azure Search Service REST](service-rest.md)  
   
   

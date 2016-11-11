@@ -156,8 +156,8 @@ function getAuthorizationTokenUsingMasterKey(verb, resourceId, resourceType, dat
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
  [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)   
- [DocumentDB Resource URI Syntax for REST](../DocumentDBREST/documentdb-resource-uri-syntax-for-rest.md)   
- [Querying DocumentDB resources using the REST API](../DocumentDBREST/querying-documentdb-resources-using-the-rest-api.md)   
- [HTTP Status Codes for DocumentDB](../DocumentDBREST/http-status-codes-for-documentdb.md)  
+ [DocumentDB Resource URI Syntax for REST](documentdb-resource-uri-syntax-for-rest.md)   
+ [Querying DocumentDB resources using the REST API](querying-documentdb-resources-using-the-rest-api.md)   
+ [HTTP Status Codes for DocumentDB](http-status-codes-for-documentdb.md)  
   
   

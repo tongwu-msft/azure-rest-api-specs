@@ -39,7 +39,7 @@ translation.priority.mt:
 Gets the health of a Service Fabric application.  
   
 ## Request  
- See [Application](../ServiceFabricREST/application2.md) for headers and parameters that are used by all requests related to applications.  
+ See [Application](application2.md) for headers and parameters that are used by all requests related to applications.  
   
 |Method|Request URI|  
 |------------|-----------------|  

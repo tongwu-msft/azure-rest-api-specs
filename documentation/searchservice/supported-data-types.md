@@ -31,7 +31,7 @@ translation.priority.mt:
   Document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model (MSDN)](http://msdn.microsoft.com/library/vstudio/ee382825(v=vs.100).aspx) for details). Azure Search uses the following data types.  
   
 > [!NOTE]  
->  If you're using indexers to pull data into Azure Search, indexers have different data type mappings for JSON and SQL Server data sources. See [Data type map for indexers in Azure Search](../SearchServiceREST/data-type-map-for-indexers-in-azure-search.md) for details.  
+>  If you're using indexers to pull data into Azure Search, indexers have different data type mappings for JSON and SQL Server data sources. See [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md) for details.  
   
 ## EDM data types used in Azure Search indexes and documents  
   
@@ -61,12 +61,12 @@ To learn more about geospatial search in Azure, see this video: [Azure Search an
   
 ## See Also  
  [Azure Search Developer Reference](http://msdn.microsoft.com/en-us/a47e2a88-f9f9-4731-ab5f-e30ba1b5262b)   
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
- [HTTP status codes &#40;Azure Search&#41;](../SearchServiceREST/http-status-codes.md)   
- [Support for OData &#40;Azure Search&#41;](../SearchServiceREST/support-for-odata.md)   
- [Create Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/create-index.md)   
- [Add, Update or Delete Documents &#40;Azure Search Service REST API&#41;](../SearchServiceREST/addupdate-or-delete-documents.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](../SearchServiceREST/indexer-operations.md)   
+ [Azure Search Service REST](service-rest.md)   
+ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
+ [Support for OData &#40;Azure Search&#41;](support-for-odata.md)   
+ [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
+ [Add, Update or Delete Documents &#40;Azure Search Service REST API&#41;](addupdate-or-delete-documents.md)   
+ [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
  [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
   
   

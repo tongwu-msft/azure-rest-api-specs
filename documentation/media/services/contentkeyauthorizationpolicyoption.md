@@ -30,7 +30,7 @@ Media Services supports multiple ways of authenticating users who make key reque
   
  Note that the Key Delivery service caches `ContentKeyAuthorizationPolicy` and its related objects (policy options and restrictions) for 15 minutes.  If you create a `ContentKeyAuthorizationPolicy` and specify to use a “Token” restriction, then test it, and then update the policy to “Open” restriction, it will take roughly 15 minutes before the policy switches to the “Open” version of the policy.  
   
- This topic describes `ContentKeyAuthorizationPolicyOption` and shows how to use this entity. For a more complete example, that shows how to associate `ContentKeyAuthorizationPolicyOption` with `ContentKeyAuthorizationPolicy`, see [ContentKeyAuthorizationPolicy](../MediaServicesREST/contentkeyauthorizationpolicy.md).  
+ This topic describes `ContentKeyAuthorizationPolicyOption` and shows how to use this entity. For a more complete example, that shows how to associate `ContentKeyAuthorizationPolicyOption` with `ContentKeyAuthorizationPolicy`, see [ContentKeyAuthorizationPolicy](../services/contentkeyauthorizationpolicy.md).  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -67,7 +67,7 @@ Media Services supports multiple ways of authenticating users who make key reque
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -106,7 +106,7 @@ x-ms-version: 2.11
   
  The following example creates a ContentKeyAuthorizationPolicyOption with the following values set: a `Token` authorization restriction (`"KeyRestrictionType":1`) and BaselineHttp (MPEG baseline HTTP key protocol) key delivery method (`"KeyDeliveryType":2`).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   

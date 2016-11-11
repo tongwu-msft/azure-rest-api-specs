@@ -39,14 +39,14 @@ translation.priority.mt:
 Gets the health of a Service Fabric cluster using health chunks.  
   
 ## Request  
- See [Cluster](../ServiceFabricREST/cluster.md) for headers and parameters that are used by all requests related to the cluster.  
+ See [Cluster](cluster.md) for headers and parameters that are used by all requests related to the cluster.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|The following URI gets the cluster health chunk: \<URI>$/GetClusterHealthChunk?api-version={api-version}|  
   
 ### Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md)  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md)  
   
 ```  
 {  

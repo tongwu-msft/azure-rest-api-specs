@@ -28,7 +28,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Delete Index (Azure Search Service REST API)
-  The **Delete Index** operation removes an index and associated documents from your Azure Search service. You can get the index name from the service dashboard in the Azure Preview portal, or from the API. See [List Indexes &#40;Azure Search Service REST API&#41;](../SearchServiceREST/list-indexes.md) for details.  
+  The **Delete Index** operation removes an index and associated documents from your Azure Search service. You can get the index name from the service dashboard in the Azure Preview portal, or from the API. See [List Indexes &#40;Azure Search Service REST API&#41;](list-indexes.md) for details.  
   
 ```  
 DELETE https://[service name].search.windows.net/indexes/[index name]?api-version=[api-version]  
@@ -59,9 +59,9 @@ api-key: [admin key]
  Status Code: 204 No Content  is returned for a successful response.  
   
 ## See Also  
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
- [HTTP status codes &#40;Azure Search&#41;](../SearchServiceREST/http-status-codes.md)   
- [Create Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/create-index.md)   
+ [Azure Search Service REST](service-rest.md)   
+ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
+ [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
  [Azure Search Service Versioning](../Topic/Azure%20Search%20Service%20Versioning.md)  
   
   

@@ -78,17 +78,17 @@ translation.priority.mt:
 ## Tasks  
  You can do the following with attachments:  
   
--   [Create an Attachment](../DocumentDBREST/create-an-attachment.md)  
+-   [Create an Attachment](create-an-attachment.md)  
   
--   [Replace an Attachment](../DocumentDBREST/replace-an-attachment.md)  
+-   [Replace an Attachment](replace-an-attachment.md)  
   
--   [List Attachments](../DocumentDBREST/list-attachments.md)  
+-   [List Attachments](list-attachments.md)  
   
--   [Delete Attachments](../DocumentDBREST/delete-attachments.md)  
+-   [Delete Attachments](delete-attachments.md)  
   
  Note that the attachment content is not indexed or searchable; the attachment resource properties are indexed and searchable.  
   
- These operations are similar to the ones for [Documents](../DocumentDBREST/documents.md). Instead of performing the operations against the docs, they are preformed against the attachments resource path under a particular document. Hence, we will skip elaborating each of the operations. Instead, in the next section, we will discuss how to create an attachment with raw media posting and with metadata-only posting.  
+ These operations are similar to the ones for [Documents](documents.md). Instead of performing the operations against the docs, they are preformed against the attachments resource path under a particular document. Hence, we will skip elaborating each of the operations. Instead, in the next section, we will discuss how to create an attachment with raw media posting and with metadata-only posting.  
   
 ## See Also  
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   

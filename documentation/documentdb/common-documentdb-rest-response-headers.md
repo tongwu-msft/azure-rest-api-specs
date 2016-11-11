@@ -48,9 +48,9 @@ translation.priority.mt:
   
 ## See Also  
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [DocumentDB Resource URI Syntax for REST](../DocumentDBREST/documentdb-resource-uri-syntax-for-rest.md)   
- [Access Control on DocumentDB Resources](../DocumentDBREST/access-control-on-documentdb-resources.md)   
- [Querying DocumentDB resources using the REST API](../DocumentDBREST/querying-documentdb-resources-using-the-rest-api.md)   
+ [DocumentDB Resource URI Syntax for REST](documentdb-resource-uri-syntax-for-rest.md)   
+ [Access Control on DocumentDB Resources](access-control-on-documentdb-resources.md)   
+ [Querying DocumentDB resources using the REST API](querying-documentdb-resources-using-the-rest-api.md)   
  [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   

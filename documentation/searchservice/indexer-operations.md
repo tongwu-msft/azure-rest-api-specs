@@ -38,7 +38,7 @@ translation.priority.mt:
   
 -   Invoke on-demand to update an index as needed.  
   
- All of the above scenarios are achieved through the [Run Indexer &#40;Azure Search Service REST API&#41;](../SearchServiceREST/run-indexer.md), which you can run as a standalone operation or scheduled using the built-in scheduler.  
+ All of the above scenarios are achieved through the [Run Indexer &#40;Azure Search Service REST API&#41;](run-indexer.md), which you can run as a standalone operation or scheduled using the built-in scheduler.  
   
  A **data source** specifies what data needs to be indexed, credentials to access the data, and policies to enable Azure Search to efficiently identify changes in the data (such as modified or deleted rows in a database table). It's defined as an independent resource so that it can be used by multiple indexers.  
   
@@ -59,28 +59,28 @@ translation.priority.mt:
   
  Setting up automatic indexing is typically a four step process:  
   
-1.  Identify the data source that contains the data that needs to be indexed. Keep in mind that Azure Search may not support all of the data types present in your data source. See [Supported data types &#40;Azure Search&#41;](../SearchServiceREST/supported-data-types.md) for the list.  
+1.  Identify the data source that contains the data that needs to be indexed. Keep in mind that Azure Search may not support all of the data types present in your data source. See [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for the list.  
   
 2.  Create an Azure Search index whose schema is compatible with your data source.  
   
-3.  Create an Azure Search **data source** as described in [Create Data Source &#40;Azure Search Service REST API&#41;](../SearchServiceREST/create-data-source.md).  
+3.  Create an Azure Search **data source** as described in [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md).  
   
-4.  Create an Azure Search **indexer** as described in [Create Indexer &#40;Azure Search Service REST API&#41;](../SearchServiceREST/create-indexer.md).  
+4.  Create an Azure Search **indexer** as described in [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md).  
   
  You should plan on creating one indexer for every target index and data source combination. You can have multiple indexers writing into the same index, and you can reuse the same data source for multiple indexers. However, an indexer can only consume one data source at a time, and can only write to a single index. As the following graphic illustrates, one data source provides input to one indexer, which then populates a single index:  
   
- ![Data Source, Indexer, Index chain in Azure Search](../SearchServiceREST/media/azsrch-ds-indxr-index.png "Azsrch-ds-indxr-index")  
+ ![Data Source, Indexer, Index chain in Azure Search](media/azsrch-ds-indxr-index.png "Azsrch-ds-indxr-index")  
   
  Although you can only use one at a time, resources can be used in different combinations. The main takeaway of the next illustration is to notice is that a data source can be paired with more than one indexer, and multiple indexers can write to same index.  
   
- ![Resource combinations used in indexers](../SearchServiceREST/media/azsrch-ds2-indexer3-index2.png "AzSrch-DS2-Indexer3-Index2")  
+ ![Resource combinations used in indexers](media/azsrch-ds2-indexer3-index2.png "AzSrch-DS2-Indexer3-Index2")  
   
- After creating an indexer, you can retrieve its execution status using the [Get Indexer Status &#40;Azure Search Service REST API&#41;](../SearchServiceREST/get-indexer-status.md) operation. You can also run an indexer at any time (instead of or in addition to running it periodically on a schedule) using the [Run Indexer &#40;Azure Search Service REST API&#41;](../SearchServiceREST/run-indexer.md) operation.  
+ After creating an indexer, you can retrieve its execution status using the [Get Indexer Status &#40;Azure Search Service REST API&#41;](get-indexer-status.md) operation. You can also run an indexer at any time (instead of or in addition to running it periodically on a schedule) using the [Run Indexer &#40;Azure Search Service REST API&#41;](run-indexer.md) operation.  
   
 ## Operations on indexers  
  The REST API for **indexers** and **data sources** includes the operations shown in the following table.  
   
- [Create Data Source](../SearchServiceREST/create-data-source.md)  
+ [Create Data Source](create-data-source.md)  
   
 ```  
 POST https://[service name].search.windows.net/datasources?api-version=[api-version]  
@@ -92,7 +92,7 @@ POST https://[service name].search.windows.net/datasources?api-version=[api-vers
 PUT https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
 ```  
   
- [Update Data Source](../SearchServiceREST/update-data-source.md)  
+ [Update Data Source](update-data-source.md)  
   
 ```  
 PUT https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
@@ -100,28 +100,28 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
     api-key: [admin key]  
 ```  
   
- [List Data Sources](../SearchServiceREST/list-data-sources.md)  
+ [List Data Sources](list-data-sources.md)  
   
 ```  
 GET https://[service name].search.windows.net/datasources?api-version=[api-version]  
     api-key: [admin key]  
 ```  
   
- [Get Data Source](../SearchServiceREST/get-data-source.md)  
+ [Get Data Source](get-data-source.md)  
   
 ```  
 GET https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
     api-key: [admin key]  
 ```  
   
- [Delete Data Source](../SearchServiceREST/delete-data-source.md)  
+ [Delete Data Source](delete-data-source.md)  
   
 ```  
 DELETE https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
     api-key: [admin key]  
 ```  
   
- [Create Indexer](../SearchServiceREST/create-indexer.md)  
+ [Create Indexer](create-indexer.md)  
   
 ```  
 POST https://[service name].search.windows.net/indexers?api-version=[api-version]  
@@ -133,7 +133,7 @@ POST https://[service name].search.windows.net/indexers?api-version=[api-version
 PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
 ```  
   
- [Update Indexer](../SearchServiceREST/update-indexer.md)  
+ [Update Indexer](update-indexer.md)  
   
 ```  
 PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
@@ -141,42 +141,42 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
     api-key: [admin key]  
 ```  
   
- [List Indexers](../SearchServiceREST/list-indexers.md)  
+ [List Indexers](list-indexers.md)  
   
 ```  
 GET https://[service name].search.windows.net/indexers?api-version=[api-version]  
     api-key: [admin key  
 ```  
   
- [Get Indexer](../SearchServiceREST/get-indexer.md)  
+ [Get Indexer](get-indexer.md)  
   
 ```  
 GET https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
     api-key: [admin key]  
 ```  
   
- [Delete Indexer](../SearchServiceREST/delete-indexer.md)  
+ [Delete Indexer](delete-indexer.md)  
   
 ```  
 DELETE https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
     api-key: [admin key]  
 ```  
   
- [Run Indexer](../SearchServiceREST/run-indexer.md)  
+ [Run Indexer](run-indexer.md)  
   
 ```  
 POST https://[service name].search.windows.net/indexers/[indexer name]/run?api-version=[api-version]  
     api-key: [admin key]  
 ```  
   
- [Get Indexer Status](../SearchServiceREST/get-indexer-status.md)  
+ [Get Indexer Status](get-indexer-status.md)  
   
 ```  
 GET https://[service name].search.windows.net/indexers/[indexer name]/status?api-version=[api-version]  
     api-key: [admin key]  
 ```  
   
- [Reset Indexer](../SearchServiceREST/reset-indexer.md)  
+ [Reset Indexer](reset-indexer.md)  
   
 ```  
 POST https://[service name].search.windows.net/indexers/[indexer name]/reset?api-version=[api-version]  
@@ -184,7 +184,7 @@ POST https://[service name].search.windows.net/indexers/[indexer name]/reset?api
 ```  
   
 ## See Also  
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
+ [Azure Search Service REST](service-rest.md)   
  [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)  
   
   

@@ -26,7 +26,7 @@ manager: "timlt"
 Gets provisioned fabric code versions in a Service Fabric cluster. Optionally, you can specify a particular code version to get.  
   
 ## Request  
- See [Cluster](../ServiceFabricREST/cluster.md) for headers and parameters that are used by all requests related to the cluster.  
+ See [Cluster](cluster.md) for headers and parameters that are used by all requests related to the cluster.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -41,7 +41,7 @@ Gets provisioned fabric code versions in a Service Fabric cluster. Optionally, y
 |api-version|Yes|The API Version, which is "1.0”.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 [  

@@ -59,11 +59,11 @@ translation.priority.mt:
 ## Tasks  
  You can do the following with databases:  
   
--   [Create a Database](../DocumentDBREST/create-a-database.md)  
+-   [Create a Database](create-a-database.md)  
   
--   [List Databases](../DocumentDBREST/list-databases.md)  
+-   [List Databases](list-databases.md)  
   
--   [Get a Database](../DocumentDBREST/get-a-database.md)  
+-   [Get a Database](get-a-database.md)  
   
 -   [Delete a Database retired](../Topic/Delete%20a%20Database%20retired.md)  
   

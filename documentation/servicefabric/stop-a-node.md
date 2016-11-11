@@ -34,14 +34,14 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Stop a node
-Stops a Service Fabric cluster node that is in a started state. The node will stay down until [Start a node](../ServiceFabricREST/start-a-node.md) is called.  
+Stops a Service Fabric cluster node that is in a started state. The node will stay down until [Start a node](start-a-node.md) is called.  
   
 ## Request  
- See [Cluster](../ServiceFabricREST/cluster.md) for headers and parameters that are used by all requests related to the cluster  
+ See [Cluster](cluster.md) for headers and parameters that are used by all requests related to the cluster  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |POST|`<URI>/Nodes/{node-name}/$/Stop?api-version={api-version}`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).

@@ -40,12 +40,12 @@ Use these APIs from a device to send device-to-cloud messages to an IoT hub, and
 ### Tasks  
  You can do the following:  
   
--   [Send device-to-cloud message](../IoTREST/send-device-to-cloud-message.md)  
+-   [Send device-to-cloud message](send-device-to-cloud-message.md)  
   
--   [Receive a cloud-to-device message](../IoTREST/receive-a-cloud-to-device-message.md)  
+-   [Receive a cloud-to-device message](receive-a-cloud-to-device-message.md)  
   
--   [Complete a cloud-to-device message](../IoTREST/complete-a-cloud-to-device-message.md)  
+-   [Complete a cloud-to-device message](complete-a-cloud-to-device-message.md)  
   
--   [Reject a cloud-to-device message](../IoTREST/reject-a-cloud-to-device-message.md)  
+-   [Reject a cloud-to-device message](reject-a-cloud-to-device-message.md)  
   
--   [Abandon a cloud-to-device message](../IoTREST/abandon-a-cloud-to-device-message.md)
+-   [Abandon a cloud-to-device message](abandon-a-cloud-to-device-message.md)

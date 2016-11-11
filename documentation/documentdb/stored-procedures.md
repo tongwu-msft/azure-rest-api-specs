@@ -159,15 +159,15 @@ var exchangeItemsSproc = {
 ## Tasks  
  You can do the following with stored procedures:  
   
--   [Create a Stored Procedure](../DocumentDBREST/create-a-stored-procedure.md)  
+-   [Create a Stored Procedure](create-a-stored-procedure.md)  
   
--   [Replace a Stored Procedure](../DocumentDBREST/replace-a-stored-procedure.md)  
+-   [Replace a Stored Procedure](replace-a-stored-procedure.md)  
   
--   [List Stored Procedures](../DocumentDBREST/list-stored-procedures.md)  
+-   [List Stored Procedures](list-stored-procedures.md)  
   
--   [Delete a Stored Procedure](../DocumentDBREST/delete-a-stored-procedure.md)  
+-   [Delete a Stored Procedure](delete-a-stored-procedure.md)  
   
--   [Execute a Stored Procedure](../DocumentDBREST/execute-a-stored-procedure.md)  
+-   [Execute a Stored Procedure](execute-a-stored-procedure.md)  
   
  For information on how stored procedures work, including execution of a stored procedure, see [DocumentDB programming: Stored procedures, triggers, and UDFs](http://azure.microsoft.com/en-us/documentation/articles/documentdb-programming/).  
   

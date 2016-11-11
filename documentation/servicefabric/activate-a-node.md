@@ -48,4 +48,4 @@ Activate a Service Fabric cluster node which is currently deactivated.
 |POST|`<URI>/Nodes/{node-name}/$/Activate?api-version={api-version}`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).

@@ -168,14 +168,14 @@ A collection is a container of JSON documents and associated JavaScript applicat
 ## Tasks  
  You can do the following with document collections:  
   
--   [Create a Collection](../DocumentDBREST/create-a-collection.md)  
+-   [Create a Collection](create-a-collection.md)  
   
--   [List Collections](../DocumentDBREST/list-collections.md)  
+-   [List Collections](list-collections.md)  
   
--   [Get a Collection](../DocumentDBREST/get-a-collection.md)  
+-   [Get a Collection](get-a-collection.md)  
   
--   [Delete a Collection](../DocumentDBREST/delete-a-collection.md)  
+-   [Delete a Collection](delete-a-collection.md)  
   
--   [Replace a Collection](../DocumentDBREST/replace-a-collection.md)  
+-   [Replace a Collection](replace-a-collection.md)  
   
   

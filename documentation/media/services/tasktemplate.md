@@ -30,11 +30,11 @@ TaskTemplates provide reusable settings for tasks that run within a JobTemplate 
   
  This topic gives an overview of the `TaskTemplate` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [TaskTemplate Entity Properties](../MediaServicesREST/tasktemplate.md#task_template_entity_properties)  
+-   [TaskTemplate Entity Properties](../services/tasktemplate.md#task_template_entity_properties)  
   
--   [Create a TaskTemplate](../MediaServicesREST/tasktemplate.md#create_a_tasktemplate)  
+-   [Create a TaskTemplate](../services/tasktemplate.md#create_a_tasktemplate)  
   
--   [List TaskTemplates](../MediaServicesREST/tasktemplate.md#list_tasktemplates)  
+-   [List TaskTemplates](../services/tasktemplate.md#list_tasktemplates)  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -64,7 +64,7 @@ TaskTemplates provide reusable settings for tasks that run within a JobTemplate 
 |InitializationVector<br /><br /> Optional.|Edm.String|The InitializationVector of the configuration file.|  
   
 ##  <a name="create_a_tasktemplate"></a> Create a TaskTemplate  
- TaskTemplates are created by creating a JobTemplate. For an example, see [Create a JobTemplate](../MediaServicesREST/jobtemplate.md#create_a_jobtemplate).  
+ TaskTemplates are created by creating a JobTemplate. For an example, see [Create a JobTemplate](../services/jobtemplate.md#create_a_jobtemplate).  
   
 ##  <a name="list_tasktemplates"></a> List TaskTemplates  
  Tasks are retrieved using a GET HTTP request.  
@@ -82,7 +82,7 @@ TaskTemplates provide reusable settings for tasks that run within a JobTemplate 
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/JobTemplates('nb:jtid:UUID:b1f956b3-774c-bb44-a3f7-ee47e23aed38')/TaskTemplates HTTP/1.1  
@@ -96,13 +96,13 @@ Host: media.windows.net
 ```  
   
 ## See Also  
- [ContentKey](../MediaServicesREST/contentkey.md)   
- [Asset](../MediaServicesREST/asset.md)   
- [AccessPolicy](../MediaServicesREST/accesspolicy.md)   
- [AssetFile](../MediaServicesREST/assetfile.md)   
- [Job](../MediaServicesREST/job.md)   
- [Locator](../MediaServicesREST/locator.md)   
- [MediaProcessor](../MediaServicesREST/mediaprocessor.md)   
- [Task](../MediaServicesREST/task.md)   
- [JobTemplate](../MediaServicesREST/jobtemplate.md)   
+ [ContentKey](../services/contentkey.md)   
+ [Asset](../services/asset.md)   
+ [AccessPolicy](../services/accesspolicy.md)   
+ [AssetFile](../services/assetfile.md)   
+ [Job](../services/job.md)   
+ [Locator](../services/locator.md)   
+ [MediaProcessor](../services/mediaprocessor.md)   
+ [Task](../services/task.md)   
+ [JobTemplate](../services/jobtemplate.md)   
  [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)

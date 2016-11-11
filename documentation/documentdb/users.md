@@ -57,15 +57,15 @@ translation.priority.mt:
 ## Tasks  
  You can do the following with users:  
   
--   [Create a User](../DocumentDBREST/create-a-user.md)  
+-   [Create a User](create-a-user.md)  
   
--   [List Users](../DocumentDBREST/list-users.md)  
+-   [List Users](list-users.md)  
   
--   [Get a User](../DocumentDBREST/get-a-user.md)  
+-   [Get a User](get-a-user.md)  
   
--   [Replace a User](../DocumentDBREST/replace-a-user.md)  
+-   [Replace a User](replace-a-user.md)  
   
--   [Delete a User](../DocumentDBREST/delete-a-user.md)  
+-   [Delete a User](delete-a-user.md)  
   
 ## See Also  
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   

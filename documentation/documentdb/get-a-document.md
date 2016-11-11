@@ -36,7 +36,7 @@ translation.priority.mt:
 |GET|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs/{doc-id}|Note that the {databaseaccount} is the name of the DocumentDB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection. The {doc-id} value is the id of the document to be retrieved.|  
   
 ### Headers  
- See [Common DocumentDB REST request headers](../DocumentDBREST/common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests. The important response headers for Read Document are the following:  
+ See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests. The important response headers for Read Document are the following:  
   
 |Header|Required|Type|Description|  
 |------------|--------------|----------|-----------------|  
@@ -52,7 +52,7 @@ translation.priority.mt:
  Returns the content of the requested document.  
   
 ### Headers  
- See [Common DocumentDB REST response headers](../DocumentDBREST/common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses. The important response headers for Get Document are the following:  
+ See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses. The important response headers for Get Document are the following:  
   
 |Header|Type|Description|  
 |------------|----------|-----------------|  

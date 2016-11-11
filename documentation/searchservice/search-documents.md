@@ -48,7 +48,7 @@ api-key: [admin or query key]
  When you use HTTP GET to call the **Search Documents** API, you need to be aware that the length of the request URL cannot exceed 8 KB. This is usually enough for most applications. However, some applications produce very large queries or OData filter expressions. For these applications, using HTTP POST is a better choice because it allows larger filters and queries than GET. With POST, the number of terms or clauses in a query is the limiting factor, not the size of the raw query since the request size limit for POST is approximately 16 MB.  
   
 > [!NOTE]  
->  Even though the POST request size limit is very large, search queries and filter expressions cannot be arbitrarily complex. See [Lucene query syntax in Azure Search](../SearchServiceREST/lucene-query-syntax-in-azure-search.md) and [OData Expression Syntax for Azure Search](../SearchServiceREST/odata-expression-syntax-for-azure-search.md) for more information about search query and filter complexity limitations.  
+>  Even though the POST request size limit is very large, search queries and filter expressions cannot be arbitrarily complex. See [Lucene query syntax in Azure Search](lucene-query-syntax-in-azure-search.md) and [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md) for more information about search query and filter complexity limitations.  
   
 ## Request  
  HTTPS is required for service requests. The **Search Documents** request can be constructed using the GET or POST methods.  
@@ -76,7 +76,7 @@ A query accepts several parameters that provide query criteria and also specify 
  
 #### search=[string] (optional)
  
-The text to search for. All `searchable` fields are searched by default unless `searchFields` is specified. When searching `searchable` fields, the search text itself is tokenized, so multiple terms can be separated by white space (e.g.: search=hello world). To match any term, use \* (this can be useful for boolean filter queries). Omitting this parameter has the same effect as setting it to \*. See  [Simple query syntax](../SearchServiceREST/simple-query-syntax-in-azure-search.md) for specifics on the search syntax.
+The text to search for. All `searchable` fields are searched by default unless `searchFields` is specified. When searching `searchable` fields, the search text itself is tokenized, so multiple terms can be separated by white space (e.g.: search=hello world). To match any term, use \* (this can be useful for boolean filter queries). Omitting this parameter has the same effect as setting it to \*. See  [Simple query syntax](simple-query-syntax-in-azure-search.md) for specifics on the search syntax.
 
 > [!NOTE]  
 >  The results can sometimes be surprising when querying over searchable fields. The tokenizer includes logic to handle cases common to English text like apostrophes, commas in numbers, and so forth. For example, `search=123,456` will match a single term 123,456 rather than the individual terms 123 and 456, since commas are used as thousand-separators for large numbers in English. For this reason, we recommend using white space rather than punctuation to separate terms in the `search` parameter.
@@ -91,7 +91,7 @@ The list of comma-separated field names to search for the specified text. Target
 
 Defaults to `simple`. When set to `simple`, search text is interpreted using a simple query language that allows for symbols such as +, \* and "". Queries are evaluated across all `searchable` fields (or fields indicated in `searchFields`) in each document by default.
   
-When the query type is set to `full`, search text is interpreted using the Lucene query language which allows field-specific and weighted searches. See [Simple query syntax in Azure Search](../SearchServiceREST/simple-query-syntax-in-azure-search.md) and [Lucene query syntax in Azure Search](../SearchServiceREST/lucene-query-syntax-in-azure-search.md) for specifics on the search syntaxes. 
+When the query type is set to `full`, search text is interpreted using the Lucene query language which allows field-specific and weighted searches. See [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md) and [Lucene query syntax in Azure Search](lucene-query-syntax-in-azure-search.md) for specifics on the search syntaxes. 
 
 > [!NOTE]  
 >  Range search in the Lucene query language is not supported in favor of `$filter` which offers similar functionality.
@@ -140,7 +140,7 @@ Valid parameters are:
   
 #### $filter=[string] (optional)
 
-A structured search expression in standard OData syntax. When calling via POST, this parameter is named `filter` instead of `$filter`. See [OData Expression Syntax for Azure Search](../SearchServiceREST/odata-expression-syntax-for-azure-search.md) for details on the subset of the OData expression grammar that Azure Search supports. 
+A structured search expression in standard OData syntax. When calling via POST, this parameter is named `filter` instead of `$filter`. See [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md) for details on the subset of the OData expression grammar that Azure Search supports. 
 
   
 #### highlight=[string] (optional)
@@ -274,7 +274,7 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 ```  
   
 ##  <a name="bkmk_examples"></a> Examples  
- You can find additional examples in  [OData Expression Syntax for Azure Search](../SearchServiceREST/odata-expression-syntax-for-azure-search.md).  
+ You can find additional examples in  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md).  
   
 1.  Search the Index sorted descending by date:  
   
@@ -480,7 +480,7 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
     > [!TIP]  
     >  The use of `searchMode=all` overrides the default of `searchMode=any`, ensuring that `-motel` means "AND NOT" instead of "OR NOT". Without `searchMode=all`, you get "OR NOT" which expands rather than restricts search results, and this can be counter-intuitive to some users.  
   
-15. Find documents in the index using Lucene query syntax (see [Lucene query syntax in Azure Search](../SearchServiceREST/lucene-query-syntax-in-azure-search.md)). This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3)  
+15. Find documents in the index using Lucene query syntax (see [Lucene query syntax in Azure Search](lucene-query-syntax-in-azure-search.md)). This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3)  
   
      `GET /indexes/hotels/docs?search=category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2015-02-28&querytype=full`  
   
@@ -494,10 +494,10 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
     ```  
   
 ## See Also  
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
- [HTTP status codes &#40;Azure Search&#41;](../SearchServiceREST/http-status-codes.md)   
- [OData Expression Syntax for Azure Search](../SearchServiceREST/odata-expression-syntax-for-azure-search.md)   
- [Simple query syntax in Azure Search](../SearchServiceREST/simple-query-syntax-in-azure-search.md)    
+ [Azure Search Service REST](service-rest.md)   
+ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
+ [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
+ [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md)    
  [Azure Search .NET library](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
   
   

@@ -68,14 +68,14 @@ Content-Length: 50
   
 |**Method**|**Request URI**|  
 |-|-|  
-|**POST**|**Required**. The authentication type and signature token. Only the master key token is allowed for this operation. For more information, see [Access Control on DocumentDB Resources](../DocumentDBREST/access-control-on-documentdb-resources.md).|  
+|**POST**|**Required**. The authentication type and signature token. Only the master key token is allowed for this operation. For more information, see [Access Control on DocumentDB Resources](access-control-on-documentdb-resources.md).|  
   
 ## Request Headers  
  The following table contains the common headers used to perform query operations.  
   
 |**Standard Header**|**Description**|  
 |-|-|  
-|**Authorization**|**Required**. The authentication type and signature token. Only the master key token is allowed for this operation. For more information, see [Access Control on DocumentDB Resources](../DocumentDBREST/access-control-on-documentdb-resources.md).|  
+|**Authorization**|**Required**. The authentication type and signature token. Only the master key token is allowed for this operation. For more information, see [Access Control on DocumentDB Resources](access-control-on-documentdb-resources.md).|  
 |**Content-Type**|**Required**. Must be set to application/query+json.|  
 |**Accept**|**Optional**. At the moment, DocumentDB always returns the response payload in standard JSON format. The client must be able to accept the response body in standard JSON format.|  
 |**User-Agent**|**Optional**. The user agent performing the request. The recommended format is {user agent name}/{version}. For example, the DocumentDB .NET SDK sets the User-Agent string to Microsoft.Document.Client/1.0.0.0.|  
@@ -86,7 +86,7 @@ Content-Length: 50
 |**x-ms-documentdb-isquery**|**Required**. This property must be set to true.|  
 |**x-ms-max-item-count**|**Optional**. To page through a result set, set this header to the maximum number for items to be returned back in a single page.|  
 |**x-ms-continuation**|**Optional**. To navigate to the next page of items, set this header to the continuation token for the next page.|  
-|**x-ms-version**|**Optional**. The version of DocumentDB REST service. The latest version is used when the header is not provided. For more information, see [Azure DocumentDB REST API Reference](../DocumentDBREST/azure-documentdb-rest-api-reference.md).|  
+|**x-ms-version**|**Optional**. The version of DocumentDB REST service. The latest version is used when the header is not provided. For more information, see [Azure DocumentDB REST API Reference](azure-documentdb-rest-api-reference.md).|  
 |**x-ms-documentdb-query-enable-scan**|**Optional**. Use an index scan to process the query if the right index path of type is not available.|  
 |**x-ms-session-token**|**Optional**. The session token for the request. Used for session consistency.|  
 |**x-ms-partition-key**|**Optional**. If specified, the query is executed only on documents that match the partition key value in the header.|  
@@ -126,7 +126,7 @@ Content-Length: 50
  For more information on the DocumentDB SQL Language, see [Query with DocumentDB SQL](http://azure.microsoft.com/documentation/articles/documentdb-sql-query).  
   
 ## Response Details  
- The following are common status codes returned by this operation. For information about error status codes, please see [HTTP Status Codes for DocumentDB](../DocumentDBREST/http-status-codes-for-documentdb.md).  
+ The following are common status codes returned by this operation. For information about error status codes, please see [HTTP Status Codes for DocumentDB](http-status-codes-for-documentdb.md).  
   
 |**Code**|**Description**|  
 |-|-|  
@@ -217,9 +217,9 @@ Content-Length: 50
   
 ## See Also  
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [DocumentDB Resource URI Syntax for REST](../DocumentDBREST/documentdb-resource-uri-syntax-for-rest.md)   
- [Access Control on DocumentDB Resources](../DocumentDBREST/access-control-on-documentdb-resources.md)   
- [HTTP Status Codes for DocumentDB](../DocumentDBREST/http-status-codes-for-documentdb.md)   
+ [DocumentDB Resource URI Syntax for REST](documentdb-resource-uri-syntax-for-rest.md)   
+ [Access Control on DocumentDB Resources](access-control-on-documentdb-resources.md)   
+ [HTTP Status Codes for DocumentDB](http-status-codes-for-documentdb.md)   
  [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)  
   
   

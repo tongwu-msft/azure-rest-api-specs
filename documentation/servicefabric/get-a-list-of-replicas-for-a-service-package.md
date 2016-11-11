@@ -39,14 +39,14 @@ translation.priority.mt:
 Gets the Service Fabric replicas of the specified node, application, and service package name.  
   
 ## Request  
- See [Common parameters and headers](../ServiceFabricREST/replica.md#bk_common) for headers and parameters that are used by all requests related to replicas.  
+ See [Common parameters and headers](replica.md#bk_common) for headers and parameters that are used by all requests related to replicas.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`<URI>/nodes/{node-name}/$/getapplications/{application-name}/$/getreplicas?api-version=1.0&PartitionId={partition-id}&ServicePackageName={service-package-name}&api-version={api-version}`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
   

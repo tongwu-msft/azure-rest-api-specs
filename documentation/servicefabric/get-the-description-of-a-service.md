@@ -39,7 +39,7 @@ translation.priority.mt:
 Gets the description of the specified service.  
   
 ## Request  
- See [Common parameters and headers](../ServiceFabricREST/service.md#bk_common) for headers and parameters that are used by all requests related to services.  
+ See [Common parameters and headers](service.md#bk_common) for headers and parameters that are used by all requests related to services.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -55,7 +55,7 @@ Gets the description of the specified service.
 |api-version|Yes|The API Version, which is "1.0”.|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 {  

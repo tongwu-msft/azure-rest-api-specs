@@ -64,15 +64,15 @@ The following example illustrates the JSON construct of a permission:
 ## Tasks  
  You can do the following with permissions:  
   
--   [Create a Permission](../DocumentDBREST/create-a-permission.md)  
+-   [Create a Permission](create-a-permission.md)  
   
--   [List Permissions](../DocumentDBREST/list-permissions.md)  
+-   [List Permissions](list-permissions.md)  
   
--   [Get a Permission](../DocumentDBREST/get-a-permission.md)  
+-   [Get a Permission](get-a-permission.md)  
   
--   [Replace a Permission](../DocumentDBREST/replace-a-permission.md)  
+-   [Replace a Permission](replace-a-permission.md)  
   
--   [Delete a Permission](../DocumentDBREST/delete-a-permission.md)  
+-   [Delete a Permission](delete-a-permission.md)  
   
 ## See Also  
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   

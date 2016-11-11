@@ -55,14 +55,14 @@ api-key: [admin key]
  None.  
   
 ## Response  
- Status Code: "200 OK" is returned for a successful response. See the example JSON in [Create Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/create-index.md) for an example of the response payload.  
+ Status Code: "200 OK" is returned for a successful response. See the example JSON in [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) for an example of the response payload.  
   
 > [!NOTE]  
 >  You can use a diagnostic tool such as Fiddler to view the response payload. See [How to use Fiddler to evaluate and test Azure Search REST APIs](https://azure.microsoft.com/documentation/articles/search-fiddler/).  
   
 ## See Also  
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
- [HTTP status codes &#40;Azure Search&#41;](../SearchServiceREST/http-status-codes.md)   
+ [Azure Search Service REST](service-rest.md)   
+ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Azure Search Service Versioning](../Topic/Azure%20Search%20Service%20Versioning.md)  
   
   

@@ -30,9 +30,9 @@ A media processor transforms media content into a different output. For example,
   
  This topic gives an overview of the `MediaProcessor` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [MediaProcessor Entity Properties](../MediaServicesREST/mediaprocessor.md#mediaprocessor_entity_properties)  
+-   [MediaProcessor Entity Properties](../services/mediaprocessor.md#mediaprocessor_entity_properties)  
   
--   [List MediaProcessors](../MediaServicesREST/mediaprocessor.md#list_mediaprocessors)  
+-   [List MediaProcessors](../services/mediaprocessor.md#list_mediaprocessors)  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -65,7 +65,7 @@ A media processor transforms media content into a different output. For example,
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/MediaProcessors HTTP/1.1  
@@ -79,13 +79,13 @@ Host: media.windows.net
 ```  
   
 ## See Also  
- [ContentKey](../MediaServicesREST/contentkey.md)   
- [Asset](../MediaServicesREST/asset.md)   
- [AccessPolicy](../MediaServicesREST/accesspolicy.md)   
- [AssetFile](../MediaServicesREST/assetfile.md)   
- [JobTemplate](../MediaServicesREST/jobtemplate.md)   
- [Locator](../MediaServicesREST/locator.md)   
- [Job](../MediaServicesREST/job.md)   
- [Task](../MediaServicesREST/task.md)   
- [TaskTemplate](../MediaServicesREST/tasktemplate.md)   
+ [ContentKey](../services/contentkey.md)   
+ [Asset](../services/asset.md)   
+ [AccessPolicy](../services/accesspolicy.md)   
+ [AssetFile](../services/assetfile.md)   
+ [JobTemplate](../services/jobtemplate.md)   
+ [Locator](../services/locator.md)   
+ [Job](../services/job.md)   
+ [Task](../services/task.md)   
+ [TaskTemplate](../services/tasktemplate.md)   
  [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)

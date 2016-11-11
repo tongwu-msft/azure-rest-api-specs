@@ -29,7 +29,7 @@ translation.priority.mt:
 This method completes a cloud-to-device message. A completed message is deleted from the device message queue, and, if requested, a negative acknowledgment is sent to the application back-end. See [IAzure IoT Hub Developer Guide – Messaging](https://azure.microsoft.com/documentation/articles/iot-hub-devguide#messaging) for more information.  
   
 ## Request  
- See [Common parameters and headers](../IoTREST/device-messaging-rest-apis.md#bk_common) for headers and parameters that are used by all IoT Hub messaging requests.  
+ See [Common parameters and headers](device-messaging-rest-apis.md#bk_common) for headers and parameters that are used by all IoT Hub messaging requests.  
   
 |Method|Request URI|  
 |------------|-----------------|  

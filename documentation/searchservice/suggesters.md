@@ -32,9 +32,9 @@ translation.priority.mt:
   
 -   Enable suggestions by adding a **suggester** construction in your index, giving the name, search mode, and a list of fields for which type-ahead is invoked. For example, if you specify "cityName" as a source field, typing a partial search string of "Sea" will result in "Seattle", "Seaside", and "Seatac" (all three are actual city names) offered up as query suggestions to the user.  
   
--   Invoke suggestions by calling the [Suggestions &#40;Azure Search Service REST API&#41;](../SearchServiceREST/suggestions.md) in your application code. Typically partial search strings are sent to the service while the user is typing a search query, and this API returns a set of suggested phrases.  
+-   Invoke suggestions by calling the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md) in your application code. Typically partial search strings are sent to the service while the user is typing a search query, and this API returns a set of suggested phrases.  
   
- This article explains how to configure a **Suggester**. You should also review the [Suggestions &#40;Azure Search Service REST API&#41;](../SearchServiceREST/suggestions.md) for details on how a **Suggester** is used.  
+ This article explains how to configure a **Suggester**. You should also review the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md) for details on how a **Suggester** is used.  
   
 ## Usage  
  **Suggesters** are created in the index and work best when used to suggest specific documents rather than loose terms or phrases. The best candidate fields are titles, names, and other relatively short phrases that can identify an item. Less effective are repetitive fields, such as categories and tags, or very long fields such as descriptions or comments fields.  
@@ -43,7 +43,7 @@ translation.priority.mt:
   
 |Property|Description|  
 |--------------|-----------------|  
-|`name`|The name of the **suggester**. You use the name of the **suggester** when calling the [Suggestions &#40;Azure Search Service REST API&#41;](../SearchServiceREST/suggestions.md).|  
+|`name`|The name of the **suggester**. You use the name of the **suggester** when calling the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md).|  
 |`searchMode`|The strategy used to search for candidate phrases. The only mode currently supported is `analyzingInfixMatching`, which performs flexible matching of phrases at the beginning or in the middle of sentences.|  
 |`sourceFields`|A list of one or more fields that are the source of the content for suggestions. Only fields of type `Edm.String` and `Collection(Edm.String)` may be sources for suggestions. Only fields that don't have a custom language analyzer set can be used.|  
   
@@ -74,11 +74,11 @@ translation.priority.mt:
 ```  
   
 ## See Also  
- [Create Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/create-index.md)   
- [Update Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/update-index.md)   
- [Suggestions &#40;Azure Search Service REST API&#41;](../SearchServiceREST/suggestions.md)   
- [Index operations &#40;Azure Search Service REST API&#41;](../SearchServiceREST/index-operations.md)   
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
+ [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
+ [Update Index &#40;Azure Search Service REST API&#41;](update-index.md)   
+ [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)   
+ [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
+ [Azure Search Service REST](service-rest.md)   
  [Azure Search .NET SDK](https://msdn.microsoft.com/en-us/library/azure/dn951165.aspx)  
   
   

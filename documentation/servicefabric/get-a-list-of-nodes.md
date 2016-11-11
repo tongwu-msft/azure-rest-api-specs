@@ -39,7 +39,7 @@ translation.priority.mt:
 Gets the list of nodes in the Service Fabric cluster.  
   
 ## Request  
- See [Node](../ServiceFabricREST/node.md) for headers and parameters that are used by all requests related to nodes.  
+ See [Node](node.md) for headers and parameters that are used by all requests related to nodes.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -57,7 +57,7 @@ Gets the list of nodes in the Service Fabric cluster.
 |NodeStatusFilter|No|String that represents node status filter. Possible values are:<br /><br /> -   default (retrieves list of all nodes except with status unknown or removed)<br />-   all (retrieves list of all nodes)<br />-   up (retrieves list of nodes with status up)<br />-   down (retrieves list of nodes with status down)<br />-   enabling (retrieves list of nodes with status enabling)<br />-   disabling (retrieves list of nodes with status disabling)<br />-   unknown (retrieves list of nodes with status unknown)<br />-   removed (retrieves list of nodes with status removed)|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 {“Items”:  

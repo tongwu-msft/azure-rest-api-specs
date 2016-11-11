@@ -39,7 +39,7 @@ translation.priority.mt:
 Gets the health of an Azure Service Fabric application deployed on a node.  
   
 ## Request  
- See [Deployed application](../ServiceFabricREST/deployed-application.md) for headers and parameters that are used by all requests related to applications.  
+ See [Deployed application](deployed-application.md) for headers and parameters that are used by all requests related to applications.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -75,7 +75,7 @@ Gets the health of an Azure Service Fabric application deployed on a node.
     -   All - Filter that matches input with any HealthState value. The value is 65535.  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 {  

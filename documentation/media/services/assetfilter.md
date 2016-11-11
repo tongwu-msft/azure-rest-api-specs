@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # AssetFilter
-`AssetFilter`s are used to define filters for your asset’s streaming manifests. Defined filters can be applied to any of the following streaming protocols: HLS, MPEG-DASH, Smooth Streaming, and HDS. Media Services dynamically generates manifests based on specified filters. Filters can be defined at a global level ([Filter](../MediaServicesREST/filter.md)) or asset level (`AssetFilter`). Use `AssetFilter` to apply filters to a specific asset. Use `Filter` to apply filters to any of your assets.  
+`AssetFilter`s are used to define filters for your asset’s streaming manifests. Defined filters can be applied to any of the following streaming protocols: HLS, MPEG-DASH, Smooth Streaming, and HDS. Media Services dynamically generates manifests based on specified filters. Filters can be defined at a global level ([Filter](../services/filter.md)) or asset level (`AssetFilter`). Use `AssetFilter` to apply filters to a specific asset. Use `Filter` to apply filters to any of your assets.  
   
  For a detailed overview and code samples of dynamically generated manifests, see [Dynamic manifests overview](https://azure.microsoft.com/documentation/articles/media-services-dynamic-manifest-overview/).  
   
@@ -57,8 +57,8 @@ translation.priority.mt:
 |`Id`<br /><br /> Read-only. Set by Media Services at creation time.|Edm.String|Unique identifier.|  
 |`ParentAssetId`|Edm.String|The Id of a parent Asset that contains a collection of these filters.|  
 |`Name`|Edm.String|Friendly name for the AssetFilter.|  
-|`PresentationTimeRange`|[PresentationTimeRange](../MediaServicesREST/presentationtimerange.md)|The `PresentationTimeRange` rule group is used for filtering manifest start/end points, presentation window length, and the live start position. Media Services uses intersections of multiple ranges to define the final presentation window.|  
-|`Tracks`|[FilterTrackSelect](../MediaServicesREST/filtertrackselect.md)|Contains a collection of `FilterTrackPropertyCondition`s.|  
+|`PresentationTimeRange`|[PresentationTimeRange](../services/presentationtimerange.md)|The `PresentationTimeRange` rule group is used for filtering manifest start/end points, presentation window length, and the live start position. Media Services uses intersections of multiple ranges to define the final presentation window.|  
+|`Tracks`|[FilterTrackSelect](../services/filtertrackselect.md)|Contains a collection of `FilterTrackPropertyCondition`s.|  
 |`FirstQuality`|FirstQuality|First Quality of Manifest Filter, indicates the first quality bitrate for HLS.|  
   
 ##  <a name="create_a_filter"></a> Create a filter  
@@ -77,7 +77,7 @@ translation.priority.mt:
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers  
   
@@ -160,7 +160,7 @@ HTTP/1.1 201 Created
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Get all AssetFilters associated with an asset.  
   
@@ -211,7 +211,7 @@ Host: media.windows.net
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -270,7 +270,7 @@ Host: media.windows.net
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 DELETE https://media.windows.net/API/AssetFilters('nb%3Acid%3AUUID%3A536e555d-1500-80c3-92dc-f1e4fdc6c592__%23%23%23__TestFilter') HTTP/1.1  

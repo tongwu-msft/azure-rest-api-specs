@@ -39,14 +39,14 @@ translation.priority.mt:
 Gets the list of Service Fabric service types.  
   
 ## Request  
- See [Service type](../ServiceFabricREST/service-type.md) for headers and parameters that are used by all requests related to service types.  
+ See [Service type](service-type.md) for headers and parameters that are used by all requests related to service types.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`<URI>/ApplicationTypes/{application-type-name}/$/GetServiceTypes?ApplicationTypeVersion={application-type-version}&api-version={api-version}`|  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 [  

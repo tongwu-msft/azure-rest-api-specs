@@ -44,7 +44,7 @@ translation.priority.mt:
 |PUT|`https://{databaseaccount}.documents.azure.com/offers/{_rid-offer}`|Note that {databaseaccount} is the name of the DocumentDB account you created under your subscription. The {_rid-offer} value is the system generated resource ID of the offer.|  
   
 ### Headers  
- See [Common DocumentDB REST request headers](../DocumentDBREST/common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests  
+ See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests  
   
 ### Body  
   
@@ -77,7 +77,7 @@ translation.priority.mt:
  Returns the updated offer resource.  
   
 ### Headers  
- See [Common DocumentDB REST response headers](../DocumentDBREST/common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  
+ See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  
   
 ### Status codes  
  The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](https://msdn.microsoft.com/library/azure/dn783364.aspx).  

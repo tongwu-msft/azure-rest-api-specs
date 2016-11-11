@@ -48,26 +48,26 @@ APIs to manage Azure Service Fabric applications.
 ## Tasks  
  You can do the following with application resources:  
   
--   [Get a list of applications](../ServiceFabricREST/get-a-list-of-applications.md)  
+-   [Get a list of applications](get-a-list-of-applications.md)  
   
--   [Get the progress of an application upgrade](../ServiceFabricREST/get-the-progress-of-an-application-upgrade2.md)  
+-   [Get the progress of an application upgrade](get-the-progress-of-an-application-upgrade2.md)  
   
--   [Get the health of an application](../ServiceFabricREST/get-the-health-of-an-application.md)  
+-   [Get the health of an application](get-the-health-of-an-application.md)  
   
--   [Get the health of an application by using an application health policy](../ServiceFabricREST/get-the-health-of-an-application-by-using-an-application-health-policy.md)  
+-   [Get the health of an application by using an application health policy](get-the-health-of-an-application-by-using-an-application-health-policy.md)  
   
--   [Create an application](../ServiceFabricREST/create-an-application.md)  
+-   [Create an application](create-an-application.md)  
   
--   [Delete an application](../ServiceFabricREST/delete-an-application.md)  
+-   [Delete an application](delete-an-application.md)  
   
--   [Upgrade an application](../ServiceFabricREST/upgrade-an-application.md)  
+-   [Upgrade an application](upgrade-an-application.md)  
   
--   [Move to the next upgrade domain of the application](../ServiceFabricREST/move-to-the-next-upgrade-domain-of-the-application.md)  
+-   [Move to the next upgrade domain of the application](move-to-the-next-upgrade-domain-of-the-application.md)  
   
--   [Report the health of an application](../ServiceFabricREST/report-the-health-of-an-application.md)  
+-   [Report the health of an application](report-the-health-of-an-application.md)  
   
--   [Update an application upgrade](../ServiceFabricREST/update-an-application-upgrade.md)  
+-   [Update an application upgrade](update-an-application-upgrade.md)  
   
--   [Rollback an application upgrade](../ServiceFabricREST/rollback-an-application-upgrade.md)  
+-   [Rollback an application upgrade](rollback-an-application-upgrade.md)  
   
--   [Get the progress of an application upgrade](../ServiceFabricREST/get-the-progress-of-an-application-upgrade1.md)
+-   [Get the progress of an application upgrade](get-the-progress-of-an-application-upgrade1.md)

@@ -40,7 +40,7 @@ DocumentDB supports the use of HTTP methods to create, read, replace, get, and d
   
 -   What are the connectivity options for HTTPS and TCP?  
   
- If you are looking for information on how to perform CRUD operations on specific resources using REST, see [Common tasks using the DocumentDB REST API](../DocumentDBREST/common-tasks-using-the-documentdb-rest-api.md). If you are looking for samples on how to perform CRUD operations using C# and REST, see the [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) on GitHub.  
+ If you are looking for information on how to perform CRUD operations on specific resources using REST, see [Common tasks using the DocumentDB REST API](common-tasks-using-the-documentdb-rest-api.md). If you are looking for samples on how to perform CRUD operations using C# and REST, see the [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) on GitHub.  
   
 > [!NOTE]  
 >  You can also perform CRUD operations on DocumentDB resources using the DocumentDB SDKs. For samples,  see [DocumentDB examples](https://azure.microsoft.com/documentation/articles/documentdb-dotnet-samples/). For links to the SDK downloads and documentation, see [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/).  
@@ -63,7 +63,7 @@ DocumentDB supports the use of HTTP methods to create, read, replace, get, and d
   
  As illustrated in the following HTTP verbs diagram, POST can only be issued against a feed resource; PUT and DELETE can only be issued against an item resource; GET and HEAD can be issued against either feed or item resources.  
   
- ![interactions-with-resources2](../DocumentDBREST/media/interactions-with-resources2.png "interactions-with-resources2")  
+ ![interactions-with-resources2](media/interactions-with-resources2.png "interactions-with-resources2")  
   
  **Interaction model using the standard HTTP methods**  
   
@@ -217,7 +217,7 @@ HTTP/1.1 200 Ok
 |Direct Connectivity|HTTPS and TCP|The applications can directly access the routing table and perform the client side routing to directly connect with replicas.|.NET|  
   
 ## See also  
- [Azure DocumentDB REST API Reference](../DocumentDBREST/azure-documentdb-rest-api-reference.md)  
+ [Azure DocumentDB REST API Reference](azure-documentdb-rest-api-reference.md)  
   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   

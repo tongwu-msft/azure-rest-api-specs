@@ -31,10 +31,10 @@ translation.priority.mt:
   You can write queries against Azure Search based on the rich [Lucene Query Parser](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html) syntax. Much of the syntax is implemented intact in Azure Search, with the exception of *range searches* which are constructed in Azure Search through `$filter` expressions. See [Lucene query syntax examples for building queries in Azure Search](https://azure.microsoft.com/documentation/articles/search-query-lucene-examples/) for examples of how the syntax is used.  
   
 > [!NOTE]  
->  Azure Search also supports [Simple Query Syntax](../SearchServiceREST/simple-query-syntax-in-azure-search.md), a simple and robust query language that can be used for straightforward keyword search.  
+>  Azure Search also supports [Simple Query Syntax](simple-query-syntax-in-azure-search.md), a simple and robust query language that can be used for straightforward keyword search.  
   
 ## Key scenarios enabled by Lucene query syntax  
- The Lucene query syntax is more powerful than the alternative [Simple Query Syntax](../SearchServiceREST/simple-query-syntax-in-azure-search.md) supported by Azure Search. You should plan on using Lucene query syntax if you want to implement any of these query operations:  
+ The Lucene query syntax is more powerful than the alternative [Simple Query Syntax](simple-query-syntax-in-azure-search.md) supported by Azure Search. You should plan on using Lucene query syntax if you want to implement any of these query operations:  
   
 -   [Field-scoped queries](#bkmk_fields)  
   
@@ -61,7 +61,7 @@ translation.priority.mt:
 ## Designate the Lucene query parser for query execution  
  Use the `queryType` search parameter to specify which parser to use. Valid values include `simple|full`, with `simple` as the default. 
  
-For details about specifying query parameter, see [Search Documents &#40;Azure Search Service REST API&#41;](../SearchServiceREST/search-documents.md). Refer to the [Example](#bkmk_example) at the end of this page for an illustration of how to structure the request.  
+For details about specifying query parameter, see [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md). Refer to the [Example](#bkmk_example) at the end of this page for an illustration of how to structure the request.  
   
 ##  <a name="bkmk_fields"></a> Field-scoped queries  
  You can specify a `fieldname:searchterm` construction to define a fielded query operation, where the field is a single word, and the search term is also a single word or a phrase, optionally with boolean operators. Some examples include the following:  
@@ -72,7 +72,7 @@ For details about specifying query parameter, see [Search Documents &#40;Azure S
   
  Be sure to put multiple strings within quotation marks if you want both strings to be evaluated as a single entity, in this case searching for two distinct artists in the `artists` field.  
   
- The field specified in `fieldname:searchterm` must be a `searchable` field.  See [Create Index](../SearchServiceREST/create-index.md) for details on how index attributes are used in field definitions.  
+ The field specified in `fieldname:searchterm` must be a `searchable` field.  See [Create Index](create-index.md) for details on how index attributes are used in field definitions.  
   
 ##  <a name="bkmk_fuzzy"></a> Fuzzy search  
  A fuzzy search finds matches in terms that have a similar construction. Per [Lucene documentation](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html), fuzzy searches are based on [Damerau-Levenshtein Distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance).  
@@ -117,7 +117,7 @@ The following example helps illustrate the differences. Suppose that there's a s
 Field grouping is similar but scopes the grouping to a single field. For example, `hotelAmenities:(gym+(wifi|pool))` searches the field "hotelAmenities" for "gym" and "wifi", or "gym" and "pool".  
   
 ### SearchMode parameter considerations  
- The impact of `searchMode` on queries, as described in [Simple query syntax in Azure Search](../SearchServiceREST/simple-query-syntax-in-azure-search.md), applies equally to the Lucene query syntax. Namely, `searchMode` in conjunction with NOT operators can result in query outcomes that might seem unusual if you aren't clear on the implications of how you set the parameter. If you retain the default, `searchMode=any`, and use a NOT operator, the operation is computed as an OR action, such that "New York" NOT "Seattle" returns all cities that are not Seattle.  
+ The impact of `searchMode` on queries, as described in [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md), applies equally to the Lucene query syntax. Namely, `searchMode` in conjunction with NOT operators can result in query outcomes that might seem unusual if you aren't clear on the implications of how you set the parameter. If you retain the default, `searchMode=any`, and use a NOT operator, the operation is computed as an OR action, such that "New York" NOT "Seattle" returns all cities that are not Seattle.  
   
 ##  <a name="bkmk_boolean"></a> Boolean operators  
  Always specify text boolean operators (AND, OR, NOT) in all caps.  
@@ -163,9 +163,9 @@ POST /indexes/hotels/docs/search?api-version=2015-02-28
 ```  
   
 ## See Also  
-[Search Documents](../SearchServiceREST/search-documents.md)
- [OData Expression Syntax for Azure Search](../SearchServiceREST/odata-expression-syntax-for-azure-search.md)   
- [Simple query syntax in Azure Search](../SearchServiceREST/simple-query-syntax-in-azure-search.md)   
+[Search Documents](search-documents.md)
+ [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
+ [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md)   
  [Azure Search Service REST API 2015-02-28-preview](https://azure.microsoft.com/documentation/articles/search-api-2015-02-28-preview)  
   
   

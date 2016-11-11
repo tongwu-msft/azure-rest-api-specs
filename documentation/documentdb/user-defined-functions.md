@@ -68,13 +68,13 @@ function tax(income) {
 ## Tasks  
  You can do the following with user defined functions:  
   
--   [Create a User Defined Function](../DocumentDBREST/create-a-user-defined-function.md)  
+-   [Create a User Defined Function](create-a-user-defined-function.md)  
   
--   [Replace a User Defined Function](../DocumentDBREST/replace-a-user-defined-function.md)  
+-   [Replace a User Defined Function](replace-a-user-defined-function.md)  
   
--   [List User Defined Functions](../DocumentDBREST/list-user-defined-functions.md)  
+-   [List User Defined Functions](list-user-defined-functions.md)  
   
--   [Delete a User Defined Function](../DocumentDBREST/delete-a-user-defined-function.md)  
+-   [Delete a User Defined Function](delete-a-user-defined-function.md)  
   
  For information on how UDFs work, including executing an UDF in a query, see [DocumentDB programming: Stored procedures, triggers, and UDFs](https://azure.microsoft.com/en-us/documentation/articles/documentdb-programming/).  
   

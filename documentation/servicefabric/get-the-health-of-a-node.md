@@ -39,7 +39,7 @@ translation.priority.mt:
 Gets the health of a Service Fabric node.  
   
 ## Request  
- See [Node](../ServiceFabricREST/node.md) for headers and parameters that are used by all requests related to nodes.  
+ See [Node](node.md) for headers and parameters that are used by all requests related to nodes.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -61,7 +61,7 @@ Gets the health of a Service Fabric node.
     -   All - Filter that matches input with any HealthState value. The value is 65535.  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
 {  

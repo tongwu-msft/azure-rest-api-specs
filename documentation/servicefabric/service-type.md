@@ -50,4 +50,4 @@ APIs to manage Azure Service Fabric service types.
 ## Tasks  
  You can do the following with service type resources:  
   
--   [Get a list of service types](../ServiceFabricREST/get-a-list-of-service-types.md)
+-   [Get a list of service types](get-a-list-of-service-types.md)

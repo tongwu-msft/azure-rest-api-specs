@@ -50,10 +50,10 @@ APIs to manage Azure Service Fabric applications.
 ## Tasks  
  You can do the following with deployed application resources:  
   
--   [Get a list of deployed applications on a node](../ServiceFabricREST/get-a-list-of-deployed-applications-on-a-node.md)  
+-   [Get a list of deployed applications on a node](get-a-list-of-deployed-applications-on-a-node.md)  
   
--   [Get the health of a deployed application](../ServiceFabricREST/get-the-health-of-a-deployed-application.md)  
+-   [Get the health of a deployed application](get-the-health-of-a-deployed-application.md)  
   
--   [Get the health of a deployed application by using a health policy](../ServiceFabricREST/get-the-health-of-a-deployed-application-by-using-a-health-policy.md)  
+-   [Get the health of a deployed application by using a health policy](get-the-health-of-a-deployed-application-by-using-a-health-policy.md)  
   
--   [Report the health of a deployed application](../ServiceFabricREST/report-the-health-of-a-deployed-application.md)
+-   [Report the health of a deployed application](report-the-health-of-a-deployed-application.md)

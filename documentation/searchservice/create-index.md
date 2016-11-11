@@ -44,7 +44,7 @@ api-key: [admin key]
 PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[api-version]  
 ```  
   
- Creating an index establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations &#40;Azure Search Service REST API&#41;](../SearchServiceREST/indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents &#40;Azure Search Service REST API&#41;](../SearchServiceREST/addupdate-or-delete-documents.md). The inverted index is generated when the documents are posted.  
+ Creating an index establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents &#40;Azure Search Service REST API&#41;](addupdate-or-delete-documents.md). The inverted index is generated when the documents are posted.  
   
 > [!NOTE]  
 >  The maximum number of indexes that you can create varies by pricing tier. The free service allows up to 3 indexes. Standard service allows 50 indexes per Search service. See [Service limits for Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.  
@@ -54,7 +54,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
   
  The index name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
   
- The **api-version** parameter is required. See [Azure Search Service Versioning](../Topic/Azure%20Search%20Service%20Versioning.md) for a list of available versions. See [Language support &#40;Azure Search Service REST API&#41;](../SearchServiceREST/language-support.md) for details about language analyzers.  
+ The **api-version** parameter is required. See [Azure Search Service Versioning](../Topic/Azure%20Search%20Service%20Versioning.md) for a list of available versions. See [Language support &#40;Azure Search Service REST API&#41;](language-support.md) for details about language analyzers.  
   
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -81,7 +81,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
   
 -   **suggesters** used for auto-complete or type-ahead queries.  
   
--   **scoringProfiles** used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/add-scoring-profiles-to-a-search-index.md).  
+-   **scoringProfiles** used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md).  
   
 -   **defaultScoringProfile** used to overwrite the default scoring behaviors.  
   
@@ -162,25 +162,25 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 |Attribute|Description|  
 |---------------|-----------------|  
 |**name**|Sets the name of the field.|  
-|**type**|Sets the data type for the field. See [Supported data types &#40;Azure Search&#41;](../SearchServiceREST/supported-data-types.md) for a list of supported types.|  
+|**type**|Sets the data type for the field. See [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for a list of supported types.|  
 |**searchable**|Marks the field as full-text search-able. This means it will undergo analysis such as word-breaking during indexing. If you set a searchable field to a value like "sunny day", internally it will be split into the individual tokens "sunny" and "day". This enables full-text searches for these terms. Fields of type `Edm.String` or `Collection(Edm.String)` are **searchable** by default. Fields of other types are not **searchable**. **Note:**  **searchable** fields consume extra space in your index since Azure Search will store an additional tokenized version of the field value for full-text searches. If you want to save space in your index and you don't need a field to be included in searches, set **searchable** to `false`.|  
 |**filterable**|Allows the field to be referenced in **$filter** queries. **filterable** differs from searchable in how strings are handled. Fields of type `Edm.String` or `Collection(Edm.String)` that are **filterable** do not undergo word-breaking, so comparisons are for exact matches only. For example, if you set such a field f to "sunny day", `$filter=f eq 'sunny'` will find no matches, but `$filter=f eq 'sunny day'` will. All fields are **filterable** by default.|  
 |**sortable**|By default the system sorts results by score, but in many experiences users will want to sort by fields in the documents. Fields of type `Collection(Edm.String)` cannot be **sortable**. All other fields are **sortable** by default.|  
 |**facetable**|Typically used in a presentation of search results that includes hit count by category (e.g. search for digital cameras and see hits by brand, by megapixels, by price, etc.). This option cannot be used with fields of type `Edm.GeographyPoint`. All other fields are **facetable** by default. **Note:**  Fields of type `Edm.String` that are **filterable**, **sortable**, or **facetable** can be at most 32 kilobytes in length. This is because such fields are treated as a single search term, and the maximum length of a term in Azure Search is 32K kilobytes. If you need to store more text than this in a single string field, you will need to explicitly set **filterable**, **sortable**, and **facetable** to `false` in your index definition. **Note:**  If a field has none of the above attributes set to `true` (searchable, filterable, sortable, facetable) the field is effectively excluded from the inverted index. This option is useful for fields that are not used in queries, but are needed in search results. Excluding such fields from the index improves performance.|  
-|**suggestions**|This attribute is obsolete. Earlier versions of Azure Search provided this attribute for specifying whether a field could be used for auto-complete or type ahead queries. If your code uses a preview version of Azure Search, the presence of this attribute would be a breaking change against the current version of the service. The replacement technology is [Suggesters](../SearchServiceREST/suggesters.md). See [Transition from preview to generally available API versions](https://azure.microsoft.com/documentation/articles/search-transition-from-preview/) for guidance on how to update your code.|  
-|**key**|Marks the field as containing unique identifiers for documents within the index. Exactly one field must be chosen as the key field and it must be of type `Edm.String`. Key fields can be used to look up documents directly. See [Lookup Document &#40;Azure Search Service REST API&#41;](../SearchServiceREST/lookup-document.md) for details.|  
+|**suggestions**|This attribute is obsolete. Earlier versions of Azure Search provided this attribute for specifying whether a field could be used for auto-complete or type ahead queries. If your code uses a preview version of Azure Search, the presence of this attribute would be a breaking change against the current version of the service. The replacement technology is [Suggesters](suggesters.md). See [Transition from preview to generally available API versions](https://azure.microsoft.com/documentation/articles/search-transition-from-preview/) for guidance on how to update your code.|  
+|**key**|Marks the field as containing unique identifiers for documents within the index. Exactly one field must be chosen as the key field and it must be of type `Edm.String`. Key fields can be used to look up documents directly. See [Lookup Document &#40;Azure Search Service REST API&#41;](lookup-document.md) for details.|  
 |**retrievable**|Sets whether the field can be returned in a search result. This is useful when you want to use a field (e.g., margin) as a filter, sorting, or scoring mechanism but do not want the field to be visible to the end user. This attribute must be `true` for `key` fields.|  
-|**analzyer**|Sets the name of the language analyzer to use for the field. For the allowed set of values see [Language support &#40;Azure Search Service REST API&#41;](../SearchServiceREST/language-support.md). This option can be used only with **searchable** fields. Once the analyzer is chosen, it cannot be changed for the field.|  
+|**analzyer**|Sets the name of the language analyzer to use for the field. For the allowed set of values see [Language support &#40;Azure Search Service REST API&#41;](language-support.md). This option can be used only with **searchable** fields. Once the analyzer is chosen, it cannot be changed for the field.|  
   
 ###  <a name="bkmk_suggester"></a> Suggesters  
- A `suggester` is a section of the schema that defines which fields in an index are used to support auto-complete or type-ahead queries in searches. Typically partial search strings are sent to the [Suggestions &#40;Azure Search Service REST API&#41;](../SearchServiceREST/suggestions.md) while the user is typing a search query, and the API returns a set of suggested phrases. A **suggester** that you define in the index determines which fields are used to build the type-ahead search terms. See [Suggesters](../SearchServiceREST/suggesters.md) for configuration details.  
+ A `suggester` is a section of the schema that defines which fields in an index are used to support auto-complete or type-ahead queries in searches. Typically partial search strings are sent to the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md) while the user is typing a search query, and the API returns a set of suggested phrases. A **suggester** that you define in the index determines which fields are used to build the type-ahead search terms. See [Suggesters](suggesters.md) for configuration details.  
   
 ###  <a name="bkmk_scoringprof"></a> Scoring Profiles  
  A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which items appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string.  
   
  A default scoring profile operates behind the scenes to compute a search score for every item in a result set. You can use the internal, unnamed scoring profile. Alternatively, set **defaultScoringProfile** to use a custom profile as the default, invoked whenever a custom profile is not specified on the query string.  
   
- See [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/add-scoring-profiles-to-a-search-index.md) for details.  
+ See [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md) for details.  
   
 ###  <a name="bkmk_cors"></a> CORS Options  
  Client-side JavaScript cannot call any APIs by default since the browser will prevent all cross-origin requests. To allow cross-origin queries to your index, enable CORS (Cross-Origin Resource Sharing) by setting the **corsOptions** attribute. Note that for security reasons, only query APIs support CORS. The following options can be set for CORS:  
@@ -191,7 +191,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 |**maxAgeInSeconds** (optional):|Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.|  
   
 ### Request Body Example  
- You can have up to 1000 fields in each index. See [Service limits for Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) and [Naming rules &#40;Azure Search&#41;](../SearchServiceREST/naming-rules.md) for information about maximum limits and allowable characters.  
+ You can have up to 1000 fields in each index. See [Service limits for Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) and [Naming rules &#40;Azure Search&#41;](naming-rules.md) for information about maximum limits and allowable characters.  
   
 ```  
     {  
@@ -229,14 +229,14 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
  Currently, there is limited support for index schema updates. Any schema updates that would require re-indexing such as changing field types are not currently supported. Although existing fields cannot be changed or deleted, new fields can be added to an existing index at any time. When a new field is added, all existing documents in the index will automatically have a null value for that field. No additional storage space will be consumed until new documents are added to the index.  
   
 ## See Also  
- [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/add-scoring-profiles-to-a-search-index.md)   
- [Search Documents &#40;Azure Search Service REST API&#41;](../SearchServiceREST/search-documents.md)   
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
- [Supported data types &#40;Azure Search&#41;](../SearchServiceREST/supported-data-types.md)   
- [Update Index &#40;Azure Search Service REST API&#41;](../SearchServiceREST/update-index.md)   
- [Index operations &#40;Azure Search Service REST API&#41;](../SearchServiceREST/index-operations.md)   
+ [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md)   
+ [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md)   
+ [Azure Search Service REST](service-rest.md)   
+ [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
+ [Update Index &#40;Azure Search Service REST API&#41;](update-index.md)   
+ [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
  [Azure Search Service Versioning](../Topic/Azure%20Search%20Service%20Versioning.md)   
- [Suggesters](../SearchServiceREST/suggesters.md)   
+ [Suggesters](suggesters.md)   
  [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)   
  [Create an Azure Search index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  
   

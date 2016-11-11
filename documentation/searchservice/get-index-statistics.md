@@ -68,7 +68,7 @@ api-key: [admin key]
 ```  
   
 ## See Also  
- [Azure Search Service REST](../SearchServiceREST/service-rest.md)   
+ [Azure Search Service REST](service-rest.md)   
  [Azure Search Service Versioning](../Topic/Azure%20Search%20Service%20Versioning.md)  
   
   

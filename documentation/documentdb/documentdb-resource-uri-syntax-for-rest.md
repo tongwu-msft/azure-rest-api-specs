@@ -45,28 +45,28 @@ translation.priority.mt:
   
  Each allowable operation for the respective resources is discussed in the following operation articles :  
   
--   [Offers](../DocumentDBREST/offers.md)  
+-   [Offers](offers.md)  
   
--   [Databases](../DocumentDBREST/databases.md)  
+-   [Databases](databases.md)  
   
--   [Users](../DocumentDBREST/users.md)  
+-   [Users](users.md)  
   
--   [Permissions](../DocumentDBREST/permissions.md)  
+-   [Permissions](permissions.md)  
   
--   [Documents](../DocumentDBREST/documents.md)  
+-   [Documents](documents.md)  
   
--   [Collections](../DocumentDBREST/collections.md)  
+-   [Collections](collections.md)  
   
--   [Attachments](../DocumentDBREST/attachments.md)  
+-   [Attachments](attachments.md)  
   
--   [Stored Procedures](../DocumentDBREST/stored-procedures.md)  
+-   [Stored Procedures](stored-procedures.md)  
   
--   [User Defined Functions](../DocumentDBREST/user-defined-functions.md)  
+-   [User Defined Functions](user-defined-functions.md)  
   
--   [Triggers](../DocumentDBREST/triggers.md)  
+-   [Triggers](triggers.md)  
   
 ## See Also  
- [Azure DocumentDB REST API Reference](../DocumentDBREST/azure-documentdb-rest-api-reference.md)   
+ [Azure DocumentDB REST API Reference](azure-documentdb-rest-api-reference.md)   
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
  [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  

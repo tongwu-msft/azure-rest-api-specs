@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # ErrorDetail
-Describes an error encountered during the execution of a [Task](../MediaServicesREST/task.md).  
+Describes an error encountered during the execution of a [Task](../services/task.md).  
   
 ##  <a name="asset_entity_properties"></a> ErrorDetail Complex Type Properties  
   
@@ -36,5 +36,5 @@ Describes an error encountered during the execution of a [Task](../MediaServices
 |`Message`<br /><br /> Read-only. Set by Media Services.|Edm.Int32|The error message.|  
   
 ## See Also  
- [Task](../MediaServicesREST/task.md)   
+ [Task](../services/task.md)   
  [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)

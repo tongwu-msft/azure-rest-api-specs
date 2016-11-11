@@ -48,6 +48,6 @@ APIs to manage Azure Service Fabric code packages.
 -   Replace {application-name} with the name of the application in the URI.  
   
 ## Tasks  
- [Get a list of code packages](../ServiceFabricREST/get-a-list-of-code-packages.md)  
+ [Get a list of code packages](get-a-list-of-code-packages.md)  
   
- [Restart a deployed code package](../ServiceFabricREST/restart-a-deployed-code-package.md)
+ [Restart a deployed code package](restart-a-deployed-code-package.md)

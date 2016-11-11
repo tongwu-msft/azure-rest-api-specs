@@ -88,7 +88,7 @@ The following functions support the Microsoft Azure Media Services entities by p
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/CancelJob?jobid='nb%3ajid%3aUUID%3a9e9533ba-2b9b-fa4c-a33d-73eebd49039b' HTTP/1.1  
@@ -113,7 +113,7 @@ Host: media.windows.net
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/api/CreateFileInfos?assetid='nb%3Acid%3AUUID%3Ac80d312d-7cb1-44aa-bb23-2c35d10c44bd' HTTP/1.1  
@@ -129,7 +129,7 @@ Content-Length: 0
 ```  
   
 ##  <a name="getprotectionkeyid"></a> GetProtectionKeyId  
- The GetProtectionKeyId function retrieves an X.509 certificate thumbprint that is used to ensure that you have the correct certificate installed on your machine when encrypting your user-defined content key. The list of possible values for the contentKeyType parameter map to the ContentKeyType enumeration values on the ContentKey entity. For more information, see [ContentKey Entity Properties](../MediaServicesREST/contentkey.md#contentkey_properties).  
+ The GetProtectionKeyId function retrieves an X.509 certificate thumbprint that is used to ensure that you have the correct certificate installed on your machine when encrypting your user-defined content key. The list of possible values for the contentKeyType parameter map to the ContentKeyType enumeration values on the ContentKey entity. For more information, see [ContentKey Entity Properties](../services/contentkey.md#contentkey_properties).  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
@@ -140,7 +140,7 @@ Content-Length: 0
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/GetProtectionKeyId?contentKeyType=1 HTTP/1.1  
@@ -166,7 +166,7 @@ Host: media.windows.net
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/GetProtectionKey?ProtectionKeyId='B2FE17BEF56FFCB9A3FC4267D0F2AFE25CD2DE22' HTTP/1.1  
@@ -192,7 +192,7 @@ Host: media.windows.net
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/RebindContentKey?id='nb%3akid%3aUUID%3a2eeba14e-613e-4af7-a926-413372cca8d5'&x509Certificate='' HTTP/1.1  
@@ -206,4 +206,4 @@ Host: media.windows.net
 ```  
   
 ## See Also  
- [Media Services REST](../MediaServicesREST/azure-media-services-rest-api-reference.md)
+ [Media Services REST](../services/azure-media-services-rest-api-reference.md)

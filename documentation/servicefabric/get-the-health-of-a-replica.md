@@ -39,7 +39,7 @@ translation.priority.mt:
 Gets the health of a Service Fabric service replica.  
   
 ## Request  
- See [Common parameters and headers](../ServiceFabricREST/replica.md#bk_common) for parameters and headers that are used by all requests related to replicas.  
+ See [Common parameters and headers](replica.md#bk_common) for parameters and headers that are used by all requests related to replicas.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -65,7 +65,7 @@ Gets the health of a Service Fabric service replica.
     -   All - Filter that matches input with any HealthState value. The value is 65535.  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ```  
   

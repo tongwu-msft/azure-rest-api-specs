@@ -81,7 +81,7 @@ Modifies various parameters of an upgrade at any time while the upgrade is still
 ```  
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](../ServiceFabricREST/status-and-error-codes1.md).  
+ A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
   
 ## Examples  
  The following example updates an application upgrade to set the UpgradeReplicaSetCheckTimeoutInSeconds to 0 while leaving all other upgrade parameters unchanged.  
