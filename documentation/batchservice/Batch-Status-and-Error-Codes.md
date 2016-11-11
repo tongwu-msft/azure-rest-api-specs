@@ -26,13 +26,13 @@ API operations may also return additional error information to provide the devel
 
  The following sections provide lists of error codes for the Batch service:
 
--   [Common REST API Error Codes](#bk_ComRESTAPIErrCodes)
+-   [Common REST API Error Codes](#common-rest-api-error-codes)
 
--   [Batch Service Error Codes](#bk_batchsererrcode)
+-   [Batch Service Error Codes](#batch-service-error-codes)
 
--   [Job/Task Scheduling Error Codes](#BKMK_JobTaskError)
+-   [Job/Task Scheduling Error Codes](#jobtask-scheduling-error-codes)
 
-##  <a name="bk_ComRESTAPIErrCodes"></a> Common REST API Error Codes
+## Common REST API Error Codes
 The error codes listed in the following table may be returned by an operation on the Batch service.
 
 |Error code|HTTP status code|User message|
@@ -72,7 +72,7 @@ The error codes listed in the following table may be returned by an operation on
 |OperationTimedOut|Internal Server Error (500)|The operation could not be completed within the permitted time.|
 |ServerBusy|Service Unavailable (503)|The server is currently unable to receive requests. Please retry your request.|
 
-##  <a name="bk_batchsererrcode"></a> Batch Service Error Codes
+## Batch Service Error Codes
  The error codes listed in the following table may be returned by an operation on the Batch service.
 
 |Error code|HTTP status code|User message|
@@ -148,10 +148,10 @@ The error codes listed in the following table may be returned by an operation on
 |TaskDependencyListTooLong|Bad Request (400)|A task was specified as depending on other tasks, but the list of dependencies was too long to be stored. The total stored length is limited to 64000 characters; the total length of task ids must be slightly less than this to allow for internal storage overhead. If you encounter this error, consider using task range dependencies instead.|
 |TaskDependencyRangesTooLong|Bad Request (400)|A task was specified as depending on multiple ranges of task ids, and the list of ranges was too long to be stored. Note that the issue is not with the size of ranges, but with the number of ranges.|
 
-##  <a name="BKMK_JobTaskError"></a> Job\/Task Scheduling Error Codes
-If the Batch service encounters an error in scheduling a task on a node, it marks the task as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the files associated with a task](../Topic/List%20the%20files%20associated%20with%20a%20task.md) and [Get information about a task](../Topic/Get%20information%20about%20a%20task.md) APIs.
+## Job/Task Scheduling Error Codes
+If the Batch service encounters an error in scheduling a task on a node, it marks the task as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the files associated with a task](~/api-ref/batchservice/task.json#Task_List) and [Get information about a task](~/api-ref/batchservice/task.json#Task_Get) APIs.
 
-Similarly, if the Batch service encounters an error while starting the job, it marks the job as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the tasks associated with a job](../Topic/List%20the%20tasks%20associated%20with%20a%20job.md) and [Get information about a job in Batch](../Topic/Get%20information%20about%20a%20job%20in%20Batch.md) APIs.
+Similarly, if the Batch service encounters an error while starting the job, it marks the job as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the tasks associated with a job](~/api-ref/batchservice/task.json#Task_List) and [Get information about a job in Batch](~/api-ref/batchservice/job.json#Job_Get) APIs.
 
 The following table provides the list of categories for task scheduling errors.
 

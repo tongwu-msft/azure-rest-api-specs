@@ -795,5 +795,4 @@ Authorization: Bearer <token value>
   
 ## See Also  
  [Delivering Live Streaming with Azure Media Services](http://azure.microsoft.com/en-us/documentation/articles/media-services-live-streaming-workflow/)   
- [Origin](../services/origin1.md)   
  [Program](../services/program.md)

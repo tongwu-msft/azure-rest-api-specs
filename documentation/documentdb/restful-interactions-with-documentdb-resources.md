@@ -63,7 +63,7 @@ DocumentDB supports the use of HTTP methods to create, read, replace, get, and d
   
  As illustrated in the following HTTP verbs diagram, POST can only be issued against a feed resource; PUT and DELETE can only be issued against an item resource; GET and HEAD can be issued against either feed or item resources.  
   
- ![interactions-with-resources2](media/interactions-with-resources2.png "interactions-with-resources2")  
+ ![interactions-with-resources2](/media/interactions-with-resources2.png "interactions-with-resources2")  
   
  **Interaction model using the standard HTTP methods**  
   
@@ -217,7 +217,7 @@ HTTP/1.1 200 Ok
 |Direct Connectivity|HTTPS and TCP|The applications can directly access the routing table and perform the client side routing to directly connect with replicas.|.NET|  
   
 ## See also  
- [Azure DocumentDB REST API Reference](azure-documentdb-rest-api-reference.md)  
+ [Azure DocumentDB REST API Reference](index.md)  
   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
@@ -225,7 +225,7 @@ HTTP/1.1 200 Ok
   
  [Query DocumentDB](https://azure.microsoft.com/documentation/articles/documentdb-sql-query/)  
   
- [DocumentDB SQL Query Language](../Topic/DocumentDB%20SQL%20Syntax.md)  
+ [DocumentDB SQL Query Language](https://go.microsoft.com/fwlink/?linkid=834808)  
   
  [DocumentDB Programming: Stored procedures, triggers, and UDFs](https://azure.microsoft.com/documentation/articles/documentdb-programming/)  
   

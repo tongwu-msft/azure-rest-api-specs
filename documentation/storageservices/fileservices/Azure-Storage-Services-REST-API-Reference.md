@@ -37,8 +37,6 @@ The REST APIs for the Windows® Azure™ storage services offer programmatic acc
   
  The REST APIs for storage services expose the storage account as a resource.  
   
- To create and manage a storage account, see [Manage Accounts, Subscriptions, and Administrative Roles](assetId:///673cc2bd-6232-4152-9a6f-6d80324d7f87).  
-  
 ## Blob Service  
  The Blob service provides storage for entities, such as binary files and text files. The REST API for the Blob service exposes two resources: containers and blobs. A container is a set of blobs; every blob must belong to a container. The Blob service defines three types of blobs:  
   

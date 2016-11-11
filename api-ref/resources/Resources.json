@@ -2,7 +2,8 @@
   "swagger": "2.0",
   "info": {
     "title": "ResourceManagementClient",
-    "version": "2016-09-01"
+    "version": "2016-09-01",
+    "description": "Provides operations for working with resources and resource groups."
   },
   "host": "management.azure.com",
   "schemes": [
@@ -39,14 +40,15 @@
           "Resources"
         ],
         "operationId": "Resources_MoveResources",
-        "description": "Move resources from one resource group to another. The resources being moved should all be in the same resource group.",
+        "summary": "Moves resources from one resource group to another resource group.",
+        "description": "The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes. ",
         "parameters": [
           {
             "name": "sourceResourceGroupName",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Source resource group name.",
+            "description": "The name of the resource group containing the rsources to move.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 90
@@ -58,7 +60,7 @@
             "schema": {
               "$ref": "#/definitions/ResourcesMoveInfo"
             },
-            "description": "move resources' parameters."
+            "description": "Parameters for moving resources."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -84,7 +86,7 @@
           "Resources"
         ],
         "operationId": "Resources_List",
-        "description": "Get all of the resources under a subscription.",
+        "description": "Get all the resources in a subscription.",
         "parameters": [
           {
             "name": "$filter",
@@ -106,7 +108,7 @@
             "required": false,
             "type": "integer",
             "format": "int32",
-            "description": "Query parameters. If null is passed returns all resource groups."
+            "description": "The number of results to return. If null is passed, returns all resource groups."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -117,7 +119,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK - Returns an array of resources.",
             "schema": {
               "$ref": "#/definitions/ResourceListResult"
             }
@@ -135,14 +137,14 @@
           "Resources"
         ],
         "operationId": "Resources_CheckExistence",
-        "description": "Checks whether resource exists.",
+        "description": "Checks whether a resource exists.",
         "parameters": [
           {
             "name": "resourceGroupName",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the resource group. The name is case insensitive.",
+            "description": "The name of the resource group containing the resource to check. The name is case insensitive.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 90
@@ -152,14 +154,14 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity."
+            "description": "The resource provider of the resource to check."
           },
           {
             "name": "parentResourcePath",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity.",
+            "description": "The parent resource identity.",
             "x-ms-skip-url-encoding": true
           },
           {
@@ -167,7 +169,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity.",
+            "description": "The resource type.",
             "x-ms-skip-url-encoding": true
           },
           {
@@ -175,14 +177,14 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity."
+            "description": "The name of the resource to check whether it exists."
           },
           {
             "name": "api-version",
             "in": "query",
             "required": true,
             "type": "string",
-            "description": "Api version to use."
+            "description": "The API version to use for the operation."
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -209,7 +211,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the resource group. The name is case insensitive.",
+            "description": "The name of the resource group that contains the resource to delete. The name is case insensitive.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 90
@@ -219,14 +221,14 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity."
+            "description": "The namespace of the resource provider."
           },
           {
             "name": "parentResourcePath",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity.",
+            "description": "The parent resource identity.",
             "x-ms-skip-url-encoding": true
           },
           {
@@ -234,7 +236,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity.",
+            "description": "The resource type.",
             "x-ms-skip-url-encoding": true
           },
           {
@@ -242,14 +244,14 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity."
+            "description": "The name of the resource to delete."
           },
           {
             "name": "api-version",
             "in": "query",
             "required": true,
             "type": "string",
-            "description": "Api version to use."
+            "description": "The API version to use for the operation."
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -273,14 +275,14 @@
           "Resources"
         ],
         "operationId": "Resources_CreateOrUpdate",
-        "description": "Create a resource.",
+        "description": "Creates a resource.",
         "parameters": [
           {
             "name": "resourceGroupName",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the resource group. The name is case insensitive.",
+            "description": "The name of the resource group for the resource. The name is case insensitive.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 90
@@ -290,14 +292,14 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity."
+            "description": "The namespace of the resource provider."
           },
           {
             "name": "parentResourcePath",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity.",
+            "description": "The parent resource identity.",
             "x-ms-skip-url-encoding": true
           },
           {
@@ -305,7 +307,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity.",
+            "description": "The resource type of the resource to create.",
             "x-ms-skip-url-encoding": true
           },
           {
@@ -313,14 +315,14 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity."
+            "description": "The name of the resource to create."
           },
           {
             "name": "api-version",
             "in": "query",
             "required": true,
             "type": "string",
-            "description": "Api version to use."
+            "description": "The API version to use for the operation."
           },
           {
             "name": "parameters",
@@ -329,7 +331,7 @@
             "schema": {
               "$ref": "#/definitions/GenericResource"
             },
-            "description": "Create or update resource parameters."
+            "description": "Parameters for creating or updating the resource."
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -337,13 +339,13 @@
         ],
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "Created - Returns information about the resource.",
             "schema": {
               "$ref": "#/definitions/GenericResource"
             }
           },
           "200": {
-            "description": "OK",
+            "description": "OK - Returns information about the resource.",
             "schema": {
               "$ref": "#/definitions/GenericResource"
             }
@@ -359,14 +361,14 @@
           "Resources"
         ],
         "operationId": "Resources_Get",
-        "description": "Returns a resource belonging to a resource group.",
+        "description": "Gets a resource.",
         "parameters": [
           {
             "name": "resourceGroupName",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the resource group. The name is case insensitive.",
+            "description": "The name of the resource group containing the resource to get. The name is case insensitive.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 90
@@ -376,14 +378,14 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity."
+            "description": "The namespace of the resource provider."
           },
           {
             "name": "parentResourcePath",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity.",
+            "description": "The parent resource identity.",
             "x-ms-skip-url-encoding": true
           },
           {
@@ -391,7 +393,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity.",
+            "description": "The resource type of the resource.",
             "x-ms-skip-url-encoding": true
           },
           {
@@ -399,14 +401,14 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Resource identity."
+            "description": "The name of the resource to get."
           },
           {
             "name": "api-version",
             "in": "query",
             "required": true,
             "type": "string",
-            "description": "Api version to use."
+            "description": "The API version to use for the operation."
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -414,7 +416,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK - Returns information about the resource.",
             "schema": {
               "$ref": "#/definitions/GenericResource"
             }
@@ -428,14 +430,14 @@
           "Resources"
         ],
         "operationId": "Resources_CheckExistenceById",
-        "description": "Checks whether resource exists.",
+        "description": "Checks by ID whether a resource exists.",
         "parameters": [
           {
             "name": "resourceId",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The fully qualified Id of the resource, including the resource name and resource type. For example, /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup/Microsoft.Web/sites/mySite",
+            "description": "The fully qualified ID of the resource, including the resource name and resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}",
             "x-ms-skip-url-encoding": true
           },
           {
@@ -443,7 +445,7 @@
             "in": "query",
             "required": true,
             "type": "string",
-            "description": "Api version to use."
+            "description": "The API version to use for the operation."
           }
         ],
         "responses": {
@@ -460,14 +462,14 @@
           "Resources"
         ],
         "operationId": "Resources_DeleteById",
-        "description": "Deletes a resource.",
+        "description": "Deletes a resource by ID.",
         "parameters": [
           {
             "name": "resourceId",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The fully qualified Id of the resource, including the resource name and resource type. For example, /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup/Microsoft.Web/sites/mySite",
+            "description": "The fully qualified ID of the resource, including the resource name and resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}",
             "x-ms-skip-url-encoding": true
           },
           {
@@ -475,7 +477,7 @@
             "in": "query",
             "required": true,
             "type": "string",
-            "description": "Api version to use."
+            "description": "The API version to use for the operation."
           }
         ],
         "responses": {
@@ -496,14 +498,14 @@
           "Resources"
         ],
         "operationId": "Resources_CreateOrUpdateById",
-        "description": "Create a resource.",
+        "description": "Create a resource by ID.",
         "parameters": [
           {
             "name": "resourceId",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The fully qualified Id of the resource, including the resource name and resource type. For example, /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup/Microsoft.Web/sites/mySite",
+            "description": "The fully qualified ID of the resource, including the resource name and resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}",
             "x-ms-skip-url-encoding": true
           },
           {
@@ -511,7 +513,7 @@
             "in": "query",
             "required": true,
             "type": "string",
-            "description": "Api version to use."
+            "description": "The API version to use for the operation."
           },
           {
             "name": "parameters",
@@ -525,13 +527,13 @@
         ],
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "Created - Returns information about the resource.",
             "schema": {
               "$ref": "#/definitions/GenericResource"
             }
           },
           "200": {
-            "description": "OK",
+            "description": "OK - Returns information about the resource.",
             "schema": {
               "$ref": "#/definitions/GenericResource"
             }
@@ -547,14 +549,14 @@
           "Resources"
         ],
         "operationId": "Resources_GetById",
-        "description": "Gets a resource.",
+        "description": "Gets a resource by ID.",
         "parameters": [
           {
             "name": "resourceId",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The fully qualified Id of the resource, including the resource name and resource type. For example, /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup/Microsoft.Web/sites/mySite",
+            "description": "The fully qualified ID of the resource, including the resource name and resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}",
             "x-ms-skip-url-encoding": true
           },
           {
@@ -562,12 +564,12 @@
             "in": "query",
             "required": true,
             "type": "string",
-            "description": "Api version to use."
+            "description": "The API version to use for the operation."
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK - Returns information about the resource.",
             "schema": {
               "$ref": "#/definitions/GenericResource"
             }
@@ -620,11 +622,11 @@
       "properties": {
         "uri": {
           "type": "string",
-          "description": "URI referencing the template."
+          "description": "The URI of the template to deploy."
         },
         "contentVersion": {
           "type": "string",
-          "description": "If included it must match the ContentVersion in the template."
+          "description": "If included, must match the ContentVersion in the template."
         }
       },
       "required": [
@@ -636,11 +638,11 @@
       "properties": {
         "uri": {
           "type": "string",
-          "description": "URI referencing the template."
+          "description": "The URI of the parameters file."
         },
         "contentVersion": {
           "type": "string",
-          "description": "If included it must match the ContentVersion in the template."
+          "description": "If included, must match the ContentVersion in the template."
         }
       },
       "required": [
@@ -652,23 +654,23 @@
       "properties": {
         "template": {
           "type": "object",
-          "description": "The template content. It can be a JObject or a well formed JSON string. Use only one of Template or TemplateLink."
+          "description": "The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both."
         },
         "templateLink": {
           "$ref": "#/definitions/TemplateLink",
-          "description": "The template URI. Use only one of Template or TemplateLink."
+          "description": "The URI of the template. Use either the templateLink property or the template property, but not both."
         },
         "parameters": {
           "type": "object",
-          "description": "Deployment parameters. It can be a JObject or a well formed JSON string. Use only one of Parameters or ParametersLink."
+          "description": "Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string."
         },
         "parametersLink": {
           "$ref": "#/definitions/ParametersLink",
-          "description": "The parameters URI. Use only one of Parameters or ParametersLink."
+          "description": "The URI of parameters file. You use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both."
         },
         "mode": {
           "type": "string",
-          "description": "The deployment mode.",
+          "description": "The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.",
           "enum": [
             "Incremental",
             "Complete"
@@ -693,7 +695,7 @@
         "detailLevel": {
           "x-ms-client-flatten": true,
           "type": "string",
-          "description": "The debug detail level."
+          "description": "Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information you are passing in during deployment. By logging information about the request or response, you could potentially expose sensitive data that is retrieved through the deployment operations."
         }
       }
     },
@@ -720,12 +722,12 @@
         "code": {
           "readOnly": true,
           "type": "string",
-          "description": "The error code returned from the server."
+          "description": "The error code returned when exporting the template."
         },
         "message": {
           "readOnly": true,
           "type": "string",
-          "description": "The error message returned from the server."
+          "description": "The error message describing the export error."
         },
         "target": {
           "readOnly": true,
@@ -753,7 +755,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The api versions."
+          "description": "The API versions."
         }
       },
       "description": "The type of the paths for alias. "
@@ -785,7 +787,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The collection of locations where this resource type can be created in."
+          "description": "The collection of locations where this resource type can be created."
         },
         "aliases": {
           "type": "array",
@@ -799,7 +801,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The api version."
+          "description": "The API version."
         },
         "properties": {
           "type": "object",
@@ -817,11 +819,11 @@
         "id": {
           "readOnly": true,
           "type": "string",
-          "description": "The provider id."
+          "description": "The provider ID."
         },
         "namespace": {
           "type": "string",
-          "description": "The namespace of the provider."
+          "description": "The namespace of the resource provider."
         },
         "registrationState": {
           "readOnly": true,
@@ -934,7 +936,7 @@
         },
         "mode": {
           "type": "string",
-          "description": "The deployment mode.",
+          "description": "The deployment mode. Possible values are Incremental and Complete.",
           "enum": [
             "Incremental",
             "Complete"
@@ -991,12 +993,12 @@
           "items": {
             "$ref": "#/definitions/DeploymentExtended"
           },
-          "description": "The list of deployments."
+          "description": "An array of deployments."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of deployments."
@@ -1008,12 +1010,12 @@
           "items": {
             "$ref": "#/definitions/Provider"
           },
-          "description": "The list of resource providers."
+          "description": "An array of resource providers."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of resource providers."
@@ -1035,11 +1037,11 @@
         },
         "managedBy": {
           "type": "string",
-          "description": "Id of the resource that manages this resource."
+          "description": "ID of the resource that manages this resource."
         },
         "sku": {
           "$ref": "#/definitions/Sku",
-          "description": "The sku of the resource."
+          "description": "The SKU of the resource."
         },
         "identity": {
           "$ref": "#/definitions/Identity",
@@ -1078,43 +1080,43 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "The sku name."
+          "description": "The SKU name."
         },
         "tier": {
           "type": "string",
-          "description": "The sku tier."
+          "description": "The SKU tier."
         },
         "size": {
           "type": "string",
-          "description": "The sku size."
+          "description": "The SKU size."
         },
         "family": {
           "type": "string",
-          "description": "The sku family."
+          "description": "The SKU family."
         },
         "model": {
           "type": "string",
-          "description": "The sku model."
+          "description": "The SKU model."
         },
         "capacity": {
           "type": "integer",
           "format": "int32",
-          "description": "The sku capacity."
+          "description": "The SKU capacity."
         }
       },
-      "description": "Sku for the resource."
+      "description": "SKU for the resource."
     },
     "Identity": {
       "properties": {
         "principalId": {
           "readOnly": true,
           "type": "string",
-          "description": "The principal id of resource identity."
+          "description": "The principal ID of resource identity."
         },
         "tenantId": {
           "readOnly": true,
           "type": "string",
-          "description": "The tenant id of resource."
+          "description": "The tenant ID of resource."
         },
         "type": {
           "type": "string",
@@ -1137,12 +1139,12 @@
           "items": {
             "$ref": "#/definitions/GenericResource"
           },
-          "description": "The list of resources."
+          "description": "An array of resources."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of resource groups."
@@ -1156,18 +1158,18 @@
         },
         "name": {
           "type": "string",
-          "description": "The Name of the resource group."
+          "description": "The name of the resource group."
         },
         "properties": {
           "$ref": "#/definitions/ResourceGroupProperties"
         },
         "location": {
           "type": "string",
-          "description": "The location of the resource group. It cannot be changed after the resource group has been created. Has to be one of the supported Azure Locations, such as West US, East US, West Europe, East Asia, etc."
+          "description": "The location of the resource group. It cannot be changed after the resource group has been created. It muct be one of the supported Azure locations."
         },
         "managedBy": {
           "type": "string",
-          "description": "Id of the resource that manages this resource group."
+          "description": "The ID of the resource that manages this resource group."
         },
         "tags": {
           "type": "object",
@@ -1200,12 +1202,12 @@
           "items": {
             "$ref": "#/definitions/ResourceGroup"
           },
-          "description": "The list of resource groups."
+          "description": "An array of resource groups."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of resource groups."
@@ -1217,7 +1219,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The ids of the resources."
+          "description": "The IDs of the resources."
         },
         "targetResourceGroup": {
           "type": "string",
@@ -1233,7 +1235,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The ids of the resources. The only supported string currently is '*' (all resources). Future api updates will support exporting specific resources."
+          "description": "The IDs of the resources. The only supported string currently is '*' (all resources). Future updates will support exporting specific resources."
         },
         "options": {
           "type": "string",
@@ -1284,7 +1286,7 @@
         },
         "count": {
           "$ref": "#/definitions/TagCount",
-          "description": "The tag count."
+          "description": "The total number of resources that use the resource tag. When a tag is initially created and has no associated resources, the value is 0."
         },
         "values": {
           "type": "array",
@@ -1303,12 +1305,12 @@
           "items": {
             "$ref": "#/definitions/TagDetails"
           },
-          "description": "The list of tags."
+          "description": "An array of tags."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of subscription tags."
@@ -1389,12 +1391,12 @@
         "id": {
           "readOnly": true,
           "type": "string",
-          "description": "Full deployment operation id."
+          "description": "Full deployment operation ID."
         },
         "operationId": {
           "readOnly": true,
           "type": "string",
-          "description": "Deployment operation id."
+          "description": "Deployment operation ID."
         },
         "properties": {
           "$ref": "#/definitions/DeploymentOperationProperties",
@@ -1410,12 +1412,12 @@
           "items": {
             "$ref": "#/definitions/DeploymentOperation"
           },
-          "description": "The list of deployments."
+          "description": "An array of deployment operations."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of deployment operations."
@@ -1450,7 +1452,7 @@
         "id": {
           "readOnly": true,
           "type": "string",
-          "description": "Resource Id"
+          "description": "Resource ID"
         },
         "name": {
           "readOnly": true,
@@ -1480,7 +1482,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Resource Id"
+          "description": "Resource ID"
         }
       },
       "x-ms-azure-resource": true
@@ -1504,14 +1506,14 @@
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+      "description": "The ID of the target subscription."
     },
     "ApiVersionParameter": {
       "name": "api-version",
       "in": "query",
       "required": true,
       "type": "string",
-      "description": "Client Api Version."
+      "description": "The API version to use for this operation."
     }
   }
 }

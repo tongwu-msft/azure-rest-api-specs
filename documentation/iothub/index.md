@@ -34,7 +34,7 @@ The REST APIs for IoT Hub offer programmatic access to the device and messaging 
   
 -   [Device Identities REST](device-identities-rest.md)  
   
--   [IoT Hub Resource Provider REST]()  
+-   [IoT Hub Resource Provider REST](resourceprovider/iot-hub-resource-provider-rest.md)  
   
 -   [Device Messaging REST APIs](device-messaging-rest-apis.md)  
   

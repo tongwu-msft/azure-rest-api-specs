@@ -1,21 +1,21 @@
 ---
 title: "Naming rules (Azure Search)"
 ms.custom: ""
-ms.date: "2016-10-26"
+ms.date: "2016-11-09"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to: 
+applies_to:
   - "Azure"
 ms.assetid: 36a5b042-285b-46d1-8065-9558e328967c
 caps.latest.revision: 16
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 manager: "jhubbard"
-translation.priority.mt: 
+translation.priority.mt:
   - "de-de"
   - "es-es"
   - "fr-fr"
@@ -29,10 +29,10 @@ translation.priority.mt:
 ---
 # Naming rules (Azure Search)
   This section explains the naming rules for Azure Search services, indexes, fields, document keys, scoring profiles, suggesters, indexers, and data sources.  
-  
+
 ## Chart of naming rules  
  You'll notice that the conventions in the following table are not consistent down the line for all objects. This is because objects are used in different contexts, where the naming rules of other standards are imposed on specific Azure Search objects. URLs, JSON, and DNS all have slightly different conventions in terms of case-sensitivity, special characters, and character placement. By necessity, objects referenced in a URL (host name, path, or query string) or JSON request body have to follow the naming conventions of the applicable standard, thus accounting for the variation you see below.  
-  
+
 |Name|Length|Case|Allowable characters|Character placement|Example|  
 |----------|------------|----------|--------------------------|-------------------------|-------------|  
 |Service|2 - 60|Lower|Letters, numbers, dashes ("-")|First, second, and last characters must be a letter or number.<br /><br /> No consecutive dashes.|contoso-srch1|  
@@ -43,15 +43,12 @@ translation.priority.mt:
 |Suggester|1 - 128|Upper or lower|Letters, numbers, underscores ("_")|First character must be a letter or number.|Sugst01_Apparel|  
 |Data source|1 - 128|Lower|Letters, numbers, dashes ("-")|First and last character must be a letter or number.|docdbds-onlinecatalog-20150228|  
 |Indexer|1 -128|Lower|Letters, numbers, dashes ("-")|First and last character must be a letter or number.|docbindxr-onlinecatalog-20150228|  
-  
+
 ## See Also  
- [Azure Search Service REST](service-rest.md)   
- [Azure Search Management REST](../Topic/Azure%20Search%20Management%20REST.md)   
+ [Azure Search Service REST](index.md)   
  [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
  [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   
  [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)   
- [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md)   
+ [Add scoring profiles to a search index](add-scoring-profiles-to-a-search-index.md)   
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
  [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
-  
-  

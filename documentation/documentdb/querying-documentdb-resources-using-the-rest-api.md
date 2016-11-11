@@ -86,7 +86,7 @@ Content-Length: 50
 |**x-ms-documentdb-isquery**|**Required**. This property must be set to true.|  
 |**x-ms-max-item-count**|**Optional**. To page through a result set, set this header to the maximum number for items to be returned back in a single page.|  
 |**x-ms-continuation**|**Optional**. To navigate to the next page of items, set this header to the continuation token for the next page.|  
-|**x-ms-version**|**Optional**. The version of DocumentDB REST service. The latest version is used when the header is not provided. For more information, see [Azure DocumentDB REST API Reference](azure-documentdb-rest-api-reference.md).|  
+|**x-ms-version**|**Optional**. The version of DocumentDB REST service. The latest version is used when the header is not provided. For more information, see [Azure DocumentDB REST API Reference](index.md).|  
 |**x-ms-documentdb-query-enable-scan**|**Optional**. Use an index scan to process the query if the right index path of type is not available.|  
 |**x-ms-session-token**|**Optional**. The session token for the request. Used for session consistency.|  
 |**x-ms-partition-key**|**Optional**. If specified, the query is executed only on documents that match the partition key value in the header.|  
@@ -97,7 +97,7 @@ Content-Length: 50
   
 |Property|Description|  
 |--------------|-----------------|  
-|query|**Required**. The SQL query string for the query. For more information see [DocumentDB SQL Query Language](../Topic/DocumentDB%20SQL%20Query%20Language.md).|  
+|query|**Required**. The SQL query string for the query. For more information see [DocumentDB SQL Query Language](https://go.microsoft.com/fwlink/?linkid=834808).|  
 |parameters|**Required**. A JSON array of parameters specified as name value pairs. The parameter array can contain from zero to many parameters.Each parameter must have the following values:**name**: the name of the parameter. Parameter names must be valid string literals and begin with ‘@’.**value**: the value of the parameter. Can be any valid JSON value (string, number, object, array, Boolean or null).|  
   
 ## Request Example  

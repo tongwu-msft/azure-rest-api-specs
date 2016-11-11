@@ -2,7 +2,8 @@
   "swagger": "2.0",
   "info": {
     "title": "ResourceManagementClient",
-    "version": "2016-09-01"
+    "version": "2016-09-01",
+    "description": "Provides operations for working with resources and resource groups."
   },
   "host": "management.azure.com",
   "schemes": [
@@ -39,14 +40,15 @@
           "Deployments"
         ],
         "operationId": "Deployments_Delete",
-        "description": "Delete deployment.",
+        "summary": "Deletes a deployment from the deployment history.",
+        "description": "A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.",
         "parameters": [
           {
             "name": "resourceGroupName",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the resource group. The name is case insensitive.",
+            "description": "The name of the resource group with the deployment to delete. The name is case insensitive.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 90
@@ -56,7 +58,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the deployment to be deleted.",
+            "description": "The name of the deployment to delete.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 64
@@ -70,7 +72,7 @@
         ],
         "responses": {
           "202": {
-            "description": "Accepted"
+            "description": "Accepted - Returns this status until the asynchronous operation has completed."
           },
           "204": {
             "description": "No Content"
@@ -83,14 +85,14 @@
           "Deployments"
         ],
         "operationId": "Deployments_CheckExistence",
-        "description": "Checks whether deployment exists.",
+        "description": "Checks whether the deployment exists.",
         "parameters": [
           {
             "name": "resourceGroupName",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the resource group to check. The name is case insensitive.",
+            "description": "The name of the resource group with the deployment to check. The name is case insensitive.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 90
@@ -100,7 +102,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the deployment.",
+            "description": "The name of the deployment to check.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 64
@@ -126,14 +128,15 @@
           "Deployments"
         ],
         "operationId": "Deployments_CreateOrUpdate",
-        "description": "Create a named template deployment using a template.",
+        "summary": "Deploys resources to a resource group.",
+        "description": "You can provide the template and parameters directly in the request or link to JSON files.",
         "parameters": [
           {
             "name": "resourceGroupName",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the resource group. The name is case insensitive.",
+            "description": "The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 90
@@ -166,13 +169,13 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK - Returns information about the deployment, including provisioning status.",
             "schema": {
               "$ref": "#/definitions/DeploymentExtended"
             }
           },
           "201": {
-            "description": "Created",
+            "description": "Created - Returns information about the deployment, including provisioning status.",
             "schema": {
               "$ref": "#/definitions/DeploymentExtended"
             }
@@ -185,52 +188,7 @@
           "Deployments"
         ],
         "operationId": "Deployments_Get",
-        "description": "Get a deployment.",
-        "parameters": [
-          {
-            "name": "resourceGroupName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the resource group to get. The name is case insensitive.",
-            "pattern": "^[-\\w\\._\\(\\)]+$",
-            "minLength": 1,
-            "maxLength": 90
-          },
-          {
-            "name": "deploymentName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the deployment.",
-            "pattern": "^[-\\w\\._\\(\\)]+$",
-            "minLength": 1,
-            "maxLength": 64
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/DeploymentExtended"
-            }
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel": {
-      "post": {
-        "tags": [
-          "Deployments"
-        ],
-        "operationId": "Deployments_Cancel",
-        "description": "Cancel a currently running template deployment.",
+        "description": "Gets a deployment.",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -247,7 +205,53 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the deployment.",
+            "description": "The name of the deployment to get.",
+            "pattern": "^[-\\w\\._\\(\\)]+$",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Returns information about the deployment, including provisioning status.",
+            "schema": {
+              "$ref": "#/definitions/DeploymentExtended"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel": {
+      "post": {
+        "tags": [
+          "Deployments"
+        ],
+        "operationId": "Deployments_Cancel",
+        "summary": "Cancels a currently running template deployment.",
+        "description": "You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resource group partially deployed.",
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group. The name is case insensitive.",
+            "pattern": "^[-\\w\\._\\(\\)]+$",
+            "minLength": 1,
+            "maxLength": 90
+          },
+          {
+            "name": "deploymentName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the deployment to cancel.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 64
@@ -272,14 +276,14 @@
           "Deployments"
         ],
         "operationId": "Deployments_Validate",
-        "description": "Validate a deployment template.",
+        "description": "Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..",
         "parameters": [
           {
             "name": "resourceGroupName",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the resource group. The name is case insensitive.",
+            "description": "The name of the resource group the template will be deployed to. The name is case insensitive.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 90
@@ -301,7 +305,7 @@
             "schema": {
               "$ref": "#/definitions/Deployment"
             },
-            "description": "Deployment to validate."
+            "description": "Parameters to validate."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -312,13 +316,13 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK - Returns the validation result.",
             "schema": {
               "$ref": "#/definitions/DeploymentValidateResult"
             }
           },
           "400": {
-            "description": "Bad Request",
+            "description": "Returns the validation result.",
             "schema": {
               "$ref": "#/definitions/DeploymentValidateResult"
             }
@@ -332,7 +336,7 @@
           "Deployments"
         ],
         "operationId": "Deployments_ExportTemplate",
-        "description": "Exports a deployment template.",
+        "description": "Exports the template used for specified deployment.",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -349,7 +353,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the deployment.",
+            "description": "The name of the deployment from which to get the template.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 64
@@ -363,7 +367,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK - Returns the template.",
             "schema": {
               "$ref": "#/definitions/DeploymentExportResult"
             }
@@ -377,14 +381,14 @@
           "Deployments"
         ],
         "operationId": "Deployments_List",
-        "description": "Get a list of deployments.",
+        "description": "Get all the deployments for a resource group.",
         "parameters": [
           {
             "name": "resourceGroupName",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the resource group to filter by. The name is case insensitive.",
+            "description": "The name of the resource group with the deployments to get. The name is case insensitive.",
             "pattern": "^[-\\w\\._\\(\\)]+$",
             "minLength": 1,
             "maxLength": 90
@@ -394,7 +398,7 @@
             "in": "query",
             "required": false,
             "type": "string",
-            "description": "The filter to apply on the operation."
+            "description": "The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'."
           },
           {
             "name": "$top",
@@ -402,7 +406,7 @@
             "required": false,
             "type": "integer",
             "format": "int32",
-            "description": "Query parameters. If null is passed returns all deployments."
+            "description": "The number of results to get. If null is passed, returns all deployments."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -413,7 +417,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK - Returns an array of deployments.",
             "schema": {
               "$ref": "#/definitions/DeploymentListResult"
             }
@@ -470,11 +474,11 @@
       "properties": {
         "uri": {
           "type": "string",
-          "description": "URI referencing the template."
+          "description": "The URI of the template to deploy."
         },
         "contentVersion": {
           "type": "string",
-          "description": "If included it must match the ContentVersion in the template."
+          "description": "If included, must match the ContentVersion in the template."
         }
       },
       "required": [
@@ -486,11 +490,11 @@
       "properties": {
         "uri": {
           "type": "string",
-          "description": "URI referencing the template."
+          "description": "The URI of the parameters file."
         },
         "contentVersion": {
           "type": "string",
-          "description": "If included it must match the ContentVersion in the template."
+          "description": "If included, must match the ContentVersion in the template."
         }
       },
       "required": [
@@ -502,23 +506,23 @@
       "properties": {
         "template": {
           "type": "object",
-          "description": "The template content. It can be a JObject or a well formed JSON string. Use only one of Template or TemplateLink."
+          "description": "The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both."
         },
         "templateLink": {
           "$ref": "#/definitions/TemplateLink",
-          "description": "The template URI. Use only one of Template or TemplateLink."
+          "description": "The URI of the template. Use either the templateLink property or the template property, but not both."
         },
         "parameters": {
           "type": "object",
-          "description": "Deployment parameters. It can be a JObject or a well formed JSON string. Use only one of Parameters or ParametersLink."
+          "description": "Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string."
         },
         "parametersLink": {
           "$ref": "#/definitions/ParametersLink",
-          "description": "The parameters URI. Use only one of Parameters or ParametersLink."
+          "description": "The URI of parameters file. You use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both."
         },
         "mode": {
           "type": "string",
-          "description": "The deployment mode.",
+          "description": "The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.",
           "enum": [
             "Incremental",
             "Complete"
@@ -543,7 +547,7 @@
         "detailLevel": {
           "x-ms-client-flatten": true,
           "type": "string",
-          "description": "The debug detail level."
+          "description": "Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information you are passing in during deployment. By logging information about the request or response, you could potentially expose sensitive data that is retrieved through the deployment operations."
         }
       }
     },
@@ -570,12 +574,12 @@
         "code": {
           "readOnly": true,
           "type": "string",
-          "description": "The error code returned from the server."
+          "description": "The error code returned when exporting the template."
         },
         "message": {
           "readOnly": true,
           "type": "string",
-          "description": "The error message returned from the server."
+          "description": "The error message describing the export error."
         },
         "target": {
           "readOnly": true,
@@ -603,7 +607,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The api versions."
+          "description": "The API versions."
         }
       },
       "description": "The type of the paths for alias. "
@@ -635,7 +639,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The collection of locations where this resource type can be created in."
+          "description": "The collection of locations where this resource type can be created."
         },
         "aliases": {
           "type": "array",
@@ -649,7 +653,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The api version."
+          "description": "The API version."
         },
         "properties": {
           "type": "object",
@@ -667,11 +671,11 @@
         "id": {
           "readOnly": true,
           "type": "string",
-          "description": "The provider id."
+          "description": "The provider ID."
         },
         "namespace": {
           "type": "string",
-          "description": "The namespace of the provider."
+          "description": "The namespace of the resource provider."
         },
         "registrationState": {
           "readOnly": true,
@@ -784,7 +788,7 @@
         },
         "mode": {
           "type": "string",
-          "description": "The deployment mode.",
+          "description": "The deployment mode. Possible values are Incremental and Complete.",
           "enum": [
             "Incremental",
             "Complete"
@@ -841,12 +845,12 @@
           "items": {
             "$ref": "#/definitions/DeploymentExtended"
           },
-          "description": "The list of deployments."
+          "description": "An array of deployments."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of deployments."
@@ -858,12 +862,12 @@
           "items": {
             "$ref": "#/definitions/Provider"
           },
-          "description": "The list of resource providers."
+          "description": "An array of resource providers."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of resource providers."
@@ -885,11 +889,11 @@
         },
         "managedBy": {
           "type": "string",
-          "description": "Id of the resource that manages this resource."
+          "description": "ID of the resource that manages this resource."
         },
         "sku": {
           "$ref": "#/definitions/Sku",
-          "description": "The sku of the resource."
+          "description": "The SKU of the resource."
         },
         "identity": {
           "$ref": "#/definitions/Identity",
@@ -928,43 +932,43 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "The sku name."
+          "description": "The SKU name."
         },
         "tier": {
           "type": "string",
-          "description": "The sku tier."
+          "description": "The SKU tier."
         },
         "size": {
           "type": "string",
-          "description": "The sku size."
+          "description": "The SKU size."
         },
         "family": {
           "type": "string",
-          "description": "The sku family."
+          "description": "The SKU family."
         },
         "model": {
           "type": "string",
-          "description": "The sku model."
+          "description": "The SKU model."
         },
         "capacity": {
           "type": "integer",
           "format": "int32",
-          "description": "The sku capacity."
+          "description": "The SKU capacity."
         }
       },
-      "description": "Sku for the resource."
+      "description": "SKU for the resource."
     },
     "Identity": {
       "properties": {
         "principalId": {
           "readOnly": true,
           "type": "string",
-          "description": "The principal id of resource identity."
+          "description": "The principal ID of resource identity."
         },
         "tenantId": {
           "readOnly": true,
           "type": "string",
-          "description": "The tenant id of resource."
+          "description": "The tenant ID of resource."
         },
         "type": {
           "type": "string",
@@ -987,12 +991,12 @@
           "items": {
             "$ref": "#/definitions/GenericResource"
           },
-          "description": "The list of resources."
+          "description": "An array of resources."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of resource groups."
@@ -1006,18 +1010,18 @@
         },
         "name": {
           "type": "string",
-          "description": "The Name of the resource group."
+          "description": "The name of the resource group."
         },
         "properties": {
           "$ref": "#/definitions/ResourceGroupProperties"
         },
         "location": {
           "type": "string",
-          "description": "The location of the resource group. It cannot be changed after the resource group has been created. Has to be one of the supported Azure Locations, such as West US, East US, West Europe, East Asia, etc."
+          "description": "The location of the resource group. It cannot be changed after the resource group has been created. It muct be one of the supported Azure locations."
         },
         "managedBy": {
           "type": "string",
-          "description": "Id of the resource that manages this resource group."
+          "description": "The ID of the resource that manages this resource group."
         },
         "tags": {
           "type": "object",
@@ -1050,12 +1054,12 @@
           "items": {
             "$ref": "#/definitions/ResourceGroup"
           },
-          "description": "The list of resource groups."
+          "description": "An array of resource groups."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of resource groups."
@@ -1067,7 +1071,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The ids of the resources."
+          "description": "The IDs of the resources."
         },
         "targetResourceGroup": {
           "type": "string",
@@ -1083,7 +1087,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The ids of the resources. The only supported string currently is '*' (all resources). Future api updates will support exporting specific resources."
+          "description": "The IDs of the resources. The only supported string currently is '*' (all resources). Future updates will support exporting specific resources."
         },
         "options": {
           "type": "string",
@@ -1134,7 +1138,7 @@
         },
         "count": {
           "$ref": "#/definitions/TagCount",
-          "description": "The tag count."
+          "description": "The total number of resources that use the resource tag. When a tag is initially created and has no associated resources, the value is 0."
         },
         "values": {
           "type": "array",
@@ -1153,12 +1157,12 @@
           "items": {
             "$ref": "#/definitions/TagDetails"
           },
-          "description": "The list of tags."
+          "description": "An array of tags."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of subscription tags."
@@ -1239,12 +1243,12 @@
         "id": {
           "readOnly": true,
           "type": "string",
-          "description": "Full deployment operation id."
+          "description": "Full deployment operation ID."
         },
         "operationId": {
           "readOnly": true,
           "type": "string",
-          "description": "Deployment operation id."
+          "description": "Deployment operation ID."
         },
         "properties": {
           "$ref": "#/definitions/DeploymentOperationProperties",
@@ -1260,12 +1264,12 @@
           "items": {
             "$ref": "#/definitions/DeploymentOperation"
           },
-          "description": "The list of deployments."
+          "description": "An array of deployment operations."
         },
         "nextLink": {
           "readOnly": true,
           "type": "string",
-          "description": "The URL to get the next set of results."
+          "description": "The URL to use for getting the next set of results."
         }
       },
       "description": "List of deployment operations."
@@ -1300,7 +1304,7 @@
         "id": {
           "readOnly": true,
           "type": "string",
-          "description": "Resource Id"
+          "description": "Resource ID"
         },
         "name": {
           "readOnly": true,
@@ -1330,7 +1334,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Resource Id"
+          "description": "Resource ID"
         }
       },
       "x-ms-azure-resource": true
@@ -1354,14 +1358,14 @@
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+      "description": "The ID of the target subscription."
     },
     "ApiVersionParameter": {
       "name": "api-version",
       "in": "query",
       "required": true,
       "type": "string",
-      "description": "Client Api Version."
+      "description": "The API version to use for this operation."
     }
   }
 }

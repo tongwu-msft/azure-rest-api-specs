@@ -69,7 +69,7 @@ A Task is an individual operation of work on an Asset and is defined in a Job.
 |`InitializationVector`<br /><br /> Optional.|Edm.String|The InitializationVector of the configuration file. Maximum length is 4000.|  
 |`OutputMediaAssets`<br /><br /> Read-only. Set by Media Services.|[Asset](../services/asset.md) entity set|Navigation property that can be accessed by referencing a specific task by Id value. The returned entity set contains all of the OutputMediaAsset entities that are linked to the specified task.|  
 |`InputMediaAssets`<br /><br /> Read-only. Set by Media Services.|[Asset](../services/asset.md) entity set|Navigation property that can be accessed by referencing a specific Task by Id value. The returned entity set contains all of the InputMediaAsset entities that are linked to the specified Task.|  
-|`TaskNotificationSubscriptions`<br /><br /> Required.|[TaskNotificationSubscription](../services/tasknotificationsubscription2.md) entity set|Defines the notification endpoint task state changes. Also,  indicates whether to include task progress for which to be notified.|  
+|`TaskNotificationSubscriptions`<br /><br /> Required.|[TaskNotificationSubscription](../services/tasknotificationsubscription.md) entity set|Defines the notification endpoint task state changes. Also,  indicates whether to include task progress for which to be notified.|  
   
 ##  <a name="create_a_task"></a> Create a Task  
  Tasks are created by creating a Job. For an example, see [How to encode an asset using Media Encoder Standard](http://azure.microsoft.com/documentation/articles/media-services-dotnet-encode-with-media-encoder-standard/).  
