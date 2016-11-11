@@ -616,7 +616,7 @@ Deletes an HDInsight cluster.
  HTTP 202 (Accepted) to indicate that the operation will complete asynchronously. Async polling will return a 204 (NoContent) once the operation completes successfully.  
   
 ### Remarks  
- To track progress of a delete cluster request, see [Asynchronous Operations (202 Accepted and Location header)](../HDInsightREST/asynchronous-operations--202-accepted-and-location-header-.md)
+ To track progress of a delete cluster request, see [Asynchronous Operations (202 Accepted and Location header)](asynchronous-operations--202-accepted-and-location-header-.md)
 
 
 ## Get
@@ -891,7 +891,7 @@ This operation allows users to enable/disable the HTTPS connectivity to the clus
  HTTP 202 (Accepted) to indicate that the operation will complete asynchronously. Async polling will return a 204 (NoContent) once the operation completes successfully.  
   
 ### Remarks  
- To track progress of a delete cluster request, see [Asynchronous Operations (202 Accepted and Location header)](../HDInsightREST/asynchronous-operations--202-accepted-and-location-header-.md)
+ To track progress of a delete cluster request, see [Asynchronous Operations (202 Accepted and Location header)](asynchronous-operations--202-accepted-and-location-header-.md)
 
 
 ## Change RDP settings (Windows cluster only)
@@ -1171,7 +1171,7 @@ Resizes an existing HDInsight cluster.
  HTTP 202 (Accepted) to indicate that the operation will complete asynchronously. Async polling will return a 204 (NoContent) once the operation completes successfully.  
   
 ### Remarks  
- To track progress of a delete cluster request, see [Asynchronous Operations (202 Accepted and Location header)](../HDInsightREST/asynchronous-operations--202-accepted-and-location-header-.md)
+ To track progress of a delete cluster request, see [Asynchronous Operations (202 Accepted and Location header)](asynchronous-operations--202-accepted-and-location-header-.md)
 
 
 ## Update
