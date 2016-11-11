@@ -1,0 +1,5 @@
+# [Batch REST API versioning](Batch-Service-REST-API-Versioning.md)
+# [Authenticate requests to the Batch service](Authenticate-Requests-to-the-Azure-Batch-Service.md)
+# [Batch status and error codes](Batch-Status-and-Error-Codes.md)
+# [Common parameters and headers](Common-Parameters-and-Headers.md)
+# [Specifying conditional headers](Specifying-Conditional-Headers.md)

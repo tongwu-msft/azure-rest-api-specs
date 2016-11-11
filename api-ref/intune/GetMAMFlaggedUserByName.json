@@ -1,0 +1,856 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2015-01-14-preview",
+    "title": "IntuneResourceManagementClient",
+    "description": "Microsoft.Intune Resource provider Api features in the swagger-2.0 specification"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/providers/Microsoft.Intune/locations/{hostName}/flaggedUsers/{userName}": {
+      "get": {
+        "description": "Returns Intune flagged user details",
+        "operationId": "GetMAMFlaggedUserByName",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "hostName",
+            "in": "path",
+            "description": "Location hostName for the tenant",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userName",
+            "in": "path",
+            "description": "Flagged userName",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "select specific fields in entity."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Flagged user details in response",
+            "schema": {
+              "$ref": "#/definitions/FlaggedUser"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Resource": {
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource Id"
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name"
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource Tags"
+        },
+        "location": {
+          "type": "string",
+          "description": "Resource Location"
+        }
+      }
+    },
+    "Location": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/LocationProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Location entity for given tenant."
+    },
+    "LocationProperties": {
+      "required": [
+        "hostName"
+      ],
+      "properties": {
+        "hostName": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "LocationCollection": {
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Location"
+          }
+        },
+        "nextlink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the URL to get the next set of results."
+        }
+      }
+    },
+    "GroupsCollection": {
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GroupItem"
+          }
+        },
+        "nextlink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the URL to get the next set of results."
+        }
+      }
+    },
+    "GroupItem": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/GroupProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Group entity for Intune MAM."
+    },
+    "GroupProperties": {
+      "required": [
+        "friendlyName",
+        "platform"
+      ],
+      "properties": {
+        "friendlyName": {
+          "type": "string"
+        }
+      }
+    },
+    "ApplicationCollection": {
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Application"
+          }
+        },
+        "nextlink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the URL to get the next set of results."
+        }
+      }
+    },
+    "Application": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ApplicationProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Application entity for Intune MAM."
+    },
+    "ApplicationProperties": {
+      "required": [
+        "friendlyName",
+        "platform"
+      ],
+      "properties": {
+        "friendlyName": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string",
+          "default": "ios",
+          "enum": [
+            "ios",
+            "android",
+            "windows"
+          ]
+        },
+        "appId": {
+          "type": "string"
+        }
+      }
+    },
+    "IOSMAMPolicyCollection": {
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/iOSMAMPolicy"
+          }
+        },
+        "nextlink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the URL to get the next set of results."
+        }
+      }
+    },
+    "AndroidMAMPolicyCollection": {
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AndroidMAMPolicy"
+          }
+        },
+        "nextlink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the URL to get the next set of results."
+        }
+      }
+    },
+    "iOSMAMPolicy": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/iOSMAMPolicyProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "iOS Policy entity for Intune MAM."
+    },
+    "AndroidMAMPolicy": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/AndroidMAMPolicyProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Android Policy entity for Intune MAM."
+    },
+    "MAMPolicyAppIdOrGroupIdPayload": {
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/MAMPolicyAppOrGroupIdProperties"
+        }
+      },
+      "description": "MAM Policy request body for properties Intune MAM."
+    },
+    "MAMPolicyAppOrGroupIdProperties": {
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      },
+      "description": "Android Policy request body for Intune MAM."
+    },
+    "MAMPolicyProperties": {
+      "required": [
+        "friendlyName"
+      ],
+      "properties": {
+        "friendlyName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "appSharingFromLevel": {
+          "type": "string",
+          "default": "none",
+          "enum": [
+            "none",
+            "policyManagedApps",
+            "allApps"
+          ]
+        },
+        "appSharingToLevel": {
+          "type": "string",
+          "default": "none",
+          "enum": [
+            "none",
+            "policyManagedApps",
+            "allApps"
+          ]
+        },
+        "authentication": {
+          "type": "string",
+          "default": "required",
+          "enum": [
+            "required",
+            "notRequired"
+          ]
+        },
+        "clipboardSharingLevel": {
+          "type": "string",
+          "default": "blocked",
+          "enum": [
+            "blocked",
+            "policyManagedApps",
+            "policyManagedAppsWithPasteIn",
+            "allApps"
+          ]
+        },
+        "dataBackup": {
+          "type": "string",
+          "default": "allow",
+          "enum": [
+            "allow",
+            "block"
+          ]
+        },
+        "fileSharingSaveAs": {
+          "type": "string",
+          "default": "allow",
+          "enum": [
+            "allow",
+            "block"
+          ]
+        },
+        "pin": {
+          "type": "string",
+          "default": "required",
+          "enum": [
+            "required",
+            "notRequired"
+          ]
+        },
+        "pinNumRetry": {
+          "type": "integer"
+        },
+        "deviceCompliance": {
+          "type": "string",
+          "default": "enable",
+          "enum": [
+            "enable",
+            "disable"
+          ]
+        },
+        "managedBrowser": {
+          "type": "string",
+          "default": "required",
+          "enum": [
+            "required",
+            "notRequired"
+          ]
+        },
+        "accessRecheckOfflineTimeout": {
+          "type": "string",
+          "format": "duration"
+        },
+        "accessRecheckOnlineTimeout": {
+          "type": "string",
+          "format": "duration"
+        },
+        "offlineWipeTimeout": {
+          "type": "string",
+          "format": "duration"
+        },
+        "numOfApps": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "groupStatus": {
+          "readOnly": true,
+          "type": "string",
+          "default": "notTargeted",
+          "enum": [
+            "notTargeted",
+            "targeted"
+          ]
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "readOnly": true,
+          "format": "date-time"
+        }
+      }
+    },
+    "iOSMAMPolicyProperties": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/MAMPolicyProperties"
+        }
+      ],
+      "properties": {
+        "fileEncryptionLevel": {
+          "type": "string",
+          "default": "deviceLocked",
+          "enum": [
+            "deviceLocked",
+            "deviceLockedExceptFilesOpen",
+            "afterDeviceRestart",
+            "useDeviceSettings"
+          ]
+        },
+        "touchId": {
+          "type": "string",
+          "default": "enable",
+          "enum": [
+            "enable",
+            "disable"
+          ]
+        }
+      },
+      "description": "Intune MAM iOS Policy Properties."
+    },
+    "AndroidMAMPolicyProperties": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/MAMPolicyProperties"
+        }
+      ],
+      "properties": {
+        "screenCapture": {
+          "type": "string",
+          "default": "allow",
+          "enum": [
+            "allow",
+            "block"
+          ]
+        },
+        "fileEncryption": {
+          "type": "string",
+          "default": "required",
+          "enum": [
+            "required",
+            "notRequired"
+          ]
+        }
+      },
+      "description": "Intune MAM iOS Policy Properties."
+    },
+    "DeviceCollection": {
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Device"
+          }
+        },
+        "nextlink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the URL to get the next set of results."
+        }
+      }
+    },
+    "Device": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/DeviceProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Device entity for Intune."
+    },
+    "DeviceProperties": {
+      "required": [
+        "userId",
+        "friendlyName",
+        "platform",
+        "platformVersion",
+        "deviceType"
+      ],
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "friendlyName": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "platformVersion": {
+          "type": "string"
+        },
+        "deviceType": {
+          "type": "string"
+        }
+      }
+    },
+    "WipeDeviceOperationResult": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/WipeDeviceOperationResultProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Device entity for Intune."
+    },
+    "WipeDeviceOperationResultProperties": {
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "OperationResultCollection": {
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationResult"
+          }
+        },
+        "nextlink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the URL to get the next set of results."
+        }
+      }
+    },
+    "OperationResult": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/OperationResultProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "OperationResult entity for Intune."
+    },
+    "OperationResultProperties": {
+      "required": [
+        "userId",
+        "friendlyName",
+        "platform",
+        "operationMetadata"
+      ],
+      "properties": {
+        "friendlyName": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "lastModifiedTime": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "operationMetadata": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/operationMetadataProperties"
+          }
+        }
+      }
+    },
+    "operationMetadataProperties": {
+      "required": [
+        "name",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "StatusesDefault": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/StatusesProperties"
+        },
+        "nextlink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the URL to get the next set of results."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Default Statuses entity for the given tenant."
+    },
+    "StatusesProperties": {
+      "properties": {
+        "deployedPolicies": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "enrolledUsers": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "flaggedUsers": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "readOnly": true,
+          "format": "date-time"
+        },
+        "policyAppliedUsers": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "status": {
+          "type": "string",
+          "readOnly": true
+        },
+        "wipeFailedApps": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "wipePendingApps": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "wipeSucceededApps": {
+          "type": "integer",
+          "readOnly": true
+        }
+      }
+    },
+    "FlaggedUserCollection": {
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FlaggedUser"
+          }
+        },
+        "nextlink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the URL to get the next set of results."
+        }
+      },
+      "description": "Flagged user collection for the given tenant."
+    },
+    "FlaggedUser": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/FlaggedUserProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Flagged user for the given tenant."
+    },
+    "FlaggedUserProperties": {
+      "properties": {
+        "errorCount": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "friendlyName": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "FlaggedEnrolledAppCollection": {
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FlaggedEnrolledApp"
+          }
+        },
+        "nextlink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets the URL to get the next set of results."
+        }
+      },
+      "description": "Flagged Enrolled App collection for the given tenant."
+    },
+    "FlaggedEnrolledApp": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/FlaggedEnrolledAppProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Flagged Enrolled App for the given tenant."
+    },
+    "FlaggedEnrolledAppProperties": {
+      "properties": {
+        "deviceType": {
+          "type": "string",
+          "readOnly": true
+        },
+        "friendlyName": {
+          "type": "string",
+          "readOnly": true
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "readOnly": true
+        },
+        "platform": {
+          "type": "string",
+          "readOnly": true
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FlaggedEnrolledAppError"
+          }
+        }
+      }
+    },
+    "FlaggedEnrolledAppError": {
+      "properties": {
+        "errorCode": {
+          "type": "string",
+          "readOnly": true
+        },
+        "severity": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Service Api Version."
+    }
+  }
+}
