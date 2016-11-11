@@ -8,7 +8,7 @@ Gets data slices for a table in data factory.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|GET|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/tables/<TableName\>/slices?start=<StartDateTime\>&end=<EndDateTime\>&api-version=<Api-Version>|HTTP/1.1|  
+|GET|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/tables/{TableName}/slices?start={StartDateTime}&end={EndDateTime}&api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -180,7 +180,7 @@ Sets the status of slices for a table in a data factory.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|PUT|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/tables/<TableName\>/slices/ setstatus?start=<StartDateTime\>&end=<EndDateTime\>&api-version=<Api-Version>|HTTP/1.1|  
+|PUT|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/tables/{TableName}/slices/ setstatus?start={StartDateTime}&end={EndDateTime}&api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   

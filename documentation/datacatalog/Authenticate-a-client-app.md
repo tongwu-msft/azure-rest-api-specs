@@ -54,7 +54,8 @@ To authenticate a Data Catalog client app and perform a REST web request, you ne
   
 To make a data request to the Data Catalog REST service, you need to supply an access token. In a .NET client app, you use the [Windows Azure Authentication Library (ADAL)](https://msdn.microsoft.com/library/azure/jj573266.aspx) to get an access token. Here’s the process. Below is an example **AccessToken()** method.  
   
-**Important** To authenticate a client app, you must add a reference to **Microsoft.IdentityModel.Clients.ActiveDirectory**, which is included in the Windows Azure Authentication Library (ADAL). The sample code in this article works only with the version 2.19.208020213 of Microsoft.IdentityModel.Clients.ActiveDirectory.  Run the following command from NuGet Package Manager Console.
+>[!IMPORTANT] 
+>To authenticate a client app, you must add a reference to **Microsoft.IdentityModel.Clients.ActiveDirectory**, which is included in the Windows Azure Authentication Library (ADAL). The sample code in this article works only with the version 2.19.208020213 of Microsoft.IdentityModel.Clients.ActiveDirectory.  Run the following command from NuGet Package Manager Console.
 
    ```  
   Install-Package Microsoft.IdentityModel.Clients.ActiveDirectory Version 2.19.208020213 
@@ -87,7 +88,8 @@ For more information about what **AuthenticationContext** does to get a token, s
   
 ### C# example - Get access token  
  
-**Important** The sample code in this article works only with the version **2.19.208020213** of **Microsoft.IdentityModel.Clients.ActiveDirectory**.  Run the following command from NuGet Package Manager Console (Tools -> NuGet Package Manager -> Package Manager Console).
+>[!IMPORTANT] 
+> The sample code in this article works only with the version **2.19.208020213** of **Microsoft.IdentityModel.Clients.ActiveDirectory**.  Run the following command from NuGet Package Manager Console (Tools -> NuGet Package Manager -> Package Manager Console).
 
    ```  
   Install-Package Microsoft.IdentityModel.Clients.ActiveDirectory Version 2.19.208020213 
