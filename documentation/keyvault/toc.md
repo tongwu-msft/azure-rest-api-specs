@@ -1,6 +1,6 @@
-# [Key Vault management](../../api-ref/keyvault/keyvault/Vaults.json)
+# [Key Vault management](../../api-ref/keyvault/Vaults.json)
 # [Key operations](key-operations.md)
-## [Create a key](../../api-ref/keyvault/keyvault/CreateKey.json)
+## [Create a key](../../api-ref/keyvault/CreateKey.json)
 ## [Update a key](../../api-ref/keyvault/UpdateKey.json)
 ## [Delete a key](../../api-ref/keyvault/DeleteKey.json)
 ## [Get information about a key](../../api-ref/keyvault/GetKey.json)
