@@ -25,7 +25,7 @@ Applies To: Azure
 
 -    **Create a new certificate manually:** This will create a public-private key pair and generate an X.509 certificate signing request. The signing request can be signed by your registration authority or certification authority. The signed x509 certificate can be merged with the pending key pair to complete the KV certificate in Key Vault. Although this method requires more steps, it does provide you with greater security because the private key is created in and restricted to Key Vault. This is explained in the diagram below.  
 
-     ![Create a certificate with your own certificate authority](./media/certificate-authority-1.png)  
+![Create a certificate with your own certificate authority](./media/certificate-authority-1.png)  
 
 The following descriptions correspond to the green lettered steps in the preceding diagram.
 
@@ -37,7 +37,7 @@ The following descriptions correspond to the green lettered steps in the precedi
 
 -   **Create a certificate with a known issuer provider:** This method requires you to do a one-time task of creating an issuer object. Once an issuer object is created in you key vault, its name can be referenced in the policy of the KV certificate. A request to create such a KV certificate will create a key pair in the vault and communicate with the issuer provider service using the information in the referenced issuer object to get an x509 certificate. The x509 certificate is retrieved from the issuer service and is merged with the key pair to complete the KV certificate creation.  
 
-     ![Create a certificate with a Key Vault partnered certificate authority](./media/certificate-authority-2.png)  
+![Create a certificate with a Key Vault partnered certificate authority](./media/certificate-authority-2.png)  
 
 The following descriptions correspond to the green lettered steps in the preceding diagram.
 
