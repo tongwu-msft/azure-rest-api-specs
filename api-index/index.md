@@ -283,6 +283,6 @@ Please use the LiveFyre comments section that follows this article to provide fe
 [AAD-Oauth-Code-Token]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#use-the-authorization-code-to-request-an-access-token
 [ARM-Create-Sp-Portal]: ../../Azure/resource-group-create-service-principal-portal.md
 [ARM-Provider-Summary]: ../../Azure/resource-manager-supported-services.md
-[SDK-NET](../../dotnet/api)
-[SDK-JAVA](../../java/api)
-[SDK-CLI](../../cli/azure)
+[SDK-NET] ../../dotnet/api
+[SDK-JAVA] ../../java/api
+[SDK-CLI] ../../cli/azure
