@@ -8,27 +8,75 @@ ms.author: bruceper
 ms.manager: mbaldwin
 ---
 
-# Azure Key Vault REST API
+# Key Vault REST API Reference
 
-The Azure Key Vault REST API provides operations for managing Key Vaults as well as keys, secrets, and certificates within key vaults.
+Managing Key Vaults as well as keys, secrets, and certificates within Key Vaults can be accomplished through a REST interface.
+
+Manage your Key Vaults using the following guidance:
+
+- [Key Vault management](../../api-ref/keyvault/Vaults.json)
+
+Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations with keys, secrets and certificates within the Azure environment.
+
+- [Key operations](key-operations.md)
+
+
+- [Secret operations](secret-operations.md)
+
+
+- [Certificate operations](certificate-operations.md)
+
+
+For conceptual and detailed information, see - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
+
+## Common tasks
+
+Key Vaults
+
+
+- [Manage key vaults](../../api-ref/keyvault/Vaults.json)
 
 
 
-## REST operation groups
-The Key Vault REST API provides operations for working with the following resources.
 
-| Operation group            | Description                                           |
-|-----------------------------|-------------------------------------------------------|
-| [Key Vault management](~/api-ref/keyvault/vaults.json) | Provides operations for workign with key vaults |
-| [Key operations](key-operations.md) | Operations for workign with keys in a key vault |
-| [Secret operations](secret-operations.md) | Operations for working with secrets in a key vault |
-| [Certificate operations](certificate-operations.md) | Operations for working with certificates, policies, and issuers in a key vault |
+Keys
 
-                                       
 
-## See also
+- [Create a key](../../api-ref/keyvault/CreateKey.json)
 
-- [Azure Key Vault service overview](https://azure.microsoft.com/services/key-vault/)
-- [Azure Key Vault documentation](https://review.docs.microsoft.com/azure/key-vault/)
+
+- [Get information about a key](../../api-ref/keyvault/GetKey.json)
+
+
+- [Encrypt with a key](../../api-ref/keyvault/encrypt.json)
+
+
+
+Secrets
+
+- [Create a secret](../../api-ref/keyvault/SetSecret.json)
+
+
+- [Get a secret](../../api-ref/keyvault/GetSecret.json)
+
+
+Certificates
+
+
+- [Create a certificate](../../api-ref/keyvault/CreateCertificate.json)
+
+
+- [Import a certificate](../../api-ref/keyvault/ImportCertificate.json)
+
+
+- [Update a certificate](../../api-ref/keyvault/UpdateCertificate.json)
+
+
+- [Update a certificate policy](../../api-ref/keyvault/UpdateCertificatePolicy.json)
+
+### See Also
+
 - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
+- [Authentication, requests and responses](authentication--requests-and-responses.md)
+- [Key Vault versions](key-vault-versions.md)
 
