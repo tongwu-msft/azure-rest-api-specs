@@ -119,4 +119,4 @@ WWW-Authenticate: Bearer authorization="…", resource="…"
 -   resource: The name of the resource to use in the authorization request.  
 
 ## See Also  
- [About keys, secrets, and certificates](../KeyVaultREST/about-keys--secrets-and-certificates.md)
+ [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)

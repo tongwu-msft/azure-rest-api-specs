@@ -35,35 +35,35 @@ Key Vault also supports certificates, described in more detail in the following 
 
  This topic outlines:  
 
--   [Supporting standards](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_Standards)  
+-   [Supporting standards](about-keys--secrets-and-certificates.md#BKMK_Standards)  
 
--   [Data types](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_DataTypes)  
+-   [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes)  
 
--   [Objects, Identifiers and Versioning](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_ObjId)  
+-   [Objects, Identifiers and Versioning](about-keys--secrets-and-certificates.md#BKMK_ObjId)  
 
  **Key Vault Keys**  
 
--   [Keys and key types](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_KeyTypes)  
+-   [Keys and key types](about-keys--secrets-and-certificates.md#BKMK_KeyTypes)  
 
--   [RSA algorithms](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_RSAAlgorithms)  
+-   [RSA algorithms](about-keys--secrets-and-certificates.md#BKMK_RSAAlgorithms)  
 
--   [RSA-HSM algorithms](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_RSA-HSMAlgorithms)  
+-   [RSA-HSM algorithms](about-keys--secrets-and-certificates.md#BKMK_RSA-HSMAlgorithms)  
 
--   [Key operations](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_KeyOperations)  
+-   [Key operations](about-keys--secrets-and-certificates.md#BKMK_KeyOperations)  
 
--   [Key attributes](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_KeyAttributes)  
+-   [Key attributes](about-keys--secrets-and-certificates.md#BKMK_KeyAttributes)  
 
--   [Key tags](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_Keytags)  
+-   [Key tags](about-keys--secrets-and-certificates.md#BKMK_Keytags)  
 
  **Key Vault Secrets**  
 
--   [Working with Secrets](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_WorkingWithSecrets)  
+-   [Working with Secrets](about-keys--secrets-and-certificates.md#BKMK_WorkingWithSecrets)  
 
--   [Secret attributes](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_SecretAttrs)  
+-   [Secret attributes](about-keys--secrets-and-certificates.md#BKMK_SecretAttrs)  
 
--   [Secret tags](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_SecretTags)  
+-   [Secret tags](about-keys--secrets-and-certificates.md#BKMK_SecretTags)  
 
--   [Secret Access Control](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_SecretAccessControl)  
+-   [Secret Access Control](about-keys--secrets-and-certificates.md#BKMK_SecretAccessControl)  
 
  **Key Vault Certificates**  
 
@@ -120,7 +120,7 @@ Key Vault also supports certificates, described in more detail in the following 
 
  Objects are uniquely identified within Azure Key Vault using a URL such that no two objects in the system, regardless of geo-location, have the same URL. The complete URL to an object is called the Object Identifier and consists of a prefix portion that identifies the Key Vault, the object type, a user provided Object Name, and an Object Version. The Object Name is case-insensitive and immutable. Identifiers that do not include the Object Version are referred to as Base Identifiers.  
 
- For more information see, [Authentication, requests, and responses](../KeyVaultREST/authentication--requests-and-responses.md)
+ For more information see, [Authentication, requests, and responses](authentication--requests-and-responses.md)
 
  A object identifier has the following general format:  
 
@@ -207,7 +207,7 @@ Key Vault also supports certificates, described in more detail in the following 
 
 -   Restore: Imports a previously backed up key.  
 
- For more information, see [Key operations](../KeyVaultREST/key-operations.md)  
+ For more information, see [Key operations](key-operations.md)  
 
  Once a key has been created in Azure Key Vault, the following cryptographic operations may be performed using the key:  
 
@@ -232,7 +232,7 @@ Key Vault also supports certificates, described in more detail in the following 
 
 -   nbf: IntDate, optional, default is now. The nbf (not before) attribute identifies the time before which the key MUST NOT be used for cryptographic operations. The processing of the nbf attribute requires that the current date/time MUST be after or equal to the not-before date/time listed in the nbf attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
 
-     For more information on IntDate and other data types see, [Data types](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_DataTypes)  
+     For more information on IntDate and other data types see, [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes)  
 
 -   exp: IntDate, optional, default is "forever". The exp (expiration time) attribute identifies the expiration time on or after which the key MUST NOT be used for cryptographic operation. The processing of the exp attribute requires that the current date/time MUST be before the expiration date/time listed in the exp attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
 
@@ -242,7 +242,7 @@ Key Vault also supports certificates, described in more detail in the following 
 
 2.  updated: IntDate, optional. The updated attribute indicates when this version of the key was updated. This value is null for keys that were last updated prior to the addition of this attribute. Its value MUST be a number containing an IntDate value.  
 
- For information on data types see, [Data types](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_DataTypes).  
+ For information on data types see, [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes).  
 
  For further information on possible attributes, see the [JSON Web Key (JWK)](http://tools.ietf.org/html/draft-ietf-jose-json-web-key).  
 
@@ -252,7 +252,7 @@ Key Vault also supports certificates, described in more detail in the following 
 ###  <a name="BKMK_KeyAccessControl"></a> Key access control  
  Access Control for keys managed in Azure Key Vault is provided at the level of a Key Vault that acts as the container of keys. There is an access control policy for keys that is distinct from the access control policy for secrets in the same Key Vault. Users may create one or more vaults to hold keys and are required to maintain scenario appropriate segmentation and managed of keys. Access controls for Keys is independent of Access control for Secrets.  
 
- The following permissions can be granted, on a per user / service principal basis, in the keys access control entry on a vault. These permissionsclosely mirror the operations allowed on a key object:  
+ The following permissions can be granted, on a per user / service principal basis, in the keys access control entry on a vault. These permissions closely mirror the operations allowed on a key object:  
 
 -   create: Create new keys  
 
@@ -308,7 +308,7 @@ Key Vault also supports certificates, described in more detail in the following 
 
 2.  updated: IntDate, optional. The updated attribute indicates when this version of the secret was updated. This value is null for secrets that were last updated prior to the addition of this attribute. Its value must be a number containing an IntDate value.  
 
- For information on data types see, [Data types](../KeyVaultREST/about-keys--secrets-and-certificates.md#BKMK_DataTypes).  
+ For information on data types see, [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes).  
 
 ###  <a name="BKMK_SecretTags"></a> Secret tags  
  You can specify additional application-specific metadata in the form of tags. Azure Key Vault supports up to 15 tags, each of which can have a 256 character name and a 256 character value.  
@@ -328,7 +328,7 @@ Key Vault also supports certificates, described in more detail in the following 
 
 -   all: All permissions  
 
- For more information on working with secrets, see [Secret operations](../KeyVaultREST/secret-operations.md).  
+ For more information on working with secrets, see [Secret operations](secret-operations.md).  
 
 ### Secret tags  
  You can specify additional application-specific metadata in the form of tags. Azure Key Vault supports up to 15 tags, each of which can have a 256 character name and a 256 character value.  
@@ -352,7 +352,7 @@ For more information on these features and behaviors, see the following sections
 ###  <a name="BKMK_CompositionOfCertificate"></a> Composition of a Certificate  
  When a KV certificate is created, an addressable KV key and KV secret is also created with the same name. KV key allows to do key operations and KV secret allows to retrieve the certificate value as a secret. KV Certificate also contains public x509 certificate metadata which will be explained later with the REST API.  
 
- The identifier and version of certificates is similar to keys and secrets. A specific version of addressable key and secret created with the KV Certificate version is available in the KV Certificate response.![azure key vault](../KeyVaultREST/media/azure-key-vault.jpg "azure key vault")  
+ The identifier and version of certificates is similar to keys and secrets. A specific version of addressable key and secret created with the KV Certificate version is available in the KV Certificate response.![Cetificates are complex objects](/media/azure-key-vault.jpg)  
 
 ###  <a name="BKMK_CertificateExportableOrNonExportableKey"></a> Exportable or  Non Exportable key  
  When a KV  certificate is created, it can be retrieved from the addressable secret with the private key in either pfx or pem format and if the policy used to create the certificate indicated key is exportable. If the policy used to create KV Certificate indicated key to be non-exportable, then the private key is not a part of value when retrieved as a secret.  
@@ -481,11 +481,11 @@ For more information on these features and behaviors, see the following sections
 -   all: All permissions  
 
 ## Resources
-- [Certificates and policies](../KeyVaultREST/certificates-and-policies.md)
-- [Certificate Issuers](../KeyVaultREST/certificate-issuers.md)
-- [Certificate Contacts](../KeyVaultREST/certificate-contacts.md)
+- [Certificates and policies](certificates-and-policies.md)
+- [Certificate Issuers](certificate-issuers.md)
+- [Certificate Contacts](certificate-contacts.md)
 
 ## See Also  
-- [Authentication, requests, and responses](../KeyVaultREST/authentication--requests-and-responses.md)
-- [About keys, secrets, and certificates](../KeyVaultREST/about-keys--secrets-and-certificates.md)
-- [Key Vault versions](../KeyVaultREST/key-vault-versions.md)
+- [Authentication, requests, and responses](authentication--requests-and-responses.md)
+- [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
+- [Key Vault versions](key-vault-versions.md)
