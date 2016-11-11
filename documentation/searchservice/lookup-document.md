@@ -82,13 +82,13 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
  Lookup the document that has key '2':  
 
 ```  
-GET /indexes/hotels/docs/2?api-version=2015-02-28  
+GET /indexes/hotels/docs/2?api-version=2016-09-01  
 ```  
 
  Lookup the document that has key '3' using OData syntax:  
 
 ```  
-GET /indexes/hotels/docs('3')?api-version=2015-02-28  
+GET /indexes/hotels/docs('3')?api-version=2016-09-01  
 ```  
 
 ## See Also  

@@ -26,83 +26,49 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Index operations (Azure Search Service REST API)
-  You can create and manage indexes in Azure Search service via simple HTTP requests (POST, GET, PUT, DELETE) against a given index resource. To create an index, you first POST a JSON document that that describes the index schema. The schema defines the fields of the index, their data types, and how they can be used (for example, in full-text searches, filters, sorting, faceting, or suggestions). It also defines scoring profiles and other attributes to configure the behavior of the index.  
 
- The following example provides an illustration of a schema used for searching on hotel information with the Description field defined in two languages. Notice how attributes control how the field is used. For example the `hotelId` is used as the document key (`"key":true`) and is excluded from full-text searches (`"searchable":false`).  
+You can create and manage indexes in Azure Search service via simple HTTP requests (POST, GET, PUT, DELETE) against a given index resource. To create an index, you first POST a JSON document that describes the index schema. The schema defines the fields of the index, their data types, and how they can be used (for example, in full-text searches, filters, sorting, or faceting). It also defines scoring profiles, suggesters, analyzers, and other attributes to configure the behavior of the index.
+
+The following example illustrates an index schema that includes fields, a suggester, a custom analyzer, and a language analyzer. Fields, suggesters, custom analyzers, and scoring profiles (not shown) are sections in the index. A language analyzer is predefined and simply referenced on the field definition.
+
+Within the field definition, attributes control how the field is used. For example, `"key": true` marks the field that is used to uniquely identify a document (`hotelId` in the example below). Other attributes like `searchable`, `filterable`, `sortable`, and `facetable` can be specified to change default behaviors. For example, they are used on the `description` field to turn off filtering, sorting and faceting. These features aren't needed for verbose text like a description, and turning them off saves space in the index.
+
+Language-specific fields are also illustrated in this index. Description fields exist for English (default) and for French translations, with the French translation using the `fr.lucene` analyzer for lexical analysis.
+
 
 ```  
 {
-   {
-     "name":"hotels",   
-     "fields":[
-         {
-            "name":"hotelId",
-            "type":"Edm.String",
-            "key":true,
-            "searchable":false
-         },
-         {
-            "name":"baseRate",
-            "type":"Edm.Double"
-         },
-         {
-            "name":"description",
-            "type":"Edm.String",
-            "filterable":false,
-            "sortable":false,
-            "facetable":false
-         },
-         {
-            "name":"description_fr",
-            "type":"Edm.String",
-            "filterable":false,
-            "sortable":false,
-            "facetable":false,
-            "analyzer":"fr.lucene"
-         },
-         {
-            "name":"hotelName",
-            "type":"Edm.String"
-         },
-         {
-            "name":"category",
-            "type":"Edm.String"
-         },
-         {
-            "name":"tags",
-            "type":"Collection(Edm.String)"
-         },
-         {
-            "name":"parkingIncluded",
-            "type":"Edm.Boolean"
-         },
-         {
-            "name":"smokingAllowed",
-            "type":"Edm.Boolean"
-         },
-         {
-            "name":"lastRenovationDate",
-            "type":"Edm.DateTimeOffset"
-         },
-         {
-            "name":"rating",
-            "type":"Edm.Int32"
-         },
-         {
-            "name":"location",
-            "type":"Edm.GeographyPoint"
-         }              
-      ],
-           "suggesters":[
-                   {
-                   "name":"sg",
-                   "searchMode":"analyzingInfixMatching",
-                   "sourceFields":[
-                       "hotelName"
-            ]                  
-         }           
-      ]       
-   }
+ "name": "hotels",  
+ "fields": [
+  {"name": "hotelId", "type": "Edm.String", "key": true, "searchable": false},
+  {"name": "baseRate", "type": "Edm.Double"},
+  {"name": "description", "type": "Edm.String", "filterable": false, "sortable": false, "facetable": false},
+  {"name": "description_fr", "type": "Edm.String", "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.lucene"},
+  {"name": "hotelName", "type": "Edm.String"},
+  {"name": "category", "type": "Edm.String"},
+  {"name": "tags", "type": "Collection(Edm.String)", "analyzer": "tagsAnalyzer"},
+  {"name": "parkingIncluded", "type": "Edm.Boolean"},
+  {"name": "smokingAllowed", "type": "Edm.Boolean"},
+  {"name": "lastRenovationDate", "type": "Edm.DateTimeOffset"},
+  {"name": "rating", "type": "Edm.Int32"},
+  {"name": "location", "type": "Edm.GeographyPoint"}
+ ],
+ "suggesters": [
+  {
+   "name": "sg",
+   "searchMode": "analyzingInfixMatching",
+   "sourceFields": ["hotelName"]
+  }
+ ],
+ "analyzers": [
+  {
+   "name": "tagsAnalyzer",
+   "type": "#Microsoft.Azure.Search.CustomAnalyzer",
+   "charFilters": [ "html_strip" ],
+   "tokenizer": "standard"
+  }
+ ]
+}
 ```  
 
  After the index is created, you'll upload documents that populate the index. See [Add, Update or Delete Documents &#40;Azure Search Service REST API&#41;](addupdate-or-delete-documents.md) for this next step.  

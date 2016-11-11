@@ -125,7 +125,7 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
     ```  
     GET /indexes/[index name]/stats?api-version=2016-09-01  
     ```  
--  [Test Analyzer](#TestAnalyzer)
+-  [Test Analyzer](test-analyzer.md)
 
     ```
     POST /indexes/[index name]/analyze?api-version=2016-09-01

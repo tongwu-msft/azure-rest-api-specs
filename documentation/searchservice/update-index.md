@@ -38,16 +38,24 @@ api-key: [admin key]
 ```  
 
 > [!IMPORTANT]  
->  Support for index schema updates is limited to operations that don't require rebuilding the search index. Any changes that require re-indexing, such as changing field types, are not currently supported. New fields can be added at any time, although existing fields cannot be changed or deleted. The same applies to **suggesters**. New fields may be added to **suggesters** at the time the fields are added, but fields cannot be removed from **suggesters** and existing fields cannot be added. For more information, see [Suggesters](suggesters.md).  
+>  Currently, there is limited support for index schema updates. Any schema updates that would require re-indexing such as changing field types are not currently supported.
 
- When adding a new field to an index, all existing documents in the index be automatically have a null value for that field. No additional storage space will be consumed until new documents are added to the index.  
+Although existing fields cannot be changed or deleted, new fields can be added to an existing index at any time. The same applies to `suggesters`. New fields may be added to a suggester at the time the fields are added, but fields cannot be removed from `suggesters` and existing fields cannot be added to `suggesters`.
+
+When a new field is added, all existing documents in the index will automatically have a null value for that field. No additional storage space will be consumed until new documents are added to the index.
+
+Once an analyzer, a tokenizer, a token filter or a char filter is defined, it cannot be modified. New ones can be added to an existing index only if the `allowIndexDowntime` flag is set to true in the index update request:
+
+`PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]&allowIndexDowntime=true`
+
+Note that this operation will put your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for very large indexes.
 
 ## Request  
  HTTPS is required for all service requests. The **Update Index** request is constructed using HTTP PUT. With PUT, the index name is part of the URL. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.  
 
  The index name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
 
- The `api-version` parameter is required. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The `api-version` parameter is required. The current version is `api-version=2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -57,7 +65,7 @@ api-key: [admin key]
 |*Content-Type:*|Required. Set this to `application/json`|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Update Index** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure classic portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body Syntax  
  When updating an existing index, the body must include the original schema definition, plus the new fields you are adding, as well as the modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT.  
@@ -77,7 +85,9 @@ api-key: [admin key]
       "facetable": true (default where applicable) | false (Edm.GeographyPoint fields cannot be facetable),  
       "key": true | false (default, only Edm.String fields can be keys),  
       "retrievable": true (default) | false,  
-      "analyzer": "name of text analyzer"  
+      "analyzer": "name of the analyzer used for search and indexing", (only if 'searchAnalyzer' and 'indexAnalyzer' are not set)
+      "searchAnalyzer": "name of the search analyzer", (only if 'indexAnalyzer' is set and 'analyzer' is not set)
+      "indexAnalyzer": "name of the indexing analyzer" (only if 'searchAnalyzer' is set and 'analyzer' is not set)
     }  
   ],  
   "suggesters": [  
@@ -123,7 +133,11 @@ api-key: [admin key]
         "sum (default) | average | minimum | maximum | firstMatching"  
     }  
   ],  
-  "defaultScoringProfile": (optional) "...",  
+"analyzers":(optional)[ ... ],
+"charFilters":(optional)[ ... ],
+"tokenizers":(optional)[ ... ],
+"tokenFilters":(optional)[ ... ],
+"defaultScoringProfile": (optional) "...",  
   "corsOptions": (optional) {  
     "allowedOrigins": ["*"] | ["origin_1", "origin_2", ...],  
     "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  

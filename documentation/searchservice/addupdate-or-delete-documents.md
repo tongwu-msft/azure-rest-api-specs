@@ -46,7 +46,7 @@ api-key: [admin key]
 
  The request URI includes, `[index name]`, specifying which index to post documents. You can only post documents to one index at a time.  
 
- The `api-version` parameter is required. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
+ The `api-version` parameter is required. The current version is `api-version=2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
