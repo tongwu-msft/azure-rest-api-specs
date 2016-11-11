@@ -8,7 +8,7 @@ Creates a cluster in the specified subscription.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}?api-version={api-version}`|  
+|PUT|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}?api-version={api-version}`|  
   
  The following example shows the request body for creating a Linux based hadoop cluster. For examples of creating clusters in other ways, see the Examples section below.  
   
@@ -300,7 +300,7 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}?api-version={api-version}`|  
+|PUT|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}?api-version={api-version}`|  
   
  The following example shows the request body for creating a Linux based, premium, domain-joined Hadoop cluster.  
   
@@ -610,7 +610,7 @@ Deletes an HDInsight cluster.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}?api-version={api-version}`|  
+|DELETE|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}?api-version={api-version}`|  
   
 ### Response  
  HTTP 202 (Accepted) to indicate that the operation will complete asynchronously. Async polling will return a 204 (NoContent) once the operation completes successfully.  
@@ -627,7 +627,7 @@ Gets the details/properties of the specified cluster.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}?api-version={api-version}`|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}?api-version={api-version}`|  
   
 ###  <a name="bk_response"></a> Response  
  The operation will return 200 (OK) if the request is completed successfully  
@@ -741,7 +741,7 @@ Gets cluster configuration details.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/configurations?api-version={api-version}`|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations?api-version={api-version}`|  
   
 ### Response  
  HTTP 200 (OK) on successful completion of the operation.  
@@ -777,7 +777,7 @@ Gets details about a single configuration type.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/configurations/{configurationType}?api-version={api-version}`|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations/{configuration Type}?api-version={api-version}`|  
   
 ### Response  
  HTTP 200 (OK) on successful completion of the operation.  
@@ -794,10 +794,6 @@ Gets details about a single configuration type.
 ```
 
 
-
-
-
-
 # List by resource group
 Lists all the clusters in the user’s subscription in the specified resource group.  
   
@@ -806,7 +802,7 @@ Lists all the clusters in the user’s subscription in the specified resource gr
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupId}/providers/Microsoft.HDInsight/clusters?api-version={api-version}`|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourcegroups/{resourceGroup Id}/providers/Microsoft.HDInsight/clusters?api-version={api-version}`|  
   
 ### Response  
  The operation will return 200 (OK) if the request is completed successfully.  
@@ -833,7 +829,7 @@ Lists all the clusters in the user’s subscription.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/clusters?api-version={api-version}`|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/providers/Microsoft.HDInsight/clusters?api-version={api-version}`|  
   
 ### Response  
  The operation will return 200 (OK) if the request is completed successfully.  
@@ -859,7 +855,7 @@ This operation allows users to enable/disable the HTTPS connectivity to the clus
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/configurations/{configurationType}?api-version={api-version}`|  
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations/{configuration Type}?api-version={api-version}`|  
   
  **To enable connectivity**  
   
@@ -902,7 +898,7 @@ This operation allows a user to enable/disable RDP. It applies to Windows based 
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/changerdpsetting?api-version={api-version}|  
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/changerdpsetting?api-version={api-version}`|  
   
  **Request Body**  
   
@@ -970,7 +966,7 @@ Execute Script action on a running cluster.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/executeScriptActions?api-version={api-version}|  
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/executeScriptActions?api-version={api-version}`|  
   
  **Request Body**  
   
@@ -1017,7 +1013,7 @@ This operation returns all the persisted scripts actions of the specified cluste
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/scriptActions?api-version={api-version}|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/scriptActions?api-version={api-version}`|  
   
 ### Response  
  HTTP 200 (OK) on successful completion of the operation.  
@@ -1059,7 +1055,7 @@ This operation removes an HDInsight persisted script action for a cluster.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/scriptActions/{scriptName}?api-version={api-version}|  
+|DELETE|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/scriptActions/{script Name}?api-version={api-version}`|  
   
 ### Response  
   
@@ -1076,7 +1072,7 @@ This operation returns latest scripts action execution of the specified cluster 
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/scriptExecutionHistory/{scriptExecutionId}?api-version={api-version}|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/scriptExecutionHistory/{script Execution Id}?api-version={api-version}`|  
   
 ### Response  
  The operation will return 200 (OK) if the request is completed successfully. Response body is an array of script execution details or a single script execution details if scriptExecutionId is provided. Below is an example of a script execution detail.  
@@ -1136,7 +1132,7 @@ This operation promotes an HDInsight script from script execution history to be 
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/scriptExecutionHistory/{scriptExecutionId}/promote?api-version={api-version}`|  
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/scriptExecutionHistory/{script Execution Id}/promote?api-version={api-version}`|  
   
 ### Response  
   
@@ -1153,7 +1149,7 @@ Resizes an existing HDInsight cluster.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/roles/{rolename}/resize?api-version={api-version}`|  
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/roles/{role name}/resize?api-version={api-version}`|  
   
  Following shows an example request to update tags for a cluster  
   
@@ -1184,7 +1180,7 @@ Updates tags for a cluster.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PATCH|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}?api-version={api-version}`|  
+|PATCH|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}?api-version={api-version}`|  
   
  Following shows an example request to update tags for a cluster  
   
