@@ -1,4 +1,4 @@
-/---
+---
 title: Azure REST API Reference 
 description: Azure REST API Reference 
 keywords: Azure REST, Azure REST API Reference
