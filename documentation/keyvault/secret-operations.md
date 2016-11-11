@@ -30,22 +30,22 @@ translation.priority.mt:
 
 The Azure Key Vault REST API supports the following operations for secret operations.
 
-- [Create a secret(../CreateSecret.json)
+- [Create a secret(../../api-ref/keyvault/CreateSecret.json)
 
 
-- [Get a secret](../GetSecret.json)
+- [Get a secret](../../api-ref/keyvault/GetSecret.json)
 
 
-- [List secrets in a vault](../GetSecrets.json)
+- [List secrets in a vault](../../api-ref/keyvault/GetSecrets.json)
 
 
-- [List versions of a secrete](../GetSecretVersion.json)
+- [List versions of a secrete](../../api-ref/keyvault/GetSecretVersion.json)
 
 
-- [Delete a secret](../DeleteSecret.json)
+- [Delete a secret](../../api-ref/keyvault/DeleteSecret.json)
 
 
-- [Update a secret](../UpdateSecret.json)
+- [Update a secret](../../api-ref/keyvault/UpdateSecret.json)
 
 
 
@@ -54,8 +54,8 @@ The Azure Key Vault REST API supports the following operations for secret operat
 
 
 ## See Also
-[Common parameters and headers](../common-parameters-and-headers.md)
-[About keys, secrets, and certificates](../about-keys--secrets-and-certifictes.md)
+[Common parameters and headers](common-parameters-and-headers.md)
+[About keys, secrets, and certificates](about-keys--secrets-and-certifictes.md)
 
 
 

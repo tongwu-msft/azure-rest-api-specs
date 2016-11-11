@@ -54,7 +54,7 @@ The Azure Key Vault REST API supports the following operations for key objects.
 - [Backup a key](../../api-ref/keyvault/BackupKey.json)
 
 
-- [Restore a key](../../api-ref/keyvault/Key.json)
+- [Restore a key](../../api-ref/keyvault/RestoreKey.json)
 
 
 - [Encrypt with a key](../../api-ref/keyvault/encrypt.json)
@@ -78,7 +78,7 @@ The Azure Key Vault REST API supports the following operations for key objects.
 
 ## See Also
 - [Common parameters and headers](common-parameters-and-headers.md)
-- [About keys, secrets, and certificates](about-keys--secrets-and-certifictes.md)
+- [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
 
 
 

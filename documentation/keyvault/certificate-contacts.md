@@ -31,13 +31,13 @@ translation.priority.mt:
 ## Tasks
 You can do the following with certificate contacts:
 
-- [Get certificate contacts](../GetCertificateContacts.json)
-- [Set certificate contacts](../SetCertificateContacts.json)
-- [Delete certificate contacts](../DeleteCertificateContacts.json)
+- [Get certificate contacts](../../api-ref/keyvault/GetCertificateContacts.json)
+- [Set certificate contacts](../../api-ref/keyvault/SetCertificateContacts.json)
+- [Delete certificate contacts](../../api-ref/keyvault/DeleteCertificateContacts.json)
 
 ## See Also
-[Common parameters and headers](../common-parameters-and-headers.md)
-[About keys, secrets, and certificates](../about-keys--secrets-and-certifictes.md)
+[Common parameters and headers](common-parameters-and-headers.md)
+[About keys, secrets, and certificates](about-keys--secrets-and-certifictes.md)
 
 
 

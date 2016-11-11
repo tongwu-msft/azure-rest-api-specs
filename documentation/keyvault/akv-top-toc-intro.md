@@ -37,23 +37,23 @@ Manage your Key Vaults using the following guidance:
 
 Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations with keys, secrets and certificates within the Azure environment.
 
-- [Key operations](../key-operations.md)
+- [Key operations](key-operations.md)
 
 
-- [Secret operations](../secret-operations.md)
+- [Secret operations](secret-operations.md)
 
 
-- [Certificate operations](../certificate-operations.md)
+- [Certificate operations](certificate-operations.md)
 
 
-For conceptual and detailed information, see - [About keys, secrets, and certificates](../about-keys--secrets-and-certifictes.md).
+For conceptual and detailed information, see - [About keys, secrets, and certificates](about-keys--secrets-and-certifictes.md).
 
 ## Common tasks
 
 Key Vaults
 
 
-- [Manage key vaults](../Vaults.md)
+- [Manage key vaults](../../api-ref/keyvault/Vaults.md)
 
 
 
@@ -61,43 +61,43 @@ Key Vaults
 Keys
 
 
-- [Create a key](../CreateKey.json)
+- [Create a key](../../api-ref/keyvault/CreateKey.json)
 
 
-- [Get information about a key](../GetKey.json)
+- [Get information about a key](../../api-ref/keyvault/GetKey.json)
 
 
-- [Encrypt with a key](../encrypt.json)
+- [Encrypt with a key](../../api-ref/keyvault/encrypt.json)
 
 
 
 Secrets
 
-- [Create a secret](../SetSecret.json)
+- [Create a secret](../../api-ref/keyvault/SetSecret.json)
 
 
-- [Get a secret](../GetSecret.json)
+- [Get a secret](../../api-ref/keyvault/GetSecret.json)
 
 
 Certificates
 
 
-- [Create a certificate](../CreateCertificate.json)
+- [Create a certificate](../../api-ref/keyvault/CreateCertificate.json)
 
 
-- [Import a certificate](../ImportCertificate.json)
+- [Import a certificate](../../api-ref/keyvault/ImportCertificate.json)
 
 
-- [Update a certificate](../UpdateCertificate.json)
+- [Update a certificate](../../api-ref/keyvault/UpdateCertificate.json)
 
 
-- [Update a certificate policy](../UpdateCertificatePolicy.json)
+- [Update a certificate policy](../../api-ref/keyvault/UpdateCertificatePolicy.json)
 
 ### See Also
 
-- [About keys, secrets, and certificates](../about-keys--secrets-and-certifictes.md)
-- [Authentication, requests and responses](../authentication--requests-and-responses.md)
-- [Key Vault versions](../key-vault-versions.md)
+- [About keys, secrets, and certificates](about-keys--secrets-and-certifictes.md)
+- [Authentication, requests and responses](authentication--requests-and-responses.md)
+- [Key Vault versions](key-vault-versions.md)
 
 
 
