@@ -20,7 +20,38 @@ manager: "mbaldwin"
 
 A certificate and policy are the two primary resources that are use to compose a Key Vault certificate. A policy may be used for multiple certificates and contains the important information about how a certificate shall behave.
 
-## Certificate resource
+Following are a list of the tasks with each certificates and certificate policies.
+
+## Tasks  
+ The Azure Key Vault REST API supports the following operations on certificates:  
+
+-   [Create a certificate ](../../api-ref/keyvault/CreateCertificate.json)
+
+-   [Import a certificate](../../api-ref/keyvault/ImportCertificate.json)  
+
+-   [List versions of a certificate](../../api-ref/keyvault/GetCertificateVersions.json)  
+
+-   [List certificates](../../api-ref/keyvault/GetCertificates.json)  
+
+-   [Get a certificate](../../api-ref/keyvault/GetCertificate.json)  
+
+-   [Delete a certificate](../../api-ref/keyvault/DeleteCertificate.json)  
+
+-   [Update a certificate](../../api-ref/keyvault/UpdateCertificate.json)  
+
+-   [Merge a certificate](../../api-ref/keyvault/MergeCertificate.json)
+
+ The following operations are available on a certificate policy:  
+
+-   [Get a certificate policy](../../api-ref/keyvault/GetCertificatePolicy.json)  
+
+-   [Update a certificate policy](../../api-ref/keyvault/UpdateCertificatePolicy.json)
+
+## Certificate and policy resource details
+Certificates and their supporting policies are complex resources with the following elements. 
+
+### Certificate resource
+
 A certificate resource is composed of the following elements.
 
 |Element Name|Type|Description|  
@@ -38,7 +69,7 @@ A certificate resource is composed of the following elements.
 |Attributes.Updated|IntDate|Read only field for the client. This contains the date when certificate object was last updated.|  
 |Tags|Complex type|user provided set of key value pairs associated with certificate object|  
 
-## Policy resource  
+### Policy resource  
 A policy resource is used to aggregate several complex types used by a KV certificate. A policy may be referenced by more than one KV certificate.
 
 |Element Name|Type|Description|  
@@ -128,30 +159,6 @@ Elements of a policy's key.
 |Updated|IntDate|Read only field for the client. This contains the date when the policy was last updated.|  
 
 
-## Tasks  
- The Azure Key Vault REST API supports the following operations on certificates:  
-
--   [Create a certificate ](../../api-ref/keyvault/CreateCertificate.json)
-
--   [Import a certificate](../../api-ref/keyvault/ImportCertificate.json)  
-
--   [List versions of a certificate](../../api-ref/keyvault/GetCertificateVersions.json)  
-
--   [List certificates](../../api-ref/keyvault/GetCertificates.json)  
-
--   [Get a certificate](../../api-ref/keyvault/GetCertificate.json)  
-
--   [Delete a certificate](../../api-ref/keyvault/DeleteCertificate.json)  
-
--   [Update a certificate](../../api-ref/keyvault/UpdateCertificate.json)  
-
--   [Merge a certificate](../../api-ref/keyvault/MergeCertificate.json)
-
- The following operations are available on a certificate policy:  
-
--   [Get a certificate policy](../../api-ref/keyvault/GetCertificatePolicy.json)  
-
--   [Update a certificate policy](../../api-ref/keyvault/UpdateCertificatePolicy.json)
 
 ## See Also
 - [About keys, secrets and certificates](about-keys--secrets-and-certificates.md)

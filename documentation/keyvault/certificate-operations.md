@@ -45,9 +45,9 @@ The Key Vault Certificate Management provides for management of your x509 Certif
 For more information on Key Vault certificates, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
 
 ## How to guidance
-[Get started with certificates](certificate-scenarios.md) leads you through creating your first Key Vault certificate as well as other types of tasks.
-[Certificate creation methods](create-a-certificate.md)
-[Monitor and manage certificate creation](create-certificate-scenarios.md)
+- [Get started with certificates](certificate-scenarios.md) leads you through creating your first Key Vault certificate as well as other types of tasks.
+- [Certificate creation methods](create-a-certificate.md) orients you to the ways a certificate can be created.
+- [Monitor and manage certificate creation](create-certificate-scenarios.md) orients you to the process level controls you have for monitoring and managing certificate creation in its various states. 
 
 ## Resources
 - [Certificates and policies](certificates-and-policies.md)
