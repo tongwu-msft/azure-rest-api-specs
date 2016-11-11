@@ -1,5 +1,5 @@
-# [Key Vault Rest](akv-top-toc-intro.md)
 # [Key Vault management](../../api-ref/keyvault/Vaults.json)
+
 # [Key operations](key-operations.md)
 ## [Create a key](../../api-ref/CreateKey.json)
 ## [Update a key](../../api-ref/UpdateKey.json)
@@ -16,11 +16,12 @@
 ## [Verify with a key](../../api-ref/verify.json)
 ## [Wrap a key](../../api-ref/wrapKey.json)
 ## [Unwrap a key](../../api-ref/unwrapKey.json)
-# [Secret Operations](secret-operations.md)
-## [Create a secret(../../api-ref/CreateSecret.json)
+
+# [Secret operations](secret-operations.md)
+## [Create a secret](../../api-ref/CreateSecret.json)
 ## [Get a secret](../../api-ref/GetSecret.json)
 ## [List secrets in a vault](../../api-ref/GetSecrets.json)
-## [List versions of a secrete](../../api-ref/GetSecretVersion.json)
+## [List versions of a secret](../../api-ref/GetSecretVersion.json)
 ## [Delete a secret](../../api-ref/DeleteSecret.json)
 ## [Update a secret](../../api-ref/UpdateSecret.json)
 
@@ -38,18 +39,21 @@
 ### [Update a certificate policy](../../api-ref/UpdateCertificatePolicy.json)
 ### [Get a certificate policy](../../api-ref/GetCertificatePolicy.json)
 ### [Get a certificate operation](../../api-ref/GetCertificateOperation.json)
-### [Update a certificate policy](../../api-ref/UpdateCertificatePolicy.json) 
+### [Update a certificate policy](../../api-ref/UpdateCertificatePolicy.json)
+
 # [Certificate issuers](certificate-issuers.md)
 ## [Set a certificate issuer](../../api-ref/SetCertificateIssuer.json)
 ## [Get a certificate issuer](../../api-ref/GetCertificateIssuer.json)
 ## [Update a certificate issuer](../../api-ref/UpdateCertificateIssuer.json)
 ## [Delete a certificate issuer](../../api-ref/DeleteCertificateIssuer.json)
 ## [Get certificate issuers](../../api-ref/GetCertificateIssuers.json)
+
 # [Certificate contacts](certificate-contacts.md)
 ## [Get certificate contacts](../../api-ref/GetCertificateContacts.json)
 ## [Set certificate contacts](../../api-ref/SetCertificateContacts.json)
 ## [Delete certificate contacts](../../api-ref/DeleteCertificateContacts.json)
+
 # [About Keys, Secrets and Certificates](about-keys--secrets-and-certificates.md)
 # [Authentication, Requests and Responses](authentication--requests-and-responses.md)
 # [Key Vault Versions](key-vault-versions.md)
-# Key Vault operation listing:
+# -- Key Vault operations (alphabetical) --
