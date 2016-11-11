@@ -29,11 +29,9 @@ For conceptual and detailed information, see - [About keys, secrets, and certifi
 
 Key Vaults
 
-- [Create or update a key vault](../../api-ref/keyvault/Vaults#Vaults_CreateOrUpdate.json)
-- [Deletes a key vault](../../api-ref/keyvault/Vaults#Vaults_Delete.json)
-- [Gets info about a key vault](../../api-ref/keyvault/Vaults#Vaults_Get.json)
-- [Gets information about a key vault](../../api-ref/keyvault/Vaults#Vaults_List.json)
-- [Gets information about associated key vaults](../../api-ref/keyvault/Vaults#Vaults_ListByResourceGroup.json)
+- [Create or update a key vault](../../api-ref/keyvault/Vaults#Vaults_CreateOrUpdate)
+- [Deletes a key vault](../../api-ref/keyvault/Vaults#Vaults_Delete)
+- [Gets info about a key vault](../../api-ref/keyvault/Vaults_Get)
 
 
 Keys
@@ -61,4 +59,3 @@ Certificates
 - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
 - [Authentication, requests and responses](authentication--requests-and-responses.md)
 - [Key Vault versions](key-vault-versions.md)
-
