@@ -1,3 +1,12 @@
+---
+ms.assetid:
+ms.title: Common parameters and headers | Microsoft Docs
+ms.service: batch
+author: mmacy
+ms.author: marsma
+ms.manager: timlt
+---
+
 # Common parameters and headers
 
 The following information is common to all operations that you might do related to Batch resources:

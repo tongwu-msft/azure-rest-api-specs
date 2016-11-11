@@ -1,3 +1,12 @@
+---
+ms.assetid:
+ms.title: Batch REST API versioning | Microsoft Docs
+ms.service: batch
+author: mmacy
+ms.author: marsma
+ms.manager: timlt
+---
+
 # Batch REST API versioning
 
 Operations provided by the Batch service REST API may have multiple versions for backwards compatibility as the API evolves over time. You must specify which version of an operation you wish to use when it is called by providing the version with your REST call. If your application calls an older version of an operation, you can choose to continue calling the older version, or modify your code to call a newer version. If the version is not specified or an incorrect version is specified, then an error will be returned.

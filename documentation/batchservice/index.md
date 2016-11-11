@@ -1,7 +1,6 @@
 ---
 ms.assetid: 9bcc6f00-0b58-4c89-8829-7cbf54be3e24
 ms.title: Azure Batch REST API reference
-ms.prod: azure
 ms.service: batch
 author: mmacy
 ms.author: marsma

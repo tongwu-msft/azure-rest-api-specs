@@ -1,3 +1,12 @@
+---
+ms.assetid:
+ms.title: Batch status and error codes | Microsoft Docs
+ms.service: batch
+author: mmacy
+ms.author: marsma
+ms.manager: timlt
+---
+
 # Batch status and error codes
 
 REST API operations for the Batch service return standard HTTP status codes, as defined in the [HTTP\/1.1 Status Code Definitions](http://go.microsoft.com/fwlink/?linkid=133333).
