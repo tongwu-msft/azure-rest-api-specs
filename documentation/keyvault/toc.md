@@ -1,5 +1,5 @@
-# [Key Vault REST](akv-top-toc-intro.md)
-# [Key Vault management](../api-ref/keyvault/Vaults.json)
+# [Key Vault Rest](akv-top-toc-intro.md)
+# [Key Vault management](../../api-ref/keyvault/Vaults.json)
 # [Key operations](key-operations.md)
 ## [Create a key](../CreateKey.json)
 ## [Update a key](../UpdateKey.json)

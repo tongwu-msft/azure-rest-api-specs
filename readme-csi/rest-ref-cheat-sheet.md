@@ -31,6 +31,16 @@ Examples:
 * `[Resource group operations](~/api-ref/resources/resourcegroups.json)`
 * `[Create a resource group](~/api-ref/resources/resourcegroups.json#ResourceGroups_CreateOrUpdate)`
 
+To link to the top-level node of a REST API, replace `api-ref` with `documentation`.
+
+Example:
+* `[Azure Search Management REST](~/documentation/searchmanagement/index.md)`
+
+To link to a service landing page in azure-docs-pr, use the following syntax. The slash afterward is required. This will load, by default, the 'index.md' file residing in that directory.
+
+Example:
+* `/azure/service-directory/`
+
 ## Metadata
 
 Each topic that you place in your service's directory in [/documentation](../documentation) needs a metadata section at the top. Include the the triple-hyphens (`---`) before/after the fields.
@@ -38,7 +48,7 @@ Each topic that you place in your service's directory in [/documentation](../doc
 ```yaml
 ---
 ms.assetid: leave BLANK for now
-ms.title: page title
+ms.title: page title | Microsoft Docs
 ms.prod: get from list
 ms.service: get from list
 author: githubalias
