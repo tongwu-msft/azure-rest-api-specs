@@ -37,7 +37,7 @@ You can do the following with certificate contacts:
 
 ## See Also
 [Common parameters and headers](common-parameters-and-headers.md)
-[About keys, secrets, and certificates](about-keys--secrets-and-certifictes.md)
+[About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
 
 
 

@@ -33,7 +33,7 @@ Managing Key Vaults as well as keys, secrets, and certificates within Key Vaults
 
 Manage your Key Vaults using the following guidance:
 
-- [Key Vault management]()
+- [Key Vault management](../../api-ref/keyvault/Vaults.json)
 
 Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations with keys, secrets and certificates within the Azure environment.
 
@@ -46,14 +46,14 @@ Managing within a Key Vault includes operations for creating, managing and execu
 - [Certificate operations](certificate-operations.md)
 
 
-For conceptual and detailed information, see - [About keys, secrets, and certificates](about-keys--secrets-and-certifictes.md).
+For conceptual and detailed information, see - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
 
 ## Common tasks
 
 Key Vaults
 
 
-- [Manage key vaults](../../api-ref/keyvault/Vaults.md)
+- [Manage key vaults](../../api-ref/keyvault/Vaults.json)
 
 
 
@@ -95,7 +95,7 @@ Certificates
 
 ### See Also
 
-- [About keys, secrets, and certificates](about-keys--secrets-and-certifictes.md)
+- [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
 - [Authentication, requests and responses](authentication--requests-and-responses.md)
 - [Key Vault versions](key-vault-versions.md)
 

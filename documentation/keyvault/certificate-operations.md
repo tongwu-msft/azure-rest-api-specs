@@ -42,7 +42,7 @@ The Key Vault Certificate Management provides for management of your x509 Certif
 - Allows for automatic enrollment and renewal with a few selected issuers (partner X509 certificate providers/authorities)
 
 
-For more information on Key Vault certificates, see [About keys, secrets, and certificates](about-keys--secrets-and-certifictes.md).
+For more information on Key Vault certificates, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
 
 ## Resources
 - [Certificates and policies](certificates-and-policies.md)
@@ -55,7 +55,7 @@ For more information on Key Vault certificates, see [About keys, secrets, and ce
 
 ## See Also
 [Common parameters and headers](common-parameters-and-headers.md)
-[About keys, secrets, and certificates](about-keys--secrets-and-certifictes.md)
+[About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
 
 
 

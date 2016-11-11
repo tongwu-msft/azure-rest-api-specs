@@ -39,7 +39,7 @@ The Azure Key Vault REST API supports the following operations for secret operat
 - [List secrets in a vault](../../api-ref/keyvault/GetSecrets.json)
 
 
-- [List versions of a secrete](../../api-ref/keyvault/GetSecretVersion.json)
+- [List versions of a secret](../../api-ref/keyvault/GetSecretVersions.json)
 
 
 - [Delete a secret](../../api-ref/keyvault/DeleteSecret.json)
@@ -55,7 +55,7 @@ The Azure Key Vault REST API supports the following operations for secret operat
 
 ## See Also
 [Common parameters and headers](common-parameters-and-headers.md)
-[About keys, secrets, and certificates](about-keys--secrets-and-certifictes.md)
+[About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
 
 
 
