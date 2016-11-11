@@ -25,7 +25,7 @@
 # [Certificate operations](certificate-operations.md)
 ## [Get started with certificates](certificate-scenarios.md)
 ## [Certificates and Policies](certificates-and-policies.md)
-### [Create a Certificate](create-a-certificate.md)
+### [Certificate creation methods](create-a-certificate.md)
 #### [Monitor and manage certificate creation](create-certificate-scenarios.md)
 ### [Import a certificate](../../api-ref/ImportCertifcate.md)
 ### [List versions of a certificate](../../api-ref/GetCertificateVersions.json)

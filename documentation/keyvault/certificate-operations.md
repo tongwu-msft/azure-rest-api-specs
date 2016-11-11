@@ -8,13 +8,13 @@ ms.service: "key-vault"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
-applies_to: 
+applies_to:
   - "Azure Key Vault"
 ms.assetid: fcffb0b0-f875-47c5-b80f-f79f23f6f4ee
 author: "bruceperlerMS"
 ms.author: "bruceper"
 manager: "mbaldwin"
-translation.priority.mt: 
+translation.priority.mt:
   - "de-de"
   - "es-es"
   - "fr-fr"
@@ -44,6 +44,11 @@ The Key Vault Certificate Management provides for management of your x509 Certif
 
 For more information on Key Vault certificates, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
 
+## How to guidance
+[Get started with certificates](certificate-scenarios.md) leads you through creating your first Key Vault certificate as well as other types of tasks.
+[Certificate creation methods](create-a-certificate.md)
+[Monitor and manage certificate creation](create-certificate-scenarios.md)
+
 ## Resources
 - [Certificates and policies](certificates-and-policies.md)
 - [Certificate issuers](certificate-issuers.md)
@@ -56,8 +61,3 @@ For more information on Key Vault certificates, see [About keys, secrets, and ce
 ## See Also
 [Common parameters and headers](common-parameters-and-headers.md)
 [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
-
-
-
-
-

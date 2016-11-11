@@ -16,7 +16,7 @@ author: "bruceperlerMS"
 ms.author: "bruceper"
 manager: "mbaldwin"
 ---
-# Create a certificate
+# Certificate creation methods
 Applies To: Azure  
 
  A KV Certificate can be either created or imported into a key vault. When a KV certificate is created the private key is created inside the key vault and never exposed to certificate owner. The following are ways to create a certificate in Key Vault:  
