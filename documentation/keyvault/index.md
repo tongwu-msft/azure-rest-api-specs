@@ -10,20 +10,16 @@ ms.manager: mbaldwin
 
 # Key Vault REST API Reference
 
-Managing Key Vaults as well as keys, secrets, and certificates within Key Vaults can be accomplished through a REST interface.
+Managing your key vaults as well as the keys, secrets, and certificates within your key vaults can be accomplished through a REST interface.
 
-Manage your Key Vaults using the following guidance:
+Manage your key vaults using the following set of operations.
 
-- [Key Vault management](../../api-ref/keyvault/Vaults.json)
+- [Manage key vaults](../../api-ref/keyvault/Vaults.json)
 
 Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations with keys, secrets and certificates within the Azure environment.
 
 - [Key operations](key-operations.md)
-
-
 - [Secret operations](secret-operations.md)
-
-
 - [Certificate operations](certificate-operations.md)
 
 
@@ -33,45 +29,31 @@ For conceptual and detailed information, see - [About keys, secrets, and certifi
 
 Key Vaults
 
-
-- [Manage key vaults](../../api-ref/keyvault/Vaults.json)
-
-
+- [Create or update a key vault](../../api-ref/keyvault/Vaults#Vaults_CreateOrUpdate.json)
+- [Deletes a key vault](../../api-ref/keyvault/Vaults#Vaults_Delete.json)
+- [Gets info about a key vault](../../api-ref/keyvault/Vaults#Vaults_Get.json)
+- [Gets information about a key vault](../../api-ref/keyvault/Vaults#Vaults_List.json)
+- [Gets information about associated key vaults](../../api-ref/keyvault/Vaults#Vaults_ListByResourceGroup.json)
 
 
 Keys
 
 
 - [Create a key](../../api-ref/keyvault/CreateKey.json)
-
-
 - [Get information about a key](../../api-ref/keyvault/GetKey.json)
-
-
 - [Encrypt with a key](../../api-ref/keyvault/encrypt.json)
-
-
 
 Secrets
 
 - [Create a secret](../../api-ref/keyvault/SetSecret.json)
-
-
 - [Get a secret](../../api-ref/keyvault/GetSecret.json)
-
 
 Certificates
 
 
 - [Create a certificate](../../api-ref/keyvault/CreateCertificate.json)
-
-
 - [Import a certificate](../../api-ref/keyvault/ImportCertificate.json)
-
-
 - [Update a certificate](../../api-ref/keyvault/UpdateCertificate.json)
-
-
 - [Update a certificate policy](../../api-ref/keyvault/UpdateCertificatePolicy.json)
 
 ### See Also
