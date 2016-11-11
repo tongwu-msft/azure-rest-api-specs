@@ -42,10 +42,10 @@ The Azure Key Vault REST API supports the following operations for key objects.
 - [Get information about a key](../../api-ref/keyvault/GetKey.json)
 
 
-- [List the keys in a vault](../../api-ref/keyvault/GetKeys.json)
+- [Get the keys in a vault](../../api-ref/keyvault/GetKeys.json)
 
 
-- [List the versions of a key](../../api-ref/keyvault/GetKeyVersions.json)
+- [Get the versions of a key](../../api-ref/keyvault/GetKeyVersions.json)
 
 
 - [Import a key into a vault](../../api-ref/keyvault/ImportKey.json)
