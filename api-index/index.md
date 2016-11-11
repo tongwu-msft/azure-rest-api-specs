@@ -1,4 +1,4 @@
-/---
+---
 title: Azure REST API Reference 
 description: Azure REST API Reference 
 keywords: Azure REST, Azure REST API Reference
@@ -26,7 +26,7 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 > Most Azure service REST APIs have a corresponding client SDK library, which handles much of the client code for you. See:  
 > 
 > [Azure .NET SDK][SDK-NET]  
-> [Azure Java SDK][SDK-JAVA] 
+> [Azure Java SDK][SDK-JAVA]  
 > [Azure CLI 2.0 SDK][SDK-CLI]  
 
 ## Components of a REST API request/response
@@ -283,6 +283,6 @@ Please use the LiveFyre comments section that follows this article to provide fe
 [AAD-Oauth-Code-Token]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#use-the-authorization-code-to-request-an-access-token
 [ARM-Create-Sp-Portal]: ../../Azure/resource-group-create-service-principal-portal.md
 [ARM-Provider-Summary]: ../../Azure/resource-manager-supported-services.md
-[SDK-NET](../../dotnet/api)
-[SDK-JAVA](../../java/api)
-[SDK-CLI](../../cli/azure)
+[SDK-NET] ../../dotnet/api/index.md
+[SDK-JAVA] ../../java/api/index.md
+[SDK-CLI] ../../cli/azure/index.md
