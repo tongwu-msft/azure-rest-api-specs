@@ -1,4 +1,4 @@
----
+﻿---
 title: "Create a Certificate"
 ms.custom: ""
 ms.date: "2016-09-28"
@@ -25,7 +25,7 @@ Applies To: Azure
   
 -    **Create a new certificate manually:** This will create a public-private key pair and generate an X.509 certificate signing request. The signing request can be signed by your registration authority or certification authority. The signed x509 certificate can be merged with the pending key pair to complete the KV certificate in Key Vault. Although this method requires more steps, it does provide you with greater security because the private key is created in and restricted to Key Vault. This is explained in the diagram below.  
   
-     ![certificate authority 1](../KeyVaultREST/media/certificate-authority-1.jpg "certificate authority 1")  
+     ![certificate authority 1](./media/certificate-authority-1.jpg "certificate authority 1")  
      
 The following descriptions correspond to the green lettered steps in the preceding diagram.
 
@@ -37,7 +37,7 @@ The following descriptions correspond to the green lettered steps in the precedi
   
 -   **Create a certificate with a known issuer provider:** This method requires you to do a one-time task of creating an issuer object. Once an issuer object is created in you key vault, its name can be referenced in the policy of the KV certificate. A request to create such a KV certificate will create a key pair in the vault and communicate with the issuer provider service using the information in the referenced issuer object to get an x509 certificate. The x509 certificate is retrieved from the issuer service and is merged with the key pair to complete the KV certificate creation.  
   
-     ![certificate authority 2](../KeyVaultREST/media/certificate-authority-2.png "certificate authority 2")  
+     ![certificate authority 2](./media/certificate-authority-2.png "certificate authority 2")  
      
 The following descriptions correspond to the green lettered steps in the preceding diagram.
 
@@ -86,12 +86,12 @@ Certificate creation can be completed manually or using a “Self” issuer. Key
 |GlobalCert|Key Vault offers OV or EV SSL certificates with GlobalSign|  
 |WoSign|Key Vault offers OV or EV SSL certificates with WoSign.|  
   
- For more information, including geographical availability of these issuer providers, see [Certificate Issuers](../KeyVaultREST/certificate-issuers.md). 
+ For more information, including geographical availability of these issuer providers, see [Certificate Issuers](certificate-issuers.md). 
   
 Note that when an order is placed with the issuer provider, it may honor or override the x509 certificate extensions and certificate validity period based on the type of certificate.  
   
  Authorization: Requires the certificates/create permission.
  
  ## See Also
- - [About keys, secrets and certificates](../KeyVaultREST/about-keys--secrets-and-certificates.md)
- - [Monitor and manage certificate creation](../KeyVaultREST/create-certificate-scenarios.md)
+ - [About keys, secrets and certificates](about-keys--secrets-and-certificates.md)
+ - [Monitor and manage certificate creation](create-certificate-scenarios.md)

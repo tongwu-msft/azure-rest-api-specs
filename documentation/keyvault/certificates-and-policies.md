@@ -1,4 +1,4 @@
----
+﻿---
 title: "Certificates and Policies"
 ms.custom: ""
 ms.date: "2016-09-28"
@@ -17,12 +17,12 @@ ms.author: "bruceper"
 manager: "mbaldwin"
 ---
 # Certificates and policies
-Applies To: Azure  
   
 A certificate and policy are the two primary resources that are use to compose a Key Vault certificate. A policy may be used for multiple certificates and contains the important information about how a certificate shall behave.
   
 ## Certificate resource
 A certificate resource is composed of the following elements.
+
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |Id|String|Versioned external id of the kv certificate.|  
@@ -40,6 +40,7 @@ A certificate resource is composed of the following elements.
   
 ## Policy resource  
 A policy resource is used to aggregate several complex types used by a KV certificate. A policy may be referenced by more than one KV certificate.
+
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |Id|String|Identity of the certificate policy|  
@@ -65,6 +66,7 @@ A policy resource is used to aggregate several complex types used by a KV certif
   
  **key_props**  
 Elements of a policy's key.
+
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |kty|String|Key Type. Supported values = RSA or RSA-HSM (optional). Default to RSA|  
@@ -74,6 +76,7 @@ Elements of a policy's key.
   
  **secret_props**  
  Elements of a policy's secret.
+
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |contentType|string|MIME type for X509 certificate representation. Supported values are application/x-pkcs12, application/x-pem-file|  
@@ -83,7 +86,8 @@ Elements of a policy's key.
  Lifetime actions is an array of LifetimeAction types. 
   
  **LifetimeAction**  
-  LifetimeAction contains Action and Trigger information of the policy.  
+  LifetimeAction contains Action and Trigger information of the policy. 
+ 
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |Action|Complex type| Reference to the type of action.|  
@@ -91,12 +95,14 @@ Elements of a policy's key.
   
  **Action**  
   Specifies the action to take when the associated trigger happens.
+
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |action_type|string|One of "EmailContacts" or "AutoRenew"|  
   
  **Trigger**  
  Specifies the type of event to trigger an Action on.
+
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |lifetime_percentage|number (int)|% of a certificate's lifetime on which to trigger. Value should be between 1 and 99 (inclusive).|  
@@ -106,6 +112,7 @@ Elements of a policy's key.
   
  **Issuer**  
  Information about the certificate issuer provider.
+
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |name|String|Possible values are "Unknown", "Self" or {IssuerName}. Default value is "Unknown" which represents an out of band issuer. "Self" is for a self-signed issuance of x509 certificate.<br /><br /> IssuerName is name of the object created using an partner issuers provider created as /certificates/issuers/{issuerName}|  
@@ -113,18 +120,13 @@ Elements of a policy's key.
   
  **attributes**  
  Additional elements of a policy resource. 
+
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |Enabled|Boolean|Default is true. Specifies whether the policy is enabled or disabled. Disabling a policy disables the lifetime management on the KV certificate|  
 |Created|IntDate|Read only field for the client. This contains the date when the policy was created.|  
 |Updated|IntDate|Read only field for the client. This contains the date when the policy was last updated.|  
-  
-##  <a name="bk_common"></a> Common parameters and headers  
- The following information is common to all operations on certificate issuer objects.  
-  
-1.  The {api-version} parameter is required and the current supported version is “2015-06-01”.  
-  
-2.  Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information on authentication, see [Authentication, requests, and responses](../KeyVaultREST/authentication--requests-and-responses.md).  
+ 
   
 ## Tasks  
  The Azure Key Vault REST API supports the following operations on certificates:  
