@@ -1,3 +1,32 @@
+---
+title: "Key Vault REST API"
+ms.custom: ""
+ms.date: "2016-11-10"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "key-vault"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+applies_to: 
+  - "Azure Key Vault"
+ms.assetid: 27acb17a-22ce-49f6-af33-02126d7ccc73
+author: "bruceperlerMS"
+ms.author: "bruceper"
+manager: "mbaldwin"
+translation.priority.mt: 
+  - "de-de"
+  - "es-es"
+  - "fr-fr"
+  - "it-it"
+  - "ja-jp"
+  - "ko-kr"
+  - "pt-br"
+  - "ru-ru"
+  - "zh-cn"
+  - "zh-tw"
+---
+
 # Key Vault REST API Reference
 
 Managing Key Vaults as well as keys, secrets, and certificates within Key Vaults can be accomplished through a REST interface.

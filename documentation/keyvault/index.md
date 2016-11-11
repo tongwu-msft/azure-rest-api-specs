@@ -20,9 +20,9 @@ The Key Vault REST API provides operations for working with the following resour
 | Operation group            | Description                                           |
 |-----------------------------|-------------------------------------------------------|
 | [Key Vault management](~/api-ref/keyvault/vaults.json) | Provides operations for workign with key vaults |
-| Keys | Operations for workign with keys in a key vault |
-| Secrets | Operations for working with secrets in a key vault |
-| Certificates | Operations for working with certificates, policies, and issuers in a key vault |
+| [Key operations](key-operations.md) | Operations for workign with keys in a key vault |
+| [Secret operations](secret-operations.md) | Operations for working with secrets in a key vault |
+| [Certificate operations. | Operations for working with certificates, policies, and issuers in a key vault |
 
                                        
 

@@ -1,5 +1,5 @@
 ---
-title: "Secret operations"
+title: "Certifcate issuers"
 ms.custom: ""
 ms.date: "2016-11-10"
 ms.prod: "azure"
@@ -10,7 +10,7 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 applies_to: 
   - "Azure Key Vault"
-ms.assetid: cef1870f-eaea-418e-a730-22ba444825ba
+ms.assetid: b0ffde8d-f352-4bcd-96e7-c8796d5c74b3
 author: "bruceperlerMS"
 ms.author: "bruceper"
 manager: "mbaldwin"
@@ -26,32 +26,17 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Secret operations
+# Certificate issuers
 
-The Azure Key Vault REST API supports the following operations for secret operations.
+## Tasks
 
-- [Create a secret(../CreateSecret.json)
+You can do the following with certificate issuers in a key vault:
 
-
-- [Get a secret](../GetSecret.json)
-
-
-- [List secrets in a vault](../GetSecrets.json)
-
-
-- [List versions of a secrete](../GetSecretVersion.json)
-
-
-- [Delete a secret](../DeleteSecret.json)
-
-
-- [Update a secret](../UpdateSecret.json)
-
-
-
-
-
-
+- [Set a certificate issuer](../SetCertificateIssuer.json)
+- [Get a certificate issuer](../GetCertificateIssuer.json)
+- [Update a certificate issuer](../UpdateCertificateIssuer.json)
+- [Delete a certificate issuer](../DeleteCertificateIssuer.json)
+- [Get certificate issuers](../GetCertificateIssuers.json)
 
 ## See Also
 [Common parameters and headers](../common-parameters-and-headers.md)

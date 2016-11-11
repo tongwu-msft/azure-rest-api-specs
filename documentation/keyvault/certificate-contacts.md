@@ -1,5 +1,5 @@
 ---
-title: "Secret operations"
+title: "Certifcate contacts"
 ms.custom: ""
 ms.date: "2016-11-10"
 ms.prod: "azure"
@@ -10,7 +10,7 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 applies_to: 
   - "Azure Key Vault"
-ms.assetid: cef1870f-eaea-418e-a730-22ba444825ba
+ms.assetid: e86a4324-2957-4468-9dc3-70e957775420
 author: "bruceperlerMS"
 ms.author: "bruceper"
 manager: "mbaldwin"
@@ -28,30 +28,12 @@ translation.priority.mt:
 ---
 # Secret operations
 
-The Azure Key Vault REST API supports the following operations for secret operations.
+## Tasks
+You can do the following with certificate contacts:
 
-- [Create a secret(../CreateSecret.json)
-
-
-- [Get a secret](../GetSecret.json)
-
-
-- [List secrets in a vault](../GetSecrets.json)
-
-
-- [List versions of a secrete](../GetSecretVersion.json)
-
-
-- [Delete a secret](../DeleteSecret.json)
-
-
-- [Update a secret](../UpdateSecret.json)
-
-
-
-
-
-
+- [Get certificate contacts](../GetCertificateContacts.json)
+- [Set certificate contacts](../SetCertificateContacts.json)
+- [Delete certificate contacts](../DeleteCertificateContacts.json)
 
 ## See Also
 [Common parameters and headers](../common-parameters-and-headers.md)
