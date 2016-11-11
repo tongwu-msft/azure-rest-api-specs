@@ -30,7 +30,7 @@ translation.priority.mt:
 
 The Azure Key Vault REST API supports the following operations for secret operations.
 
-- [Create a secret(../../api-ref/keyvault/CreateSecret.json)
+- [Create a secret](../../api-ref/keyvault/CreateSecret.json)
 
 
 - [Get a secret](../../api-ref/keyvault/GetSecret.json)
