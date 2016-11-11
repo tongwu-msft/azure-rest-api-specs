@@ -49,11 +49,11 @@ Here's how to setup **Azure Active Directory**:
  3. Click **NEW** button at the bottom of the page.  
  4. Choose **APP SERVICES** > **ACTIVE DIRECTORY** > **DIRECTORY** > **CUSTOM CREATE**.  
   
-    ![New AD](media/NewAD.png)  
+    ![New AD](/media/NewAD.png)  
       
  5. In the **Add directory** page, enter a name and domain name. For country or region choose United States or the country were Data Catalog is available.   
   
-    ![Add directory](media/NewDir.png)  
+    ![Add directory](/media/NewDir.png)  
   
  6. Choose OK icon. An Azure Active Directory is created.  
   
@@ -63,7 +63,7 @@ You need a user from your Azure AD to register an Azure AD app. Here's how to ad
   
  1. In your **Azure Active Directory**, click **USERS**.  
   
-    ![Add user](media/AddADUser.png)  
+    ![Add user](/media/AddADUser.png)  
   
  2. At the bottom of the page, click **ADD USER**. A user account is used to register a Data Catalog app.   
    
@@ -73,11 +73,11 @@ You need a user from your Azure AD to register an Azure AD app. Here's how to ad
     2. Enter your **USER NAME**.  
     3. Click **Next**.  
       
-     ![add user](media/AddUser2.png)  
+     ![add user](/media/AddUser2.png)  
   
  4. In the **user profile** page, enter your **DISPLAY NAME**. Display name is a required field.  
   
-    ![User Profile](media/UserProfile.png)  
+    ![User Profile](/media/UserProfile.png)  
   
  5. Click **Next**. For **ROLE**, you can use **User**.   
  6. Click **Create** to create a temporary password. The new user is assigned a temporary password that must be changed on first sign in.  

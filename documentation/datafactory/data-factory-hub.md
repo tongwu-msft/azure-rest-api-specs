@@ -8,7 +8,7 @@ Creates a new hub, or updates the content of an existing hub.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|PUT|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/hubs/<HubName\>?api-version=<Api-Version>|HTTP/1.1|  
+|PUT|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/hubs/{HubName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -186,7 +186,7 @@ Deletes the specific hub.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|DELETE|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/hubs/<HubName\>?api-version=<Api-Version>|HTTP/1.1|  
+|DELETE|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/hubs/{HubName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -282,7 +282,7 @@ Gets information about an existing hub.
   
 |HTTP Verb|Request URI|HTTP Version|  
 |-|-|-|  
-|GET|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/hubs/<HubName\>?api-version=<Api-Version>|HTTP/1.1|  
+|GET|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/hubs/{HubName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -409,7 +409,7 @@ Lists information about all hubs in the data factory.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|GET|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/hubs?api-version=<Api-Version>|HTTP/1.1|  
+|GET|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/hubs?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   

@@ -9,7 +9,7 @@
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-------------|---------------|----------------|  
-|PUT|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>?api-version=<Api-Version>|HTTP/1.1|  
+|PUT|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -191,7 +191,7 @@ Deletes the specific data factory.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|DELETE|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>?api-version=<Api-Version>|HTTP/1.1|  
+|DELETE|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}?api-version={api-version}|HTTP/1.1|  
   
 ### URI Parameters  
   
@@ -288,7 +288,7 @@ Gets information about the specified data factory.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|GET|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>?api-version=<Api-Version>|HTTP/1.1|  
+|GET|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -426,7 +426,7 @@ Lists information of all data factories in a resource group.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|GET|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories?api-version=<Api-Version>|HTTP/1.1|  
+|GET|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -557,7 +557,7 @@ If there are more than 100 records, you will get 100 records at a time with a ne
     }  
     ],  
 
-    "nextLink": "https://management.azure.com/subscriptions/<subscription ID>/resourcegroups/<Resource group name>/providers/Microsoft.DataFactory/datafactories?api-version=2015-10-01&%24skipToken=MSExNiFSR0YwWVVGeWRHbG1ZV04wCjEhNTIhUkVGZlpUSXlaR1UyTXpndFpURTJNeTAwWXpZNUxUaGhNR0l0Wm1VMU1ETmpOakF4T0RObA%3d%3d"
+    "nextLink": "https://management.azure.com/subscriptions/{subscription ID>/resourcegroups/{Resource group name>/providers/Microsoft.DataFactory/datafactories?api-version=2015-10-01&%24skipToken=MSExNiFSR0YwWVVGeWRHbG1ZV04wCjEhNTIhUkVGZlpUSXlaR1UyTXpndFpURTJNeTAwWXpZNUxUaGhNR0l0Wm1VMU1ETmpOakF4T0RObA%3d%3d"
 }  
 ```  
 You send the next request using the **nextLink** URL to get the next set of records. You may need to wrap & with double quotes ("") in the nextLink URL. Only 100 records are returned at a time. 
@@ -639,7 +639,7 @@ Lists the first page of activity window instances associated with a data factory
 ||||  
 |-|-|-|  
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
-|POST|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/activitywindows&api-version=<Api-Version>|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/activitywindows&api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   

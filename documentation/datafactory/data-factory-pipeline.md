@@ -8,7 +8,7 @@ Creates a new pipeline, or updates the content of an existing pipeline.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|PUT|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/datapipelines/<PipelineName\>?api-version=<Api-Version>|HTTP/1.1|  
+|PUT|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/datapipelines/{PipelineName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -285,7 +285,7 @@ Deletes the specified pipeline.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|DELETE|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/datapipelines/<PipelineName\>?api-version=<Api-Version>|HTTP/1.1|  
+|DELETE|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/datapipelines/{PipelineName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -385,7 +385,7 @@ Gets information about the specified pipeline.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|GET|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/datapipelines/<PipelineName\>?api-version=<Api-Version>|HTTP/1.1|  
+|GET|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/datapipelines/{PipelineName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -579,7 +579,7 @@ Lists information about all linked services in a data factory.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|GET|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/datapipelines?api-version=<Api-Version>|HTTP/1.1|  
+|GET|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/datapipelines?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -699,7 +699,7 @@ If there are more than 100 records, you will get 100 records at a time with a ne
         }  
     }  
     ] ,
-    "nextLink": "https://management.azure.com/subscriptions/<subscription ID>/resourcegroups/<Resource group name>/providers/Microsoft.DataFactory/datafactories/<data factory name>/datapipelines?api-version=2015-10-01&%24skipToken=MSExNiFSR0YwWVVGeWRHbG1ZV04wCjEhNTIhUkVGZlpUSXlaR1UyTXpndFpURTJNeTAwWXpZNUxUaGhNR0l0Wm1VMU1ETmpOakF4T0RObA%3d%3d"
+    "nextLink": "https://management.azure.com/subscriptions/{subscription ID>/resourcegroups/{Resource group name>/providers/Microsoft.DataFactory/datafactories/{data factory name>/datapipelines?api-version=2015-10-01&%24skipToken=MSExNiFSR0YwWVVGeWRHbG1ZV04wCjEhNTIhUkVGZlpUSXlaR1UyTXpndFpURTJNeTAwWXpZNUxUaGhNR0l0Wm1VMU1ETmpOakF4T0RObA%3d%3d"
 }  
 ```  
 You send the next request using the **nextLink** URL to get the next set of records. You may need to wrap & with double quotes ("") in the nextLink URL. Only 100 records are returned at a time. 
@@ -856,7 +856,7 @@ Lists the first page of activity window instances associated with a pipeline alo
 ||||  
 |-|-|-|  
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
-|POST|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName/datapipelines/<PipelineName\>/activitywindows&api-version=<Api-Version>|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datapipelines/{PipelineName}/activitywindows&api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -1041,7 +1041,7 @@ Lists the first page of activity window instances associated with an activity al
 ||||  
 |-|-|-|  
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
-|POST|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName/datapipelines/<PipelineName\>/activities/<ActivityName\>/activitywindows&api-version=<Api-Version>|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datapipelines/{PipelineName}/activities/{ActivityName}/activitywindows&api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -1230,7 +1230,7 @@ Resumes a suspended pipeline in data factory.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|POST|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/datapipelines/<PipelineName\>/resume?api-version=<Api-Version>|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/datapipelines/{PipelineName}/resume?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -1323,7 +1323,7 @@ Configures the active period for a data pipeline.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|POST|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/datapipelines/<PipelineName\>/update?start=<StartDateTime\>&end=<EndDateTime\>&autoResolve=false&forceRecalc=false&api-version=<Api-Version>|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/datapipelines/{PipelineName}/update?start={StartDateTime}&end={EndDateTime}&autoResolve=false&forceRecalc=false&api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
  Insert subsection body here.  
@@ -1423,7 +1423,7 @@ Pauses an existing running pipeline.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|POST|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/datapipelines/<PipelineName\>/pause?api-version=<Api-Version>|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/datapipelines/{PipelineName}/pause?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   

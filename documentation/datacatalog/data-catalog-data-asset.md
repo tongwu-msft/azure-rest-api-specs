@@ -1,7 +1,7 @@
 # Data Asset
 
 ## Annotate
-Aannotates an asset.
+Annotates an asset.
 
 `etag` property is optional and is used for concurrency control.
 
@@ -9,7 +9,8 @@ Aannotates an asset.
 	POST https://api.azuredatacatalog.com/catalogs/{catalog_name}/views/{view_name}/{view_item_id}/{nested_view_name}?api-version={api-version}
 
 
-> [AZURE.NOTE] Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip **Authorization headers** from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.
+> [!NOTE] 
+> Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip **Authorization headers** from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.
 
 ### Uri parameters
 
@@ -106,7 +107,8 @@ Registers a new data asset or updates an existing one if an asset with the same 
 ### Request  
 	POST https://api.azuredatacatalog.com/catalogs/{catalog_name}/views/{view_name}?api-version={api-version}  
 
-> [AZURE.NOTE] Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip Authorization headers from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.  
+> [!NOTE] 
+> Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip Authorization headers from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.  
 
 ### Uri parameters  
 |Name|Description|Data Type  
@@ -465,7 +467,8 @@ It supports optional Accept header parameter `adc.metadata` that requests ETags 
 ### Request  
 	GET https://api.azuredatacatalog.com/catalogs/{catalog_name}/views/{view_name}/{view_item_id}?api-version={api-version}  
   
-> [AZURE.NOTE] Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip **Authorization headers** from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.  
+> [!NOTE] 
+> Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip **Authorization headers** from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.  
   
 ### Uri parameters  
 |Name|Description|Data Type  
@@ -643,7 +646,8 @@ Searches over data assets based on the search terms provided.
 ### Request  
 	GET https://api.azuredatacatalog.com/catalogs/{catalog_name}/search/search?api-version={api-version}&searchTerms={search_terms}&facets={facet_terms}&startPage={start_page}&count={count}&view={data_source}  
   
-> [AZURE.NOTE] Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip **Authorization headers** from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.  
+> [!NOTE] 
+> Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip **Authorization headers** from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.  
   
 ### Uri parameters  
 |Name|Description|Data Type  
@@ -991,7 +995,8 @@ It supports optional If-Match header for optimistic concurrency control. Only we
 ### Request  
 	DELETE https://api.azuredatacatalog.com/catalogs/{catalog_name}/views/{view_name}/{view_item_id}?api-version={api-version}  
   
-> [AZURE.NOTE] Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip **Authorization headers** from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.  
+> [!NOTE] 
+> Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip **Authorization headers** from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.  
   
 ### Uri parameters  
 |Name|Description|Data Type  
@@ -1031,7 +1036,8 @@ The items can optionally contain ETag values to enable optimistic concurrency co
  
 	PUT https://api.azuredatacatalog.com/catalogs/{catalog_name}/views/{view_name}/{view_item_id}/{nested_view_name}?api-version={api-version}  
   
-> [AZURE.NOTE] Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip **Authorization headers** from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.  
+> [!NOTE] 
+> Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip **Authorization headers** from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.  
   
 ### Uri parameters  
 |Name|Description|Data Type  
@@ -1087,7 +1093,8 @@ It supports optional If-Match header for optimistic concurrency control. Only we
 	
 	DELETE https://api.azuredatacatalog.com/catalogs/{catalog_name}/views/{view_name}/{view_item_id}/{nested_view_name}?api-version={api-version}  
   
-> [AZURE.NOTE] Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip **Authorization headers** from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.  
+> [!NOTE] 
+> Some HTTP client implementations may automatically re-issue requests in response to a 302 from the server, but typically strip **Authorization headers** from the request. Since the Authorization header is required to make requests to ADC, you must ensure the Authorization header is still provided when re-issuing a request to a redirect location specified by ADC. Below is sample code demonstrating this using the .NET HttpWebRequest object.  
   
 ### Uri parameters  
 |Name|Description|Data Type  

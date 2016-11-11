@@ -8,7 +8,7 @@ Creates a new dataset, or updates the content of an existing dataset.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|PUT|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/datasets/<DatasetName\>?api-version=<Api-Version>|HTTP/1.1|  
+|PUT|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/datasets/{DatasetName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -101,7 +101,7 @@ Creates a new dataset, or updates the content of an existing dataset.
 {  
   "name": "InputDataset",  
   "id":  
-"/subscriptions/<subscription ID>/resourcegroups/<resource group name>/providers/Microsoft.DataFactory/datafactories/  
+"/subscriptions/{subscription ID>/resourcegroups/{resource group name>/providers/Microsoft.DataFactory/datafactories/  
 <data factory name>/tables/InputDataset",  
     "type": "AzureBlob",  
     "linkedServiceName": "<Name of the Data Factory linked service that contains the data>",  
@@ -197,7 +197,7 @@ Body:
 {  
   "name": "InputDataset",  
   "id":  
-"/subscriptions/<subscription ID>/resourcegroups/<resource group name>/providers/Microsoft.DataFactory/datafactories/  
+"/subscriptions/{subscription ID>/resourcegroups/{resource group name>/providers/Microsoft.DataFactory/datafactories/  
 <name of data factory>/tables/InputDataset",  
   "properties": {  
     "structure": [  
@@ -243,7 +243,7 @@ Deletes the specified dataset.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|DELETE|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/dataset/<DatasetName\>?api-version=<Api-Version>|HTTP/1.1|  
+|DELETE|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/dataset/{DatasetName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -337,7 +337,7 @@ Gets information about datasets in a data factory.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|GET|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/datasets/<DatasetName\>?api-version=<Api-Version>|HTTP/1.1|  
+|GET|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/datasets/{DatasetName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -391,7 +391,7 @@ Gets information about datasets in a data factory.
 {  
   "name": "InputDataset",  
   "id":  
-"/subscriptions/<subscription ID>/resourcegroups/<resource group name>/providers/Microsoft.DataFactory/datafactories/  
+"/subscriptions/{subscription ID>/resourcegroups/{resource group name>/providers/Microsoft.DataFactory/datafactories/  
 <data factory name>/tables/InputDataset",  
     "type": "AzureBlob",  
     "linkedServiceName": "<Name of the Data Factory linked service that contains the data>",  
@@ -458,7 +458,7 @@ X-Powered-By                  : ASP.NET
 {  
   "name": "InputDataset",  
   "id":  
-"/subscriptions/<subscription ID>/resourcegroups/<resource group name>/providers/Microsoft.DataFactory/datafactories/<data factory name>/tables/InputDataset",  
+"/subscriptions/{subscription ID>/resourcegroups/{resource group name>/providers/Microsoft.DataFactory/datafactories/{data factory name>/tables/InputDataset",  
   "properties": {  
     "structure": [  
       {  
@@ -503,7 +503,7 @@ Lists information of all datasets in the data factory.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|GET|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/datasets?api-version=<Api-Version>|HTTP/1.1|  
+|GET|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/datasets?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -556,8 +556,8 @@ Lists information of all datasets in the data factory.
     {  
       "name": "Name of the dataset",  
       "id":  
-"/subscriptions/<Subscription ID>/resourcegroups/<Resource Group Name>/providers/Microsoft.DataFactory/datafactories/  
-<Data Factory Name>/tables/<datasetname>",  
+"/subscriptions/{Subscription ID>/resourcegroups/{Resource Group Name>/providers/Microsoft.DataFactory/datafactories/  
+<Data Factory Name>/tables/{datasetname>",  
       "properties": {  
         "published": false,  
         "type": "Type of the dataset",  
@@ -570,8 +570,8 @@ Lists information of all datasets in the data factory.
     {  
       "name": "Name of the dataset",  
       "id":  
-"/subscriptions/<subscription ID>/resourcegroups/<resource group name>/providers/Microsoft.DataFactory/datafactories/  
-<data factory name>/tables/<datasetname>",  
+"/subscriptions/{subscription ID>/resourcegroups/{resource group name>/providers/Microsoft.DataFactory/datafactories/  
+<data factory name>/tables/{datasetname>",  
       "properties": {  
         "published": false,  
         "type": "Type of the dataset",  
@@ -593,7 +593,7 @@ If there are more than 100 records, you will get 100 records at a time with a ne
   "value": [
     {
       "name": "AzureBlobInput99",
-      "id": "/subscriptions/<subscription ID>/resourcegroups/<resource group name>/providers/Microsoft.DataFactory/datafactories/ADFCopyTutorialDF/datasets/AzureBlobInput99",
+      "id": "/subscriptions/{subscription ID>/resourcegroups/{resource group name>/providers/Microsoft.DataFactory/datafactories/ADFCopyTutorialDF/datasets/AzureBlobInput99",
       "properties": {
         "published": false,
         "type": "AzureBlob",
@@ -606,7 +606,7 @@ If there are more than 100 records, you will get 100 records at a time with a ne
     }, 
     {
       "name": "AzureBlobInput100",
-      "id": "/subscriptions/<subscription ID>/resourcegroups/<resource group name>/providers/Microsoft.DataFactory/datafactories/ADFCopyTutorialDF/datasets/AzureBlobInput100",
+      "id": "/subscriptions/{subscription ID>/resourcegroups/{resource group name>/providers/Microsoft.DataFactory/datafactories/ADFCopyTutorialDF/datasets/AzureBlobInput100",
       "properties": {
         "published": false,
         "type": "AzureBlob",
@@ -618,7 +618,7 @@ If there are more than 100 records, you will get 100 records at a time with a ne
       }
 	 }
   ],
-  "nextLink": "https://management.azure.com/subscriptions/<subscription ID>/resourcegroups/<Resource group name>/providers/Microsoft.DataFactory/datafactories/<data factory name>/datasets?api-version=2015-10-01&%24skipToken=MSExNiFSR0YwWVVGeWRHbG1ZV04wCjEhNTIhUkVGZlpUSXlaR1UyTXpndFpURTJNeTAwWXpZNUxUaGhNR0l0Wm1VMU1ETmpOakF4T0RObA%3d%3d"
+  "nextLink": "https://management.azure.com/subscriptions/{subscription ID>/resourcegroups/{Resource group name>/providers/Microsoft.DataFactory/datafactories/{data factory name>/datasets?api-version=2015-10-01&%24skipToken=MSExNiFSR0YwWVVGeWRHbG1ZV04wCjEhNTIhUkVGZlpUSXlaR1UyTXpndFpURTJNeTAwWXpZNUxUaGhNR0l0Wm1VMU1ETmpOakF4T0RObA%3d%3d"
 }  
 ```  
 You send the next request using the **nextLink** URL to get the next set of records. You may need to wrap & with double quotes ("") in the nextLink URL. Only 100 records are returned at a time. 
@@ -708,7 +708,7 @@ Lists the first page of activity window instances associated with a dataset alon
 ||||  
 |-|-|-|  
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
-|POST|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName/datasets/<DatasetName\>/activitywindows&api-version=<Api-Version>|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datasets/{DatasetName}/activitywindows&api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   

@@ -3,10 +3,7 @@
 ## Create or Update
 Creates or updates a catalog.  
   
-**Required**  
-  
-Azure Resource Manager requests must be **Authorized**, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
-  
+ 
   
 ### Request  
     PUT https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resouceGroup>/providers/Microsoft.DataCatalog/catalogs/<catalogName>  
@@ -113,11 +110,7 @@ Users| list of catalog users: <br/> - upn/objectId same as above
 ## Delete
 Deletes a catalog.  
   
-**Required**  
-  
-Azure Resource Manager requests must be **Authorized**, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
-  
-    DELETE https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<rgName>/providers/Microsoft.DataCatalog/catalogs/<catalogName>  
+
   
 ### Request  
   
@@ -151,9 +144,7 @@ None
 ## Get
 Gets a catalog.  
   
-**Required**  
-  
-Azure Resource Manager requests must be **Authorized**, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
+
   
     GET https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resouceGroup>/providers/Microsoft.DataCatalog/catalogs/<catalogName>  
   
@@ -229,9 +220,7 @@ Users| list of catalog users: <br/> - upn/objectId same as above
 ## List
 lists all catalogs.  
   
-**Required**  
-  
-Azure Resource Manager requests must be **Authorized**, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
+
   
     GET https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resouceGroup>/providers/Microsoft.DataCatalog/catalogs  
   
@@ -307,10 +296,7 @@ Users| list of catalog users: <br/> - upn/objectId same as above
 
 ## Update
 Updates a Catalog.  
-  
-**Required**  
-  
-Azure Resource Manager requests must be **Authorized**, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ 
   
     PATCH https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resouceGroup>/providers/Microsoft.DataCatalog/catalogs/<catalogName>  
   
