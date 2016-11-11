@@ -45,7 +45,7 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 > [!NOTE]  
 >  The maximum number of indexers allowed varies by pricing tier. The free service allows up to 3 indexers. Standard service allows 50 indexers. See [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.  
 
- The **api-version** is required. The current version is `2015-02-28`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
  The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/ocumentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 
@@ -61,7 +61,9 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
         "dataSourceName" : "Required. The name of an existing data source",  
         "targetIndexName" : "Required. The name of an existing index",  
         "schedule" : { Optional. See Indexing Schedule below. },  
-        "parameters" : { Optional. See Indexing Parameters below. }  
+        "parameters" : { Optional. See Indexing Parameters below. },  
+        "fieldMappings" : { Optional. See Field Mappings below. },
+        "disabled" : Optional boolean value indicating whether the indexer is disabled. False by default.
     }  
 ```  
 
@@ -79,9 +81,35 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 
 -   **maxFailedItemsPerBatch**: The number of items that can fail to be indexed in each batch before an indexer run is considered a failure. Default is 0.  
 
--   **base64EncodeKeys**: Specifies whether or not document keys will be base-64 encoded. Azure Search imposes restrictions on characters that can be present in a document key. However, the values in your source data may contain characters that are invalid. If it is necessary to index such values as document keys, this flag can be set to true. Default is `false`.  
+-   **batchSize:** Specifies the number of items that are read from the data source and indexed as a single batch in order to improve performance. The default depends on the data source type: it is 1000 for Azure SQL and DocumentDB, and 10 for Azure Blob Storage.
 
--   **batchSize:** Specifies the number of items that are read from the data source and indexed as a single batch in order to improve performance. The default depends on the data source type: it is 1000 for  Azure SQL and DocumentDB, and 10 for Azure Blob Storage.  
+**Field Mappings**
+
+You can use field mappings to map a field name in the data source to a different field name in the target index. For example, consider a source table with a field `_id`. Azure Search doesn't allow a field name starting with an underscore, so the field must be renamed. This can be done using the `fieldMappings` property of the indexer as follows:
+
+	"fieldMappings" : [ { "sourceFieldName" : "_id", "targetFieldName" : "id" } ]
+
+You can specify multiple field mappings:
+
+	"fieldMappings" : [
+		{ "sourceFieldName" : "_id", "targetFieldName" : "id" },
+        { "sourceFieldName" : "_timestamp", "targetFieldName" : "timestamp" },
+	 ]
+
+Both source and target field names are case-insensitive.
+
+<a name="FieldMappingFunctions"></a>
+***Field Mapping Functions***
+
+Field mappings can also be used to transform source field values using *mapping functions*.
+
+Only one such function is currently supported: `jsonArrayToStringCollection`. It parses a field that contains a string formatted as a JSON array into a Collection(Edm.String) field in the target index. It is intended for use with Azure SQL indexer in particular, since SQL doesn't have a native collection data type. It can be used as follows:
+
+	"fieldMappings" : [ { "sourceFieldName" : "tags", "mappingFunction" : { "name" : "jsonArrayToStringCollection" } } ]
+
+For example, if the source field contains the string `["red", "white", "blue"]`, then the target field of type `Collection(Edm.String)` will be populated with the three values `"red"`, `"white"` and `"blue"`.
+
+Note that the `targetFieldName` property is optional; if left out, the `sourceFieldName` value is used. 
 
 ### Request body examples  
  The following example creates an indexer that copies data from the table referenced by the `ordersds` data source to the `orders` index on a schedule that starts on Jan 1, 2015 UTC and runs hourly. Each indexer invocation will be successful if no more than 5 items fail to be indexed in each batch, and no more than 10 items fail to be indexed in total.  
