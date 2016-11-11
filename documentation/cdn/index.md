@@ -1,6 +1,6 @@
 ---
 ms.assetid: 987a76ca-b62e-4525-ac07-bbde73abce05
-ms.title: Azure CDN REST API Reference
+ms.title: Azure CDN REST API Reference | Microsoft Docs
 ms.service: cdn
 author: mmacy
 ms.author: marsma
