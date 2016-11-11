@@ -1,20 +1,20 @@
 ---
 title: "Secret operations"
 ms.custom: ""
-ms.date: "2016-11-10"
+ms.date: "2016-11-11"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "key-vault"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
-applies_to: 
+applies_to:
   - "Azure Key Vault"
 ms.assetid: cef1870f-eaea-418e-a730-22ba444825ba
 author: "bruceperlerMS"
 ms.author: "bruceper"
 manager: "mbaldwin"
-translation.priority.mt: 
+translation.priority.mt:
   - "de-de"
   - "es-es"
   - "fr-fr"
@@ -56,8 +56,3 @@ The Azure Key Vault REST API supports the following operations for secret operat
 ## See Also
 [Common parameters and headers](common-parameters-and-headers.md)
 [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
-
-
-
-
-

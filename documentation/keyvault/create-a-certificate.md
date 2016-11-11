@@ -1,7 +1,7 @@
 ﻿---
 title: "Create a Certificate"
 ms.custom: ""
-ms.date: "2016-09-28"
+ms.date: "2016-11-11"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "key-vault"

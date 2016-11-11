@@ -1,20 +1,20 @@
 ﻿---
 title: "Common parameters and headers"
 ms.custom: ""
-ms.date: "2016-11-10"
+ms.date: "2016-11-11"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "key-vault"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
-applies_to: 
+applies_to:
   - "Azure Key Vault"
 ms.assetid: 15d13ca9-d6e8-4e54-ac5e-0ed9400fb15b
 author: "bruceperlerMS"
 ms.author: "bruceper"
 manager: "mbaldwin"
-translation.priority.mt: 
+translation.priority.mt:
   - "de-de"
   - "es-es"
   - "fr-fr"
@@ -56,4 +56,3 @@ The service will use HTTP status codes to indicate success or failure. In additi
 
 ## See Also
  [Azure Key Vault REST API Reference](../keyvault/index.md)
-

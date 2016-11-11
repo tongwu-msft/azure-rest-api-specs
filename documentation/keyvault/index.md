@@ -3,6 +3,7 @@
 ms.assetid: 16d4764e-3c9d-42b4-b749-bed20ca6b741
 ms.title: Azure Key Vault REST API reference
 ms.service: key-vault
+ms.date: "2016-11-11"
 author: BrucePerlerMS
 ms.author: bruceper
 ms.manager: mbaldwin

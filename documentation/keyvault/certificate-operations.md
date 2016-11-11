@@ -1,7 +1,7 @@
 ---
 title: "Certifcate operations"
 ms.custom: ""
-ms.date: "2016-11-10"
+ms.date: "2016-11-11"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "key-vault"
@@ -47,7 +47,7 @@ For more information on Key Vault certificates, see [About keys, secrets, and ce
 ## How to guidance
 - [Get started with certificates](certificate-scenarios.md) leads you through creating your first Key Vault certificate as well as other types of tasks.
 - [Certificate creation methods](create-a-certificate.md) orients you to the ways a certificate can be created.
-- [Monitor and manage certificate creation](create-certificate-scenarios.md) orients you to the process level controls you have for monitoring and managing certificate creation in its various states. 
+- [Monitor and manage certificate creation](create-certificate-scenarios.md) orients you to the process level controls you have for monitoring and managing certificate creation in its various states.
 
 ## Resources
 - [Certificates and policies](certificates-and-policies.md)

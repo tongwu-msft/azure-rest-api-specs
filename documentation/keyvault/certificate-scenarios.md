@@ -1,7 +1,7 @@
 ﻿---
 title: "Certificate scenarios"
 ms.custom: ""
-ms.date: "2016-10-13"
+ms.date: "2016-11-11"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "key-vault"
@@ -17,7 +17,7 @@ ms.author: "bruceper"
 manager: "mbaldwin"
 ---
 # Get started with certificates
-The following scenarios outline several of the primary usages of Key Vault’s certificate management service including the additional steps required for creating your first certificate in your key vault. 
+The following scenarios outline several of the primary usages of Key Vault’s certificate management service including the additional steps required for creating your first certificate in your key vault.
 
 The following are outlined:
 - Creating your first Key Vault certificate
@@ -29,7 +29,7 @@ The following are outlined:
 Certificates are composed of three interrelated resources linked together as a Key Vault certificate; certificate metadata, a key and a secret.
 
 
-![Certificates are complex](./media/azure-key-vualt.png)
+![Certificates are complex](./media/azure-key-vault.png)
 
 
 ## Creating your first Key Vault certificate  

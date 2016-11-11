@@ -1,21 +1,21 @@
 ---
 title: "Key Vault Versions"
 ms.custom: ""
-ms.date: "2016-09-28"
+ms.date: "2016-11-11"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "key-vault"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
-applies_to: 
+applies_to:
   - "Azure Key Vault"
 ms.assetid: e8622dcc-59a3-4f4b-9f63-cd2232515a65
 caps.latest.revision: 10
 author: "bruceperlerMS"
 ms.author: "bruceper"
 manager: "mbaldwin"
-translation.priority.mt: 
+translation.priority.mt:
   - "de-de"
   - "es-es"
   - "fr-fr"

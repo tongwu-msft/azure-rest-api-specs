@@ -1,20 +1,20 @@
 ---
 title: "Certifcate issuers"
 ms.custom: ""
-ms.date: "2016-11-10"
+ms.date: "2016-11-11"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "key-vault"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
-applies_to: 
+applies_to:
   - "Azure Key Vault"
 ms.assetid: b0ffde8d-f352-4bcd-96e7-c8796d5c74b3
 author: "bruceperlerMS"
 ms.author: "bruceper"
 manager: "mbaldwin"
-translation.priority.mt: 
+translation.priority.mt:
   - "de-de"
   - "es-es"
   - "fr-fr"
@@ -41,8 +41,3 @@ You can do the following with certificate issuers in a key vault:
 ## See Also
 [Common parameters and headers](common-parameters-and-headers.md)
 [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
-
-
-
-
-

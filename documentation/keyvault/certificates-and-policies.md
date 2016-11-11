@@ -1,7 +1,7 @@
 ﻿---
 title: "Certificates and Policies"
 ms.custom: ""
-ms.date: "2016-09-28"
+ms.date: 2016-11-11"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "key-vault"
@@ -48,7 +48,7 @@ Following are a list of the tasks with each certificates and certificate policie
 -   [Update a certificate policy](../../api-ref/keyvault/UpdateCertificatePolicy.json)
 
 ## Certificate and policy resource details
-Certificates and their supporting policies are complex resources with the following elements. 
+Certificates and their supporting policies are complex resources with the following elements.
 
 ### Certificate resource
 
