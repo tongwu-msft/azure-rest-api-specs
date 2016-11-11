@@ -47,7 +47,7 @@ translation.priority.mt:
 |bigint|Edm.Int64, Edm.String||  
 |real, float|Edm.Double, Edm.String||  
 |smallmoney, money<br /><br /> decimal<br /><br /> numeric|Edm.String|Azure Search does not support converting decimal types into Edm.Double because doing so would lose precision.|  
-|char, nchar, varchar, nvarchar|Edm.String||  
+|char, nchar, varchar, nvarchar|Edm.String <br /><br/>Collection(Edm.String). See [Field Mapping Functions](create-indexer.md#FieldMappingFunctions) for details on how to transform a string column into a Collection(Edm.String)|  
 |smalldatetime, datetime, datetime2, date, datetimeoffset|Edm.DateTimeOffset, Edm.String||  
 |uniqueidentifer|Edm.String||  
 |rowversion|N/A|Row-version columns cannot be stored in the search index, but they can be used for change tracking.|  
@@ -66,7 +66,7 @@ translation.priority.mt:
 |Strings that look like dates|Edm.DateTimeOffset, Edm.String|  
 |GeoJSON point objects|Edm.GeographyPoint<br /><br /> GeoJSON points are JSON objects in the following format: {"type" : "Point", "coordinates": [long], [lat] }|  
 |JSON objects|N/A<br /><br /> Not supported; Azure Search currently supports only primitive types and string collections|  
-  
+
 ## See Also  
  [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   
  [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   

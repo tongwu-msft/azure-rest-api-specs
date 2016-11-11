@@ -77,8 +77,8 @@ api-key: [admin or query key]
 |Parameter|Description|  
 |---------------|-----------------|  
 |`search=[string]`|The search text to use to suggest queries. Must be at least 1 character, and no more than 100 characters.|  
-|`highlightPreTag=[string] (optional)`|A string tag that prepends to search hits. Must be set with `highlightPostTag`. **Note:**  When calling **Suggestions** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
-|`highlightPostTag=[string] (optional)`|A string tag that appends to search hits. Must be set with `highlightPreTag`. **Note:**  When calling **Suggestions** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
+|`highlightPreTag=[string] (optional, defaults to an empty string)`|A string tag that prepends to search hits. Must be set with `highlightPostTag`. **Note:**  When calling **Suggestions** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
+|`highlightPostTag=[string] (optional, defaults to an empty string)`|A string tag that appends to search hits. Must be set with `highlightPreTag`. **Note:**  When calling **Suggestions** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
 |`suggesterName=[string]`|The name of the **suggester** as specified in the **suggesters** collection that's part of the index definition. A **suggester** determines which fields are scanned for suggested query terms. See [Suggesters](suggesters.md) for more information.|  
 |`fuzzy=[boolean] (optional, default = false)`|When set to true, this API will find suggestions even if there is a substituted or missing character in the search text. While this provides a better experience in some scenarios, it comes at a performance cost as fuzzy suggestion searches are slower and consume more resources.|  
 |`searchFields=[string] (optional)`|The list of comma-separated field names to search for the specified search text. Target fields must be enabled for suggestions.|  
@@ -87,7 +87,7 @@ api-key: [admin or query key]
 |`$orderby=[string] (optional)`|A list of comma-separated expressions to sort the results by. Each expression can be either a field name or a call to the `geo.distance()` function. Each expression can be followed by `asc` to indicated ascending, and `desc` to indicate descending. The default is ascending order. There is a limit of 32 clauses for `$orderby`. **Note:**  When calling **Suggestions** using POST, this parameter is named `orderby` instead of `$orderby`.|  
 |`$select=[string] (optional)`|A list of comma-separated fields to retrieve. If unspecified, only the document key and suggestion text is returned. You can explicitly request all fields by setting this parameter to **\***. **Note:**  When calling **Suggestions** using POST, this parameter is named `select` instead of `$select`.|  
 |`minimumCoverage (optional, defaults to 80)`|A number between 0 and 100 indicating the percentage of the index that must be covered by a suggestions query in order for the query to be reported as a success. By default, at least 80% of the index must be available or the Suggest operation will return HTTP status code 503. If you set `minimumCoverage` and Suggest succeeds, it will return HTTP 200 and include a `@search.coverage` value in the response indicating the percentage of the index that was included in the query. **Note:**  Setting this parameter to a value lower than 100 can be useful for ensuring search availability even for services with only one replica. However, not all matching suggestions are guaranteed to be present in the search results. If search recall is more important to your application than availability, then it's best not to lower `minimumCoverage` below its default value of 80.|  
-|`api-version=[string]`|The `api-version` parameter is required. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details. **Note:**  For this operation, the api-version is specified as a query parameter in the URL regardless of whether you call **Suggestions** with GET or POST.|  
+|`api-version=[string]`|The `api-version` parameter is required. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Suggestions** with GET or POST.|  
 
 ### Request Headers  
  The following table describes the required and optional request headers  
@@ -154,11 +154,11 @@ api-key: [admin or query key]
  Retrieve 5 suggestions where the partial search input is 'lux':  
 
 ```  
-GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2015-02-28  
+GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2016-09-01  
 ```  
 
 ```  
-POST /indexes/hotels/docs/suggest?api-version=2015-02-28  
+POST /indexes/hotels/docs/suggest?api-version=2016-09-01  
     {  
       "search": "lux",  
       "top": 5,  
