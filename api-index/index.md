@@ -1,4 +1,4 @@
----
+/---
 title: Azure REST API Reference 
 description: Azure REST API Reference 
 keywords: Azure REST, Azure REST API Reference
@@ -25,9 +25,9 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 > [!NOTE] 
 > Most Azure service REST APIs have a corresponding client SDK library, which handles much of the client code for you. See:  
 > 
-> [Azure .NET SDK](dotnet/api)  
-> [Azure Java SDK](java/api)  
-> [Azure CLI 2.0 SDK](cli/azure)  
+> [Azure .NET SDK](/dotnet/api)  
+> [Azure Java SDK](/java/api)  
+> [Azure CLI 2.0 SDK](/cli/azure)  
 
 ## Components of a REST API request/response
 
