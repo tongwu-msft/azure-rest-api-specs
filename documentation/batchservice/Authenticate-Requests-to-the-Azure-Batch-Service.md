@@ -1,3 +1,12 @@
+---
+ms.assetid:
+ms.title: Authenticate requests to the Batch service | Microsoft Docs
+ms.service: batch
+author: mmacy
+ms.author: marsma
+ms.manager: timlt
+---
+
 # Authenticate requests to the Batch service
 
 Every request made against the Batch service must be authenticated.  The Batch service supports the Shared Key authentication scheme to make REST requests.

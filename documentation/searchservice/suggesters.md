@@ -28,7 +28,8 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Suggesters
-  The suggestions feature in Azure Search is a type-ahead or auto-complete query capability, providing a list of potential search terms in response to partial string inputs entered into a search box. You've probably noticed query suggestions when using commercial web search engines: typing ".NET" in Bing produces a list of terms for ".NET 4.5", ".NET Framework 3.5", and so forth. Using the service REST API, implementing suggestions in a custom Azure Search application requires the following:  
+
+  The suggestions feature in Azure Search is a type-ahead query capability, providing a list of potential search terms in response to partial string inputs entered into a search box. You've probably noticed query suggestions when using commercial web search engines: typing ".NET" in Bing produces a list of terms for ".NET 4.5", ".NET Framework 3.5", and so forth. Using the service REST API, implementing suggestions in a custom Azure Search application requires the following:  
 
 -   Enable suggestions by adding a **suggester** construction in your index, giving the name, search mode, and a list of fields for which type-ahead is invoked. For example, if you specify "cityName" as a source field, typing a partial search string of "Sea" will result in "Seattle", "Seaside", and "Seatac" (all three are actual city names) offered up as query suggestions to the user.  
 
@@ -46,9 +47,6 @@ translation.priority.mt:
 |`name`|The name of the **suggester**. You use the name of the **suggester** when calling the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md).|  
 |`searchMode`|The strategy used to search for candidate phrases. The only mode currently supported is `analyzingInfixMatching`, which performs flexible matching of phrases at the beginning or in the middle of sentences.|  
 |`sourceFields`|A list of one or more fields that are the source of the content for suggestions. Only fields of type `Edm.String` and `Collection(Edm.String)` may be sources for suggestions. Only fields that don't have a custom language analyzer set can be used.|  
-
-> [!NOTE]  
->  If you used the public preview version of Azure Search, **suggesters** replaces an older boolean field property (`"suggestions": false`) that only supported prefix suggestions for short strings (3-25 characters). Its replacement, **suggesters**, supports infix matching that finds matching terms at the beginning or in the middle of field content, with better tolerance for mistakes in search strings. Starting with the generally available release, this is now the only implementation of the suggestions API. The older `suggestions` property that was introduced in `api-version=2014-07-31-Preview` continues to work in that version, but is not operational in 2015-02-28 or later versions  of Azure Search. See [Transition code from preview to the generally available release](http://azure.microsoft.com/en-us/documentation/articles/search-transition-from-preview/) for guidance on how to update your code.  
 
 ## Suggester example  
  A **suggester** is part of the index. Only one **suggester** can exist in the **suggesters** collection in the current version, alongside the **fields** collection and **scoringProfiles**.  

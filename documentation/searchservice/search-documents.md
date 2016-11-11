@@ -221,57 +221,75 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
  The reasons why Azure Search might return continuation tokens are implementation-specific and subject to change. Robust clients should always be ready to handle cases where fewer documents than expected are returned and a continuation token is included to continue retrieving documents. Also note that you must use the same HTTP method as the original request in order to continue. For example, if you sent a GET request, any continuation requests you send must also use GET (and likewise for POST).  
 
 ## Response  
- Status Code: "200 OK" is returned for a successful response.  
+Status code 200 (OK) is returned for a successful response, meaning that all items have been stored durably and will start to be indexed. Indexing runs in the background and makes new documents available (that is, queryable and searchable) a few seconds after the indexing operation completed. The specific delay depends on the load on the service.
 
-```  
-{  
-  "@odata.count": # (if $count=true was provided in the query),  
-  "@search.coverage": # (if minimumCoverage was provided in the query),  
-  "@search.facets": { (if faceting was specified in the query)  
-    "facet_field": [  
-      {  
-        "value": facet_entry_value (for non-range facets),  
-        "from": facet_entry_value (for range facets),  
-        "to": facet_entry_value (for range facets),  
-        "count": number_of_documents  
-      }  
-    ],  
-    ...  
-  },  
-       "@search.nextPageParameters": { (request body to fetch the next page of results if result count exceeds page size and Search was called with POST)  
-        "count": ... (value from request body if present),  
-        "facets": ... (value from request body if present),  
-        "filter": ... (value from request body if present),  
-        "highlight": ... (value from request body if present),  
-        "highlightPreTag": ... (value from request body if present),  
-        "highlightPostTag": ... (value from request body if present),  
-        "minimumCoverage": ... (value from request body if present),  
-        "orderby": ... (value from request body if present),  
-        "scoringParameters": ... (value from request body if present),  
-        "scoringProfile": ... (value from request body if present),  
-        "search": ... (value from request body if present),  
-        "searchFields": ... (value from request body if present),  
-        "searchMode": ... (value from request body if present),  
-        "select": ... (value from request body if present),  
-        "skip": ... (page size plus value from request body if present),  
-        "top": ... (value from request body if present minus page size),  
-      },  
- "value": [  
-    {  
-      "@search.score": document_score (if a text query was provided),  
-      "@search.highlights": {  
-        field_name: [subset of text, ... ],  
-        ...  
-      },  
-      key_field_name: document_key,  
-      field_name: field_value (retrievable fields or specified projection),  
-      ...  
-    },  
-    ...  
-  ],  
-      "@odata.nextLink": (URL to fetch the next page of results if result count exceeds page size; Applies to both GET and POST)  
-}  
-```  
+Successful indexing is indicated by the `status` property being set to true for all items, as well as the `statusCode` property being set to either 201 (for newly uploaded documents) or 200 (for merged or deleted documents):
+```
+    {
+      "value": [
+        {
+          "key": "unique_key_of_new_document",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "unique_key_of_merged_document",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 200
+        },
+        {
+          "key": "unique_key_of_deleted_document",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 200
+        }
+      ]
+    }  
+```
+Status code 207 (Multi-Status) is returned when at least one item was not successfully indexed. Items that have not been indexed have the `status` field set to false. The `errorMessage` and `statusCode` properties will indicate the reason for the indexing error:
+
+```
+    {
+      "value": [
+        {
+          "key": "unique_key_of_document_1",
+          "status": false,
+          "errorMessage": "The search service is too busy to process this document. Please try again later.",
+          "statusCode": 503
+        },
+        {
+          "key": "unique_key_of_document_2",
+          "status": false,
+          "errorMessage": "Document not found.",
+          "statusCode": 404
+        },
+        {
+          "key": "unique_key_of_document_3",
+          "status": false,
+          "errorMessage": "Index is temporarily unavailable because it was updated with the 'allowIndexDowntime' flag set to 'true'. Please try again later.",
+          "statusCode": 422
+        }
+      ]
+    }  
+```
+The following table explains the various per-document status codes that can be returned in the response. Note that some indicate problems with the request itself, while others indicate temporary error conditions. The latter you should retry after a delay.
+
+|Status code|Meaning|Retryable|Notes|
+|------------|--------|----------|------|
+|200|Document was successfully modified or deleted.|n/a|Delete operations are <a href="https://en.wikipedia.org/wiki/Idempotence">idempotent</a>. That is, even if a document key does not exist in the index, attempting a delete operation with that key will result in a 200 status code.|
+|201|Document was successfully created.|n/a| n/a|
+|400|There was an error in the document that prevented it from being indexed.| No| The error message in the response will indicate what is wrong with the document.|
+|404|The document could not be merged because the given key doesn't exist in the index.|No|This error does not occur for uploads since they create new documents, and it does not occur for deletes because they are <a href="https://en.wikipedia.org/wiki/Idempotence">idempotent</a>.|
+|409|A version conflict was detected when attempting to index a document.|Yes|This can happen when you're trying to index the same document more than once concurrently.|
+|422|The index is temporarily unavailable because it was updated with the 'allowIndexDowntime' flag set to 'true'.|Yes| n/a|
+|503|Your search service is temporarily unavailable, possibly due to heavy load.|Yes|Your code should wait before
+
+> [!NOTE]  
+>  If your client code frequently encounters a 207 response, one possible reason is that the system is under load. You can confirm this by checking the `statusCode` property for 503. If this is the case, we recommend ***throttling indexing requests***. Otherwise, if indexing traffic doesn't subside, the system could start rejecting all requests with 503 errors.
+
+Status code 429 indicates that you have exceeded your quota on the number of documents per index. You must either create a new index or upgrade for higher capacity limits.
 
 ##  <a name="bkmk_examples"></a> Examples  
  You can find additional examples in  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md).  
@@ -279,11 +297,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 1.  Search the Index sorted descending by date:  
 
     ```  
-    GET /indexes/hotels/docs?search=*&$orderby=lastRenovationDate desc&api-version=2015-02-28  
+    GET /indexes/hotels/docs?search=*&$orderby=lastRenovationDate desc&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "*",  
           "orderby": "lastRenovationDate desc"
@@ -293,11 +311,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 2.  In a faceted search, search the index and retrieve facets for categories, ratings, tags, as well as items with baseRate in specific ranges. In this example, the search string is a wildcard (*) but it could just as easily be a string.  
 
     ```  
-    GET /indexes/hotels/docs?search=*&facet=category&facet=rating&facet=tags&facet=baseRate,values:80|150|220&api-version=2015-02-28  
+    GET /indexes/hotels/docs?search=*&facet=category&facet=rating&facet=tags&facet=baseRate,values:80|150|220&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "test",  
           "facets": [ "category", "rating", "tags", "baseRate,values:80|150|220" ]  
@@ -307,11 +325,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 3.  Using a filter, narrow down the previous faceted query result after the user clicks on Rating 3 and category "Motel".  
 
     ```  
-    GET /indexes/hotels/docs?search=*&facet=tags&facet=baseRate,values:80|150|220&$filter=rating eq 3 and category eq 'Motel'&api-version=2015-02-28  
+    GET /indexes/hotels/docs?search=*&facet=tags&facet=baseRate,values:80|150|220&$filter=rating eq 3 and category eq 'Motel'&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "test",  
           "facets": [ "tags", "baseRate,values:80|150|220" ],  
@@ -322,11 +340,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 4.  In a faceted search, set an upper limit on unique terms returned in a query. The default is 10, but you can increase or decrease this value using the count parameter on the facet attribute. This example returns facets for city, limited to 5.  
 
     ```  
-    GET /indexes/hotels/docs?search=*&facet=city,count:5&api-version=2015-02-28  
+    GET /indexes/hotels/docs?search=*&facet=city,count:5&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "test",  
           "facets": [ "city,count:5" ]  
@@ -336,11 +354,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 5.  Search the Index within specific fields (for example, a language field):  
 
     ```  
-    GET /indexes/hotels/docs?search=hôtel&searchFields=description_fr&api-version=2015-02-28  
+    GET /indexes/hotels/docs?search=hôtel&searchFields=description_fr&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "hôtel",  
           "searchFields": "description_fr"
@@ -350,11 +368,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 6.  Search the Index across multiple fields. For example, you can store and query searchable fields in multiple languages, all within the same index. If English and French descriptions co-exist in the same document, you can return any or all in the query results:  
 
     ```  
-    GET /indexes/hotels/docs?search=hotel&searchFields=description,description_fr&api-version=2015-02-28  
+    GET /indexes/hotels/docs?search=hotel&searchFields=description,description_fr&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "hotel",  
           "searchFields": "description", "description_fr"
@@ -366,11 +384,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 7.  Paging - Get the 1st page of items (page size is 10):  
 
     ```  
-    GET /indexes/hotels/docs?search=*&$skip=0&$top=10&api-version=2015-02-28  
+    GET /indexes/hotels/docs?search=*&$skip=0&$top=10&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "*",  
           "skip": 0,  
@@ -381,11 +399,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 8.  Paging - Get the 2nd page of items (page size is 10):  
 
     ```  
-    GET /indexes/hotels/docs?search=*&$skip=10&$top=10&api-version=2015-02-28  
+    GET /indexes/hotels/docs?search=*&$skip=10&$top=10&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "*",  
           "skip": 10,  
@@ -396,11 +414,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 9. Retrieve a specific set of fields:  
 
     ```  
-    GET /indexes/hotels/docs?search=*&$select=hotelName,description&api-version=2015-02-28  
+    GET /indexes/hotels/docs?search=*&$select=hotelName,description&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "*",  
           "select": "hotelName", "description"
@@ -410,11 +428,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 10. Retrieve documents matching a specific filter expression:  
 
     ```  
-    GET /indexes/hotels/docs?$filter=(baseRate ge 60 and baseRate lt 300) or hotelName eq 'Fancy Stay'&api-version=2015-02-28  
+    GET /indexes/hotels/docs?$filter=(baseRate ge 60 and baseRate lt 300) or hotelName eq 'Fancy Stay'&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "filter": "(baseRate ge 60 and baseRate lt 300) or hotelName eq 'Fancy Stay'"  
         }  
@@ -423,11 +441,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 11. Search the index and return fragments with hit highlights:  
 
     ```  
-    GET /indexes/hotels/docs?search=something&highlight=description&api-version=2015-02-28  
+    GET /indexes/hotels/docs?search=something&highlight=description&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "something",  
           "highlight": "description"  
@@ -437,11 +455,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 12. Search the index and return documents sorted from closer to farther away from a reference location:  
 
     ```  
-    GET /indexes/hotels/docs?search=something&$orderby=geo.distance(location, geography'POINT(-122.12315 47.88121)')&api-version=2015-02-28  
+    GET /indexes/hotels/docs?search=something&$orderby=geo.distance(location, geography'POINT(-122.12315 47.88121)')&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "something",  
           "orderby": "geo.distance(location, geography'POINT(-122.12315 47.88121)')"
@@ -451,11 +469,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 13. Search the index assuming there's a scoring profile called "geo" with two distance scoring functions, one defining a parameter called "currentLocation" and one defining a parameter called "lastLocation":  
 
     ```  
-    GET /indexes/hotels/docs?search=something&scoringProfile=geo&scoringParameter=currentLocation--122.123,44.77233&scoringParameter=lastLocation--121.499,44.2113&api-version=2015-02-28  
+    GET /indexes/hotels/docs?search=something&scoringProfile=geo&scoringParameter=currentLocation--122.123,44.77233&scoringParameter=lastLocation--121.499,44.2113&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "something",  
           "scoringProfile": "geo",  
@@ -466,11 +484,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 14. Find documents in the index using simple query syntax. This query returns hotels where searchable fields contain the terms "comfort" and "location" but not "motel":  
 
     ```  
-    Get /indexes/hotels/docs?search=comfort +location –motel&searchMode=all&api-version=2015-02-28  
+    Get /indexes/hotels/docs?search=comfort +location –motel&searchMode=all&api-version=2016-09-01  
     ```  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "comfort +location -motel",  
           "searchMode": "all"  
@@ -482,10 +500,10 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 
 15. Find documents in the index using Lucene query syntax (see [Lucene query syntax in Azure Search](lucene-query-syntax-in-azure-search.md)). This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3)  
 
-     `GET /indexes/hotels/docs?search=category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2015-02-28&querytype=full`  
+     `GET /indexes/hotels/docs?search=category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2016-09-01&querytype=full`  
 
     ```  
-    POST /indexes/hotels/docs/search?api-version=2015-02-28  
+    POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
          "search": "category:budget AND \"recently renovated\"^3",  
           "queryType": "full",  

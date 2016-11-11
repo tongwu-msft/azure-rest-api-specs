@@ -190,6 +190,7 @@ or use identity set which contains both "prop1" and "prop2":
         }  
     }  
   
-> [AZURE.NOTE]  If "address" property bag contains only "prop2", the publish request will be rejected (as BadRequest) because there is no matching identity set defined by the protocol.  
+> [!NOTE]  
+> If "address" property bag contains only "prop2", the publish request will be rejected (as BadRequest) because there is no matching identity set defined by the protocol.  
   
 Please refer <a href="https://azure.microsoft.com/en-us/documentation/articles/data-catalog-developer-concepts/">here</a> for the custom data source protocol specification.  

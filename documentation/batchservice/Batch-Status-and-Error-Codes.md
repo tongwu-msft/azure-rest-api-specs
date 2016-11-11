@@ -1,6 +1,15 @@
+---
+ms.assetid:
+ms.title: Batch status and error codes | Microsoft Docs
+ms.service: batch
+author: mmacy
+ms.author: marsma
+ms.manager: timlt
+---
+
 # Batch status and error codes
 
-REST API operations for the Batch service return standard HTTP status codes, as defined in the [HTTP\/1.1 Status Code Definitions](http://go.microsoft.com/fwlink/?linkid=133333).
+REST API operations for the Batch service return standard HTTP status codes, as defined in the [HTTP/1.1 Status Code Definitions](http://go.microsoft.com/fwlink/?linkid=133333).
 
 API operations may also return additional error information to provide the developer with more information about the error. For example, the following error response indicates that a query parameter specified on the request URI was invalid, and provides additional information about the invalid parameter’s name and value and the reason for the error.
 
@@ -140,7 +149,7 @@ The error codes listed in the following table may be returned by an operation on
 |NodeAlreadyInTargetSchedulingState|Conflict (409)|The specified node is already in the target scheduling state.|
 |OperationNotValidOnNode|Conflict (409)|The specified operation is not valid on the node.|
 |OperationNotValidOnPool|Conflict (409)|The specified operation is not valid on the pool.|
-|IOError|Forbidden (403)|An I\/O error occurred when accessing the specified resource.|
+|IOError|Forbidden (403)|An I/O error occurred when accessing the specified resource.|
 |TooManyEnableAutoScaleRequests|ServiceUnavailable (503)|Too many Enable Pool AutoScale requests are issued on the pool.|
 |ApplicationNotFound|Not Found (404)|The specified application does not exist.|
 |InvalidApplicationPackageReferences|Bad Request (400)|One or more application package references could not be satisfied. This occurs if the application id or version does not exist or is not active, or if the reference did not specify a version and there is no default version configured.|

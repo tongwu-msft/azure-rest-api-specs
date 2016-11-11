@@ -43,7 +43,7 @@ api-key: [admin key]
 
  The `[index name]` in the request URI tells the service to return index statistics for the specified index.  
 
- The `api-version` parameter is required. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
+ The `api-version` parameter is required. The current version is `api-version=2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
