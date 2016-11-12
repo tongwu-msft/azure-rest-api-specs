@@ -27,7 +27,7 @@
 ## [Certificates and Policies](certificates-and-policies.md)
 ### [Certificate creation methods](create-a-certificate.md)
 #### [Monitor and manage certificate creation](create-certificate-scenarios.md)
-### [Import a certificate](../../api-ref/keyvault/ImportCertifcate.md)
+### [Import a certificate](../../api-ref/keyvault/ImportCertificate.md)
 ### [List versions of a certificate](../../api-ref/keyvault/GetCertificateVersions.json)
 ### [List certificates](../../api-ref/keyvault/GetCertificates.json)
 ### [Get a certificate](../../api-ref/keyvault/GetCertificate.json)
