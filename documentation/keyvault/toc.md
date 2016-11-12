@@ -19,7 +19,7 @@
 ## [Create a secret](../../api-ref/keyvault/SetSecret.json)
 ## [Get a secret](../../api-ref/keyvault/GetSecret.json)
 ## [List secrets in a vault](../../api-ref/keyvault/GetSecrets.json)
-## [List versions of a secret](../../api-ref/keyvault/GetSecretVersion.json)
+## [List versions of a secret](../../api-ref/keyvault/GetSecretVersions.json)
 ## [Delete a secret](../../api-ref/keyvault/DeleteSecret.json)
 ## [Update a secret](../../api-ref/keyvault/UpdateSecret.json)
 # [Certificate operations](certificate-operations.md)
