@@ -16,7 +16,7 @@
 ## [Wrap a key](../../api-ref/keyvault/wrapKey.json)
 ## [Unwrap a key](../../api-ref/keyvault/unwrapKey.json)
 # [Secret operations](secret-operations.md)
-## [Create a secret](../../api-ref/keyvault/CreateSecret.json)
+## [Create a secret](../../api-ref/keyvault/SetSecret.json)
 ## [Get a secret](../../api-ref/keyvault/GetSecret.json)
 ## [List secrets in a vault](../../api-ref/keyvault/GetSecrets.json)
 ## [List versions of a secret](../../api-ref/keyvault/GetSecretVersion.json)
