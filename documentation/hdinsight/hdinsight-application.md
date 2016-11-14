@@ -8,7 +8,7 @@ Creates a new node on the cluster (referred to as an edge node) and installs an 
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/applications/{applicationName}?api-version={api-version}`|  
+|PUT|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/applications/{application Name}?api-version={api-version}`|  
   
  The following example shows the request body for installing applications on a Linux-based HDInsight cluster.  
   
@@ -140,7 +140,7 @@ Gets details about an HDInsight application.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/applications/{applicationName}?api-version={api-version}`|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/applications/{application Name}?api-version={api-version}`|  
   
 ### Response  
  Response body is an array of HDInsight application details or a single HDInsight application detail if applicationName is provided. Below is an example of application detail.  
@@ -219,7 +219,7 @@ Removes an HDInsight application from the cluster.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/applications/{applicationName}?api-version={api-version}`|  
+|DELETE|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/applications/{application Name}?api-version={api-version}`|  
   
 ### Response  
  The operation will return 202 (Accepted) if the request is completed successfully  
