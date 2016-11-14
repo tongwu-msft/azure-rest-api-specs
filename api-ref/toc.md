@@ -1,3 +1,5 @@
+# [Analysis Services](../documentation/analysisservices/index.md)
+## [Servers](analysisservices/Servers.json)
 # [API Management](../documentation/apimanagement/index.md)
 ## [Api Management Services](apimanagement/ApiManagementServices.json)
 ## [Api Operations](apimanagement/ApiOperations.json)
