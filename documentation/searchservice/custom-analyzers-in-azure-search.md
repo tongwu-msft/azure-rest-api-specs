@@ -1,5 +1,5 @@
 ---
-title: "Custom analyzers in Azure Search"
+title: "Custom analyzers in Azure Search | Microsoft docs"
 ms.custom: ""
 ms.date: "2016-11-09"
 ms.prod: "azure"
@@ -30,9 +30,7 @@ translation.priority.mt:
 # Custom analyzers in Azure Search
 
 > [!NOTE]
-> Custom analyzers are a preview feature provided in the [2015-02-28-Preview version of the Azure Search Service REST API](https://azure.microsoft.com/documentation/articles/search-api-2015-02-28-preview/) or the [preview version of the .NET SDK](https://msdn.microsoft.com/library/azure/mt761536(v=azure.103).aspx). Preview features are not under service level agreement and should not be used in production code.
->   
->  Analyzers are specific component of search technology. If you came to this page looking for information on how to analyze log or traffic data in Azure Search, please see [Enabling and using Search Traffic Analytics](https://azure.microsoft.com/documentation/articles/search-traffic-analytics/) on the Azure web site instead.  
+>  Analyzers are specific component of search technology. If you came to this page looking for information on how to analyze log or traffic data in Azure Search, please see [Enabling and using Search Traffic Analytics](https://azure.microsoft.com/documentation/articles/search-traffic-analytics/) instead.  
 
 ## Overview
 
@@ -73,7 +71,7 @@ translation.priority.mt:
 
  The `tokenizer_name` is the name of a tokenizer, `token_filter_name_1`  and `token_filter_name_2` are the names of token filters, and `char_filter_name_1` and `char_filter_name_2` are the names of char filters (see the [Tokenizers](#Tokenizers), [Token filters](#TokenFilters) and [Char filters](#CharFilters) tables for valid values).
 
-The analyzer definition is a part of the larger index. See [Create Index preview API](https://azure.microsoft.com/documentation/articles/search-api-2015-02-28-preview/#create-index) for information about the rest of the index.
+The analyzer definition is a part of the larger index. See [Create Index preview API](https://azure.microsoft.com/documentation/articles/search-api-2016-09-01-preview/#create-index) for information about the rest of the index.
 
 ```  
 "analyzers":(optional)[  
@@ -152,7 +150,7 @@ Definitions for char filters, tokenizers, and token filters are added to the ind
 <a name="Testing custom analyzers"></a>
 ## Test a custom analyzer
 
-You can use the [Analyze API](https://azure.microsoft.com/documentation/articles/search-api-2015-02-28-preview/) to see how an analyzer breaks given text into tokens.
+You can use the [Analyze API](https://azure.microsoft.com/documentation/articles/search-api-2016-09-01/) to see how an analyzer breaks given text into tokens.
 
 **Request**
 ~~~~

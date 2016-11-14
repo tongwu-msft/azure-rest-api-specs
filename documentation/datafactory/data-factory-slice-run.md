@@ -8,7 +8,7 @@ Gets runs for a data slice of a table in a data factory.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|GET|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/tables/<TableName\>/sliceruns?start=<StartDateTime\>&api-version=<Api-Version>|HTTP/1.1|  
+|GET|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/tables/{TableName}/sliceruns?start={StartDateTime}&api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -199,7 +199,7 @@ Downloads log files from HDInsight processing.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|GET|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/runs/<RunID\>/logInfo?start=<StartDateTime\>&api-version=<Api-Version>|HTTP/1.1|  
+|GET|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/runs/{RunID}/logInfo?start={StartDateTime}&api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -250,7 +250,7 @@ Downloads log files from HDInsight processing.
 ```  
   
 {  
-    https://<StorageAccountName>.blob.core.windows.net/<RunID>?<RunInfo>   
+    https://{StorageAccountName>.blob.core.windows.net/{RunID>?<RunInfo>   
 }  
   
 ```  

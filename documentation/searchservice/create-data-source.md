@@ -50,7 +50,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 
  The data source name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the data source name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](naming-rules.md) for details.  
 
- The **api-version** is required. The current version is `2015-02-28`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
 ### Request Header  
  The following list describes the required and optional request headers.  
@@ -71,9 +71,9 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 {   
     "name" : "Required for POST, optional for PUT. The name of the data source",  
     "description" : "Optional. Anything you want, or nothing at all",  
-    "type" : "Required. Must be 'azuresql' or 'documentdb'",  
+    "type" : "Required. Must be one of 'azuresql', 'documentdb', 'azureblob', or 'azuretable'",
     "credentials" : { "connectionString" : "Required. Connection string for your data source" },  
-    "container" : { "name" : "Required. The name of the table or collection you wish to index" },  
+    "container" : { "name" : "Required. Name of the table, collection, or blob container you wish to index" },  
     "dataChangeDetectionPolicy" : { Optional. See below for details },   
     "dataDeletionDetectionPolicy" : { Optional. See below for details }  
 }  
@@ -86,9 +86,9 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 |--------------|-----------------|  
 |`name`|Required. The name of the data source. A data source name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
 |`description`|An optional description.|  
-|`type`|Required. Must be one of the supported data source types:<br /><br /> 1.  `azuresql` for Azure SQL Database<br />2.  `documentdb` for DocumentDB|  
-|`credentials`|The required **connectionString** property specifies the connection string for the data source. The format of the connection string depends on the data source type:<br /><br /> -   For Azure SQL Database, this is the usual SQL Server connection string. If you're using Azure classic portal to retrieve the connection string, use the `ADO.NET connection string` option.<br />-   For DocumentDB, the connection string must be in the following format: `"AccountEndpoint=https://[your account name].documents.azure.com;AccountKey=[your account key];Database=[your database id]"`. All of the values are required. You can find them in the [Azure portal](https://portal.azure.com).|  
-|`container`|The required `name` property specifies the table or view (for Azure SQL data source) or collection (for DocumentDB data source) that will be indexed.<br /><br /> For SQL data sources, you can use schema-qualified names, such as `[dbo].[mytable]`.<br /><br /> DocumentDB data sources support an optional **query** property that allows you to specify a query that flattens an arbitrary JSON document layout into a flat schema that Azure Search can index.|  
+|`type`|Required. Must be one of the supported data source types:<br /><br /> 1. `azuresql` for Azure SQL Database<br />2. `documentdb` for DocumentDB<br />3. `azureblob` - Azure Blob Storage <br />4. `azuretable` - Azure Table Storage|
+|`credentials`|The required **connectionString** property specifies the connection string for the data source. The format of the connection string depends on the data source type:<br /><br /> -   For Azure SQL Database, this is the usual SQL Server connection string. If you're using Azure portal to retrieve the connection string, use the `ADO.NET connection string` option.<br />-   For DocumentDB, the connection string must be in the following format: `"AccountEndpoint=https://[your account name].documents.azure.com;AccountKey=[your account key];Database=[your database id]"`. All of the values are required. You can find them in the [Azure portal](https://portal.azure.com).|  
+|`container`|Required. Specifies the data to index using the `name` and `query` properties: <br /><br />`name`, required:<br />- Azure SQL: specifies the table or view. You can use schema-qualified names, such as `[dbo].[mytable]`.<br />- DocumentDB: specifies the collection. <br />- Azure Blob Storage: specifies the storage container.<br />- Azure Table Storage: specifies the name of the table. <br /><br />`query`, optional:<br />- DocumentDB: allows you to specify a query that flattens an arbitrary JSON document layout into a flat schema that Azure Search can index.<br />- Azure Blob Storage: allows you to specify a virtual folder within the blob container. For example, for blob path `mycontainer/documents/blob.pdf`, `documents` can be used as the virtual folder.<br />- Azure Table Storage: allows you to specify a query that filters the set of rows to be imported.<br />- Azure SQL: query is not supported. If you need this functionality, please vote for [this suggestion](https://feedback.azure.com/forums/263029-azure-search/suggestions/9893490-support-user-provided-query-in-sql-indexer) |  
 
  The optional **dataChangeDetectionPolicy** and **dataDeletionDetectionPolicy** are described below.  
 
@@ -112,8 +112,6 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 
  For example, when using Azure SQL data sources, an indexed `rowversion` column is the ideal candidate for use with with the high water mark policy.  
 
- When using DocumentDB data sources, you must use the `_ts` property provided by DocumentDB.  
-
  This policy can be specified as follows:  
 
 ```  
@@ -123,6 +121,9 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 }  
 
 ```  
+When using DocumentDB data sources, you must use the `_ts` property provided by DocumentDB.
+
+When using Azure Blob data sources, Azure Search automatically uses a high watermark change detection policy based on a blob's last-modified timestamp; you don't need to specify such a policy yourself.   
 
  **SQL Integrated Change Detection Policy**  
 
@@ -191,7 +192,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 
 ## Response  
  For a successful request: 201 Created.  
-  
+
 ## See Also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   

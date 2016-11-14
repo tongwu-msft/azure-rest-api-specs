@@ -1,9 +1,10 @@
 ---
-title: Azure REST API Reference 
+title: Azure REST API Reference | Microsoft Docs
 description: Azure REST API Reference 
 keywords: Azure REST, Azure REST API Reference
 author: bryanla
 manager: douge
+ms.author: bryanla
 ms.date: 11/15/2016
 ms.topic: reference
 ms.prod: azure
@@ -25,15 +26,15 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 > [!NOTE] 
 > Most Azure service REST APIs have a corresponding client SDK library, which handles much of the client code for you. See:  
 > 
-> [Azure .NET SDK](https://docs.microsoft.com/dotnet/api)  
-> [Azure Java SDK](https://docs.microsoft.com/java/api)  
-> [Azure CLI 2.0 SDK](https://docs.microsoft.com/cli/azure)  
+> [Azure .NET SDK][SDK-NET]  
+> [Azure Java SDK][SDK-JAVA]  
+> [Azure CLI 2.0 SDK][SDK-CLI]  
 
 ## Components of a REST API request/response
 
 A REST API request/response pair can be separated into 5 components:
 
-1. The **request URI**, which consists of: `{URI-scheme} :// {URI-host} / {resource-path} ? {query-string}`. Note: we're calling this out separately here, as most languages/frameworks require you to pass this separately from the request message, but it's actually included in the request message header. 
+1. The **request URI**, which consists of: `{URI-scheme} :// {URI-host} / {resource-path} ? {query-string}`. Note that we are calling this out separately here, as most languages/frameworks require you to pass this separately from the request message, but it's actually included in the request message header. 
     - URI scheme: indicates the protocol used to transmit the request. For example, `http` or `https`.  
     - URI host: the domain name or IP address of the server where the REST service endpoint is hosted, such as `graph.microsoft.com`  
     - Resource path: specifies the resource or resource collection, which may include multiple segments used by the service in determining the selection of those resources. For example: `beta/applications/00003f25-7e1f-4278-9488-efc7bac53c4a/owners` could be used to query the list of owners of a specific application within the applications collection.
@@ -283,4 +284,6 @@ Please use the LiveFyre comments section that follows this article to provide fe
 [AAD-Oauth-Code-Token]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#use-the-authorization-code-to-request-an-access-token
 [ARM-Create-Sp-Portal]: ../../Azure/resource-group-create-service-principal-portal.md
 [ARM-Provider-Summary]: ../../Azure/resource-manager-supported-services.md
-
+[SDK-NET]: ../../dotnet/api/index.md
+[SDK-JAVA]: ../../java/api/index.md
+[SDK-CLI]: ../../cli/azure/index.md

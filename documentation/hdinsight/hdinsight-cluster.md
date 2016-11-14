@@ -4,11 +4,11 @@
 Creates a cluster in the specified subscription.  
   
 ###  <a name="bk_createrequest"></a> Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}?api-version={api-version}`|  
+|PUT|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}?api-version={api-version}`|  
   
  The following example shows the request body for creating a Linux based hadoop cluster. For examples of creating clusters in other ways, see the Examples section below.  
   
@@ -292,32 +292,342 @@ Creates a cluster in the specified subscription.
 |port|int|Specifies the port to connect|
 
 
+## Create a premium, domain-joined HDInsight cluster (Linux only, preview)
+Create a premium domain-joined cluster with Apache Ranger. User needs to provide SecurityProfile in the request body to create a secure cluster.
+  
+###  <a name="bk_createrequest_premium"></a> Request  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+  
+|Method|Request URI|  
+|------------|-----------------|  
+|PUT|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}?api-version={api-version}`|  
+  
+ The following example shows the request body for creating a Linux based, premium, domain-joined Hadoop cluster.  
+  
+```  
+{
+	"id": "/subscriptions/{ subscription-id }/resourceGroups/myresourcegroup1/providers/Microsoft.HDInsight/ clusters/mycluster ", "
+	name "
+	: "mycluster",
+	"type": "Microsoft.HDInsight/clusters",
+	"location": "location-name",
+	"tags": {
+		"tag1": "value1",
+		"tag2": "value2"
+	},
+	"properties": {
+		"clusterVersion": "3.5",
+		"osType": "Linux",
+		"tier": "premium",
+		"clusterDefinition": {
+			"kind": "hadoop",
+			"configurations": {
+				"gateway": {
+					"restAuthCredential.isEnabled": true,
+					"restAuthCredential.username": "http-user",
+					"restAuthCredential.password": "password"
+				},
+				"core-site": {
+					"fs.defaultFS": "wasb://container@storageaccount.blob.core.windows.net",
+					"fs.azure.account.key.storageaccount.blob.core.windows.net": "storage-account-key"
+				}
+			}
+		},
+		"securityProfile": {
+			"directoryType": "ActiveDirectory",
+			"domain": "mydomain.com",
+			"organizationalUnitDN": "OU=Hadoop,DC=mydomain,DC=COM",
+			"ldapsUrls": ["ldaps://mydomain.com:636"],
+			"domainUsername": "clusteradmin@mydomain.com",
+			"domainUserPassword": "password",
+			"clusterUsersGroupDNs": ["ADGroup1", "ADGroup2"]
+		},
+		"computeProfile": {
+			"roles": [
+				{
+					"name": "headnode",
+					"targetInstanceCount": 2,
+					"hardwareProfile": {
+						"vmSize": "Large"
+					},
+					"osProfile": {
+						"linuxOperatingSystemProfile": {
+							"username": "username",
+							"sshProfile": {
+								"publicKeys": [
+									{
+										"certificateData": "ssh-rsa key"
+									}
+								]
+							}
+						}
+					},
+					"virtualNetworkProfile": {
+						"id": "/subscriptions/mysubscriptionid/resourceGroups/myrresourcegroup/providers/Microsoft.Network/virtualNetworks/myvirtualnetwork",
+						"subnet": "/subscriptions/mysubscriptionid /resourceGroups/myresourcegroup/providers/Microsoft.Network/virtualNetworks/myvirtualnetwork/subnets/mysubnet"
+					}
+				},
+				{
+					"name": "workernode",
+					"targetInstanceCount": 1,
+					"hardwareProfile": {
+						"vmSize": "Large"
+					},
+					"osProfile": {
+						"linuxOperatingSystemProfile": {
+							"username": "username",
+							"sshProfile": {
+								"publicKeys": [
+									{
+										"certificateData": " ssh-rsa key"
+									}
+								]
+							}
+						}
+					},
+					"virtualNetworkProfile": {
+						"id": "/subscriptions/mysubscriptionid/resourceGroups/myrresourcegroup/providers/Microsoft.Network/virtualNetworks/myvirtualnetwork",
+						"subnet": "/subscriptions/mysubscriptionid /resourceGroups/myresourcegroup/providers/Microsoft.Network/virtualNetworks/myvirtualnetwork/subnets/mysubnet"
+					}
+				},
+				{
+					"name": "zookeepernode",
+					"targetInstanceCount": 3,
+					"hardwareProfile": {
+						"vmSize": "Small"
+					},
+					"osProfile": {
+						"linuxOperatingSystemProfile": {
+							"username": "username",
+							"sshProfile": {
+								"publicKeys": [
+									{
+										"certificateData": "ssh-rsa key"
+									}
+								]
+							}
+						},
+						"virtualNetworkProfile": {
+							"id": "/subscriptions/mysubscriptionid/resourceGroups/myrresourcegroup/providers/Microsoft.Network/virtualNetworks/myvirtualnetwork",
+							"subnet": "/subscriptions/mysubscriptionid /resourceGroups/myresourcegroup/providers/Microsoft.Network/virtualNetworks/myvirtualnetwork/subnets/mysubnet"
+						}
+					}
+				}
+			]
+		}
+	}
+}  
+  
+```  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|id|Yes|String|Specifies the resource identifier of the cluster.|  
+|name|Yes|String|Specifies the name of the cluster.|  
+|type|Yes|String|Specifies the type of the cluster.|  
+|location|Yes|String|Specifies the supported Azure location where the cluster should be created. For more information, see [List all of the available geo-locations](https://msdn.microsoft.com/en-us/library/azure/dn790540.aspx).|  
+|tags|No|String|Specifies the tags that will be assigned to the cluster. For more information about using tags, see [Using tags to organize your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/resource-group-using-tags/).|  
+|[Properties](#bk_props_premium)|Yes|Complex Type|Specifies the properties of the cluster.|  
+  
+####  <a name="bk_props_premium"></a> Properties  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|clusterVersion|Yes|String|Specifies the cluster version|  
+|osType|Yes|String|Specifies the Operating system for the cluster.<br /><br /> Valid value is **Linux** becuase only Linux cluster types can join an Azure AD domain.| 
+|tier|No|String|Default value is **standard**. Valid values are **standard** and **premium**. If no value is specified, the value is assumed to be **standard**. Specifies the Tier for the cluster. Domain joined clusters are only supported in premium tier |
+|[clusterDefinition](#bk_clusterdef_premium)|Yes|Complex  Type|Specifies information about the cluster type and configurations|  
+|[computeProfile](#bk_computeprof_premium)|Yes|Complex Type|Specifies information about the cluster topology and associated role properties| 
+| [securityProfile](#bk_securityprof_premium) | No | Complex Type | If a secure, domain-joined cluster is being created, this specifies the Active Directory related settings| 
+  
+####  <a name="bk_clusterdef_premium"></a> clusterDefinition  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|kind|Yes|String|Specifies the cluster type.<br /><br /> Valid values are hadoop, hbase, storm & spark|  
+|configurations|Yes|Dictionary|This is a dictionary of configuration type and its associated value dictionary.<br /><br /> gateway configuration type is used to configure the http user used for connecting to web api;s and the ambari portal<br /><br /> core-site configuration type is used to configure the default storage account for the cluster|  
+  
+####  <a name="bk_computeprof_premium"></a> computeProfile  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|clusterVersion|Yes|String|Specifies the cluster version|  
+|[role](#bk_role_premium)|Yes|Array of Complex  Type (role)|Specifies information about roles in the cluster|
+
+####  <a name="bk_securityprof_premium"></a> securityProfile  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|directoryType|Yes|String|Type of LDAP directory that is used. Currently “ActiveDirectory” is the only supported value.|  
+|domain|Yes|String|Active Directory domain for the cluster|
+|organizationalUnitDN | Yes | String | Distinguished name of the organizational unit in the Active directory where user and computer accounts will be created |
+| ldapsUrls | Yes | Array of String | URLs of one or multiple LDAPS servers for the Active Directory |
+| domainUserName | Yes | String | A domain user account with sufficient permissions for creating the cluster. It should be in **user@domain** format | 
+| domainUserPassword | Yes | String | Password for the domain user account |
+| clusterUsersGroupDNS | No | Array of String | Distinguished names of the Active Directory groups that will be available in Ambari and Apache Ranger |
+  
+####  <a name="bk_role_premium"></a> role  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|name|Yes|String|Specifies the role name|  
+|targetInstanceCount|Yes|Integer|Specifies the target instance count for the role|  
+|[hardwareProfile](#bk_hardwareprof_premium)|Yes|Complex Type|Specifies information about the hardware profile for the role|  
+|[osProfile](#bk_osprof_premium)|Yes|Complex Type|Specifies information about the os profile for the role|  
+  
+####  <a name="bk_hardwareprof_premium"></a> hardwareProfile  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|vmSize|Yes|String|Specifies the size of the VM. Refer to [HDInsight configuration options](https://azure.microsoft.com/en-us/documentation/articles/hdinsight-hadoop-provision-linux-clusters/#basic-configuration-options) (once on this link, scroll down to **Node pricing tiers**) for valid sizes|  
+  
+####  <a name="bk_osprof_premium"></a> osProfile  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|[linuxOperatingSystemProfile](#bk_linuxop_premium)|No|Complex  Type|Specifies the linux OS related settings|  
+|[virtualNetworkProfile](#bk_virtualnet_premium)|No|Complex  Type|Specifies virtual network related settings if the cluster is being deployed in a virtual network in the user’s subscription|  
+|[scriptActions](#bk_scriptactions_premium)|No|Array of Complex Type|List of script actions to execute on the cluster|  
+  
+####  <a name="bk_linuxop_premium"></a> linuxOperatingSystemProfile  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|Username|Yes|String|SSH user name|  
+|[sshProfile](#bk_sshprofile_premium)|No|Complex Type|Specifies the SSH key.<br /><br /> One of sshProfile or Password is required.|  
+|Password|No|String|Specifies the SSH password<br /><br /> One of sshProfile or Password is required.|  
+  
+####  <a name="bk_sshprofile_premium"></a> sshProfile  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|publicKeys|Yes|Array|Contains a list of certificateData objects. The value is a ssh-rsa public key|  
+  
+####  <a name="bk_virtualnet_premium"></a> virtualNetworkProfile  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|id|Yes|String|Virtual Network Resource Id|  
+|subnet|Yes|String|Specifies the subnet name|  
+  
+####  <a name="bk_scriptactions_premium"></a> scriptActions  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|name|Yes|String|Friendly name for the script action|  
+|uri|Yes|String|URL to the script action file|  
+|parameters|No|String|Arguments to pass when executing the script action file|  
+  
+### Response  
+ If validation is complete and the request is accepted, the operation will return 200 (OK).  
+  
+ **Status code:** 200 OK  
+  
+ **Response body for a linux cluster creates using ssh key:**  
+  
+```  
+{  
+    id":"/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.HDInsight/clusters/mycluster",  
+  "name":"mycluster",   
+  "type":"Microsoft.HDInsight/clusters",  
+  
+    "location": "location-name",  
+    "tags": { "tag1": "value1", "tag2": "value2" },  
+    "properties": {  
+        "clusterVersion": "3.2",  
+        "osType": "Linux",  
+		“provisioningState”: “InProgress”,  
+		“clusterState”: “Accepted”,  
+		“createdDate”: “2015-09-23”,  
+		“quotaInfo”: {  
+			“coresUsed”: 20  
+}  
+        "clusterDefinition": {  
+            "kind": "hadoop"  
+        },  
+  
+        "computeProfile": {  
+            "roles": [  
+                {  
+                    "name": "headnode",  
+  
+                    "targetInstanceCount": 2,  
+  
+                    "hardwareProfile": {  
+                        "vmSize": "Large"  
+                    }  
+  
+                },  
+                {  
+                    "name": "workernode",  
+  
+                    "targetInstanceCount": 1,  
+  
+                    "hardwareProfile": {  
+                        "vmSize": "Large"  
+                    }  
+                },  
+                {  
+                    "name": "zookeepernode",  
+  
+                    "targetInstanceCount": 3,  
+  
+                    "hardwareProfile": {  
+                        "vmSize": "Small"  
+                    }  
+                }  
+            ]  
+        }  
+    }  
+}  
+  
+```  
+  
+|Element name|Type|Description|  
+|------------------|----------|-----------------|  
+|provisioningState|String|Indicates the current provisioning state.|  
+|clusterState|String|Indicates the more detailed HDInsight cluster state while provisioning is in progress.|  
+|createdDate|Date|Datetime when the cluster create request was received|  
+|quotaInfo|Complex  Type|Specifies the coresUsed by the cluster|  
+|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed”|  
+|[connectivityEndpoints](#bk_conend_premium)|Complex Type|Specifies the public endpoints for the cluster|  
+  
+####  <a name="bk_conend_premium"></a> connectivityEndpoints  
+  
+|Element name|Type|Description|  
+|------------------|----------|-----------------|  
+|name|String|Friendly name for the connectivity endpoint|  
+|protocol|String|Specifies the Protocol to use (example: HTTPS, SSH)|  
+|location|String|Specifies the URL to connect|  
+|port|int|Specifies the port to connect|
+
+
 ## Delete
 Deletes an HDInsight cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}?api-version={api-version}`|  
+|DELETE|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}?api-version={api-version}`|  
   
 ### Response  
  HTTP 202 (Accepted) to indicate that the operation will complete asynchronously. Async polling will return a 204 (NoContent) once the operation completes successfully.  
   
 ### Remarks  
- To track progress of a delete cluster request, see [Asynchronous Operations (202 Accepted and Location header)](../HDInsightREST/asynchronous-operations--202-accepted-and-location-header-.md)
+ To track progress of a delete cluster request, see [Asynchronous Operations (202 Accepted and Location header)](asynchronous-operations--202-accepted-and-location-header-.md)
 
 
 ## Get
 Gets the details/properties of the specified cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}?api-version={api-version}`|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}?api-version={api-version}`|  
   
 ###  <a name="bk_response"></a> Response  
  The operation will return 200 (OK) if the request is completed successfully  
@@ -427,11 +737,11 @@ Gets the details/properties of the specified cluster.
 Gets cluster configuration details.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/configurations?api-version={api-version}`|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations?api-version={api-version}`|  
   
 ### Response  
  HTTP 200 (OK) on successful completion of the operation.  
@@ -463,11 +773,11 @@ Gets cluster configuration details.
 Gets details about a single configuration type.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/configurations/{configurationType}?api-version={api-version}`|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations/{configuration Type}?api-version={api-version}`|  
   
 ### Response  
  HTTP 200 (OK) on successful completion of the operation.  
@@ -484,19 +794,15 @@ Gets details about a single configuration type.
 ```
 
 
-
-
-
-
 # List by resource group
 Lists all the clusters in the user’s subscription in the specified resource group.  
   
 ### Request  
- See  [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See  [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupId}/providers/Microsoft.HDInsight/clusters?api-version={api-version}`|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourcegroups/{resourceGroup Id}/providers/Microsoft.HDInsight/clusters?api-version={api-version}`|  
   
 ### Response  
  The operation will return 200 (OK) if the request is completed successfully.  
@@ -519,11 +825,11 @@ Lists all the clusters in the user’s subscription in the specified resource gr
 Lists all the clusters in the user’s subscription.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/clusters?api-version={api-version}`|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/providers/Microsoft.HDInsight/clusters?api-version={api-version}`|  
   
 ### Response  
  The operation will return 200 (OK) if the request is completed successfully.  
@@ -545,11 +851,11 @@ Lists all the clusters in the user’s subscription.
 This operation allows users to enable/disable the HTTPS connectivity to the cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/configurations/{configurationType}?api-version={api-version}`|  
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations/{configuration Type}?api-version={api-version}`|  
   
  **To enable connectivity**  
   
@@ -581,18 +887,18 @@ This operation allows users to enable/disable the HTTPS connectivity to the clus
  HTTP 202 (Accepted) to indicate that the operation will complete asynchronously. Async polling will return a 204 (NoContent) once the operation completes successfully.  
   
 ### Remarks  
- To track progress of a delete cluster request, see [Asynchronous Operations (202 Accepted and Location header)](../HDInsightREST/asynchronous-operations--202-accepted-and-location-header-.md)
+ To track progress of a delete cluster request, see [Asynchronous Operations (202 Accepted and Location header)](asynchronous-operations--202-accepted-and-location-header-.md)
 
 
 ## Change RDP settings (Windows cluster only)
 This operation allows a user to enable/disable RDP. It applies to Windows based clusters.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/changerdpsetting?api-version={api-version}|  
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/changerdpsetting?api-version={api-version}`|  
   
  **Request Body**  
   
@@ -656,11 +962,11 @@ This operation allows a user to enable/disable RDP. It applies to Windows based 
 Execute Script action on a running cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/executeScriptActions?api-version={api-version}|  
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/executeScriptActions?api-version={api-version}`|  
   
  **Request Body**  
   
@@ -703,11 +1009,11 @@ Execute Script action on a running cluster.
 This operation returns all the persisted scripts actions of the specified cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/scriptActions?api-version={api-version}|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/scriptActions?api-version={api-version}`|  
   
 ### Response  
  HTTP 200 (OK) on successful completion of the operation.  
@@ -745,11 +1051,11 @@ This operation returns all the persisted scripts actions of the specified cluste
 This operation removes an HDInsight persisted script action for a cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/scriptActions/{scriptName}?api-version={api-version}|  
+|DELETE|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/scriptActions/{script Name}?api-version={api-version}`|  
   
 ### Response  
   
@@ -762,11 +1068,11 @@ This operation removes an HDInsight persisted script action for a cluster.
 This operation returns latest scripts action execution of the specified cluster or execution details for an individual script execution.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/scriptExecutionHistory/{scriptExecutionId}?api-version={api-version}|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/scriptExecutionHistory/{script Execution Id}?api-version={api-version}`|  
   
 ### Response  
  The operation will return 200 (OK) if the request is completed successfully. Response body is an array of script execution details or a single script execution details if scriptExecutionId is provided. Below is an example of a script execution detail.  
@@ -822,11 +1128,11 @@ This operation returns latest scripts action execution of the specified cluster 
 This operation promotes an HDInsight script from script execution history to be persisted.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/scriptExecutionHistory/{scriptExecutionId}/promote?api-version={api-version}|  
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/scriptExecutionHistory/{script Execution Id}/promote?api-version={api-version}`|  
   
 ### Response  
   
@@ -839,11 +1145,11 @@ This operation promotes an HDInsight script from script execution history to be 
 Resizes an existing HDInsight cluster.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}/roles/{rolename}/resize?api-version={api-version}`|  
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/roles/{role name}/resize?api-version={api-version}`|  
   
  Following shows an example request to update tags for a cluster  
   
@@ -861,7 +1167,7 @@ Resizes an existing HDInsight cluster.
  HTTP 202 (Accepted) to indicate that the operation will complete asynchronously. Async polling will return a 204 (NoContent) once the operation completes successfully.  
   
 ### Remarks  
- To track progress of a delete cluster request, see [Asynchronous Operations (202 Accepted and Location header)](../HDInsightREST/asynchronous-operations--202-accepted-and-location-header-.md)
+ To track progress of a delete cluster request, see [Asynchronous Operations (202 Accepted and Location header)](asynchronous-operations--202-accepted-and-location-header-.md)
 
 
 ## Update
@@ -870,11 +1176,11 @@ Updates tags for a cluster.
  All other updates are separate actions described separately.  
   
 ### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PATCH|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clustername}?api-version={api-version}`|  
+|PATCH|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}?api-version={api-version}`|  
   
  Following shows an example request to update tags for a cluster  
   
@@ -895,158 +1201,5 @@ Updates tags for a cluster.
  **Status code:** 200 OK  
   
  Response body is the same as [Create a cluster](#create).
-
-
-## Validate creation request
-This operation allows users to validate the request to create a cluster. If the submitted request has some errors, the API returns an error information about properties that have invalid or missing values.  
-  
-### Request  
- See [Common parameters and headers](../HDInsightREST/index.md#bk_common) for headers and parameters that are used by clusters.  
-  
-|Method|Request URI|  
-|------------|-----------------|  
-|PUT|`https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/validateCreateRequest?api-version={api-version}`|  
-  
- The request body for this operation will be the same as that for [Request](#create).  If any of the required properties is null or missing, the API still tries to validate the remaining properties and provide actionable error messages. Below is an example of the request body of a cluster creation request with some missing and invalid fields:  
-  
-```  
-{  
-	"name": "testcluster",  
-	"location": "East Asia",  
-	"tags": null,  
-	"properties": {  
-		"computeProfile": {  
-			"roles": [  
-				{  
-					"osProfile": {  
-						"linuxOperatingSystemProfile": {  
-							"username": "newuser",  
-							"password": null,  
-							"sshProfile": {  
-								"publicKeys": [  
-									{  
-										"certificateData": "ssh-rsaf8qHAOW8N75K11VVL/RiOuPkMEfHULlgzK "  
-									}  
-								]  
-							}  
-						}  
-					}  
-				}  
-			]  
-		}  
-	}  
-}  
-  
-```  
-  
- In the above request, several required fields such as `clusterVersion`, `clusterDefinition`, `roleName`, and `hardwareProfile` are empty. Also, the SSH public key is invalid. The API will report all the invalid properties.  
-  
-### Response  
- **Status code:** 200 OK to indicate that the request is valid.  
-  
- The response can contain validation warnings even if the return code is 200. In case there are any validation errors, HTTP 400 (Bad Request) is returned.  
-  
-```  
-{  
-  
-	"validationErrors": [  
-  
-		{  
-  
-			"errorSource": "$.properties.clusterVersion",  
-  
-			"code": "ClusterVersionRequired",  
-  
-			"message": "'clusterVersion' cannot be null or empty"  
-  
-		},  
-  
-		{  
-  
-			"errorSource": "$.properties.clusterDefinition",  
-  
-			"code": "ClusterDefinitionRequired",  
-  
-			"message": "'clusterDefinition' cannot be null"  
-  
-		},  
-  
-		{  
-  
-			"errorSource": "$.properties.computeProfile.roles[0].name",  
-  
-			"code": "RoleNameRequired",  
-  
-			"message": "Role 'name' cannot be null or empty"  
-  
-		},  
-  
-		{  
-  
-			"errorSource": "$.properties.computeProfile.roles[0].hardwareProfile",  
-  
-			"code": "HardwareProfileRequired",  
-  
-			"message": "'hardwareProfile' cannot be null"  
-  
-		},  
-  
-		{  
-  
-			"errorSource": "$.properties.computeProfile.roles[0].osProfile.linuxOperatingSystemProfile.sshProfile",  
-  
-			"code": "InvalidSshPublicKey",  
-  
-			"message": "ssh-rsaf8qHAOW8N75K11VVL/RiOuPkMEfHULlgzK is not a valid SSH public key",  
-  
-			"messageArguments": ["ssh-rsaf8qHAOW8N75K11VVL/RiOuPkMEfHULlgz"]  
-  
-		},  
-  
-		{  
-  
-			"errorSource": "$.properties.computeProfile.roles[0].targetInstanceCount",  
-  
-			"code": "InvalidTargetInstanceCountValue",  
-  
-			"message": "'targetInstanceCount' has an invalid value. It must be greater than zero"  
-  
-		}  
-  
-	],  
-  
-	"validationWarnings": [  
-  
-		{  
-  
-			"errorSource": "$.properties.clusterVersion",  
-  
-			"code": "ClusterVersionDeprecated",  
-  
-			"message": "'clusterVersion' 2.0 is deprecated and will be removed in future ",  
-  
-			"messageArguments": ["2.0"]  
-  
-		}  
-  
-	]  
-  
-}  
-  
-```  
-  
-|Element name||Description|  
-|------------------|-|-----------------|  
-|validationErrors|Array of complex Type [validationError](#bk_validationError)|List of validation errors|  
-|validationWarnings|Array of complex Type [validationError](#bk_validationError)|List of validation warnings|  
-  
-####  <a name="bk_validationError"></a> validationError  
-  
-|Element name|Type|Description|  
-|------------------|----------|-----------------|  
-|code|String|Error code for the particular message|  
-|errorSource|String|JsonPath of the property that caused this error.|  
-|message|String|Error message|  
-|messageArguments|String[]|List of arguments for this error message code. This can be used where we want to show a localized message based on the error code. This field is optional.|
 
 

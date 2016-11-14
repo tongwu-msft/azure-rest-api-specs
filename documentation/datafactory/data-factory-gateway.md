@@ -8,7 +8,7 @@ Creates a new gateway.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|PUT|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/gateways/<GatewayName\>?api-version=<Api-Version>|HTTP/1.1|  
+|PUT|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/gateways/{GatewayName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -197,7 +197,7 @@ Deletes the specific gateway.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|DELETE|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/gateways/<GatewayName\>?api-version=<Api-Version>|HTTP/1.1|  
+|DELETE|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/gateways/{GatewayName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -290,7 +290,7 @@ Gets information about an existing gateway.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|GET|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/gateways/<GatewayName\>?api-version=<Api-Version>|HTTP/1.1|  
+|GET|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/gateways/{GatewayName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -422,7 +422,7 @@ X-Powered-By                  : ASP.NET
     {  
       "name": "SPGateway",  
       "properties": {  
-        "hostServiceUri": "https://<machine>.<domain>.corp.<company>.com:8050/HostServiceRemote.svc/",  
+        "hostServiceUri": "https://{machine>.<domain>.corp.<company>.com:8050/HostServiceRemote.svc/",  
         "dataFactoryName": "sprestdatafactory",  
         "status": "Online",  
         "versionStatus": "UpToDate",  
@@ -451,7 +451,7 @@ Lists information of all gateways in the data factory.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|GET|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/gateways?api-version=<Api-Version>|HTTP/1.1|  
+|GET|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/gateways?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -602,7 +602,7 @@ X-Powered-By                  : ASP.NET
     {  
       "name": "SPGateway",  
       "properties": {  
-        "hostServiceUri": "https://<machine>.<domain>.corp.<company>.com:8050/HostServiceRemote.svc/",  
+        "hostServiceUri": "https://{machine>.<domain>.corp.<company>.com:8050/HostServiceRemote.svc/",  
         "dataFactoryName": "sprestdatafactory",  
         "status": "Online",  
         "versionStatus": "UpToDate",  
@@ -617,7 +617,7 @@ X-Powered-By                  : ASP.NET
     {  
       "name": "SPGateway2",  
       "properties": {  
-        "hostServiceUri": "https://<machine>.<domain>.corp.<company>.com:8050/HostServiceRemote.svc/",  
+        "hostServiceUri": "https://{machine>.<domain>.corp.<company>.com:8050/HostServiceRemote.svc/",  
         "dataFactoryName": "sprestdatafactory",  
         "status": "Online",  
         "versionStatus": "UpToDate",  
@@ -645,7 +645,7 @@ Renerates a new key for an existing gateway that replaces the old key.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|POST|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/gateways/<GatewayName\>/regeneratekey?api-version=<Api-Version>|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/gateways/{GatewayName}/regeneratekey?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -762,7 +762,7 @@ Updates the content of an existing gateway.
   
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |-|-|-|  
-|PATCH|https://management.azure.com/subscriptions/<SubscriptionID\>/resourcegroups/<ResourceGroupName\>/providers/Microsoft.DataFactory/datafactories/<DataFactoryName\>/gateways/<GatewayName\>?api-version=<Api-Version>|HTTP/1.1|  
+|PATCH|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/gateways/{GatewayName}?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   

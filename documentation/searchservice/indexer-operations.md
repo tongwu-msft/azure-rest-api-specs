@@ -1,7 +1,7 @@
 ---
-title: "Indexer operations (Azure Search Service REST API)"
+title: "Indexer operations (Azure Search Service REST API) | Microsoft docs"
 ms.custom: ""
-ms.date: "2016-08-10"
+ms.date: "2016-11-11"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -28,34 +28,40 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Indexer operations (Azure Search Service REST API)
-  Azure Search can integrate directly with some common data sources, [removing the need to write code to index your data](https://azure.microsoft.com/en-in/blog/load-data-into-azure-search-with-zero-code-required/). To set up this up, you can call the Azure Search API to create and manage **indexers** and **data sources**.  
 
- An **indexer** is a resource that connects data sources with target search indexes. An indexer is used in the following ways:  
+ An **indexer** is a resource that crawls a data source and loads documents into a target search index. Key scenarios for indexers can be described as follows:  
 
 -   Perform a one-time copy of the data to populate an index.  
 
--   Sync an index with changes from the data source on a schedule. The schedule is part of the indexer definition.  
+-   Sync an index with incremental changes from the data source on a recurring schedule. The schedule is part of the indexer definition.  
 
--   Invoke on-demand to update an index as needed.  
+-   Invoke an indexer on-demand to update an index as needed.  
 
- All of the above scenarios are achieved through the [Run Indexer &#40;Azure Search Service REST API&#41;](run-indexer.md), which you can run as a standalone operation or scheduled using the built-in scheduler.  
+ All of the above scenarios are achieved through the [Run Indexer &#40;Azure Search Service REST API&#41;](run-indexer.md), which you can run as a standalone operation or scheduled using the built-in scheduler, to load data from supported data sources.  
+
+## Supportability
+
+ Version 2016-09-01 of the Service REST API adds support for the Azure Blob and Azure Table indexers. Previously, these features were only available in the preview API.
+
+ > [!NOTE]
+ > Indexing of CSV blobs and blobs containing JSON arrays is still in preview and is therefore not supported in the 2016-09-01 API version.
 
  A **data source** specifies what data needs to be indexed, credentials to access the data, and policies to enable Azure Search to efficiently identify changes in the data (such as modified or deleted rows in a database table). It's defined as an independent resource so that it can be used by multiple indexers.  
 
  The following data sources are currently supported:  
 
--   [Azure SQL Database](https://azure.microsoft.com/documentation/articles/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers-2015-02-28/)  
-
--   [DocumentDB](https://azure.microsoft.com/documentation/articles/documentdb-search-indexer/)  
-
--   [Azure Blob Storage (in preview)](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-blob-storage/)  
+ - **Azure SQL Database** and **SQL Server on Azure VMs**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers/).
+ - **Azure DocumentDB**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/documentdb-search-indexer/).
+ - **Azure Blob Storage**, including the following document formats: PDF, Microsoft Office (DOCX/DOC, XSLX/XLS, PPTX/PPT, MSG), HTML, XML, ZIP, and plain text files (including JSON). For  a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-blob-storage.md).
+ - **Azure Table Storage**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-tables.md).
 
  We're considering adding support for additional data sources in the future. To help us prioritize these decisions, please provide your feedback on the [Azure Search feedback forum](http://feedback.azure.com/forums/263029-azure-search).  
 
- See [Service Limits](https://azure.microsoft.com/en-us/documentation/articles/search-limits-quotas-capacity/) for maximum limits related to **indexer** and **data source** resources.  
+ See [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for maximum limits related to **indexer** and **data source** resources.  
 
 ## Typical workflow  
- You can create and manage **indexers** and **data sources** via simple HTTP requests (POST, GET, PUT, DELETE) against a given data source or indexer resource.  
+
+Using an indexer is efficient, [removing the need to write code to index your data](https://azure.microsoft.com/en-in/blog/load-data-into-azure-search-with-zero-code-required/). To set up this up, you can call the search service REST API to create and manage **indexers** and **data sources**. You can create and manage **indexers** and **data sources** via simple HTTP requests (POST, GET, PUT, DELETE) against a given data source or indexer resource.  
 
  Setting up automatic indexing is typically a four step process:  
 
@@ -69,11 +75,11 @@ translation.priority.mt:
 
  You should plan on creating one indexer for every target index and data source combination. You can have multiple indexers writing into the same index, and you can reuse the same data source for multiple indexers. However, an indexer can only consume one data source at a time, and can only write to a single index. As the following graphic illustrates, one data source provides input to one indexer, which then populates a single index:  
 
- ![Data Source, Indexer, Index chain in Azure Search](/media/azsrch-ds-indxr-index.png "Azsrch-ds-indxr-index")  
+ ![Data Source, Indexer, Index chain in Azure Search](media/azsrch-ds-indxr-index.png "Azsrch-ds-indxr-index")  
 
  Although you can only use one at a time, resources can be used in different combinations. The main takeaway of the next illustration is to notice is that a data source can be paired with more than one indexer, and multiple indexers can write to same index.  
 
- ![Resource combinations used in indexers](/media/azsrch-ds2-indexer3-index2.png "AzSrch-DS2-Indexer3-Index2")  
+ ![Resource combinations used in indexers](media/azsrch-ds2-indexer3-index2.png "AzSrch-DS2-Indexer3-Index2")  
 
  After creating an indexer, you can retrieve its execution status using the [Get Indexer Status &#40;Azure Search Service REST API&#41;](get-indexer-status.md) operation. You can also run an indexer at any time (instead of or in addition to running it periodically on a schedule) using the [Run Indexer &#40;Azure Search Service REST API&#41;](run-indexer.md) operation.  
 

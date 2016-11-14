@@ -1,3 +1,12 @@
+---
+ms.assetid:
+ms.title: Specifying conditional headers | Microsoft Docs
+ms.service: batch
+author: mmacy
+ms.author: marsma
+ms.manager: timlt
+---
+
 # Specifying conditional headers
 
 The Batch service follows the [HTTP/1.1 protocol specification](https://tools.ietf.org/html/rfc7232) for conditional headers, and uses the below rules to process requests specifying conditional headers:
