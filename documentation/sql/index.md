@@ -3,7 +3,7 @@ ms.assetid: 709f9922-66f0-4315-ad60-4cac7beb4847
 ms.title: Azure SQL Database REST API reference
 ms.prod: azure
 ms.service: sql-database
-author: 
+author:
 ms.author: sstein
 ms.manager: douge
 
@@ -12,9 +12,6 @@ ms.manager: douge
 # Azure SQL Database REST API
 
 The Azure SQL Database REST API includes operations for managing Azure SQL Database servers, databases, elastic database pools, elastic databases, server firewall rules.
-
-> [!IMPORTANT]  
-> The list of SQL Database APIs in this section is not complete. For the full list, see the [Azure SQL Database REST API on MSDN](https://msdn.microsoft.com/library/azure/mt163571.aspx). 
 
 ## REST Operation Groups
 
