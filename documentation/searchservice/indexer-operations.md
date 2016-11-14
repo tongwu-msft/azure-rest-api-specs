@@ -75,11 +75,11 @@ Using an indexer is efficient, [removing the need to write code to index your da
 
  You should plan on creating one indexer for every target index and data source combination. You can have multiple indexers writing into the same index, and you can reuse the same data source for multiple indexers. However, an indexer can only consume one data source at a time, and can only write to a single index. As the following graphic illustrates, one data source provides input to one indexer, which then populates a single index:  
 
- ![Data Source, Indexer, Index chain in Azure Search](/media/azsrch-ds-indxr-index.png "Azsrch-ds-indxr-index")  
+ ![Data Source, Indexer, Index chain in Azure Search](media/azsrch-ds-indxr-index.png "Azsrch-ds-indxr-index")  
 
  Although you can only use one at a time, resources can be used in different combinations. The main takeaway of the next illustration is to notice is that a data source can be paired with more than one indexer, and multiple indexers can write to same index.  
 
- ![Resource combinations used in indexers](/media/azsrch-ds2-indexer3-index2.png "AzSrch-DS2-Indexer3-Index2")  
+ ![Resource combinations used in indexers](media/azsrch-ds2-indexer3-index2.png "AzSrch-DS2-Indexer3-Index2")  
 
  After creating an indexer, you can retrieve its execution status using the [Get Indexer Status &#40;Azure Search Service REST API&#41;](get-indexer-status.md) operation. You can also run an indexer at any time (instead of or in addition to running it periodically on a schedule) using the [Run Indexer &#40;Azure Search Service REST API&#41;](run-indexer.md) operation.  
 

@@ -32,7 +32,7 @@ Here's how to get started creating a Data Catalog app:
   
 | Get started with the Data Catalog REST API to register, annotate and search data assets |  
 | :- |  
-|![Step1](/media/Step1.DC.50.png) – [Learn about the Data Catalog REST API](index.md) |  
-|![Step2](/media/REST-API-Step-2.png) - [Create an Azure Active Directory tenant](Create-an-Azure-Active-Directory-tenant.md). If you already have an Azure AD tenant and organizational user, you can skip this step. **Important** To create a Data Catalog app, you need an **Azure Active Directory** tenant.  |  
-|![Step3](/media/Step3.DC.50.png) – [Register your client app](Register-a-client-app.md). You register your app in Azure Active Directory so that users can authenticate to the Data Catalog service. |  
-| ![Step4](/media/Step4.DC.50.png) – [Learn how to authenticate your app](Authenticate-to-Data-Catalog-service.md)|  
+|![Step1](media/Step1.DC.50.png) – [Learn about the Data Catalog REST API](index.md) |  
+|![Step2](media/REST-API-Step-2.png) - [Create an Azure Active Directory tenant](Create-an-Azure-Active-Directory-tenant.md). If you already have an Azure AD tenant and organizational user, you can skip this step. **Important** To create a Data Catalog app, you need an **Azure Active Directory** tenant.  |  
+|![Step3](media/Step3.DC.50.png) – [Register your client app](Register-a-client-app.md). You register your app in Azure Active Directory so that users can authenticate to the Data Catalog service. |  
+| ![Step4](media/Step4.DC.50.png) – [Learn how to authenticate your app](Authenticate-to-Data-Catalog-service.md)|  

@@ -49,23 +49,23 @@ Here's how to register a client app:
 3. In the left service panel, choose **ACTIVE DIRECTORY**.  
 4. Click the active directory that you belong to.  
   
-    ![step 3](/media/Register-app-3.png)  
+    ![step 3](media/Register-app-3.png)  
   
 5. Click **APPLICATIONS**.  
   
-    ![step 4](/media/Register-app-4.png)  
+    ![step 4](media/Register-app-4.png)  
   
 6. Click **ADD**.  
   
-    ![step 5](/media/Register-app-5.png)  
+    ![step 5](media/Register-app-5.png)  
   
 7. In the **What do you want to do** page, click Add an application my organization is developing. For some Active Directory configurations, you might not see this page.  
    
-     ![WhatToDo](/media/What-do-you-want-to-do.png)  
+     ![WhatToDo](media/What-do-you-want-to-do.png)  
      
 8. In **Tell us about your application**, enter a **NAME**, and choose **NATIVE CLIENT APPLICATION** for the type, and click **Next** icon..  
   
-    ![step 6](/media/Register-app-6.png)  
+    ![step 6](media/Register-app-6.png)  
    
 9. In **Application information**, enter a **REDIRECT URI**. For a client app, a redirect uri gives AAD more details on the specific application that it will authenticate. For a client app, you can use this Uri: https://login.live.com/oauth20_desktop.srf.  
   
@@ -73,16 +73,16 @@ Here's how to register a client app:
 11. In the application page, choose **CONFIGURE**. You will see your **CLIENT ID**.   
 12. In the **CONFIGURATION** page, under **permissions to other applications**, click **Add Application**.  
   
-    ![step 11](/media/Register-app-11.png)  
+    ![step 11](media/Register-app-11.png)  
   
 13. In **Permissions to other applications**, choose **Microsoft Azure Data Catalog**.  
   
-    ![step 12](/media/Register.DC.12.png)  
+    ![step 12](media/Register.DC.12.png)  
       
 14. Click **Complete** icon.  
 15. In the **permissions to other applications** group, choose all **Delegated Permissions**, and chooses one or more permissions.  
   
-    ![step 14](/media/Register.DC.14.png)  
+    ![step 14](media/Register.DC.14.png)  
       
 16. Click **Save**.  
   
@@ -100,6 +100,6 @@ Here's how to get a client id:
 6. In the application page, choose **CONFIGURE**.  
 7. In the **CONFIGURE** page, copy the **CLIENT ID**.  
   
-    ![step 1.7](/media/Register-app-3a.png)  
+    ![step 1.7](media/Register-app-3a.png)  
   
   
