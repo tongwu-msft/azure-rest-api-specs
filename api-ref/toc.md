@@ -94,6 +94,8 @@
 ## [Virtual Machine Scale Sets](compute/VirtualMachineScaleSets.json)
 ## [Virtual Machine Sizes](compute/VirtualMachineSizes.json)
 ## [Virtual Machines](compute/VirtualMachines.json)
+# [Container Registry](../documentation/containerregistry/index.md)
+## [Registries](containerregistry/Registries.json)
 # [Data Catalog](../documentation/datacatalog/index.md)
 ## [Data Catalog](../documentation/datacatalog/data-catalog-data-catalog.md)
 ## [Data Asset](../documentation/datacatalog/data-catalog-data-asset.md)
