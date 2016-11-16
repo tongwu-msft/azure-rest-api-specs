@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2016-04-02",
+    "version": "2016-10-02",
     "title": "CdnManagementClient",
-    "description": "Use these APIs to manage Azure CDN resources through the Azure Resource Manager. You must make sure that requests made to these resources are secure. For more information, see https://msdn.microsoft.com/en-us/library/azure/dn790557.aspx."
+    "description": "Use these APIs to manage Azure CDN resources through the Azure Resource Manager. You must make sure that requests made to these resources are secure."
   },
   "host": "management.azure.com",
   "schemes": [
@@ -27,7 +27,7 @@
       "type": "oauth2",
       "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
       "flow": "implicit",
-      "description": "Azure Active Directory OAuth2 Flow",
+      "description": "Azure Active Directory OAuth2 Flow.",
       "scopes": {
         "user_impersonation": "impersonate your user account"
       }
@@ -39,20 +39,16 @@
         "tags": [
           "Endpoints"
         ],
-        "summary": "Lists existing CDN endpoints within a profile.",
+        "description": "Lists existing CDN endpoints.",
         "operationId": "Endpoints_ListByProfile",
         "parameters": [
           {
-            "name": "profileName",
-            "in": "path",
-            "description": "Name of the CDN profile within the resource group.",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/resourceGroupNameParameter"
           },
           {
-            "name": "resourceGroupName",
+            "name": "profileName",
             "in": "path",
-            "description": "Name of the resource group within the Azure subscription.",
+            "description": "Name of the CDN profile which is unique within the resource group.",
             "required": true,
             "type": "string"
           },
@@ -65,7 +61,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK. The request has succeeded.",
             "schema": {
               "$ref": "#/definitions/EndpointListResult"
             }
@@ -78,7 +74,7 @@
           }
         },
         "x-ms-pageable": {
-          "nextLinkName": null
+          "nextLinkName": "nextLink"
         }
       }
     },
@@ -87,27 +83,23 @@
         "tags": [
           "Endpoints"
         ],
-        "summary": "Gets an existing CDN endpoint with the specified parameters.",
+        "description": "Gets an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.",
         "operationId": "Endpoints_Get",
         "parameters": [
           {
-            "name": "endpointName",
-            "in": "path",
-            "description": "Name of the endpoint within the CDN profile.",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/resourceGroupNameParameter"
           },
           {
             "name": "profileName",
             "in": "path",
-            "description": "Name of the CDN profile within the resource group.",
+            "description": "Name of the CDN profile which is unique within the resource group.",
             "required": true,
             "type": "string"
           },
           {
-            "name": "resourceGroupName",
+            "name": "endpointName",
             "in": "path",
-            "description": "Name of the resource group within the Azure subscription.",
+            "description": "Name of the endpoint under the profile which is unique globally.",
             "required": true,
             "type": "string"
           },
@@ -120,7 +112,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK. The request has succeeded.",
             "schema": {
               "$ref": "#/definitions/Endpoint"
             }
@@ -137,38 +129,34 @@
         "tags": [
           "Endpoints"
         ],
-        "summary": "Creates a new CDN endpoint with the specified parameters.",
+        "description": "Creates a new CDN endpoint with the specified parameters.",
         "operationId": "Endpoints_Create",
         "parameters": [
           {
-            "name": "endpointName",
-            "in": "path",
-            "description": "Name of the endpoint within the CDN profile.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "endpointProperties",
-            "in": "body",
-            "description": "Endpoint properties",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/EndpointCreateParameters"
-            }
+            "$ref": "#/parameters/resourceGroupNameParameter"
           },
           {
             "name": "profileName",
             "in": "path",
-            "description": "Name of the CDN profile within the resource group.",
+            "description": "Name of the CDN profile which is unique within the resource group.",
             "required": true,
             "type": "string"
           },
           {
-            "name": "resourceGroupName",
+            "name": "endpointName",
             "in": "path",
-            "description": "Name of the resource group within the Azure subscription.",
+            "description": "Name of the endpoint under the profile which is unique globally.",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "endpoint",
+            "in": "body",
+            "description": "Endpoint properties",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Endpoint"
+            }
           },
           {
             "$ref": "#/parameters/subscriptionIdParameter"
@@ -179,13 +167,13 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK. The request has succeeded.",
             "schema": {
               "$ref": "#/definitions/Endpoint"
             }
           },
           "201": {
-            "description": "Created",
+            "description": "Created. The request has been fulfilled and a new endpoint has been created.",
             "schema": {
               "$ref": "#/definitions/Endpoint"
             }
@@ -209,38 +197,34 @@
         "tags": [
           "Endpoints"
         ],
-        "summary": "Updates an existing CDN endpoint with the specified parameters. Only tags and OriginHostHeader can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update custom domains, use the Update Custom Domain operation.",
+        "description": "Updates an existing CDN endpoint with the specified parameters. Only tags and OriginHostHeader can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update custom domains, use the Update Custom Domain operation.",
         "operationId": "Endpoints_Update",
         "parameters": [
           {
-            "name": "endpointName",
-            "in": "path",
-            "description": "Name of the endpoint within the CDN profile.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "endpointProperties",
-            "in": "body",
-            "description": "Endpoint properties",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/EndpointUpdateParameters"
-            }
+            "$ref": "#/parameters/resourceGroupNameParameter"
           },
           {
             "name": "profileName",
             "in": "path",
-            "description": "Name of the CDN profile within the resource group.",
+            "description": "Name of the CDN profile which is unique within the resource group.",
             "required": true,
             "type": "string"
           },
           {
-            "name": "resourceGroupName",
+            "name": "endpointName",
             "in": "path",
-            "description": "Name of the resource group within the Azure subscription.",
+            "description": "Name of the endpoint under the profile which is unique globally.",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "endpointUpdateProperties",
+            "in": "body",
+            "description": "Endpoint update properties",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EndpointUpdateParameters"
+            }
           },
           {
             "$ref": "#/parameters/subscriptionIdParameter"
@@ -251,7 +235,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK. The request has succeeded.",
             "schema": {
               "$ref": "#/definitions/Endpoint"
             }
@@ -275,27 +259,23 @@
         "tags": [
           "Endpoints"
         ],
-        "summary": "Deletes an existing CDN endpoint with the specified parameters.",
-        "operationId": "Endpoints_DeleteIfExists",
+        "description": "Deletes an existing CDN endpoint with the specified parameters.",
+        "operationId": "Endpoints_Delete",
         "parameters": [
           {
-            "name": "endpointName",
-            "in": "path",
-            "description": "Name of the endpoint within the CDN profile.",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/resourceGroupNameParameter"
           },
           {
             "name": "profileName",
             "in": "path",
-            "description": "Name of the CDN profile within the resource group.",
+            "description": "Name of the CDN profile which is unique within the resource group.",
             "required": true,
             "type": "string"
           },
           {
-            "name": "resourceGroupName",
+            "name": "endpointName",
             "in": "path",
-            "description": "Name of the resource group within the Azure subscription.",
+            "description": "Name of the endpoint under the profile which is unique globally.",
             "required": true,
             "type": "string"
           },
@@ -308,10 +288,10 @@
         ],
         "responses": {
           "202": {
-            "description": "Accepted"
+            "description": "Accepted."
           },
           "204": {
-            "description": "No Content"
+            "description": "No Content."
           },
           "default": {
             "description": "CDN error response describing why the operation failed.",
@@ -328,27 +308,23 @@
         "tags": [
           "Endpoints"
         ],
-        "summary": "Starts an existing stopped CDN endpoint.",
+        "description": "Starts an existing stopped CDN endpoint.",
         "operationId": "Endpoints_Start",
         "parameters": [
           {
-            "name": "endpointName",
-            "in": "path",
-            "description": "Name of the endpoint within the CDN profile.",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/resourceGroupNameParameter"
           },
           {
             "name": "profileName",
             "in": "path",
-            "description": "Name of the CDN profile within the resource group.",
+            "description": "Name of the CDN profile which is unique within the resource group.",
             "required": true,
             "type": "string"
           },
           {
-            "name": "resourceGroupName",
+            "name": "endpointName",
             "in": "path",
-            "description": "Name of the resource group within the Azure subscription.",
+            "description": "Name of the endpoint under the profile which is unique globally.",
             "required": true,
             "type": "string"
           },
@@ -381,27 +357,23 @@
         "tags": [
           "Endpoints"
         ],
-        "summary": "Stops an existing running CDN endpoint.",
+        "description": "Stops an existing running CDN endpoint.",
         "operationId": "Endpoints_Stop",
         "parameters": [
           {
-            "name": "endpointName",
-            "in": "path",
-            "description": "Name of the endpoint within the CDN profile.",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/resourceGroupNameParameter"
           },
           {
             "name": "profileName",
             "in": "path",
-            "description": "Name of the CDN profile within the resource group.",
+            "description": "Name of the CDN profile which is unique within the resource group.",
             "required": true,
             "type": "string"
           },
           {
-            "name": "resourceGroupName",
+            "name": "endpointName",
             "in": "path",
-            "description": "Name of the resource group within the Azure subscription.",
+            "description": "Name of the endpoint under the profile which is unique globally.",
             "required": true,
             "type": "string"
           },
@@ -434,38 +406,34 @@
         "tags": [
           "Endpoints"
         ],
-        "summary": "Forcibly purges CDN endpoint content.",
+        "description": "Forcibly purges CDN endpoint content.",
         "operationId": "Endpoints_PurgeContent",
         "parameters": [
           {
+            "$ref": "#/parameters/resourceGroupNameParameter"
+          },
+          {
+            "name": "profileName",
+            "in": "path",
+            "description": "Name of the CDN profile which is unique within the resource group.",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "endpointName",
             "in": "path",
-            "description": "Name of the endpoint within the CDN profile.",
+            "description": "Name of the endpoint under the profile which is unique globally.",
             "required": true,
             "type": "string"
           },
           {
             "name": "contentFilePaths",
             "in": "body",
-            "description": "The path to the content to be purged. Path can describe a file or directory.",
+            "description": "The path to the content to be purged. Path can describe a file or directory using the wildcard. e.g. '/my/directory/*' or '/my/file.exe/'",
             "required": true,
             "schema": {
               "$ref": "#/definitions/PurgeParameters"
             }
-          },
-          {
-            "name": "profileName",
-            "in": "path",
-            "description": "Name of the CDN profile within the resource group.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "resourceGroupName",
-            "in": "path",
-            "description": "Name of the resource group within the Azure subscription.",
-            "required": true,
-            "type": "string"
           },
           {
             "$ref": "#/parameters/subscriptionIdParameter"
@@ -493,13 +461,23 @@
         "tags": [
           "Endpoints"
         ],
-        "summary": "Forcibly pre-loads CDN endpoint content.",
+        "description": "Forcibly pre-loads CDN endpoint content. Available for Verizon Profiles.",
         "operationId": "Endpoints_LoadContent",
         "parameters": [
           {
+            "$ref": "#/parameters/resourceGroupNameParameter"
+          },
+          {
+            "name": "profileName",
+            "in": "path",
+            "description": "Name of the CDN profile which is unique within the resource group.",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "endpointName",
             "in": "path",
-            "description": "Name of the endpoint within the CDN profile.",
+            "description": "Name of the endpoint under the profile which is unique globally.",
             "required": true,
             "type": "string"
           },
@@ -511,20 +489,6 @@
             "schema": {
               "$ref": "#/definitions/LoadParameters"
             }
-          },
-          {
-            "name": "profileName",
-            "in": "path",
-            "description": "Name of the CDN profile within the resource group.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "resourceGroupName",
-            "in": "path",
-            "description": "Name of the resource group within the Azure subscription.",
-            "required": true,
-            "type": "string"
           },
           {
             "$ref": "#/parameters/subscriptionIdParameter"
@@ -552,13 +516,23 @@
         "tags": [
           "Endpoints"
         ],
-        "summary": "Validates a custom domain mapping to ensure it maps to the correct CNAME in DNS.",
+        "description": "Validates a custom domain mapping to ensure it maps to the correct CNAME in DNS.",
         "operationId": "Endpoints_ValidateCustomDomain",
         "parameters": [
           {
+            "$ref": "#/parameters/resourceGroupNameParameter"
+          },
+          {
+            "name": "profileName",
+            "in": "path",
+            "description": "Name of the CDN profile which is unique within the resource group.",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "endpointName",
             "in": "path",
-            "description": "Name of the endpoint within the CDN profile.",
+            "description": "Name of the endpoint under the profile which is unique globally.",
             "required": true,
             "type": "string"
           },
@@ -572,20 +546,6 @@
             }
           },
           {
-            "name": "profileName",
-            "in": "path",
-            "description": "Name of the CDN profile within the resource group.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "resourceGroupName",
-            "in": "path",
-            "description": "Name of the resource group within the Azure subscription.",
-            "required": true,
-            "type": "string"
-          },
-          {
             "$ref": "#/parameters/subscriptionIdParameter"
           },
           {
@@ -594,7 +554,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK. The request has succeeded.",
             "schema": {
               "$ref": "#/definitions/ValidateCustomDomainOutput"
             }
@@ -615,7 +575,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/TrackedResource"
+          "$ref": "#/definitions/Resource"
         }
       ],
       "properties": {
@@ -627,9 +587,13 @@
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/ProfileProperties"
         }
-      }
+      },
+      "required": [
+        "sku"
+      ]
     },
     "ProfileProperties": {
+      "description": "The JSON object that contains the properties of the profile to create.",
       "properties": {
         "resourceState": {
           "description": "Resource status of the profile.",
@@ -643,16 +607,18 @@
           "type": "string",
           "x-ms-enum": {
             "name": "ProfileResourceState",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "provisioningState": {
+          "readOnly": true,
           "description": "Provisioning status of the profile.",
-          "$ref": "#/definitions/ProvisioningState"
+          "type": "string"
         }
       }
     },
     "ProfileListResult": {
+      "description": "Result of the request to list profiles. It contains a list of profile objects and a URL link to get the the next set of results.",
       "properties": {
         "value": {
           "type": "array",
@@ -660,34 +626,12 @@
             "$ref": "#/definitions/Profile"
           },
           "description": "List of CDN profiles within a resource group."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of profile objects if there are any."
         }
       }
-    },
-    "ProfileCreateParameters": {
-      "type": "object",
-      "description": "Profile properties required for profile creation.",
-      "required": [
-        "location",
-        "sku"
-      ],
-      "properties": {
-        "location": {
-          "description": "Profile location",
-          "type": "string"
-        },
-        "tags": {
-          "description": "Profile tags",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "sku": {
-          "description": "The SKU (pricing tier) of the CDN profile.",
-          "$ref": "#/definitions/Sku"
-        }
-      },
-      "x-ms-azure-resource": true
     },
     "ProfileUpdateParameters": {
       "type": "object",
@@ -721,7 +665,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/TrackedResource"
+          "$ref": "#/definitions/Resource"
         }
       ],
       "properties": {
@@ -732,42 +676,20 @@
       }
     },
     "EndpointProperties": {
+      "description": "The JSON object that contains the properties of the endpoint to create.",
+      "required": [
+        "origins"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EndpointPropertiesUpdateParameters"
+        }
+      ],
       "properties": {
         "hostName": {
           "description": "The host name of the endpoint {endpointName}.{DNSZone}",
           "type": "string",
           "readOnly": true
-        },
-        "originHostHeader": {
-          "description": "The host header the CDN provider will send along with content requests to origins. The default value is the host name of the origin.",
-          "type": "string"
-        },
-        "originPath": {
-          "description": "The path used for origin requests.",
-          "type": "string"
-        },
-        "contentTypesToCompress": {
-          "description": "List of content types on which compression will be applied. The value for the elements should be a valid MIME type.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "isCompressionEnabled": {
-          "description": "Indicates whether the compression is enabled. Default value is false. If compression is enabled, the content transferred from cdn endpoint to end user will be compressed. The requested content must be larger than 1 byte and smaller than 1 MB.",
-          "type": "boolean"
-        },
-        "isHttpAllowed": {
-          "description": "Indicates whether HTTP traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed.",
-          "type": "boolean"
-        },
-        "isHttpsAllowed": {
-          "description": "Indicates whether https traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed.",
-          "type": "boolean"
-        },
-        "queryStringCachingBehavior": {
-          "description": "Defines the query string caching behavior.",
-          "$ref": "#/definitions/QueryStringCachingBehavior"
         },
         "origins": {
           "description": "The set of origins for the CDN endpoint. When multiple origins exist, the first origin will be used as primary and rest will be used as failover options.",
@@ -790,16 +712,18 @@
           "type": "string",
           "x-ms-enum": {
             "name": "EndpointResourceState",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "provisioningState": {
+          "readOnly": true,
           "description": "Provisioning status of the endpoint.",
-          "$ref": "#/definitions/ProvisioningState"
+          "type": "string"
         }
       }
     },
     "EndpointListResult": {
+      "description": "Result of the request to list endpoints. It contains a list of endpoint objects and a URL link to get the the next set of results.",
       "properties": {
         "value": {
           "type": "array",
@@ -807,40 +731,19 @@
             "$ref": "#/definitions/Endpoint"
           },
           "description": "List of CDN endpoints within a profile"
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of endpoint objects if there are any."
         }
       }
-    },
-    "EndpointCreateParameters": {
-      "type": "object",
-      "description": "Endpoint properties required for new endpoint creation.",
-      "required": [
-        "location"
-      ],
-      "properties": {
-        "location": {
-          "description": "Endpoint location",
-          "type": "string"
-        },
-        "tags": {
-          "description": "Endpoint tags",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/EndpointPropertiesCreateParameters"
-        }
-      },
-      "x-ms-azure-resource": true
     },
     "EndpointUpdateParameters": {
       "type": "object",
       "description": "Endpoint properties required for new endpoint creation.",
       "properties": {
         "tags": {
-          "description": "Endpoint tags",
+          "description": "Endpoint tags.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
@@ -853,52 +756,8 @@
       },
       "x-ms-azure-resource": true
     },
-    "EndpointPropertiesCreateParameters": {
-      "required": [
-        "origins"
-      ],
-      "properties": {
-        "originHostHeader": {
-          "description": "The host header CDN provider will send along with content requests to origins. The default value is the host name of the origin.",
-          "type": "string"
-        },
-        "originPath": {
-          "description": "The path used for origin requests.",
-          "type": "string"
-        },
-        "contentTypesToCompress": {
-          "description": "List of content types on which compression will be applied. The value for the elements should be a valid MIME type.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "isCompressionEnabled": {
-          "description": "Indicates whether content compression is enabled. Default value is false. If compression is enabled, the content transferred from the CDN endpoint to the end user will be compressed. The requested content must be larger than 1 byte and smaller than 1 MB.",
-          "type": "boolean"
-        },
-        "isHttpAllowed": {
-          "description": "Indicates whether HTTP traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed.",
-          "type": "boolean"
-        },
-        "isHttpsAllowed": {
-          "description": "Indicates whether https traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed.",
-          "type": "boolean"
-        },
-        "queryStringCachingBehavior": {
-          "description": "Defines the query string caching behavior.",
-          "$ref": "#/definitions/QueryStringCachingBehavior"
-        },
-        "origins": {
-          "description": "The set of origins for the CDN endpoint. When multiple origins exist, the first origin will be used as primary and rest will be used as failover options.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DeepCreatedOrigin"
-          }
-        }
-      }
-    },
     "EndpointPropertiesUpdateParameters": {
+      "description": "Result of the request to list endpoints. It contains a list of endpoints and a URL link to get the next set of results.",
       "properties": {
         "originHostHeader": {
           "description": "The host header the CDN provider will send along with content requests to origins. The default value is the host name of the origin.",
@@ -916,7 +775,7 @@
           }
         },
         "isCompressionEnabled": {
-          "description": "Indicates whether content compression is enabled. Default value is false. If compression is enabled, the content transferred from the CDN endpoint to the end user will be compressed. The requested content must be larger than 1 byte and smaller than 1 MB.",
+          "description": "Indicates whether content compression is enabled. The default value is false. If compression is enabled, the content transferred from the CDN endpoint to the end user will be compressed. The requested content must be larger than 1 byte and smaller than 1 MB.",
           "type": "boolean"
         },
         "isHttpAllowed": {
@@ -930,11 +789,22 @@
         "queryStringCachingBehavior": {
           "description": "Defines the query string caching behavior",
           "$ref": "#/definitions/QueryStringCachingBehavior"
+        },
+        "optimizationType": {
+          "description": "Customer can specify what scenario they want this CDN endpoint to optimize. (e.g. Download, Media services, and etc.) With this information we can apply scenario driven optimization.",
+          "type": "string"
+        },
+        "geoFilters": {
+          "description": "The list of geo filters for the CDN endpoint.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GeoFilter"
+          }
         }
       }
     },
     "DeepCreatedOrigin": {
-      "description": "Deep created origins within a CDN endpoint.",
+      "description": "Origins to be added when creating a CDN endpoint.",
       "type": "object",
       "required": [
         "name"
@@ -952,7 +822,7 @@
       "x-ms-azure-resource": true
     },
     "DeepCreatedOriginProperties": {
-      "description": "Properties of deep created origin on a CDN endpoint.",
+      "description": "Properties of origins Properties of the origin created on the CDN endpoint.",
       "type": "object",
       "required": [
         "hostName"
@@ -964,14 +834,56 @@
         },
         "httpPort": {
           "description": "The value of the HTTP port. Must be between 1 and 65535",
-          "type": "integer"
+          "type": "integer",
+          "maximum": 65535,
+          "exclusiveMaximum": false,
+          "minimum": 1,
+          "exclusiveMinimum": false
         },
         "httpsPort": {
           "description": "The value of the HTTPS port. Must be between 1 and 65535",
-          "type": "integer"
+          "type": "integer",
+          "maximum": 65535,
+          "exclusiveMaximum": false,
+          "minimum": 1,
+          "exclusiveMinimum": false
         }
       },
       "x-ms-azure-resource": true
+    },
+    "GeoFilter": {
+      "description": "Geo filter of a CDN endpoint.",
+      "type": "object",
+      "required": [
+        "relativePath",
+        "action",
+        "countryCodes"
+      ],
+      "properties": {
+        "relativePath": {
+          "description": "Relative path applicable to geo filter. (e.g. '/mypictures', '/mypicture/kitty.jpg', and etc.)",
+          "type": "string"
+        },
+        "action": {
+          "description": "Action of the geo filter.",
+          "enum": [
+            "Block",
+            "Allow"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "GeoFilterActions",
+            "modelAsString": false
+          }
+        },
+        "countryCodes": {
+          "description": "Two letter country codes of the geo filter. (e.g. AU, MX, and etc.)",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     },
     "PurgeParameters": {
       "type": "object",
@@ -1021,6 +933,7 @@
       }
     },
     "OriginProperties": {
+      "description": "The JSON object that contains the properties of the origin to create.",
       "required": [
         "hostName"
       ],
@@ -1031,11 +944,19 @@
         },
         "httpPort": {
           "description": "The value of the HTTP port. Must be between 1 and 65535.",
-          "type": "integer"
+          "type": "integer",
+          "maximum": 65535,
+          "exclusiveMaximum": false,
+          "minimum": 1,
+          "exclusiveMinimum": false
         },
         "httpsPort": {
           "description": "The value of the https port. Must be between 1 and 65535.",
-          "type": "integer"
+          "type": "integer",
+          "maximum": 65535,
+          "exclusiveMaximum": false,
+          "minimum": 1,
+          "exclusiveMinimum": false
         },
         "resourceState": {
           "description": "Resource status of the origin.",
@@ -1048,16 +969,17 @@
           "type": "string",
           "x-ms-enum": {
             "name": "OriginResourceState",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "provisioningState": {
+          "readOnly": true,
           "description": "Provisioning status of the origin.",
-          "$ref": "#/definitions/ProvisioningState"
+          "type": "string"
         }
       }
     },
-    "OriginParameters": {
+    "OriginUpdateParameters": {
       "type": "object",
       "description": "Origin properties needed for origin creation or update.",
       "properties": {
@@ -1069,9 +991,7 @@
       "x-ms-azure-resource": true
     },
     "OriginPropertiesParameters": {
-      "required": [
-        "hostName"
-      ],
+      "description": "The JSON object that contains the properties of the origin to create.",
       "properties": {
         "hostName": {
           "description": "The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.",
@@ -1079,15 +999,24 @@
         },
         "httpPort": {
           "description": "The value of the HTTP port. Must be between 1 and 65535.",
-          "type": "integer"
+          "type": "integer",
+          "maximum": 65535,
+          "exclusiveMaximum": false,
+          "minimum": 1,
+          "exclusiveMinimum": false
         },
         "httpsPort": {
           "description": "The value of the HTTPS port. Must be between 1 and 65535.",
-          "type": "integer"
+          "type": "integer",
+          "maximum": 65535,
+          "exclusiveMaximum": false,
+          "minimum": 1,
+          "exclusiveMinimum": false
         }
       }
     },
     "OriginListResult": {
+      "description": "Result of the request to list origins. It contains a list of origin objects and a URL link to get the next set of results.",
       "properties": {
         "value": {
           "type": "array",
@@ -1095,11 +1024,15 @@
             "$ref": "#/definitions/Origin"
           },
           "description": "List of CDN origins within an endpoint"
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of origin objects if there are any."
         }
       }
     },
     "CustomDomain": {
-      "description": "CDN CustomDomain represents a mapping between a user specified domain name and a CDN endpoint. This is to use custom domain names to represent the URLs for branding purposes.",
+      "description": "CDN CustomDomain represents a mapping between a user-specified domain name and a CDN endpoint. This is to use custom domain names to represent the URLs for branding purposes.",
       "type": "object",
       "allOf": [
         {
@@ -1114,6 +1047,7 @@
       }
     },
     "CustomDomainProperties": {
+      "description": "The JSON object that contains the properties of the custom domain to create.",
       "required": [
         "hostName"
       ],
@@ -1133,27 +1067,32 @@
           "type": "string",
           "x-ms-enum": {
             "name": "CustomDomainResourceState",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
+        "validationData": {
+          "description": "Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. (e.g. ICP license number of a custom domain is required to deliver content in China.)",
+          "type": "string"
+        },
         "provisioningState": {
+          "readOnly": true,
           "description": "Provisioning status of the custom domain.",
-          "$ref": "#/definitions/ProvisioningState"
+          "type": "string"
         }
       }
     },
     "CustomDomainParameters": {
-      "description": "CustomDomain properties required for custom domain creation or update.",
+      "description": "The customDomain JSON object required for custom domain creation or update.",
       "type": "object",
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/CustomDomainPropertiesParameters"
         }
-      },
-      "x-ms-azure-resource": true
+      }
     },
     "CustomDomainPropertiesParameters": {
+      "description": "The JSON object that contains the properties of the custom domain to create.",
       "required": [
         "hostName"
       ],
@@ -1165,6 +1104,7 @@
       }
     },
     "CustomDomainListResult": {
+      "description": "Result of the request to list custom domains. It contains a list of custom domain objects and a URL link to get the next set of results.",
       "properties": {
         "value": {
           "type": "array",
@@ -1172,6 +1112,10 @@
             "$ref": "#/definitions/CustomDomain"
           },
           "description": "List of CDN CustomDomains within an endpoint."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of custom domain objects if there are any."
         }
       }
     },
@@ -1228,15 +1172,15 @@
       "description": "Output of check name availability API.",
       "type": "object",
       "properties": {
-        "NameAvailable": {
+        "nameAvailable": {
           "description": "Indicates whether the name is available.",
           "type": "boolean"
         },
-        "Reason": {
+        "reason": {
           "description": "The reason why the name is not available.",
           "type": "string"
         },
-        "Message": {
+        "message": {
           "description": "The detailed error message describing why the name is not available.",
           "type": "string"
         }
@@ -1244,7 +1188,6 @@
     },
     "ResourceType": {
       "description": "Type of CDN resource used in CheckNameAvailability.",
-      "readOnly": true,
       "enum": [
         "Microsoft.Cdn/Profiles/Endpoints"
       ],
@@ -1263,6 +1206,7 @@
           "type": "string"
         },
         "display": {
+          "description": "The object that represents the operation.",
           "properties": {
             "provider": {
               "description": "Service provider: Microsoft.Cdn",
@@ -1281,6 +1225,7 @@
       }
     },
     "OperationListResult": {
+      "description": "Result of the request to list CDN operations. It contains a list of operations and a URL link to get the next set of results.",
       "properties": {
         "value": {
           "type": "array",
@@ -1288,68 +1233,47 @@
             "$ref": "#/definitions/Operation"
           },
           "description": "List of CDN operations supported by the CDN resource provider."
-        }
-      }
-    },
-    "TrackedResource": {
-      "description": "ARM tracked resource",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "required": [
-        "location",
-        "tags"
-      ],
-      "properties": {
-        "location": {
-          "description": "Resource location",
-          "type": "string"
         },
-        "tags": {
-          "description": "Resource tags",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of operation list results if there are any."
         }
       }
     },
     "Resource": {
+      "description": "The Resource definition.",
       "properties": {
         "id": {
-          "description": "Resource ID",
+          "description": "Resource ID.",
           "readOnly": true,
           "type": "string"
         },
         "name": {
-          "description": "Resource name",
+          "description": "Resource name.",
           "readOnly": true,
           "type": "string"
         },
         "type": {
-          "description": "Resource type",
+          "description": "Resource type.",
           "readOnly": true,
           "type": "string"
+        },
+        "location": {
+          "type": "string",
+          "description": "Resource location."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
         }
       },
-      "x-ms-azure-resource": true
-    },
-    "ProvisioningState": {
-      "description": "Provisioning status of the resource.",
-      "readOnly": true,
-      "enum": [
-        "Creating",
-        "Succeeded",
-        "Failed"
+      "required": [
+        "location"
       ],
-      "type": "string",
-      "x-ms-enum": {
-        "name": "ProvisioningState",
-        "modelAsString": false
-      }
+      "x-ms-azure-resource": true
     },
     "QueryStringCachingBehavior": {
       "description": "Defines the query string caching behavior.",
@@ -1369,27 +1293,29 @@
       "description": "The SKU (pricing tier) of the CDN profile.",
       "properties": {
         "name": {
-          "description": "Name of the pricing tier",
+          "description": "Name of the pricing tier.",
           "enum": [
             "Standard_Verizon",
             "Premium_Verizon",
             "Custom_Verizon",
-            "Standard_Akamai"
+            "Standard_Akamai",
+            "Standard_ChinaCdn"
           ],
           "type": "string",
           "x-ms-enum": {
             "name": "SkuName",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
       "type": "object"
     },
     "ErrorResponse": {
+      "description": "Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.",
       "type": "object",
       "properties": {
         "code": {
-          "description": "Error code",
+          "description": "Error code.",
           "type": "string"
         },
         "message": {
@@ -1412,7 +1338,18 @@
       "in": "query",
       "required": true,
       "type": "string",
-      "description": "Version of the API to be used with the client request. Current version is 2016-04-02"
+      "description": "Version of the API to be used with the client request. Current version is 2016-10-02."
+    },
+    "resourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[-\\w\\._\\(\\)]+$",
+      "minLength": 1,
+      "maxLength": 90,
+      "x-ms-parameter-location": "method",
+      "description": "Name of the Resource group within the Azure subscription."
     }
   }
 }
