@@ -16,7 +16,7 @@ ms.manager: jhubbard
 The DocumentDB Resource Provider API requires all requests to be versioned. To make a request, you must specify the version that you want to use for that operation. The currently supported version is 2015-05-08.
 
 > [!TIP]
-> The Resource Provider content is also available as a [PDF download](http://download.microsoft.com/download/3/D/9/3D9AE276-3F76-45F2-8433-05E99BCFC972/Azure-DocumentDB-Database-Resource-Provider-REST-API-Reference.pdf), which includes sample request and response calls. 
+> The Resource Provider content is also available as a [PDF download](https://aka.ms/docdb-resourceprovider), which includes sample request and response calls. 
 
 ## Authorization Token
 All Azure Resource Manager REST calls require a valid authorization token in the request header to succeed. See  [Create the request: Acquire an access token](~/api-index/index.md#create-the-request) for details on how to obtain this authorization token.
