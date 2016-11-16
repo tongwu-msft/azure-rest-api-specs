@@ -84,21 +84,19 @@
   
 ```  
   
-{  
-    "name": <Name>  
-    "id": <ID>,  
-    "type": "Microsoft.DataFactory/datafactories",  
-    "location": <location>,  
-    "tags": <tag>,  
-    "properties":   
-    {  
-        "dataFactoryId": <DataFactoryID>  
-        "hCatalogDescription": null,  
-        "provisioningState": <provisioningstate>  
-        "error": <Error>,  
-        "errorMessage": <ErrorMessage>  
-    }  
-}  
+{
+	"name": "<Name>",
+	"id": "<ID>",
+	"type": "Microsoft.DataFactory/datafactories",
+	"location": "<location>",
+	"tags": "<tag>",
+	"properties": {
+		"dataFactoryId": "<DataFactoryID>",
+		"provisioningState": "<provisioningstate>",
+		"error": "<Error>",
+		"errorMessage": "<ErrorMessage>"
+	}
+} 
   
 ```  
   
@@ -172,8 +170,7 @@ The response includes the following XML body.
   "location": "westus",  
   "tags": {},  
   "properties": {  
-    "dataFactoryId": "39d4e663-cfcb-4ee9-ad19-92cf87de9197",  
-    "hCatalogDescription": null,  
+    "dataFactoryId": "39d4e663-cfcb-4ee9-ad19-92cf87de9197",
     "provisioningState": "Succeeded",  
     "error": null,  
     "errorMessage": null  
@@ -340,17 +337,16 @@ Gets information about the specified data factory.
 ```  
   
 {  
-    "name": <Name>  
-    "id": <ID>,  
+    "name": "<Name>",  
+    "id": "<ID>",  
     "type": "Microsoft.DataFactory/datafactories",  
-    "location": <location>,  
-    "tags": <tag>,  
+    "location": "<location>",  
+    "tags": "<tag>",  
     "properties": {  
-        "dataFactoryId": <DataFactoryID>  
-        "hCatalogDescription": null,  
-        "provisioningState": <provisioningstate>  
-        "error": <Error>,  
-        "errorMessage": <ErrorMessage>  
+        "dataFactoryId": "<DataFactoryID>",
+        "provisioningState": "<provisioningstate>",  
+        "error": "<Error>",  
+        "errorMessage": "<ErrorMessage>"  
     }  
 }  
   
@@ -483,8 +479,7 @@ Lists information of all data factories in a resource group.
         "location": <location>,  
         "tags": {},  
         "properties": {  
-            "dataFactoryId": <datafactoryID>,  
-            "hCatalogDescription": null,  
+            "dataFactoryId": <datafactoryID>
             "provisioningState": "Succeeded",  
             "error": null,  
             "errorMessage": null  
@@ -497,8 +492,7 @@ Lists information of all data factories in a resource group.
         "location": <location>,  
         "tags": {},  
         "properties": {  
-            "dataFactoryId": <datafactoryID>,  
-            "hCatalogDescription": null,  
+            "dataFactoryId": <datafactoryID>
             "provisioningState": "Succeeded",  
             "error": null,  
             "errorMessage": null  
@@ -534,8 +528,7 @@ If there are more than 100 records, you will get 100 records at a time with a ne
         "location": <location>,  
         "tags": {},  
         "properties": {  
-            "dataFactoryId": <datafactoryID>,  
-            "hCatalogDescription": null,  
+            "dataFactoryId": <datafactoryID>,
             "provisioningState": "Succeeded",  
             "error": null,  
             "errorMessage": null  
@@ -549,7 +542,6 @@ If there are more than 100 records, you will get 100 records at a time with a ne
         "tags": {},  
         "properties": {  
             "dataFactoryId": <datafactoryID>,  
-            "hCatalogDescription": null,  
             "provisioningState": "Succeeded",  
             "error": null,  
             "errorMessage": null  
@@ -605,7 +597,6 @@ The response includes the following XML body.
         "tags": {},  
         "properties": {  
             "dataFactoryId": "00000000-1111-1111-1111-000000000000",  
-            "hCatalogDescription": null,  
             "provisioningState": "Succeeded",  
             "error": null,  
             "errorMessage": null  
@@ -619,7 +610,6 @@ The response includes the following XML body.
         "tags": {},  
         "properties": {  
             "dataFactoryId": "00000000-1111-1111-1111-000000000001",  
-            "hCatalogDescription": null,  
             "provisioningState": "Succeeded",  
             "error": null,  
             "errorMessage": null  
