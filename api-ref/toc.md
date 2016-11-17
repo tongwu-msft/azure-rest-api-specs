@@ -372,6 +372,8 @@
 ## [verify](keyvault/verify.json)
 ## [wrap Key](keyvault/wrapKey.json)
 # [Logic Apps](../documentation/logic/index.md)
+## [Actions and Triggers](../documentation/logic/actions-and-triggers.md)
+## [Definition Language](../documentation/logic/definition-language.md)
 ## [Workflow Run Actions](logic/WorkflowRunActions.json)
 ## [Workflow Runs](logic/WorkflowRuns.json)
 ## [Workflow Trigger Histories](logic/WorkflowTriggerHistories.json)
