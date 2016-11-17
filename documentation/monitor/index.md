@@ -11,6 +11,7 @@ ms.manager: douge
 
 Use the Azure Monitor REST API to get insights into your Azure resources using the following groups of operations.
 
+For information on the `{filter-syntax}` parameter common to many Azure Monitor REST APIs, read [Azure Monitor REST API Filter Syntax](filter-syntax.md).
 
 
 ## REST operation groups

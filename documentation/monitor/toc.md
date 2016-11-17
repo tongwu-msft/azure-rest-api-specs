@@ -1,1 +1,1 @@
-# (Filter Syntax)[filter-syntax.md]
+# [Filter Syntax](filter-syntax.md)
