@@ -41,7 +41,7 @@ The workflow definition contains the actual logic that executes as a part of you
 ```  
   
 > [!NOTE]
->  [Workflow Management REST API](../LogicAppsReference/workflow-management-rest-api.md) documentation has information on how to create and manage Logic app Workflows  
+>  [Workflow Management REST API](../../api-ref/logic/workflows.json) documentation has information on how to create and manage Logic app Workflows  
   
 |Element name|Required|Description|  
 |------------------|--------------|-----------------|  
@@ -71,7 +71,7 @@ The workflow definition contains the actual logic that executes as a part of you
  Parameters can also be used in outputs.  
   
 ## triggers and actions  
- Specifies the calls that can participate in the execution of the workflow. See the [Workflow Actions and Triggers](../LogicAppsReference/workflow-actions-and-triggers.md) for details of this section.  
+ Specifies the calls that can participate in the execution of the workflow. See the [Workflow Actions and Triggers](actions-and-triggers.md) for details of this section.  
   
 ## outputs  
  Specifies information that can be returned from a workflow run. For example, if you have a particular status or value that you want to track for each run, you can inclue that in the run outputs and it will appear in the Management REST API for that run, and, in the management UI for that run in the Azure Portal. You can also flow these outputs to other external systems like PowerBI for creating dashboards. Note that outputs are NOT used to respond to incoming requests on the Service REST API. To respond to an incoming request using the **response** action type.  

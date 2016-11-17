@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Workflow Actions and Triggers
-Logic Apps consists of triggers and actions. There are six types of triggers. Each type has different interface and different behavior. You can also learn about other details by looking at the details of the  [Workflow Definition Language](../LogicAppsReference/workflow-definition-language.md).  
+Logic Apps consists of triggers and actions. There are six types of triggers. Each type has different interface and different behavior. You can also learn about other details by looking at the details of the  [Workflow Definition Language](definition-language.md).  
   
 Read on to learn more about triggers and actions and how you might use them to build Logic apps to improve your business processes and workflows.  
   
@@ -33,7 +33,7 @@ A trigger specifies the calls that can initiate a run of your Logic app workflow
   
 -   A polling trigger  
   
--   A push trigger - by calling the [Workflow Service REST API](../Topic/Workflow%20Service%20REST%20API.md)  
+-   A push trigger - by calling the [Workflow Service REST API](../../api-ref/logic/workflows.json)  
   
 All triggers contain these top level elements:  
   
@@ -92,7 +92,7 @@ There is also an optional property called **schema**:
 |----------------|------------|---------------|  
 |schema|No|A JSON schema that validates the incoming request. This is useful so that the subsequent steps in the workflow can be aware of which properties to reference|  
   
-You'll need to call the *listCallbackUrl* API to invoke this endpoint. See [Workflow Service REST API](../Topic/Workflow%20Service%20REST%20API.md).  
+You'll need to call the *listCallbackUrl* API to invoke this endpoint. See [Workflow Service REST API](../../api-ref/logic/workflows.json).  
   
 ## Recurrence trigger  
 A Recurrence trigger is one that runs based on a defined schedule. Such a trigger might look like this:  
