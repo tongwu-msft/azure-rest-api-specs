@@ -436,7 +436,7 @@
 ### [REST API Functions](../documentation/media/services/rest-api-functions.md)
 ## [Media Service](media/MediaService.json)
 # [Monitor](../documentation/monitor/index.md)
-## (Filter Syntax)[filter-syntax.md]
+## [Filter Syntax](../documentation/monitor/filter-syntax.md)
 ## [Alert Rule Incidents](monitor/AlertRuleIncidents.json)
 ## [Alert Rules](monitor/AlertRules.json)
 ## [Autoscale Settings](monitor/AutoscaleSettings.json)
