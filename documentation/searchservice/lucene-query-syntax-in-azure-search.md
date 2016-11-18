@@ -66,9 +66,9 @@ For details about specifying query parameter, see [Search Documents &#40;Azure S
 ##  <a name="bkmk_fields"></a> Field-scoped queries  
  You can specify a `fieldname:searchterm` construction to define a fielded query operation, where the field is a single word, and the search term is also a single word or a phrase, optionally with boolean operators. Some examples include the following:  
 
--   "genre:jazz NOT history"  
+-   genre:jazz NOT history  
 
--   "artists:("Miles Davis" "John Coltrane")"
+-   artists:("Miles Davis" "John Coltrane")
 
  Be sure to put multiple strings within quotation marks if you want both strings to be evaluated as a single entity, in this case searching for two distinct artists in the `artists` field.  
 
@@ -85,9 +85,9 @@ For details about specifying query parameter, see [Search Documents &#40;Azure S
 ##  <a name="bkmk_termboost"></a> Term boosting  
  Term boosting refers to ranking a document higher if it contains the boosted term, relative to documents that do not contain the term. This differs from scoring profiles in that scoring profiles boost certain fields, rather than specific terms.  
 
-The following example helps illustrate the differences. Suppose that there's a scoring profile that boosts matches in a certain field, say *genre* in the  [musicstoreindex example](https://msdn.microsoft.com/library/azure/dn798928.aspx). Term boosting could be used to further boost certain search terms higher than others. For example, `"rock^2 electronic"` will boost documents that contain the search terms in the genre field higher than other searchable fields in the index. Further, documents that contain the search term *rock* will be ranked higher than the other search term *electronic* as a result of the term boost value (2).  
+The following example helps illustrate the differences. Suppose that there's a scoring profile that boosts matches in a certain field, say *genre* in the  [musicstoreindex example](https://msdn.microsoft.com/library/azure/dn798928.aspx). Term boosting could be used to further boost certain search terms higher than others. For example, `rock^2 electronic` will boost documents that contain the search terms in the genre field higher than other searchable fields in the index. Further, documents that contain the search term *rock* will be ranked higher than the other search term *electronic* as a result of the term boost value (2).  
 
- To boost a term use the caret, "^", symbol with a boost factor (a number) at the end of the term you are searching. The higher the boost factor, the more relevant the term will be relative to other search terms. By default, the boost factor is 1. Although the boost factor must be positive, it can be less than 1 (for example, 0.20.  
+ To boost a term use the caret, "^", symbol with a boost factor (a number) at the end of the term you are searching. You can also boost phrases. The higher the boost factor, the more relevant the term will be relative to other search terms. By default, the boost factor is 1. Although the boost factor must be positive, it can be less than 1 (for example, 0.20).  
 
 ##  <a name="bkmk_regex"></a> Regular expression search  
  A regular expression search finds a match based on the contents between forward slashes "/", as documented in the [RegExp class](http://lucene.apache.org/core/4_10_2/core/org/apache/lucene/util/automaton/RegExp.html).  
@@ -95,9 +95,9 @@ The following example helps illustrate the differences. Suppose that there's a s
  For example, to find documents containing "motel" or "hotel", specify `/[mh]otel/`.  Regular expression searches are matched against single words.   
 
 ##  <a name="bkmk_wildcard"></a> Wildcard search  
- You can use generally recognized syntax for multiple (\\*) or single (?) character wildcard searches. Note the Lucene query parser supports the use of these symbols with a single term, and not a phrase.  
+ You can use generally recognized syntax for multiple (*) or single (?) character wildcard searches. Note the Lucene query parser supports the use of these symbols with a single term, and not a phrase.  
 
- For example to find documents containing the words with the prefix "note", such as "notebook" or "notepad", specify "note*" .  
+ For example to find documents containing the words with the prefix "note", such as "notebook" or "notepad", specify "note*".  
 
 > [!NOTE]  
 >  You cannot use a * or ? symbol as the first character of a search.  
@@ -112,9 +112,9 @@ The following example helps illustrate the differences. Suppose that there's a s
  For example, to escape a wildcard character, use \\*.  
 
 ### Precedence operators: grouping and field grouping  
- You can use parentheses to create subqueries, including operators within the parenthetical statement. For example, `motel+(wifi|luxury)` will search for documents containing the "motel" term and either "wifi" or "luxury" (or both).
+ You can use parentheses to create subqueries, including operators within the parenthetical statement. For example, `motel+(wifi||luxury)` will search for documents containing the "motel" term and either "wifi" or "luxury" (or both).
 
-Field grouping is similar but scopes the grouping to a single field. For example, `hotelAmenities:(gym+(wifi|pool))` searches the field "hotelAmenities" for "gym" and "wifi", or "gym" and "pool".  
+Field grouping is similar but scopes the grouping to a single field. For example, `hotelAmenities:(gym+(wifi||pool))` searches the field "hotelAmenities" for "gym" and "wifi", or "gym" and "pool".  
 
 ### SearchMode parameter considerations  
  The impact of `searchMode` on queries, as described in [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md), applies equally to the Lucene query syntax. Namely, `searchMode` in conjunction with NOT operators can result in query outcomes that might seem unusual if you aren't clear on the implications of how you set the parameter. If you retain the default, `searchMode=any`, and use a NOT operator, the operation is computed as an OR action, such that "New York" NOT "Seattle" returns all cities that are not Seattle.  
@@ -122,18 +122,18 @@ Field grouping is similar but scopes the grouping to a single field. For example
 ##  <a name="bkmk_boolean"></a> Boolean operators  
  Always specify text boolean operators (AND, OR, NOT) in all caps.  
 
-#### OR operator `|`
+#### OR operator `||`
 
-The OR operator is a vertical bar or pipe character. For example: `wifi | luxury` will search for documents containing either "wifi" or "luxury" or both. Because OR is the default conjunction operator, you could also leave it out, such that `wifi luxury` is the equivalent of  `wifi | luxuery`.
+The OR operator is a vertical bar or pipe character. For example: `wifi || luxury` will search for documents containing either "wifi" or "luxury" or both. Because OR is the default conjunction operator, you could also leave it out, such that `wifi luxury` is the equivalent of  `wifi || luxuery`.
 
-#### AND operator `&` or `+`
+#### AND operator `&&` or `+`
 
-The AND operator is an ampersand or a plus sign. For example: `wifi&luxury` will search for documents containing both "wifi" and "luxury". The plus character (+) is used for required terms. For example, `+wifi +luxury` stipulates that both terms must appear somewhere in the field of a single document.
+The AND operator is an ampersand or a plus sign. For example: `wifi && luxury` will search for documents containing both "wifi" and "luxury". The plus character (+) is used for required terms. For example, `+wifi +luxury` stipulates that both terms must appear somewhere in the field of a single document.
 
 
 #### NOT operator `!` or `-`
 
-The NOT operator is an exclamation point or the minus sign. For example: `wifi !luxury` will search for documents that have the "wifi" term and/or do not have "luxury". The `searchMode` option controls whether a term with the NOT operator is ANDed or ORed with the other terms in the query in the absence of a + or | operator. Recall that `searchMode` can be set to either `any`(default) or `all`.
+The NOT operator is an exclamation point or the minus sign. For example: `wifi !luxury` will search for documents that have the "wifi" term and/or do not have "luxury". The `searchMode` option controls whether a term with the NOT operator is ANDed or ORed with the other terms in the query in the absence of a + or || operator. Recall that `searchMode` can be set to either `any`(default) or `all`.
 
 Using `searchMode=any` increases the recall of queries by including more results, and by default - will be interpreted as "OR NOT". For example, `wifi -luxury` will match documents that either contain the term *wifi* or those that do not contain the term *luxury.*
 
