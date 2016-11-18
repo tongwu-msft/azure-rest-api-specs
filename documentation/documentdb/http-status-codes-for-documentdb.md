@@ -1,7 +1,7 @@
 ---
 title: "HTTP Status Codes for DocumentDB"
 ms.custom: ""
-ms.date: "2016-03-29"
+ms.date: "2016-11-18"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "documentdb"
@@ -24,7 +24,9 @@ translation.priority.mt:
   - "ru-ru"
   - "zh-cn"
   - "zh-tw"
+ 
 ---
+
 # HTTP Status Codes for DocumentDB
   This topic provides the HTTP status codes returned by the REST operations.  
   
@@ -40,7 +42,7 @@ translation.priority.mt:
 |**408 Request Timeout**|The operation did not complete within the allotted amount of time. This is returned when a stored procedure, trigger or UDF (within a query) does not complete execution within the maximum execution time.|  
 |**409 Conflict**|The id provided for a resource on a PUT or POST operation has been taken by an existing resource. Use another id for the resource to resolve this issue. For partitioned collections, id must be unique within all documents with the same partition key value.|  
 |**412 Precondition Failure**|The operation specified an eTag that is different from the version available at the server, i.e., an optimistic concurrency error. Retry the request after reading the latest version of the resource and updating the eTag on the request.|  
-|**413 Entity Too Large**|The document size in the request exceeded the allowable document size for a request. The workaround is to break the document up into sub-documents. For more information on document size limit, see [DocumentDB Limits](http://azure.microsoft.com/documentation/articles/documentdb-limits).|  
+|**413 Entity Too Large**|The document size in the request exceeded the allowable document size for a request. The max allowable document size is 2MB. Documents larger than 2MB can be inserted by modeling the document into multiple sub documents. For more information, see [Referencing data](https://docs.microsoft.com/azure/documentdb/documentdb-modeling-data#Refer).|  
 |**429 Too Many Request**|The collection has exceeded the provisioned throughput limit. Retry the request after the server specified retry after duration. For more information on DocumentDB performance levels, see [DocumentDB levels](https://azure.microsoft.com/documentation/articles/documentdb-performance-levels/).|  
 |**449 Retry With**|The operation encountered a transient error. This only occurs on write operations. It is safe to retry the operation.|  
 |**500 Internal Server Error**|The operation failed due to an unexpected service error. Please contact support. See [Filing an Azure support issue](https://portal.azure.com/?#blade/Microsoft_Azure_Support/HelpAndSupportBlade).|  
