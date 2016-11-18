@@ -1,7 +1,7 @@
 ---
 title: "Workflow Actions and Triggers"
 ms.custom: ""
-ms.date: "2016-08-10"
+ms.date: "2016-11-17"
 ms.reviewer: ""
 ms.suite: ""
 ms.tgt_pltfrm: ""
@@ -23,13 +23,14 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
+
 # Workflow Actions and Triggers
 Logic Apps consists of triggers and actions. There are six types of triggers. Each type has different interface and different behavior. You can also learn about other details by looking at the details of the  [Workflow Definition Language](definition-language.md).  
   
-Read on to learn more about triggers and actions and how you might use them to build Logic apps to improve your business processes and workflows.  
+Read on to learn more about triggers and actions and how you might use them to build logic apps to improve your business processes and workflows.  
   
 ### Triggers  
-A trigger specifies the calls that can initiate a run of your Logic app workflow. Here are the two different ways to initiate a run of your workflow:  
+A trigger specifies the calls that can initiate a run of your logic app workflow. Here are the two different ways to initiate a run of your workflow:  
   
 -   A polling trigger  
   
@@ -53,13 +54,13 @@ All triggers contain these top level elements:
 ### Trigger types and their inputs  
 The **6** types of triggers are:  
   
--   **Request** \- Makes the Logic app an endpoint for you to call  
+-   **Request** \- Makes the logic app an endpoint for you to call  
   
 -   **Recurrence** \- Fires based on a defined schedule  
   
 -   **HTTP** \- Polls an HTTP web endpoint. The HTTP endpoint must conform to a specific  triggering contract \- either by using a 202\-async pattern, or by returning an array  
   
--   **ApiConnection** \- Polls like the HTTP trigger, however, it takes advantage of the [Microsoft managed APIs](https://azure.microsoft.com/documentation/articles/apis-list/)  
+-   **ApiConnection** \- Polls like the HTTP trigger, however, it takes advantage of the [Microsoft managed APIs](https://docs.microsoft.com/azure/connectors/apis-list)  
   
 -   **HTTPWebhook** \- Opens an endpoint, similar to the Manual trigger, however, it also calls out to a specified URL to register and unregister  
   
@@ -67,7 +68,7 @@ The **6** types of triggers are:
     Each trigger type has a different set of **inputs** that defines its behavior.  
   
 ## Request trigger  
-This trigger serves as an endpoint that you call via an HTTP Request to invoke your Logic app. A request trigger looks like this:  
+This trigger serves as an endpoint that you call via an HTTP Request to invoke your logic app. A request trigger looks like this:  
   
 ```  
 "<name-of-the-trigger>" : {  
@@ -116,7 +117,7 @@ As you can see, it is a simple way to run a workflow.
 |startTime|No|If a startTime is provided without a UTC offset, this timeZone will be used.|  
 |timeZone|no|If a startTime is provided without a UTC offset, this timeZone will be used.|  
   
-You can also schedule a trigger to start executing at some point in the future. For example, if you want to start a weekly report every Monday you can schedule the the Logic app to start every Monday by creating the following trigger:  
+You can also schedule a trigger to start executing at some point in the future. For example, if you want to start a weekly report every Monday you can schedule the the logic app to start every Monday by creating the following trigger:  
   
 ```  
 "dailyReport" : {  
@@ -140,14 +141,14 @@ HTTP triggers poll a specified endpoint and check the response in order to deter
 |headers|No|An object representing each of the headers that will be sent to the request. For example, to set the language and type on a request: `"headers" : { "Accept-Language": "en-us",  "Content-Type": "application/json" }`|Object|  
 |body|No|An object representing the payload that will be sent to the endpoint.|Object|  
 |retryPolicy|No|An object allowing you to customize the retry behavior for 4xx or 5xx errors.|Object|  
-|authentication|No|Represents the method that the request should be authenticated. For details on this object, see [Scheduler Outbound Authentication](https://azure.microsoft.com/en-us/documentation/articles/scheduler-outbound-authentication/). There is one additional property supported beyond scheduler: **authority**. By default it is **https:\/\/login.windows.net\/** if not specified, but you can use a different audience like **https:\/\/login.windows\-ppe.net\/**.|Object|  
+|authentication|No|Represents the method that the request should be authenticated. For details on this object, see [Scheduler Outbound Authentication](https://docs.microsoft.com/azure/scheduler/scheduler-outbound-authentication). There is one additional property supported beyond scheduler: **authority**. By default it is **https:\/\/login.windows.net\/** if not specified, but you can use a different audience like **https:\/\/login.windows\-ppe.net\/**.|Object|  
   
-The HTTP trigger requires the HTTP API to conform to a specific pattern to work well with your Logic app. It requires the following fields:  
+The HTTP trigger requires the HTTP API to conform to a specific pattern to work well with your logic app. It requires the following fields:  
   
 |Response|Description|  
 |------------|---------------|  
 |Status code|Status code 200 \(OK\) to cause a run. Any other status code will not cause a run.|  
-|Retry\-after header|Number of seconds until the Logic app polls the endpoint again.|  
+|Retry\-after header|Number of seconds until the logic app polls the endpoint again.|  
 |Location header|The URL to call on the next polling interval. If not specified the original URL will be used.|  
   
 Here are some examples of different behaviors for different types of requests:  
@@ -197,7 +198,7 @@ The API connection trigger is similar to the HTTP trigger in its basic functiona
 |headers|No|Object|Represents each of the headers that will be sent to the request. For example, to set the language and type on a request: `"headers" : { "Accept-Language": "en-us",  "Content-Type": "application/json" }`|  
 |body|No|Object|Represents the payload that will be sent to the endpoint.|  
 |retryPolicy|No|Object|Allows you to customize the retry behavior for 4xx or 5xx errors.|  
-|authentication|No|Object|Represents the method that the request should be authenticated. For details on this object, see [Scheduler Outbound Authentication](https://azure.microsoft.com/en-us/documentation/articles/scheduler-outbound-authentication/)|  
+|authentication|No|Object|Represents the method that the request should be authenticated. For details on this object, see [Scheduler Outbound Authentication](https://docs.microsoft.com/azure/scheduler/scheduler-outbound-authentication)|  
   
 The properties for host are:  
   
@@ -268,7 +269,7 @@ The properties of a Webhook are as follows:
   
     -   Deleting\/Disabling the subscription  
   
-    The Logic app automatically calls the unsubscribe action. The parameters to this function are the same as the HTTP trigger.  
+    The logic app automatically calls the unsubscribe action. The parameters to this function are the same as the HTTP trigger.  
   
     The outputs of the HTTPWebhook trigger are the contents of the incoming request:  
   
@@ -328,7 +329,7 @@ With Split\-on, you specify the property inside the response payload that contai
     }  
 ```  
   
-Your Logic app only needs the Rows content, so you can construct your trigger like this:  
+Your logic app only needs the Rows content, so you can construct your trigger like this:  
   
 ```  
 "mysplitter" : {  
@@ -401,7 +402,7 @@ HTTP actions call a specified endpoint and checks the response in order to deter
 |body|No|Object|Represents the payload that will be sent to the endpoint.|  
 |retryPolicy|No|Object|Allows you to customize the retry behavior for 4xx or 5xx errors.|  
 |operationsOptions|No|String|Defines the set of special behaviors to override.|  
-|authentication|No|Object|Represents the method that the request should be authenticated. For details on this object, see [Scheduler Outbound Authentication](https://azure.microsoft.com/en-us/documentation/articles/scheduler-outbound-authentication/). There is one additional property supported beyond scheduler: **authority**. By default it is **https:\/\/login.windows.net\/** if not specified, but you can use a different audience like **https:\/\/login.windows\-ppe.net\/**.|  
+|authentication|No|Object|Represents the method that the request should be authenticated. For details on this object, see [Scheduler Outbound Authentication](https://docs.microsoft.com/azure/scheduler/scheduler-outbound-authentication). There is one additional property supported beyond scheduler: **authority**. By default it is **https:\/\/login.windows.net\/** if not specified, but you can use a different audience like **https:\/\/login.windows\-ppe.net\/**.|  
   
 HTTP actions \(and API Connection\) actions support retry policies. A retry policy applies to intermittent failures \(characterized as HTTP status codes 408, 429, and 5xx as well as any connectivity exceptions\) and is described using the *retryPolicy* object defined as follows:  
   
@@ -435,7 +436,7 @@ For example, the following action will retry fetching the latest news 2 times in
   
 ```  
   
-By default, all HTTP\-based actions support the standard asynchronous operation pattern. That is, if the remote server indicates that the request has been accepted for processing with a 202 \(Accepted\) response, the Logic apps engine will keep polling URL specified in the location header of the response until a terminal state is reached \(a non\-202 response\).  
+By default, all HTTP\-based actions support the standard asynchronous operation pattern. That is, if the remote server indicates that the request has been accepted for processing with a 202 \(Accepted\) response, the Logic Apps engine keeps polling the URL specified in the location header of the response until a terminal state is reached \(a non\-202 response\).  
   
 In order to disable the asynchronous behavior described above, set a 'DisableAsyncPattern' option in the action inputs. In this case, the output of the action will be based on the initial 202 response from the server.  
   
