@@ -97,7 +97,6 @@ signedstart=2013-08-16
 signedexpiry=2013-08-17  
 signedresource=c  
 signedpermissions=r  
-signature=dD80ihBh5jfNpymO5Hg1IdiJIEvHcJpCMiCMnN/RnbI=  
 signedidentifier=YWJjZGVmZw==  
 signedversion=2013-08-15  
 responsecontent-disposition=file; attachment  
@@ -160,7 +159,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 ### Example: Upload a Blob using a Container’s Shared Access Signature  
  The following example shows how to construct a shared access signature for writing a blob. In this example, we construct a signature that grants write permissions for all blobs in the container. Then we use the shared access signature to write to a blob in the container.  
   
- The signed signature fields that will comprise the URL include:  
+ The signed fields that will comprise the URL include:  
   
 ```  
   
@@ -168,7 +167,6 @@ signedstart=2015-07-01T08:49Z
 signedexpiry=2015-07-02T08:49Z  
 signedresource=c  
 signedpermissions=w  
-signature= Rcp6gQRfV7WDlURdVTqCa+qEArnfJxDgE+KH3TCChIs=  
 signedidentifier=YWJjZGVmZw==  
 signedversion=2015-02-21  
   
