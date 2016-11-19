@@ -1,5 +1,5 @@
 ---
-title: "Delete Job1"
+title: "Delete Job"
 ms.custom: na
 ms.date: 05/25/2015
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Delete Job1
+# Delete Job
 The `Delete Job` operation deletes an existing job, purging the related data from the system. Only jobs in the `Creating` or `Completed` states can be deleted.  
   
 ## Request  

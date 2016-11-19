@@ -1,5 +1,5 @@
 ---
-title: "Get Job3"
+title: "Get Job"
 ms.custom: na
 ms.date: 05/25/2015
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Get Job3
+# Get Job
 The `Get Job` operation gets information about an existing job from the Windows Azure Import/Export service.  
   
 ## Request  

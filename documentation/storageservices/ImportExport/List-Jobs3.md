@@ -1,5 +1,5 @@
 ---
-title: "List Jobs3"
+title: "List Jobs"
 ms.custom: na
 ms.date: 05/25/2015
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# List Jobs3
+# List Jobs
 The `List Jobs` operation lists active and completed jobs for a storage account in a subscription.  
   
 ## Request  
