@@ -33,7 +33,7 @@ This topic describes naming and referring to containers, blobs, metadata, and sn
  If you attempt to create a container or blob with a name that violates naming rules, the request will fail with status code 400 (Bad Request).  
   
 > [!IMPORTANT]
->  Blob and container names are passed to the Blob service within a URL. Certain characters must be percent-encoded to appear in a URL, using UTF-8 (preferred) or MBCS. This encoding occurs automatically when you use the Azure .NET Libraries or construct a <xref:System.Uri?qualifyHint=False> object that includes a blob or container name. However, there are certain characters that are not valid in URL paths even when encoded. These characters cannot appear in blob or container names.  Code points like \uE000, while valid in NTFS filenames, are not valid Unicode characters, so they cannot be used.  In addition, some ASCII or Unicode characters, like control characters (0x00 to 0x1F, \u0081, etc.), are also not allowed. For rules governing Unicode strings in HTTP/1.1 see:  
+>  Blob and container names are passed to the Blob service within a URL. Certain characters must be percent-encoded to appear in a URL, using UTF-8 (preferred) or MBCS. This encoding occurs automatically when you use the Azure Storage client libraries. However, there are certain characters that are not valid in URL paths even when encoded. These characters cannot appear in blob or container names.  Code points like \uE000, while valid in NTFS filenames, are not valid Unicode characters, so they cannot be used.  In addition, some ASCII or Unicode characters, like control characters (0x00 to 0x1F, \u0081, etc.), are also not allowed. For rules governing Unicode strings in HTTP/1.1 see:  
 >   
 >  -   [RFC 2616, Section 2.2: Basic Rules](http://www.ietf.org/rfc/rfc2616.txt)  
 > -   [RFC 3987](http://www.ietf.org/rfc/rfc3987.txt)  
@@ -127,7 +127,6 @@ https://myaccount.blob.core.windows.net/mycontainer/myblob
 https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>  
 ```  
   
- The .NET client library can list snapshots as <xref:Microsoft.WindowsAzure.StorageClient.CloudBlob?qualifyHint=False> objects when you call <xref:Microsoft.WindowsAzure.StorageClient.CloudBlobContainer.ListBlobs?qualifyHint=False> with <xref:Microsoft.WindowsAzure.StorageClient.BlobRequestOptions.BlobListingDetails?qualifyHint=False> set to <xref:Microsoft.WindowsAzure.StorageClient.BlobListingDetails.Snapshots?qualifyHint=False>.  
   
 ## See Also  
  [How to Use the Blob Storage Service](http://www.windowsazure.com/develop/net/how-to-guides/blob-storage/)   
