@@ -629,7 +629,7 @@ Lists the first page of activity window instances associated with a data factory
 ||||  
 |-|-|-|  
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
-|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/activitywindows&api-version={api-version}|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/activitywindows?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -732,7 +732,7 @@ The response for this operation includes the following headers. The response may
  Example URI:  
   
 ```  
-POST:https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/dfName/activitywindows&api-version=2015-10-01  
+POST:https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/dfName/activitywindows?api-version=2015-10-01  
 ```  
   
  The request is sent with the following headers.  
