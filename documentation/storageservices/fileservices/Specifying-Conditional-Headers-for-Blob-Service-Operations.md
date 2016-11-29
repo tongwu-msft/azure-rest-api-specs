@@ -193,8 +193,8 @@ Several Blob service operations support the use of conditional headers. You can 
 ##  <a name="Subheading3"></a> HTTP Response Codes for Operations Supporting Conditional Headers  
  If the request includes a conditional header and the specified condition is not met by the resource being requested, the Blob service returns an HTTP response code. The response codes returned are in accordance with the HTTP/1.1 protocol specification (RFC 2616).  
   
- Methods in the Azure .NET client library convert these error response codes into a <xref:Microsoft.WindowsAzure.Storage.StorageException?qualifyHint=False>.  
-  
+ Methods in the Azure .NET client library convert these error response codes into a StorageException object. 
+
 ### Read Operations  
  The following table indicates the response codes returned for an unmet condition for each conditional header when the operation is a read operation. Read operations use the verbs GET or HEAD.  
   

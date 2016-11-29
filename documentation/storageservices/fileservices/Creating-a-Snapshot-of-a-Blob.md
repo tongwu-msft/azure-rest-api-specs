@@ -27,27 +27,22 @@ translation.priority.mt:
 # Creating a Snapshot of a Blob
 You can create a snapshot of a blob. A snapshot is a read-only version of a blob that's taken at a point in time. Once a snapshot has been created, it can be read, copied, or deleted, but not modified. Snapshots provide a way to back up a blob as it appears at a moment in time.  
   
- A snapshot of a blob has the same name as the base blob from which the snapshot is taken, with a `DateTime` value appended to indicate the time at which the snapshot was taken. For example, if the page blob URI is `http://storagesample.core.blob.windows.net/mydrives/myvhd`, the snapshot URI will be similar to `http://storagesample.core.blob.windows.net/mydrives/myvhd?snapshot=2011-03-09T01:42:34.9360000Z`. This value may be used to reference the snapshot for further operations. A blob's snapshots share its URI and are distinguished only by this `DateTime` value. In client library code, the blob's <xref:Microsoft.WindowsAzure.StorageClient.BlobAttributes.Snapshot?qualifyHint=False> property returns a `DateTime` value that uniquely identifies the snapshot relative to its base blob. You can use this value to perform further operations on the snapshot.  
+ A snapshot of a blob has the same name as the base blob from which the snapshot is taken, with a `DateTime` value appended to indicate the time at which the snapshot was taken. For example, if the page blob URI is `http://storagesample.core.blob.windows.net/mydrives/myvhd`, the snapshot URI will be similar to `http://storagesample.core.blob.windows.net/mydrives/myvhd?snapshot=2011-03-09T01:42:34.9360000Z`. This value may be used to reference the snapshot for further operations. A blob's snapshots share its URI and are distinguished only by this `DateTime` value.  
   
  A blob may have any number of snapshots. Snapshots persist until they are explicitly deleted A snapshot cannot outlive its source blob. You can enumerate the snapshots associated with your blob to track your current snapshots.  
   
  **Inheriting Properties**  
   
- When you create a snapshot of a blob, system properties are copied to the snapshot with the same values. This list shows copied system properties for the .NET storage client library:  
-  
--   <xref:Microsoft.WindowsAzure.StorageClient.BlobProperties.ContentType?qualifyHint=False>  
-  
--   <xref:Microsoft.WindowsAzure.StorageClient.BlobProperties.ContentEncoding?qualifyHint=False>  
-  
--   <xref:Microsoft.WindowsAzure.StorageClient.BlobProperties.ContentLanguage?qualifyHint=False>  
-  
--   <xref:Microsoft.WindowsAzure.StorageClient.BlobProperties.Length?qualifyHint=False>  
-  
--   <xref:Microsoft.WindowsAzure.StorageClient.BlobProperties.CacheControl?qualifyHint=False>  
-  
--   <xref:Microsoft.WindowsAzure.StorageClient.BlobProperties.ContentMd5?qualifyHint=False>  
-  
- A lease associated with the base blob is not copied to the snapshot. Snapshots cannot be leased.  
+ When you create a snapshot of a blob, system properties are copied to the snapshot with the same values, including:
+ 
+ - ContentType
+ - ContentEncoding
+ - ContentLanguage
+ - Length
+ - CacheControl
+ - ContentMd5
+ 
+  A lease associated with the base blob is not copied to the snapshot. Snapshots cannot be leased.  
   
  **Copying Snapshots**  
   
@@ -63,7 +58,7 @@ You can create a snapshot of a blob. A snapshot is a read-only version of a blob
   
  **Specifying an Access Condition**  
   
- You can specify an access condition so that the snapshot is created only if a condition is met. To specify an access condition, use the <xref:Microsoft.WindowsAzure.StorageClient.BlobRequestOptions.AccessCondition?qualifyHint=False> property. If the specified condition is not met, the snapshot is not created, and the Blob service returns status code [HTTPStatusCode.PreconditionFailed](http://msdn.microsoft.com/library/system.net.httpstatuscode.aspx).  
+ You can specify an access condition so that the snapshot is created only if a condition is met. To specify an access condition. If the specified condition is not met, the snapshot is not created, and the Blob service returns status code [HTTPStatusCode.PreconditionFailed](http://msdn.microsoft.com/library/system.net.httpstatuscode.aspx). See [Snapshot Blob](Snapshot-Blob.md) for more information.
   
  **Deleting Snapshots**  
   
@@ -83,9 +78,6 @@ var uri = Microsoft.WindowsAzure.StorageClient.Protocol.BlobRequest.Get
 ```  
   
 ## See Also  
- <xref:Microsoft.WindowsAzure.StorageClient.CloudBlob.CreateSnapshot?qualifyHint=False>   
- <xref:Microsoft.WindowsAzure.StorageClient.CloudDrive.Snapshot?qualifyHint=False>   
- <xref:Microsoft.WindowsAzure.StorageClient.CloudBlob.SnapshotTime?qualifyHint=False>   
  [Snapshot Blob](../fileservices/Snapshot-Blob.md)   
  [Put Block](../fileservices/Put-Block.md)   
  [Put Block List](../fileservices/Put-Block-List.md)   
