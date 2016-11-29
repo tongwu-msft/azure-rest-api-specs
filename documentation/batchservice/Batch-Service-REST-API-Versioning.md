@@ -1,5 +1,5 @@
 ---
-ms.assetid:
+ms.assetid: c85ea5cf-e1cb-4c95-8c47-581baf599c64
 ms.title: Batch REST API versioning | Microsoft Docs
 ms.service: batch
 author: mmacy

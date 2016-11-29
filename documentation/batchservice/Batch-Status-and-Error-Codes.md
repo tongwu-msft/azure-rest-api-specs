@@ -1,5 +1,5 @@
 ---
-ms.assetid:
+ms.assetid: 3e9b0aa3-81e2-44b9-bb5f-cca7e179ebbe
 ms.title: Batch status and error codes | Microsoft Docs
 ms.service: batch
 author: mmacy
