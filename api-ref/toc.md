@@ -444,7 +444,6 @@
 ## [Autoscale Settings](monitor/AutoscaleSettings.json)
 ## [Event Categories](monitor/EventCategories.json)
 ## [Events](monitor/Events.json)
-## [Incidents](monitor/Incidents.json)
 ## [Log Profiles](monitor/LogProfiles.json)
 ## [Metric Definitions](monitor/MetricDefinitions.json)
 ## [Metrics](monitor/Metrics.json)
