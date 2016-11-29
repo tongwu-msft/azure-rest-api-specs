@@ -856,7 +856,7 @@ Lists the first page of activity window instances associated with a pipeline alo
 ||||  
 |-|-|-|  
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
-|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datapipelines/{PipelineName}/activitywindows&api-version={api-version}|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datapipelines/{PipelineName}/activitywindows?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -960,16 +960,26 @@ Lists the first page of activity window instances associated with a pipeline alo
  Example URI:  
   
 ```  
-POST:https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/dfName/datapipelines/pipelineName/activitywindows&api-version=2015-10-01  
+POST:https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/dfName/datapipelines/pipelineName/activitywindows?api-version=2015-10-01  
 ```  
   
- The request is sent with the following headers.  
-  
+The request is sent with the following headers and the body.  
+
+Header: 
+
 ```  
 x-ms-client-request-id        : 00000000-1111-1111-1111-000000000000  
 ```  
+
+Body:
+
+```
+{
+  "top": 2
+}
+```
   
- After the request has been sent, the following response is returned.  
+After the request has been sent, the following response is returned.  
   
 ```  
   
@@ -1008,8 +1018,33 @@ X-Powered-By                  : ASP.NET
         "runEnd": "2016-01-26T21:41:48.886Z",  
         "duration": "00:00:00.0000250",  
         "percentComplete": 100,  
-        "windowStart": "2016-01-25T12:00:00Z",  
-        "windowEnd": "2016-01-25T13:00:00Z",  
+        "windowStart": "2016-01-25T01:00:00Z",  
+        "windowEnd": "2016-01-25T02:00:00Z",  
+        "windowState": "Pending",  
+        "windowSubstate": "Validating",  
+        "inputDatasets": ["DA_WikipediaEvents"],  
+        "outputDatasets": [  
+           "dsName"  
+        ],  
+        "inputDatasetIds": ["308F5E07-5B0C-4AE9-95EB-9CEF26CFDD21"],  
+        "outputDatasetIds": [  
+          "1e4a0e42-5df3-4a7e-9860-7f75d306ff75"  
+        ]  
+      },
+      {  
+        "resourceGroupName": "rgName",  
+        "dataFactoryName": "dfName",  
+        "pipelineName": "pipelineName",  
+        "activityName": "DA_WikipediaClickEvents",  
+        "linkedServiceName": "LS_Wikipedia",  
+        "activityType": "Copy",  
+        "runAttempts": 1,  
+        "runStart": "2016-01-26T21:41:48.636Z",  
+        "runEnd": "2016-01-26T21:41:48.886Z",  
+        "duration": "00:00:00.0000250",  
+        "percentComplete": 100,  
+        "windowStart": "2016-01-25T02:00:00Z",  
+        "windowEnd": "2016-01-25T03:00:00Z",  
         "windowState": "Pending",  
         "windowSubstate": "Validating",  
         "inputDatasets": ["DA_WikipediaEvents"],  
@@ -1041,7 +1076,7 @@ Lists the first page of activity window instances associated with an activity al
 ||||  
 |-|-|-|  
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
-|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datapipelines/{PipelineName}/activities/{ActivityName}/activitywindows&api-version={api-version}|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datapipelines/{PipelineName}/activities/{ActivityName}/activitywindows?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -1146,16 +1181,26 @@ Lists the first page of activity window instances associated with an activity al
  Example URI:  
   
 ```  
-POST:https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/dfName/datapipelines/pipelineName/activities/activityName/activitywindows&api-version=2015-10-01  
+POST:https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/dfName/datapipelines/pipelineName/activities/activityName/activitywindows?api-version=2015-10-01  
 ```  
   
- The request is sent with the following headers.  
+The request is sent with the following header and the body:
+
+Header:   
   
 ```  
 x-ms-client-request-id        : 00000000-1111-1111-1111-000000000000  
 ```  
-  
- After the request has been sent, the following response is returned.  
+
+Body:
+
+```
+{
+  "top": 2
+}
+```
+
+After the request has been sent, the following response is returned.  
   
 ```  
   
@@ -1194,8 +1239,8 @@ X-Powered-By                  : ASP.NET
         "runEnd": "2016-01-26T21:41:48.886Z",  
         "duration": "00:00:00.0000250",  
         "percentComplete": 100,  
-        "windowStart": "2016-01-25T12:00:00Z",  
-        "windowEnd": "2016-01-25T13:00:00Z",  
+        "windowStart": "2016-01-25T01:00:00Z",  
+        "windowEnd": "2016-01-25T02:00:00Z",  
         "windowState": "Pending",  
         "windowSubstate": "Validating",  
         "inputDatasets": ["DA_WikipediaEvents"],  
@@ -1206,7 +1251,32 @@ X-Powered-By                  : ASP.NET
         "outputDatasetIds": [  
           "1e4a0e42-5df3-4a7e-9860-7f75d306ff75"  
         ]  
-      }  
+      },
+        {  
+        "resourceGroupName": "rgName",  
+        "dataFactoryName": "dfName",  
+        "pipelineName": "pipelineName",  
+        "activityName": "activityName",  
+        "linkedServiceName": "LS_Wikipedia",  
+        "activityType": "Copy",  
+        "runAttempts": 1,  
+        "runStart": "2016-01-26T21:41:48.636Z",  
+        "runEnd": "2016-01-26T21:41:48.886Z",  
+        "duration": "00:00:00.0000250",  
+        "percentComplete": 100,  
+        "windowStart": "2016-01-25T02:00:00Z",  
+        "windowEnd": "2016-01-25T03:00:00Z",  
+        "windowState": "Pending",  
+        "windowSubstate": "Validating",  
+        "inputDatasets": ["DA_WikipediaEvents"],  
+        "outputDatasets": [  
+           "dsName"  
+        ],  
+        "inputDatasetIds": ["308F5E07-5B0C-4AE9-95EB-9CEF26CFDD21"],  
+        "outputDatasetIds": [  
+          "1e4a0e42-5df3-4a7e-9860-7f75d306ff75"  
+        ]  
+      }
     ],  
     "lastUpdate": "2016-01-26T21:43:45.6837301+00:00",  
     "aggregates": {}  
@@ -1216,9 +1286,6 @@ X-Powered-By                  : ASP.NET
 ```  
   
  Use the nextLink URL to get the next page of results.  
-  
-  
-
 
 
 
