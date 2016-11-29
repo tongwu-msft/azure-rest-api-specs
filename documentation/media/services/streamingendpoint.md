@@ -24,8 +24,11 @@ translation.priority.mt:
   - "ru-ru"
   - "zh-cn"
   - "zh-tw"
+
 ---
+
 # StreamingEndpoint
+
 > [!IMPORTANT]
 >  Starting with Media Services 2.7, the `Origin` entity was renamed to `StreamingEndpoint`.  
   
@@ -82,7 +85,7 @@ translation.priority.mt:
 |----------|----------|-----------------|  
 |`MaxAge`<br /><br /> Optional.|Edm.Int64|Overrides the default max-age HTTP cache control header set by the streaming endpoint on media fragments and on-demand manifests. The value is set in seconds.|  
   
-###  <a name="StreamingEndpointAccessControl "></a> StreamingEndpointAccessControl ComplexType  
+###  <a name="StreamingEndpointAccessControl"></a> StreamingEndpointAccessControl ComplexType  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
