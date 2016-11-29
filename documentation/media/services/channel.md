@@ -112,13 +112,13 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
 |`AccessControl`|[ChannelPreviewAccessControl ComplexType](#ChannelPreviewAccessControl)|Channel preview access control settings.|  
 |`Endpoints`<br /><br /> Read-only.|[ChannelEndpoint ComplexType](#ChannelEndpoint)|Channel preview endpoints.|  
   
-###  <a name="ChannelInputAccessControl "></a> ChannelInputAccessControl ComplexType  
+###  <a name="ChannelInputAccessControl"></a> ChannelInputAccessControl ComplexType  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
 |`IP`|[IPAccessControl](#IPAccessControl)|IP addresses that are allowed to connect to channel input endpoints.|  
   
-###  <a name="ChannelPreviewAccessControl "></a> ChannelPreviewAccessControl ComplexType  
+###  <a name="ChannelPreviewAccessControl"></a> ChannelPreviewAccessControl ComplexType  
  For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 |Name|Type|Description|  

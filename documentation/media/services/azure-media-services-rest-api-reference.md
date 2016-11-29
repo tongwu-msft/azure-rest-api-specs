@@ -25,7 +25,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Azure Media Services REST API Reference
+# Media Services Operations REST API Reference
+
 The Microsoft Azure Media Services REST API reference section describes the entities and functions that are used when creating, processing, managing, and delivering Assets.  
   
  The table below shows Media Services REST API versions. It also shows major modifications that were made in each version. To examine Media Services entities, entity properties, associations, functions, and so on, paste the following URI in a browser: https://media.windows.net/API/$metadata?api-version=2.x (where x is a version number).  
