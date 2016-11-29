@@ -47,7 +47,8 @@ All triggers contain these top level elements:
     "interval": "<recurrence interval in units of frequency>"  
       },  
       "conditions": [ <array-of-required-conditions > ],  
-      "splitOn" : "<property to create runs for>"  
+      "splitOn" : "<property to create runs for>",
+      "operationOptions": "<operation options on the trigger>"
     }  
 ```  
   
@@ -363,6 +364,25 @@ As you can see, if you use split\-on, you will not be able to get the properties
 > [!NOTE]  
 > In this example, we use the `?` operator to be able to avoid a failure if the `Rows` property is not present. Also, split\-on arrays are limited to **1000** items.  
   
+## Single run instance
+
+You can configure triggers that have a recurrence property to only fire if all active runs have completed.  If a scheduled recurrence occurs while there is an in-progress run, the trigger will skip and wait until the next scheduled recurrence interval to check again.
+
+This setting can be configured via the operation options:
+
+``` json
+
+"triggers": {
+    "mytrigger": {
+        "type": "http",
+        "inputs": { ... },
+        "recurrence": { ... },
+        "operationOptions": "singleInstance"
+    }
+}
+
+```
+
 ## Types and inputs  
 There are many types of actions, each with unique behavior.  Collection actions may contain many other actions within itself.
 
