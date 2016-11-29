@@ -815,11 +815,23 @@ Lists the first page of activity window instances associated with a dataset alon
 POST:https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/dfName/datasets/dsName/activitywindows?api-version=2015-10-01  
 ```  
   
- The request is sent with the following headers.  
-  
+The request is sent with the following headers and the body:  
+
+Header: 
+
 ```  
 x-ms-client-request-id        : 00000000-1111-1111-1111-000000000000  
 ```  
+
+Body: 
+
+```
+{
+  "top": 5,
+  "windowState": "Failed",
+  "filter": "RunAttempts ge 1"
+}
+```
   
  After the request has been sent, the following response is returned.  
   
@@ -845,39 +857,161 @@ X-Powered-By                  : ASP.NET
  The response includes the following XML body.  
   
 ```  
-  
-"value": {  
-    "activityWindows": [  
-      {  
+
+{
+  "value": {
+    "activityWindows": [
+      {
         "resourceGroupName": "rgName",  
         "dataFactoryName": "dfName",  
-        "pipelineName": "DA_WikipediaClickEvents",  
-        "activityName": "DA_WikipediaClickEvents",  
-        "linkedServiceName": "LS_Wikipedia",  
-        "activityType": "Copy",  
-        "runAttempts": 1,  
-        "runStart": "2016-01-26T21:41:48.636Z",  
-        "runEnd": "2016-01-26T21:41:48.886Z",  
-        "duration": "00:00:00.0000250",  
-        "percentComplete": 100,  
-        "windowStart": "2016-01-25T12:00:00Z",  
-        "windowEnd": "2016-01-25T13:00:00Z",  
-        "windowState": "Pending",  
-        "windowSubstate": "Validating",  
-        "inputDatasets": ["DA_WikipediaEvents"],  
-        "outputDatasets": [  
-           "dsName"  
-        ],  
-        "inputDatasetIds": ["308F5E07-5B0C-4AE9-95EB-9CEF26CFDD21"],  
-        "outputDatasetIds": [  
-          "1e4a0e42-5df3-4a7e-9860-7f75d306ff75"  
-        ]  
-      }  
-    ],  
-    "lastUpdate": "2016-01-26T21:43:45.6837301+00:00",  
-    "aggregates": {}  
+        "pipelineName": "DP_WikipediaSamplePipeline",
+        "activityName": "BlobToSqlCopyActivity",
+        "linkedServiceName": "HDILinkedService",
+        "activityType": "Copy",
+        "runAttempts": 2,
+        "runStart": "2016-11-18T20:16:43.149Z",
+        "runEnd": "2016-11-18T20:20:06.517Z",
+        "duration": "00:03:23.3680000",
+        "percentComplete": 50,
+        "windowStart": "2016-11-18T19:00:00Z",
+        "windowEnd": "2016-11-18T20:00:00Z",
+        "windowState": "Failed",
+        "windowSubstate": "",
+        "inputDatasets": [
+          "DA_CuratedWikiData"
+        ],
+        "outputDatasets": [
+          "DA_WikiAggregatedData"
+        ],
+        "inputDatasetIds": [
+          "b7707e71-2bf8-4596-94c7-90676d67bb3d"
+        ],
+        "outputDatasetIds": [
+          "5aee09bb-ec37-4c3e-b8c3-a974741769b4"
+        ]
+      },
+      {
+        "resourceGroupName": "rgName",  
+        "dataFactoryName": "dfName",  
+        "pipelineName": "DP_WikipediaSamplePipeline",
+        "activityName": "BlobToSqlCopyActivity",
+        "linkedServiceName": "HDILinkedService",
+        "activityType": "Copy",
+        "runAttempts": 2,
+        "runStart": "2016-11-18T20:43:59.716Z",
+        "runEnd": "2016-11-18T20:47:27.827Z",
+        "duration": "00:03:28.1110000",
+        "percentComplete": 50,
+        "windowStart": "2016-11-18T15:00:00Z",
+        "windowEnd": "2016-11-18T16:00:00Z",
+        "windowState": "Failed",
+        "windowSubstate": "",
+        "inputDatasets": [
+          "DA_CuratedWikiData"
+        ],
+        "outputDatasets": [
+          "DA_WikiAggregatedData"
+        ],
+        "inputDatasetIds": [
+          "b7707e71-2bf8-4596-94c7-90676d67bb3d"
+        ],
+        "outputDatasetIds": [
+          "5aee09bb-ec37-4c3e-b8c3-a974741769b4"
+        ]
+      },
+      {
+        "resourceGroupName": "rgName",  
+        "dataFactoryName": "dfName",  
+        "pipelineName": "DP_WikipediaSamplePipeline",
+        "activityName": "BlobToSqlCopyActivity",
+        "linkedServiceName": "HDILinkedService",
+        "activityType": "Copy",
+        "runAttempts": 2,
+        "runStart": "2016-11-18T20:50:54.688Z",
+        "runEnd": "2016-11-18T20:54:19.826Z",
+        "duration": "00:03:25.1370000",
+        "percentComplete": 50,
+        "windowStart": "2016-11-18T14:00:00Z",
+        "windowEnd": "2016-11-18T15:00:00Z",
+        "windowState": "Failed",
+        "windowSubstate": "",
+        "inputDatasets": [
+          "DA_CuratedWikiData"
+        ],
+        "outputDatasets": [
+          "DA_WikiAggregatedData"
+        ],
+        "inputDatasetIds": [
+          "b7707e71-2bf8-4596-94c7-90676d67bb3d"
+        ],
+        "outputDatasetIds": [
+          "5aee09bb-ec37-4c3e-b8c3-a974741769b4"
+        ]
+      },
+      {
+        "resourceGroupName": "rgName",  
+        "dataFactoryName": "dfName",  
+        "pipelineName": "DP_WikipediaSamplePipeline",
+        "activityName": "BlobToSqlCopyActivity",
+        "linkedServiceName": "HDILinkedService",
+        "activityType": "Copy",
+        "runAttempts": 2,
+        "runStart": "2016-11-18T20:57:45.579Z",
+        "runEnd": "2016-11-18T21:01:09.939Z",
+        "duration": "00:03:24.3590000",
+        "percentComplete": 50,
+        "windowStart": "2016-11-18T13:00:00Z",
+        "windowEnd": "2016-11-18T14:00:00Z",
+        "windowState": "Failed",
+        "windowSubstate": "",
+        "inputDatasets": [
+          "DA_CuratedWikiData"
+        ],
+        "outputDatasets": [
+          "DA_WikiAggregatedData"
+        ],
+        "inputDatasetIds": [
+          "b7707e71-2bf8-4596-94c7-90676d67bb3d"
+        ],
+        "outputDatasetIds": [
+          "5aee09bb-ec37-4c3e-b8c3-a974741769b4"
+        ]
+      },
+      {
+        "resourceGroupName": "rgName",  
+        "dataFactoryName": "dfName",  
+        "pipelineName": "DP_WikipediaSamplePipeline",
+        "activityName": "BlobToSqlCopyActivity",
+        "linkedServiceName": "HDILinkedService",
+        "activityType": "Copy",
+        "runAttempts": 2,
+        "runStart": "2016-11-18T21:11:26.944Z",
+        "runEnd": "2016-11-18T21:14:52.082Z",
+        "duration": "00:03:25.1380000",
+        "percentComplete": 50,
+        "windowStart": "2016-11-18T20:00:00Z",
+        "windowEnd": "2016-11-18T21:00:00Z",
+        "windowState": "Failed",
+        "windowSubstate": "",
+        "inputDatasets": [
+          "DA_CuratedWikiData"
+        ],
+        "outputDatasets": [
+          "DA_WikiAggregatedData"
+        ],
+        "inputDatasetIds": [
+          "b7707e71-2bf8-4596-94c7-90676d67bb3d"
+        ],
+        "outputDatasetIds": [
+          "5aee09bb-ec37-4c3e-b8c3-a974741769b4"
+        ]
+      }
+    ],
+    "lastUpdate": "2016-11-18T13:29:28.4180094-08:00",
+    "aggregates": {}
   },  
-    "nextLink": "https://localhost:86/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgName/datafactories/dfName/datasets/dsName/activitywindows/skip=FG154H?ApiVerion01012015"}  
+    "nextLink": "https://localhost:86/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgName/datafactories/dfName/datasets/dsName/activitywindows/skip=FG154H?ApiVerion01012015"
+}  
   
 ```  
   
