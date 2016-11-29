@@ -856,7 +856,7 @@ Lists the first page of activity window instances associated with a pipeline alo
 ||||  
 |-|-|-|  
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
-|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datapipelines/{PipelineName}/activitywindows&api-version={api-version}|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datapipelines/{PipelineName}/activitywindows?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -960,7 +960,7 @@ Lists the first page of activity window instances associated with a pipeline alo
  Example URI:  
   
 ```  
-POST:https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/dfName/datapipelines/pipelineName/activitywindows&api-version=2015-10-01  
+POST:https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/dfName/datapipelines/pipelineName/activitywindows?api-version=2015-10-01  
 ```  
   
  The request is sent with the following headers.  
@@ -1041,7 +1041,7 @@ Lists the first page of activity window instances associated with an activity al
 ||||  
 |-|-|-|  
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
-|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datapipelines/{PipelineName}/activities/{ActivityName}/activitywindows&api-version={api-version}|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datapipelines/{PipelineName}/activities/{ActivityName}/activitywindows?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -1146,7 +1146,7 @@ Lists the first page of activity window instances associated with an activity al
  Example URI:  
   
 ```  
-POST:https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/dfName/datapipelines/pipelineName/activities/activityName/activitywindows&api-version=2015-10-01  
+POST:https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/dfName/datapipelines/pipelineName/activities/activityName/activitywindows?api-version=2015-10-01  
 ```  
   
  The request is sent with the following headers.  

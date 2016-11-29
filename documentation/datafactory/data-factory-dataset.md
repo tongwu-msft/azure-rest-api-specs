@@ -708,7 +708,7 @@ Lists the first page of activity window instances associated with a dataset alon
 ||||  
 |-|-|-|  
 |**HTTP Verb**|**Request URI**|**HTTP Version**|  
-|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datasets/{DatasetName}/activitywindows&api-version={api-version}|HTTP/1.1|  
+|POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datasets/{DatasetName}/activitywindows?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
@@ -812,7 +812,7 @@ Lists the first page of activity window instances associated with a dataset alon
  Example URI:  
   
 ```  
-POST:https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/dfName/datasets/dsName/activitywindows&api-version=2015-10-01  
+POST:https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/dfName/datasets/dsName/activitywindows?api-version=2015-10-01  
 ```  
   
  The request is sent with the following headers.  
