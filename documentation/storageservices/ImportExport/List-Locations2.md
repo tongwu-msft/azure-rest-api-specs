@@ -1,5 +1,5 @@
 ---
-title: "List Locations2"
+title: "List Locations"
 ms.custom: na
 ms.date: 05/25/2015
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# List Locations2
+# List Locations
 The `List Locations` operation returns a list of locations to which you can ship the disks associated with an import or export job. A location is a Microsoft data center region.  
   
 ## Request  

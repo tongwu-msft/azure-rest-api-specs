@@ -1,5 +1,5 @@
 ---
-title: "Create Queue4"
+title: "Create Queue"
 ms.custom: na
 ms.date: 2016-06-29
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Create Queue4
+# Create Queue
 The `Create Queue` operation creates a queue under the given account.  
   
 ## Request  

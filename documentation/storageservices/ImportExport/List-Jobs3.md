@@ -1,5 +1,5 @@
 ---
-title: "List Jobs3"
+title: "List Jobs"
 ms.custom: na
 ms.date: 05/25/2015
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# List Jobs3
+# List Jobs
 The `List Jobs` operation lists active and completed jobs for a storage account in a subscription.  
   
 ## Request  
@@ -41,8 +41,8 @@ The `List Jobs` operation lists active and completed jobs for a storage account 
 |Parameter|Description|  
 |---------------|-----------------|  
 |`type`|Optional. Specifies that only jobs of the specified type should be returned. Value may be `import` or `export`.|  
-|`from`|Optional. Specifies that only jobs created at the specified time or later should be returned. Value must be a `DateTime` value specified in UTC format; see [Formatting DateTime Property Values](../fileservices/Formatting%20DateTime%20Property%20Values.md) for details.|  
-|`to`|Optional. Specifies that only jobs created at the specified time or earlier should be returned. Value must be a `DateTime` value specified in UTC format; see [Formatting DateTime Property Values](../fileservices/Formatting%20DateTime%20Property%20Values.md) for details.|  
+|`from`|Optional. Specifies that only jobs created at the specified time or later should be returned. Value must be a `DateTime` value specified in UTC format; see [Formatting DateTime Property Values](../fileservices/Formatting-DateTime-Property-Values.md) for details.|  
+|`to`|Optional. Specifies that only jobs created at the specified time or earlier should be returned. Value must be a `DateTime` value specified in UTC format; see [Formatting DateTime Property Values](../fileservices/Formatting-DateTime-Property-Values.md) for details.|  
 |`states`|Optional. Specifies that only jobs whose state matches the specified value should be returned. Valid values are `Creating`, `Shipping`, `Transferring`, `Packaging`, and `Completed`. Values are case-sensitive. To specify multiple states, separate values with a comma, without spaces.|  
 |`skiptoken`|Optional. A string value that identifies the portion of the results to be returned with the next list operation.<br /><br /> Very rarely, a `List Jobs` operation may not return the complete set of results because there are too many jobs. In this case, a URI that includes a `$skiptoken` query parameter will be returned in the `odata.nextlink` property in the response. This URI can then be used in a subsequent call to request the next set of the results. The `$skiptoken` query parameter is opaque to the client.|  
 |`top`|Optional. An integer value that specifies how many jobs should be returned.|  

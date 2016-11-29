@@ -1,5 +1,5 @@
 ---
-title: "List Containers2"
+title: "List Containers"
 ms.custom: na
 ms.date: 2016-06-29
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# List Containers2
+# List Containers
 The `List Containers` operation returns a list of the containers under the specified account.  
   
 ##  <a name="Request"></a> Request  
