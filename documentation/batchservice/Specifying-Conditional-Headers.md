@@ -1,5 +1,5 @@
 ---
-ms.assetid:
+ms.assetid: 05f376a8-64b6-4035-9d86-ca695e102b49
 ms.title: Specifying conditional headers | Microsoft Docs
 ms.service: batch
 author: mmacy

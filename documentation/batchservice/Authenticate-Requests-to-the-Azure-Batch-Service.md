@@ -1,5 +1,5 @@
 ---
-ms.assetid:
+ms.assetid: 2c9dc30a-05be-4b41-a543-2f2f852ae64a
 ms.title: Authenticate requests to the Batch service | Microsoft Docs
 ms.service: batch
 author: mmacy

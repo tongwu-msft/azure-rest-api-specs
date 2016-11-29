@@ -1,5 +1,5 @@
 ---
-ms.assetid:
+ms.assetid: 193b797e-cdb5-4ba7-a9b2-22b0a5b8e09c
 ms.title: Common parameters and headers | Microsoft Docs
 ms.service: batch
 author: mmacy
