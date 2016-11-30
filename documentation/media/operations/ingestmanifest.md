@@ -30,15 +30,15 @@ An IngestManifest represents a set of assets to be created through bulk ingestin
   
  This topic gives an overview of the `IngestManifest` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [IngestManifest Entity Properties](../services/ingestmanifest.md#ingestmanifest_entity_properties)  
+-   [IngestManifest Entity Properties](../operations/ingestmanifest.md#ingestmanifest_entity_properties)  
   
--   [Create an IngestManifest](../services/ingestmanifest.md#create_an_ingestmanifest)  
+-   [Create an IngestManifest](../operations/ingestmanifest.md#create_an_ingestmanifest)  
   
--   [List an IngestManifest](../services/ingestmanifest.md#list_an_ingestmanifest)  
+-   [List an IngestManifest](../operations/ingestmanifest.md#list_an_ingestmanifest)  
   
--   [Update an IngestManifest](../services/ingestmanifest.md#update_an_ingestmanifest)  
+-   [Update an IngestManifest](../operations/ingestmanifest.md#update_an_ingestmanifest)  
   
--   [Delete an Ingest Manifest](../services/ingestmanifest.md#delete_an_ingestManifest)  
+-   [Delete an Ingest Manifest](../operations/ingestmanifest.md#delete_an_ingestManifest)  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -61,9 +61,9 @@ An IngestManifest represents a set of assets to be created through bulk ingestin
 |`Name`<br /><br /> Optional.|Edm.String|Friendly name for your IngestManifest.|  
 |`State`<br /><br /> Read-only. Set by Media Services.|Edm.Int32|The current state of the manifest. This value can be one of the following:<br /><br /> -   **Inactive** = 0: No pending asset creations remain. All have either completed or encountered an error.<br />-   **Activating** = 1: The manifest is not yet ready to receive files uploaded to the Blob container.<br />-   **Active** = 2: There are IngestManifestAssets pending creations and the Blob container is being monitored.|  
 |`BlobStorageUriForUpload`<br /><br /> Read-only. Set by Media Services.|Edm.String|This value is set by Media Services. This value specifies the Uri of the Blob storage container which receives the file uploads needed to complete the IngestManifestAssets.|  
-|`Statistics`<br /><br /> Read-only. Set by Media Services.|[IngestManifestStatistics](../services/ingestmanifeststatistics.md)|This complex type contains statistic information to help determine the current progress of the creation of IngestManifestAssets based on all asset files related to the manifest.|  
-|`IngestManifestAssets`<br /><br /> Read-only. Set by Media Services.|[IngestManifestAsset](../services/ingestmanifestasset.md) entity set|Navigation property that can be accessed by referencing a specific IngestManifestAsset by Id value. The returned entity set contains all IngestManifestAssets contained in the IngestManifest.|  
-|`PendingIngestManifestAssets`<br /><br /> Read-only. Set by Media Services.|[IngestManifestAsset](../services/ingestmanifestasset.md) entity set|Navigation property that can be accessed by referencing a specific IngestManifestAsset by Id value. The returned entity set contains all IngestManifestAssets pending file upload or asset creation.|  
+|`Statistics`<br /><br /> Read-only. Set by Media Services.|[IngestManifestStatistics](../operations/ingestmanifeststatistics.md)|This complex type contains statistic information to help determine the current progress of the creation of IngestManifestAssets based on all asset files related to the manifest.|  
+|`IngestManifestAssets`<br /><br /> Read-only. Set by Media Services.|[IngestManifestAsset](../operations/ingestmanifestasset.md) entity set|Navigation property that can be accessed by referencing a specific IngestManifestAsset by Id value. The returned entity set contains all IngestManifestAssets contained in the IngestManifest.|  
+|`PendingIngestManifestAssets`<br /><br /> Read-only. Set by Media Services.|[IngestManifestAsset](../operations/ingestmanifestasset.md) entity set|Navigation property that can be accessed by referencing a specific IngestManifestAsset by Id value. The returned entity set contains all IngestManifestAssets pending file upload or asset creation.|  
 |`StorageAccountName`<br /><br /> Optional. Cannot be updated after the entity has been created.|Edm.String|Name of the storage account that contains the blob container where the files are uploaded.<br /><br /> If not specified at creation time, Media Services sets the default storage account name.<br /><br /> IngestManifestAsset.Asset has to use the same storage account as specified in the IngestManifest.|  
 |`StorageAccount`<br /><br /> Read-only. Set by Media Services.|StorageAccount entity set.|The returned entity set contains all of the StorageAccount entities that are linked to the specified Asset.|  
   
@@ -79,7 +79,7 @@ An IngestManifest represents a set of assets to be created through bulk ingestin
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 POST https:// media.windows.net/API/IngestManifests HTTP/1.1  
@@ -110,7 +110,7 @@ Expect: 100-continue
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/IngestManifests('nb:mid:UUID:a2f9a230-831e-5e40-bafa-fbf8decbee26') HTTP/1.1  
@@ -136,7 +136,7 @@ Content-Length: 0
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 MERGE https:// media.windows.net /API/IngestManifests('nb:mid:UUID:076faa09-8f5d-ce41-9de3-32ba66190271') HTTP/1.1  
@@ -166,7 +166,7 @@ Expect: 100-continue
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 DELETE https://media.windows.net/API/IngestManifests('nb:mid:UUID:45ea3cd0-b3cf-994b-8e4d-03c9620c22da') HTTP/1.1  
@@ -182,17 +182,17 @@ Content-Length: 0
 ```  
   
 ## See Also  
- [AccessPolicy](../services/accesspolicy.md)   
- [AssetFile](../services/assetfile.md)   
- [Asset](../services/asset.md)   
- [ContentKey](../services/contentkey.md)   
- [IngestManifestAsset](../services/ingestmanifestasset.md)   
- [IngestManifestFile](../services/ingestmanifestfile.md)   
- [IngestManifestStatistics](../services/ingestmanifeststatistics.md)   
- [Job](../services/job.md)   
- [JobTemplate](../services/jobtemplate.md)   
- [Locator](../services/locator.md)   
- [MediaProcessor](../services/mediaprocessor.md)   
- [Task](../services/task.md)   
- [TaskTemplate](../services/tasktemplate.md)   
+ [AccessPolicy](../operations/accesspolicy.md)   
+ [AssetFile](../operations/assetfile.md)   
+ [Asset](../operations/asset.md)   
+ [ContentKey](../operations/contentkey.md)   
+ [IngestManifestAsset](../operations/ingestmanifestasset.md)   
+ [IngestManifestFile](../operations/ingestmanifestfile.md)   
+ [IngestManifestStatistics](../operations/ingestmanifeststatistics.md)   
+ [Job](../operations/job.md)   
+ [JobTemplate](../operations/jobtemplate.md)   
+ [Locator](../operations/locator.md)   
+ [MediaProcessor](../operations/mediaprocessor.md)   
+ [Task](../operations/task.md)   
+ [TaskTemplate](../operations/tasktemplate.md)   
  [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)

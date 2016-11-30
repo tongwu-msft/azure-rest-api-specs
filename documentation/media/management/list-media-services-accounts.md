@@ -38,7 +38,7 @@ translation.priority.mt:
 |Method|Request URI|  
 |GET|https://endpoint/\<subscriptionId>/services/mediaservices/Accounts|  
   
- A successful operation returns status code 200 (OK). For information about error codes, see [Media Services Management Error Codes](../operations/media-services-management-error-codes.md).  
+ A successful operation returns status code 200 (OK). For information about error codes, see [Media Services Management Error Codes](media-services-management-error-codes.md).  
   
 ## Data Contract  
  The data contract for `AzureMediaServicesResource` is defined as follows:  
@@ -77,12 +77,9 @@ public class AzureMediaServicesResource
   
 ```  
   
- For more information about request and response formats, see [Media Services Operations REST](../operations/media-services-operations-rest.md)  
+ For more information about request and response formats, see [Media Services Operations REST](media-services-operations-rest.md)  
   
 ## Example  
 
-See [How to: Use Media Services Management REST API](../operations/how-to-use-media-services-management-rest-api.md).  
+See [How to: Use Media Services Management REST API](how-to-use-media-services-management-rest-api.md).  
   
-## See Also  
- [Media Services Operations REST](../operations/media-services-operations-rest.md)   
- [Media Services Management Error Codes](../operations/media-services-management-error-codes.md)

@@ -41,12 +41,10 @@ translation.priority.mt:
 |Method|Request URI|  
 |PUT|https://endpoint/\<subscriptionId>/services/mediaservices/Accounts/\<accountName>/StorageAccounts/\<storageAccountName>/Key|  
   
- A successful operation returns status code 204 (NoContent). For information about error codes, see [Media Services Management Error Codes](../operations/media-services-management-error-codes.md).  
+ A successful operation returns status code 204 (NoContent). For information about error codes, see [Media Services Management Error Codes](media-services-management-error-codes.md).  
   
 ## Example  
 
-See [How to: Use Media Services Management REST API](../operations/how-to-use-media-services-management-rest-api.md). 
+See [How to: Use Media Services Management REST API](how-to-use-media-services-management-rest-api.md). 
   
-## See Also  
- [Media Services Operations REST](../operations/media-services-operations-rest.md)   
- [Media Services Management Error Codes](../operations/media-services-management-error-codes.md)
+#

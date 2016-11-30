@@ -30,13 +30,13 @@ An IngestManifestFile represents an actual video or audio blob object that will 
   
  This topic gives an overview of the `IngestManifestFile` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [IngestManifestFile Entity Properties](../services/ingestmanifestfile.md#ingestmanifestfile_entity_properties)  
+-   [IngestManifestFile Entity Properties](../operations/ingestmanifestfile.md#ingestmanifestfile_entity_properties)  
   
--   [Create an IngestManifestFile](../services/ingestmanifestfile.md#create_an_ingestmanifestfile)  
+-   [Create an IngestManifestFile](../operations/ingestmanifestfile.md#create_an_ingestmanifestfile)  
   
--   [List an IngestManifestFile](../services/ingestmanifestfile.md#list_an_ingestmanifestfile)  
+-   [List an IngestManifestFile](../operations/ingestmanifestfile.md#list_an_ingestmanifestfile)  
   
--   [Delete an IngestManifestFile](../services/ingestmanifestfile.md#delete_an_ingestmanifestfile)  
+-   [Delete an IngestManifestFile](../operations/ingestmanifestfile.md#delete_an_ingestmanifestfile)  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -78,7 +78,7 @@ An IngestManifestFile represents an actual video or audio blob object that will 
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 POST https://media.windows.net/API/IngestManifestFiles HTTP/1.1  
@@ -109,7 +109,7 @@ Expect: 100-continue
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/IngestManifestFiles('nb:mfid:UUID:030ef5ef-c5b3-2c4a-86da-217d4d2170de') HTTP/1.1  
@@ -135,7 +135,7 @@ Host: media.windows.net
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 DELETE https://media.windows.net/API/IngestManifestFiles('nb:mfid:UUID:030ef5ef-c5b3-2c4a-86da-217d4d2170de') HTTP/1.1  
@@ -151,8 +151,8 @@ Content-Length: 0
 ```  
   
 ## See Also  
- [AssetFile](../services/assetfile.md)   
- [IngestManifest](../services/ingestmanifest.md)   
- [IngestManifestAsset](../services/ingestmanifestasset.md)   
- [IngestManifestStatistics](../services/ingestmanifeststatistics.md)   
+ [AssetFile](../operations/assetfile.md)   
+ [IngestManifest](../operations/ingestmanifest.md)   
+ [IngestManifestAsset](../operations/ingestmanifestasset.md)   
+ [IngestManifestStatistics](../operations/ingestmanifeststatistics.md)   
  [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)

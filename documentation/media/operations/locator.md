@@ -45,15 +45,15 @@ translation.priority.mt:
   
  This topic gives an overview of the `Locator` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [Locator Entity Properties](../services/locator.md#locator_entity_properties)  
+-   [Locator Entity Properties](../operations/locator.md#locator_entity_properties)  
   
--   [Create a Locator](../services/locator.md#create_a_locator)  
+-   [Create a Locator](../operations/locator.md#create_a_locator)  
   
--   [List Locators](../services/locator.md#list_locators)  
+-   [List Locators](../operations/locator.md#list_locators)  
   
--   [Update a Locator](../services/locator.md#update_a_locator)  
+-   [Update a Locator](../operations/locator.md#update_a_locator)  
   
--   [Delete a Locator](../services/locator.md#delete_a_locator)  
+-   [Delete a Locator](../operations/locator.md#delete_a_locator)  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -95,7 +95,7 @@ translation.priority.mt:
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 POST https://media.windows.net/API/Locators HTTP/1.1  
@@ -134,7 +134,7 @@ Expect: 100-continue
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/Locators('nb:lid:UUID:627cbafb-3d81-4623-97c2-2194282b6d16') HTTP/1.1  
@@ -159,7 +159,7 @@ Host: media.windows.net
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 MERGE https://media.windows.net/API/Locators('nb:lid:UUID:5bfcb65d-843d-4d5e-bf71-9306ecb08203') HTTP/1.1  
@@ -188,7 +188,7 @@ Expect: 100-continue
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 DELETE https://media.windows.net/API/Locators('nb:lid:UUID:9f0e0cee-8ea5-46c4-b985-5a7cd30e7623') HTTP/1.1  
@@ -205,13 +205,13 @@ Connection: Keep-Alive
   
 ## See Also  
  [Delivering Assets with the Media Services REST API](http://msdn.microsoft.com/en-us/644d9f8c-2b22-43e4-828d-f6c1eae5ff96)   
- [ContentKey](../services/contentkey.md)   
- [Asset](../services/asset.md)   
- [AccessPolicy](../services/accesspolicy.md)   
- [AssetFile](../services/assetfile.md)   
- [JobTemplate](../services/jobtemplate.md)   
- [Job](../services/job.md)   
- [MediaProcessor](../services/mediaprocessor.md)   
- [Task](../services/task.md)   
- [TaskTemplate](../services/tasktemplate.md)   
+ [ContentKey](../operations/contentkey.md)   
+ [Asset](../operations/asset.md)   
+ [AccessPolicy](../operations/accesspolicy.md)   
+ [AssetFile](../operations/assetfile.md)   
+ [JobTemplate](../operations/jobtemplate.md)   
+ [Job](../operations/job.md)   
+ [MediaProcessor](../operations/mediaprocessor.md)   
+ [Task](../operations/task.md)   
+ [TaskTemplate](../operations/tasktemplate.md)   
  [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)

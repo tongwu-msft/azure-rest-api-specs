@@ -70,7 +70,7 @@ The endpoint to which the notifications about the job state are sent.
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  NotificationEndPoint can be creating using HTTP POST request.  
   
@@ -117,7 +117,7 @@ Date: Sun, 21 Apr 2013 21:44:17 GMT
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  NotificationEndPoint can be updated using HTTP POST request.  
   
@@ -159,7 +159,7 @@ Date: Sun, 21 Apr 2013 21:56:16 GMT
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  The following request gets a specified notification point. To get all the notification points call `NotificationEndPoints` without a parameter: `GET https://media.windows.net/api/NotificationEndPoints`.  
   
@@ -197,7 +197,7 @@ Date: Fri, 02 Aug 2013 06:25:33 GMT
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  NotificationEndPoint can be deleted using HTTP POST request.  
   

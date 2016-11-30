@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # CrossSiteAccessPolicies
-Used by the [StreamingEndpoint](../services/streamingendpoint.md) and [Channel](../services/channel.md) entities to specify cross site access policies for various clients.  
+Used by the [StreamingEndpoint](../operations/streamingendpoint.md) and [Channel](../operations/channel.md) entities to specify cross site access policies for various clients.  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  

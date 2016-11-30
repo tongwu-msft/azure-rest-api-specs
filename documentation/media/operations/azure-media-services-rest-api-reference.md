@@ -35,73 +35,73 @@ The Microsoft Azure Media Services REST API reference section describes the enti
 |--------------------|-----------------|  
 |2.13||  
 |2.12|The following new types/properties were added:<br /><br /> FirstQuality<br /><br /> AssetFilter.FirstQuality<br /><br /> Filter.FirstQuality|  
-|2.11|The following new entities were added:<br /><br /> [AssetFilter](../services/assetfilter.md)<br /><br /> [Filter](../services/filter.md)<br /><br /> [FilterTrackSelect](../services/filtertrackselect.md)<br /><br /> [PresentationTimeRange](../services/presentationtimerange.md)|  
-|2.10|The following [Channel](../services/channel.md)’s properties were added to support live encoding with Media Services:<br /><br /> `EncodingType`<br /><br /> `Encoding`<br /><br /> `Slate`<br /><br /> You can also signal to start and end advertisement and hide and how a slate image.|  
-|2.9|The `CdnEnabled` property was added to [StreamingEndpoint](../services/streamingendpoint.md).|  
-|2.8|The following new entity was added: [EncodingReservedUnitType](../services/encodingreservedunittype.md).|  
-|2.7|Breaking change: **Origin** was renamed to [StreamingEndpoint](../services/streamingendpoint.md). For more details, see [StreamingEndpoint](../services/streamingendpoint.md).<br /><br /> Updated properties: [Asset](../services/asset.md).<br /><br /> DeliveryPolicies.<br /><br /> New entities, complex types, and properties:<br /><br /> [AkamaiAccessControl](../services/streamingendpoint.md#AkamaiAccessControl)<br /><br /> [AkamaiSignatureHeaderAuthenticationKey](../services/streamingendpoint.md#AkamaiSignatureHeaderAuthenticationKey)<br /><br /> [AssetDeliveryPolicy](../services/assetdeliverypolicy.md)<br /><br /> [Channel](../services/channel.md)<br /><br /> [ChannelInput ComplexType](../services/channel.md#ChannelInput)<br /><br /> [ChannelInputAccessControl ComplexType](../services/channel.md#ChannelInputAccessControl)<br /><br /> [ChannelEndpoint ComplexType](../services/channel.md#ChannelEndpoint)<br /><br /> [ChannelOutput ComplexType](../services/channel.md#ChannelOutput)<br /><br /> [ChannelOutputHls ComplexType](../services/channel.md#ChannelOutputHls)<br /><br /> [ChannelPreview ComplexType](../services/channel.md#ChannelPreview)<br /><br /> [ChannelPreviewAccessControl ComplexType](../services/channel.md#ChannelPreviewAccessControl)<br /><br /> [ContentKeyAuthorizationPolicy](../services/contentkeyauthorizationpolicy.md)<br /><br /> [ContentKeyAuthorizationPolicyOption](../services/contentkeyauthorizationpolicyoption.md)<br /><br /> [ContentKeyAuthorizationPolicyRestriction ComplexType Properties](../services/contentkeyauthorizationpolicyoption.md#restrions)<br /><br /> [CrossSiteAccessPolicies](../services/crosssiteaccesspolicies.md)<br /><br /> `IPAccessControl`. See [IPAccessControl](../services/channel.md#IPAccessControl) and [StreamingEndpoint](../services/streamingendpoint.md#IPAccessControl).<br /><br /> `IPRange`. See [IPRange ComplexType](../services/channel.md#IPRange) and [StreamingEndpoint](../services/streamingendpoint.md#IPRange).<br /><br /> [Program](../services/program.md)<br /><br /> [StreamingEndpointAccessControl](../services/streamingendpoint.md#StreamingEndpointAccessControl)<br /><br /> [StreamingEndpointCacheControl](../services/streamingendpoint.md#StreamingEndpointCacheControl)|  
+|2.11|The following new entities were added:<br /><br /> [AssetFilter](../operations/assetfilter.md)<br /><br /> [Filter](../operations/filter.md)<br /><br /> [FilterTrackSelect](../operations/filtertrackselect.md)<br /><br /> [PresentationTimeRange](../operations/presentationtimerange.md)|  
+|2.10|The following [Channel](../operations/channel.md)’s properties were added to support live encoding with Media Services:<br /><br /> `EncodingType`<br /><br /> `Encoding`<br /><br /> `Slate`<br /><br /> You can also signal to start and end advertisement and hide and how a slate image.|  
+|2.9|The `CdnEnabled` property was added to [StreamingEndpoint](../operations/streamingendpoint.md).|  
+|2.8|The following new entity was added: [EncodingReservedUnitType](../operations/encodingreservedunittype.md).|  
+|2.7|Breaking change: **Origin** was renamed to [StreamingEndpoint](../operations/streamingendpoint.md). For more details, see [StreamingEndpoint](../operations/streamingendpoint.md).<br /><br /> Updated properties: [Asset](../operations/asset.md).<br /><br /> DeliveryPolicies.<br /><br /> New entities, complex types, and properties:<br /><br /> [AkamaiAccessControl](../operations/streamingendpoint.md#AkamaiAccessControl)<br /><br /> [AkamaiSignatureHeaderAuthenticationKey](../operations/streamingendpoint.md#AkamaiSignatureHeaderAuthenticationKey)<br /><br /> [AssetDeliveryPolicy](../operations/assetdeliverypolicy.md)<br /><br /> [Channel](../operations/channel.md)<br /><br /> [ChannelInput ComplexType](../operations/channel.md#ChannelInput)<br /><br /> [ChannelInputAccessControl ComplexType](../operations/channel.md#ChannelInputAccessControl)<br /><br /> [ChannelEndpoint ComplexType](../operations/channel.md#ChannelEndpoint)<br /><br /> [ChannelOutput ComplexType](../operations/channel.md#ChannelOutput)<br /><br /> [ChannelOutputHls ComplexType](../operations/channel.md#ChannelOutputHls)<br /><br /> [ChannelPreview ComplexType](../operations/channel.md#ChannelPreview)<br /><br /> [ChannelPreviewAccessControl ComplexType](../operations/channel.md#ChannelPreviewAccessControl)<br /><br /> [ContentKeyAuthorizationPolicy](../operations/contentkeyauthorizationpolicy.md)<br /><br /> [ContentKeyAuthorizationPolicyOption](../operations/contentkeyauthorizationpolicyoption.md)<br /><br /> [ContentKeyAuthorizationPolicyRestriction ComplexType Properties](../operations/contentkeyauthorizationpolicyoption.md#restrions)<br /><br /> [CrossSiteAccessPolicies](../operations/crosssiteaccesspolicies.md)<br /><br /> `IPAccessControl`. See [IPAccessControl](../operations/channel.md#IPAccessControl) and [StreamingEndpoint](../operations/streamingendpoint.md#IPAccessControl).<br /><br /> `IPRange`. See [IPRange ComplexType](../operations/channel.md#IPRange) and [StreamingEndpoint](../operations/streamingendpoint.md#IPRange).<br /><br /> [Program](../operations/program.md)<br /><br /> [StreamingEndpointAccessControl](../operations/streamingendpoint.md#StreamingEndpointAccessControl)<br /><br /> [StreamingEndpointCacheControl](../operations/streamingendpoint.md#StreamingEndpointCacheControl)|  
 |2.6|Current.<br /><br /> No model updates.|  
-|2.5|The `BytesUsed` property was added to [StorageAccount](../services/storageaccount.md).|  
+|2.5|The `BytesUsed` property was added to [StorageAccount](../operations/storageaccount.md).|  
 |2.4|No model updates.|  
-|2.3|The `AuthorizationPolicyId` property was added to [ContentKey](../services/contentkey.md).|  
-|2.2|The following new entries were added to the model:<br /><br /> **Origin**<br /><br /> [StorageAccount](../services/storageaccount.md)<br /><br /> [Operation](../services/operation.md)<br /><br /> The following new properties were added to entities:<br /><br /> [Asset](../services/asset.md): Uri, StorageAccountName, and StorageAccount.<br /><br /> [Locator](../services/locator.md): Name.<br /><br /> [IngestManifest](../services/ingestmanifest.md): StorageAccountName and StorageAccount.|  
-|2.1|The following new entries were added to the model:<br /><br /> [NotificationEndPoint](../services/notificationendpoint.md)<br /><br /> [JobNotificationSubscription](../services/jobnotificationsubscription.md)|  
+|2.3|The `AuthorizationPolicyId` property was added to [ContentKey](../operations/contentkey.md).|  
+|2.2|The following new entries were added to the model:<br /><br /> **Origin**<br /><br /> [StorageAccount](../operations/storageaccount.md)<br /><br /> [Operation](../operations/operation.md)<br /><br /> The following new properties were added to entities:<br /><br /> [Asset](../operations/asset.md): Uri, StorageAccountName, and StorageAccount.<br /><br /> [Locator](../operations/locator.md): Name.<br /><br /> [IngestManifest](../operations/ingestmanifest.md): StorageAccountName and StorageAccount.|  
+|2.1|The following new entries were added to the model:<br /><br /> [NotificationEndPoint](../operations/notificationendpoint.md)<br /><br /> [JobNotificationSubscription](../operations/jobnotificationsubscription.md)|  
 |2.0|Initial public release.|  
   
 ## In This Section  
- [AccessPolicy](../services/accesspolicy.md)  
+ [AccessPolicy](../operations/accesspolicy.md)  
   
- [AssetDeliveryPolicy](../services/assetdeliverypolicy.md)  
+ [AssetDeliveryPolicy](../operations/assetdeliverypolicy.md)  
   
- [AssetFile](../services/assetfile.md)  
+ [AssetFile](../operations/assetfile.md)  
   
- [Asset](../services/asset.md)  
+ [Asset](../operations/asset.md)  
   
- [Channel](../services/channel.md)  
+ [Channel](../operations/channel.md)  
   
- [ContentKey](../services/contentkey.md)  
+ [ContentKey](../operations/contentkey.md)  
   
- [ContentKeyAuthorizationPolicy](../services/contentkeyauthorizationpolicy.md)  
+ [ContentKeyAuthorizationPolicy](../operations/contentkeyauthorizationpolicy.md)  
   
- [ContentKeyAuthorizationPolicyOption](../services/contentkeyauthorizationpolicyoption.md)  
+ [ContentKeyAuthorizationPolicyOption](../operations/contentkeyauthorizationpolicyoption.md)  
   
- [CrossSiteAccessPolicies](../services/crosssiteaccesspolicies.md)  
+ [CrossSiteAccessPolicies](../operations/crosssiteaccesspolicies.md)  
   
- [ErrorDetail](../services/errordetail.md)  
+ [ErrorDetail](../operations/errordetail.md)  
   
- [IngestManifest](../services/ingestmanifest.md)  
+ [IngestManifest](../operations/ingestmanifest.md)  
   
- [IngestManifestAsset](../services/ingestmanifestasset.md)  
+ [IngestManifestAsset](../operations/ingestmanifestasset.md)  
   
- [IngestManifestFile](../services/ingestmanifestfile.md)  
+ [IngestManifestFile](../operations/ingestmanifestfile.md)  
   
- [IngestManifestStatistics](../services/ingestmanifeststatistics.md)  
+ [IngestManifestStatistics](../operations/ingestmanifeststatistics.md)  
   
- [Job](../services/job.md)  
+ [Job](../operations/job.md)  
   
- [JobTemplate](../services/jobtemplate.md)  
+ [JobTemplate](../operations/jobtemplate.md)  
   
- [Locator](../services/locator.md)  
+ [Locator](../operations/locator.md)  
   
- [MediaProcessor](../services/mediaprocessor.md)  
+ [MediaProcessor](../operations/mediaprocessor.md)  
   
- [NotificationEndPoint](../services/notificationendpoint.md)  
+ [NotificationEndPoint](../operations/notificationendpoint.md)  
   
- [Operation](../services/operation.md)  
+ [Operation](../operations/operation.md)  
   
- [Program](../services/program.md)  
+ [Program](../operations/program.md)  
   
- [StorageAccount](../services/storageaccount.md)  
+ [StorageAccount](../operations/storageaccount.md)  
   
- [StreamingEndpoint](../services/streamingendpoint.md)  
+ [StreamingEndpoint](../operations/streamingendpoint.md)  
   
- [Task](../services/task.md)  
+ [Task](../operations/task.md)  
   
- [TaskHistoricalEvent](../services/taskhistoricalevent.md)  
+ [TaskHistoricalEvent](../operations/taskhistoricalevent.md)  
   
- [TaskTemplate](../services/tasktemplate.md)  
+ [TaskTemplate](../operations/tasktemplate.md)  
   
- [REST API Functions](../services/rest-api-functions.md)  
+ [REST API Functions](../operations/rest-api-functions.md)  
   
 ## Reference  
   

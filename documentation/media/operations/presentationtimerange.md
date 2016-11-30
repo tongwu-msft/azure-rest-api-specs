@@ -26,11 +26,11 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # PresentationTimeRange
-`PresentationTimeRange` is used by manifest filters ([AssetFilter](../services/assetfilter.md)s and global [Filter](../services/filter.md)s). The `PresentationTimeRange` rule group is used for filtering manifest start/end points, presentation window length, and the live start position. Media Services uses intersections of multiple ranges to define the final presentation window.  
+`PresentationTimeRange` is used by manifest filters ([AssetFilter](../operations/assetfilter.md)s and global [Filter](../operations/filter.md)s). The `PresentationTimeRange` rule group is used for filtering manifest start/end points, presentation window length, and the live start position. Media Services uses intersections of multiple ranges to define the final presentation window.  
   
  For a detailed overview and code samples of dynamically generated manifests, see [Dynamic manifests overview](https://azure.microsoft.com/documentation/articles/media-services-dynamic-manifest-overview/).  
   
- Also, see [Filter](../services/filter.md) and [AssetFilter](../services/assetfilter.md).  
+ Also, see [Filter](../operations/filter.md) and [AssetFilter](../operations/assetfilter.md).  
   
  This topic describes the `PresentationTimeRange` entity.  
   

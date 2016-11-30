@@ -26,11 +26,11 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # FilterTrackSelect
-`FilterTrackSelect` is used by manifest filters ([AssetFilter](../services/assetfilter.md)s and global [Filter](../services/filter.md)s). It contains a collection of `FilterTrackPropertyCondition`s.  
+`FilterTrackSelect` is used by manifest filters ([AssetFilter](../operations/assetfilter.md)s and global [Filter](../operations/filter.md)s). It contains a collection of `FilterTrackPropertyCondition`s.  
   
  For a detailed overview and code samples of dynamically generated manifests, see [Dynamic manifests overview](https://azure.microsoft.com/documentation/articles/media-services-dynamic-manifest-overview/).  
   
- Also, see [Filter](../services/filter.md) and [AssetFilter](../services/assetfilter.md).  
+ Also, see [Filter](../operations/filter.md) and [AssetFilter](../operations/assetfilter.md).  
   
  This topic describes the `FilterTrackSelect` and `FilterTrackPropertyCondition` entities.  
   

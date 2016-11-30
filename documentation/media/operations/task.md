@@ -30,11 +30,11 @@ A Task is an individual operation of work on an Asset and is defined in a Job.
   
  This topic gives an overview of the `Task` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [Task Entity Properties](../services/task.md#task_entity_properties)  
+-   [Task Entity Properties](../operations/task.md#task_entity_properties)  
   
--   [Create a Task](../services/task.md#create_a_task)  
+-   [Create a Task](../operations/task.md#create_a_task)  
   
--   [List Tasks](../services/task.md#list_tasks)  
+-   [List Tasks](../operations/task.md#list_tasks)  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -51,8 +51,8 @@ A Task is an individual operation of work on an Asset and is defined in a Job.
 |`Id`<br /><br /> Read-only. Set by Media Services at creation time.|Edm.String|Unique identifier.|  
 |`Configuration`<br /><br /> Optional.|Edm.String|Preset that defines processing actions, such as encoding, protection, and so on, that the Task will perform. Maximum length is 100000.|  
 |`EndTime`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|The datetime when the task completed, failed, or was canceled.|  
-|`ErrorDetails`<br /><br /> Read-only. Set by Media Services.|Collection([ErrorDetail](../services/errordetail.md))|A collection of codes and detailed messages describing any errors that occur when a Task is running.|  
-|`HistoricalEvents`<br /><br /> Read-only. Set by Media Services.|Collection([TaskHistoricalEvent](../services/taskhistoricalevent.md))|A collection of [TaskHistoricalEvent](../services/taskhistoricalevent.md) objects that describe events associated with task execution.|  
+|`ErrorDetails`<br /><br /> Read-only. Set by Media Services.|Collection([ErrorDetail](../operations/errordetail.md))|A collection of codes and detailed messages describing any errors that occur when a Task is running.|  
+|`HistoricalEvents`<br /><br /> Read-only. Set by Media Services.|Collection([TaskHistoricalEvent](../operations/taskhistoricalevent.md))|A collection of [TaskHistoricalEvent](../operations/taskhistoricalevent.md) objects that describe events associated with task execution.|  
 |`MediaProcessorId`<br /><br /> Required.|Edm.String|Id of the MediaProcessor that will be used in the Task. Valid values can be retrieved by performing GET request on /API/MediaProcessors.|  
 |`Name`<br /><br /> Optional.|Edm.String|Optional. Friendly name for the Task. Maximum length is 4000.|  
 |`PerfMessage`<br /><br /> Read-only. Set by Media Services.|Edm.String|Contains performance information about the Task.|  
@@ -67,9 +67,9 @@ A Task is an individual operation of work on an Asset and is defined in a Job.
 |`EncryptionScheme`<br /><br /> Optional.|Edm.String|The EncryptionScheme used with the configuration file. The valid value is "ConfigurationEncryption".|  
 |`EncryptionVersion`<br /><br /> Optional.|Edm.String|The version of configuration encryption to use. The currently supported version is "1.0".|  
 |`InitializationVector`<br /><br /> Optional.|Edm.String|The InitializationVector of the configuration file. Maximum length is 4000.|  
-|`OutputMediaAssets`<br /><br /> Read-only. Set by Media Services.|[Asset](../services/asset.md) entity set|Navigation property that can be accessed by referencing a specific task by Id value. The returned entity set contains all of the OutputMediaAsset entities that are linked to the specified task.|  
-|`InputMediaAssets`<br /><br /> Read-only. Set by Media Services.|[Asset](../services/asset.md) entity set|Navigation property that can be accessed by referencing a specific Task by Id value. The returned entity set contains all of the InputMediaAsset entities that are linked to the specified Task.|  
-|`TaskNotificationSubscriptions`<br /><br /> Required.|[TaskNotificationSubscription](../services/tasknotificationsubscription.md) entity set|Defines the notification endpoint task state changes. Also,  indicates whether to include task progress for which to be notified.|  
+|`OutputMediaAssets`<br /><br /> Read-only. Set by Media Services.|[Asset](../operations/asset.md) entity set|Navigation property that can be accessed by referencing a specific task by Id value. The returned entity set contains all of the OutputMediaAsset entities that are linked to the specified task.|  
+|`InputMediaAssets`<br /><br /> Read-only. Set by Media Services.|[Asset](../operations/asset.md) entity set|Navigation property that can be accessed by referencing a specific Task by Id value. The returned entity set contains all of the InputMediaAsset entities that are linked to the specified Task.|  
+|`TaskNotificationSubscriptions`<br /><br /> Required.|[TaskNotificationSubscription](../operations/tasknotificationsubscription.md) entity set|Defines the notification endpoint task state changes. Also,  indicates whether to include task progress for which to be notified.|  
   
 ##  <a name="create_a_task"></a> Create a Task  
  Tasks are created by creating a Job. For an example, see [How to encode an asset using Media Encoder Standard](http://azure.microsoft.com/documentation/articles/media-services-dotnet-encode-with-media-encoder-standard/).  
@@ -90,7 +90,7 @@ A Task is an individual operation of work on an Asset and is defined in a Job.
 > [!IMPORTANT]
 >  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net/API/Jobs('nb:jid:UUID:b1f956b3-774c-bb44-a3f7-ee47e23add31')/Tasks HTTP/1.1  
@@ -104,13 +104,13 @@ Host: media.windows.net
 ```  
   
 ## See Also  
- [AccessPolicy](../services/accesspolicy.md)   
- [Asset](../services/asset.md)   
- [ContentKey](../services/contentkey.md)   
- [Job](../services/job.md)   
- [Job](../services/job.md)   
- [JobTemplate](../services/jobtemplate.md)   
- [Locator](../services/locator.md)   
- [MediaProcessor](../services/mediaprocessor.md)   
- [TaskTemplate](../services/tasktemplate.md)   
+ [AccessPolicy](../operations/accesspolicy.md)   
+ [Asset](../operations/asset.md)   
+ [ContentKey](../operations/contentkey.md)   
+ [Job](../operations/job.md)   
+ [Job](../operations/job.md)   
+ [JobTemplate](../operations/jobtemplate.md)   
+ [Locator](../operations/locator.md)   
+ [MediaProcessor](../operations/mediaprocessor.md)   
+ [TaskTemplate](../operations/tasktemplate.md)   
  [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)

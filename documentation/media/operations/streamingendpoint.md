@@ -32,7 +32,7 @@ translation.priority.mt:
 > [!IMPORTANT]
 >  Starting with Media Services 2.7, the `Origin` entity was renamed to `StreamingEndpoint`.  
   
- The `StreamingEndpoint` entity represents a streaming service that can deliver content directly to a client player application, or to a Content Delivery Network (CDN) for further distribution. Starting with version 2.9, Microsoft Azure Media Services provides the Azure CDN integration (for more information, see the `CdnEnabled` property documented below). The outbound stream from a StreamingEndpoint service can be a live stream, or a video on demand Asset in your Media Services account. In adndition, you can control the capacity of the StreamingEndpoint service to handle growing bandwidth needs by adjusting scale units (also known as streaming units). It is recommended to allocate one or more scale units for applications in production environment. Scale units provide you with both dedicated egress capacity that can be purchased in increments of 200 Mbps and additional functionality which currently includes use [dynamic packaging](http://msdn.microsoft.com/en-us/8d3069a3-4d1d-4a7c-946c-1df63e54cfeb). For more information, see [How to Scale a Media Service](http://www.windowsazure.com/manage/services/media-services/how-to-scale-a-media-service/).  
+ The `StreamingEndpoint` entity represents a streaming service that can deliver content directly to a client player application, or to a Content Delivery Network (CDN) for further distribution. Starting with version 2.9, Microsoft Azure Media Services provides the Azure CDN integration (for more information, see the `CdnEnabled` property documented below). The outbound stream from a StreamingEndpoint service can be a live stream, or a video on demand Asset in your Media Services account. In adndition, you can control the capacity of the StreamingEndpoint service to handle growing bandwidth needs by adjusting scale units (also known as streaming units). It is recommended to allocate one or more scale units for applications in production environment. Scale units provide you with both dedicated egress capacity that can be purchased in increments of 200 Mbps and additional functionality which currently includes use [dynamic packaging](http://msdn.microsoft.com/en-us/8d3069a3-4d1d-4a7c-946c-1df63e54cfeb). For more information, see [How to Scale a Media Service](http://www.windowsazure.com/manage/operations/media-services/how-to-scale-a-media-service/).  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -73,11 +73,11 @@ translation.priority.mt:
 |`HostName`<br /><br /> Read-only. Set by Media Services.|Edm.String|Default streaming endpoint hostname.|  
 |`LastModified`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|Last update time for this entity.|  
 |`ScaleUnits`<br /><br /> Read-only.<br /><br /> If `ScaleUnits` is set to 0, the content will be streamed from the [shared pool](#SharedPool).|Edm.Int32|The number of streaming units allocated for the StreamingEndpoint deployment. When the StreamingEndpoint is in the `Running` state, the streaming units on the StreamingEndpoint can be scaled up by calling the `Scale` operation.<br /><br /> Note that the following StreamingEndpoint’s properties can only be configured with 1 or more streaming units: `AccessControl`, `CustomHostNames`, `CacheControl`, `CrossSiteAccessPolicies`.|  
-|`CdnEnabled`<br /><br /> This property was added in Media Services 2.9.|`Edm.Boolean`|Indicates whether or not the Azure CDN integration for this StreamingEndpoint is enabled (disabled by default.)<br /><br /> To set the `CdnEnabled` to true, the StreamingEndpoint must have at least one streaming unit (`ScaleUnits`) and be in the stopped state. If later you want to set `ScaleUnits` to 0, you must first set the CdnEnabled to false.<br /><br /> It could take up to 90 min for the Azure CDN integration to get enabled. Use the [Operation](../services/operation.md) REST API to check the status. Once it is enabled, the following configurations get disabled: `CustomHostNames` and `AccessControl`.<br /><br /> **Note**: Not all data centers support the Azure CDN integration. To check whether or not your data center has the Azure CDN integration available do the following:<br /><br /> - Try to set the `CdnEnabled` to true.<br /><br /> - Check the returned result for an `HTTP Error Code 412` (PreconditionFailed) with a message of  "Streaming endpoint CdnEnabled property cannot be set to true as CDN capability is not available in the current region."<br /><br /> If you get this error, the data center does not support it. You should try another data center.|  
+|`CdnEnabled`<br /><br /> This property was added in Media Services 2.9.|`Edm.Boolean`|Indicates whether or not the Azure CDN integration for this StreamingEndpoint is enabled (disabled by default.)<br /><br /> To set the `CdnEnabled` to true, the StreamingEndpoint must have at least one streaming unit (`ScaleUnits`) and be in the stopped state. If later you want to set `ScaleUnits` to 0, you must first set the CdnEnabled to false.<br /><br /> It could take up to 90 min for the Azure CDN integration to get enabled. Use the [Operation](../operations/operation.md) REST API to check the status. Once it is enabled, the following configurations get disabled: `CustomHostNames` and `AccessControl`.<br /><br /> **Note**: Not all data centers support the Azure CDN integration. To check whether or not your data center has the Azure CDN integration available do the following:<br /><br /> - Try to set the `CdnEnabled` to true.<br /><br /> - Check the returned result for an `HTTP Error Code 412` (PreconditionFailed) with a message of  "Streaming endpoint CdnEnabled property cannot be set to true as CDN capability is not available in the current region."<br /><br /> If you get this error, the data center does not support it. You should try another data center.|  
 |`CustomHostNames`<br /><br /> Optional.|Collection(Edm.String)|Used to configure a streaming endpoint to accept traffic directed to a custom host name. This allows for easier traffic management configuration through a Global Traffic Manager (GTM) and also for branded domain names to be used as the streaming endpoint name.<br /><br /> The ownership of the domain name must be confirmed by Azure Media Services. Azure Media Services verifies the domain name ownership by requiring a `CName` record containing the Azure Media Services account ID as a component to be added to the domain in use. As an example, for “sports.contoso.com” to be used as a custom host name for the Streaming Endpoint, a record for “\<accountId>.contoso.com” must be configured to point to one of Media Services verification host names. The verification host name is composed of verifydns.\<mediaservices-dns-zone>. The following table contains the expected DNS zones to be used in the verify record for different Azure regions.<br /><br /> North America, Europe, Singapore, Hong Kong, Japan:<br /><br /> - mediaservices.windows.net<br /><br /> - verifydns.mediaservices.windows.net<br /><br /> China:<br /><br /> - mediaservices.chinacloudapi.cn<br /><br /> - verifydns.mediaservices.chinacloudapi.cn<br /><br /> For example, a `CName` record that maps “945a4c4e-28ea-45cd-8ccb-a519f6b700ad.contoso.com” to “verifydns.mediaservices.windows.net” proves that the Azure Media Services ID 945a4c4e-28ea-45cd-8ccb-a519f6b700ad has the ownership of the contoso.com domain, thus enabling any name under contoso.com to be used as a custom host name for a streaming endpoint under that account.<br /><br /> To find the Media Service ID value, go to the [Azure classic portal](https://manage.windowsazure.com) and select your Media Service account. The MEDIA SERVICE ID appears on the right of the DASHBOARD page.<br /><br /> **Warning**: If there is an attempt to set a custom host name without a proper verification of the `CName` record, the DNS response will fail and then be cached for some time. Once a proper record is in place it might take a while until the cached response is revalidated. Depending on the DNS provider for the custom domain, it could take anywhere from a few minutes to an hour to revalidate the record.<br /><br /> In addition to the `CName` that maps `<accountId>.<parent domain>` to `verifydns.<mediaservices-dns-zone>`, you must create another `CName` that maps the custom host name (for example, `sports.contoso.com`) to your Media Services StreamingEndpont’s host name (for example, `amstest.streaming.mediaservices.windows.net`).<br /><br /> **Note**: Streaming endpoints located in the same data center, cannot share the same custom host name.|  
 |`AccessControl`|[StreamingEndpointAccessControl ComplexType](#StreamingEndpointAccessControl)|Used to configure the following security settings for this streaming endpoint: Akamai signature header authentication keys and IP addresses that are allowed to connect to this endpoint.|  
 |`CacheControl`|[StreamingEndpointCacheControl](#StreamingEndpointCacheControl)|Used to configure asset cache lifetime for assets served through this streaming endpoint.|  
-|`CrossSiteAccessPolicies`|[CrossSiteAccessPolicies](../services/crosssiteaccesspolicies.md)|Used to specify cross site access policies for various clients. For more information, see [Cross-domain policy file specification](http://www.adobe.com/devnet/articles/crossdomain_policy_file_spec.html) and [Making a Service Available Across Domain Boundaries](http://msdn.microsoft.com/library/cc197955\(v=vs.95\).aspx).|  
+|`CrossSiteAccessPolicies`|[CrossSiteAccessPolicies](../operations/crosssiteaccesspolicies.md)|Used to specify cross site access policies for various clients. For more information, see [Cross-domain policy file specification](http://www.adobe.com/devnet/articles/crossdomain_policy_file_spec.html) and [Making a Service Available Across Domain Boundaries](http://msdn.microsoft.com/library/cc197955\(v=vs.95\).aspx).|  
   
 ###  <a name="StreamingEndpointCacheControl"></a> StreamingEndpointCacheControl  
   
@@ -145,7 +145,7 @@ string base64Key = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(ak
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -316,7 +316,7 @@ Authorization: Bearer <token value>
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -349,7 +349,7 @@ Authorization: Bearer <token value>
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -388,7 +388,7 @@ Authorization: Bearer <token value>
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -421,7 +421,7 @@ Authorization: Bearer <token value>
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -460,7 +460,7 @@ Authorization: Bearer <token value>
   
  Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- To get the latest `x-ms-version:`, see [Media Services REST](../services/azure-media-services-rest-api-reference.md).  
+ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
   
@@ -492,6 +492,6 @@ Authorization: Bearer <token value>
 |Running|>0|Streaming from dedicated.|Stop, Scale|  
   
 ## See Also  
- [Channel](../services/channel.md)   
- [Program](../services/program.md)   
- [Operation](../services/operation.md)
+ [Channel](../operations/channel.md)   
+ [Program](../operations/program.md)   
+ [Operation](../operations/operation.md)
