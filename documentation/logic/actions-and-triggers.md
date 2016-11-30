@@ -673,7 +673,7 @@ Scope allows for a logic grouping of actions within a workflow.
 
 ## ForEach action
 
-This is a looping action that will iterate over an array and perform inner actions for each item.  By default the foreach loop will execute in parallel (20 executions in parallel at a time) and is limited to processing 10,000 items.  Execution rules can be set using the `operationOptions` parameter.
+This is a looping action that will iterate over an array and perform inner actions for each item.  By default the foreach loop will execute in parallel (20 executions in parallel at a time) and is limited to processing 5,000 items.  Execution rules can be set using the `operationOptions` parameter.
 
 |Name|Required|Type|Description|  
 |--------|------------|--------|---------------|  
@@ -716,7 +716,7 @@ This is a looping action that will execute inner actions until a condition resul
 |actions|Yes|Object|Inner actions to execute within the loop|
 |expression|Yes|string|The expression to evaluate after each iteration|
 |limit|yes|Object|The limits for the loop - at least one limit must be defined|
-|count|no|int|The limit to the number of iterations that can be performed.  Max is 10,000|
+|count|no|int|The limit to the number of iterations that can be performed.  Max is 5,000|
 |timeout|no|string|The timeout for how long it should loop.  ISO 8601 format|
 
 
