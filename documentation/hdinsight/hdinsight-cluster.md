@@ -1,5 +1,4 @@
-# Cluster ------
-blah
+# Cluster
 
 ## Create
 Creates a cluster in the specified subscription.  
