@@ -1,5 +1,5 @@
 ---
-title: "Status and Error Codes2"
+title: "Status and Error Codes"
 ms.custom: na
 ms.date: 2016-06-29
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Status and Error Codes2
+# Status and Error Codes
 REST API operations for Azure storage services return standard HTTP status codes, as defined in the [HTTP/1.1 Status Code Definitions](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).  
   
  API operations may also return additional error information that is defined by the storage service. This additional error information is returned in the response body.  

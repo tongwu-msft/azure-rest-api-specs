@@ -43,7 +43,6 @@ For information common to all these APIs, see [Common parameters and headers](co
 The following information is common to tasks related to these APIs:
 
 - The host URI for Machine Learning REST APIs is **https://management.azure.com/**
-- Replace {api-version} with **2016-05-01-preview**
 - Replace {subscription-id} with your subscription identifier in the URI
 - Replace {resource-group-name} with the resource group name
 - Set the Content-Type header to **application/json**

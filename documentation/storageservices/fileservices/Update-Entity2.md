@@ -1,5 +1,5 @@
 ---
-title: "Update Entity2"
+title: "Update Entity"
 ms.custom: na
 ms.date: 2016-06-29
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Update Entity2
+# Update Entity
 The `Update Entity` operation updates an existing entity in a table. The `Update Entity` operation replaces the entire entity and can be used to remove properties.  
   
 ## Request  

@@ -1,5 +1,5 @@
 ---
-ms.assetid:
+ms.assetid: 2c9dc30a-05be-4b41-a543-2f2f852ae64a
 ms.title: Authenticate requests to the Batch service | Microsoft Docs
 ms.service: batch
 author: mmacy
@@ -9,7 +9,7 @@ ms.manager: timlt
 
 # Authenticate requests to the Batch service
 
-Every request made against the Batch service must be authenticated.  The Batch service supports the Shared Key authentication scheme to make REST requests.
+Every request sent to the Batch service must be authenticated. The Batch service supports the Shared Key authentication scheme to make REST requests.
 
 An authenticated request requires two headers: the *Date* or *ocp-date* header and the *Authorization* header. The following sections describe how to construct these headers.
 
@@ -101,17 +101,17 @@ Authorization: SharedKey myaccount:ctzMq410TV3wS7upTBcunJTDLEJwMAZuFPfr0mrrA08=
 #### Construct the canonicalized headers string
 To construct the `CanonicalizedHeaders` portion of the signature string, follow these steps:
 
-1.  Retrieve all headers for the resource that begin with *ocp-*, including the *ocp-date* header.
+1. Retrieve all headers for the resource that begin with *ocp-*, including the *ocp-date* header.
 
-2.  Convert each HTTP header name to lowercase.
+2. Convert each HTTP header name to lowercase.
 
-3.  Sort the headers lexicographically by header name, in ascending order. Each header may appear only once in the string.
+3. Sort the headers lexicographically by header name, in ascending order. Each header may appear only once in the string.
 
-4.  Replace any breaking white space with a single space.
+4. Replace any breaking white space with a single space.
 
-5.  Trim any white space around the colon in the header.
+5. Trim any white space around the colon in the header.
 
-6.  Append a new line character to each canonicalized header in the resulting list. Construct the `CanonicalizedHeaders` string by concatenating all headers in this list into a single string.
+6. Append a new line character to each canonicalized header in the resulting list. Construct the `CanonicalizedHeaders` string by concatenating all headers in this list into a single string.
 
 #### Construct the canonicalized resource string
 The `CanonicalizedResource` part of the signature string represents the resource of the Batch service that is targeted by the request. Any portion of the `CanonicalizedResource` string that is derived from the URI of the resource should be encoded exactly as it is in the URI.
@@ -124,25 +124,25 @@ Keep in mind the following rules for constructing the canonicalized resource str
 
  You can construct the `CanonicalizedResource` string as follows:
 
-1.  Beginning with a slash ("/"), followed by the name of the account that owns the resource being accessed.
+1. Beginning with a slash ("/"), followed by the name of the account that owns the resource being accessed.
 
-2.  Append the resource's encoded URI path, without any query parameters.
+2. Append the resource's encoded URI path, without any query parameters.
 
-3.  Retrieve all query parameters on the resource URI, including the *api-version* parameter.
+3. Retrieve all query parameters on the resource URI, including the *api-version* parameter.
 
-4.  Convert all parameter names to lowercase.
+4. Convert all parameter names to lowercase.
 
-5.  Sort the query parameters lexicographically by parameter name, in ascending order.
+5. Sort the query parameters lexicographically by parameter name, in ascending order.
 
-6.  URL-decode each query parameter name and value.
+6. URL-decode each query parameter name and value.
 
-7.  Append each query parameter name and value to the string in the following format, making sure to include the colon (:) between the name and the value:
+7. Append each query parameter name and value to the string in the following format, making sure to include the colon (:) between the name and the value:
 
     ```
     parameter-name:parameter-value
     ```
 
-8.  If a query parameter has more than one value, sort all values lexicographically, then include them in a comma-separated list:
+8. If a query parameter has more than one value, sort all values lexicographically, then include them in a comma-separated list:
 
     ```
     parameter-name:parameter-value-1,parameter-value-2,parameter-value-n

@@ -1,5 +1,5 @@
 ---
-title: "Delete Message2"
+title: "Delete Message"
 ms.custom: na
 ms.date: 2016-06-29
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Delete Message2
+# Delete Message
 The `Delete Message` operation deletes the specified message.  
   
 ## Request  

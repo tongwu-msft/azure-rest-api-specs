@@ -46,6 +46,5 @@ This topic describes rules for naming queues and queue metadata.
  Note that metadata names preserve the case with which they were created, but are case-insensitive when set or read. If two or more metadata headers with the same name are submitted for a resource, the Queue service returns status code 400 (Bad Request).  
   
 ## See Also  
- <xref:Microsoft.WindowsAzure.StorageClient.CloudQueue.Metadata?qualifyHint=True>   
  [Queue Service Concepts](../fileservices/Queue-Service-Concepts.md)   
  [Addressing Queue Service Resources](../fileservices/Addressing-Queue-Service-Resources.md)

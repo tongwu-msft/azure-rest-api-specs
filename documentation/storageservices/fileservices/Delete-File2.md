@@ -1,5 +1,5 @@
 ---
-title: "Delete File2"
+title: "Delete File"
 ms.custom: na
 ms.date: 2016-06-29
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Delete File2
+# Delete File
 The `Delete File` operation immediately removes the file from the storage account.  
   
 ## Request  

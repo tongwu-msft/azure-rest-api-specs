@@ -1,5 +1,5 @@
 ---
-title: "List Storage Accounts2"
+title: "List Storage Accounts"
 ms.custom: na
 ms.date: 05/25/2015
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# List Storage Accounts2
+# List Storage Accounts
 The `List Storage Accounts` operation returns a list of storage accounts for which one or more import or export jobs have been created for a subscription.  
   
 ## Request  

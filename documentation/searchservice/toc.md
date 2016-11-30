@@ -14,6 +14,7 @@
 ## [Get Index (Azure Search Service REST API)](get-index.md)
 ## [Delete Index (Azure Search Service REST API)](delete-index.md)
 ## [Get Index Statistics (Azure Search Service REST API)](get-index-statistics.md)
+## [Test Analyzer (Azure Search Service REST API)](test-analyzer.md)
 # [Document operations (Azure Search Service REST API)](document-operations.md)
 ## [Add, Update or Delete Documents (Azure Search Service REST API)](addupdate-or-delete-documents.md)
 ## [Search Documents (Azure Search Service REST API)](search-documents.md)

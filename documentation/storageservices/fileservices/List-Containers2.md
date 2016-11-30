@@ -1,5 +1,5 @@
 ---
-title: "List Containers2"
+title: "List Containers"
 ms.custom: na
 ms.date: 2016-06-29
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# List Containers2
+# List Containers
 The `List Containers` operation returns a list of the containers under the specified account.  
   
 ##  <a name="Request"></a> Request  
@@ -55,7 +55,7 @@ The `List Containers` operation returns a list of the containers under the speci
 |---------------|-----------------|  
 |`prefix`|Optional. Filters the results to return only containers whose name begins with the specified prefix.|  
 |`marker`|Optional. A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the `NextMarker` value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The `NextMarker` value can be used as the value for the `marker` parameter in a subsequent call to request the next page of list items.<br /><br /> The marker value is opaque to the client.|  
-|`maxresults`|Optional. Specifies the maximum number of containers to return. If the request does not specify `maxresults`, or specifies a value greater than 5,000, the server will return up to 5,000 items. If the parameter is set to a value less than or equal to zero, the server will return status code 400 (Bad Request).|  
+|`maxresults`|Optional. Specifies the maximum number of containers to return. If the request does not specify `maxresults`, or specifies a value greater than 5000, the server will return up to 5000 items. <br /><br />Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by `maxresults`, or than the default of 5000. <br /><br />If the parameter is set to a value less than or equal to zero, the server returns status code 400 (Bad Request).|  
 |`include=metadata`|Optional. Include this parameter to specify that the container's metadata be returned as part of the response body.<br /><br /> Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Blob service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](http://msdn.microsoft.com/library/aa664670\(VS.71\).aspx).|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](../fileservices/Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
@@ -145,9 +145,9 @@ The `List Containers` operation returns a list of the containers under the speci
  Only the account owner may call this operation.  
   
 ## Remarks  
- If you specify a value for the `maxresults` parameter and the number of containers to return exceeds this value, or exceeds the default value for `maxresults`, the response body will contain the `NextMarker` element. `NextMarker` indicates the next container to return on a subsequent request. To return the next set of items, specify the value of `NextMarker` for the `marker` parameter on the URI for the subsequent request.  
-  
- Note that the value of `NextMarker` should be treated as opaque.  
+ If you specify a value for the `maxresults` parameter and the number of containers to return exceeds this value, or exceeds the default value for `maxresults`, the response body will contain the `NextMarker` element (also referred to as a continuation token). `NextMarker` indicates the next container to return on a subsequent request. To return the next set of items, specify the value of `NextMarker` for the `marker` parameter on the URI for the subsequent request. Note that the value of `NextMarker` should be treated as opaque.
+
+If the listing operation crosses a partition boundary, then the service will return a value for the `NextMarker` element for retrieving the remainder of the results from the next partition. A listing operation that spans more than one partition results in a smaller set of items being returned than is specified by `maxresults`, or than the default of 5000. Your application should always check for the presence of the `NextMarker` element when you perform a listing operation, and handle it accordingly.   
   
  Containers are listed in alphabetical order in the response body.  
   
