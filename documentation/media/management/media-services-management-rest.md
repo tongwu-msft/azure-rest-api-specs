@@ -1,5 +1,5 @@
 ---
-title: "Media Services Operations REST"
+title: "Media Services Management REST"
 ms.custom: ""
 ms.date: "2016-03-08"
 ms.reviewer: ""
@@ -24,12 +24,12 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Media Services Operations REST
+# Media Services Management REST
 
 > [!NOTE]
 >  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](../../../api-ref/media/MediaService.json).
   
- The Service Management API includes Operations on Media Services. This section demonstrates how to create requests and receive responses using Media Services Management REST API.  
+This section demonstrates how to create requests and receive responses using Media Services Management REST API.  
   
 ## Request  
  The REST endpoint only supports HTTPS. The request is made against an URL in the format of https://endpoint/ (optionally with additional URL segments and/or URL query string). A request includes a set of request headers, and optionally a request body (for POST, PUT, GET request).  
