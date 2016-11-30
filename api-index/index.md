@@ -5,7 +5,7 @@ keywords: Azure REST, Azure REST API Reference
 author: bryanla
 manager: douge
 ms.author: bryanla
-ms.date: 11/15/2016
+ms.date: 11/30/2016
 ms.topic: reference
 ms.prod: azure
 ms.technology: azure
@@ -78,9 +78,9 @@ For all other clients, refer to [Integrating applications with Azure Active Dire
 
 - register the client application with Azure AD, in the "Adding an application" section
 - create a secret key (if you are registering a web client), in the "Updating an application" section
-- add permission requests as required by the API
+- add permission requests as required by the API, in the "Updating an application" section
 
-Now that you've completed registration of your client application, we can move to your client's code, where we will add code to create the REST request and handle the response.
+Now that you've completed registration of your client application, we can move to your client code, where you will create the REST request and handle the response.
 
 ## Create the request
 This section covers the first 3 of the 5 components we discussed earlier. First we need to acquire the access token from Azure AD, which we will use in assembling our request message header.
@@ -121,18 +121,17 @@ This grant can only be used by web clients, allowing the application to access r
 The client/resource interactions for this grant are very similar to step #2 of the authorization code grant. Please see the "Request an Access Token" section in [Service to service calls using client credentials][AAD-Oauth-Client-Creds] for details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages.
 
 ### Assemble the request message
+Note that most programming languages/frameworks and scripting environments make it easy to assemble and send the request message. They typically provide a web/HTTP class or API that abstracts the creation/formatting of the request, making it easier to write the client code (ie: the HttpWebRequest class in the .NET Framework, for example). For brevity, we will only cover the important elements of the request, given that most of this will be handled for you.
 
 #### Request URI
-Note that most programming languages/frameworks and scripting environments make it easy to create and send the request message. They typically provide a web/HTTP class or API that abstracts the creation/formatting of the request, making it easier to write the client code (ie: the HttpWebRequest class in the .NET Framework, for example). For brevity, we will only cover the important elements of the request, given that most of this will be handled for you.
-
 All secured REST requests require the HTTPS protocol for the URI scheme, providing the request and response with a secure channel, due to the fact that sensitive information is transmitted/received. This information (ie: the Azure AD authorization code, access/bearer token, sensitive request/response data) gets encrypted by a lower transport layer, ensuring the privacy of the messages. 
 
 The remainder of your service's request URI (the host, resource path, and any required query string parameters) will be determined by it's related REST API specification. For example, Azure Resource Manager provider APIs use `https://management.azure.com/`, classic Azure Service Management APIs use `https://management.core.windows.net/`, both require an `api-version` query string parameter, etc.
 
 #### Request header
-All of this will be bundled in the request message header, along with any other fields as determined by your service's REST API specification and the [HTTP specification](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). Here are some common header fields you might need in your request:
+The request URI will be bundled in the request message header, along with any additional fields as determined by your service's REST API specification and the [HTTP specification](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). Here are some common header fields you might need in your request:
 
-- `Authorization`: contains the OAuth2 bearer token issued by Azure AD to secure the request
+- `Authorization`: contains the OAuth2 bearer token to secure the request, as acquired earlier from Azure AD
 - `Content-Type`: typically set to "application/json" (name/value pairs in JSON format), and specifies the MIME type of the request body.
 - `Host`: this is the domain name or IP address of the server where the REST service endpoint is hosted
 
@@ -148,7 +147,7 @@ The request body is separated from the header by an empty line, should be format
 ```
 
 ## Send the request
-Now that you have the service's request URI and have created the related request message header, you are ready to send the request to the REST service endpoint. 
+Now that you have the service's request URI and have created the related request message header/body, you are ready to send the request to the REST service endpoint. 
 
 For example, an HTTPS GET request method for an Azure Resource Manager provider might be sent using request header fields similar to the following, but notice the request body is empty:
 
@@ -180,7 +179,7 @@ After you make the request, the response message header and optional body will b
 
 Now we'll finish with the last 2 of the 5 components. 
 
-To process the response, you will need to parse the response header and optionally the response body (depending on the request). In the HTTPS GET example provided above, we used the /subscriptions endpoint to retrieve the list of subscriptions for a user. Assuming the response was successful, we should receive response header fields similar to the following, containing the list of Azure subscriptions and their individual properties :
+To process the response, you will need to parse the response header and optionally the response body (depending on the request). In the HTTPS GET example provided above, we used the /subscriptions endpoint to retrieve the list of subscriptions for a user. Assuming the response was successful, we should receive response header fields similar to the following:
 
 ```
 HTTP/1.1 200 OK
@@ -188,7 +187,7 @@ Content-Length: 303
 Content-Type: application/json;
 ```
 
-and a response body similar to:
+and a response body, containing the list of Azure subscriptions and their individual properties encoded in JSON format, similar to:
 ```
 {
     "value":[
@@ -214,7 +213,7 @@ Content-Length: 193
 Content-Type: application/json;
 ```
 
-and a response body similar to:
+and a response body, confirming the content of our newly added resource group encoded in JSON format, similar to:
 ```
 {
     "id":"/subscriptions/03f09293-ce69-483a-a092-d06ea46dfb8c/resourceGroups/ExampleResourceGroup",
