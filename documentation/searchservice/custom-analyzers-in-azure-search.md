@@ -12,8 +12,8 @@ applies_to:
   - "Azure"
 ms.assetid: ac4f0c8f-1f7c-4fad-bc7d-58c86de98bf6
 caps.latest.revision: 96
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
+author: "Yahnoosh"
+ms.author: "jlembicz"
 manager: "jhubbard"
 translation.priority.mt:
   - "de-de"
