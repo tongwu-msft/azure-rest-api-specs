@@ -1,7 +1,7 @@
 ---
 title: "Custom analyzers in Azure Search | Microsoft docs"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2016-11-22"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -12,8 +12,8 @@ applies_to:
   - "Azure"
 ms.assetid: ac4f0c8f-1f7c-4fad-bc7d-58c86de98bf6
 caps.latest.revision: 96
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
+author: "Yahnoosh"
+ms.author: "jlembicz"
 manager: "jhubbard"
 translation.priority.mt:
   - "de-de"
@@ -270,7 +270,7 @@ You can have multiple token filters in a custom analyzer. Token filters run in t
 
 This section provides the valid values for attributes specified in the definition of a custom analyzer, tokenizer, char filter, or token filter in your index. Analyzers, tokenizers, and filters that are implemented using Apache Lucene have links to the Lucene API documentation.
 
-###  <a name="AnalyzerTable"></a> Analyzers  
+###  <a name="Analyzers"></a> Analyzers  
 
 |**analyzer_name**|**analyzer_type**  <sup>1</sup>|**Description and Options**|  
 |-|-|-|  
