@@ -82,7 +82,7 @@ x-ms-version: 2011-10-01
   
  [List Storage Accounts](list-storage-accounts-media-services.md)  
   
- [Update Storage Account Key](update-storage-account-key--media-services-.md)  
+ [Update Storage Account Key](update-storage-account-key-media-services.md)  
   
  [Regenerate Media Services Primary Account Key](regenerate-media-services-primary-account-key.md)  
   

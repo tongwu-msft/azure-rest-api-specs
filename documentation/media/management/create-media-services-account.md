@@ -91,5 +91,5 @@ public sealed class AccountCreationResult
 See [How to: Use Media Services Management REST API](how-to-use-media-services-management-rest-api.md).  
   
 ## See Also  
- [Media Services Operations REST](media-services-operations-rest.md)   
+ [Media Services Operations REST](media-services-management-rest.md)   
  

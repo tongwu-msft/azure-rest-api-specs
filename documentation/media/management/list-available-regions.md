@@ -55,7 +55,7 @@ public class SupportedRegion
   
 ```  
   
- For more information about request and response formats, see [Media Services Operations REST](../operations/media-services-operations-rest.md)  
+ For more information about request and response formats, see [Media Services Operations REST](media-services-management-rest.md)  
   
 ## Example  
 
