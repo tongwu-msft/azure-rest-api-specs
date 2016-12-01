@@ -152,7 +152,7 @@ The error codes listed in the following table may be returned by an operation on
 |IOError|Forbidden (403)|An I/O error occurred when accessing the specified resource.|
 |TooManyEnableAutoScaleRequests|ServiceUnavailable (503)|Too many Enable Pool AutoScale requests are issued on the pool.|
 |ApplicationNotFound|Not Found (404)|The specified application does not exist.|
-|InvalidApplicationPackageReferences|Bad Request (400)|One or more application package references could not be satisfied. This occurs if the application id or version does not exist or is not active, or if the reference did not specify a version and there is no default version configured.|
+|InvalidApplicationPackageReferences|Conflict (409)|One or more application package references could not be satisfied. This occurs if the application id or version does not exist or is not active, or if the reference did not specify a version and there is no default version configured.|
 |TaskDependenciesNotSpecifiedOnJob|Bad Request (400)|A task was specified as depending on other tasks, but the job did not specify that it would use task dependencies.|
 |TaskDependencyListTooLong|Bad Request (400)|A task was specified as depending on other tasks, but the list of dependencies was too long to be stored. The total stored length is limited to 64000 characters; the total length of task ids must be slightly less than this to allow for internal storage overhead. If you encounter this error, consider using task range dependencies instead.|
 |TaskDependencyRangesTooLong|Bad Request (400)|A task was specified as depending on multiple ranges of task ids, and the list of ranges was too long to be stored. Note that the issue is not with the size of ranges, but with the number of ranges.|
