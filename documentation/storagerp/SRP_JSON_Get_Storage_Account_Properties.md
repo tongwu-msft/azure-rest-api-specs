@@ -6,7 +6,7 @@ The Request Body is empty.
 
 ## Response Body (version 2016-01-01 and later)
 
-```
+```json
 {
     "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
     "name": "accountName",
@@ -59,7 +59,7 @@ The Request Body is empty.
 
 ## Response Body (version 2015-06-15 and later)
 
-```
+```json
 {
     "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
     "name": "accountName",

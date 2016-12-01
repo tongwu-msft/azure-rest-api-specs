@@ -8,7 +8,7 @@ The Request Body is empty.
 
 Formatted list of the resources along with their current usage and limit. 
 
-```
+```json
 {
    "value": [
      {

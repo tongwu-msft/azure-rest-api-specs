@@ -2,7 +2,7 @@
 
 ## Request Body (version 2016-01-01 and later)
 
-```
+```json
 {
     "tags": {
       "key1": "value1", 
@@ -30,7 +30,7 @@
 
 ## Request Body1 (for updating Tags) (version 2015-06-15 and earlier)
 
-```
+```json
 {
     "tags": {
       "key1": "value1", 
@@ -41,7 +41,7 @@
 
 ## Request Body2 (for updating accountType) (version 2015-06-15 and earlier)
 
-```
+```json
 {    
     "properties": {
         "accountType": "Standard_LRS|Standard_GRS|Standard_RAGRS" 
@@ -51,7 +51,7 @@
 
 ## Request Body3 (for updating customDomain) (version 2015-06-15 and earlier)
 
-```
+```json
 {    
     "properties": { 
          "customDomain": {

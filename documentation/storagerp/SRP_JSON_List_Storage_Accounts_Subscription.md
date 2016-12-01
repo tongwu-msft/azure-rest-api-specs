@@ -8,7 +8,7 @@ The Request Body is empty.
 
 For HTTP 200, if using API version 2016-01-01 or later, the response body will contain the full account properties. See the Response section of the [Get Storage Account Properties](../../api-ref/storagerp/storageaccounts.json#StorageAccounts_GetProperties) operation for the full set of properties and descriptions.
 
-```
+```json
 {
     "value": [
     {
@@ -51,7 +51,7 @@ For HTTP 200, if using API version 2016-01-01 or later, the response body will c
 
 Formatted list of storage accounts and their properties. See the Response section of the [Get Storage Account Properties](../../api-ref/storagerp/storageaccounts.json#StorageAccounts_GetProperties) operation for the full set of properties and descriptions.
 
-```
+```json
 {
     "value": [
     {
@@ -84,7 +84,7 @@ Formatted list of storage accounts and their properties. See the Response sectio
 
 Formatted list of storage accounts and their properties. See the Response section of the [Get Storage Account Properties](../../api-ref/storagerp/storageaccounts.json#StorageAccounts_GetProperties) operation for the full set of properties and descriptions.
 
-```
+```json
 {
     "value": [
     {
