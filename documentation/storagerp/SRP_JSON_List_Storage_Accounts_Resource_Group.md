@@ -49,7 +49,7 @@ For HTTP 200, if using API version 2016-01-01 or later, the response body will c
 
 ##Response Body (2015-06-15 and earlier)
 
-Formatted list of storage accounts and their properties. See the Response section of the [Get Storage Account Properties2](PUTLINKHERE) operation for the full set of properties and descriptions.
+Formatted list of storage accounts and their properties. See the Response section of the [Get Storage Account Properties](../../api-ref/storagerp/storageaccounts.json#StorageAccounts_GetProperties) operation for the full set of properties and descriptions.
 
 ```
 {
