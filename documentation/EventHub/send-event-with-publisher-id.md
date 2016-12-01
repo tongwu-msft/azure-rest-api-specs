@@ -1,7 +1,7 @@
 ---
 title: "Send event with publisher ID"
 ms.custom: ""
-ms.date: "2016-11-14"
+ms.date: "2016-12-01"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
