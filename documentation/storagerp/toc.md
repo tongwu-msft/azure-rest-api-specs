@@ -1,4 +1,17 @@
 # [SKU Types](SRP_SKU_Types.md)
+# JSON Payloads
+## [Check Storage Account Name Availability](SRP_JSON_Check_Storage_Account_Name_Availability.md)
+## [Create Storage Account](SRP_JSON_Create_Storage_Account.md)
+## [Delete Storage Account](SRP_JSON_Delete_Storage_Account.md)
+## [Get Storage Account Keys](SRP_JSON_Get_Storage_Account_Keys.md)
+## [Get Storage Account Properties](SRP_JSON_Get_Storage_Account_Properties.md)
+## [Get Subscription Usage](SRP_JSON_Get_Subscription_Usage.md)
+## [List Operations](SRP_JSON_List_Operations.md)
+## [List Storage Accounts by Resource Group](SRP_JSON_List_Storage_Accounts_Resource_Group.md)
+## [List Storage Accounts by Subscription](SRP_JSON_List_Storage_Accounts_Subscription.md)
+## [Poll Async Storage](SRP_JSON_Poll_Async_Storage.md)
+## [Regenerate Storage Account Keys](SRP_JSON_Regenerate_Storage_Account_Keys.md)
+## [Update Storage Account](SRP_JSON_Update_Storage_Account.md)
 # Error Codes
 ## [Common](SRP_Error_Codes_Common.md)
 ## [Check Storage Account name availability](SRP_Error_Codes_Check_Storage_Account_Name_Availability.md)
