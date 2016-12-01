@@ -2,6 +2,8 @@
 uid: management.azure.com/ApiManagementClient/2016-07-07/Apis_CreateOrUpdate
 description: *content
 ---
+Creates new or updates existing specified API of the API Management service instance.
+
 To import an API you can specify `true` for the `import` query parameter, and provide the API to import in the body of the request, using one of the following content types that you then specify in the `Content-Type` header.
 
 | Content-Type | Description |
@@ -15,8 +17,10 @@ To import an API you can specify `true` for the `import` query parameter, and pr
 
 ---
 uid: management.azure.com/ApiManagementClient/2016-07-07/Apis_ListByService
-summary: *content
+description: *content
 ---
+Lists all APIs of the API Management service instance.
+
 You can filter the results by specifying a value for the `$filter` parameter using OData filter expression [syntax](http://docs.oasis-open.org/odata/odata/v4.0/os/part2-url-conventions/odata-v4.0-os-part2-url-conventions.html#_Toc372793792). The following fields and operators are supported.
 
 | Field | Supported operators    | Supported functions|
