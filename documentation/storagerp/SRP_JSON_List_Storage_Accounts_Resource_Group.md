@@ -1,4 +1,4 @@
-# JSON payloads for List Storage Accounts for Resource Group Operation
+# JSON payloads for List Storage Accounts for Resource Group
 
 ## Request Body 
 
