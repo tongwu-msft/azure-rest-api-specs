@@ -1,5 +1,5 @@
 ---
-title: "Create Topic1"
+title: "Create Topic"
 ms.custom: ""
 ms.date: "05/14/2015"
 ms.prod: "azure"
@@ -84,7 +84,7 @@ Creates a new topic. Once created, this topic’s resource manifest is immutable
 ### Response Codes  
   
 > [!NOTE]
->  If you create a topic with a name that contains special or encoded characters (for example, "test?Name=value&", which is encoded to "test%3FName%3Dvalue%26"), a (401) Unauthorized exception is generated.  
+>  If you create a topic with a name that contains special or encoded characters (for example, `test?Name=value&`, which is encoded to `test%3FName%3Dvalue%26`), a (401) Unauthorized exception is generated.  
   
 |Code|Description|  
 |----------|-----------------|  

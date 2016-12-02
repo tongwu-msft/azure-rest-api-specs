@@ -1,5 +1,5 @@
 ---
-title: "Create Queue2"
+title: "Create Queue"
 ms.custom: ""
 ms.date: "05/14/2015"
 ms.prod: "azure"

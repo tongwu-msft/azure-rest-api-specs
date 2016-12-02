@@ -1,5 +1,5 @@
 ---
-title: "Update Queue3"
+title: "Update Queue"
 ms.custom: ""
 ms.date: "05/15/2015"
 ms.prod: "azure"

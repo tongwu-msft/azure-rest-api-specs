@@ -1,15 +1,15 @@
 ---
-title: "Delete Topic1"
+title: "Delete Subscription"
 ms.custom: ""
-ms.date: "05/14/2015"
+ms.date: "05/15/2015"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
-ms.assetid: 9996fa3a-2db1-484f-bb91-1bda2dfe2449
-caps.latest.revision: 9
+ms.assetid: 559c1fa8-dda3-47ef-8036-872d7494f30b
+caps.latest.revision: 8
 author: "sethmanheim"
 ms.author: "sethm"
 manager: "timlt"
@@ -25,19 +25,21 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete Topic
-Delete an existing topic. This operation also removes all associated state, including messages in the topic.  
+# Delete Subscription
+Deletes an existing subscription.  
   
 ## Request  
   
 |Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
-|DELETE|https://management.core.windows.net/{subscription ID}/services/ServiceBus/Namespaces/{Namespace}/Topics/{Topic Path}|HTTP/1.1|  
+|DELETE|https://management.core.windows.net/{subscription ID}/services/ServiceBus/Namespaces/{Namespace}/Topics/Subscriptions/{Subscription Name}|HTTP/1.1|  
   
 ### Request Headers  
+ The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
+|Namespace|Management endpoint url|  
 |x-ms-version|**2012-03-01**|  
   
  Note that the request also requires a client certificate. This certificate must match the certificate you uploaded for that particular subscription.  
@@ -50,14 +52,17 @@ Delete an existing topic. This operation also removes all associated state, incl
   
 ### Response Codes  
   
+> [!NOTE]
+>  If you create a topic with a name that contains special or encoded characters (for example, `test?Name=value&`, which gets encoded to `test%3FName%3Dvalue%26`), a (401) Unauthorized exception is generated.  
+  
 |Code|Description|  
 |----------|-----------------|  
-|200|Topic deleted successfully. This does not mean that the topic is completely deleted upon the return of the API call. It means that it is marked for deletion.|  
+|200|Subscription deleted successfully.|  
 |401|Authorization failure.|  
-|404|The specified topic does not exist.|  
+|404|The specified subscription does not exist.|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For more information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
  None.  

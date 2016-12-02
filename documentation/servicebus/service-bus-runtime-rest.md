@@ -32,7 +32,7 @@ This section describes the Service Bus REST run-time APIs.
  [Introduction](introduction.md)  
  An introduction to the Service Bus REST run-time APIs.  
   
- [Send Message](send-message1.md)  
+ [Send Message](send-message.md)  
  Enqueues a message into the specified queue or topic.  
   
  [Send Message Batch](send-message-batch.md)  
@@ -57,8 +57,7 @@ This section describes the Service Bus REST run-time APIs.
  Request a new SWT token from Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS).  
   
 ## Related Sections  
- [Service Bus Management REST (classic)](service-bus-management-rest--classic-.md)  
-  
+   
  [Message Headers and Properties](message-headers-and-properties.md)  
   
  [Addressing and Protocol](addressing-and-protocol.md)
