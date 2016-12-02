@@ -31,7 +31,7 @@ Service Bus collects usage telemetry for queues, topics, and subscriptions. You 
  Service Bus collects data for messaging entities every 5 minutes. However, you can retrieve your metrics data within hourly and daily precision time windows.  
   
 ## Using the Service Bus entity metrics REST APIs  
- Before using the Service Bus entity metrics REST APIs, you must obtain a management certificate and upload this certificate to your Azure subscription. For information about how to create and upload management certificates in Azure, see [Create a new self-signed certificate](https://azure.microsoft.com/documentation/articles/cloud-services-certs-create/) and [Upload a management certificate](https://azure.microsoft.com/documentation/articles/azure-api-management-certs/).  
+ Before using the Service Bus entity metrics REST APIs, you must obtain a management certificate and upload this certificate to your Azure subscription. For information about how to create and upload management certificates in Azure, see [Create a new self-signed certificate](/azure/cloud-services/cloud-services-certs-create) and [Upload a management certificate](/azure/azure-api-management-certs).  
   
  The Service Bus entity metrics APIs enable you to discover the data points supported for each messaging entity, and their rollup policy (aggregation as well as data retention), before you make a call to return the actual data. While each call returns a single data point in a given time precision, you can use batching to bundle multiple queries into a single REST call.  
   

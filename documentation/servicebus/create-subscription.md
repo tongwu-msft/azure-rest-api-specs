@@ -1,5 +1,5 @@
 ---
-title: "Create Subscription2"
+title: "Create Subscription"
 ms.custom: ""
 ms.date: "05/15/2015"
 ms.prod: "azure"
@@ -77,7 +77,7 @@ Creates a new subscription. Once created, the subscription resource manifest is 
 ### Response Codes  
   
 > [!NOTE]
->  If you create a namespace with a name that contains special or encoded characters (for example, "test?Name=value&", which gets encoded to "test%3FName%3Dvalue%26"), a (401) Unauthorized exception is generated.  
+>  If you create a namespace with a name that contains special or encoded characters (for example, `test?Name=value&`, which gets encoded to `test%3FName%3Dvalue%26`), a (401) Unauthorized exception is generated.  
   
 |Code|Description|  
 |----------|-----------------|  

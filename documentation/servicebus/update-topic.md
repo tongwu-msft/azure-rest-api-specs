@@ -1,5 +1,5 @@
 ---
-title: "Update Topic2"
+title: "Update Topic"
 ms.custom: ""
 ms.date: "06/02/2015"
 ms.prod: "azure"

@@ -1,5 +1,5 @@
 ---
-title: "Get Namespace2"
+title: "Get Namespace"
 ms.custom: ""
 ms.date: "05/15/2015"
 ms.prod: "azure"

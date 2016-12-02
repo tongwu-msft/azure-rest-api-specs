@@ -45,7 +45,7 @@ This section describes the Service Bus REST run-time APIs. Runtime operations ca
 |Message deferral||X|  
   
 ## Message Properties  
- When sending a message, you can specify the following message properties. If a single message is sent or received, then these properties are contained in the **BrokerProperties** HTTP header in a JSON-encoded format. If a batch of messages is sent, these properties are part of the JSON-encoded HTTP body. For more information, see [Send Message](send-message1.md) and [Send Message Batch](send-message-batch.md).  
+ When sending a message, you can specify the following message properties. If a single message is sent or received, then these properties are contained in the **BrokerProperties** HTTP header in a JSON-encoded format. If a batch of messages is sent, these properties are part of the JSON-encoded HTTP body. For more information, see [Send Message](send-message.md) and [Send Message Batch](send-message-batch.md).  
   
  The following table lists the <xref:Microsoft.ServiceBus.Messaging.BrokeredMessage> properties. The properties can appear in any order. If a property is not specified, Service Bus uses the default value for that property. Broker properties other than the ones listed are ignored. The accepted properties are independent of the value of the specified **api-version**. The **api-version** specifier is not required in the HTTP request.  
   
@@ -66,4 +66,4 @@ This section describes the Service Bus REST run-time APIs. Runtime operations ca
 |To|(empty)|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.To%2A>|  
 |ViaPartitionKey|(empty)|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.ViaPartitionKey%2A>|  
   
- In addition to these properties, you can specify custom properties. If a single message is sent or received, each custom property is placed in its own HTTP header. If a batch of messages is sent, custom properties are part of the JSON-encoded HTTP body. For more information, see [Send Message](send-message1.md) and [Send Message Batch](send-message-batch.md).
+ In addition to these properties, you can specify custom properties. If a single message is sent or received, each custom property is placed in its own HTTP header. If a batch of messages is sent, custom properties are part of the JSON-encoded HTTP body. For more information, see [Send Message](send-message.md) and [Send Message Batch](send-message-batch.md).

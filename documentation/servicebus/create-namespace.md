@@ -1,5 +1,5 @@
 ---
-title: "Create Namespace2"
+title: "Create Namespace"
 ms.custom: ""
 ms.date: "05/14/2015"
 ms.prod: "azure"

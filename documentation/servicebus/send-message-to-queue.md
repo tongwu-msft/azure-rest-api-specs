@@ -1,5 +1,5 @@
 ---
-title: "Send Message1"
+title: "Send Message"
 ms.custom: ""
 ms.date: "2016-09-06"
 ms.prod: "azure"

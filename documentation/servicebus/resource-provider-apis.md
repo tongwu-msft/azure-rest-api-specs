@@ -31,31 +31,31 @@ The Microsoft Azure Service Bus resource provider API is a REST API set that pro
 ## In this section  
  This section contains the REST API for the following operations:  
   
- [Create Namespace](create-namespace2.md)  
+ [Create Namespace](create-namespace.md)  
   
- [Delete Namespace](delete-namespace2.md)  
+ [Delete Namespace](delete-namespace.md)  
   
- [Get Namespace](get-namespace2.md)  
+ [Get Namespace](get-namespace.md)  
   
  [Check Namespace Availability](check-namespace-availability.md)  
   
  [Namespace Description](namespace-description.md)  
   
- [Create Queue](create-queue2.md)  
+ [Create Queue](create-queue.md)  
   
- [Delete Queue](delete-queue2.md)  
+ [Delete Queue](delete-queue.md)  
   
- [Update Queue](update-queue3.md)  
+ [Update Queue](update-queue.md)  
   
- [Create Topic](create-topic1.md)  
+ [Create Topic](create-topic.md)  
   
- [Delete Topic](delete-topic1.md)  
+ [Delete Topic](delete-topic.md)  
   
- [Update Topic](update-topic2.md)  
+ [Update Topic](update-topic.md)  
   
- [Create Subscription](create-subscription2.md)  
+ [Create Subscription](create-subscription.md)  
   
- [Delete Subscription](delete-subscription3.md)  
+ [Delete Subscription](delete-subscription.md)  
   
  [Get SB Regions](get-sb-regions.md)  
   

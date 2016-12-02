@@ -36,9 +36,9 @@ The following information is common to all tasks that you might do related to Se
   
 -   Set the Content-Type header to **application/json**.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/dn790557.aspx).  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](/rest/api/resources).  
   
--   Replace {resourceGroupName} with the resource group name within your subscriptionId. For more information, see [Using Resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+-   Replace {resourceGroupName} with the resource group name within your subscriptionId. For more information, see [Using Resource groups to manage your Azure resources](/azure/azure-resource-manager/resource-group-portal#manage-resource-groups).  
   
 -   Replace {namespaceName} with the name of the namespace you created on the portal.  
   
