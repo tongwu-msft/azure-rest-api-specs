@@ -661,8 +661,8 @@ Lists the first page of activity window instances associated with a data factory
 |RunEnd|The end time of activity window run.|No|  
 |WindowStart|The start time of activity window.|No|  
 |WindowEnd|The end time of activity window.|No|  
-|WindowState|The state of activity window.|No|  
-|WindowSubstate|The substate of activity window.|No|  
+|WindowState|The state of activity window. Must be one of the values specified [in this article](/dotnet/api/microsoft.azure.management.datafactories.models.windowstate). | No |  
+|WindowSubstate|The substate of activity window. Must be one of the values specified [in this article](/dotnet/api/microsoft.azure.management.datafactories.models.windowsubstate). | No |  
   
 ### Response  
  The response includes an HTTP status code, a set of response headers, and a response body.  
