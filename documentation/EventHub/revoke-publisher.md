@@ -1,7 +1,7 @@
 ---
 title: "Revoke publisher"
 ms.custom: ""
-ms.date: "2016-11-14"
+ms.date: "2016-12-01"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -15,9 +15,9 @@ ms.author: "sethm"
 manager: "timlt"
 ---
 # Revoke publisher
-Revokes a publisher. A revoked publisher will encounter errors when sending an event to the specified Event Hub. See [RevokedPublisherDescription Properties](http://msdn.microsoft.com/en-us/acbfa549-e32b-4f6b-8482-34177184f45c).  
+Revokes a publisher. A revoked publisher will encounter errors when sending an event to the specified Event Hub. See [RevokedPublisherDescription Properties](/dotnet/api/microsoft.servicebus.messaging.revokedpublisherdescription).  
   
- When revoking a publisher, you must specify the following properties in the [RevokedPublisherDescription](http://msdn.microsoft.com/en-us/e3cca5de-36a6-4b38-8860-7f842ad64870).  
+ When revoking a publisher, you must specify the following properties in the [RevokedPublisherDescription](/dotnet/api/microsoft.servicebus.messaging.revokedpublisherdescription#properties_summary).  
   
 |Property name|Description|  
 |-------------------|-----------------|  

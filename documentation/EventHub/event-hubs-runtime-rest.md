@@ -1,7 +1,7 @@
 ---
 title: "Event Hubs Runtime REST"
 ms.custom: ""
-ms.date: "2016-09-06"
+ms.date: "2016-12-01"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -61,7 +61,7 @@ These APIs enable you to perform runtime operations on Event Hubs.
   
 -   [Send event](send-event.md)  
   
--   Se[Send event with publisher ID](send-event-with-publisher-id.md)  
+-   [Send event with publisher ID](send-event-with-publisher-id.md)  
   
 -   [Send partition event](send-partition-event.md)  
   
