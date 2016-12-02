@@ -57,7 +57,7 @@ Updates a topic. The updated descriptor is sent in the request body. The API upd
 |-------------------|----------|-----------------|    
 |**DefaultMessageTimeToLive**|XML Datetime|Based on whether dead lettering is enabled, if a message has been stored in the topic for more than the specified time, it is automatically moved to the dead-letter queue or deleted. This value is overwritten by a TTL specified on the message if the message TTL is smaller than the TTL set on the topic. This value is immutable after the topic has been created:<br /><br /> -   Range: 1 second – 14 days.<br /><br /> -   Default: 14 days.|  
 |**DuplicateDetectionHistoryTimeWindow**|Time Span|A property that specifies the time span during which Service Bus detects message duplication.<br /><br /> -   Range: 1 second – 7 days.<br /><br /> -   Default: 10 minutes.|  
-|**EnableFilteringMessagesBeforePublishing**|Boolean|A property that specifies whether or not to apply filtering before publishing the message. For more information, see <xref:Microsoft.ServiceBus.Messaging.TopicDescription.EnableFilteringMessagesBeforePublishing%2A>.|  
+|**EnableFilteringMessagesBeforePublishing**|Boolean|A property that specifies whether or not to apply filtering before publishing the message. For more information, see [EnableFilteringMessagesBeforePublishing](/dotnet/api/microsoft.servicebus.messaging.topicdescription#Microsoft_ServiceBus_Messaging_TopicDescription_EnableFilteringMessagesBeforePublishing).|  
   
 ## Response  
  The response includes an HTTP status code and a set of response headers.  
