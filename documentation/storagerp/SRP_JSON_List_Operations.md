@@ -8,7 +8,7 @@ The Request Body is empty.
 
 Formatted list of operations and their description.
 
-```
+```json
 {
   "value": [
     {

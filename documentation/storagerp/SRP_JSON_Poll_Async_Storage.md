@@ -4,7 +4,7 @@
 
 For HTTP 200, if using API version 2016-01-01 or later, the response body will contain the full account properties. See the Response section of the [Get Storage Account Properties](../../api-ref/storagerp/storageaccounts.json#StorageAccounts_GetProperties) operation for the full set of properties and descriptions.
 
-```
+```json
 {
     "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
     "name": "accountName",
@@ -58,7 +58,7 @@ For HTTP 200, if using API version 2016-01-01 or later, the response body will c
 
 For API version 2015-06-15 and earlier, the response body will contain the original request that was PUT per the Azure REST guidelines.
 
-```
+```json
 {
     "location": "account geo region",
     "tags": {
