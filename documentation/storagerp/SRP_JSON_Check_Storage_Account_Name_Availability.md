@@ -4,7 +4,7 @@
 
 ```json
 { 
-   "name": "foo", 
+   "name": "name-to-check", 
     "type": "Microsoft.Storage/storageAccounts" 
 } 
 ```
