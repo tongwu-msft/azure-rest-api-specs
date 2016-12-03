@@ -35,7 +35,7 @@
 ### [Available Metrics](available-metrics.md)
 ### [Get Metrics Rollups](get-metrics-rollups.md)
 ### [Supported Rollups](supported-rollups.md)
-## [Send Message1](send-message1.md)
+## [Send Message1](send-message-to-queue.md)
 ## [Send Message Batch](send-message-batch.md)
 ## [Receive and Delete Message (Destructive Read)](receive-and-delete-message-destructive-read.md)
 ## [Peek-Lock Message (Non-Destructive Read)](peek-lock-message-non-destructive-read.md)
