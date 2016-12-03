@@ -47,23 +47,23 @@ This section describes the Service Bus REST run-time APIs. Runtime operations ca
 ## Message Properties  
  When sending a message, you can specify the following message properties. If a single message is sent or received, then these properties are contained in the **BrokerProperties** HTTP header in a JSON-encoded format. If a batch of messages is sent, these properties are part of the JSON-encoded HTTP body. For more information, see [Send Message](send-message.md) and [Send Message Batch](send-message-batch.md).  
   
- The following table lists the <xref:Microsoft.ServiceBus.Messaging.BrokeredMessage> properties. The properties can appear in any order. If a property is not specified, Service Bus uses the default value for that property. Broker properties other than the ones listed are ignored. The accepted properties are independent of the value of the specified **api-version**. The **api-version** specifier is not required in the HTTP request.  
+ The following table lists the [Microsoft.ServiceBus.Messaging.BrokeredMessage](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage) properties. The properties can appear in any order. If a property is not specified, Service Bus uses the default value for that property. Broker properties other than the ones listed are ignored. The accepted properties are independent of the value of the specified **api-version**. The **api-version** specifier is not required in the HTTP request.  
   
  If the **SessionId** and **PartitionKey** properties are both set, they must be set to the same value.  
   
 |Property Name|Default|Property Description|  
 |-------------------|-------------|--------------------------|  
-|CorrelationId|(empty)|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.CorrelationId%2A>|  
-|ForcePersistence|false|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.ForcePersistence%2A>|  
-|Label|(empty)|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.Label%2A>|  
-|MessageId|(empty)|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.MessageId%2A>|  
-|PartitionKey|(empty)|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.PartitionKey%2A>|  
-|ReplyTo|(empty)|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.ReplyTo%2A>|  
-|ReplyToSessionId|(empty)|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.ReplyToSessionId%2A>|  
-|ScheduledEnqueueTimeUtc|(empty)|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.ScheduledEnqueueTimeUtc%2A>|  
-|SessionId|(empty)|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.SessionId%2A>|  
-|TimeToLive|(empty)|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.TimeToLive%2A>|  
-|To|(empty)|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.To%2A>|  
-|ViaPartitionKey|(empty)|<xref:Microsoft.ServiceBus.Messaging.BrokeredMessage.ViaPartitionKey%2A>|  
+|CorrelationId|(empty)|[CorrelationId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_CorrelationId)|  
+|ForcePersistence|false|[ForcePersistence](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_ForcePersistence)|  
+|Label|(empty)|[Label](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_Label)|  
+|MessageId|(empty)|[MessageId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_MessageId)|  
+|PartitionKey|(empty)|[PartitionKey](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_PartitionKey)|  
+|ReplyTo|(empty)|[ReplyTo](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_ReplyTo)|  
+|ReplyToSessionId|(empty)|[ReplyToSessionId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_ReplyToSessionId)|  
+|ScheduledEnqueueTimeUtc|(empty)|[ScheduledEnqueueTimeUtc](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_ScheduledEnqueueTimeUtc)|  
+|SessionId|(empty)|[SessionId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_SessionId)|  
+|TimeToLive|(empty)|[TimeToLive](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_TimeToLive)|  
+|To|(empty)|[To](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_To)|  
+|ViaPartitionKey|(empty)|[ViaPartitionKey](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_ViaPartitionKey)|  
   
  In addition to these properties, you can specify custom properties. If a single message is sent or received, each custom property is placed in its own HTTP header. If a batch of messages is sent, custom properties are part of the JSON-encoded HTTP body. For more information, see [Send Message](send-message.md) and [Send Message Batch](send-message-batch.md).

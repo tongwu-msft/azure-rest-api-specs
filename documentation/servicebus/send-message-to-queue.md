@@ -41,15 +41,15 @@ Sends a message to a Service Bus queue or topic.
 |--------------------|-----------------|  
 |Authorization|Specifies one of the following:<br /><br /> -   A WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to **WRAP access_token=”{swt}”**.<br />-   A SAS token.|  
 |Content-Type|Set to **application/atom+xml;type=entry;charset=utf-8**.|  
-|**BrokerProperties**|JSON-encoded set of <xref:Microsoft.ServiceBus.Messaging.BrokeredMessage> properties.|  
+|**BrokerProperties**|JSON-encoded set of [BrokeredMessage](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage) properties.|  
 |x-ms-retrypolicy|(Optional) Set to `NoRetry` to disable automatic retry on send operations in the case of transient errors.|  
   
 ### Request Body  
  The request body is the message payload.  
   
- If the message is to be received via a protocol other than HTTP/HTTPS, the message body must be serialized; for example, with an XML <xref:System.Runtime.Serialization.DataContractSerializer>. For example:  
+ If the message is to be received via a protocol other than HTTP/HTTPS, the message body must be serialized; for example, with an XML [System.Runtime.Serialization.DataContractSerializer](https://msdn.microsoft.com/library/system.runtime.serialization.datacontractserializer.aspx). For example:  
   
-```c#  
+```csharp
 MemoryStream ms = new MemoryStream();  
 DataContractSerializer serializer = new DataContractSerializer(typeof(string));  
 serializer.WriteObject(ms, "This is a message.");  
@@ -64,7 +64,7 @@ byte[] body = ms7.ToArray();
   
  You can receive and process the message with the following code:  
   
-```c#  
+```csharp
 BrokeredMessage message = queueClient.Receive();  
 string body = message.GetBody<string>(new DataContractSerializer(typeof(string)));  
 ```  

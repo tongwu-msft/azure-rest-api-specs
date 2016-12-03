@@ -38,10 +38,10 @@ This section describes the Service Bus REST run-time APIs.
  [Send Message Batch](send-message-batch.md)  
  Enqueues a batch of messages into the specified queue or topic.  
   
- [Receive and Delete Message (Destructive Read)](receive-and-delete-message--destructive-read-.md)  
+ [Receive and Delete Message (Destructive Read)](receive-and-delete-message-destructive-read.md)  
  Reads and deletes a message from a queue or subscription as an atomic operation.  
   
- [Peek-Lock Message (Non-Destructive Read)](peek-lock-message--non-destructive-read-.md)  
+ [Peek-Lock Message (Non-Destructive Read)](peek-lock-message-non-destructive-read.md)  
  Retrieves and locks a message for processing as an atomic operation.  
   
  [Unlock Message](unlock-message.md)  
