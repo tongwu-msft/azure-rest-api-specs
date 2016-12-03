@@ -602,6 +602,288 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
 |port|int|Specifies the port to connect|
 
 
+## Create a cluster with Azure Data Lake Store as the default filesystem
+
+Creates a cluster in the specified subscription with Azure Data Lake Store as the default filesystem. You must provide a **ClusterIdentity** object in the request body and configure the **default-filesystem** property with appropriate Data Lake Store URL.
+
+Azure Data Lake can be configured as the default filesystem for cluster versions starting from 3.5 inclusive.  
+  
+###  <a name="bk_createrequest_adls"></a> Request  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+  
+|Method|Request URI|  
+|------------|-----------------|  
+|PUT|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}?api-version={api-version}}`|  
+  
+The following example shows the request body for creating a Linux-based Hadoop cluster using Azure Data Lake Store as the default filesystem for the cluster.  
+  
+```  
+{
+	"id": "/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.HDInsight/clusters/mycluster",
+	"name": "mycluster",
+	"type": "Microsoft.HDInsight/clusters",
+	"location": "location-name",
+	"tags": {
+		"tag1": "value1",
+		"tag2": "value2"
+	},
+	"properties": {
+		"clusterVersion": "3.5",
+		"osType": "Linux",
+		"tier": "Standard",
+		"clusterDefinition": {
+			"kind": "hadoop",
+			"configurations": {
+				"gateway": {
+					"restAuthCredential.isEnabled": true,
+					"restAuthCredential.username": "http-user",
+					"restAuthCredential.password": "password"
+				},
+				"clusterIdentity": {
+					"clusterIdentity.applicationId": "applicationId",
+					"clusterIdentity.certificate": "certificate-contents-in-base64-encoding",
+					"clusterIdentity.aadTenantId": "aad-tenant-id",
+					"clusterIdentity.resourceUri": "https://KonaCompute.net/",
+					"clusterIdentity.certificatePassword": "certificate-password"
+				},
+				"core-site": {
+					"fs.defaultFS": "adl://home",
+					"dfs.adls.home.hostname": "yourstorageaccount.azuredatalakestore.net",
+					"dfs.adls.home.mountpoint": "/path/to/cluster/root"
+				}
+			}
+		},
+		"computeProfile": {
+			"roles": [
+				{
+					"name": "headnode",
+					"targetInstanceCount": 2,
+					"hardwareProfile": {
+						"vmSize": "Large"
+					},
+					"osProfile": {
+						"linuxOperatingSystemProfile": {
+							"username": "username",
+							"sshProfile": {
+								"publicKeys": [
+									{
+										"certificateData": "ssh-rsa key"
+									}
+								]
+							}
+						}
+					}
+				},
+				{
+					"name": "workernode",
+					"targetInstanceCount": 1,
+					"hardwareProfile": {
+						"vmSize": "Large"
+					},
+					"osProfile": {
+						"linuxOperatingSystemProfile": {
+							"username": "username",
+							"sshProfile": {
+								"publicKeys": [
+									{
+										"certificateData": " ssh-rsa key"
+									}
+								]
+							}
+						}
+					}
+				},
+				{
+					"name": "zookeepernode",
+					"targetInstanceCount": 3,
+					"hardwareProfile": {
+						"vmSize": "Small"
+					},
+					"osProfile": {
+						"linuxOperatingSystemProfile": {
+							"username": "username",
+							"sshProfile": {
+								"publicKeys": [
+									{
+										"certificateData": "ssh-rsa key"
+									}
+								]
+							}
+						}
+					}
+				}
+			]
+		}
+	}
+}  
+
+```  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|id|Yes|String|Specifies the resource identifier of the cluster.|  
+|name|Yes|String|Specifies the name of the cluster.|  
+|type|Yes|String|Specifies the type of the cluster.|  
+|location|Yes|String|Specifies the supported Azure location where the cluster should be created. For more information, see [List all of the available geo-locations](https://msdn.microsoft.com/en-us/library/azure/dn790540.aspx).|  
+|tags|No|String|Specifies the tags that will be assigned to the cluster. For more information about using tags, see [Using tags to organize your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/resource-group-using-tags/).|  
+|[Properties](#bk_props_adls)|Yes|Complex Type|Specifies the properties of the cluster.|  
+  
+####  <a name="bk_props_adls"></a> Properties  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|clusterVersion|Yes|String|Specifies the cluster version|  
+|osType|Yes|String|Specifies the Operating system for the cluster.<br /><br /> Valid value is **Linux**| 
+|tier|No|String| Specifies the tier for the cluster. Valid values are **standard** and **premium**. If tier is not specified, cluster will be of standard tier.|
+|[clusterDefinition](#bk_clusterdef_adls)|Yes|Complex  Type|Specifies information about the cluster type and configurations|  
+|[computeProfile](#bk_computeprof_adls)|Yes|Complex Type|Specifies information about the cluster topology and associated role properties|  
+  
+####  <a name="bk_clusterdef_adls"></a> clusterDefinition  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|kind|Yes|String|Specifies the cluster type.<br /><br /> Valid values are hadoop, hbase, storm & spark|  
+|configurations|Yes|Dictionary|This is a dictionary of configuration type and its associated value dictionary.<br /><br /> gateway configuration type is used to configure the http user used for connecting to web api;s and the ambari portal<br /><br /> core-site configuration type is used to configure the default storage account for the cluster|  
+  
+####  <a name="bk_computeprof_adls"></a> computeProfile  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|clusterVersion|Yes|String|Specifies the cluster version|  
+|[role](#bk_role_adls)|Yes|Array of Complex  Type (role)|Specifies information about roles in the cluster|  
+  
+####  <a name="bk_role_adls"></a> role  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|name|Yes|String|Specifies the role name|  
+|targetInstanceCount|Yes|Integer|Specifies the target instance count for the role|  
+|[hardwareProfile](#bk_hardwareprof_adls)|Yes|Complex Type|Specifies information about the hardware profile for the role|  
+|[osProfile](#bk_osprof_adls)|Yes|Complex Type|Specifies information about the os profile for the role|  
+  
+####  <a name="bk_hardwareprof_adls"></a> hardwareProfile  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|vmSize|Yes|String|Specifies the size of the VM. Refer to [HDInsight configuration options](https://azure.microsoft.com/en-us/documentation/articles/hdinsight-hadoop-provision-linux-clusters/#basic-configuration-options) (once on this link, scroll down to **Node pricing tiers**) for valid sizes|  
+  
+####  <a name="bk_osprof_adls"></a> osProfile  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|[linuxOperatingSystemProfile](#bk_linuxop_adls)|No|Complex  Type|Specifies the linux OS related settings|  
+|[virtualNetworkProfile](#bk_virtualnet_adls)|No|Complex  Type|Specifies virtual network related settings if the cluster is being deployed in a virtual network in the user’s subscription|  
+|[scriptActions](#bk_scriptactions_adls)|No|Array of Complex Type|List of script actions to execute on the cluster|  
+  
+####  <a name="bk_linuxop_adls"></a> linuxOperatingSystemProfile  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|Username|Yes|String|SSH user name|  
+|[sshProfile](#bk_sshprofile_adls)|No|Complex Type|Specifies the SSH key.<br /><br /> One of sshProfile or Password is required.|  
+|Password|No|String|Specifies the SSH password<br /><br /> One of sshProfile or Password is required.|  
+  
+####  <a name="bk_sshprofile_adls"></a> sshProfile  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|publicKeys|Yes|Array|Contains a list of certificateData objects. The value is a ssh-rsa public key|  
+  
+  
+####  <a name="bk_virtualnet_adls"></a> virtualNetworkProfile  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|id|Yes|String|Virtual Network Resource Id|  
+|subnet|Yes|String|Specifies the subnet name|  
+  
+####  <a name="bk_scriptactions_adls"></a> scriptActions  
+  
+|Element name|Required|Type|Description|  
+|------------------|--------------|----------|-----------------|  
+|name|Yes|String|Friendly name for the script action|  
+|uri|Yes|String|URL to the script action file|  
+|parameters|No|String|Arguments to pass when executing the script action file|  
+  
+### Response  
+ If validation is complete and the request is accepted, the operation will return 200 (OK).  
+  
+ **Status code:** 200 OK  
+  
+ **Response body for a linux cluster creates using ssh key:**  
+  
+```  
+{
+	"id": "/subscriptions/{subscription ID}/resourceGroups/rg1/providers/Microsoft.HDInsightCurrent/clusters/mycluster",
+	"name": "mycluster",
+	"type": "Microsoft.HDInsightCurrent/clusters",
+	"location": "East Asia",
+	"etag": "{value}",
+	"tags": null,
+	"properties": {
+		"clusterVersion": "3.5.1000.0",
+		"osType": "Linux",
+		"clusterDefinition": {
+			"kind": "hadoop"
+		},
+		"computeProfile": {
+			"roles": [
+				{
+					"name": "headnode",
+					"targetInstanceCount": 2,
+					"hardwareProfile": {
+						"vmSize": "Standard_D3"
+					},
+					"osProfile": {
+						"linuxOperatingSystemProfile": {
+							"username": "myuser"
+						}
+					}
+				},
+				{
+					"name": "workernode",
+					"targetInstanceCount": 2,
+					"hardwareProfile": {
+						"vmSize": "Standard_D3"
+					},
+					"osProfile": {
+						"linuxOperatingSystemProfile": {
+							"username": "myuser"
+						}
+					}
+				}
+			]
+		},
+		"provisioningState": "InProgress",
+		"clusterState": "Accepted",
+		"createdDate": "2016-11-15T09:21:47.61",
+		"quotaInfo": {
+			"coresUsed": 16
+		},
+		"tier": "standard"
+	}
+}  
+```  
+  
+|Element name|Type|Description|  
+|------------------|----------|-----------------|  
+|provisioningState|String|Indicates the current provisioning state.|  
+|clusterState|String|Indicates the more detailed HDInsight cluster state while provisioning is in progress.|  
+|createdDate|Date|Datetime when the cluster create request was received|  
+|quotaInfo|Complex  Type|Specifies the coresUsed by the cluster|  
+|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed”|  
+|[connectivityEndpoints](#bk_conend_adls)|Complex Type|Specifies the public endpoints for the cluster|  
+  
+####  <a name="bk_conend_adls"></a> connectivityEndpoints  
+  
+|Element name|Type|Description|  
+|------------------|----------|-----------------|  
+|name|String|Friendly name for the connectivity endpoint|  
+|protocol|String|Specifies the Protocol to use (example: HTTPS, SSH)|  
+|location|String|Specifies the URL to connect|  
+|port|int|Specifies the port to connect|
+
+
 ## Delete
 Deletes an HDInsight cluster.  
   

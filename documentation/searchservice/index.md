@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Azure Search Service REST
 
-Azure Search is a fully managed cloud search service that provides a rich search experience to custom applications. One way to add search capability is through a REST API, wiht operations that create and manage indexes, load data, implement search features, execute queries, and handle results.
+Azure Search is a fully managed cloud search service that provides a rich search experience to custom applications. One way to add search capability is through a REST API, with operations that create and manage indexes, load data, implement search features, execute queries, and handle results.
 
 Version 2016-09-01 is the second generally available release of the Azure Search Service REST API. New features in this API version include:
 
