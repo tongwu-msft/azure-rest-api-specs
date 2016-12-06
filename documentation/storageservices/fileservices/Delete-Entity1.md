@@ -1,5 +1,5 @@
 ---
-title: "Delete Entity1"
+title: "Delete Entity"
 ms.custom: na
 ms.date: 2016-06-29
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Delete Entity1
+# Delete Entity
 The `Delete Entity` operation deletes an existing entity in a table.  
   
 ## Request  
