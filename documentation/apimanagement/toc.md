@@ -1,4 +1,3 @@
-# [API Management](index.md)
 ##[Original Access API model](ApiManagementREST/API-Management-REST.md)
 ### [Authentication](ApiManagementREST/Azure-API-Management-REST-API-Authentication.md)
 ### [Contract reference](ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md)
