@@ -1,7 +1,6 @@
 # [Analysis Services](../documentation/analysisservices/index.md)
 ## [Servers](analysisservices/Servers.json)
 # [API Management](../documentation/apimanagement/index.md)
-## [API Management](../documentation/apimanagement/index.md)
 ### [Original Access API model](../documentation/apimanagement/ApiManagementREST/API-Management-REST.md)
 #### [Authentication](../documentation/apimanagement/ApiManagementREST/Azure-API-Management-REST-API-Authentication.md)
 #### [Contract reference](../documentation/apimanagement/ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md)
