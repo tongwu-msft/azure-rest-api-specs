@@ -1,5 +1,5 @@
 ---
-title: "Delete Queue3"
+title: "Delete Queue"
 ms.custom: na
 ms.date: 2016-06-29
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Delete Queue3
+# Delete Queue
 The `Delete Queue` operation permanently deletes the specified queue.  
   
 ## Request  

@@ -1,5 +1,5 @@
 ---
-title: "List Queues1"
+title: "List Queues"
 ms.custom: na
 ms.date: 2016-06-29
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# List Queues1
+# List Queues
 This operation lists all of the queues in a given storage account.  
   
 ## Request  
