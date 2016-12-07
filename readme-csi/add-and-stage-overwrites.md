@@ -149,38 +149,47 @@ If you feel like you're stuck in a trial-and-error mode, throwing @#$%^ at the w
 
 NOTE: This section is intended to help with overwrite-specific issues, not necessarily common Markdown issues. For Markdown help, see the [Markdown section in the Docs Contributor Guide](https://stage.docs.microsoft.com/en-us/contribute/markdown), or the [OPS User Guide](https://opsdocs.azurewebsites.net/en-us/opsdocs/partnerdocs/gfm?branch=master).
 
-### My bulleted list is not rendering correctly
+### My <insert-markdown-feature> is not rendering correctly.
 
-Sometimes when you do an overwrite of a description, you need to so some lengthy text that involves more than a single line. Say for instance, you want something to look like this:
+This could just be a general bug in the way the overwrite feature is implemented, and maybe it will go away at some point.
 
-    **Heading**  
-    - bullet 1  
-    - bullet 2  
-    - bullet 3
+For example, sometimes when you do an overwrite of a item (say, a description), you need to do more than just overwrite a few words or single likn. Sometimes you want to do a whole block of Markdown text, with a bulleted list. But when the Markdown renders, it ends up looking something like this, where your bullets are misaligned with the text above them:
 
-but instead it ends up unaligned, something like this, where the bullet symbols hang to the left of the heading:
+```
+description: *content
+---
 
-      **Heading**  
-    - bullet 1  
-    - bullet 2  
-    - bullet 3
+<b>Test</b>
+<li>bullet 1</li>
+<li>bullet 2</li>
+<li>bullet 3</li>
+
+---
+```
 
 If this happens, try adding 2 leading spaces to your  xxx
 
-### I can't get anything to show for my overwrite. In fact, non of my overrights show in a given file, or they just stop at a certain point.
+<b>Test</b>
+<ul>
+<li>bullet 1</li>
+<li>bullet 2</li>
+<li>bullet 3</li>
+</ul>
 
-#### Extraneous colon character
+### I can't get anything to show for my overwrite. In fact, none of my overwrites seem to work for a given .md file, or they just stop at a certain point.
+
+**Extraneous colon character**  
 A common cause of this is due to a colon (`:`) being used in the overwrite text. This is because the overwrite file syntax uses the YAML format to express the name/value pairs, and YAML specifies a single colon per line to separate the overwrite name/value pair.
 
 For example, if you have a overwrite that looks like this:
 
 xxxxx
 
-#### Extranenous `---` separator
+**Extranenous `---` separator**  
 As with other issues, this is about making sure you have valid YAML. Even if your file contains and extra `---` delimiter at the end, ie:
 
 `---`  
-... text...  
+`... text...  `  
 `---`  
 EOF  
 
