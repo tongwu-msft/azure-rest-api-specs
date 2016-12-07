@@ -142,3 +142,46 @@ $ git push origin my_local_branch
  ```
 
 After that last `push` command, you're at **step 5** above.
+
+## Troubleshooting
+
+If you feel like you're stuck in a trial-and-error mode, throwing @#$%^ at the wall and it's not sticking, check out some of the solutions to common problems below. 
+
+NOTE: This section is intended to help with overwrite-specific issues, not necessarily common Markdown issues. For Markdown help, see the [Markdown section in the Docs Contributor Guide](https://stage.docs.microsoft.com/en-us/contribute/markdown), or the [OPS User Guide](https://opsdocs.azurewebsites.net/en-us/opsdocs/partnerdocs/gfm?branch=master).
+
+### My bulleted list is not rendering correctly
+
+Sometimes when you do an overwrite of a description, you need to so some lengthy text that involves more than a single line. Say for instance, you want something to look like this:
+
+    **Heading**  
+    - bullet 1  
+    - bullet 2  
+    - bullet 3
+
+but instead it ends up unaligned, something like this, where the bullet symbols hang to the left of the heading:
+
+      **Heading**  
+    - bullet 1  
+    - bullet 2  
+    - bullet 3
+
+If this happens, try adding 2 leading spaces to your  xxx
+
+### I can't get anything to show for my overwrite. In fact, non of my overrights show in a given file, or they just stop at a certain point.
+
+#### Extraneous colon character
+A common cause of this is due to a colon (`:`) being used in the overwrite text. This is because the overwrite file syntax uses the YAML format to express the name/value pairs, and YAML specifies a single colon per line to separate the overwrite name/value pair.
+
+For example, if you have a overwrite that looks like this:
+
+xxxxx
+
+#### Extranenous `---` separator
+As with other issues, this is about making sure you have valid YAML. Even if your file contains and extra `---` delimiter at the end, ie:
+
+`---`  
+... text...  
+`---`  
+EOF  
+
+This will cause the build to fail and not generate any output.
