@@ -28,7 +28,11 @@ translation.priority.mt:
 The `Query Entities` operation queries entities in a table and includes the `$filter` and `$select` options.  
   
 ## Request  
- For requests using the `$select` query option, the request must be made using version 2011-08-18 or later. In addition, the `DataServiceVersion` and `MaxDataServiceVersion` headers must be set to **2.0**. The `Query Entities` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account, and `mytable` with the name of your table:  
+ For requests using the `$select` query option, the request must be made using version 2011-08-18 or later. In addition, the `DataServiceVersion` and `MaxDataServiceVersion` headers must be set to **2.0**. 
+ 
+ To use projection, the request must be made using version 2013-08-15 or later. The `DataServiceVersion` and `MaxDataServiceVersion` headers must be set to **3.0**. See [Setting the OData Data Service Version Headers](../fileservices/Setting-the-OData-Data-Service-Version-Headers.md) for more information.
+ 
+ The `Query Entities` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account, and `mytable` with the name of your table:  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
