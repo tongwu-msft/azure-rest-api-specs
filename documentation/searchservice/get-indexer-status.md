@@ -60,7 +60,7 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
          },  
         "executionHistory":[ {  
             "status":"transientFailure",  
-             "errorMessage":null,  
+            "errorMessage":null,  
             "startTime":"2014-11-26T03:37:18.853Z",  
             "endTime":"2014-11-26T03:37:19.012Z",  
             "errors":[
@@ -70,8 +70,8 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
                  "errorMessage":  "Document key cannot be missing or empty.",
                  "statusCode":  400
              }],  
-            "itemsProcessed":11,  
-            "itemsFailed":0,  
+            "itemsProcessed":1,  
+            "itemsFailed":1,  
             "initialTrackingState":null,  
             "finalTrackingState":null  
         }]  
