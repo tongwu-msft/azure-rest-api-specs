@@ -1,7 +1,7 @@
 ---
 title: "Get Indexer Status (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2016-12-08"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -59,11 +59,17 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
             "finalTrackingState":null  
          },  
         "executionHistory":[ {  
-            "status":"success",  
+            "status":"transientFailure",  
              "errorMessage":null,  
             "startTime":"2014-11-26T03:37:18.853Z",  
             "endTime":"2014-11-26T03:37:19.012Z",  
-            "errors":[],  
+            "errors":[
+			 {
+                 "key":  "",
+                 "status":  false,
+                 "errorMessage":  "Document key cannot be missing or empty.",
+                 "statusCode":  400
+             }],  
             "itemsProcessed":11,  
             "itemsFailed":0,  
             "initialTrackingState":null,  
@@ -91,7 +97,7 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
 
 -   **endTime**: The time in UTC when this execution has ended. This value is not set if the execution is still in progress.  
 
--   **errors**: A list of item-level errors, if any.  
+-   **errors**: A list of item-level errors, if any. The the sample response above for an example.  
 
 -   **itemsProcessed**: The number of data source items (for example, table rows) that the indexer attempted to index during this execution.  
 
