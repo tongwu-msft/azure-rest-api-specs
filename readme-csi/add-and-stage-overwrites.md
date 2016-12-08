@@ -149,11 +149,11 @@ If you feel like you're stuck in a trial-and-error mode, throwing @#$%^ at the w
 
 NOTE: This section is intended to help with overwrite-specific issues, not necessarily common Markdown issues. For Markdown help, see the [Markdown section in the Docs Contributor Guide](https://stage.docs.microsoft.com/en-us/contribute/markdown), or the [OPS User Guide](https://opsdocs.azurewebsites.net/en-us/opsdocs/partnerdocs/gfm?branch=master).
 
-### Issue: My bulleted is not rendering correctly.
+### Issue: My list is not rendering correctly.
 
-This could just be a general bug in the way the overwrite feature is implemented, and the way it renders markdown as HTML, and maybe it will go away at some point.
+Disclaimer: This could just be a bug in the way the overwrite feature is implemented, affecting markdown in general and the way it renders into HTML, and may go away at some point.
 
-For example, sometimes when you do an overwrite of a item (say, a description), you need to do more than just overwrite a few words or single line. Sometimes you want to do a whole block of Markdown text, with a bulleted list, like this: 
+For example, sometimes when you do an overwrite of an item (say, a description), you need to do more than just overwrite a few words or single line. Sometimes you want to do a whole block of Markdown text, with an unordered list, like this: 
 
 ```
 description: *content
@@ -166,9 +166,16 @@ description: *content
 
 ```
 
-But when the Markdown renders, it ends up looking something like this, where your bullets are misaligned with the text above them.
+But when the Markdown renders, it ends up looking something like this, where your bullets are misaligned with the text above them:
 
-If this happens, try adding 2 leading spaces to your  xxx
+<b>Test</b>
+<li>bullet 1</li>
+<li>bullet 2</li>
+<li>bullet 3</li>
+
+If this happens, try using HTML directly instead of Markdown:
+
+```
 
 <b>Test</b>
 <ul>
@@ -176,6 +183,8 @@ If this happens, try adding 2 leading spaces to your  xxx
 <li>bullet 2</li>
 <li>bullet 3</li>
 </ul>
+
+```
 
 ### Issue: I can't get anything to show for my overwrite. In fact, none of my overwrites seem to work for a given .md file, or they just stop at a certain point.
 
