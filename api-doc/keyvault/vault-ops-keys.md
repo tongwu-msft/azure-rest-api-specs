@@ -18,7 +18,7 @@ parameters:
       description: Use the latest service version, 2016-10-01.
 ---
 
-Test text from Bruce for DeleteKey
+Test text from Bruce for delete key
 
 ---
 uid: KeyVaultClient/2016-10-01/ImportKey
