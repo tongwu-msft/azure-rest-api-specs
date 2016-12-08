@@ -231,7 +231,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
  "analyzers": [
   {
    "name": "tagsAnalyzer",
-   "type": "#Microsoft.Azure.Search.CustomAnalyzer",
+   "@odata.type": "#Microsoft.Azure.Search.CustomAnalyzer",
    "charFilters": [ "html_strip" ],
    "tokenizer": "standard"
   }
