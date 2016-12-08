@@ -149,7 +149,7 @@ If you feel like you're stuck in a trial-and-error mode, throwing @#$%^ at the w
 
 NOTE: This section is intended to help with overwrite-specific issues, not necessarily common Markdown issues. For Markdown help, see the [Markdown section in the Docs Contributor Guide](https://stage.docs.microsoft.com/en-us/contribute/markdown), or the [OPS User Guide](https://opsdocs.azurewebsites.net/en-us/opsdocs/partnerdocs/gfm?branch=master).
 
-### My bulleted is not rendering correctly.
+### Issue: My bulleted is not rendering correctly.
 
 This could just be a general bug in the way the overwrite feature is implemented, and the way it renders markdown as HTML, and maybe it will go away at some point.
 
@@ -164,7 +164,6 @@ description: *content
 - bullet 2  
 - bullet 3  
 
----
 ```
 
 But when the Markdown renders, it ends up looking something like this, where your bullets are misaligned with the text above them.
@@ -178,7 +177,7 @@ If this happens, try adding 2 leading spaces to your  xxx
 <li>bullet 3</li>
 </ul>
 
-### I can't get anything to show for my overwrite. In fact, none of my overwrites seem to work for a given .md file, or they just stop at a certain point.
+### Issue: I can't get anything to show for my overwrite. In fact, none of my overwrites seem to work for a given .md file, or they just stop at a certain point.
 
 **Extraneous colon character**  
 A common cause of this is due to a colon (`:`) being used in the overwrite text. This is because the overwrite file syntax uses the YAML format to express the name/value pairs, and YAML specifies a single colon per line to separate the overwrite name/value pair.
