@@ -149,23 +149,25 @@ If you feel like you're stuck in a trial-and-error mode, throwing @#$%^ at the w
 
 NOTE: This section is intended to help with overwrite-specific issues, not necessarily common Markdown issues. For Markdown help, see the [Markdown section in the Docs Contributor Guide](https://stage.docs.microsoft.com/en-us/contribute/markdown), or the [OPS User Guide](https://opsdocs.azurewebsites.net/en-us/opsdocs/partnerdocs/gfm?branch=master).
 
-### My <insert-markdown-feature> is not rendering correctly.
+### My bulleted is not rendering correctly.
 
-This could just be a general bug in the way the overwrite feature is implemented, and maybe it will go away at some point.
+This could just be a general bug in the way the overwrite feature is implemented, and the way it renders markdown as HTML, and maybe it will go away at some point.
 
-For example, sometimes when you do an overwrite of a item (say, a description), you need to do more than just overwrite a few words or single likn. Sometimes you want to do a whole block of Markdown text, with a bulleted list. But when the Markdown renders, it ends up looking something like this, where your bullets are misaligned with the text above them:
+For example, sometimes when you do an overwrite of a item (say, a description), you need to do more than just overwrite a few words or single line. Sometimes you want to do a whole block of Markdown text, with a bulleted list, like this: 
 
 ```
 description: *content
 ---
 
-<b>Test</b>
-<li>bullet 1</li>
-<li>bullet 2</li>
-<li>bullet 3</li>
+## Test
+- bullet 1  
+- bullet 2  
+- bullet 3  
 
 ---
 ```
+
+But when the Markdown renders, it ends up looking something like this, where your bullets are misaligned with the text above them.
 
 If this happens, try adding 2 leading spaces to your  xxx
 
