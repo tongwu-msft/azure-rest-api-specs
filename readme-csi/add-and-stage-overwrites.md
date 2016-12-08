@@ -173,17 +173,7 @@ But when the Markdown renders, it ends up looking something like this, where you
 <li>bullet 2</li>
 <li>bullet 3</li>
 
-If this happens, try using HTML directly instead of Markdown:
-
-```
-
-<b>Test</b>
-<ul>
-<li>bullet 1</li>
-<li>bullet 2</li>
-<li>bullet 3</li>
-</ul>
-
+At this point, there is no solution. We are exploring this with the VSC team and will update as soon as we know more.
 ```
 
 ### Issue: I can't get anything to show for my overwrite. In fact, none of my overwrites seem to work for a given .md file, or they just stop at a certain point.
