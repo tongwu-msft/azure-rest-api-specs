@@ -176,10 +176,10 @@ At this point, there is no solution. We are exploring this with the VSC team and
 
 ### Issue: I can't get anything to show for my overwrite. In fact, none of my overwrites seem to work for a given .md file, or they just stop at a certain point.
 
-**Extraneous colon character**  
-A common cause of this is due to a colon (`:`) being used in the overwrite text. This is because the overwrite file syntax uses the YAML format to express the name/value pairs, and YAML specifies a single colon per line to separate the overwrite name/value pair.
+**Extraneous (`:`) colon character**  
+A common cause of this is due to a colon being used in the overwrite text. This is because the overwrite file syntax uses the YAML format to express the name/value pairs, and YAML specifies a single colon per line to separate the overwrite name/value pair.
 
-For example, if you have a overwrite that looks like the following, the extraneous `:` in the description for the `api-version` parameter overwrite will cause an exception in the build and none of your overwrite will be applied to the final page/output.
+For example, if you have a overwrite that looks like the following, the extraneous `:` in the description for the `api-version` parameter overwrite will cause an exception in the build and none of your overwrites will be applied to the final page/output.
 
 ```
 ---
