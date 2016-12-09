@@ -608,33 +608,33 @@ Alternatively, to wait until a specific moment in time, you can use the followin
 |until|No|Object|The wait duration based on a point in time.|  
 |until timestamp|Yes|String|String&#124;The point in time in UTC when the wait expires.|  
 
-## Terminate action  
-Terminate action will stop execution of the workflow run, aborting any in-flight actions, and skipping any remaining actions. For example, to terminate a run with status **Failed** you can use the following:  
-  
-```  
-"HandleUnexpectedResponse" : {  
-      "type": "terminate",  
-      "inputs": {  
-        "interval": {  
-            "runStatus" : "failed",  
-            "runError"": {{
-                "code": "UnexpectedResponse",
-                "message": "Received an unexpected response.",
+## Terminate action
+Terminate action will stop execution of the workflow run, aborting any in-flight actions, and skipping any remaining actions. For example, to terminate a run with status **Failed** you can use the following:
+
+```json
+"HandleUnexpectedResponse" : {
+      "type": "terminate",
+      "inputs": {
+            "interval": {
+                "runStatus" : "failed",
+                "runError"": {
+                    "code": "UnexpectedResponse",
+                    "message": "Received an unexpected response.",
+                }
             }
-        }  
-      }  
-    }  
-```  
-  
-> [!NOTE]  
+        }
+    }
+```
+
+> [!NOTE]
 > Actions already completed are not affected by the terminate action.
- 
-|Name|Required|Type|Description|  
-|--------|------------|--------|---------------|  
+
+|Name|Required|Type|Description|
+|--------|------------|--------|---------------|
 |runStatus|Yes|String|The target run status. Either **Failed** or **Cancelled**.|
 |runError|No|Object|The error details. Only supported when **runStatus** is set to **Failed**.|
-|runError code|No|String|The run error code.|  
-|runError message|No|String|The run error message.|   
+|runError code|No|String|The run error code.|
+|runError message|No|String|The run error message.|
 
 ## Workflow action   
 |Name|Required|Type|Description|  
