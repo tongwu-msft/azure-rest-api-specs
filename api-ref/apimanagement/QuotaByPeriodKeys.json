@@ -34,13 +34,58 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}/groups": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}/{quotaPeriodKey}": {
       "get": {
         "tags": [
-          "UserGroups"
+          "QuotaByPeriodKeys"
         ],
-        "operationId": "UserGroups_ListByUser",
-        "description": "Lists all user groups.",
+        "operationId": "QuotaByPeriodKeys_Get",
+        "description": "Gets the value of the quota counter associated with the counter-key in the policy for the specific period in service instance.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/en-us/azure/api-management/api-management-howto-product-with-rules#a-namepolicies-ato-configure-call-rate-limit-and-quota-policies",
+          "description": "Document describing how to configure the quota policies."
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/QuotaCounterKeyParameter"
+          },
+          {
+            "$ref": "#/parameters/QuotaPeriodKeyParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The response body contains the Quota counter details for the specified period.",
+            "schema": {
+              "$ref": "#/definitions/QuotaCounterContract"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "QuotaByPeriodKeys"
+        ],
+        "operationId": "QuotaByPeriodKeys_Update",
+        "description": "Updates an existing quota counter value in the specified service instance.",
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -49,20 +94,19 @@
             "$ref": "#/parameters/ServiceNameParameter"
           },
           {
-            "$ref": "#/parameters/UserIdParameter"
+            "$ref": "#/parameters/QuotaCounterKeyParameter"
           },
           {
-            "name": "$filter",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "description": "| Field       | Supported operators    | Supported functions                         |\n|-------------|------------------------|---------------------------------------------|\n| id          | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| name        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |"
+            "$ref": "#/parameters/QuotaPeriodKeyParameter"
           },
           {
-            "$ref": "#/parameters/TopQueryParameter"
-          },
-          {
-            "$ref": "#/parameters/SkipQueryParameter"
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QuotaCounterValueContract"
+            },
+            "description": "The value of the Quota counter to be applied on the specified period."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -72,11 +116,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Lists a collection of Group entities.",
-            "schema": {
-              "$ref": "#/definitions/GroupCollection"
-            }
+          "204": {
+            "description": "The quota counter value was successfully updated."
           },
           "default": {
             "description": "Error response describing why the operation failed.",
@@ -84,11 +125,7 @@
               "$ref": "#/definitions/ErrorBodyContract"
             }
           }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-odata": "#/definitions/GroupContract"
+        }
       }
     }
   },
