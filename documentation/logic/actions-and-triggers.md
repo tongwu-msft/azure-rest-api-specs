@@ -610,7 +610,7 @@ Alternatively, to wait until a specific moment in time, you can use the followin
   
 
 ## Query action
-Query action allows you to filter an array based on a conditoin. For example, to select numbers greater than 2, you can use:
+Query action allows you to filter an array based on a condition. For example, to select numbers greater than 2, you can use:
 
 ```json
 "FilterNumbers" : {
@@ -623,7 +623,7 @@ Query action allows you to filter an array based on a conditoin. For example, to
 }
 ```
 
-The output of a **Query** action is an array that contains elements from the input array that satisfy the condition.
+The output of **Query** action is an array that contains elements from the input array that satisfy the condition.
 
 > [!NOTE]
 > If no values satisfy the **where** condition, the result is an empty array.
