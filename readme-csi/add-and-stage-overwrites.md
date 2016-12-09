@@ -151,9 +151,7 @@ NOTE: This section is intended to help with overwrite-specific issues, not neces
 
 ### Issue: My list is not rendering correctly.
 
-Disclaimer: This could just be a bug in the way the overwrite feature is implemented, affecting markdown in general and the way it renders into HTML, and may go away at some point.
-
-For example, sometimes when you do an overwrite of an item (say, a description), you need to do more than just overwrite a few words or single line. Sometimes you want to do a whole block of Markdown text, with an unordered list, like this: 
+For example, sometimes when you do an overwrite of an item (say, a description), you need to use the "*content" keyword to do more than just overwrite a few words or single line. Sometimes you want to do a whole block of Markdown text, with an unordered list, like this: 
 
 ```
 description: *content
@@ -173,24 +171,39 @@ But when the Markdown renders, it ends up looking something like this, where you
 <li>bullet 2</li>
 <li>bullet 3</li>
 
-At this point, there is no solution. We are exploring this with the VSC team and will update as soon as we know more.
-```
+At this point, there is no solution. We are exploring this with the VSC team and have filed a bug (https://mseng.visualstudio.com/DefaultCollection/VSChina/_workitems?_a=edit&id=801775). We will update as soon as we know more.
+
 
 ### Issue: I can't get anything to show for my overwrite. In fact, none of my overwrites seem to work for a given .md file, or they just stop at a certain point.
 
 **Extraneous colon character**  
 A common cause of this is due to a colon (`:`) being used in the overwrite text. This is because the overwrite file syntax uses the YAML format to express the name/value pairs, and YAML specifies a single colon per line to separate the overwrite name/value pair.
 
-For example, if you have a overwrite that looks like this:
+For example, if you have a overwrite that looks like the following, the extraneous `:` in the description for the `api-version` parameter overwrite will cause an exception in the build and none of your overwrite will be applied to the final page/output.
 
-xxxxx
+```
+---
+uid: management.azure.com/RateCardManagementClient/2015-06-01-preview/RateCard_Get
+parameters:
+    - name: api-version
+      description: Use the latest version: `2016-08-31-preview`.
+    - name: subscriptionId
+      description: The identifier of the target Azure subscription. 
+description: *content
+---
+```
 
-**Extranenous `---` separator**  
-As with other issues, this is about making sure you have valid YAML. Even if your file contains and extra `---` delimiter at the end, ie:
+**Extranenous `---` separator** in a overwrite  
+As with other issues, this is about making sure you have valid YAML. If your description overwrite contains extra `---` delimiter at the end for example (like the one below), this will also cause an exception in the build and none of your overwrite will be applied to the final page/output.
 
-`---`  
-`... text...  `  
-`---`  
-EOF  
+```
+---
+uid: management.azure.com/RateCardManagementClient/2015-06-01-preview/RateCard_Get
+description: *content
+---
+<content>
+---
+<EOF > 
+```
 
-This will cause the build to fail and not generate any output.
+
