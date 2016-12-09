@@ -613,17 +613,17 @@ Terminate action will stop execution of the workflow run, aborting any in-flight
 
 ```json
 "HandleUnexpectedResponse" : {
-      "type": "terminate",
-      "inputs": {
-            "interval": {
-                "runStatus" : "failed",
-                "runError"": {
-                    "code": "UnexpectedResponse",
-                    "message": "Received an unexpected response.",
-                }
+    "type": "terminate",
+    "inputs": {
+        "interval": {
+            "runStatus" : "failed",
+            "runError": {
+                "code": "UnexpectedResponse",
+                "message": "Received an unexpected response.",
             }
         }
     }
+}
 ```
 
 > [!NOTE]
