@@ -608,6 +608,31 @@ Alternatively, to wait until a specific moment in time, you can use the followin
 |until|No|Object|The wait duration based on a point in time.|  
 |until timestamp|Yes|String|String&#124;The point in time in UTC when the wait expires.|  
   
+
+## Query action
+Query action allows you to filter an array based on a conditoin. For example, to select numbers greater than 2, you can use:
+
+```json
+"FilterNumbers" : {
+    "type": "query",
+    "inputs": {
+        "from": [ 1, 3, 0, 5, 4, 2 ],
+        "where": "@greater(item(), 2)"
+        }
+    }
+}
+```
+
+The output of a **Query** action is an array that contains elements from the input array that satisfy the condition.
+
+> [!NOTE]
+> If no values satisfy the **where** condition, the result is an empty array.
+
+|Name|Required|Type|Description|
+|--------|------------|--------|---------------|
+|from|Yes|Array|The source array.|
+|where|Yes|String|The condition to apply to each element of the source array.|
+
 ## Workflow action   
 |Name|Required|Type|Description|  
 |--------|------------|--------|---------------|  
