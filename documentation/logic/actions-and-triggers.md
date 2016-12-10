@@ -619,7 +619,6 @@ Compose action lets you construct an arbitrary output. For example, you can use 
         "firstName": "@actions('getUser').firstName",
         "alias": "@actions('getUser').alias",
         "thumbnailLink": "@actions('lookupThumbnail').url"
-        }
     }
 }
 ```
