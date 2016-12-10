@@ -607,7 +607,6 @@ Alternatively, to wait until a specific moment in time, you can use the followin
 |interval count|Yes|String|Duration based on the given internal unit.|  
 |until|No|Object|The wait duration based on a point in time.|  
 |until timestamp|Yes|String|String&#124;The point in time in UTC when the wait expires.|  
-  
 
 ## Query action
 Query action allows you to filter an array based on a condition. For example, to select numbers greater than 2, you can use:
