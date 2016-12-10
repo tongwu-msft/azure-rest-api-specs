@@ -608,6 +608,26 @@ Alternatively, to wait until a specific moment in time, you can use the followin
 |until|No|Object|The wait duration based on a point in time.|  
 |until timestamp|Yes|String|String&#124;The point in time in UTC when the wait expires.|  
   
+
+## Compose action
+Compose action lets you construct an arbitrary object. The output of the compose action is the result of evaluating its inputs. For example, you can use the compose action to merge outputs of multiple actions:
+
+```json
+"composeUserRecord" : {
+    "type": "compose",
+    "inputs": {
+        "firstName": "@actions('getUser').firstName",
+        "alias": "@actions('getUser').alias",
+        "thumbnailLink": "@actions('lookupThumbnail').url"
+        }
+    }
+}
+```
+
+> [!NOTE]
+> The **Compose** action can be used to constuct any output, inluding objects, arrays, and any other type natively supported by logic apps,such as xml and binary.
+
+  
 ## Workflow action   
 |Name|Required|Type|Description|  
 |--------|------------|--------|---------------|  
