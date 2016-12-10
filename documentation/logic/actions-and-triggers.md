@@ -618,7 +618,6 @@ Query action allows you to filter an array based on a condition. For example, to
     "inputs": {
         "from": [ 1, 3, 0, 5, 4, 2 ],
         "where": "@greater(item(), 2)"
-        }
     }
 }
 ```
