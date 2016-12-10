@@ -607,7 +607,6 @@ Alternatively, to wait until a specific moment in time, you can use the followin
 |interval count|Yes|String|Duration based on the given internal unit.|  
 |until|No|Object|The wait duration based on a point in time.|  
 |until timestamp|Yes|String|String&#124;The point in time in UTC when the wait expires.|  
-  
 
 ## Compose action
 Compose action lets you construct an arbitrary output. For example, you can use the compose action to merge outputs of multiple actions:
@@ -623,12 +622,11 @@ Compose action lets you construct an arbitrary output. For example, you can use 
 }
 ```
 
-The output of the **Compose** action is the result of evaluating its inputs. 
+The output of the **Compose** action is the result of evaluating its inputs.
 
 > [!NOTE]
 > The **Compose** action can be used to constuct any output, inluding objects, arrays, and any other type natively supported by logic apps,such as xml and binary.
 
-  
 ## Workflow action   
 |Name|Required|Type|Description|  
 |--------|------------|--------|---------------|  
