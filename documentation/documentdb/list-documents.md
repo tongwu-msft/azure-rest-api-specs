@@ -26,24 +26,28 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List Documents
-  Performing a GET on the documents resource of a particular collection, i.e. the docs URI path, returns a list of documents under the collection.  
+# List (ReadFeed) Documents
+ Performing a GET on the documents resource of a particular collection, i.e. the docs URI path, returns a list of documents under the collection.  
   
 ## Request  
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|GET|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs|Note that the {databaseaccount} is the name of the DocumentDB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection.|  
+|GET|`https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs`|Note that the `{databaseaccount}` is the name of the DocumentDB account created under your subscription. The `{db-id}` value is id of the database and {coll-id} value is the name of the collection.|  
   
 ### Headers  
- See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests. The important response headers for Read Document are the following:  
+ See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests. The important response headers for ReadFeed Document are the following:  
   
 |Header|Required|Type|Description|  
 |------------|--------------|----------|-----------------|  
-|**x-ms-max-item-count**|Optional|Number|An integer indicating the maximum number of items to be returned per page.|  
-|**x-ms-continuation**|Optional|String|A string token returned for queries and read-feed operations if there are more results to be read. Clients can retrieve the next page of results by resubmitting the request with the x-ms-continuation request header set to this value.|  
-|**x-ms-consistency-level**|Optional|String|This is the consistency level override. The valid values are: **Strong**, **Bounded**, **Session**, or **Eventual** (in order of strongest to weakest). The override must be the same or weaker than the account’s configured consistency level.|  
-|**x-ms-session-token**|Optional|String|A string token used with session level consistency. Clients must echo the latest read value of this header during read requests for session consistency.|  
+|`x-ms-max-item-count`|Optional|Number|An integer indicating the maximum number of items to be returned per page.|  
+|`x-ms-continuation`|Optional|String|A string token returned for queries and read-feed operations if there are more results to be read. Clients can retrieve the next page of results by resubmitting the request with the x-ms-continuation request header set to this value.|  
+|`x-ms-consistency-level`|Optional|String|This is the consistency level override. The valid values are: **Strong**, **Bounded**, **Session**, or **Eventual** (in order of strongest to weakest). The override must be the same or weaker than the account’s configured consistency level.|  
+|`x-ms-session-token`|Optional|String|A string token used with session level consistency. Clients must echo the latest read value of this header during read requests for session consistency.|  
+|`A-IM`|Optional|String|Must be set to `Incremental feed`, or omitted otherwise. Available from REST API version `2016-07-11` onwards.|  
+|`If-None-Match`|Optional|String|<p>No header: returns all changes from the beginning (collection creation)</p><p>"*": returns all new changes to data within the collection</p>.<p>&lt;etag&gt;: If set to a collection ETag, returns all changes made since that logical timestamp.</p><p>Available from REST API version `2016-07-11` onwards.</p>|  
+|`x-ms-documentdb-partitionkeyrangeid`|Optional|String|The partition key range ID for reading data. Available from REST API version `2016-07-11` onwards.|  
+
   
 ### Body  
  None.  
@@ -56,8 +60,8 @@ translation.priority.mt:
   
 |Header|Type|Description|  
 |------------|----------|-----------------|  
-|**x-ms-continuation**|String|Returns a token to fetch additional results from the operation. The client can resubmit the request with the **x-ms-continuation request** header containing this value to resume execution.|  
-|**x-ms-request-charge**|Number|The number of request units consumed by the operation.|  
+|`x-ms-continuation`|String|Returns a token to fetch additional results from the operation. The client can resubmit the request with the `x-ms-continuation request` header containing this value to resume execution.|  
+|`x-ms-request-charge`|Number|The number of request units consumed by the operation.|  
   
 ### Status codes  
  The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](https://msdn.microsoft.com/library/azure/dn783364.aspx).  
@@ -71,21 +75,21 @@ translation.priority.mt:
   
 |Property|Description|  
 |--------------|-----------------|  
-|**_rid**|This is the system generated resource ID for the collection where the documents reside.|  
-|**_count**|This is the number of documents returned by the list operation.|  
-|**Documents**|The array of documents returned by the operation.|  
+|`_rid`|This is the system generated resource ID for the collection where the documents reside.|  
+|`_count`|This is the number of documents returned by the list operation.|  
+|`Documents`|The array of documents returned by the operation.|  
   
  **Properties of Document**  
   
 |Property|Description|  
 |--------------|-----------------|  
-|**id**|This is the unique name that identifies the document, i.e. no two documents can share the same **id**. The **id** must not exceed 255 characters.|  
+|`id`|This is the unique name that identifies the document, i.e. no two documents can share the same `id`. The `id` must not exceed 255 characters.|  
 |\<custom>|Any user-defined JSON.|  
-|**_rid**|This is a [system generated property](http://azure.microsoft.com/documentation/articles/documentdb-resources/#system-vs-user-defined-resources). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
-|**_ts**|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
-|**_self**|This is a system generated property. It is the unique addressable URI for the resource.|  
-|**_etag**|This is a system generated property that specifies the resource **etag** required for optimistic concurrency control.|  
-|**_attachments**|This is a system generated property that specifies the addressable path for the attachments resource.|  
+|`_rid`|This is a [system generated property](http://azure.microsoft.com/documentation/articles/documentdb-resources/#system-vs-user-defined-resources). The resource ID (`_rid`) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
+|`_ts`|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
+|`_self`|This is a system generated property. It is the unique addressable URI for the resource.|  
+|`_etag`|This is a system generated property that specifies the resource `etag` required for optimistic concurrency control.|  
+|`_attachments`|This is a system generated property that specifies the addressable path for the attachments resource.|  
   
 ```  
 {  

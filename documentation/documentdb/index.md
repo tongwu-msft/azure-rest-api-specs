@@ -28,7 +28,7 @@ translation.priority.mt:
 # Azure DocumentDB REST API Reference
 The Azure DocumentDB REST API is a REST-based API that provides programmatic access to DocumentDB resources to create, query, and delete databases, document collections, and documents programmatically. [Azure DocumentDB](https://docs.microsoft.com/azure/documentdb/documentdb-introduction) is a fast and flexible NoSQL database service that is used for storing high-volume transactional and operational data with predictable single-digit millisecond latency for reads and writes. This makes it well-suited for IoT, gaming, retail, and operational logging applications. 
 
-To perform operations on DocumentDB resources, you send HTTP requests with a supported method: GET, POST, PUT, or DELETE to an endpoint that targets a resource collection or a specific resource. This section contains information about working with resources by using the REST API. 
+To perform operations on DocumentDB resources, you send HTTPS requests with a supported method: GET, POST, PUT, or DELETE to an endpoint that targets a resource collection or a specific resource. This section contains information about working with resources by using the REST API. 
   
 ## Supported REST API Versions
 The following table lists the supported REST API versions by the Azure DocumentDB service. The version must be specified via the `x-ms-version` header in every request. If not specified, the service defaults to the latest version `2016-07-11`.
