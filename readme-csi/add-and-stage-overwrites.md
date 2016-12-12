@@ -174,7 +174,7 @@ But when the Markdown renders, it ends up looking something like this, where you
 At this point, there is no solution. We are exploring this with the VSC team and have filed a bug (https://mseng.visualstudio.com/DefaultCollection/VSChina/_workitems?_a=edit&id=801775). We will update as soon as we know more.
 
 
-### Issue: I can't get anything to show for my overwrite. In fact, none of my overwrites seem to work for a given .md file, or they just stop at a certain point.
+### Issue: I can't get *anything* to show for my overwrite. In fact, none of my overwrites seem to work for a given .md file, or they just stop at a certain point.
 
 **Extraneous (`:`) colon character**  
 A common cause of this is due to a colon being used in the overwrite text. This is because the overwrite file syntax uses the YAML format to express the name/value pairs, and YAML specifies a single colon per line to separate the overwrite name/value pair.
@@ -206,4 +206,17 @@ description: *content
 <EOF > 
 ```
 
+### Issue: My exception overwrite is not working.
+For example, the following will not overwrite the text for the specified exception:
 
+```
+---
+uid: Microsoft.ServiceBus.Messaging.TopicDescription.EnableFilteringMessagesBeforePublishing
+exceptions: *content
+---
+[NoMatchingSubscriptionException](/dotnet/api/microsoft.servicebus.messaging.nomatchingsubscriptionexception)
+
+Thrown if no subscriptions are found.
+```
+
+We are exploring this with the VSC team and have filed a bug (https://mseng.visualstudio.com/VSChina/_workitems?id=800955). We will update as soon as we know more.
