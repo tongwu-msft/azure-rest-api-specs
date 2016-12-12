@@ -1,15 +1,7 @@
 ---
 title: "Workflow Actions and Triggers"
-ms.custom: ""
-ms.date: "2016-11-17"
-ms.reviewer: ""
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "article"
-ms.assetid: 86a53bb3-01ba-4e83-89b7-c9a7074cb159
 caps.latest.revision: 19
 author: "MandiOhlinger"
-ms.author: "mandia"
 manager: "anneta"
 translation.priority.mt: 
   - "de-de"
@@ -22,6 +14,17 @@ translation.priority.mt:
   - "ru-ru"
   - "zh-cn"
   - "zh-tw"
+
+ms.assetid: 86a53bb3-01ba-4e83-89b7-c9a7074cb159
+ms.service: logic-apps
+ms.devlang: multiple
+ms.custom: ""
+ms.date: "2016-11-17"
+ms.reviewer: ""
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "article"
+ms.author: "mandia"
 ---
 
 # Workflow Actions and Triggers
@@ -38,20 +41,20 @@ A trigger specifies the calls that can initiate a run of your logic app workflow
   
 All triggers contain these top level elements:  
   
-```  
-"<name-of-the-trigger>" : {  
-      "type": "<type-of-trigger>",  
-      "inputs": { <settings-for-the-call> },  
-      "recurrence": {  
-    "frequency": "Second|Minute|Hour|Week|Month|Year",  
-    "interval": "<recurrence interval in units of frequency>"  
-      },  
-      "conditions": [ <array-of-required-conditions > ],  
-      "splitOn" : "<property to create runs for>",
-      "operationOptions": "<operation options on the trigger>"
-    }  
-```  
-  
+```json
+"<name-of-the-trigger>" : {
+    "type": "<type-of-trigger>",
+    "inputs": { <settings-for-the-call> },
+    "recurrence": {  
+        "frequency": "Second|Minute|Hour|Week|Month|Year",
+        "interval": "<recurrence interval in units of frequency>"
+    },
+    "conditions": [ <array-of-required-conditions > ],
+    "splitOn" : "<property to create runs for>",
+    "operationOptions": "<operation options on the trigger>"
+}
+```
+
 ### Trigger types and their inputs  
 The **6** types of triggers are:  
   
@@ -71,23 +74,23 @@ The **6** types of triggers are:
 ## Request trigger  
 This trigger serves as an endpoint that you call via an HTTP Request to invoke your logic app. A request trigger looks like this:  
   
-```  
-"<name-of-the-trigger>" : {  
-      "type" : "request",  
-      "kind": "http",
-      "inputs" : {  
-    "schema"  : {  
-      "properties" : {  
-        "myInputProperty1" : { "type" : "string" },  
-        "myInputProperty2" : { "type" : "number" }  
-      },  
-      "required" : [ "myInputProperty1" ],  
-      "type" : "object"  
-    }  
-      }  
-    }  
-```  
-  
+```json
+"<name-of-the-trigger>" : {
+    "type" : "request",
+    "kind": "http",
+    "inputs" : {
+        "schema" : {
+            "properties" : {
+                "myInputProperty1" : { "type" : "string" },
+                "myInputProperty2" : { "type" : "number" }
+            },
+        "required" : [ "myInputProperty1" ],
+        "type" : "object"
+        }
+    }
+} 
+```
+
 There is also an optional property called **schema**:  
   
 |Element name|Required|Description|  
@@ -98,17 +101,17 @@ You'll need to call the *listCallbackUrl* API to invoke this endpoint. See [Work
   
 ## Recurrence trigger  
 A Recurrence trigger is one that runs based on a defined schedule. Such a trigger might look like this:  
-  
-```  
-"dailyReport" : {  
-      "type": "recurrence",  
-      "recurrence": {  
-    "frequency": "Day",  
-    "interval": "1"  
-      }  
-    }  
-```  
-  
+
+```json
+"dailyReport" : {
+    "type": "recurrence",
+    "recurrence": {
+        "frequency": "Day",
+        "interval": "1"
+    }
+}
+```
+
 As you can see, it is a simple way to run a workflow.  
   
 |Element name|Required|Description|  
@@ -119,18 +122,18 @@ As you can see, it is a simple way to run a workflow.
 |timeZone|no|If a startTime is provided without a UTC offset, this timeZone will be used.|  
   
 You can also schedule a trigger to start executing at some point in the future. For example, if you want to start a weekly report every Monday you can schedule the the logic app to start every Monday by creating the following trigger:  
-  
-```  
-"dailyReport" : {  
-  "type": "recurrence",  
-  "recurrence": {  
-"frequency": "Week",  
-"interval": "1",  
-"startTime" : "2015-06-22T00:00:00Z"  
-  }  
-}  
-```  
-  
+
+```json
+"dailyReport" : {
+    "type": "recurrence",
+    "recurrence": {
+        "frequency": "Week",
+        "interval": "1",
+        "startTime" : "2015-06-22T00:00:00Z"
+    }
+}
+```
+
 ## HTTP trigger  
 HTTP triggers poll a specified endpoint and check the response in order to determine if the workflow should be executed. The inputs object takes the set of parameters required to construct an HTTP call:  
   
@@ -172,25 +175,26 @@ The outputs of an HTTP trigger look like this:
 ## API Connection trigger  
 The API connection trigger is similar to the HTTP trigger in its basic functionality. However, the parameters for identifying the action are different. Here is an example:  
   
-```  
-"dailyReport" : {  
-	    "type": "ApiConnection",  
-	    "inputs": {  
-	      "host":  
-	      "api": {  
-	        "runtimeUrl": "https://myarticles.example.com/"  
-	      },  
-	      "connection": {  
-	        "name": "@parameters('$connections')['myconnection'].name"  
-	      }  
-	    },  
-	    "method": "POST",  
-	    "body": {  
-	      "category": "awesomest"  
-	    }  
-	   }   
-```  
-  
+```json
+"dailyReport" : {
+    "type": "ApiConnection",
+    "inputs": {
+        "host": {
+            "api": {
+                "runtimeUrl": "https://myarticles.example.com/"
+            },
+        }
+        "connection": {
+            "name": "@parameters('$connections')['myconnection'].name"
+        }
+    },  
+    "method": "POST",
+    "body": {
+        "category": "awesomest"
+    }
+}
+```
+
 |Element name|Required|Type|Description|  
 |----------------|------------|--------|---------------|  
 |host|Yes||The ApiApp hosted gateway and id.|  
@@ -218,38 +222,38 @@ The outputs of an API connection trigger look like this:
 ## HTTPWebhook trigger  
 The HTTPWebhook trigger opens an endpoint, similar to the manual trigger, however, it also calls out to a specified URL to register and unregister  
 Here's an example of what an HTTPWebhook trigger may look like:  
-  
-```  
-"myappspottrigger": {  
-    "type": "httpWebhook",  
-    "inputs": {  
-        "subscribe": {  
-            "method": "POST",  
-            "uri": "https://pubsubhubbub.appspot.com/subscribe",  
-            "headers": { },  
-            "body": {  
-                "hub.callback": "@{listCallbackUrl()}",  
-                "hub.mode": "subscribe",  
-                "hub.topic": "https://pubsubhubbub.appspot.com/articleCategories/technology"  
-            },  
-            "authentication": { },  
-            "retryPolicy": { }  
-        },  
-        "unsubscribe": {  
-            "url": "https://pubsubhubbub.appspot.com/subscribe",  
-            "body": {  
-                "hub.callback": "@{workflow().endpoint}@{listCallbackUrl()}",  
-                "hub.mode": "unsubscribe",  
-                "hub.topic": "https://pubsubhubbub.appspot.com/articleCategories/technology"  
-            },  
-            "method": "POST",  
-            "authentication": { }  
-        }  
-    },  
-    "conditions": [ ]  
-    }  
-```  
-  
+
+```json
+"myappspottrigger": {
+    "type": "httpWebhook",
+    "inputs": {
+        "subscribe": {
+            "method": "POST",
+            "uri": "https://pubsubhubbub.appspot.com/subscribe",
+            "headers": { },
+            "body": {
+                "hub.callback": "@{listCallbackUrl()}",
+                "hub.mode": "subscribe",
+                "hub.topic": "https://pubsubhubbub.appspot.com/articleCategories/technology"
+            },
+            "authentication": { },
+            "retryPolicy": { }
+        },
+        "unsubscribe": {
+            "url": "https://pubsubhubbub.appspot.com/subscribe",
+            "body": {
+                "hub.callback": "@{workflow().endpoint}@{listCallbackUrl()}",
+                "hub.mode": "unsubscribe",
+                "hub.topic": "https://pubsubhubbub.appspot.com/articleCategories/technology"
+            },
+            "method": "POST",
+            "authentication": { }
+        }
+    },
+    "conditions": [ ]
+    }
+```
+
 Many of these sections are optional, and the behavior of the Webhook depends on which sections are provided or omitted.  
 The properties of a Webhook are as follows:  
   
@@ -282,20 +286,20 @@ The properties of a Webhook are as follows:
 
 ## Conditions  
 For any trigger you can use one or more conditions to determine if the workflow should be run or not. For example:  
-  
-```  
-"dailyReport" : {  
-      "type": "recurrence",  
-      "conditions": [ {  
-        "expression": "@parameters('sendReports')"  
-      } ],  
-      "recurrence": {  
-        "frequency": "Day",  
-        "interval": "1"  
-      }  
-    }  
-```  
-  
+
+```json
+"dailyReport" : {
+    "type": "recurrence",
+    "conditions": [ {
+        "expression": "@parameters('sendReports')"
+    } ],
+    "recurrence": {
+        "frequency": "Day",
+        "interval": "1"
+    }
+}
+```
+
 In this case, the report will only trigger while the sendReports parameter of the workflow is set to true. Finally, conditions may reference the status code of the trigger. For example, you could kick off a workflow only when your website returns a status code 500, by doing this:  
   
 ```  
@@ -314,51 +318,51 @@ Split\-on allows you to kick\-off multiple runs for a single request. This is ve
   
 With Split\-on, you specify the property inside the response payload that contains the array of items, each of which you want to use to start a run of the trigger. For example, imagine you have an API that returns the following response:  
   
-```  
-{  
-      "Status" : "success",  
-      "Rows" : [  
+```json
+{
+    "Status" : "success",
+    "Rows" : [
         {  
-          "id" : 938109380,  
-          "name" : "mycoolrow"  
-        },  
-        {  
-          "id" : 938109381,  
-          "name" : "another row"  
-        }  
-      ]  
-    }  
-```  
+            "id" : 938109380,
+            "name" : "mycoolrow"
+        },
+        {
+            "id" : 938109381,
+            "name" : "another row"
+        }
+    ]
+}
+```
   
 Your logic app only needs the Rows content, so you can construct your trigger like this:  
   
-```  
-"mysplitter" : {  
-  "type" : "http",  
-  "recurrence": {  
-	"frequency": "Minute",  
-	"interval": "1"  
-  },  
-  "intputs" : {  
-	"uri" : "https://mydomain.com/myAPI",  
-	"method" : "GET"  
-  },  
-  "splitOn" : "@triggerBody()?.Rows"  
-}  
-```  
+```json
+"mysplitter" : {
+    "type" : "http",
+    "recurrence": {
+        "frequency": "Minute",
+        "interval": "1"
+    },
+    "intputs" : {
+        "uri" : "https://mydomain.com/myAPI",
+        "method" : "GET"
+    },
+    "splitOn" : "@triggerBody()?.Rows"
+}
+```
   
 Then, in the workflow definition, `@triggerBody().name` will return `mycoolrow` for the first run, and  
 `another row` for the second run. This means the trigger outputs look like:  
   
-```  
-{  
-      "body" : {  
-        "id" : 938109381,  
-        "name" : "another row"  
-      }  
-    }  
-```  
-  
+```json
+{
+    "body" : {
+        "id" : 938109381,
+        "name" : "another row"
+    }
+}
+```
+
 As you can see, if you use split\-on, you will not be able to get the properties that are outside of the array, in this case the `Status` field.  
   
 > [!NOTE]  
@@ -370,8 +374,7 @@ You can configure triggers that have a recurrence property to only fire if all a
 
 This setting can be configured via the operation options:
 
-``` json
-
+```json
 "triggers": {
     "mytrigger": {
         "type": "http",
@@ -380,7 +383,6 @@ This setting can be configured via the operation options:
         "operationOptions": "singleInstance"
     }
 }
-
 ```
 
 ## Types and inputs  
@@ -426,50 +428,47 @@ HTTP actions call a specified endpoint and checks the response in order to deter
   
 HTTP actions \(and API Connection\) actions support retry policies. A retry policy applies to intermittent failures \(characterized as HTTP status codes 408, 429, and 5xx as well as any connectivity exceptions\) and is described using the *retryPolicy* object defined as follows:  
   
-```  
-  
-"retryPolicy" : {  
-      "type": "<type-of-retry-policy>",  
-      "interval": <retry-interval>,  
-      "count": <number-of-retry-attempts>  
-    }  
-  
-```  
+```json
+"retryPolicy" : {
+    "type": "<type-of-retry-policy>",
+    "interval": <retry-interval>,
+    "count": <number-of-retry-attempts>
+}
+```
   
 The retry interval is specified in the ISO 8601 format. Its default value is 20 seconds, which is also the minimum value. The maximum value is 1 hour. The default retry count is 4, 4 is also the maximum retry count. If the retry policy definition is not specified, a **fixed** strategy is used with default retry count and interval values. To disable the retry policy, set its type to **None**.  
   
 For example, the following action will retry fetching the latest news 2 times in case of intermittent failures, for a total of 3 executions, with a 30 second delay between each attempt:  
   
-```  
-"latestNews" : {  
-      "type": "http",  
-      "inputs": {  
-        "method": "GET",  
-        "uri": "uri": "https://mynews.example.com/latest",  
-        "retryPolicy" : {  
-          "type": "fixed",  
-          "interval": "PT30S",  
-          "count": 2  
-             }  
-          }  
-        }  
-  
-```  
+```json
+"latestNews" : {
+    "type": "http",
+    "inputs": {
+        "method": "GET",
+        "uri": "uri": "https://mynews.example.com/latest",
+        "retryPolicy" : {
+            "type": "fixed",
+            "interval": "PT30S",
+            "count": 2
+        }
+    }
+}
+```
   
 By default, all HTTP\-based actions support the standard asynchronous operation pattern. That is, if the remote server indicates that the request has been accepted for processing with a 202 \(Accepted\) response, the Logic Apps engine keeps polling the URL specified in the location header of the response until a terminal state is reached \(a non\-202 response\).  
   
 In order to disable the asynchronous behavior described above, set a 'DisableAsyncPattern' option in the action inputs. In this case, the output of the action will be based on the initial 202 response from the server.  
   
-```  
-"invokeLongRunningOperation" : {  
-      "type": "http",  
-      "inputs": {  
-        "method": "POST",  
-        "uri": "https://host.example.com/resources"    
-      },
-      "operationOptions": "DisableAsyncPattern"    
-    }  
-```  
+```json
+"invokeLongRunningOperation" : {
+    "type": "http",
+    "inputs": {
+        "method": "POST",
+        "uri": "https://host.example.com/resources"
+    },
+    "operationOptions": "DisableAsyncPattern"
+}
+```
   
 ## API Connection  
 API Connection is the type of action that references one of the Microsoft managed connectors.  It requires a reference to a valid connection, and information on the api and parameters required.
@@ -485,80 +484,79 @@ API Connection is the type of action that references one of the Microsoft manage
 |retryPolicy|No|Object|Allows you to customize the retry behavior for 4xx or 5xx errors.|  
 |operationsOptions|No|String|Defines the set of special behaviors to override.|  
 
-  
-```  
-"Send_Email": {  
-    "type": "apiconnection",  
-    "inputs": {  
-                "host": {  
-                    "api": {  
-                        "runtimeUrl": "https://logic-apis-df.azure-apim.net/apim/office365"  
-                    },  
-                    "connection": {  
-                        "name": "@parameters('$connections')['office365']['connectionId']"  
-                    }  
-                },  
-                "method": "post",  
-                "body": {  
-                    "Subject": "New Tweet fromÂ @{triggerBody()['TweetedBy']}",  
-                    "Body": "@{triggerBody()['TweetText']}",  
-                    "To": "me@example.com"  
-                },  
-                "path": "/Mail"  
-    },  
+```json
+"Send_Email": {
+    "type": "apiconnection",
+    "inputs": {
+        "host": {
+            "api": {
+                "runtimeUrl": "https://logic-apis-df.azure-apim.net/apim/office365"
+            },
+            "connection": {
+                "name": "@parameters('$connections')['office365']['connectionId']"
+            }
+        },
+        "method": "post",
+        "body": {
+            "Subject": "New Tweet fromÂ @{triggerBody()['TweetedBy']}",
+            "Body": "@{triggerBody()['TweetText']}",
+            "To": "me@example.com"
+        },
+        "path": "/Mail"
+    },
     "runAfter": {}
-    }  
-```  
-  
-## API Connection webhook action    
-```  
-"Send_approval_email": {  
-    "type": "apiconnectionwebhook",  
-    "inputs": {  
-                "host": {  
-                    "api": {  
-                        "runtimeUrl": "https://logic-apis-df.azure-apim.net/apim/office365"  
-                    },  
-                    "connection": {  
-                        "name": "@parameters('$connections')['office365']['connectionId']"  
-                    }  
-                },  
-                "body": {  
-                    "Message": {  
-                        "Subject": "Approval Request",  
-                        "Options": "Approve, Reject",  
-                        "Importance": "Normal",  
-                        "To": "me@email.com"  
-                    }  
-                },  
-                "path": "/approvalmail",  
-                "authentication": "@parameters('$authentication')"  
-    },  
+    }
+```
+
+## API Connection webhook action
+
+```json
+"Send_approval_email": {
+    "type": "apiconnectionwebhook",
+    "inputs": {
+        "host": {
+            "api": {
+                "runtimeUrl": "https://logic-apis-df.azure-apim.net/apim/office365"
+            },
+            "connection": {
+                "name": "@parameters('$connections')['office365']['connectionId']"
+            }
+        },
+        "body": {
+            "Message": {
+                "Subject": "Approval Request",
+                "Options": "Approve, Reject",
+                "Importance": "Normal",
+                "To": "me@email.com"
+            }
+        },
+        "path": "/approvalmail",
+        "authentication": "@parameters('$authentication')"
+    },
     "runAfter": {}
-}  
-```  
+}
+```
   
 ## Response action  
 This action type contains the entire response payload from an HTTP request. This includes a statusCode, body and headers:  
   
-```  
-"myresponse" :  
-    {  
-    "type" : "response",  
-    "inputs" : {  
-        "statusCode" : 200,  
-        "body" : {  
-            "contentFieldOne" : "value100",  
-            "anotherField" : 10.001  
-        },  
-        "headers" : {  
-            "x-ms-date" : "@utcnow()",  
-            "Content-type" : "application/json"  
-        }  
-    },  
+```json
+"myresponse" : {
+    "type" : "response",
+    "inputs" : {
+        "statusCode" : 200,
+        "body" : {
+            "contentFieldOne" : "value100",
+            "anotherField" : 10.001
+        },
+        "headers" : {
+            "x-ms-date" : "@utcnow()",
+            "Content-type" : "application/json"
+        }
+    },
     "runAfter": {}
-    }  
-```  
+}
+```
   
 The response action has special restrictions that don’t apply to other actions. Specifically:  
   
@@ -571,29 +569,29 @@ The response action has special restrictions that don’t apply to other actions
 ## Wait action  
 Wait action will suspend execution of the workflow for the specified interval. For example, to wait for 15 minutes you can use the following:  
   
-```  
-"waitForFifteenMinutes" : {  
-      "type": "wait",  
-      "inputs": {  
-        "interval": {  
-            "unit" : "minute",  
-            "count" : 15  
-        }  
-      }  
-    }  
+```json
+"waitForFifteenMinutes" : {
+    "type": "wait",
+    "inputs": {
+        "interval": {
+            "unit" : "minute",
+            "count" : 15
+        }
+    }
+}
 ```  
   
 Alternatively, to wait until a specific moment in time, you can use the following:  
   
-```  
-"waitUntilOctober" : {  
-      "type": "wait",  
-      "inputs": {  
-        "until": {  
-            "timestamp" : "2016-10-01T00:00:00Z"  
-        }  
-      }  
-    }  
+```json
+"waitUntilOctober" : {
+    "type": "wait",
+    "inputs": {
+        "until": {
+            "timestamp" : "2016-10-01T00:00:00Z"
+        }
+    }
+}
   
 ```  
   
@@ -607,7 +605,35 @@ Alternatively, to wait until a specific moment in time, you can use the followin
 |interval count|Yes|String|Duration based on the given internal unit.|  
 |until|No|Object|The wait duration based on a point in time.|  
 |until timestamp|Yes|String|String&#124;The point in time in UTC when the wait expires.|  
-  
+
+## Terminate action
+Terminate action will stop execution of the workflow run, aborting any in-flight actions, and skipping any remaining actions. For example, to terminate a run with status **Failed** you can use the following:
+
+```json
+"HandleUnexpectedResponse" : {
+    "type": "terminate",
+    "inputs": {
+        "interval": {
+            "runStatus" : "failed",
+            "runError": {
+                "code": "UnexpectedResponse",
+                "message": "Received an unexpected response.",
+            }
+        }
+    }
+}
+```
+
+> [!NOTE]
+> Actions already completed are not affected by the terminate action.
+
+|Name|Required|Type|Description|
+|--------|------------|--------|---------------|
+|runStatus|Yes|String|The target run status. Either **Failed** or **Cancelled**.|
+|runError|No|Object|The error details. Only supported when **runStatus** is set to **Failed**.|
+|runError code|No|String|The run error code.|
+|runError message|No|String|The run error message.|
+
 ## Workflow action   
 |Name|Required|Type|Description|  
 |--------|------------|--------|---------------|  
@@ -617,29 +643,29 @@ Alternatively, to wait until a specific moment in time, you can use the followin
 |headers|No|Object|Represents each of the headers that will be sent to the request. For example, to set the language and type on a request: `"headers" : { "Accept-Language": "en-us",  "Content-Type": "application/json" }`|  
 |body|No|Object|Represents the payload that will be sent to the endpoint.|  
   
-```  
-"mynestedwf" : {  
-    "type" : "workflow",  
-    "inputs" : {  
-        "host" : {  
-            "id" : "/subscriptions/xxxxyyyyzzz/resourceGroups/rg001/providers/Microsoft.Logic/mywf001",  
-		"triggerName " : "mytrigger001"  
+```json
+"mynestedwf" : {
+    "type" : "workflow",
+    "inputs" : {
+        "host" : {
+            "id" : "/subscriptions/xxxxyyyyzzz/resourceGroups/rg001/providers/Microsoft.Logic/mywf001",
+            "triggerName " : "mytrigger001"
+        },
+        "queries" : {
+            "extrafield" : "specialValue"
         },  
-        "queries" : {  
-            "extrafield" : "specialValue"  
-        },  
-        "headers" : {  
-            "x-ms-date" : "@utcnow()",  
-            "Content-type" : "application/json"  
-        },  
-        "body" : {  
-            "contentFieldOne" : "value100",  
-            "anotherField" : 10.001  
-        }  
-    },  
+        "headers" : {
+            "x-ms-date" : "@utcnow()",
+            "Content-type" : "application/json"
+        },
+        "body" : {
+            "contentFieldOne" : "value100",
+            "anotherField" : 10.001
+        }
+    },
     "runAfter": {}
-    }  
-```  
+    }
+```
   
 An access check will be made on the workflow \(more specifically, the trigger\), meaning you need access to the workflow.  
   
@@ -655,7 +681,7 @@ Scope allows for a logic grouping of actions within a workflow.
 |--------|------------|--------|---------------|  
 |actions|Yes|Object|Inner actions to execute within the scope|
 
-```
+```json
 {
     "myScope": {
         "type": "scope",
@@ -681,14 +707,14 @@ This is a looping action that will iterate over an array and perform inner actio
 |foreach|Yes|string|The array to interate over|
 |operationOptions|no|string|Any operation options for behavior.  Currently only supports `sequential` to execute iterations sequentially (default behavior is parallel)|
 
-```
+```json
 "forEach_email": {
-        "type": "foreach",
-        "foreach": "@body('email_filter')",
-        "actions": {
-            "send_email": {
-                "type": "ApiConnection",
-                "inputs": {
+    "type": "foreach",
+    "foreach": "@body('email_filter')",
+    "actions": {
+        "send_email": {
+            "type": "ApiConnection",
+            "inputs": {
                 "body": {
                     "to": "@item()",
                     "from": "me@contoso.com",
@@ -699,13 +725,13 @@ This is a looping action that will iterate over an array and perform inner actio
                         "id": "@parameters('$connections')['office365']['connection']['id']"
                     }
                 }
-                }
             }
-        },
-        "runAfter":{
-            "email_filter": [ "Succeeded" ]
         }
+    },
+    "runAfter":{
+        "email_filter": [ "Succeeded" ]
     }
+}
 ```
 
 ## Until action
@@ -720,26 +746,26 @@ This is a looping action that will execute inner actions until a condition resul
 |timeout|no|string|The timeout for how long it should loop.  ISO 8601 format|
 
 
-```
+```json
  "Until_succeeded": {
-            "actions": {
-                "Http": {
-                    "inputs": {
-                        "method": "GET",
-                        "uri": "http://myurl"
-                    },
-                    "runAfter": {},
-                    "type": "Http"
-                }
-            },
-            "expression": "@equals(outputs('Http')['statusCode', 200)",
-            "limit": {
-                "count": 1000,
-                "timeout": "PT1H"
+    "actions": {
+        "Http": {
+            "inputs": {
+                "method": "GET",
+                "uri": "http://myurl"
             },
             "runAfter": {},
-            "type": "Until"
+            "type": "Http"
         }
+    },
+    "expression": "@equals(outputs('Http')['statusCode', 200)",
+    "limit": {
+        "count": 1000,
+        "timeout": "PT1H"
+    },
+    "runAfter": {},
+    "type": "Until"
+}
 ```
 
 ## Conditions /- If Action
@@ -751,34 +777,34 @@ The If action allows you to evaluate a condition and execute a branch based on i
 |expression|Yes|string|The expression to evaluate|
 |else|no|Object|Inner actions to execute if expression evaluates to `false`|
   
-```  
+```json
 "My_condition": {
-            "actions": {
-                "If_true": {
-                    "inputs": {
-                        "method": "GET",
-                        "uri": "http://myurl"
-                    },
-                    "runAfter": {},
-                    "type": "Http"
-                }
+    "actions": {
+        "If_true": {
+            "inputs": {
+                "method": "GET",
+                "uri": "http://myurl"
             },
-            "else": {
-                "actions": {
-                    "if_false": {
-                        "inputs": {
-                            "method": "GET",
-                            "uri": "http://myurl"
-                        },
-                        "runAfter": {},
-                        "type": "Http"
-                    }
-                }
-            },
-            "expression": "@equals(triggerBody(), json(true))",
             "runAfter": {},
-            "type": "If"
+            "type": "Http"
         }
+    },
+    "else": {
+        "actions": {
+            "if_false": {
+                "inputs": {
+                    "method": "GET",
+                    "uri": "http://myurl"
+                },
+                "runAfter": {},
+                "type": "Http"
+            }
+        }
+    },
+    "expression": "@equals(triggerBody(), json(true))",
+    "runAfter": {},
+    "type": "If"
+}
 ```  
   
 The following table shows examples of how conditions can use expressions in an action:  
