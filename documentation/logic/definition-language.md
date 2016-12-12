@@ -30,16 +30,16 @@ The workflow definition contains the actual logic that executes as a part of you
 ## Definition basic structure  
  Here is the basic structure of a definition:  
   
-```  
-{  
-      "$schema": "<schema-of the-definition>",  
-      "contentVersion": "<version-number-of-definition>",  
-      "parameters": { <parameter-definitions-of-definition> },  
-      "triggers": [ { <definition-of-flow-triggers> } ],  
-      "actions": [ { <definition-of-flow-actions> } ],  
-      "outputs": { <output-of-definition> }      
-    }  
-```  
+```json
+{
+    "$schema": "<schema-of the-definition>",
+    "contentVersion": "<version-number-of-definition>",
+    "parameters": { <parameter-definitions-of-definition> },
+    "triggers": [ { <definition-of-flow-triggers> } ],
+    "actions": [ { <definition-of-flow-actions> } ],
+    "outputs": { <output-of-definition> }
+}
+```
   
 > [!NOTE]
 >  [Workflow Management REST API](../../api-ref/logic/workflows.json) documentation has information on how to create and manage logic app Workflows  
@@ -58,15 +58,15 @@ Specifies all of the parameters that are used in the definition at deployment ti
   
 The following example shows the structure of a parameter definition:  
 
-```
-"parameters": {  
-  "<parameter-name>" : {  
-    "type" : "<type-of-parameter-value>",  
-    "defaultValue": <default-value-of-parameter>,  
-    "allowedValues": [ <array-of-allowed-values> ],  
-    "metadata" : { "key": { "name": "value"} }  
-  }  
-} 
+```json
+"parameters": {
+    "<parameter-name>" : {
+        "type" : "<type-of-parameter-value>",
+        "defaultValue": <default-value-of-parameter>,
+        "allowedValues": [ <array-of-allowed-values> ],
+        "metadata" : { "key": { "name": "value"} }
+    }
+}
 ```
 
 |Element name|Required|Description|  
@@ -78,11 +78,11 @@ The following example shows the structure of a parameter definition:
   
 The following example shows how a parameter could be used in the body section of an action:  
   
-```
-"body" :  
-{  
-  "property1": "@parameters('parameter1')"  
-}  
+```json
+"body" :
+{
+  "property1": "@parameters('parameter1')"
+}
 ```
 
  Parameters can also be used in outputs.  
@@ -111,14 +111,14 @@ The following example shows how a parameter could be used in the body section of
 ## expressions  
  JSON values in the definition can be literal or they can be expressions that will be evaluated when the definition is used. For example:  
   
-```
-"name": "value"  
+```json
+"name": "value"
 ```
 
  or  
   
-```
-"name": "@parameters('password') "  
+```json
+"name": "@parameters('password') "
 ```
 
 > [!NOTE]
