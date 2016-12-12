@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # List (ReadFeed) Documents
- Performing a GET on the documents resource of a particular collection, i.e. the docs URI path, returns a list of documents under the collection.  
+ Performing a GET on the documents resource of a particular collection, i.e. the docs URI path, returns a list of documents under the collection. ReadFeed can be used to retrieve all documents, or just the [incremental changes](https://docs.microsoft.com/azure/documentdb/documentdb-change-feed) to documents within the collection.
   
 ## Request  
   
@@ -45,7 +45,7 @@ translation.priority.mt:
 |`x-ms-consistency-level`|Optional|String|This is the consistency level override. The valid values are: **Strong**, **Bounded**, **Session**, or **Eventual** (in order of strongest to weakest). The override must be the same or weaker than the account’s configured consistency level.|  
 |`x-ms-session-token`|Optional|String|A string token used with session level consistency. Clients must echo the latest read value of this header during read requests for session consistency.|  
 |`A-IM`|Optional|String|Must be set to `Incremental feed`, or omitted otherwise. Available from REST API version `2016-07-11` onwards.|  
-|`If-None-Match`|Optional|String|<p>No header: returns all changes from the beginning (collection creation)</p><p>"*": returns all new changes to data within the collection</p>.<p>&lt;etag&gt;: If set to a collection ETag, returns all changes made since that logical timestamp.</p><p>Available from REST API version `2016-07-11` onwards.</p>|  
+|`If-None-Match`|Optional|String|<p>No header: returns all changes from the beginning (collection creation)</p><p>"*": returns all new changes to data within the collection</p><p>&lt;etag&gt;: If set to a collection ETag, returns all changes made since that logical timestamp.</p><p>Available from REST API version `2016-07-11` onwards.</p>|  
 |`x-ms-documentdb-partitionkeyrangeid`|Optional|String|The partition key range ID for reading data. Available from REST API version `2016-07-11` onwards.|  
 
   
@@ -62,6 +62,7 @@ translation.priority.mt:
 |------------|----------|-----------------|  
 |`x-ms-continuation`|String|Returns a token to fetch additional results from the operation. The client can resubmit the request with the `x-ms-continuation request` header containing this value to resume execution.|  
 |`x-ms-request-charge`|Number|The number of request units consumed by the operation.|  
+|`etag`|String|<p>The logical sequence number (LSN) of last document returned in the response.</p><p>incremental ReadDocumentFeed can be resumed by resubmitting this value in If-None-Match.</p>|  
   
 ### Status codes  
  The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](https://msdn.microsoft.com/library/azure/dn783364.aspx).  
