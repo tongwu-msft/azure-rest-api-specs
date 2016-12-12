@@ -1,5 +1,5 @@
 ---
-title: "Get a PartitionKeyRange"
+title: "Get Partition Key Ranges"
 ms.custom: ""
 ms.date: "2016-12-11"
 ms.prod: "azure"
@@ -26,8 +26,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get a PartitionKeyRange
-Performing a GET on a specific collection resource retrieves the properties for the collection.  
+# Get Partition key ranges
+Performing a `GET` on a specific collection's `pkranges` child resource retrieves the list of partition key ranges for the collection.  
   
 ## Request  
   
@@ -42,7 +42,7 @@ Performing a GET on a specific collection resource retrieves the properties for 
  None.  
   
 ## Response  
- Get Collection returns the body of the collection as persisted in DocumentDB along with response headers that report the quota and usage of the collection..  
+Returns the list of partition key ranges for the collection.  
   
 ### Headers  
  See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  
@@ -59,36 +59,20 @@ Performing a GET on a specific collection resource retrieves the properties for 
   
 |Property|Description|  
 |--------------|-----------------|  
-|`id`|This is the unique name that identifies the new collection.|  
+|`id`|This is the unique name that identifies the collection.|  
 |`_rid`|This is a system generated property. The resource ID (`_rid`) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the permission resource.|  
 |`_ts`|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |`_self`|This is a system generated property. It is the unique addressable URI for the resource.|  
 |`_etag`|This is a system generated property representing the resource `etag` required for optimistic concurrency control.|  
 |`PartitionKeyRanges`|This is the list of partition key ranges for the collection. This can be used for incremental readfeed with the `x-ms-documentdb-partitionkeyrangeid` header.|  
   
+**Properties of PartitionKeyRanges**  
 
-<table>
-  <tr>
-    <th>Header name</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>id</td>
-    <td>
-      <p>The ID for the partition key range. This is a stable and unique ID within each collection.</p>
-      <p>Must be used in the following call to read changes by partition key range.</p>
-    </td>
-  </tr>
-  <tr>
-    <td>maxExclusive</td>
-    <td>The maximum partition key hash value for the partition key range. For internal use.</td>
-  </tr>
-  <tr>
-    <td>minInclusive</td>
-    <td>The minimum partition key hash value for the partition key range. For internal use.</td>
-  </tr>   
-</table>
-
+|Property|Description|  
+|--------------|-----------------|  
+|`id`|<p>The ID for the partition key range. This is a stable and unique ID within each collection.</p><p>Can be used to read documents by partition key range.</p>|  
+|`maxExclusive`|The maximum partition key hash value for the partition key range. For internal use.|  
+|`minInclusive`|The minimum partition key hash value for the partition key range. For internal use.|  
 
 ## Example  
   
