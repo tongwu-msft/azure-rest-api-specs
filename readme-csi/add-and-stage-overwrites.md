@@ -193,7 +193,7 @@ description: *content
 ---
 ```
 
-**Extranenous `---` separator** in a overwrite  
+**Extraneous `---` separator** in a overwrite  
 As with other issues, this is about making sure you have valid YAML. If your description overwrite contains extra `---` delimiter at the end for example (like the one below), this will also cause an exception in the build and none of your overwrite will be applied to the final page/output.
 
 ```
