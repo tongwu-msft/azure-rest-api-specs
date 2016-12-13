@@ -179,8 +179,8 @@ Content-Length: 0
 Cache-Control: no-cache  
 Date: Mon, 27 Jun 2016 18:12:54 GMT  
 ETag: W/"0x5B168C7B6E589D2"  
-DataServiceVersion: 3.0;NetFx  
-MaxDataServiceVersion: 3.0;NetFx  
+DataServiceVersion: 1.0;NetFx  
+MaxDataServiceVersion: 2.0;NetFx  
 Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0  
 ```  
   

@@ -27,18 +27,18 @@ translation.priority.mt:
 # Writing LINQ Queries Against the Table Service
 You can write queries against the Table service using LINQ syntax. The following examples show how to write sample queries similar to the sample queries shown in [Querying Tables and Entities](../fileservices/Querying-Tables-and-Entities.md), but using LINQ instead of the REST protocol.  
   
- The Table service supports executing simple queries that retrieve all properties of an entity; it's not possible to select a subset of an entity's properties. The Table service also supports filtering query results using the `Where` operator, and specifying how many entities to return using the `Take` operator.  
+ The Table service supports executing simple queries that retrieve all properties of an entity; it's also possible to select a subset of an entity's properties. The Table service also supports filtering query results using the `Where` operator, and specifying how many entities to return using the `Take` operator.  
   
  For details about which LINQ operators are supported by the Table service, see [Query Operators Supported for the Table Service](../fileservices/Query-Operators-Supported-for-the-Table-Service.md).  
   
 ## Projecting Entity Properties  
  The LINQ `select` clause can be used to project a subset of properties from an entity or entities. The maximum number of properties that can be projected is 255, which is also the maximum number of properties in an entity.  
   
- To project an entity’s properties, the client must support OData Data Service Version 2.0, indicated by specifying either the `DataServiceVersion` or `MaxDataServiceVersion` headers as follows:  
+ To project an entity’s properties, the client must support OData Data Service Version 3.0, indicated by specifying either the `DataServiceVersion` or `MaxDataServiceVersion` headers as follows:  
   
 ```c#  
-DataServiceVersion: 2.0;NetFx  
-MaxDataServiceVersion: 2.0;NetFx  
+DataServiceVersion: 3.0;NetFx  
+MaxDataServiceVersion: 3.0;NetFx  
 ```  
   
  The following example demonstrates how to project properties from a single entity, using the required object initializer:  
@@ -64,15 +64,7 @@ IEnumerable<SampleEntity> query = from entity in
                                           I = entity.I  
                                       };  
 ```  
-  
- Single entity projection is not supported. The REST request produced by the following code is invalid:  
-  
-```  
-var query = from entity in dataServiceContext.CreateQuery<SampleEntity>(tableName)  
-                 where entity.PartitionKey == "MyPartitionKey"  
-                 select { entity.RowKey }; // this code is invalid!  
-```  
-  
+    
  You can also project entity properties by using the **$select** query option in a standard REST request. For more information, see [Query Entities](../fileservices/Query-Entities.md).  
   
  For more information on entity projections and transformations, see [Select System Query Option ($select)](http://www.odata.org/) in the OData documentation.  
