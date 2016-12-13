@@ -613,12 +613,10 @@ Terminate action will stop execution of the workflow run, aborting any in-flight
 "HandleUnexpectedResponse" : {
     "type": "terminate",
     "inputs": {
-        "interval": {
-            "runStatus" : "failed",
-            "runError": {
-                "code": "UnexpectedResponse",
-                "message": "Received an unexpected response.",
-            }
+        "runStatus" : "failed",
+        "runError": {
+            "code": "UnexpectedResponse",
+            "message": "Received an unexpected response.",
         }
     }
 }
@@ -650,7 +648,7 @@ Compose action lets you construct an arbitrary object. The output of the compose
 ```
 
 > [!NOTE]
-> The **Compose** action can be used to constuct any output, inluding objects, arrays, and any other type natively supported by logic apps,such as xml and binary.
+> The **Compose** action can be used to constuct any output, inluding objects, arrays, and any other type natively supported by logic apps, such as xml and binary.
 
 ## Workflow action   
 |Name|Required|Type|Description|  
