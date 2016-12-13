@@ -98,8 +98,8 @@ Cache-Control: no-cache
 Date: Mon, 25 Nov 2013 19:06:47 GMT  
 ETag: W/"0x5B168C7B6E589D2"  
 x-ms-version: 2013-08-15  
-DataServiceVersion: 1.0;NetFx  
-MaxDataServiceVersion: 2.0;NetFx  
+DataServiceVersion: 3.0;NetFx  
+MaxDataServiceVersion: 3.0;NetFx  
 Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0  
 ```  
   
