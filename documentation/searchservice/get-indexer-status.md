@@ -109,7 +109,7 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
 
 -   **endTime**: The time in UTC when this execution has ended. This value is not set if the execution is still in progress.  
 
--   **errors**: A list of item-level errors, if any. The the sample response above for an example.  
+-   **errors**: A list of item-level errors, if any. See the sample response above for an example.  
 
 -   **itemsProcessed**: The number of data source items (for example, table rows) that the indexer attempted to index during this execution.  
 
