@@ -48,7 +48,7 @@ The Get Page Ranges operation returns the list of valid page ranges for a page b
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`snapshot`|Optional. The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve information from. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](../fileservices/Create-a-Snapshot-of-a-Blob.md).
+|`snapshot`|Optional. The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve information from. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](../fileservices/Creating-a-Snapshot-of-a-Blob.md).|
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](../fileservices/Setting-Timeouts-for-Blob-Service-Operations.md).| 
 |`prevsnapshot`|Optional in version 2015-07-08 and newer. The `prevsnapshot` parameter is a DateTime value that specifies that the response will contain only pages that were changed between target blob and previous snapshot. Changed pages include both updated and cleared pages. The target blob may be a snapshot, as long as the snapshot specified by prevsnapshot is the older of the two.<br/><br/>Note that incremental snapshots are currently supported only for blobs created on or after January 1, 2016.|
   

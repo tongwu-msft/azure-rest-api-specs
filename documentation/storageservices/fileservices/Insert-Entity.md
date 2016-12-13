@@ -48,7 +48,7 @@ The `Insert Entity` operation inserts a new entity into a table.
 
 |Parameter|Description|
 |---------|-----------|
-|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](../fileservices/Setting-Timeouts-for-Queue-Service-Operations).|  
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](../fileservices/Setting-Timeouts-for-Queue-Service-Operations.md).|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  

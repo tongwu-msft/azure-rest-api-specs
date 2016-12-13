@@ -51,7 +51,7 @@ The `Update Entity` operation updates an existing entity in a table. The `Update
 
 |Parameter|Description|
 |---------|-----------|
-|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](../fileservices/Setting-Timeouts-for-Queue-Service-Operations).|  
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](../fileservices/Setting-Timeouts-for-Queue-Service-Operations.md).|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  
