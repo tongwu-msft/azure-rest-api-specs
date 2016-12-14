@@ -1,7 +1,7 @@
 ---
 title: "Add scoring profiles to a search index (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2016-12-14"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -38,29 +38,28 @@ translation.priority.mt:
 
 
 ```  
-"scoringProfiles":
-  [  
-    {  
-       "name":"geo",
-        "text": {  
-           "weights":{  
-           "hotelName":5                                       
-           }                              
-     },
-     "functions": [  
-         {  
-            "type":"distance",
-            "boost":5,
-            "fieldName":"location",
-            "interpolation":"logarithmic",
-            "distance":{  
-               "referencePointParameter":"currentLocation",
-               "boostingDistance":10                                                 
-                }                        
-         }                                      
-      ]                     
-   }            
- ]
+"scoringProfiles": [
+  {  
+    "name":"geo",
+    "text": {  
+      "weights": {  
+        "hotelName": 5
+      }                              
+    },
+    "functions": [
+      {  
+        "type": "distance",
+        "boost": 5,
+        "fieldName": "location",
+        "interpolation": "logarithmic",
+        "distance": {
+          "referencePointParameter": "currentLocation",
+          "boostingDistance": 10
+        }                        
+      }                                      
+    ]                     
+  }            
+]
 ```  
 
 
@@ -97,67 +96,67 @@ GET /indexes/hotels/docs?search=inn&scoringProfile=geo&scoringParameter=currentL
 
 ```  
 {  
-    "name": "musicstoreindex",  
-    "fields": [  
-        { "name": "key", "type": "Edm.String", "key": true },  
-        { "name": "albumTitle", "type": "Edm.String" },  
-        { "name": "albumUrl", "type": "Edm.String", "filterable": false },  
-        { "name": "genre", "type": "Edm.String" },  
-        { "name": "genreDescription", "type": "Edm.String", "filterable": false },  
-        { "name": "artistName", "type": "Edm.String" },  
-        { "name": "orderableOnline", "type": "Edm.Boolean" },  
-        { "name": "rating", "type": "Edm.Int32" },  
-        { "name": "tags", "type": "Collection(Edm.String)" },  
-        { "name": "price", "type": "Edm.Double", "filterable": false },  
-        { "name": "margin", "type": "Edm.Int32", "retrievable": false },  
-        { "name": "inventory", "type": "Edm.Int32" },  
-        { "name": "lastUpdated", "type": "Edm.DateTimeOffset" }  
-    ],  
-    "scoringProfiles": [  
-        {  
-            "name": "boostGenre",  
-            "text": {  
-                "weights": {  
-                    "albumTitle": 1.5,  
-                    "genre": 5,  
-                    "artistName": 2  
-                }  
-            }  
-        } ,  
-        {  
-          "name": "newAndHighlyRated",  
-          "functions": [  
-            {  
-              "type": "freshness",  
-              "fieldName": "lastUpdated",  
-              "boost": 10,  
-              "interpolation": "quadratic",  
-              "freshness": {  
-                "boostingDuration": "P365D"  
-              }  
-            },  
-            {  
-              "type": "magnitude",  
-              "fieldName": "rating",  
-              "boost": 10,  
-              "interpolation": "linear",  
-              "magnitude": {  
-                "boostingRangeStart": 1,  
-                "boostingRangeEnd": 5,  
-                "constantBoostBeyondRange": false  
-              }  
-            }  
-          ]  
+  "name": "musicstoreindex",  
+  "fields": [  
+    { "name": "key", "type": "Edm.String", "key": true },  
+    { "name": "albumTitle", "type": "Edm.String" },  
+    { "name": "albumUrl", "type": "Edm.String", "filterable": false },  
+    { "name": "genre", "type": "Edm.String" },  
+    { "name": "genreDescription", "type": "Edm.String", "filterable": false },  
+    { "name": "artistName", "type": "Edm.String" },  
+    { "name": "orderableOnline", "type": "Edm.Boolean" },  
+    { "name": "rating", "type": "Edm.Int32" },  
+    { "name": "tags", "type": "Collection(Edm.String)" },  
+    { "name": "price", "type": "Edm.Double", "filterable": false },  
+    { "name": "margin", "type": "Edm.Int32", "retrievable": false },  
+    { "name": "inventory", "type": "Edm.Int32" },  
+    { "name": "lastUpdated", "type": "Edm.DateTimeOffset" }  
+  ],  
+  "scoringProfiles": [  
+    {  
+      "name": "boostGenre",  
+      "text": {  
+        "weights": {  
+          "albumTitle": 1.5,  
+          "genre": 5,  
+          "artistName": 2  
         }  
-      ],  
-      "suggesters": [  
+      }  
+    },  
+    {  
+      "name": "newAndHighlyRated",  
+      "functions": [  
         {  
-          "name": "sg",  
-          "searchMode": "analyzingInfixMatching",  
-          "sourceFields": ["albumTitle", "artistName"]  
+          "type": "freshness",  
+          "fieldName": "lastUpdated",  
+          "boost": 10,  
+          "interpolation": "quadratic",  
+          "freshness": {  
+            "boostingDuration": "P365D"  
+          }  
+        },  
+        {
+          "type": "magnitude",  
+          "fieldName": "rating",  
+          "boost": 10,  
+          "interpolation": "linear",  
+          "magnitude": {  
+            "boostingRangeStart": 1,  
+            "boostingRangeEnd": 5,  
+            "constantBoostBeyondRange": false  
+          }  
         }  
-      ]   
+      ]  
     }  
+  ],  
+  "suggesters": [  
+    {  
+      "name": "sg",  
+      "searchMode": "analyzingInfixMatching",  
+      "sourceFields": [ "albumTitle", "artistName" ]  
+    }  
+  ]   
+}  
 ```  
 
 ## Workflow  
@@ -183,52 +182,51 @@ GET /indexes/hotels/docs?search=inn&scoringProfile=geo&scoringParameter=currentL
 . . .   
 "scoringProfiles": [  
   {   
-   "name": "name of scoring profile",   
-   "text": (optional, only applies to searchable fields) {   
-   "weights": {   
-     "searchable_field_name": relative_weight_value (positive #'s),   
-      ...   
+    "name": "name of scoring profile",   
+    "text": (optional, only applies to searchable fields) {   
+      "weights": {   
+        "searchable_field_name": relative_weight_value (positive #'s),   
+        ...   
+      }   
+    },   
+    "functions": (optional) [  
+      {   
+        "type": "magnitude | freshness | distance | tag",   
+        "boost": # (positive number used as multiplier for raw score != 1),   
+        "fieldName": "...",   
+        "interpolation": "constant | linear (default) | quadratic | logarithmic",   
+
+        "magnitude": {
+          "boostingRangeStart": #,   
+          "boostingRangeEnd": #,   
+          "constantBoostBeyondRange": true | false (default)
+        }  
+
+        // ( - or -)  
+
+        "freshness": {
+          "boostingDuration": "..." (value representing timespan over which boosting occurs)   
+        }  
+
+        // ( - or -)  
+
+        "distance": {
+          "referencePointParameter": "...", (parameter to be passed in queries to use as reference location)   
+          "boostingDistance": # (the distance in kilometers from the reference location where the boosting range ends)   
+        }   
+
+        // ( - or -)  
+
+        "tag": {
+          "tagsParameter":  "..."(parameter to be passed in queries to specify a list of tags to compare against target field)   
+        }
+      }
+    ],   
+    "functionAggregation": (optional, applies only when functions are specified) "sum (default) | average | minimum | maximum | firstMatching"   
   }   
- },   
-"functions": (optional) [  
-  {   
-   "type": "magnitude | freshness | distance | tag",   
-   "boost": # (positive number used as multiplier for raw score != 1),   
-   "fieldName": "...",   
-   "interpolation": "constant | linear (default) | quadratic | logarithmic",   
-
-   "magnitude":   {   
-      "boostingRangeStart": #,   
-      "boostingRangeEnd": #,   
-      "constantBoostBeyondRange": true | false (default)   
-      }  
-
-    // ( - or -)  
-
-   "freshness":  {   
-        "boostingDuration": "..." (value representing timespan over which boosting occurs)   
-       }  
-
-    // ( - or -)  
-
-   "distance":    {   
-       "referencePointParameter": "...", (parameter to be passed in queries to use as reference location)   
-       "boostingDistance": # (the distance in kilometers from the reference location where the boosting range ends)   
-       }   
-
-    // ( - or -)  
-
-   "tag":  {  
-       "tagsParameter":  "..."(parameter to be passed in queries to specify a list of tags to compare against target field)   
-      }  
-   ],   
-   "functionAggregation": (optional, applies only when functions are specified)   
-     "sum (default) | average | minimum | maximum | firstMatching"   
-    }   
-   ],   
+],   
 "defaultScoringProfile": (optional) "...",   
 . . .  
-
 ```  
 
 ##  <a name="bkmk_indexref"></a> Index attributes reference  
