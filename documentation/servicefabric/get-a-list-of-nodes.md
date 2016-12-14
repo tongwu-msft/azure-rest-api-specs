@@ -1,7 +1,7 @@
 ---
 title: "Get a list of nodes"
 ms.custom: ""
-ms.date: "2016-03-30"
+ms.date: "2016-12-14"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-fabric"
@@ -70,6 +70,7 @@ Gets the list of nodes in the Service Fabric cluster.
         "ConfigVersion": "1.0",  
         "NodeStatus": 1,  
         "NodeUpTimeInSeconds": "7770",  
+        “NodeDownTimeInSeconds":"0",
         "HealthState": 1,  
         "IsSeedNode": false,  
         "UpgradeDomain": "UD4",  
@@ -92,6 +93,7 @@ Gets the list of nodes in the Service Fabric cluster.
         "ConfigVersion": "1.0",  
         "NodeStatus": 1,  
         "NodeUpTimeInSeconds": "7770",  
+        “NodeDownTimeInSeconds":"0",
         "HealthState": 1,  
         "IsSeedNode": true,  
         "UpgradeDomain": "UD2",  
@@ -114,6 +116,7 @@ Gets the list of nodes in the Service Fabric cluster.
         "ConfigVersion": "1.0",  
         "NodeStatus": 1,  
         "NodeUpTimeInSeconds": "7770",  
+        “NodeDownTimeInSeconds":"0",
         "HealthState": 1,  
         "IsSeedNode": true,  
         "UpgradeDomain": "UD1",  
@@ -136,6 +139,7 @@ Gets the list of nodes in the Service Fabric cluster.
         "ConfigVersion": "1.0",  
         "NodeStatus": 1,  
         "NodeUpTimeInSeconds": "7770",  
+        “NodeDownTimeInSeconds":"0",
         "HealthState": 1,  
         "IsSeedNode": false,  
         "UpgradeDomain": "UD5",  
@@ -158,6 +162,7 @@ Gets the list of nodes in the Service Fabric cluster.
         "ConfigVersion": "1.0",  
         "NodeStatus": 1,  
         "NodeUpTimeInSeconds": "7770",  
+        “NodeDownTimeInSeconds":"0",
         "HealthState": 1,  
         "IsSeedNode": true,  
         "UpgradeDomain": "UD3",  
@@ -184,7 +189,8 @@ Gets the list of nodes in the Service Fabric cluster.
 |CodeVersion|The code version.|  
 |ConfigVersion|The configuration version.|  
 |NodeStatus|The status of the node.<br /><br /> Possible values are:<br /><br /> -   Invalid - Indicates the node status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.<br />-   Up - Indicates the node is up. The value is 1.<br />-   Down - Indicates the node is down. The value is 2.<br />-   Enabling - Indicates the node is enabling. The value is 3.<br />-   Disabling - Indicates the node is disabling. The value is 4.<br />-   Disabled - Indicates the node is disabled. The value is 5.<br />-   Unknown - Indicates the node is unknown. The value is 6.<br />-   Removed - Indicates the node is removed. The value is 7.|  
-|NodeUpTimeInSeconds|The node up time in seconds.|  
+|NodeUpTimeInSeconds|Time in seconds since the node has been in NodeStatus Up. Value zero indicates node is not in NodeStatus up.|  
+|NodeDownTimeInSeconds|Time in seconds since the node has been in NodeStatus Down. Value zero indicates node is not NodeStatus Down.|
 |HealthState|The health state.<br /><br /> Possible values are:<br /><br /> -   Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.<br />-   Ok - Indicates the health state is okay. The value is 1.<br />-   Warning - Indicates the health status is at a warning level. The value is 2.<br />-   Indicated the health status is at an error level. The value is 3.<br />-   Unknown - Indicates an unknown health status. The value is 65535.|  
 |IsSeedNode|Value is `true` if this node is the seed node; `false` if this node is not the seed node|  
 |UpgradeDomain|The upgrade domain as a string.|  
@@ -223,6 +229,7 @@ public class NodeInformation
     public NodeDeactivationResult2 NodeDeactivationInfo { get; set; }  
     public NodeStatus NodeStatus { get; set; }  
     public string NodeUpTimeInSeconds { get; set; }  
+    public string NodeDownTimeInSeconds { get; set; }
     public string Type { get; set; }  
     public string UpgradeDomain { get; set; }  
 }  
@@ -325,6 +332,7 @@ public static bool GetNodes(Uri clusterUri)
         Console.WriteLine("    CodeVersion: " + nodeInformation.CodeVersion);  
         Console.WriteLine("    NodeStatus: " + nodeInformation.NodeStatus);  
         Console.WriteLine("    NodeUpTimeInSeconds: " + nodeInformation.NodeUpTimeInSeconds);  
+        Console.WriteLine("    NodeDownTimeInSeconds: " + nodeInformation.NodeDownTimeInSeconds);
         Console.WriteLine("    HealthState: " + nodeInformation.HealthState);  
         Console.WriteLine("    IsSeedNode: " + nodeInformation.IsSeedNode);  
         Console.WriteLine("    FaultDomain: " + nodeInformation.FaultDomain);  
@@ -360,6 +368,7 @@ Node Information:
     CodeVersion: 4.0.90.9490  
     NodeStatus: Up  
     NodeUpTimeInSeconds: 7770  
+    NodeDownTimeInSeconds: 0
     HealthState: Ok  
     IsSeedNode: False  
     FaultDomain: fd:/FD04  
@@ -378,6 +387,7 @@ Node Information:
     CodeVersion: 4.0.90.9490  
     NodeStatus: Up  
     NodeUpTimeInSeconds: 7770  
+    NodeDownTimeInSeconds: 0
     HealthState: Ok  
     IsSeedNode: True  
     FaultDomain: fd:/FD02  
@@ -396,6 +406,7 @@ Node Information:
     CodeVersion: 4.0.90.9490  
     NodeStatus: Up  
     NodeUpTimeInSeconds: 7770  
+    NodeDownTimeInSeconds: 0
     HealthState: Ok  
     IsSeedNode: True  
     FaultDomain: fd:/FD01  
@@ -414,6 +425,7 @@ Node Information:
     CodeVersion: 4.0.90.9490  
     NodeStatus: Up  
     NodeUpTimeInSeconds: 7770  
+    NodeDownTimeInSeconds: 0
     HealthState: Ok  
     IsSeedNode: False  
     FaultDomain: fd:/FD05  
@@ -432,6 +444,7 @@ Node Information:
     CodeVersion: 4.0.90.9490  
     NodeStatus: Up  
     NodeUpTimeInSeconds: 7770  
+    NodeDownTimeInSeconds: 0
     HealthState: Ok  
     IsSeedNode: True  
     FaultDomain: fd:/FD03  
