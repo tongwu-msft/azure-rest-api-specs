@@ -114,7 +114,7 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
  Only the account owner may call this operation.  
   
 ## Remarks  
- Attempting to delete directories that are not empty will fail with status code 412 (Precondition Failed), with the service returning additional error information indicating that the directory is not empty.  
+ Attempting to delete directories that are not empty will fail with status code 409 (DirectoryNotEmpty).  
   
  Once a client has received status code 202 (Accepted), then the directory has been removed from the system and is eligible to be recreated. Subsequent calls to [Get Directory Properties](../fileservices/Get-Directory-Properties.md) will result in 404 (Not Found).  
   
