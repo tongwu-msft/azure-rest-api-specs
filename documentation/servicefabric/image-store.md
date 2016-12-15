@@ -39,6 +39,6 @@ APIs to manage the Azure Service Fabric image store.
   
 -   [Delete image store content](delete-image-store-content.md)
 
--   [Upload file to image store](upload-file-to-image-store.md)
+-   [Upload file to image store](upload-a-file-to-image-store.md)
 
 -   [Copy image store content](copy-image-store-content.md)
