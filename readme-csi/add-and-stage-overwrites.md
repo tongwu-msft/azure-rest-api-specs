@@ -224,17 +224,10 @@ Instead, you need to use one the following formats:
 ```
 ---
 
-uid:
-Microsoft.ServiceBus.Messaging.TopicDescription.EnableFilteringMessagesBeforePublishing
-
+uid: Microsoft.ServiceBus.Messaging.TopicDescription.EnableFilteringMessagesBeforePublishing
 exceptions: 
-
-- type:
-Microsoft.ServiceBus.Messaging.NoMatchingSubscriptionException 
-
-  description:
-Thrown if no subscriptions are found.
-
+- type: Microsoft.ServiceBus.Messaging.NoMatchingSubscriptionException 
+  description: Thrown if no subscriptions are found.
 ---
 ```
  
@@ -244,17 +237,10 @@ Or:
 ---
 
 uid: Microsoft.ServiceBus.Messaging.TopicDescription.EnableFilteringMessagesBeforePublishing
-
 exceptions: 
-
-- type:
-Microsoft.ServiceBus.Messaging.NoMatchingSubscriptionException
-
-  description:
-*content
-
+- type: Microsoft.ServiceBus.Messaging.NoMatchingSubscriptionException
+  description: *content
 ---
-
 Thrown if no subscriptions are found.
 
 ```
