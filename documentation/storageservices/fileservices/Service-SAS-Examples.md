@@ -582,8 +582,8 @@ String-To-Sign = r + \n
   
 GET https://myaccount.table.core.windows.net/MyTable?$filter=PartitionKey%20eq%20'Coho%20Winery'&sv=2015-02-21&tn=MyTable&st=2015-07-01T08%3a49Z&se=2015-07-02T08%3a49Z&sp=r&si=YWJjZGVmZw%3d%3d&sig=jDrr6cna7JPwIaxWfdH0tT5v9dc%3d&spk=Coho%20Winery&srk=Auburn&epk=Coho%20Winery&erk=Seattle HTTP/1.1  
 Host: myaccount.table.core.windows.net  
-DataServiceVersion: 1.0;NetFx  
-MaxDataServiceVersion: 2.0;NetFx  
+DataServiceVersion: 3.0;NetFx  
+MaxDataServiceVersion: 3.0;NetFx  
   
 ```  
   
@@ -614,8 +614,8 @@ String-To-Sign = u + \n
   
 MERGE https://myaccount.table.core.windows.net/MyTable(PartitionKey='Coho%20Winery',RowKey='Seattle')?sv=2015-02-21&tn=MyTable&st=2015-07-01T08%3a49Z&se=2015-07-02T08%3a49Z&sp=u&si=YWJjZGVmZw%3d%3d&sig=jDrr6cna7JPwIaxWfdH0tT5v9dc%3d&spk=Coho%20Winery&epk=Coho%20Winery HTTP/1.1  
 Host: myaccount.table.core.windows.net  
-DataServiceVersion: 1.0;NetFx  
-MaxDataServiceVersion: 2.0;NetFx  
+DataServiceVersion: 3.0;NetFx  
+MaxDataServiceVersion: 3.0;NetFx  
 If-Match: *  
 Content-Type: application/atom+xml  
 Content-Length: 696  

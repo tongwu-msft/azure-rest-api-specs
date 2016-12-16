@@ -39,7 +39,7 @@
         "tags": [
           "CustomDomains"
         ],
-        "description": "Lists the existing CDN custom domains within an endpoint.",
+        "description": "Lists all of the existing custom domains within an endpoint.",
         "operationId": "CustomDomains_ListByEndpoint",
         "parameters": [
           {
@@ -90,7 +90,7 @@
         "tags": [
           "CustomDomains"
         ],
-        "description": "Gets an existing CDN custom domain within an endpoint.",
+        "description": "Gets an exisitng custom domain within an endpoint.",
         "operationId": "CustomDomains_Get",
         "parameters": [
           {
@@ -143,7 +143,7 @@
         "tags": [
           "CustomDomains"
         ],
-        "description": "Creates a new CDN custom domain within an endpoint.",
+        "description": "Creates a new custom domain within an endpoint.",
         "operationId": "CustomDomains_Create",
         "parameters": [
           {
@@ -173,7 +173,7 @@
           {
             "name": "customDomainProperties",
             "in": "body",
-            "description": "Custom domain properties required for creation.",
+            "description": "Properties required to create a new custom domain.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/CustomDomainParameters"
@@ -218,7 +218,7 @@
         "tags": [
           "CustomDomains"
         ],
-        "description": "Deletes an existing CDN custom domain within an endpoint.",
+        "description": "Deletes an existing custom domain within an endpoint.",
         "operationId": "CustomDomains_Delete",
         "parameters": [
           {
@@ -263,7 +263,7 @@
             }
           },
           "204": {
-            "description": "No Content."
+            "description": "No Content. The request has been accepted but the custom domain was not found"
           },
           "default": {
             "description": "CDN error response describing why the operation failed.",
@@ -287,7 +287,7 @@
       ],
       "properties": {
         "sku": {
-          "description": "The SKU (pricing tier) of the CDN profile.",
+          "description": "The pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.",
           "$ref": "#/definitions/Sku"
         },
         "properties": {
@@ -300,7 +300,7 @@
       ]
     },
     "ProfileProperties": {
-      "description": "The JSON object that contains the properties of the profile to create.",
+      "description": "The JSON object that contains the properties required to create a profile.",
       "properties": {
         "resourceState": {
           "description": "Resource status of the profile.",
@@ -342,7 +342,7 @@
     },
     "ProfileUpdateParameters": {
       "type": "object",
-      "description": "Profile properties required for profile update.",
+      "description": "Properties required to update a profile.",
       "required": [
         "tags"
       ],
@@ -358,17 +358,17 @@
       "x-ms-azure-resource": true
     },
     "SsoUri": {
-      "description": "SSO URI required to login to third party web portal.",
+      "description": "SSO URI required to login to the supplemental portal.",
       "type": "object",
       "properties": {
         "ssoUriValue": {
-          "description": "The URI used to login to third party web portal.",
+          "description": "The URI used to login to the supplemental portal.",
           "type": "string"
         }
       }
     },
     "Endpoint": {
-      "description": "CDN endpoint is the entity within a CDN profile containing configuration information regarding caching behaviors and origins. The CDN endpoint is exposed using the URL format <endpointname>.azureedge.net by default, but custom domains can also be created.",
+      "description": "CDN endpoint is the entity within a CDN profile containing configuration information such as origin, protocol, content caching and delivery behavior. The CDN endpoint uses the URL format <endpointname>.azureedge.net.",
       "type": "object",
       "allOf": [
         {
@@ -383,7 +383,7 @@
       }
     },
     "EndpointProperties": {
-      "description": "The JSON object that contains the properties of the endpoint to create.",
+      "description": "The JSON object that contains the properties required to create an endpoint.",
       "required": [
         "origins"
       ],
@@ -394,12 +394,12 @@
       ],
       "properties": {
         "hostName": {
-          "description": "The host name of the endpoint {endpointName}.{DNSZone}",
+          "description": "The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. consoto.azureedge.net",
           "type": "string",
           "readOnly": true
         },
         "origins": {
-          "description": "The set of origins for the CDN endpoint. When multiple origins exist, the first origin will be used as primary and rest will be used as failover options.",
+          "description": "The source of the content being delivered via CDN.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/DeepCreatedOrigin"
@@ -447,7 +447,7 @@
     },
     "EndpointUpdateParameters": {
       "type": "object",
-      "description": "Endpoint properties required for new endpoint creation.",
+      "description": "Properties required to create a new endpoint.",
       "properties": {
         "tags": {
           "description": "Endpoint tags.",
@@ -467,22 +467,22 @@
       "description": "Result of the request to list endpoints. It contains a list of endpoints and a URL link to get the next set of results.",
       "properties": {
         "originHostHeader": {
-          "description": "The host header the CDN provider will send along with content requests to origins. The default value is the host name of the origin.",
+          "description": "The host header CDN sends along with content requests to origin. The default value is the host name of the origin.",
           "type": "string"
         },
         "originPath": {
-          "description": "The path used for origin requests.",
+          "description": "The path used when CDN sends request to origin.",
           "type": "string"
         },
         "contentTypesToCompress": {
-          "description": "List of content types on which compression will be applied. The value for the elements should be a valid MIME type.",
+          "description": "List of content types on which compression applies. The value should be a valid MIME type.",
           "type": "array",
           "items": {
             "type": "string"
           }
         },
         "isCompressionEnabled": {
-          "description": "Indicates whether content compression is enabled. The default value is false. If compression is enabled, the content transferred from the CDN endpoint to the end user will be compressed. The requested content must be larger than 1 byte and smaller than 1 MB.",
+          "description": "Indicates whether content compression is enabled on CDN. Default value is false. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on CDN when requested content is smaller than 1 byte or larger than 1 MB.",
           "type": "boolean"
         },
         "isHttpAllowed": {
@@ -498,11 +498,11 @@
           "$ref": "#/definitions/QueryStringCachingBehavior"
         },
         "optimizationType": {
-          "description": "Customer can specify what scenario they want this CDN endpoint to optimize. (e.g. Download, Media services, and etc.) With this information we can apply scenario driven optimization.",
+          "description": "Customer can specify what scenario they want this CDN endpoint to optimize, e.g. Download, Media services. With this information we can apply scenario driven optimization.",
           "type": "string"
         },
         "geoFilters": {
-          "description": "The list of geo filters for the CDN endpoint.",
+          "description": "List of rules defining user geo access within a CDN endpoint. Each geo filter defines an acess rule to a specified path or content, e.g. block APAC for path /pictures/",
           "type": "array",
           "items": {
             "$ref": "#/definitions/GeoFilter"
@@ -511,7 +511,7 @@
       }
     },
     "DeepCreatedOrigin": {
-      "description": "Origins to be added when creating a CDN endpoint.",
+      "description": "Origin to be added when creating a CDN endpoint.",
       "type": "object",
       "required": [
         "name"
@@ -529,14 +529,14 @@
       "x-ms-azure-resource": true
     },
     "DeepCreatedOriginProperties": {
-      "description": "Properties of origins Properties of the origin created on the CDN endpoint.",
+      "description": "Properties of origin Properties of the origin created on the CDN endpoint.",
       "type": "object",
       "required": [
         "hostName"
       ],
       "properties": {
         "hostName": {
-          "description": "The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.",
+          "description": "The address of the origin. It can be a domain names, IPv4 address, or IPv6 address.",
           "type": "string"
         },
         "httpPort": {
@@ -559,7 +559,7 @@
       "x-ms-azure-resource": true
     },
     "GeoFilter": {
-      "description": "Geo filter of a CDN endpoint.",
+      "description": "Rules defining user geo access within a CDN endpoint.",
       "type": "object",
       "required": [
         "relativePath",
@@ -572,7 +572,7 @@
           "type": "string"
         },
         "action": {
-          "description": "Action of the geo filter.",
+          "description": "Action of the geo filter, i.e. allow or block access.",
           "enum": [
             "Block",
             "Allow"
@@ -584,7 +584,7 @@
           }
         },
         "countryCodes": {
-          "description": "Two letter country codes of the geo filter. (e.g. AU, MX, and etc.)",
+          "description": "Two letter country codes defining user country access in a geo filter, e.g. AU, MX, US.",
           "type": "array",
           "items": {
             "type": "string"
@@ -594,7 +594,7 @@
     },
     "PurgeParameters": {
       "type": "object",
-      "description": "Parameters required for endpoint purge.",
+      "description": "Parameters required for content purge.",
       "required": [
         "contentPaths"
       ],
@@ -610,13 +610,13 @@
     },
     "LoadParameters": {
       "type": "object",
-      "description": "Parameters required for endpoint load.",
+      "description": "Parameters required for content load.",
       "required": [
         "contentPaths"
       ],
       "properties": {
         "contentPaths": {
-          "description": "The path to the content to be loaded. Should describe a file path.",
+          "description": "The path to the content to be loaded. Path should be a relative file URL of the origin.",
           "type": "array",
           "items": {
             "type": "string"
@@ -739,7 +739,7 @@
       }
     },
     "CustomDomain": {
-      "description": "CDN CustomDomain represents a mapping between a user-specified domain name and a CDN endpoint. This is to use custom domain names to represent the URLs for branding purposes.",
+      "description": "Customer provided domain for branding purposes, e.g. www.consoto.com.",
       "type": "object",
       "allOf": [
         {
@@ -778,7 +778,7 @@
           }
         },
         "validationData": {
-          "description": "Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. (e.g. ICP license number of a custom domain is required to deliver content in China.)",
+          "description": "Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.",
           "type": "string"
         },
         "provisioningState": {
@@ -827,7 +827,7 @@
       }
     },
     "ValidateCustomDomainInput": {
-      "description": "Input of the custom domain to be validated.",
+      "description": "Input of the custom domain to be validated for DNS mapping.",
       "type": "object",
       "required": [
         "hostName"
@@ -852,7 +852,7 @@
           "type": "string"
         },
         "message": {
-          "description": "The message describing why the custom domain is not valid.",
+          "description": "Error message describing why the custom domain is not valid.",
           "type": "string"
         }
       }
@@ -890,6 +890,44 @@
         "message": {
           "description": "The detailed error message describing why the name is not available.",
           "type": "string"
+        }
+      }
+    },
+    "ResourceUsageListResult": {
+      "description": "Output of check resource usage API.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResourceUsage"
+          },
+          "description": "List of resource usages."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of custom domain objects if there are any."
+        }
+      }
+    },
+    "ResourceUsage": {
+      "description": "Output of check resource usage API.",
+      "type": "object",
+      "properties": {
+        "resourceType": {
+          "type": "string",
+          "description": "Resource type of the usages."
+        },
+        "unit": {
+          "type": "string",
+          "description": "Unit of the usage. e.g. Count."
+        },
+        "currentValue": {
+          "type": "integer",
+          "description": "Actual value of the resource type."
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Quota of the resource type."
         }
       }
     },
@@ -947,6 +985,77 @@
         }
       }
     },
+    "EdgenodeResult": {
+      "description": "Result of the request to list CDN edgenodes. It contains a list of ip address group and a URL link to get the next set of results.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EdgeNode"
+          },
+          "description": "Edge node of CDN service."
+        }
+      }
+    },
+    "EdgeNode": {
+      "description": "Edge node of CDN service.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Ip adress group that contains Ipv4 and Ipv6 addresses",
+          "type": "string"
+        },
+        "resourceGroup": {
+          "description": "The resource group of the edge node.",
+          "type": "string"
+        },
+        "ipAddressGroups": {
+          "description": "List of ip address groups.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IpAddressGroup"
+          }
+        }
+      }
+    },
+    "IpAddressGroup": {
+      "description": "CDN Ip address group",
+      "type": "object",
+      "properties": {
+        "deliveryRegion": {
+          "description": "The delivery region of the ip address group",
+          "type": "string"
+        },
+        "ipv4Addresses": {
+          "description": "The list of ip v4 addresses.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/cidrIpAddress"
+          }
+        },
+        "ipv6Addresses": {
+          "description": "The list of ip v6 addresses.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/cidrIpAddress"
+          }
+        }
+      }
+    },
+    "cidrIpAddress": {
+      "description": "CIDR Ip address",
+      "type": "object",
+      "properties": {
+        "baseIpAddress": {
+          "description": "Ip adress itself.",
+          "type": "string"
+        },
+        "prefixLength": {
+          "description": "The length of the prefix of the ip address.",
+          "type": "string"
+        }
+      }
+    },
     "Resource": {
       "description": "The Resource definition.",
       "properties": {
@@ -997,7 +1106,7 @@
       }
     },
     "Sku": {
-      "description": "The SKU (pricing tier) of the CDN profile.",
+      "description": "The pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.",
       "properties": {
         "name": {
           "description": "Name of the pricing tier.",

@@ -1,7 +1,7 @@
 ---
 title: "Azure DocumentDB REST API Reference"
 ms.custom: ""
-ms.date: "2016-03-29"
+ms.date: "2016-12-11"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "documentdb"
@@ -26,76 +26,48 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Azure DocumentDB REST API Reference
-  The DocumentDB REST API supports the following:  
+The Azure DocumentDB REST API is a REST-based API that provides programmatic access to DocumentDB resources to create, query, and delete databases, document collections, and documents programmatically. [Azure DocumentDB](https://docs.microsoft.com/azure/documentdb/documentdb-introduction) is a fast and flexible NoSQL database service that is used for storing high-volume transactional and operational data with predictable single-digit millisecond latency for reads and writes. This makes it well-suited for IoT, gaming, retail, and operational logging applications. 
+
+To perform operations on DocumentDB resources, you send HTTPS requests with a supported method: GET, POST, PUT, or DELETE to an endpoint that targets a resource collection or a specific resource. This section contains information about working with resources by using the REST API. 
   
--   Access control to resources.  
-  
--   Query functionality for resources.  
-  
--   Basic CRUD operations for resources.  
-  
- This section contains information about working with resources by using the REST API. For general information DocumentDB resources, see [Interact with DocumentDB Resources](http://azure.microsoft.com/documentation/articles/documentdb-interactions-with-resources/).  
-  
-## Release and retirement dates  
- DocumentDB supports version 2015-12-16 as specified in the x-ms-version header. The version only applies if you explicitly set the x-ms-version header in the request; otherwise, it defaults to the latest version.  
-  
- Microsoft will provide notification at least **12 months** in advance before retiring an SDK in order to smooth the transition to a newer/supported version.  
-  
-> [!WARNING]  
->  All versions of the Azure DocumentDB REST API prior to version **2015-04-08** were retired on **February 29, 2016**.  
-  
- We strongly recommend that you upgrade to the latest version as early as possible. It is recommended that you begin application upgrades now in order to avoid being impacted when the earlier service versions are removed.  
-  
-|Version|Retirement date|Change introduced|  
+## Supported REST API Versions
+The following table lists the supported REST API versions by the Azure DocumentDB service. The version must be specified via the `x-ms-version` header in every request. If not specified, the service defaults to the latest version `2016-07-11`.
+
+|Version|Change introduced|Retirement date|  
 |-------------|---------------------|-----------------------|  
-|2015-12-16||[Partitioned collections](https://azure.microsoft.com/documentation/articles/documentdb-partition-data/) and [user-defined performance levels](https://azure.microsoft.com/documentation/articles/documentdb-performance-levels/).|  
-|2015-08-06|||  
-|2015-06-03|||  
-|2015-04-08|||  
-|2014-08-21|February 29th, 2016||  
+|2016-07-11|[Change feed](https://docs.microsoft.com/documentation/azure/documentdb/documentdb-change-feed)||  
+|2015-12-16|[Partitioned collections](https://docs.microsoft.com/documentation/azure/documentdb/documentdb-partition-data/)||  
+|2015-08-06|Upsert||  
+|2015-06-03|Order By support||  
+|2015-04-08|DocumentDB general availability||  
+|2014-08-21|DocumentDB public preview|February 29th, 2016|  
+    
+
+## DocumentDB Resources  
+The following articles describe the supported REST APIs for each resource type. For general information about DocumentDB resources, see [Interact with DocumentDB Resources](https://docs.microsoft.com/azure/documentdb/documentdb-interactions-with-resources) and [DocumentDB Resource URI Syntax for REST](documentdb-resource-uri-syntax-for-rest.md). 
   
-## In this section  
-  
--   [RESTful interactions with DocumentDB resources](restful-interactions-with-documentdb-resources.md)  
-  
--   [DocumentDB Resource URI Syntax for REST](documentdb-resource-uri-syntax-for-rest.md)  
-  
--   [Access Control on DocumentDB Resources](access-control-on-documentdb-resources.md)  
-  
--   [Querying DocumentDB resources using the REST API](querying-documentdb-resources-using-the-rest-api.md)  
-  
--   [HTTP Status Codes for DocumentDB](http-status-codes-for-documentdb.md)  
-  
--   [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md)  
-  
--   [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md)  
-  
--   [Common tasks using the DocumentDB REST API](common-tasks-using-the-documentdb-rest-api.md)  
-  
--   [Offers](offers.md)  
-  
--   [Databases](databases.md)  
-  
--   [Users](users.md)  
-  
--   [Permissions](permissions.md)  
-  
--   [Collections](collections.md)  
-  
--   [Documents](documents.md)  
-  
--   [Attachments](attachments.md)  
-  
--   [Stored Procedures](stored-procedures.md)  
-  
--   [User Defined Functions](user-defined-functions.md)  
-  
--   [Triggers](triggers.md)  
-  
+* [Databases](databases.md)  
+* [Collections](collections.md)  
+* [Documents](documents.md)  
+* [Attachments](attachments.md)  
+* [Stored Procedures](stored-procedures.md)  
+* [User Defined Functions](user-defined-functions.md)  
+* [Triggers](triggers.md)  
+* [Users](users.md)  
+* [Permissions](permissions.md)  
+* [Offers](offers.md)
+
+See [Access Control on DocumentDB Resources](access-control-on-documentdb-resources.md) for how to authorize requests to DocumentDB. For general information about DocumentDB request and response options, see the following articles:
+
+* [Status Codes for DocumentDB](http-status-codes-for-documentdb.md)  
+* [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md)  
+* [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md)  
+* [Common tasks using the DocumentDB REST API](common-tasks-using-the-documentdb-rest-api.md)  
+
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
+* [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
+* [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   

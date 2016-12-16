@@ -193,7 +193,7 @@ description: *content
 ---
 ```
 
-**Extranenous `---` separator** in a overwrite  
+**Extraneous `---` separator** in a overwrite  
 As with other issues, this is about making sure you have valid YAML. If your description overwrite contains extra `---` delimiter at the end for example (like the one below), this will also cause an exception in the build and none of your overwrite will be applied to the final page/output.
 
 ```
@@ -219,4 +219,28 @@ exceptions: *content
 Thrown if no subscriptions are found.
 ```
 
-We are exploring this with the VSC team and have filed a bug (https://mseng.visualstudio.com/VSChina/_workitems?id=800955). We will update as soon as we know more.
+Instead, you need to use one the following formats:
+
+```
+---
+
+uid: Microsoft.ServiceBus.Messaging.TopicDescription.EnableFilteringMessagesBeforePublishing
+exceptions: 
+- type: Microsoft.ServiceBus.Messaging.NoMatchingSubscriptionException 
+  description: Thrown if no subscriptions are found.
+---
+```
+ 
+Or:
+
+```
+---
+
+uid: Microsoft.ServiceBus.Messaging.TopicDescription.EnableFilteringMessagesBeforePublishing
+exceptions: 
+- type: Microsoft.ServiceBus.Messaging.NoMatchingSubscriptionException
+  description: *content
+---
+Thrown if no subscriptions are found.
+
+```

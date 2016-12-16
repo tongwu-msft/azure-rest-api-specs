@@ -1,7 +1,7 @@
 ---
 title: "Get a list of native image store content"
 ms.custom: ""
-ms.date: "2016-03-30"
+ms.date: "2016-12-14"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-fabric"
@@ -26,7 +26,7 @@ manager: "timlt"
 Gets the image store content from the given relative path.  
   
 ## Request  
- See [Application](application2.md) for headers and parameters that are used by all requests related the image store.  
+ See [Native Image Store](native-image-store.md) for headers and parameters that are used by all requests related the image store.  
   
 |Method|Request URI|  
 |------------|-----------------|  
