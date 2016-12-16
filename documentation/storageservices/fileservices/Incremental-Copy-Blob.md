@@ -1,7 +1,7 @@
 ---
 title: "Incremental Copy Blob"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 2016-12-16
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Incremental Copy Blob
-The `Incremental Copy Blob` operation copies a snapshot of the source page blob to a destination page blob. The snapshot is efficiently copied such that only the differential changes between the previously copied snapshot are transferred to the destination. The copied snapshots are complete copies of the original snapshot and can be read or copied from as usual. This API is supported since REST version 2016-05-31.  
+The `Incremental Copy Blob` operation copies a snapshot of the source page blob to a destination page blob. The snapshot is copied such that only the differential changes between the previously copied snapshot are transferred to the destination. The copied snapshots are complete copies of the original snapshot and can be read or copied from as usual. This API is supported since REST version 2016-05-31.  
   
 ## Request  
  The `Incremental Copy Blob` request may be constructed as follows. HTTPS is recommended. Replace myaccount with the name of your storage account, mycontainer with the name of your container, and myblob with the name of your destination blob. The comp query parameter with value of incrementalcopy indicates this request is to create an incremental snapshot:  
