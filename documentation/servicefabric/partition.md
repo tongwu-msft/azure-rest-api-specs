@@ -1,7 +1,7 @@
 ---
 title: "Partition"
 ms.custom: ""
-ms.date: "2016-03-30"
+ms.date: "2016-12-14"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-fabric"
@@ -65,3 +65,5 @@ APIs to manage Azure Service Fabric partitions.
 -   [Get the load of a partition](get-the-load-of-a-partition.md)  
   
 -   [Reset the load of a partition](reset-the-load-of-a-partition.md)
+
+-   [Get the service for a partition](get-the-service-for-a-partition.md)
