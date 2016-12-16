@@ -1,3 +1,4 @@
+# [Get Started with Azure REST](../api-index/index.md)
 # [Analysis Services](../documentation/analysisservices/index.md)
 ## [Servers](analysisservices/Servers.json)
 # [API Management](../documentation/apimanagement/index.md)
