@@ -1,7 +1,7 @@
 ---
 title: "Constructing an Account SAS"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 2016-06-29
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -143,7 +143,6 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Snapshot Blob|Blob (b)|Object (o)|Create (c)  or Write (w)|  
 |Copy Blob (destination is new blob)|Blob (b)|Object (o)|Create (c)  or Write (w)|  
 |Copy Blob (destination is an existing blob)|Blob (b)|Object (o)|Write (w)|  
-|Incremental Copy|Blob (b)|Object (o)|Create (c)  or Write (w)| 
 |Abort Copy Blob|Blob (b)|Object (o)|Write (w)|  
 |Put Block|Blob (b)|Object (o)|Write (w)|  
 |Put Block List (create new blob)|Blob (b)|Object (o)|Write (w)|  

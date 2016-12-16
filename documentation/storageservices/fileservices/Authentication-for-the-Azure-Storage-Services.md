@@ -1,7 +1,7 @@
 ---
 title: "Authentication for the Azure Storage Services"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 2016-06-29
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -267,9 +267,6 @@ Authorization: SharedKeyLite testaccount1:uay+rilMVayH/SVI8X+a3fL8k/NxCnIePdyZSk
  The following shows an example of a canonicalized headers string:  
   
  `x-ms-date:Sat, 21 Feb 2015 00:48:38 GMT\nx-ms-version:2014-02-14\n`  
-
-> [!NOTE] 
-> Prior to service version 2016-05-31, headers with empty values were omitted from the signature string. These are now represented in CanonicalizedHeaders by immediately following the colon character with the terminating new-line. 
   
 ### Constructing the Canonicalized Resource String  
  The `CanonicalizedResource` part of the signature string represents the storage services resource targeted by the request. Any portion of the `CanonicalizedResource` string that is derived from the resource's URI should be encoded exactly as it is in the URI.  

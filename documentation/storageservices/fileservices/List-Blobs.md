@@ -1,7 +1,7 @@
 ---
 title: "List Blobs"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 2016-06-29
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -123,8 +123,6 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
  For version 2015-02-21 and above, `List Blobs` returns blobs of all types (block, page, and append blobs).  
   
  For version 2015-12-11 and above, `List Blobs` returns the `ServerEncrypted` element. This element is set to `true` if the blob and application metadata are completely encrypted, and `false` otherwise.  
-
- For version 2016-05-31 and above, `List Blobs` returns the `IncrementalCopy` element for incremental copy blobs and snapshots with the value set to `true`.
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -157,8 +155,7 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
         <CopyProgress>bytes copied/bytes total</CopyProgress>  
         <CopyCompletionTime>datetime</CopyCompletionTime>  
         <CopyStatusDescription>error string</CopyStatusDescription>  
-        <ServerEncrypted>true</ServerEncrypted> 
-        <IncrementalCopy>true</IncrementalCopy> 
+        <ServerEncrypted>true</ServerEncrypted>  
       </Properties>  
       <Metadata>     
         <Name>value</Name>  

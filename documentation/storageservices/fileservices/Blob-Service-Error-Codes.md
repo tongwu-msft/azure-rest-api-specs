@@ -1,7 +1,7 @@
 ---
 title: "Blob Service Error Codes"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 2016-06-29
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -38,9 +38,7 @@ The error codes listed in the following table may be returned by an operation ag
 |ContainerDisabled|Conflict (409)|The specified container has been disabled by the administrator.|  
 |ContainerBeingDeleted|Conflict (409)|The specified container is being deleted.|  
 |BlobAlreadyExists|Conflict (409)|The specified blob already exists.|  
-|BlockCountExceedsLimit|Conflict (409)|The committed block count cannot exceed the maximum limit of 50,000 blocks.|  
-|BlockCountExceedsLimit|Conflict (409)|The uncommitted block count cannot exceed the maximum limit of 100,000 blocks.|
-|BlockListTooLong|Conflict (409)|The block list may not contain more than 50,000 blocks.|
+|BlockCountExceedsLimit|Conflict (409)|The committed block count exceeds the maximum permissible limit.|  
 |InvalidBlobType|Conflict (409)|The blob type is invalid for this operation.|  
 |LeaseNotPresentWithBlobOperation|Precondition Failed (412)|There is currently no lease on the blob.|  
 |LeaseNotPresentWithContainerOperation|Precondition Failed (412)|There is currently no lease on the container.|  
@@ -81,15 +79,8 @@ The error codes listed in the following table may be returned by an operation ag
 |SystemInUse|Conflict (409)|This blob is in use by the system.|  
 |PreviousSnapshotNotFound|Conflict (409)|The previous snapshot is not found.|  
 |PreviousSnapshotOperationNotSupported|Conflict (409)|Differential [Get Page Ranges](../fileservices/Get-Page-Ranges.md) is not supported on the previous snapshot.|  
-|BlobOverwritten|Conflict (409)|The blob has been recreated since the previous snapshot was taken.|  
+|BlobGenerationMismatch|Conflict (409)|The previous snapshot is from a different blob generation.|  
 |PreviousSnapshotCannotBeNewer|Bad Request (400)|The `prevsnapshot` query parameter value cannot be newer than snapshot query parameter value.|  
-|UnauthorizedBlobOverwrite|Forbidden (403)|This request is not authorized to perform blob overwrites.|
-|IncrementalCopySourceMustBeSnapshot|Conflict (409)|The source for incremental copy request must be a snapshot.|
-|InvalidSourceBlobUrl|Conflict (409)|The source URL for incremental copy request must be valid Azure Storage blob URL.|
-|InvalidSourceBlobType|Conflict (409)|The copy source blob type is invalid for this operation.|
-|OperationNotAllowedOnIncrementalCopyBlob|Conflict (409)|The specified operation is not allowed on an incremental copy blob.|
-|IncrementalCopyOfEralierVersionSnapshotNotAllowed|Conflict (409)|The specified snapshot is earlier than the last snapshot copied into the incremental copy blob.|
-|IncrementalCopyBlobMismatch|Conflict (409)|The specified source blob is different than the copy source of the existing incremental copy blob.|
   
 ## See Also  
  [Common REST API Error Codes](../fileservices/Common-REST-API-Error-Codes.md)   
