@@ -1,7 +1,7 @@
 ---
 title: "List Directories and Files"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2016-12-13
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -49,6 +49,7 @@ The `List Directories and Files` operation returns a list of files or directorie
   
 |Parameter|Description|  
 |---------------|-----------------|  
+|`prefix`|Optional. Version 2016-05-31 and newer. Filters the results to return only files and directories whose name begins with the specified prefix.|
 |`marker`|Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of files and/or directories to return. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](../fileservices/Setting-Timeouts-for-File-Service-Operations.md).|  
@@ -92,7 +93,8 @@ The `List Directories and Files` operation returns a list of files or directorie
 <?xml version="1.0" encoding="utf-8"?>  
 <EnumerationResults ServiceEndpoint="https://myaccount.file.core.windows.net/” ShareName="myshare" DirectoryPath="directory-path">  
   <Marker>string-value</Marker>  
-  <MaxResults>int-value</MaxResults>  
+  <MaxResults>int-value</MaxResults>
+  <Prefix>prefix-value</Prefix>  
   <Entries>  
     <File>  
       <Name>file-name</Name>  
