@@ -4,9 +4,10 @@ ms.title: Azure Storage Import-Export REST API
 ms.service: storage
 author: robinsh
 ms.author: robinsh
-ms.manager: carmonm
+ms.manager: timlt
 ---
 
 
 # Azure Storage Import-Export REST API Reference
 
+This API helps you manage import/export jobs to transfer data to or from Blob storage.
