@@ -862,6 +862,7 @@
 ##### [Operations on Page Blobs](../documentation/storageservices/fileservices/operations-on-page-blobs.md)
 ###### [Put Page](../documentation/storageservices/fileservices/put-page.md)
 ###### [Get Page Ranges](../documentation/storageservices/fileservices/get-page-ranges.md)
+###### [Incremental Copy Blob](../documentation/storageservices/fileservices/incremental-copy-blob.md)
 ##### [Operations on Append Blobs](../documentation/storageservices/fileservices/operations-on-append-blobs.md)
 ###### [Append Block](../documentation/storageservices/fileservices/append-block.md)
 ### [Queue Service REST API](../documentation/storageservices/fileservices/queue-service-rest-api.md)
