@@ -1,7 +1,7 @@
 ---
 title: "Offers"
 ms.custom: ""
-ms.date: "2016-03-29"
+ms.date: "2016-12-13"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "documentdb"
@@ -33,7 +33,7 @@ translation.priority.mt:
   
 ||Details|Throughput Limits|Storage Limits|Version|APIs|  
 |-|-------------|-----------------------|--------------------|-------------|----------|  
-|User-defined performance|Storage metered based on usage in GB.<br /><br /> Throughput in units of 100 RU/s|Unlimited. 400 - 250,000 request units/s by default (higher by request)|Unlimited. 250 GB by default (higher by request)|V2|API 2015-12-16 and newer|  
+|User-defined performance|Unlimited|Unlimited|V2|API 2015-12-16 and newer|  
 |Pre-defined performance|10 GB reserved storage.<br /><br /> S1 = 250 RU/s, S2 = 1000 RU/s, S3 = 2500 RU/s|2500 RU/s|10 GB|V1|Any|  
   
 The offer resource is represented by offers in the DocumentDB resource model. Here’s an example of the URI: https://mydbaccount.documents.azure.com/offers.  
