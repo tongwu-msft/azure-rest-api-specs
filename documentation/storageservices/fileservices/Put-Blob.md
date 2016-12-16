@@ -1,7 +1,7 @@
 ---
 title: "Put Blob"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 2016-06-29
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -210,10 +210,10 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
 ## Remarks  
  When you create a blob, you must specify whether it is a block blob, append blob, or page blob by specifying the value of the `x-ms-blob-type` header. Once a blob has been created, the type of the blob cannot be changed unless it is deleted and re-created.  
-
- The maximum size for a block blob created via `Put Blob` is 256 MB for version 2016-05-31 and later, and 64 MB for older versions. If your blob is larger than 256 MB for version 2016-05-31 and later, or 64 MB for older versions, you must upload it as a set of blocks. For more information, see the `Put Block` and `Put Block Listoperations`. It's not necessary to also call `Put Blob` if you upload the blob as a set of blocks.
-
- If you attempt to upload a block blob that is larger than 256 MB for version 2016-05-31 and later, and 64 MB for older versions, or a page blob larger than 1 TB, the service returns status code 413 (Request Entity Too Large). The Blob service also returns additional information about the error in the response, including the maximum blob size permitted in bytes.
+  
+ The maximum size for a block blob created via `Put Blob` is 64 MB. If your blob is larger than 64 MB, you must upload it as a set of blocks. For more information, see the [Put Block](../fileservices/Put-Block.md) and [Put Block List](../fileservices/Put-Block-List.md) operations. It's not necessary to also call `Put Blob` if you upload the blob as a set of blocks.  
+  
+ If you attempt to upload a block blob that is larger than 64 MB, or a page blob larger than 1 TB, the service returns status code 413 (Request Entity Too Large). The Blob service also returns additional information about the error in the response, including the maximum blob size permitted in bytes.  
   
  To create a new page blob, first initialize the blob by calling `Put Blob` and specify its maximum size, up to 1 TB. When creating a page blob, do not include content in the request body. Once the blob has been created, call [Put Page](../fileservices/Put-Page.md) to add content to the blob or to modify it.  
   

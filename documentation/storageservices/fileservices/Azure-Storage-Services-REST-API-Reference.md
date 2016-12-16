@@ -1,7 +1,7 @@
 ---
 title: "Azure Storage Services REST API Reference"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 2016-06-29
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -50,11 +50,11 @@ The REST APIs for the Windows® Azure™ storage services offer programmatic acc
   
  Using the REST API for the Blob service, developers can create a hierarchical namespace similar to a file system. Blob names may encode a hierarchy by using a configurable path separator. For example, the blob names *MyGroup/MyBlob1* and *MyGroup/MyBlob2* imply a virtual level of organization for blobs. The enumeration operation for blobs supports traversing the virtual hierarchy in a manner similar to that of a file system, so that you can return a set of blobs that are organized beneath a group. For example, you can enumerate all blobs organized under *MyGroup/*.  
   
- A block blob may be created in one of two ways. Block blobs less than or equal to 25664 MB (64 MB for requests using REST versions before 2016-05-31) in size can be uploaded by calling the [Put Blob](../fileservices/Put-Blob.md) operation. Block blobs larger than this must be uploaded as a set of blocks, each of which must be less than or equal to 1004 MB (4 MB for requests using REST versions before 2016-05-31) in size. A set of successfully uploaded blocks can be assembled in a specified order into a single contiguous blob by calling [Put Block List](../fileservices/Put-Block-List.md). The maximum size currently supported for a block blob is 5,000,000 MB (200,000 MB for requests using REST versions before 2016-05-31).  
+ A block blob may be created in one of two ways. Block blobs less than or equal to 64 MB in size can be uploaded by calling the [Put Blob](../fileservices/Put-Blob.md) operation. Block blobs larger than 64 MB must be uploaded as a set of blocks, each of which must be less than or equal to 4 MB in size. A set of successfully uploaded blocks can be assembled in a specified order into a single contiguous blob by calling [Put Block List](../fileservices/Put-Block-List.md). The maximum size currently supported for a block blob is 200,000 MB.  
   
  Page blobs are created and initialized with a maximum size with a call to [Put Blob](../fileservices/Put-Blob.md). To write content to a page blob, you call the [Put Page](../fileservices/Put-Page.md) operation. The maximum size currently supported for a page blob is 1 TB.  
   
- Append blobs can be created by calling [Put Blob](../fileservices/Put-Blob.md). An append blob created with the [Put Blob](../fileservices/Put-Blob.md) operation does not include any content. To write content to an append blob, you add blocks to the end of the blob by calling the [Append Block](../fileservices/Append-Block.md) operation. Updating or deleting existing blocks is not supported. Each block can be of different size, up to a maximum of 4 MB. The maximum size for an append blob is 200,000 MB, and an append blob can include no more than 50,000 blocks.  
+ Append blobs can be created by calling [Put Blob](../fileservices/Put-Blob.md). An append blob created with the [Put Blob](../fileservices/Put-Blob.md) operation does not include any content. To write content to an append blob, you add blocks to the end of the blob by calling the [Append Block](../fileservices/Append-Block.md) operation. Updating or deleting existing blocks is not supported. Each block can be of different size, up to a maximum of 4 MB. The maximum size for a append blob is 200,000 MB, and an append blob can include no more than 50,000 blocks.  
   
  Blobs support conditional update operations that may be useful for concurrency control and efficient uploading.  
   

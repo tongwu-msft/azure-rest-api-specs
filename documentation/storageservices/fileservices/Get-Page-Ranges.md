@@ -1,14 +1,14 @@
 ---
-title: "Incremental Copy Blob"
+title: "Get Page Ranges"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 2016-06-29
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
 ms.suite: na
 ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 
+ms.assetid: 6f176ace-8f1b-4e99-8eef-5c7ea22fcc22
 caps.latest.revision: 28
 author: tamram
 manager: carolz
@@ -25,17 +25,17 @@ translation.priority.mt:
   - zh-tw
 ---
 # Get Page Ranges
-The Get Page Ranges operation returns the list of valid page ranges for a page blob or snapshot of a page blob.  
+The `Get Page Ranges` operation returns the list of valid page ranges for a page blob or snapshot of a page blob.  
   
 ## Request  
- The Get Page Ranges request may be constructed as follows. HTTPS is recommended. Replace myaccount with the name of your storage account:  
+ The `Get Page Ranges` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
 |GET Method Request URI|HTTP Version|  
 |----------------------------|------------------|  
-|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist`<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist&snapshot=<DateTime>`<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=p agelist&snapshot=<DateTime>&prevsnapshot=<DateTime>`|HTTP/1.1|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist&snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=p  agelist&snapshot=<DateTime>&prevsnapshot=<DateTime>`|HTTP/1.1|  
   
 ### Emulated Storage Service URI  
- When making a request against the emulated storage service, specify the emulator hostname and Blob service port as 127.0.0.1:10000, followed by the emulated storage account name:  
+ When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 |GET Method Request URI|HTTP Version|  
 |----------------------------|------------------|  
@@ -48,10 +48,9 @@ The Get Page Ranges operation returns the list of valid page ranges for a page b
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`snapshot`|Optional. The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve information from. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](../fileservices/Creating-a-Snapshot-of-a-Blob.md).|
-|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](../fileservices/Setting-Timeouts-for-Blob-Service-Operations.md).| 
-|`prevsnapshot`|Optional in version 2015-07-08 and newer. The `prevsnapshot` parameter is a DateTime value that specifies that the response will contain only pages that were changed between target blob and previous snapshot. Changed pages include both updated and cleared pages. The target blob may be a snapshot, as long as the snapshot specified by prevsnapshot is the older of the two.<br/><br/>Note that incremental snapshots are currently supported only for blobs created on or after January 1, 2016.|
-  
+|`snapshot`|Optional. The snapshot parameter is an opaque `DateTime` value that, when present, specifies the blob snapshot to retrieve information from. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](../fileservices/Creating-a-Snapshot-of-a-Blob.md).|  
+|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](../fileservices/Setting-Timeouts-for-Blob-Service-Operations.md).|  
+|`prevsnapshot`|Optional in version 2015-07-08 and newer. The `prevsnapshot` parameter is a `DateTime` value that specifies that the response will contain only pages that were changed between target blob and previous snapshot.  Changed pages include both updated and cleared pages. The target blob may be a snapshot, as long as the snapshot specified by `prevsnapshot` is the older of the two.<br /><br /> Note that incremental snapshots are currently supported only for blobs created on or after January 1, 2016.|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  
@@ -62,13 +61,12 @@ The Get Page Ranges operation returns the list of valid page ranges for a page b
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](../fileservices/Authentication-for-the-Azure-Storage-Services.md).|  
 |`x-ms-version`|Required for all authenticated requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](../fileservices/Versioning-for-the-Azure-Storage-Services.md).|  
 |`Range`|Optional. Specifies the range of bytes over which to list ranges, inclusively. If omitted, then all ranges for the blob are returned.|  
-|`x-ms-range`|Optional. Specifies the range of bytes over which to list ranges, inclusively.
-If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for Blob Service Operations](../fileservices/Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|
-|`x-ms-lease-id:<ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met: <br/><br/>-  The blob's lease is currently active.<br/><br/>-  The lease ID specified in the request matches that of the blob.<br/><br/>If this header is specified and both of these conditions are not met, the request will fail and the operation will fail with status code 412 (Precondition Failed).|
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging and Azure Logging: Using Logs to Track Storage Requests](../fileservices/About-Storage-Analytics-Logging.md).|
-
+|`x-ms-range`|Optional. Specifies the range of bytes over which to list ranges, inclusively.<br /><br /> If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for Blob Service Operations](../fileservices/Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|  
+|`x-ms-lease-id:<ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met:<br /><br /> -   The blob's lease is currently active.<br />-   The lease ID specified in the request matches that of the blob.<br /><br /> If this header is specified and both of these conditions are not met, the request will fail and the operation will fail with status code 412 (Precondition Failed).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](../fileservices/About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+  
  This operation also supports the use of conditional headers to get page ranges only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](../fileservices/Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
-
+  
 ### Request Body  
  None.  
   
@@ -86,7 +84,7 @@ If both `Range` and `x-ms-range` are specified, the service uses the value of `x
 |Syntax|Description|  
 |------------|-----------------|  
 |`Last-Modified`|The date/time that the blob was last modified. The date format follows RFC 1123.<br /><br /> Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the blob's last modified time.|  
-|`ETag`|The ETag contains a value that the client can use to perform the operation conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes.|  
+|ETag|The ETag contains a value that the client can use to perform the operation conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes.|  
 |`x-ms-blob-content-length`|The size of the blob in bytes.|  
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](../fileservices/Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and later.<br /><br /> This header is also returned for anonymous requests without a version specified if the container was marked for public access using the 2009-09-19 version of the Blob service.|  
@@ -149,7 +147,7 @@ If both `Range` and `x-ms-range` are specified, the service uses the value of `x
  Certain operations on a blob will cause `Get Page Ranges` to fail when called to return an incremental snapshot. `Get Pages Ranges` will fail with error code 409 (Conflict) if it is called on a blob that was the target of a [Put Blob](../fileservices/Put-Blob.md) or [Copy Blob](../fileservices/Copy-Blob.md) request after the snapshot specified by `prevsnapshot` was taken. If the target of the `Get Page Ranges` operation is itself a snapshot, then the call will succeed as long as the snapshot specified by `prevsnapshot` is older, and no `Put Blob` or `Copy Blob` operation was called in the interval between the two snapshots.  
   
 > [!NOTE]
->  Incremental snapshots are currently supported only for blobs created on or after January 1, 2016. Attempting to use this feature on an older blob will result in the `BlobOverwritten` error, which is HTTP error code 409 (Conlfict).  
+>  Incremental snapshots are currently supported only for blobs created on or after January 1, 2016. Attempting to use this feature on an older blob will result in the `BlobGenerationMismatch` error, which is HTTP error code 409 (Conlfict).  
   
 ## See Also  
  [Authentication for the Azure Storage Services](../fileservices/Authentication-for-the-Azure-Storage-Services.md)   

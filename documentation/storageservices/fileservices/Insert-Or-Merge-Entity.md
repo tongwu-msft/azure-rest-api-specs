@@ -50,11 +50,7 @@ The `Insert Or Merge Entity` operation updates an existing entity or inserts a n
  The Table service in the storage emulator differs from the Windows® Azure™ Table service in several ways. For more information, see [Differences Between the Storage Emulator and Azure Storage Services](assetId:///c60f2090-c0f4-4817-8559-e98786461dbe).  
   
 ### URI Parameters  
- The following additional parameters may be specified on the request URI.  
-
-|Parameter|Description|
-|---------|-----------|
-|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](../fileservices/Setting-Timeouts-for-Queue-Service-Operations.md).|  
+ None.  
   
 ### Request Headers  
  The following table describes required and optional request headers.  

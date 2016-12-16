@@ -1,7 +1,7 @@
 ---
 title: "Get Container ACL"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 2016-06-29
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -89,7 +89,7 @@ The `Get Container ACL` operation gets the permissions for the specified contain
   
 |Response header|Description|  
 |---------------------|-----------------|  
-|`x-ms-blob-public-access`|Indicates whether data in the container may be accessed publicly and the level of access. Possible values include:<br /><br /> -   `container`: Indicates full public read access for container and blob data. Clients can enumerate blobs within the container via anonymous request, but cannot enumerate containers within the storage account.<br />-   `blob:` Indicates public read access for blobs. Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.<br />-   `true:` (Versions before 2016-05-31 only) Indicates that the container was marked for full public read access using a version prior to 2009-09-19. As of version 2016-05-31 this value is returned as “container” instead.<br /><br /> If this header is not returned in the response, the container is private to the account owner.|  
+|`x-ms-blob-public-access`|Indicates whether data in the container may be accessed publicly and the level of access. Possible values include:<br /><br /> -   `container`: Indicates full public read access for container and blob data. Clients can enumerate blobs within the container via anonymous request, but cannot enumerate containers within the storage account.<br />-   `blob:` Indicates public read access for blobs. Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.<br />-   `true:` Indicates that the container was marked for full public read access using a version prior to 2009-09-19.<br /><br /> If this header is not returned in the response, the container is private to the account owner.|  
 |`ETag`|The entity tag for the container. If the request version is 2011-08-18 or newer, the ETag value will be in quotes.|  
 |`Last-Modified`|Returns the date and time the container was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](../fileservices/Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any operation that modifies the container or its properties or metadata updates the last modified time. Operations on blobs do not affect the last modified time of the container.|  
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](../fileservices/Troubleshooting-API-Operations.md).|  
