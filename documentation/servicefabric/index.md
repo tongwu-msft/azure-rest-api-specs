@@ -104,6 +104,8 @@ Content-Type: application/json; charset=utf-8
 -   [Application](application2.md)  
   
 -   [Native image store](native-image-store.md)  
+
+-   [Image store](image-store.md)
   
 ## Common tasks  
  **Cluster**  
