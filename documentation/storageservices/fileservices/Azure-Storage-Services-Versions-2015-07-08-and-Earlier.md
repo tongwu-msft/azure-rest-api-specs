@@ -1,5 +1,5 @@
 ---
-title: "Azure Storage Services Versions 2015-07-08 and Earlier"
+title: "Azure Storage Services Versions 2015-12-11 and Earlier"
 ms.custom: na
 ms.date: 2016-06-29
 ms.prod: azure
@@ -24,14 +24,16 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Azure Storage Services Versions 2015-07-08 and Earlier
+# Azure Storage Services Versions 2015-12-11 and Earlier
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
 ## Available Versions  
- The current version of the Azure storage services is 2015-12-11, and using that version is recommended where possible. For information about the latest version, see [Versioning for the Azure Storage Services](../fileservices/Versioning-for-the-Azure-Storage-Services.md).  
+ The current version of the Azure storage services is 2016-05-31, and using that version is recommended where possible. For information about the latest version, see [Versioning for the Azure Storage Services](../fileservices/Versioning-for-the-Azure-Storage-Services.md).  
   
  Additional supported versions are listed below.  
-  
+
+-   [Version 2015-12-11](../fileservices/Version-2015-12-11.md) 
+
 -   [Version 2015-07-08](../fileservices/Version-2015-07-08.md)  
   
 -   [Version 2015-04-05](../fileservices/Version-2015-04-05.md)  
