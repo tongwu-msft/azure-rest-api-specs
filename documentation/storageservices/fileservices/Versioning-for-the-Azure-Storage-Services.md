@@ -30,19 +30,19 @@ The Microsoft Azure storage services support multiple versions. To make a reques
  The current version of the Azure storage services is 2016-05-31, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Azure Storage Services Versions 2015-12-11 and Earlier](../fileservices/Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md).  
   
 ## Version 2016-05-31  
- Version 2016-05-31 includes these changes:  
-  
-- List files and directories prefix support
-- List Containers and Get Container Properties now returns the public access level (previously only in Get Container ACL)  
-- Put Message returns message info including pop receipt 
-- Numerous error responses have been clarified or made more specific (particularly in the table service)
-- All table APIs now accept and enforce the timeout query parameter
-- Large block blobs
-- The overall MD5 is now returned from range gets for blobs and files.
-- A new Incremental Copy Blob API is introduced
-- Using If-None-Match: * will now fail for reads. Previously it was ignored.
-- During authentication, the canonicalized headers now includes headers with empty values.
 
+Version 2016-05-31 includes these changes: 
+
+* The maximum size of blocks has been increased to 100 MB. This means that the maximum size of a block blob is now 5,000,000 MB, or about 4.75 TB.
+* The public access level of a container is now returned from the [List Containers](List-Containers2.md) and [Get Container Properties](Get-Container-Properties.md) APIs. Previously this information could only be obtained by calling [Get Container ACL](Get-Container-ACL.md).
+* The [Put Message](Put-Message.md) API now returns information about the message that was just added, including the pop receipt. This enables the you to call [Update Message](Update-Message.md) and [Delete Message](Delete-Message2.md) on the newly enqueued message.
+* The [List Directories and Files](List-Directories-and-Files.md) API now accepts a new parameter that limits the listing to a specified prefix.
+* Several error messages have been clarified or made more specific.
+* All table APIs now accept and enforce the timeout query parameter.
+* The stored `Content-MD5` property is now returned when requesting a range of a blob or file. Previously this was only returned for full blob and file downloads.
+* A new [Incremental Copy Blob](Incremental-Copy-Blob.md) API is now available. This allows efficient copying and backup of page blob snapshots.
+* Using `If-None-Match: *` will now fail when reading a blob. Previously this header was ignored for blob reads.
+* During authentication, the canonicalized header list now includes headers with empty values. Previously these were omitted from the list.
 
 ## Specifying Storage Service Versions in Requests  
 
