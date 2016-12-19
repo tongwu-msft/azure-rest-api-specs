@@ -28,7 +28,7 @@ translation.priority.mt:
 The following table shows which storage services REST protocol versions are supported for each version of the .NET Storage Client Library.  
   
 |Storage Client Library Version|Underlying REST Protocol Version|  
-|------------------------------------|--------------------------------------|  
+|------------------------------|--------------------------------|  
 |1.7|2011-08-18|  
 |2.x|2012-02-12|  
 |3.x|2013-08-15|  
@@ -39,7 +39,7 @@ The following table shows which storage services REST protocol versions are supp
 |7.1|2015-12-11|  
 |8.0|2016-05-31|
   
- For .NET storage client library documentation, see [Storage Client Library .NET](../fileservices/Azure%20Storage%20Client%20Library%20for%20.NET.md).  
+ For .NET storage client library documentation, see [Storage Client Library .NET](https://msdn.microsoft.com/library/azure/mt347887.aspx).  
   
  For a complete list of storage client library versions, see the [Windows Azure Storage NuGet page](https://www.nuget.org/packages/WindowsAzure.Storage/).  
   
