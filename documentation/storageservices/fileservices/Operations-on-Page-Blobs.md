@@ -33,3 +33,6 @@ The REST API operations in this section apply only to page blobs. See [Understan
   
  [Get Page Ranges](../fileservices/Get-Page-Ranges.md)  
  Returns a list of active page ranges for a page blob. Active page ranges are those that have been populated with data.
+
+ [Incremental Copy Blob](../fileservices/Incremental-Copy-Blob.md)  
+ Copies a snapshot of a source page blob to a destination page blob. Only differential changes are transferred.
