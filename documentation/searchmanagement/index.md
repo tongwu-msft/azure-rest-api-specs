@@ -16,7 +16,7 @@ Azure Search provides a REST API used with [Azure Resource Manager](http://msdn.
 GET  https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2015-08-19
 ~~~~
 
-You can [use PowerShell](https://azure.microsoft.com/documentation/articles/search-manage-powershell/) for search management or write code that includes an HTTP client. Currently, the Azure Search.NET SDK does not support service administration.
+You can use [.NET](https://aka.ms/search-mgmt-sdk) or [PowerShell](https://azure.microsoft.com/documentation/articles/search-manage-powershell/) for search management, or write code that includes an HTTP client.
 
 ## REST Operation Groups
 
