@@ -103,3 +103,8 @@
 # [Native image store](native-image-store.md)
 ## [Get a list of native image store content](get-a-list-of-native-image-store-content.md)
 ## [Delete native image store content](delete-native-image-store-content.md)
+# [Image store](image-store.md)
+## [Get a list of image store content](get-a-list-of-image-store-content.md)  
+## [Delete image store content](delete-image-store-content.md)
+## [Upload file to image store](upload-a-file-to-image-store.md)
+## [Copy image store content](copy-image-store-content.md)

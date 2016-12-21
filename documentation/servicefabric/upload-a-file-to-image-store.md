@@ -22,7 +22,7 @@ author: "rwike77"
 ms.author: "ryanwi"
 manager: "timlt"
 ---
-# Delete native image store content
+# Upload a file to the image store
 Upload file to Azure Service Fabric image store  
   
 ## Request  
