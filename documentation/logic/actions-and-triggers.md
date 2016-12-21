@@ -636,12 +636,10 @@ Terminate action will stop execution of the workflow run, aborting any in-flight
 "HandleUnexpectedResponse" : {
     "type": "terminate",
     "inputs": {
-        "interval": {
-            "runStatus" : "failed",
-            "runError": {
-                "code": "UnexpectedResponse",
-                "message": "Received an unexpected response.",
-            }
+        "runStatus" : "failed",
+        "runError": {
+            "code": "UnexpectedResponse",
+            "message": "Received an unexpected response.",
         }
     }
 }
@@ -656,6 +654,24 @@ Terminate action will stop execution of the workflow run, aborting any in-flight
 |runError|No|Object|The error details. Only supported when **runStatus** is set to **Failed**.|
 |runError code|No|String|The run error code.|
 |runError message|No|String|The run error message.|
+
+## Compose action
+Compose action lets you construct an arbitrary object. The output of the compose action is the result of evaluating its inputs. For example, you can use the compose action to merge outputs of multiple actions:
+
+```json
+"composeUserRecord" : {
+    "type": "compose",
+    "inputs": {
+        "firstName": "@actions('getUser').firstName",
+        "alias": "@actions('getUser').alias",
+        "thumbnailLink": "@actions('lookupThumbnail').url"
+        }
+    }
+}
+```
+
+> [!NOTE]
+> The **Compose** action can be used to constuct any output, inluding objects, arrays, and any other type natively supported by logic apps, such as xml and binary.
 
 ## Workflow action   
 |Name|Required|Type|Description|  
