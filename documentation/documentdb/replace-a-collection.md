@@ -7,7 +7,7 @@ ms.reviewer: ""
 ms.service: "documentdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
-ms.topic: "article"
+ms.topic: "reference"
 ms.assetid: 22f0a0f2-df1e-40d4-b5ff-12aeecaa1419
 caps.latest.revision: 6
 author: "mimig1"

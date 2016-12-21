@@ -1,5 +1,5 @@
 ---
-uid: management.azure.com/KeyVaultClient/2016-10-01/SetSecret
+uid: KeyVaultClient/2016-10-01/SetSecret
 summary: Sets a secret in a specified key vault.
 parameters:
     - name: api-version
