@@ -71,6 +71,7 @@ The Blob service stores text and binary data as blobs in the cloud. The Blob ser
 |[Get Block List](../fileservices/Get-Block-List.md)|Block blobs only|Retrieves the list of blocks that have been uploaded as part of a block blob.|  
 |[Put Page](../fileservices/Put-Page.md)|Page blobs only|Writes a range of pages into a page blob.|  
 |[Get Page Ranges](../fileservices/Get-Page-Ranges.md)|Page blobs only|Returns a list of valid page ranges for a page blob or a snapshot of a page blob.|  
+|[Incremental Copy Blob](../fileservices/Incremental-Copy-Blob.md)|Page blobs only|Copies a snapshot of a source page blob to a destination page blob. Only differential changes are transferred.|  
 |[Append Block](../fileservices/Append-Block.md)|Append blobs only|Writes a block of data to the end of an append blob.|  
   
 ## In This Section  

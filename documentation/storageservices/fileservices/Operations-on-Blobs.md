@@ -1,7 +1,7 @@
 ---
 title: "Operations on Blobs"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2016-12-21
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -80,6 +80,9 @@ Microsoft Azure Storage provides REST operations for working with blobs in the B
   
  [Get Page Ranges](../fileservices/Get-Page-Ranges.md)  
  Returns a list of valid page ranges for a page blob or a snapshot of a page blob.  
+
+ [Incremental Copy Blob](../fileservices/Incremental-Copy-Blob.md)  
+ Copies a snapshot of a source page blob to a destination page blob. Only differential changes are transferred.
   
 ### Operations on Append Blobs  
  [Append Block](../fileservices/Append-Block.md)  

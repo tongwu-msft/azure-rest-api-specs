@@ -1,7 +1,7 @@
 ---
 title: "List Containers"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2016-12-13
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -107,7 +107,8 @@ The `List Containers` operation returns a list of the containers under the speci
         <Etag>etag</Etag>  
         <LeaseStatus>locked | unlocked</LeaseStatus>  
         <LeaseState>available | leased | expired | breaking | broken</LeaseState>  
-        <LeaseDuration>infinite | fixed</LeaseDuration>        
+        <LeaseDuration>infinite | fixed</LeaseDuration> 
+        <PublicAccess>container | blob</PublicAccess>       
       </Properties>  
       <Metadata>  
         <metadata-name>value</metadata-name>  
@@ -137,7 +138,13 @@ The `List Containers` operation returns a list of the containers under the speci
 </Metadata>  
   
 ```  
-  
+
+Beginning with the 2016-05-31 version, the container public permissions will be provided in the PublicAccess property. It indicates whether data in the container may be accessed publicly and the level of access. Possible values include:
+- container: Indicates full public read access for container and blob data. Clients can enumerate blobs within the container via anonymous request, but cannot enumerate containers within the storage account.
+- blob: Indicates public read access for blobs. Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.
+
+If this property is not specified in the <properties> section, the container is private to the account owner.
+
 > [!NOTE]
 >  Beginning with version 2009-09-19, the response body for `List Containers` returns the container's last modified time in an element named `Last-Modified`. In previous versions, this element was named `LastModified`.  
   
@@ -163,8 +170,8 @@ GET https://myaccount.blob.core.windows.net/?comp=list&maxresults=3 HTTP/1.1
  The request is sent with these headers:  
   
 ```  
-x-ms-version: 2013-08-15  
-x-ms-date: Wed, 23 Oct 2013 22:08:44 GMT  
+x-ms-version: 2016-05-31  
+x-ms-date: Wed, 26 Oct 2016 22:08:44 GMT  
 Authorization: SharedKey myaccount:CY1OP3O3jGFpYFbTCBimLn0Xov0vt0khH/D5Gy0fXvg=  
 ```  
   
@@ -174,8 +181,8 @@ Authorization: SharedKey myaccount:CY1OP3O3jGFpYFbTCBimLn0Xov0vt0khH/D5Gy0fXvg=
 HTTP/1.1 200 OK  
 Transfer-Encoding: chunked  
 Content-Type: application/xml  
-Date: Wed, 23 Oct 2013 22:08:54 GMT  
-x-ms-version: 2013-08-15  
+Date: Wed, 26 Oct 2016 22:08:54 GMT  
+x-ms-version: 2016-05-31  
 Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0  
   
 ```  
@@ -190,21 +197,22 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
     <Container>  
       <Name>audio</Name>  
       <Properties>  
-        <Last-Modified>Wed, 23 Oct 2013 20:39:39 GMT</Last-Modified>  
-        <Etag>0x8CACB9BD7C6B1B2</Etag>  
+        <Last-Modified>Wed, 26 Oct 2016 20:39:39 GMT</Last-Modified>  
+        <Etag>0x8CACB9BD7C6B1B2</Etag> 
+        <PublicAccess>container</PublicAccess> 
       </Properties>  
     </Container>  
     <Container>  
       <Name>images</Name>  
       <Properties>  
-        <Last-Modified>Wed, 23 Oct 2013 20:39:39 GMT</Last-Modified>  
+        <Last-Modified>Wed, 26 Oct 2016 20:39:39 GMT</Last-Modified>  
         <Etag>0x8CACB9BD7C1EEEC</Etag>  
       </Properties>  
     </Container>  
     <Container>  
       <Name>textfiles</Name>  
       <Properties>  
-        <Last-Modified>Wed, 23 Oct 2013 20:39:39 GMT</Last-Modified>  
+        <Last-Modified>Wed, 26 Oct 2016 20:39:39 GMT</Last-Modified>  
         <Etag>0x8CACB9BD7BACAC3</Etag>  
       </Properties>  
     </Container>  

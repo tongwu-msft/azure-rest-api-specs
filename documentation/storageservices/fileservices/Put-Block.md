@@ -1,7 +1,7 @@
 ---
 title: "Put Block"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2016-12-13
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -58,7 +58,7 @@ The `Put Block` operation creates a new block to be committed as part of a blob.
 |`Authorization`|Required. Specifies the authentication scheme, account name, and signature. See [Authentication for the Azure Storage Services](../fileservices/Authentication-for-the-Azure-Storage-Services.md) for more information.|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](../fileservices/Authentication-for-the-Azure-Storage-Services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](../fileservices/Versioning-for-the-Azure-Storage-Services.md).|  
-|`Content-Length`|Required. The length of the block content in bytes. The block must be less than or equal to 4 MB in size.<br /><br /> When the length is not provided, the operation will fail with the status code 411 (Length Required).|  
+|`Content-Length`|Required. The length of the block content in bytes. The block must be less than or equal to 100 MB in size for version 2016-05-31 and later (4 MB for older versions).<br /><br />When the length is not provided, the operation will fail with the status code 411 (Length Required).|  
 |`Content-MD5`|Optional. An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value.<br /><br /> Note that this MD5 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](../fileservices/About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
@@ -115,9 +115,9 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to write to this blob or its container.  
   
 ## Remarks  
- `Put Block` uploads a block for future inclusion in a block blob. Each block can be a different size, up to a maximum of 4 MB, and a block blob can include a maximum of 50,000 blocks. The maximum size of a block blob is therefore slightly more than 195 GB (4 MB X 50,000 blocks).  
-  
- A blob can have a maximum of 100,000 uncommitted blocks at any given time, and the set of uncommitted blocks cannot exceed 400 GB in total size. If these maximums are exceeded, the service returns status code 413 (RequestEntityTooLarge).  
+ `Put Block` uploads a block for future inclusion in a block blob. A block blob can include a maximum of 50,000 blocks. Each block can be a different size, up to a maximum of 100 MB for version 2016-05-31 and later, and 4 MB for older versions. The maximum size of a block blob is therefore slightly more than 4.75 TB (100 MB X 50,000 blocks) for version 2016-05-31 and later, and 195 GB (4 MB X 50,000 blocks) for all older versions. 
+
+ A blob can have a maximum of 100,000 uncommitted blocks at any given time. Starting in version 2016-05-31, the set of uncommitted blocks cannot exceed 9.52 TB in total size. For older versions, the set of uncommitted blocks cannot exceed 400 GB in total size. If these maximums are exceeded, the service returns status code 409 (RequestEntityTooLargeBlockCountExceedsLimit).
   
  After you have uploaded a set of blocks, you can create or update the blob on the server from this set by calling the [Put Block List](../fileservices/Put-Block-List.md) operation. Each block in the set is identified by a block ID that is unique within that blob. Block IDs are scoped to a particular blob, so different blobs can have blocks with same IDs.  
   
@@ -133,7 +133,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
  For a given blob, all block IDs must be the same length. If a block is uploaded with a block ID of a different length than the block IDs for any existing uncommitted blocks, the service returns error response code 400 (Bad Request).  
   
- If you attempt to upload a block that is larger than 4 MB, the service returns status code 413 (Request Entity Too Large). The service also returns additional information about the error in the response, including the maximum block size permitted in bytes.  
+ If you attempt to upload a block that is larger than 100 MB for version 2016-05-31 and later, and larger than 4MB for older versions, the service returns status code 413 (Request Entity Too Large). The service also returns additional information about the error in the response, including the maximum block size permitted in bytes.  
   
  Calling `Put Block` does not update the last modified time of an existing blob.  
   
