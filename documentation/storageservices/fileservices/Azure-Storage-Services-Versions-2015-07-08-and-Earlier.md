@@ -1,7 +1,7 @@
 ---
 title: "Azure Storage Services Versions 2015-12-11 and Earlier"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2016-12-21
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage

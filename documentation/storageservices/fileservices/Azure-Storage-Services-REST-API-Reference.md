@@ -1,7 +1,7 @@
 ---
 title: "Azure Storage Services REST API Reference"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 2016-12-21
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Azure Storage Services REST API Reference
-The REST APIs for the Windows® Azure™ storage services offer programmatic access to the Blob, Queue, Table, and File services in Azure or in the development environment, via the storage emulator.
+The REST APIs for the Microsoft Azure storage services offer programmatic access to the Blob, Queue, Table, and File services in Azure or in the development environment, via the storage emulator.
 
  All storage services are accessible via REST APIs. Storage services may be accessed from within a service running in Azure, or directly over the Internet from any application that can send an HTTP/HTTPS request and receive an HTTP/HTTPS response.
 

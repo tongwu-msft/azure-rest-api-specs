@@ -1,7 +1,7 @@
 ---
 title: "Operations on Blobs"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2016-12-21
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
