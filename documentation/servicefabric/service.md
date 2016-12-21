@@ -1,7 +1,7 @@
 ---
 title: "Service"
 ms.custom: ""
-ms.date: "2016-03-30"
+ms.date: "2016-12-14"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-fabric"
@@ -69,3 +69,5 @@ APIs to manage Azure Service Fabric services.
 -   [Delete a service](delete-a-service.md)  
   
 -   [Resolve a service ](resolve-a-service.md)
+
+-   [Get the application for a service](get-the-application-for-a-service.md)

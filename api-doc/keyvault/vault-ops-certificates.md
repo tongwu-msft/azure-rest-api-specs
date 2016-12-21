@@ -1,5 +1,5 @@
 ---
-uid: management.azure.com/KeyVaultClient/2016-10-01/GetCertificates
+uid: KeyVaultClient/2016-10-01/GetCertificates
 summary: List certificates in a specified key vault.
 parameters:
     - name: api-version

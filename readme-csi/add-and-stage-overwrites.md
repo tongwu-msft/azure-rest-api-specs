@@ -143,6 +143,7 @@ $ git push origin my_local_branch
 
 After that last `push` command, you're at **step 5** above.
 
+
 ## Troubleshooting
 
 If you feel like you're stuck in a trial-and-error mode, throwing @#$%^ at the wall and it's not sticking, check out some of the solutions to common problems below. 
@@ -173,6 +174,7 @@ But when the Markdown renders, it ends up looking something like this, where you
 
 At this point, there is no solution. We are exploring this with the VSC team and have filed a bug (https://mseng.visualstudio.com/DefaultCollection/VSChina/_workitems?_a=edit&id=801775). We will update as soon as we know more.
 
+**UPDATE:** As of 12/15/16, this has been resolved. Please reopen the bug above if you find differently, or find other/related issues with list items. 
 
 ### Issue: I can't get *anything* to show for my overwrite. In fact, none of my overwrites seem to work for a given .md file, or they just stop at a certain point.
 
@@ -219,4 +221,28 @@ exceptions: *content
 Thrown if no subscriptions are found.
 ```
 
-We are exploring this with the VSC team and have filed a bug (https://mseng.visualstudio.com/VSChina/_workitems?id=800955). We will update as soon as we know more.
+Instead, you need to use one the following formats:
+
+```
+---
+
+uid: Microsoft.ServiceBus.Messaging.TopicDescription.EnableFilteringMessagesBeforePublishing
+exceptions: 
+- type: Microsoft.ServiceBus.Messaging.NoMatchingSubscriptionException 
+  description: Thrown if no subscriptions are found.
+---
+```
+ 
+Or:
+
+```
+---
+
+uid: Microsoft.ServiceBus.Messaging.TopicDescription.EnableFilteringMessagesBeforePublishing
+exceptions: 
+- type: Microsoft.ServiceBus.Messaging.NoMatchingSubscriptionException
+  description: *content
+---
+Thrown if no subscriptions are found.
+
+```

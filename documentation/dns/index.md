@@ -2,9 +2,9 @@
 ms.assetid: 0aeaf25a-c694-4199-b940-7e773d613fc5
 ms.title: Azure DNS REST API Reference
 ms.service: dns
-author: sdwheeler
-ms.author: sewhee
-ms.manager: carmonm
+author: georgewallace
+ms.author: gwallace
+ms.manager: timlt
 ---
 
 # Azure DNS
