@@ -137,7 +137,7 @@
 ## [Job](datalakeanalytics/Job.json)
 ## [Storage Accounts](datalakeanalytics/StorageAccounts.json)
 # [Data Lake Store](../documentation/datalakestore/index.md)
-## [WebHDFS Filesystem API](../documentation/datalakestore/webhdfs-filesystem-apis.md)
+## [WebHDFS Support](../documentation/datalakestore/webhdfs-filesystem-apis.md)
 ## [Account](datalakestore/Account.json)
 ## [File System](datalakestore/FileSystem.json)
 ## [Firewall Rules](datalakestore/FirewallRules.json)
