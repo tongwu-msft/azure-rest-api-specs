@@ -1,1 +1,1 @@
-# [WebHDFS Filesystem API](webhdfs-filesystem-apis.md)
+# [WebHDFS Support](webhdfs-filesystem-apis.md)
