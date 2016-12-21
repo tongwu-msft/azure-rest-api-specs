@@ -32,7 +32,7 @@ Azure Data Lake Store is a cloud-scale file system that is compatible with Hadoo
  A typical WebHDFS REST URL looks like the following:  
   
 ```  
-http://<DATANODE>:<PORT>/webhdfs/v1/<PATH>?op=<OP>...  
+http://<DATANODE>:<PORT>/webhdfs/v1/<PATH>?op=<OP>...&api-version=2016-11-01
 ```  
   
  To map this URL for a REST call to Data Lake Store, make the following changes:  
@@ -46,7 +46,7 @@ http://<DATANODE>:<PORT>/webhdfs/v1/<PATH>?op=<OP>...
  So, a REST endpoint URL for Data Lake Store using the WebHDFS APIs should look like the following:  
   
 ```  
-https://<data_lake_store_name>.azuredatalakestore.net/webhdfs/v1/<PATH>?op=<OP>...  
+https://<data_lake_store_name>.azuredatalakestore.net/webhdfs/v1/<PATH>?op=<OP>...?api-version=2016-11-01 
 ```  
   
 ## Passing authorization token in the message header  
