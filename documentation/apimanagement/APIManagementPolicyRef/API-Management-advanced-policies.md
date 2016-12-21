@@ -33,7 +33,7 @@ This topic provides a reference for the following API Management policies. For i
   
 -   [Forward request](#ForwardRequest) - Forwards the request to the backend service.  
   
--   [Log to Event Hub](#log-to-eventhub) - Sends messages in the specified format to an Event Hub defined by a [Logger](../Topic/Azure%20API%20Management%20REST%20API%20Logger%20entity.md) entity.  
+-   [Log to Event Hub](#log-to-eventhub) - Sends messages in the specified format to an Event Hub defined by a [Logger](../ApiManagementREST/Azure-API-Management-REST-API-Logger-entity.md) entity.  
   
 -   [Retry](#Retry) - Retries execution of the enclosed policy statements, if and until the condition is met. Execution will repeat at the specified time intervals and up to the specified retry count.  
   
@@ -266,7 +266,7 @@ This topic provides a reference for the following API Management policies. For i
 -   **Policy scopes:** all scopes  
   
 ##  <a name="log-to-eventhub"></a> Log to Event Hub  
- The `log-to-eventhub` policy sends messages in the specified format to an Event Hub defined by a [Logger](../Topic/Azure%20API%20Management%20REST%20API%20Logger%20entity.md) entity. As its name implies, the policy is used for saving selected request or response context information for online or offline analysis.  
+ The `log-to-eventhub` policy sends messages in the specified format to an Event Hub defined by a [Logger](../ApiManagementREST/Azure-API-Management-REST-API-Logger-entity.md) entity. As its name implies, the policy is used for saving selected request or response context information for online or offline analysis.  
   
 > [!NOTE]
 >  For a step-by-step guide on configuring an event hub and logging events, see [How to log API Management events with Azure Event Hubs](https://azure.microsoft.com/documentation/articles/api-management-howto-log-event-hubs/).  
@@ -281,7 +281,7 @@ This topic provides a reference for the following API Management policies. For i
 ```  
   
 ### Example  
- Any string can be used as the value to be logged in Event Hubs. In this example the date and time, deployment service name, request id, ip address, and operation name for all inbound calls are logged to the event hub [Logger](../Topic/Azure%20API%20Management%20REST%20API%20Logger%20entity.md) registered with the `contoso-logger` id.  
+ Any string can be used as the value to be logged in Event Hubs. In this example the date and time, deployment service name, request id, ip address, and operation name for all inbound calls are logged to the event hub [Logger](../ApiManagementREST/Azure-API-Management-REST-API-Logger-entity.md) registered with the `contoso-logger` id.  
   
 ```xml  
 <policies>  
@@ -305,7 +305,7 @@ This topic provides a reference for the following API Management policies. For i
   
 |Attribute|Description|Required|  
 |---------------|-----------------|--------------|  
-|logger-id|The id of the [Logger](../Topic/Azure%20API%20Management%20REST%20API%20Logger%20entity.md) registered with your API Management service.|Yes|  
+|logger-id|The id of the [Logger](../ApiManagementREST/Azure-API-Management-REST-API-Logger-entity.md) registered with your API Management service.|Yes|  
 |partition-id|Specifies the index of the partition where messages are sent.|Optional. This attribute may not be used if `partition-key` is used.|  
 |partition-key|Specifies the value used for partition assignment when messages are sent.|Optional. This attribute may not be used if `partition-id` is used.|  
   
@@ -880,5 +880,4 @@ This topic provides a reference for the following API Management policies. For i
 -   **Policy scopes:**all scopes  
   
 ## See Also  
- [Policy reference](../APIManagementPolicyRef/API-Management-policy-reference.md)   
  [Policy expressions](../APIManagementPolicyRef/API-Management-policy-expressions.md)

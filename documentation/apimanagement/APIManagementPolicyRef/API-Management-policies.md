@@ -55,7 +55,7 @@ This section provides a reference for the following API Management policies. For
   
     -   [Forward request](../APIManagementPolicyRef/API-Management-advanced-policies.md#ForwardRequest) - Forwards the request to the backend service.  
   
-    -   [Log to Event Hub](../APIManagementPolicyRef/API-Management-advanced-policies.md#log-to-eventhub) - Sends messages in the specified format to a message target defined by a [Logger](../Topic/Azure%20API%20Management%20REST%20API%20Logger%20entity.md) entity.  
+    -   [Log to Event Hub](../APIManagementPolicyRef/API-Management-advanced-policies.md#log-to-eventhub) - Sends messages in the specified format to a message target defined by a [Logger](../ApiManagementREST/Azure-API-Management-REST-API-Logger-entity.md) entity.  
   
     -   [Retry](../APIManagementPolicyRef/API-Management-advanced-policies.md#Retry) - Retries execution of the enclosed policy statements, if and until the condition is met. Execution will repeat at the specified time intervals and up to the specified retry count.  
   

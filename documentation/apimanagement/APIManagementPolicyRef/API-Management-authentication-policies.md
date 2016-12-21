@@ -102,5 +102,3 @@ This topic provides a reference for the following API Management policies. For i
   
 -   **Policy scopes:** API  
   
-## See Also  
- [Policy reference](../APIManagementPolicyRef/API-Management-policy-reference.md)

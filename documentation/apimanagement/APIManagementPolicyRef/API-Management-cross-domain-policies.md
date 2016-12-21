@@ -192,5 +192,3 @@ This topic provides a reference for the following API Management policies. For i
   
 -   **Policy scopes:** global, product, API, operation  
   
-## See Also  
- [Policy reference](../APIManagementPolicyRef/API-Management-policy-reference.md)

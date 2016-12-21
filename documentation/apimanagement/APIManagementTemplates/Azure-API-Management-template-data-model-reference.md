@@ -77,7 +77,7 @@ This topic describes the entity and type representations for common items used i
 |serviceUrl|string|Absolute URL of the backend service implementing this API.|  
 |path|string|Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.|  
 |protocols|array of number|Describes on which protocols the operations in this API can be invoked. Allowed values are `1 - http` and `2 - https`, or both.|  
-|authenticationSettings|[Authorization server authentication settings](../Topic/Azure%20API%20Management%20REST%20API%20contract%20reference.md#AuthenticationSettings)|Collection of authentication settings included in this API.|  
+|authenticationSettings|[Authorization server authentication settings](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#AuthenticationSettings)|Collection of authentication settings included in this API.|  
 |subscriptionKeyParameterNames|object|Optional property that can be used to specify custom names for query and/or header parameters containing the subscription key. When this property is present it must contain at least one of the two following properties.<br /><br /> `{   "subscriptionKeyParameterNames":   {     "query": “customQueryParameterName",     "header": “customHeaderParameterName"   } }`|  
   
 ##  <a name="APISummary"></a> API summary  
