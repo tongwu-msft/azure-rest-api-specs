@@ -13,7 +13,7 @@
 ## [Subscription entity](ApiManagementREST/Azure-API-Management-REST-API-Subscription-entity.md)
 ## [Tenant entity](ApiManagementREST/Azure-API-Management-REST-API-Tenant-entity.md)
 ## [User entity](ApiManagementREST/Azure-API-Management-REST-API-User-entity.md)
-# [Policy reference](APIManagementPolicyRef/API-Management-policies.md.md)
+# [Policy reference](APIManagementPolicyRef/API-Management-policies.md)
 ## Policies
 ### [Access restriction policies](APIManagementPolicyRef/API-Management-access-restriction-policies.md)
 ### [Advanced policies](APIManagementPolicyRef/API-Management-advanced-policies.md)
