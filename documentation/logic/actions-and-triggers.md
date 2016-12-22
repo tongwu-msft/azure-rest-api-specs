@@ -606,6 +606,29 @@ Alternatively, to wait until a specific moment in time, you can use the followin
 |until|No|Object|The wait duration based on a point in time.|  
 |until timestamp|Yes|String|String&#124;The point in time in UTC when the wait expires.|  
 
+## Query action
+Query action allows you to filter an array based on a condition. For example, to select numbers greater than 2, you can use:
+
+```json
+"FilterNumbers" : {
+    "type": "query",
+    "inputs": {
+        "from": [ 1, 3, 0, 5, 4, 2 ],
+        "where": "@greater(item(), 2)"
+    }
+}
+```
+
+The output of **Query** action is an array that contains elements from the input array that satisfy the condition.
+
+> [!NOTE]
+> If no values satisfy the **where** condition, the result is an empty array.
+
+|Name|Required|Type|Description|
+|--------|------------|--------|---------------|
+|from|Yes|Array|The source array.|
+|where|Yes|String|The condition to apply to each element of the source array.|
+
 ## Terminate action
 Terminate action will stop execution of the workflow run, aborting any in-flight actions, and skipping any remaining actions. For example, to terminate a run with status **Failed** you can use the following:
 
@@ -613,12 +636,10 @@ Terminate action will stop execution of the workflow run, aborting any in-flight
 "HandleUnexpectedResponse" : {
     "type": "terminate",
     "inputs": {
-        "interval": {
-            "runStatus" : "failed",
-            "runError": {
-                "code": "UnexpectedResponse",
-                "message": "Received an unexpected response.",
-            }
+        "runStatus" : "failed",
+        "runError": {
+            "code": "UnexpectedResponse",
+            "message": "Received an unexpected response.",
         }
     }
 }
@@ -633,6 +654,24 @@ Terminate action will stop execution of the workflow run, aborting any in-flight
 |runError|No|Object|The error details. Only supported when **runStatus** is set to **Failed**.|
 |runError code|No|String|The run error code.|
 |runError message|No|String|The run error message.|
+
+## Compose action
+Compose action lets you construct an arbitrary object. The output of the compose action is the result of evaluating its inputs. For example, you can use the compose action to merge outputs of multiple actions:
+
+```json
+"composeUserRecord" : {
+    "type": "compose",
+    "inputs": {
+        "firstName": "@actions('getUser').firstName",
+        "alias": "@actions('getUser').alias",
+        "thumbnailLink": "@actions('lookupThumbnail').url"
+        }
+    }
+}
+```
+
+> [!NOTE]
+> The **Compose** action can be used to constuct any output, inluding objects, arrays, and any other type natively supported by logic apps, such as xml and binary.
 
 ## Workflow action   
 |Name|Required|Type|Description|  

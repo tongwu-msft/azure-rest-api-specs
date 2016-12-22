@@ -1,7 +1,7 @@
 ---
 title: "Versioning for the Azure Storage Services"
 ms.custom: na
-ms.date: 2016-09-22
+ms.date: 2016-12-13
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -27,19 +27,26 @@ translation.priority.mt:
 # Versioning for the Azure Storage Services
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is 2015-12-11, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Azure Storage Services Versions 2015-07-08 and Earlier](../fileservices/Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md).  
+ The current version of the Azure storage services is 2016-05-31, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Azure Storage Services Versions 2015-12-11 and Earlier](../fileservices/Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md).  
   
-## Version 2015-12-11  
- Version 2015-12-11 includes these changes:  
-  
--   The [Put Blob](../fileservices/Put-Blob.md), [Put Block](../fileservices/Put-Block.md), [Put Block List](../fileservices/Put-Block-List.md), [Put Page](../fileservices/Put-Page.md), [Append Block](../fileservices/Append-Block.md), and [Set Blob Metadata](../fileservices/Set-Blob-Metadata.md) operations now return the `x-ms-request-server-encrypted` response header. This header is set to `true` if the contents of the request have been successfully encrypted.  
-  
--   The [Get Blob](../fileservices/Get-Blob.md) and [Get Blob Properties](../fileservices/Get-Blob-Properties.md) operations now return the `x-ms-server-encrypted` response header. This header is set to `true` if the blob data and application metadata are completely encrypted. If the blob is not encrypted, or if only parts of the blob/application metadata are encrypted, this header is set to `false`.  
-  
--   Beginning with version 2015-12-11, the AtomPub payload format is no longer supported for Table service operations. Version 2015-12-11 and later versions support only JSON for the payload format.  
-  
+## Version 2016-05-31  
+
+Version 2016-05-31 includes these changes: 
+
+* The maximum size of blocks has been increased to 100 MB. This means that the maximum size of a block blob is now 5,000,000 MB, or about 4.75 TB.
+* The public access level of a container is now returned from the [List Containers](List-Containers2.md) and [Get Container Properties](Get-Container-Properties.md) APIs. Previously this information could only be obtained by calling [Get Container ACL](Get-Container-ACL.md).
+* The [Put Message](Put-Message.md) API now returns information about the message that was just added, including the pop receipt. This enables the you to call [Update Message](Update-Message.md) and [Delete Message](Delete-Message2.md) on the newly enqueued message.
+* The [List Directories and Files](List-Directories-and-Files.md) API now accepts a new parameter that limits the listing to a specified prefix.
+* Several error messages have been clarified or made more specific.
+* All table APIs now accept and enforce the timeout query parameter.
+* The stored `Content-MD5` property is now returned when requesting a range of a blob or file. Previously this was only returned for full blob and file downloads.
+* A new [Incremental Copy Blob](Incremental-Copy-Blob.md) API is now available. This allows efficient copying and backup of page blob snapshots.
+* Using `If-None-Match: *` will now fail when reading a blob. Previously this header was ignored for blob reads.
+* During authentication, the canonicalized header list now includes headers with empty values. Previously these were omitted from the list.
+
 ## Specifying Storage Service Versions in Requests  
- How you specify the version of the storage services to use for a request relates to how that request is authenticated. The following sections describe authentication options and how the service version is specified for each:  
+
+How you specify the version of the storage services to use for a request relates to how that request is authenticated. The following sections describe authentication options and how the service version is specified for each:  
   
 1.  **Requests using Shared Key or Shared Key Lite.** To authenticate a request with Shared Key/Shared Key Lite, you must pass the `x-ms-version` header on the request. In the case of the Blob service, you can specify the default version for all requests by calling [Set Blob Service Properties](../fileservices/Set-Blob-Service-Properties.md).  
   

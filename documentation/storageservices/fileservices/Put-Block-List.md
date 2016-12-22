@@ -1,7 +1,7 @@
 ---
 title: "Put Block List"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2016-12-13
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -206,9 +206,9 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
  If a block ID is specified in the `Latest` element, and the same block ID exists in both the committed and uncommitted block lists, `Put Block List` commits the block from the uncommitted block list. If the block ID exists in the committed block list but not in the uncommitted block list, then `Put Block List` commits the block from the committed block list.  
   
- Each block can be a different size, up to a maximum of 4 MB, and a block blob can include a maximum of 50,000 blocks. The maximum size of a block blob is therefore slightly more than 195 GB (4 MB X 50,000 blocks). If you attempt to commit more than 50,000 blocks, the service returns status code 413 (Request Entity Too Large). The service also returns additional information about the error in the response, including the maximum number of blocks permitted.  
+ Each block can be a different size, up to a maximum of 100 MB for version 2016-05-31 and later, and 4 MB for older versions. The maximum size of a block blob is therefore slightly more than 4.75 TB (100 MB X 50,000 blocks) for version 2016-05-31 and later, and 195 GB (4 MB X 50,000 blocks) for all older versions. If you attempt to commit more than 50,000 blocks, the service returns status code 409 (Block List Too Long). The service also returns additional information about the error in the response, including the maximum number of blocks permitted.  
   
- The maximum number of uncommitted blocks that may be associated with a blob is 100,000, and the maximum size of the uncommitted block list is 400 GB.  
+ The maximum number of uncommitted blocks that may be associated with a blob is 100,000, and the maximum size of the uncommitted block list is about 9.5 TB for version 2016-05-31 and later, and 400 GB for older versions.  
   
  When you call `Put Block List` to update an existing blob, the blob's existing properties and metadata are overwritten. However, any existing snapshots are retained with the blob. You can use the conditional request headers to perform the operation only if a specified condition is met.  
   

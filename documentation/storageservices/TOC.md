@@ -80,6 +80,7 @@
 #### [Operations on Page Blobs](fileservices/operations-on-page-blobs.md)
 ##### [Put Page](fileservices/put-page.md)
 ##### [Get Page Ranges](fileservices/get-page-ranges.md)
+##### [Incremental Copy Blob](fileservices/incremental-copy-blob.md)
 #### [Operations on Append Blobs](fileservices/operations-on-append-blobs.md)
 ##### [Append Block](fileservices/append-block.md)
 ## [Queue Service REST API](fileservices/queue-service-rest-api.md)

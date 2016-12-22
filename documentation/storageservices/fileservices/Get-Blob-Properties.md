@@ -1,7 +1,7 @@
 ---
 title: "Get Blob Properties"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2016-12-13
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -89,6 +89,8 @@ The `Get Blob Properties` operation returns all user-defined metadata, standard 
 |`x-ms-copy-progress: <bytes copied/bytes total>`|Version 2012-02-12 and newer. Contains the number of bytes copied and the total bytes in the source in the last attempted `Copy Blob` operation where this blob was the destination blob. Can show between 0 and `Content-Length` bytes copied. This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
 |`x-ms-copy-source: url`|Version 2012-02-12 and newer. URL up to 2 KB in length that specifies the source blob used in the last attempted `Copy Blob` operation where this blob was the destination blob. This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
 |`x-ms-copy-status: <pending &#124; success &#124; aborted &#124; failed>`|Version 2012-02-12 and newer. State of the copy operation identified by x-ms-copy-id, with these values:<br /><br /> -   `success`: Copy completed successfully.<br />-   `pending`: Copy is in progress. Check `x-ms-copy-status-description` if intermittent, non-fatal errors impede copy progress but don’t cause failure.<br />-   `aborted`: Copy was ended by `Abort Copy Blob`.<br />-   `failed`: Copy failed. See `x-ms-copy-status-description` for failure details.<br /><br /> This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a completed `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
+|`x-ms-incremental-copy: true`|Version 2016-05-31 and newer. Included if the blob is incremental copy blob.|
+|`x-ms-copy-destination-snapshot:<datetime>`|Version 2016-05-31 and newer. Included if the blob is incremental copy blob or incremental copy snapshot, if `x-ms-copy-status` is success. Snapshot time of the last successful incremental copy snapshot for this blob. |
 |`x-ms-lease-duration: <infinite &#124; fixed>`|When a blob is leased, specifies whether the lease is of infinite or fixed duration. Included for requests using version 2012-02-12 and newer.|  
 |`x-ms-lease-state: <available &#124; leased &#124; expired &#124; breaking &#124; broken>`|Lease state of the blob. Included for requests made using version 2012-02-12 and newer.|  
 |`x-ms-lease-status:<locked&#124; unlocked>`|The lease status of the blob.|  

@@ -1,7 +1,7 @@
 ---
 title: "Insert Or Replace Entity"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2016-12-13
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -50,7 +50,11 @@ The `Insert Or Replace Entity` operation replaces an existing entity or inserts 
  The Table service in the storage emulator differs from the Windows® Azure™ Table service in several ways. For more information, see [Differences Between the Storage Emulator and Azure Storage Services](assetId:///c60f2090-c0f4-4817-8559-e98786461dbe).  
   
 ### URI Parameters  
- None.  
+ The following additional parameters may be specified on the request URI.  
+
+|Parameter|Description|
+|---------|-----------|
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](../fileservices/Setting-Timeouts-for-Queue-Service-Operations.md).|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  
