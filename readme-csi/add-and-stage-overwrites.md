@@ -73,7 +73,7 @@ On branch batch-overwrite-pool_list
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
 
-        api-doc/batch/
+        docs-ref-overwrite/batch/
 
 nothing added to commit but untracked files present (use "git add" to track)
 
@@ -84,7 +84,7 @@ marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_lis
 $ git commit -m "[batch] overwrite adding pool_list filter options"
 [batch-overwrite-pool_list e6e4427] [batch] overwrite adding pool_list filter options
  1 file changed, 20 insertions(+)
- create mode 100644 api-doc/batch/Pool.md
+ create mode 100644 docs-ref-overwrite/batch/Pool.md
 
 marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
 $ git push origin batch-overwrite-pool_list
