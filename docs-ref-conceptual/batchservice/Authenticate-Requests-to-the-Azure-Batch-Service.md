@@ -158,5 +158,5 @@ Signature=Base64(HMAC-SHA256(UTF8(StringToSign)))
 ```
 
 ## See Also
-[Azure Batch REST API Reference](~/documentation/batchservice/index.md)
+[Azure Batch REST API Reference](~/docs-ref-conceptual/batchservice/index.md)
 

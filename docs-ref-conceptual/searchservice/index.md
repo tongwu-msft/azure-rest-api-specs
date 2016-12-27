@@ -50,7 +50,7 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
 
 -   [Indexer operations](indexer-operations.md). Automate aspects of an indexing operation by configuring a **data source** and an **indexer** that you can schedule or run on demand. This feature is supported for a limited number of data source types.  
 
- A separate REST API is provided for service administration, including provisioning the service or altering capacity. For more information, see [Azure Search Management REST](~/documentation/searchmanagement/index.md).  
+ A separate REST API is provided for service administration, including provisioning the service or altering capacity. For more information, see [Azure Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md).  
 
  The APIs documented in this section provide access to operations on search data, such as index creation and population, document upload, and queries. When calling the API, keep the following points in mind:  
 
@@ -80,9 +80,9 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
 |Key|Description|Limits|  
 |---------|-----------------|------------|  
 |Admin|Admin keys grant full rights to all operations, including the ability to manage the service, create and delete **indexes**, **indexers**, and **data sources**.<br /><br /> Two admin **api-keys**, referred to as *primary* and *secondary* keys in the portal,  are generated when the service is created and can be individually regenerated on demand. Having two keys allows you to roll over one key while using the second key for continued access to the service.<br /><br /> Admin keys are only specified in HTTP request headers. You cannot place an admin **api-key** in a URL.|Maximum of 2 per service|  
-|Query|Query keys grant read-only access to indexes and documents, and are typically distributed to client applications that issue search requests.<br /><br /> Query keys are created on demand. You can create them manually in the portal or programmatically via the [Management REST API](~/documentation/searchmanagement/index.md).<br /><br /> Query keys can be specified  in an HTTP request header for search, suggestion, or lookup operation. Alternatively, you can pass a query key  as a parameter on a URL. Depending on how your client application formulates the request, it might be easier to pass the key as a query parameter:<br /><br /> `GET /indexes/hotels/docs?search=*&$orderby=lastRenovationDate desc&api-version=2016-09-01&api-key=A8DA81E03F809FE166ADDB183E9ED84D`|50 per service|  
+|Query|Query keys grant read-only access to indexes and documents, and are typically distributed to client applications that issue search requests.<br /><br /> Query keys are created on demand. You can create them manually in the portal or programmatically via the [Management REST API](~/docs-ref-conceptual/searchmanagement/index.md).<br /><br /> Query keys can be specified  in an HTTP request header for search, suggestion, or lookup operation. Alternatively, you can pass a query key  as a parameter on a URL. Depending on how your client application formulates the request, it might be easier to pass the key as a query parameter:<br /><br /> `GET /indexes/hotels/docs?search=*&$orderby=lastRenovationDate desc&api-version=2016-09-01&api-key=A8DA81E03F809FE166ADDB183E9ED84D`|50 per service|  
 
- Visually, there is no distinction between an admin key or query key. Both keys are strings composed of 32 randomly-generated alpha-numeric characters. If you lose track of what type of key is specified in your application, you can [check the key values in the portal](https://portal.azure.com) or use the [REST API](~/documentation/searchmanagement/index.md) to return the value and key type.  
+ Visually, there is no distinction between an admin key or query key. Both keys are strings composed of 32 randomly-generated alpha-numeric characters. If you lose track of what type of key is specified in your application, you can [check the key values in the portal](https://portal.azure.com) or use the [REST API](~/docs-ref-conceptual/searchmanagement/index.md) to return the value and key type.  
 
 > [!NOTE]  
 >  It is considered a poor security practice to pass sensitive data such as an `api-key` in the request URI. For this reason, Azure Search will only accept a query key as an `api-key` in the query string, and you should avoid doing so unless the contents of your index should be publicly available. As a general rule, we recommend passing your `api-key` as a request header.  
@@ -186,5 +186,5 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
  [Manage your search service on Microsoft Azure](http://go.microsoft.com/fwlink/?LinkId=509793)   
  [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
  [Common HTTP request and response headers used in Azure Search](common-http-request-and-response-headers-used-in-azure-search.md)   
- [Azure Search Management REST](~/documentation/searchmanagement/index.md)
+ [Azure Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md)
  [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  

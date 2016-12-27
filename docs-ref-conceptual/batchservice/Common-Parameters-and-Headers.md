@@ -23,7 +23,7 @@ The following information is common to all operations that you might do related 
     -   A maximum of 1000 job schedules can be returned.
     -   A maximum of 1000 jobs can be returned.
     -   A maximum of 1000 tasks can be returned.
--   Set the `Authorization` header to a string that contains the authentication scheme, the account name, and the authentication signature. For more information, see [Authenticate Requests to the Azure Batch Service](~/documentation/batchservice/authenticate-requests-to-the-azure-batch-service.md).
+-   Set the `Authorization` header to a string that contains the authentication scheme, the account name, and the authentication signature. For more information, see [Authenticate Requests to the Azure Batch Service](~/docs-ref-conceptual/batchservice/authenticate-requests-to-the-azure-batch-service.md).
 -   Set the optional `client-request-id` header to a GUID that can be used to identify the request and its related response. You can also set the optional `return-client-request-id` to **true** or **false** depending on whether you want the identifier to be included in the response. The default value is **false**.
 
 ## Representation of Date/Time Values
@@ -49,5 +49,5 @@ The following information is common to all operations that you might do related 
  For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, and `ss` is the two-digit second representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone.
 
 ## See Also
- [Azure Batch REST API Reference](~/documentation/batchservice/index.md)
+ [Azure Batch REST API Reference](~/docs-ref-conceptual/batchservice/index.md)
 
