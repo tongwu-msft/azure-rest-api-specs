@@ -37,7 +37,7 @@ A trigger specifies the calls that can initiate a run of your logic app workflow
   
 -   A polling trigger  
   
--   A push trigger - by calling the [Workflow Service REST API](../../api-ref/logic/workflows.json)  
+-   A push trigger - by calling the [Workflow Service REST API](../../docs-ref-autogen/logic/workflows.json)  
   
 All triggers contain these top level elements:  
   
@@ -97,7 +97,7 @@ There is also an optional property called **schema**:
 |----------------|------------|---------------|  
 |schema|No|A JSON schema that validates the incoming request. This is useful so that the subsequent steps in the workflow can be aware of which properties to reference|  
   
-You'll need to call the *listCallbackUrl* API to invoke this endpoint. See [Workflow Service REST API](../../api-ref/logic/workflows.json).  
+You'll need to call the *listCallbackUrl* API to invoke this endpoint. See [Workflow Service REST API](../../docs-ref-autogen/logic/workflows.json).  
   
 ## Recurrence trigger  
 A Recurrence trigger is one that runs based on a defined schedule. Such a trigger might look like this:  
@@ -558,13 +558,13 @@ This action type contains the entire response payload from an HTTP request. This
 }
 ```
   
-The response action has special restrictions that don’t apply to other actions. Specifically:  
+The response action has special restrictions that don't apply to other actions. Specifically:  
   
 -   Response actions cannot be parallel in a definition because a deterministic response to the incoming request is required.  
   
 -   If a response action is reached after the incoming request has already been responded to, this is considered a failed action \(conflict\) and as a result the run will be Failed.  
   
--   A workflow with Response actions cannot have splitOn in it’s trigger because 1 call causes many runs. As a result, this should be validated when the flow is PUT and cause a Bad Request.  
+-   A workflow with Response actions cannot have splitOn in it's trigger because 1 call causes many runs. As a result, this should be validated when the flow is PUT and cause a Bad Request.  
   
 ## Wait action  
 Wait action will suspend execution of the workflow for the specified interval. For example, to wait for 15 minutes you can use the following:  

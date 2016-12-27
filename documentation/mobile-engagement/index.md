@@ -17,13 +17,13 @@ Azure Mobile Engagement is a software-as-a-service (SaaS) user-engagement platfo
 
 | Operation groups                                                           | Description                                            |
 |----------------------------------------------------------------------------|--------------------------------------------------------|
-| [App Collections](~/api-ref/mobile-engagement/appcollections.json)         | Provides operations for working with app collections.  |
-| [Apps](~/api-ref/mobile-engagement/apps.json)                              | Lists apps in an app collection.                       |
-| [Campaigns](~/api-ref/mobile-engagement/campaigns.json)                    | Provides operations for managing campaigns.            |
-| [Devices](~/api-ref/mobile-engagement/devices.json)                        | Provides operations for querying and tagging devices.  |
-| [Export Tasks](~/api-ref/mobile-engagement/exporttasks.json)               | Provides operations for working with exports tasks.    |
-| [Import Tasks](~/api-ref/mobile-engagement/importtasks.json)               | Provides operations for working with import tasks.     |
-| [Supported Platforms](~/api-ref/mobile-engagement/supportedplatforms.json) | Lists supported platforms for Engagement applications. |
+| [App Collections](~/docs-ref-autogen/mobile-engagement/appcollections.json)         | Provides operations for working with app collections.  |
+| [Apps](~/docs-ref-autogen/mobile-engagement/apps.json)                              | Lists apps in an app collection.                       |
+| [Campaigns](~/docs-ref-autogen/mobile-engagement/campaigns.json)                    | Provides operations for managing campaigns.            |
+| [Devices](~/docs-ref-autogen/mobile-engagement/devices.json)                        | Provides operations for querying and tagging devices.  |
+| [Export Tasks](~/docs-ref-autogen/mobile-engagement/exporttasks.json)               | Provides operations for working with exports tasks.    |
+| [Import Tasks](~/docs-ref-autogen/mobile-engagement/importtasks.json)               | Provides operations for working with import tasks.     |
+| [Supported Platforms](~/docs-ref-autogen/mobile-engagement/supportedplatforms.json) | Lists supported platforms for Engagement applications. |
 
 
 ## See also

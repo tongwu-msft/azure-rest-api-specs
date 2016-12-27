@@ -15,9 +15,9 @@ description: *content
 
 These links will be useful when creating the request:
 
-- [Create a resource group](../../api-ref/resources/resourcegroups.json#ResourceGroups_CreateOrUpdate)
-- [Create a storage account](../../api-ref/storage/storageaccounts.json#StorageAccounts_Create)
-- [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations)
+- [Create a resource group](../../docs-ref-autogen/resources/resourcegroups.json#ResourceGroups_CreateOrUpdate)
+- [Create a storage account](../../docs-ref-autogen/storage/storageaccounts.json#StorageAccounts_Create)
+- [List all of the available geo-locations](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations)
 
 See examples of requests for [different container service configurations](acs-createexamples.md).
 

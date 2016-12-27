@@ -15,7 +15,7 @@ Managing your key vaults as well as the keys, secrets, and certificates within y
 
 Manage your key vaults using the following set of operations.
 
-- [Manage key vaults](../../api-ref/keyvault/Vaults.json)
+- [Manage key vaults](../../docs-ref-autogen/keyvault/Vaults.json)
 
 Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations with keys, secrets and certificates within the Azure environment.
 
@@ -30,30 +30,30 @@ For conceptual and detailed information, see - [About keys, secrets, and certifi
 
 Key Vaults
 
-- [Create or update a key vault](../../api-ref/keyvault/Vaults.json#Vaults_CreateOrUpdate)
-- [Deletes a key vault](../../api-ref/keyvault/Vaults.json#Vaults_Delete)
-- [Gets info about a key vault](../../api-ref/keyvault/Vaults.json#Vaults_Get)
+- [Create or update a key vault](../../docs-ref-autogen/keyvault/Vaults.json#Vaults_CreateOrUpdate)
+- [Deletes a key vault](../../docs-ref-autogen/keyvault/Vaults.json#Vaults_Delete)
+- [Gets info about a key vault](../../docs-ref-autogen/keyvault/Vaults.json#Vaults_Get)
 
 
 Keys
 
 
-- [Create a key](../../api-ref/keyvault/CreateKey.json)
-- [Get information about a key](../../api-ref/keyvault/GetKey.json)
-- [Encrypt with a key](../../api-ref/keyvault/encrypt.json)
+- [Create a key](../../docs-ref-autogen/keyvault/CreateKey.json)
+- [Get information about a key](../../docs-ref-autogen/keyvault/GetKey.json)
+- [Encrypt with a key](../../docs-ref-autogen/keyvault/encrypt.json)
 
 Secrets
 
-- [Create a secret](../../api-ref/keyvault/SetSecret.json)
-- [Get a secret](../../api-ref/keyvault/GetSecret.json)
+- [Create a secret](../../docs-ref-autogen/keyvault/SetSecret.json)
+- [Get a secret](../../docs-ref-autogen/keyvault/GetSecret.json)
 
 Certificates
 
 
-- [Create a certificate](../../api-ref/keyvault/CreateCertificate.json)
-- [Import a certificate](../../api-ref/keyvault/ImportCertificate.json)
-- [Update a certificate](../../api-ref/keyvault/UpdateCertificate.json)
-- [Update a certificate policy](../../api-ref/keyvault/UpdateCertificatePolicy.json)
+- [Create a certificate](../../docs-ref-autogen/keyvault/CreateCertificate.json)
+- [Import a certificate](../../docs-ref-autogen/keyvault/ImportCertificate.json)
+- [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.json)
+- [Update a certificate policy](../../docs-ref-autogen/keyvault/UpdateCertificatePolicy.json)
 
 ### See Also
 

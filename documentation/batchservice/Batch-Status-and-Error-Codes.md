@@ -1,4 +1,4 @@
----
+﻿---
 ms.assetid: 3e9b0aa3-81e2-44b9-bb5f-cca7e179ebbe
 ms.title: Batch status and error codes | Microsoft Docs
 ms.service: batch
@@ -158,9 +158,9 @@ The error codes listed in the following table may be returned by an operation on
 |TaskDependencyRangesTooLong|Bad Request (400)|A task was specified as depending on multiple ranges of task ids, and the list of ranges was too long to be stored. Note that the issue is not with the size of ranges, but with the number of ranges.|
 
 ## Job/Task Scheduling Error Codes
-If the Batch service encounters an error in scheduling a task on a node, it marks the task as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the files associated with a task](~/api-ref/batchservice/task.json#Task_List) and [Get information about a task](~/api-ref/batchservice/task.json#Task_Get) APIs.
+If the Batch service encounters an error in scheduling a task on a node, it marks the task as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the files associated with a task](~/docs-ref-autogen/batchservice/task.json#Task_List) and [Get information about a task](~/docs-ref-autogen/batchservice/task.json#Task_Get) APIs.
 
-Similarly, if the Batch service encounters an error while starting the job, it marks the job as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the tasks associated with a job](~/api-ref/batchservice/task.json#Task_List) and [Get information about a job in Batch](~/api-ref/batchservice/job.json#Job_Get) APIs.
+Similarly, if the Batch service encounters an error while starting the job, it marks the job as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the tasks associated with a job](~/docs-ref-autogen/batchservice/task.json#Task_List) and [Get information about a job in Batch](~/docs-ref-autogen/batchservice/job.json#Job_Get) APIs.
 
 The following table provides the list of categories for task scheduling errors.
 

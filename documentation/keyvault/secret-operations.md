@@ -30,22 +30,22 @@ translation.priority.mt:
 
 The Azure Key Vault REST API supports the following operations for secret operations.
 
-- [Set a secret](../../api-ref/keyvault/SetSecret.json)
+- [Set a secret](../../docs-ref-autogen/keyvault/SetSecret.json)
 
 
-- [Get a secret](../../api-ref/keyvault/GetSecret.json)
+- [Get a secret](../../docs-ref-autogen/keyvault/GetSecret.json)
 
 
-- [Get secrets in a vault](../../api-ref/keyvault/GetSecrets.json)
+- [Get secrets in a vault](../../docs-ref-autogen/keyvault/GetSecrets.json)
 
 
-- [Get versions of a secret](../../api-ref/keyvault/GetSecretVersions.json)
+- [Get versions of a secret](../../docs-ref-autogen/keyvault/GetSecretVersions.json)
 
 
-- [Delete a secret](../../api-ref/keyvault/DeleteSecret.json)
+- [Delete a secret](../../docs-ref-autogen/keyvault/DeleteSecret.json)
 
 
-- [Update a secret](../../api-ref/keyvault/UpdateSecret.json)
+- [Update a secret](../../docs-ref-autogen/keyvault/UpdateSecret.json)
 
 
 

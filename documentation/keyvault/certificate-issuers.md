@@ -32,11 +32,11 @@ translation.priority.mt:
 
 You can do the following with certificate issuers in a key vault:
 
-- [Set a certificate issuer](../../api-ref/keyvault/SetCertificateIssuer.json)
-- [Get a certificate issuer](../../api-ref/keyvault/GetCertificateIssuer.json)
-- [Update a certificate issuer](../../api-ref/keyvault/UpdateCertificateIssuer.json)
-- [Delete a certificate issuer](../../api-ref/keyvault/DeleteCertificateIssuer.json)
-- [Get certificate issuers](../../api-ref/keyvault/GetCertificateIssuers.json)
+- [Set a certificate issuer](../../docs-ref-autogen/keyvault/SetCertificateIssuer.json)
+- [Get a certificate issuer](../../docs-ref-autogen/keyvault/GetCertificateIssuer.json)
+- [Update a certificate issuer](../../docs-ref-autogen/keyvault/UpdateCertificateIssuer.json)
+- [Delete a certificate issuer](../../docs-ref-autogen/keyvault/DeleteCertificateIssuer.json)
+- [Get certificate issuers](../../docs-ref-autogen/keyvault/GetCertificateIssuers.json)
 
 ## See Also
 [Common parameters and headers](common-parameters-and-headers.md)

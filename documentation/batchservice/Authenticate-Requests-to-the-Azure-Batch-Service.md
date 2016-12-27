@@ -67,7 +67,7 @@ StringToSign = VERB + "\n" +
   CanonicalizedResource;
 ```
 
- The following example shows a signature string for a request to [List the jobs in an account](~/api-ref/batchservice/job.json#Job_List) with a timeout of 20 seconds. When a header value does not exist, only the new line character is specified.
+ The following example shows a signature string for a request to [List the jobs in an account](~/docs-ref-autogen/batchservice/job.json#Job_List) with a timeout of 20 seconds. When a header value does not exist, only the new line character is specified.
 
 ```
 GET\n\n\n\n\n\n\n\n\n\n\n\nocp-date:Tue, 29 Jul 2014 21:49:13 GMT\n /myaccount/jobs\napi-version:2014-01-01.1.0\ntimeout:20

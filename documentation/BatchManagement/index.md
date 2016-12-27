@@ -18,10 +18,10 @@ The Batch Management REST API provides operations for working with Batch account
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
-| [Application](~/api-ref/batchmanagement/application.json)          | Provides operations for working with the applications in your Batch account. An application has one or more application packages that you can deploy to the compute nodes in your pools. |
-| [Application Package](~/api-ref/batchmanagement/applicationpackage.json)  | Application packages provide management and deployment of the applications run by your tasks. |
-| [Batch Account](~/api-ref/batchmanagement/batchaccount.json)  | Operations for working with Azure Batch accounts. Create, delete, and list accounts. List and regenerate account keys, and get information about the resource quotas for a given Batch account. |
-| [Location](~/api-ref/batchmanagement/location.json) | Get information about Batch account quotas (such as the maximum number of accounts) for a given subscription. |
+| [Application](~/docs-ref-autogen/batchmanagement/application.json)          | Provides operations for working with the applications in your Batch account. An application has one or more application packages that you can deploy to the compute nodes in your pools. |
+| [Application Package](~/docs-ref-autogen/batchmanagement/applicationpackage.json)  | Application packages provide management and deployment of the applications run by your tasks. |
+| [Batch Account](~/docs-ref-autogen/batchmanagement/batchaccount.json)  | Operations for working with Azure Batch accounts. Create, delete, and list accounts. List and regenerate account keys, and get information about the resource quotas for a given Batch account. |
+| [Location](~/docs-ref-autogen/batchmanagement/location.json) | Get information about Batch account quotas (such as the maximum number of accounts) for a given subscription. |
 
 ## See also
 

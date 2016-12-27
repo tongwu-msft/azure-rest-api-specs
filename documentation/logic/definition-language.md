@@ -42,7 +42,7 @@ The workflow definition contains the actual logic that executes as a part of you
 ```
   
 > [!NOTE]
->  [Workflow Management REST API](../../api-ref/logic/workflows.json) documentation has information on how to create and manage logic app Workflows  
+>  [Workflow Management REST API](../../docs-ref-autogen/logic/workflows.json) documentation has information on how to create and manage logic app Workflows  
   
 |Element name|Required|Description|  
 |------------------|--------------|-----------------|  

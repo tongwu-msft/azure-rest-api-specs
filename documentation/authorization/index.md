@@ -17,11 +17,11 @@ For api-version, use 2015-07-01.
 
 | Operation Group                                   | Description |
 |---------------------------------------------------|-------------|
-| [Classic Administrators](~/api-ref/authorization/classicadministrators.json) | Provides information about administrators in a subscription. |
-| [Permissions](~/api-ref/authorization/permissions.json)                      | Provides operations to get the permissions assigned to resources and resource groups. |
-| [Provider Operations Metadata](~/api-ref/authorization/provideroperationsmetadata.json) | Provides operations for getting information about resource providers. |
-| [Role Assignments](~/api-ref/authorization/roleassignments.json)             | Provides operations for working with role assignments, such as assigning a role to a user or group. |
-| [Role Definitions](~/api-ref/authorization/roledefinitions.json)             | Provides operations for defining roles, such as what actions are permitted. |
+| [Classic Administrators](~/docs-ref-autogen/authorization/classicadministrators.json) | Provides information about administrators in a subscription. |
+| [Permissions](~/docs-ref-autogen/authorization/permissions.json)                      | Provides operations to get the permissions assigned to resources and resource groups. |
+| [Provider Operations Metadata](~/docs-ref-autogen/authorization/provideroperationsmetadata.json) | Provides operations for getting information about resource providers. |
+| [Role Assignments](~/docs-ref-autogen/authorization/roleassignments.json)             | Provides operations for working with role assignments, such as assigning a role to a user or group. |
+| [Role Definitions](~/docs-ref-autogen/authorization/roledefinitions.json)             | Provides operations for defining roles, such as what actions are permitted. |
 
 ## See Also
 

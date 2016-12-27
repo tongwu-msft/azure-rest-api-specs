@@ -27,7 +27,7 @@ translation.priority.mt:
 # Create Media Services Account
 
 > [!NOTE]
->  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](../../../api-ref/media/MediaService.json). 
+>  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](../../../docs-ref-autogen/media/MediaService.json). 
   
  The `POST` request method described in this topic creates a Media Services account in the specified subscription. Both request and response follow the data contract described later in this section.  
   

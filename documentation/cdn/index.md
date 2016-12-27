@@ -17,12 +17,12 @@ The CDN REST API provides operations for working with the following resources.
 
 | Operation group               | Description |
 |-------------------------------|-------------|
-| [Custom Domains](~/api-ref/cdn/customdomains.json) | Provides operations for working with CDN custom domains. |
-| [Endpoints](~/api-ref/cdn/endpoints.json) | Create, validate, start, stop, and delete CDN endpoints. Pre-load and purge cached endpoint content. |
-| [Name Availability](~/api-ref/cdn/nameavailability.json) | Verify the uniqueness of resource names. |
-| [Operations](~/api-ref/cdn/operations.json) | Provides information about CDN REST API operations. |
-| [Origins](~/api-ref/cdn/origins.json) | Manage origins within an endpoint. |
-| [Profiles](~/api-ref/cdn/profiles.json) | Operations for managing CDN profiles. A CDN profile is a collection of CDN endpoints. |
+| [Custom Domains](~/docs-ref-autogen/cdn/customdomains.json) | Provides operations for working with CDN custom domains. |
+| [Endpoints](~/docs-ref-autogen/cdn/endpoints.json) | Create, validate, start, stop, and delete CDN endpoints. Pre-load and purge cached endpoint content. |
+| [Name Availability](~/docs-ref-autogen/cdn/nameavailability.json) | Verify the uniqueness of resource names. |
+| [Operations](~/docs-ref-autogen/cdn/operations.json) | Provides information about CDN REST API operations. |
+| [Origins](~/docs-ref-autogen/cdn/origins.json) | Manage origins within an endpoint. |
+| [Profiles](~/docs-ref-autogen/cdn/profiles.json) | Operations for managing CDN profiles. A CDN profile is a collection of CDN endpoints. |
 
 ## See also
 

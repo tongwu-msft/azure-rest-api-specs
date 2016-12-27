@@ -1,4 +1,4 @@
-# Staging an overwrite
+﻿# Staging an overwrite
 
 What follows is a how-to (from a git perspective) for getting an overwrite staged on [review.docs.microsoft.com](https://review.docs.microsoft.com).
 
@@ -49,9 +49,9 @@ marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (master)
 $ git pull
 Updating fa16bdb..f30ea4c
 Fast-forward
- api-ref/apimanagement/ApiManagementServices.json   | 1160 ++++++++
- api-ref/apimanagement/ApiOperations.json           | 2687 +++++++++++++++++++
- api-ref/apimanagement/ApiProducts.json             | 2489 +++++++++++++++++
+ docs-ref-autogen/apimanagement/ApiManagementServices.json   | 1160 ++++++++
+ docs-ref-autogen/apimanagement/ApiOperations.json           | 2687 +++++++++++++++++++
+ docs-ref-autogen/apimanagement/ApiProducts.json             | 2489 +++++++++++++++++
  ...
 ```
 

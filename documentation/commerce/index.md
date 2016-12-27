@@ -25,8 +25,8 @@ For more information on authentication and authorization, see [Azure REST API Re
 
 | Operation group                                    | Description                                                                                                       |
 |----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| [Rate Card](~/api-ref/commerce/ratecard.json)               | Provides operations for querying for the resource/meter metadata and related prices used in a given subscription. |
-| [Usage](~/api-ref/commerce/usageaggregates.json) | Provides operations for querying aggregated Azure subscription consumption data for a date range.                 |
+| [Rate Card](~/docs-ref-autogen/commerce/ratecard.json)               | Provides operations for querying for the resource/meter metadata and related prices used in a given subscription. |
+| [Usage](~/docs-ref-autogen/commerce/usageaggregates.json) | Provides operations for querying aggregated Azure subscription consumption data for a date range.                 |
 
 
 

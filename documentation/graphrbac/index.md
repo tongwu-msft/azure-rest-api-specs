@@ -16,11 +16,11 @@ The Azure Active Directory Graph API provides programmatic access to Azure AD th
 
 | Operation group                                                  | Description                                          |
 |------------------------------------------------------------------|------------------------------------------------------|
-| [Applications](~/api-ref/graphrbac/applications.json)            | Provides operations for managing applications.       |
-| [Groups](~/api-ref/graphrbac/groups.json)                        | Provides operations for managing groups.             |
-| [Objects](~/api-ref/graphrbac/objects.json)                      | Provides operations for managing objects.            |
-| [Service Principals](~/api-ref/graphrbac/serviceprincipals.json) | Provides operations for managing service principals. |
-| [Users](~/api-ref/graphrbac/users.json)                          | Provides operations for managing users.              |            |
+| [Applications](~/docs-ref-autogen/graphrbac/applications.json)            | Provides operations for managing applications.       |
+| [Groups](~/docs-ref-autogen/graphrbac/groups.json)                        | Provides operations for managing groups.             |
+| [Objects](~/docs-ref-autogen/graphrbac/objects.json)                      | Provides operations for managing objects.            |
+| [Service Principals](~/docs-ref-autogen/graphrbac/serviceprincipals.json) | Provides operations for managing service principals. |
+| [Users](~/docs-ref-autogen/graphrbac/users.json)                          | Provides operations for managing users.              |            |
 
 ## See also
 

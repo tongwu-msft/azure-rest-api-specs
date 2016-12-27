@@ -25,27 +25,27 @@ Following are a list of the tasks with each certificates and certificate policie
 ## Tasks  
  The Azure Key Vault REST API supports the following operations on certificates:  
 
--   [Create a certificate ](../../api-ref/keyvault/CreateCertificate.json)
+-   [Create a certificate ](../../docs-ref-autogen/keyvault/CreateCertificate.json)
 
--   [Import a certificate](../../api-ref/keyvault/ImportCertificate.json)  
+-   [Import a certificate](../../docs-ref-autogen/keyvault/ImportCertificate.json)  
 
--   [List versions of a certificate](../../api-ref/keyvault/GetCertificateVersions.json)  
+-   [List versions of a certificate](../../docs-ref-autogen/keyvault/GetCertificateVersions.json)  
 
--   [List certificates](../../api-ref/keyvault/GetCertificates.json)  
+-   [List certificates](../../docs-ref-autogen/keyvault/GetCertificates.json)  
 
--   [Get a certificate](../../api-ref/keyvault/GetCertificate.json)  
+-   [Get a certificate](../../docs-ref-autogen/keyvault/GetCertificate.json)  
 
--   [Delete a certificate](../../api-ref/keyvault/DeleteCertificate.json)  
+-   [Delete a certificate](../../docs-ref-autogen/keyvault/DeleteCertificate.json)  
 
--   [Update a certificate](../../api-ref/keyvault/UpdateCertificate.json)  
+-   [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.json)  
 
--   [Merge a certificate](../../api-ref/keyvault/MergeCertificate.json)
+-   [Merge a certificate](../../docs-ref-autogen/keyvault/MergeCertificate.json)
 
  The following operations are available on a certificate policy:  
 
--   [Get a certificate policy](../../api-ref/keyvault/GetCertificatePolicy.json)  
+-   [Get a certificate policy](../../docs-ref-autogen/keyvault/GetCertificatePolicy.json)  
 
--   [Update a certificate policy](../../api-ref/keyvault/UpdateCertificatePolicy.json)
+-   [Update a certificate policy](../../docs-ref-autogen/keyvault/UpdateCertificatePolicy.json)
 
 ## Certificate and policy resource details
 Certificates and their supporting policies are complex resources with the following elements.

@@ -1,8 +1,8 @@
-# JSON payloads for Poll Async Storage
+﻿# JSON payloads for Poll Async Storage
 
 ## Response Body (HTTP 200) (version 2016-01-01 and later)
 
-For HTTP 200, if using API version 2016-01-01 or later, the response body will contain the full account properties. See the Response section of the [Get Storage Account Properties](../../api-ref/storagerp/storageaccounts.json#StorageAccounts_GetProperties) operation for the full set of properties and descriptions.
+For HTTP 200, if using API version 2016-01-01 or later, the response body will contain the full account properties. See the Response section of the [Get Storage Account Properties](../../docs-ref-autogen/storagerp/storageaccounts.json#StorageAccounts_GetProperties) operation for the full set of properties and descriptions.
 
 ```json
 {

@@ -17,8 +17,8 @@ Use the Azure Data Lake Store REST APIs to create and manage Data Lake Store res
 
 | Operation Group | Description |
 |-----------------|-------------|
-|[Account](~/api-ref/datalakestore/Account.json)| Provides operations to manage Data Lake Store account, including key management, and firewall rules for Data Lake Store accounts. |
-|[File System](~/api-ref/datalakestore/FileSystem.json) | Provides filesystem operations on your Data Lake Store account. |
+|[Account](~/docs-ref-autogen/datalakestore/Account.json)| Provides operations to manage Data Lake Store account, including key management, and firewall rules for Data Lake Store accounts. |
+|[File System](~/docs-ref-autogen/datalakestore/FileSystem.json) | Provides filesystem operations on your Data Lake Store account. |
 
 ##Common parameters and headers
 

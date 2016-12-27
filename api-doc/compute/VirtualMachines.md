@@ -1,4 +1,4 @@
----
+﻿---
 uid: management.azure.com/ComputeManagementClient/2016-03-30/VirtualMachines_Capture
 summary: Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
 parameters:
@@ -13,8 +13,8 @@ description: *content
 
 These links will be useful when creating the request:
 
-- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
-- [Resource Groups](../../api-ref/resources/resourcegroups.json)
+- [List all subscriptions](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../docs-ref-autogen/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -33,20 +33,20 @@ description: *content
 
 The creation of a virtual machine involves an Azure Storage account and typically resources such as a network interface or availability set. For more information about creating these resources, see:
 
-- [Create a resource group](../../api-ref/resources/resourcegroups.json#ResourceGroups_CreateOrUpdate)
-- [Create a storage account](../../api-ref/storage/storageaccounts.json#StorageAccounts_Create)
-- [Create a virtual network](../../api-ref/network/virtualnetworks.json#VirtualNetworks_CreateOrUpdate)
-- [Create a network interface](../../api-ref/network/networkinterfaces.json#NetworkInterfaces_CreateOrUpdate)
-- [Create a public IP address](../../api-ref/network/publicipaddresses.json#PublicIPAddresses_CreateOrUpdate)
-- [Create an availability set](../../api-ref/compute/availabilitysets.json#AvailabilitySets_CreateOrUpdate)
+- [Create a resource group](../../docs-ref-autogen/resources/resourcegroups.json#ResourceGroups_CreateOrUpdate)
+- [Create a storage account](../../docs-ref-autogen/storage/storageaccounts.json#StorageAccounts_Create)
+- [Create a virtual network](../../docs-ref-autogen/network/virtualnetworks.json#VirtualNetworks_CreateOrUpdate)
+- [Create a network interface](../../docs-ref-autogen/network/networkinterfaces.json#NetworkInterfaces_CreateOrUpdate)
+- [Create a public IP address](../../docs-ref-autogen/network/publicipaddresses.json#PublicIPAddresses_CreateOrUpdate)
+- [Create an availability set](../../docs-ref-autogen/compute/availabilitysets.json#AvailabilitySets_CreateOrUpdate)
 
 For the update scenario, a PUT or PATCH request can be submitted with a subset of the VM properties. Alternatively, the RESTful way is to do a GET, tweak the properties and submit a PUT request. For non-updateable properties, it’s OK to be specify them in Update request but they must have the same values as returned by GET. For examples of different VM configurations, see [VM configurations](vm-configuration.md).
 
 These links will be useful when creating the request:
 
-- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
-- [Resource Groups](../../api-ref/resources/resourcegroups.json)
-- [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations)
+- [List all subscriptions](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../docs-ref-autogen/resources/resourcegroups.json)
+- [List all of the available geo-locations](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations)
 - [Using tags to organize your resources](https://review.docs.microsoft.com/en-us/azure/resource-group-using-tags?toc=%2fazure%2fazure-resource-manager%2ftoc.json)
 - [Manage the availability of virtual machines](https://review.docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
 - [Navigating and Selecting Azure Virtual Machine images with PowerShell and the Azure CLI](https://review.docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-windows-cli-ps-findimage?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
@@ -72,8 +72,8 @@ description: *content
 
 These links will be useful when creating the request:
 
-- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
-- [Resource Groups](../../api-ref/resources/resourcegroups.json)
+- [List all subscriptions](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../docs-ref-autogen/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -92,9 +92,9 @@ description: *content
 
 These links will be useful when creating the request:
 
-- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
-- [Resource Groups](../../api-ref/resources/resourcegroups.json)
-- [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations)
+- [List all subscriptions](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../docs-ref-autogen/resources/resourcegroups.json)
+- [List all of the available geo-locations](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -113,8 +113,8 @@ description: *content
 
 These links will be useful when creating the request:
 
-- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
-- [Resource Groups](../../api-ref/resources/resourcegroups.json)
+- [List all subscriptions](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../docs-ref-autogen/resources/resourcegroups.json)
 
 You are not billed for the compute resources that this Virtual Machine uses.
 
@@ -140,8 +140,8 @@ You need to do these tasks to run this operation:
 
 These links will be useful when creating the request:
 
-- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
-- [Resource Groups](../../api-ref/resources/resourcegroups.json)
+- [List all subscriptions](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../docs-ref-autogen/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -160,9 +160,9 @@ description: *content
 
 These links will be useful when creating the request:
 
-- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
-- [Resource Groups](../../api-ref/resources/resourcegroups.json)
-- [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations)
+- [List all subscriptions](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../docs-ref-autogen/resources/resourcegroups.json)
+- [List all of the available geo-locations](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -181,9 +181,9 @@ description: *content
 
 These links will be useful when creating the request:
 
-- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
-- [Resource Groups](../../api-ref/resources/resourcegroups.json)
-- [List all of the available geo-locations](../../api-ref/resources/subscriptions.json#Subscriptions_ListLocations).
+- [List all subscriptions](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../docs-ref-autogen/resources/resourcegroups.json)
+- [List all of the available geo-locations](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations).
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -198,7 +198,7 @@ parameters:
 description: *content
 ---
 
-You can find subscription information using [List all aubscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List).
+You can find subscription information using [List all aubscriptions](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_List).
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -219,8 +219,8 @@ This operation only stops the virtual machine. The virtual machine can be restar
 
 These links will be useful when creating the request:
 
-- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
-- [Resource Groups](../../api-ref/resources/resourcegroups.json)
+- [List all subscriptions](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../docs-ref-autogen/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -239,8 +239,8 @@ description: *content
 
 These links will be useful when creating the request:
 
-- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
-- [Resource Groups](../../api-ref/resources/resourcegroups.json)
+- [List all subscriptions](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../docs-ref-autogen/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -259,8 +259,8 @@ description: *content
 
 These links will be useful when creating the request:
 
-- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
-- [Resource Groups](../../api-ref/resources/resourcegroups.json)
+- [List all subscriptions](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../docs-ref-autogen/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).
 
@@ -279,7 +279,7 @@ description: *content
 
 These links will be useful when creating the request:
 
-- [List all subscriptions](../../api-ref/resources/subscriptions.json#Subscriptions_List)
-- [Resource Groups](../../api-ref/resources/resourcegroups.json)
+- [List all subscriptions](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_List)
+- [Resource Groups](../../docs-ref-autogen/resources/resourcegroups.json)
 
 You must make sure that requests are secure. For more information, see [Authenticating Azure Resource Manager requests](https://review.docs.microsoft.com/en-us/azure/resource-group-authenticate-service-principal?toc=%2fazure%2fazure-resource-manager%2ftoc.json).

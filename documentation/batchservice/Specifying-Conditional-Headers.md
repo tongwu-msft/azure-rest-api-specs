@@ -15,7 +15,7 @@ The Batch service follows the [HTTP/1.1 protocol specification](https://tools.ie
 * If a request specifies both the `If-Match` and `If-Unmodified-Since` headers, the request is evaluated based on the criteria specified in `If-Match`.
 * With the exception of the two combinations of conditional headers listed above, a request may specify only a single conditional header. Specifying more than one conditional header results in status code 400 (Bad Request).
 
-To see which conditional headers are supported by an operation, see the documentation for that operation (for example, [Job Enable](~/api-ref/batchservice/job.json#Job_Enable)). Not all operations support all headers.
+To see which conditional headers are supported by an operation, see the documentation for that operation (for example, [Job Enable](~/docs-ref-autogen/batchservice/job.json#Job_Enable)). Not all operations support all headers.
 
 ## HTTP Response Codes for Operations Supporting Conditional Headers
 

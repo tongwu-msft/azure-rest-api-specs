@@ -25,7 +25,7 @@ All Azure Resource Manager REST calls require a valid authorization token in the
 
 | Operation Group | Description |
 |-----------------|-------------|
-|[Database Accounts](~/api-ref/documentdbresourceprovider/databaseaccounts.json)| Provides operations to manage DocumentDB accounts, including key management, and failover region priority changes for geo-distributed accounts. |
+|[Database Accounts](~/docs-ref-autogen/documentdbresourceprovider/databaseaccounts.json)| Provides operations to manage DocumentDB accounts, including key management, and failover region priority changes for geo-distributed accounts. |
 
 
 ## See Also

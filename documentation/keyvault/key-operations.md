@@ -31,48 +31,48 @@ translation.priority.mt:
 
 The Azure Key Vault REST API supports the following operations for key objects.
 
-- [Create a key](../../api-ref/keyvault/CreateKey.json)
+- [Create a key](../../docs-ref-autogen/keyvault/CreateKey.json)
 
 
-- [Update a key](../../api-ref/keyvault/UpdateKey.json)
+- [Update a key](../../docs-ref-autogen/keyvault/UpdateKey.json)
 
 
-- [Delete a key](../../api-ref/keyvault/DeleteKey.json)
+- [Delete a key](../../docs-ref-autogen/keyvault/DeleteKey.json)
 
-- [Get information about a key](../../api-ref/keyvault/GetKey.json)
-
-
-- [Get the keys in a vault](../../api-ref/keyvault/GetKeys.json)
+- [Get information about a key](../../docs-ref-autogen/keyvault/GetKey.json)
 
 
-- [Get the versions of a key](../../api-ref/keyvault/GetKeyVersions.json)
+- [Get the keys in a vault](../../docs-ref-autogen/keyvault/GetKeys.json)
 
 
-- [Import a key into a vault](../../api-ref/keyvault/ImportKey.json)
+- [Get the versions of a key](../../docs-ref-autogen/keyvault/GetKeyVersions.json)
 
 
-- [Backup a key](../../api-ref/keyvault/BackupKey.json)
+- [Import a key into a vault](../../docs-ref-autogen/keyvault/ImportKey.json)
 
 
-- [Restore a key](../../api-ref/keyvault/RestoreKey.json)
+- [Backup a key](../../docs-ref-autogen/keyvault/BackupKey.json)
 
 
-- [Encrypt with a key](../../api-ref/keyvault/encrypt.json)
+- [Restore a key](../../docs-ref-autogen/keyvault/RestoreKey.json)
 
 
-- [Decrypt with a key](../../api-ref/keyvault/decrypt.json)
+- [Encrypt with a key](../../docs-ref-autogen/keyvault/encrypt.json)
 
 
-- [Sign with a key](../../api-ref/keyvault/sign.json)
+- [Decrypt with a key](../../docs-ref-autogen/keyvault/decrypt.json)
 
 
-- [Verify with a key](../../api-ref/keyvault/verify.json)
+- [Sign with a key](../../docs-ref-autogen/keyvault/sign.json)
 
 
-- [Wrap a key](../../api-ref/keyvault/wrapKey.json)
+- [Verify with a key](../../docs-ref-autogen/keyvault/verify.json)
 
 
-- [Unwrap a key](../../api-ref/keyvault/unwrapKey.json)
+- [Wrap a key](../../docs-ref-autogen/keyvault/wrapKey.json)
+
+
+- [Unwrap a key](../../docs-ref-autogen/keyvault/unwrapKey.json)
 
 
 

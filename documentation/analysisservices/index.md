@@ -20,4 +20,4 @@ The Analysis Services REST API provides operations for working with the followin
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
-| [Servers](~/api-ref/analysisservices/servers.json) | Provides operations for provisioning and managing Analysis Services servers. |
+| [Servers](~/docs-ref-autogen/analysisservices/servers.json) | Provides operations for provisioning and managing Analysis Services servers. |

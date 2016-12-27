@@ -17,19 +17,19 @@ Azure Intune provides mobile device management, mobile application management, a
 
 | Operation group                                                                           | Description                                                |
 |-------------------------------------------------------------------------------------------|------------------------------------------------------------|
-| [Android](~/api-ref/intune/android.json)                                                  | Provides operations for managing Android MAM policies.     |
-| [Get Apps](~/api-ref/intune/getapps.json)                                                 | Returns a list of Intune manageable apps.                  |
-| [Get Location By Host Name](~/api-ref/intune/getlocationbyhostname.json)                  | Returns location for a given tenant.                       |
-| [Get Locations](~/api-ref/intune/getlocations.json)                                       | Returns locations for a user tenant.                       |
-| [Get MAM Flagged User By Name](~/api-ref/intune/getmamflaggeduserbyname.json)             | Returns Intune flagged user details.                       |
-| [Get MAM Flagged Users](~/api-ref/intune/getmamflaggedusers.json)                         | Returns Intune flagged user collection.                    |
-| [Get MAM Statuses](~/api-ref/intune/getmamstatuses.json)                                  | Returns Intune Tenant level statuses.                      |
-| [Get MAM User Device By Device Name](~/api-ref/intune/getmamuserdevicebydevicename.json)  | Gets a unique device for a user.                           |
-| [Get MAM User Devices](~/api-ref/intune/getmamuserdevices.json)                           | Gets devices for a user.                                   |
-| [Get MAM User Flagged Enrolled Apps](~/api-ref/intune/getmamuserflaggedenrolledapps.json) | Returns Intune flagged enrolled app collection for a user. |
-| [Get Operation Results](~/api-ref/intune/getoperationresults.json)                        | Returns operation results.                                 |
-| [Ios](~/api-ref/intune/ios.json)                                                          | Provides operations for managing IOS MAM policies.         |
-| [Wipe MAM User Device](~/api-ref/intune/wipemamuserdevice.json)                           | Wipes a device for a user.                                 |
+| [Android](~/docs-ref-autogen/intune/android.json)                                                  | Provides operations for managing Android MAM policies.     |
+| [Get Apps](~/docs-ref-autogen/intune/getapps.json)                                                 | Returns a list of Intune manageable apps.                  |
+| [Get Location By Host Name](~/docs-ref-autogen/intune/getlocationbyhostname.json)                  | Returns location for a given tenant.                       |
+| [Get Locations](~/docs-ref-autogen/intune/getlocations.json)                                       | Returns locations for a user tenant.                       |
+| [Get MAM Flagged User By Name](~/docs-ref-autogen/intune/getmamflaggeduserbyname.json)             | Returns Intune flagged user details.                       |
+| [Get MAM Flagged Users](~/docs-ref-autogen/intune/getmamflaggedusers.json)                         | Returns Intune flagged user collection.                    |
+| [Get MAM Statuses](~/docs-ref-autogen/intune/getmamstatuses.json)                                  | Returns Intune Tenant level statuses.                      |
+| [Get MAM User Device By Device Name](~/docs-ref-autogen/intune/getmamuserdevicebydevicename.json)  | Gets a unique device for a user.                           |
+| [Get MAM User Devices](~/docs-ref-autogen/intune/getmamuserdevices.json)                           | Gets devices for a user.                                   |
+| [Get MAM User Flagged Enrolled Apps](~/docs-ref-autogen/intune/getmamuserflaggedenrolledapps.json) | Returns Intune flagged enrolled app collection for a user. |
+| [Get Operation Results](~/docs-ref-autogen/intune/getoperationresults.json)                        | Returns operation results.                                 |
+| [Ios](~/docs-ref-autogen/intune/ios.json)                                                          | Provides operations for managing IOS MAM policies.         |
+| [Wipe MAM User Device](~/docs-ref-autogen/intune/wipemamuserdevice.json)                           | Wipes a device for a user.                                 |
 
 ## See also
 

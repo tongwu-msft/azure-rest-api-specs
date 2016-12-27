@@ -27,7 +27,7 @@ translation.priority.mt:
 # How to: Use Media Services Management REST API
 
 > [!NOTE]
->  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](../../../api-ref/media/MediaService.json).
+>  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](../../../docs-ref-autogen/media/MediaService.json).
   
   
  The code in this topic defines the `ManagementRESTAPIHelper` class that demonstrates how to use Media Services Management REST APIs. The constructor of the class takes three arguments: the endpoint of your service, the associated management certificate thumbprint, and the subscription id. For more information about management certificate thumbprint, see [Authenticating Service Management Requests](http://msdn.microsoft.com/en-us/1becb7dc-1cdc-4db4-8ae8-7e351c96c251).  

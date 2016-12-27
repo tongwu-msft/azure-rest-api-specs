@@ -17,9 +17,9 @@ The Azure Power BI Embedded REST API provides the following operation groups you
 
 | Operation groups                                                                  | Description                                                                       |
 |-----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| [Workspace Collections](~/api-ref/powerbiembedded/workspacecollections.json)      | Provides operations for managing workspace collections.                           |
-| [Workspaces](~/api-ref/powerbiembedded/workspaces.json)                           | Retrieves all existing Power BI Workspaces in the specified Workspace Collection. |
-| [get Available Operations](~/api-ref/powerbiembedded/getavailableoperations.json) | Indicates which operations can be performed by the Power BI Resource Provider.    |
+| [Workspace Collections](~/docs-ref-autogen/powerbiembedded/workspacecollections.json)      | Provides operations for managing workspace collections.                           |
+| [Workspaces](~/docs-ref-autogen/powerbiembedded/workspaces.json)                           | Retrieves all existing Power BI Workspaces in the specified Workspace Collection. |
+| [get Available Operations](~/docs-ref-autogen/powerbiembedded/getavailableoperations.json) | Indicates which operations can be performed by the Power BI Resource Provider.    |
 
 
 ## See also
