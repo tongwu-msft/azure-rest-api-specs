@@ -126,7 +126,7 @@ function getAuthorizationTokenUsingMasterKey(verb, resourceId, resourceType, dat
     var text = (verb || "").toLowerCase() + "\n" +   
                (resourceType || "").toLowerCase() + "\n" +   
                (resourceId || "") + "\n" +   
-               (headers["x-ms-date"] || "").toLowerCase() + "\n" +   
+               (date || "").toLowerCase() + "\n" +   
                "" + "\n";  
   
     var body = new Buffer(text, "utf8");  
