@@ -16,7 +16,7 @@ Being a collection of guidance assembled throughout the migration of REST API do
 | docs-ref-conceptual | index.md, toc.md, ref conceptual (*.md) | content devs | Index (landing), ToC, and [ref conceptual topics](#definitions) for individual service APIs. |
 | docs-ref-overwrite   | overwrite files (*.md) | content devs | Files containing the [overwrites](add-and-stage-overwrites.md) for REST operation and parameter `summary` and `description` fields. |
 | readme-csi | guidance for content devs | content devs | Guides, cheat sheets, style guides for working with REST API content on docs.microsoft.com. |
-| scripts | CI scripts | Huang Xueyuan ([@hellosnow](https://github.com/hellosnow)) | Scripts used by continuous integration (CI). |
+| scripts | CI scripts | Jessie Huang (jehuan) | Scripts used by continuous integration (CI). |
 | .| index.md | Bryan Lamos (bryanla) | all-up index (landing page) for [Azure REST API](https://docs.microsoft.com/rest/api/index) |
 
 ## Linking
