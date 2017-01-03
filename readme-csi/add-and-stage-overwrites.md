@@ -1,4 +1,4 @@
-# Staging an overwrite
+﻿# Staging an overwrite
 
 What follows is a how-to (from a git perspective) for getting an overwrite staged on [review.docs.microsoft.com](https://review.docs.microsoft.com).
 
@@ -49,9 +49,9 @@ marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (master)
 $ git pull
 Updating fa16bdb..f30ea4c
 Fast-forward
- api-ref/apimanagement/ApiManagementServices.json   | 1160 ++++++++
- api-ref/apimanagement/ApiOperations.json           | 2687 +++++++++++++++++++
- api-ref/apimanagement/ApiProducts.json             | 2489 +++++++++++++++++
+ docs-ref-autogen/apimanagement/ApiManagementServices.json   | 1160 ++++++++
+ docs-ref-autogen/apimanagement/ApiOperations.json           | 2687 +++++++++++++++++++
+ docs-ref-autogen/apimanagement/ApiProducts.json             | 2489 +++++++++++++++++
  ...
 ```
 
@@ -73,7 +73,7 @@ On branch batch-overwrite-pool_list
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
 
-        api-doc/batch/
+        docs-ref-overwrite/batch/
 
 nothing added to commit but untracked files present (use "git add" to track)
 
@@ -84,7 +84,7 @@ marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_lis
 $ git commit -m "[batch] overwrite adding pool_list filter options"
 [batch-overwrite-pool_list e6e4427] [batch] overwrite adding pool_list filter options
  1 file changed, 20 insertions(+)
- create mode 100644 api-doc/batch/Pool.md
+ create mode 100644 docs-ref-overwrite/batch/Pool.md
 
 marsma@MARSMA-01 MINGW64 /c/repos/azure-docs-rest-apis (batch-overwrite-pool_list)
 $ git push origin batch-overwrite-pool_list
@@ -143,6 +143,7 @@ $ git push origin my_local_branch
 
 After that last `push` command, you're at **step 5** above.
 
+
 ## Troubleshooting
 
 If you feel like you're stuck in a trial-and-error mode, throwing @#$%^ at the wall and it's not sticking, check out some of the solutions to common problems below. 
@@ -173,6 +174,7 @@ But when the Markdown renders, it ends up looking something like this, where you
 
 At this point, there is no solution. We are exploring this with the VSC team and have filed a bug (https://mseng.visualstudio.com/DefaultCollection/VSChina/_workitems?_a=edit&id=801775). We will update as soon as we know more.
 
+**UPDATE:** As of 12/15/16, this has been resolved. Please reopen the bug above if you find differently, or find other/related issues with list items. 
 
 ### Issue: I can't get *anything* to show for my overwrite. In fact, none of my overwrites seem to work for a given .md file, or they just stop at a certain point.
 
@@ -219,4 +221,28 @@ exceptions: *content
 Thrown if no subscriptions are found.
 ```
 
-We are exploring this with the VSC team and have filed a bug (https://mseng.visualstudio.com/VSChina/_workitems?id=800955). We will update as soon as we know more.
+Instead, you need to use one the following formats:
+
+```
+---
+
+uid: Microsoft.ServiceBus.Messaging.TopicDescription.EnableFilteringMessagesBeforePublishing
+exceptions: 
+- type: Microsoft.ServiceBus.Messaging.NoMatchingSubscriptionException 
+  description: Thrown if no subscriptions are found.
+---
+```
+ 
+Or:
+
+```
+---
+
+uid: Microsoft.ServiceBus.Messaging.TopicDescription.EnableFilteringMessagesBeforePublishing
+exceptions: 
+- type: Microsoft.ServiceBus.Messaging.NoMatchingSubscriptionException
+  description: *content
+---
+Thrown if no subscriptions are found.
+
+```
