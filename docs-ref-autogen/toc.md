@@ -575,7 +575,7 @@
 ### [Get Index (Azure Search Service REST API)](../docs-ref-conceptual/searchservice/get-index.md)
 ### [Delete Index (Azure Search Service REST API)](../docs-ref-conceptual/searchservice/delete-index.md)
 ### [Get Index Statistics (Azure Search Service REST API)](../docs-ref-conceptual/searchservice/get-index-statistics.md)
-### [Test Analyzer (Azure Search Service REST API)](../docs-ref-conceptual/searchservice/test-analyzer.md)
+### [Analyze Text (Azure Search Service REST API)](../docs-ref-conceptual/searchservice/test-analyzer.md)
 ## [Document operations (Azure Search Service REST API)](../docs-ref-conceptual/searchservice/document-operations.md)
 ### [Add, Update or Delete Documents (Azure Search Service REST API)](../docs-ref-conceptual/searchservice/addupdate-or-delete-documents.md)
 ### [Search Documents (Azure Search Service REST API)](../docs-ref-conceptual/searchservice/search-documents.md)
