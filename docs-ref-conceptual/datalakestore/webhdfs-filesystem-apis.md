@@ -53,7 +53,7 @@ https://<data_lake_store_name>.azuredatalakestore.net/webhdfs/v1/<PATH>?op=<OP>.
  Data Lake Store uses Azure Active Directory to authorize REST calls. All REST calls to Data Lake Store must include an authorization token as part of the message header. For a detailed discussion on how Azure Active Directory  uses OAuth, see [OAuth2.0 in Azure Active Directory](https://msdn.microsoft.com/library/azure/dn645545.aspx). For instructions on how to request an authorization token, see [How do I authenticate using Azure Active Directory](https://azure.microsoft.com/documentation/articles/data-lake-store-get-started-rest-api#how-do-i-authenticate-using-azure-active-directory/).  
   
 > [!NOTE]
->  For a list of common headers and parameters that are required for calls to Data Lake Store, see [Common parameters and headers](../AzureDataLakeStoreREST/data-lake-store-rest-reference.md#bk_common_adls).  
+>  For a list of common headers and parameters that are required for calls to Data Lake Store, see [Common parameters and headers](index.md#bk_common).  
   
 ## WebHDFS compliant APIs for Data Lake Store  
  The table below lists the WebHDFS APIs that can be used with Data Lake Store. Wherever applicable, the table also lists deviation from the standard WebHDFS APIs, such as if some parameters are not supported, or when some parameters are supported differently.  
