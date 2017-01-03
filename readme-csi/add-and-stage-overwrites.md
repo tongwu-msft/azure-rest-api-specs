@@ -121,11 +121,13 @@ In this particular overwrite, I replaced the Pool_List `description`, adding a t
 
 ![Image of PR creation in GitHub](./images/overwrites_in_gitbash_01.png)
 
-### 8. Verify **All checks have passed** on the PR
+### 8. Verify "All checks have passed" on the PR
 
 ![CI check status GitHub](./images/overwrites_in_gitbash_02.png)
 
-### 9. Merging is now in the hands of those with the permissions to do so.
+### 9. Add the "#sign-off" comment to the PR
+
+### 10. Merging is now in the hands of those with the permissions to do so.
 
 ## `git` command summary
 
