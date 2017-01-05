@@ -33,7 +33,9 @@ The Microsoft Azure Media Services REST API reference section describes the enti
   
 |x-ms-version|Description|  
 |--------------------|-----------------|  
-|2.13||  
+|2.15|Version and design updates were made to the **StreamingEndpoint**. For more information, see [StreamingEndpoint](../operations/streamingendpoint.md) and [Streaming endpoints overview](https://docs.microsoft.com/azure/media-services/media-services-streaming-endpoints-overview). Also, the following new properties: **CdnProvider**, **CdnProfile**, **FreeTrialEndTime**, **StreamingEndpointVersion** were added to **StreamingEndpoint**. |
+|2.14|Internal changes|
+|2.13|Telemetry related changes were added in this release: [MonitoringConfiguration](../operations/monitoringconfiguration.md): |  
 |2.12|The following new types/properties were added:<br /><br /> FirstQuality<br /><br /> AssetFilter.FirstQuality<br /><br /> Filter.FirstQuality|  
 |2.11|The following new entities were added:<br /><br /> [AssetFilter](../operations/assetfilter.md)<br /><br /> [Filter](../operations/filter.md)<br /><br /> [FilterTrackSelect](../operations/filtertrackselect.md)<br /><br /> [PresentationTimeRange](../operations/presentationtimerange.md)|  
 |2.10|The following [Channel](../operations/channel.md)’s properties were added to support live encoding with Media Services:<br /><br /> `EncodingType`<br /><br /> `Encoding`<br /><br /> `Slate`<br /><br /> You can also signal to start and end advertisement and hide and how a slate image.|  
