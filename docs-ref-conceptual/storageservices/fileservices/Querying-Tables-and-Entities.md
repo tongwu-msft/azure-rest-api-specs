@@ -94,25 +94,26 @@ https://myaccount.table.core.windows.net/MyTable()
  For more information about filter syntax, see the [OData Protocol Specification](http://www.odata.org/).  
   
 ## Query String Encoding  
- The following characters must be encoded if they are to be used in a query string:  
+The following characters must be encoded if they are to be used in a query string:  
   
--   Forward slash (/)  
-  
--   Question mark (?)  
-  
--   Colon (:)  
-  
--   'At' symbol (@)  
-  
--   Ampersand (&)  
-  
--   Equals sign (=)  
-  
--   Plus sign (+)  
-  
--   Comma (,)  
-  
--   Dollar sign ($)  
+* Forward slash (/)  
+* Question mark (?)  
+* Colon (:)  
+* 'At' symbol (@)  
+* Ampersand (&)  
+* Equals sign (=)  
+* Plus sign (+)  
+* Comma (,)  
+* Dollar sign ($)
+
+
+### Single quote (')
+
+Single quotes in query strings must be represented as two consecutive single quotes (`''`). For example, "o'clock" would be:
+
+```
+o''clock
+```
   
 ## Sample Query Expressions  
  The following samples show how to construct the request URI for some typical entity queries using REST syntax. The same queries could be written using LINQ syntax. For more information, see [Writing LINQ Queries Against the Table Service](../fileservices/Writing-LINQ-Queries-Against-the-Table-Service.md).  
