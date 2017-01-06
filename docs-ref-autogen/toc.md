@@ -58,7 +58,7 @@
 ## [Top Level Domains](appservice/TopLevelDomains.json)
 ## [Web Apps](appservice/WebApps.json)
 # [Application Gateway](../docs-ref-conceptual/applicationgateway/index.md)
-## [Application Gateways](applicationgateway/ApplicationGateways.json)
+## [Application Gateways](ApplicationGateway/ApplicationGateways.json)
 # [Authorization](../docs-ref-conceptual/authorization/index.md)
 ## [Classic Administrators](authorization/ClassicAdministrators.json)
 ## [Permissions](authorization/Permissions.json)
