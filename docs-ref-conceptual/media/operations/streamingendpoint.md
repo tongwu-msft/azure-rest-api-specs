@@ -1,7 +1,7 @@
 ---
 title: "StreamingEndpoint"
 ms.custom: ""
-ms.date: "2016-07-14"
+ms.date: "2016-29-20"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -32,8 +32,44 @@ translation.priority.mt:
 > [!IMPORTANT]
 >  Starting with Media Services 2.7, the `Origin` entity was renamed to `StreamingEndpoint`.  
   
- The `StreamingEndpoint` entity represents a streaming service that can deliver content directly to a client player application, or to a Content Delivery Network (CDN) for further distribution. Starting with version 2.9, Microsoft Azure Media Services provides the Azure CDN integration (for more information, see the `CdnEnabled` property documented below). The outbound stream from a StreamingEndpoint service can be a live stream, or a video on demand Asset in your Media Services account. In adndition, you can control the capacity of the StreamingEndpoint service to handle growing bandwidth needs by adjusting scale units (also known as streaming units). It is recommended to allocate one or more scale units for applications in production environment. Scale units provide you with both dedicated egress capacity that can be purchased in increments of 200 Mbps and additional functionality which currently includes use [dynamic packaging](http://msdn.microsoft.com/en-us/8d3069a3-4d1d-4a7c-946c-1df63e54cfeb). For more information, see [How to Scale a Media Service](http://www.windowsazure.com/manage/operations/media-services/how-to-scale-a-media-service/).  
-  
+The `StreamingEndpoint` entity represents a streaming service that can deliver content directly to a client player application, or to a Content Delivery Network (CDN) for further distribution. Starting with version 2.9, Microsoft Azure Media Services provides the Azure CDN integration (for more information, see the `CdnEnabled` property documented below). The outbound stream from a StreamingEndpoint service can be a live stream, or a video on demand Asset in your Media Services account.
+ 
+Each Azure Media Services (AMS) account includes a default StreamingEndpoint; additional StreamingEndpoints can be created under the account. Starting with Media Services 2.15 (released on January 10th 2017) there are two StreamingEndpoint versions: **1.0** and **2.0**. Also, there are three types of StreamingEndpoints: **Classic**, **Standard** or **Premium**. Media Services accounts created before AMS REST 2.15 update by default include **Classic** streaming endpoints, version 1.0. You can upgrade to version 2.0, you cannot downgrade to 1.0. AMS accounts created after the 2.15 update by default include **Standard** streaming endpoints, version 2.0. Version **2.0** streaming endpoints have billing and feature changes. For more detailed information, see the `StreamingEndpointVersion` property documented below.
+
+The automatically provisioned StreamingEndpoint has the name "Default" and it cannot be deleted. The state of the StreamingEndpoint is **Stopped**. If you created the account via Azure Management Portal and Azure CDN is available in the region, then it will also has CDN integration by default("CdnEnabled":true, "CdnProvider":StandardVerizon and "CdnProfile":AzureMediaStreamingPlatformCdnProfile). 
+ 
+##  <a name="StreamingEndpointTypes"></a> Classic, Standard, Premium streaming endpoints overview
+
+**Advanced features** described in this section include [dynamic packaging](https://docs.microsoft.com/azure/media-services/media-services-dynamic-packaging-overview) and [dynamic encryption](https://docs.microsoft.com/azure/media-services/media-services-content-protection-overview).
+
+The table summarizes the behavior:  
+
+|Type|Version|ScaleUnits|Advanced features|CDN|Billing|SLA| 
+|--------------|----------|--------------|--------|--------|--------|--------|     
+|**Classic**|1.0|0|NA|NA|Free|NA|
+|**Standard Streaming Endpoint** (recommended)|2.0|0|Yes|Yes|Paid|Yes|
+|**Premium Streaming Endpoint**|1.0|>0|Yes|Yes|Paid|Yes|
+|**Premium Streaming Endpoint**|2.0|>0|Yes|Yes|Paid|Yes|
+ 
+
+It is recommended to upgrade your **Classic** streaming endpoints to **Standard** streaming endpoints to get a better experience and advanced features.  **Standard** streaming also scales outbound bandwidth automatically. 
+
+The **Standard** type is the recommended option for virtually all streaming scenarios and audience sizes. For customers with extremely demanding requirements AMS also offers **Premium** streaming endpoints which can be used to scale out capacity for the largest internet audiences. If you expect very large audiences and concurrent viewers, please contact us for guidance on whether you need to move to the **Premium** type.
+
+You move to a **Premium** type by adjusting scale units. Scale units provide you with dedicated egress capacity that can be purchased in increments of 200 Mbps. When using the **Premium** type, each enabled unit provides additional bandwidth capacity to the application. For more information, see [How to Scale StreamingEndpoint](https://docs.microsoft.com/azure/media-services/media-services-portal-scale-streaming-endpoints/).  
+ 
+To start streaming enndpoint, call **Start** operation on the StreamingEndpoints entity. Some time after starting the StreamingEdpoint, the state changes to `Running`.</br>
+
+To stop streaming at a later point in time, call the **Stop** operation on the StreamingEndpoints entity. The table summarizes the behavior:  
+
+|State|Streaming Units|Description|Available Actions|  
+|-----------|---------------------|-----------------|-----------------------|  
+|Stopped|0|Not streaming.|Start, Scale|  
+|Running|0|Streaming from Standard Streaming Endpoint.|Stop, Scale|  
+|Stopped|>0|Not streaming.|Start, Scale|  
+|Running|>0|Streaming from Premium Streaming Endpoint.|Stop, Scale|  
+
+
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
 >   
@@ -45,9 +81,7 @@ translation.priority.mt:
  This topic gives an overview of the `StreamingEndpoint` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
 -   [Create StreamingEndpoint](#create_streaming_endpoints)  
-  
-     Also shows how to create an Origin (which was the name of the entity before the 2.7 release).  
-  
+
 -   [Start StreamingEndpoint](#start_create_streaming_endpoints)  
   
 -   [Stop StreamingEndpoints](#stop_create_streaming_endpoints)  
@@ -61,6 +95,7 @@ translation.priority.mt:
 -   [Delete StreamingEndpoints](#delete_create_streaming_endpoints)  
   
 ## StreamingEndpoint Entity  
+
  The `StreamingEndpoint` entity contains the following properties.  
   
 |Property|Type|Description|  
@@ -72,10 +107,14 @@ translation.priority.mt:
 |`State`<br /><br /> Read-only. Set by Media Services.|Edm.Int32|Values for the property include:<br /><br /> - Stopped. The initial state of a StreamingEndpoint after creation.<br /><br /> - Starting. The StreamingEndpoint is transitioning to the running state.<br /><br /> - Running. The StreamingEndpoint is able to stream content to clients.<br /><br /> - Scaling. The streaming units (ScaleUnits) are being increased or decreased.<br /><br /> - Stopping. The StreamingEndpoint is transitioning to the stopped state.|  
 |`HostName`<br /><br /> Read-only. Set by Media Services.|Edm.String|Default streaming endpoint hostname.|  
 |`LastModified`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|Last update time for this entity.|  
-|`ScaleUnits`<br /><br /> Read-only.<br /><br /> If `ScaleUnits` is set to 0, the content will be streamed from the [shared pool](#SharedPool).|Edm.Int32|The number of streaming units allocated for the StreamingEndpoint deployment. When the StreamingEndpoint is in the `Running` state, the streaming units on the StreamingEndpoint can be scaled up by calling the `Scale` operation.<br /><br /> Note that the following StreamingEndpoint’s properties can only be configured with 1 or more streaming units: `AccessControl`, `CustomHostNames`, `CacheControl`, `CrossSiteAccessPolicies`.|  
-|`CdnEnabled`<br /><br /> This property was added in Media Services 2.9.|`Edm.Boolean`|Indicates whether or not the Azure CDN integration for this StreamingEndpoint is enabled (disabled by default.)<br /><br /> To set the `CdnEnabled` to true, the StreamingEndpoint must have at least one streaming unit (`ScaleUnits`) and be in the stopped state. If later you want to set `ScaleUnits` to 0, you must first set the CdnEnabled to false.<br /><br /> It could take up to 90 min for the Azure CDN integration to get enabled. Use the [Operation](../operations/operation.md) REST API to check the status. Once it is enabled, the following configurations get disabled: `CustomHostNames` and `AccessControl`.<br /><br /> **Note**: Not all data centers support the Azure CDN integration. To check whether or not your data center has the Azure CDN integration available do the following:<br /><br /> - Try to set the `CdnEnabled` to true.<br /><br /> - Check the returned result for an `HTTP Error Code 412` (PreconditionFailed) with a message of  "Streaming endpoint CdnEnabled property cannot be set to true as CDN capability is not available in the current region."<br /><br /> If you get this error, the data center does not support it. You should try another data center.|  
-|`CustomHostNames`<br /><br /> Optional.|Collection(Edm.String)|Used to configure a streaming endpoint to accept traffic directed to a custom host name. This allows for easier traffic management configuration through a Global Traffic Manager (GTM) and also for branded domain names to be used as the streaming endpoint name.<br /><br /> The ownership of the domain name must be confirmed by Azure Media Services. Azure Media Services verifies the domain name ownership by requiring a `CName` record containing the Azure Media Services account ID as a component to be added to the domain in use. As an example, for “sports.contoso.com” to be used as a custom host name for the Streaming Endpoint, a record for “\<accountId>.contoso.com” must be configured to point to one of Media Services verification host names. The verification host name is composed of verifydns.\<mediaservices-dns-zone>. The following table contains the expected DNS zones to be used in the verify record for different Azure regions.<br /><br /> North America, Europe, Singapore, Hong Kong, Japan:<br /><br /> - mediaservices.windows.net<br /><br /> - verifydns.mediaservices.windows.net<br /><br /> China:<br /><br /> - mediaservices.chinacloudapi.cn<br /><br /> - verifydns.mediaservices.chinacloudapi.cn<br /><br /> For example, a `CName` record that maps “945a4c4e-28ea-45cd-8ccb-a519f6b700ad.contoso.com” to “verifydns.mediaservices.windows.net” proves that the Azure Media Services ID 945a4c4e-28ea-45cd-8ccb-a519f6b700ad has the ownership of the contoso.com domain, thus enabling any name under contoso.com to be used as a custom host name for a streaming endpoint under that account.<br /><br /> To find the Media Service ID value, go to the [Azure classic portal](https://manage.windowsazure.com) and select your Media Service account. The MEDIA SERVICE ID appears on the right of the DASHBOARD page.<br /><br /> **Warning**: If there is an attempt to set a custom host name without a proper verification of the `CName` record, the DNS response will fail and then be cached for some time. Once a proper record is in place it might take a while until the cached response is revalidated. Depending on the DNS provider for the custom domain, it could take anywhere from a few minutes to an hour to revalidate the record.<br /><br /> In addition to the `CName` that maps `<accountId>.<parent domain>` to `verifydns.<mediaservices-dns-zone>`, you must create another `CName` that maps the custom host name (for example, `sports.contoso.com`) to your Media Services StreamingEndpont’s host name (for example, `amstest.streaming.mediaservices.windows.net`).<br /><br /> **Note**: Streaming endpoints located in the same data center, cannot share the same custom host name.|  
-|`AccessControl`|[StreamingEndpointAccessControl ComplexType](#StreamingEndpointAccessControl)|Used to configure the following security settings for this streaming endpoint: Akamai signature header authentication keys and IP addresses that are allowed to connect to this endpoint.|  
+|`ScaleUnits`<br /><br /> Read-only.<br /><br /> |Edm.Int32|The number of premium streaming endpoints allocated for the StreamingEndpoint deployment. When the StreamingEndpoint is in the `Running` state, the streaming units on the StreamingEndpoint can be scaled up by calling the `Scale` operation.<br /><br /> This property also controls the streaming endpoint **type** with the combination of streaming endpoint **version**. If your streaming endpoint version is 1.0 and ScaleUnits=0 the streaming endpoint is of a **classic** type.<br /><br />The following StreamingEndpoint’s properties can only be configured if your streaming endpoint is **standard** or **premium**:  `AccessControl`, `CustomHostNames`, `CacheControl`, `CrossSiteAccessPolicies`.|  
+|`CdnEnabled`<br /><br /> This property was added in Media Services 2.9.|`Edm.Boolean`|Indicates whether or not the Azure CDN integration for this StreamingEndpoint is enabled (disabled by default.)<br /><br /> To set the `CdnEnabled` to true, the StreamingEndpoint must have at least one premium streaming endpoint (`ScaleUnits`) for version 1.0 StreamingEndpoints and be in the stopped state. You can set this property if StreamingEndpoint version is 2.0 regardless of ScaleUnits value (please refer to **Standard** streaming endpoint) Use the [Operation](../operations/operation.md) REST API to check the status. Once it is enabled, the following configurations get disabled: `CustomHostNames` and `AccessControl`.<br /><br /> **Note**: Not all data centers support the Azure CDN integration. To check whether or not your data center has the Azure CDN integration available do the following:<br /><br /> - Try to set the `CdnEnabled` to true.<br /><br /> - Check the returned result for an `HTTP Error Code 412` (PreconditionFailed) with a message of  "Streaming endpoint CdnEnabled property cannot be set to true as CDN capability is not available in the current region."<br /><br /> If you get this error, the data center does not support it. You should try another data center.|  
+|`CdnProvider`<br /><br /> This property was added in Media Services 2.15.|Edm.String|When CDN is enabled ("CdnEnabled":true) you can also pass CdnProvider values. CdnProvider controls which provider will be used. Currently, three values are supported: "StandardVerizon", "PremiumVerizon" and "StandardAkamai". If no value is provided and "CdnEnabled":true, "StandardVerizon" is used (that is the default value.) <br/>Example: "CdnProvider":"StandardAkamai".<br /><br /> **Note**: StreamingEndpoints which are "CDNEnabled":true with older AMS versions (<2.15) has a legacy CDN integration and uses "StandardVerizon" CDN provider. It is recommended to migrate your StreamingEndpoints to the newer CDN integration to get a better experince and full features.|
+|`CdnProfile`<br /><br />This property was added in Media Services 2.15.|Edm.String|When CDN is enabled ("CdnEnabled":true) you can also pass CdnProfile values. "CdnProfile" is the name of the CDN profile where the CDN endpoint point will be created. You can provide an existing CdnProfile or use a new one. If value is NULL and "CdnEnabled":true, the default value "AzureMediaStreamingPlatformCdnProfile" is used. If the provided CdnProfile already exists than an endpoint is created under it. If the profile does not exists, a new profile automatically gets created. <br/>Example: "CdnProfile":"AzureMediaStreamingPlatformCdnProfile".|
+|`FreeTrialEndTime`<br /> Read-only.<br /><br />This property was added in Media Services 2.15.|Edm.DateTime|When a new media services account gets created, a default standard streaming endpoint also automatically gets provisioned  under the account, in stopped state. This endpoint includes a 15 day free trial period and trial period starts when the endpoint gets started for the first time. Free trial doesn’t apply to existing accounts and end date doesn’t change with state transitions such as stop/start. Free trial starts the first time you start the streaming endpoint and ends after 15 calendar days. The free trial only applies to the default streaming endpoint and doesn't apply to additional streaming endpoints. <br/><br/>When the endpoint is just created, and is in stopped state, the value of "FreeTrialEndTime" is set to "0001-01-01T00:00:00Z". When it is started, 15 days are added to the start date and the value starts representing the free trial end date "FreeTrialEndTime":"2016-12-16T18:01:47.8524725Z".<br/>Values for streaming endpoints which are not eligible for free trial will be always "FreeTrialEndTime":"0001-01-01T00:00:00Z" regardless of the state. <br/>Examples:<br/> "FreeTrialEndTime":"2016-12-16T18:01:47.8524725Z"<br/>"FreeTrialEndTime":"0001-01-01T00:00:00Z"|
+|`StreamingEndpointVersion`<br /><br />This property was added in Media Services 2.15.|Edm.String|Combination of  StreamingEndpointVersion and ScaleUnits controls the streaming endpoint type. Any streaming endpoint created before the 2.15 (January 10th 2017) update will have "StreamingEndpointVersion":"1.0" and streaming endpoints created after the update will have "StreamingEndpointVersion":"2.0". <br/> Streaming Endpoints which are version 1.0 will not be automaticaly upgraded to version 2.0, but can be explicitly upgraded to "StreamingEndpointVersion":"2.0".<br/>Streaming endpoints with "ScaleUnits":0 and "StreamingEndpointVersion":"1.0" will be considered **classic** streaming endpoints which don't have the advanced features such as dynamic packaging or dynamic encryption.<br/>Streaming endpoints with "ScaleUnits" > 0 (whether the "StreamingEndpointVersion" is set to version "1.0" or version "2.0") are **premium** units.<br/> Standard streaming endpoints with "ScaleUnits":0 and "StreamingEndpointVersion":"2.0" will include the same features as premium units (which includes dynamic packaging and dynamic encryption.) <br/> You can upgrade a **classic** streaming endpoint to **standard** by setting version to "StreamingEndpointVersion":"2.0". <br />This is a one-way operation; you cannot downgrade version 2.0 to 1.0. Beware that this operation cannot be rolled back and has a pricing impact. It can take up to 30 minutes for this new configuration to propagate. During this timeframe the endpoint will work in degraded mode and you might encounter failures for dynamic packaging and dynamic encryption requests.<br/><br/>Examples: <br/>"StreamingEndpointVersion":"2.0"<br/>"StreamingEndpointVersion":"1.0"|
+|`CustomHostNames`<br /><br /> Optional.|Collection(Edm.String)|Used to configure a streaming endpoint to accept traffic directed to a custom host name. This allows for easier traffic management configuration through a Global Traffic Manager (GTM) and also for branded domain names to be used as the streaming endpoint name.<br /><br /> The ownership of the domain name must be confirmed by Azure Media Services. Azure Media Services verifies the domain name ownership by requiring a `CName` record containing the Azure Media Services account ID as a component to be added to the domain in use. As an example, for “sports.contoso.com” to be used as a custom host name for the Streaming Endpoint, a record for “\<accountId>.contoso.com” must be configured to point to one of Media Services verification host names. The verification host name is composed of verifydns.\<mediaservices-dns-zone>. The following table contains the expected DNS zones to be used in the verify record for different Azure regions.<br /><br /> North America, Europe, Singapore, Hong Kong, Japan:<br /><br /> - mediaservices.windows.net<br /><br /> - verifydns.mediaservices.windows.net<br /><br /> China:<br /><br /> - mediaservices.chinacloudapi.cn<br /><br /> - verifydns.mediaservices.chinacloudapi.cn<br /><br /> For example, a `CName` record that maps "945a4c4e-28ea-45cd-8ccb-a519f6b700ad.contoso.com" to "verifydns.mediaservices.windows.net" proves that the Azure Media Services ID 945a4c4e-28ea-45cd-8ccb-a519f6b700ad has the ownership of the contoso.com domain, thus enabling any name under contoso.com to be used as a custom host name for a streaming endpoint under that account.<br /><br /> To find the Media Service ID value, go to the [Azure portal](https://portal.azure.com/) and select your Media Service account. The MEDIA SERVICE ID appears on the right of the DASHBOARD page.<br /><br /> **Warning**: If there is an attempt to set a custom host name without a proper verification of the `CName` record, the DNS response will fail and then be cached for some time. Once a proper record is in place it might take a while until the cached response is revalidated. Depending on the DNS provider for the custom domain, it could take anywhere from a few minutes to an hour to revalidate the record.<br /><br /> In addition to the `CName` that maps `<accountId>.<parent domain>` to `verifydns.<mediaservices-dns-zone>`, you must create another `CName` that maps the custom host name (for example, `sports.contoso.com`) to your Media Services StreamingEndpont’s host name (for example, `amstest.streaming.mediaservices.windows.net`).<br /><br /> **Note**: Streaming endpoints located in the same data center, cannot share the same custom host name.<br /> This property is valid for Standard and premium streaming endpoints and can be set when "CdnEnabled":false<br/><br/> Note that, currently, AMS doesn’t support SSL with custom domains.  |  
+|`AccessControl`|[StreamingEndpointAccessControl ComplexType](#StreamingEndpointAccessControl)|Used to configure the following security settings for this streaming endpoint: Akamai signature header authentication keys and IP addresses that are allowed to connect to this endpoint.<br /> **Note**: This property is valid for Standard and premium streaming endpoints and can be set when "CdnEnabled":false|  
 |`CacheControl`|[StreamingEndpointCacheControl](#StreamingEndpointCacheControl)|Used to configure asset cache lifetime for assets served through this streaming endpoint.|  
 |`CrossSiteAccessPolicies`|[CrossSiteAccessPolicies](../operations/crosssiteaccesspolicies.md)|Used to specify cross site access policies for various clients. For more information, see [Cross-domain policy file specification](http://www.adobe.com/devnet/articles/crossdomain_policy_file_spec.html) and [Making a Service Available Across Domain Boundaries](http://msdn.microsoft.com/library/cc197955\(v=vs.95\).aspx).|  
   
@@ -155,7 +194,7 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.11  
+x-ms-version: 2.15  
 Authorization: Bearer <token value>  
   
 ```  
@@ -171,7 +210,7 @@ Authorization: Bearer <token value>
    "LastModified":"0001-01-01T00:00:00",  
    "State":null,  
    "HostName":null,  
-   "ScaleUnits":1,  
+   "ScaleUnits":0,  
    "CustomHostNames":[    
   
    ],  
@@ -232,7 +271,7 @@ Date: Sun, 10 Aug 2014 00:31:28 GMT
    "LastModified":"2014-08-10T00:31:28.6760592Z",  
    "State":"Stopped",  
    "HostName":null,  
-   "ScaleUnits":1,  
+   "ScaleUnits":0,  
    "CustomHostNames":[    
   
    ],  
@@ -270,7 +309,7 @@ Date: Sun, 10 Aug 2014 00:31:28 GMT
  The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="start_create_streaming_endpoints"></a> Start StreamingEndpoint  
- Start the specified StreamingEndpoint. A StreamingEndpoint can only be started when it is in the **Stopped** state. If the streaming unit count is 0, points the DNS name to the shared pool.  
+ Start the specified StreamingEndpoint. A StreamingEndpoint can only be started when it is in the **Stopped** state.   
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
@@ -293,7 +332,7 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.9  
+x-ms-version: 2.15  
 Authorization: Bearer <token value>  
   
 ```  
@@ -326,7 +365,7 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.11  
+x-ms-version: 2.15  
 Authorization: Bearer <token value>  
   
 ```  
@@ -334,7 +373,8 @@ Authorization: Bearer <token value>
  If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="scale_create_streaming_endpoints"></a> Scale StreamingEndpoints  
- Dynamically updates the streaming unit capacity while in the running state.  
+
+Dynamically updates the streaming unit capacity while in the running state and changes type from Standard Streaming Endpoint to Premium Streaming Endpoint if updated from "ScaleUnits":0.
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
@@ -359,7 +399,7 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.11  
+x-ms-version: 2.15  
 Authorization: Bearer <token value>  
   
 ```  
@@ -398,7 +438,7 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.11  
+x-ms-version: 2.15  
 Authorization: Bearer <token value>  
   
 ```  
@@ -431,7 +471,7 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.11  
+x-ms-version: 2.15  
 Authorization: Bearer <token value>  
   
 ```  
@@ -470,26 +510,13 @@ Content-Type: application/json;odata=minimalmetadata
 Accept: application/json;odata=minimalmetadata  
 DataServiceVersion: 3.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
-x-ms-version: 2.11  
+x-ms-version: 2.15  
 Authorization: Bearer <token value>  
   
 ```  
   
  If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
-##  <a name="SharedPool"></a> Streaming from a Dedicated or Shared Pool  
- There are two states possible when working with StreamingEndpoints: *dedicated* or *shared*. If you consent to use *streaming units*, your StreamingEndpoint performance is governed by a Service Level Agreement (SLA). This state is referred to as “dedicated,” for using dedicated streaming units. If you do not contract to use streaming units, you are using computing resources from a *shared pool*. The shared pool can be used for testing or prototyping, but no SLA governs the performance.  
-  
- By default, when you create a Microsoft Azure Media Services account, one StreamingEndpoint is created with no streaming units. The StreamingEndpoint has the name “Default,” and it cannot be deleted. The state of the StreamingEndpoint is **Started**. After some time, the state changes to `Running`.  
-  
- If the streaming unit count is set to 0, and the StreamingEndpoint entity is in the **Running** state, the streaming will continue from shared pool. To stop streaming at a later point in time, call the Stop operation on the StreamingEndpoints entity. The table summarizes the behavior:  
-  
-|State|Streaming Units|Description|Available Actions|  
-|-----------|---------------------|-----------------|-----------------------|  
-|Stopped|0|Not streaming.|Start|  
-|Running|0|Streaming from the shared pool.|Stop, Scale|  
-|Stopped|>0|Not streaming.|Start, Scale|  
-|Running|>0|Streaming from dedicated.|Stop, Scale|  
   
 ## See Also  
  [Channel](../operations/channel.md)   
