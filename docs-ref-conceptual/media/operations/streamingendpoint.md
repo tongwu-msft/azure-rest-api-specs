@@ -34,9 +34,13 @@ translation.priority.mt:
   
 The `StreamingEndpoint` entity represents a streaming service that can deliver content directly to a client player application, or to a Content Delivery Network (CDN) for further distribution. Starting with version 2.9, Microsoft Azure Media Services provides the Azure CDN integration (for more information, see the `CdnEnabled` property documented below). The outbound stream from a StreamingEndpoint service can be a live stream, or a video on demand Asset in your Media Services account.
  
-Each Azure Media Services (AMS) account includes a default StreamingEndpoint; additional StreamingEndpoints can be created under the account. Starting with Media Services 2.15 (released on January 10th 2017) there are two StreamingEndpoint versions: **1.0** and **2.0**. Also, there are three types of StreamingEndpoints: **Classic**, **Standard** or **Premium**. Media Services accounts created before AMS REST 2.15 update by default include **Classic** streaming endpoints, version 1.0. You can upgrade to version 2.0, you cannot downgrade to 1.0. AMS accounts created after the 2.15 update by default include **Standard** streaming endpoints, version 2.0. Version **2.0** streaming endpoints have billing and feature changes. For more detailed information, see the `StreamingEndpointVersion` property documented below.
+Each Azure Media Services (AMS) account includes a default StreamingEndpoint; additional StreamingEndpoints can be created under the account. Starting with Media Services 2.15 (released on January 10th 2017) there are two StreamingEndpoint versions: **1.0** and **2.0**. Also, there are three types of StreamingEndpoints: **Classic**, **Standard** or **Premium**. 
 
-The automatically provisioned StreamingEndpoint has the name "Default" and it cannot be deleted. The state of the StreamingEndpoint is **Stopped**. If you created the account via Azure Management Portal and Azure CDN is available in the region, then it will also has CDN integration by default("CdnEnabled":true, "CdnProvider":StandardVerizon and "CdnProfile":AzureMediaStreamingPlatformCdnProfile). 
+Media Services accounts created before AMS REST 2.15 update, by default include **Classic** streaming endpoints, version **1.0**. You can upgrade to version **2.0**, you cannot downgrade to **1.0**. AMS accounts created after the 2.15 update, by default include **Standard** streaming endpoints, version **2.0**. Version **2.0** streaming endpoints have billing and feature changes. For more detailed information, see the `StreamingEndpointVersion` property documented below.
+
+The automatically provisioned StreamingEndpoint has the name "Default" and it cannot be deleted. The state of the StreamingEndpoint is **Stopped**. To start streaming, you need to start the streaming endpoint. 
+
+If you created the account via Azure Management Portal and Azure CDN is available in the region, the account will have the CDN integration by default ("CdnEnabled":true, "CdnProvider":StandardVerizon and "CdnProfile":AzureMediaStreamingPlatformCdnProfile). 
  
 ##  <a name="StreamingEndpointTypes"></a> Classic, Standard, Premium streaming endpoints overview
 
@@ -69,6 +73,7 @@ To stop streaming at a later point in time, call the **Stop** operation on the S
 |Stopped|>0|Not streaming.|Start, Scale|  
 |Running|>0|Streaming from Premium Streaming Endpoint.|Stop, Scale|  
 
+## StreamingEndpoint properties and operations  
 
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
@@ -78,7 +83,7 @@ To stop streaming at a later point in time, call the **Stop** operation on the S
 >   
 >      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
- This topic gives an overview of the `StreamingEndpoint` entity and also demonstrates how to execute various operations with the Media Services REST API.  
+ This section gives an overview of the `StreamingEndpoint` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
 -   [Create StreamingEndpoint](#create_streaming_endpoints)  
 
