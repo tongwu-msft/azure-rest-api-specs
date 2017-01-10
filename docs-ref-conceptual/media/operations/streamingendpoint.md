@@ -41,7 +41,7 @@ Media Services accounts created before AMS REST 2.15 update, by default include 
 The automatically provisioned StreamingEndpoint has the name "Default" and it cannot be deleted. The state of the StreamingEndpoint is **Stopped**. To start streaming, you need to start the streaming endpoint. 
 
 If you created the account via Azure Management Portal and Azure CDN is available in the region, the account will have the CDN integration by default ("CdnEnabled":true, "CdnProvider":StandardVerizon and "CdnProfile":AzureMediaStreamingPlatformCdnProfile). 
- 
+
 ##  <a name="StreamingEndpointTypes"></a> Classic, Standard, Premium streaming endpoints overview
 
 **Advanced features** described in this section include [dynamic packaging](https://docs.microsoft.com/azure/media-services/media-services-dynamic-packaging-overview) and [dynamic encryption](https://docs.microsoft.com/azure/media-services/media-services-content-protection-overview).
@@ -62,7 +62,7 @@ The **Standard** type is the recommended option for virtually all streaming scen
 
 You move to a **Premium** type by adjusting scale units. Scale units provide you with dedicated egress capacity that can be purchased in increments of 200 Mbps. When using the **Premium** type, each enabled unit provides additional bandwidth capacity to the application. For more information, see [How to Scale StreamingEndpoint](https://docs.microsoft.com/azure/media-services/media-services-portal-scale-streaming-endpoints/).  
  
-To start streaming enndpoint, call **Start** operation on the StreamingEndpoints entity. Some time after starting the StreamingEdpoint, the state changes to `Running`.</br>
+To start streaming endpoint, call **Start** operation on the StreamingEndpoints entity. Some time after starting the StreamingEdpoint, the state changes to `Running`.</br>
 
 To stop streaming at a later point in time, call the **Stop** operation on the StreamingEndpoints entity. The table summarizes the behavior:  
 
@@ -72,6 +72,8 @@ To stop streaming at a later point in time, call the **Stop** operation on the S
 |Running|0|Streaming from Standard Streaming Endpoint.|Stop, Scale|  
 |Stopped|>0|Not streaming.|Start, Scale|  
 |Running|>0|Streaming from Premium Streaming Endpoint.|Stop, Scale|  
+
+For more information, see [Streaming endpoints overview](https://docs.microsoft.com/azure/media-services/media-services-streaming-endpoints-overview).
 
 ## StreamingEndpoint properties and operations  
 
