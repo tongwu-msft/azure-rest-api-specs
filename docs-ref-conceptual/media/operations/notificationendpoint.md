@@ -1,7 +1,7 @@
 ---
 title: "NotificationEndPoint"
 ms.custom: ""
-ms.date: "2017-01-9"
+ms.date: "2017-01-09"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
