@@ -1,7 +1,7 @@
 ---
 title: "Delete a service"
 ms.custom: ""
-ms.date: "2016-03-30"
+ms.date: "2017-01-04"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-fabric"
@@ -70,7 +70,7 @@ public static bool DeleteService(Uri clusterUri)
 {  
     // Create the request and add URL parameters.  
     Uri requestUri = new Uri(clusterUri,  
-        string.Format("/Applications/{0}/$/GetServices/{1}/$/GetHealth?api-version={2}",  
+        string.Format("/Applications/{0}/$/GetServices/{1}/$/Delete?api-version={2}",  
         "WordCount",                    // Application Name  
         "WordCount/WordCount.Service",  // Service Name  
         "1.0"));                        // api-version  
