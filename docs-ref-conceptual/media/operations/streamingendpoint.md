@@ -42,6 +42,8 @@ The automatically provisioned StreamingEndpoint has the name "Default" and it ca
 
 If you created the account via Azure Management Portal and Azure CDN is available in the region, the account will have the CDN integration by default ("CdnEnabled":true, "CdnProvider":StandardVerizon and "CdnProfile":AzureMediaStreamingPlatformCdnProfile). 
 
+In most cases you should keep CDN enabled. However, if you are anticipating max concurrency lower than 500 viewers then it is recommended to disable CDN since CDN scales best with concurrency.
+
 ##  <a name="StreamingEndpointTypes"></a> Classic, Standard, Premium streaming endpoints overview
 
 **Advanced features** described in this section include [dynamic packaging](https://docs.microsoft.com/azure/media-services/media-services-dynamic-packaging-overview) and [dynamic encryption](https://docs.microsoft.com/azure/media-services/media-services-content-protection-overview).
@@ -58,20 +60,9 @@ The table summarizes the behavior:
 
 It is recommended to upgrade your **Classic** streaming endpoints to **Standard** streaming endpoints to get a better experience and advanced features.  **Standard** streaming also scales outbound bandwidth automatically. 
 
-The **Standard** type is the recommended option for virtually all streaming scenarios and audience sizes. For customers with extremely demanding requirements AMS also offers **Premium** streaming endpoints which can be used to scale out capacity for the largest internet audiences. If you expect very large audiences and concurrent viewers, please contact us for guidance on whether you need to move to the **Premium** type.
+The **Standard** type is the recommended option for virtually all streaming scenarios and audience sizes. For customers with extremely demanding requirements AMS also offers **Premium** streaming endpoints which can be used to scale out capacity for the largest internet audiences. If you expect very large audiences and concurrent viewers, please contact us for guidance on whether you need to move to the **Premium** type. A good guide post is to [contact us](amsstreaming@microsoft.com) if you expect a concurrent audience size larger than 10,000 viewers.
 
 You move to a **Premium** type by adjusting scale units. Scale units provide you with dedicated egress capacity that can be purchased in increments of 200 Mbps. When using the **Premium** type, each enabled unit provides additional bandwidth capacity to the application. For more information, see [How to Scale StreamingEndpoint](https://docs.microsoft.com/azure/media-services/media-services-portal-scale-streaming-endpoints/).  
- 
-To start streaming endpoint, call **Start** operation on the StreamingEndpoints entity. Some time after starting the StreamingEdpoint, the state changes to `Running`.</br>
-
-To stop streaming at a later point in time, call the **Stop** operation on the StreamingEndpoints entity. The table summarizes the behavior:  
-
-|State|Streaming Units|Description|Available Actions|  
-|-----------|---------------------|-----------------|-----------------------|  
-|Stopped|0|Not streaming.|Start, Scale|  
-|Running|0|Streaming from Standard Streaming Endpoint.|Stop, Scale|  
-|Stopped|>0|Not streaming.|Start, Scale|  
-|Running|>0|Streaming from Premium Streaming Endpoint.|Stop, Scale|  
 
 For more information, see [Streaming endpoints overview](https://docs.microsoft.com/azure/media-services/media-services-streaming-endpoints-overview).
 
@@ -178,6 +169,8 @@ string base64Key = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(ak
 ##  <a name="create_streaming_endpoints"></a> Create StreamingEndpoint  
  Create a new StreamingEndpoint service.  
   
+### Request
+
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |POST|https://media.windows.net/api/StreamingEndpoint|HTTP/1.1|  
@@ -316,8 +309,18 @@ Date: Sun, 10 Aug 2014 00:31:28 GMT
  The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="start_create_streaming_endpoints"></a> Start StreamingEndpoint  
- Start the specified StreamingEndpoint. A StreamingEndpoint can only be started when it is in the **Stopped** state.   
-  
+
+Start the specified StreamingEndpoint. A StreamingEndpoint can only be started when it is in the **Stopped** state.  Some time after starting the StreamingEdpoint, the state changes to `Running`.</br> To stop streaming at a later point in time, call the **Stop** operation. 
+
+Available actions when in the **Running** state.  
+
+|State|Streaming Units|Description|Available Actions|  
+|-----------|---------------------|-----------------|-----------------------|  
+|Running|0|Streaming from Standard Streaming Endpoint.|Stop, Scale|  
+|Running|>0|Streaming from Premium Streaming Endpoint.|Stop, Scale|  
+
+### Request
+
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |POST|https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*')/Start|HTTP/1.1|  
@@ -347,8 +350,17 @@ Authorization: Bearer <token value>
  If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="stop_create_streaming_endpoints"></a> Stop StreamingEndpoints  
- Stop the specified StreamingEndpoint. A StreamingEndpoint can be stopped only when it is in the **Running** state.  
-  
+Stop the specified StreamingEndpoint. A StreamingEndpoint can be stopped only when it is in the **Running** state.  
+
+Available actions when in the **Stopped** state.
+ 
+|State|Streaming Units|Description|Available Actions|  
+|-----------|---------------------|-----------------|-----------------------|  
+|Stopped|0|Not streaming.|Start, Scale|  
+|Stopped|>0|Not streaming.|Start, Scale|  
+
+### Request
+
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |POST|https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*')/Stop|HTTP/1.1|  
@@ -382,7 +394,9 @@ Authorization: Bearer <token value>
 ##  <a name="scale_create_streaming_endpoints"></a> Scale StreamingEndpoints  
 
 Dynamically updates the streaming unit capacity while in the running state and changes type from Standard Streaming Endpoint to Premium Streaming Endpoint if updated from "ScaleUnits":0.
-  
+
+### Request
+
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |POST|https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*')/Scale|HTTP/1.1|  
@@ -420,8 +434,10 @@ Authorization: Bearer <token value>
  If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a StreamingEndpoint. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="list_create_streaming_endpoints"></a> List StreamingEndpoints  
- StreamingEndpoints are retrieved using a GET HTTP request.  
+StreamingEndpoints are retrieved using a GET HTTP request.  
   
+### Request
+
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |GET|Get all StreamingEndpoints:<br /><br /> https://media.windows.net/api/StreamingEndpoints<br /><br /> Get the specified StreamingEndpoint.<br /><br /> https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*’)|HTTP/1.1|  
@@ -454,7 +470,9 @@ Authorization: Bearer <token value>
   
 ##  <a name="update_create_streaming_endpoints"></a> Update StreamingEndpoints  
  Update a StreamingEndpoint with new property values. This is an asynchronous operation if the StreamingEndpoint is running and the settings are changed.  
-  
+
+### Request
+
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/library/dd541276.aspx).|https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*’)|HTTP/1.1|  
@@ -493,7 +511,9 @@ Authorization: Bearer <token value>
   
 ##  <a name="delete_create_streaming_endpoints"></a> Delete StreamingEndpoints  
  Delete a StreamingEndpoint. A StreamingEndpoint can be deleted only when it is in the **Stopped** state.  
-  
+
+### Request
+
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |DELETE|https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*’)|HTTP/1.1|  
