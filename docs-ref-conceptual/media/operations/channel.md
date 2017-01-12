@@ -28,7 +28,7 @@ translation.priority.mt:
 # Channel
 In Azure Media Services (AMS), the Channel entity represents a pipeline for processing live streaming content. A Channel receives live input streams in one of two ways:  
   
--   An on-premises live encoder sends multi-bitrate `RTMP` or `Smooth Streaming` (Fragmented MP4) to the Channel. You can use the following live encoders that output multi-bitrate Smooth Streaming: Elemental, Envivio, Cisco. The following live encoders output RTMP: Adobe Flash Live, Telestream Wirecast, and Tricaster transcoders. The ingested streams pass through Channels without any further processing. When requested, Media Services delivers the stream to customers.  
+-   An on-premises live encoder sends multi-bitrate `RTMP` or `Smooth Streaming` (Fragmented MP4) to the Channel. You can use the following live encoders that output multi-bitrate Smooth Streaming: MediaExcel, Imagine Communications, Ateme, Envivio, Cisco and Elemental. The following live encoders output RTMP: Adobe Flash Live Encoder, Haivision, Telestream Wirecast, Teradek and Tricaster encoders. The ingested streams pass through Channels without any further processing. When requested, Media Services delivers the stream to customers.  
   
 -   A single bitrate stream (in one of the following formats: `RTP` (MPEG-TS), `RTMP`, or `Smooth Streaming` (Fragmented MP4)) is sent to the `Channel` that is enabled to perform live encoding with Media Services. The `Channel` then performs live encoding of the incoming single bitrate stream to a multi-bitrate (adaptive) video stream. When requested, Media Services delivers the stream to customers.  
   
