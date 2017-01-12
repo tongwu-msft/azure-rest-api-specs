@@ -375,7 +375,7 @@ Status code 429 indicates that you have exceeded your quota on the number of doc
     POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "hotel",  
-          "searchFields": "description", "description_fr"
+          "searchFields": "description, description_fr"
         }  
     ```  
 
@@ -421,7 +421,7 @@ Status code 429 indicates that you have exceeded your quota on the number of doc
     POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "*",  
-          "select": "hotelName", "description"
+          "select": "hotelName, description"
         }  
     ```  
 
