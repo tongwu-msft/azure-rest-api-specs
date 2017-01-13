@@ -1,7 +1,7 @@
 ---
 title: "Supported data types (Azure Search)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-01-13"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -28,7 +28,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Supported data types (Azure Search)
-  Document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model (MSDN)](http://msdn.microsoft.com/library/vstudio/ee382825(v=vs.100).aspx) for details). Azure Search uses the following data types.  
+  Document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model (MSDN)](https://msdn.microsoft.com/library/ee382825(v=vs.110).aspx) for details). Azure Search uses the following data types.  
 
 > [!NOTE]  
 >  If you're using indexers to pull data into Azure Search, indexers have different data type mappings for JSON and SQL Server data sources. See [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md) for details.  
@@ -43,11 +43,11 @@ translation.priority.mt:
 |Edm.Int32|32-bit integer values.|  
 |Edm.Int64|64-bit integer values.|  
 |Edm.Double|Double-precision numeric data|  
-|Edm.DateTimeOffset|Date time values represented in the OData V4 format: `yyyy-MM-ddTHH:mm:ss.fffZ` or `yyyy-MM-ddTHH:mm:ss.fff[+&#124;-]HH:mm`. Precision of DateTime fields is limited to milliseconds. If you upload datetime values with sub-millisecond precision, the value returned will be rounded up to milliseconds (for example, 2015-04-15T10:30:09.7552052Z will be returned as 2015-04-15T10:30:09.7550000Z).|  
+|Edm.DateTimeOffset|Date time values represented in the OData V4 format: `yyyy-MM-ddTHH:mm:ss.fffZ` or `yyyy-MM-ddTHH:mm:ss.fff[+&#124;-]HH:mm`. Precision of DateTime fields is limited to milliseconds. If you upload datetime values with sub-millisecond precision, the value returned will be rounded up to milliseconds (for example, 2015-04-15T10:30:09.7552052Z will be returned as 2015-04-15T10:30:09.7550000Z). When you upload `DateTimeOffset` values with time zone information to your index, Azure Search normalizes these values to UTC. For example, `2017-01-13T14:03:00-08:00` will be stored as `2017-01-13T22:03:00Z`. If you need to store time zone information, you will need to add an extra column to your index.|  
 |Edm.GeographyPoint|A point representing a geographic location on the globe. For request and response bodies the representation of values of this type follows the GeoJSON "Point" type format. For URLs OData uses a literal form based on the WKT standard. A point literal is constructed as geography'POINT(lon lat)'.|  
 
 > [!NOTE]  
->  All of the above types are nullable, except for Collection(Edm.String). Nullable fields can be explicitly set to null. They are automatically set to null when omitted from a document that is uploaded t an Azure Search index. Collection(Edm.String) fields are automatically set to empty ('[]' in JSON) when they are omitted from a document.  
+>  All of the above types are nullable, except for Collection(Edm.String). Nullable fields can be explicitly set to null. They are automatically set to null when omitted from a document that is uploaded t an Azure Search index. `Collection(Edm.String)` fields are automatically set to empty ('[]' in JSON) when they are omitted from a document. Also, it is not possible to store a null value in a `Collection(Edm.String)` field.
 
 <a name="Anchor_1"></a>
 ## Other EDM structures used in Azure Search  
