@@ -59,17 +59,17 @@ type=master&ver=1.0&sig=5mDuQBYA0kb70WDJoTUzSBMTG3owkC0/cEN4fqa18/s=
  The authorization string should be encoded before adding it to the REST request to ensure that it contains no invalid characters.  
   
 ##  <a name="constructkeytoken"></a> Constructing the hashed token signature for a master token  
- The hash signature for the master key token consists of the following ordered properties: **VERB**, **ResourceType**, **ResourceId** and **x-ms-date**.  
+ The hash signature for the master key token consists of the following ordered properties: **Verb**, **ResourceType**, **ResourceLink** and **Date**.  
   
  When constructing the hash signature for the master key token, keep the following in mind:  
   
-1.  The **VERB** portion of the string is the HTTP verb, such as GET, POST or PUT  
+1.  The **Verb** portion of the string is the HTTP verb, such as GET, POST or PUT  
   
 2.  The **ResourceType** portion of the string identifies the type of resource that the request is for, Eg. "dbs", "colls", "docs"  
   
-3.  The **ResourceId** portion of the string is the identity property of the resource that the request is directed at.                          **ResourceId** must maintain its case (i.e. must not be lower-cased) and must match the id of the resource. Eg. "MyDatabase"  
+3.  The **ResourceLink** portion of the string is the identity property of the resource that the request is directed at.                          **ResourceLink** must maintain its case (i.e. must not be lower-cased) for the id of the resource. Eg. For a collection it will look like: "dbs/MyDatabase/colls/MyCollection"  
   
-4.  **x-ms-date** is the UTC date and time the message was sent (in "HTTP-date" format as defined by [RFC 7231 Date/Time Formats](http://tools.ietf.org/html/rfc7231#section-7.1.1.1)) e.g. `Tue, 15 Nov 1994 08:12:31 GMT`.  
+4.  **XmsDate** is the UTC date and time the message was sent (in "HTTP-date" format as defined by [RFC 7231 Date/Time Formats](http://tools.ietf.org/html/rfc7231#section-7.1.1.1)) e.g. `Tue, 01 Nov 1994 08:12:31 GMT`. This same date(in same format) also needs to be passed as **x-ms-date** header in the request.
   
 5.  If **x-ms-date** is specified (recommended), you may ignore the **date** header for the signature calculation, regardless of whether it is specified in the actual request, and simply specify an empty line for the its value.  
   
@@ -77,7 +77,7 @@ type=master&ver=1.0&sig=5mDuQBYA0kb70WDJoTUzSBMTG3owkC0/cEN4fqa18/s=
   
  To encode the signature string for a request against DocumentDB, use the following format:  
   
-|StringToSign =|1.  VERB.toLowerCase() + "\n" +<br />2.  ResourceType.toLowerCase() + "\n" +<br />3.  ResourceId + "\n" +<br />4.  (headers["x-ms-date"] &#124;&#124; "").toLowerCase() + "\n" +<br />5.  (headers["date"] &#124;&#124; "").toLowerCase() + "\n";|  
+|StringToSign =|1.  Verb.toLowerCase() + "\n" +<br />2.  ResourceType.toLowerCase() + "\n" +<br />3.  ResourceLink + "\n" +<br />4.  (XmsDate &#124;&#124; "").toLowerCase() + "\n" +<br />5.  (Date &#124;&#124; "").toLowerCase() + "\n";|  
 |-|-|  
   
  Example [C#] method to generate a valid Authorization header:  
@@ -87,19 +87,19 @@ type=master&ver=1.0&sig=5mDuQBYA0kb70WDJoTUzSBMTG3owkC0/cEN4fqa18/s=
   
 ```c#  
   
-string GenerateAuthToken(string verb, string resourceId, string resourceType, string key, string keyType, string tokenVersion)  
+string GenerateAuthToken(string verb, string resourceType, string resourceLink, string xmsDate, string key, string keyType, string tokenVersion)  
 {  
     var hmacSha256 = new System.Security.Cryptography.HMACSHA256 { Key = Convert.FromBase64String(key) };  
-  
-    string verbInput = verb ?? "";  
-    string resourceIdInput = resourceId ?? "";  
-    string resourceTypeInput = resourceType ?? "";  
+    
+    verb = verb ?? "";  
+    resourceType = resourceType ?? "";
+    resourceLink = resourceLink ?? "";
   
     string payLoad = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}\n{1}\n{2}\n{3}\n{4}\n",  
             verb.ToLowerInvariant(),  
             resourceType.ToLowerInvariant(),  
-            resourceId,  
-            utc_date.ToLowerInvariant(),  
+            resourceLink,  
+            xmsDate.ToLowerInvariant(),  
             ""  
     );  
   
@@ -120,13 +120,13 @@ string GenerateAuthToken(string verb, string resourceId, string resourceType, st
   
 var crypto = require("crypto");  
   
-function getAuthorizationTokenUsingMasterKey(verb, resourceId, resourceType, date, masterKey) {  
+function getAuthorizationTokenUsingMasterKey(verb, resourceType, resourceLink, xmsDate, masterKey) {  
     var key = new Buffer(masterKey, "base64");  
   
     var text = (verb || "").toLowerCase() + "\n" +   
                (resourceType || "").toLowerCase() + "\n" +   
-               (resourceId || "") + "\n" +   
-               (date || "").toLowerCase() + "\n" +   
+               (resourceLink || "") + "\n" +   
+               (xmsDate || "").toLowerCase() + "\n" +   
                "" + "\n";  
   
     var body = new Buffer(text, "utf8");  
