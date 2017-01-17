@@ -59,7 +59,7 @@ type=master&ver=1.0&sig=5mDuQBYA0kb70WDJoTUzSBMTG3owkC0/cEN4fqa18/s=
  The authorization string should be encoded before adding it to the REST request to ensure that it contains no invalid characters.  
   
 ##  <a name="constructkeytoken"></a> Constructing the hashed token signature for a master token  
- The hash signature for the master key token consists of the following ordered properties: **Verb**, **ResourceType**, **ResourceLink** and **Date**.  
+ The hash signature for the master key token consists of the following ordered properties: **Verb**, **ResourceType**, **ResourceLink** and **XmsDate**.  
   
  When constructing the hash signature for the master key token, keep the following in mind:  
   
