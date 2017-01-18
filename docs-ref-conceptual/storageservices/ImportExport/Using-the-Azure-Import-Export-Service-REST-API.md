@@ -36,7 +36,7 @@ The Microsoft Azure Import/Export Service exposes a REST API to enable programma
   
  To protect the security of customers’ data, the service endpoint is exposed only via HTTPS, not via HTTP, and anonymous requests are not allowed.  
   
- The Import/Export service is a Microsoft Azure service and uses the Azure Service Management authentication scheme. See [Authenticating Service Management Requests](assetId:///1becb7dc-1cdc-4db4-8ae8-7e351c96c251) for details on how to authenticate requests.  
+ The Import/Export service is a Microsoft Azure service and uses the Azure Service Management authentication scheme. See [Authenticating Service Management Requests](https://msdn.microsoft.com/library/azure/ee460782.aspx) for details on how to authenticate requests.  
   
 ## Versioning  
  Requests to the Import/Export service must conform to the versioning guidelines described in [Service Management Versioning](assetId:///bb009293-529c-4793-b925-0f8701f337d2). All requests must specify the `x-ms-version` header and set its value to `2014-05-01`or `2014-11-01`.  
