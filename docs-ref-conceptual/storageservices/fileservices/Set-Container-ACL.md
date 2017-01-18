@@ -217,7 +217,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 >  When you establish a stored access policy on a container, it may take up to 30 seconds to take effect. During this interval, a shared access signature that is associated with the stored access policy will fail with status code 403 (Forbidden), until the access policy becomes active.  
   
 ## See Also  
- [Restrict Access to Containers and Blobs](assetId:///1d1c1a78-7a01-4477-b8e0-394d122e15a6)   
+ [Restrict Access to Containers and Blobs](/azure/storage/storage-manage-access-to-resources)   
  [Delegating Access with a Shared Access Signature](../fileservices/Delegating-Access-with-a-Shared-Access-Signature.md)   
  [Create and Use a Shared Access Signature](assetId:///b41f98e9-14ab-499a-9fd2-fb9202c9ccd2)   
  [Use a Stored Access Policy](assetId:///c0d4fe58-e6f4-4a90-bad5-138f59967560)   

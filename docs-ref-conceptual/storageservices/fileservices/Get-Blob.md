@@ -163,7 +163,7 @@ x-ms-copy-completion-time: <date>
   
  A `Get Blob` operation is allowed 2 minutes per MB to complete. If the operation is taking longer than 2 minutes per MB on average, the operation will time out.  
   
- The `x-ms-version` header is required to retrieve a blob that belongs to a private container. If the blob belongs to a container that is available for full or partial public access, any client can read it without specifying a version; the service version is not required for retrieving a blob that belongs to a public container. See [Restrict Access to Containers and Blobs](assetId:///1d1c1a78-7a01-4477-b8e0-394d122e15a6) for more information.  
+ The `x-ms-version` header is required to retrieve a blob that belongs to a private container. If the blob belongs to a container that is available for full or partial public access, any client can read it without specifying a version; the service version is not required for retrieving a blob that belongs to a public container. See [Restrict Access to Containers and Blobs](/azure/storage/storage-manage-access-to-resources) for more information.  
   
  **Copy operations**  
   
