@@ -59,7 +59,7 @@ type=master&ver=1.0&sig=5mDuQBYA0kb70WDJoTUzSBMTG3owkC0/cEN4fqa18/s=
  The authorization string should be encoded before adding it to the REST request to ensure that it contains no invalid characters.  
   
 ##  <a name="constructkeytoken"></a> Constructing the hashed token signature for a master token  
- The hash signature for the master key token consists of the following ordered properties: **Verb**, **ResourceType**, **ResourceLink** and **XmsDate**.  
+The hash signature for the master key token can be constructed from the following parameters: **Verb**, **ResourceType**, **ResourceLink** and **XmsDate**.  
   
  When constructing the hash signature for the master key token, keep the following in mind:  
   
@@ -67,11 +67,11 @@ type=master&ver=1.0&sig=5mDuQBYA0kb70WDJoTUzSBMTG3owkC0/cEN4fqa18/s=
   
 2.  The **ResourceType** portion of the string identifies the type of resource that the request is for, Eg. "dbs", "colls", "docs"  
   
-3.  The **ResourceLink** portion of the string is the identity property of the resource that the request is directed at.                          **ResourceLink** must maintain its case (i.e. must not be lower-cased) for the id of the resource. Eg. For a collection it will look like: "dbs/MyDatabase/colls/MyCollection"  
+3.  The **ResourceLink** portion of the string is the identity property of the resource that the request is directed at.           **ResourceLink** must maintain its case (i.e. must not be lower-cased) for the id of the resource. Eg. For a collection it will look like: "dbs/MyDatabase/colls/MyCollection"  
   
-4.  **XmsDate** is the UTC date and time the message was sent (in "HTTP-date" format as defined by [RFC 7231 Date/Time Formats](http://tools.ietf.org/html/rfc7231#section-7.1.1.1)) e.g. `Tue, 01 Nov 1994 08:12:31 GMT`. This same date(in same format) also needs to be passed as **x-ms-date** header in the request.
+4.  The **XmsDate** portion of the string is the UTC date and time the message was sent (in "HTTP-date" format as defined by [RFC 7231 Date/Time Formats](http://tools.ietf.org/html/rfc7231#section-7.1.1.1)) e.g. `Tue, 01 Nov 1994 08:12:31 GMT`. This same date(in same format) also needs to be passed as **x-ms-date** header in the request.
   
-5.  If **x-ms-date** is specified (recommended), you may ignore the **date** header for the signature calculation, regardless of whether it is specified in the actual request, and simply specify an empty line for the its value.  
+5.  If **x-ms-date** header is specified (recommended), you may ignore the **date** header for the signature calculation, regardless of whether it is specified in the actual request, and simply specify an empty line for the its value.  
   
 6.  All new line characters (\n) shown are required within the signature string.  
   
