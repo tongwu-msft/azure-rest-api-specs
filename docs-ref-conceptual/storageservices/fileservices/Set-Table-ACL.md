@@ -47,7 +47,7 @@ The `Set Table ACL` operation sets the stored access policies for the table that
 |------------|-----------------|------------------|  
 |`PUT`|`http://127.0.0.1:10002/devstoreaccount1/mytable?comp=acl`|HTTP/1.1|  
   
- For more information, see [Differences Between the Storage Emulator and Azure Storage Services](assetId:///c60f2090-c0f4-4817-8559-e98786461dbe).  
+ For more information, see [Differences Between the Storage Emulator and Azure Storage Services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  

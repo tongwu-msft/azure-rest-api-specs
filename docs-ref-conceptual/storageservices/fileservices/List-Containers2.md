@@ -46,7 +46,7 @@ The `List Containers` operation returns a list of the containers under the speci
   
  Note that emulated storage only supports blob sizes up to 2 GB.  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator) and [Differences Between the Storage Emulator and Azure Storage Services](assetId:///c60f2090-c0f4-4817-8559-e98786461dbe).  
+ For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator) and [Differences Between the Storage Emulator and Azure Storage Services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  

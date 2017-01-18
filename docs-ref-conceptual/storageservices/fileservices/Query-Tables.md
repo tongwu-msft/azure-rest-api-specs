@@ -41,7 +41,7 @@ The `Query Tables` operation returns a list of tables under the specified accoun
 |------------|-----------------|------------------|  
 |`GET`|`http://127.0.0.1:10002/devstoreaccount1/Tables`|HTTP/1.1|  
   
- The Table service in the emulated storage service differs from the Windows® Azure™ Table service in several ways. For more information, see [Differences Between the Storage Emulator and Azure Storage Services](assetId:///c60f2090-c0f4-4817-8559-e98786461dbe).  
+ The Table service in the emulated storage service differs from the Windows® Azure™ Table service in several ways. For more information, see [Differences Between the Storage Emulator and Azure Storage Services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
   
 ### URI Parameters  
  The `Query Tables` operation supports the query options defined by the OData Protocol Specification. For more information, see [OData Protocol](http://www.odata.org/).  
