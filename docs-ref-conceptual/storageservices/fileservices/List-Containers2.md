@@ -46,7 +46,7 @@ The `List Containers` operation returns a list of the containers under the speci
   
  Note that emulated storage only supports blob sizes up to 2 GB.  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](assetId:///f0e3acde-f019-4148-9544-34cf2ff27211) and [Differences Between the Storage Emulator and Azure Storage Services](assetId:///c60f2090-c0f4-4817-8559-e98786461dbe).  
+ For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator) and [Differences Between the Storage Emulator and Azure Storage Services](assetId:///c60f2090-c0f4-4817-8559-e98786461dbe).  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  
@@ -232,5 +232,5 @@ https://myaccount.blob.core.windows.net/?comp=list&maxresults=3&marker=video
  [Status and Error Codes](../fileservices/Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](../fileservices/Blob-Service-Error-Codes.md)   
  [Enumerating Blob Resources](../fileservices/Enumerating-Blob-Resources.md)   
- [Using the Azure Storage Emulator for Development and Testing](assetId:///f0e3acde-f019-4148-9544-34cf2ff27211)   
+ [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator)   
  [Setting Timeouts for Blob Service Operations](../fileservices/Setting-Timeouts-for-Blob-Service-Operations.md)
