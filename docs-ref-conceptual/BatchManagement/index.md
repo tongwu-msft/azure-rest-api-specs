@@ -1,7 +1,6 @@
 ---
 ms.assetid: 372812a7-d718-44f2-8099-1df7e3c75c36
-ms.title: Azure Batch Management REST API reference
-ms.prod: azure
+ms.title: Azure Batch Management REST API reference | Microsoft Docs
 ms.service: batch
 author: mmacy
 ms.author: marsma
@@ -25,5 +24,5 @@ The Batch Management REST API provides operations for working with Batch account
 
 ## See also
 
-- [Azure Batch documentation](https://review.docs.microsoft.com/azure/batch)
+- [Azure Batch documentation](/azure/batch/)
 - [Azure Batch code samples on GitHub](https://github.com/Azure/azure-batch-samples)
