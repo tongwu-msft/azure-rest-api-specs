@@ -58,7 +58,7 @@ The `Lease Container` operation establishes and manages a lock on a container fo
 |------------|-----------------|------------------|  
 |`PUT`|`http://127.0.0.1:10000/mycontainer?comp=lease&restype=container`|HTTP/1.0<br /><br /> HTTP/1.1|  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](assetId:///f0e3acde-f019-4148-9544-34cf2ff27211).  
+ For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  
