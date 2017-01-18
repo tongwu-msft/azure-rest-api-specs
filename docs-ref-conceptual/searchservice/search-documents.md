@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-01-18"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -98,7 +98,7 @@ When the query type is set to `full`, search text is interpreted using the Lucen
 
 #### `$skip=# (optional)`
 
-The number of search results to skip. When calling via POST, this parameter is named `skip` instead of `$skip`. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use `$skip` due to this limitation, consider using `$orderby` on a totally-ordered key and `$filter` with a range query instead.
+The number of search results to skip. When calling via POST, this parameter is named `skip` instead of `$skip`. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use `$skip` due to this limitation, consider using `$orderby` on a field that has unique values for every document in the index (like the document key, for example) and `$filter` with a range query instead.
 
 #### `$top=# (optional)`
 The number of search results to retrieve. This defaults to 50. When calling via POST, this parameter is named `top` instead of `$top`. If you specify a value greater than 1000 and there are more than 1000 results, only the first 1000 results will be returned, along with a link to the next page of results (see @odata.nextLink in the example below).
