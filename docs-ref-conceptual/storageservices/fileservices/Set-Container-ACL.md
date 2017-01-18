@@ -219,7 +219,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 ## See Also  
  [Restrict Access to Containers and Blobs](/azure/storage/storage-manage-access-to-resources)   
  [Delegating Access with a Shared Access Signature](../fileservices/Delegating-Access-with-a-Shared-Access-Signature.md)   
- [Create and Use a Shared Access Signature](assetId:///b41f98e9-14ab-499a-9fd2-fb9202c9ccd2)   
+ [Create and Use a Shared Access Signature](/azure/storage/storage-dotnet-shared-access-signature-part-2)   
  [Use a Stored Access Policy](assetId:///c0d4fe58-e6f4-4a90-bad5-138f59967560)   
  [Get Container ACL](../fileservices/Get-Container-ACL.md)   
  [Authentication for the Azure Storage Services](../fileservices/Authentication-for-the-Azure-Storage-Services.md)   

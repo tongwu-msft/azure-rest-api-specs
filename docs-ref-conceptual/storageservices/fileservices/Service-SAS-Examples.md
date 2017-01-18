@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Service SAS Examples
-This topic shows sample uses of shared access signatures with the REST API. Shared access signatures permit you to provide access rights to containers and blobs, tables, queues, or files. By providing a shared access signature, you can grant users restricted access to a specific container, blob, queue, table, or table entity range for a specified period of time. For complete details on constructing, parsing, and using shared access signatures, see [Delegating Access with a Shared Access Signature](../fileservices/Delegating-Access-with-a-Shared-Access-Signature.md). For information about using the .NET storage client library to create shared access signatures, see [Create and Use a Shared Access Signature](assetId:///b41f98e9-14ab-499a-9fd2-fb9202c9ccd2).  
+This topic shows sample uses of shared access signatures with the REST API. Shared access signatures permit you to provide access rights to containers and blobs, tables, queues, or files. By providing a shared access signature, you can grant users restricted access to a specific container, blob, queue, table, or table entity range for a specified period of time. For complete details on constructing, parsing, and using shared access signatures, see [Delegating Access with a Shared Access Signature](../fileservices/Delegating-Access-with-a-Shared-Access-Signature.md). For information about using the .NET storage client library to create shared access signatures, see [Create and Use a Shared Access Signature](/azure/storage/storage-dotnet-shared-access-signature-part-2).  
   
 ## Blob Examples  
  This section contains examples that demonstrate shared access signatures for REST operations on blobs.  
