@@ -150,7 +150,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
 ## See Also  
  [Restrict Access to Containers and Blobs](/azure/storage/storage-manage-access-to-resources)   
- [Use a Stored Access Policy](assetId:///c0d4fe58-e6f4-4a90-bad5-138f59967560)   
+ [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md)   
  [Set Container ACL](../fileservices/Set-Container-ACL.md)   
  [Authentication for the Azure Storage Services](../fileservices/Authentication-for-the-Azure-Storage-Services.md)   
  [Status and Error Codes](../fileservices/Status-and-Error-Codes2.md)   
