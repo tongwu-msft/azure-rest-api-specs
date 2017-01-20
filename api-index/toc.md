@@ -1,1 +1,0 @@
-# [Get Started with Azure REST](../api-index/index.md)
