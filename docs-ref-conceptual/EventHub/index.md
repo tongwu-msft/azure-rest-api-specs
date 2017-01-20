@@ -25,4 +25,4 @@ The Event Hubs REST API provides operations for working with the following resou
 
 ## See also
 
-- [Azure Event Hubs documentation](https://review.docs.microsoft.com/azure/event-hubs)
+- [Azure Event Hubs documentation](https://docs.microsoft.com/azure/event-hubs)
