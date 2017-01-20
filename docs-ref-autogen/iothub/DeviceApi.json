@@ -1,0 +1,907 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-11-14",
+    "title": "Device Identities API",
+    "description": "Use this REST API to manage the devices in the identity registry of an IoT hub. This API enables you to create, update, and delete device identities as well as perform bulk operations. Each API call must include the api-version query parameter as well the authorization header containing a Shared Access Signature token with the appropriate permissions."
+  },
+  "host": "<fully-qualified IoT hub domain name>",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/devices/{id}": {
+      "get": {
+        "tags": [
+          "GET"
+        ],
+        "summary": "Retrieve a device from the identity registry of an IoT hub.",
+        "description": "Retrieve a device from the identity registry of an IoT hub.",
+        "operationId": "DeviceApi_GetDevice",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PUT"
+        ],
+        "summary": "Create or update the identity of a device in the identity registry of an IoT hub.",
+        "description": "Create or update the identity of a device in the identity registry of an IoT hub. An ETag must not be specified for the create operation. An ETag must be specified for the update operation. Note that generationId and deviceId cannot be updated by the user.",
+        "operationId": "DeviceApi_PutDevice",
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "device",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "DELETE"
+        ],
+        "summary": "Delete the identity of a device from the identity registry of an IoT hub.",
+        "description": "Delete the identity of a device from the identity registry of an IoT hub. This request requires the If-Match header. The client may specify the ETag for the device identity on the request in order to compare to the ETag maintained by the service for the purpose of optimistic concurrency. The delete operation is performed only if the ETag sent by the client matches the value maintained by the server, indicating that the device identity has not been modified since it was retrieved by the client. To force an unconditional delete, set If-Match to the wildcard character (*).",
+        "operationId": "DeviceApi_DeleteDevice",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NoContent"
+          }
+        }
+      }
+    },
+    "/devices/{id}/commands": {
+      "delete": {
+        "tags": [
+          "DELETE"
+        ],
+        "summary": "Delete all the pending commands for this device from the IoT hub.",
+        "description": "Delete all the pending commands for this device from the IoT hub.",
+        "operationId": "DeviceApi_PurgeCommandQueue",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PurgeMessageQueueResult"
+            }
+          }
+        }
+      }
+    },
+    "/statistics/devices": {
+      "get": {
+        "tags": [
+          "GET"
+        ],
+        "summary": "Retrieves statistics about device identities in the IoT hub’s identity registry.",
+        "description": "Retrieves statistics about device identities in the IoT hub’s identity registry. The body contains the total number of device identities and a breakdown of the number of devices that are enabled and disabled.",
+        "operationId": "DeviceApi_GetRegistryStatistics",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/RegistryStatistics"
+            }
+          }
+        }
+      }
+    },
+    "/statistics/service": {
+      "get": {
+        "tags": [
+          "GET"
+        ],
+        "summary": "Retrieves service statistics for this IoT hub’s identity registry.",
+        "description": "Retrieves service statistics for this IoT hub’s identity registry. This returns the total number of devices currently connected to an IoT hub.",
+        "operationId": "DeviceApi_GetServiceStatistics",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceStatistics"
+            }
+          }
+        }
+      }
+    },
+    "/devices": {
+      "get": {
+        "tags": [
+          "GET"
+        ],
+        "summary": "Get the identities of multiple devices from the IoT hub identity registry.",
+        "description": "Get the identities of multiple devices from the IoT hub identity registry. Returns the specified number of devices from the IoT hub's identity registry. If a limit is not specified, it returns up to 1000 identities. Pagination of device identities is not supported. This API is targeted at development and test scenarios. For large scale operations, consider using the export feature using blob storage(https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities)",
+        "operationId": "DeviceApi_GetDevices",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "top",
+            "description": "This parameter when specified, defines the maximum number of device identities that are returned. Any value outside the range of 1-1000 is considered to be 1000.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Device"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "POST"
+        ],
+        "summary": "Create, update, or delete the identities of multiple devices from the IoT hub identity registry.",
+        "description": "Create, update, or delete the identiies of multiple devices from the IoT hub identity registry. A device identity can be specified only once in the list. Different operations (create, update, delete) on different devices are allowed. A maximum of 100 devices can be specified per invocation. For large scale operations, consider using the import feature using blob storage(https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities).",
+        "operationId": "DeviceApi_BulkDeviceOperation",
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "devices",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 100,
+              "items": {
+                "$ref": "#/definitions/ExportImportDevice"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BulkRegistryOperationResult"
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "schema": {
+              "$ref": "#/definitions/BulkRegistryOperationResult"
+            }
+          }
+        }
+      }
+    },
+    "/devices/query": {
+      "post": {
+        "tags": [
+          "POST"
+        ],
+        "summary": "Query an IoT hub to retrieve information regarding device twins using a SQL-like language.",
+        "description": "Query an IoT hub to retrieve information regarding device twins using a SQL-like language. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language for more information. Pagination of results is supported. This returns information about device twins only.",
+        "operationId": "DeviceApi_QueryDevices",
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "querySpecification",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QuerySpecification"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/QueryResultWithContinuation"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "QuerySpecification": {
+      "description": "Query specification to retrieve information about device twins and jobs using a SQL-like language. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language for more information.",
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "query"
+      ]
+    },
+    "QueryResultWithContinuation": {
+      "description": "Query result with continuation token if appropriate.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/QueryResult"
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "QueryResult": {
+      "description": "Results produced from a query. It contains the type of result, a list of result items, and a continuation token if appropriate.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "unknown",
+            "twin",
+            "deviceJob",
+            "jobResponse",
+            "raw"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "QueryResultType",
+            "modelAsString": "True"
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "continuationToken": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "items"
+      ]
+    },
+    "RegistryStatistics": {
+      "description": "Represents the device statistics gathered by IoT Hub. Contains the total number of device identities and a breakdown of the number of devices that are enabled and disabled.",
+      "type": "object",
+      "properties": {
+        "totalDeviceCount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "enabledDeviceCount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "disabledDeviceCount": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "totalDeviceCount",
+        "enabledDeviceCount",
+        "disabledDeviceCount"
+      ]
+    },
+    "ServiceStatistics": {
+      "description": "Represents the service statistics gathered by an IoT hub. Contains the total number of devices currently connected to an IoT hub. ",
+      "type": "object",
+      "properties": {
+        "connectedDeviceCount": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "connectedDeviceCount"
+      ]
+    },
+    "ExportImportDevice": {
+      "description": "Container of IoT Hub device properties and their accessors for import and export scenarios",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9\\-:.+%_#*?!(),=@;$']{1,128}$"
+        },
+        "eTag": {
+          "type": "string"
+        },
+        "importMode": {
+          "description": "Identifies the behavior when merging a device to the registry during import actions.",
+          "enum": [
+            "createOrUpdate",
+            "create",
+            "update",
+            "updateIfMatchETag",
+            "createOrUpdateIfMatchETag",
+            "delete",
+            "deleteIfMatchETag"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ImportMode",
+            "modelAsString": "True"
+          }
+        },
+        "status": {
+          "description": "Represents the current status of a device. A disabled device is not allowed to perform any messaging operation. An IoT hub administrator can choose to enable or disable a device.",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "DeviceStatus",
+            "modelAsString": "False"
+          }
+        },
+        "statusReason": {
+          "description": "A string of user metadata. Reason, if any, for the device to be in specified status. Not interpreted or used by Iot Hub.",
+          "type": "string"
+        },
+        "authentication": {
+          "$ref": "#/definitions/AuthenticationMechanism"
+        },
+        "tags": {
+          "description": "A set of key-value pair tags. You can use tags to select devices when you query the identity registry.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "properties": {
+          "$ref": "#/definitions/PropertyContainer"
+        }
+      },
+      "required": [
+        "id",
+        "status"
+      ]
+    },
+    "Device": {
+      "description": "Container of IoT Hub device properties and their accessors.",
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "description": "The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9\\-:.+%_#*?!(),=@;$']{1,128}$"
+        },
+        "generationId": {
+          "description": "An IoT hub-generated case-sensitive string (up to 128 char long). Used to distinguish devices with the same deviceId when they have been deleted and recreated.",
+          "type": "string",
+          "readOnly": true
+        },
+        "etag": {
+          "description": "A string representing an ETag for the device identity, as per RFC7232. It is used in the HTTP protocol to resolve conflicting concurrent updates to the properties of this device. An ETag is required when performing an update or delete operation on a device.",
+          "type": "string"
+        },
+        "connectionState": {
+          "description": "Specifies the different connection states of a device.",
+          "enum": [
+            "disconnected",
+            "connected"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "DeviceConnectionState",
+            "modelAsString": "True"
+          }
+        },
+        "status": {
+          "description": "Represents the current status of a device. A disabled device is not allowed to perform any messaging operation. An IoT hub administrator can choose to enable or disable a device.",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "DeviceStatus",
+            "modelAsString": "True"
+          }
+        },
+        "statusReason": {
+          "description": "A string of user metadata. Reason, if any, for the device to be in specified status. Not interpreted or used by the IoT hub",
+          "type": "string"
+        },
+        "connectionStateUpdatedTime": {
+          "description": "Time when the \"connectionState\" was last updated. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "statusUpdatedTime": {
+          "description": "Time when the \"status\" was last updated. In ISO8601 datetime format in UTC; for example, 2015-01-28T16:24:48.789Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "lastActivityTime": {
+          "description": "Last time the device connected, received or sent a message. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "cloudToDeviceMessageCount": {
+          "description": "Current number of cloud-to-device messages that are waiting to be delivered to the device.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "authentication": {
+          "$ref": "#/definitions/AuthenticationMechanism"
+        }
+      },
+      "required": [
+        "deviceId"
+      ]
+    },
+    "AuthenticationMechanism": {
+      "description": "Used to specify the authentication mechanism used by a device. Two mutually-exclusive options are supported - shared access signature keys and device X.509 client certificates.",
+      "type": "object",
+      "properties": {
+        "symmetricKey": {
+          "$ref": "#/definitions/SymmetricKey"
+        },
+        "x509Thumbprint": {
+          "$ref": "#/definitions/X509Thumbprint"
+        }
+      },
+      "required": []
+    },
+    "SymmetricKey": {
+      "description": "Primary and secondary shared access signature symmetric keys of a device. If specified, both primary key and secondary key are required. The keys must be in valid base-64 format with a key length between 16 bytes and 64 bytes. They can be identical. If they are not specified, the Iot Hub generates both keys for the device with a default key length of 32 bytes.",
+      "type": "object",
+      "properties": {
+        "primaryKey": {
+          "format": "base-64",
+          "type": "string"
+        },
+        "secondaryKey": {
+          "format": "base-64",
+          "type": "string"
+        }
+      },
+      "required": []
+    },
+    "X509Thumbprint": {
+      "description": "If the device is using X.509 client certificates for authentication, at least one of primaryThumbprint or secondaryThumbprint must be specified. They can be identical.",
+      "type": "object",
+      "properties": {
+        "primaryThumbprint": {
+          "description": "Represents the SHA-1 hash of the X.509 client certificate used by the device when connecting to an IoT hub. Thumbprint values other than 40 hex chars are not accepted.",
+          "type": "string",
+          "pattern": "^([A-Fa-f0-9]{2}){20}$"
+        },
+        "secondaryThumbprint": {
+          "description": "Represents the SHA-1 hash of the X.509 client certificate used by the device when connecting to an IoT hub. Thumbprint values other than 40 hex chars are not accepted.",
+          "type": "string"
+        }
+      },
+      "required": []
+    },
+    "PropertyContainer": {
+      "description": "Container of desired and reported IoT Hub device twin properties.",
+      "type": "object",
+      "properties": {
+        "desired": {
+          "$ref": "#/definitions/DeviceTwinProperties"
+        },
+        "reported": {
+          "$ref": "#/definitions/DeviceTwinProperties"
+        }
+      },
+      "required": []
+    },
+    "BulkRegistryOperationResult": {
+      "description": "Encapsulates the result of a bulk device identity operation. The \"errors\" array contains an entry for each error encountered during the bulk device identity operation.",
+      "type": "object",
+      "properties": {
+        "isSuccessful": {
+          "type": "boolean"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeviceRegistryOperationError"
+          }
+        }
+      },
+      "required": [
+        "isSuccessful"
+      ]
+    },
+    "DeviceRegistryOperationError": {
+      "description": "Encapsulated device identity operation error details.",
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "type": "string"
+        },
+        "errorCode": {
+          "enum": [
+            "InvalidErrorCode",
+            "InvalidProtocolVersion",
+            "DeviceInvalidResultCount",
+            "InvalidOperation",
+            "ArgumentInvalid",
+            "ArgumentNull",
+            "IotHubFormatError",
+            "DeviceStorageEntitySerializationError",
+            "BlobContainerValidationError",
+            "ImportWarningExistsError",
+            "InvalidSchemaVersion",
+            "DeviceDefinedMultipleTimes",
+            "DeserializationError",
+            "BulkRegistryOperationFailure",
+            "DefaultStorageEndpointNotConfigured",
+            "InvalidFileUploadCorrelationId",
+            "ExpiredFileUploadCorrelationId",
+            "InvalidStorageEndpoint",
+            "InvalidMessagingEndpoint",
+            "InvalidFileUploadCompletionStatus",
+            "InvalidStorageEndpointOrBlob",
+            "RequestCanceled",
+            "InvalidStorageEndpointProperty",
+            "InvalidRouteTestInput",
+            "InvalidSourceOnRoute",
+            "IotHubNotFound",
+            "IotHubUnauthorizedAccess",
+            "IotHubUnauthorized",
+            "IotHubSuspended",
+            "IotHubQuotaExceeded",
+            "JobQuotaExceeded",
+            "DeviceMaximumQueueDepthExceeded",
+            "IotHubMaxCbsTokenExceeded",
+            "DeviceMaximumActiveFileUploadLimitExceeded",
+            "DeviceMaximumQueueSizeExceeded",
+            "DeviceModelMaxPropertiesExceeded",
+            "DeviceModelMaxIndexablePropertiesExceeded",
+            "DeviceNotFound",
+            "JobNotFound",
+            "PartitionNotFound",
+            "QuotaMetricNotFound",
+            "SystemPropertyNotFound",
+            "AmqpAddressNotFound",
+            "QueryStoreClusterNotFound",
+            "DeviceNotOnline",
+            "OperationNotAllowedInCurrentState",
+            "ImportDevicesNotSupported",
+            "BulkAddDevicesNotSupported",
+            "DeviceAlreadyExists",
+            "LinkCreationConflict",
+            "ModelAlreadyExists",
+            "DeviceLocked",
+            "DeviceJobAlreadyExists",
+            "PreconditionFailed",
+            "DeviceMessageLockLost",
+            "JobRunPreconditionFailed",
+            "MessageTooLarge",
+            "TooManyDevices",
+            "IncompatibleDataType",
+            "ThrottlingException",
+            "ThrottleBacklogLimitExceeded",
+            "ThrottlingBacklogTimeout",
+            "ThrottlingMaxActiveJobCountExceeded",
+            "ServerError",
+            "JobCancelled",
+            "StatisticsRetrievalError",
+            "ConnectionForcefullyClosed",
+            "InvalidBlobState",
+            "BackupTimedOut",
+            "AzureStorageTimeout",
+            "GenericTimeout",
+            "InvalidThrottleParameter",
+            "EventHubLinkAlreadyClosed",
+            "ReliableBlobStoreError",
+            "RetryAttemptsExhausted",
+            "UnexpectedPropertyValue",
+            "OrchestrationOperationFailed",
+            "InvalidResponseWhileProxying",
+            "ServiceUnavailable",
+            "IotHubFailingOver",
+            "ConnectionUnavailable",
+            "DeviceUnavailable",
+            "GatewayTimeout"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ErrorCode",
+            "modelAsString": "True"
+          }
+        },
+        "errorStatus": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "deviceId",
+        "errorCode",
+        "errorStatus"
+      ]
+    },
+    "PurgeMessageQueueResult": {
+      "description": "Contains the results of the PurgeCommandQueue request.",
+      "type": "object",
+      "properties": {
+        "totalMessagesPurged": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "deviceId": {
+          "description": "The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9\\-:.+%_#*?!(),=@;$']{1,128}$"
+        }
+      }
+    },
+    "DeviceTwinInfo": {
+      "description": "Container of IoT Hub device twin properties and their accessors.",
+      "type": "object",
+      "properties": {
+        "DeviceId": {
+          "description": "The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9\\-:.+%_#*?!(),=@;$']{1,128}$"
+        },
+        "LastActivityTimeUtc": {
+          "$ref": "#/definitions/VariantValueDateTime"
+        },
+        "IsConnected": {
+          "type": "boolean"
+        },
+        "LastConnectedTimeUtc": {
+          "$ref": "#/definitions/VariantValueDateTime"
+        },
+        "Version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "Tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "DesiredProperties": {
+          "$ref": "#/definitions/DeviceTwinProperties"
+        },
+        "ReportedProperties": {
+          "$ref": "#/definitions/DeviceTwinProperties"
+        },
+        "ProvisioningState": {
+          "enum": [
+            "Creating",
+            "Deleting",
+            "Active",
+            "Deleted"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ProvisioningState",
+            "modelAsString": "True"
+          }
+        }
+      },
+      "required": [
+        "deviceId"
+      ]
+    },
+    "VariantValueDateTime": {
+      "description": "Type representing DateTime in different time zones.",
+      "type": "object",
+      "properties": {
+        "Value": {
+          "format": "date-time",
+          "type": "string",
+          "readOnly": true
+        },
+        "ObjectValue": {
+          "type": "object",
+          "readOnly": true
+        },
+        "IsNull": {
+          "type": "boolean",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "DeviceTwinProperties": {
+      "description": "Type representing properties that are part of IoT Hub device twin.",
+      "type": "object",
+      "properties": {
+        "Version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "Properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "Metadata": {
+          "$ref": "#/definitions/Metadata"
+        }
+      },
+      "required": [
+        "version"
+      ]
+    },
+    "Metadata": {
+      "description": "Metadata",
+      "type": "object",
+      "properties": {
+        "LastUpdatedUtc": {
+          "$ref": "#/definitions/VariantValueDateTime"
+        },
+        "LastUpdatedVersion": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "HasChildren": {
+          "type": "boolean",
+          "readOnly": true
+        },
+        "Nested": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Metadata"
+          },
+          "readOnly": true
+        }
+      },
+      "required": [
+        "lastUpdatedUtc"
+      ]
+    }
+  },
+  "parameters": {
+    "api-version": {
+      "name": "api-version",
+      "in": "query",
+      "description": "The version of the API.",
+      "required": true,
+      "type": "string",
+      "default": "2016-11-14"
+    }
+  }
+}
