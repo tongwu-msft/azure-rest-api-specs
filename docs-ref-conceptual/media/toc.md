@@ -1,4 +1,4 @@
-# [Media Services Management REST(depreciated)](management/media-services-management-rest.md)
+# [Media Services Management REST(deprecated)](management/media-services-management-rest.md)
 ## [How to: Use Media Services Management REST API](management/how-to-use-media-services-management-rest-api.md)
 ## [Attach Storage Account](management/attach-storage-account.md)
 ## [Create Media Services Account](management/create-media-services-account.md)

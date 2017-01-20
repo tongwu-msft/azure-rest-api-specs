@@ -132,7 +132,7 @@ Date: <date>
   
  Access to the source blob or file is authorized separately, as described in the details for the request header `x-ms-copy-source`.  
   
- The following table describes how the destination and source objects for a [Copy Blob](assetId:///Copy Blob?qualifyHint=False&autoUpgrade=True) operation may be authenticated.  
+ The following table describes how the destination and source objects for a Copy Blob operation may be authenticated.  
   
 ||Authentication with Shared Key/Shared Key Lite|Authentication with Shared Access Signature|Public Object Not Requiring Authentication|  
 |-|-----------------------------------------------------|-------------------------------------------------|------------------------------------------------|  
