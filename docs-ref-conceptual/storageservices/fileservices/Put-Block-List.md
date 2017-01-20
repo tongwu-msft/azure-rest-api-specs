@@ -45,7 +45,7 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
   
  Note that the storage emulator only supports blob sizes up to 2 GB.  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](assetId:///f0e3acde-f019-4148-9544-34cf2ff27211).  
+ For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  

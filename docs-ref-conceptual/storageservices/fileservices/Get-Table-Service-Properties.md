@@ -64,7 +64,7 @@ The `Get Table Service Properties` operation gets the properties of a storage ac
 ### Status Code  
  A successful operation returns status code 200 (OK).  
   
- For information about status codes, see [Service Management Status and Error Codes](assetId:///10f8d244-4649-4063-b6c9-7a20765513fa).  
+ For information about status codes, see [Service Management Status and Error Codes](https://msdn.microsoft.com/library/azure/ee460801.aspx).  
   
 ### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
