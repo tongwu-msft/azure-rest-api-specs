@@ -69,7 +69,7 @@ The hash signature for the master key token can be constructed from the followin
   
 3.  The **ResourceLink** portion of the string is the identity property of the resource that the request is directed at.           **ResourceLink** must maintain its case for the id of the resource. Example, for a collection it will look like: "dbs/MyDatabase/colls/MyCollection".
   
-4.  The **Date** portion of the string is the UTC date and time the message was sent (in "HTTP-date" format as defined by [RFC 7231 Date/Time Formats](http://tools.ietf.org/html/rfc7231#section-7.1.1.1)) e.g. `Tue, 01 Nov 1994 08:12:31 GMT`. In C#, this can be obtained by using the "R" format specifier on the DateTime object expressed in UTC. This same date(in same format) also needs to be passed as **x-ms-date** header in the request.
+4.  The **Date** portion of the string is the UTC date and time the message was sent (in "HTTP-date" format as defined by [RFC 7231 Date/Time Formats](http://tools.ietf.org/html/rfc7231#section-7.1.1.1)) e.g. `Tue, 01 Nov 1994 08:12:31 GMT`. In C#, this can be obtained by using the "R" format specifier on the DateTime value converted to UTC(by calling DateTime.ToUniversalTime method). This same date(in same format) also needs to be passed as **x-ms-date** header in the request.
     
 5.  All new line characters (\n) shown are required within the signature string including the last empty string("").
   
