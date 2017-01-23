@@ -37,8 +37,6 @@ A stored access policy provides an additional level of control over service-leve
   
 -   Tables  
   
- For more details on working with stored access policies, see [Use a Stored Access Policy](assetId:///c0d4fe58-e6f4-4a90-bad5-138f59967560).  
-  
 > [!NOTE]
 >  Note that a stored access policy on a container can be associated with a shared access signature granting permissions to the container itself or to the blobs it contains. Similarly, a stored access policy on a file share can be associated with a shared access signature granting permissions to the share itself or to the files it contains.  
 >   
@@ -75,4 +73,6 @@ A stored access policy provides an additional level of control over service-leve
  To remove a single access policy, call the resource's Set ACL operation, passing in the set of signed identifiers that you wish to maintain on the container. To remove all access policies from the resource, call the Set ACL operation with an empty request body.  
   
 ## See Also  
- [Delegating Access with a Shared Access Signature](../fileservices/Delegating-Access-with-a-Shared-Access-Signature.md)
+
+* [Delegating Access with a Shared Access Signature](../fileservices/Delegating-Access-with-a-Shared-Access-Signature.md)
+* [Controlling a SAS with a stored access policy](/azure/storage/storage-dotnet-shared-access-signature-part-1#controlling-a-sas-with-a-stored-access-policy)

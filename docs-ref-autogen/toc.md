@@ -388,7 +388,7 @@
 ## [Usage History](machineLearning/UsageHistory.json)
 ## [Web Services](machineLearning/WebServices.json)
 # [Media Services](../docs-ref-conceptual/media/index.md)
-## [Media Services Management REST](../docs-ref-conceptual/media/management/media-services-management-rest.md)
+## [Media Services Management REST(deprecated)](../docs-ref-conceptual/media/management/media-services-management-rest.md)
 ### [How to: Use Media Services Management REST API](../docs-ref-conceptual/media/management/how-to-use-media-services-management-rest-api.md)
 ### [Attach Storage Account](../docs-ref-conceptual/media/management/attach-storage-account.md)
 ### [Create Media Services Account](../docs-ref-conceptual/media/management/create-media-services-account.md)

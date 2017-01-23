@@ -41,7 +41,7 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
 |-|----------------------------|------------------|  
 ||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=snapshot`|HTTP/1.1|  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](assetId:///f0e3acde-f019-4148-9544-34cf2ff27211).  
+ For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  

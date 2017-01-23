@@ -29,5 +29,5 @@ The Batch REST API provides operations for working with the following resources.
 
 ## See also
 
-- [Azure Batch documentation](https://review.docs.microsoft.com/azure/batch)
+- [Azure Batch documentation](/azure/batch/)
 - [Azure Batch code samples on GitHub](https://github.com/Azure/azure-batch-samples)

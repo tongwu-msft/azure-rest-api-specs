@@ -44,7 +44,7 @@ The `Get Queue ACL` operation returns details about any stored access policies s
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`http://127.0.0.1:10001/devstoreaccount1/myqueue?comp=acl`|HTTP/1.1|  
   
- For more information, see [Differences Between the Storage Emulator and Azure Storage Services](assetId:///c60f2090-c0f4-4817-8559-e98786461dbe).  
+ For more information, see [Differences Between the Storage Emulator and Azure Storage Services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  
@@ -134,7 +134,7 @@ Server: Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0
   
 ## See Also  
  [Establishing a Stored Access Policy](../fileservices/Establishing-a-Stored-Access-Policy.md)   
- [Use a Stored Access Policy](assetId:///c0d4fe58-e6f4-4a90-bad5-138f59967560)   
+ [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md)   
  [Set Queue ACL](../fileservices/Set-Queue-ACL.md)   
  [Authentication for the Azure Storage Services](../fileservices/Authentication-for-the-Azure-Storage-Services.md)   
  [Status and Error Codes](../fileservices/Status-and-Error-Codes2.md)
