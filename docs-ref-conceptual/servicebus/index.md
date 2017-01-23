@@ -26,6 +26,6 @@ The Service Bus REST API provides operations for working with the following reso
 
 ## See also
 
-- [Azure Service Bus documentation](https://review.docs.microsoft.com/azure/service-bus)
+- [Azure Service Bus documentation](https://docs.microsoft.com/azure/service-bus)
 - [Azure Service Bus Messaging code samples on GitHub](https://github.com/Azure-Samples/azure-servicebus-messaging-samples)
 - [Azure Service Bus Relay code samples on GitHub](https://github.com/Azure-Samples/azure-servicebus-relay-samples)
