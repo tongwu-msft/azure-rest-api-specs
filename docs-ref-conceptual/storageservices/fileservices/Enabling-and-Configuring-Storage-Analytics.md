@@ -50,7 +50,7 @@ This topic describes how to enable and configure Storage Analytics for a storage
   
 2.  Your request also needs a request body, consisting of XML that the storage service will process and use to configure Storage Analytics. The following example enables logging for delete and write requests and sets a retention policy of 7 days. It also enables metrics, excludes API-level summary statistics, and sets a retention policy of 7 days.  
   
-    ```  
+    ```xml  
     <?xml version="1.0" encoding="utf-8"?>  
     <StorageServiceProperties>  
         <Logging>  
@@ -104,12 +104,12 @@ This topic describes how to enable and configure Storage Analytics for a storage
  To change Storage Analytics settings for a storage service, call the `Set Service Properties` operation again. Ensure that your new XML request body retains your desired configuration options, such as enabling/disabling Storage Analytics and/or a retention policy for the service. Each time one of these operations is called, it changes the applicable service’s settings immediately.  
   
 ## See Also  
- [Set Storage Service Properties](../fileservices/Set%20Storage%20Service%20Properties.md)   
- [Get Storage Service Properties](../fileservices/Get%20Storage%20Service%20Properties.md)   
  [Setting a Storage Analytics Data Retention Policy](../fileservices/Setting-a-Storage-Analytics-Data-Retention-Policy.md)   
  [Set Blob Service Properties](../fileservices/Set-Blob-Service-Properties.md)   
  [Get Blob Service Properties](../fileservices/Get-Blob-Service-Properties.md)   
  [Set Table Service Properties](../fileservices/Set-Table-Service-Properties.md)   
  [Get Table Service Properties](../fileservices/Get-Table-Service-Properties.md)   
  [Set Queue Service Properties](../fileservices/Set-Queue-Service-Properties.md)   
- [Get Queue Service Properties](../fileservices/Get-Queue-Service-Properties.md)
+ [Get Queue Service Properties](../fileservices/Get-Queue-Service-Properties.md)   
+ [Set File Service Properties](../fileservices/Set-File-Service-Properties.md)   
+ [Get File Service Properties](../fileservices/Get-File-Service-Properties.md)
