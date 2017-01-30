@@ -1,7 +1,7 @@
 ---
 title: "About Storage Analytics Logging"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2017-01-30
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -27,7 +27,7 @@ translation.priority.mt:
 # About Storage Analytics Logging
 Storage Analytics logs detailed information about successful and failed requests to a storage service. This information can be used to monitor individual requests and to diagnose issues with a storage service. Requests are logged on a best-effort basis.  
   
- To use Storage Analytics, you must enable it individually for each service you want to monitor. You can enable it from the [Azure Management Portal](https://manage.windowsazure.com/); for details, see [How To Monitor a Storage Account](http://www.windowsazure.com/manage/services/storage/how-to-monitor-a-storage-account/). You can also enable Storage Analytics programmatically via the REST API or the client library. Use the [Get Blob Service Properties](../fileservices/Get-Blob-Service-Properties.md), [Get Queue Service Properties](../fileservices/Get-Queue-Service-Properties.md), and [Get Table Service Properties](../fileservices/Get-Table-Service-Properties.md) operations to enable Storage Analytics for each service.  
+ To use Storage Analytics, you must enable it individually for each service you want to monitor. You can enable it in the [Azure portal](https://portal.azure.com/); for details, see [Monitor a storage account in the Azure portal](/azure/storage/storage-monitor-storage-account). You can also enable Storage Analytics programmatically via the REST API or the client library. Use the [Get Blob Service Properties](../fileservices/Get-Blob-Service-Properties.md), [Get Queue Service Properties](../fileservices/Get-Queue-Service-Properties.md), and [Get Table Service Properties](../fileservices/Get-Table-Service-Properties.md) operations to enable Storage Analytics for each service.  
   
  Log entries are created only if there are requests made against the service endpoint. For example, if a storage account has activity in its Blob endpoint but not in its Table or Queue endpoints, only logs pertaining to the Blob service will be created.  
   
