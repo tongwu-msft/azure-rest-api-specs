@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-01-11"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -221,75 +221,56 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
  The reasons why Azure Search might return continuation tokens are implementation-specific and subject to change. Robust clients should always be ready to handle cases where fewer documents than expected are returned and a continuation token is included to continue retrieving documents. Also note that you must use the same HTTP method as the original request in order to continue. For example, if you sent a GET request, any continuation requests you send must also use GET (and likewise for POST).  
 
 ## Response  
-Status code 200 (OK) is returned for a successful response, meaning that all items have been stored durably and will start to be indexed. Indexing runs in the background and makes new documents available (that is, queryable and searchable) a few seconds after the indexing operation completed. The specific delay depends on the load on the service.
 
-Successful indexing is indicated by the `status` property being set to true for all items, as well as the `statusCode` property being set to either 201 (for newly uploaded documents) or 200 (for merged or deleted documents):
-```
+Status Code: 200 OK is returned for a successful response.
+
     {
+      "@odata.count": # (if $count=true was provided in the query),
+      "@search.coverage": # (if minimumCoverage was provided in the query),
+      "@search.facets": { (if faceting was specified in the query)
+        "facet_field": [
+          {
+            "value": facet_entry_value (for non-range facets),
+            "from": facet_entry_value (for range facets),
+            "to": facet_entry_value (for range facets),
+            "count": number_of_documents
+          }
+        ],
+        ...
+      },
+      "@search.nextPageParameters": { (request body to fetch the next page of results if not all results could be returned in this response and Search was called with POST)
+        "count": ... (value from request body if present),
+        "facets": ... (value from request body if present),
+        "filter": ... (value from request body if present),
+        "highlight": ... (value from request body if present),
+        "highlightPreTag": ... (value from request body if present),
+        "highlightPostTag": ... (value from request body if present),
+        "minimumCoverage": ... (value from request body if present),
+        "orderby": ... (value from request body if present),
+        "scoringParameters": ... (value from request body if present),
+        "scoringProfile": ... (value from request body if present),
+        "search": ... (value from request body if present),
+        "searchFields": ... (value from request body if present),
+        "searchMode": ... (value from request body if present),
+        "select": ... (value from request body if present),
+        "skip": ... (page size plus value from request body if present),
+        "top": ... (value from request body if present minus page size),
+      },
       "value": [
         {
-          "key": "unique_key_of_new_document",
-          "status": true,
-          "errorMessage": null,
-          "statusCode": 201
+          "@search.score": document_score (if a text query was provided),
+          "@search.highlights": {
+            field_name: [ subset of text, ... ],
+            ...
+          },
+          key_field_name: document_key,
+          field_name: field_value (retrievable fields or specified projection),
+          ...
         },
-        {
-          "key": "unique_key_of_merged_document",
-          "status": true,
-          "errorMessage": null,
-          "statusCode": 200
-        },
-        {
-          "key": "unique_key_of_deleted_document",
-          "status": true,
-          "errorMessage": null,
-          "statusCode": 200
-        }
-      ]
-    }  
-```
-Status code 207 (Multi-Status) is returned when at least one item was not successfully indexed. Items that have not been indexed have the `status` field set to false. The `errorMessage` and `statusCode` properties will indicate the reason for the indexing error:
-
-```
-    {
-      "value": [
-        {
-          "key": "unique_key_of_document_1",
-          "status": false,
-          "errorMessage": "The search service is too busy to process this document. Please try again later.",
-          "statusCode": 503
-        },
-        {
-          "key": "unique_key_of_document_2",
-          "status": false,
-          "errorMessage": "Document not found.",
-          "statusCode": 404
-        },
-        {
-          "key": "unique_key_of_document_3",
-          "status": false,
-          "errorMessage": "Index is temporarily unavailable because it was updated with the 'allowIndexDowntime' flag set to 'true'. Please try again later.",
-          "statusCode": 422
-        }
-      ]
-    }  
-```
-The following table explains the various per-document status codes that can be returned in the response. Note that some indicate problems with the request itself, while others indicate temporary error conditions. The latter you should retry after a delay.
-
-|Status code|Meaning|Retryable|Notes|
-|------------|--------|----------|------|
-|200|Document was successfully modified or deleted.|n/a|Delete operations are <a href="https://en.wikipedia.org/wiki/Idempotence">idempotent</a>. That is, even if a document key does not exist in the index, attempting a delete operation with that key will result in a 200 status code.|
-|201|Document was successfully created.|n/a| n/a|
-|400|There was an error in the document that prevented it from being indexed.| No| The error message in the response will indicate what is wrong with the document.|
-|404|The document could not be merged because the given key doesn't exist in the index.|No|This error does not occur for uploads since they create new documents, and it does not occur for deletes because they are <a href="https://en.wikipedia.org/wiki/Idempotence">idempotent</a>.|
-|409|A version conflict was detected when attempting to index a document.|Yes|This can happen when you're trying to index the same document more than once concurrently.|
-|422|The index is temporarily unavailable because it was updated with the 'allowIndexDowntime' flag set to 'true'.|Yes| n/a|
-|503|Your search service is temporarily unavailable, possibly due to heavy load.|Yes|Your code should wait before
-
-> [!NOTE]  
->  If your client code frequently encounters a 207 response, one possible reason is that the system is under load. You can confirm this by checking the `statusCode` property for 503. If this is the case, we recommend ***throttling indexing requests***. Otherwise, if indexing traffic doesn't subside, the system could start rejecting all requests with 503 errors.
-
-Status code 429 indicates that you have exceeded your quota on the number of documents per index. You must either create a new index or upgrade for higher capacity limits.
+        ...
+      ],
+      "@odata.nextLink": (URL to fetch the next page of results if not all results could be returned in this response; Applies to both GET and POST)
+    }
 
 ##  <a name="bkmk_examples"></a> Examples  
  You can find additional examples in  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md).  
