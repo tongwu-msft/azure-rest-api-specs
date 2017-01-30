@@ -1,7 +1,7 @@
 ---
 title: "Enabling and Configuring Storage Analytics"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2017-01-30
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -28,7 +28,7 @@ translation.priority.mt:
 This topic describes how to enable and configure Storage Analytics for a storage service.  
   
 ## Enabling Storage Analytics  
- To use Storage Analytics, you must enable it individually for each service you want to monitor. You can enable it from the [Azure Management Portal](https://manage.windowsazure.com/); for details, see [How To Monitor a Storage Account](http://www.windowsazure.com/manage/services/storage/how-to-monitor-a-storage-account/). You can also enable Storage Analytics programmatically via the REST API or the client library. Use the `Set Service Properties` operation for an individual service to enable Storage Analytics.  
+ To use Storage Analytics, you must enable it individually for each service you want to monitor. You can enable it in the [Azure portal](https://portal.azure.com/); for details, see [Monitor a storage account in the Azure portal](/azure/storage/storage-monitor-storage-account). You can also enable Storage Analytics programmatically via the REST API or the client library. Use the `Set Service Properties` operation for an individual service to enable Storage Analytics.  
   
 > [!NOTE]
 >  Storage Analytics metrics are available for the Blob, Queue, Table, and File services.  
