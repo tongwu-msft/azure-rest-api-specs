@@ -33,7 +33,7 @@ The Blob service exposes the following resource types via the REST API:
   
 -   **Blobs.** A blob is an entity representing a set of content. A blob resource includes content, properties, and metadata.  
   
- You can address each resource using its resource URI. For information about URI addresses, see [Referring to Containers and Blobs](assetId:///71b719e2-1ade-43fe-adcd-42b7b2ec011f).  
+ You can address each resource using its resource URI. For information about URI addresses, see [Referring to Containers and Blobs](naming-and-referencing-containers--blobs--and-metadata.md).  
   
  Each resource supports operations based on the HTTP verbs GET, PUT, HEAD, and DELETE. The verb, syntax, and supported HTTP version(s) for each operation appears on the reference page for each operation. For a complete list of operation reference pages, see [Blob Service REST API](../fileservices/Blob-Service-REST-API.md).  
   

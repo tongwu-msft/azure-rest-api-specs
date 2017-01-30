@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2017-01-11"
+ms.date: "2017-01-19"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -98,7 +98,7 @@ When the query type is set to `full`, search text is interpreted using the Lucen
 
 #### `$skip=# (optional)`
 
-The number of search results to skip. When calling via POST, this parameter is named `skip` instead of `$skip`. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use `$skip` due to this limitation, consider using `$orderby` on a totally-ordered key and `$filter` with a range query instead.
+The number of search results to skip. When calling via POST, this parameter is named `skip` instead of `$skip`. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use `$skip` due to this limitation, consider using `$orderby` on a field that has unique values for every document in the index (like the document key, for example) and `$filter` with a range query instead.
 
 #### `$top=# (optional)`
 The number of search results to retrieve. This defaults to 50. When calling via POST, this parameter is named `top` instead of `$top`. If you specify a value greater than 1000 and there are more than 1000 results, only the first 1000 results will be returned, along with a link to the next page of results (see @odata.nextLink in the example below).
@@ -121,10 +121,6 @@ A list of comma-separated fields to retrieve. When calling via POST, this parame
 
 A field to facet by. Optionally, the string may contain parameters to customize the faceting, expressed as comma-separated `name:value` pairs. When calling via POST, this parameter is named `facets` instead of `$facet`.
 
-`count` and `sort` can be combined in the same facet specification, but they cannot be combined with `interval` or `values`, and `interval` and `values` cannot be combined together.
-
-Interval facets on date time are computed based on the UTC time if `timeoffset` is not specified. For example: for `facet=lastRenovationDate,interval:day`, the day boundary starts at 00:00:00 UTC.
-
 Valid parameters are:
 
 - `count` (max # of facet terms; default is 10). There is no upper limit on the number of terms, but higher values incur a corresponding performance penalty, especially if the faceted field contains a large number of unique terms. For example, `facet=category,count:5` gets the top five categories in facet results. Note that if the `count` parameter is less than the number of unique terms, the results may not be accurate. This is due to the way faceting queries are distributed across shards. Increasing `count` generally increases the accuracy of term counts, but at a performance cost.
@@ -137,6 +133,9 @@ Valid parameters are:
 
 - `timeoffset ([+-]hh:mm, [+-]hhmm, or [+-]hh)`. If used, the `timeoffset` parameter must be combined with the `interval` option, and only when applied to a field of type `Edm.DateTimeOffset`. The value specifies the UTC time offset to account for in setting time boundaries. For example: `facet=lastRenovationDate,interval:day,timeoffset:-01:00` uses the day boundary that starts at 01:00:00 UTC (midnight in the target time zone).
 
+`count` and `sort` can be combined in the same facet specification, but they cannot be combined with `interval` or `values`, and `interval` and `values` cannot be combined together.
+
+Interval facets on date time are computed based on the UTC time if `timeoffset` is not specified. For example: for `facet=lastRenovationDate,interval:day`, the day boundary starts at 00:00:00 UTC.
 
 #### `$filter=[string] (optional)`
 
@@ -356,7 +355,7 @@ Status Code: 200 OK is returned for a successful response.
     POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "hotel",  
-          "searchFields": "description", "description_fr"
+          "searchFields": "description, description_fr"
         }  
     ```  
 
@@ -402,7 +401,7 @@ Status Code: 200 OK is returned for a successful response.
     POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "*",  
-          "select": "hotelName", "description"
+          "select": "hotelName, description"
         }  
     ```  
 

@@ -35,7 +35,7 @@ The `Set Container ACL` operation sets the permissions for the specified contain
   
 -   **No public read access:** Container and blob data can be read by the account owner only.  
   
- `Set Container ACL` also sets a stored access policy for use with shared access signatures. For more information, see [Use a Stored Access Policy](assetId:///c0d4fe58-e6f4-4a90-bad5-138f59967560).  
+ `Set Container ACL` also sets a stored access policy for use with shared access signatures. For more information, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
   
  All public access to the container is anonymous, as is access via a shared access signature.  
   
@@ -53,7 +53,7 @@ The `Set Container ACL` operation sets the permissions for the specified contain
 |------------|-----------------|------------------|  
 |`PUT`|`http://127.0.0.1:10000/devstoreaccount1/mycontainer?restype=container&comp=acl`|HTTP/1.1|  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](assetId:///f0e3acde-f019-4148-9544-34cf2ff27211).  
+ For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  
@@ -205,7 +205,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
  **Establishing Container-Level Access Policies**  
   
- A stored access policy can specify the start time, expiry time, and permissions for the shared access signatures with which it's associated. Depending on how you want to control access to your container or blob resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the shared access signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See specifying a [Use a Stored Access Policy](assetId:///c0d4fe58-e6f4-4a90-bad5-138f59967560) for more information about establishing access policies.  
+ A stored access policy can specify the start time, expiry time, and permissions for the shared access signatures with which it's associated. Depending on how you want to control access to your container or blob resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the shared access signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See specifying a [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md) for more information about establishing access policies.  
   
  Together the shared access signature and the stored access policy must include all fields required to authenticate the signature. If any required fields are missing, the request will fail. Likewise, if a field is specified both in the shared access signature URL and in the stored access policy, the request will fail with status code 400 (Bad Request).  
   
@@ -217,10 +217,10 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 >  When you establish a stored access policy on a container, it may take up to 30 seconds to take effect. During this interval, a shared access signature that is associated with the stored access policy will fail with status code 403 (Forbidden), until the access policy becomes active.  
   
 ## See Also  
- [Restrict Access to Containers and Blobs](assetId:///1d1c1a78-7a01-4477-b8e0-394d122e15a6)   
+ [Restrict Access to Containers and Blobs](/azure/storage/storage-manage-access-to-resources)   
  [Delegating Access with a Shared Access Signature](../fileservices/Delegating-Access-with-a-Shared-Access-Signature.md)   
- [Create and Use a Shared Access Signature](assetId:///b41f98e9-14ab-499a-9fd2-fb9202c9ccd2)   
- [Use a Stored Access Policy](assetId:///c0d4fe58-e6f4-4a90-bad5-138f59967560)   
+ [Create and Use a Shared Access Signature](/azure/storage/storage-dotnet-shared-access-signature-part-2)   
+ [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md)   
  [Get Container ACL](../fileservices/Get-Container-ACL.md)   
  [Authentication for the Azure Storage Services](../fileservices/Authentication-for-the-Azure-Storage-Services.md)   
  [Status and Error Codes](../fileservices/Status-and-Error-Codes2.md)   

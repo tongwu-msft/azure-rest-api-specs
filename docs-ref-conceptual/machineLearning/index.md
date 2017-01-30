@@ -12,7 +12,7 @@ ms.manager: jhubbard
 
 <!--
 Microsoft Azure Machine Learning enables you to build and test a predictive analytics solution, and then deploy it as an Azure web service. 
-For an overview of the process, see [Azure Machine Learning Web Services: Deployment and consumption](https://review.docs.microsoft.com/azure/machine-learning/machine-learning-deploy-consume-web-service-guide).
+For an overview of the process, see [Azure Machine Learning Web Services: Deployment and consumption](/azure/machine-learning/machine-learning-deploy-consume-web-service-guide).
 
 The following Microsoft Azure Machine Learning REST APIs enable you to create and manage Azure Resource Manager based web services, as well as Machine Learning commitment plans and associations.
 -->
@@ -22,7 +22,7 @@ The following Azure Machine Learning REST APIs enable you to create and manage:
 - **Machine Learning commitment plans and associations**
 
 - **Azure Resource Manager based web services** - Azure Machine Learning enables you to build and test a predictive analytics solution, and then deploy it as an Azure web service. 
-For an overview of the process, see [Azure Machine Learning Web Services: Deployment and consumption](https://review.docs.microsoft.com/azure/machine-learning/machine-learning-deploy-consume-web-service-guide).
+For an overview of the process, see [Azure Machine Learning Web Services: Deployment and consumption](/azure/machine-learning/machine-learning-deploy-consume-web-service-guide).
 
 
 <!--
@@ -76,7 +76,7 @@ You can do the following tasks with the REST APIs for Azure Machine Learning web
 - [Get access keys for a web service](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_ListKeys)
 - [Modify a web service](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_Patch)
 - [Delete a web service](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_Remove)
-- [Get all web services in a resource group](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_ListInResourceGroup)
+- [Get all web services in a resource group](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_ListByResourceGroup)
 - [Get all web services in a subscription](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_List)
 
 
