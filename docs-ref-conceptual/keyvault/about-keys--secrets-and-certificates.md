@@ -470,3 +470,4 @@ For more information on these features and behaviors, see the following sections
 - [Authentication, requests, and responses](authentication--requests-and-responses.md)
 - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
 - [Key Vault versions](key-vault-versions.md)
+- [Key Vault Developer's Guide](/azure/key-vault/key-vault-developers-guide)
