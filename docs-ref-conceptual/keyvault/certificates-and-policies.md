@@ -1,20 +1,10 @@
 ﻿---
-title: "Certificates and Policies"
-ms.custom: ""
-ms.date: 2016-11-11"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "key-vault"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-applies_to:
-  - "Azure Key Vault"
 ms.assetid: 63a42254-f2ea-4beb-9aff-d23341006538
-caps.latest.revision: 12
-author: "bruceperlerMS"
-ms.author: "bruceper"
-manager: "mbaldwin"
+title: Certificates and policies | Microsoft Docs
+ms.service: key-vault
+author: BrucePerlerMS
+ms.author: bruceper
+manager: mbaldwin
 ---
 # Certificates and policies
 
