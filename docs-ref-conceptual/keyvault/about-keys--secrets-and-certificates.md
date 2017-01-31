@@ -333,7 +333,7 @@ For more information on these features and behaviors, see the following sections
 
  The identifier and version of certificates is similar to keys and secrets. A specific version of addressable key and secret created with the KV Certificate version is available in the KV Certificate response.
  
- ![Cetificates are complex objects](/media/azure-key-vault.jpg)  
+ ![Cetificates are complex objects](media/azure-key-vault.jpg)  
 
 ###  <a name="BKMK_CertificateExportableOrNonExportableKey"></a> Exportable or  Non Exportable key  
  When a KV  certificate is created, it can be retrieved from the addressable secret with the private key in either pfx or pem format and if the policy used to create the certificate indicated key is exportable. If the policy used to create KV Certificate indicated key to be non-exportable, then the private key is not a part of value when retrieved as a secret.  
