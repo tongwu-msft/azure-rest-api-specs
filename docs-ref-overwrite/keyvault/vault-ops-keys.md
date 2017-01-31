@@ -19,7 +19,7 @@ parameters:
       description: Use the latest service version, 2016-10-01.
 ---
 
-Test text from Bruce for delete key
+Updated 013117 test text from Bruce for delete key. 
 
 ---
 uid: KeyVaultClient/2016-10-01/ImportKey
@@ -29,7 +29,7 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 ---
-Test text from Bruce for import key
+Updated 013117 Test text from Bruce for import key
 
 ---
 uid: KeyVaultClient/2016-10-01/DeleteKey
@@ -39,7 +39,7 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 ---
-Test text from Bruce for delete key
+Updated 013117 Test text from Bruce for delete key
 
 
 ---
@@ -50,4 +50,4 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 ---
-Test text from Bruce for update key
+Updated 013117 Test text from Bruce for update key

@@ -7,5 +7,5 @@ parameters:
 description: *content
 ---
 
-Test text from Bruce get certificates.
+Updated test text from Bruce get certificates.
 
