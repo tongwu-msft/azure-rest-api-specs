@@ -1,7 +1,7 @@
 ---
 title: "Enabling and Configuring Storage Analytics"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2017-01-30
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -28,7 +28,7 @@ translation.priority.mt:
 This topic describes how to enable and configure Storage Analytics for a storage service.  
   
 ## Enabling Storage Analytics  
- To use Storage Analytics, you must enable it individually for each service you want to monitor. You can enable it from the [Azure Management Portal](https://manage.windowsazure.com/); for details, see [How To Monitor a Storage Account](http://www.windowsazure.com/manage/services/storage/how-to-monitor-a-storage-account/). You can also enable Storage Analytics programmatically via the REST API or the client library. Use the `Set Service Properties` operation for an individual service to enable Storage Analytics.  
+ To use Storage Analytics, you must enable it individually for each service you want to monitor. You can enable it in the [Azure portal](https://portal.azure.com/); for details, see [Monitor a storage account in the Azure portal](/azure/storage/storage-monitor-storage-account). You can also enable Storage Analytics programmatically via the REST API or the client library. Use the `Set Service Properties` operation for an individual service to enable Storage Analytics.  
   
 > [!NOTE]
 >  Storage Analytics metrics are available for the Blob, Queue, Table, and File services.  
@@ -50,7 +50,7 @@ This topic describes how to enable and configure Storage Analytics for a storage
   
 2.  Your request also needs a request body, consisting of XML that the storage service will process and use to configure Storage Analytics. The following example enables logging for delete and write requests and sets a retention policy of 7 days. It also enables metrics, excludes API-level summary statistics, and sets a retention policy of 7 days.  
   
-    ```  
+    ```xml  
     <?xml version="1.0" encoding="utf-8"?>  
     <StorageServiceProperties>  
         <Logging>  
@@ -104,12 +104,12 @@ This topic describes how to enable and configure Storage Analytics for a storage
  To change Storage Analytics settings for a storage service, call the `Set Service Properties` operation again. Ensure that your new XML request body retains your desired configuration options, such as enabling/disabling Storage Analytics and/or a retention policy for the service. Each time one of these operations is called, it changes the applicable service’s settings immediately.  
   
 ## See Also  
- [Set Storage Service Properties](../fileservices/Set%20Storage%20Service%20Properties.md)   
- [Get Storage Service Properties](../fileservices/Get%20Storage%20Service%20Properties.md)   
  [Setting a Storage Analytics Data Retention Policy](../fileservices/Setting-a-Storage-Analytics-Data-Retention-Policy.md)   
  [Set Blob Service Properties](../fileservices/Set-Blob-Service-Properties.md)   
  [Get Blob Service Properties](../fileservices/Get-Blob-Service-Properties.md)   
  [Set Table Service Properties](../fileservices/Set-Table-Service-Properties.md)   
  [Get Table Service Properties](../fileservices/Get-Table-Service-Properties.md)   
  [Set Queue Service Properties](../fileservices/Set-Queue-Service-Properties.md)   
- [Get Queue Service Properties](../fileservices/Get-Queue-Service-Properties.md)
+ [Get Queue Service Properties](../fileservices/Get-Queue-Service-Properties.md)   
+ [Set File Service Properties](../fileservices/Set-File-Service-Properties.md)   
+ [Get File Service Properties](../fileservices/Get-File-Service-Properties.md)
