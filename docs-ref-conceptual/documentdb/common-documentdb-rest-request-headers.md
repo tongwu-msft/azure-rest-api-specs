@@ -43,7 +43,7 @@ translation.priority.mt:
 |**x-ms-max-item-count**|Optional|Number|An integer indicating the maximum number of items to be returned per page. An x-ms-max-item-count of -1 can be specified to let the service determine the optimal item count. This is the recommended configuration value for x-ms-max-item-count|  
 |**x-ms-documentdb-partitionkey**|Optional|Array|The partition key value for the requested document or attachment operation. Required for operations against documents and attachments when the collection definition includes a partition key definition. Supported in API versions 2015-12-16 and newer. Currently, we support single partition key, so this is an array containing just one value.|  
 |**x-ms-session-token**|Required (for session consistency only)|String|A string token used with session level consistency. For more information please refer to<br />                [Using consistency levels in DocumentDB](https://azure.microsoft.com/en-us/documentation/articles/documentdb-consistency-levels/)|  
-|**x-ms-version**|Optional|String|The version of the DocumentDB REST service. The latest version is used when the header is not provided.<br />                For a list of supported API versions please refer to [Azure DocumentDB REST API Reference](index.md)|  
+|**x-ms-version**|Required|String|The version of the DocumentDB REST service. <br />                For a list of supported API versions please refer to [Azure DocumentDB REST API Reference](index.md)|  
   
 ## See Also  
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
