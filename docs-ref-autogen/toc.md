@@ -329,6 +329,7 @@
 #### [Delete certificate contacts](../docs-ref-conceptual/keyvault/../../docs-ref-autogen/keyvault/DeleteCertificateContacts.json)
 ## [About Keys, Secrets and Certificates](../docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md)
 ## [Authentication, Requests and Responses](../docs-ref-conceptual/keyvault/authentication--requests-and-responses.md)
+## [Common parameters and headers](../docs-ref-conceptual/keyvault/common-parameters-and-headers.md)
 ## [Key Vault Versions](../docs-ref-conceptual/keyvault/key-vault-versions.md)
 ## -- Key Vault operations (alphabetical) --
 ## [Backup Key](keyvault/BackupKey.json)
@@ -375,9 +376,6 @@
 ## [verify](keyvault/verify.json)
 ## [wrap Key](keyvault/wrapKey.json)
 # [Log Analytics](../docs-ref-conceptual/loganalytics/index.md)
-## [Data Sources](loganalytics/DataSources.json)
-## [Linked Services](loganalytics/LinkedServices.json)
-## [Workspaces](loganalytics/Workspaces.json)
 # [Logic Apps](../docs-ref-conceptual/logic/index.md)
 ## [Actions and Triggers](../docs-ref-conceptual/logic/actions-and-triggers.md)
 ## [Definition Language](../docs-ref-conceptual/logic/definition-language.md)
