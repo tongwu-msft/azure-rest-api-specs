@@ -1,31 +1,10 @@
 ---
-title: "About Keys, Secrets and Certificates"
-ms.custom: ""
-ms.date: "2016-11-11"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "key-vault"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-applies_to:
-  - "Azure Key Vault"
 ms.assetid: abd1b743-1d58-413f-afc1-d08ebf93828a
-caps.latest.revision: 44
-author: "bruceperlerMS"
-ms.author: "bruceper"
-manager: "mbaldwin"
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: About Keys, Secrets and Certificates | Microsoft Docs
+ms.service: key-vault
+author: BrucePerlerMS
+ms.author: bruceper
+manager: mbaldwin
 ---
 # About keys, secrets, and certificates
 Azure Key Vault enables users to store and use cryptographic keys within the Microsoft Azure environment. Azure Key Vault supports multiple key types and algorithms and enables the use of Hardware Security Modules (HSM) for high value customer keys. In addition, Azure Key Vault allows users to securely store secrets, limited size octet objects. Key Vault applies no specific semantics to secrets.
@@ -352,7 +331,9 @@ For more information on these features and behaviors, see the following sections
 ###  <a name="BKMK_CompositionOfCertificate"></a> Composition of a Certificate  
  When a KV certificate is created, an addressable KV key and KV secret is also created with the same name. KV key allows to do key operations and KV secret allows to retrieve the certificate value as a secret. KV Certificate also contains public x509 certificate metadata which will be explained later with the REST API.  
 
- The identifier and version of certificates is similar to keys and secrets. A specific version of addressable key and secret created with the KV Certificate version is available in the KV Certificate response.![Cetificates are complex objects](media/azure-key-vault.jpg)  
+ The identifier and version of certificates is similar to keys and secrets. A specific version of addressable key and secret created with the KV Certificate version is available in the KV Certificate response.
+ 
+ ![Cetificates are complex objects](media/azure-key-vault.png)  
 
 ###  <a name="BKMK_CertificateExportableOrNonExportableKey"></a> Exportable or  Non Exportable key  
  When a KV  certificate is created, it can be retrieved from the addressable secret with the private key in either pfx or pem format and if the policy used to create the certificate indicated key is exportable. If the policy used to create KV Certificate indicated key to be non-exportable, then the private key is not a part of value when retrieved as a secret.  
@@ -489,3 +470,4 @@ For more information on these features and behaviors, see the following sections
 - [Authentication, requests, and responses](authentication--requests-and-responses.md)
 - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
 - [Key Vault versions](key-vault-versions.md)
+- [Key Vault Developer's Guide](/azure/key-vault/key-vault-developers-guide)
