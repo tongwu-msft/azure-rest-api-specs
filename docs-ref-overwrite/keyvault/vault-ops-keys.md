@@ -4,7 +4,7 @@ authorization: The operation requires the keys/create permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 ---
 
 Creates a new key, stores it, then returns key parameters and attributes to the client. The CREATE operation can be used to create any key type in Azure Key Vault. If the named key already exists, Azure Key Vault creates a new version of the key.
@@ -22,7 +22,7 @@ authorization: The operation requires the keys/import permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 ---
 
 Imports an externally created key, stores it, and returns key parameters and attributes to the client. The IMPORT operation may be used to import any key type into an Azure Key Vault. If the named key already exists, Azure Key Vault creates a new version of the key.
@@ -42,7 +42,7 @@ authorization: The operation requires the keys/delete permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 
 ---
 
@@ -61,7 +61,7 @@ Authorization: The operation requires the keys/update permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 ---
 The UPDATE operation changes specified attributes of a stored key and can be applied to any key type and key version stored in Azure Key Vault. The cryptographic material of a key itself cannot be changed.
 
@@ -81,7 +81,7 @@ Authorization: The operation requires the keys/get permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 
 ---
 
@@ -101,7 +101,7 @@ Authorization: The operation requires the keys/list permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 ---
 
 The LIST VERSIONS operation is applicable for all versions having the same key name. The full key identifier, attributes, and tags are provided in the response.
@@ -121,7 +121,7 @@ Authorization: The operation requires the keys/list permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 ---
 
 The LIST operation is applicable to all key types, however only the base key identifier,attributes, and tags are provided in the response. Individual versions of a key are not listed in the response.
@@ -141,7 +141,7 @@ Authorization: The operation requires the keys/backup permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 ---
 
 Backup operation exports a key from Azure Key Vault in a protected form. Note that this operation does NOT return key material in a form that can be used outside the Azure Key Vault system, the returned key material is either protected to a Azure Key Vault HSM or to Azure Key Vault itself. The intent of this operation is to allow a client to GENERATE a key in one Azure Key Vault instance, BACKUP the key, and then RESTORE it into another Azure Key Vault instance.
@@ -165,7 +165,7 @@ Authorization: The operation requires the keys/restore permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 ---
 
 Imports a previously backed up key into Azure Key Vault, restoring the key, its key identifier, attributes and access control policies.
@@ -191,7 +191,7 @@ Authorization: The operation requires the keys/encrypt permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 ---
 
 Note that the ENCRYPT operation only supports a single block of data, the size of which is dependent on the target key and the encryption algorithm to be used.
@@ -211,7 +211,7 @@ Authorization: The operation requires the keys/decrypt permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 ---
 
 The DECRYPT operation decrypts a well-formed block of ciphertext using the target encryption key and specified algorithm. This operation is the reverse of the ENCRYPT operation; only a single block of data may be decrypted, the size of this block is dependent on the target key and the algorithm to be used.
@@ -232,7 +232,7 @@ Authorization: The operation requires the keys/sign permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 ---
 
 SIGN is applicable to asymmetric and symmetric keys stored in Azure Key Vault since this operation uses the private portion of the key.
@@ -250,7 +250,7 @@ Authorization: The operation requires the keys/verify permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 ---
 
 VERIFY is applicable to symmetric keys stored in Azure Key Vault. VERIFY is not strictly necessary for asymmetric keys stored in Azure Key Vault since signature verification can be performed using the public portion of the key but this operation is supported as a convenience for callers that only have a key-reference and not the public portion of the key.
@@ -268,7 +268,7 @@ Authorization: The operation requires the keys/wrap permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 ---
 The WRAP operation supports encryption of a symmetric key using a key encryption key that has previously been stored in an Azure Key Vault.
 
@@ -289,7 +289,7 @@ Authorization: The operation requires the keys/backup permission.
 parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
-summary: *content
+description: *content
 ---
 
 The UNWRAP operation supports decryption of a symmetric key using the target key encryption key. This operation is the reverse of the WRAP operation.
