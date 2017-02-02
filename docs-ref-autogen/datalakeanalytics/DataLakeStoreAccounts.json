@@ -599,6 +599,37 @@
             "modelAsString": false
           },
           "description": "the commitment tier in use for the current month."
+        },
+        "firewallState": {
+          "type": "string",
+          "description": "The current state of the IP address firewall for this Data Lake Analytics account.",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "x-ms-enum": {
+            "name": "FirewallState",
+            "modelAsString": false
+          }
+        },
+        "firewallAllowAzureIps": {
+          "type": "string",
+          "description": "The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced.",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "x-ms-enum": {
+            "name": "FirewallAllowAzureIpsState",
+            "modelAsString": false
+          }
+        },
+        "firewallRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FirewallRule"
+          },
+          "description": "The list of firewall rules associated with this Data Lake Analytics account."
         }
       },
       "description": "The account specific properties that are associated with an underlying Data Lake Analytics account."
@@ -642,6 +673,37 @@
             "modelAsString": false
           },
           "description": "the commitment tier to use for next month."
+        },
+        "firewallState": {
+          "type": "string",
+          "description": "The current state of the IP address firewall for this Data Lake Analytics account.",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "x-ms-enum": {
+            "name": "FirewallState",
+            "modelAsString": false
+          }
+        },
+        "firewallAllowAzureIps": {
+          "type": "string",
+          "description": "The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced.",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "x-ms-enum": {
+            "name": "FirewallAllowAzureIpsState",
+            "modelAsString": false
+          }
+        },
+        "firewallRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FirewallRule"
+          },
+          "description": "The list of firewall rules associated with this Data Lake Analytics account."
         }
       },
       "description": "The properties to update that are associated with an underlying Data Lake Analytics account to."
@@ -732,25 +794,81 @@
       },
       "description": "DataLakeAnalytics Account list information."
     },
-    "ErrorDetails": {
+    "DataLakeAnalyticsFirewallRuleListResult": {
       "properties": {
-        "code": {
-          "type": "string",
+        "value": {
+          "type": "array",
           "readOnly": true,
-          "description": "the HTTP status code or error code associated with this error"
+          "items": {
+            "$ref": "#/definitions/FirewallRule"
+          },
+          "description": "the results of the list operation"
         },
-        "message": {
+        "nextLink": {
           "type": "string",
           "readOnly": true,
-          "description": "the error message localized based on Accept-Language"
-        },
-        "target": {
-          "type": "string",
-          "readOnly": true,
-          "description": "the target of the particular error (for example, the name of the property in error)."
+          "description": "the link (url) to the next page of results."
         }
       },
-      "description": "Generic resource error details information."
+      "description": "Data Lake Analytics firewall rule list information."
+    },
+    "FirewallRuleProperties": {
+      "required": [
+        "startIpAddress",
+        "endIpAddress"
+      ],
+      "properties": {
+        "startIpAddress": {
+          "type": "string",
+          "description": "the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol."
+        },
+        "endIpAddress": {
+          "type": "string",
+          "description": "the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol."
+        }
+      },
+      "description": "Data Lake Analytics firewall rule properties information"
+    },
+    "FirewallRule": {
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/OptionalSubResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/FirewallRuleProperties",
+          "description": "the properties of the firewall rule.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "description": "Data Lake Analytics firewall rule information"
+    },
+    "UpdateFirewallRuleProperties": {
+      "properties": {
+        "startIpAddress": {
+          "type": "string",
+          "description": "the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol."
+        },
+        "endIpAddress": {
+          "type": "string",
+          "description": "the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol."
+        }
+      },
+      "description": "Data Lake Analytics firewall rule properties information"
+    },
+    "UpdateFirewallRuleParameters": {
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/UpdateFirewallRuleProperties",
+          "description": "the properties of the firewall rule to update.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "description": "Data Lake Analytics firewall rule update parameters"
     },
     "Resource": {
       "description": "The Resource model definition.",
@@ -786,6 +904,25 @@
         "location"
       ],
       "x-ms-azure-resource": true
+    },
+    "OptionalSubResource": {
+      "description": "The Resource model definition for a nested resource with no required properties.",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource Id"
+        },
+        "name": {
+          "type": "string",
+          "description": "Resource name"
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type"
+        }
+      }
     },
     "SubResource": {
       "description": "The Sub Resource model definition.",

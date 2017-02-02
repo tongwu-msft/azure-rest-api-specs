@@ -135,6 +135,7 @@
 ## [Account](datalakeanalytics/Account.json)
 ## [Catalog](datalakeanalytics/Catalog.json)
 ## [Data Lake Store Accounts](datalakeanalytics/DataLakeStoreAccounts.json)
+## [Firewall Rules](datalakeanalytics/FirewallRules.json)
 ## [Job](datalakeanalytics/Job.json)
 ## [Storage Accounts](datalakeanalytics/StorageAccounts.json)
 # [Data Lake Store](../docs-ref-conceptual/datalakestore/index.md)
