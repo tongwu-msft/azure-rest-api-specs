@@ -49,5 +49,6 @@
 ### [Delete certificate contacts](../../docs-ref-autogen/keyvault/DeleteCertificateContacts.json)
 # [About Keys, Secrets and Certificates](about-keys--secrets-and-certificates.md)
 # [Authentication, Requests and Responses](authentication--requests-and-responses.md)
+# [Common parameters and headers](common-parameters-and-headers.md)
 # [Key Vault Versions](key-vault-versions.md)
 # -- Key Vault operations (alphabetical) --

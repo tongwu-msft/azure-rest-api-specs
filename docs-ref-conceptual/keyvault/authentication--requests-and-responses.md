@@ -1,31 +1,10 @@
 ---
-title: "Authentication, Requests and Responses"
-ms.custom: ""
-ms.date: "2016-11-11"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "key-vault"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-applies_to:
-  - "Azure Key Vault"
 ms.assetid: 4c321939-8a5b-42ca-83c4-2f5f647ca13e
-caps.latest.revision: 12
-author: "bruceperlerMS"
-ms.author: "bruceper"
-manager: "mbaldwin"
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+ms.service: key-vault
+title: Authentication, requests and responses
+author: BrucePerlerMS
+ms.author: bruceper
+manager: mbaldwin
 ---
 # Authentication, requests, and responses
 The Azure Key Vault supports JSON formatted requests and responses. Requests to the Azure Key Vault are directed to a valid Azure Key Vault URL using HTTPS with some URL parameters and JSON encoded request and response bodies.  

@@ -1,20 +1,10 @@
 ﻿---
-title: "Create a Certificate"
-ms.custom: ""
-ms.date: "2016-11-11"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "key-vault"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-applies_to:
-  - "Azure Key Vault"
 ms.assetid: e17b4c9b-4ff3-472f-8c9d-d130eb443968
-caps.latest.revision: 11
-author: "bruceperlerMS"
-ms.author: "bruceper"
-manager: "mbaldwin"
+title: Certificate creation methods | Microsoft Docs
+ms.service: key-vault
+author: BrucePerlerMS
+ms.author: bruceper
+manager: mbaldwin
 ---
 # Certificate creation methods
 Applies To: Azure  
