@@ -141,7 +141,6 @@
 # [Data Lake Store](../docs-ref-conceptual/datalakestore/index.md)
 ## [WebHDFS Support](../docs-ref-conceptual/datalakestore/webhdfs-filesystem-apis.md)
 ## [Account](datalakestore/Account.json)
-## [File System](datalakestore/FileSystem.json)
 ## [Firewall Rules](datalakestore/FirewallRules.json)
 ## [Trusted Id Providers](datalakestore/TrustedIdProviders.json)
 # [DNS](../docs-ref-conceptual/dns/index.md)
