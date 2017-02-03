@@ -46,7 +46,7 @@ The response includes an HTTP status code and a set of response headers.
 | **403 Forbidden** | Caller doesn’t have the privilege to call this API. |
 | **409 Conflict** | Either another operation is changing the resource in an incompatible way, or the disk is in an incompatible state. Retry the operation. |
 | **429 Too Many Requests** | The operation is being throttled. |
-| **500 Internal Server Error** |  A server side error has happened. Retry the operation. |
+| **500 Internal Server Error** |  A server-side error has happened. Retry the operation. |
 
 ```json
 {

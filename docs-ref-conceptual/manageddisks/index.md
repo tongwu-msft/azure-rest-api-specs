@@ -12,6 +12,6 @@ ms.manager: timt
 
 Azure Managed Disks REST APIs include:
 
-- **[Disks](disks/disks-api.md)**: This API provides programmatic access to your managed disks.
-- **[Images](images/images-api.md)**: This API provides programmatic access to your virtual machine images. 
-- **[Snapshots](snapshots/snapshots-api.md)**: This API provides programmatic access to your snapshots.
+- **[Disks](disks/disks-rest-api.md)**: This API provides programmatic access to your managed disks.
+- **[Images](images/images-rest-api.md)**: This API provides programmatic access to your virtual machine images. 
+- **[Snapshots](snapshots/snapshots-rest-api.md)**: This API provides programmatic access to your snapshots.

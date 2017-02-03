@@ -16,7 +16,7 @@ This table lists the operations included in the Snapshots REST API.
 | Operation | REST Verb | Description | 
 |---------|---------|-----------|
 | [Begin access to a blob associated with a snapshot](../snapshots/snapshots-grant-access.md) |  POST | Provides access to a blob associated with a snapshot. |  
-| [Create a snapshot](../snapshots/snapshots-create-or-update.md) | PUT | Creates a new snapshot. | 
+| [Create a snapshot](../snapshots/snapshots-create-or-update.md) | PUT | Creates a snapshot. | 
 | [Delete a snapshot](../snapshots/snapshots-delete.md) | DELETE | Deletes the specified snapshot. |  
 | [End access to a blob associated with a snapshot](../snapshots/snapshots-revoke-access.md) | POST | Removes access to the blob associated with a snapshot. |
 | [Get information about a snapshot](../snapshots/snapshots-get.md) | GET | Gets information about the specified snapshot. |  

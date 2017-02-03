@@ -13,7 +13,7 @@ manager: timt
 
 Updates the specified snapshot.
 
-You can update some of the properties of an existing snapshot using either PUT or PATCH. The difference is that PUT calls need to pass all the mandatory fields in the snapshot description.  If the snapshot already exists,  the data is compared in the PUT call with the existing snapshot’s data, and the call is rejected if the change is inconsistent. For PATCH, all fields in the snapshot description are optional; missing parameters in a PATCH are interpreted to mean no change of the property is requested. 
+You can update some of the properties of an existing snapshot using either PUT or PATCH. The difference is that PUT calls need to pass all the mandatory fields in the snapshot description.  If the snapshot already exists, the data is compared in the PUT call with the existing snapshot’s data, and the call is rejected if the change is inconsistent. For PATCH, all fields in the snapshot description are optional. Missing parameters in a PATCH are interpreted to mean no change of the property is requested. 
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
   
@@ -72,9 +72,9 @@ The response includes an HTTP status code and a set of response headers.
 | **404 NotFound** | Source not found. The source can be the platform image, the source disk, or the blob pointed to by the URL. |
 | **409 Conflict** | Either another operation is changing the resource in an incompatible way, or the disk is in an incompatible state. Retry the operation. | 
 | **429 Too Many Requests** | The operation is being throttled. |
-| **500 Internal Server Error** | A server side error has happened. Retry the operation. |    
+| **500 Internal Server Error** | A server-side error has happened. Retry the operation. |    
 
-This reponse example includes all optional elements. Your actual response may not include all elements.
+This response example includes all optional elements. Your actual response may not include all elements.
 
 ```json
 { 

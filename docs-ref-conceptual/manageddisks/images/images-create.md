@@ -106,7 +106,7 @@ The structure of the request body depends on how you want to create a virtual ma
 | Element name | Description |
 | ------------ | ----------- |
 | **location** | Specifies the location of the virtual machine image. |
-| **osType** | Specifies the type of operating system contained in the the virtual machine image. Possible values are: **Windows** or **Linux**. |
+| **osType** | Specifies the type of operating system contained in the virtual machine image. Possible values are: **Windows** or **Linux**. |
 | **managedDisk** | Specifies the identifier of the managed disk that you want to use to create the virtual machine image. |
 | **osState** | Specifies the state of the operating system contained in the managed disk. Possible values are: **generalized** or **specialized**. |
 
@@ -236,13 +236,13 @@ You can assign tags for tracking purposes to the virtual machine images that you
 }
 ```
 
-You can resize a operating system disk or the data disk in the virtual machine image as you create it by adding `diskSizeGB`. The target size can't be smaller than the source size: 
+You can resize an operating system disk or the data disk in the virtual machine image as you create it by adding `diskSizeGB`. The target size can't be smaller than the source size: 
 
 ```json
 "diskSizeGB": 200 
 ```
 
-You can specify the type of storage account that is used for a VM disk created from a virtual machine image by adding `storageAccountType`. The default is Standard_LRS:
+You can specify the type of storage account that is used for a VM disk by adding `storageAccountType`. The default is Standard_LRS:
 
 ```json
 "storageAccountType": "Premium_LRS",
@@ -274,9 +274,9 @@ The response includes an HTTP status code and a set of response headers.
 | **404 NotFound** | Source not found. |
 | **409 Conflict** | Either another operation is changing the resource in an incompatible way, or the source is in an incompatible state. Retry the operation. | 
 | **429 Too Many Requests** | The operation is being throttled. |
-| **500 Internal Server Error** |  A server side error has happened. Retry the operation. |
+| **500 Internal Server Error** |  A server-side error has happened. Retry the operation. |
 
-This reponse example includes all optional elements. Your actual response may not include all elements.
+This response example includes all optional elements. Your actual response may not include all elements.
 
 ```json
 {

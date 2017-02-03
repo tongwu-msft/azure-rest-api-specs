@@ -37,7 +37,7 @@ For information about getting started with Azure REST operations including reque
 
 | Element name | Description |
 | ------------ | ----------- |
-| **access** | Specifies the type of access. Only read URIs are supported at this time. |
+| **access** | Specifies the type of access. Only read URIs are supported currently. |
 | **durationInSeconds** | Specifies the SAS timeout. If the SAS expires, you can call the operation again to get a new SAS. |
 
 ## Response  
@@ -59,7 +59,7 @@ The response includes an HTTP status code and a set of response headers.
 | **404 NotFound** | Source not found. The source can be the platform image, the source disk, or the blob pointed to by the URL. |
 | **409 Conflict** | Either another operation is changing the resource in an incompatible way, or the disk is in an incompatible state. Retry the operation. | 
 | **429 Too Many Requests** | The operation is being throttled. |
-| **500 Internal Server Error** | A server side error has happened. Retry the operation. |
+| **500 Internal Server Error** | A server-side error has happened. Retry the operation. |
  
 ```json
 {  
