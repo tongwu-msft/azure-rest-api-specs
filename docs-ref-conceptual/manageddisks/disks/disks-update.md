@@ -15,7 +15,7 @@ Updates the specified managed disk.
 
 You can update some of the properties of an existing managed disk using either PUT or PATCH. The difference is that PUT calls need to pass all the mandatory fields in the disk description.  If the disk already exists, the data is compared in the PUT call with the existing disk’s data, and the call is rejected if the change is inconsistent. For PATCH, all fields in the disk description are optional. Missing parameters in a PATCH are interpreted to mean no change of the property is requested. 
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
   
 ## Request
 

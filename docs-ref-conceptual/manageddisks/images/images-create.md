@@ -13,7 +13,7 @@ manager: timt
 
 Creates a virtual machine image using the specified blob, snapshot, managed disk, or existing virtual machine.
   
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
   
 ## Request
 

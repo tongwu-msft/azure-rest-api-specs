@@ -13,7 +13,7 @@ manager: timt
 
 Ends the access to a blob that was started by the begin access operation.
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 
 ## Request
 

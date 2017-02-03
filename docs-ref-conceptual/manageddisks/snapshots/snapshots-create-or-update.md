@@ -20,7 +20,7 @@ Create a snapshot in one of these ways:
 - From importing an unmanaged blob in a different subscription
 - From restoring a previous snapshot 
   
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
   
 ## Request
 
