@@ -14,10 +14,10 @@ The Storage Resource Provider (SRP) enables you to manage your storage account a
 
 The Storage Resource Provider requires all requests to be versioned. To make a request against the SRP, you must specify the version that you want to use for that operation. The currently supported versions are:
 
-* 2015-05-01-preview
-* 2015-06-15
-* 2016-01-01
 * 2016-12-01
+* 2016-01-01
+* 2015-06-15
+* 2015-05-01-preview
 
 ## REST Operation Groups
 
