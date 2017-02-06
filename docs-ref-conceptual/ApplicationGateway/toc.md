@@ -1,4 +1,3 @@
-# [Application Gateway REST](application-gateway-rest.md)
 ## [Operations on Application Gateway](operations-on-application-gateway.md)
 ### [Create or update an application gateway](create-or-update-an-application-gateway.md)
 ### [Get Application Gateway](get-application-gateway.md)
