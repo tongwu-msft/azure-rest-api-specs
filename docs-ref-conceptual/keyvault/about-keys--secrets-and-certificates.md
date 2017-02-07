@@ -328,20 +328,6 @@ Key Vault certificates support provides for management of your x509 certificates
 
 For more information on these features and behaviors, see the following sections of this article.
 
-#### X509 to Key Vault usage mapping
-
-The following table represents the mapping of x509 key usage policy to effective key operations of a key created as part of the Key Vault certificate creation.
-
-|**X509 Key Usage flags**|**Key Vault key ops**|**Default behavior**|
-|-------------------|---------------|---------------|
-|DataEncipherment|encrypt, decrypt| N/A |
-|DecipherOnly|decrypt| N/A  |
-|DigitalSignature|sign, verify| Key Vault default without a usage specification at certificate creation time | 
-|EncipherOnly|encrypt| N/A |
-|KeyCertSign|sign, verify|
-|KeyEncipherment|wrapKey, unwrapKey| Key Vault default without a usage specification at certificate creation time | 
-|NonRepudiation|sign, verify| N/A |
-|crlsign|sign, verify| N/A |
 
 
 ###  <a name="BKMK_CompositionOfCertificate"></a> Composition of a Certificate  
@@ -409,6 +395,21 @@ The following table represents the mapping of x509 key usage policy to effective
 -   Issuer: Parameters about the certificate issuer to use to issue x509 certificates.  
 
 -   Policy Attributes: contains attributes associated with the policy  
+
+#### X509 to Key Vault usage mapping
+
+The following table represents the mapping of x509 key usage policy to effective key operations of a key created as part of a Key Vault certificate creation.
+
+|**X509 Key Usage flags**|**Key Vault key ops**|**Default behavior**|
+|-------------------|---------------|---------------|
+|DataEncipherment|encrypt, decrypt| N/A |
+|DecipherOnly|decrypt| N/A  |
+|DigitalSignature|sign, verify| Key Vault default without a usage specification at certificate creation time | 
+|EncipherOnly|encrypt| N/A |
+|KeyCertSign|sign, verify|N/A|
+|KeyEncipherment|wrapKey, unwrapKey| Key Vault default without a usage specification at certificate creation time | 
+|NonRepudiation|sign, verify| N/A |
+|crlsign|sign, verify| N/A |
 
 ###  <a name="BKMK_CertificateIssuer"></a> Certificate Issuer  
  A KV Certificate object holds a configuration to use to communicate with a selected certificate issuer provider to order x509 certificates.  
