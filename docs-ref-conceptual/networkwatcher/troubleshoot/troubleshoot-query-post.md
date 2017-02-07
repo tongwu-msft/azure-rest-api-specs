@@ -6,7 +6,7 @@ ms.service: network-watcher
 ms.topic: reference
 ms.assetid: 
 author: gwallace
-manager: timt
+manager: timlt
 ---
 
 # Query the status of a troubleshoot request on a resource

@@ -4,7 +4,7 @@ ms.title: Network Watcher REST APIs
 ms.service: network-watcher
 author: georgewallace
 ms.author: gwallace
-ms.manager: timt
+ms.manager: timlt
 ---
 
 
