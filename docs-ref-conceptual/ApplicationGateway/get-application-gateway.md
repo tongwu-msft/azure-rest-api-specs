@@ -31,7 +31,7 @@ Retrieve an application gateway properties.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}|  
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}`|  
   
  *Replace {ApplicationGatewayName} with the name of the application gateway to get its properties.*  
   

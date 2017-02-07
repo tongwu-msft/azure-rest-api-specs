@@ -31,13 +31,13 @@ Create or update an application gateway zone within a resource *group*.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationgateways/{ApplicationGatewayName}|  
+|PUT|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationgateways/{ApplicationGatewayName}`|  
   
  Replace {ApplicationGatewayName} with the name of the application gateway to be created.  The application gateway name must be unique within the resource group and be in its own empty virtual network subnet.  
   
 ## Request Body  
   
-```  
+```json 
 {   
   "name": "<gatewayName>",  
   "id": "/subscriptions/<subscriptionId>/../microsoft.network/applicationGateways/<gatewayName> ",  

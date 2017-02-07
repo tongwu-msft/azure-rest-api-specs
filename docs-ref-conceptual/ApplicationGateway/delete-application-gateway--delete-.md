@@ -31,7 +31,7 @@ Delete an application gateway resource.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|*DELETE*|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}`|  
+|DELETE|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}`|  
   
  *Replace {ApplicationGatewayName} with the name of the application gateway you want to delete.*  
   

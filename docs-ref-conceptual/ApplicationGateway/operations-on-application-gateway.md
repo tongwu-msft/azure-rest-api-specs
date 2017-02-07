@@ -43,14 +43,14 @@ Enables you to manage application gateways. It includes operations such as creat
 ## Tasks  
  You can do the following with application gateways:  
   
--   [Create or update an application gateway](../AppGatewayRESTResourceManager/create-or-update-an-application-gateway.md)  
+-   [Create or update an application gateway](create-or-update-an-application-gateway.md)  
   
--   [Get Application Gateway](../AppGatewayRESTResourceManager/get-application-gateway.md)  
+-   [Get Application Gateway](get-application-gateway.md)  
   
--   [List application gateways (GET)](../AppGatewayRESTResourceManager/list-application-gateways--get-.md)  
+-   [List application gateways (GET)](list-application-gateways--get-.md)  
   
--   [Delete Application Gateway (DELETE)](../AppGatewayRESTResourceManager/delete-application-gateway--delete-.md)  
+-   [Delete Application Gateway (DELETE)](delete-application-gateway--delete-.md)  
   
--   [Start Application Gateway](../AppGatewayRESTResourceManager/start-application-gateway.md)  
+-   [Start Application Gateway](start-application-gateway.md)  
   
--   [Stop Application Gateway](../AppGatewayRESTResourceManager/stop-application-gateway.md)
+-   [Stop Application Gateway](stop-application-gateway.md)

@@ -31,7 +31,7 @@ Start an application gateway resource.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|*POST*|`https://management.azure.com/subscriptions/{subscriptionId<subscription-id>/services/networking/applicationGateways/{applicationGatewayName}/Start`|  
+|POST|`https://management.azure.com/subscriptions/{subscriptionId<subscription-id>/services/networking/applicationGateways/{applicationGatewayName}/Start`|  
   
  *Replace {ApplicationGatewayName} with the name of the application gateway you want to start.*  
   

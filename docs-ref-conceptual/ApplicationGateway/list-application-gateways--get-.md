@@ -31,7 +31,7 @@ Lists all application gateways that belong to a subscription.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|*GET*|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways`|  
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways`|  
   
 ### Response body  
  A collection of results of the GET on Application Gateway  

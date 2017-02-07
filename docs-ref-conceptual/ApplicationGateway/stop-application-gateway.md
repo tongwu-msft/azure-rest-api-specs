@@ -31,7 +31,7 @@ Stop an application gateway resource.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|*POST*|`https://management.azure.com/subscriptions/{subscriptionId<subscription-id>/services/networking/applicationGateways/{applicationGatewayName}/stop`|  
+|POST|`https://management.azure.com/subscriptions/{subscriptionId<subscription-id>/services/networking/applicationGateways/{applicationGatewayName}/stop`|  
   
  *Replace {ApplicationGatewayName} with the name of the application gateway you want to stop.*  
   
