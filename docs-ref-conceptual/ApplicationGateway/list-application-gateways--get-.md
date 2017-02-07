@@ -25,13 +25,16 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # List application gateways (GET)
+
 Lists all application gateways that belong to a subscription.  
-  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways`|  
   
 ### Response body  
  A collection of results of the GET on Application Gateway  

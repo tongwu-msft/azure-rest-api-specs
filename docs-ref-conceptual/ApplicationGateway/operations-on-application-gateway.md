@@ -25,8 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Operations on Application Gateway
+
 Enables you to manage application gateways. It includes operations such as create, update, configure SSL, cookie affinity and others using RESTful API calls.  
-  
+
+
 ##  <a name="bk_common"></a> Common parameters and headers  
  The following information is common to all tasks:  
   
@@ -38,8 +40,10 @@ Enables you to manage application gateways. It includes operations such as creat
   
 -   Set the Content-Type header to **application/json**.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [“Authenticating Azure Resource Manager requests”](https://msdn.microsoft.com/en-us/library/azure/dn790557.aspx).  
-  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [“Authenticating Azure Resource Manager requests”](https://msdn.microsoft.com/en-us/library/azure/dn790557.aspx). 
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Tasks  
  You can do the following with application gateways:  
   
