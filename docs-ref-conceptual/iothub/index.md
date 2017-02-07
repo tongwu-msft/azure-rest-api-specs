@@ -32,6 +32,8 @@ The REST APIs for IoT Hub offer programmatic access to the device, messaging, an
   
 -   [Device Identities](~/docs-ref-autogen/iothub/DeviceApi.json)  
   
+-   [Device Twins](~/docs-ref-autogen/iothub/DeviceTwinApi.json)
+
 -   [Device Messaging](~/docs-ref-autogen/iothub/HttpRuntime.json)  
 
 -   [Jobs](~/docs-ref-autogen/iothub/JobApi.json)
@@ -42,6 +44,9 @@ The REST APIs for IoT Hub offer programmatic access to the device, messaging, an
 
 ## Device Identities
 Use these APIs to manage device identities in the identity registry of an IoT hub. All task operations conform to the HTTP/1.1 protocol specification and each operation returns an `x-ms-request-id` header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure. For more information, see [IoT Hub Developer Guide – Security](https://azure.microsoft.com/documentation/articles/iot-hub-devguide#security) for the specifics on how to create security tokens.
+
+## Device Twins
+Use this API to manage IoT Hub [device twins](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-device-twins). You can retrieve and update device twin properties and invoke [direct methods](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-direct-methods) on devices. All task operations conform to the HTTP/1.1 protocol specification. You must make sure that requests made to these resources are secure. For more information, see [IoT Hub Developer Guide - Security](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security) for specific information about how to create security tokens.
 
 ## Device Messaging
 Use these APIs from a device to send device-to-cloud messages to an IoT hub, and receive cloud-to-device messages from an IoT hub. All task operations conform to the HTTP/1.1 protocol specification. You must make sure that requests made to these resources are secure. For more information, see [IoT Hub Developer Guide - Security](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security) for specific information about how to create security tokens.
