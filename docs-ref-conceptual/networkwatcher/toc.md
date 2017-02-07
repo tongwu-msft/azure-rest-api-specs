@@ -1,4 +1,4 @@
-# [Network Watcher](network-watcher-rest-api.md)
+# [Network Watcher](index.md)
 ## [Network Watcher](network-watcher-rest-api.md)
 ### [Create or update a Network Watcher](network-watcher-create-update.md)
 ### [Get a Network Watcher](network-watcher-get.md)
@@ -16,3 +16,7 @@
 ### [List all packet capture sessions](packet-capture/packet-capture-list.md)
 ### [Query packet capture session status](packet-capture/packet-capture-query-status.md)
 ### [Stop a packet capture](packet-capture/packet-capture-stop.md)
+## [IP flow verify](ip-flow-verify/ip-flow-verify-rest-api.md)
+### [View IP flow](ip-flow-verify/ip-flow-verify-post.md)
+## [Next hop](next-hop/next-hop-rest-api.md)
+### [Get next hop](next-hop/next-hop.get.md)
