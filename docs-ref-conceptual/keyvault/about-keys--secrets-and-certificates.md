@@ -332,7 +332,7 @@ For more information on these features and behaviors, see the following sections
 
 The following table represents the mapping of x509 key usage policy to effective key operations of a key created as part of the Key Vault certificate creation.
 
-|X509 Key Usage flags |Key Vault key ops|Default behavior|
+|**X509 Key Usage flags**|**Key Vault key ops**|**Default behavior**|
 |-------------------|---------------|---------------|
 |DataEncipherment|encrypt, decrypt| N/A |
 |DecipherOnly|decrypt| N/A  |
@@ -415,7 +415,7 @@ The following table represents the mapping of x509 key usage policy to effective
 
 -   Key Vault partners with following certificate issuer providers for SSL certificates  
 
-|Provider Name|Locations|  
+|**Provider Name**|**Locations**|  
 |-------------------|---------------|  
 |DigiCert|Supported in all key vault service locations in public cloud and US gov sovereign cloud|  
 |GlobalSign|Supported in all key vault service locations in public cloud and US gov sovereign cloud|  
