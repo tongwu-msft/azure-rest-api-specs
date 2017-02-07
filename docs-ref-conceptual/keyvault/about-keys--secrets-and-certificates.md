@@ -333,13 +333,13 @@ For more information on these features and behaviors, see the following sections
 The following table represents the mapping of x509 key usage policy to effective key operations of a key created as part of the Key Vault certificate creation.
 
 |X509 Key Usage flags |Key Vault key ops|Default behavior|
-|:---:|:---:|:---:| 
+|-------------------|---------------|---------------|
 |DataEncipherment|encrypt, decrypt| N/A |
 |DecipherOnly|decrypt| N/A  |
-|DigitalSignature|sign, verify| Key Vault default without usage specification at key create time | 
+|DigitalSignature|sign, verify| Key Vault default without a usage specification at certificate creation time | 
 |EncipherOnly|encrypt| N/A |
 |KeyCertSign|sign, verify|
-|KeyEncipherment|wrapKey, unwrapKey| Key Vault default without usage specification at key create time | 
+|KeyEncipherment|wrapKey, unwrapKey| Key Vault default without a usage specification at certificate creation time | 
 |NonRepudiation|sign, verify| N/A |
 |crlsign|sign, verify| N/A |
 
