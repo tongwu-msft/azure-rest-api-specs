@@ -41,7 +41,7 @@ Load balancer allows fine-grained configuration of how incoming traffic is distr
   
 -   [Delete a load balancer](delete-a-load-balancer.md)  
   
--   [Get information about a load balancer ](get-information-about-a-load-balancer .md)  
+-   [Get information about a load balancer ](get-information-about-a-load-balancer.md)  
   
 -   [List load balancers within a resource group](list-load-balancers-within-a-resource-group.md)  
   
