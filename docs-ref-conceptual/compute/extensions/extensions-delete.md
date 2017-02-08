@@ -25,7 +25,7 @@ For information about getting started with Azure REST operations including reque
 | resourceGroup | The name of the resource group that contains the virtual machine. |
 | vm | The name of the virtual machine. |
 | extension | The name of the extension to delete. |
-| apiVersion | The version of the API to use. The current version is 2017-03-30. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |
 
 ## Response    
  
