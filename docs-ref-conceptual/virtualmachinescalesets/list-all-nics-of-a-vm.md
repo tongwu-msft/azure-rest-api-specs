@@ -20,7 +20,7 @@ Retrieves information about network interfaces that are used by a virtual machin
     
 ## Request    
  
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).   
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).   
     
 |Method|Request URI|    
 |------------|-----------------|    

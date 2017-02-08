@@ -20,7 +20,7 @@ Retrieves information about the instance view of a network interface associated 
     
 ## Request    
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).  
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).  
 
 |Method|Request URI|    
 |------------|-----------------|    
@@ -97,11 +97,11 @@ Status code: 200 (OK).
 |location|Specifies the location of the network interface configuration.|    
 |tags|Specifies the tags that are assigned to the network interface configuration. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md).|    
 |provisioningState|Specifies the provisioning state of the network interface configuration.<br /><br /> Possible values are:<br /><br /> **Deleting**<br /><br /> **Failed**<br /><br /> **Succeeded**<br /><br /> **Updating**|    
-|[ipConfigurations](../get-the-instance-view-of-a-nic.md#bk_ipConfigurations)|Specifies the IP configurations for the network interface configuration.|    
+|[ipConfigurations](#ipConfigurations)|Specifies the IP configurations for the network interface configuration.|    
 |virtualMachine|Specifies the identifier of the virtual machine that is associated with the network interface configuration.|    
 |macAddress|Specifies the media access control (MAC) address of the network interface configuration.|    
     
-###  <a name="bk_ipConfigurations"></a> ipConfigurations    
+###  <a name="ipConfigurations"></a> ipConfigurations    
     
 |Element name|Description|    
 |------------------|-----------------|    

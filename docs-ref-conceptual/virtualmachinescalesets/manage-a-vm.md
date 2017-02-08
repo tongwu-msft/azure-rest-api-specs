@@ -20,7 +20,7 @@ Perform management tasks on virtual machine instances in the specified virtual m
     
 ## Request    
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).     
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).     
     
 |Method|Request URI|    
 |------------|-----------------|    

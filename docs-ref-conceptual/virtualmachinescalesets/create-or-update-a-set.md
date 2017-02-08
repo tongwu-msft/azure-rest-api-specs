@@ -22,7 +22,7 @@ Create or updates a virtual machine scale set in the specified subscription.
     
 ## Request 
    
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md). 
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md). 
 
 | Method | Request URI |    
 |--------|-------------|    
@@ -312,7 +312,7 @@ The following example shows the request to create a new virtual machine scale se
     
 |Element name|Required|Type|Description|    
 |------------------|--------------|----------|-----------------|    
-|mode|Yes|String|Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action in [Manage all VMs in a set](../VirtualMachineScaleSetsREST/manage-all-vms-in-a-set.md).<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time.|    
+|mode|Yes|String|Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action in [Manage all VMs in a set](manage-all-vms-in-a-set.md).<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time.|    
     
 ###  <a name="virtualmachineprofile"></a> virtualMachineProfile    
     
@@ -413,7 +413,7 @@ The following example shows the request to create a new virtual machine scale se
 |Element name|Required|Type|Description|    
 |------------------|--------------|----------|-----------------|    
 |name|No|String|Specifies the disk name.|    
-|image|No|String|Specifies the blob uri for user image. A virtual machine scale set creates an os disk in the same container as the user image.<br /><br /> Updating the osDisk image causes the existing  disk to be deleted and a new one created with the new image. If the VM scale set is in Manual upgrade mode then the virtual machines are not updated until they have manualUpgrade  applied to them. See [Manage all VMs in a set](../VirtualMachineScaleSetsREST/manage-all-vms-in-a-set.md) for more information.|    
+|image|No|String|Specifies the blob uri for user image. A virtual machine scale set creates an os disk in the same container as the user image.<br /><br /> Updating the osDisk image causes the existing  disk to be deleted and a new one created with the new image. If the VM scale set is in Manual upgrade mode then the virtual machines are not updated until they have manualUpgrade  applied to them. See [Manage all VMs in a set](manage-all-vms-in-a-set.md) for more information.|    
 |vhdContainers|No|Collection|Specifies the container urls that are used to store operating system disks for the scale set. If not specified, they are implicitly created.|    
 |caching|No|String|Specifies the caching type of the disk.<br /><br /> Possible values are:<br /><br /> **None**<br /><br /> **ReadOnly**<br /><br /> **ReadWrite**. The default value is **None**.|    
 |osType|Yes|String|Specifies the type of operating system on the disk.<br /><br /> Possible values are:<br /><br /> **Windows**<br /><br /> **Linux**|    
@@ -435,7 +435,7 @@ The following example shows the request to create a new virtual machine scale se
 |publisher|No|String|Specifies the publisher of the image used to create the virtual machines in the scale set. For more information about how to find image information, see [Navigating and Selecting Azure Virtual Machine images with PowerShell and the Azure CLI](https://azure.microsoft.com/en-us/documentation/articles/resource-groups-vm-searching/) .|    
 |offer|No|String|Specifies the offer of the image used to create the virtual machines in the scale set.|    
 |sku|No|String|Specifies the SKU of the image used to create the virtual machines in the scale set.|    
-|version|No|String|Specifies the version of the image used to create the virtual machine. You can use the value of latest to use the latest version of an image.<br /><br /> Updating the version of an  image causes the existing  disk to be deleted and a new one created with the new version. If the VM scale set is in Manual upgrade mode then the virtual machines are not updated until they have manualUpgrade  applied to them. See [Manage all VMs in a set](../VirtualMachineScaleSetsREST/manage-all-vms-in-a-set.md) for more information.|    
+|version|No|String|Specifies the version of the image used to create the virtual machine. You can use the value of latest to use the latest version of an image.<br /><br /> Updating the version of an  image causes the existing  disk to be deleted and a new one created with the new version. If the VM scale set is in Manual upgrade mode then the virtual machines are not updated until they have manualUpgrade  applied to them. See [Manage all VMs in a set](manage-all-vms-in-a-set.md) for more information.|    
 |Id|No|String|Specifies the resource identifier of a virtual machine image.|
 |storageAccountType|No|String|Specifies the type of storage account to be used on the disk. Possible values are: **Standard_LRS** or **Premium_LRS**.
 

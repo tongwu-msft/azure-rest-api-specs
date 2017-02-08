@@ -20,7 +20,7 @@ List all of the virtual machines scale sets in the specified subscription.
     
 ## Request    
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).     
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).     
     
 |Method|Request URI|    
 |------------|-----------------|    
@@ -185,7 +185,7 @@ Status code: 200 (OK).
     
 |Element name|Description|    
 |------------------|-----------------|    
-|mode|Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action in [Manage all VMs in a set](../VirtualMachineScaleSetsREST/manage-all-vms-in-a-set.md).<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time.|    
+|mode|Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action in [Manage all VMs in a set](manage-all-vms-in-a-set.md).<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time.|    
     
 ###  <a name="virtualMachineProfile"></a> virtualMachineProfile    
     

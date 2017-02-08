@@ -20,11 +20,11 @@ Deletes a virtual machine from a virtual machine scale set.
     
 ## Request    
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).    
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).    
     
 |Method|Request URI|    
 |------------|-----------------|    
-|DELETE|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}/virtualMachines/{vmInstanceId}?api-version={apiVersion}|    
+|DELETE|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}/virtualMachines/{vmInstanceId}?api-version={apiVersion}`|    
     
 | Parameter | Description |
 | --------- | ----------- |

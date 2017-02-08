@@ -20,7 +20,7 @@ Retrieves information about the instance view of all network interfaces in the s
     
 ## Request    
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
 |Method|Request URI|    
 |------------|-----------------|    

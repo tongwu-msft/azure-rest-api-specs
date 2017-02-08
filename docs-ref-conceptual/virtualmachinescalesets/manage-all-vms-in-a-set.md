@@ -20,7 +20,7 @@ Manage the virtual machines in a Virtual Machine Scale Set. You can use this tas
     
 ## Request    
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).   
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).   
     
 |Method|Request URI|    
 |------------|-----------------|    
