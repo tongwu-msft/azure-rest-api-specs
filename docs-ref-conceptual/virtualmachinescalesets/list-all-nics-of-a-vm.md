@@ -19,14 +19,24 @@ manager: "timlt"
 Retrieves information about network interfaces that are used by a virtual machine in the specified virtual machine scale set.    
     
 ## Request    
- See [Common parameters and headers](../Topic/Virtual%20Machine%20Scale%20Sets_deleted.md#bk_common) for headers and parameters that are used by virtual machine scale sets.    
+ 
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).   
     
 |Method|Request URI|    
 |------------|-----------------|    
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vm-scaleset-name}/virtualMachines/{vm-instance-id}/networkInterfaces?api-version={api-version}`|    
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}/virtualMachines/{vmInstanceId}/networkInterfaces?api-version={api-version}`|   
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription. |
+| resourceGroup | The resource group that contains the scale set. |
+| vmScaleSet | The name of the scale set. |
+| vmInstanceId | The instance identifier of the virtual machine. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. | 
     
 ## Response    
- Status code: 200 (OK).    
+
+Status code: 200 (OK).    
     
 ```    
     
@@ -87,7 +97,7 @@ Retrieves information about network interfaces that are used by a virtual machin
 |name|Specifies the name of the network interface configuration.|    
 |id|Specifies the identifier of the network interface configuration.|    
 |location|Specifies the location of the network interface configuration.|    
-|tags|Specifies the tags that are assigned to the network interface configuration. For more information about using tags, see [Using tags to organize your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/resource-group-using-tags/).|    
+|tags|Specifies the tags that are assigned to the network interface configuration.|    
 |provisioningState|Specifies the provisioning state of the network interface configuration.<br /><br /> Possible values are:<br /><br /> **Deleting**<br /><br /> **Failed**<br /><br /> **Succeeded**<br /><br /> **Updating**|    
 |resourceGuid|Specifies a unique identifier of the network interface instance.|    
 |[ipConfigurations](#ipConfigurations)|Specifies the IP configurations for the network interface configuration.|    

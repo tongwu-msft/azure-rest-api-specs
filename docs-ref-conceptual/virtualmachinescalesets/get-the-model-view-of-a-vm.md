@@ -18,18 +18,25 @@ manager: "timlt"
 # Get the model view of a VM
 Retrieves information about the model view of a virtual machine in the specified virtual machine scale set.    
     
-## Request    
- See [Common parameters and headers](../Topic/Virtual%20Machine%20Scale%20Sets_deleted.md#bk_common) for headers and parameters that are used by virtual machine scale sets.    
+## Request  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).    
     
 |Method|Request URI|    
 |------------|-----------------|    
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vm-scaleset-name}/virtualMachines/{vm-instance-id}?api-version={api-version}`|    
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}/virtualMachines/{vmInstanceId}?api-version={apiVersion}`|    
     
- Replace {vm-instance-id} with the identifier of the virtual machine instance.    
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription. |
+| resourceGroup | The resource group that will contain the virtual machine. |
+| vmScaleSet | The name of the scale set. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |    
     
 ## Response    
- Status code: 200 (OK).    
-    
+
+Status code: 200 (OK).    
+
 ```    
 {     
   "instanceId": "1",    
@@ -141,17 +148,17 @@ Retrieves information about the model view of a virtual machine in the specified
 |Element name|Description|    
 |------------------|-----------------|    
 |instanceId|Specifies the unique identifier of the virtual machine.|    
-|tags|Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/resource-group-using-tags/).|    
-|[sku](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_sku)|Specifies configuration information for virtual machine.|    
+|tags|Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md).|    
+|[sku](#sku)|Specifies configuration information for virtual machine.|    
 |latestModelApplied|Specifies whether the latest virtual machine scale set model is applied to this virtual machine or not. <br />;<br /><br /> **true** - Indicates that the latest virtual machine scale set model is applied to this virtual machine.<br /><br /> **false** -  Indicates **manualUpgrade** mode is being used and this virtual machine hasn’t been manually upgraded yet.|    
-|[storageProfile](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_storageProfile)|Specifies a collection of settings for the storage account associated with the virtual machine.|    
-|[osProfile](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_osProfile)|Specifies a common collection of settings for the operating system configuration of the virtual machine.|    
-|[networkProfile](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_networkProfile)|Specifies a collection of setting for the virtual network associated with the virtual machine.|    
-|[resources](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_resources)|Specifies the extension resources associated with the virtual machine.|    
+|[storageProfile](#storageProfile)|Specifies a collection of settings for the storage account associated with the virtual machine.|    
+|[osProfile](#osProfile)|Specifies a common collection of settings for the operating system configuration of the virtual machine.|    
+|[networkProfile](#networkProfile)|Specifies a collection of setting for the virtual network associated with the virtual machine.|    
+|[resources](#resources)|Specifies the extension resources associated with the virtual machine.|    
 |name|Specifies the name of the virtual machine.|    
-|location|Specifies the supported Azure location where the resource exists. For more information, see [List all of the available geo-locations](../Topic/List%20all%20of%20the%20available%20geo-locations.md) .|    
+|location|Specifies the supported Azure location where the resource exists. For more information, see [List all of the available geo-locations](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations) .|    
     
-###  <a name="bk_sku"></a> sku    
+###  <a name="sku"></a> sku    
     
 |Element name|Description|    
 |------------------|-----------------|    
@@ -159,38 +166,38 @@ Retrieves information about the model view of a virtual machine in the specified
 |tier|Specifies the tier of virtual machine.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic**|    
 |capacity|Specifies the number of  virtual machines in the  scale set.|    
     
-###  <a name="bk_osProfile"></a> osProfile    
+###  <a name="osProfile"></a> osProfile    
     
 |Element name|Description|    
 |------------------|-----------------|    
 |computerName|Specifies the computer name for the virtual machine.|    
 |adminUsername|Specifies the administrator account name of the virtual machine.|    
 |adminPassword|Specifies the administrator password of the virtual machine.|    
-|[secrets](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_secrets)|Specifies a list of certificates on the virtual machine.|    
-|[linuxConfiguration](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_linuxConfiguration)|Specifies the Linux operating system configuration settings.|    
-|[windowsConfiguration](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_windowsConfiguration)|Specifies the Windows Server operating system configuration settings.|    
+|[secrets](#secrets)|Specifies a list of certificates on the virtual machine.|    
+|[linuxConfiguration](#linuxConfiguration)|Specifies the Linux operating system configuration settings.|    
+|[windowsConfiguration](#windowsConfiguration)|Specifies the Windows Server operating system configuration settings.|    
     
-###  <a name="bk_secrets"></a> secrets    
+###  <a name="secrets"></a> secrets    
     
 |Element name|Description|    
 |------------------|-----------------|    
-|[sourceVault](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_sourceVault)|Specifies the key vault to use.|    
-|[vaultCertificates](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_vaultCertificates)|The certificate store in LocalMachine on windows Virtual Machine where the certificate should be added to.|    
+|[sourceVault](#sourceVault)|Specifies the key vault to use.|    
+|[vaultCertificates](#vaultCertificates)|The certificate store in LocalMachine on windows Virtual Machine where the certificate should be added to.|    
     
-###  <a name="bk_sourceVault"></a> sourceVault    
+###  <a name="sourceVault"></a> sourceVault    
     
 |Element name|Description|    
 |------------------|-----------------|    
 |id|Specifies the uri of the Key Vault that contains all of the secrets.|    
     
-###  <a name="bk_vaultCertificates"></a> vaultCertificates    
+###  <a name="vaultCertificates"></a> vaultCertificates    
     
 |Element name|Description|    
 |------------------|-----------------|    
 |certificateUrl|Specifies the URI of the key vault secrets.<br /><br /> {secret-version} is a  versioned key vault secret that is a Base64 encoding of the following JSON Object  encoded in UTF-8:<br /><br /> {   <br />  "data":"\<Base64-encoded-certificate>",   <br />  "dataType":"pfx",<br />  "password":"\<pfx-file-password>" <br />}|    
 |certificateStore|Specifies the certificate store on the virtual machines in the scale set where the certificate is added.|    
     
-###  <a name="bk_linuxConfiguration"></a> linuxConfiguration    
+###  <a name="linuxConfiguration"></a> linuxConfiguration    
     
 |Element name|Description|    
 |------------------|-----------------|    
@@ -198,23 +205,23 @@ Retrieves information about the model view of a virtual machine in the specified
 |path|Specifies the Linux file path that the ssh keys or certificate should be placed at.|    
 |keyData|Specifies a base64 encoded ssh public key.|    
     
-###  <a name="bk_windowsConfiguration"></a> windowsConfiguration    
+###  <a name="windowsConfiguration"></a> windowsConfiguration    
     
 |Element name|Description|    
 |------------------|-----------------|    
 |provisionVMAgent|Indicates whether virtual machine agent should be provisioned on the virtual machines in the scale set.|    
-|[winRM](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_winRM)|Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.|    
-|[additionalUnattendContent](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_additionalUnattendContent)|Specifies additional base-64 encoded XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup.|    
+|[winRM](#winRM)|Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.|    
+|[additionalUnattendContent](#additionalUnattendContent)|Specifies additional base-64 encoded XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup.|    
 |enableAutomaticUpdates|Indicates whether virtual machines in the scale set are enabled for automatic updates.|    
     
-###  <a name="bk_winRM"></a> winRM    
+###  <a name="winRM"></a> winRM    
     
 |Element name|Description|    
 |------------------|-----------------|    
 |protocol|Specifies the protocol of listener.|    
 |certificateUrl|Specifies the URI of the key vault secrets.|    
     
-###  <a name="bk_additionalUnattendContent"></a> additionalUnattendContent    
+###  <a name="additionalUnattendContent"></a> additionalUnattendContent    
     
 |Element name|Description|    
 |------------------|-----------------|    
@@ -223,14 +230,15 @@ Retrieves information about the model view of a virtual machine in the specified
 |settingName|Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and AutoLogon.|    
 |content|Specifies the base-64 encoded XML formatted content that is added to the unattend.xml file for the specified path and component.|    
     
-###  <a name="bk_storageProfile"></a> storageProfile    
+###  <a name="storageProfile"></a> storageProfile    
     
 |Element name|Description|    
 |------------------|-----------------|    
-|[osDisk](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_osDisk)|Specifies information about the operating system disk used by the virtual machines in the scale set.|    
-|[imageReference](../VirtualMachineScaleSetsREST/get-the-model-view-of-a-vm.md#bk_imageReference)|Specifies information about the platform or marketplace image to use. This element is required when you want to use a platform or marketplace image, but is not used in other creation operations.|    
+|[osDisk](#osDisk)|Specifies information about the operating system disk used by the virtual machines in the scale set.|    
+|[imageReference](#imageReference)|Specifies information about the platform or marketplace image to use. This element is required when you want to use a platform or marketplace image, but is not used in other creation operations.|   
+|[dataDisks](#dataDisks)|Specifies information about the data disks used by the virtual machines in the scale set. Only used for a scale set with managed disks.| 
     
-###  <a name="bk_osDisk"></a> osDisk    
+###  <a name="osDisk"></a> osDisk    
     
 |Element name|Description|    
 |------------------|-----------------|    
@@ -238,25 +246,42 @@ Retrieves information about the model view of a virtual machine in the specified
 |image|Specifies the blob uri for user image.|    
 |vhd|Specifies the url that is used to store operating system disk.|    
 |caching|Specifies the caching type of the disk.|    
-|osType|Specifies the type of operating system on the disk.|    
+|osType|Specifies the type of operating system on the disk.|
+|[managedDisk](#managedDisk)|Specifies the managed disk parameters of the disk. This element is only used for scale sets with managed disks.|    
+
+###  <a name="dataDisks"></a> dataDisks    
     
-###  <a name="bk_imageReference"></a> imageReference    
+|Element name|Description|    
+|------------------|--------------|----------|-----------------|    
+|lun|Specifies the Logical Unit Number of the of the disk in the virtual machine.|
+|caching|Specifies the caching type of the disk.|
+|createOption|Specifies how the disk was created.|
+|diskSizeInGBSpecifies the size of the disk in GB.|
+
+###  <a name="managedDisk"></a> managedDisk   
+    
+|Element name|Description|    
+|------------------|--------------|----------|-----------------|    
+|storageAccountType|Specifies the type of storage account used to create the disk.|
+
+###  <a name="imageReference"></a> imageReference    
     
 |Element name|Description|    
 |------------------|-----------------|    
 |publisher|Specifies the publisher of the image used to create the virtual machine.|    
 |offer|Specifies the offer of the image used to create the virtual machine.|    
 |sku|Specifies the SKU of the image used to create the virtual machine.|    
-|version|Specifies the version of the image used to create the virtual machine.|    
+|version|Specifies the version of the image used to create the virtual machine.|
+|Id|Specifies the resource identifier of a virtual machine image used to create the virtual machine.|
     
-###  <a name="bk_networkProfile"></a> networkProfile    
+###  <a name="networkProfile"></a> networkProfile    
     
 |Element name|Description|    
 |------------------|-----------------|    
 |id|Specifies the name of the network interface configuration.|    
 |primary|Indicates whether network interfaces created from the network interface configuration will be the primary NIC of the VM.|    
     
-###  <a name="bk_resources"></a> resources    
+###  <a name="resources"></a> resources    
     
 |Element name|Description|    
 |------------------|-----------------|    

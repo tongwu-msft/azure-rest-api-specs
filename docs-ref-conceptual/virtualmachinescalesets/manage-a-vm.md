@@ -19,21 +19,22 @@ manager: "timlt"
 Perform management tasks on virtual machine instances in the specified virtual machine scale set.    
     
 ## Request    
- See [Common parameters and headers](../Topic/Virtual%20Machine%20Scale%20Sets_deleted.md#bk_common) for headers and parameters that are used by virtual machine scale sets.    
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).     
     
 |Method|Request URI|    
 |------------|-----------------|    
-|POST|`https://management.azure.com/subscriptions/{subscription}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vm-scaleset-name}/virtualMachines/{vm-instance-id}/{action}?api-version={api-version}`|    
+|POST|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}/virtualMachines/{vmInstanceId}/{action}?api-version={apiVersion}`|    
     
- Replace {vm-instance-id} with the identifier of the virtual machine instance. Replace {action} with one of the following actions that you want to happen on the specified virtual machines:    
-    
--   start    
-    
--   restart    
-    
--   powerOff    
-    
--   deallocate    
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription. |
+| resourceGroup | The resource group that contains the scale set. |
+| vmScaleSet | The name of the scale set. |
+| vmInstanceId | The instance identifier of the virtual machine. |
+| action | The action that you want to perform on the virtual machine. Possible values are: start, restart, powerOff, or deallocate. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |       
     
 ## Response    
- Status code: 200 (OK).
+
+Status code: 200 (OK).

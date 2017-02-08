@@ -19,14 +19,21 @@ manager: "timlt"
 List all of the virtual machines scale sets in the specified subscription.    
     
 ## Request    
- See [Common parameters and headers](../Topic/Virtual%20Machine%20Scale%20Sets_deleted.md#bk_common) for headers and parameters that are used by virtual machine scale sets.    
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).     
     
 |Method|Request URI|    
 |------------|-----------------|    
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/VirtualMachineScaleSets?api-version={api-version}`|    
+|GET|`https://management.azure.com/subscriptions/{subscription-Id}/providers/Microsoft.Compute/VirtualMachineScaleSets?api-version={apiVersion}`|    
     
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |
+
 ## Response    
- Status code: 200 (OK).    
+
+Status code: 200 (OK).    
     
 ```    
 {    

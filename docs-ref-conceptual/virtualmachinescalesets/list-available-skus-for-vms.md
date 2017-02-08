@@ -19,14 +19,23 @@ manager: "timlt"
 Lists the skus that are available for virtual machines in a virtual machine scale set.    
     
 ## Request    
- See [Common parameters and headers](../Topic/Virtual%20Machine%20Scale%20Sets_deleted.md#bk_common) for headers and parameters that are used by virtual machine scale sets.    
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).    
     
 |Method|Request URI|    
 |------------|-----------------|    
-|GET|https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vm-scaleset-name}/skus?api-version={api-version}|    
-    
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}/skus?api-version={apiVersion}`|    
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription. |
+| resourceGroup | The resource group that contains the scale set. |
+| vmScaleSet | The name of the scale set. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |   
+
 ## Response    
- Status code: 200 (OK).    
+
+Status code: 200 (OK).    
     
 ```    
 {    
@@ -57,7 +66,7 @@ Lists the skus that are available for virtual machines in a virtual machine scal
     
 |Element name|Description|    
 |------------------|-----------------|    
-|name|Specifies the size of virtual machines in the scale set. For more information about sizes, see [Sizes for virtual machines](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-size-specs/).|    
+|name|Specifies the size of virtual machines in the scale set.|    
 |tier|Specifies the tier of virtual machines in scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic**|    
     
 ###  <a name="capacity"></a> capacity    

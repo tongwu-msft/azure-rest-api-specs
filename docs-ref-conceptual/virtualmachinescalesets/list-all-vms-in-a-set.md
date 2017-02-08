@@ -19,14 +19,22 @@ manager: "timlt"
 Retrieves information about the instance view of all virtual machines in the specified virtual machine scale set.    
     
 ## Request    
- See [Common parameters and headers](../Topic/Virtual%20Machine%20Scale%20Sets_deleted.md#bk_common) for headers and parameters that are used by virtual machine scale sets.    
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).  
     
 |Method|Request URI|    
 |------------|-----------------|    
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vm-scaleset-name}/virtualMachines?$expand=instanceView&$select=instanceView&api-version={api-version}`|    
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}/virtualMachines?$expand=instanceView&$select=instanceView&api-version={apiVersion}`| 
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription. |
+| resourceGroup | The resource group that contains the scale set. |
+| vmScaleSet | The name of the scale set. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |   
     
 ## Response    
- Status code: 200 (OK).    
+Status code: 200 (OK).    
     
 ```    
 {    
