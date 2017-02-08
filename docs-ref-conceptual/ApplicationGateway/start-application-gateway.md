@@ -25,13 +25,16 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Start Application Gateway
+
 Start an application gateway resource.  
   
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|*POST*|`https://management.azure.com/subscriptions/{subscriptionId<subscription-id>/services/networking/applicationGateways/{applicationGatewayName}/Start`|  
+|POST|`/subscriptions/{subscriptionId<subscription-id>/services/networking/applicationGateways/{applicationGatewayName}/Start`|  
   
  *Replace {ApplicationGatewayName} with the name of the application gateway you want to start.*  
   

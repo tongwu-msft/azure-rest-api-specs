@@ -26,5 +26,7 @@ translation.priority.mt:
 ---
 # Application Gateway REST
 Application Gateway is a Network Service which provides HTTP Load balancing as a Service to Azure customers. This is a fully managed service implemented as dedicated Hosted Service in a subscription owned by Gateway Manager but deployed in customer vnet. In addition to basic HTTP Load balancing, it provides other Layer 7 features like Cookie based client affinity and SSL offload, URL routing and multi-site hosting.  
-  
- All operations conform to the HTTP/1.1 protocol specification; you must make sure that requests made to these resources are secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).
+
+[Operations on Application Gateway](operations-on-application-gateway.md)
+
+All operations conform to the HTTP/1.1 protocol specification; you must make sure that requests made to these resources are secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).

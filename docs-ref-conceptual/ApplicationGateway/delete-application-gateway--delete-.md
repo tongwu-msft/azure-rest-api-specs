@@ -25,13 +25,16 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Delete Application Gateway (DELETE)
+
 Delete an application gateway resource.  
-  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|*DELETE*|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}`|  
+|DELETE|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}`|  
   
  *Replace {ApplicationGatewayName} with the name of the application gateway you want to delete.*  
   
