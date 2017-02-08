@@ -25,8 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Operations on Application Gateway
+
 Enables you to manage application gateways. It includes operations such as create, update, configure SSL, cookie affinity and others using RESTful API calls.  
-  
+
+
 ##  <a name="bk_common"></a> Common parameters and headers  
  The following information is common to all tasks:  
   
@@ -38,19 +40,21 @@ Enables you to manage application gateways. It includes operations such as creat
   
 -   Set the Content-Type header to **application/json**.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [“Authenticating Azure Resource Manager requests”](https://msdn.microsoft.com/en-us/library/azure/dn790557.aspx).  
-  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [“Authenticating Azure Resource Manager requests”](https://msdn.microsoft.com/en-us/library/azure/dn790557.aspx). 
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Tasks  
  You can do the following with application gateways:  
   
--   [Create or update an application gateway](../AppGatewayRESTResourceManager/create-or-update-an-application-gateway.md)  
+-   [Create or update an application gateway](create-or-update-an-application-gateway.md)  
   
--   [Get Application Gateway](../AppGatewayRESTResourceManager/get-application-gateway.md)  
+-   [Get Application Gateway](get-application-gateway.md)  
   
--   [List application gateways (GET)](../AppGatewayRESTResourceManager/list-application-gateways--get-.md)  
+-   [List application gateways (GET)](list-application-gateways--get-.md)  
   
--   [Delete Application Gateway (DELETE)](../AppGatewayRESTResourceManager/delete-application-gateway--delete-.md)  
+-   [Delete Application Gateway (DELETE)](delete-application-gateway--delete-.md)  
   
--   [Start Application Gateway](../AppGatewayRESTResourceManager/start-application-gateway.md)  
+-   [Start Application Gateway](start-application-gateway.md)  
   
--   [Stop Application Gateway](../AppGatewayRESTResourceManager/stop-application-gateway.md)
+-   [Stop Application Gateway](stop-application-gateway.md)

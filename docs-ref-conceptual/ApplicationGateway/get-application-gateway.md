@@ -24,14 +24,16 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Gateway
+# Get Application Gatewa
 Retrieve an application gateway properties.  
-  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}`|  
   
  *Replace {ApplicationGatewayName} with the name of the application gateway to get its properties.*  
   
