@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # List load balancers within a subscription
 ## Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to load balancers.  
+ See [Common parameters and headers](load-balancer.md#bk_common) for headers and parameters that are used by all requests related to load balancers.  
   
 |Method|Request URI|  
 |------------|-----------------|  

@@ -16,7 +16,7 @@ manager: "carmonm"
 ---
 # List inbound NAT rules of a load balancer
 ## Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to load balancer inbound NAT rules.  
+ See [Common parameters and headers](load-balancer.md#bk_common) for headers and parameters that are used by all requests related to load balancer inbound NAT rules.  
   
 |Method|Request URI|  
 |------------|-----------------|  
