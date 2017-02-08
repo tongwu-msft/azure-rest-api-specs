@@ -1,7 +1,7 @@
 ---
 title: "Rollback a cluster upgrade"
 ms.custom: ""
-ms.date: "2016-03-30"
+ms.date: "2017-02-03"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-fabric"
