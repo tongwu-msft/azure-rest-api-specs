@@ -19,5 +19,5 @@ This table lists the operations included in the Network Watcher REST API.
 | [Create or update a Network Watcher](network-watcher-create-update.md) |  PUT | Creates a new Network Watcher. |  
 | [Delete a Network Watcher](network-watcher-delete.md) | DELETE | Deletes a Network Watcher. | 
 | [Get a Network Watcher](network-watcher-get.md) | GET | Gets a specific Network Watcher. |  
-| [List all Network Watchers in a resource group](network-watcher-list-resource-group.md) | POST | Lists all Network Watchers in a resource group. |
+| [List all Network Watchers in a resource group](network-watcher-list-resource-group.md) | GET | Lists all Network Watchers in a resource group. |
 | [List all Network Watchers in a subscription](network-watcher-list-subscription.md) | GET | Lists all Network Watchers in a subscription. |  

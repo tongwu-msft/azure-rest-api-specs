@@ -16,4 +16,4 @@ This table lists the operations included in the Topology REST API.
   
 | Operation | REST Verb | Description | 
 |---------|---------|-----------|
-| [Get current topology](topology-get.md) |  POST | Creates a new Network Watcher. |  
+| [Get current topology](topology-post.md) |  POST | Creates a new Network Watcher. |  

@@ -19,7 +19,7 @@ For information about getting started with Azure REST operations including reque
 
 | HTTP Method | URI|  
 | ----------- |----|  
-| PUT | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify?api-version={api-version}` |
+| POST | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify?api-version={api-version}` |
 
 | Element name | Required | Type | Description |
 | --- | --- | --- | --- |
