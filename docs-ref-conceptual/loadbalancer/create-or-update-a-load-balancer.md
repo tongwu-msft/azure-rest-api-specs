@@ -27,17 +27,17 @@ translation.priority.mt:
 ---
 # Create or update a load balancer
 ## Request  
- See [Common parameters and headers](../Load_Balancers/load-balancers-rest.md#bk_common) for headers and parameters that are used by all requests related to load balancers.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to load balancers.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}?api-version={api-version}`|  
+|PUT|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}?api-version={api-version}`|  
   
  Replace {load-balancer-name} with the name of the load balancer you want to create or update.  
   
  **Create/Update Load Balancer request JSON using Inbound Nat Rules**  
   
-```  
+```json  
 {   
    "location":"North US",  
    "tags":{   
@@ -116,7 +116,7 @@ translation.priority.mt:
   
  **Create/Update Load Balancer request JSON using an Inbound Nat Pool**  
   
-```  
+```json  
 {   
    "location":"North US",  
    "tags":{   
@@ -242,7 +242,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** 200.  
   
-```  
+```json 
 {   
    "name":"mylb1",  
    "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1",  
@@ -432,7 +432,7 @@ translation.priority.mt:
 |probes.port|Port on which the Probe queries the backend endpoint. Possible values range from 1 to 65535, inclusive.|  
 |probes.requestPath|The URI used for requesting health status from the backend endpoint. Required if protocol is set to Http. Otherwise, it is not allowed.|  
 |probes.intervalInSeconds|The interval, in seconds between probes to the backend endpoint for health status. The default value is 15, the minimum value is 5.|  
-|probes.numberOfProbes|The number of failed probe attempts after which the backend endpoint is removed from rotation. The default value is 2. NumberOfProbes multiplied by intervalInSeconds value must be greater or equal to 10.Endpoints are returned to rotation when at least one probe is successful.|  
+|probes.numberOfProbes|The number of failed probe attempts after which the backend endpoint is removed from rotation. The default value is 2. NumberOfProbes multiplied by intervalInSeconds value must be greater or equal to 10.Endpoints are returned to rotation when at least one probe is successful.|
 |probes.loadBalancingRules.id|A reference to a Load Balancing Rule that uses this Probe.|  
 |inboundNatRules.name|User-defined name of the Inbound Nat Rule.|  
 |inboundNatRules.id|Unique reference to this Inbound Nat Rule|  

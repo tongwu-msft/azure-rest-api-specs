@@ -16,15 +16,15 @@ manager: "carmonm"
 ---
 # Create or update a load balancer inbound NAT rule
 ## Request  
- See [Common parameters and headers](../NetworkREST/supporting-tasks.md#bk_common) for headers and parameters that are used by all requests related to load balancer inbound NAT rules.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to load balancer inbound NAT rules.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}/inboundNatRules/{rule-name}?api-version={api-version}`|  
+|PUT|`/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}/inboundNatRules/{rule-name}?api-version={api-version}`|  
   
  Replace {rule-name} with the name of the load balancer inbound NAT rule which you want to create or update.  
   
-```  
+```json 
 {  
     "location": "centralus",  
     "properties": {   
@@ -47,7 +47,7 @@ manager: "carmonm"
 ## Response  
  **Status code:** Returns status code 200 - OK, or 201 - Created.  
   
-```  
+```json  
 {  
     "name": "{rule-name}",  
     "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/inboundNatRules/{rule-name}",  
@@ -74,4 +74,4 @@ manager: "carmonm"
 |backendIPConfiguration|Read Only. A reference to the IP Configuration this rule applies to.|  
   
 ## Remarks  
- For more information about NAT rules, see [Load balancer inbound NAT rules](../Load_Balancers/load-balancer-inbound-nat-rules.md).
+ For more information about NAT rules, see [Load balancer inbound NAT rules](load-balancer-inbound-nat-rules.md).

@@ -27,18 +27,18 @@ translation.priority.mt:
 ---
 # Get information about a load balancer&#160;
 ## Request  
- See [Common parameters and headers](../Load_Balancers/load-balancers-rest.md#bk_common) for headers and parameters that are used by all requests related to load balancers.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to load balancers.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}?api-version={api-version}`|  
+|GET|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}?api-version={api-version}`|  
   
  Replace {load-balancer-name} with the name of the load balancer whose information you want.  
   
 ## Response  
  **Status code:** 200; otherwise a 404 will be returned.  
   
-```  
+```json  
 {   
    "name":"mylb1",  
    "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1",  
