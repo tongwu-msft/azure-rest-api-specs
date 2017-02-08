@@ -1,5 +1,5 @@
 ---
-redirect_url: /searchservice/
+redirect_url: https://docs.microsoft.com/azure/search/
 title: "Azure Search Developer Reference"
 ms.custom: ""
 ms.date: "2017-02-07"
