@@ -29,7 +29,7 @@ translation.priority.mt:
 This operation lists details of all the circuits, in all states, in a resource group.  
   
 ## Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to ExpressRoute.  
+See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to ExpressRoute.  
   
 |Method|Request URI|  
 |------------|-----------------|  
