@@ -31,4 +31,4 @@ Express Route Service Providers are telcos and exchange providers who are approv
 ## Tasks  
  You can do the following with ExpressRoute Service Providers:  
   
--   [List Express Route Service Providers](../AzureExpressRouteREST/list-express-route-service-providers.md)
+-   [List Express Route Service Providers](list-express-route-service-providers.md)

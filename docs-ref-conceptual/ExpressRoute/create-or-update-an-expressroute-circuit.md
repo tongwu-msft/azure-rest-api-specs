@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Create or update an ExpressRoute Circuit
 ## Request  
- See [Common parameters and headers](../AzureExpressRouteREST/expressroute-rest.md#bk_common) for headers and parameters that are used by all requests related to ExpressRoute.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to ExpressRoute.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -37,7 +37,7 @@ translation.priority.mt:
   
  ***Circuit without BGP Peerings specified at creation time.***  
   
-```  
+```json  
 {  
     "name": "<circuit name>",  
     "location": "<location>",  
@@ -63,7 +63,7 @@ translation.priority.mt:
   
  **Circuit with BGP Peering specified at creation time:**  
   
-```  
+```json 
 {  
     "name": "<circuit name>",  
     "location": "<location>",  
@@ -100,7 +100,7 @@ translation.priority.mt:
 ```  
   
 > [!NOTE]
->  Refer to the [Operations on ExpressRoute BGP Peering](../AzureExpressRouteREST/operations-on-expressroute-bgp-peering.md) section for more details on the BGP Peering parameters.  
+>  Refer to the [Operations on ExpressRoute BGP Peering](operations-on-expressroute-bgp-peering.md) section for more details on the BGP Peering parameters.  
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  

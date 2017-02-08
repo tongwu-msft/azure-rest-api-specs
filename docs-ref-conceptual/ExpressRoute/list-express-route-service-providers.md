@@ -32,14 +32,14 @@ This operation lists the currently supported connectivity providers, their peeri
   
 |Method|Url|  
 |------------|---------|  
-|GET|[https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders?api-version={api-version}](https://management.azure.com/subscriptions/%7bsubscriptionId%7d/providers/Microsoft.Network/expressRouteServiceProviders?api-version=%7bapi-version%7d)|  
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders?api-version={api-version}`|  
   
 ## Response  
  Status code: 200  
   
 ## Example Output:  
   
-```  
+```json  
 [  
     {  
         "name": "<providername>",  
