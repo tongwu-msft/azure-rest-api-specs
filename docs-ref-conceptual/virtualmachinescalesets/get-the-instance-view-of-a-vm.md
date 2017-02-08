@@ -19,16 +19,24 @@ manager: "timlt"
 Retrieves information about the instance view of a virtual machine in the specified virtual machine scale set.    
     
 ## Request    
- See [Common parameters and headers](../Topic/Virtual%20Machine%20Scale%20Sets_deleted.md#bk_common) for headers and parameters that are used by virtual machine scale sets.    
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).    
     
 |Method|Request URI|    
 |------------|-----------------|    
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vm-scaleset-name}/VirtualMachines/{vm-instance-id}/instanceView?api-version={api-version}`|    
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}/VirtualMachines/{vmInstanceId}/instanceView?api-version={apiVersion}`|    
     
- Replace {vm-instance-id} with the identifier of the virtual machine instance.    
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription. |
+| resourceGroup | The resource group that contains the scale set. |
+| vmScaleSet | The name of the scale set. |
+| vmInstanceId | The instance identifier of the virtual machine. | 
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |       
     
 ## Response    
- Status code: 200 (OK).    
+
+Status code: 200 (OK).    
     
 ```    
     
@@ -107,26 +115,26 @@ Retrieves information about the instance view of a virtual machine in the specif
 |------------------|-----------------|    
 |platformUpgradeDomain|Specifies the number of upgrade domains for the virtual machine instance.|    
 |platformFaultDomain|Specifies the number of fault domains for the virtual machine instance.|    
-|[statuses](../VirtualMachineScaleSetsREST/get-the-instance-view-of-a-vm.md#bk_statuses)|Specifies the status of the virtual machine instance.|    
+|[statuses](#statuses)|Specifies the status of the virtual machine instance.|    
 |windowsConfiguration|Specifies the RDP thumbprint used to access the virtual machine instance.|    
-|[vmAgent](../VirtualMachineScaleSetsREST/get-the-instance-view-of-a-vm.md#bk_vmAgent)|Specifies the status of the VM Agent installed on the virtual machine instance.|    
-|[disks](../VirtualMachineScaleSetsREST/get-the-instance-view-of-a-vm.md#bk_disks)|Specifies the disks that are associated with the virtual machine instance.|    
-|[extensions](../VirtualMachineScaleSetsREST/get-the-instance-view-of-a-vm.md#bk_extensions)|Specifies the status of the extensions installed on the virtual machine instance.|    
+|[vmAgent](#vmagent)|Specifies the status of the VM Agent installed on the virtual machine instance.|    
+|[disks](#disks)|Specifies the disks that are associated with the virtual machine instance.|    
+|[extensions](#extensions)|Specifies the status of the extensions installed on the virtual machine instance.|    
     
-###  <a name="bk_vmAgent"></a> vmAgent    
+###  <a name="vmagent"></a> vmAgent    
     
 |Element name|Description|    
 |------------------|-----------------|    
 |vmAgentVersion|Specifies the version of the VM Agent installed on the virtual machine instance.|    
-|[statuses](../VirtualMachineScaleSetsREST/get-the-instance-view-of-a-vm.md#bk_statuses)|Specifies the status of the VM Agent on the virtual machine instance.|    
+|[statuses](#statuses)|Specifies the status of the VM Agent on the virtual machine instance.|    
 |extensionHandlers|Specifies the extension handler used by the VM Agent on the virtual machine instance.|    
     
-###  <a name="bk_disks"></a> disks    
+###  <a name="disks"></a> disks    
     
 |Element name|Description|    
 |------------------|-----------------|    
 |name|Specifies the name of the disk associated with the virtual machine instance.|    
-|[statuses](../VirtualMachineScaleSetsREST/get-the-instance-view-of-a-vm.md#bk_statuses)|Specifies the status of the disk.|    
+|[statuses](#statuses)|Specifies the status of the disk.|    
     
 ###  <a name="bk_extensions"></a> extensions    
     
@@ -135,8 +143,8 @@ Retrieves information about the instance view of a virtual machine in the specif
 |name|Specifies the name of the extension installed on the virtual machine instance.|    
 |type|Specifies the type of the extension installed on the virtual machine instance.|    
 |typeHandlerVersion|Specifies the version of the handler.|    
-|[statuses](../VirtualMachineScaleSetsREST/get-the-instance-view-of-a-vm.md#bk_statuses)|Specifies the status of the extension.|    
-|[substatuses](../VirtualMachineScaleSetsREST/get-the-instance-view-of-a-vm.md#bk_substatuses)|Specifies the sub-status of the extension.|    
+|[statuses](#statuses)|Specifies the status of the extension.|    
+|[substatuses](#substatuses)|Specifies the sub-status of the extension.|    
     
 ###  <a name="bk_statuses"></a> statuses    
     

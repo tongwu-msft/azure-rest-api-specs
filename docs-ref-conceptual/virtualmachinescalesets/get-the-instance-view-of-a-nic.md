@@ -19,16 +19,24 @@ manager: "timlt"
 Retrieves information about the instance view of a network interface associated with a virtual machine in a virtual machine scale set.    
     
 ## Request    
- See [Common parameters and headers](../Topic/Virtual%20Machine%20Scale%20Sets_deleted.md#bk_common) for headers and parameters that are used by virtual machine scale sets.    
-    
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).  
+
 |Method|Request URI|    
 |------------|-----------------|    
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vm-scaleset-name}/virtualMachines/{vm-instance-id}/networkInterfaces/{nic-config-name}?api-version={api-version}`|    
-    
- Replace {vm-instance-id} with the identifier of the associated virtual machine and replace {nic-config-name} with the name of the network interface configuration.    
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}/virtualMachines/{vmInstanceId}/networkInterfaces/{nic}?api-version={apiVersion}`|    
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription. |
+| resourceGroup | The resource group that will contain the scale set. |
+| vmScaleSet | The name of the scale set. |
+| vmInstanceId | The identifier of the virtual machine. |
+| nic | The name of the network interface. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |   
     
 ## Response    
- Status code: 200 (OK).    
+Status code: 200 (OK).    
     
 ```    
 {    
@@ -87,13 +95,13 @@ Retrieves information about the instance view of a network interface associated 
 |name|Specifies the name of the network interface configuration.|    
 |id|Specifies the identifier of the network interface configuration.|    
 |location|Specifies the location of the network interface configuration.|    
-|tags|Specifies the tags that are assigned to the network interface configuration. For more information about using tags, see [Using tags to organize your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/resource-group-using-tags/).|    
+|tags|Specifies the tags that are assigned to the network interface configuration. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md).|    
 |provisioningState|Specifies the provisioning state of the network interface configuration.<br /><br /> Possible values are:<br /><br /> **Deleting**<br /><br /> **Failed**<br /><br /> **Succeeded**<br /><br /> **Updating**|    
-|[ipConfigurations](../VirtualMachineScaleSetsREST/get-the-instance-view-of-a-nic.md#bk_ipConfigurations)|Specifies the IP configurations for the network interface configuration.|    
+|[ipConfigurations](#ipConfigurations)|Specifies the IP configurations for the network interface configuration.|    
 |virtualMachine|Specifies the identifier of the virtual machine that is associated with the network interface configuration.|    
 |macAddress|Specifies the media access control (MAC) address of the network interface configuration.|    
     
-###  <a name="bk_ipConfigurations"></a> ipConfigurations    
+###  <a name="ipConfigurations"></a> ipConfigurations    
     
 |Element name|Description|    
 |------------------|-----------------|    

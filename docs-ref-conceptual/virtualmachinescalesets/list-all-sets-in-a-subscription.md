@@ -19,14 +19,21 @@ manager: "timlt"
 List all of the virtual machines scale sets in the specified subscription.    
     
 ## Request    
- See [Common parameters and headers](../Topic/Virtual%20Machine%20Scale%20Sets_deleted.md#bk_common) for headers and parameters that are used by virtual machine scale sets.    
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).     
     
 |Method|Request URI|    
 |------------|-----------------|    
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/VirtualMachineScaleSets?api-version={api-version}`|    
+|GET|`https://management.azure.com/subscriptions/{subscription-Id}/providers/Microsoft.Compute/VirtualMachineScaleSets?api-version={apiVersion}`|    
     
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |
+
 ## Response    
- Status code: 200 (OK).    
+
+Status code: 200 (OK).    
     
 ```    
 {    
@@ -178,7 +185,7 @@ List all of the virtual machines scale sets in the specified subscription.
     
 |Element name|Description|    
 |------------------|-----------------|    
-|mode|Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action in [Manage all VMs in a set](../VirtualMachineScaleSetsREST/manage-all-vms-in-a-set.md).<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time.|    
+|mode|Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action in [Manage all VMs in a set](manage-all-vms-in-a-set.md).<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time.|    
     
 ###  <a name="virtualMachineProfile"></a> virtualMachineProfile    
     
