@@ -23,7 +23,7 @@
 ## [List the virtual machines in a resource group](virtualmachines/virtualmachines-list-resource-group.md)
 ## [List available virtual machine sizes in an availability set](virtualmachines/virtualmachines-list-sizes-availability-set.md)
 ## [List available virtual machine sizes for resizing](virtualmachines/virtualmachines-list-sizes-for-resizing.md)
-## [Lists available virtual machine sizes for a subscription](virtualmachines-list-sizes-region.md)
+## [Lists available virtual machine sizes for a subscription](virtualmachines/virtualmachines-list-sizes-region.md)
 ## [Lists the virtual machines in a subscription](virtualmachines/virtualmachines-list-subscription.md)
 ## [Restart a virtual machine](virtualmachines/virtualmachines-restart.md)
 ## [Save an image of a virtual machine](virtualmachines/virtualmachines-save-image.md)
