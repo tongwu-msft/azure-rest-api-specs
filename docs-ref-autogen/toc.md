@@ -406,7 +406,7 @@
 ## [verify](keyvault/verify.json)
 ## [wrap Key](keyvault/wrapKey.json)
 # [Log Analytics](../docs-ref-conceptual/loganalytics/index.md)
-## [How to use the Log Analytics HTTP Data Collector REST API](../docs-ref-conceptual/loganalytics/create-request.md)
+## [Create Request](../docs-ref-conceptual/loganalytics/create-request.md)
 ## [Data Sources](loganalytics/DataSources.json)
 ## [Linked Services](loganalytics/LinkedServices.json)
 ## [Saved Searches](loganalytics/SavedSearches.json)
