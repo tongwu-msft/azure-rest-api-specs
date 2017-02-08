@@ -26,7 +26,7 @@ For information about getting started with Azure REST operations including reque
 | location | The location where you want to create a virtual machine. |
 | publisher | The publisher of the platform image. To get a list of publishers, see [List platform image publishers](platformimages-list-publishers.md). |
 | offer | The offer from the publisher. To get a list of publisher offers, see [List platform image publisher offers](platformimages-list-publisher-offers.md) |
-| apiVersion | The version of the API to use. The current version is 2017-03-30. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |
     
 ## Response    
  

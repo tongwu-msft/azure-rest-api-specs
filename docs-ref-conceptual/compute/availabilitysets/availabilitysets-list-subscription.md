@@ -19,7 +19,12 @@ For information about getting started with Azure REST operations including reque
 | Method | Request URI |    
 |--------|-------------|    
 | GET | `https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/availabilitySets?api-version={api-version}` |    
-    
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the availability set is located. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |
+
 ## Response
 
 Status code: If successful, 200 (OK); otherwise 404 (Not Found).    
