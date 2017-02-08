@@ -32,19 +32,19 @@ Load balancer allows fine-grained configuration of how incoming traffic is distr
   
 -   Set the Content-Type header to **application/json**.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../Topic/Authenticating%20Azure%20Resource%20Manager%20requests.md).  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../../index.md).  
   
 ## Tasks  
  You can do the following with load balancers:  
   
--   [Create or update a load balancer](../Load_Balancers/create-or-update-a-load-balancer.md)  
+-   [Create or update a load balancer](create-or-update-a-load-balancer.md)  
   
--   [Delete a load balancer](../Load_Balancers/delete-a-load-balancer.md)  
+-   [Delete a load balancer](delete-a-load-balancer.md)  
   
--   [Get information about a load balancer ](../Load_Balancers/get-information-about-a-load-balancer .md)  
+-   [Get information about a load balancer ](get-information-about-a-load-balancer.md)  
   
--   [List load balancers within a resource group](../Load_Balancers/list-load-balancers-within-a-resource-group.md)  
+-   [List load balancers within a resource group](list-load-balancers-within-a-resource-group.md)  
   
--   [List load balancers within a subscription](../Load_Balancers/list-load-balancers-within-a-subscription.md)  
+-   [List load balancers within a subscription](list-load-balancers-within-a-subscription.md)  
   
--   [Load balancer inbound NAT rules](../Load_Balancers/load-balancer-inbound-nat-rules.md)
+-   [Load balancer inbound NAT rules](load-balancer-inbound-nat-rules.md)

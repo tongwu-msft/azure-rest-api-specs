@@ -33,10 +33,10 @@ Inbound NAT Rules control how inbound traffic coming to frontend IP (VIP) of the
 ## Tasks  
  You can do the following with load balancer inbound NAT rules:  
   
--   [Create or update a load balancer inbound NAT rule](../Load_Balancers/create-or-update-a-load-balancer-inbound-nat-rule.md)  
+-   [Create or update a load balancer inbound NAT rule](create-or-update-a-load-balancer-inbound-nat-rule.md)  
   
--   [List inbound NAT rules of a load balancer](../Load_Balancers/list-inbound-nat-rules-of-a-load-balancer.md)  
+-   [List inbound NAT rules of a load balancer](list-inbound-nat-rules-of-a-load-balancer.md)  
   
--   [Get information about a load balancer inbound NAT rule](../Load_Balancers/get-information-about-a-load-balancer-inbound-nat-rule.md)  
+-   [Get information about a load balancer inbound NAT rule](get-information-about-a-load-balancer-inbound-nat-rule.md)  
   
--   [Delete a load balancer inbound NAT rule](../Load_Balancers/delete-a-load-balancer-inbound-nat-rule.md)
+-   [Delete a load balancer inbound NAT rule](delete-a-load-balancer-inbound-nat-rule.md)

@@ -27,16 +27,16 @@ translation.priority.mt:
 ---
 # List load balancers within a resource group
 ## Request  
- See [Common parameters and headers](../Load_Balancers/load-balancers-rest.md#bk_common) for headers and parameters that are used by all requests related to load balancers.  
+ See [Common parameters and headers](load-balancer.md#bk_common) for headers and parameters that are used by all requests related to load balancers.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers?api-version={api-version}`|  
+|GET|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers?api-version={api-version}`|  
   
 ## Response  
  **Status code:** 200.  
   
-```  
+```json  
 [   
    {   
       "name":"mylb1",  

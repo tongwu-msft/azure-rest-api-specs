@@ -16,11 +16,11 @@ manager: "carmonm"
 ---
 # Delete a load balancer inbound NAT rule
 ## Request  
- See [Common parameters and headers](../NetworkREST/supporting-tasks.md#bk_common) for headers and parameters that are used by all requests related to load balancer inbound NAT rules.  
+ See [Common parameters and headers](load-balancer.md#bk_common) for headers and parameters that are used by all requests related to load balancer inbound NAT rules.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}/inboundNatRules/{rule-name}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}/inboundNatRules/{rule-name}?api-version={api-version}`|  
   
  Replace {rule-name} with the name of the load balancer inbound NAT rule you want deleted.  
   
@@ -36,4 +36,4 @@ manager: "carmonm"
 -   Returns 204-No Content if resource does not exist.  
   
 ## Remarks  
- For more information about NAT rules, see [Load balancer inbound NAT rules](../Load_Balancers/load-balancer-inbound-nat-rules.md).
+ For more information about NAT rules, see [Load balancer inbound NAT rules](load-balancer-inbound-nat-rules.md).

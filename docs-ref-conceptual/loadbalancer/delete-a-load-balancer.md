@@ -27,11 +27,11 @@ translation.priority.mt:
 ---
 # Delete a load balancer
 ## Request  
- See [Common parameters and headers](../Load_Balancers/load-balancers-rest.md#bk_common) for headers and parameters that are used by all requests related to load balancers  
+ See [Common parameters and headers](load-balancer.md#bk_common) for headers and parameters that are used by all requests related to load balancers  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}/{subnet-name}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}/{subnet-name}?api-version={api-version}`|  
   
  Replace {load-balancer-name} with the name of the load balancer you want deleted.  
   
