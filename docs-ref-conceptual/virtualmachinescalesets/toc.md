@@ -12,6 +12,5 @@
 # [Manage a VM](manage-a-vm.md)
 # [List all NICs of a VM](list-all-nics-of-a-vm.md)
 # [Get the model view of a VM](get-the-model-view-of-a-vm.md)
-# [Virtual Machine Scale Sets REST](virtual-machine-scale-sets-rest.md)
 # [Delete a set](delete-a-set.md)
 # [List all VMs in a set](list-all-vms-in-a-set.md)
