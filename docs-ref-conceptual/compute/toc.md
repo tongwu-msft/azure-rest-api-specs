@@ -11,7 +11,7 @@
 # [Platform Images](platformimages/platformimages-rest-api.md)
 ## [List platform image publisher offers](platformimages/platformimages-list-publisher-offers.md)
 ## [List platform image skus](platformimages/platformimages-list-publisher-offer-skus.md)
-## [List platform image versions](platformimages/platformimages-list-publisher-offer-skus-versions.md)
+## [List platform image versions](platformimages/platformimages-list-publisher-offer-sku-versions.md)
 ## [List platform image publishers](platformimages/platformimages-list-publishers.md)
 # [Usage](usage/usage-rest-api.md)
 ## [Get current compute usage information](usage/usage-get.md)
