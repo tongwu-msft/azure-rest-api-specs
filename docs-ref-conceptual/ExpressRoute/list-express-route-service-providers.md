@@ -28,7 +28,8 @@ translation.priority.mt:
 # List Express Route Service Providers
 This operation lists the currently supported connectivity providers, their peering locations and bandwidths offered.  
   
- *HTTP Request*  
+## Request
+See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to *ExpressRoute*.  
   
 |Method|Url|  
 |------------|---------|  
