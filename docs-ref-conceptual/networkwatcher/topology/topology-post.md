@@ -48,7 +48,7 @@ The response includes an HTTP status code and a set of response headers.
   "lastModified": "2017-01-17T22:11:52.3527348Z",
   "resources": [
     {
-      "name": "virtualNetwork1",
+      "name": "{resourceName}",
       "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       "location": "westcentralus",
       "associations": [
@@ -61,7 +61,7 @@ The response includes an HTTP status code and a set of response headers.
       ]
     },
     {
-      "name": "webtestnsg-wjplxls65qcto",
+      "name": "{resourceName}",
       "resourceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{nsgName}
 s65qcto",
       "associationType": "Associated"
