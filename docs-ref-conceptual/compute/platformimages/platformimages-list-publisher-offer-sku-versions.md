@@ -24,14 +24,14 @@ For information about getting started with Azure REST operations including reque
 | --------- | ----------- |
 | subscriptionId | The identifier of your subscription. |
 | location | The location where you want to create a virtual machine. |
-| publisher | The publisher of the platform image. To get a list of publishers, see [List platform image publishers](list-platform-image-publishers.md). |
-| offer | The offer from the publisher. To get a list of publisher offers, see [List platform image publisher offers](list-platform-image-publisher-offers.md) |
-| sku | The sku of the publisher's offer. To get a list of available skus, see [List platform image skus](list-platform-image-offer-skus.md).
+| publisher | The publisher of the platform image. To get a list of publishers, see [List platform image publishers](platformimages-list-publishers.md). |
+| offer | The offer from the publisher. To get a list of publisher offers, see [List platform image publisher offers](platformimages-list-publisher-offers.md) |
+| sku | The sku of the publisher's offer. To get a list of available skus, see [List platform image skus](platformimages-list-publisher-offer-skus.md).
 | apiVersion | The version of the API to use. The current version is 2017-03-30. |
     
 ## Response    
 
-Status code: If successful,  200 (OK); otherwise 404 (Not Found).    
+Status code: If successful, 200 (OK); otherwise 404 (Not Found).    
     
 ```    
 [

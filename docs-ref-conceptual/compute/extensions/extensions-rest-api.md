@@ -14,6 +14,6 @@ This table lists the operations included in the Extensions REST API.
   
 | Operation | REST Verb | Description | 
 |---------|---------|-----------|
-| [Add or update a virtual machine extension](extensions/extensions-add-or-update.md) |  PUT | Adds or updates a virtual machine extension. |  
-| [Delete a virtual machine extension](extensions/extensions-delete.md) | DELETE | Deletes an extension from a virtual machine. | 
-| [Get information about a virtual machine extension](extensions/extensions-get.md) | GET | Gets information abou the specified virtual machine extension. |
+| [Add or update a virtual machine extension](extensions-add-or-update.md) |  PUT | Adds or updates a virtual machine extension. |  
+| [Delete a virtual machine extension](extensions-delete.md) | DELETE | Deletes an extension from a virtual machine. | 
+| [Get information about a virtual machine extension](extensions-get.md) | GET | Gets information about the specified virtual machine extension. |

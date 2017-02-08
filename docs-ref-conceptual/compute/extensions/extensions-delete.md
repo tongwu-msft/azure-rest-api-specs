@@ -29,4 +29,4 @@ For information about getting started with Azure REST operations including reque
 
 ## Response    
  
-Status code: If the validation is complete, the operation returns 202 (OK) is returned. If successful, the operation returns HTTP status code of 200 (OK). 200 (OK) is returned only after the virtual machine is completely de-provisioned including the resource extensions.
+Status code: If the validation is complete, the operation returns 202 (OK). If successful, the operation returns HTTP status code of 200 (OK). 200 (OK) is returned only after the virtual machine is de-provisioned including the resource extensions.

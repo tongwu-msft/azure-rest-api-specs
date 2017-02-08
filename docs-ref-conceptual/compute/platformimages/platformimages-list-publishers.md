@@ -1,5 +1,5 @@
 ---
-title: "List platofrm image publishers"
+title: "List platform image publishers"
 author: davidmu1
 ms.date: 2017-02-06
 ms.prod: azure
@@ -10,7 +10,7 @@ ms.author: davidmu
 manager: timt
 ---
 
-# List platofrm image publishers    
+# List platform image publishers    
     
 ## Request    
 
@@ -28,7 +28,7 @@ For information about getting started with Azure REST operations including reque
     
 ## Response    
 
-Status code: If successful,  200 (OK); otherwise 404 (Not Found).    
+Status code: If successful, 200 (OK); otherwise 404 (Not Found).    
     
 ```    
 [

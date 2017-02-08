@@ -29,7 +29,7 @@ For information about getting started with Azure REST operations including reque
     
 ## Response    
     
-Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not Found) will be returned.    
+Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not Found) is returned.    
     
 ```    
 {  
@@ -52,7 +52,7 @@ Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not F
 | id | Specifies the identifying URL of the availability set. |    
 | name | Specifies the name of the availability set. |    
 | type | Specifies the type of compute resource. |    
-| location | Specifies the supported Azure location where the resource exists. For more information, see [List all of the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations). |    
+| location | Specifies the supported Azure location where the resource exists. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations). |    
 | platformUpdateDomainCount | Specifies the update domain count of availability set. |    
 | platformFaultDomainCount | Specifies the fault domain count of availability set. |    
 | virtualmachines | Lists virtual machines in the availability set. |

@@ -22,12 +22,12 @@ For information about getting started with Azure REST operations including reque
 | Parameter | Description |
 | --------- | ----------- |
 | subscriptionId | The identifier of your subscription. |
-| location | The location that will contain the virtual machine. |
+| location | The location of the virtual machine. |
 | apiVersion | The version of the API to use. The current version is 2017-03-30. | 
     
 ## Response    
  
-Status code: If successful, the operation returns 200 (OK); otherwise 502 (Bad Gateway) will be returned.    
+Status code: If successful, the operation returns 200 (OK); otherwise 502 (Bad Gateway) is returned.    
     
 ```    
 {    

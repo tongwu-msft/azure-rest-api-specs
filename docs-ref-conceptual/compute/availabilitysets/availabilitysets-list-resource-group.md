@@ -28,7 +28,7 @@ For information about getting started with Azure REST operations including reque
 
 ## Response    
  
-Status code: If successful,  200 (OK); otherwise 404 (Not Found).    
+Status code: If successful, 200 (OK); otherwise 404 (Not Found).    
     
 ```    
 {    

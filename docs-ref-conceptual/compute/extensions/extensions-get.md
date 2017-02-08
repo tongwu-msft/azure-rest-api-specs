@@ -30,7 +30,7 @@ For information about getting started with Azure REST operations including reque
 
 ## Response    
  
-Status code: If the validation is complete, the operation returns 202 (OK) is returned. If successful, the operation returns HTTP status code of 200 (OK). If resource does not exist, 404 (NotFound) is returned.    
+Status code: If the validation is complete, the operation returns 202 (OK). If successful, the operation returns HTTP status code of 200 (OK). If resource does not exist, 404 (NotFound) is returned.    
     
 ```  
 {    
@@ -56,7 +56,7 @@ Status code: If the validation is complete, the operation returns 202 (OK) is re
 | id | Specifies the identifying URL of the virtual machine. |    
 | name | Specifies the name of the virtual machine. |    
 | type | Specifies the type of compute resource. |    
-| location | Specifies the supported Azure location where the resource exists. For more information, see [List all of the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations). |    
+| location | Specifies the supported Azure location where the resource exists. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations). |    
 | publisher | Specifies name of the extension’s publisher. |    
 | type | Specifies type of extension. |    
 | typeHandlerVersion | Specifies version of the extension. |    

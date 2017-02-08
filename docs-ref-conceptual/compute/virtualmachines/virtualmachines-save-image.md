@@ -37,10 +37,10 @@ For information about getting started with Azure REST operations including reque
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
-| vhdPrefix | Yes | String | Specifies the prefix in the name of the blobs that will constitute the storage profile of the image. |    
-| destinationContainerName | Yes | String | Specifies the name of the container inside which the vhds constituting the image will reside. |    
+| vhdPrefix | Yes | String | Specifies the prefix in the name of the blobs that constitute the storage profile of the image. |    
+| destinationContainerName | Yes | String | Specifies the name of the container inside which the vhds constituting the image resides. |    
 | overwriteVhds | Yes | String | Specifies if an existing vhd with same prefix inside the destination container is overwritten. |    
     
 ## Response    
 
-Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not Found) will be returned.
+Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not Found) is returned.

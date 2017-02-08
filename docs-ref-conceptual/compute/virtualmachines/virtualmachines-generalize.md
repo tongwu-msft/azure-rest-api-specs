@@ -12,7 +12,7 @@ manager: timt
 
 # Generalize a virtual machine
 
-This API is used to mark a Virtual Machine as generalized in Azure. You need to still run sysprep on the machine before calling this API. This is a required operation before calling the [Save an image from a VM](../virtual-machines/save-an-image-from-a-vm.md). 
+This API is used to mark a Virtual Machine as generalized in Azure. You need to still run sysprep on the machine before calling this API. This operation is required before calling the [Save an image from a VM](../virtualmachines/virtualmachines-save-image.md). 
     
 ## Request    
  
@@ -31,4 +31,4 @@ For information about getting started with Azure REST operations including reque
     
 ## Response    
  
-Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not Found) will be returned.
+Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not Found) is returned.

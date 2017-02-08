@@ -27,7 +27,7 @@ For information about getting started with Azure REST operations including reque
     
 ## Response    
 
-Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not Found) will be returned.    
+Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not Found) is returned.    
     
 ```    
 {    
@@ -112,7 +112,7 @@ Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not F
 | Id | Specifies the identifying URL of the virtual machine. |    
 | name | Specifies the name of the virtual machine. |    
 | type | Specifies the type of compute resource. |    
-| location | Specifies the supported Azure location where the resource exists. For more information, see [List all of the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations). |    
+| location | Specifies the supported Azure location where the resource exists. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations). |    
 | Tags | Specifies an identifier for the virtual machine. |    
 | availabilitySet | Specifies the name of a collection of virtual machines. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. |    
 | vmSize | Specifies the size of the virtual machine. |    
@@ -128,9 +128,9 @@ Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not F
 | dataDisks | Specifies the parameters that are used to add a data disk to a virtual machine. |    
 | computerName | Specifies the computer name. |    
 | adminUsername | Specifies the admin username. |    
-| customData | Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the virtual machine. The maximum length of the binary array is 65535 bytes. |    
+| customData | Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the virtual machine. The maximum length of the binary array is 65,535 bytes. |    
 | provisionVMAgent | Indicates whether virtual machine agent should be provisioned on the virtual machine. |    
-| winrRMListener | Contains configuration settings for the Windows Remote Management service on the virtual machine. This enables remote Windows PowerShell. |    
+| winrRMListener | Contains configuration settings for the Windows Remote Management service on the virtual machine. This element enables remote Windows PowerShell. |    
 | protocol | Specifies the protocol of listener. |    
 | certificateUrl | Specifies the URL of the certificate with which new virtual machine is provisioned. |    
 | additionalUnattendContent | Specifies additional base-64 encoded XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. |    

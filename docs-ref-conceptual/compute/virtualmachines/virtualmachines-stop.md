@@ -33,4 +33,4 @@ Status code: If successful, the operation returns HTTP status code of 200 (OK).
     
 ## Remarks    
  
-This operation only stops the virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine. If you want to stop a machine and not be charged for it, use [Stop and deallocate a VM](stop-and-deallocate-a-vm.md).
+This operation only stops the virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine. If you want to stop a machine and not be charged for it, use [Stop and deallocate a VM](virtualmachines-stop-deallocate.md).

@@ -54,16 +54,16 @@ For information about getting started with Azure REST operations including reque
 | publisher | Yes | String | Specifies name of the extension’s publisher. | 
 | type | Yes | String | Specifies type of extension. | 
 | typeHandlerVersion | Yes | String  | Specifies version of the extension. | 
-| autoUpgradeMinorVersion | No | Boolean | Specifies if the platform deploys the latest minor version update to the typeHandlerVersion specified. **e.g.** typeHandlerVersion specified value = 1.1 with autoUpgradeMinorVersion = true. The latest versions of the extension available in Azure is 1.2 and 2.0. Then 1.2 version of extension is added to the virtual machine. |
+| autoUpgradeMinorVersion | No | Boolean | Specifies if the platform deploys the latest minor version update to the typeHandlerVersion specified. For example, typeHandlerVersion specified value = 1.1 with autoUpgradeMinorVersion = true. The latest versions of the extension available in Azure are 1.2 and 2.0. Then 1.2 version of extension is added to the virtual machine. |
 | forceUpdateTag | No | String | Specifies that the extension should be run again with the same public or protected settings. The value can be any string different from the current value. If forceUpdateTag is not changed, updates to public or protected settings would still be applied by the handler. | 
-| settings | No | Object | Public configuration for the Extension that do not require encryption. | 
+| settings | No | Object | Public configuration for the Extension that does not require encryption. | 
 | fileUris | No | String | Specifies the script file path. | 
 | commandToExecute | No | String | Specifies command used to execute the script. | 
-| protectedSettings | No | Object | Private configuration for the Extension that will be encrypted e.g. pass a database password to the script. NOTE: This value is not returned on the GET. | 
+| protectedSettings | No | Object | Private configuration for the Extension that is encrypted. For example,pass a database password to the script. NOTE: This value is not returned on the GET. | 
  
 ## Response    
  
-Status code: If the validation is complete, the operation returns 202 (OK) is returned. If successful, the operation returns HTTP status code of 200 (OK). If resource does not exist, 404 (NotFound) is returned.    
+Status code: If the validation is complete, the operation returns 202 (OK). If successful, the operation returns HTTP status code of 200 (OK). If resource does not exist, 404 (NotFound) is returned.    
 
 ## Examples
 

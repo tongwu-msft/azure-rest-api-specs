@@ -16,8 +16,8 @@ manager: timt
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md). 
     
-| Method | Information View | Request URI|    
-|------------|-----------------|    
+| Method | Information View | Request URI |    
+|--------|------------------|-------------|     
 | GET | Model View | `https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vm}?api-version={apiVersion}` | 
 | GET | Instance View | `https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vm}/InstanceView?api-version={apiVersion}` |
 | GET | Model View and Instance View | `https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vm}?$expand=instanceView&api-version={apiVersion}` |  
@@ -31,7 +31,7 @@ For information about getting started with Azure REST operations including reque
     
 ## Response    
  
-Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not Found) will be returned.    
+Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not Found) is returned.    
     
 **Model view of a virtual machine**    
     
@@ -113,10 +113,10 @@ Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not F
 | Element name | Description |    
 |--------------|-------------|    
 | Id | Specifies the identifying URL of the virtual machine. |   
-| vmId | Specifies the VM unique ID which is a 128-bits identifier that is encoded and stored in all Azure IaaS VMs SMBIOS and can be read using platform BIOS commands. |  
+| vmId | Specifies the VM unique ID, which is a 128-bits identifier that is encoded and stored in all Azure IaaS VMs SMBIOS and can be read using platform BIOS commands. |  
 | name | Specifies the name of the virtual machine. |    
 | type | Specifies the type of compute resource. |    
-| location | Specifies the supported Azure location where the resource exists. For more information, see [List all of the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations). |    
+| location | Specifies the supported Azure location where the resource exists. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations). |    
 | tags | Specifies an identifier for the virtual machine. |    
 | licenseType | Specifies that the image or disk that is being used was licensed on-premises. This element is only used for images that contain the Windows Server operating system.<br><br> Possible values are: <br><br> Windows_Client <br><br> Windows_Server |    
 | availabilitySet | Specifies the name of a collection of virtual machines. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. |    
@@ -134,9 +134,9 @@ Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not F
 | computerName | Specifies the computer name. |    
 | adminUsername | Specifies the admin username. |    
 | adminPassword | Specifies the admin password. |    
-| customData | Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. |    
+| customData | Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65,535 bytes. |    
 | provisionVMAgent | Indicates whether virtual machine agent should be provisioned on the virtual machine. |    
-| winrRMListener | Contains configuration settings for the Windows Remote Management service on the virtual machine. This enables remote Windows PowerShell. |    
+| winrRMListener | Contains configuration settings for the Windows Remote Management service on the virtual machine. This element enables remote Windows PowerShell. |    
 | protocol | Specifies the protocol of listener. |    
 | certificateUrl | Specifies the URL of the certificate with which new virtual machines are provisioned. |    
 | additionalUnattendContent | Specifies additional base-64 encoded XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. |    
