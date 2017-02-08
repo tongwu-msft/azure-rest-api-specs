@@ -19,14 +19,21 @@ manager: "timlt"
 List all of the virtual machines scale sets in the specified resource group.    
     
 ## Request    
- See [Common parameters and headers](../Topic/Virtual%20Machine%20Scale%20Sets_deleted.md#bk_common) for headers and parameters that are used by virtual machine scale sets.    
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).    
     
 |Method|Request URI|    
 |------------|-----------------|    
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Compute/VirtualMachineScaleSets?api-version={api-version}`|    
-    
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets?api-version={apiVersion}`|    
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription. |
+| resourceGroup | The resource group that contains the scale sets. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. | 
+
 ## Response    
- Status code: 200 (OK).    
+Status code: 200 (OK).    
     
 ```    
 {    
@@ -175,7 +182,7 @@ List all of the virtual machines scale sets in the specified resource group.
     
 |Element name|Description|    
 |------------------|-----------------|    
-|mode|Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action in [Manage all VMs in a set](../VirtualMachineScaleSetsREST/manage-all-vms-in-a-set.md).<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time.|    
+|mode|Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action in [Manage all VMs in a set](manage-all-vms-in-a-set.md).<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time.|    
     
 ###  <a name="virtualMachineProfile"></a> virtualMachineProfile    
     
@@ -269,7 +276,8 @@ List all of the virtual machines scale sets in the specified resource group.
 |------------------|-----------------|    
 |[osDisk](#osDisk)|Specifies information about the operating system disk used by the virtual machines in the scale set.|    
 |[imageReference](#imageReference)|Specifies information about the platform or marketplace image to use. This element is required when you want to use a platform or marketplace image, but is not used in other creation operations.|    
-    
+|[dataDisks](#dataDisks)|Specifies information about the data disks used by the virtual machines in the scale set. Only used for a scale set with managed disks.|
+
 ###  <a name="osDisk"></a> osDisk    
     
 |Element name|Description|    
@@ -279,7 +287,23 @@ List all of the virtual machines scale sets in the specified resource group.
 |vhdsContainers|Specifies the container urls that are used to store operating system disks for the scale set.|    
 |caching|Specifies the caching type of the disk.|    
 |osType|Specifies the type of operating system on the disk.|    
+|[managedDisk](#managedDisk)|Specifies the managed disk parameters of the disk. This element is only used for scale sets with managed disks.|
+
+###  <a name="dataDisks"></a> dataDisks    
     
+|Element name|Description|    
+|------------------|--------------|----------|-----------------|    
+|lun|Specifies the Logical Unit Number of the of the disk in the virtual machine.|
+|caching|Specifies the caching type of the disk.|
+|createOption|Specifies how the disk was created.|
+|diskSizeInGBSpecifies the size of the disk in GB.|
+
+###  <a name="managedDisk"></a> managedDisk   
+    
+|Element name|Description|    
+|------------------|--------------|----------|-----------------|    
+|storageAccountType|Specifies the type of storage account used to create the disk.|
+
 ###  <a name="imageReference"></a> imageReference    
     
 |Element name|Description|    
@@ -288,6 +312,7 @@ List all of the virtual machines scale sets in the specified resource group.
 |offer|Specifies the offer of the image used to create the virtual machines in the scale set.|    
 |sku|Specifies the SKU of the image used to create the virtual machines in the scale set.|    
 |version|Specifies the version of the image used to create the virtual machine. You can use the value of latest to use the latest version of an image.|    
+|Id|Specifies the resource identifier of a virtual machine image used to create the virtual machine.|
     
 ### disks    
     

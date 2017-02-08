@@ -19,14 +19,22 @@ manager: "timlt"
 Retrieves information about the instance view of a virtual machine scale set.    
     
 ## Request    
- See [Common parameters and headers](../Topic/Virtual%20Machine%20Scale%20Sets_deleted.md#bk_common) for headers and parameters that are used by virtual machine scale sets.    
-    
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).   
+
 |Method|Request URI|    
 |------------|-----------------|    
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vm-scaleset-name}/instanceView?api-version={api-version}`|    
-    
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}/instanceView?api-version={apiVersion}`|    
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription. |
+| resourceGroup | The resource group that will contain the scale set. |
+| vmScaleSet | The name of the scale set. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |
+
 ## Response    
- Status code: 200 (OK).    
+Status code: 200 (OK).    
     
 ```    
 {     
@@ -61,14 +69,14 @@ Retrieves information about the instance view of a virtual machine scale set.
     
 ##  <a name="virtualMachines"></a> virtualMachines    
     
-|||    
-|-|-|    
+|Element name|Description|    
+|------------|-----------|    
 |[statusSummary](#statusSummary)|Specifies a summary of virtual machine status values.|    
     
 ##  <a name="statuses"></a> statuses    
     
-|||    
-|-|-|    
+|Element name|Description|    
+|------------|-----------|       
 |code|Specifies the status of the scale set.<br /><br /> Possible values are:<br /><br /> **provisioningState/succeeded**<br /><br /> **provisioningState/failed**<br /><br /> **provisioningState/updating**|    
 |message|If available, specifies a detailed message about the status.|    
 |level|Specifies the status level.<br /><br /> Possible values are:<br /><br /> **Info**<br /><br /> **Warning**<br /><br /> **Error**|    
@@ -76,8 +84,8 @@ Retrieves information about the instance view of a virtual machine scale set.
     
 ##  <a name="extensions"></a> extensions    
     
-|||    
-|-|-|    
+|Element name|Description|    
+|------------|-----------|      
 |name|Specifies the name of the extension.|    
 |[statusSummary](#statusSummary)|Specifies a summary of extension status values.|    
     
