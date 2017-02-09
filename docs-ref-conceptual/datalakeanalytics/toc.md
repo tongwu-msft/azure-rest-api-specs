@@ -1,0 +1,10 @@
+
+# [Catalog management APIs](catalog-management-apis.md)
+## [List U-SQL catalog items](list-u-sql-catalog-items.md)
+## [Get information about a U-SQL catalog item](get-information-about-a-u-sql-catalog-item.md)
+## [Delete a U-SQL credential1](delete-a-u-sql-credential1.md)
+# [Job management APIs](job-management-apis.md)
+## [Submit a job](submit-a-job.md)
+## [Get information about a job](get-information-about-a-job.md)
+## [List jobs](list-jobs.md)
+## [Cancel a job1](cancel-a-job1.md)
