@@ -29,7 +29,7 @@ translation.priority.mt:
 Create or update a representation of your on-premises network VPN gateway device.  
   
 ## Request  
- See [Local Network Gateways ](local-network-gatewaysÂ.md) for headers and parameters that are used by all requests related to local network gateways.  
+ See [Local Network Gateways ](local-network-gateways.md) for headers and parameters that are used by all requests related to local network gateways.  
   
 |Method|Request URI|  
 |------------|-----------------|  
