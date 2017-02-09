@@ -1,7 +1,7 @@
 # [Load balancer](load-balancer.md)
 ## [Create or update a load balancer](create-or-update-a-load-balancer.md)
 ## [Delete a load balancer](delete-a-load-balancer.md)
-## [Get information about a load balancer ](get-information-about-a-load-balancer .md)
+## [Get information about a load balancer ](get-information-about-a-load-balancer.md)
 ## [List load balancers within a resource group](list-load-balancers-within-a-resource-group.md)
 ## [List load balancers within a subscription](list-load-balancers-within-a-subscription.md)
 # [Load balancer inbound NAT rules](load-balancer-inbound-nat-rules.md)
