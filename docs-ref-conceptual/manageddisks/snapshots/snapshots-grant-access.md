@@ -27,7 +27,7 @@ For information about getting started with Azure REST operations including reque
 | subscriptionId | The identifier of your subscription where the snapshot is located. |
 | resourceGroup | The name of the resource group that contains the snapshot. |
 | snapshotName | The name of the snapshot that is associated with the blob being accessed. |
-| api-version | The version of the API to use. The current version is 2017-03-30. |
+| api-version | The version of the API to use. The current version is 2016-04-30-preview. |
 
 ```json
 {  

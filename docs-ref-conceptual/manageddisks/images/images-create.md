@@ -26,7 +26,7 @@ For information about getting started with Azure REST operations including reque
 | subscriptionId | The identifier of your subscription where the virtual machine image is being created. |
 | resourceGroup | The name of the resource group that will contain the virtual machine image. |
 | imageName | The name of the virtual machine image that is being created. |
-| api-version | The version of the API to use. The current version is 2017-03-30. |
+| api-version | The version of the API to use. The current version is 2016-04-30-preview. |
 
 The structure of the request body depends on how you want to create a virtual machine image. Each of these sections shows the required elements in a request for each source type. Optional elements are described later in this article.
 

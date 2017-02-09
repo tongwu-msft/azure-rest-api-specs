@@ -25,7 +25,7 @@ For information about getting started with Azure REST operations including reque
 | --------- | ----------- |
 | subscriptionId | The identifier of your subscription where the virtual machine images are located. |
 | resourceGroup | The name of the resource group that contains the virtual machine images. |
-| api-version | The version of the API to use. The current version is 2017-03-30. |
+| api-version | The version of the API to use. The current version is 2016-04-30-preview. |
  
 ## Response 
 
