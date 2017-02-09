@@ -65,13 +65,13 @@ Use these APIs to manage your Azure Networking resources. All task operations co
   
 -   [Create or update a network security rule](create-or-update-a-network-security-rule.md)  
   
--   [Get information about a network security rule ](get-information-about-a-network-security-rule .md)  
+-   [Get information about a network security rule ](get-information-about-a-network-security-rule.md)  
   
  **Public IP Addresses**  
   
--   [Create or update a public IP address ](create-or-update-a-public-ip-address .md)  
+-   [Create or update a public IP address ](create-or-update-a-public-ip-address.md)  
   
--   [Get information about a public IP address ](get-information-about-a-public-ip-address .md)  
+-   [Get information about a public IP address ](get-information-about-a-public-ip-address.md)  
   
  **Subnets**  
   
@@ -96,12 +96,6 @@ Use these APIs to manage your Azure Networking resources. All task operations co
 -   [Create or update a route](create-or-update-a-route.md)  
   
 -   [Get information about a route](get-information-about-a-route.md)  
-  
- **Load Balancer**  
-  
--   Configure [Load balancer](../Load_Balancers/load-balancer.md)  
-  
--   Configure [Load balancer inbound NAT rules](../Load_Balancers/load-balancer-inbound-nat-rules.md)  
   
  **Supporting Tasks**  
   
