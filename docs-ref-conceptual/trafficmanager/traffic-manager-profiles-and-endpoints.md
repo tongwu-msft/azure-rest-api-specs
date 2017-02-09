@@ -29,25 +29,25 @@ Enables you to manage Azure Traffic Manager profiles and endpoints.
   
 -   Set the Content-Type header to **application/json**.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../Topic/Authenticating%20Azure%20Resource%20Manager%20requests.md)  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../../index.md)  
   
 ## Tasks  
  The Traffic Manager REST API supports the following operations on Traffic Manager profiles:  
   
--   [Create or update a Traffic Manager profile](../TrafficManagerREST/create-or-update-a-traffic-manager-profile.md)  
+-   [Create or update a Traffic Manager profile](create-or-update-a-traffic-manager-profile.md)  
   
--   [Get a Traffic Manager profile](../TrafficManagerREST/get-a-traffic-manager-profile.md)  
+-   [Get a Traffic Manager profile](get-a-traffic-manager-profile.md)  
   
--   [Delete a Traffic Manager profile](../TrafficManagerREST/delete-a-traffic-manager-profile.md)  
+-   [Delete a Traffic Manager profile](delete-a-traffic-manager-profile.md)  
   
--   [List Traffic Manager profiles](../TrafficManagerREST/list-traffic-manager-profiles.md)  
+-   [List Traffic Manager profiles](list-traffic-manager-profiles.md)  
   
  In addition, the Traffic Manager REST API supports the following operations on individual Traffic Manager endpoints:  
   
--   [Create or update a Traffic Manager endpoint](../TrafficManagerREST/create-or-update-a-traffic-manager-endpoint.md)  
+-   [Create or update a Traffic Manager endpoint](create-or-update-a-traffic-manager-endpoint.md)  
   
--   [Get a Traffic Manager endpoint](../TrafficManagerREST/get-a-traffic-manager-endpoint.md)  
+-   [Get a Traffic Manager endpoint](get-a-traffic-manager-endpoint.md)  
   
--   [Delete a Traffic Manager endpoint](../TrafficManagerREST/delete-a-traffic-manager-endpoint.md)  
+-   [Delete a Traffic Manager endpoint](delete-a-traffic-manager-endpoint.md)  
   
- To list the endpoints in a profile, see ‘[Get a Traffic Manager profile](../TrafficManagerREST/get-a-traffic-manager-profile.md)’
+ To list the endpoints in a profile, see ‘[Get a Traffic Manager profile](get-a-traffic-manager-profile.md)’
