@@ -41,17 +41,17 @@ Public IP addresses can be used to acquire a static or dynamic public IP address
   
 -   Set the Content-Type header to application/json.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../Topic/Authenticating%20Azure%20Resource%20Manager%20requests.md).  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../../index.md).  
   
 ## Tasks  
  You can do the following with public IP address:  
   
--   [Create or update a public IP address ](create-or-update-a-public-ip-address .md)  
+-   [Create or update a public IP address ](create-or-update-a-public-ip-address.md)  
   
--   [Delete a public IP address ](delete-a-public-ip-address .md)  
+-   [Delete a public IP address ](delete-a-public-ip-address.md)  
   
--   [Get information about a public IP address ](get-information-about-a-public-ip-address .md)  
+-   [Get information about a public IP address ](get-information-about-a-public-ip-address.md)  
   
--   [List public IP addresses within a resource group ](list-public-ip-addresses-within-a-resource-group .md)  
+-   [List public IP addresses within a resource group ](list-public-ip-addresses-within-a-resource-group.md)  
   
--   [List public IP addresses within a subscription ](list-public-ip-addresses-within-a-subscription .md)
+-   [List public IP addresses within a subscription ](list-public-ip-addresses-within-a-subscription.md)
