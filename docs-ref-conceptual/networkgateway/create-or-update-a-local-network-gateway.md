@@ -29,12 +29,12 @@ translation.priority.mt:
 Create or update a representation of your on-premises network VPN gateway device.  
   
 ## Request  
- See [Local Network Gateways ](../NetworkGatewayREST/local-network-gatewaysÂ .md) for headers and parameters that are used by all requests related to local network gateways.  
+ See [Local Network Gateways ](local-network-gatewaysÂ.md) for headers and parameters that are used by all requests related to local network gateways.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways/{local-network-gateway-name}?api-version={api-version}`|  
-|PATCH|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways/{local-network-gateway-name}?api-version={api-version}`|  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways/{local-network-gateway-name}?api-version={api-version}`|  
+|PATCH|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways/{local-network-gateway-name}?api-version={api-version}`|  
   
  The Patch method can be used to update individual properties.  
   

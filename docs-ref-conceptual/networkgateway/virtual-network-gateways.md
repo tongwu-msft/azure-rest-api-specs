@@ -41,15 +41,15 @@ Enables you to interact with virtual network gateways.
   
 -   Set the Content-Type header to application/json.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../Topic/Authenticating%20Azure%20Resource%20Manager%20requests.md).  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../../index.md).  
   
 ## Tasks  
  You can do the following with virtual network gateways:  
   
--   [Create or update a virtual network gateway](../NetworkGatewayREST/create-or-update-a-virtual-network-gateway.md)  
+-   [Create or update a virtual network gateway](create-or-update-a-virtual-network-gateway.md)  
   
--   [Delete a virtual network gateway](../NetworkGatewayREST/delete-a-virtual-network-gateway.md)  
+-   [Delete a virtual network gateway](delete-a-virtual-network-gateway.md)  
   
--   [Get information about a virtual network gateway](../NetworkGatewayREST/get-information-about-a-virtual-network-gateway.md)  
+-   [Get information about a virtual network gateway](get-information-about-a-virtual-network-gateway.md)  
   
--   [List all of the virtual network gateways](../NetworkGatewayREST/list-all-of-the-virtual-network-gateways.md)
+-   [List all of the virtual network gateways](list-all-of-the-virtual-network-gateways.md)
