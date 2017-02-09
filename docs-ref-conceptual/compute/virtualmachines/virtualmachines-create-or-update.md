@@ -27,7 +27,7 @@ For information about getting started with Azure REST operations including reque
 | subscriptionId | The identifier of your subscription. |
 | resourceGroup | The resource group that will contain the virtual machine. |
 | vm | The name of the virtual machine. |
-| apiVersion | The version of the API to use. The current version is 2017-03-30. |
+| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |
 
  The following example shows the request body for creating a virtual machine from a platform image. For examples of creating virtual machines in other ways, see the Examples section below.    
     
@@ -245,7 +245,7 @@ For information about getting started with Azure REST operations including reque
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
-| id | Yes, if using a virtual machine image. | String | Specifies the resource identifier of a virtual machine image in your subscription. This element is only used for virtual machine images, not platform images or marketplace images. <br><br>Minimum api-version: 2017-03-30 |
+| id | Yes, if using a virtual machine image. | String | Specifies the resource identifier of a virtual machine image in your subscription. This element is only used for virtual machine images, not platform images or marketplace images. <br><br>Minimum api-version: 2016-04-30-preview |
 | publisher | Yes | String | Specifies the publisher of the platform image or marketplace image used to create the virtual machine. For more information about how to find image information, see [Navigating and Selecting Azure Virtual Machine images with PowerShell and the Azure CLI](https://docs.microsoft.com/azure/virtual-machines//virtual-machines/virtual-machines-windows-cli-ps-findimage?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). |    
 | offer | Yes | String | Specifies the offer of the platform image or marketplace image used to create the virtual machine. |    
 | sku | Yes | String | Specifies the SKU of the platform image or marketplace image used to create the virtual machine. |    

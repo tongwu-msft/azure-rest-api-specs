@@ -33,7 +33,7 @@ For information about getting started with Azure REST operations including reque
 | subscriptionId | The identifier of your subscription where the managed disk is being created. |
 | resourceGroup | The name of the resource group that will contain the managed disk. |
 | diskName | The name of the managed disk that is being created. The name can’t be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters. |
-| api-version | The version of the API to use. The current version is 2017-03-30. |
+| api-version | The version of the API to use. The current version is 2016-04-30-preview. |
 
 The structure of the request body depends on how you want to create a managed disk. Each of these sections shows the required elements in a request for each creation method. Optional elements are described later in this article.
 
