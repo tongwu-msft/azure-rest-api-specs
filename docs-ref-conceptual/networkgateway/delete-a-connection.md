@@ -1,5 +1,5 @@
 ---
-title: "Get the shared key for a connection&#160;"
+title: "Delete a connection&#160;"
 ms.custom: ""
 ms.date: "05/03/2015"
 ms.prod: "azure"
@@ -8,7 +8,7 @@ ms.service: "virtual-network"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
-ms.assetid: 3050fc8a-af43-4b16-bae6-9c9005e3f95b
+ms.assetid: 01d138e1-e7ad-4ec1-b4ca-2932c397d564
 caps.latest.revision: 4
 author: "georgewallace"
 ms.author: "gwallace"
@@ -25,23 +25,15 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get the shared key for a connection&#160;
-Gets the shared key for the connection.  
+# Delete a connection&#160;
+Delete the specified gateway connection.  
   
 ## Request  
  See [Connections](../NetworkGatewayREST/connections.md) for headers and parameters that are used by all requests related to connections.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/connections/{connection-name}/sharedkey?api-version={api-version}`|  
+|DELETE|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroup/{resource-group-name}/providers/microsoft.network/connections/{connection-name}?api-version={api-version}`|  
   
 ## Response  
- Status code: 200 (OK) if the connection exists; otherwise, 404 (Not Found).  
-  
-```  
-{  
-  "value": {shared-key-value}  
-}  
-```  
-  
- The value element contains the shared key of the connection.
+ Status code: 200 (OK) if the connection can be deleted. 404 (Not Found) if the connection doesn’t exist.
