@@ -48,10 +48,10 @@ Subnets represent network segments within the IP space defined by the virtual ne
 ## Tasks  
  You can do the following with subnets:  
   
--   [Create or update a subnet](../NetworkREST/create-or-update-a-subnet.md)  
+-   [Create or update a subnet](create-or-update-a-subnet.md)  
   
--   [Delete a subnet](../NetworkREST/delete-a-subnet.md)  
+-   [Delete a subnet](delete-a-subnet.md)  
   
--   [Get information about a subnet](../NetworkREST/get-information-about-a-subnet.md)  
+-   [Get information about a subnet](get-information-about-a-subnet.md)  
   
--   [List subnets within a virtual network](../NetworkREST/list-subnets-within-a-virtual-network.md)
+-   [List subnets within a virtual network](list-subnets-within-a-virtual-network.md)

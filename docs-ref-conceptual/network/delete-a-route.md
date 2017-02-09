@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Delete a route
 ## Request  
- See [Common parameters and headers](../NetworkREST/routes.md#bk_common) for headers and parameters that are used by all requests related to Routes.  
+ See [Common parameters and headers](routes.md#bk_common) for headers and parameters that are used by all requests related to Routes.  
   
 |Method|Request URI|  
 |------------|-----------------|  

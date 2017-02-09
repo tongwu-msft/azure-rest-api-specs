@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Get information about a network interface card
 ## Request  
- See [Common parameters and headers](../NetworkREST/network-interface-cards.md#bk_common) for headers and parameters that are used by all requests related to network interface cards.  
+ See [Common parameters and headers](network-interface-cards.md#bk_common) for headers and parameters that are used by all requests related to network interface cards.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -38,7 +38,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** 200; otherwise a 404 will be returned.  
   
-```  
+```json  
 {   
    "name":"mynic1",  
    "id":"/subscriptions/{guid}/resourceGroups/myrg1/providers/Microsoft.Network/networkInterfaces/vm1mynic1",  

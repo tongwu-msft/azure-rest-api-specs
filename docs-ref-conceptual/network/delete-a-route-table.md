@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Delete a route table
 ## Request  
- See [Common parameters and headers](../NetworkREST/route-tables.md#bk_common) for headers and parameters that are used by all requests related to route table.  
+ See [Common parameters and headers](route-tables.md#bk_common) for headers and parameters that are used by all requests related to route table.  
   
 |Method|Request URI|  
 |------------|-----------------|  

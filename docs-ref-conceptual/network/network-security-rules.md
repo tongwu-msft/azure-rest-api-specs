@@ -46,14 +46,14 @@ Network security rules define a pattern of traffic to be enabled or denied. Netw
 ## Tasks  
  You can do the following with Network Security Rules:  
   
--   [Create or update a network security rule](../NetworkREST/create-or-update-a-network-security-rule.md)  
+-   [Create or update a network security rule](create-or-update-a-network-security-rule.md)  
   
--   [Delete a network security rule](../NetworkREST/delete-a-network-security-rule.md)  
+-   [Delete a network security rule](delete-a-network-security-rule.md)  
   
--   [Get information about a default network security rule ](../NetworkREST/get-information-about-a-default-network-security-rule .md)  
+-   [Get information about a default network security rule ](get-information-about-a-default-network-security-rule .md)  
   
--   [Get information about a network security rule ](../NetworkREST/get-information-about-a-network-security-rule .md)  
+-   [Get information about a network security rule ](get-information-about-a-network-security-rule .md)  
   
--   [List default networks security rules within a network security group](../NetworkREST/list-default-networks-security-rules-within-a-network-security-group.md)  
+-   [List default networks security rules within a network security group](list-default-networks-security-rules-within-a-network-security-group.md)  
   
--   [List networks security rules within a network security group](../NetworkREST/list-networks-security-rules-within-a-network-security-group.md)
+-   [List networks security rules within a network security group](list-networks-security-rules-within-a-network-security-group.md)

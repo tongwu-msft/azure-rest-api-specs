@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Get information about a default network security rule&#160;
 ## Request  
- See [Common parameters and headers](../NetworkREST/network-security-rules.md#bk_common) for headers and parameters that are used by all requests related to network security rules.  
+ See [Common parameters and headers](network-security-rules.md#bk_common) for headers and parameters that are used by all requests related to network security rules.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -38,7 +38,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** 200; otherwise a 404 will be returned.  
   
-```  
+```json  
 {  
    "name": "rule1",  
    "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNsg/securityRules/rule1",  

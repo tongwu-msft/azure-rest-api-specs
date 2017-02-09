@@ -36,7 +36,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** 200  
   
-```  
+```json  
 [  
    {  
       "name": "myPublicIP1",  

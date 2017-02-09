@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # List route tables within a resource group
 ## Request  
- See [Common parameters and headers](../NetworkREST/route-tables.md#bk_common) for headers and parameters that are used by all requests related to Route Tables.  
+ See [Common parameters and headers](route-tables.md#bk_common) for headers and parameters that are used by all requests related to Route Tables.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -36,7 +36,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** 200 (OK)  
   
-```  
+```json  
 [  
 {  
     "name": "myRouteTable-1",  
@@ -111,4 +111,4 @@ translation.priority.mt:
 |subnets|Collection of subnets with which this route table has been associated (if any).|  
   
 ## Remarks  
- For more information about routes, see  [Get information about a route](../NetworkREST/get-information-about-a-route.md).
+ For more information about routes, see  [Get information about a route](get-information-about-a-route.md).

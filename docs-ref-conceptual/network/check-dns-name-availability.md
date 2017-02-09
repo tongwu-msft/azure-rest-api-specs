@@ -27,18 +27,18 @@ translation.priority.mt:
 ---
 # Check Dns name availability
 ## Request  
- See [Common parameters and headers](../NetworkREST/supporting-tasks.md#bk_common) for headers and parameters that are used by all requests related to supporting tasks.  
+ See [Common parameters and headers](supporting-tasks.md#bk_common) for headers and parameters that are used by all requests related to supporting tasks.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability?domainNameLabel={DomainNameLabel}&api-version={api-version}`|  
+|GET|`/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability?domainNameLabel={DomainNameLabel}&api-version={api-version}`|  
   
  Replace {location} with the name of the region in which you wish to check the Dns name availability, and {DomainNameLabel} with the relative Dns name you wish to check within that region.  
   
 ## Response  
  **Status code:** Returns status code 200 (OK), if the operation was successful.  
   
-```  
+```json
 {  
    "Available": "true|false"  
 }  
