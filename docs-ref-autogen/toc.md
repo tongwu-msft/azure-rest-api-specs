@@ -422,7 +422,7 @@
 ## [Load balancer](../docs-ref-conceptual/loadbalancer/load-balancer.md)
 ### [Create or update a load balancer](../docs-ref-conceptual/loadbalancer/create-or-update-a-load-balancer.md)
 ### [Delete a load balancer](../docs-ref-conceptual/loadbalancer/delete-a-load-balancer.md)
-### [Get information about a load balancer ](../docs-ref-conceptual/loadbalancer/get-information-about-a-load-balancer .md)
+### [Get information about a load balancer ](../docs-ref-conceptual/loadbalancer/get-information-about-a-load-balancer.md)
 ### [List load balancers within a resource group](../docs-ref-conceptual/loadbalancer/list-load-balancers-within-a-resource-group.md)
 ### [List load balancers within a subscription](../docs-ref-conceptual/loadbalancer/list-load-balancers-within-a-subscription.md)
 ## [Load balancer inbound NAT rules](../docs-ref-conceptual/loadbalancer/load-balancer-inbound-nat-rules.md)
