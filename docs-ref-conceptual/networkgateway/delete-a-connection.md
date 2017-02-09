@@ -29,11 +29,11 @@ translation.priority.mt:
 Delete the specified gateway connection.  
   
 ## Request  
- See [Connections](../NetworkGatewayREST/connections.md) for headers and parameters that are used by all requests related to connections.  
+ See [Connections](connections.md) for headers and parameters that are used by all requests related to connections.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroup/{resource-group-name}/providers/microsoft.network/connections/{connection-name}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscriptionId}/resourceGroup/{resource-group-name}/providers/microsoft.network/connections/{connection-name}?api-version={api-version}`|  
   
 ## Response  
  Status code: 200 (OK) if the connection can be deleted. 404 (Not Found) if the connection doesn’t exist.
