@@ -136,6 +136,7 @@
 ### [Start a virtual machine](../docs-ref-conceptual/compute/virtualmachines/virtualmachines-start.md)
 ### [Stop a virtual machine](../docs-ref-conceptual/compute/virtualmachines/virtualmachines-stop.md)
 ### [Stop and deallocate a virtual machine](../docs-ref-conceptual/compute/virtualmachines/virtualmachines-stop-deallocate.md)
+## [Container Services](compute/ContainerServices.json)
 # [Container Registry](../docs-ref-conceptual/containerregistry/index.md)
 ## [Registries](containerregistry/Registries.json)
 # [Data Catalog](../docs-ref-conceptual/datacatalog/index.md)
