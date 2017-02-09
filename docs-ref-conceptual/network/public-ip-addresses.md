@@ -46,12 +46,12 @@ Public IP addresses can be used to acquire a static or dynamic public IP address
 ## Tasks  
  You can do the following with public IP address:  
   
--   [Create or update a public IP address ](../NetworkREST/create-or-update-a-public-ip-address .md)  
+-   [Create or update a public IP address ](create-or-update-a-public-ip-address .md)  
   
--   [Delete a public IP address ](../NetworkREST/delete-a-public-ip-address .md)  
+-   [Delete a public IP address ](delete-a-public-ip-address .md)  
   
--   [Get information about a public IP address ](../NetworkREST/get-information-about-a-public-ip-address .md)  
+-   [Get information about a public IP address ](get-information-about-a-public-ip-address .md)  
   
--   [List public IP addresses within a resource group ](../NetworkREST/list-public-ip-addresses-within-a-resource-group .md)  
+-   [List public IP addresses within a resource group ](list-public-ip-addresses-within-a-resource-group .md)  
   
--   [List public IP addresses within a subscription ](../NetworkREST/list-public-ip-addresses-within-a-subscription .md)
+-   [List public IP addresses within a subscription ](list-public-ip-addresses-within-a-subscription .md)

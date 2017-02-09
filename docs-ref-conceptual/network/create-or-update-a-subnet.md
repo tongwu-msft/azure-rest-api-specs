@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Create or update a subnet
 ## Request  
- See [Common parameters and headers](../NetworkREST/subnets.md#bk_common) for headers and parameters that are used by all requests related to subnets.  
+ See [Common parameters and headers](subnets.md#bk_common) for headers and parameters that are used by all requests related to subnets.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -35,7 +35,7 @@ translation.priority.mt:
   
  Replace {subnet-name} with the name of the subnet which you want to create or update.  
   
-```  
+```json  
 {   
    "properties":{   
       "addressPrefix":"10.1.0.0/24",  
@@ -60,7 +60,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** 200.  
   
-```  
+```json  
 {   
    "name":"mysubnet1",  
    "id":"/subscriptions/{guid}/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/mysubnet1",  

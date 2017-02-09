@@ -44,12 +44,12 @@ Network interface cards are virtual network cards that form the link between vir
 ## Tasks  
  You can do the following with network interface cards:  
   
--   [Create or update a network interface card](../NetworkREST/create-or-update-a-network-interface-card.md)  
+-   [Create or update a network interface card](create-or-update-a-network-interface-card.md)  
   
--   [Delete a network interface card](../NetworkREST/delete-a-network-interface-card.md)  
+-   [Delete a network interface card](delete-a-network-interface-card.md)  
   
--   [Get information about a network interface card](../NetworkREST/get-information-about-a-network-interface-card.md)  
+-   [Get information about a network interface card](get-information-about-a-network-interface-card.md)  
   
--   [List network interface cards within a resource group](../NetworkREST/list-network-interface-cards-within-a-resource-group.md)  
+-   [List network interface cards within a resource group](list-network-interface-cards-within-a-resource-group.md)  
   
--   [List network interface cards within a subscription](../NetworkREST/list-network-interface-cards-within-a-subscription.md)
+-   [List network interface cards within a subscription](list-network-interface-cards-within-a-subscription.md)

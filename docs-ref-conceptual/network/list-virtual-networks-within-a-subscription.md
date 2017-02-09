@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # List virtual networks within a subscription
 ## Request  
- See [Common parameters and headers](../NetworkREST/virtual-networks.md#bk_common) for headers and parameters that are used by all requests related to Virtual Networks.  
+ See [Common parameters and headers](virtual-networks.md#bk_common) for headers and parameters that are used by all requests related to Virtual Networks.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -36,7 +36,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** 200  
   
-```  
+```json  
 [   
    {   
       "name":" myvnet1",  
@@ -108,4 +108,4 @@ translation.priority.mt:
 |subnets|Collection of subnets contained within this Virtual Network|  
   
 ## Remarks  
- For more information about subnets, see [Get information about a subnet](../NetworkREST/get-information-about-a-subnet.md).
+ For more information about subnets, see [Get information about a subnet](get-information-about-a-subnet.md).

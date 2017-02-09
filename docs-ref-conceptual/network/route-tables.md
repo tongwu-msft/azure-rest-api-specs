@@ -44,10 +44,10 @@ Route table resource is associated with a subnet. The route table resource enabl
 ## Tasks  
  You can do the following with route table:  
   
--   [Create or update a route table](../NetworkREST/create-or-update-a-route-table.md)  
+-   [Create or update a route table](create-or-update-a-route-table.md)  
   
--   [Delete a route table](../NetworkREST/delete-a-route-table.md)  
+-   [Delete a route table](delete-a-route-table.md)  
   
--   [Get information about a route table](../NetworkREST/get-information-about-a-route-table.md)  
+-   [Get information about a route table](get-information-about-a-route-table.md)  
   
--   [List route tables within a resource group](../NetworkREST/list-route-tables-within-a-resource-group.md)
+-   [List route tables within a resource group](list-route-tables-within-a-resource-group.md)
