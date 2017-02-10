@@ -14,9 +14,9 @@ manager: "jhubbard"
 # Catalog management APIs
 Use the following REST APIs to manage Azure Data Lake Analytics catalogs.  
   
--   [List U-SQL catalog items](../AzureDataLakeStoreREST/list-u-sql-catalog-items.md)  
--   [Get information about a U-SQL catalog item](../AzureDataLakeStoreREST/get-information-about-a-u-sql-catalog-item.md)  
--   [Delete a U-SQL credential](../Topic/Delete%20a%20U-SQL%20credential.md)  
+-   [List U-SQL catalog items](list-u-sql-catalog-items.md)  
+-   [Get information about a U-SQL catalog item](get-information-about-a-u-sql-catalog-item.md)  
+-   [Delete a U-SQL credential](delete-a-u-sql-credential1.md)  
   
 ##  <a name="bk_common_adla"></a> Common parameters and headers  
  The following information is common to all tasks that you might do related to Data Lake Store:  

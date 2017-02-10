@@ -18,10 +18,10 @@ manager: "jhubbard"
 # Job management APIs
 Use the following REST APIs to manage Azure Data Lake Analytics jobs.  
   
--   [Submit a job](../AzureDataLakeStoreREST/submit-a-job.md)    
--   [Get information about a job](../AzureDataLakeStoreREST/get-information-about-a-job.md)    
--   [List jobs](../AzureDataLakeStoreREST/list-jobs.md)    
--   [Cancel a job](../Topic/Cancel%20a%20job.md)  
+-   [Submit a job](submit-a-job.md)    
+-   [Get information about a job](get-information-about-a-job.md)    
+-   [List jobs](list-jobs.md)    
+-   [Cancel a job](cancel-a-job1.md)  
   
   
 ##  <a name="bk_common_adla"></a> Common parameters and headers  
