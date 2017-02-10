@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Delete a network interface card
 ## Request  
- See [Common parameters and headers](../NetworkREST/network-interface-cards.md#bk_common) for headers and parameters that are used by all requests related to network interface cards.  
+ See [Common parameters and headers](network-interface-cards.md#bk_common) for headers and parameters that are used by all requests related to network interface cards.  
   
 |Method|Request URI|  
 |------------|-----------------|  

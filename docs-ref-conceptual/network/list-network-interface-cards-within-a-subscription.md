@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # List network interface cards within a subscription
 ## Request  
- See [Common parameters and headers](../NetworkREST/network-interface-cards.md#bk_common) for headers and parameters that are used by all requests related to network interface cards.  
+ See [Common parameters and headers](network-interface-cards.md#bk_common) for headers and parameters that are used by all requests related to network interface cards.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -36,7 +36,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** 200  
   
-```  
+```json  
 [   
    {   
       "name":"mynic1",  

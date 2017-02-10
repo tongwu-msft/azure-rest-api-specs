@@ -39,15 +39,15 @@ Route resource describes the packet forwarding rule for a given IP address or a 
   
 -   Set the Content-Type header to application/json.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../Topic/Authenticating%20Azure%20Resource%20Manager%20requests.md).  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../../index.md).  
   
 ## Tasks  
  You can do the following with Routes:  
   
--   [Create or update a route](../NetworkREST/create-or-update-a-route.md)  
+-   [Create or update a route](create-or-update-a-route.md)  
   
--   [Delete a route](../NetworkREST/delete-a-route.md)  
+-   [Delete a route](delete-a-route.md)  
   
--   [Get information about a route](../NetworkREST/get-information-about-a-route.md)  
+-   [Get information about a route](get-information-about-a-route.md)  
   
--   [List routes within a route table](../NetworkREST/list-routes-within-a-route-table2.md)
+-   [List routes within a route table](list-routes-within-a-route-table2.md)

@@ -29,12 +29,12 @@ translation.priority.mt:
 Create a connection between two provided gateway resources.  
   
 ## Request  
- See [Connections](../NetworkGatewayREST/connections.md) for headers and parameters that are used by all requests related to connections.  
+ See [Connections](connections.md) for headers and parameters that are used by all requests related to connections.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroup/{resource-group-name}/providers/microsoft.network/connections/{connection-name}?api-version={api-version}`|  
-|PATCH|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroup/{resource-group-name}/providers/microsoft.network/connections/{connection-name}?api-version={api-version}`|  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroup/{resource-group-name}/providers/microsoft.network/connections/{connection-name}?api-version={api-version}`|  
+|PATCH|`/subscriptions/{subscriptionId}/resourceGroup/{resource-group-name}/providers/microsoft.network/connections/{connection-name}?api-version={api-version}`|  
   
  The Patch method can be used to update individual properties.  
   

@@ -29,11 +29,11 @@ translation.priority.mt:
 List all of the connections for the specific virtual network gateway.  
   
 ## Request  
- See [Connections](../NetworkGatewayREST/connections.md) for headers and parameters that are used by all requests related to connections.  
+ See [Connections](connections.md) for headers and parameters that are used by all requests related to connections.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/virtualNetworkGateways/{virtual-network-gateway-name}/connections?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/virtualNetworkGateways/{virtual-network-gateway-name}/connections?api-version={api-version}`|  
   
 ## Response  
  Status code: 200 (OK) if the action is successful; otherwise, 404 (Not Found).  

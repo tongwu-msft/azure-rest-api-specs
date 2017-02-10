@@ -29,16 +29,16 @@ translation.priority.mt:
 Get information about the specified local network gateway.  
   
 ## Request  
- See [Local Network Gateways ](../NetworkGatewayREST/local-network-gateways .md) for headers and parameters that are used by all requests related to local network gateways.  
+ See [Local Network Gateways ](local-network-gateways.md) for headers and parameters that are used by all requests related to local network gateways.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways/{local-network-gateway-name}?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways/{local-network-gateway-name}?api-version={api-version}`|  
   
 ## Response  
  Status code: 200 (OK) if the action is successful; otherwise, 404 (Not Found).  
   
-```  
+```json  
 {  
 "name": "mylocalgateway1",  
 "id": "/subscriptions/{subscription-id}/resourceGroups/<resourceGroupName>/providers/microsoft.network/localNetworkGateways/mylocalgateway1",  

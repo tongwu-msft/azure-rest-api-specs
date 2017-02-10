@@ -31,10 +31,10 @@ The Circuit represents the entity created by customer to register with an expres
 ## Tasks  
  You can do the following with ExpressRoute Circuits:  
   
--   [Create or update an ExpressRoute Circuit](../AzureExpressRouteREST/create-or-update-an-expressroute-circuit.md)  
+-   [Create or update an ExpressRoute Circuit](create-or-update-an-expressroute-circuit.md)  
   
--   [List ExpressRoute Circuit](../AzureExpressRouteREST/list-expressroute-circuit.md)  
+-   [List ExpressRoute Circuit](list-expressroute-circuit.md)  
   
--   [Get ExpressRoute Circuit](../AzureExpressRouteREST/get-expressroute-circuit.md)  
+-   [Get ExpressRoute Circuit](get-expressroute-circuit.md)  
   
--   [Delete ExpressRoute Circuit](../AzureExpressRouteREST/delete-expressroute-circuit.md)
+-   [Delete ExpressRoute Circuit](delete-expressroute-circuit.md)

@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # List routes within a route table
 ## Request  
- See [Common parameters and headers](../NetworkREST/routes.md#bk_common) for headers and parameters that are used by all requests related to Routes.  
+ See [Common parameters and headers](routes.md#bk_common) for headers and parameters that are used by all requests related to Routes.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -38,7 +38,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** Returns status code of 200 (OK)  
   
-```  
+```json  
 [   
    {  
       "name": "myRoute1",  

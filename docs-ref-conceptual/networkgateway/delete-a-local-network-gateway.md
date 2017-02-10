@@ -29,11 +29,11 @@ translation.priority.mt:
 Delete the specified local network gateway.  
   
 ## Request  
- See [Local Network Gateways ](../NetworkGatewayREST/local-network-gateways .md) for headers and parameters that are used by all requests related to local network gateways.  
+ See [Local Network Gateways ](local-network-gateways.md) for headers and parameters that are used by all requests related to local network gateways.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways/{local-network-gateway-name}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways/{local-network-gateway-name}?api-version={api-version}`|  
   
 ## Response  
   

@@ -17,16 +17,16 @@ manager: "carolz"
 List Traffic Manager profiles within a resource group.  
   
 ## Request  
- See [Common parameters and headers](../TrafficManagerREST/traffic-manager-profiles-and-endpoints.md#bk_common) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
+ See [Common parameters and headers](traffic-manager-profiles-and-endpoints.md#bk_common) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles?api-version={api-version}`|  
   
 ## Response  
  **Status code:** 200 OK.  
   
-```  
+```json  
 {   
    "value":[   
       {   

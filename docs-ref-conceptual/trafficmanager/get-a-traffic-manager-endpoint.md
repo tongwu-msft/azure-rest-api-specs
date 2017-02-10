@@ -19,11 +19,11 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
  This page explains the latter approach—how to retrieve an individual Traffic Manager endpoint directly as a child resource within an existing profile.  
   
 ## Request  
- See [Traffic Manager profiles and endpoints](../TrafficManagerREST/traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
+ See [Traffic Manager profiles and endpoints](traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles/{profile-name}/{endpoint-type}/{endpoint-name}?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles/{profile-name}/{endpoint-type}/{endpoint-name}?api-version={api-version}`|  
   
  Replace {profile-name} with the name of the Traffic Manager profile.  
   
@@ -42,7 +42,7 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
   
  Example 1: AzureEndpoints  
   
-```  
+```json  
 {  
   "id": "{ARM resource ID of this endpoint}",  
   "name": "{endpoint-name}",  
@@ -61,7 +61,7 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
   
  Example 2: ExternalEndpoints  
   
-```  
+```json  
 {  
   "id": "{ARM resource ID of this endpoint}",  
   "name": "{endpoint-name}",  
@@ -79,7 +79,7 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
   
  Example 3: NestedEndpoints  
   
-```  
+```json  
 {  
   "id": "{ARM resource ID of this endpoint}",  
   "name": "{endpoint-name}",  

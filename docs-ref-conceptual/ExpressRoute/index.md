@@ -34,11 +34,11 @@ The  Microsoft Azure ExpressRoute Resource Provider REST API allows you to creat
   
  These APIs allow you to manage:  
   
--   [Operations on ExpressRoute Service Providers](../AzureExpressRouteREST/operations-on-expressroute-service-providers.md)  
+-   [Operations on ExpressRoute Service Providers](operations-on-expressroute-service-providers.md)  
   
--   [Operations on ExpressRoute Circuits](../AzureExpressRouteREST/operations-on-expressroute-circuits.md)  
+-   [Operations on ExpressRoute Circuits](operations-on-expressroute-circuits.md)  
   
--   [Operations on ExpressRoute BGP Peering](../AzureExpressRouteREST/operations-on-expressroute-bgp-peering.md)  
+-   [Operations on ExpressRoute BGP Peering](operations-on-expressroute-bgp-peering.md)  
   
 ##  <a name="bk_common"></a> Common parameters and headers  
  The following information is common to all tasks:  
