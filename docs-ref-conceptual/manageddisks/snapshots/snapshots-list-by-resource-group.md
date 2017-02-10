@@ -55,7 +55,7 @@ This response example includes all optional elements. Your actual response may n
 { 
   "value": [ 
     { 
-      "sku": { 
+      "accountType": { 
         "name": "Standard_LRS", 
         "tier": "Standard" 
       }, 
@@ -82,13 +82,7 @@ This response example includes all optional elements. Your actual response may n
           } 
         }, 
         "timeCreated": "2016-12-28T04:41:35.9278721+00:00", 
-        "provisioningState": "Succeeded", 
-        "disableBilling": false, 
-        "isArmResource": true, 
-        "computeAvailabilitySetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/myAV", 
-        "pseudoSubscriptionId": "{subscriptionId}", 
-        "storageAccountName": "md-mocke7eb9c429625", 
-        "blobUrl": "https://md-mocke7eb9c429625.blob.core.test-cint.azure-test.net/bnrxlmpb2cn1/abcd", 
+        "provisioningState": "Succeeded",
         "diskState": "Unattached" 
       }, 
       "type": "Microsoft.Compute/snapshots", 

@@ -32,7 +32,7 @@ For information about getting started with Azure REST operations including reque
   
 ```json
 {  
-  "sku": { 
+  "accountType": { 
     "name": "Standard_LRS", 
     "tier": "Standard" 
   },
@@ -47,7 +47,7 @@ For information about getting started with Azure REST operations including reque
 
 | Element name | Description |
 | ------------ | ----------- |
-| **name** | Specifies the name of the storage account type. If the sku element is included, the managed disk is moved to a different storage account of the desired type. |
+| **name** | Specifies the name of the storage account type. If the accountType element is included, the managed disk is moved to a different storage account of the desired type. |
 | **tier** | Specifies the tier of the storage account. |
 | **tags** | Specifies the name and value string pairs that can be used to track resources. |
 | **diskSizeGB** | Specifies the size that the managed disk should be changed to. |
@@ -78,7 +78,7 @@ This response example includes all optional elements. Your actual response may n
 
 ```json
 { 
-  "sku": { 
+  "accountType": { 
     "name": "Standard_LRS", 
     "tier": "Standard" 
   }, 
@@ -105,14 +105,7 @@ This response example includes all optional elements. Your actual response may n
     }, 
     "timeCreated": "2016-12-28T02:46:21.3322041+00:00", 
     "provisioningState": "Succeeded", 
-    "diskState": "Unattached", 
-    "faultDomain": 0 
-    "disableBilling": false, 
-    "isArmResource": true, 
-    "computeAvailabilitySetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/myAV", 
-    "pseudoSubscriptionId": "{subscriptionId}", 
-    "storageAccountName": "md-mockbaedfd88fde6", 
-    "blobUrl": "https://md-mockbaedfd88fde6.blob.core.test-cint.azure-test.net/s3gwt23k4scb/abcd", 
+    "diskState": "Unattached"
   }, 
   "type": "Microsoft.Compute/disks", 
   "location": "westus", 
