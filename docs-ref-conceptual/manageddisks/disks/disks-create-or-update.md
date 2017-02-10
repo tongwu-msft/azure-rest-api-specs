@@ -243,7 +243,7 @@ This response example includes all optional elements. Your actual response may n
 
 ```json
 { 
-  "sku": { 
+  "accountType": { 
     "name": "Standard_LRS", 
     "tier": "Standard" 
   }, 
@@ -270,14 +270,7 @@ This response example includes all optional elements. Your actual response may n
     }, 
     "timeCreated": "2016-12-28T02:46:21.3322041+00:00", 
     "provisioningState": "Succeeded", 
-    "diskState": "Unattached", 
-    "faultDomain": 0 
-    "disableBilling": false, 
-    "isArmResource": true, 
-    "computeAvailabilitySetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/myAV", 
-    "pseudoSubscriptionId": "{subscriptionId}", 
-    "storageAccountName": "md-mockbaedfd88fde6", 
-    "blobUrl": "https://md-mockbaedfd88fde6.blob.core.test-cint.azure-test.net/s3gwt23k4scb/abcd", 
+    "diskState": "Unattached"
   }, 
   "type": "Microsoft.Compute/disks", 
   "location": "westus", 
