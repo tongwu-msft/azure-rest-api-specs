@@ -17,15 +17,15 @@ manager: "carolz"
 Create or update a Traffic Manager profile within a resource group.  
   
 ## Request  
- See [Traffic Manager profiles and endpoints](../TrafficManagerREST/traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
+ See [Traffic Manager profiles and endpoints](traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|*PUT*|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles/{profile-name}?api-version={api-version}`|  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles/{profile-name}?api-version={api-version}`|  
   
  Replace {profile-name} with the name of the Traffic Manager profile to be created.  The profile name must be unique within the resource group.  
   
-```  
+```json  
 {  
   "location": "global",  
   "tags": {},  
@@ -108,7 +108,7 @@ Create or update a Traffic Manager profile within a resource group.
 ## Response  
  **Status code:** *200 or 201 depending on whether the resource is updated or created.*  
   
-```  
+```json  
 {   
    "location": "global",  
    "tags": { },  

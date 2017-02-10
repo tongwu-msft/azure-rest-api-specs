@@ -19,11 +19,11 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
  This page explains the latter approach—how to delete an individual Traffic Manager endpoint directly as a child resource within an existing profile.  
   
 ## Request  
- See [Traffic Manager profiles and endpoints](../TrafficManagerREST/traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
+ See [Traffic Manager profiles and endpoints](traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles/{profile-name}/{endpoint-type}/{endpoint-name}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles/{profile-name}/{endpoint-type}/{endpoint-name}?api-version={api-version}`|  
   
  Replace {profile-name} with the name of the Traffic Manager profile.  
   
