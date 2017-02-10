@@ -55,7 +55,7 @@ This response example includes all optional elements. Your actual response may n
 { 
   "value": [ 
     { 
-      "sku": { 
+      "accountType": { 
         "name": "Standard_LRS", 
         "tier": "Standard" 
       }, 
@@ -82,10 +82,7 @@ This response example includes all optional elements. Your actual response may n
           } 
         }, 
         "timeCreated": "2016-12-28T04:41:35.9278721+00:00", 
-        "provisioningState": "Succeeded", 
-        "disableBilling": false, 
-        "isArmResource": true, 
-        "computeAvailabilitySetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/myAV", 
+        "provisioningState": "Succeeded",
         "diskState": "Unattached" 
       }, 
       "type": "Microsoft.Compute/disks", 
@@ -98,8 +95,8 @@ This response example includes all optional elements. Your actual response may n
       "name": "myManagedDisk" 
     }, 
     { 
-      "managedBy": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM", 
-      "sku": { 
+      "ownerId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM", 
+      "accountType": { 
         "name": "Standard_LRS", 
         "tier": "Standard" 
       }, 
@@ -111,15 +108,7 @@ This response example includes all optional elements. Your actual response may n
         "diskSizeGB": 10, 
         "timeCreated": "2016-12-28T04:41:36.872242+00:00", 
         "provisioningState": "Succeeded", 
-        "disableBilling": false, 
-        "isArmResource": true, 
-        "computeAvailabilitySetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/myAV", 
-        "crpDiskId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk", 
-        "pseudoSubscriptionId": "{subscriptionId}", 
-        "storageAccountName": "md-mock00bacc832f20",
-        "blobUrl": "https://md-mock00bacc832f20.blob.core.test-cint.azure-test.net/vlvxg5rw4ch2/abcd", 
-        "diskState": "Attached", 
-        "faultDomain": 0 
+        "diskState": "Attached"
       }, 
       "type": "Microsoft.Compute/disks", 
       "location": "westus", 
@@ -127,7 +116,7 @@ This response example includes all optional elements. Your actual response may n
       "name": "myManagedDisk" 
     }, 
     { 
-      "sku": { 
+      "accountType": { 
         "name": "Standard_LRS", 
         "tier": "Standard" 
       }, 
@@ -156,10 +145,7 @@ This response example includes all optional elements. Your actual response may n
           } 
         }, 
         "timeCreated": "2016-12-28T04:41:36.3973934+00:00", 
-        "provisioningState": "Succeeded", 
-        "disableBilling": false, 
-        "isArmResource": true, 
-        "computeAvailabilitySetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/myAV", 
+        "provisioningState": "Succeeded",
         "diskState": "Unattached" 
       }, 
       "type": "Microsoft.Compute/disks", 

@@ -52,7 +52,7 @@ The structure of the request body depends on how you want to create a virtual ma
 | **location** | Specifies the location of the virtual machine image. |
 | **osType** | Specifies the type of operating system contained in the the virtual machine image. Possible values are: **Windows** or **Linux**. |
 | **blobUri** | Specifies the URI in Azure storage of the blob that you want to use to create the virtual machine image. |
-| **osState** | Specifies the state of the operating system contained in the blob. Possible values are: **generalized** or **specialized**. |
+| **osState** | Specifies the state of the operating system contained in the blob. Currently, the only value is **generalized**. |
 
 ### Create a virtual machine image from a snapshot
 
@@ -79,7 +79,7 @@ The structure of the request body depends on how you want to create a virtual ma
 | **location** | Specifies the location of the virtual machine image. |
 | **osType** | Specifies the type of operating system contained in the the virtual machine image. Possible values are: **Windows** or **Linux**. |
 | **snapshot** | Specifies the identifier of the snapshot that you want to use to create the virtual machine image. |
-| **osState** | Specifies the state of the operating system contained in the snapshot. Possible values are: **generalized** or **specialized**. |
+| **osState** | Specifies the state of the operating system contained in the snapshot. Currently, the only value is **generalized**. |
 
 ### Create a virtual machine image from a managed disk
 
@@ -108,7 +108,7 @@ The structure of the request body depends on how you want to create a virtual ma
 | **location** | Specifies the location of the virtual machine image. |
 | **osType** | Specifies the type of operating system contained in the virtual machine image. Possible values are: **Windows** or **Linux**. |
 | **managedDisk** | Specifies the identifier of the managed disk that you want to use to create the virtual machine image. |
-| **osState** | Specifies the state of the operating system contained in the managed disk. Possible values are: **generalized** or **specialized**. |
+| **osState** | Specifies the state of the operating system contained in the managed disk. Currently, the only value is **generalized**. |
 
 ### Create a virtual machine image from an existing virtual machine
 
