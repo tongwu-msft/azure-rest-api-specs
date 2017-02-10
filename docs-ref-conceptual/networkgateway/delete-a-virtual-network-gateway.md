@@ -29,11 +29,11 @@ translation.priority.mt:
 Delete an existing virtual network gateway.  
   
 ## Request  
- See [Virtual Network Gateways](../NetworkGatewayREST/virtual-network-gateways.md) for headers and parameters that are used by all requests related to virtual network gateways.  
+ See [Virtual Network Gateways](virtual-network-gateways.md) for headers and parameters that are used by all requests related to virtual network gateways.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/virtualNetworkGateways/{virtual-network-gateway-name}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/virtualNetworkGateways/{virtual-network-gateway-name}?api-version={api-version}`|  
   
 ## Response  
  Status code: 200 (OK) if the virtual network gateway was successfully deleted; otherwise, 404 (Not Found). 409 (Conflict) can occur if the virtual network gateway is in a Provisioning or Deprovisioning state.

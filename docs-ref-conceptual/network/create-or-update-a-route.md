@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Create or update a route
 ## Request  
- See [Common parameters and headers](../NetworkREST/routes.md#bk_common) for headers and parameters that are used by all requests related to Routes.  
+ See [Common parameters and headers](routes.md#bk_common) for headers and parameters that are used by all requests related to Routes.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -35,7 +35,7 @@ translation.priority.mt:
   
  Replace {routeName} with the name of the route entry you want to create or update.  
   
-```  
+```json  
 {  
    "properties": {  
       "addressPrefix": "10.1.0.0/16",   
@@ -54,7 +54,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** Returns status code 200 (OK), if the operation was successful. Returns 412 (Precondition Failed) if the resource's ETag doesn’t match one specified in If-Match header.  
   
-```  
+```json  
 {  
    "name": "myRoute",  
    "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/myRouteTable/routes/myRoute",  

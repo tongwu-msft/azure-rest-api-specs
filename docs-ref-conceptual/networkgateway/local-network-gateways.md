@@ -41,18 +41,18 @@ Enables you to interact with on-premises VPN devices represented in the Gateway 
   
 -   Set the Content-Type header to `application/json`.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../Topic/Authenticating%20Azure%20Resource%20Manager%20requests.md).  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../../index.md).  
   
 ## Tasks  
   
  You can do the following with local network gateways:  
   
--   [Create or update a local network gateway ](../NetworkGatewayREST/create-or-update-a-local-network-gateway .md)  
+-   [Create or update a local network gateway ](create-or-update-a-local-network-gateway.md)  
   
--   [Delete a local network gateway](../NetworkGatewayREST/delete-a-local-network-gateway.md)  
+-   [Delete a local network gateway](delete-a-local-network-gateway.md)  
   
--   [Get a VPN device configuration script](../NetworkGatewayREST/get-a-vpn-device-configuration-script.md)  
+-   [Get a VPN device configuration script](get-a-vpn-device-configuration-script.md)  
   
--   [Get information about a local network gateway](../NetworkGatewayREST/get-information-about-a-local-network-gateway.md)  
+-   [Get information about a local network gateway](get-information-about-a-local-network-gateway.md)  
   
--   [List all of the local network gateways](../NetworkGatewayREST/list-all-of-the-local-network-gateways.md)
+-   [List all of the local network gateways](list-all-of-the-local-network-gateways.md)

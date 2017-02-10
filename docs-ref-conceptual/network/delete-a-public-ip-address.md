@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Delete a public IP address&#160;
 ## Request  
- See [Common parameters and headers](../NetworkREST/public-ip-addresses.md#bk_common) for headers and parameters that are used by all requests related to public IP addresses.  
+ See [Common parameters and headers](public-ip-addresses.md#bk_common) for headers and parameters that are used by all requests related to public IP addresses.  
   
 |Method|Request URI|  
 |------------|-----------------|  

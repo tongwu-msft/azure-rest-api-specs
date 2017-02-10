@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # List networks security rules within a network security group
 ## Request  
- See [Common parameters and headers](../NetworkREST/network-security-rules.md#bk_common) for headers and parameters that are used by all requests related to network security rules.  
+ See [Common parameters and headers](network-security-rules.md#bk_common) for headers and parameters that are used by all requests related to network security rules.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -38,7 +38,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** 200  
   
-```  
+```json  
 [  
    {  
       "name": "rule1",  

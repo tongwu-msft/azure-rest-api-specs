@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # List network security groups within a resource group
 ## Request  
- See [Common parameters and headers](../NetworkREST/network-security-groups.md#bk_common) for headers and parameters that are used by all requests related to network security groups.  
+ See [Common parameters and headers](network-security-groups.md#bk_common) for headers and parameters that are used by all requests related to network security groups.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -36,7 +36,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** 200  
   
-```  
+```json  
 [   
    {   
       "name":"myNsg",  
@@ -119,4 +119,4 @@ translation.priority.mt:
 |Subnets.id|A collection of references to Subnets that reference this Network Security Group.|  
   
 ## Remarks  
- For more information about Network Security Rules, see [Get information about a network security rule ](../NetworkREST/get-information-about-a-network-security-rule .md).
+ For more information about Network Security Rules, see [Get information about a network security rule ](get-information-about-a-network-security-rule.md).

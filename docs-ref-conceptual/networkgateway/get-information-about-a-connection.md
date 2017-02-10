@@ -29,11 +29,11 @@ translation.priority.mt:
 Get the details of the specified connection.  
   
 ## Request  
- See [Connections](../NetworkGatewayREST/connections.md) for headers and parameters that are used by all requests related to connections.  
+ See [Connections](connections.md) for headers and parameters that are used by all requests related to connections.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/connections/{connection-name}?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/connections/{connection-name}?api-version={api-version}`|  
   
 ## Response  
  Status code: 200 (OK) if the connection exists; otherwise, 404 (Not Found).  

@@ -29,16 +29,16 @@ translation.priority.mt:
 Creates or updates a virtual network gateway.  
   
 ## Request  
- See [Virtual Network Gateways](../NetworkGatewayREST/virtual-network-gateways.md) for headers and parameters that are used by all requests related to virtual network gateways.  
+ See [Virtual Network Gateways](virtual-network-gateways.md) for headers and parameters that are used by all requests related to virtual network gateways.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|*PUT*|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/virtualNetworkGateways/{virtual-network-gateway-name}?api-version={api-version}`|  
-|PATCH|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/virtualNetworkGateways/{virtual-network-gateway-name}?api-version={api-version}`|  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/virtualNetworkGateways/{virtual-network-gateway-name}?api-version={api-version}`|  
+|PATCH|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/virtualNetworkGateways/{virtual-network-gateway-name}?api-version={api-version}`|  
   
  The Patch method can be used to update individual properties.  
   
-```  
+```json  
 {  
 "name": "myvirtualgateway1",  
 "location": "West US",  

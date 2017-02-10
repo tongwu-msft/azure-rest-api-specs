@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Create or update a network interface card
 ## Request  
- See [Common parameters and headers](../NetworkREST/network-interface-cards.md#bk_common) for headers and parameters that are used by all requests related to network interface cards.  
+ See [Common parameters and headers](network-interface-cards.md#bk_common) for headers and parameters that are used by all requests related to network interface cards.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -35,7 +35,7 @@ translation.priority.mt:
   
  Replace {network-interface-name} with the name of the network interface card which you want to create or update.  
   
-```  
+```json  
 {    
    "location":"North US",  
    "tags":{    
@@ -105,7 +105,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** 200.  
   
-```  
+```json  
 {   
    "name":"mynic1",  
    "id":"/subscriptions/{guid}/resourceGroups/myrg1/providers/Microsoft.Network/networkInterfaces/vm1mynic1",  
