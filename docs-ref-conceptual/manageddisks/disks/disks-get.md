@@ -52,7 +52,7 @@ This response example includes all optional elements. Your actual response may n
 
 ```json
 { 
-  "sku": { 
+  "accountType": { 
     "name": "Standard_LRS", 
     "tier": "Standard" 
   }, 

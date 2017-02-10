@@ -55,7 +55,7 @@ This response example includes all optional elements. Your actual response may n
 { 
   "value": [ 
     { 
-      "sku": { 
+      "accountType": { 
         "name": "Standard_LRS", 
         "tier": "Standard" 
       }, 
