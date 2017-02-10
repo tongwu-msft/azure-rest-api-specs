@@ -78,13 +78,13 @@
         }
       }
     },
-    "/devices/{id}/messages/deviceBound/{msgid}": {
+    "/devices/{id}/messages/deviceBound/{etag}": {
       "delete": {
         "tags": [
           "DELETE"
         ],
         "summary": "This method completes or rejects a cloud-to-device message.",
-        "description": "This method completes or rejects a cloud-to-device message. A completed message is deleted from the device message queue, and a positive acknowledgment is sent to the application back-end if requested. A rejected message causes it to be deadlettered. To reject a message, include a query parameter called \"reject\". See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging for more information.",
+        "description": "This method completes or rejects a cloud-to-device message. The Etag obtained when the message was received must be provided to resolve race conditions when completing, rejecting, or abandoning a message. A completed message is deleted from the device message queue, and a positive acknowledgment is sent to the application back-end if requested. A rejected message causes it to be deadlettered. To reject a message, include a query parameter called \"reject\". See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging for more information. Currently, the use of the Etag in the header does not comply with RFC 7232. A fix for this issue is currently on our backlog.",
         "operationId": "HttpRuntime_CompleteDeviceBoundNotification",
         "consumes": [],
         "produces": [
@@ -92,6 +92,12 @@
           "text/json"
         ],
         "parameters": [
+          {
+            "name": "reject",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
           {
             "$ref": "#/parameters/api-version"
           },
@@ -102,7 +108,7 @@
             "type": "string"
           },
           {
-            "name": "msgid",
+            "name": "etag",
             "in": "path",
             "required": true,
             "type": "string"
@@ -115,13 +121,13 @@
         }
       }
     },
-    "/devices/{id}/messages/deviceBound/{msgid}/abandon": {
+    "/devices/{id}/messages/deviceBound/{etag}/abandon": {
       "post": {
         "tags": [
           "POST"
         ],
         "summary": "This method abandons a cloud-to-device message.",
-        "description": "This method abandons a cloud-to-device message. A abandoned message is put back in the device message queue for re-delivery to the device. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging for more information.",
+        "description": "This method abandons a cloud-to-device message. The Etag obtained when the message was received must be provided to resolve race conditions when completing, rejecting, or abandoning a message. A abandoned message is put back in the device message queue for re-delivery to the device. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging for more information. Currently, the use of the Etag in the header does not comply with RFC 7232. A fix for this issue is currently on our backlog. ",
         "operationId": "HttpRuntime_AbandonDeviceBoundNotification",
         "consumes": [],
         "produces": [
@@ -139,7 +145,7 @@
             "type": "string"
           },
           {
-            "name": "msgid",
+            "name": "etag",
             "in": "path",
             "required": true,
             "type": "string"
