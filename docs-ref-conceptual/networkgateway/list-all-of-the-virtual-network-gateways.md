@@ -29,16 +29,16 @@ translation.priority.mt:
 List all of the virtual network gateways in a resource group.  
   
 ## Request  
- See [Virtual Network Gateways](../NetworkGatewayREST/virtual-network-gateways.md) for headers and parameters that are used by all requests related to virtual network gateways.  
+ See [Virtual Network Gateways](virtual-network-gateways.md) for headers and parameters that are used by all requests related to virtual network gateways.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/virtualNetworkGateways?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/virtualNetworkGateways?api-version={api-version}`|  
   
 ## Response  
  Status code: 200 (OK) if the action was successful; otherwise, 404 (Not Found).  
   
-```  
+```json  
 {  
 "name": "myvirtualgateway1",  
 "id": "/subscriptions/<subscriptionId>/resourceGroups/<resourceGroupName>/providers/microsoft.network/virtualNetworkGateways/myvirtualgateway1",  

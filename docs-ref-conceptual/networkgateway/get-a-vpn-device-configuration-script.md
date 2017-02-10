@@ -29,11 +29,11 @@ translation.priority.mt:
 Get the configuration script for a VPN device that the local network gateway needs to establish a connection with the virtual network gateway.  
   
 ## Request  
- See [Local Network Gateways ](../NetworkGatewayREST/local-network-gateways .md) for headers and parameters that are used by all requests related to local network gateways.  
+ See [Local Network Gateways ](local-network-gateways.md) for headers and parameters that are used by all requests related to local network gateways.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways/{local-network-gateway-name}/vpnDeviceConfiguration?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways/{local-network-gateway-name}/vpnDeviceConfiguration?api-version={api-version}`|  
   
 ## Response  
  Status code: 200 (OK) if the action is successful; otherwise, 404 (Not Found). 400 (Bad Request) can occur if the local network gateway exists but it doesn’t connect to a virtual network gateway.  

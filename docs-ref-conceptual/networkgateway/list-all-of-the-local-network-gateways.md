@@ -29,31 +29,30 @@ translation.priority.mt:
 List all of the local network gateways in a resource group.  
   
 ## Request  
- See [Local Network Gateways ](../NetworkGatewayREST/local-network-gateways .md) for headers and parameters that are used by all requests related to local network gateways.  
+ See [Local Network Gateways ](local-network-gateways.md) for headers and parameters that are used by all requests related to local network gateways.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways?api-version={api-version}`|  
   
 ## Response  
  Status code: 200 (OK) if the action is successful; otherwise, 404 (Not Found).  
   
-```  
-  
-      [  
-{  
-"name": "mylocalgateway1",  
-"id": "/subscriptions/{subscription-id}/resourceGroups/<resourceGroupName>/providers/microsoft.network/localNetworkGateways/mylocalgateway1",  
-"tags": { "key1": "value1" },  
-"etag": "W/\"00000000-0000-0000-0000-000000000000\"",  
-"properties": {  
-"ipAddress": "{ipAddress}",  
-"subnet": [ "{subnetIPAddressPrefix}" ],  
-"vendor": "device vendor",  
-"platform": "device platform",  
-"osFamily": "family"  
-}  
-}  
+```json  
+[  
+  {  
+  "name": "mylocalgateway1",  
+  "id": "/subscriptions/{subscription-id}/resourceGroups/<resourceGroupName>/providers/microsoft.network/localNetworkGateways/mylocalgateway1",  
+  "tags": { "key1": "value1" },  
+  "etag": "W/\"00000000-0000-0000-0000-000000000000\"",  
+  "properties": {  
+    "ipAddress": "{ipAddress}",  
+    "subnet": [ "{subnetIPAddressPrefix}" ],  
+    "vendor": "device vendor",  
+    "platform": "device platform",  
+    "osFamily": "family"  
+    }  
+  }  
 ]  
 ```  
   
