@@ -18,6 +18,7 @@ The CDN REST API provides operations for working with the following resources.
 | Operation group               | Description |
 |-------------------------------|-------------|
 | [Check Name Availability](~/docs-ref-autogen/cdn/checknameavailability.json) | Verify the uniqueness of resource names. |
+| [Check Resource Usage](~/docs-ref-autogen/cdn/checkresourceusage.json) | Discover quotas and usage of CDN profiles. |
 | [Custom Domains](~/docs-ref-autogen/cdn/customdomains.json) | Provides operations for working with CDN custom domains. |
 | [Edge Nodes](~/docs-ref-autogen/cdn/edgenodes.json) | Obtain information about CDN edge nodes. |
 | [Endpoints](~/docs-ref-autogen/cdn/endpoints.json) | Create, validate, start, stop, and delete CDN endpoints. Pre-load and purge cached endpoint content. |
