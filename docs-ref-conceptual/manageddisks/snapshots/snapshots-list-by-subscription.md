@@ -80,15 +80,8 @@ This response example includes all optional elements. Your actual response may n
           } 
         }, 
         "timeCreated": "2016-12-28T04:47:30.6630569+00:00", 
-        "provisioningState": "Succeeded", 
-        "disableBilling": false, 
-        "isArmResource": true, 
-        "computeAvailabilitySetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/myAV", 
-        "pseudoSubscriptionId": "{subscriptionId}", 
-        "storageAccountName": "md-mocke7eb9c429625", 
-        "blobUrl": "https://md-mocke7eb9c429625.blob.core.test-cint.azure-test.net/bnrxlmpb2cn1/abcd", 
-        "diskState": "Unattached", 
-        "faultDomain": 0 
+        "provisioningState": "Succeeded",
+        "diskState": "Unattached"
       }, 
       "type": "Microsoft.Compute/snapshots", 
       "location": "westus", 
@@ -129,15 +122,7 @@ This response example includes all optional elements. Your actual response may n
         }, 
         "timeCreated": "2016-12-28T04:47:30.3247198+00:00", 
         "provisioningState": "Succeeded", 
-        "disableBilling": false, 
-        "isArmResource": true, 
-        "computeAvailabilitySetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/myAV", 
-        "pseudoSubscriptionId": "{subscriptionId}", 
-        "storageAccountName": "md-mocke7eb9c429625", 
-        "storageAvailabilitySet": "", 
-        "blobUrl": "https://md-mocke7eb9c429625.blob.core.test-cint.azure-test.net/fbdtssf4sld1/abcd", 
-        "diskState": "Unattached", 
-        "faultDomain": 0 
+        "diskState": "Unattached"
       }, 
       "type": "Microsoft.Compute/snapshots", 
       "location": "westus", 
