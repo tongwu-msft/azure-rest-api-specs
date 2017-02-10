@@ -186,10 +186,10 @@ You can add encryption to the managed disk by adding `encryptionSettings`:
 } 
 ```
 
-You can specify a hidden storage account of the requested supported type to be used, and copy the source blob to a new blob in the storage account. To specify a storage account, add `sku`to the main body of the request:
+You can specify a hidden storage account of the requested supported type to be used, and copy the source blob to a new blob in the storage account. To specify a storage account, add `accountType`to the main body of the request:
 
 ```json
-  "sku": { 
+  "accountType": { 
     "name": "Standard_LRS", 
     "tier": "Standard" 
   } 

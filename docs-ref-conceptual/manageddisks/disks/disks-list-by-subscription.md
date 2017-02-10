@@ -52,7 +52,7 @@ This response example includes all optional elements. Your actual response may n
 { 
   "value": [ 
     { 
-      "sku": { 
+      "accountType": { 
         "name": "Standard_LRS", 
         "tier": "Standard" 
       }, 
@@ -95,8 +95,8 @@ This response example includes all optional elements. Your actual response may n
       "name": "myManagedDisk1" 
     }, 
     { 
-      "managedBy": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM", 
-      "sku": { 
+      "ownerId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM", 
+      "accountType": { 
         "name": "Standard_LRS", 
         "tier": "Standard" 
       }, 
@@ -124,7 +124,7 @@ This response example includes all optional elements. Your actual response may n
       "name": "myManagedDisk2" 
     }, 
     { 
-      "sku": { 
+      "accountType": { 
         "name": "Standard_LRS", 
         "tier": "Standard" 
       }, 

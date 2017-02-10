@@ -58,11 +58,16 @@ Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not F
             "publisher":"MicrosoftWindowsServerEssentials",    
             "offer":"WindowsServerEssentials",    
             "sku":"WindowsServerEssentials",    
-            "version":"1.0.131018"    
+            "version":"1.0.131018",
+            "id": "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/westus/publishers/MicrosoftWindowsServerEssentials/artifactype/vmimage/offers/WindowsServerEssentials/skus/WindowsServerEssentials/versions/latest" 
          },    
          "osDisk":{    
             "osType":"Windows",    
-            "name":"osName-osDisk",    
+            "name":"osName-osDisk",
+            "managedDisk": {
+              "Id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/osDisk",
+              "storageAccountType": "Standard_LRS" 
+            }  
             "vhd":{    
                "uri":"http://mystorage.blob.core.windows.net/vhds/osDisk.vhd"    
             },    
@@ -124,9 +129,12 @@ Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not F
 | publisher | Specifies the publisher of the image used to create the virtual machine. |    
 | offer | Specifies the offer of the image used to create the virtual machine. |    
 | sku | Specifies the sku of the image used to create the virtual machine. |    
-| version | Specifies the version of the image used to create the virtual machine. |    
+| version | Specifies the version of the image used to create the virtual machine. |
+| imageReference.Id | Specifies the resource identifier of the image that was used to create the VM. This element is only returned for a managed VM. |   
 | osType | Specifies the type of operating system. |    
-| name | Specifies the disk name. |    
+| osDisk.name | Specifies the disk name. |
+| managedDisk.Id | Specifies the resource identifier of the managed disk that supports the VM. This element is only returned if the VM is managed. |
+| managedDisk.storageAccountType | Specifies the type of storage account used for a managed disk. This element is only returned if the VM is managed. |    
 | Uri | Specifies the vhd uri. |    
 | caching | Specifies the caching requirements. |    
 | createOption | Specifies how the virtual machine was created. |    

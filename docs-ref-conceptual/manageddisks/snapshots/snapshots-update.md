@@ -32,7 +32,7 @@ For information about getting started with Azure REST operations including reque
   
 ```json
 {  
-  "sku": { 
+  "accountType": { 
     "name": "Standard_LRS", 
     "tier": "Standard" 
   },
@@ -47,7 +47,7 @@ For information about getting started with Azure REST operations including reque
 
 | Element name | Description |
 | ------------ | ----------- |
-| **name** | Specifies the name of the storage account type. If the sku element is included, the snapshot is moved to a different storage account of the desired type. |
+| **name** | Specifies the name of the storage account type. If the `accountType` element is included, the snapshot is moved to a different storage account of the desired type. |
 | **tier** | Specifies the tier of the storage account. |
 | **tags** | Specifies the name and value string pairs that can be used to track resources. |
 | **diskSizeGB** | Specifies the size that the snapshot should be changed to. |
@@ -78,7 +78,7 @@ This response example includes all optional elements. Your actual response may n
 
 ```json
 { 
-  "sku": { 
+  "accountType": { 
     "name": "Standard_LRS", 
     "tier": "Standard" 
   }, 
