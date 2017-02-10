@@ -43,15 +43,15 @@ A network security group (NSG) resource contains a list of network security rule
   
 -   Set the Content-Type header to application/json.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../Topic/Authenticating%20Azure%20Resource%20Manager%20requests.md).  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../../index.md).  
   
 ## Tasks  
  You can do the following with network security groups:  
   
--   [Create or update a network security group](../NetworkREST/create-or-update-a-network-security-group.md)  
+-   [Create or update a network security group](create-or-update-a-network-security-group.md)  
   
--   [Delete a network security group](../NetworkREST/delete-a-network-security-group.md)  
+-   [Delete a network security group](delete-a-network-security-group.md)  
   
--   [Get information about a network security group](../NetworkREST/get-information-about-a-network-security-group.md)  
+-   [Get information about a network security group](get-information-about-a-network-security-group.md)  
   
--   [List network security groups within a resource group](../NetworkREST/list-network-security-groups-within-a-resource-group.md)
+-   [List network security groups within a resource group](list-network-security-groups-within-a-resource-group.md)

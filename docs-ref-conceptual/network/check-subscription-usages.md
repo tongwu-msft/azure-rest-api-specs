@@ -27,18 +27,18 @@ translation.priority.mt:
 ---
 # Check subscription usages
 ## Request  
- See [Common parameters and headers](../NetworkREST/supporting-tasks.md#bk_common) for headers and parameters that are used by all requests related to supporting tasks.  
+ See [Common parameters and headers](supporting-tasks.md#bk_common) for headers and parameters that are used by all requests related to supporting tasks.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages?api-version={api-version}`|  
+|GET|`/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages?api-version={api-version}`|  
   
  Replace {location} with the name of the region for which you wish to view your usage of network resources.  
   
 ## Response  
  **Status code:** Returns status code 200 (OK), if the operation was successful.  
   
-```  
+```json  
 {  
    "value": [  
       {  

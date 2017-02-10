@@ -1,5 +1,5 @@
 ---
-title: "Get information about a network security rule&#160;"
+title: "Get information about a default network security rule&#160;"
 ms.custom: ""
 ms.date: "04/28/2015"
 ms.prod: "azure"
@@ -8,7 +8,7 @@ ms.service: "virtual-network"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
-ms.assetid: 28d61e10-f524-4682-91ba-7293c39e4d22
+ms.assetid: 40dd37f9-c6ed-446e-bcda-65514743fb7c
 caps.latest.revision: 8
 author: "georgewallace"
 ms.author: "gwallace"
@@ -25,20 +25,20 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get information about a network security rule&#160;
+# Get information about a default network security rule&#160;
 ## Request  
- See [Common parameters and headers](../NetworkREST/network-security-rules.md#bk_common) for headers and parameters that are used by all requests related to network security rules.  
+ See [Common parameters and headers](network-security-rules.md#bk_common) for headers and parameters that are used by all requests related to network security rules.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/networkSecurityGroups/{network-security-group-name}/securityRules/{security-rule-name}?api-version={api-version}`|  
+|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/networkSecurityGroups/{network-security-group-name}/defaultSecurityRules/{default-security-rule-name}?api-version={api-version}`|  
   
- Replace {network-security-group-name} and {security-rule-name} with the name of the network security rule whose information you want.  
+ Replace {network-security-group-name} and {default-security-rule-name} with the name of the default network security rule whose information you want.  
   
 ## Response  
  **Status code:** 200; otherwise a 404 will be returned.  
   
-```  
+```json  
 {  
    "name": "rule1",  
    "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNsg/securityRules/rule1",  
@@ -55,7 +55,7 @@ translation.priority.mt:
       "priority": priority-of-the-rule,  
       "direction": "Inbound"  
    }  
-}  
+}   
 ```  
   
 |Element name|Description|  

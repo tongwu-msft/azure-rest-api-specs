@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Create or update a network security rule
 ## Request  
- See [Common parameters and headers](../NetworkREST/network-security-rules.md#bk_common) for headers and parameters that are used by all requests related to network security rules.  
+ See [Common parameters and headers](network-security-rules.md#bk_common) for headers and parameters that are used by all requests related to network security rules.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -35,7 +35,7 @@ translation.priority.mt:
   
  Replace {network-security-group-name} and {security-rule-name} with the name of the network security rule which you want to create or update.  
   
-```  
+```json  
   
 {   
    "properties":{   
@@ -68,7 +68,7 @@ translation.priority.mt:
 ## Response  
  **Status code:** 200.  
   
-```  
+```json  
 {  
    "name": "rule1",  
    "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNsg/securityRules/rule1",  

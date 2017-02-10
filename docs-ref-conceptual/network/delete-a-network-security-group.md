@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Delete a network security group
 ## Request  
- See [Common parameters and headers](../NetworkREST/network-security-groups.md#bk_common) for headers and parameters that are used by all requests related to network security groups.  
+ See [Common parameters and headers](network-security-groups.md#bk_common) for headers and parameters that are used by all requests related to network security groups.  
   
 |Method|Request URI|  
 |------------|-----------------|  

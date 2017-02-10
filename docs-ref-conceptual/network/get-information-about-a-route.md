@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Get information about a route
 ## Request  
- See [Common parameters and headers](../NetworkREST/routes.md#bk_common) for headers and parameters that are used by all requests related to Routes.  
+ See [Common parameters and headers](routes.md#bk_common) for headers and parameters that are used by all requests related to Routes.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -42,7 +42,7 @@ translation.priority.mt:
   
  Returns status code 404, if the route resource is not found.  
   
-```  
+```json  
 {  
    "name": "myRoute",  
    "id": "/subscriptions/{guid}/../resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/myRouteTable/routes/myRoute",  
