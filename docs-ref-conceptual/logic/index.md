@@ -33,14 +33,14 @@ Azure Logic Apps scales up automatically to meet demand.
 
 ## REST Operation Groups
 
-| Resource Groups                                                                     | Description                                                    |
-|-------------------------------------------------------------------------------------|----------------------------------------------------------------|
-| [Workflow Run Actions](~/docs-ref-autogen/logic/workflowrunactions)                 | Lists workflow run actions.                                    |
-| [Workflow Runs](~/docs-ref-autogen/logic/workflowruns)                              | Provides operations for listing and canceling workflow runs.   |
-| [Workflow Trigger Histories](~/docs-ref-autogen/logic/workflowtriggerhistories)     | Lists workflow trigger histories.                              |
-| [Workflow Triggers](~/docs-ref-autogen/logic/workflowtriggers)                      | Provides operations for listing and running workflow triggers. |
-| [Workflow Versions](~/docs-ref-autogen/logic/workflowversions)                      | Lists workflow versions.                                       |
-| [Workflows](~/docs-ref-autogen/logic/workflows)	                                   | Provides operations for creating and managing workflows.       |
+| Resource Groups                                                                          | Description                                                    |
+|------------------------------------------------------------------------------------------|----------------------------------------------------------------|
+| [Workflow Run Actions](~/docs-ref-autogen/logic/workflowrunactions.json)                 | Lists workflow run actions.                                    |
+| [Workflow Runs](~/docs-ref-autogen/logic/workflowruns.json)                              | Provides operations for listing and canceling workflow runs.   |
+| [Workflow Trigger Histories](~/docs-ref-autogen/logic/workflowtriggerhistories.json)     | Lists workflow trigger histories.                              |
+| [Workflow Triggers](~/docs-ref-autogen/logic/workflowtriggers.json)                      | Provides operations for listing and running workflow triggers. |
+| [Workflow Versions](~/docs-ref-autogen/logic/workflowversions.json)                      | Lists workflow versions.                                       |
+| [Workflows](~/docs-ref-autogen/logic/workflows.json)	                                  | Provides operations for creating and managing workflows.       |
 
 
 ## See Also
