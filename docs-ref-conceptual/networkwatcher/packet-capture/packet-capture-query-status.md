@@ -59,7 +59,6 @@ The response includes an HTTP status code and a set of response headers.
 | **400 BadRequest** | Invalid parameter value or combination of parameters. | 
 | **403 Forbidden** | Caller doesn’t have the privilege to call this API. |
 | **404 NotFound** | Resource does not exist. |
-| **412 Precondition Failed** | The operation is being throttled. |
 | **500 Internal Server Error** |  A server-side error has happened. Retry the operation. |     
 
 

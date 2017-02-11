@@ -109,10 +109,9 @@ The response includes an HTTP status code and a set of response headers.
 
 | Code | Description |
 | ---- | ----------- |
-| **400 BadRequest** | Invalid parameter value or combination of parameters. | 
+| **400 BadRequest** | No troubleshoot operation state exists for the specified TargetResourceId.| 
 | **403 Forbidden** | Caller doesn’t have the privilege to call this API. |
 | **404 NotFound** | No troubleshoot operation state exists for the specified TargetResourceId. |
-| **412 Precondition Failed** | Resource does not match the one specified. |
 | **500 Internal Server Error** |  A server-side error has happened. Retry the operation. |     
 
 
