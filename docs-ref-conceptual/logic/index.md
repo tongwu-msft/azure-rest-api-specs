@@ -38,9 +38,9 @@ Azure Logic Apps scales up automatically to meet demand.
 | [Workflow Run Actions](../../docs-ref-autogen/logic/workflowrunactions)             | Lists workflow run actions.                                    |
 | [Workflow Runs](../../docs-ref-autogen/logic/workflowruns)                          | Provides operations for listing and canceling workflow runs.   |
 | [Workflow Trigger Histories](../../docs-ref-autogen/logic/workflowtriggerhistories) | Lists workflow trigger histories.                              |
-| [Workflow Triggers](../../docs-ref-autogen/workflowtriggers)                        | Provides operations for listing and running workflow triggers. |
-| [Workflow Versions](../../docs-ref-autogen/workflowversions)                        | Lists workflow versions.                                       |
-| [Workflows](../../docs-ref-autogen/workflows)	                                      | Provides operations for creating and managing workflows.       |
+| [Workflow Triggers](../../docs-ref-autogen/logic/workflowtriggers)                  | Provides operations for listing and running workflow triggers. |
+| [Workflow Versions](../../docs-ref-autogen/logic/workflowversions)                  | Lists workflow versions.                                       |
+| [Workflows](../../docs-ref-autogen/logic/workflows)	                                | Provides operations for creating and managing workflows.       |
 
 
 ## See Also
