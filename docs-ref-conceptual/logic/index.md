@@ -24,8 +24,8 @@ Logic apps offer these advantages:
 - Seamlessly implement patterns and workflows that would otherwise be difficult to implement in code
 - Get started quickly from templates
 - Customize your logic app with your own custom APIs, code, and actions
-- Connect and synchronise disparate systems across on-premises and the cloud
-- Build off of BizTalk server, API Management, Azure Functions, and Azure Service Bus with first-class integration support
+- Connect and synchronize disparate systems across on-premises and the cloud
+- Build off BizTalk server, API Management, Azure Functions, and Azure Service Bus with first-class integration support
 
 Azure Logic Apps is a fully managed iPaaS (integration Platform as a Service), 
 so developers don't have to worry about building hosting, scalability, availability, and management. 
@@ -36,7 +36,7 @@ Azure Logic Apps scales up automatically to meet demand.
 | Resource Groups                                          | Description                                                    |
 |----------------------------------------------------------|----------------------------------------------------------------|
 | [Workflow Run Actions](./workflowrunactions)             | Lists workflow run actions.                                    |
-| [Workflow Runs](./workflowruns)                          | Provides operations for listing and cancelling workflow runs.  |
+| [Workflow Runs](./workflowruns)                          | Provides operations for listing and canceling workflow runs.  |
 | [Workflow Trigger Histories](./workflowtriggerhistories) | Lists workflow trigger histories.                              |
 | [Workflow Triggers](./workflowtriggers)                  | Provides operations for listing and running workflow triggers. |
 | [Workflow Versions](./workflowversions)                  | Lists workflow versions.                                       |
