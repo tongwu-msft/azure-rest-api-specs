@@ -10,7 +10,7 @@ ms.manager: anneta
 
 # Azure Logic Apps
 
-Azure Logic Apps help you simplify and implement scalable integrations and workflows in the cloud. 
+Azure Logic Apps helps you simplify and implement scalable integrations and workflows in the cloud. 
 You can model and automate your process visually as a series of steps known as a workflow in the Logic App Designer. 
 There are also [many connectors](https://docs.microsoft.com/azure/connectors/apis-list) 
 that you can add to your logic app so you can quickly integrate across services 
