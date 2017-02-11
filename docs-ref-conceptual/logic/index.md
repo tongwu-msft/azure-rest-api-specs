@@ -33,14 +33,14 @@ Azure Logic Apps scales up automatically to meet demand.
 
 ## REST Operation Groups
 
-| Resource Groups                                          | Description                                                    |
-|----------------------------------------------------------|----------------------------------------------------------------|
-| [Workflow Run Actions](./workflowrunactions)             | Lists workflow run actions.                                    |
-| [Workflow Runs](./workflowruns)                          | Provides operations for listing and canceling workflow runs.  |
-| [Workflow Trigger Histories](./workflowtriggerhistories) | Lists workflow trigger histories.                              |
-| [Workflow Triggers](./workflowtriggers)                  | Provides operations for listing and running workflow triggers. |
-| [Workflow Versions](./workflowversions)                  | Lists workflow versions.                                       |
-| [Workflows](./workflows)                                 | Provides operations for creating and managing workflows.       |
+| Resource Groups                                                                     | Description                                                    |
+|-------------------------------------------------------------------------------------|----------------------------------------------------------------|
+| [Workflow Run Actions](../../docs-ref-autogen/logic/workflowrunactions)             | Lists workflow run actions.                                    |
+| [Workflow Runs](../../docs-ref-autogen/logic/workflowruns)                          | Provides operations for listing and canceling workflow runs.   |
+| [Workflow Trigger Histories](../../docs-ref-autogen/logic/workflowtriggerhistories) | Lists workflow trigger histories.                              |
+| [Workflow Triggers](../../docs-ref-autogen/workflowtriggers)                        | Provides operations for listing and running workflow triggers. |
+| [Workflow Versions](../../docs-ref-autogen/workflowversions)                        | Lists workflow versions.                                       |
+| [Workflows](../../docs-ref-autogen/workflows)	                                      | Provides operations for creating and managing workflows.       |
 
 
 ## See Also
