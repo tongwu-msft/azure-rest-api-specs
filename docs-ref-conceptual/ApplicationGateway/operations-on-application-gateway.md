@@ -32,7 +32,7 @@ Enables you to manage application gateways. It includes operations such as creat
 ##  <a name="bk_common"></a> Common parameters and headers  
  The following information is common to all tasks:  
   
--   Replace {api-version} with **2015-05-04-preview**.  
+-   Replace {api-version} with **2016-09-01**.  
   
 -   Replace {subscription-id} with your subscription identifier in the URI.  
   
@@ -40,7 +40,7 @@ Enables you to manage application gateways. It includes operations such as creat
   
 -   Set the Content-Type header to **application/json**.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [“Authenticating Azure Resource Manager requests”](https://msdn.microsoft.com/en-us/library/azure/dn790557.aspx). 
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see ["Authenticating Azure Resource Manager requests"](https://msdn.microsoft.com/en-us/library/azure/dn790557.aspx). 
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
