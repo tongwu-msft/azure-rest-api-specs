@@ -43,7 +43,7 @@ The  Microsoft Azure ExpressRoute Resource Provider REST API allows you to creat
 ##  <a name="bk_common"></a> Common parameters and headers  
  The following information is common to all tasks:  
   
--   Replace {api-version} with 2015-05-01-preview.  
+-   Replace {api-version} with **2016-09-01**.  
   
 -   Replace {subscription-id} with your subscription identifier in the URI.  
   
