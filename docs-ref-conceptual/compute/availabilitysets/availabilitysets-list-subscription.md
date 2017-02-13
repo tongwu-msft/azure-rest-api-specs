@@ -36,7 +36,10 @@ Status code: If successful, 200 (OK); otherwise 404 (Not Found).
        "name":"myAVSet",    
        "type":"Microsoft.Compute/availabilitySets",    
        "location":"westus",    
-       "tags": {},    
+       "tags": {},
+       "sku": {
+         "name": "Aligned"
+       },    
        "properties": {    
           "platformUpdateDomainCount":5,    
           "platformFaultDomainCount":3 
@@ -62,6 +65,7 @@ Status code: If successful, 200 (OK); otherwise 404 (Not Found).
 | name | Specifies the name of the availability set. |    
 | type | Specifies the type of compute resource. |    
 | location | Specifies the supported Azure location where the resource exists. |    
-| tags | Specifies tags associated with the availability set. |    
+| tags | Specifies tags associated with the availability set. |
+| sku.name | Specifies whether the availability set is managed or not. |    
 | platformUpdateDomain | Specifies the update domain count of the availability set. |    
 | platformFaultDomain | Specifies the fault domain count of the availability set. |    

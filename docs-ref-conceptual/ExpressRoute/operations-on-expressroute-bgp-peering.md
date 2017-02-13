@@ -31,10 +31,10 @@ BGP Peering is part of Express Route circuit and defines the type of connectivit
 ## Tasks  
  You can do the following with ExpressRoute Circuit BGP Peering:  
   
--   [Create or update an ExpressRoute Circuit BGP Peering](../AzureExpressRouteREST/create-or-update-an-expressroute-circuit-bgp-peering.md)  
+-   [Create or update an ExpressRoute Circuit BGP Peering](create-or-update-an-expressroute-circuit-bgp-peering.md)  
   
--   [List ExpressRoute Circuit BGP Peering](../AzureExpressRouteREST/list-expressroute-circuit-bgp-peering.md)  
+-   [List ExpressRoute Circuit BGP Peering](list-expressroute-circuit-bgp-peering.md)  
   
--   [Get ExpressRoute Circuit BGP Peering](../AzureExpressRouteREST/get-expressroute-circuit-bgp-peering.md)  
+-   [Get ExpressRoute Circuit BGP Peering](get-expressroute-circuit-bgp-peering.md)  
   
--   [Delete ExpressRoute Circuit BGP Peering](../AzureExpressRouteREST/delete-expressroute-circuit-bgp-peering.md)
+-   [Delete ExpressRoute Circuit BGP Peering](delete-expressroute-circuit-bgp-peering.md)

@@ -29,7 +29,7 @@ translation.priority.mt:
 The List peering operation retrieves all the BGP Peerings for the circuit specified.  
   
 ## Request  
- See [Common parameters and headers](../AzureExpressRouteREST/expressroute-rest.md#bk_common) for headers and parameters that are used by all requests related to *ExpressRoute*.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to *ExpressRoute*.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -40,7 +40,7 @@ The List peering operation retrieves all the BGP Peerings for the circuit specif
 ## Response  
  **Status Code: 200**  
   
-```  
+```json  
 [  
         {  
       "name": "AzurePrivatePeering",  

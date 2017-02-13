@@ -41,23 +41,23 @@ The Connection resource represents a connection between two gateways. One of the
   
 -   Set the Content-Type header to `application/json`.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../Topic/Authenticating%20Azure%20Resource%20Manager%20requests.md).  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../../index.md).  
   
 -   Replace {connection-name} with the name of the connection.  
   
 ## Tasks  
  You can do the following with connections:  
   
--   [Create or update a connection](../NetworkGatewayREST/create-or-update-a-connection.md)  
+-   [Create or update a connection](create-or-update-a-connection.md)  
   
--   [Delete a connection ](../NetworkGatewayREST/delete-a-connection .md)  
+-   [Delete a connection ](delete-a-connection.md)  
   
--   [Get information about a connection ](../NetworkGatewayREST/get-information-about-a-connection .md)  
+-   [Get information about a connection ](get-information-about-a-connection.md)  
   
--   [Get the shared key for a connection ](../NetworkGatewayREST/get-the-shared-key-for-a-connection .md)  
+-   [Get the shared key for a connection ](get-the-shared-key-for-a-connection.md)  
   
--   [List all of the connections for a virtual network gateway ](../NetworkGatewayREST/list-all-of-the-connections-for-a-virtual-network-gateway .md)  
+-   [List all of the connections for a virtual network gateway ](list-all-of-the-connections-for-a-virtual-network-gateway.md)  
   
--   [Reset the shared key of a connection ](../NetworkGatewayREST/reset-the-shared-key-of-a-connection .md)  
+-   [Reset the shared key of a connection ](reset-the-shared-key-of-a-connection.md)  
   
--   [Set the shared key of a connection ](../NetworkGatewayREST/set-the-shared-key-of-a-connection .md)
+-   [Set the shared key of a connection ](set-the-shared-key-of-a-connection.md)

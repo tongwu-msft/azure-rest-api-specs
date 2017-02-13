@@ -29,7 +29,7 @@ translation.priority.mt:
 The DELETE operation deletes an Express Route circuit.  
   
 ## Request  
- See Common parameters and headers for headers and parameters that are used by all requests related to ExpressRoute.  
+See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to *ExpressRoute*.  
   
 |Method|Request URI|  
 |------------|-----------------|  

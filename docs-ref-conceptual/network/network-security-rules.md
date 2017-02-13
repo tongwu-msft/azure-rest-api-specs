@@ -41,19 +41,19 @@ Network security rules define a pattern of traffic to be enabled or denied. Netw
   
 -   Set the Content-Type header to application/json.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../Topic/Authenticating%20Azure%20Resource%20Manager%20requests.md).  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../../index.md).  
   
 ## Tasks  
  You can do the following with Network Security Rules:  
   
--   [Create or update a network security rule](../NetworkREST/create-or-update-a-network-security-rule.md)  
+-   [Create or update a network security rule](create-or-update-a-network-security-rule.md)  
   
--   [Delete a network security rule](../NetworkREST/delete-a-network-security-rule.md)  
+-   [Delete a network security rule](delete-a-network-security-rule.md)  
   
--   [Get information about a default network security rule ](../NetworkREST/get-information-about-a-default-network-security-rule .md)  
+-   [Get information about a default network security rule ](get-information-about-a-default-network-security-rule.md)  
   
--   [Get information about a network security rule ](../NetworkREST/get-information-about-a-network-security-rule .md)  
+-   [Get information about a network security rule ](get-information-about-a-network-security-rule.md)  
   
--   [List default networks security rules within a network security group](../NetworkREST/list-default-networks-security-rules-within-a-network-security-group.md)  
+-   [List default networks security rules within a network security group](list-default-networks-security-rules-within-a-network-security-group.md)  
   
--   [List networks security rules within a network security group](../NetworkREST/list-networks-security-rules-within-a-network-security-group.md)
+-   [List networks security rules within a network security group](list-networks-security-rules-within-a-network-security-group.md)

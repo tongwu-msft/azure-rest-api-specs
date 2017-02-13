@@ -29,7 +29,7 @@ translation.priority.mt:
 This operation lists details of all the circuits, in all states, in a resource group.  
   
 ## Request  
- See [Common parameters and headers](../AzureExpressRouteREST/expressroute-rest.md#bk_common) for headers and parameters that are used by all requests related to ExpressRoute.  
+See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to ExpressRoute.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -41,7 +41,7 @@ This operation lists details of all the circuits, in all states, in a resource g
 ## Response  
  `Status Code: 200`  
   
-```  
+```json  
 [  
     {  
         "name": "<circuit name>",  

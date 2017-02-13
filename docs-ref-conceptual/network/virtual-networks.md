@@ -39,17 +39,17 @@ A virtual network represents a computer network in which networking objects can 
   
 -   Set the Content-Type header to application/json.  
   
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information,  see [Authenticating Azure Resource Manager requests](../Topic/Authenticating%20Azure%20Resource%20Manager%20requests.md).  
+-   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information,  see [Authenticating Azure Resource Manager requests](../../index.md).  
   
 ## Tasks  
  You can do the following with Virtual Networks:  
   
--   [Create or update a virtual network](../NetworkREST/create-or-update-a-virtual-network.md)  
+-   [Create or update a virtual network](create-or-update-a-virtual-network.md)  
   
--   [List virtual networks within a resource group](../NetworkREST/list-virtual-networks-within-a-resource-group.md)  
+-   [List virtual networks within a resource group](list-virtual-networks-within-a-resource-group.md)  
   
--   [List virtual networks within a subscription](../NetworkREST/list-virtual-networks-within-a-subscription.md)  
+-   [List virtual networks within a subscription](list-virtual-networks-within-a-subscription.md)  
   
--   [Get information about a virtual network](../NetworkREST/get-information-about-a-virtual-network.md)  
+-   [Get information about a virtual network](get-information-about-a-virtual-network.md)  
   
--   [Delete a virtual network](../NetworkREST/delete-a-virtual-network.md)
+-   [Delete a virtual network](delete-a-virtual-network.md)

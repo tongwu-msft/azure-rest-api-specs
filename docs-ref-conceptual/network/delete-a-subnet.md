@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Delete a subnet
 ## Request  
- See [Common parameters and headers](../NetworkREST/subnets.md#bk_common) for headers and parameters that are used by all requests related to subnets.  
+ See [Common parameters and headers](subnets.md#bk_common) for headers and parameters that are used by all requests related to subnets.  
   
 |Method|Request URI|  
 |------------|-----------------|  

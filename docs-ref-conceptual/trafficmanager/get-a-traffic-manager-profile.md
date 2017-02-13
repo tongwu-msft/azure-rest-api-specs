@@ -17,11 +17,11 @@ manager: "carolz"
 Get an existing Traffic Manager profile.  
   
 ## Request  
- See [Traffic Manager profiles and endpoints](../TrafficManagerREST/traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
+ See [Traffic Manager profiles and endpoints](traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|*GET*|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles/{profile-name}?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles/{profile-name}?api-version={api-version}`|  
   
  Replace {profile-name} with the name of the Traffic Manager profile to be retrieved.  
   
@@ -29,7 +29,7 @@ Get an existing Traffic Manager profile.
   
  **Status code:** 200 OK or 404 Not Found.  
   
-```  
+```json  
 {   
    "location": "global",   
    "tags": {},   

@@ -29,7 +29,7 @@ translation.priority.mt:
 The Get peering operation retrieves details of a peering for the circuit and peering specified.  
   
 ## Request  
- See [Common parameters and headers](../AzureExpressRouteREST/expressroute-rest.md#bk_common) for headers and parameters that are used by all requests related to *ExpressRoute*.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to *ExpressRoute*.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -40,7 +40,7 @@ The Get peering operation retrieves details of a peering for the circuit and pee
 ## Response  
  **Status Code: 200**  
   
-```  
+```json  
 {  
     "name": "<peering name>",  
     "id": "https://<endpoint>/subscriptions/{subscriptionId}/resourceGroups/{ResourceGroupName}providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peering name}",  
