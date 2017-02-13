@@ -33,7 +33,7 @@ Subnets represent network segments within the IP space defined by the virtual ne
 ##  <a name="bk_common"></a> Common parameters and headers  
  The following information is common to all tasks:  
   
--   Replace {api-version} with 2016-03-30.  
+-   Replace {api-version} with **2016-09-01**.  
   
 -   Replace {subscription-id} with your subscription identifier in the URI.  
   
