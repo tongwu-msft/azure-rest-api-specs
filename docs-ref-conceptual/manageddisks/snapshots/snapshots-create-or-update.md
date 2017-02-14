@@ -11,14 +11,6 @@ manager: timt
 ---
 
 # Create a snapshot
-
-Create a snapshot in one of these ways:
-
-- As an empty snapshot
-- From an existing snapshot in the same or different subscription
-- From importing an unmanaged blob in the same subscription
-- From importing an unmanaged blob in a different subscription
-- From restoring a previous snapshot 
   
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
   
@@ -43,9 +35,9 @@ This table lists the elements that are required for all create requests.
 | ------------ | ----------- |
 | **name** | Specifies the name of the snapshot that is being created. The name can’t be changed after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name length is 80 characters. |
 | **location** | Specifies the location of the snapshot. |
-| **createOption** | Indicates how the snapshot is to be created. Possible values are **Copy**, **Import**, or **Restore**. |
+| **createOption** | Indicates how the snapshot is to be created. Possible values are **Copy** or **Import**. |
 
-### From an existing snapshot in the same or different subscription
+### Create a snapshot from an existing snapshot in the same or different subscription
 
 ```json
 { 
@@ -62,9 +54,9 @@ This table lists the elements that are required for all create requests.
 
 | Element name | Description |
 | ------------ | ----------- |
-| **sourceResourceId** | Specifies a reference to an existing snapshot. Only used if `createOption` is **Copy** or **Restore**. |
+| **sourceResourceId** | Specifies a reference to an existing snapshot. Only used if `createOption` is **Copy**. |
 
-### From importing an unmanaged blob in the same subscription
+### Create a snapshot by importing an unmanaged blob from the same subscription
 
 ```json
 { 
@@ -83,7 +75,7 @@ This table lists the elements that are required for all create requests.
 | ------------ | ----------- |
 | **sourceUri** | Specifies the storage URI of a blob in an unmanaged storage account. Only used if `createOption` is **Import**. |
 
-### From importing an unmanaged blob in a different subscription
+### Create a snapshot by importing an unmanaged blob from a different subscription
 
 ```json
 { 
@@ -103,25 +95,6 @@ This table lists the elements that are required for all create requests.
 | ------------ | ----------- |
 | **storageAccountId** | Specifies the identifier of an unmanaged storage account. Used with `sourceUri` to allow authorization during import of unmanaged blobs from a different subscription. | 
 | **sourceUri** | Specifies the storage URI of a blob in an unmanaged storage account. Only used if `createOption` is **Import**. |
-
-### From restoring a previous snapshot
-
-```json
-{
-  "name": "mySnapshot2",
-  "location": "West US",
-  "properties": { 
-    "creationData": { 
-      "createOption": "Restore", 
-      "sourceResourceId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/myRestorePointCollection/restorePoints/{restorePoint}/disks/mySnapshot1?id={snapshotId}" 
-    }
-  }
-} 
-```
-
-| Element name | Description |
-| ------------ | ----------- |
-| **sourceResourceId** | Specifies a reference to an existing snapshot. Only used if `createOption` is **Copy** or **Restore**. |
 
 ### Optional elements
 
@@ -145,13 +118,10 @@ You can add encryption to the snapshot by adding `encryptionSettings`.
 } 
 ```
 
-You can specify a hidden storage account of the requested supported type to be used, and copy the source blob to a new blob in the storage account. To specify a storage account, add `accountType` to the main body of the request.
+You can specify a hidden storage account of the requested supported type to be used, and copy the source blob to a new blob in the storage account. To specify a storage account, add `accountType` to the main body of the request. Possible values are Standard_LRS or Premium_LRS.
 
 ```json
-"accountType": { 
-  "name": "Standard_LRS", 
-  "tier": "Standard" 
-} 
+"accountType": "Standard_LRS",
 ```
 
 You can assign tags for tracking purposes to the snapshots that you create by adding `tags` to the main body of the request.
@@ -194,10 +164,7 @@ This response example includes all optional elements. Your actual response may n
 
 ```json
 { 
-  "accountType": { 
-    "name": "Standard_LRS", 
-    "tier": "Standard" 
-  }, 
+  "accountType": "Standard_LRS",
   "properties": { 
     "osType": "Windows", 
     "creationData": { 

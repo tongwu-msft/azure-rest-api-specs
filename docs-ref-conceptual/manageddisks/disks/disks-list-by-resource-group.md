@@ -55,10 +55,7 @@ This response example includes all optional elements. Your actual response may n
 { 
   "value": [ 
     { 
-      "accountType": { 
-        "name": "Standard_LRS", 
-        "tier": "Standard" 
-      }, 
+      "accountType": "Standard_LRS",
       "properties": { 
         "osType": "Windows", 
         "creationData": { 
@@ -81,7 +78,7 @@ This response example includes all optional elements. Your actual response may n
             "keyUrl": "https://myvmvault.vault-int.azure-int.net/keys/{key}" 
           } 
         }, 
-        "timeCreated": "2016-12-28T04:41:35.9278721+00:00", 
+        "timeCreated": "2016-12-28T04:41:35.9278721+00:00",
         "provisioningState": "Succeeded",
         "diskState": "Unattached" 
       }, 
@@ -96,10 +93,7 @@ This response example includes all optional elements. Your actual response may n
     }, 
     { 
       "ownerId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM", 
-      "accountType": { 
-        "name": "Standard_LRS", 
-        "tier": "Standard" 
-      }, 
+      "accountType": "Standard_LRS",
       "properties": { 
         "osType": "Windows", 
         "creationData": { 
@@ -107,7 +101,8 @@ This response example includes all optional elements. Your actual response may n
         }, 
         "diskSizeGB": 10, 
         "timeCreated": "2016-12-28T04:41:36.872242+00:00", 
-        "provisioningState": "Succeeded", 
+        "provisioningState": "Succeeded",
+        "ownerId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM", 
         "diskState": "Attached"
       }, 
       "type": "Microsoft.Compute/disks", 
@@ -116,10 +111,7 @@ This response example includes all optional elements. Your actual response may n
       "name": "myManagedDisk" 
     }, 
     { 
-      "accountType": { 
-        "name": "Standard_LRS", 
-        "tier": "Standard" 
-      }, 
+      "accountType": "Standard_LRS",
       "properties": { 
         "osType": "Windows", 
         "creationData": { 
