@@ -125,8 +125,13 @@ In the **Monitoring** section of your Storage account's menu blade in the Azure 
 -   The request type is either **all** in which case it is a summary line, or it identifies the specific API such as **QueryEntity** or **UpdateEntity**.  
   
  The sample data above shows all the records for a single minute (starting at 11:00AM), so the number of **QueryEntities** requests plus the number of **QueryEntity** requests plus the number of **UpdateEntity** requests add up to seven, which is the total shown on the **user:All** row. Similarly, you can derive the average end-to-end latency 104.4286 on the **user:All** row by calculating ((143.8 * 5) + 3 + 9)/7.  
-  
- You should consider setting up alerts in the Azure portal so that Storage Metrics can automatically notify you of any important changes in the behavior of your storage services. If you use a storage explorer tool to download this metrics data in a delimited format, you can use Microsoft Excel or another spreadsheet application to analyze the data. See [Azure Storage Client Tools](/azure/storage/storage-explorers) for a list of available storage explorer tools.  
+
+## Metrics alerts
+You should consider setting up alerts in the [Azure portal](https://portal.azure.com) so Storage Metrics can automatically notify you of important changes in the behavior of your storage services. If you use a storage explorer tool to download this metrics data in a delimited format, you can use Microsoft Excel to analyze the data. See [Azure Storage Client Tools](/azure/storage/storage-explorers) for a list of available storage explorer tools. You can configure alerts in the **Alert rules** blade, accessible under **Monitoring** in the Storage account menu blade.
+
+> [!IMPORTANT]
+> There may be a delay between a storage event and when the corresponding hourly or minute metrics data is recorded. In the case of minute metrics, several minutes of data may be written at once. This can lead to transactions from earlier minutes being aggregated into the transaction for the current minute. When this happens, the alert service may not have all available metrics data for the configured alert interval, which may lead to alerts firing unexpectedly.
+>
   
 ## Accessing metrics data programmatically  
  The following listing shows sample C# code that accesses the minute metrics for a range of minutes and displays the results in a console Window. The code sample uses the Azure Storage Client Library version 4.x or later, which includes the **CloudAnalyticsClient** class that simplifies accessing the metrics tables in storage.  
