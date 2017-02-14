@@ -54,6 +54,8 @@ translation.priority.mt:
 
 -   [Query size limitations](#bkmk_querysizelimits)  
 
+-   [Search score for wildcard and regex queries](#bkmk_searchscoreforwildcardandregexqueries)  
+
 -   [Example](#bkmk_example)  
 
  Both Lucene and simple query syntax are functionally similar for [Wildcard search](#bkmk_wildcard) and [Boolean operators](#bkmk_boolean). The sections on wildcard search and boolean operators are mostly the same for both syntax.  
@@ -77,7 +79,9 @@ For details about specifying query parameter, see [Search Documents &#40;Azure S
 ##  <a name="bkmk_fuzzy"></a> Fuzzy search  
  A fuzzy search finds matches in terms that have a similar construction. Per [Lucene documentation](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html), fuzzy searches are based on [Damerau-Levenshtein Distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance).  
 
- To do a fuzzy search, use the tilde "~" symbol at the end of a single word with an optional parameter, a value between 0 and 2, that specifies the edit distance. For example, "blue~" or "blue~1" would return "blue", "blues", and "glue".  
+ To do a fuzzy search, use the tilde "~" symbol at the end of a single word with an optional parameter, a number between 0 and 2(default), that specifies the edit distance. For example, "blue~" or "blue~1" would return "blue", "blues", and "glue".
+
+ Fuzzy search can only be applied to terms, not phrases. Fuzzy searches can expand a term up to the maximum of 50 terms that meet the distance criteria.
 
 ##  <a name="bkmk_proximity"></a> Proximity search  
  Proximity searches are used to find terms that are near each other in a document. Insert a tilde "~" symbol at the end of a phrase followed by the number of words that create the proximity boundary. For example, `"hotel airport"~5` will find the terms "hotel" and "airport" within 5 words of each other in a document.  
@@ -141,6 +145,9 @@ Using `searchMode=all` increases the precision of queries by including fewer res
 
 ##  <a name="bkmk_querysizelimits"></a> Query size limitations  
  There is a limit to the size of queries that you can send to Azure Search. Specifically, you can have at most 1024 clauses (expressions separated by AND, OR, and so on). There is also a limit of approximately 32 KB on the size of any individual term in a query. If your application generates search queries programmatically, we recommend designing it in such a way that it does not generate queries of unbounded size.  
+
+##  <a name="bkmk_searchscoreforwildcardandregexqueries"></a> Search score for wildcard and regex queries
+ Azure Search uses frequency based scoring ([TF-IDF](http://www.tfidf.com/)) for term and phrase search queries. This frequency factor is ignored in scoring for wildcard and regex search queries due to performance implications.
 
 ##  <a name="bkmk_example"></a> Example  
  Find documents in the index using the Lucene query syntax.  
