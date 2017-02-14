@@ -1,7 +1,7 @@
 ---
 title: "Enabling Storage Metrics and Viewing Metrics Data"
 ms.custom: na
-ms.date: 2017-02-11
+ms.date: 2017-02-14
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Enabling Storage Metrics and Viewing Metrics Data
-By default, Storage Metrics is not enabled for your storage endpoints. You can enable monitoring using the Azure portal, Azure PowerShell, or programmatically via the storage client library.  
+By default, Storage Metrics is not enabled for your storage endpoints. You can enable monitoring using the Azure portal, Azure PowerShell, or programmatically via one of the storage client libraries.  
   
 > [!NOTE]
 >  Storage Analytics metrics is available for the Blob, Queue, Table, and File services.  
@@ -91,13 +91,15 @@ queueClient.SetServiceProperties(serviceProperties);
  For general information about configuring Storage Metrics using the REST API, see [Enabling and Configuring Storage Analytics](Enabling-and-Configuring-Storage-Analytics.md).  
   
 ##  Viewing Storage Metrics  
- When you have configured Storage Metrics to monitor your storage account, it records the metrics in a set of well-known tables in your storage account. You can use the **Metrics** blade of each Storage service in the Azure portal to view the hourly metrics on a chart as they become available. In a service's **Metrics** blade, you can:  
+After you configure Storage Analytics metrics to monitor your storage account, Storage Analytics records the metrics in a set of well-known tables in your storage account. You can configure charts to view hourly metrics in the [Azure portal](https://portal.azure.com):
   
-* Select which service and its metrics to display in the chart.
-* Select the chart type and the time range for the metrics displayed on the chart.
-* Choose to use an absolute or relative scale to plot the metrics.
+1. Navigate to your storage account in the [Azure portal](https://portal.azure.com).
+1. Select **Metrics** in the **Menu** blade for the service whose metrics you want to view.
+1. Select **Edit** on the chart you want to configure.
+1. In the **Edit Chart** blade, select the **Time Range**, **Chart type**, and the metrics you want displayed in the chart.
+1. Select **OK**
 
-In the **Monitoring** section of your Storage account's menu blade in the Azure portal, you can configure **Alert rules**, such as sending email alerts to notify you when a specific metric reaches a certain value.
+In the **Monitoring** section of your Storage account's menu blade in the Azure portal, you can configure [Alert rules](#metrics-alerts), such as sending email alerts to notify you when a specific metric reaches a certain value.
 
  If you want to download the metrics for long-term storage or to analyze them locally, you must use a tool or write some code to read the tables. You must download the minute metrics for analysis. The tables do not appear if you list all the tables in your storage account, but you can access them directly by name. Many storage-browsing tools are aware of these tables and enable you to view them directly (see [Azure Storage Client Tools](/azure/storage/storage-explorers) for a list of available tools).
   
