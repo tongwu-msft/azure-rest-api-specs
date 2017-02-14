@@ -10,14 +10,6 @@ manager: timt
 ---
 
 # Create a managed disk
-
-Creates a new managed disk in one of these ways:
-
-- As an empty managed disk
-- From a platform image
-- From an existing managed disk in the same or different subscription
-- From importing an unmanaged blob in the same subscription
-- From importing an unmanaged blob in a different subscription
   
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
   
