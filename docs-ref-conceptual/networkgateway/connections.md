@@ -31,7 +31,7 @@ The Connection resource represents a connection between two gateways. One of the
 ## Common parameters and headers  
  The following information is common to all tasks that you might do related to connections:  
   
--   Replace {api-version} with 2015-05-01-preview.  
+-   Replace {api-version} with **2016-09-01**.  
   
 -   Replace {subscription-id} with your subscription identifier in the URI.  
   

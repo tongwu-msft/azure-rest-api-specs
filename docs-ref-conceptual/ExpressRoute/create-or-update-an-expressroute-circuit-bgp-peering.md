@@ -35,7 +35,7 @@ The create BGP Peering operation creates a new peering for the circuit specified
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}?api-version={api-version}`|  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}?api-version={api-version}`|  
   
  Replace {circuitName} with the name of the ExpressRoute circuit already created. Replace {peeringName} with peering to be created. It must be one of AzurePublicPeering, AzurePrivatePeering, and MicrosoftPeering. There can be only one peering of each type in a circuit.  
   
@@ -116,4 +116,4 @@ The create BGP Peering operation creates a new peering for the circuit specified
 ## Response  
  **Status Code: 202**  
   
- The response returns 202 Accepted with a ‘Enabling’ provisioningState till the operation completes. The header also contains ‘Azure-AsyncOperation’ header pointing to an operations resource. The URI for Azure-AsyncOperation header is of the form - https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/operations/{operationId}&api-version={api-version}. The operation URI can be queried to find the current state of the operation.
+ The response returns 202 Accepted with a ‘Enabling’ provisioningState till the operation completes. The header also contains ‘Azure-AsyncOperation’ header pointing to an operations resource. The URI for Azure-AsyncOperation header is of the form - /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/operations/{operationId}&api-version={api-version}. The operation URI can be queried to find the current state of the operation.

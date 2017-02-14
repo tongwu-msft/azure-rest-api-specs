@@ -31,7 +31,7 @@ translation.priority.mt:
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}?api-version={api-version}`|  
   
  Replace {routeName} with the name of the route you want to delete.  
   

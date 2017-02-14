@@ -31,7 +31,7 @@ translation.priority.mt:
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/networkSecurityGroups/{network-security-group-name}/securityRules/{security-rule-name}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/networkSecurityGroups/{network-security-group-name}/securityRules/{security-rule-name}?api-version={api-version}`|  
   
  Replace {network-security-group-name} and {security-rule-name} with the name of the Network Security Rule you want deleted.  
   

@@ -31,7 +31,7 @@ translation.priority.mt:
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/virtualNetworks/{virtual-network-name}?api-version={api-version}`|  
+|GET|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/virtualNetworks/{virtual-network-name}?api-version={api-version}`|  
   
  Replace {virtual-network-name} with the name of the Virtual Network whose information you want.  
   

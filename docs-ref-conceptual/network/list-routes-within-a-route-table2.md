@@ -31,7 +31,7 @@ translation.priority.mt:
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/routeTables/{route-table-name}/routes?api-version={api-version}`|  
+|GET|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/routeTables/{route-table-name}/routes?api-version={api-version}`|  
   
  Replace {route-table-name} with the name of the route table whose routes you wish to list.  
   
