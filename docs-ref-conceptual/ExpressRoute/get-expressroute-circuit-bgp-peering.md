@@ -33,7 +33,7 @@ The Get peering operation retrieves details of a peering for the circuit and pee
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}?api-version={api-version}`|  
   
  Replace {circuitName} with the name of the ExpressRoute circuit already created and {peeringName} with the name of BGP Peering whose details are to be retrieved.  
   

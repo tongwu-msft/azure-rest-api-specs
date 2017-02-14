@@ -33,7 +33,7 @@ For information about getting started with Azure REST operations including reque
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}?api-version={api-version}`|  
   
  *Replace {ApplicationGatewayName} with the name of the application gateway to get its properties.*  
   
@@ -149,8 +149,7 @@ For information about getting started with Azure REST operations including reque
         "requestTimeout": 30,
         "authenticationCertificates": [
           {
-            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/authenti
-cationCertificates/{authCertName}"
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/authenticationCertificates/{authCertName}"
           }
         ]
       },
@@ -166,17 +165,14 @@ cationCertificates/{authCertName}"
       "requireServerNameIndication": "True | False", 
       "properties": {
         "frontendIPConfiguration": {
-          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/frontendIp
-Configurations/{frontendIPName}"
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/frontendIpConfigurations/{frontendIPName}"
         },
         "frontendPort": {
-          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/frontendPo
-rts/{frontEndPortName}"
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/frontendPorts/{frontEndPortName}"
         },
         "protocol": "Https",
         "sslCertificate": {
-          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/sslCertifi
-cates/{sslCertFriendlyName}"
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/sslCertificates/{sslCertFriendlyName}"
         }
       }
     }
@@ -216,16 +212,13 @@ cates/{sslCertFriendlyName}"
       "properties": {
         "ruleType": "basic",
         "backendAddressPool": {
-          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/backendAdd
-ressPools/{backendPoolName}"
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/backendAddressPools/{backendPoolName}"
         },
         "backendHttpSettings": {
-          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/backendHtt
-pSettingsCollection/{backendHttpSettingsName}"
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/backendHttpSettingsCollection/{backendHttpSettingsName}"
         },
         "httpListener": {
-          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/httpListen
-ers/{listenerName}"
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/httpListeners/{listenerName}"
         }
       },
       "name": "{ruleName}",

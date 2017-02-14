@@ -33,7 +33,7 @@ See [Common parameters and headers](index.md#bk_common) for headers and paramete
   
 |Method|Url|  
 |------------|---------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders?api-version={api-version}`|  
   
 ## Response  
  Status code: 200  

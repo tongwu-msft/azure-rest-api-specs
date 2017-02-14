@@ -31,7 +31,7 @@ translation.priority.mt:
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/ providers/Microsoft.Network/virtualnetworks?api-version={api-version}`|  
+|GET|`/subscriptions/{subscription-id}/ providers/Microsoft.Network/virtualnetworks?api-version={api-version}`|  
   
 ## Response  
  **Status code:** 200  

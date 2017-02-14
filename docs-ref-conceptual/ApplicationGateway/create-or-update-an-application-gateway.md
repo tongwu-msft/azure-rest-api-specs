@@ -34,7 +34,7 @@ For information about getting started with Azure REST operations including reque
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationgateways/{ApplicationGatewayName}`|  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationgateways/{ApplicationGatewayName}?api-version={api-version}`|  
   
  Replace {ApplicationGatewayName} with the name of the application gateway to be created.  The application gateway name must be unique within the resource group and be in its own empty virtual network subnet.  
   
@@ -48,12 +48,10 @@ For information about getting started with Azure REST operations including reque
     "key1": "value1"
 }, 
 "properties": {
-  "provisioningState": "Updating | Succeeded | Failed",
   "sku": {
     "name": "Standard_Small | Standard_Medium | Standard_Large | WAF_Medium | WAF_Large",
     "tier": "Standard | WAF",
-    "capacity": 2,
-    "operationalState": "Stopping | Starting | Running"
+    "capacity": 2
   },
   "gatewayIPConfigurations": [
     {
@@ -111,8 +109,6 @@ For information about getting started with Azure REST operations including reque
       "id": "",  
       "location": "{location}",  
       "tags": {"key": "value"},  
-      "etag": "W/\"00000000-0000-0000-0000-000000000000\"",  
-
       "properties": {  
         "protocol": "{probeProtocol}",  
         "host": "{probeHealth}",  
@@ -150,8 +146,7 @@ For information about getting started with Azure REST operations including reque
         "requestTimeout": 30,
         "authenticationCertificates": [
           {
-            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/authenti
-cationCertificates/{authCertName}"
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/authenticationCertificates/{authCertName}"
           }
         ]
       },
@@ -167,17 +162,14 @@ cationCertificates/{authCertName}"
       "requireServerNameIndication": "True | False", 
       "properties": {
         "frontendIPConfiguration": {
-          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/frontendIp
-Configurations/{frontendIPName}"
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/frontendIpConfigurations/{frontendIPName}"
         },
         "frontendPort": {
-          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/frontendPo
-rts/{frontEndPortName}"
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/frontendPorts/{frontEndPortName}"
         },
         "protocol": "Https",
         "sslCertificate": {
-          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/sslCertifi
-cates/{sslCertFriendlyName}"
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/sslCertificates/{sslCertFriendlyName}"
         }
       }
     }
@@ -187,8 +179,7 @@ cates/{sslCertFriendlyName}"
     "name":"{urlPathMapName}",   
     "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{gatewayName}/urlPathMaps/{urlPathMapName}",   
     "location": "{location}",  
-    "tags": {"key": "value"},  
-    "etag": "W/\"00000000-0000-0000-0000-000000000000\"", 
+    "tags": {"key": "value"},
     "properties": {   
       "defaultBackendAddressPool": {
         "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{gatewayName}/backendAddressPools/{poolName}"
@@ -217,16 +208,13 @@ cates/{sslCertFriendlyName}"
       "properties": {
         "ruleType": "basic",
         "backendAddressPool": {
-          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/backendAdd
-ressPools/{backendPoolName}"
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/backendAddressPools/{backendPoolName}"
         },
         "backendHttpSettings": {
-          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/backendHtt
-pSettingsCollection/{backendHttpSettingsName}"
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/backendHttpSettingsCollection/{backendHttpSettingsName}"
         },
         "httpListener": {
-          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/httpListen
-ers/{listenerName}"
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{appGatewayName}/httpListeners/{listenerName}"
         }
       },
       "name": "{ruleName}",
@@ -256,15 +244,15 @@ ers/{listenerName}"
 |gatewayIpConfigurations|ComplexType|Yes|Ip configurations for a gateway. Currently we allow only one IpConfiguration. Here you can specify which Subnet to deploy Application gateway.|  
 |gatewayIpConfigurations[i].name|String|Yes|Name of the gateway Ip configuration.|  
 |gatewayIpConfigurations[i].subnet|String|Yes|Reference to a Subnet. Application Gateway is deployed in this subnet. No other resource can be deployed in a subnet where Application Gateway is deployed.|
-|authenticationCertificates|ComplexType|No|List of authenication certificates.|  
-|authenticationCertificates[i].name|String|Yes|Name of the authenication Certificate|  
+|authenticationCertificates|ComplexType|No|List of authentication certificates.|  
+|authenticationCertificates[i].name|String|Yes|Name of the authentication Certificate|  
 |authenticationCertificates[i].data|String|Yes|Base-64 encoded cer certificate. Only applicable in PUT Request.|   
 |sslCertificates|ComplexType|No|List of Ssl certificates.|  
 |sslCertificates[i].name|String|Yes|Name of the ssl Certificate|  
 |sslCertificates[i].data|String|Yes|Base-64 encoded pfx certificate. Only applicable in PUT Request.|  
 |sslCertificates[i].password|String|Yes|Password for the pfx file specified in data. Only applicable in PUT request.|  
 |sslCertificates[i].publicCertData|String|ReadOnly|Base-64 encoded Public cert data corresponding to pfx specified in data. Only applicable in GET request.|  
-|frontendIpConfigurations|ComplexType|Yes|Specifies lists of front end IP configurations. Currently only one Public and/or one Private IP address can be specified. Also one frontendIpConfiguration element can specify either Public or Private IP address, not both.|  
+|frontendIpConfigurations|ComplexType|Yes|Specifies lists of frontend IP configurations. Currently only one Public and/or one Private IP address can be specified. Also one frontendIpConfiguration element can specify either Public or Private IP address, not both.|  
 |frontendIpConfigurations[i].name|String|Yes|User defined name for a frontend IP configuration|  
 |frontendIpConfigurations[i].publicIpAddress.Id|String|ReadOnly|Specifies resource Id of a Public Ip Address resource. IPAllocationMethod should be Dynamic.|  
 |frontendIpConfigurations[i].privateIPAllocationMethod|String|Yes|Static &#124; Dynamic.|  
@@ -277,8 +265,8 @@ ers/{listenerName}"
 |probes[i].protocol|String|Yes|Protocol used to send probe. Http only.|  
 |probes[i].host|String|Yes|Host name to send probe to|  
 |probes[i].path|String|Yes|Relative path of probe. Valid path starts from '/'. Probe is sent to \{Protocol}://\{host}:\{port}\{path}|  
-|probes[i].interval|Integer|Yes|Probe interval in seconds. This is the time interval between two consecutive probes. Minimum 1 second and Maximum 86400 secs.|  
-|probes[i]timeout|Integer|Yes|Probe timeout in seconds. Probe marked as failed if valid response is not received with this timeout period. Minimum 1 second and Maximum 86400 secs.|  
+|probes[i].interval|Integer|Yes|Probe interval in seconds. This is the time interval between two consecutive probes. Minimum 1 second and Maximum 86,400 secs.|  
+|probes[i]timeout|Integer|Yes|Probe timeout in seconds. Probe marked as failed if valid response is not received with this timeout period. Minimum 1 second and Maximum 86,400 secs.|  
 |probes[i].unhealthyThreshold|Integer|Yes|Probe retry count. Backend server is marked down after consecutive probe failure count reaches UnhealthyThreshold. Minimum 1 second and Maximum 20.|  
 |backendAddressPools|ComplexType|Yes|Backend Address Pools for Application Gateway|  
 |backendAddressPools[i].name|String|Yes|User defined name for backend Address Pool|  
@@ -288,12 +276,12 @@ ers/{listenerName}"
 |backendHttpSettingsList[i].port|Integer|Yes|Backend port for backend address pool.|  
 |backendHttpSettingsList[i].protocol|String|Yes|Protocol for backend address pool. Http &#124; Https|  
 |backendHttpSettingsList[i].cookieBasedAffinity|String|Yes|Cookie Based Affinity - Enabled &#124; Disabled|  
-|backendHttpSettingsList[i].requestTimeout|Integer|No|RequestTimeout in second. Application Gateway will fail the request if response is not received within RequestTimeout. Minimum 1 second and Maximum 86400 secs.|  
+|backendHttpSettingsList[i].requestTimeout|Integer|No|RequestTimeout in second. Application Gateway fails the request if response is not received within RequestTimeout. Minimum 1 second and Maximum 86400 secs.|  
 |backendHttpSettingsList[i].probe|String|No|Reference to URL probe|  
 |httpListeners|ComplexType|Yes|http Listeners on Application Gateway|  
 |httpListeners[i].name|String|Yes|Name of http listener.|  
 |httpListeners[i].frontendIp|String|Yes|Reference to frontend Ip configuration|  
-|httpListeners[i].frontendPort|String|Yes|Reference to front end port|  
+|httpListeners[i].frontendPort|String|Yes|Reference to frontend port|  
 |httpListeners[i].protocol|String|Yes|Protocol of the listener. Http &#124; Https|  
 |httpListeners[i].hostName|String|No|HostName for http listener. It has to be a valid DNS name.|  
 |httpListeners[i].sslCert|String|No|Reference to ssl certificate. Valid only if protocol is https.|  
@@ -302,11 +290,11 @@ ers/{listenerName}"
 |urlPathMaps[i].name|String|Yes|URL Path Map Name|  
 |urlPathMaps[i].defaultBackendAddressPool|String|Yes|Default Backend Address Pool to route in case none of the pathRules match.|  
 |urlPathMaps[i].defaultBackendHttpSettings|String|Yes|Default Backend Http Settings to use in case none of the pathRules match.|  
-|urlPathMaps[i].pathRules|String|Yes|List of pathRules. Note that pathRules are order sensitive. Are applied in order they are specified.|  
+|urlPathMaps[i].pathRules|String|Yes|List of pathRules. pathRules are order sensitive. Are applied in order they are specified.|  
 |urlPathMaps[i].pathRules[i].paths|String|Yes|The list of path patterns to match. Each must start with / and the only place a * is allowed is at the end following a /. The string fed to the path matcher does not include any text after the first ? or #, and those chars are not allowed here.|  
 |urlPathMaps[i].pathRules[i].backendAddressPool|String|Yes|Backend Address Pool to route request to in case any of the paths matched.|  
 |urlPathMaps[i].pathRules[i].backendHttpSettings|String|Yes|Backend Http Settings to use in case any of the paths matched.|  
-|requestRoutingRules|ComplexType|Yes|Request routing rules, Note that request routing rules are order sensitive.|  
+|requestRoutingRules|ComplexType|Yes|Request routing rules, Request routing rules are order sensitive.|  
 |requestRoutingRules[i].type|String|Yes|Rule Type. Supported values: Basic &#124; PathBasedRouting|  
 |requestRoutingRules[i].httpListener|String|Yes|Reference to http listener|  
 |requestRoutingRules[i].backendAddressPool|String|No|Reference to backend address pool. Valid for Basic Rule only.|  
