@@ -31,7 +31,7 @@ translation.priority.mt:
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/virtualNetworks/{virtual-network-name}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/virtualNetworks/{virtual-network-name}?api-version={api-version}`|  
   
  Replace {virtual-network-name} with the name of the Virtual Network you want deleted.  
   

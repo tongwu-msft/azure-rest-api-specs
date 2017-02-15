@@ -31,7 +31,7 @@ translation.priority.mt:
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/publicIPAddresses/{public-IP-address-name}?api-version={api-version}`|  
+|PUT|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/publicIPAddresses/{public-IP-address-name}?api-version={api-version}`|  
   
  Replace {public-IP-address-name} with the name of the public IP address which you want to create or update.  
   

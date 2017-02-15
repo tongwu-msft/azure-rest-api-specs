@@ -31,7 +31,7 @@ Route table resource is associated with a subnet. The route table resource enabl
 ##  <a name="bk_common"></a> Common parameters and headers  
  The following information is common to all tasks:  
   
--   Replace {api-version} with 2016-03-30.  
+-   Replace {api-version} with **2016-09-01**.  
   
 -   Replace {subscription-id} with your subscription identifier in the URI.  
   
