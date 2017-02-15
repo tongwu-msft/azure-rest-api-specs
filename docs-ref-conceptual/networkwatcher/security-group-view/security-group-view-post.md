@@ -45,6 +45,7 @@ The response includes an HTTP status code and a set of response headers.
 ```json
 {
   "networkInterfaces": [
+  "NetworkInterfaceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{nicName}",
     {
       "securityRuleAssociations": {
         "networkInterfaceAssocation": {
@@ -109,6 +110,7 @@ The response includes an HTTP status code and a set of response headers.
 
 |Element name |Type| Description|
 |---|---|---|
+|NetworkInterfaceId| String | The id of the Network Interface.
 |networkInterfaces| String |A list of network security group associations for each network interface in a VM|
 |securityRuleAssociations| String |The network security group applied on the network interface resource represented by NetworkInterfaceId.|
 |networkInterfaceAssocation| String| The network security group applied on the network interface resource represented by NetworkInterfaceId.|
