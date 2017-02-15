@@ -44,7 +44,7 @@ The response includes an HTTP status code and a set of response headers.
 
 ```json
 {
-  "networkInterfaces": [
+  "networkInterfaces" : [
   "NetworkInterfaceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{nicName}",
     {
       "securityRuleAssociations": {
