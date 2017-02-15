@@ -11,7 +11,7 @@ manager: timlt
 
 # View IP flow
 
-For a specified VM resource and a packet with specified direction using local and remote, IP addresses and ports, returns whether the packet is allowed or denied. If allowed or denied by a security group, provides the rule name. If no security group rule matches with input, it returns "Deny" and "RuleName" is not displayed. If you have not applied any security group on subnet or NIC, it reports "error".
+For a specified VM resource and a packet with specified direction using local and remote, IP addresses and ports, returns whether the packet is allowed or denied.
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 
@@ -47,7 +47,8 @@ For information about getting started with Azure REST operations including reque
 
 ## Response  
 
-The response includes an HTTP status code and a set of response headers.
+The response includes an HTTP status code and a response body containing the result of the operation.
+If a flow is allowed or denied by a security group, provides the rule name. If no security group rule matches the input, it returns "Deny" and "RuleName" is not displayed. If you have not applied any security group on subnet or a NIC, it reports "error".
 
 ### Success codes
 
