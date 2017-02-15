@@ -11,7 +11,9 @@ manager: timlt
 
 # Delete a Network Watcher
 
-Deletes a Network Watcher
+Deletes a Network Watcher. 
+
+Deleting a network watcher will remove references to existing packet capture sessions. Sessions that are running will not be uploaded to storage. 
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
