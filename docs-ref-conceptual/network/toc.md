@@ -33,6 +33,7 @@
 ## [List virtual networks within a subscription](list-virtual-networks-within-a-subscription.md)
 ## [Get information about a virtual network](get-information-about-a-virtual-network.md)
 ## [Delete a virtual network](delete-a-virtual-network.md)
+## [Check private IP address availability in a virtual network](check-private-ip-address-availability.md)
 # [Route Tables](route-tables.md)
 ## [Create or update a route table](create-or-update-a-route-table.md)
 ## [Delete a route table](delete-a-route-table.md)
