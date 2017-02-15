@@ -11,7 +11,7 @@ manager: timlt
 
 # Get current topology
 
-Gets the current network topology in a region.
+Gets the current network topology of a resource group.
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 
@@ -23,7 +23,7 @@ For information about getting started with Azure REST operations including reque
 
 | Parameter | Description |
 | --------- | ----------- |
-| targetResourceGroupName |	Speicifies the resource group name to run topology on. |
+| targetResourceGroupName |	Specifies the name of the resource group to run topology on. |
 
 ```json
 {
@@ -33,7 +33,7 @@ For information about getting started with Azure REST operations including reque
 
 ## Response  
 
-The response includes an HTTP status code and a set of response headers.
+The response includes an HTTP status code, a set of response headers, and the topology output.
 
 ### Success codes
 
@@ -106,7 +106,7 @@ s65qcto",
 - VM 
 - VMScaleSet
 
-VNet Peering is also supported but will not appear as a resource. For two VNets, VNet1 and VNet2, that have peering enabled, they would be represented by an association between VNet1 and Vnet2 and an association of VNet2 with Vnet1.
+VNet Peering is also supported but will not appear as a resource. Two VNets, VNet1 and VNet2, that have peering enabled would be represented by an association VNet1 to Vnet2 and an association of VNet2 to Vnet1.
 
 ## Associations
 
