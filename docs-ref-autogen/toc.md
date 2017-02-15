@@ -592,6 +592,7 @@
 ### [List virtual networks within a subscription](../docs-ref-conceptual/network/list-virtual-networks-within-a-subscription.md)
 ### [Get information about a virtual network](../docs-ref-conceptual/network/get-information-about-a-virtual-network.md)
 ### [Delete a virtual network](../docs-ref-conceptual/network/delete-a-virtual-network.md)
+### [Check private IP address availability in a virtual network](../docs-ref-conceptual/network/check-private-ip-address-availability.md)
 ## [Route Tables](../docs-ref-conceptual/network/route-tables.md)
 ### [Create or update a route table](../docs-ref-conceptual/network/create-or-update-a-route-table.md)
 ### [Delete a route table](../docs-ref-conceptual/network/delete-a-route-table.md)
