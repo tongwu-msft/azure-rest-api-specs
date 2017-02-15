@@ -53,3 +53,5 @@ A virtual network represents a computer network in which networking objects can 
 -   [Get information about a virtual network](get-information-about-a-virtual-network.md)  
   
 -   [Delete a virtual network](delete-a-virtual-network.md)
+
+-   [Check private IP address availability in a virtual network](check-private-ip-address-availability.md)
