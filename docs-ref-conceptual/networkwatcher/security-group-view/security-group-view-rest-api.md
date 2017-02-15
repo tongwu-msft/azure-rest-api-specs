@@ -10,7 +10,7 @@ manager: timlt
 ---
 # Security group view REST API  
 
-Security Group View enables you to view configured and effective network security groups rule applied on a VM. To view these rules, make a POST call to Network Watcher with the path ending in /securityGroupView and the Request body containing the Uri to the VM you wish to view.
+Security Group View enables you to view configured and effective network security groups rule applied on a VM. 
 
 Using Security Group View, you can conduct security audits by programmatically verifying that the current state of all your NSG rules applied on a VM matches your desired state. If you have many NSGs in your network, Security Group View will also give you the effective security group rules applied to your VM so you can better understand your deployments.
 
