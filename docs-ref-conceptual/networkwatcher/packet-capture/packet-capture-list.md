@@ -23,7 +23,7 @@ For information about getting started with Azure REST operations including reque
 
 ## Response  
 
-The response includes an HTTP status code and a set of response headers.
+The response includes an HTTP status code, a set of response headers, and a request body containing a list of existing packet capture sessions in the specified resource group.
 
 ### Success codes
 
@@ -72,8 +72,6 @@ The response includes an HTTP status code and a set of response headers.
 | **400 BadRequest** | Invalid parameter value or combination of parameters. | 
 | **403 Forbidden** | Caller doesn’t have the privilege to call this API. |
 | **404 NotFound** | Resource does not exist. |
-| **409 Conflict** | A resource with the same name already exists. (Attempts to overwrite existing Packet Captures will result in this error.) |
-| **412 Precondition Failed** | The operation is being throttled. |
 | **500 Internal Server Error** |  A server-side error has happened. Retry the operation. |     
 
 
