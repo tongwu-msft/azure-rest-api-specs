@@ -20,7 +20,7 @@ Inbound NAT Rules control how inbound traffic coming to frontend IP (VIP) of the
 ## Common parameters and headers  
  The following information is common to all tasks:  
   
--   Replace {api-version} with 2016-06-01.  
+-   Replace {api-version} with **2016-09-01**.  
   
 -   Replace {subscription-id} with your subscription identifier in the URI.  
   

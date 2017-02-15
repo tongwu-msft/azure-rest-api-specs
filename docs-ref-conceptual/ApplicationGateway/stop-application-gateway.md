@@ -34,7 +34,7 @@ For information about getting started with Azure REST operations including reque
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|`/subscriptions/{subscriptionId<subscription-id>/services/networking/applicationGateways/{applicationGatewayName}/stop`|  
+|POST|`/subscriptions/{subscriptionId<subscription-id>/services/networking/applicationGateways/{applicationGatewayName}/stop?api-version={api-version}`|  
   
  *Replace {ApplicationGatewayName} with the name of the application gateway you want to stop.*  
   

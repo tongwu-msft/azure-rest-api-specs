@@ -33,7 +33,7 @@ The List peering operation retrieves all the BGP Peerings for the circuit specif
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings?api-version={api-version}`|  
   
  Replace {circuitName} with the name of the ExpressRoute circuit already created.  
   
