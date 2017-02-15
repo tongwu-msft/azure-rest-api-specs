@@ -23,7 +23,7 @@ For information about getting started with Azure REST operations including reque
 
 ## Response  
 
-The response includes an HTTP status code and a set of response headers.
+The response includes an HTTP status code, a set of response headers, and a response body containing the status of a packet capture session.
 
 ### Success codes
 
@@ -32,6 +32,7 @@ The response includes an HTTP status code and a set of response headers.
 | **200 (OK)** | Operation completed immediately. | 
 | **202 (Accepted)** | Operation running asynchronously. The result will be published to the location found in the response header. To get the status of the operation poll on Azure-AsyncOperation URI found in the response header. | 
 
+#### Response Body
 ```json
 { 
 "name": "vm1PacketCapture",
@@ -39,7 +40,7 @@ The response includes an HTTP status code and a set of response headers.
 "captureStartTime" : "9/7/2016 12:35:24PM", 
 "packetCaptureStatus" : "Stopped", 
 "stopReason" : "TimeExceeded", 
-"packetCaptureError" : [ ] 
+"packetCaptureError" : [] 
 }
 ```
 
