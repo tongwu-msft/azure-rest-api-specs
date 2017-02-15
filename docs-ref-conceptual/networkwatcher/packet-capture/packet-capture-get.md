@@ -11,7 +11,7 @@ manager: timlt
 
 # Get a packet capture session
 
-Returns information of an existing packet capture session.
+Returns the properties of an existing packet capture session.
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 
@@ -23,7 +23,7 @@ For information about getting started with Azure REST operations including reque
 
 ## Response  
 
-The response includes an HTTP status code and a set of response headers.
+The response includes an HTTP status code, response header, and a response body containing the properties of the requested packet capture session.
 
 ### Success codes
 
