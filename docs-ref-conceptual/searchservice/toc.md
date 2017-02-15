@@ -39,3 +39,4 @@
 ## [Get Indexer Status (Azure Search Service REST API)](get-indexer-status.md)
 ## [Reset Indexer (Azure Search Service REST API)](reset-indexer.md)
 ## [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md)
+# [Azure Search Developer Reference](developer-reference.md)
