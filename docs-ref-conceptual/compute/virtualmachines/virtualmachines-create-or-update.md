@@ -190,17 +190,17 @@ For information about getting started with Azure REST operations including reque
 }
 ```    
     
-### <a name="bk_toplevelelements"></a> Top level elements  
+### <a name="toplevelelements"></a> Top level elements  
 
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|      
 | name | Yes | String | Specifies the name of the virtual machine. This name should be unique within the resource group. |    
 | location | Yes | String | Specifies the supported Azure location where the virtual machine should be created. This location can be different from the location of the resource group. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations). |
 | tags | No | String | Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md).|    
-| [plan](../virtualmachines/virtualmachines-create-or-update.md#bk_plan) | No | Complex Type| Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. |    
-| [properties](../virtualmachines/virtualmachines-create-or-update.md#bk_props) | Yes | Complex Type | Specifies the properties of the virtual machine. |    
+| [plan](#plan) | No | Complex Type| Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. |    
+| [properties](#props) | Yes | Complex Type | Specifies the properties of the virtual machine. |    
     
-### <a name="bk_plan"></a> plan    
+### <a name="plan"></a> plan    
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
@@ -208,40 +208,40 @@ For information about getting started with Azure REST operations including reque
 | publisher | Yes | String | Specifies the publisher of the image. |    
 | product | Yes | String | Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element. |    
     
-### <a name="bk_props"></a> properties    
+### <a name="props"></a> properties    
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
 | licenseType | No | String | Specifies that the image or disk that is being used was licensed on-premises. This element is only used for images that contain the Windows Server operating system. <br><br> Possible values are: <br><br> Windows_Client <br><br> Windows_Server <br><br> If this element is included in a request for an update, the value must match the initial value. This value cannot be updated. <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-hybrid-use-benefit-licensing?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Minimum api-version: 2015-06-15 |
-| [availabilitySet](../virtualmachines/virtualmachines-create-or-update.md#bk_avset) | No |Complex Type|Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintainance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. |    
-| [hardwareProfile](../virtualmachines/virtualmachines-create-or-update.md#bk_hardware)| Yes | Complex Type | Specifies the hardware settings for the virtual machine. |    
-| [storageProfile](../virtualmachines/virtualmachines-create-or-update.md#bk_storage) | Yes | Complex Type | Specifies the storage settings for the virtual machine disks. |    
-| [osProfile](../virtualmachines/virtualmachines-create-or-update.md#bk_osprofile) | Yes | Complex Type | Specifies the operating system settings for the virtual machine. |    
-| [networkProfile](../virtualmachines/virtualmachines-create-or-update.md#bk_netprofile) | Yes | Complex Type | Specifies the network interfaces of the virtual machine. |   
-| [diagnosticsProfile](../virtualmachines/virtualmachines-create-or-update.md#bk_netprofile) | No | Complex Type | Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15|   
+| [availabilitySet](#avset) | No |Complex Type|Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintainance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. |    
+| [hardwareProfile](#hardware)| Yes | Complex Type | Specifies the hardware settings for the virtual machine. |    
+| [storageProfile](#storage) | Yes | Complex Type | Specifies the storage settings for the virtual machine disks. |    
+| [osProfile](#osprofile) | Yes | Complex Type | Specifies the operating system settings for the virtual machine. |    
+| [networkProfile](#netprofile) | Yes | Complex Type | Specifies the network interfaces of the virtual machine. |   
+| [diagnosticsProfile](#netprofile) | No | Complex Type | Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15|   
     
-#### <a name="bk_avset"></a> availabilitySet    
+#### <a name="avset"></a> availabilitySet    
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
 | id | Yes | String | Specifies the resource Id for the availability set to which the Virtual Machine is added. To get this, you need to first create the availability set and then get its resource Id. |    
     
-#### <a name="bk_hardware"></a> hardwareProfile    
+#### <a name="hardware"></a> hardwareProfile    
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
 | vmSize | Yes | String | Specifies the size of the virtual machine. For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-sizes?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> The available VM sizes depend on region and availability set. For a list of available sizes use these APIs:  <br><br> [List all available virtual machine sizes in an availability set](virtualmachines-list-sizes-availability-set.md) <br><br> [List all available virtual machine sizes in a region](virtualmachines-list-sizes-region.md) <br><br> [List all available virtual machine sizes for resizing](virtualmachines-list-sizes-for-resizing.md)
 |    
     
-####  <a name="bk_storage"></a> storageProfile    
+####  <a name="storage"></a> storageProfile    
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
-| [imageReference](../virtualmachines/virtualmachines-create-or-update.md#bk_imageref) | No | Complex Type | Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. |    
-| [osDisk](../virtualmachines/virtualmachines-create-or-update.md#bk_osdisk) | Yes | Complex Type | Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). |    
-| [dataDisks](../virtualmachines/virtualmachines-create-or-update.md#bk_datadisks) | No | Complex Type | Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). |    
+| [imageReference](#imageref) | No | Complex Type | Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. |    
+| [osDisk](#osdisk) | Yes | Complex Type | Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). |    
+| [dataDisks](#datadisks) | No | Complex Type | Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). |    
     
-#####  <a name="bk_imageref"></a> imageReference    
+#####  <a name="imageref"></a> imageReference    
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
@@ -251,7 +251,7 @@ For information about getting started with Azure REST operations including reque
 | sku | Yes | String | Specifies the SKU of the platform image or marketplace image used to create the virtual machine. |    
 | version | Yes | String | Specifies the version of the platform image or marketplace image used to create the virtual machine. You can use the value of **latest** to use the latest version of an image. |    
     
-#####  <a name="bk_osdisk"></a> osDisk    
+#####  <a name="osdisk"></a> osDisk    
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
@@ -263,7 +263,7 @@ For information about getting started with Azure REST operations including reque
 | osType | Yes for user-image deployments <br> Do not specify for platform/marketplace image deployments | Int | This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** |
 | encryptionSettings | No | Complex Type | Specifies the encryption settings for the OS Disk. <br><br> Minimum api-version: 2015-06-15 |
     
-##### <a name="bk_encryptionSettings"></a> encryptionSettings    
+##### <a name="encryptionSettings"></a> encryptionSettings    
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
@@ -271,21 +271,21 @@ For information about getting started with Azure REST operations including reque
 | diskEncryptionKey | Yes | Complex Object | Specifies the location of the disk encryption key. |    
 | keyEncryptionKey | Yes | Complex Object | Specifies the location of the key encryption key. | 
 
-##### <a name="bk_diskEncryptionKey"></a> diskEncryptionKey    
+##### <a name="diskEncryptionKey"></a> diskEncryptionKey    
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
 | sourceVault.Id | Yes | String | Specifies the resource Id of the Key Vault to use. <br><br> For more on Key Vault, see [What is Azure Key Vault?](https://docs.microsoft.com/azure/key-vault/key-vault-whatis/) <br><br> [Get started with Azure Key Vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/) |    
 | keyUrl | Yes | String | Specifies the location of the disk encryption key. |    
 
-##### <a name="bk_keyEncryptionKey"></a> keyEncryptionKey    
+##### <a name="keyEncryptionKey"></a> keyEncryptionKey    
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
 | sourceVault.Id | Yes | String | Specifies the resource Id of the Key Vault to use. <br><br> For more on Key Vault, see [What is Azure Key Vault?](https://docs.microsoft.com/azure/key-vault/key-vault-whatis) <br><br> [Get started with Azure Key Vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/)|    
 |keyUrl|Yes|String|Specifies the location of the key encryption key. |    
 
-#####  <a name="bk_datadisks"></a> dataDisks    
+#####  <a name="datadisks"></a> dataDisks    
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
@@ -293,10 +293,17 @@ For information about getting started with Azure REST operations including reque
 | diskSizeGB | Yes | String | Specifies the size of the data disk in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB |
 | caching | No | String | Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage** |    
 | lun | Yes | Int | Specifies the logical unit number of the data disk. |    
-| vhd | Yes | String | Specifies the uri of the location in storage where the VHD for the virtual machine should be placed. |    
+| vhd | Yes | String | Specifies the uri of the location in storage where the VHD for the virtual machine should be placed. | 
+| [mamagedDisk](#managedDisk) | Specified the identifier and optional storage account type for the disk. |   
 | creationOption | Yes | String | Specifies how the data disk should be created. <br><br> Possible values are: <br><br> **Attach** - This value is used when you are using a specialized disk/VHD to attach to the virtual machine. <br><br> **FromImage** - This value is used when you are using an image to create the virtual machine. If you are using a platform image, you will also use the imageReference element described above. If you are using a marketplace image, you will also use the plan element described above. |    
-    
-#### <a name="bk_osprofile"></a> osProfile    
+
+#### <a name="managedDisk"></a> managedDisk
+| Element name | Required | Type | Description |    
+|--------------|----------|------|-------------|
+| Id | Yes | String | Specifies the resource identifier of the managed disk. |
+| storageAccountType | No | String | Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS. |
+
+#### <a name="osprofile"></a> osProfile    
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
@@ -481,6 +488,26 @@ The following example shows the response body for a virtual machine that was cre
 The provisioningState element specifies the status of the virtual machine deployment. For descriptions of the other elements in the response, see the Request section.    
     
 ## Examples    
+
+### Create a managed VM
+
+```
+"storageProfile": {
+  "imageReference": {
+    "publisher":"MicrosoftWindowsServerEssentials",    
+    "offer":"WindowsServerEssentials",    
+    "sku":"WindowsServerEssentials",    
+    "version":"latest"
+    "id": "/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/westus/publishers/MicrosoftWindowsServerEssentials/ArtifactTypes/vmimage/offers/WindowsServerEssentials/skus/WindowsServerEssentials/versions/latest"
+  },
+  "osDisk": {
+    "name": "osdisk",
+    "osType": "<Windows or Linux>",
+    "createOption": "fromImage",
+    "diskSizeGB": "10"
+  }
+}
+```
 
 ### Create a VM from a virtual machine image
 

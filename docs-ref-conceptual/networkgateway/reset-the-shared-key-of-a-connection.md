@@ -29,11 +29,11 @@ translation.priority.mt:
 Resets the shared key for the virtual network gateway connection.  
   
 ## Request  
- See [Connections](../NetworkGatewayREST/connections.md) for headers and parameters that are used by all requests related to connections.  
+ See [Connections](connections.md) for headers and parameters that are used by all requests related to connections.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/microsoft.network/connections/{connection-name}/sharedkey/reset?api-version={api-version}`|  
+|POST|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/connections/{connection-name}/sharedkey/reset?api-version={api-version}`|  
   
 ```json  
 {  

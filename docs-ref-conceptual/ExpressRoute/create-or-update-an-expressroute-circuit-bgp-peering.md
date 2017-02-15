@@ -31,7 +31,7 @@ The create BGP Peering operation creates a new peering for the circuit specified
  In the section below a PUT on the peering child object is shown.  
   
 ## Request  
- See [Common parameters and headers](../AzureExpressRouteREST/expressroute-rest.md#bk_common) for headers and parameters that are used by all requests related to *ExpressRoute*.  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to *ExpressRoute*.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -41,7 +41,7 @@ The create BGP Peering operation creates a new peering for the circuit specified
   
  **AzurePublicPeering:**  
   
-```  
+```json 
   
 {  
     "name": "AzurePublicPeering",  
@@ -58,7 +58,7 @@ The create BGP Peering operation creates a new peering for the circuit specified
   
  **AzurePrivatePeering:**  
   
-```  
+```json
   
 {  
     "name": "AzurePrivatePeering",   
@@ -75,7 +75,7 @@ The create BGP Peering operation creates a new peering for the circuit specified
   
  **MicrosoftPeering:**  
   
-```  
+```json  
   
 {  
     "name": "MicrosoftPeering",  

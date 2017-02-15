@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Delete a virtual network
 ## Request  
- See [Common parameters and headers](../NetworkREST/virtual-networks.md#bk_common) for headers and parameters that are used by all requests related to Virtual Networks.  
+ See [Common parameters and headers](virtual-networks.md#bk_common) for headers and parameters that are used by all requests related to Virtual Networks.  
   
 |Method|Request URI|  
 |------------|-----------------|  

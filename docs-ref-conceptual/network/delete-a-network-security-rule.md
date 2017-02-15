@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # Delete a network security rule
 ## Request  
- See [Common parameters and headers](../NetworkREST/network-security-rules.md#bk_common) for headers and parameters that are used by all requests related to network security rules.  
+ See [Common parameters and headers](network-security-rules.md#bk_common) for headers and parameters that are used by all requests related to network security rules.  
   
 |Method|Request URI|  
 |------------|-----------------|  

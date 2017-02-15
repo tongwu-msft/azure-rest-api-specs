@@ -28,18 +28,19 @@ translation.priority.mt:
 # List Express Route Service Providers
 This operation lists the currently supported connectivity providers, their peering locations and bandwidths offered.  
   
- *HTTP Request*  
+## Request
+See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to *ExpressRoute*.  
   
 |Method|Url|  
 |------------|---------|  
-|GET|[https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders?api-version={api-version}](https://management.azure.com/subscriptions/%7bsubscriptionId%7d/providers/Microsoft.Network/expressRouteServiceProviders?api-version=%7bapi-version%7d)|  
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders?api-version={api-version}`|  
   
 ## Response  
  Status code: 200  
   
 ## Example Output:  
   
-```  
+```json  
 [  
     {  
         "name": "<providername>",  
