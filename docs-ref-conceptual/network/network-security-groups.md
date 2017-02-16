@@ -55,3 +55,5 @@ A network security group (NSG) resource contains a list of network security rule
 -   [Get information about a network security group](get-information-about-a-network-security-group.md)  
   
 -   [List network security groups within a resource group](list-network-security-groups-within-a-resource-group.md)
+
+-   [Get effective network security group](get-effective-network-security-group.md)
