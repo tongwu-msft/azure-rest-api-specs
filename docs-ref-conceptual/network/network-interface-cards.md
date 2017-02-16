@@ -53,3 +53,7 @@ Network interface cards are virtual network cards that form the link between vir
 -   [List network interface cards within a resource group](list-network-interface-cards-within-a-resource-group.md)  
   
 -   [List network interface cards within a subscription](list-network-interface-cards-within-a-subscription.md)
+
+-   [Get effective network security group](get-effective-network-security-group.md)
+
+-   [Get effective route table](get-effective-route-table.md)
