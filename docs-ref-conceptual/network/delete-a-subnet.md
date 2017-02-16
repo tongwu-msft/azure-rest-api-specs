@@ -1,0 +1,45 @@
+---
+title: "Delete a subnet"
+ms.custom: ""
+ms.date: "2015-11-04"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "virtual-network"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+ms.assetid: 9f9e9928-ad7d-4666-8178-ef0c989c6caf
+caps.latest.revision: 7
+author: "georgewallace"
+ms.author: "gwallace"
+manager: "carmonm"
+translation.priority.mt: 
+  - "de-de"
+  - "es-es"
+  - "fr-fr"
+  - "it-it"
+  - "ja-jp"
+  - "ko-kr"
+  - "pt-br"
+  - "ru-ru"
+  - "zh-cn"
+  - "zh-tw"
+---
+# Delete a subnet
+## Request  
+ See [Common parameters and headers](subnets.md#bk_common) for headers and parameters that are used by all requests related to subnets.  
+  
+|Method|Request URI|  
+|------------|-----------------|  
+|DELETE|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/virtualNetworks/{virtual-network-name}/{subnet-name}?api-version={api-version}`|  
+  
+ Replace {subnet-name} with the name of the subnet you want deleted.  
+  
+## Response  
+ **Status code:**  
+  
+ 202-Accepted if resource exists and the request is accepted. When asynchronous delete operation completes, GET \<Location header> returns 204.  
+  
+ Returns 412-Precondition Failed if the resource's ETag doesn’t match one specified in If-Match header.  
+  
+ Returns 204-No Content if resource does not exist.
