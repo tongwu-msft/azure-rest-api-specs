@@ -1,7 +1,7 @@
 ---
 title: "Virtual Networks"
 ms.custom: ""
-ms.date: "2016-07-08"
+ms.date: "2017-02-15"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "virtual-network"

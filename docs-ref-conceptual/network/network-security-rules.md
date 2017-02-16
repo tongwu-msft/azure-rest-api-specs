@@ -57,3 +57,5 @@ Network security rules define a pattern of traffic to be enabled or denied. Netw
 -   [List default networks security rules within a network security group](list-default-networks-security-rules-within-a-network-security-group.md)  
   
 -   [List networks security rules within a network security group](list-networks-security-rules-within-a-network-security-group.md)
+
+-   [Get effective route table](get-effective-route-table.md)
