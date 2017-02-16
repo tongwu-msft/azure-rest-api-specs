@@ -1,4 +1,4 @@
-# Create a request 
+# Write data to Log Analytics repository 
 The Azure Log Analytics HTTP Data Collector API, allows you to POST JavaScript Object Notation (JSON) data to the Log Analytics repository from any client that can call the REST API. By using this method, you can send data from third-party applications or from scripts, like from a runbook in Azure Automation
 
 ## Request URI 
