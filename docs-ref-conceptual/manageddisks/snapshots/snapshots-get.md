@@ -52,10 +52,7 @@ This response example includes all optional elements. Your actual response may n
 
 ```json
 { 
-  "accountType": { 
-    "name": "Standard_LRS", 
-    "tier": "Standard" 
-  }, 
+  "accountType": "Standard_LRS",
   "properties": { 
     "osType": "Windows", 
     "creationData": { 

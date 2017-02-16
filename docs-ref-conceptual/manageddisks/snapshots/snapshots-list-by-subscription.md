@@ -53,10 +53,7 @@ This response example includes all optional elements. Your actual response may n
 { 
   "value": [ 
     { 
-      "accountType": { 
-        "name": "Standard_LRS", 
-        "tier": "Standard" 
-      }, 
+      "accountType": "Standard_LRS",
       "properties": { 
         "osType": "Windows", 
         "creationData": { 
@@ -93,10 +90,7 @@ This response example includes all optional elements. Your actual response may n
       "name": "mySnapshot1" 
     }, 
     { 
-      "accountType": { 
-        "name": "Standard_LRS", 
-        "tier": "Standard" 
-      }, 
+      "accountType": "Standard_LRS",
       "properties": { 
         "osType": "Windows", 
         "creationData": { 
