@@ -10,12 +10,10 @@
     "https"
   ],
   "consumes": [
-    "application/json",
-    "text/json"
+    "application/json"
   ],
   "produces": [
-    "application/json",
-    "text/json"
+    "application/json"
   ],
   "security": [
     {
@@ -81,7 +79,13 @@
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "The patch schedule was successfully updated.",
+            "schema": {
+              "$ref": "#/definitions/RedisPatchSchedule"
+            }
+          },
+          "201": {
+            "description": "The patch schedule was successfully created.",
             "schema": {
               "$ref": "#/definitions/RedisPatchSchedule"
             }
@@ -169,9 +173,6 @@
             "schema": {
               "$ref": "#/definitions/RedisPatchSchedule"
             }
-          },
-          "404": {
-            "description": "Response of get patch schedules if it does not exist."
           }
         }
       }
@@ -405,6 +406,11 @@
           "type": "integer",
           "format": "int32",
           "description": "Redis SSL port."
+        },
+        "accessKeys": {
+          "$ref": "#/definitions/RedisAccessKeys",
+          "readOnly": true,
+          "description": "The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache"
         }
       },
       "allOf": [
@@ -616,6 +622,16 @@
         "properties"
       ],
       "description": "Response to put/get patch schedules for Redis cache."
+    },
+    "RedisForceRebootResponse": {
+      "properties": {
+        "Message": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Status message"
+        }
+      },
+      "description": "Response to force reboot for Redis cache."
     },
     "RedisCacheCreate": {
       "parameters": {
@@ -914,7 +930,9 @@
       },
       "responses": {
         "200": {
-          "body": {}
+          "body": {
+            "Message": "reboot operation enqueued"
+          }
         }
       }
     },
@@ -932,11 +950,13 @@
         }
       },
       "responses": {
+        "200": {},
         "202": {
           "headers": {
             "location": "https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationResult..."
           }
-        }
+        },
+        "204": {}
       }
     },
     "RedisCacheExport": {
@@ -952,11 +972,13 @@
         }
       },
       "responses": {
+        "200": {},
         "202": {
           "headers": {
             "location": "https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationResult..."
           }
-        }
+        },
+        "204": {}
       }
     },
     "RedisCachePatchSchedulesCreateOrUpdate": {
