@@ -10,12 +10,10 @@
     "https"
   ],
   "consumes": [
-    "application/json",
-    "text/json"
+    "application/json"
   ],
   "produces": [
-    "application/json",
-    "text/json"
+    "application/json"
   ],
   "security": [
     {
@@ -82,13 +80,13 @@
         ],
         "responses": {
           "201": {
-            "description": "",
+            "description": "The new redis cache was successfully created. Check provisioningStatus to see detailed status.",
             "schema": {
               "$ref": "#/definitions/RedisResource"
             }
           },
           "200": {
-            "description": "",
+            "description": "The existing redis cache was successfully updated. Check provisioningStatus to see detailed status.",
             "schema": {
               "$ref": "#/definitions/RedisResource"
             }
@@ -447,10 +445,10 @@
         ],
         "responses": {
           "200": {
-            "description": ""
-          },
-          "204": {
-            "description": ""
+            "description": "Reboot operation successfully enqueued",
+            "schema": {
+              "$ref": "#/definitions/RedisForceRebootResponse"
+            }
           }
         }
       }
@@ -501,7 +499,13 @@
         ],
         "responses": {
           "202": {
-            "description": ""
+            "description": "Import operation successfully enqueued; follow the Location header to poll for final outcome."
+          },
+          "200": {
+            "description": "Import operation succeeded."
+          },
+          "204": {
+            "description": "Import operation succeeded."
           }
         }
       }
@@ -552,7 +556,13 @@
         ],
         "responses": {
           "202": {
-            "description": ""
+            "description": "Export operation successfully enqueued; follow the Location header to poll for final outcome."
+          },
+          "200": {
+            "description": "Export operation succeeded."
+          },
+          "204": {
+            "description": "Export operation succeeded."
           }
         }
       }
@@ -786,6 +796,11 @@
           "type": "integer",
           "format": "int32",
           "description": "Redis SSL port."
+        },
+        "accessKeys": {
+          "$ref": "#/definitions/RedisAccessKeys",
+          "readOnly": true,
+          "description": "The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache"
         }
       },
       "allOf": [
@@ -997,6 +1012,16 @@
         "properties"
       ],
       "description": "Response to put/get patch schedules for Redis cache."
+    },
+    "RedisForceRebootResponse": {
+      "properties": {
+        "Message": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Status message"
+        }
+      },
+      "description": "Response to force reboot for Redis cache."
     },
     "RedisCacheCreate": {
       "parameters": {
@@ -1295,7 +1320,9 @@
       },
       "responses": {
         "200": {
-          "body": {}
+          "body": {
+            "Message": "reboot operation enqueued"
+          }
         }
       }
     },
@@ -1313,11 +1340,13 @@
         }
       },
       "responses": {
+        "200": {},
         "202": {
           "headers": {
             "location": "https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationResult..."
           }
-        }
+        },
+        "204": {}
       }
     },
     "RedisCacheExport": {
@@ -1333,11 +1362,13 @@
         }
       },
       "responses": {
+        "200": {},
         "202": {
           "headers": {
             "location": "https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationResult..."
           }
-        }
+        },
+        "204": {}
       }
     },
     "RedisCachePatchSchedulesCreateOrUpdate": {
