@@ -10,15 +10,6 @@ manager: timt
 ---
 
 # Create a managed disk
-
-Creates a new managed disk in one of these ways:
-
-- As an empty managed disk
-- From a platform image
-- From an existing managed disk in the same or different subscription
-- From importing an unmanaged blob in the same subscription
-- From importing an unmanaged blob in a different subscription
-- From restoring a previous managed disk 
   
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
   
@@ -43,9 +34,9 @@ This table lists the elements that are required for all creation requests.
 | ------------ | ----------- |
 | **name** | Specifies the name of the managed disk that is being created. The name can’t be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters. |
 | **location** | Specifies the location of the managed disk. |
-| **createOption** | Indicates how the managed disk is to be created. Possible values are **Empty**, **FromImage**, **Copy**, **Import**, or **Restore**. |
+| **createOption** | Indicates how the managed disk is to be created. Possible values are **Empty**, **FromImage**, **Copy**, or **Import**. |
 
-### Empty managed disk
+### Create an empty managed disk
   
 ```json
 { 
@@ -64,7 +55,7 @@ This table lists the elements that are required for all creation requests.
 | ------------ | ----------- |
 | **diskSizeGB** | Specifies the size of the empty managed disk that is being created. This element is only required when creating an empty disk; otherwise, it's used to resize a disk during a copy operation. |
 
-### From a platform image 
+### Create a managed disk from a platform image 
 
 ```json
 { 
@@ -86,7 +77,7 @@ This table lists the elements that are required for all creation requests.
 | ------------ | ----------- |
 | **imageReference** | Specifies a reference to an existing platform image. |
 
-### From an existing managed disk in the same or different subscription
+### Create a managed disk from an existing managed disk in the same or different subscription
 
 ```json
 { 
@@ -105,7 +96,7 @@ This table lists the elements that are required for all creation requests.
 | ------------ | ----------- |
 | **sourceResourceId** | Specifies a reference to an existing managed disk. Only used if `createOption` is **Copy** or **Restore**. |
 
-### From importing an unmanaged blob in the same subscription
+### Create a managed disk by importing an unmanaged blob from the same subscription
 
 ```json
 { 
@@ -124,7 +115,7 @@ This table lists the elements that are required for all creation requests.
 | ------------ | ----------- |
 | **sourceUri** | Specifies the storage URI of a blob in an unmanaged storage account. Only used if `createOption` is **Import**. |
 
-### From importing an unmanaged blob in a different subscription
+### Create a managed disk by importing an unmanaged blob from a different subscription
 
 ```json
 { 
@@ -145,7 +136,7 @@ This table lists the elements that are required for all creation requests.
 | **storageAccountId** | Specifies the identifier of an unmanaged storage account. Used with `sourceUri` to allow authorization during import of unmanaged blobs from a different subscription. | 
 | **sourceUri** | Specifies the storage URI of a blob in an unmanaged storage account. Only used if `createOption` is **Import**. |
 
-### From restoring a previous managed disk
+### Create a managed disk by copying a snapshot
 
 ```json
 {
@@ -153,8 +144,8 @@ This table lists the elements that are required for all creation requests.
   "location": "West US",
   "properties": { 
     "creationData": { 
-      "createOption": "Restore", 
-      "sourceResourceId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/myRestorePointCollection/restorePoints/{restorePoint}/disks/mySourceDisk?id={diskId}" 
+      "createOption": "Copy", 
+      "sourceResourceId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1" 
     }
   }
 } 
@@ -162,7 +153,7 @@ This table lists the elements that are required for all creation requests.
 
 | Element name | Description |
 | ------------ | ----------- |
-| **sourceResourceId** | Specifies a reference to an existing managed disk. Only used if `createOption` is **Copy** or **Restore**. |
+| **sourceResourceId** | Specifies a reference to an existing managed disk. Only used if `createOption` is **Copy**. |
 
 ### Optional elements
 
@@ -186,13 +177,10 @@ You can add encryption to the managed disk by adding `encryptionSettings`:
 } 
 ```
 
-You can specify a hidden storage account of the requested supported type to be used, and copy the source blob to a new blob in the storage account. To specify a storage account, add `accountType`to the main body of the request:
+You can specify a hidden storage account of the requested supported type to be used, and copy the source blob to a new blob in the storage account. To specify a storage account, add `accountType`to the main body of the request. Possible values are **Standard_LRS** or **Premium_LRS**:
 
 ```json
-  "accountType": { 
-    "name": "Standard_LRS", 
-    "tier": "Standard" 
-  } 
+  "accountType": "Standard_LRS", 
 ```
 
 You can assign tags for tracking purposes to the managed disks that you create by adding `tags` to the main body of the request:
@@ -243,10 +231,7 @@ This response example includes all optional elements. Your actual response may n
 
 ```json
 { 
-  "accountType": { 
-    "name": "Standard_LRS", 
-    "tier": "Standard" 
-  }, 
+  "accountType": "Standard_LRS", 
   "properties": { 
     "osType": "Windows", 
     "creationData": { 

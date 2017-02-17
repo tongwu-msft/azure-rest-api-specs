@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "BatchManagement",
-    "version": "2015-12-01",
+    "version": "2017-01-01",
     "x-ms-code-generation-settings": {
       "name": "BatchManagementClient"
     }
@@ -93,6 +93,15 @@
         "autoStorage": {
           "$ref": "#/definitions/AutoStorageBaseProperties",
           "description": "The properties related to auto storage account."
+        },
+        "poolAllocationMode": {
+          "title": "The allocation mode to use for creating pools in the Batch account.",
+          "description": "The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService.",
+          "$ref": "#/definitions/PoolAllocationMode"
+        },
+        "keyVaultReference": {
+          "$ref": "#/definitions/KeyVaultReference",
+          "description": "A reference to the Azure key vault associated with the Batch account."
         }
       },
       "description": "The properties of a Batch account."
@@ -113,13 +122,30 @@
         "properties": {
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/BatchAccountBaseProperties",
-          "description": "The properties of the account."
+          "description": "The properties of the Batch account."
         }
       },
       "required": [
         "location"
       ],
       "description": "Parameters supplied to the Create operation."
+    },
+    "KeyVaultReference": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The resource ID of the Azure key vault associated with the Batch account."
+        },
+        "url": {
+          "type": "string",
+          "description": "The Url of the Azure key vault associated with the Batch account."
+        }
+      },
+      "required": [
+        "id",
+        "url"
+      ],
+      "description": "Identifies the Azure key vault associated with a Batch account."
     },
     "AutoStorageProperties": {
       "properties": {
@@ -148,6 +174,8 @@
         },
         "provisioningState": {
           "type": "string",
+          "readOnly": true,
+          "x-nullable": false,
           "description": "The provisioned state of the resource",
           "enum": [
             "Invalid",
@@ -162,31 +190,44 @@
             "modelAsString": false
           }
         },
+        "poolAllocationMode": {
+          "readOnly": true,
+          "x-nullable": false,
+          "title": "The allocation mode to use for creating pools in the Batch account.",
+          "$ref": "#/definitions/PoolAllocationMode"
+        },
+        "keyVaultReference": {
+          "title": "A reference to the Azure key vault associated with the Batch account.",
+          "readOnly": true,
+          "$ref": "#/definitions/KeyVaultReference"
+        },
         "autoStorage": {
-          "$ref": "#/definitions/AutoStorageProperties",
-          "description": "The properties and status of any auto storage account associated with the account."
+          "title": "The properties and status of any auto storage account associated with the Batch account.",
+          "readOnly": true,
+          "$ref": "#/definitions/AutoStorageProperties"
         },
         "coreQuota": {
+          "readOnly": true,
+          "x-nullable": false,
           "type": "integer",
           "format": "int32",
-          "description": "The core quota for this Batch account."
+          "title": "The core quota for this Batch account."
         },
         "poolQuota": {
+          "readOnly": true,
+          "x-nullable": false,
           "type": "integer",
           "format": "int32",
-          "description": "The pool quota for this Batch account."
+          "title": "The pool quota for this Batch account."
         },
         "activeJobAndJobScheduleQuota": {
+          "readOnly": true,
+          "x-nullable": false,
           "type": "integer",
           "format": "int32",
-          "description": "The active job and job schedule quota for this Batch account."
+          "title": "The active job and job schedule quota for this Batch account."
         }
       },
-      "required": [
-        "coreQuota",
-        "poolQuota",
-        "activeJobAndJobScheduleQuota"
-      ],
       "description": "Account specific properties."
     },
     "BatchAccount": {
@@ -261,10 +302,12 @@
       "properties": {
         "primary": {
           "type": "string",
+          "readOnly": true,
           "description": "The primary key associated with the account."
         },
         "secondary": {
           "type": "string",
+          "readOnly": true,
           "description": "The secondary key associated with the account."
         }
       },
@@ -327,14 +370,17 @@
       "properties": {
         "id": {
           "type": "string",
+          "readOnly": true,
           "description": "The ID of the application."
         },
         "version": {
           "type": "string",
+          "readOnly": true,
           "description": "The version of the application package. "
         },
         "state": {
           "type": "string",
+          "readOnly": true,
           "description": "The current state of the application package.",
           "enum": [
             "pending",
@@ -348,20 +394,24 @@
         },
         "format": {
           "type": "string",
+          "readOnly": true,
           "description": "The format of the application package, if the package is active."
         },
         "storageUrl": {
           "type": "string",
+          "readOnly": true,
           "description": "The storage URL at which the application package is stored."
         },
         "storageUrlExpiry": {
           "type": "string",
           "format": "date-time",
+          "readOnly": true,
           "description": "The UTC time at which the storage URL will expire."
         },
         "lastActivationTime": {
           "type": "string",
           "format": "date-time",
+          "readOnly": true,
           "description": "The time at which the package was last activated, if the package is active."
         }
       },
@@ -405,6 +455,7 @@
         "accountQuota": {
           "type": "integer",
           "format": "int32",
+          "readOnly": true,
           "description": "The number of Batch accounts that may be created under the subscription in the specified region."
         }
       },
@@ -428,10 +479,12 @@
           "description": "The type of the resource"
         },
         "location": {
+          "readOnly": true,
           "type": "string",
           "description": "The location of the resource"
         },
         "tags": {
+          "readOnly": true,
           "type": "object",
           "additionalProperties": {
             "type": "string"
@@ -441,6 +494,18 @@
       },
       "description": "A definition of an Azure resource.",
       "x-ms-azure-resource": true
+    },
+    "PoolAllocationMode": {
+      "type": "string",
+      "description": "The allocation mode for creating pools in the Batch account.",
+      "enum": [
+        "BatchService",
+        "UserSubscription"
+      ],
+      "x-ms-enum": {
+        "name": "PoolAllocationMode",
+        "modelAsString": false
+      }
     },
     "CloudError": {
       "x-ms-external": true,
@@ -466,6 +531,135 @@
         }
       },
       "description": "An error response from the Batch service."
+    },
+    "BatchAccountCreate_Default": {
+      "parameters": {
+        "accountName": "sampleacct",
+        "resourceGroupName": "default-azurebatch-japaneast",
+        "api-version": "2017-07-01",
+        "subscriptionId": "subid",
+        "parameters": {
+          "location": "japaneast",
+          "properties": {
+            "autoStorage": {
+              "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+            }
+          }
+        }
+      },
+      "responses": {
+        "202": {},
+        "200": {
+          "body": {
+            "name": "sampleacct",
+            "location": "japaneast",
+            "properties": {
+              "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+              "provisioningState": "Succeeded",
+              "poolAllocationMode": "BatchService",
+              "coreQuota": 20,
+              "poolQuota": 20,
+              "activeJobAndJobScheduleQuota": 20,
+              "autoStorage": {
+                "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+                "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+              }
+            },
+            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+            "type": "Microsoft.Batch/batchAccounts"
+          }
+        }
+      }
+    },
+    "BatchAccountCreate_BYOS": {
+      "parameters": {
+        "accountName": "sampleacct",
+        "resourceGroupName": "default-azurebatch-japaneast",
+        "api-version": "2017-07-01",
+        "subscriptionId": "subid",
+        "parameters": {
+          "location": "japaneast",
+          "properties": {
+            "autoStorage": {
+              "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+            },
+            "poolAllocationMode": "UserSubscription",
+            "keyVaultReference": {
+              "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
+              "url": "http://sample.vault.azure.net/"
+            }
+          }
+        }
+      },
+      "responses": {
+        "202": {},
+        "200": {
+          "body": {
+            "name": "sampleacct",
+            "location": "japaneast",
+            "properties": {
+              "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+              "provisioningState": "Succeeded",
+              "poolAllocationMode": "UserSubscription",
+              "coreQuota": 20,
+              "poolQuota": 20,
+              "activeJobAndJobScheduleQuota": 20,
+              "autoStorage": {
+                "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+                "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+              },
+              "keyVaultReference": {
+                "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
+                "url": "http://sample.vault.azure.net/"
+              }
+            },
+            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+            "type": "Microsoft.Batch/batchAccounts"
+          }
+        }
+      }
+    },
+    "BatchAccountDelete": {
+      "parameters": {
+        "accountName": "sampleacct",
+        "resourceGroupName": "default-azurebatch-japaneast",
+        "api-version": "2017-07-01",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {},
+        "202": {}
+      }
+    },
+    "BatchAccountGet": {
+      "parameters": {
+        "accountName": "sampleacct",
+        "resourceGroupName": "default-azurebatch-japaneast",
+        "api-version": "2017-07-01",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "name": "sampleacct",
+            "location": "japaneast",
+            "properties": {
+              "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+              "provisioningState": "Succeeded",
+              "poolAllocationMode": "BatchService",
+              "coreQuota": 20,
+              "poolQuota": 20,
+              "activeJobAndJobScheduleQuota": 20,
+              "autoStorage": {
+                "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+                "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+              }
+            },
+            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+            "type": "Microsoft.Batch/batchAccounts"
+          }
+        }
+      }
     }
   },
   "parameters": {
