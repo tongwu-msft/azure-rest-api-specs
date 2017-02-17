@@ -79,7 +79,7 @@ For details about specifying query parameter, see [Search Documents &#40;Azure S
 ##  <a name="bkmk_fuzzy"></a> Fuzzy search  
  A fuzzy search finds matches in terms that have a similar construction. Per [Lucene documentation](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html), fuzzy searches are based on [Damerau-Levenshtein Distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance).  
 
- To do a fuzzy search, use the tilde "~" symbol at the end of a single word with an optional parameter, a number between 0 and 2(default), that specifies the edit distance. For example, "blue~" or "blue~1" would return "blue", "blues", and "glue".
+ To do a fuzzy search, use the tilde "~" symbol at the end of a single word with an optional parameter, a number between 0 and 2 (default), that specifies the edit distance. For example, "blue~" or "blue~1" would return "blue", "blues", and "glue".
 
  Fuzzy search can only be applied to terms, not phrases. Fuzzy searches can expand a term up to the maximum of 50 terms that meet the distance criteria.
 
@@ -105,7 +105,7 @@ The following example helps illustrate the differences. Suppose that there's a s
 
 > [!NOTE]  
 >  You cannot use a * or ? symbol as the first character of a search.  
->  No text analysis is performed on wildcard search queries. At query time, wildcard query terms are compared against analyzed terms in the search index and expand. 
+>  No text analysis is performed on wildcard search queries. At query time, wildcard query terms are compared against analyzed terms in the search index and expanded. 
 
 ##  <a name="bkmk_syntax"></a> Syntax fundamentals  
  The following syntax fundamentals apply to all queries that use the Lucene syntax.  
