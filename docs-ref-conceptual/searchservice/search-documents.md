@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-01-19"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -98,7 +98,7 @@ When the query type is set to `full`, search text is interpreted using the Lucen
 
 #### `$skip=# (optional)`
 
-The number of search results to skip. When calling via POST, this parameter is named `skip` instead of `$skip`. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use `$skip` due to this limitation, consider using `$orderby` on a totally-ordered key and `$filter` with a range query instead.
+The number of search results to skip. When calling via POST, this parameter is named `skip` instead of `$skip`. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use `$skip` due to this limitation, consider using `$orderby` on a field that has unique values for every document in the index (like the document key, for example) and `$filter` with a range query instead.
 
 #### `$top=# (optional)`
 The number of search results to retrieve. This defaults to 50. When calling via POST, this parameter is named `top` instead of `$top`. If you specify a value greater than 1000 and there are more than 1000 results, only the first 1000 results will be returned, along with a link to the next page of results (see @odata.nextLink in the example below).
@@ -121,10 +121,6 @@ A list of comma-separated fields to retrieve. When calling via POST, this parame
 
 A field to facet by. Optionally, the string may contain parameters to customize the faceting, expressed as comma-separated `name:value` pairs. When calling via POST, this parameter is named `facets` instead of `$facet`.
 
-`count` and `sort` can be combined in the same facet specification, but they cannot be combined with `interval` or `values`, and `interval` and `values` cannot be combined together.
-
-Interval facets on date time are computed based on the UTC time if `timeoffset` is not specified. For example: for `facet=lastRenovationDate,interval:day`, the day boundary starts at 00:00:00 UTC.
-
 Valid parameters are:
 
 - `count` (max # of facet terms; default is 10). There is no upper limit on the number of terms, but higher values incur a corresponding performance penalty, especially if the faceted field contains a large number of unique terms. For example, `facet=category,count:5` gets the top five categories in facet results. Note that if the `count` parameter is less than the number of unique terms, the results may not be accurate. This is due to the way faceting queries are distributed across shards. Increasing `count` generally increases the accuracy of term counts, but at a performance cost.
@@ -137,6 +133,9 @@ Valid parameters are:
 
 - `timeoffset ([+-]hh:mm, [+-]hhmm, or [+-]hh)`. If used, the `timeoffset` parameter must be combined with the `interval` option, and only when applied to a field of type `Edm.DateTimeOffset`. The value specifies the UTC time offset to account for in setting time boundaries. For example: `facet=lastRenovationDate,interval:day,timeoffset:-01:00` uses the day boundary that starts at 01:00:00 UTC (midnight in the target time zone).
 
+`count` and `sort` can be combined in the same facet specification, but they cannot be combined with `interval` or `values`, and `interval` and `values` cannot be combined together.
+
+Interval facets on date time are computed based on the UTC time if `timeoffset` is not specified. For example: for `facet=lastRenovationDate,interval:day`, the day boundary starts at 00:00:00 UTC.
 
 #### `$filter=[string] (optional)`
 
@@ -221,75 +220,56 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
  The reasons why Azure Search might return continuation tokens are implementation-specific and subject to change. Robust clients should always be ready to handle cases where fewer documents than expected are returned and a continuation token is included to continue retrieving documents. Also note that you must use the same HTTP method as the original request in order to continue. For example, if you sent a GET request, any continuation requests you send must also use GET (and likewise for POST).  
 
 ## Response  
-Status code 200 (OK) is returned for a successful response, meaning that all items have been stored durably and will start to be indexed. Indexing runs in the background and makes new documents available (that is, queryable and searchable) a few seconds after the indexing operation completed. The specific delay depends on the load on the service.
 
-Successful indexing is indicated by the `status` property being set to true for all items, as well as the `statusCode` property being set to either 201 (for newly uploaded documents) or 200 (for merged or deleted documents):
-```
+Status Code: 200 OK is returned for a successful response.
+
     {
+      "@odata.count": # (if $count=true was provided in the query),
+      "@search.coverage": # (if minimumCoverage was provided in the query),
+      "@search.facets": { (if faceting was specified in the query)
+        "facet_field": [
+          {
+            "value": facet_entry_value (for non-range facets),
+            "from": facet_entry_value (for range facets),
+            "to": facet_entry_value (for range facets),
+            "count": number_of_documents
+          }
+        ],
+        ...
+      },
+      "@search.nextPageParameters": { (request body to fetch the next page of results if not all results could be returned in this response and Search was called with POST)
+        "count": ... (value from request body if present),
+        "facets": ... (value from request body if present),
+        "filter": ... (value from request body if present),
+        "highlight": ... (value from request body if present),
+        "highlightPreTag": ... (value from request body if present),
+        "highlightPostTag": ... (value from request body if present),
+        "minimumCoverage": ... (value from request body if present),
+        "orderby": ... (value from request body if present),
+        "scoringParameters": ... (value from request body if present),
+        "scoringProfile": ... (value from request body if present),
+        "search": ... (value from request body if present),
+        "searchFields": ... (value from request body if present),
+        "searchMode": ... (value from request body if present),
+        "select": ... (value from request body if present),
+        "skip": ... (page size plus value from request body if present),
+        "top": ... (value from request body if present minus page size),
+      },
       "value": [
         {
-          "key": "unique_key_of_new_document",
-          "status": true,
-          "errorMessage": null,
-          "statusCode": 201
+          "@search.score": document_score (if a text query was provided),
+          "@search.highlights": {
+            field_name: [ subset of text, ... ],
+            ...
+          },
+          key_field_name: document_key,
+          field_name: field_value (retrievable fields or specified projection),
+          ...
         },
-        {
-          "key": "unique_key_of_merged_document",
-          "status": true,
-          "errorMessage": null,
-          "statusCode": 200
-        },
-        {
-          "key": "unique_key_of_deleted_document",
-          "status": true,
-          "errorMessage": null,
-          "statusCode": 200
-        }
-      ]
-    }  
-```
-Status code 207 (Multi-Status) is returned when at least one item was not successfully indexed. Items that have not been indexed have the `status` field set to false. The `errorMessage` and `statusCode` properties will indicate the reason for the indexing error:
-
-```
-    {
-      "value": [
-        {
-          "key": "unique_key_of_document_1",
-          "status": false,
-          "errorMessage": "The search service is too busy to process this document. Please try again later.",
-          "statusCode": 503
-        },
-        {
-          "key": "unique_key_of_document_2",
-          "status": false,
-          "errorMessage": "Document not found.",
-          "statusCode": 404
-        },
-        {
-          "key": "unique_key_of_document_3",
-          "status": false,
-          "errorMessage": "Index is temporarily unavailable because it was updated with the 'allowIndexDowntime' flag set to 'true'. Please try again later.",
-          "statusCode": 422
-        }
-      ]
-    }  
-```
-The following table explains the various per-document status codes that can be returned in the response. Note that some indicate problems with the request itself, while others indicate temporary error conditions. The latter you should retry after a delay.
-
-|Status code|Meaning|Retryable|Notes|
-|------------|--------|----------|------|
-|200|Document was successfully modified or deleted.|n/a|Delete operations are <a href="https://en.wikipedia.org/wiki/Idempotence">idempotent</a>. That is, even if a document key does not exist in the index, attempting a delete operation with that key will result in a 200 status code.|
-|201|Document was successfully created.|n/a| n/a|
-|400|There was an error in the document that prevented it from being indexed.| No| The error message in the response will indicate what is wrong with the document.|
-|404|The document could not be merged because the given key doesn't exist in the index.|No|This error does not occur for uploads since they create new documents, and it does not occur for deletes because they are <a href="https://en.wikipedia.org/wiki/Idempotence">idempotent</a>.|
-|409|A version conflict was detected when attempting to index a document.|Yes|This can happen when you're trying to index the same document more than once concurrently.|
-|422|The index is temporarily unavailable because it was updated with the 'allowIndexDowntime' flag set to 'true'.|Yes| n/a|
-|503|Your search service is temporarily unavailable, possibly due to heavy load.|Yes|Your code should wait before
-
-> [!NOTE]  
->  If your client code frequently encounters a 207 response, one possible reason is that the system is under load. You can confirm this by checking the `statusCode` property for 503. If this is the case, we recommend ***throttling indexing requests***. Otherwise, if indexing traffic doesn't subside, the system could start rejecting all requests with 503 errors.
-
-Status code 429 indicates that you have exceeded your quota on the number of documents per index. You must either create a new index or upgrade for higher capacity limits.
+        ...
+      ],
+      "@odata.nextLink": (URL to fetch the next page of results if not all results could be returned in this response; Applies to both GET and POST)
+    }
 
 ##  <a name="bkmk_examples"></a> Examples  
  You can find additional examples in  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md).  
@@ -375,7 +355,7 @@ Status code 429 indicates that you have exceeded your quota on the number of doc
     POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "hotel",  
-          "searchFields": "description", "description_fr"
+          "searchFields": "description, description_fr"
         }  
     ```  
 
@@ -421,7 +401,7 @@ Status code 429 indicates that you have exceeded your quota on the number of doc
     POST /indexes/hotels/docs/search?api-version=2016-09-01  
         {  
           "search": "*",  
-          "select": "hotelName", "description"
+          "select": "hotelName, description"
         }  
     ```  
 

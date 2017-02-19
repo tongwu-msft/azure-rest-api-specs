@@ -53,7 +53,7 @@ The `Get Container ACL` operation gets the permissions for the specified contain
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`http://127.0.0.1:10000/devstoreaccount1/mycontainer?restype=container&comp=acl`|HTTP/1.1|  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](assetId:///f0e3acde-f019-4148-9544-34cf2ff27211).  
+ For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  
@@ -149,8 +149,8 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  Only the account owner may read data in a particular storage account, unless the account owner has specified that blobs within the container are available for public read access, or made resources in the container available via a Shared Access Signature.  
   
 ## See Also  
- [Restrict Access to Containers and Blobs](assetId:///1d1c1a78-7a01-4477-b8e0-394d122e15a6)   
- [Use a Stored Access Policy](assetId:///c0d4fe58-e6f4-4a90-bad5-138f59967560)   
+ [Restrict Access to Containers and Blobs](/azure/storage/storage-manage-access-to-resources)   
+ [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md)   
  [Set Container ACL](../fileservices/Set-Container-ACL.md)   
  [Authentication for the Azure Storage Services](../fileservices/Authentication-for-the-Azure-Storage-Services.md)   
  [Status and Error Codes](../fileservices/Status-and-Error-Codes2.md)   

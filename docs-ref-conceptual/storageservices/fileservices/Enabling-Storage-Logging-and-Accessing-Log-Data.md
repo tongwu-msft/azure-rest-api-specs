@@ -1,7 +1,7 @@
 ---
 title: "Enabling Storage Logging and Accessing Log Data"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2017-02-17
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -46,7 +46,7 @@ Storage Logging happens server-side and enables you to record details for both s
   
  In this section:  
   
- [How to enable Storage Logging using the Azure classic portal](#HowtoenableStorageLoggingusingtheWindowsAzureManagementPortal)  
+ [How to enable Storage Logging using the Azure portal](#HowtoenableStorageLoggingusingtheWindowsAzureManagementPortal)  
   
  [How to enable Storage Logging using PowerShell](#HowtoenableStorageLoggingusingPowerShell)  
   
@@ -56,7 +56,7 @@ Storage Logging happens server-side and enables you to record details for both s
   
  [Downloading Storage Logging log data](#DownloadingStorageLogginglogdata)  
   
- Storage Logging logs request data in a set of blobs in a blob container named **$logs** in your storage account. This container does not show up if you list all the blob containers in your account but you can see its contents if you access it directly. For example the Windows Azure classic portal does not show the **$logs** container and neither does the PowerShell cmdlet **Get-AzureStorageContainer** if you execute it without any parameters.  
+ Storage Logging logs request data in a set of blobs in a blob container named **$logs** in your storage account. This container does not show up if you list all the blob containers in your account but you can see its contents if you access it directly. For example the Azure portal does not show the **$logs** container and neither does the PowerShell cmdlet **Get-AzureStorageContainer** if you execute it without any parameters.  
   
  You should collect logging information from your storage account to enable you to diagnose and troubleshoot issues that users report or that monitoring metrics reveals. You can use the log data to determine information such as when a client updated an object or who deleted a specific object. You should set the retention period long enough to allow you time to identify a potential issue through monitoring or from user reports, and then to download the relevant log data for analysis. You should include some extra time in the retention period as a buffer to ensure you do not lose log data before you have had a chance to download it.  
   
@@ -72,10 +72,12 @@ Storage Logging happens server-side and enables you to record details for both s
   
  For more information, see [About Storage Analytics Logging](http://msdn.microsoft.com/library/azure/hh343262.aspx).  
   
- Storage Logging is not enabled by default for your storage services. You can enable logging using either the Windows Azure classic portal, Windows PowerShell, or programmatically through a storage API.  
+ Storage Logging is not enabled by default for your storage services. You can enable logging using either the Azure portal, Windows PowerShell, or programmatically through a storage API.  
   
-##  <a name="HowtoenableStorageLoggingusingtheWindowsAzureManagementPortal"></a> How to enable Storage Logging using the Azure classic portal  
- In the Azure classic portal, you use the Configure page for a storage account to control Storage Logging. For logging, you can specify the types of request (read, write, delete) that you want to log and retention period in days for the logged data for each Azure storage service.  
+##  <a name="HowtoenableStorageLoggingusingtheWindowsAzureManagementPortal"></a> How to enable Storage Logging using the Azure portal  
+In the Azure portal, use the **Diagnostics** blade to control Storage Logging, accessible from the **MONITORING** section of a storage account's **Menu blade**.
+
+You can specify the storage services that you want to log, and the retention period (in days) for the logged data.  
   
 ##  <a name="HowtoenableStorageLoggingusingPowerShell"></a> How to enable Storage Logging using PowerShell  
  You can use PowerShell on your local machine to configure Storage Logging in your storage account by using the Azure PowerShell cmdlet **Get-AzureStorageServiceLoggingProperty** to retrieve the current settings, and the cmdlet **Set-AzureStorageServiceLoggingProperty** to change the current settings.  
@@ -99,7 +101,7 @@ Set-AzureStorageServiceLoggingProperty -ServiceType Table
  For information about how to configure the Azure PowerShell cmdlets to work with your Azure subscription and how to select the default storage account to use, see: [How to install and configure Azure PowerShell](http://azure.microsoft.com/documentation/articles/install-configure-powershell/).  
   
 ##  <a name="HowtoenableStorageLoggingprogrammatically"></a> How to enable Storage Logging programmatically  
- In addition to using the Windows Azure classic portal or the Azure PowerShell cmdlets to control Storage Logging, you can also use one of the Azure Storage APIs. For example, if you are using a .NET language you can use the Storage Client Library.  
+ In addition to using the Azure portal or the Azure PowerShell cmdlets to control Storage Logging, you can also use one of the Azure Storage APIs. For example, if you are using a .NET language you can use the Storage Client Library.  
   
  The classes **CloudBlobClient**, **CloudQueueClient**, and **CloudTableClient** all have methods such as **SetServiceProperties** and **SetServicePropertiesAsync** that take a **ServiceProperties** object as a parameter. You can use the **ServiceProperties** object to configure Storage Logging. For example, the following C# snippet shows how to change what is logged and the retention period for queue logging:  
   

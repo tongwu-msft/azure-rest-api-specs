@@ -29,7 +29,7 @@ Azure Premium Storage offers a world-class cloud storage solution for Azure Virt
   
  Premium Storage is currently available only for storing data on disks used by Azure Virtual Machines. These disks are backed by page blobs in Azure Storage. This topic provides information about performing REST operations against page blobs in Premium Storage accounts using the Azure Storage Services REST API.  
   
- Operations to create and manage Premium Storage accounts are available through the [Service Management REST API Reference](assetId:///fdb2dbe0-c60a-4068-84b8-75dc16c558fd).  
+ To create and manage Resource Manager Premium storage accounts, please see the [Storage Resource Provider REST API reference](/rest/api/storagerp/). To create and manage classic Premium storage accounts, please see the [Service Management REST API reference](https://msdn.microsoft.com/library/azure/ee460790.aspx).   
   
  You can also access page blobs in Premium Storage via the [Azure Storage Client Library for .NET](http://go.microsoft.com/fwlink/?LinkID=398944&clcid=0x409).  
   

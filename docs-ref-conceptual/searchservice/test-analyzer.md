@@ -1,7 +1,7 @@
 ---
-title: "Test Analyzer(Azure Search Service REST API)"
+title: "Analyze Text (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-01-11"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Test Analyzer (Azure Search Service REST API)
+# Analyze Text (Azure Search Service REST API)
 
 The **Analyze API** shows how an analyzer breaks text into tokens.
 

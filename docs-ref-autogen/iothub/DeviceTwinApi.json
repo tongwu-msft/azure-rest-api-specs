@@ -1,0 +1,331 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-11-14",
+    "title": "Device Twin API",
+    "description": "Use this REST API to manage device twins in the identity registry of an IoT hub. This API enables you to create and update device twins and invoke direct methods on devices. Each API call must include the api-version query parameter as well the authorization header containing a Shared Access Signature token with the appropriate permissions."
+  },
+  "host": "<fully-qualified IoT hub domain name>",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/twins/{id}": {
+      "get": {
+        "tags": [
+          "GET"
+        ],
+        "summary": "Get a device twin.",
+        "description": "Get a device twin. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-device-twins for more information.",
+        "operationId": "DeviceTwinApi_GetDeviceTwin",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "deviceid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DeviceTwinInfo"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "PATCH"
+        ],
+        "summary": "Updates tags and desired properties of a device twin.",
+        "description": "Update a device twin. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-device-twins for more information.",
+        "operationId": "DeviceTwinApi_UpdateDeviceTwin",
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "deviceid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceTwinInfo",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeviceTwinInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DeviceTwinInfo"
+            }
+          }
+        }
+      }
+    },
+    "/twins/{id}/methods": {
+      "post": {
+        "tags": [
+          "POST"
+        ],
+        "summary": "Invoke a direct method on a device.",
+        "description": "Invoke a direct method on a device. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-direct-methods for more information.",
+        "operationId": "DeviceTwinApi_InvokeDeviceMethod",
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "deviceid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "directMethodRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CloudToDeviceMethod"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CloudToDeviceMethodResult"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "DeviceTwinInfo": {
+      "description": "Container of IoT Hub device twin properties and their accessors.",
+      "type": "object",
+      "properties": {
+        "DeviceId": {
+          "description": "The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9\\-:.+%_#*?!(),=@;$']{1,128}$"
+        },
+        "LastActivityTimeUtc": {
+          "description": "The last time the device connected, received or sent a message. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.",
+          "$ref": "#/definitions/VariantValueDateTime"
+        },
+        "IsConnected": {
+          "description": "Indicates if the device is currently connected to the IoT hub or not.",
+          "type": "boolean"
+        },
+        "LastConnectedTimeUtc": {
+          "description": "The last time the device connected to the IoT hub. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.",
+          "$ref": "#/definitions/VariantValueDateTime"
+        },
+        "Version": {
+          "description": "Version for device twin, including tags and desired properties",
+          "format": "int64",
+          "type": "integer"
+        },
+        "Tags": {
+          "description": "A JSON document read and written by the solution back end. Tags are not visible to device apps.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "DesiredProperties": {
+          "description": "Used in conjunction with reported properties to synchronize device configuration or condition. Desired properties can only be set by the solution back end and can be read by the device app. The device app can also be notified in real time of changes on the desired properties.",
+          "$ref": "#/definitions/DeviceTwinProperties"
+        },
+        "ReportedProperties": {
+          "description": "Used in conjunction with desired properties to synchronize device configuration or condition. Reported properties can only be set by the device app and can be read and queried by the solution back end.",
+          "$ref": "#/definitions/DeviceTwinProperties"
+        },
+        "ProvisioningState": {
+          "description": "Provisioning state of device twin.",
+          "enum": [
+            "Creating",
+            "Deleting",
+            "Active",
+            "Deleted"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ProvisioningState",
+            "modelAsString": "True"
+          }
+        }
+      },
+      "required": [
+        "deviceId"
+      ]
+    },
+    "VariantValueDateTime": {
+      "description": "Type representing DateTime in different time zones.",
+      "type": "object",
+      "properties": {
+        "Value": {
+          "format": "date-time",
+          "type": "string",
+          "readOnly": true
+        },
+        "ObjectValue": {
+          "type": "object",
+          "readOnly": true
+        },
+        "IsNull": {
+          "type": "boolean",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "DeviceTwinProperties": {
+      "description": "Type representing properties that are part of an IoT Hub device twin.",
+      "type": "object",
+      "properties": {
+        "Version": {
+          "description": "Version of device twin properties.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "Properties": {
+          "description": "Properties JSON element.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "Metadata": {
+          "description": "Metadata information for the properties JSON document.",
+          "$ref": "#/definitions/Metadata"
+        }
+      },
+      "required": [
+        "version"
+      ]
+    },
+    "Metadata": {
+      "description": "Metadata",
+      "type": "object",
+      "properties": {
+        "LastUpdatedUtc": {
+          "description": "The last time the properties were updated. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z.",
+          "$ref": "#/definitions/VariantValueDateTime"
+        },
+        "LastUpdatedVersion": {
+          "description": "This SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "HasChildren": {
+          "description": "True if nested properies are present.",
+          "type": "boolean",
+          "readOnly": true
+        },
+        "Nested": {
+          "description": "Nested properties.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Metadata"
+          },
+          "readOnly": true
+        }
+      },
+      "required": [
+        "lastUpdatedUtc"
+      ]
+    },
+    "CloudToDeviceMethod": {
+      "description": "Parameters to execute a direct method on the device.",
+      "type": "object",
+      "properties": {
+        "methodName": {
+          "description": "Name of the direct method.",
+          "type": "string"
+        },
+        "payload": {
+          "description": "Payload of the direct method request.",
+          "type": "object"
+        },
+        "responseTimeoutInSeconds": {
+          "description": "Maximum time allowed between the device app receiving the direct method request and sending the corresponding response.",
+          "format": "int32",
+          "type": "integer",
+          "maximum": 300
+        },
+        "connectTimeoutInSeconds": {
+          "description": "Maximum time allowed to deliver a direct method request if a device is offline.",
+          "format": "int32",
+          "type": "integer",
+          "maximum": 300
+        }
+      },
+      "required": [
+        "methodName"
+      ]
+    },
+    "CloudToDeviceMethodResult": {
+      "description": "Result of direct method invocation.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "Method invocation result status.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "payload": {
+          "description": "Method invocation result payload.",
+          "type": "object"
+        }
+      },
+      "required": []
+    }
+  },
+  "parameters": {
+    "api-version": {
+      "name": "api-version",
+      "in": "query",
+      "description": "The version of the API.",
+      "required": true,
+      "type": "string",
+      "default": "2016-11-14"
+    }
+  }
+}

@@ -43,7 +43,7 @@ Every request made against a storage service must be authenticated, unless the r
  An authenticated request requires two headers: the `Date` or `x-ms-date` header and the `Authorization` header. The following sections describe how to construct these headers.  
   
 > [!NOTE]
->  A container or blob may be made available for public access by setting a container's permissions. For more information, see [Manage Access to Azure Storage Resources](assetId:///c30f3d25-67a0-47b4-a05e-afee4126c7c8). A container, blob, queue, or table may be available for signed access via a shared access signature; a shared access signature is authenticated through a different mechanism. See [Delegating Access with a Shared Access Signature](../fileservices/Delegating-Access-with-a-Shared-Access-Signature.md) for more details.  
+>  A container or blob may be made available for public access by setting a container's permissions. For more information, see [Manage Access to Azure Storage Resources](/azure/storage/storage-manage-access-to-resources). A container, blob, queue, or table may be available for signed access via a shared access signature; a shared access signature is authenticated through a different mechanism. See [Delegating Access with a Shared Access Signature](../fileservices/Delegating-Access-with-a-Shared-Access-Signature.md) for more details.  
   
 ##  <a name="Subheading1"></a> Specifying the Date Header  
  All authenticated requests must include the Coordinated Universal Time (UTC) timestamp for the request. You can specify the timestamp either in the `x-ms-date` header, or in the standard HTTP/HTTPS `Date` header. If both headers are specified on the request, the value of `x-ms-date` is used as the request's time of creation.  

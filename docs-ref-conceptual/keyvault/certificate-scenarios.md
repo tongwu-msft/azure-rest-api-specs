@@ -1,20 +1,10 @@
 ﻿---
-title: "Certificate scenarios"
-ms.custom: ""
-ms.date: "2016-11-11"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "key-vault"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-applies_to:
-  - "Azure Key Vault"
 ms.assetid: a788b958-3acb-4bb6-9c94-4776852aeea1
-caps.latest.revision: 16
-author: "bruceperlerMS"
-ms.author: "bruceper"
-manager: "mbaldwin"
+title: Get started with certificates |  Microsoft Docs
+ms.service: key-vault
+author: BrucePerlerMS
+ms.author: bruceper
+manager: mbaldwin
 ---
 # Get started with certificates
 The following scenarios outline several of the primary usages of Key Vault’s certificate management service including the additional steps required for creating your first certificate in your key vault.

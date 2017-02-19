@@ -1,7 +1,7 @@
 ---
 title: "NotificationEndPoint"
 ms.custom: ""
-ms.date: "2016-07-14"
+ms.date: "2017-01-09"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -34,14 +34,6 @@ The endpoint to which the notifications about the job state are sent.
 >  Azure queue notification may have some delay.  
   
  This topic gives an overview of the `NotificationEndPoint` entity and also demonstrates how to execute various operations with the Media Services REST API.  
-  
-1.  [Create a NotificationEndPoint](#Create_NotificationEndPoint)  
-  
-2.  [Update a NotificationEndPoint](#Update_NotificationEndPoint)  
-  
-3.  [Get a NotificationEndPoint](#Get_NotificationEndPoint)  
-  
-4.  [Delete a NotificationEndPoint](#Delete_NotificationEndPoint)  
   
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  

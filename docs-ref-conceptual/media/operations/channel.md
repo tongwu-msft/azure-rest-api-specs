@@ -1,7 +1,7 @@
 ---
 title: "Channel"
 ms.custom: ""
-ms.date: "2016-07-14"
+ms.date: "2017-01-09"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -28,7 +28,7 @@ translation.priority.mt:
 # Channel
 In Azure Media Services (AMS), the Channel entity represents a pipeline for processing live streaming content. A Channel receives live input streams in one of two ways:  
   
--   An on-premises live encoder sends multi-bitrate `RTMP` or `Smooth Streaming` (Fragmented MP4) to the Channel. You can use the following live encoders that output multi-bitrate Smooth Streaming: Elemental, Envivio, Cisco. The following live encoders output RTMP: Adobe Flash Live, Telestream Wirecast, and Tricaster transcoders. The ingested streams pass through Channels without any further processing. When requested, Media Services delivers the stream to customers.  
+-   An on-premises live encoder sends multi-bitrate `RTMP` or `Smooth Streaming` (Fragmented MP4) to the Channel. You can use the following live encoders that output multi-bitrate Smooth Streaming: MediaExcel, Imagine Communications, Ateme, Envivio, Cisco and Elemental. The following live encoders output RTMP: Adobe Flash Live Encoder, Haivision, Telestream Wirecast, Teradek and Tricaster encoders. The ingested streams pass through Channels without any further processing. When requested, Media Services delivers the stream to customers.  
   
 -   A single bitrate stream (in one of the following formats: `RTP` (MPEG-TS), `RTMP`, or `Smooth Streaming` (Fragmented MP4)) is sent to the `Channel` that is enabled to perform live encoding with Media Services. The `Channel` then performs live encoding of the incoming single bitrate stream to a multi-bitrate (adaptive) video stream. When requested, Media Services delivers the stream to customers.  
   
@@ -101,7 +101,7 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
 |----------|----------|-----------------|  
 |`KeyFrameInterval`|Edm.Time|This value is ignored if `EncoderType` is set to `Standard`.<br /><br /> When using an on-premises live encoder to generate multi-bitrate stream, the keyf rame interval specifies GOP duration (as used by that external encoder). Once this incoming stream is received by the Channel, you can then deliver your live stream to client playback applications in any of the following formats: Smooth Streaming, DASH and HLS. When doing live streaming, HLS is always packaged dynamically. By default, Media Services automatically calculates HLS segment packaging ratio (fragments per segment) based on the key frame interval, also referred to as Group of Pictures – GOP, that is received from the live encoder.|  
 |`StreamingProtocol`<br /><br /> Read-only.|Edm.String|After you set the encoder type, you can set an ingest protocol.<br /><br /> If the `Encoder Type` is set to `None`, valid options are:<br /><br /> -   Multi-bitrate Fragmented MP4 (Smooth Streaming)<br />-   Multi-bitrate RTMP<br /><br /> When your `Encoder Type` is set to `None`, it is valid, but undesirable, for a single bitrate RTMP or Smooth Streaming live stream to be sent. The channel does not do any processing with the stream, so it will pass through, but the client applications will get a single bitrate stream.<br /><br /> If the `Encoder Type` is set to `Standard`, valid options are:<br /><br /> 1.  Single bitrate Fragmented MP4 (Smooth Streaming)<br />2.  Single bitrate RTMP<br />3.  RTP (MPEG-TS): MPEG-2 Transport Stream over RTP.|  
-|`AccessControl`|[ChannelInputAccessControl ComplexType](#ChannelInputAccessControl)|Channel input access control settings.|  
+|`AccessControl`|ChannelInputAccessControl ComplexType|Channel input access control settings.|  
 |`Endpoints`<br /><br /> Read-only.|[ChannelEndpoint ComplexType](#ChannelEndpoint)|Channel input endpoints.<br /><br /> A Channel provides input endpoints (ingest URLs) that you then use to ingest your live stream. The channel receives live input streams and makes the output streams available for streaming through one or more streaming endpoints.|  
   
 ###  <a name="ChannelPreview"></a> ChannelPreview ComplexType  
@@ -109,7 +109,7 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
-|`AccessControl`|[ChannelPreviewAccessControl ComplexType](#ChannelPreviewAccessControl)|Channel preview access control settings.|  
+|`AccessControl`|ChannelPreviewAccessControl ComplexType|Channel preview access control settings.|  
 |`Endpoints`<br /><br /> Read-only.|[ChannelEndpoint ComplexType](#ChannelEndpoint)|Channel preview endpoints.|  
   
 ###  <a name="ChannelInputAccessControl"></a> ChannelInputAccessControl ComplexType  

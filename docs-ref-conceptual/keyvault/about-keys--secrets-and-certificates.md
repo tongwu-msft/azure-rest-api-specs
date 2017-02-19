@@ -1,31 +1,10 @@
 ---
-title: "About Keys, Secrets and Certificates"
-ms.custom: ""
-ms.date: "2016-11-11"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "key-vault"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-applies_to:
-  - "Azure Key Vault"
 ms.assetid: abd1b743-1d58-413f-afc1-d08ebf93828a
-caps.latest.revision: 44
-author: "bruceperlerMS"
-ms.author: "bruceper"
-manager: "mbaldwin"
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: About Keys, Secrets and Certificates | Microsoft Docs
+ms.service: key-vault
+author: BrucePerlerMS
+ms.author: bruceper
+manager: mbaldwin
 ---
 # About keys, secrets, and certificates
 Azure Key Vault enables users to store and use cryptographic keys within the Microsoft Azure environment. Azure Key Vault supports multiple key types and algorithms and enables the use of Hardware Security Modules (HSM) for high value customer keys. In addition, Azure Key Vault allows users to securely store secrets, limited size octet objects. Key Vault applies no specific semantics to secrets.
@@ -338,21 +317,25 @@ Key Vault certificates support provides for management of your x509 certificates
 
 -   Allows a certificate owner to create a certificate through a Key Vault creation process or through the import of an existing certificate. This includes both self-signed and Certificate Authority generated certificates.
 
-- Allows a Key Vault certificate owner to implement secure storage and management of X509 certificates without interaction with private key material.  
+-   Allows a Key Vault certificate owner to implement secure storage and management of X509 certificates without interaction with private key material.  
 
 -   Allows a certificate owner to create a policy that directs Key Vault to manage the life-cycle of a certificate.  
 
 -   Allows certificate owners to provide contact information for notification about life-cycle events of expiration and renewal of certificate.  
 
 -   Supports automatic renewal with selected issuers - Key Vault partner X509 certificate providers / certificate authorities.
-    - NOTE - Non-partnered providers/authorities are also allowed but, will not support the auto renewal feature.
+> NOTE - Non-partnered providers/authorities are also allowed but, will not support the auto renewal feature.
 
 For more information on these features and behaviors, see the following sections of this article.
+
+
 
 ###  <a name="BKMK_CompositionOfCertificate"></a> Composition of a Certificate  
  When a KV certificate is created, an addressable KV key and KV secret is also created with the same name. KV key allows to do key operations and KV secret allows to retrieve the certificate value as a secret. KV Certificate also contains public x509 certificate metadata which will be explained later with the REST API.  
 
- The identifier and version of certificates is similar to keys and secrets. A specific version of addressable key and secret created with the KV Certificate version is available in the KV Certificate response.![Cetificates are complex objects](media/azure-key-vault.jpg)  
+ The identifier and version of certificates is similar to keys and secrets. A specific version of addressable key and secret created with the KV Certificate version is available in the KV Certificate response.
+ 
+ ![Cetificates are complex objects](media/azure-key-vault.png)  
 
 ###  <a name="BKMK_CertificateExportableOrNonExportableKey"></a> Exportable or  Non Exportable key  
  When a KV  certificate is created, it can be retrieved from the addressable secret with the private key in either pfx or pem format and if the policy used to create the certificate indicated key is exportable. If the policy used to create KV Certificate indicated key to be non-exportable, then the private key is not a part of value when retrieved as a secret.  
@@ -397,7 +380,7 @@ For more information on these features and behaviors, see the following sections
 
  At a high level, a certificate policy contains following:  
 
--   X509 certificate properties. Contains subject name, subject alternate names etc. used to create a x509 certificate request.  
+-   X509 certificate properties. Contains subject name, subject alternate names etc. used to create an x509 certificate request.  
 
 -   Key Properties: contains key type, key length, exportable and reuse key fields. These fields instruct key vault on how to generate a key.  
 
@@ -413,12 +396,27 @@ For more information on these features and behaviors, see the following sections
 
 -   Policy Attributes: contains attributes associated with the policy  
 
+#### X509 to Key Vault usage mapping
+
+The following table represents the mapping of x509 key usage policy to effective key operations of a key created as part of a Key Vault certificate creation.
+
+|**X509 Key Usage flags**|**Key Vault key ops**|**Default behavior**|
+|-------------------|---------------|---------------|
+|DataEncipherment|encrypt, decrypt| N/A |
+|DecipherOnly|decrypt| N/A  |
+|DigitalSignature|sign, verify| Key Vault default without a usage specification at certificate creation time | 
+|EncipherOnly|encrypt| N/A |
+|KeyCertSign|sign, verify|N/A|
+|KeyEncipherment|wrapKey, unwrapKey| Key Vault default without a usage specification at certificate creation time | 
+|NonRepudiation|sign, verify| N/A |
+|crlsign|sign, verify| N/A |
+
 ###  <a name="BKMK_CertificateIssuer"></a> Certificate Issuer  
  A KV Certificate object holds a configuration to use to communicate with a selected certificate issuer provider to order x509 certificates.  
 
 -   Key Vault partners with following certificate issuer providers for SSL certificates  
 
-|Provider Name|Locations|  
+|**Provider Name**|**Locations**|  
 |-------------------|---------------|  
 |DigiCert|Supported in all key vault service locations in public cloud and US gov sovereign cloud|  
 |GlobalSign|Supported in all key vault service locations in public cloud and US gov sovereign cloud|  
@@ -489,3 +487,4 @@ For more information on these features and behaviors, see the following sections
 - [Authentication, requests, and responses](authentication--requests-and-responses.md)
 - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
 - [Key Vault versions](key-vault-versions.md)
+- [Key Vault Developer's Guide](/azure/key-vault/key-vault-developers-guide)
