@@ -241,7 +241,7 @@ Please use the LiveFyre comments section that follows this article to provide fe
 
 <!--Reference style links: DOCS -->
 
-[AAD-Apps-And-Sps]: ../../Azure/active-directory/active-directory-application-objects
+[AAD-Apps-And-Sps]: /active-directory/active-directory-application-objects
 [AAD-Auth-Libraries]: ../../Azure/active-directory/active-directory-authentication-libraries
 [AAD-Dev-Guide]: ../../Azure/active-directory/active-directory-developers-guide
 [AAD-Glossary-Access-Token]: ../../Azure/active-directory/active-directory-dev-glossary#access-token
