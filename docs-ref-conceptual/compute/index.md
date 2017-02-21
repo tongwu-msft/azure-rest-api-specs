@@ -1,29 +1,19 @@
 ---
-ms.assetid: 3c34ed66-16db-4ab4-afb2-a1e171ab48d5
-ms.title: Compute REST API reference
-ms.prod: Azure
-ms.service: Compute
+ms.assetid: 
+ms.title: Azure Compute REST APIs
+ms.service: virtual-machines
 author: davidmu1
 ms.author: davidmu
 ms.manager: timt
 ---
 
-# Compute
 
-Provides operations to manage and create virtual machine resources.
+# Azure Compute
 
-## REST Operation Groups
+Azure Compute REST APIs include:
 
-| Operation Group | Description |
-|-----------------|-------------|
-| Availability Sets | Use these operations to create and manage availability sets. |
-| Container Services | Use these operations to create and manage virtual machines with containers. |
-| Usage | Use these operations to get subscription usage information. |
-| Virtual Machine Extension Images | Use these operations to get information about extension images. |
-| Virtual Machine Extensions | Use these operations to add and manage extensions on your virtual machines. |
-| Virtual Machine Images | Use these operations to get information about images to use for your virtual machines. |
-| Virtual Machine Scale Set VMs | Use these operations to manage virtual machines in a scale set. |
-| Virtual Machine Scale Sets | Use these operaitons to create and manage virtual machine scale sets. |
-| Virtual Machine Sizes | Use these operations to get information about the sizes allowed for virtual machines. |
-| Virtual Machines | Use these operations to create and manage virtual machines. |
-
+- **[Availability Sets](availabilitysets/availabilitysets-rest-api.md)** - This API provides programmatic access to your availability sets.
+- **[Extensions](extensions/extensions-rest-api.md)** - This API provides programmatic access to your virtual machine extensions. 
+- **[Platform Images](platformimages/platformimages-rest-api.md)** - This API provides programmatic access to the platform images available in Azure.
+- **[Usage](usage/usage-rest-api.md)** - This API provides programmatic access to usage information of your resources.
+- **[Virtual Machines](virtualmachines/virtualmachines-rest-api.md)** - This API provides programmatic access to your virtual machines.
