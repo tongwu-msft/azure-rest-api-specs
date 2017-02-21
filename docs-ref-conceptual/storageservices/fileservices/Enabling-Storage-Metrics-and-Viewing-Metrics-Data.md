@@ -1,7 +1,7 @@
 ---
 title: "Enabling Storage Metrics and Viewing Metrics Data"
 ms.custom: na
-ms.date: 2017-02-14
+ms.date: 2017-02-21
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -25,12 +25,12 @@ translation.priority.mt:
   - zh-tw
 ---
 # Enabling Storage Metrics and Viewing Metrics Data
-By default, Storage Metrics is not enabled for your storage endpoints. You can enable monitoring using the Azure portal, Azure PowerShell, or programmatically via one of the storage client libraries.  
+Storage Metrics is enabled by default when you create a new storage account. You can configure monitoring via the [Azure portal](https://portal.azure.com) or Windows PowerShell, or programmatically via one of the storage client libraries. 
   
 > [!NOTE]
 >  Storage Analytics metrics is available for the Blob, Queue, Table, and File services.  
   
- When you enable Storage Metrics, you must choose a retention period for the data. The retention period specifies how long the storage service keeps the metrics data. You are charged for the space required to store the data. Typically, you should use a shorter retention period for minute metrics than hourly metrics because of the significant extra space required for minute metrics. You should choose a retention period such that you have sufficient time to analyze the data and download any metrics you wish to keep for off-line analysis or reporting purposes. Remember that you will also be billed for downloading metrics data from your storage account.  
+You can configure a retention period for the metrics data. The retention period specifies how long the storage service keeps the metrics data. You are charged for the space required to store the data. Typically, you should use a shorter retention period for minute metrics than hourly metrics because of the significant extra space required for minute metrics. You should choose a retention period such that you have sufficient time to analyze the data and download any metrics you wish to keep for off-line analysis or reporting purposes. Remember that you will also be billed for downloading metrics data from your storage account.  
   
 ##  How to enable Storage Metrics using the Azure portal  
 You can enable metrics on a storage account by using the [Azure portal](https://portal.azure.com).
