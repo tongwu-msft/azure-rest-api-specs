@@ -241,9 +241,9 @@ Please use the LiveFyre comments section that follows this article to provide fe
 
 <!--Reference style links: DOCS -->
 
-[AAD-Apps-And-Sps]: ../../Azure/active-directory/active-directory-application-objects.md
-[AAD-Auth-Libraries]: ../../Azure/active-directory/active-directory-authentication-libraries.md
-[AAD-Dev-Guide]: ../../Azure/active-directory/active-directory-developers-guide.md
+[AAD-Apps-And-Sps]: ../../Azure/active-directory/active-directory-application-objects
+[AAD-Auth-Libraries]: ../../Azure/active-directory/active-directory-authentication-libraries
+[AAD-Dev-Guide]: ../../Azure/active-directory/active-directory-developers-guide
 [AAD-Glossary-Access-Token]: ../../Azure/active-directory/active-directory-dev-glossary.md#access-token
 [AAD-Glossary-Authorization-Grant]: ../../Azure/active-directory/active-directory-dev-glossary.md#authorization-grant
 [AAD-Glossary-Claim]: ../../Azure/active-directory/active-directory-dev-glossary.md#claim
@@ -253,13 +253,13 @@ Please use the LiveFyre comments section that follows this article to provide fe
 [AAD-Glossary-Native-Client]: ../../Azure/active-directory/active-directory-dev-glossary.md#native-client
 [AAD-Glossary-Web-Client]: ../../Azure/active-directory/active-directory-dev-glossary.md#web-client
 [AAD-Graph-Application]: https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity
-[AAD-Howto-Tenant]: ../../Azure/active-directory/active-directory-howto-tenant.md
-[AAD-Integrating-Apps]: ../../Azure/active-directory/active-directory-integrating-applications.md
+[AAD-Howto-Tenant]: ../../Azure/active-directory/active-directory-howto-tenant
+[AAD-Integrating-Apps]: ../../Azure/active-directory/active-directory-integrating-applications
 [AAD-OAuth-Client-Creds]: ../../Azure/active-directory/active-directory-protocols-oauth-service-to-service.md#request-an-access-token
 [AAD-Oauth-Code-Authz]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#request-an-authorization-code
 [AAD-Oauth-Code-Token]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#use-the-authorization-code-to-request-an-access-token
-[ARM-Create-Sp-Portal]: ../../Azure/resource-group-create-service-principal-portal.md
-[ARM-Provider-Summary]: ../../Azure/resource-manager-supported-services.md
+[ARM-Create-Sp-Portal]: ../../Azure/resource-group-create-service-principal-portal
+[ARM-Provider-Summary]: ../../Azure/resource-manager-supported-services
 [SDK-NET]: ../../dotnet/api/
 [SDK-JAVA]: ../../java/api/
-[SDK-CLI]: ../../cli/azure/
+[SDK-CLI]: ..../cli/azure/
