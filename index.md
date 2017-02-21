@@ -239,29 +239,6 @@ That's it! Once you have your Azure AD application registered, and a componentiz
 
 Please use the LiveFyre comments section that follows this article to provide feedback and help us refine and shape our content.
 
-
-<!--Reference style links: ACOM -->
-<!--
-[AAD-Apps-And-Sps]: https://azure.microsoft.com/documentation/articles/active-directory-application-objects/
-[AAD-Auth-Libraries]: https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/
-[AAD-Dev-Guide]: https://azure.microsoft.com/documentation/articles/active-directory-developers-guide/
-[AAD-Glossary-Access-Token]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#access-token
-[AAD-Glossary-Authorization-Grant]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant
-[AAD-Glossary-Claim]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#claim
-[AAD-Glossary-Client-Application]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#client-application
-[AAD-Glossary-Permissions]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#permissions
-[AAD-Glossary-Tenant]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#tenant
-[AAD-Glossary-Native-Client]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#native-client
-[AAD-Glossary-Web-Client]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#web-client
-[AAD-Graph-Application]: https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity
-[AAD-Howto-Tenant]: https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/
-[AAD-Integrating-Apps]: https://azure.microsoft.com/documentation/articles/active-directory-integrating-applications
-[AAD-OAuth-Client-Creds]: https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-service-to-service/#request-an-access-token
-[AAD-Oauth-Code-Authz]: https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#request-an-authorization-code
-[AAD-Oauth-Code-Token]: https://azure.microsoft.com/documentation/articles/active-directory-protocols-oauth-code/#use-the-authorization-code-to-request-an-access-token
-[ARM-Create-Sp-Portal]: https://azure.microsoft.com/documentation/articles/resource-group-create-service-principal-portal/
-[ARM-Provider-Summary]: https://azure.microsoft.com/documentation/articles/resource-manager-supported-services/
--->
 <!--Reference style links: DOCS -->
 
 [AAD-Apps-And-Sps]: ../../Azure/active-directory/active-directory-application-objects.md
@@ -283,6 +260,6 @@ Please use the LiveFyre comments section that follows this article to provide fe
 [AAD-Oauth-Code-Token]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#use-the-authorization-code-to-request-an-access-token
 [ARM-Create-Sp-Portal]: ../../Azure/resource-group-create-service-principal-portal.md
 [ARM-Provider-Summary]: ../../Azure/resource-manager-supported-services.md
-[SDK-NET]: ../dotnet/api/index.md
+[SDK-NET]: ../dotnet/api/index
 [SDK-JAVA]: ../java/api/index.md
 [SDK-CLI]: ../cli/azure/index.md
