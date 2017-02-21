@@ -629,6 +629,7 @@
 ### [Get information about a virtual network gateway](../docs-ref-conceptual/networkgateway/get-information-about-a-virtual-network-gateway.md)
 ### [List all of the virtual network gateways](../docs-ref-conceptual/networkgateway/list-all-of-the-virtual-network-gateways.md)
 ### [Delete a virtual network gateway](../docs-ref-conceptual/networkgateway/delete-a-virtual-network-gateway.md)
+# [Network Watcher](../docs-ref-conceptual/networkwatcher/index.md)
 # [Notification Hubs](../docs-ref-conceptual/notificationhubs/index.md)
 ## [Namespaces](notificationhubs/Namespaces.json)
 ## [Notification Hubs](notificationhubs/NotificationHubs.json)
