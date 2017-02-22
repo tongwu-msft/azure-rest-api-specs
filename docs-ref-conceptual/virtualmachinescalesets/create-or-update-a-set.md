@@ -48,7 +48,8 @@ The following example shows the request to create a new virtual machine scale se
     "tier": "Standard",    
     "capacity": 10          
   },     
-  "properties": {    
+  "properties": {  
+    "singlePlacementGroup": true,  
     "overprovision": true,    
     "upgradePolicy": {    
       "mode": "Manual"    
@@ -76,7 +77,7 @@ The following example shows the request to create a new virtual machine scale se
           },    
         },    
         "windowsConfiguration": {    
-          "provisionVMAgent": "true",    
+          "provisionVMAgent": true,    
           "winRM": {    
             "listeners": [ {    
               "protocol": "https",    
@@ -175,7 +176,8 @@ The following example shows the request to create a new virtual machine scale se
     "tier": "Standard",    
     "capacity": 10          
   },     
-  "properties": {    
+  "properties": { 
+    "singlePlacementGroup": true,   
     "overprovision": true,    
     "upgradePolicy": {    
       "mode": "Manual"    
@@ -203,7 +205,7 @@ The following example shows the request to create a new virtual machine scale se
           },    
         },    
         "windowsConfiguration": {    
-          "provisionVMAgent": "true",    
+          "provisionVMAgent": true,    
           "winRM": {    
             "listeners": [ {    
               "protocol": "https",    
@@ -296,7 +298,8 @@ The following example shows the request to create a new virtual machine scale se
 |tags|No|String|Specifies the tags that are assigned to the scale set. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md).|    
 |location|Yes|String|Specifies the supported Azure location where the resource exists. For more information, see [List all of the available geo-locations](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations) .|    
 |[sku](#sku)|Yes|Complex Type|Specifies configuration information for virtual machines in the scale set.|    
-|overprovision|No|bool|Indicates whether over-provisioning should be enabled. An attempt is made to reliably provision the count of virtual machines requested in the value of the capacity element. The number of new virtual machines may over-provisioned. A success status is  returned  as soon as the capacity value is reached.<br /><br /> The count of successfully provisioned virtual machines is maximized while providing best-effort Fault Domain (FD) distribution. It is possible that in some cases, due to higher number of provisioning failures the FD distribution can be uneven.<br /><br /> Applications may start temporarily on over-provisioned virtual machines, but are terminated when the machines are deleted.<br /><br /> The over-provisioned virtual machines can be accessed using APIs while an operation is in progress. When the operation completes, the machines are deleted and no longer accessible.<br /><br /> This element is only used with version **2016-03-30** and higher.|    
+|singlePlacementGroup|No|Boolean|Indicates whether the scale set is limited to a single placement group, of max size 100 virtual machines. Set this value to false for large scale sets, greater than 100 for platform images and greater than 40 for custom images. The default is true.|
+|overprovision|No|Boolean|Indicates whether over-provisioning should be enabled. An attempt is made to reliably provision the count of virtual machines requested in the value of the capacity element. The number of new virtual machines may over-provisioned. A success status is  returned  as soon as the capacity value is reached.<br /><br /> The count of successfully provisioned virtual machines is maximized while providing best-effort Fault Domain (FD) distribution. It is possible that in some cases, due to higher number of provisioning failures the FD distribution can be uneven.<br /><br /> Applications may start temporarily on over-provisioned virtual machines, but are terminated when the machines are deleted.<br /><br /> The over-provisioned virtual machines can be accessed using APIs while an operation is in progress. When the operation completes, the machines are deleted and no longer accessible.<br /><br /> This element is only used with version **2016-03-30** and higher.|    
 |[upgradePolicy](#upgradepolicy)|Yes|Complex Type|Specifies the mode of the upgrade policy.|    
 |[virtualMachineProfile](#virtualmachineprofile)|Yes|Complex Type|Specifies configuration settings for the virtual machines in the scale set.|    
     
