@@ -16,5 +16,5 @@ This table lists the operations included in the Next hop REST API.
   
 | Operation | REST Verb | Description | 
 |---------|---------|-----------|
-| [Get next hop](get-next-hop.md) |  POST | Gets the next hop type and next hop IP address. |  
+| [Get next hop](next-hop-get.md) |  POST | Gets the next hop type and next hop IP address. |  
 
