@@ -1,5 +1,5 @@
 ---
-ms.assetid: 
+ms.assetid: 60987c33-7195-4758-b493-788c0e37d111
 ms.title: Network Watcher REST APIs
 ms.service: network-watcher
 author: georgewallace
