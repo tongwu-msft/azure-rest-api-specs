@@ -629,7 +629,7 @@
 ### [Get information about a virtual network gateway](../docs-ref-conceptual/networkgateway/get-information-about-a-virtual-network-gateway.md)
 ### [List all of the virtual network gateways](../docs-ref-conceptual/networkgateway/list-all-of-the-virtual-network-gateways.md)
 ### [Delete a virtual network gateway](../docs-ref-conceptual/networkgateway/delete-a-virtual-network-gateway.md)
-# [Network Watcher](../docs-ref-conceptual/networkwatcher/index.md)
+# [Network  Watcher](../docs-ref-conceptual/networkwatcher/index.md)
 ## [Network Watcher](../docs-ref-conceptual/networkwatcher/network-watcher-rest-api.md)
 ### [Create or update a Network Watcher](../docs-ref-conceptual/networkwatcher/network-watcher-create-update.md)
 ### [Get a Network Watcher](../docs-ref-conceptual/networkwatcher/network-watcher-get.md)
