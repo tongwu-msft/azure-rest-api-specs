@@ -1,7 +1,7 @@
 ---
 title: "Get information about a virtual network"
 ms.custom: ""
-ms.date: "2016-07-08"
+ms.date: "2017-02-22"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "virtual-network"
@@ -86,9 +86,32 @@ translation.priority.mt:
                ]  
             }  
          }  
-      ]  
-   }  
-}  
+      ] 
+    "virtualNetworkPeerings": [
+      {
+        "name": "ARMtoASM",
+        "id": "/subscriptions/{guid}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1/virtualNetworkPeerings/LinktoVNet2",
+        "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "peeringState": "Connected",
+          "remoteVirtualNetwork": {
+            "id": "/subscriptions/{guid}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet2"
+          },
+          "allowVirtualNetworkAccess": true,
+          "allowForwardedTraffic": false,
+          "allowGatewayTransit": false,
+          "useRemoteGateways": false,
+          "remoteAddressSpace": {
+            "addressPrefixes": [
+              "10.3.0.0/24"
+            ]
+          }
+        }
+      }
+    ]
+  }
+} 
 ```  
   
 |Element name|Description|  
@@ -106,6 +129,6 @@ translation.priority.mt:
 |dhcpOptions|DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network.|  
 |dhcpOptions.dnsServers|List of DNS servers IP addresses.|  
 |subnets|Collection of subnets contained within this Virtual Network|  
-  
+|virtualNetworkPeerings|Collection of Virtual Network Peerings contained within this Virtual Network   
 ## Remarks  
  For more information about subnets, see [Get information about a subnet](get-information-about-a-subnet.md).
