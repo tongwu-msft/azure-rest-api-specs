@@ -1,4 +1,4 @@
-# [Getting Started with REST](../docs-ref-conceptual/gettingstarted/index.md)
+# [Getting Started with REST](../index.md)
 # [Analysis Services](../docs-ref-conceptual/analysisservices/index.md)
 ## [Servers](analysisservices/Servers.json)
 # [API Management](../docs-ref-conceptual/apimanagement/index.md)
