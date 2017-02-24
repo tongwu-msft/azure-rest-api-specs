@@ -31,20 +31,20 @@ Certificates are composed of three interrelated resources linked together as a K
     The following CAs are the current partnered providers with Key Vault:  
     -   DigiCert - Key Vault offers OV SSL certificates with DigiCert.  
     -   GlobalSign - Key Vault offers OV SSL certificates with GlobalSign  
-    -   WoSign - Key Vault offers OV SSL or EV SSL certificates with WoSign based on setting configured by customer in thier WoSign account on the WoSign portal.  
+    -   WoSign - Key Vault offers OV SSL or EV SSL certificates with WoSign based on setting configured by customer in their WoSign account on the WoSign portal.  
 
 **Step 2** - An account admin for a CA provider creates credentials to be used by Key Vault to enroll, renew, and use SSL certificates via Key Vault.
 
 **Step 3** - A Contoso admin, along with a Contoso employee (Key Vault user) who owns certificates, depending on the CA, can get a certificate from the admin or directly from the account with the CA.  
 
--   Begin an add credential operation to a key vault by creating a [Certificate Issuer](../certificate-issuers) resource. 
+-   Begin an add credential operation to a key vault by creating a [certificate issuer](https://docs.microsoft.com/rest/api/keyvault/certificate-issuers) resource. 
     -   Ex. MyDigiCertIssuer  
         -   Provider  
         -   Credentials – CA account credentials. Each CA has its own specific data.  
 
      For more information on creating accounts with CA Providers, see the related post on the [Key Vault blog](http://aka.ms/kvcertsblog).  
 
-**Step 3.1** - set up contacts [Certificate Contacts](../certificate-contacts) for notifications. This is the contact for the Key Vault user. Key Vault does not enforce this step.  
+**Step 3.1** - set up [certificate contacts](https://docs.microsoft.com/rest/api/keyvault/certificate-contacts) for notifications. This is the contact for the Key Vault user. Key Vault does not enforce this step.  
 
 Note - This process, through step 3.1, is a onetime operation.  
 
@@ -79,7 +79,7 @@ Note - This process, through step 3.1, is a onetime operation.
  For more information on PEM format, see the certificates section of [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).  
 
  Import certificate – requires a PEM or PFX to be on disk and have a private key. 
--   You must specify : vault name, certificate name, policy is optional
+-   You must specify: vault name and certificate name (policy is optional)
 
 -   PEM / PFX files contains attributes that KV can parse and use to populate the certificate policy. If a certificate policy is already specified, KV will try to match data from PFX  / PEM file.  
 
