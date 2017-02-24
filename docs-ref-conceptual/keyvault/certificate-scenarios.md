@@ -1,13 +1,19 @@
 ﻿---
 ms.assetid: a788b958-3acb-4bb6-9c94-4776852aeea1
-title: Get started with certificates |  Microsoft Docs
+title: Get started with Key Vault certificates
+description: The following scenarios outline several of the primary usages of Key Vault’s certificate management service including the additional steps required for creating your first certificate in your key vault.
 ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
 ms.date: 02/24/2017
+keywords: 
+
+# optional metadata
+audience: developer
+ms.reviewer: rashmij
 ---
-# Get started with certificates
+# Get started with Key Vault certificates
 The following scenarios outline several of the primary usages of Key Vault’s certificate management service including the additional steps required for creating your first certificate in your key vault.
 
 The following are outlined:
