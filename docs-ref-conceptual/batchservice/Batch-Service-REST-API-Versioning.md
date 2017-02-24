@@ -14,12 +14,43 @@ Operations provided by the Batch service REST API may have multiple versions for
 To specify which version of an operation to use, specify the *api-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format 'YYYY-MM-DD' and Major is an integer and Minor is an integer.
 
 ## Supported Versions
- The version of the Batch API described here is '2016-07-01.3.1', and using that version is recommended where possible.
+ The version of the Batch API described here is 2017-01-01.4.0. Using the latest version is recommended where possible.
 
- Earlier versions include '2016-02-01.3.0', '2015-12-01.2.1', '2015-11-01.2.1', '2015-06-01.2.0', '2015-03-01.1.1', and '2014-10-01.1.0'.
+ Earlier versions include '2016-07-01.3.1', '2016-02-01.3.0', '2015-12-01.2.1', '2015-11-01.2.1', '2015-06-01.2.0', '2015-03-01.1.1', and '2014-10-01.1.0'.
+
+### Version 2017-01-01.4.0
+
+ This version release extends all support from the previous version, 2016-07-01.3.1. Additionally, it supports the following capabilities:
+
+- Support for running a task under a specified user identity.  
+
+    You can specify that a task be run under one of the following user identities:
+
+    - A user account with a name that you define.
+    - A user account that is created automatically (auto-user). The auto-user can run as an administrative user or as a non-administrative user, depending on how you specify the elevationLevel property.
+
+    The userIdentity property replaces the runElevated property in requests that add a task or a task collection, and in responses that get information about a task or that list tasks.
+
+- Support for defining user accounts across all nodes in a pool. You can run a task under a user account that you define by specifying that user account for the userIdentity property.
+
+    You can specify a user account via the userAccounts property in requests to Add Pool. The userAccounts property is returned in responses from Get Pool and List Pool.
+    
+- Support for requesting an authentication token from the Batch service to provide to a task when it runs. The authentication token enables a task to issue requests related to the job to the Batch service, without the Batch account keys. Currently the authentication token supports operations on the job only. 
+
+    You can specify the authenticationTokenSettings property in requests that add a task or a collection of tasks. The authenticationTokenSettings property is returned in responses that get information about a task or that list tasks.
+
+- Support for specifying an action to take on a task's dependencies if the task fails. You can specify the dependencyAction property on requests that add a task or a task collection. The dependencyAction property is returned in responses that get information about a task or that list tasks.
+
+- Support for deploying nodes in the user's subscription using custom VHDs. To deploy nodes in the user's subscription, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. Then when you add a pool to your Batch account, you can use the osDisk property to specify a reference to a disk image.
+
+    > [!NOTE] When you create your Batch account, if you specify that pools are to be provisioned in the user subscription, then you must use Azure Active Directory-based authentication for all requests made through that account.
+    >
+    >
+    
+- Support for Azure Active Directory-based authentication for requests to the Batch service. 
 
 ### Version 2016-07-01.3.1
- This version release extends all support from previous version, 2016-02-01.3.0. Additionally, it supports the following capabilities:
+ This version release extends all support from the previous version, 2016-02-01.3.0. Additionally, it supports the following capabilities:
 
 -   Capability to create a pool and an auto-pool with Network configuration
 
@@ -41,7 +72,7 @@ To specify which version of an operation to use, specify the *api-version* query
     - A new operation [Reactivate a task](~/docs-ref-autogen/batchservice/task.json#Task_Reactivate) has been added to reset a failed task's state to active. This allows failures to be retried, for example if the failure was transient or if you have been able to fix the cause of the failure, without recreating the task.
 
 ### Version 2016-02-01.3.0
- This version release extends all support from previous version, 2015-12-01.2.2. Additionally, it supports the following capabilities:
+ This version release extends all support from the previous version, 2015-12-01.2.2. Additionally, it supports the following capabilities:
 
 -   Capability to create a pool and an auto-pool with IaaS VM configuration
 
@@ -108,7 +139,7 @@ To specify which version of an operation to use, specify the *api-version* query
     -   [Cancel the deletion of a certificate](~/docs-ref-autogen/batchservice/certificate.json#Certificate_CancelDeletion)
 
 ### Version 2015-12-01.2.2
- This version release extends all support from previous version, 2015-11-01.2.1. Additionally, it supports the following capabilities:
+ This version release extends all support from the previous version, 2015-11-01.2.1. Additionally, it supports the following capabilities:
 
 -   Applications can now be deployed to compute nodes using application packages instead of as resource files.
 
@@ -123,7 +154,7 @@ To specify which version of an operation to use, specify the *api-version* query
 -   The default pool resize timeout has changed to 15 minutes.
 
 ### Version 2015-11-01.2.1
- This version release extends all support from previous version 2015-06-01.2.0. Additionally, it supports the following capabilities:
+ This version release extends all support from the previous version 2015-06-01.2.0. Additionally, it supports the following capabilities:
 
 -   Capability to add and run multiinstance task (eg MPI)
 
