@@ -22,33 +22,48 @@ To specify which version of an operation to use, specify the *api-version* query
 
  This version release extends all support from the previous version, 2016-07-01.3.1. Additionally, it supports the following capabilities:
 
-- Support for running a task under a specified user identity.  
+- **Run a task under a specified user identity.** 
 
-    You can specify that a task be run under one of the following user identities:
+    A task may now run under one of the following user identities:
 
     - A user account with a name that you define.
-    - A user account that is created automatically (auto-user). The auto-user can run as an administrative user or as a non-administrative user, depending on how you specify the elevationLevel property.
+    - A user account that is created automatically (the auto-user). The auto-user can run as an administrative user or as a non-administrative user, depending on how you specify the elevationLevel property.
 
-    The userIdentity property replaces the runElevated property in requests that add a task or a task collection, and in responses that get information about a task or that list tasks.
+    > [!IMPORTANT]
+    > The **userIdentity** property replaces the **runElevated** property in requests that add a task or a task collection, and in responses that get information about a task or that list tasks.
+    > 
+    > 
 
-- Support for defining user accounts across all nodes in a pool. You can run a task under a user account that you define by specifying that user account for the userIdentity property.
+- **Define user accounts across all nodes in a pool.** 
 
-    You can specify a user account via the userAccounts property in requests to Add Pool. The userAccounts property is returned in responses from Get Pool and List Pool.
+    You can now run a task under a user account that you define by specifying that user account for the **userIdentity** property.
+
+    You can specify a user account via the **userAccounts** property in requests to Add Pool. The **userAccounts** property is returned in responses from Get Pool and List Pool.
     
-- Support for requesting an authentication token from the Batch service to provide to a task when it runs. The authentication token enables a task to issue requests related to the job to the Batch service, without the Batch account keys. Currently the authentication token supports operations on the job only. 
+- **Request an authentication token from the Batch service to provide to a task when it runs.** 
 
-    You can specify the authenticationTokenSettings property in requests that add a task or a collection of tasks. The authenticationTokenSettings property is returned in responses that get information about a task or that list tasks.
+    The Batch service can now provide an authentication token to a task when it runs. The authentication token enables a task to issue requests related to the job to the Batch service, without the Batch account keys. Currently the authentication token supports operations on the job only. 
 
-- Support for specifying an action to take on a task's dependencies if the task fails. You can specify the dependencyAction property on requests that add a task or a task collection. The dependencyAction property is returned in responses that get information about a task or that list tasks.
+    To return the authentication token, specify the **authenticationTokenSettings** property in requests that add a task or a collection of tasks. The **authenticationTokenSettings** property is returned in responses that get information about a task or that list tasks.
 
-- Support for deploying nodes in the user's subscription using custom VHDs. To deploy nodes in the user's subscription, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. Then when you add a pool to your Batch account, you can use the osDisk property to specify a reference to a disk image.
+- **Specify an action to take on a task's dependencies if the task fails.** 
+    
+    You can specify the **dependencyAction** property on requests that add a task or a task collection. The **dependencyAction** property is returned in responses that get information about a task or that list tasks.
+
+- **Deploy nodes in the user's subscription using custom VHDs.** 
+
+    To deploy nodes in the user's subscription, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. Then when you add a pool to your Batch account, you can use the **osDisk** property to specify a reference to a disk image.
 
     > [!IMPORTANT] 
     > When you create your Batch account, if you specify that pools are to be provisioned in the user subscription, then you must use Azure Active Directory-based authentication for all requests made through that account.
     >
     >
 
-- Support for Azure Active Directory-based authentication for requests to the Batch service. 
+- **Use Azure Active Directory-based authentication for requests to the Batch service.** 
+
+    Azure Active Directory (AAD) is now supported for authenticating calls to the Batch service.
+
+    If your Batch account is set up to provision pools in the user subscription, then using AAD authentication is required.  
 
 ### Version 2016-07-01.3.1
  This version release extends all support from the previous version, 2016-02-01.3.0. Additionally, it supports the following capabilities:
