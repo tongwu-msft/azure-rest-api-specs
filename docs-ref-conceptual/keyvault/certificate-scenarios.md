@@ -27,24 +27,24 @@ Certificates are composed of three interrelated resources linked together as a K
  Before a certificate can be created in a Key Vault (KV), prerequisite steps 1 and 2 must be successfully accomplished and a key vault must exist for this user / organization.  
 
 **Step 1** - Certificate Authority (CA) Providers  
--   On-boarding as the IT Admin, PKI Admin or anyone managing accounts with CAs, for a given company (ex. Contoso)  is a prerequisite to using KV certificates.  
-    The following CAs are the current supported/partnered providers with Key Vault:  
+-   On-boarding as the IT Admin, PKI Admin or anyone managing accounts with CAs, for a given company (ex. Contoso)  is a prerequisite to using Key Vault certificates.  
+    The following CAs are the current partnered providers with Key Vault:  
     -   DigiCert - Key Vault offers OV SSL certificates with DigiCert.  
     -   GlobalSign - Key Vault offers OV SSL certificates with GlobalSign  
     -   WoSign - Key Vault offers OV SSL or EV SSL certificates with WoSign based on setting configured by customer in thier WoSign account on the WoSign portal.  
 
-**Step 2** - An account admin for a CA Provider creates credentials to be used by Key Vault to enroll and renew and, use SSL certificates via Key Vault.
+**Step 2** - An account admin for a CA provider creates credentials to be used by Key Vault to enroll, renew, and use SSL certificates via Key Vault.
 
-**Step 3** - A Contoso admin along with a Contoso employee (Key Vault user) who owns certificates, depending on the CA, can get a certificate from the admin or directly from the account with the CA.  
+**Step 3** - A Contoso admin, along with a Contoso employee (Key Vault user) who owns certificates, depending on the CA, can get a certificate from the admin or directly from the account with the CA.  
 
--   Begin an add credential operation to a key vault by creating a Key Vault issuer object/resource. 
+-   Begin an add credential operation to a key vault by creating a [Certificate Issuer](../certificate-issuers) resource. 
     -   Ex. MyDigiCertIssuer  
         -   Provider  
-        -   Credentials – CA account creds. Each CA has its own specific data.  
+        -   Credentials – CA account credentials. Each CA has its own specific data.  
 
      For more information on creating accounts with CA Providers, see the related post on the [Key Vault blog](http://aka.ms/kvcertsblog).  
 
-**Step 3.1** - set up contacts for notifications. This is the contact for Key Vault user. Key Vault does not enforce this step.  
+**Step 3.1** - set up contacts [Certificate Contacts](../certificate-contacts) for notifications. This is the contact for the Key Vault user. Key Vault does not enforce this step.  
 
 Note - This process, through step 3.1, is a onetime operation.  
 
