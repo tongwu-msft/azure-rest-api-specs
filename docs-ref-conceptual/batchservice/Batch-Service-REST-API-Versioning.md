@@ -24,7 +24,7 @@ To specify which version of an operation to use, specify the *api-version* query
 
 - **Run a task under a specified user identity.** 
 
-    A task may now run under one of the following user identities, specified via the **userIdentity** property on the task resource:
+    A task may now run under one of the following user identities, specified via the new **userIdentity** property on the task resource:
 
     - A user account with a name that you define.
     - A user account that is created automatically (the auto-user). The auto-user can run as an administrative user or as a non-administrative user. By default, the auto-user runs as a non-administrative user.
@@ -42,23 +42,27 @@ To specify which version of an operation to use, specify the *api-version* query
 
 - **Define user accounts across all nodes in a pool.** 
 
-    You can now run a task under a user account that you define on the pool resource. Specify a user account via the **userAccounts** property in requests to Add Pool. The **userAccounts** property is returned in responses from Get Pool and List Pool.
+    You can now run a task under a user account that you define on the pool resource. Define a user account via the new **userAccounts** property in requests to [Add Pool](~/docs-ref-autogen/batchservice/pool.json#Pool_Add).
     
     Once you define the user account, you can specify that user account for the **userIdentity** property in requests that add a task or a task collection.
 
 - **Request an authentication token from the Batch service to provide to a task when it runs.** 
 
-    The Batch service can now provide an authentication token to a task when it runs. The authentication token enables a task to issue requests related to the job to the Batch service, without the Batch account keys. Currently the authentication token supports operations on the job resource only. 
+    The Batch service can now provide an authentication token to a task when it runs. The authentication token enables a task to issue requests related to the job to the Batch service, without the Batch account keys. The token is provided via the AZ_BATCH_AUTHENTICATION_TOKEN environment variable.
+    
+    Currently authentication tokens are supported for calling operations on the job resource only. The authentication token grants access to all operations on the job that contains the task. 
 
-    To return the authentication token, specify the **authenticationTokenSettings** property in requests that add a task or a collection of tasks. The **authenticationTokenSettings** property is returned in responses that get information about a task or that list tasks.
+    To have the Batch service provide the authentication token, specify the new **authenticationTokenSettings** property, together with its **access** property, in requests to [Add Task](~/docs-ref-autogen/batchservice/task.json#Task_Add) or [Add Task Collection](~/docs-ref-autogen/batchservice/task.json#Task_AddCollection).
 
 - **Specify an action to take on a task's dependencies if the task fails.** 
     
-    You can specify the **dependencyAction** property on requests that add a task or a task collection. The **dependencyAction** property is returned in responses that get information about a task or that list tasks.
+    You can now specify that dependent tasks proceed even if the task that they depend on fails. Set the new **dependencyAction** property of a task resource to *satisfy* to run dependent tasks even if the parent task fails. Alternately, set **dependencyAction** to *block* to block running of dependent tasks if the parent task fails.  
+
+    Specify the **dependencyAction** property in requests to [Add Task](~/docs-ref-autogen/batchservice/task.json#Task_Add) or [Add Task Collection](~/docs-ref-autogen/batchservice/task.json#Task_AddCollection).
 
 - **Deploy nodes in the user's subscription using custom VHDs.** 
 
-    To deploy nodes in the user's subscription, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. Then when you add a pool to your Batch account, you can use the **osDisk** property to specify a reference to a disk image.
+    To deploy nodes in the user's subscription, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. Then use the **osDisk** property to specify a reference to a disk image in a request to [Add Pool](~/docs-ref-autogen/batchservice/pool.json#Pool_Add).
 
     > [!IMPORTANT] 
     > When you create your Batch account, if you specify that pools are to be provisioned in the user subscription, then you must use Azure Active Directory-based authentication for all requests made through that account.
