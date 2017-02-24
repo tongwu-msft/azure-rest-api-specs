@@ -24,25 +24,31 @@ To specify which version of an operation to use, specify the *api-version* query
 
 - **Run a task under a specified user identity.** 
 
-    A task may now run under one of the following user identities:
+    A task may now run under one of the following user identities, specified via the **userIdentity** property on the task resource:
 
     - A user account with a name that you define.
-    - A user account that is created automatically (the auto-user). The auto-user can run as an administrative user or as a non-administrative user, depending on how you specify the elevationLevel property.
-
+    - A user account that is created automatically (the auto-user). The auto-user can run as an administrative user or as a non-administrative user. By default, the auto-user runs as a non-administrative user.
+    
     > [!IMPORTANT]
-    > The **userIdentity** property replaces the **runElevated** property in requests that add a task or a task collection, and in responses that get information about a task or that list tasks.
+    > The **userIdentity** property, with its **elevationLevel** property, replaces the **runElevated** property in requests that add a task or a task collection, and in responses that get information about a task or that list tasks.
     > 
-    > Note that if you make a request that includes the **runElevated** property to version 2017-01-01.4.0 of the Batch service, the request will fail. You must update your application to use the **userIdentity** property instead.
+    > If you make a request that includes the **runElevated** property to version 2017-01-01.4.0 of the Batch service, the request will fail. 
+    >
+    > To run as an administrative user, update your application to use the **userIdentity** property, setting the **elevationLevel** property to *admin*.
+    > 
+    > To run as a non-administrative user, update your application to use the **userIdentity** property, setting the **elevationLevel** property to *nonAdmin*. Since this is the default, you can also omit the setting.  
+    >
+    >
 
 - **Define user accounts across all nodes in a pool.** 
 
-    You can now run a task under a user account that you define by specifying that user account for the **userIdentity** property.
-
-    You can specify a user account via the **userAccounts** property in requests to Add Pool. The **userAccounts** property is returned in responses from Get Pool and List Pool.
+    You can now run a task under a user account that you define on the pool resource. Specify a user account via the **userAccounts** property in requests to Add Pool. The **userAccounts** property is returned in responses from Get Pool and List Pool.
     
+    Once you define the user account, you can specify that user account for the **userIdentity** property in requests that add a task or a task collection.
+
 - **Request an authentication token from the Batch service to provide to a task when it runs.** 
 
-    The Batch service can now provide an authentication token to a task when it runs. The authentication token enables a task to issue requests related to the job to the Batch service, without the Batch account keys. Currently the authentication token supports operations on the job only. 
+    The Batch service can now provide an authentication token to a task when it runs. The authentication token enables a task to issue requests related to the job to the Batch service, without the Batch account keys. Currently the authentication token supports operations on the job resource only. 
 
     To return the authentication token, specify the **authenticationTokenSettings** property in requests that add a task or a collection of tasks. The **authenticationTokenSettings** property is returned in responses that get information about a task or that list tasks.
 
@@ -58,6 +64,7 @@ To specify which version of an operation to use, specify the *api-version* query
     > When you create your Batch account, if you specify that pools are to be provisioned in the user subscription, then you must use Azure Active Directory-based authentication for all requests made through that account.
     >
     >
+
 
 - **Use Azure Active Directory-based authentication for requests to the Batch service.** 
 
