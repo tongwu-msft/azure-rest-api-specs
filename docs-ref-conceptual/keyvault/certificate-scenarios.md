@@ -25,16 +25,16 @@ Certificates are composed of three interrelated resources linked together as a K
 ## Creating your first Key Vault certificate  
  Before a certificate can be created in a Key Vault (KV), prerequisite steps 1 and 2 must be successfully accomplished and, a key vault must exist for this user / organization.  
 
-Step 1.  Certificate Authority (CA) Providers  
+Step 1 - Certificate Authority (CA) Providers  
 -   On-boarding as the IT Admin, PKI Admin or anyone managing accounts with CAs,for a given company (ex. Contoso)  is a prerequisite to using KV certificates.  
     The following CAs are the current supported/partnered providers with Key Vault:  
     -   DigiCert - Key Vault offers OV SSL certificates with DigiCert.  
     -   GlobalSign - Key Vault offers OV SSL certificates with GlobalSign  
     -   WoSign - Key Vault offers OV SSL or EV SSL certificates with WoSign based on setting configured by customer in his/her WoSign account on WoSign portal.  
 
-Step 2.  An account admin for a CA Provider creates credentials  to be used by Key Vault to enroll and renew and use SSL certificates via Key Vault  
+Step 2 - An account admin for a CA Provider creates credentials  to be used by Key Vault to enroll and renew and use SSL certificates via Key Vault  
 
-Step 3.  A Contoso admin along with a Contoso employee (Key Vault user) who owns certificates, depending on the CA, can get a certificate from the admin or directly from his account with the CA.  
+Step 3 - A Contoso admin along with a Contoso employee (Key Vault user) who owns certificates, depending on the CA, can get a certificate from the admin or directly from his account with the CA.  
 
 -   Begin an add credential operation to a key vault by creating a Key Vault issuer object/resource. 
     -   Ex. MyDigiCertIssuer  
@@ -51,7 +51,7 @@ Note - This process, through step 3.1, is a onetime operation.
 
 ![Create a certificate with a Key Vault partnered certificate authority](media/certificate-authority-2.png)
 
-Step 4.
+Step 4 -
 The following step descriptions correspond to the green numbered steps in the preceding diagram.  
   (1) - In the diagram above, your application is creating a certificate which internally begins by creating a key in your key vault.  
   (2) - Key Vault sends and SSL Certificate Request to the CA.  
@@ -70,7 +70,7 @@ The following step descriptions correspond to the green numbered steps in the pr
 
   - A certificate creation process is usually an asynchronous process and involves polling your key vault for the state of the create certificate operation.  
 [Get certificate opertion](https://docs.microsoft.com/en-us/rest/api/keyvault/getcertificateoperation)
-            -   Status: completed, failed w/ error info, Canceled  
+            -   Status: completed, failed with error information or, canceled  
             -   Because of the delay to create, a cancel operation can be initiated. The cancel may or may not be effective.  
 
 ## Import a certificate  
@@ -79,7 +79,7 @@ The following step descriptions correspond to the green numbered steps in the pr
  For more information on PEM format, see the certificates section of [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).  
 
  Import certificate – requires a PEM or PFX to be on disk and have a private key. 
--   You must specify : vault name, cert name, policy is optional
+-   You must specify : vault name, certificate name, policy is optional
 
 -   PEM / PFX files contains attributes that KV can parse and use to populate the certificate policy. If a certificate policy is already specified, KV will try to match data from PFX  / PEM file.  
 
@@ -98,15 +98,15 @@ The following step descriptions correspond to the green numbered steps in the pr
 
  The following step descriptions correspond to the green lettered steps in the preceding diagram.  
 
-  Step 1 - In the diagram above, your application is creating a certificate which internally begins by creating a key in your key vault.  
+  (1) - In the diagram above, your application is creating a certificate which internally begins by creating a key in your key vault.  
 
-  Step 2 - Key Vault returns to your application  a Certificate Signing Request (CSR)  
+  (2) - Key Vault returns to your application a Certificate Signing Request (CSR)  
 
-  Step 3 - Your application passes the CSR to your chosen CA.  
+  (3) - Your application passes the CSR to your chosen CA.  
 
-  Step 4 - Your chosen CA responds with a an X509 Certificate.  
+  (4) - Your chosen CA responds with a an X509 Certificate.  
 
-  Step 5 - Your application completes the new certificate creation with a merger of the X509 Certificate from your CA.
+  (5) - Your application completes the new certificate creation with a merger of the X509 Certificate from your CA.
 
 ## See Also
 - [Certificate operations](certificate-operations.md)
