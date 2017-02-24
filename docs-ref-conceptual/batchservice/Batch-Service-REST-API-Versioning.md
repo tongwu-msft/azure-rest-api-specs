@@ -32,7 +32,7 @@ To specify which version of an operation to use, specify the *api-version* query
     > [!IMPORTANT]
     > The **userIdentity** property replaces the **runElevated** property in requests that add a task or a task collection, and in responses that get information about a task or that list tasks.
     > 
-    > 
+    > Note that if you make a request that includes the **runElevated** property to version 2017-01-01.4.0 of the Batch service, the request will fail. You must update your application to use the **userIdentity** property instead.
 
 - **Define user accounts across all nodes in a pool.** 
 
