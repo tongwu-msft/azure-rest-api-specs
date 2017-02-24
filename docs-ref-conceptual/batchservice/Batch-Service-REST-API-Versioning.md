@@ -43,10 +43,11 @@ To specify which version of an operation to use, specify the *api-version* query
 
 - Support for deploying nodes in the user's subscription using custom VHDs. To deploy nodes in the user's subscription, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. Then when you add a pool to your Batch account, you can use the osDisk property to specify a reference to a disk image.
 
-    > [!NOTE] When you create your Batch account, if you specify that pools are to be provisioned in the user subscription, then you must use Azure Active Directory-based authentication for all requests made through that account.
+    > [!IMPORTANT] 
+    > When you create your Batch account, if you specify that pools are to be provisioned in the user subscription, then you must use Azure Active Directory-based authentication for all requests made through that account.
     >
     >
-    
+
 - Support for Azure Active Directory-based authentication for requests to the Batch service. 
 
 ### Version 2016-07-01.3.1
