@@ -455,6 +455,7 @@
 ## [Maps](logic/Maps.json)
 ## [Partners](logic/Partners.json)
 ## [Schemas](logic/Schemas.json)
+## [Sessions](logic/Sessions.json)
 ## [Workflow Run Actions](logic/WorkflowRunActions.json)
 ## [Workflow Runs](logic/WorkflowRuns.json)
 ## [Workflow Trigger Histories](logic/WorkflowTriggerHistories.json)
