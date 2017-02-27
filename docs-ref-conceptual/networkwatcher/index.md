@@ -21,3 +21,4 @@ Network Watcher REST APIs include:
 - **[IP Flow verify](ip-flow-verify/ip-flow-verify-rest-api.md)**: This API provides information on whether or not traffic is allowed or denied from a virtual machine.
 - **[Next hop](next-hop/next-hop-rest-api.md)**: This API provides the ability to find the next hop from a virtual machine NIC.
 - **[Troubleshoot](troubleshoot/troubleshoot-rest-api.md)**: This API provides the ablity to troubleshoot your networking resources in Azure.
+- **[NSG Flow Logging](troubleshoot/network-security-group-flow-logs-rest-api.md)**: This API provides the ablity to configure and manage Network Security Group Flow Logs.
