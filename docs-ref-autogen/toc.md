@@ -879,7 +879,7 @@
 ## [Replica](../docs-ref-conceptual/servicefabric/replica.md)
 ### [Get a list of replicas](../docs-ref-conceptual/servicefabric/get-a-list-of-replicas.md)
 ### [Get a list of replicas for a service package](../docs-ref-conceptual/servicefabric/get-a-list-of-replicas-for-a-service-package.md)
-### [Get details of a deployed replica’s status](../docs-ref-conceptual/servicefabric/get-details-of-a-deployed-replica’s-status.md)
+### [Get details of a deployed replica’s status](../docs-ref-conceptual/servicefabric/get-details-of-a-deployed-replicas-status.md)
 ### [Get the health of a replica](../docs-ref-conceptual/servicefabric/get-the-health-of-a-replica.md)
 ### [Get the health of a replica by using a health policy](../docs-ref-conceptual/servicefabric/get-the-health-of-a-replica-by-using-a-health-policy.md)
 ### [Report the health of a replica](../docs-ref-conceptual/servicefabric/report-the-health-of-a-replica.md)
