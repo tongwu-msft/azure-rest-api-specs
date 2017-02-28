@@ -35,6 +35,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
+
 # Get details of a deployed replica’s status
 Gets detailed information of a Service Fabric replica that belongs to a specified partition and is deployed on a specified node.  
   
