@@ -1,20 +1,10 @@
 ﻿---
-title: "Certificate scenarios"
-ms.custom: ""
-ms.date: "2016-11-11"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "key-vault"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-applies_to:
-  - "Azure Key Vault"
 ms.assetid: a788b958-3acb-4bb6-9c94-4776852aeea1
-caps.latest.revision: 16
-author: "bruceperlerMS"
-ms.author: "bruceper"
-manager: "mbaldwin"
+title: Get started with certificates |  Microsoft Docs
+ms.service: key-vault
+author: BrucePerlerMS
+ms.author: bruceper
+manager: mbaldwin
 ---
 # Get started with certificates
 The following scenarios outline several of the primary usages of Key Vault’s certificate management service including the additional steps required for creating your first certificate in your key vault.
@@ -51,9 +41,7 @@ Step 2.  An account admin for a CA Provider creates credentials  to be used by K
 
 Step 3.  A Contoso admin along with a Contoso employee (Key Vault user) who owns certificates, depending on the CA, can get a certificate from the admin or directly from his account with the CA.  
 
--   Begin an add credential operation to a key vault by creating a Key Vault issuer object/resource.  
-
-      In PowerShell this is accomplished by the Add-KeyVaultCertificateIssuer cmdlet.  
+-   Begin an add credential operation to a key vault by creating a Key Vault issuer object/resource. 
 
     -   Ex. MyDigiCertIssuer  
 
@@ -63,7 +51,7 @@ Step 3.  A Contoso admin along with a Contoso employee (Key Vault user) who owns
 
      For more information on creating accounts with CA Providers, see the related post on the [Key Vault blog](http://aka.ms/kvcertsblog).  
 
-Step 3.1 - set up contacts for notifications (in PowerShell this is accomplished by the Add-KeyVaultCertificateContacts cmdlet) this is the contact for Key Vault user. Key Vault does not enforce this step.  
+Step 3.1 - set up contacts for notifications. This is the contact for Key Vault user. Key Vault does not enforce this step.  
 
 Note - This process, through step 3.1, is a onetime operation.  
 
@@ -84,7 +72,7 @@ The following step descriptions correspond to the green numbered steps in the pr
 
   (5) - Your new certificate creation completes with the merger of the X509 Certificate for the CA.  
 
-  Key Vault user – creates a certificate by specifying a policy  (in PowerShell this is accomplished by the Add-KeyVaultCertifcate (name, certificate name, )  cmdlet)  
+  Key Vault user – creates a certificate by specifying a policy. 
 
   -   Repeat as needed  
 
@@ -111,9 +99,8 @@ The following step descriptions correspond to the green numbered steps in the pr
 
  For more information on PEM format, see the certificates section of [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).  
 
- Import certificate – requires a PEM or PFX to be on disk and have a private key. In PowerShell this is the Import-KeyValutCertifcate cmdlet
-
--   You must specify : vault name, cert name, policy is optional,  
+ Import certificate – requires a PEM or PFX to be on disk and have a private key. 
+-   You must specify : vault name, cert name, policy is optional
 
 -   PEM / PFX files contains attributes that KV can parse and use to populate the certificate policy. If a certificate policy is already specified, KV will try to match data from PFX  / PEM file.  
 

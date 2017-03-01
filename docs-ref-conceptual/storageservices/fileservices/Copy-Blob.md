@@ -48,7 +48,7 @@ The `Copy Blob` operation copies a blob to a destination within the storage acco
 |-|----------------------------|------------------|  
 ||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](assetId:///f0e3acde-f019-4148-9544-34cf2ff27211).  
+ For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  
@@ -132,7 +132,7 @@ Date: <date>
   
  Access to the source blob or file is authorized separately, as described in the details for the request header `x-ms-copy-source`.  
   
- The following table describes how the destination and source objects for a [Copy Blob](assetId:///Copy Blob?qualifyHint=False&autoUpgrade=True) operation may be authenticated.  
+ The following table describes how the destination and source objects for a Copy Blob operation may be authenticated.  
   
 ||Authentication with Shared Key/Shared Key Lite|Authentication with Shared Access Signature|Public Object Not Requiring Authentication|  
 |-|-----------------------------------------------------|-------------------------------------------------|------------------------------------------------|  

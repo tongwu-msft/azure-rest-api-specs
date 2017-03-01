@@ -1,7 +1,7 @@
 ---
 title: "Copy image store content"
 ms.custom: ""
-ms.date: "2016-12-14"
+ms.date: "2017-02-03"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-fabric"

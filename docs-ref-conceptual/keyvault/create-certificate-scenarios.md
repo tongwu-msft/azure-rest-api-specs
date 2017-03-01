@@ -1,20 +1,10 @@
 ---
-title: "Create Certificate Scenarios"
-ms.custom: ""
-ms.date: "2016-11-11"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "key-vault"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-applies_to:
-  - "Azure Key Vault"
 ms.assetid: 0d0995aa-b60d-4811-be12-ba0a45390197
-caps.latest.revision: 11
-author: "bruceperlerMS"
-ms.author: "bruceper"
-manager: "mbaldwin"
+title: Monitor and manage certificate creation | Microsoft Docs
+ms.service: key-vault
+author: BrucePerlerMS
+ms.author: bruceper
+manager: mbaldwin
 ---
 # Monitor and manage certificate creation
 Applies To: Azure  

@@ -8,7 +8,7 @@ You can filter the results by specifying a value for the `$filter` parameter usi
 
 | Field | Supported operators    | Supported functions|
 |-------|------------------------|---------------------------------------------|
-| name        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-| method      | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-| description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-|urlTemplate  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+| name         | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+| method       | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+| description  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+| urlTemplate  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |

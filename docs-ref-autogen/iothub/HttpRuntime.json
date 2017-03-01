@@ -1,0 +1,325 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-11-14",
+    "title": "Device Messaging API",
+    "description": "Use these APIs from a device to send device-to-cloud messages to an IoT hub, receive cloud-to-device messages from an IoT hub, and to upload files from a device. All task operations conform to the HTTP/1.1 protocol specification. Each API call must include the api-version query parameter. In addition, either an X.509 client certificate or an authorization header containing a Shared Access Signature token with the appropriate permissions must be presented."
+  },
+  "host": "<fully-qualified IoT hub domain name>",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/devices/{id}/messages/events": {
+      "post": {
+        "tags": [
+          "POST"
+        ],
+        "summary": "Send a device-to-cloud message.",
+        "description": "Send a device-to-cloud message. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging for more information.",
+        "operationId": "HttpRuntime_SendDeviceEvent",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NoContent"
+          }
+        }
+      }
+    },
+    "/devices/{id}/messages/deviceBound": {
+      "get": {
+        "tags": [
+          "GET"
+        ],
+        "description": "This method is used to retrieve a cloud-to-device message.",
+        "summary": "This method is used to retrieve a cloud-to-device message. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging for more information.",
+        "operationId": "HttpRuntime_ReceiveDeviceBoundNotification",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The body can be any octet-stream. Note that the size of the whole message (body plus properties) must be less than 256 Kb.",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "204": {
+            "description": "NoContent. Sent if device message queue is empty."
+          }
+        }
+      }
+    },
+    "/devices/{id}/messages/deviceBound/{etag}": {
+      "delete": {
+        "tags": [
+          "DELETE"
+        ],
+        "summary": "This method completes or rejects a cloud-to-device message.",
+        "description": "This method completes or rejects a cloud-to-device message. The Etag obtained when the message was received must be provided to resolve race conditions when completing, rejecting, or abandoning a message. A completed message is deleted from the device message queue, and a positive acknowledgment is sent to the application back-end if requested. A rejected message causes it to be deadlettered. To reject a message, include a query parameter called \"reject\". See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging for more information. Currently, the use of the Etag in the header does not comply with RFC 7232. A fix for this issue is currently on our backlog.",
+        "operationId": "HttpRuntime_CompleteDeviceBoundNotification",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "reject",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "etag",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NoContent"
+          }
+        }
+      }
+    },
+    "/devices/{id}/messages/deviceBound/{etag}/abandon": {
+      "post": {
+        "tags": [
+          "POST"
+        ],
+        "summary": "This method abandons a cloud-to-device message.",
+        "description": "This method abandons a cloud-to-device message. The Etag obtained when the message was received must be provided to resolve race conditions when completing, rejecting, or abandoning a message. A abandoned message is put back in the device message queue for re-delivery to the device. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging for more information. Currently, the use of the Etag in the header does not comply with RFC 7232. A fix for this issue is currently on our backlog. ",
+        "operationId": "HttpRuntime_AbandonDeviceBoundNotification",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "etag",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NoContent"
+          }
+        }
+      }
+    },
+    "/devices/{deviceId}/files": {
+      "post": {
+        "tags": [
+          "POST"
+        ],
+        "summary": "This method is used to retrieve a storage SAS URI to upload a file.",
+        "description": "This method is used to retrieve a storage SAS URI to upload a file. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-file-upload for more information.",
+        "operationId": "HttpRuntime_CreateFileUploadSasUri",
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fileUploadRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileUploadRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FileUploadResponse"
+            }
+          }
+        }
+      }
+    },
+    "/devices/{deviceId}/files/notifications": {
+      "post": {
+        "tags": [
+          "POST"
+        ],
+        "summary": "This method is used to notify an IoT hub of a completed file upload.",
+        "description": "This method is used to notify an IoT hub of a completed file upload. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-file-upload for more information.",
+        "operationId": "HttpRuntime_UpdateFileUploadStatus",
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fileUploadCompletionStatus",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileUploadCompletionStatus"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NoContent"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "FileUploadRequest": {
+      "description": "Contains a request from a device to upload a file.",
+      "type": "object",
+      "properties": {
+        "blobName": {
+          "type": "string",
+          "description": "This follows the format: <deviceId>/<filename>."
+        }
+      },
+      "required": [
+        "blobName"
+      ]
+    },
+    "FileUploadResponse": {
+      "description": "Contains the response to a device request to upload a file.",
+      "type": "object",
+      "properties": {
+        "correlationId": {
+          "type": "string",
+          "description": "Unique id for this file upload request/response."
+        },
+        "hostName": {
+          "type": "string",
+          "description": " Host name of blob account."
+        },
+        "containerName": {
+          "type": "string",
+          "description": "Name of the storage container."
+        },
+        "blobName": {
+          "type": "string",
+          "description": "Name of the blob."
+        },
+        "sasToken": {
+          "type": "string",
+          "description": "SAS Token to read+write to blob."
+        }
+      },
+      "required": []
+    },
+    "FileUploadCompletionStatus": {
+      "description": "Contains the file upload completion status including correlationId and status fields.",
+      "type": "object",
+      "properties": {
+        "correlationId": {
+          "type": "string",
+          "description": "This follows the format: <expiryTime>_<guid>_<filename> where <expiryTime> is UTC time in 'yyyyMMddHHmm' format."
+        },
+        "isSuccess": {
+          "type": "boolean"
+        },
+        "statusCode": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "statusDescription": {
+          "type": "string",
+          "maxLength": 65536
+        }
+      },
+      "required": [
+        "correlationId"
+      ]
+    }
+  },
+  "parameters": {
+    "api-version": {
+      "name": "api-version",
+      "in": "query",
+      "description": "The version of the API.",
+      "required": true,
+      "type": "string",
+      "default": "2016-11-14"
+    }
+  }
+}

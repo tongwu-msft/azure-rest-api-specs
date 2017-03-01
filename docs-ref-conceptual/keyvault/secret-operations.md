@@ -1,30 +1,10 @@
 ---
-title: "Secret operations"
-ms.custom: ""
-ms.date: "2016-11-11"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "key-vault"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-applies_to:
-  - "Azure Key Vault"
 ms.assetid: cef1870f-eaea-418e-a730-22ba444825ba
-author: "bruceperlerMS"
-ms.author: "bruceper"
-manager: "mbaldwin"
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Secret operations | Microsoft Docs
+ms.service: key-vault
+author: BrucePerlerMS
+ms.author: bruceper
+manager: mbaldwin
 ---
 # Secret operations
 

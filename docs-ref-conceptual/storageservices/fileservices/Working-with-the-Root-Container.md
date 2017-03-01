@@ -50,7 +50,7 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
   
  You can also delete the root container if you no longer have a need for it.  
   
- Like other containers, the root container can be made available for anonymous public access. You can make the container public by setting the `x-ms-blob-public-access` header when the container is created, or by calling [Set Container ACL](../fileservices/Set-Container-ACL.md) after it already exists. See [Restrict Access to Containers and Blobs](assetId:///1d1c1a78-7a01-4477-b8e0-394d122e15a6) for more information.  
+ Like other containers, the root container can be made available for anonymous public access. You can make the container public by setting the `x-ms-blob-public-access` header when the container is created, or by calling [Set Container ACL](../fileservices/Set-Container-ACL.md) after it already exists. See [Restrict Access to Containers and Blobs](/azure/storage/storage-manage-access-to-resources) for more information.  
   
  If the root container is present, it will appear when you perform the [List Containers](../fileservices/List-Containers2.md) operation against the storage account.  
   

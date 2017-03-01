@@ -16,5 +16,5 @@ Azure Container Registry (preview) is a managed Docker registry service to store
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Registries](./registries) | Operations for creating and managing Azure container registries such as create, update, delete, list, and regenerate credentials.
+| [Registries](~/docs-ref-autogen/containerregistry/registries.json) | Operations for creating and managing Azure container registries such as create, update, delete, list, and regenerate credentials.
 

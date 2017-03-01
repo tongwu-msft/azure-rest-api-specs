@@ -1,7 +1,8 @@
 ---
+redirect_url: https://docs.microsoft.com/azure/search/
 title: "Azure Search Developer Reference"
 ms.custom: ""
-ms.date: "2016-09-07"
+ms.date: "2017-02-07"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -13,6 +14,7 @@ caps.latest.revision: 5
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 manager: "jhubbard"
+ROBOTS: NOINDEX, NOFOLLOW
 ---
 # Azure Search Developer Reference
 Microsoft Azure Search is a search-as-a-service cloud offering that offloads the search experience to an external service that you can connect to from on-premises or cloud-based applications. Developer reference documentation for Azure Search includes several REST APIs, as well as the .NET client library for managed applications.

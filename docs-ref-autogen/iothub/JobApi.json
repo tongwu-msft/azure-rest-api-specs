@@ -1,0 +1,551 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-11-14",
+    "title": "Jobs API",
+    "description": "Use these APIs to create, get, query, and cancel IoT Hub jobs. All task operations conform to the HTTP/1.1 protocol specification. Each API call must include the api-version query parameter. In addition, an authorization header containing a Shared Access Signature token with the appropriate permissions must be presented."
+  },
+  "host": "<fully-qualified IoT hub domain name>",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/jobs/v2/{jobid}": {
+      "get": {
+        "summary": "Retrieve details of an existing job from an IoT hub.",
+        "description": "Retrieve details of an existing job from an IoT hub.",
+        "tags": [
+          "GET"
+        ],
+        "operationId": "JobApi_GetJob",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "jobid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/JobResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Create a new job on an IoT hub.",
+        "description": "Create a new job on an IoT hub.",
+        "tags": [
+          "PUT"
+        ],
+        "operationId": "JobApi_CreateJob",
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "jobid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "jobRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/JobRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/JobResponse"
+            }
+          }
+        }
+      }
+    },
+    "/jobs/v2/query": {
+      "get": {
+        "summary": "Query an IoT hub to retrieve information regarding jobs using the IoT Hub query language.",
+        "description": "Query an IoT hub to retrieve information regarding jobs using the IoT Hub query language. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language for more information. Pagination of results is supported. This returns information about jobs only.",
+        "tags": [
+          "GET"
+        ],
+        "operationId": "JobApi_QueryJobs",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "jobType",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "jobStatus",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/QueryResultWithContinuation"
+            }
+          }
+        }
+      }
+    },
+    "/jobs/v2/{jobid}/cancel": {
+      "post": {
+        "summary": "Cancel an existing job on an IoT hub.",
+        "description": "Cancel an existing job on an IoT hub.",
+        "tags": [
+          "POST"
+        ],
+        "operationId": "JobApi_CancelJob",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "jobid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/JobResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "JobRequest": {
+      "description": "Container of parameters for a job request.",
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "description": "Application provided ID for the job.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9\\-']{1,64}$"
+        },
+        "type": {
+          "description": "The type of job to execute.",
+          "enum": [
+            "scheduleDeviceMethod",
+            "scheduleUpdateTwin"
+          ],
+          "type": "string"
+        },
+        "cloudToDeviceMethod": {
+          "description": "Required if jobType is scheduleDeviceMethod.",
+          "$ref": "#/definitions/CloudToDeviceMethod"
+        },
+        "updateTwin": {
+          "description": "Required if jobType is scheduleUpdateTwin.",
+          "$ref": "#/definitions/DeviceTwinInfo"
+        },
+        "queryCondition": {
+          "description": "Condition for device query to get devices to execute the job on. Required if jobType is scheduleUpdateTwin or scheduleDeviceMethod.",
+          "type": "string"
+        },
+        "startTime": {
+          "description": "Application provided start time (ISO-8601) for the job.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "maxExecutionTimeInSeconds": {
+          "description": "Maximum execution time in seconds (ttl duration).",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "jobId",
+        "type"
+      ]
+    },
+    "JobResponse": {
+      "description": "Container of parameters for a job response.",
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "description": "Application provided ID for the job.",
+          "type": "string"
+        },
+        "queryCondition": {
+          "description": "Condition for device query to get devices to execute the job on.",
+          "type": "string"
+        },
+        "createdTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "startTime": {
+          "description": "Application provided start time (ISO-8601) for the job.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "endTime": {
+          "description": "An IoT hub provided date (ISO-8601) for when the job completed. Valid only after the job reaches the 'completed' state.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "maxExecutionTimeInSeconds": {
+          "description": "Maximum execution time in seconds (ttl duration).",
+          "format": "int64",
+          "type": "integer"
+        },
+        "type": {
+          "description": "The type of job to execute.",
+          "enum": [
+            "scheduleDeviceMethod",
+            "scheduleUpdateTwin"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "JobType",
+            "modelAsString": "True"
+          }
+        },
+        "cloudToDeviceMethod": {
+          "$ref": "#/definitions/CloudToDeviceMethod"
+        },
+        "updateTwin": {
+          "$ref": "#/definitions/DeviceTwinInfo"
+        },
+        "status": {
+          "enum": [
+            "unknown",
+            "running",
+            "completed",
+            "failed",
+            "cancelled",
+            "scheduled",
+            "queued"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "JobStatus",
+            "modelAsString": "True"
+          }
+        },
+        "failureReason": {
+          "description": "If status is failure, this string contains the reason.",
+          "type": "string"
+        },
+        "statusMessage": {
+          "description": "Status message for the job.",
+          "type": "string"
+        },
+        "deviceJobStatistics": {
+          "$ref": "#/definitions/DeviceJobStatistics"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "CloudToDeviceMethod": {
+      "description": "Parameters to execute a direct method on the device.",
+      "type": "object",
+      "properties": {
+        "methodName": {
+          "description": "Name of the direct method.",
+          "type": "string"
+        },
+        "payload": {
+          "description": "Payload of the direct method request.",
+          "type": "object"
+        },
+        "responseTimeoutInSeconds": {
+          "description": "Maximum time allowed between the device app receiving the direct method request and sending the corresponding response.",
+          "format": "int32",
+          "type": "integer",
+          "maximum": 300
+        },
+        "connectTimeoutInSeconds": {
+          "description": "Maximum time allowed to deliver a direct method request if a device is offline.",
+          "format": "int32",
+          "type": "integer",
+          "maximum": 300
+        }
+      },
+      "required": [
+        "methodName"
+      ]
+    },
+    "DeviceJobStatistics": {
+      "description": "Statistics about a job's execution.",
+      "type": "object",
+      "properties": {
+        "deviceCount": {
+          "description": "Number of devices in the job.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "failedCount": {
+          "description": "Number of devices where the job failed.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "succeededCount": {
+          "description": "Number of devices where the job succeeded.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "runningCount": {
+          "description": "Number of devices that are currently running the job.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "pendingCount": {
+          "description": "Number of devices that are pending to run the job.",
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "required": []
+    },
+    "QueryResultWithContinuation": {
+      "description": "QueryResult with continuation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/QueryResult"
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "QueryResult": {
+      "description": "Results produced from a query. It contains the type of result, a list of result items, and a continuationtoken if appropriate.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "unknown",
+            "twin",
+            "deviceJob",
+            "jobResponse",
+            "raw"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "QueryResultType",
+            "modelAsString": "True"
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "continuationToken": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "items"
+      ]
+    },
+    "DeviceTwinInfo": {
+      "description": "Container of IoT Hub device twin properties and their accessors.",
+      "type": "object",
+      "properties": {
+        "DeviceId": {
+          "description": "The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9\\-:.+%_#*?!(),=@;$']{1,128}$"
+        },
+        "LastActivityTimeUtc": {
+          "description": "The last time the device connected, received or sent a message. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.",
+          "$ref": "#/definitions/VariantValueDateTime"
+        },
+        "IsConnected": {
+          "description": "Indicates if the device is currently connected to the IoT hub or not.",
+          "type": "boolean"
+        },
+        "LastConnectedTimeUtc": {
+          "description": "The last time the device connected to the IoT hub. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.",
+          "$ref": "#/definitions/VariantValueDateTime"
+        },
+        "Version": {
+          "description": "Version for device twin, including tags and desired properties",
+          "format": "int64",
+          "type": "integer"
+        },
+        "Tags": {
+          "description": "A JSON document read and written by the solution back end. Tags are not visible to device apps.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "DesiredProperties": {
+          "description": "Used in conjunction with reported properties to synchronize device configuration or condition. Desired properties can only be set by the solution back end and can be read by the device app. The device app can also be notified in real time of changes on the desired properties.",
+          "$ref": "#/definitions/DeviceTwinProperties"
+        },
+        "ReportedProperties": {
+          "description": "Used in conjunction with desired properties to synchronize device configuration or condition. Reported properties can only be set by the device app and can be read and queried by the solution back end.",
+          "$ref": "#/definitions/DeviceTwinProperties"
+        },
+        "ProvisioningState": {
+          "description": "Provisioning state of device twin.",
+          "enum": [
+            "Creating",
+            "Deleting",
+            "Active",
+            "Deleted"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ProvisioningState",
+            "modelAsString": "True"
+          }
+        }
+      },
+      "required": [
+        "deviceId"
+      ]
+    },
+    "VariantValueDateTime": {
+      "description": "Type representing DateTime in different time zones.",
+      "type": "object",
+      "properties": {
+        "Value": {
+          "format": "date-time",
+          "type": "string",
+          "readOnly": true
+        },
+        "ObjectValue": {
+          "type": "object",
+          "readOnly": true
+        },
+        "IsNull": {
+          "type": "boolean",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "DeviceTwinProperties": {
+      "description": "Type representing properties that are part of an IoT Hub device twin.",
+      "type": "object",
+      "properties": {
+        "Version": {
+          "description": "Version of device twin properties.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "Properties": {
+          "description": "Properties JSON element.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "Metadata": {
+          "description": "Metadata information for the properties JSON document.",
+          "$ref": "#/definitions/Metadata"
+        }
+      },
+      "required": [
+        "version"
+      ]
+    },
+    "Metadata": {
+      "description": "Metadata",
+      "type": "object",
+      "properties": {
+        "LastUpdatedUtc": {
+          "description": "The last time the properties were updated. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z.",
+          "$ref": "#/definitions/VariantValueDateTime"
+        },
+        "LastUpdatedVersion": {
+          "description": "This SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "HasChildren": {
+          "description": "True if nested properies are present.",
+          "type": "boolean",
+          "readOnly": true
+        },
+        "Nested": {
+          "description": "Nested properties.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Metadata"
+          },
+          "readOnly": true
+        }
+      },
+      "required": [
+        "lastUpdatedUtc"
+      ]
+    }
+  },
+  "parameters": {
+    "api-version": {
+      "name": "api-version",
+      "in": "query",
+      "description": "The version of the API.",
+      "required": true,
+      "type": "string",
+      "default": "2016-11-14"
+    }
+  }
+}

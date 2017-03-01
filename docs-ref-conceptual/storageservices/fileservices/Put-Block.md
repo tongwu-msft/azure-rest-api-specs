@@ -41,7 +41,7 @@ The `Put Block` operation creates a new block to be committed as part of a blob.
 |-|----------------------------|------------------|  
 ||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=block&blockid=id`|HTTP/1.1|  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](assetId:///f0e3acde-f019-4148-9544-34cf2ff27211).  
+ For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
 ### URI Parameters  
   
