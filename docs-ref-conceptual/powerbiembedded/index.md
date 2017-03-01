@@ -24,4 +24,5 @@ The Azure Power BI Embedded REST API provides the following operation groups you
 
 ## See also
 
-- [Azure Power BI Embedded documentation](https://review.docs.microsoft.com/azure/power-bi-embedded/)
+- [Azure Power BI Embedded documentation](https://docs.microsoft.com/azure/power-bi-embedded/)
+- [Power BI Embedded REST API on MSDN](https://msdn.microsoft.com/library/azure/mt712303.aspx)
