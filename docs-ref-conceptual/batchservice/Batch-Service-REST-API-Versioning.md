@@ -2,8 +2,8 @@
 ms.assetid: c85ea5cf-e1cb-4c95-8c47-581baf599c64
 ms.title: Batch REST API versioning | Microsoft Docs
 ms.service: batch
-author: mmacy
-ms.author: marsma
+author: tamram
+ms.author: tamram
 ms.manager: timlt
 ---
 
@@ -24,7 +24,7 @@ To specify which version of an operation to use, specify the *api-version* query
 
 - **Run a task under a specified user identity.** 
 
-    A task may now run under one of the following user identities, specified via the new **userIdentity** property on the task resource:
+    You can now run a task or task collection under one of the following user identities, specified via the new **userIdentity** property on the task resource:
 
     - A user account with a name that you define.
     - A user account that is created automatically (the auto-user). The auto-user can run as an administrative user or as a non-administrative user. By default, the auto-user runs as a non-administrative user.
@@ -42,11 +42,11 @@ To specify which version of an operation to use, specify the *api-version* query
 
 - **Define user accounts across all nodes in a pool.** 
 
-    You can now run a task under a user account that you define on the pool resource. Define a user account via the new **userAccounts** property in requests to [Add Pool](~/docs-ref-autogen/batchservice/pool.json#Pool_Add).
+    You can now run a task or task collection under a user account that you define on the pool resource. Define a user account via the new **userAccounts** property in requests to [Add Pool](~/docs-ref-autogen/batchservice/pool.json#Pool_Add). When you define the account, you can specify the account name, password, elevation level (admin or non-admin), and SSH private key (for Linux pools).
     
     Once you define the user account, you can specify that user account for the **userIdentity** property in requests that add a task or a task collection.
 
-- **Request an authentication token from the Batch service to provide to a task when it runs.** 
+- **Provide a task with a token to authenticate to the Batch service when the task runs.** 
 
     The Batch service can now provide an authentication token to a task when it runs. The authentication token enables a task to issue requests related to the job to the Batch service, without the Batch account keys. The token is provided via the AZ_BATCH_AUTHENTICATION_TOKEN environment variable.
     
@@ -60,9 +60,11 @@ To specify which version of an operation to use, specify the *api-version* query
 
     Specify the **dependencyAction** property in requests to [Add Task](~/docs-ref-autogen/batchservice/task.json#Task_Add) or [Add Task Collection](~/docs-ref-autogen/batchservice/task.json#Task_AddCollection).
 
-- **Deploy nodes in the user's subscription using custom VHDs.** 
+- **Use custom OS disk images when creating a pool.** 
 
-    To deploy nodes in the user's subscription, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. Then use the **osDisk** property to specify a reference to a disk image in a request to [Add Pool](~/docs-ref-autogen/batchservice/pool.json#Pool_Add).
+    You can now use custom OS disk images to create a pool.  
+    
+    To do so, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. In a call to [Create Account](~/docs-ref-autogen/batchmanagement/batchaccount.json#BatchAccount_Create), set the **poolAllocationMode** property to _UserSubscription_. Then use the **osDisk** property to specify a reference to a disk image in a request to [Add Pool](~/docs-ref-autogen/batchservice/pool.json#Pool_Add).
 
     > [!IMPORTANT] 
     > When you create your Batch account, if you specify that pools are to be provisioned in the user subscription, then you must use Azure Active Directory-based authentication for all requests made through that account.
