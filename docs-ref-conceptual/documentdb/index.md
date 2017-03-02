@@ -1,7 +1,7 @@
 ---
 title: "Azure DocumentDB REST API Reference"
 ms.custom: ""
-ms.date: "2016-12-11"
+ms.date: "2017-03-02"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "documentdb"
@@ -35,8 +35,8 @@ The following table lists the supported REST API versions by the Azure DocumentD
 
 |Version|Change introduced|Retirement date|  
 |-------------|---------------------|-----------------------|  
-|2016-07-11|[Change feed](https://docs.microsoft.com/documentation/azure/documentdb/documentdb-change-feed)||  
-|2015-12-16|[Partitioned collections](https://docs.microsoft.com/documentation/azure/documentdb/documentdb-partition-data/)||  
+|2016-07-11|[Change feed](https://docs.microsoft.com/azure/documentdb/documentdb-change-feed)||  
+|2015-12-16|[Partitioned collections](https://docs.microsoft.com/azure/documentdb/documentdb-partition-data)||  
 |2015-08-06|Upsert||  
 |2015-06-03|Order By support||  
 |2015-04-08|DocumentDB general availability||  
