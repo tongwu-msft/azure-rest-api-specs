@@ -1,5 +1,5 @@
 ---
-title: "Configure flow logging"
+title: "Configure Network Security Group flow logging"
 ms.date: 2017-01-30
 ms.prod: azure
 ms.service: network-watcher
