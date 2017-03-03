@@ -1,5 +1,5 @@
 ---
-title: "Query Network Security Group Flow Logs status"
+title: "Query the status of flow logging"
 ms.date: 2017-01-30
 ms.prod: azure
 ms.service: network-watcher
@@ -9,7 +9,7 @@ author: mareat
 manager: vitinnan
 ---
 
-# Query Network Security Group Flow Logs status
+# Query the status of flow logging
 
 The command to query the status of Network Security Group flow logs is shown below.
 
@@ -34,6 +34,7 @@ For information about getting started with Azure REST operations including reque
 ## Response  
 
 #### Status Code: 200
+
 ```json
 {
   "targetResourceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/networkSecurityGroups/{nsgName}",

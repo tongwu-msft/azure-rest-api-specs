@@ -8,7 +8,7 @@ ms.assetid:
 author: mareat
 manager: vitinnan
 ---
-# Network Security Group Flow Logging REST API  
+# Network Security Group flow logging REST API  
 
 Network Security Group flow logs allow you to view information about ingress and egress IP traffic through a Network Security Group. These flow logs are written in json format and show outbound and inbound flows on a per rule basis, the NIC the flow applies to, 5-tuple information about the flow (Source/Destination IP, Source/Destination Port, Protocol), and if the traffic was allowed or denied. 
 
