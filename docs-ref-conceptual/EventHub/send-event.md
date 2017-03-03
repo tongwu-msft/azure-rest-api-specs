@@ -1,7 +1,7 @@
 ---
 title: "Send event"
 ms.custom: ""
-ms.date: "2016-12-01"
+ms.date: "2017-03-03"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -67,7 +67,7 @@ POST https://your-namespace.servicebus.windows.net/your-event-hub/messages?timeo
 Authorization: SharedAccessSignature sr=your-namespace.servicebus.windows.net&sig=tYu8qdH563Pc96Lky0SFs5PhbGnljF7mLYQwCZmk9M0%3d&se=1403736877&skn=RootManageSharedAccessKey  
 Content-Type: application/atom+xml;type=entry;charset=utf-8  
 Host: your-namespace.servicebus.windows.net  
-BrokerProperties: {"Name":"CorrelationId","Value":"32119834-65f3-48c1-b366-619df2e4c400"}  
+BrokerProperties: {"CorrelationId","32119834-65f3-48c1-b366-619df2e4c400"}  
   
 { "DeviceId":"dev-01", "Temperature":"37.0" }  
   
