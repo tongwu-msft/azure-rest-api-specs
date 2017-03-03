@@ -26,8 +26,8 @@ To specify which version of an operation to use, specify the *api-version* query
 
     You can now run a task or task collection under one of the following user identities, specified via the new **userIdentity** property on the task resource:
 
-    - A user account with a name that you define. When the **userIdentity** property is set to this user account, the task or collection of tasks runs under that account.
-    - A user account that is created automatically (an auto-user) for running a task or collection of tasks. You can specify that an auto-user runs a task or collection of tasks as an administrative user or as a non-administrative user. By default, an auto-user runs as a non-administrative user.
+    - A user account with a name that you define.
+    - A user account that is created automatically (an auto-user). An auto-user can run as an administrative user or as a non-administrative user. By default, an auto-user runs as a non-administrative user.
     
     > [!IMPORTANT]
     > The **userIdentity** property, with its **elevationLevel** property, replaces the **runElevated** property in requests that add a task or a task collection, and in responses that get information about a task or that list tasks.
