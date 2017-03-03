@@ -1,7 +1,7 @@
 ---
 title: "Send batch events"
 ms.custom: ""
-ms.date: "2016-12-01"
+ms.date: "2017-03-03"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -50,7 +50,7 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
  The **BrokerProperties** and **UserProperties** cannot be set in headers when sending batch events (they will be ignored). Instead, send them as part of the request body. For example, setting **BrokerProperties** in batched events:  
   
 ```json  
-[{"Body":"Message1", "BrokerProperties":{"Name":"CorrelationId","Value":"32119834-65f3-48c1-b366-619df2e4c400"}},{"Body":"Message2"},{"Body":"Message3"}]  
+[{"Body":"Message1", "BrokerProperties":{"CorrelationId","32119834-65f3-48c1-b366-619df2e4c400"}},{"Body":"Message2"},{"Body":"Message3"}]  
 ```  
   
  Setting **CustomProperties** in batched events:  
