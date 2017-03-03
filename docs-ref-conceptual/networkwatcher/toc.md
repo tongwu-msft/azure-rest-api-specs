@@ -19,3 +19,6 @@
 ## [View IP flow](ip-flow-verify/ip-flow-verify-post.md)
 # [Next hop](next-hop/next-hop-rest-api.md)
 ## [Get next hop](next-hop/next-hop-post.md)
+# [NSG flow logs](network-security-group-flow-logs/network-security-group-flow-logs-rest-api.md)
+## [Configure flow logs](network-security-group-flow-logs/configure-flow-log-post.md)
+## [Query status of flow logs](network-security-group-flow-logs/flow-log-query-post.md)

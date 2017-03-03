@@ -1,5 +1,5 @@
 ---
-title: "Configure Network Security Group Flow Logs"
+title: "Configure Network Security Group flow logging"
 ms.date: 2017-01-30
 ms.prod: azure
 ms.service: network-watcher
@@ -9,7 +9,7 @@ author: mareat
 manager: vitinnan
 ---
 
-# Configure Network Security Group Flow Logs
+# Configure flow logging
 
 The command to enable and disable Network Security Group flow logs is shown below.
 
@@ -47,6 +47,7 @@ For information about getting started with Azure REST operations including reque
 ## Response  
 
 #### Status Code: 200
+
 ```json
 {
   "targetResourceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/networkSecurityGroups/{nsgName}",
