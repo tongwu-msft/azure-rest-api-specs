@@ -12,8 +12,8 @@ ms.manager: timt
 
 Azure Compute REST APIs include:
 
-- **[Availability Sets](availabilitysets/availabilitysets-rest-api.md)** - This API provides programmatic access to your availability sets.
-- **[Extensions](extensions/extensions-rest-api.md)** - This API provides programmatic access to your virtual machine extensions. 
-- **[Platform Images](platformimages/platformimages-rest-api.md)** - This API provides programmatic access to the platform images available in Azure.
-- **[Usage](usage/usage-rest-api.md)** - This API provides programmatic access to usage information of your resources.
-- **[Virtual Machines](virtualmachines/virtualmachines-rest-api.md)** - This API provides programmatic access to your virtual machines.
+- **[Availability Sets](availabilitysets.md)** - This API provides programmatic access to your availability sets.
+- **[Extensions](extensions.md)** - This API provides programmatic access to your virtual machine extensions. 
+- **[Platform Images](platformimages.md)** - This API provides programmatic access to the platform images available in Azure.
+- **[Usage](usage.md)** - This API provides programmatic access to usage information of your resources.
+- **[Virtual Machines](virtualmachines.md)** - This API provides programmatic access to your virtual machines.
