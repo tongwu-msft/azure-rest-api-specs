@@ -28,7 +28,7 @@ translation.priority.mt:
 This topic discusses the cost of Storage Analytics and how to use metrics and logging data to understand your storage services bill.  
   
 ## Cost of Storage Analytics  
- Storage Analytics is enabled by a storage account owner; it is not enabled by default. All metrics data is written by the services of a storage account. As a result, each write operation performed by Storage Analytics is billable. Additionally, the amount of storage used by metrics data is also billable.  
+All metrics data is written by the services of a storage account. As a result, each write operation performed by Storage Analytics is billable. Additionally, the amount of storage used by metrics data is also billable.  
   
  The following actions performed by Storage Analytics are billable:  
   
