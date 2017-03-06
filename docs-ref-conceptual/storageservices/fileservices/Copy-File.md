@@ -128,8 +128,6 @@ Date: <date>
 ## Remarks  
  The **Copy File** operation can complete asynchronously. The copy ID returned by the `x-ms-copy-id` response header can be used to check the status of the copy operation or to abort it. The File service copies files on a best-effort basis.  
   
- When copying from a blob to a file, the source be a block blob or a page blob, or a snapshot of either. When copying from a file to a file, the source file can reside on a regular share or a share snapshot.  
-  
  If the destination file exists, it will be overwritten. The destination file cannot be modified while the copy operation is in progress.  
   
  The **Copy File** operation always copies the entire source blob or file; copying a range of bytes or set of blocks is not supported.  
