@@ -79,7 +79,7 @@ A storage account can contain zero or more Azure File shares. A share contains p
 ## Pathnames  
  A pathname is composed of one or more pathname components (directory or file name) separated by the forward-slash (/) character. All pathname components other than the last path name component denote directories. The last path name component denotes a directory or a file. The following naming rules apply:  
   
-1.  A pathname may be no more than 1,024 characters in length.  
+1.  A pathname may be no more than 2,048 characters in length. Individual components in the path can be a maximum of 255 characters in length. 
   
 2.  A pathname is composed of one or more pathname components separated by the forward-slash (/) character.  
   
