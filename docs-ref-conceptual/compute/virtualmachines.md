@@ -19,7 +19,7 @@ This table lists the operations included in the Virtual Machines REST API.
 | [Generalize a virtual machine](./virtualmachines/virtualmachines-generalize.md) | POST | Marks a virtual machine as generalized. |  
 | [Get information about a virtual machine](./virtualmachines/virtualmachines-get.md) | GET | Gets information about a virtual machine. |
 | [List the virtual machines in a resource group](./virtualmachines/virtualmachines-list-resource-group.md) | GET | Gets a list of virtual machines in a resource group. |
-| [List available virtual machine sizes in an availability set](./virtualmachines/virtualmachines-list-sizes-availability-set.md) | Gets a list of virtual machines in an availability set. |
+| [List available virtual machine sizes in an availability set](./virtualmachines/virtualmachines-list-sizes-availability-set.md) | GET | Gets a list of virtual machines in an availability set. |
 | [List available virtual machine sizes for resizing](./virtualmachines/virtualmachines-list-sizes-for-resizing.md) | GET | Gets a list of virtual machine sizes available for resizing. |
 | [Lists available virtual machine sizes for a subscription](./virtualmachines/virtualmachines-list-sizes-region.md) | GET | Gets a list of virtual machine sizes available in a region. |
 | [Lists the virtual machines in a subscription](./virtualmachines/virtualmachines-list-subscription.md) | GET | Gets a list of virtual machine sizes available in a subscription. |
