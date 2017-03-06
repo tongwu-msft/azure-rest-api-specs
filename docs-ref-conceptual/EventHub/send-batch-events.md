@@ -44,7 +44,7 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
  JSON payload that contains the content of multiple messages. For example:  
   
 ```json  
-[{"Body":"Message1",{"Body":"Message2"},{"Body":"Message3"}]  
+[{"Body":"Message1"},{"Body":"Message2"},{"Body":"Message3"}]  
 ```  
   
  The **BrokerProperties** and **UserProperties** cannot be set in headers when sending batch events (they will be ignored). Instead, send them as part of the request body. For example, setting **BrokerProperties** in batched events:  
