@@ -940,7 +940,7 @@
 ## [Database Replication Links](sql/DatabaseReplicationLinks.json)
 ## [Databases](sql/Databases.json)
 ## [Elastic Pools](sql/ElasticPools.json)
-## [List Operations](sql/ListOperations.json)
+## [List Operations](sql/List Operations.json)
 ## [Recommended Elastic Pools](sql/RecommendedElasticPools.json)
 ## [Servers](sql/Servers.json)
 ## [Servers Firewall Rules](sql/ServersFirewallRules.json)
