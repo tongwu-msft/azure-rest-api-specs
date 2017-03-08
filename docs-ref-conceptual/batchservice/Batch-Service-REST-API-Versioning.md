@@ -2,8 +2,8 @@
 ms.assetid: c85ea5cf-e1cb-4c95-8c47-581baf599c64
 ms.title: Batch REST API versioning | Microsoft Docs
 ms.service: batch
-author: mmacy
-ms.author: marsma
+author: tamram
+ms.author: tamram
 ms.manager: timlt
 ---
 
@@ -14,12 +14,72 @@ Operations provided by the Batch service REST API may have multiple versions for
 To specify which version of an operation to use, specify the *api-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format 'YYYY-MM-DD' and Major is an integer and Minor is an integer.
 
 ## Supported Versions
- The version of the Batch API described here is '2016-07-01.3.1', and using that version is recommended where possible.
+ The version of the Batch API described here is 2017-01-01.4.0. Using the latest version is recommended where possible.
 
- Earlier versions include '2016-02-01.3.0', '2015-12-01.2.1', '2015-11-01.2.1', '2015-06-01.2.0', '2015-03-01.1.1', and '2014-10-01.1.0'.
+ Earlier versions include '2016-07-01.3.1', '2016-02-01.3.0', '2015-12-01.2.1', '2015-11-01.2.1', '2015-06-01.2.0', '2015-03-01.1.1', and '2014-10-01.1.0'.
+
+### Version 2017-01-01.4.0
+
+ This version release extends all support from the previous version, 2016-07-01.3.1. Additionally, it supports the following capabilities:
+
+- **Run a task under a specified user identity.** 
+
+    You can now run a task or task collection under one of the following user identities, specified via the new **userIdentity** property on the task resource:
+
+    - A user account with a name that you define.
+    - A user account that is created automatically (an auto-user). An auto-user can run as an administrative user or as a non-administrative user. By default, an auto-user runs as a non-administrative user.
+    
+    > [!IMPORTANT]
+    > The **userIdentity** property, with its **elevationLevel** property, replaces the **runElevated** property in requests that add a task or a task collection, and in responses that get information about a task or that list tasks.
+    > 
+    > If you make a request that includes the **runElevated** property to version 2017-01-01.4.0 of the Batch service, the request will fail. 
+    >
+    > To run as an administrative user, update your application to use the **userIdentity** property, setting the **elevationLevel** property to *admin*.
+    > 
+    > To run as a non-administrative user, update your application to use the **userIdentity** property, setting the **elevationLevel** property to *nonAdmin*. Since this is the default, you can also omit the setting.  
+    >
+    >
+
+- **Define user accounts across all nodes in a pool.** 
+
+    You can now run a task or task collection under a user account that you define on the pool resource. Define a user account via the new **userAccounts** property in requests to [Add Pool](~/docs-ref-autogen/batchservice/pool.json#Pool_Add). When you define the account, you can specify the account name, password, elevation level (admin or non-admin), and SSH private key (for Linux pools).
+    
+    Once you define the user account, you can specify that user account for the **userIdentity** property in requests that add a task or a task collection.
+
+- **Provide a task with a token to authenticate to the Batch service when the task runs.** 
+
+    The Batch service can now provide an authentication token to a task when it runs. The authentication token enables a task to issue requests related to the job to the Batch service, without the Batch account keys. The token is provided via the AZ_BATCH_AUTHENTICATION_TOKEN environment variable.
+    
+    Currently authentication tokens are supported for calling operations on the job resource only. The authentication token grants access to all operations on the job that contains the task. 
+
+    To have the Batch service provide the authentication token, specify the new **authenticationTokenSettings** property, together with its **access** property, in requests to [Add Task](~/docs-ref-autogen/batchservice/task.json#Task_Add) or [Add Task Collection](~/docs-ref-autogen/batchservice/task.json#Task_AddCollection).
+
+- **Specify an action to take on a task's dependencies if the task fails.** 
+    
+    You can now specify that dependent tasks proceed even if the task that they depend on fails. Set the new **dependencyAction** property of a task resource to *satisfy* to run dependent tasks even if the parent task fails. Alternately, set **dependencyAction** to *block* to block running of dependent tasks if the parent task fails.  
+
+    Specify the **dependencyAction** property in requests to [Add Task](~/docs-ref-autogen/batchservice/task.json#Task_Add) or [Add Task Collection](~/docs-ref-autogen/batchservice/task.json#Task_AddCollection).
+
+- **Use custom OS disk images when creating a pool.** 
+
+    You can now use custom OS disk images to create a pool.  
+    
+    To do so, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. In a call to [Create Account](~/docs-ref-autogen/batchmanagement/batchaccount.json#BatchAccount_Create), set the **poolAllocationMode** property to _UserSubscription_. Then   use the **osDisk** property to specify a reference to a disk image in a request to [Add Pool](~/docs-ref-autogen/batchservice/pool.json#Pool_Add).
+
+    > [!IMPORTANT] 
+    > When you create your Batch account, if you specify that pools are to be provisioned in the user subscription, then you must use Azure Active Directory-based authentication for all requests made through that account.
+    >
+    >
+
+
+- **Use Azure Active Directory-based authentication for requests to the Batch service.** 
+
+    Azure Active Directory (AAD) is now supported for authenticating calls to the Batch service.
+
+    If your Batch account is set up to provision pools in the user subscription, then using AAD authentication is required.  
 
 ### Version 2016-07-01.3.1
- This version release extends all support from previous version, 2016-02-01.3.0. Additionally, it supports the following capabilities:
+ This version release extends all support from the previous version, 2016-02-01.3.0. Additionally, it supports the following capabilities:
 
 -   Capability to create a pool and an auto-pool with Network configuration
 
@@ -41,7 +101,7 @@ To specify which version of an operation to use, specify the *api-version* query
     - A new operation [Reactivate a task](~/docs-ref-autogen/batchservice/task.json#Task_Reactivate) has been added to reset a failed task's state to active. This allows failures to be retried, for example if the failure was transient or if you have been able to fix the cause of the failure, without recreating the task.
 
 ### Version 2016-02-01.3.0
- This version release extends all support from previous version, 2015-12-01.2.2. Additionally, it supports the following capabilities:
+ This version release extends all support from the previous version, 2015-12-01.2.2. Additionally, it supports the following capabilities:
 
 -   Capability to create a pool and an auto-pool with IaaS VM configuration
 
@@ -108,7 +168,7 @@ To specify which version of an operation to use, specify the *api-version* query
     -   [Cancel the deletion of a certificate](~/docs-ref-autogen/batchservice/certificate.json#Certificate_CancelDeletion)
 
 ### Version 2015-12-01.2.2
- This version release extends all support from previous version, 2015-11-01.2.1. Additionally, it supports the following capabilities:
+ This version release extends all support from the previous version, 2015-11-01.2.1. Additionally, it supports the following capabilities:
 
 -   Applications can now be deployed to compute nodes using application packages instead of as resource files.
 
@@ -123,7 +183,7 @@ To specify which version of an operation to use, specify the *api-version* query
 -   The default pool resize timeout has changed to 15 minutes.
 
 ### Version 2015-11-01.2.1
- This version release extends all support from previous version 2015-06-01.2.0. Additionally, it supports the following capabilities:
+ This version release extends all support from the previous version 2015-06-01.2.0. Additionally, it supports the following capabilities:
 
 -   Capability to add and run multiinstance task (eg MPI)
 
