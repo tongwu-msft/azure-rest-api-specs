@@ -12,7 +12,7 @@ manager: timlt
 # List ExpressRoute Circuit BGP Peering
 The List peering operation retrieves all the BGP Peerings for the circuit specified.  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
 ## Request  
   

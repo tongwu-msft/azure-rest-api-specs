@@ -11,9 +11,10 @@ manager: timlt
 ---
 # Delete ExpressRoute Circuit
 The DELETE operation deletes an Express Route circuit.  
-  
-## Request  
-See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to *ExpressRoute*.  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
+## Request   
   
 |Method|Request URI|  
 |------------|-----------------|  

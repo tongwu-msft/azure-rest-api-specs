@@ -12,7 +12,7 @@ manager: timlt
 # Create or update an ExpressRoute Circuit BGP Peering
 The create BGP Peering operation creates a new peering for the circuit specified or updates an existing peering. The PUT operation for peering can be performed both at circuit create/update operation and independently on the BGP Peering object. Similarly update to a peering can also be performed by update on parent circuit or on peering object independently  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
 In the section below a PUT on the peering child object is shown.  
   
