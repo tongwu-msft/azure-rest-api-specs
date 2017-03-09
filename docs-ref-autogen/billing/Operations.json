@@ -1,0 +1,365 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2017-02-27-preview",
+    "title": "BillingClient",
+    "description": "Billing client provides access to billing resources for Azure Web-Direct subscriptions. Other subscription types which were not purchased directly through the Azure web portal are not supported through this preview API."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/providers/Microsoft.Billing/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "Operations_List",
+        "description": "Lists all of the available billing REST API operations.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/apiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "DownloadUrl": {
+      "description": "A secure URL that can be used to download a PDF invoice until the URL expires.",
+      "properties": {
+        "expiryTime": {
+          "description": "The time in UTC at which this download URL will expire.",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "url": {
+          "description": "The URL to the PDF file.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ErrorDetails": {
+      "description": "The details of the error.",
+      "properties": {
+        "code": {
+          "description": "Error code.",
+          "type": "string",
+          "readOnly": true
+        },
+        "message": {
+          "description": "Error message indicating why the operation failed.",
+          "type": "string",
+          "readOnly": true
+        },
+        "target": {
+          "description": "The target of the particular error.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ErrorResponse": {
+      "description": "Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/ErrorDetails"
+        }
+      }
+    },
+    "Invoice": {
+      "description": "An invoice resource can be used download a PDF version of an invoice.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/InvoiceProperties"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "InvoicesListResult": {
+      "description": "Result of the request to list invoices. It contains a list of available invoices in reverse chronological order.",
+      "properties": {
+        "value": {
+          "description": "The list of invoices.",
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Invoice"
+          }
+        },
+        "nextLink": {
+          "description": "the link (url) to the next page of results.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "InvoiceProperties": {
+      "description": "The properties of the invoice.",
+      "properties": {
+        "invoicePeriodStartDate": {
+          "description": "The start of the date range covered by the invoice.",
+          "type": "string",
+          "format": "date",
+          "readOnly": true
+        },
+        "invoicePeriodEndDate": {
+          "description": "The end of the date range covered by the invoice.",
+          "type": "string",
+          "format": "date",
+          "readOnly": true
+        },
+        "downloadUrl": {
+          "description": "A secure link to download the PDF version of an invoice. The link will cease to work after its expiry time is reached.",
+          "$ref": "#/definitions/DownloadUrl"
+        }
+      }
+    },
+    "Operation": {
+      "description": "A Billing REST API operation",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Operation name: {provider}/{resource}/{operation}",
+          "type": "string",
+          "readOnly": true
+        },
+        "display": {
+          "description": "The object that represents the operation.",
+          "properties": {
+            "provider": {
+              "description": "Service provider: Microsoft.Billing",
+              "type": "string",
+              "readOnly": true
+            },
+            "resource": {
+              "description": "Resource on which the operation is performed: Invoice, etc.",
+              "type": "string",
+              "readOnly": true
+            },
+            "operation": {
+              "description": "Operation type: Read, write, delete, etc.",
+              "type": "string",
+              "readOnly": true
+            }
+          }
+        }
+      }
+    },
+    "OperationListResult": {
+      "description": "Result of the request to list billing operations. It contains a list of operations and a URL link to get the next set of results.",
+      "properties": {
+        "value": {
+          "description": "List of billing operations supported by the Microsoft.Billing resource provider.",
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Operation"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of operation list results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "Resource": {
+      "description": "The Resource model definition.",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource Id"
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name"
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type"
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "InvoicesList": {
+      "parameters": {
+        "api-version": "2017-02-27",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/subid/Microsoft.Billing/invoices/invoice-2017-02-05-123456789",
+                "name": "invoice-2017-02-05-123456789",
+                "type": "Microsoft.Billing/invoices",
+                "properties": {
+                  "invoicePeriodStartDate": "2017-01-01",
+                  "invoicePeriodEndDate": "2017-02-01"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "InvoicesExpand": {
+      "parameters": {
+        "api-version": "2017-02-27",
+        "subscriptionId": "subid",
+        "$top": "1",
+        "$filter": "invoicePeriodStartDate le 2017-02-01",
+        "$expand": "downloadUrl"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/subid/Microsoft.Billing/invoices/invoice-2017-02-05-123456789",
+                "name": "invoice-2017-02-05-123456789",
+                "type": "Microsoft.Billing/invoices",
+                "properties": {
+                  "invoicePeriodStartDate": "2017-01-01",
+                  "invoicePeriodEndDate": "2017-02-01",
+                  "downloadUrl": {
+                    "expiryTime": "2017-02-13T20:46:30Z",
+                    "url": "https://microsoft.com"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "InvoicesGet": {
+      "parameters": {
+        "api-version": "2017-02-27",
+        "subscriptionId": "subid",
+        "invoiceName": "2017-02-05-123456789"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "/subscriptions/subid/Microsoft.Billing/invoices/2017-02-05-123456789",
+            "name": "2017-02-05-123456789",
+            "type": "Microsoft.Billing/invoices",
+            "properties": {
+              "invoicePeriodStartDate": "2017-01-01",
+              "invoicePeriodEndDate": "2017-02-01",
+              "downloadUrl": {
+                "expiryTime": "2017-02-13T20:46:30Z",
+                "url": "https://microsoft.com"
+              }
+            }
+          }
+        },
+        "default": {
+          "body": {
+            "error": {
+              "code": "UnsupportedSubscriptionType",
+              "message": "Subscription subid is not supported.",
+              "target": "subscriptionId"
+            }
+          }
+        }
+      }
+    },
+    "InvoicesGetLatest": {
+      "parameters": {
+        "api-version": "2017-02-27",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "/subscriptions/subid/Microsoft.Billing/invoices/2017-02-05-123456789",
+            "name": "2017-02-05-123456789",
+            "type": "Microsoft.Billing/invoices",
+            "properties": {
+              "invoicePeriodStartDate": "2017-01-01",
+              "invoicePeriodEndDate": "2017-02-01",
+              "downloadUrl": {
+                "expiryTime": "2017-02-13T20:46:30Z",
+                "url": "https://microsoft.com"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "apiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Version of the API to be used with the client request. The current version is 2017-02-27-preview."
+    },
+    "subscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "Azure Subscription ID.",
+      "required": true,
+      "type": "string"
+    }
+  }
+}
