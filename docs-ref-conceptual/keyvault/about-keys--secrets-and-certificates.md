@@ -266,7 +266,7 @@ Key Vault also supports certificates, described in more detail in the following 
 ### **Key Vault Secrets**  
 
 ###  <a name="BKMK_WorkingWithSecrets"></a> Working with Secrets  
- Secrets in Azure Key Vault are octet sequences with a maximum size of 25k bytes each. The Azure Key Vault service does not provide any semantics for secrets; it merely accepts the data and stores it securely, returning a secret identifier, “id”, that may be used to retrieve the secret at a later time.  
+ Secrets in Azure Key Vault are octet sequences with a maximum size of 25k bytes each. The Azure Key Vault service does not provide any semantics for secrets; it merely accepts the data, encrypts and stores it, returning a secret identifier, “id”, that may be used to retrieve the secret at a later time.  
 
  For highly sensitive data, clients should consider additional layers of protection for data that is stored in Azure Key Vault; for example by pre-encrypting data using a separate protection key.  
 
