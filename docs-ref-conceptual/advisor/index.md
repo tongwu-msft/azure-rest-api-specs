@@ -17,7 +17,9 @@ Azure Advisor API (preview) provides programmatic access to your ... add content
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Operation Name]()         | Short description of the operation |
+| [Operations](https://docs.microsoft.com/rest/api/advisor/operations)         | Short description of the operation |
+| [Recommendations](https://docs.microsoft.com/rest/api/advisor/recommendations)         | Short description of the operation |
+| [Suppressions](https://docs.microsoft.com/rest/api/advisor/suppressions)         | Short description of the operation |
 
 ## See also
 
