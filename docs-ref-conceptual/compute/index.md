@@ -18,6 +18,6 @@ The Azure Compute APIs give you programmatic access to virtual machines and thei
 |-----------------|-------------|
 | [Availability Sets](availabilitysets.md) | Provides operations to create and manage availability sets. |
 | [Extensions](extensions.md) | Provides operations to add and manage to virtual machine extensions. |
-| [Platform Images](platformimages.md)** - Provides operations access the platform images available in Azure. |
+| [Platform Images](platformimages.md) | Provides operations access the platform images available in Azure. |
 | [Usage](usage.md) | Provides operations to get to usage information of your resources. |
 | [Virtual Machines](virtualmachines.md) | Provides operations to create and manage virtual machines. |
