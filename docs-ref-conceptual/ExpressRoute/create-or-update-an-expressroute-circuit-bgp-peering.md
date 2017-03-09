@@ -1,43 +1,36 @@
 ---
-title: "Create or update an ExpressRoute Circuit BGP Peering"
-ms.custom: ""
-ms.date: "2015-09-28"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "expressroute"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
+title: Create or update an ExpressRoute Circuit BGP Peering
+ms.date: 03/09/2017
+ms.service: expressroute
+ms.devlang: rest-api
+ms.topic: reference
 ms.assetid: fc9e52c5-3c70-496d-9ec7-8bc07e29ea41
-caps.latest.revision: 5
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # Create or update an ExpressRoute Circuit BGP Peering
 The create BGP Peering operation creates a new peering for the circuit specified or updates an existing peering. The PUT operation for peering can be performed both at circuit create/update operation and independently on the BGP Peering object. Similarly update to a peering can also be performed by update on parent circuit or on peering object independently  
-  
- In the section below a PUT on the peering child object is shown.  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+
+In the section below a PUT on the peering child object is shown.  
   
 ## Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to *ExpressRoute*.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}?api-version={api-version}`|  
-  
- Replace {circuitName} with the name of the ExpressRoute circuit already created. Replace {peeringName} with peering to be created. It must be one of AzurePublicPeering, AzurePrivatePeering, and MicrosoftPeering. There can be only one peering of each type in a circuit.  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the ExpressRoute Circuit exists. |
+| resourceGroup | The name of the resource group that contains the ExpressRoute Circuit. |
+| circuitName | The name of an ExpressRoute circuit already created.|
+| peeringName | The name of the BGP Peering to be created. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
+ It must be one of AzurePublicPeering, AzurePrivatePeering, and MicrosoftPeering. There can be only one peering of each type in a circuit.  
   
  **AzurePublicPeering:**  
   

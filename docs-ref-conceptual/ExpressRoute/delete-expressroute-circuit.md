@@ -1,29 +1,13 @@
 ---
-title: "Delete ExpressRoute Circuit"
-ms.custom: ""
-ms.date: "2015-09-25"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "expressroute"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
+title: Delete ExpressRoute Circuit
+ms.date: 03/09/2017
+ms.service: expressroute
+ms.devlang: rest-api
+ms.topic: reference
 ms.assetid: a5cf7b54-c74d-490b-80a1-21e064f4c1b5
-caps.latest.revision: 7
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # Delete ExpressRoute Circuit
 The DELETE operation deletes an Express Route circuit.  
@@ -34,7 +18,14 @@ See [Common parameters and headers](index.md#bk_common) for headers and paramete
 |Method|Request URI|  
 |------------|-----------------|  
 |DELETE|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}?api-version={api-version}`|  
-  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the ExpressRoute Circuit exists. |
+| resourceGroup | The name of the resource group that contains the ExpressRoute Circuit. |
+| circuitName | The name of an ExpressRoute circuit already created.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  Status code: 202  
   

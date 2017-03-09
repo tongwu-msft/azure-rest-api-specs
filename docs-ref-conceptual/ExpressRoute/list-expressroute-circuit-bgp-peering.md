@@ -1,41 +1,31 @@
 ---
-title: "List ExpressRoute Circuit BGP Peering"
-ms.custom: ""
-ms.date: "2015-09-28"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "expressroute"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
+title: List ExpressRoute Circuit BGP Peering
+ms.date: 03/09/2017
+ms.service: expressroute
+ms.devlang: rest-api
+ms.topic: reference
 ms.assetid: 9d78b825-8187-4103-8ac0-3ea9eac5faf2
-caps.latest.revision: 5
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # List ExpressRoute Circuit BGP Peering
 The List peering operation retrieves all the BGP Peerings for the circuit specified.  
-  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+
 ## Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to *ExpressRoute*.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings?api-version={api-version}`|  
-  
- Replace {circuitName} with the name of the ExpressRoute circuit already created.  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the ExpressRoute Circuit exists. |
+| resourceGroup | The name of the resource group that contains the ExpressRoute Circuit. |
+| circuitName | The name of an ExpressRoute circuit already created.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
   
 ## Response  
  **Status Code: 200**  

@@ -1,38 +1,31 @@
 ---
-title: "Create or update an ExpressRoute Circuit"
-ms.custom: ""
-ms.date: "2015-09-24"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "expressroute"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
+title: Create or update an ExpressRoute Circuit
+ms.date: 03/09/2017
+ms.service: expressroute
+ms.devlang: rest-api
+ms.topic: reference
 ms.assetid: 3e48a4be-94ee-45ac-95e3-a0aeec964bbb
-caps.latest.revision: 9
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # Create or update an ExpressRoute Circuit
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+
 ## Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to ExpressRoute.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}?api-version={api-version}`|  
-  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the ExpressRoute Circuit exists. |
+| resourceGroup | The name of the resource group that contains the ExpressRoute Circuit. |
+| circuitName | The name of an ExpressRoute circuit to be created or updated.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
  Replace {circuitName} with the name of the ExpressRoute circuit to be created.  The circuitName must be unique within the resource group.  
   
  ***Circuit without BGP Peerings specified at creation time.***  

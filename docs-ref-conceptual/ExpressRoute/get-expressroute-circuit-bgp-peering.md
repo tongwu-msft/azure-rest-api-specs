@@ -1,40 +1,33 @@
 ---
-title: "Get ExpressRoute Circuit BGP Peering"
-ms.custom: ""
-ms.date: "2015-09-28"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "expressroute"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
+title: Get ExpressRoute Circuit BGP Peering
+ms.date: 03/09/2017
+ms.service: expressroute
+ms.devlang: rest-api
+ms.topic: reference
 ms.assetid: df997501-fe0e-4dd0-9ea9-c7364021b686
-caps.latest.revision: 5
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # Get ExpressRoute Circuit BGP Peering
 The Get peering operation retrieves details of a peering for the circuit and peering specified.  
-  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+
 ## Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by all requests related to *ExpressRoute*.  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}?api-version={api-version}`|  
-  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the ExpressRoute Circuit exists. |
+| resourceGroup | The name of the resource group that contains the ExpressRoute Circuit. |
+| circuitName | The name of an ExpressRoute circuit already created.|
+| peeringName | The name of the BGP Peering of the existing ExpressRoute circuit|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
  Replace {circuitName} with the name of the ExpressRoute circuit already created and {peeringName} with the name of BGP Peering whose details are to be retrieved.  
   
 ## Response  
