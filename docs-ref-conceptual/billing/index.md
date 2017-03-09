@@ -17,7 +17,7 @@ Azure Billing API (preview) provides programmatic access to your Azure billing i
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Invoices](azure-docs-rest-apis/docs-ref-autogen/billing/Invoices.json)         | Operations for listing names and download URLs for Azure invoices. |
+| [Invoices](https://docs.microsoft.com/rest/api/billing/invoices)         | Operations for listing names and download URLs for Azure invoices. |
 
 ## See also
 
