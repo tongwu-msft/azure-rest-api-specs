@@ -11,15 +11,15 @@ ms.devlang: rest-api
 
 # Azure Advisor REST API
 
-Azure Advisor API (preview) provides programmatic access to your ... add content! 
+Azure Advisor is a personalized cloud consultant that helps you follow best practices to optimize your Azure deployments. For a more detailed overview, see the [Azure Advisor product page](https://azure.microsoft.com/services/advisor).
 
 ## REST Operation Groups 
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Operations](https://docs.microsoft.com/rest/api/advisor/operations)         | Short description of the operation |
-| [Recommendations](https://docs.microsoft.com/rest/api/advisor/recommendations)         | Short description of the operation |
-| [Suppressions](https://docs.microsoft.com/rest/api/advisor/suppressions)         | Short description of the operation |
+| [Operations](~/docs-ref-autogen/advisor/Operations.json)         | Provides operations for Azure Advisor. |
+| [Recommendations](~/docs-ref-autogen/advisor/Recommendations.json)         | Provides operations for recommendations. |
+| [Suppressions](~/docs-ref-autogen/advisor/Suppressions.json)         | Provides operations for supressions. |
 
 ## See also
 
