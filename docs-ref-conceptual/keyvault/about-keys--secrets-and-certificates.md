@@ -114,7 +114,7 @@ Key Vault also supports certificates, described in more detail in the following 
 |`object-name`|An `object-name` is a user provided name for and must be unique within a Key Vault. The name must be a string 1-127 characters in length containing only 0-9, a-z, A-Z, and -.|  
 |`object-version`|An `object-version` is a system generated, 32 character string identifier that is optionally used to address a unique version of an object.|  
 
-### **Key Vault Keys**  
+## **Key Vault Keys**  
 
 ###  <a name="BKMK_KeyTypes"></a> Keys and key types  
  Cryptographic keys in Azure Key Vault are represented as JSON Web Key [JWK] objects. The base JWK/JWA specifications are also extended to enable key types unique to the Azure Key Vault implementation, for example the import of keys to Azure Key Vault using the HSM vendor (Thales) specific packaging to enable secure transportation of keys such that they may only be used in the Azure Key Vault HSMs.  
@@ -266,7 +266,7 @@ Key Vault also supports certificates, described in more detail in the following 
 
 -   all: All permissions  
 
-### **Key Vault Secrets**  
+## **Key Vault Secrets**  
 
 ###  <a name="BKMK_WorkingWithSecrets"></a> Working with Secrets  
  Secrets in Azure Key Vault are octet sequences with a maximum size of 25k bytes each. The Azure Key Vault service does not provide any semantics for secrets; it merely accepts the data, encrypts and stores it, returning a secret identifier, “id”, that may be used to retrieve the secret at a later time.  
@@ -292,11 +292,6 @@ Key Vault also supports certificates, described in more detail in the following 
 
  For information on data types see, [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes).  
 
-###  <a name="BKMK_SecretTags"></a> Secret tags  
- You can specify additional application-specific metadata in the form of tags. Azure Key Vault supports up to 15 tags, each of which can have a 256 character name and a 256 character value.  
-> [!Note]
-> Tags are readable by a caller if they have the *list* or *get* permission to that object type; keys, secrets, or certificates.
-
 ###  <a name="BKMK_SecretAccessControl"></a> Secret Access Control  
  Access Control for secrets managed in Azure Key Vault is provided at the level of a Key Vault that acts as the container of those secrets. There is an access control policy for secrets that is distinct from the access control policy for keys in the same Key Vault. Users may create one or more vaults to hold secrets and are required to maintain scenario appropriate segmentation and management of secrets. Access controls for secrets is independent of access control for Keys.  
 
@@ -314,13 +309,13 @@ Key Vault also supports certificates, described in more detail in the following 
 
  For more information on working with secrets, see [Secret operations](secret-operations.md).  
 
-### Secret tags  
+###  <a name="BKMK_SecretTags"></a> Secret tags  
  You can specify additional application-specific metadata in the form of tags. Azure Key Vault supports up to 15 tags, each of which can have a 256 character name and a 256 character value.  
 
 > [!Note]
 > Tags are readable by a caller if they have the *list* or *get* permission to that object type; keys, secrets, or certificates.
 
-### **Key Vault Certificates**  
+## **Key Vault Certificates**  
 Key Vault certificates support provides for management of your x509 certificates and the following behaviors:  
 
 -   Allows a certificate owner to create a certificate through a Key Vault creation process or through the import of an existing certificate. This includes both self-signed and Certificate Authority generated certificates.
@@ -357,10 +352,7 @@ For more information on these features and behaviors, see the following sections
 ###  <a name="BKMK_CertificateAttributesAndTags"></a> Certificate Attributes and Tags  
  In addition to certificate metadata, addressable key, addressable secret, a KV Certificate also contains attributes and tags.  
 
- > [!Note]
-> Tags are readable by a caller if they have the *list* or *get* permission to that object type; keys, secrets, or certificates.
-
- **Attributes**  
+ #### Attributes 
 
  The certificate attributes are mirrored to attributes of the addressable key and secret created when KV certificate is created.  
 
@@ -381,7 +373,7 @@ For more information on these features and behaviors, see the following sections
 > [!Note] 
 > If a KV certificate expires, it’s addressable key and secret become inoperable.  
 
- **Tags**  
+ #### Tags
 
  Client specified dictionary of key value pairs, similar to tags in keys and secrets.  
 
