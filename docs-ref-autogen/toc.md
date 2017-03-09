@@ -1,4 +1,8 @@
 # [Getting Started with REST](../index.md)
+# [Advisor](../docs-ref-conceptual/advisor/index.md)
+## [Operations](advisor/Operations.json)
+## [Recommendations](advisor/Recommendations.json)
+## [Suppressions](advisor/Suppressions.json)
 # [Analysis Services](../docs-ref-conceptual/analysisservices/index.md)
 ## [Servers](analysisservices/Servers.json)
 # [API Management](../docs-ref-conceptual/apimanagement/index.md)
