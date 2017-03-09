@@ -228,6 +228,9 @@ Key Vault also supports certificates, described in more detail in the following 
 ###  <a name="BKMK_Keytags"></a> Key tags  
  You can specify additional application-specific metadata in the form of tags. Azure Key Vault supports up to 15 tags, each of which can have a 256 character name and a 256 character value.  
 
+> [!Note]
+> Tags are readable by a caller if they have the *list* or *get* permission to that object type; keys, secrets, or certificates.
+
 ###  <a name="BKMK_KeyAccessControl"></a> Key access control  
  Access Control for keys managed in Azure Key Vault is provided at the level of a Key Vault that acts as the container of keys. There is an access control policy for keys that is distinct from the access control policy for secrets in the same Key Vault. Users may create one or more vaults to hold keys and are required to maintain scenario appropriate segmentation and managed of keys. Access controls for Keys is independent of Access control for Secrets.  
 
@@ -291,6 +294,8 @@ Key Vault also supports certificates, described in more detail in the following 
 
 ###  <a name="BKMK_SecretTags"></a> Secret tags  
  You can specify additional application-specific metadata in the form of tags. Azure Key Vault supports up to 15 tags, each of which can have a 256 character name and a 256 character value.  
+> [!Note]
+> Tags are readable by a caller if they have the *list* or *get* permission to that object type; keys, secrets, or certificates.
 
 ###  <a name="BKMK_SecretAccessControl"></a> Secret Access Control  
  Access Control for secrets managed in Azure Key Vault is provided at the level of a Key Vault that acts as the container of those secrets. There is an access control policy for secrets that is distinct from the access control policy for keys in the same Key Vault. Users may create one or more vaults to hold secrets and are required to maintain scenario appropriate segmentation and management of secrets. Access controls for secrets is independent of access control for Keys.  
@@ -312,6 +317,9 @@ Key Vault also supports certificates, described in more detail in the following 
 ### Secret tags  
  You can specify additional application-specific metadata in the form of tags. Azure Key Vault supports up to 15 tags, each of which can have a 256 character name and a 256 character value.  
 
+> [!Note]
+> Tags are readable by a caller if they have the *list* or *get* permission to that object type; keys, secrets, or certificates.
+
 ### **Key Vault Certificates**  
 Key Vault certificates support provides for management of your x509 certificates and the following behaviors:  
 
@@ -324,7 +332,9 @@ Key Vault certificates support provides for management of your x509 certificates
 -   Allows certificate owners to provide contact information for notification about life-cycle events of expiration and renewal of certificate.  
 
 -   Supports automatic renewal with selected issuers - Key Vault partner X509 certificate providers / certificate authorities.
-> NOTE - Non-partnered providers/authorities are also allowed but, will not support the auto renewal feature.
+
+>[!Note]
+>Non-partnered providers/authorities are also allowed but, will not support the auto renewal feature.
 
 For more information on these features and behaviors, see the following sections of this article.
 
@@ -347,6 +357,9 @@ For more information on these features and behaviors, see the following sections
 ###  <a name="BKMK_CertificateAttributesAndTags"></a> Certificate Attributes and Tags  
  In addition to certificate metadata, addressable key, addressable secret, a KV Certificate also contains attributes and tags.  
 
+ > [!Note]
+> Tags are readable by a caller if they have the *list* or *get* permission to that object type; keys, secrets, or certificates.
+
  **Attributes**  
 
  The certificate attributes are mirrored to attributes of the addressable key and secret created when KV certificate is created.  
@@ -365,11 +378,15 @@ For more information on these features and behaviors, see the following sections
 
     -   nbf: IntDate: this fields get the value of the nbf date of the x509 certificate.  
 
-         **Note:** If a KV certificate expires, it’s addressable key and secret become inoperable.  
+> [!Note] 
+> If a KV certificate expires, it’s addressable key and secret become inoperable.  
 
  **Tags**  
 
  Client specified dictionary of key value pairs, similar to tags in keys and secrets.  
+
+ > [!Note]
+> Tags are readable by a caller if they have the *list* or *get* permission to that object type; keys, secrets, or certificates.
 
 ###  <a name="BKMK_CertificatePolicy"></a> Certificate Policy  
  A certificate policy contains information on how to create and manage lifecycle of a KV certificate. When a certificate with private key is imported into the key vault, a default policy is created by reading the x509 certificate.  
