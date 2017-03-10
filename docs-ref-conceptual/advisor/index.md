@@ -17,9 +17,9 @@ Azure Advisor is a personalized cloud consultant that helps you follow best prac
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Operations](~/docs-ref-autogen/advisor/Operations.json)         | Provides operations for Azure Advisor. |
-| [Recommendations](~/docs-ref-autogen/advisor/Recommendations.json)         | Provides operations for recommendations. |
-| [Suppressions](~/docs-ref-autogen/advisor/Suppressions.json)         | Provides operations for supressions. |
+| [Operations](~/docs-ref-autogen/advisor/Operations.json)  | Lists all available REST APIs for Advisor. |
+| [Recommendations](~/docs-ref-autogen/advisor/Recommendations.json) | Provides operations for accessing Advisor recommendations. |
+| [Suppressions](~/docs-ref-autogen/advisor/Suppressions.json)| Provides operations for snoozing or dismissing recommendations. |
 
 ## See also
 
