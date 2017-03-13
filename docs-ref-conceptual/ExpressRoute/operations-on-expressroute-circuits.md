@@ -1,4 +1,4 @@
----
+-e--
 title: Operations on ExpressRoute Circuits
 ms.date: 03/09/2017
 ms.service: expressroute
@@ -17,4 +17,4 @@ The Circuit represents the entity created by customer to register with an Expres
 | [Create or update an ExpressRoute Circuit](create-or-update-an-expressroute-circuit.md)  |  PUT | Creates or updates an ExpressRoute Circuit. |  
 | [List ExpressRoute Circuit](list-expressroute-circuit.md)     |  GET | Lists all ExpressRoute Circuits. | 
 | [Get ExpressRoute Circuit](get-expressroute-circuit.md)    |  GET | Gets an ExpressRoute Circuit. |  
-| [Delete ExpressRoute Circuit](delete-expressroute-circuit.md) |  DELETE | Delets an ExpressRoute Circuit. |    
+| [Delete ExpressRoute Circuit](delete-expressroute-circuit.md) |  DELETE | Deletes an ExpressRoute Circuit. |    
