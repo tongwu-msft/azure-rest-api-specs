@@ -57,7 +57,7 @@ For information about getting started with Azure REST operations including reque
   
 |Element Name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|azureASN|No|Integer|Specifies the numeric identifier of the public autonomous system (AS) in which the device is configured.|  
-|primaryAzurePort|No|String|Specifies the name of the primary port. Only available when the circuit provisioning state is Provisioning or Provisioned.|  
-|secondaryAzurePort|No|String|Specifies the name of the secondary port. Only available when the provisioning state is Provisioning or Provisioned.|  
-|state|No|String|State of the BGP Peering in ExpressRoute. Possible values are ‘Enabled’ or ‘Disabled’|
+|azureASN|Yes|Integer|Specifies the numeric identifier of the public autonomous system (AS) in which the device is configured.|  
+|primaryAzurePort|Yes|String|Specifies the name of the primary port. Only available when the circuit provisioning state is Provisioning or Provisioned.|  
+|secondaryAzurePort|Yes|String|Specifies the name of the secondary port. Only available when the provisioning state is Provisioning or Provisioned.|  
+|state|Yes|String|State of the BGP Peering in ExpressRoute. Possible values are ‘Enabled’ or ‘Disabled’|

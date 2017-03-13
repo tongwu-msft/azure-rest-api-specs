@@ -10,7 +10,7 @@ ms.author: gwallace
 manager: timlt
 ---
 # Operations on ExpressRoute Circuits
-The Circuit represents the entity created by customer to register with an express route service provider with intent to connect to Microsoft. The create circuit operation also creates a unique service key that is used to establish a relationship between the customer and the Microsoft.  
+The Circuit represents the entity created by customer to register with an ExpressRoute service provider with intent to connect to Microsoft. The create circuit operation also creates a unique service key that is used to establish a relationship between the customer and Microsoft.  
 
 | Operation | REST Verb | Description | 
 |---------|---------|-----------|

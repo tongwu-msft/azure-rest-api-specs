@@ -95,11 +95,11 @@ For information about getting started with Azure REST operations including reque
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
 |location|Yes|String|Specifies the geo-location of the resource. This is different from peering location.|  
-|tags|Yes|Complex Type|The tags and their values to associate with the ExpressRoute Circuit, see [Using tags to organize your Azure resources](https://azure.microsoft.com/documentation/articles/resource-group-using-tags/)|  
-|sku|No|Complex Type|Specifies the SKU of ExpressRoute Circuit|  
-|sku:name|No|String|Sku name is concatenation of {tier}_{family}|  
-|sku:tier|No|String|ExpressRoute is offered in two tiers – ‘Standard’ or ‘Premium’.|  
-|sku:family|No|String|Choose from either ‘UnlimitedData’ or ‘MeteredData’|  
+|tags|No|Complex Type|The tags and their values to associate with the ExpressRoute Circuit, see [Using tags to organize your Azure resources](https://azure.microsoft.com/documentation/articles/resource-group-using-tags/)|  
+|sku|Yes|Complex Type|Specifies the SKU of ExpressRoute Circuit|  
+|sku:name|Yes|String|Sku name is concatenation of {tier}_{family}|  
+|sku:tier|Yes|String|ExpressRoute is offered in two tiers – ‘Standard’ or ‘Premium’.|  
+|sku:family|Yes|String|Choose from either ‘UnlimitedData’ or ‘MeteredData’|  
 |serviceProviderProperties|Yes|Complex Type|Specifies the service provider details from whom the circuit is to be established.|  
 |serviceProviderProperties: serviceProviderName|Yes|String|The name of the service provider. This must match the provider name from List ExpressRoute service providers call.|  
 |serviceProviderProperties: peeringLocation|Yes|String|Peering location for the ExpressRoute Circuit. This must match one of the peering location for chosen service provider from List ExpressRoute service provider operation.|  

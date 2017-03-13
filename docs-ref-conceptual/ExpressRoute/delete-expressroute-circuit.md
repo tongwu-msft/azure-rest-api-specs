@@ -10,7 +10,7 @@ ms.author: gwallace
 manager: timlt
 ---
 # Delete ExpressRoute Circuit
-The DELETE operation deletes an Express Route circuit.  
+The DELETE operation deletes an ExpressRoute circuit.  
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 

@@ -68,8 +68,8 @@ For information about getting started with Azure REST operations including reque
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|provisioningState|No|String|Specifies the provisioning state of the circuit resource in ARM. This is different from circuit state in ExpressRoute system or circuit state in service provider’s system.Valid values are ‘Succeeded’, ‘Failed’ or ‘Cancelled’|  
-|circuitProvisioningState|No|String|Specifies the provisioning state of the circuit in ExpressRoute. Valid values are ‘Enabling’, ‘Enabled’, ‘Disabling’, ‘Disabled’|  
-|serviceProviderProvisioningState|No|String|Specifies the provisioning state of the Circuit in Service Provider’s system. Valid values are ‘NotProvisioned’ , ‘Provisioning’, ‘Provisioned’, ‘Deprovisioning’.|  
-|serviceKey|No|String|Specifies the unique key assigned to the ExpressRoute circuit once successfully provisioned.|  
+|provisioningState|Yes|String|Specifies the provisioning state of the circuit resource in ARM. This is different from circuit state in ExpressRoute system or circuit state in service provider’s system.Valid values are ‘Succeeded’, ‘Failed’ or ‘Cancelled’|  
+|circuitProvisioningState|Yes|String|Specifies the provisioning state of the circuit in ExpressRoute. Valid values are ‘Enabling’, ‘Enabled’, ‘Disabling’, ‘Disabled’|  
+|serviceProviderProvisioningState|Yes|String|Specifies the provisioning state of the Circuit in Service Provider’s system. Valid values are ‘NotProvisioned’ , ‘Provisioning’, ‘Provisioned’, ‘Deprovisioning’.|  
+|serviceKey|Yes|String|Specifies the unique key assigned to the ExpressRoute circuit once successfully provisioned.|  
 |serviceProviderNotes|No|String|Additional read only notes set on this circuit by the service provider.|

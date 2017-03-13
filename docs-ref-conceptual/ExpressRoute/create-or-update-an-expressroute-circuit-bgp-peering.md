@@ -97,12 +97,11 @@ In the section below a PUT on the peering child object is shown.
 |name|Yes|String|Name of the peering. Must be one of AzurePublicPeering, AzurePrivatePeering, MicrosoftPeering|  
 |peeringType|Yes|String|Must be one of AzurePublicPeering, AzurePrivatePeering, MicrosoftPeering|  
 |peerAsn|Yes|Integer|The autonomous system number of the customer/connectivity provider.|  
-|primaryPeerAddressPrefix|Yes||/30 subnet used to configure IP addresses for interfaces on Link1|  
-|secondaryPeerAddressPrefix|Yes||/30 subnet used to configure IP addresses for interfaces on Link2|  
+|primaryPeerAddressPrefix|Yes||/30 subnet used to configure IP addresses for interfaces on primary link|  
+|secondaryPeerAddressPrefix|Yes||/30 subnet used to configure IP addresses for interfaces on secondary link|  
 |vlanId|Yes||Specifies the identifier that is used to identify the customer|  
 |microsoftPeeringConfig|Yes|Complex Type|Properties applicable only when peering type is chosen as MicrosftPeering. The following properties should not be specified for AzurePublicPeering or AzurePrivatePeering|  
-|microsoftPeeringConfig: advertisedpublicprefixes|Yes|String array|Comma separated list of prefixes that will be advertised through the BGP peering. Only routes for these prefixes will be allowed into the VPN.|  
-|microsoftPeeringConfig: advertisedPublicPrefixState|No|String|Specifies the configuration state of the BGP session. One of ‘NotConfigured’, ‘Configuring’ ‘Configured’ ‘ValidationNeeded’|  
+|microsoftPeeringConfig: advertisedPublicPrefixes|Yes|String array|Comma separated list of prefixes that will be advertised through the BGP peering. Only routes for these prefixes will be allowed into the VPN.|  
 |microsoftPeeringConfig: customerAsn|||ASN of the customer (if different from peering ASN). This is used to validate the ownership of advertisedpublicprefixes in RIR/IRRs|  
 |microsoftPeeringConfig: routingRegistryName|||Internet Routing Registry / Regional Internet Registry to perform a look up for routing object to validate prefixes. Supported list of RIRs / IRRs are:<br /><br /> -   ARIN<br />-   APNIC<br />-   AFRINIC<br />-   LACNIC<br />-   RIPE NCC<br />-   RADB<br />-   ALTDB<br />-   LEVEL3|  
   
