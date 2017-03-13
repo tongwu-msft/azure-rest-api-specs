@@ -12,11 +12,11 @@ manager: drewm
 
 # Virtual machine state information
 
-Virtual machines and virtual machine-related components (for example, resource extensions, disks) in Azure expose various states.  Statuses are returned via the [Get information about a virtual machine API](./virtualmachines/virtualmachines-get.md) model and instance view responses. This article covers the VM Power State and the VM Provisioning State categories. 
+Virtual machines and virtual machine-related components (for example, resource extensions, disks) in Azure expose various states.  Statuses are returned via the [Get information about a virtual machine API](./virtualmachines-get.md) model and instance view responses. This article covers the VM Power State and the VM Provisioning State categories. 
     
 ## Virtual machine power state
  
-The PowerState status is returned as part of the [Get information about a virtual machine API](./virtualmachines/virtualmachines-get.md) instance view response and represents the power state of the virtual machine from the hypervisor’s standpoint. It is returned in the format PowerState/***value***, where ***value*** can be one of:
+The PowerState status is returned as part of the [Get information about a virtual machine API](./virtualmachines-get.md) instance view response and represents the power state of the virtual machine from the hypervisor’s standpoint. It is returned in the format PowerState/***value***, where ***value*** can be one of:
     
 | Power State | Description |
 | --------- | ----------- |
@@ -58,7 +58,7 @@ The PowerState status is returned as part of the [Get information about a virtua
   
 ## Virtual machine provisioning state
  
-The ProvisioningState status is returned as part of the [Get information about a virtual machine API](./virtualmachines/virtualmachines-get.md) model and instance view responses and represents the state of the virtual machine from the Azure Resource Manager’s standpoint (the management layer of the virtual machine). 
+The ProvisioningState status is returned as part of the [Get information about a virtual machine API](./virtualmachines-get.md) model and instance view responses and represents the state of the virtual machine from the Azure Resource Manager’s standpoint (the management layer of the virtual machine). 
 
 In the virtual machine model view response, the ProvisioningState is returned in the format ProvisioningState: ***value***, where ***value*** can be one of:
     
