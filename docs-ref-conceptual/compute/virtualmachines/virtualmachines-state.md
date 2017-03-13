@@ -12,11 +12,11 @@ manager: drewm
 
 # Virtual machine state information
 
-Virtual machines and virtual machine-related components (e.g. resource extensions, disks) in Azure expose various states.  Statuses are returned via the [Get information about a virtual machine API](./virtualmachines/virtualmachines-get.md) model and instance view responses. This article covers the VM Power State and the VM Provisioning State categories. 
+Virtual machines and virtual machine-related components (for example, resource extensions, disks) in Azure expose various states.  Statuses are returned via the [Get information about a virtual machine API](./virtualmachines/virtualmachines-get.md) model and instance view responses. This article covers the VM Power State and the VM Provisioning State categories. 
     
 ## Virtual machine power state
  
-The PowerState status is returned as part of the [Get information about a virtual machine API](./virtualmachines/virtualmachines-get.md) instance view response and represents the power state of the virtual machine from the hypervisor’s standpoint. It is returned in the format PowerState/***value***, where ***value*** can be one of the following:
+The PowerState status is returned as part of the [Get information about a virtual machine API](./virtualmachines/virtualmachines-get.md) instance view response and represents the power state of the virtual machine from the hypervisor’s standpoint. It is returned in the format PowerState/***value***, where ***value*** can be one of:
     
 | Power State | Description |
 | --------- | ----------- |
@@ -25,7 +25,7 @@ The PowerState status is returned as part of the [Get information about a virtua
 | Stopping | Indicates that the virtual machine is being stopped from the Hypervisor standpoint.  |
 | Stopped | Indicates that the virtual machine is stopped from the Hypervisor standpoint.  Note that virtual machines in the stopped state still incur compute charges. |
 | Deallocating | Indicates that the virtual machine is being deallocated from the Hypervisor standpoint.  |
-| Deallocated | Indicates that the virtual machine is completely removed from the Hypervisor standpoint but still available in the control plane.  Virtual machines in the Deallocated state do not incur compute charges. |
+| Deallocated | Indicates that the virtual machine is removed from the Hypervisor standpoint but still available in the control plane.  Virtual machines in the Deallocated state do not incur compute charges. |
 | -- | Indicates that the power state of the virtual machine is unknown. |
 
  The following diagram represents that various transition states a virtual machine may be in during state changes.
@@ -60,7 +60,7 @@ The PowerState status is returned as part of the [Get information about a virtua
  
 The ProvisioningState status is returned as part of the [Get information about a virtual machine API](./virtualmachines/virtualmachines-get.md) model and instance view responses and represents the state of the virtual machine from the Azure Resource Manager’s standpoint (the management layer of the virtual machine). 
 
-In the virtual machine model view response, the ProvisioningState is returned in the format ProvisioningState: ***value***, where ***value*** can be one of the following:
+In the virtual machine model view response, the ProvisioningState is returned in the format ProvisioningState: ***value***, where ***value*** can be one of:
     
 | Provisioning State | Description |
 | --------- | ----------- |
