@@ -818,6 +818,7 @@
 ### [Renew-Lock for a Message](../docs-ref-conceptual/servicebus/renew-lock-for-a-message.md)
 ### [Request a Token from ACS](../docs-ref-conceptual/servicebus/request-a-token-from-acs.md)
 ## [Namespaces](servicebus/Namespaces.json)
+## [Operations](servicebus/Operations.json)
 ## [Queues](servicebus/Queues.json)
 ## [Subscriptions](servicebus/Subscriptions.json)
 ## [Topics](servicebus/Topics.json)
