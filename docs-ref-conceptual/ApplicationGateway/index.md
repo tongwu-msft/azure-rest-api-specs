@@ -37,7 +37,7 @@ Application Gateway is a Network Service which provides HTTP Load balancing as a
 | [List application gateways](list-application-gateways--get-.md) |  GET | Lists all application gateways. | 
 | [Start an application gateway](start-application-gateway.md) |  POST | Starts an application gateway. |  
 | [Stop an application gateway](stop-application-gateway.md) |  POST | Stops an application gateway. | 
-| [Get available rule sets (WAF)](application-gateway-get-waf-rules.md) GET | Gets a list of available WAF rule sets.|
+| [Get available rule sets (WAF)](application-gateway-get-waf-rules.md) |GET | Gets a list of available WAF rule sets.|
 
 ##  <a name="bk_common"></a> Common parameters and headers  
  The following information is common to all tasks:  
