@@ -453,8 +453,6 @@
 ## [Workspaces](loganalytics/Workspaces.json)
 ## [Workspaces 2015-03-20](loganalytics/Workspaces 2015-03-20.json)
 # [Logic Apps](../docs-ref-conceptual/logic/index.md)
-## [Actions and Triggers](../docs-ref-conceptual/logic/actions-and-triggers.md)
-## [Definition Language](../docs-ref-conceptual/logic/definition-language.md)
 ## [Agreements](logic/Agreements.json)
 ## [Certificates](logic/Certificates.json)
 ## [Integration Accounts](logic/IntegrationAccounts.json)
