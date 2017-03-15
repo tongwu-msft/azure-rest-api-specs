@@ -18,4 +18,4 @@ Load balancer allows fine-grained configuration of how incoming traffic is distr
 | [Delete a load balancer](delete-a-load-balancer.md)    |  DELETE | Deletes an existing Load balancer |  
 | [Get information about a load balancer ](get-information-about-a-load-balancer.md)    |  GET | Gets a Load balancer. | 
 | [List load balancers within a resource group](list-load-balancers-within-a-resource-group.md)   |  GET | Lists all Load balancers in a resource group. |  
-| [List load balancers within a subscription](list-load-balancers-within-a-subscription.md) |  DELETE | Lists all Load balancers in a subscription. |    
+| [List load balancers within a subscription](list-load-balancers-within-a-subscription.md) |  GET | Lists all Load balancers in a subscription. |    

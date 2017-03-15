@@ -15,6 +15,6 @@ Inbound NAT Rules control how inbound traffic coming to frontend IP (VIP) of the
 | Operation | REST Verb | Description | 
 |---------|---------|-----------|
 | [Create or update a load balancer inbound NAT rule](create-or-update-a-load-balancer-inbound-nat-rule.md)    |  PUT | Creates or updates a Load balancer inbound NAT rule. | 
-| [List inbound NAT rules of a load balancer](list-inbound-nat-rules-of-a-load-balancer.md)      |  DELETE | Lists all inbound NAT rules on a Load balancer. |  
+| [List inbound NAT rules of a load balancer](list-inbound-nat-rules-of-a-load-balancer.md)      |  GET | Lists all inbound NAT rules on a Load balancer. |  
 | [Get information about a load balancer inbound NAT rule](get-information-about-a-load-balancer-inbound-nat-rule.md)      |  GET | Gets an inbound NAT rule. | 
 | [Delete a load balancer inbound NAT rule](delete-a-load-balancer-inbound-nat-rule.md)   |  DELETE | Deletes an inbound NAT rule.|  
