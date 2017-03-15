@@ -25,18 +25,21 @@ translation.priority.mt:
   - zh-tw
 ---
 # Enabling and Configuring Storage Analytics
-This topic describes how to enable and configure Storage Analytics for a storage service.  
-  
-## Enabling Storage Analytics  
- To use Storage Analytics, you must enable it individually for each service you want to monitor. You can enable it in the [Azure portal](https://portal.azure.com/); for details, see [Monitor a storage account in the Azure portal](/azure/storage/storage-monitor-storage-account). You can also enable Storage Analytics programmatically via the REST API or the client library. Use the `Set Service Properties` operation for an individual service to enable Storage Analytics.  
+
+To use Storage Analytics, you must enable it for each of the storage services you want to monitor. Monitoring is enabled by default for all new storage accounts, and you can [enable and configure it in the Azure portal](/azure/storage/storage-monitor-storage-account). You can also enable Storage Analytics programmatically via the REST API or the client library. Use the `Set Service Properties` operation for an individual service to enable Storage Analytics.  
   
 > [!NOTE]
->  Storage Analytics metrics are available for the Blob, Queue, Table, and File services.  
+> Storage Analytics metrics are available for the Blob, Queue, Table, and File services.  
 >   
->  Storage Analytics logging is available for the Blob, Queue, and Table services.  
+> Storage Analytics logging is available for the Blob, Queue, and Table services.
+>
   
- The following example will enable Storage Analytics for the Table service of a fictional account named *myaccount*.  
-  
+ The following example enables Storage Analytics for the Table service of a fictional account named *myaccount*.  
+
+> [!IMPORTANT]
+> Although hourly metrics are enabled by default for new storage accounts, minute metrics must be enabled programmatically. You can also use [PowerShell](/powershell/storage/azure.storage/v2.5.0/set-azurestorageservicemetricsproperty) and the [Azure CLI 2.0](/cli/azure/storage/metrics#update) to enable minute metrics.
+>
+
 1.  Configure your request URI and headers to match the following examples. The HTTP method is PUT, and you must apply an authentication scheme to sign the request. For more information about signing your request, see [Authentication for the Azure Storage Services](../fileservices/Authentication-for-the-Azure-Storage-Services.md).  
   
     ```  
@@ -48,7 +51,7 @@ This topic describes how to enable and configure Storage Analytics for a storage
     Host: myaccount.table.core.windows.net  
     ```  
   
-2.  Your request also needs a request body, consisting of XML that the storage service will process and use to configure Storage Analytics. The following example enables logging for delete and write requests and sets a retention policy of 7 days. It also enables metrics, excludes API-level summary statistics, and sets a retention policy of 7 days.  
+2.  Your request also needs a request body, consisting of XML that the storage service will process and use to configure Storage Analytics. The following example enables logging for delete and write requests and sets a log retention policy of 7 days. It also enables hourly and minute metrics, excludes API-level summary statistics, and sets a metrics data retention policy of 7 days.  
   
     ```xml  
     <?xml version="1.0" encoding="utf-8"?>  
@@ -81,10 +84,10 @@ This topic describes how to enable and configure Storage Analytics for a storage
                 <Days>7</Days>  
             </RetentionPolicy>  
         </MinuteMetrics>  
-    …  
+    ...
     </StorageServiceProperties>  
-    ```  
-  
+    ```
+
 3.  When this request is sent, it will receive a response that will indicate whether or not Storage Analytics was configured. If the response has an HTTP status code of 202 (Accepted), your Storage Analytics settings have been updated. The following example response indicates that our settings were updated:  
   
     ```  
@@ -95,7 +98,6 @@ This topic describes how to enable and configure Storage Analytics for a storage
     Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0  
     x-ms-request-id: cb939a31-0cc6-49bb-9fe5-3327691f2a30  
     x-ms-version: 2013-08-15  
-  
     ```  
   
  After you have enabled Storage Analytics with your initial configuration, you can always get your current settings by calling the [Get Blob Service Properties](../fileservices/Get-Blob-Service-Properties.md), [Get Table Service Properties](../fileservices/Get-Table-Service-Properties.md), or [Get Queue Service Properties](../fileservices/Get-Queue-Service-Properties.md) operation.  
