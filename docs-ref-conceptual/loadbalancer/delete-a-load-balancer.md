@@ -1,40 +1,32 @@
 ---
-title: "Delete a load balancer"
-ms.custom: ""
-ms.date: "2016-07-14"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 13fa1ab3-e20f-4d43-aca8-4999eb2221cc
-caps.latest.revision: 8
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Delete a load balancer
+ms.date: 03/15/2017
+ms.service: load-balancer
+ms.topic: reference
+ms.devlang: rest-api
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # Delete a load balancer
+
+This operations deletes a load balancer.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](load-balancer.md#bk_common) for headers and parameters that are used by all requests related to load balancers  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version={api-version}`|  
   
- Replace {load-balancer-name} with the name of the load balancer you want deleted.  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Load balancer exists. |
+| resourceGroup | The name of the resource group that contains the Load balancer. |
+| loadBalancerName | The name of the Load balancer that contains the inbound NAT rule. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  **Status code:**  
   
