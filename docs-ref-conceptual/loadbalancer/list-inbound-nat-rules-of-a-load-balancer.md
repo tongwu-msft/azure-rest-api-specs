@@ -1,39 +1,44 @@
 ---
-title: "List inbound NAT rules of a load balancer"
-ms.custom: ""
-ms.date: "2016-07-14"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "article"
-ms.assetid: 76059820-5f15-4237-9030-b4e037292a77
-caps.latest.revision: 6
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
+title: List inbound NAT rules of a load balancer
+ms.date: 03/15/2017
+ms.service: load-balancer
+ms.topic: reference
+ms.devlang: rest-api
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # List inbound NAT rules of a load balancer
+
+This operation lists all inbound NAT rules of a load balancer.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](load-balancer.md#bk_common) for headers and parameters that are used by all requests related to load balancer inbound NAT rules.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}/inboundNatRules?api-version={api-version}`|  
-  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Load balancer exists. |
+| resourceGroup | The name of the resource group that contains the Load balancer. |
+| loadBalancerName | The name of the Load balancer. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  **Status code:** Returns status code 200 - OK, or 201 - Created.  
   
 ```json  
 {  
     "name": "{rule-name}",  
-    "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/inboundNatRules/{rule-name}",  
+    "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/inboundNatRules/{rule-name}",  
     “etag”: “W/\”00000000-0000-0000-0000-000000000000\”“,  
     "properties": {   
         "provisioningState": “Updating|Deleting|Failed|Succeeded”,  
-        "frontendIPConfiguration": { "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/frontendIPConfigurations/ip1"},  
-        "backendIPConfiguration": { "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"},  
+        "frontendIPConfiguration": { "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/frontendIPConfigurations/ip1"},  
+        "backendIPConfiguration": { "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"},  
         "protocol": "Tcp",  
         "frontendPort": 3389,  
         "backendPort": 3389  

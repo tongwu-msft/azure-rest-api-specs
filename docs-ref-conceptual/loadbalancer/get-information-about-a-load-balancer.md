@@ -1,77 +1,68 @@
 ---
-title: "Get information about a load balancer&#160;"
-ms.custom: ""
-ms.date: "2016-07-14"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: a41be187-2d03-457e-8eff-bf1fd8fabe93
-caps.latest.revision: 15
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Get information about a load balancer
+ms.date: 03/15/2017
+ms.service: load-balancer
+ms.topic: reference
+ms.devlang: rest-api
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
-# Get information about a load balancer&#160;
+# Get information about a load balancer
+
+This operations gets a load balancer.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 ## Request  
- See [Common parameters and headers](load-balancer.md#bk_common) for headers and parameters that are used by all requests related to load balancers.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version={api-version}`|  
   
- Replace {load-balancer-name} with the name of the load balancer whose information you want.  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Load balancer exists. |
+| resourceGroup | The name of the resource group that contains the Load balancer. |
+| loadBalancerName | The name of the Load balancer. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  **Status code:** 200; otherwise a 404 will be returned.  
   
 ```json  
 {   
    "name":"mylb1",  
-   "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1",  
+   "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1",  
    "location":"North US",  
    "tags":{   
       "key":"value"  
    },  
    "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
    "properties":{  
-      "resourceGuid":"6ECBD4C1-0DC1-4D86-9F6E-4A58F83C9023",   
+      "resourcesubscriptionId":"6ECBD4C1-0DC1-4D86-9F6E-4A58F83C9023",   
       "provisioningState":"Succeeded",  
       "frontendIPConfigurations":{   
          "name":"myip1",  
-         "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/frontendIPConfigurations/myip1",  
+         "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/frontendIPConfigurations/myip1",  
          "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
          "properties":{   
             "provisioningState":"Succeeded",  
             "subnet":{   
-               "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysubnet1"  
+               "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysubnet1"  
             },  
             "privateIPAddress":"10.0.0.10",  
             "privateIPAllocationMethod":"Static",  
             "publicIPAddress":{   
-               "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/myip1"  
+               "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/myip1"  
             },  
             "loadBalancingRules":[   
                {   
-                  "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/loadBalancingRules/rule1"  
+                  "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/loadBalancingRules/rule1"  
                }  
             ],  
             "inboundNatRules":[   
                {   
-                  "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/inboundNatRules/rule1"  
+                  "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/inboundNatRules/rule1"  
                }  
             ]  
          }  
@@ -79,18 +70,18 @@ translation.priority.mt:
       "backendAddressPools":[   
          {   
             "name":"pool1",  
-            "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/backendAddressPools/pool1",  
+            "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/backendAddressPools/pool1",  
             "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
             "properties":{   
                "provisioningState":"Succeeded",   
                "backendIPConfigurations":[   
                   {   
-                     "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"  
+                     "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"  
                   }  
                ],  
                "loadBalancingRules":[   
                   {   
-                     "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/loadBalancingRules/rule1"  
+                     "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/loadBalancingRules/rule1"  
                   }  
                ]  
             }  
@@ -99,21 +90,21 @@ translation.priority.mt:
       "loadBalancingRules":[   
          {   
             "name":"HTTP Traffic",  
-            "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/loadBalancingRules/rule1",  
+            "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/loadBalancingRules/rule1",  
             "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
             "properties":{   
                "provisioningState":"Succeeded",  
                "frontendIPConfiguration":{   
-                  "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/frontendIPConfigurations/ip1"  
+                  "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/frontendIPConfigurations/ip1"  
                },  
                "backendAddressPool":{   
-                  "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/backendAddressPool/pool1"  
+                  "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/backendAddressPool/pool1"  
                },  
                "protocol":"Tcp",  
                "frontendPort":80,  
                "backendPort":8080,  
                "probe":{   
-                  "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/probes/probe1"  
+                  "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/probes/probe1"  
                },  
                "enableFloatingIP":true,  
                "idleTimeoutInMinutes":4,  
@@ -124,7 +115,7 @@ translation.priority.mt:
       "probes":[   
          {   
             "name":"my probe 1",  
-            "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/probes/my probe 1",  
+            "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/probes/my probe 1",  
             "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
             "properties":{   
                "provisioningState":"Succeeded",  
@@ -135,7 +126,7 @@ translation.priority.mt:
                "numberOfProbes":16,  
                "loadBalancingRules":[   
                   {   
-                     "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/loadBalancingRules/rule1"  
+                     "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/loadBalancingRules/rule1"  
                   }  
                ],  
   
@@ -145,15 +136,15 @@ translation.priority.mt:
       "inboundNatRules":[   
          {   
             "name":"RDP Traffic",  
-            "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/inboundNatRules/RDP Traffic",  
+            "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/inboundNatRules/RDP Traffic",  
             "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
             "properties":{   
                "provisioningState":"Succeeded",  
                "frontendIPConfiguration":{   
-                  "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/frontendIPConfigurations/ip1"  
+                  "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/frontendIPConfigurations/ip1"  
                },  
                "backendIPConfiguration":{   
-                  "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"  
+                  "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"  
                },  
                "protocol":"Tcp",  
                "frontendPort":3389,  
@@ -164,12 +155,12 @@ translation.priority.mt:
       "inboundNatPools":[  
          {  
             "name": "RDPForVMSS1",  
-            "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers /Microsoft.Network/loadBalancers/myLB1/inboundNatRules/RDPForVMSS1",  
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers /Microsoft.Network/loadBalancers/myLB1/inboundNatRules/RDPForVMSS1",  
             "etag": "W/\"00000000-0000-0000-0000-000000000000\"",  
             "properties": {   
                "provisioningState": "Updating|Deleting|Failed|Succeeded",      
                "frontendIPConfiguration": {   
-                  "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/frontendIPConfigurations/ip1"  
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/myLB1/frontendIPConfigurations/ip1"  
                },  
                "protocol": "Tcp",  
                "frontendPortRangeStart": 50000,  
@@ -190,7 +181,7 @@ translation.priority.mt:
 |location|Specifies the supported Azure location of the Load Balancer. For more information, see List all of the available geo-locations|  
 |tags|The tags and their values that are used by the Load Balancer.|  
 |etag|System generated meta-data enabling concurrency control|  
-|resourceGuid|System generated unique identifier used for internal correlation and logging purpose by the platform|  
+|resourcesubscriptionId|System generated unique identifier used for internal correlation and logging purpose by the platform|  
 |provisioningState|Provisioning state of the Load Balancer|  
 |frontendIPConfigurations.name|User-defined name of the Frontend IP configuration.|  
 |frontendIPConfigurations.id|The identifying URL of the Frontend IP Configuration|  
