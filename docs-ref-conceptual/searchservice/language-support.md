@@ -131,4 +131,4 @@ See [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) for 
 
 ## See Also  
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  
- [AnalyzerName Class](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.search.models.analyzername)  
+ [AnalyzerName Class](https://docs.microsoft.com/dotnet/api/microsoft.azure.search.models.analyzername)  
