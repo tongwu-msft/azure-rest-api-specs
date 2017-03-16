@@ -27,7 +27,7 @@ translation.priority.mt:
 # Storage Analytics
 Azure Storage Analytics performs logging and provides metrics data for a storage account. You can use this data to trace requests, analyze usage trends, and diagnose issues with your storage account.  
   
- Storage Analytics is enabled by default for new storage accounts. You can configure it in the [Azure portal](https://portal.azure.com/); for details, see [Monitor a storage account in the Azure portal](/azure/storage/storage-monitor-storage-account). You can also enable Storage Analytics programmatically via the REST API or the client library. Use the `Set Service Properties` operation to enable Storage Analytics individually for each service.  
+ Storage Analytics metrics are enabled by default for new storage accounts. You can enable logging and configure both metrics and logging in the [Azure portal](https://portal.azure.com/); for details, see [Monitor a storage account in the Azure portal](/azure/storage/storage-monitor-storage-account). You can also enable Storage Analytics programmatically via the REST API or the client library. Use the `Set Service Properties` operation to enable Storage Analytics individually for each service.  
   
 > [!NOTE]
 >  Storage Analytics metrics are available for the Blob, Queue, Table, and File services.  
