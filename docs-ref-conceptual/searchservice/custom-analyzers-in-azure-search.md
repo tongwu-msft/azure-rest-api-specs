@@ -1,7 +1,7 @@
 ---
 title: "Custom analyzers in Azure Search | Microsoft docs"
 ms.custom: ""
-ms.date: "2016-11-22"
+ms.date: "2017-03-16"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -36,7 +36,7 @@ translation.priority.mt:
 
  The role of a full-text search engine, in simple terms, is to process and store documents in a way that enables efficient querying and retrieval. At a high level, it all comes down to extracting important words from documents, putting them in an index, and then using the index to find documents that match words of a given query. The process of extracting words from documents and search queries is called lexical analysis. Components that perform lexical analysis are called analyzers.
 
- In Azure Search you can choose from a set of predefined language agnostic analyzers in the [Analyzers](#AnalyzerTable) table and language specific analyzers listed in [Language support &#40;Azure Search Service REST API&#41;](language-support.md). You also have an option to define your own custom analyzers.  
+ In Azure Search you can choose from a set of predefined language agnostic analyzers in the [Analyzers](#AnalyzerTable) table and language specific analyzers listed in [Language analyzers &#40;Azure Search Service REST API&#41;](language-support.md). You also have an option to define your own custom analyzers.  
 
  A custom analyzer allows you to take control over the process of converting text into indexable and searchable tokens. It’s a user-defined configuration consisting of a single predefined tokenizer, one or more token filters, and one or more char filters. The tokenizer is responsible for breaking text into tokens, and the token filters for modifying tokens emitted by the tokenizer. Char filters are applied for to prepare input text before it is processed by the tokenizer. For instance, char filter can replace certain characters or symbols.
 
@@ -150,7 +150,7 @@ Definitions for char filters, tokenizers, and token filters are added to the ind
 <a name="Testing custom analyzers"></a>
 ## Test a custom analyzer
 
-You can use the [Analyze API](https://azure.microsoft.com/documentation/articles/search-api-2016-09-01/) to see how an analyzer breaks given text into tokens.
+You can use the **Test Analyzer operation** in the [Preview REST API](https://docs.microsoft.com/azure/search/search-api-2015-02-28-preview) to see how an analyzer breaks given text into tokens.
 
 **Request**
 ~~~~

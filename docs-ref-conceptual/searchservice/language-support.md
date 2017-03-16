@@ -1,7 +1,7 @@
 ---
-title: "Language support (Azure Search Service REST API)"
+title: "Language analyzers (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-03-16"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Language support (Azure Search Service REST API)
+# Language analyzers (Azure Search Service REST API)
   Are you new to search technologies and custom analyzers in particular?  [Learn how custom analyzers add value to search applications](https://azure.microsoft.com/blog/language-support-in-azure-search).  
 
 ## Introduction  
@@ -131,4 +131,4 @@ See [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) for 
 
 ## See Also  
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  
- [AnalyzerName Class](https://msdn.microsoft.com/library/microsoft.azure.search.models.analyzername.aspx)  
+ [AnalyzerName Class](https://docs.microsoft.com/dotnet/api/microsoft.azure.search.models.analyzername)  
