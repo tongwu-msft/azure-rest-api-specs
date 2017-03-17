@@ -1,0 +1,646 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-07-12-preview",
+    "title": "AdvisorManagementClient",
+    "description": "REST APIs for Azure Advisor"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}": {
+      "get": {
+        "tags": [
+          "Suppressions"
+        ],
+        "description": "Obtains the details of a suppression.",
+        "operationId": "Suppressions_Get",
+        "parameters": [
+          {
+            "name": "resourceUri",
+            "in": "path",
+            "description": "The fully qualified Azure Resource Manager identifier of the resource to which the recommendation applies.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "recommendationId",
+            "in": "path",
+            "description": "The recommendation ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the suppression.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/apiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "schema": {
+              "$ref": "#/definitions/SuppressionContract"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-examples": {
+          "GetSuppressionDetail": {
+            "$ref": "#/definitions/GetSuppressionDetail"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Suppressions"
+        ],
+        "description": "Enables the snoozed or dismissed attribute of a recommendation. The snoozed or dismissed attribute is referred to as a suppression. Use this API to create or update the snoozed or dismissed status of a recommendation.",
+        "operationId": "Suppressions_Create",
+        "parameters": [
+          {
+            "name": "resourceUri",
+            "in": "path",
+            "description": "The fully qualified Azure Resource Manager identifier of the resource to which the recommendation applies.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "recommendationId",
+            "in": "path",
+            "description": "The recommendation ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the suppression.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "suppressionContract",
+            "in": "body",
+            "description": "The snoozed or dismissed attribute; for example, the snooze duration.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SuppressionContract"
+            }
+          },
+          {
+            "$ref": "#/parameters/apiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "schema": {
+              "$ref": "#/definitions/SuppressionContract"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-examples": {
+          "CreateSuppression": {
+            "$ref": "#/definitions/CreateSuppression"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Suppressions"
+        ],
+        "description": "Enables the activation of a snoozed or dismissed recommendation. The snoozed or dismissed attribute of a recommendation is referred to as a suppression.",
+        "operationId": "Suppressions_Delete",
+        "parameters": [
+          {
+            "name": "resourceUri",
+            "in": "path",
+            "description": "The fully qualified Azure Resource Manager identifier of the resource to which the recommendation applies.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "recommendationId",
+            "in": "path",
+            "description": "The recommendation ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the suppression.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/apiVersionParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The recommendation has been activated."
+          }
+        },
+        "deprecated": false,
+        "x-ms-examples": {
+          "DeleteSuppression": {
+            "$ref": "#/definitions/DeleteSuppression"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/suppressions": {
+      "get": {
+        "tags": [
+          "Suppressions"
+        ],
+        "description": "Retrieves the list of snoozed or dismissed suppressions for a subscription. The snoozed or dismissed attribute of a recommendation is referred to as a suppression.",
+        "operationId": "Suppressions_List",
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/apiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SuppressionContract"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-examples": {
+          "ListSuppressions": {
+            "$ref": "#/definitions/ListSuppressions"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ResourceRecommendationBaseListResult": {
+      "description": "The list of Advisor recommendations.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of recommendations.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of recommendations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResourceRecommendationBase"
+          }
+        }
+      }
+    },
+    "ResourceRecommendationBase": {
+      "description": "Advisor Recommendation.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The fully qualified recommendation ID, for example /subscriptions/subscriptionId/resourceGroups/resourceGroup1/providers/Microsoft.ClassicCompute/virtualMachines/vm1/providers/Microsoft.Advisor/recommendations/recommendationGUID.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of recommendation.",
+          "type": "string"
+        },
+        "properties": {
+          "$ref": "#/definitions/RecommendationProperties",
+          "description": "The properties of the recommendation.",
+          "x-ms-client-flatten": true
+        },
+        "suppressionIds": {
+          "description": "The list of snoozed and dismissed rules for the recommendation.",
+          "type": "array",
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "type": {
+          "description": "The recommendation type: Microsoft.Advisor/recommendations.",
+          "type": "string"
+        }
+      }
+    },
+    "RecommendationProperties": {
+      "description": "The properties of the recommendation.",
+      "type": "object",
+      "properties": {
+        "category": {
+          "description": "The category of the recommendation.",
+          "enum": [
+            "HighAvailability",
+            "Security",
+            "Performance",
+            "Cost"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "category",
+            "modelAsString": true
+          }
+        },
+        "impact": {
+          "description": "The business impact of the recommendation.",
+          "enum": [
+            "High",
+            "Medium",
+            "Low"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "impact",
+            "modelAsString": true
+          }
+        },
+        "impactedField": {
+          "description": "The resource type identified by Advisor.",
+          "type": "string"
+        },
+        "impactedValue": {
+          "description": "The resource identified by Advisor.",
+          "type": "string"
+        },
+        "lastUpdated": {
+          "format": "date-time",
+          "description": "The most recent time that Advisor checked the validity of the recommendation.",
+          "type": "string"
+        },
+        "metadata": {
+          "description": "The recommendation metadata.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "recommendationTypeId": {
+          "description": "The recommendation-type GUID.",
+          "type": "string"
+        },
+        "risk": {
+          "description": "The potential risk of not implementing the recommendation.",
+          "enum": [
+            "Error",
+            "Warning",
+            "None"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "risk",
+            "modelAsString": true
+          }
+        },
+        "shortDescription": {
+          "$ref": "#/definitions/ShortDescription",
+          "description": "A summary of the recommendation."
+        }
+      }
+    },
+    "Resource": {
+      "description": "An Azure resource.",
+      "properties": {
+        "id": {
+          "description": "The resource ID.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "The name of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "The type of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "description": "The location of the resource. This cannot be changed after the resource is created.",
+          "type": "string"
+        },
+        "tags": {
+          "description": "The tags of the resource.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "ShortDescription": {
+      "description": "A summary of the recommendation.",
+      "type": "object",
+      "properties": {
+        "problem": {
+          "description": "The issue or opportunity identified by the recommendation.",
+          "type": "string"
+        },
+        "solution": {
+          "description": "The remediation action suggested by the recommendation.",
+          "type": "string"
+        }
+      }
+    },
+    "OperationEntityListResult": {
+      "description": "The list of Advisor operations.",
+      "type": "object",
+      "properties": {
+        "nextLink": {
+          "description": "The link used to get the next page of operations.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The list of operations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationEntity"
+          }
+        }
+      }
+    },
+    "OperationEntity": {
+      "description": "The operation supported by Advisor.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Operation name: {provider}/{resource}/{operation}.",
+          "type": "string"
+        },
+        "display": {
+          "$ref": "#/definitions/OperationDisplayInfo",
+          "description": "The operation supported by Advisor."
+        }
+      }
+    },
+    "OperationDisplayInfo": {
+      "description": "The operation supported by Advisor.",
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "The description of the operation.",
+          "type": "string"
+        },
+        "operation": {
+          "description": "The action that users can perform, based on their permission level.",
+          "type": "string"
+        },
+        "provider": {
+          "description": "Service provider: Microsoft Advisor.",
+          "type": "string"
+        },
+        "resource": {
+          "description": "Resource on which the operation is performed.",
+          "type": "string"
+        }
+      }
+    },
+    "SuppressionContract": {
+      "description": "The details of the snoozed or dismissed rule; for example, the duration, name, and GUID associated with the rule.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "suppressionId": {
+          "description": "The GUID of the suppression.",
+          "type": "string"
+        },
+        "ttl": {
+          "description": "The duration for which the suppression is valid.",
+          "type": "string"
+        }
+      }
+    },
+    "GenerateRecommendations": {
+      "parameters": {
+        "subscriptionId": "subscriptionId",
+        "api-version": "2016-07-12-preview"
+      },
+      "responses": {
+        "202": {
+          "headers": {
+            "Location": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Microsoft.Advisor/generateRecommendations/recGUID?api-version=2016-07-12-preview",
+            "Retry-After": "60"
+          }
+        }
+      }
+    },
+    "PollGenerateRecommendationsStatus": {
+      "parameters": {
+        "subscriptionId": "subscriptionId",
+        "operationId": "operationGUID",
+        "api-version": "2016-07-12-preview"
+      },
+      "responses": {
+        "202": {},
+        "204": {}
+      }
+    },
+    "ListRecommendations": {
+      "parameters": {
+        "subscriptionId": "subscriptionId",
+        "$top": 10,
+        "api-version": "2016-07-12-preview"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "nextLink": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/recommendations?api-version=2016-07-12-preview&$top=10&$skiptoken=skiptoken",
+            "value": [
+              {
+                "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recGUID",
+                "name": "recGUID",
+                "properties": {
+                  "category": "HighAvailability",
+                  "impact": "Medium",
+                  "impactedField": "Microsoft.Compute/availabilitySets",
+                  "impactedValue": "armavset",
+                  "lastUpdated": "2017-02-24T22:24:43.3216408Z",
+                  "risk": "Warning",
+                  "shortDescription": {
+                    "problem": "This availability set is not configured for fault tolerance",
+                    "solution": "To ensure high availability add one or more virtual machines to this availability set"
+                  }
+                },
+                "type": "Microsoft.Advisor/recommendations"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "GetSuppressionDetail": {
+      "parameters": {
+        "resourceUri": "resourceUri",
+        "recommendationId": "recommendationId",
+        "name": "suppressionName1",
+        "api-version": "2016-07-12-preview"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
+            "suppressionId": "suppressionId1",
+            "name": "suppressionName1",
+            "type": "Microsoft.Advisor/suppressions",
+            "ttl": "7.00:00:00"
+          }
+        }
+      }
+    },
+    "CreateSuppression": {
+      "parameters": {
+        "resourceUri": "resourceUri",
+        "recommendationId": "recommendationId",
+        "name": "suppressionName1",
+        "suppressionContract": {
+          "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
+          "name": "suppressionName1",
+          "type": "Microsoft.Advisor/suppressions",
+          "ttl": "07:00:00:00"
+        },
+        "api-version": "2016-07-12-preview"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
+            "suppressionId": "suppresionId",
+            "name": "suppressionName1",
+            "type": "Microsoft.Advisor/suppressions",
+            "ttl": "07:00:00:00"
+          }
+        }
+      }
+    },
+    "DeleteSuppression": {
+      "parameters": {
+        "resourceUri": "resourceUri",
+        "recommendationId": "recommendationId",
+        "name": "suppressionName1",
+        "api-version": "2016-07-12-preview"
+      },
+      "responses": {
+        "204": {}
+      }
+    },
+    "GetRecommendationDetail": {
+      "parameters": {
+        "resourceUri": "resourceUri",
+        "recommendationId": "recommendationId",
+        "api-version": "2016-07-12-preview"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId",
+            "name": "recommendationId",
+            "properties": {
+              "category": "HighAvailability",
+              "impact": "Medium",
+              "impactedField": "Microsoft.Compute/availabilitySets",
+              "impactedValue": "armavset",
+              "lastUpdated": "2017-02-24T22:24:43.3216408Z",
+              "risk": "Warning",
+              "shortDescription": {
+                "problem": "This availability set is not configured for fault tolerance",
+                "solution": "To ensure high availability add one or more virtual machines to this availability set"
+              }
+            },
+            "type": "Microsoft.Advisor/recommendations"
+          }
+        }
+      }
+    },
+    "ListSuppressions": {
+      "parameters": {
+        "subscriptionId": "subscriptionId1",
+        "api-version": "2016-07-12-preview"
+      },
+      "responses": {
+        "200": {
+          "body": [
+            {
+              "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
+              "suppressionId": "suppressionId1",
+              "name": "suppressionName1",
+              "type": "Microsoft.Advisor/suppressions",
+              "ttl": "7.00:00:00"
+            },
+            {
+              "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName2",
+              "suppressionId": "suppressionId2",
+              "name": "suppressionName2",
+              "type": "Microsoft.Advisor/suppressions",
+              "ttl": "7.00:00:00"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "parameters": {
+    "subscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "The Azure subscription ID.",
+      "required": true,
+      "type": "string"
+    },
+    "apiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "description": "The version of the API to be used with the client request.",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ]
+}
