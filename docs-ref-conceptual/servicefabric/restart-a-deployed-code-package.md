@@ -1,7 +1,7 @@
 ---
 title: "Restart a deployed code package"
 ms.custom: ""
-ms.date: "2017-02-03"
+ms.date: "2017-03-16"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-fabric"
@@ -42,6 +42,21 @@ Restarts a code package deployed on a node in a cluster. This aborts the code pa
 |Method|Request URI|  
 |------------|-----------------|  
 |POST|`<URI>/Nodes/{node-name}/$/GetApplication/{Application-name}/$/GetCodePackages/$/Restart?api-version={api-version}`|  
+```
+{
+  "ServiceManifestName" : "SP1",
+  "CodePackageName" : "CP1",
+  "CodePackageInstanceId" : "131315916073905279"
+}
+```
+
+|Element name|Description|
+|------------|-----------------|
+|ServiceManifestName|The service manifest name.|
+|CodePackageName|The name of the code package to target|
+|CodePackageInstanceId|The instance id of the code package to target.|
+
+The required information above can be found from a deployed code package query.  See [Get a list of code packages](get-a-list-of-code-packages.md).
   
 ## Response  
  A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).
