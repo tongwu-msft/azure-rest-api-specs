@@ -1,2 +1,0 @@
-# [Workflow definition language](https://docs.microsoft.com/azure/logic-apps/logic-apps-workflow-definition-language)
-# [Workflow actions and triggers](https://docs.microsoft.com/azure/logic-apps/logic-apps-workflow-actions-triggers)
