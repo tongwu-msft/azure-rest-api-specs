@@ -1,7 +1,7 @@
 ---
 title: "Stop a node"
 ms.custom: ""
-ms.date: "2017-02-03"
+ms.date: "2017-03-16"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-fabric"
@@ -37,11 +37,32 @@ translation.priority.mt:
 Stops a Service Fabric cluster node that is in a started state. The node will stay down until [Start a node](start-a-node.md) is called.  
   
 ## Request  
- See [Cluster](cluster.md) for headers and parameters that are used by all requests related to the cluster  
+See [Cluster](cluster.md) for headers and parameters that are used by all requests related to the cluster  
   
 |Method|Request URI|  
 |------------|-----------------|  
 |POST|`<URI>/Nodes/{node-name}/$/Stop?api-version={api-version}`|  
+
+```
+{
+    "NodeInstanceId":"12345"
+}
+```
+
+|Element name|Required|Type|Description|
+|------------|-----------------|------------|-----------------|  
+|NodeInstanceId|Yes|String|The node instance id of the target node.  Find the instance id by doing a node query (see [Get a list of nodes](get-a-list-of-nodes.md).  A value of “0” may be used if you do not care about a specific instance.|
   
 ## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).
+A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).
+
+Here is an example of the error if the incorrect instance id is used:
+
+```
+{
+    "Error": {
+        "Code": "FABRIC_E_INSTANCE_ID_MISMATCH",
+        "Message": "The provided InstanceId did not match."
+    }
+}
+```
