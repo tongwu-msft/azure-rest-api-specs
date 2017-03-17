@@ -453,8 +453,6 @@
 ## [Workspaces](loganalytics/Workspaces.json)
 ## [Workspaces 2015-03-20](loganalytics/Workspaces 2015-03-20.json)
 # [Logic Apps](../docs-ref-conceptual/logic/index.md)
-## [Workflow definition language](https://docs.microsoft.com/azure/logic-apps/logic-apps-workflow-definition-language)
-## [Workflow actions and triggers](https://docs.microsoft.com/azure/logic-apps/logic-apps-workflow-actions-triggers)
 ## [Agreements](logic/Agreements.json)
 ## [Certificates](logic/Certificates.json)
 ## [Integration Accounts](logic/IntegrationAccounts.json)
