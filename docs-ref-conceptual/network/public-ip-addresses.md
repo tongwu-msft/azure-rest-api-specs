@@ -1,29 +1,12 @@
 ---
 title: "Public IP Addresses"
-ms.custom: ""
-ms.date: "2016-07-07"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: a4180f72-6387-413d-b217-189189bc7f37
-caps.latest.revision: 9
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: georgewallace
+ms.author: gwallace
+ms.manager: timlt
 ---
 # Public IP Addresses
 Public IP addresses can be used to acquire a static or dynamic public IP address. Public IP addresses can be used to publish your applications for access over the Internet. A static public IP address gets its value when the public IP address resource is created, and it keeps its value even if it is not associated with a running VM. Static public IP addresses are guaranteed to retain the same IP when that public IP address is transferred across load balancers or network interface cards. A dynamic public IP address gets its value when it is associated with a VM, and it loses its value in certain scenarios. For example, a dynamic public IP address will change its value when it is disassociated from one VM and assigned to another VM.  

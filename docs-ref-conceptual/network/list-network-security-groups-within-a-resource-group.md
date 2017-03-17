@@ -1,29 +1,12 @@
 ---
 title: "List network security groups within a resource group"
-ms.custom: ""
-ms.date: "2016-04-27"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 6e61ed8a-3227-4153-a78e-0bb0f76247e3
-caps.latest.revision: 10
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: georgewallace
+ms.author: gwallace
+ms.manager: timlt
 ---
 # List network security groups within a resource group
 ## Request  

@@ -1,40 +1,33 @@
 ---
-title: "Create or update a network security rule"
-ms.custom: ""
-ms.date: "2015-11-04"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: b6434400-0ff4-48f9-bae3-4f0676ae1ac0
-caps.latest.revision: 10
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Create or update a network security rule
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: georgewallace
+ms.author: gwallace
+ms.manager: timlt
 ---
 # Create or update a network security rule
+
+This operation creates or updates an a network security rule.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](network-security-rules.md#bk_common) for headers and parameters that are used by all requests related to network security rules.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/networkSecurityGroups/{network-security-group-name}/securityRules/{security-rule-name}?api-version={api-version}`|  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}?api-version={api-version}`|  
   
- Replace {network-security-group-name} and {security-rule-name} with the name of the network security rule which you want to create or update.  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the network security group exists. |
+| resourceGroup | The name of the resource group that contains the network security group. |
+| networkSecurityGroupName | The name of the network security group. |
+| securityRuleName | The name of the network security rule. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ```json  
   
 {   

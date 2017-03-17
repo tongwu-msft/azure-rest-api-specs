@@ -1,29 +1,12 @@
 ---
 title: "Network Interface Cards"
-ms.custom: ""
-ms.date: "2016-07-07"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 317eec5b-0a28-4a21-b068-a0f452a30711
-caps.latest.revision: 11
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: georgewallace
+ms.author: gwallace
+ms.manager: timlt
 ---
 # Network Interface Cards
 Network interface cards are virtual network cards that form the link between virtual machines and the virtual network. Each VM has at least 1 network interface card. Multiple subnets can be bound to the same network interface card and can have 1 or more IP addresses bound to it. Network interface cards must be associated with a public IP address to be accessible over the Internet.  

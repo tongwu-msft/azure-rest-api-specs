@@ -1,40 +1,32 @@
 ---
-title: "Get information about a route table"
-ms.custom: ""
-ms.date: "2016-04-29"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 73209d73-1fb2-41bd-aaf7-7d951aede4a6
-caps.latest.revision: 12
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Get information about a route table
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: georgewallace
+ms.author: gwallace
+ms.manager: timlt
 ---
 # Get information about a route table
+
+This operations gets information about a route table.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](route-tables.md#bk_common) for headers and parameters that are used by all requests related to Route Tables.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/routeTables/{routeTableName}?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/routeTables/{routeTableName}?api-version={api-version}`|  
   
- Replace {routeTableName} with the name of the route table which you want to get information for.  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the route table exists. |
+| resourceGroup | The name of the resource group that contains the route table. |
+| routeTableName | The name of the route table. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  Returns status code 200 (OK), if the route table was found   
 Returns 404 if resource not found.  
@@ -42,7 +34,7 @@ Returns 404 if resource not found.
 ```json  
 {  
    "name": "myRouteTable",  
-   "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/myRouteTable",  
+   "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/myRouteTable",  
    "location": "North US",  
    "tags": { "key": "value" },  
    "etag": "W/\"00000000-0000-0000-0000-000000000000\"",  
@@ -51,7 +43,7 @@ Returns 404 if resource not found.
       "routes": [   
          {  
             "name": "myRoute",  
-            "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/myRouteTable/routes/myRoute",  
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/myRouteTable/routes/myRoute",  
             "etag": "W/\"00000000-0000-0000-0000-000000000000\"",  
             "properties": {   
                "provisioningState": "Updating|Deleting|Failed|Succeeded",  
@@ -63,7 +55,7 @@ Returns 404 if resource not found.
       ],  
       "subnets": [  
          {  
-            "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysubnet1"  
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysubnet1"  
          }  
       ]  
    }  

@@ -1,29 +1,12 @@
 ---
 title: "Virtual Networks"
-ms.custom: ""
-ms.date: "2017-02-15"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: bba929d8-8cb0-42fb-8804-05df47a7b912
-caps.latest.revision: 9
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: georgewallace
+ms.author: gwallace
+ms.manager: timlt
 ---
 # Virtual Networks
 A virtual network represents a computer network in which networking objects can be created. The virtual network reserves an address space and defines subnets in this address space. The DHCP options defined on a virtual network by default get applied to the NICs connected to this network.  

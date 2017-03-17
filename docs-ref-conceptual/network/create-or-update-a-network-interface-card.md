@@ -1,40 +1,33 @@
 ---
-title: "Create or update a network interface card"
-ms.custom: ""
-ms.date: "2016-07-07"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: e0c5e336-c419-40e9-8e40-fea2f6d13e53
-caps.latest.revision: 14
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Create or update a network interface card
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: georgewallace
+ms.author: gwallace
+ms.manager: timlt
 ---
 # Create or update a network interface card
+
+This operation creates or updates a network interface card.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](network-interface-cards.md#bk_common) for headers and parameters that are used by all requests related to network interface cards.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/networkInterfaces/{network-interface-name}?api-version={api-version}`|  
-  
- Replace {network-interface-name} with the name of the network interface card which you want to create or update.  
-  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the network interface exists. |
+| resourceGroup | The name of the resource group that contains the network interface card. |
+| networkInterfaceName | The name of the network interface card. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
+
 ```json  
 {    
    "location":"North US",  
@@ -43,29 +36,29 @@ translation.priority.mt:
    },  
    "properties":{    
       "networkSecurityGroup":{    
-         "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNSG1"  
+         "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNSG1"  
       },  
       "ipConfigurations":[    
          {    
             "name":"myip1",  
             "properties":{    
                "subnet":{    
-                  "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysub1"  
+                  "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysub1"  
                },  
                "privateIPAddress":"10.0.0.8",  
                "privateIPAllocationMethod":"Static",  
                "privateIPAddressVersion":"IPv4",                 
                "publicIPAddress":{    
-                  "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/mypip1"  
+                  "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/mypip1"  
                },  
                "loadBalancerBackendAddressPools":[    
                   {    
-                     "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/backendAddressPools/pool1"  
+                     "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/backendAddressPools/pool1"  
                   }  
                ],  
                "loadBalancerInboundNatRules":[    
                   {    
-                     "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/inboundNatRules/rule1"  
+                     "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/inboundNatRules/rule1"  
                   }  
                ]  
             }  
@@ -108,7 +101,7 @@ translation.priority.mt:
 ```json  
 {   
    "name":"mynic1",  
-   "id":"/subscriptions/{guid}/resourceGroups/myrg1/providers/Microsoft.Network/networkInterfaces/vm1mynic1",  
+   "id":"/subscriptions/{subscriptionId}/resourceGroups/myrg1/providers/Microsoft.Network/networkInterfaces/vm1mynic1",  
    "location":"North US",  
    "tags":{   
       "key":"value"  
@@ -116,42 +109,42 @@ translation.priority.mt:
    "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
    "type":"Microsoft.Network/NetworkInterfaces",  
    "properties":{   
-      "resourceGuid":"5ED47B81-9F1C-4ACE-97A5-7B8CE08C5002",  
+      "resourcesubscriptionId":"5ED47B81-9F1C-4ACE-97A5-7B8CE08C5002",  
       "provisioningState":"Succeeded",        
       "virtualMachine":{   
-         "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/vm1"  
+         "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/vm1"  
       },  
       "macAddress":"00-00-00-00-00-00",  
       "networkSecurityGroup":{   
-         "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNSG1"  
+         "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNSG1"  
       },  
       "ipConfigurations":[   
          {   
             "name":"myip1",  
-            "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1mynic1/ipConfigurations/myip1",  
+            "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1mynic1/ipConfigurations/myip1",  
             "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
             "properties":{   
                "provisioningState":"Succeeded",  
                "subnet":{   
-                  "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysub1"  
+                  "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysub1"  
                },  
                "privateIPAddress":"10.0.0.8",  
                "privateIPAllocationMethod":"Static",  
                "privateIPAddressVersion":"IPv4",  
                "publicIPAddress":{   
-                  "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/mypip1"  
+                  "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/mypip1"  
                },  
                "loadBalancerBackendAddressPools":[   
                   {   
-                     "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/backendAddressPools/pool1"  
+                     "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/backendAddressPools/pool1"  
                   }  
                ],  
                "loadBalancerInboundNatRules":[   
                   {   
-                     "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/inboundNatRules/rdp for myvm1"  
+                     "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/inboundNatRules/rdp for myvm1"  
                   },  
                   {   
-                     "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/inboundNatRules/powershell for myvm1"  
+                     "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/mylb1/inboundNatRules/powershell for myvm1"  
                   }  
                ]   
             }  
@@ -180,7 +173,7 @@ translation.priority.mt:
 |tags|The tags and their values that are used by the Network Interface Card.|  
 |etag|System generated meta-data enabling concurrency control|  
 |type|The type of the resource|  
-|resourceGuid|System generated unique identifier used for internal correlation and logging purpose by the platform|  
+|resourcesubscriptionId|System generated unique identifier used for internal correlation and logging purpose by the platform|  
 |provisioningState|Provisioning state of the Network Interface Card|  
 |virtualMachine|Reference to a VM with which this NIC has been associated|  
 |macAddress|The media access control (MAC) address of the network interface|  

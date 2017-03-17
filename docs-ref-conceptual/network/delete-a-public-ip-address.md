@@ -1,40 +1,33 @@
 ---
-title: "Delete a public IP address&#160;"
-ms.custom: ""
-ms.date: "2016-07-07"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 98679248-e853-4112-820a-778dff3a994f
-caps.latest.revision: 8
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Delete a public IP address
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: georgewallace
+ms.author: gwallace
+ms.manager: timlt
 ---
-# Delete a public IP address&#160;
+
+# Delete a public IP address
+
+This operations deletes a public IP address.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](public-ip-addresses.md#bk_common) for headers and parameters that are used by all requests related to public IP addresses.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/publicIPAddresses/{public-IP-address-name}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/publicIPAddresses/{publicIPAddressName}?api-version={api-version}`|  
   
- Replace {public-IP-address-name} with the name of the public IP address you want deleted.  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the public IP address exists. |
+| resourceGroup | The name of the resource group that contains the public IP address. |
+| publicIPAddressName | The name of the public IP address. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+ 
 ## Response  
  **Status code:**  
   
