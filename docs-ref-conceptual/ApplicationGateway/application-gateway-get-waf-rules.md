@@ -24,8 +24,6 @@ For information about getting started with Azure REST operations including reque
 |Method|Request URI|
 |------------|-----------------|
 |GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets?api-version={api-version}`|
-  
- Replace {ApplicationGatewayName} with the name of the application gateway to be created.  The application gateway name must be unique within the resource group and be in its own empty virtual network subnet.
 
 ## Request Body
 
