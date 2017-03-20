@@ -271,7 +271,7 @@
 ## [Schedule](DTL/Schedule.json)
 ## [Virtual Machine](DTL/VirtualMachine.json)
 ## [Virtual Network](DTL/VirtualNetwork.json)
-# [Event Hub](../docs-ref-conceptual/EventHub/index.md)
+# [Event Hubs](../docs-ref-conceptual/EventHub/index.md)
 ## [Event Hubs Runtime REST](../docs-ref-conceptual/EventHub/event-hubs-runtime-rest.md)
 ### [Publisher policy operations](../docs-ref-conceptual/EventHub/publisher-policy-operations.md)
 #### [Get revoked publishers](../docs-ref-conceptual/EventHub/get-revoked-publishers.md)
