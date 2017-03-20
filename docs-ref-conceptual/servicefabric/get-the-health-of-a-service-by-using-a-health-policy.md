@@ -43,9 +43,9 @@ Gets the health reports of a Service Fabric service, by using the specified heal
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|The following URI is used to get the health of a service:<br /><br /> `<URI>/Applications/{application-name}/$/GetServices/{service-name}/$/GetHealth?api-version=1.0`|  
-|GET|The following URI is used to get the health of a service:<br /><br /> `<URI>/Services/{service-name}/$/GetHealth?api-version=1.0`|  
-|GET|The following URI is used to get the health of a service with events and partitions filter.<br /><br /> `<URI>/Services/{service-name}/$/GetHealth?api-version=1.0& PartitionsHealthStateFilter={ PartitionsHealthStateFilter}& EventsHealthStateFilter={ EventsHealthStateFilter}`|  
+|POST|The following URI is used to get the health of a service:<br /><br /> `<URI>/Applications/{application-name}/$/GetServices/{service-name}/$/GetHealth?api-version=1.0`|  
+|POST|The following URI is used to get the health of a service:<br /><br /> `<URI>/Services/{service-name}/$/GetHealth?api-version=1.0`|  
+|POST|The following URI is used to get the health of a service with events and partitions filter.<br /><br /> `<URI>/Services/{service-name}/$/GetHealth?api-version=1.0& PartitionsHealthStateFilter={ PartitionsHealthStateFilter}& EventsHealthStateFilter={ EventsHealthStateFilter}`|  
   
 -   Use {EventsHealthStateFilter} (optional) to filter the collection of HealthEvent objects reported on the service  based on health state. The value can be obtained from members or bitwise operations on members of [HealthStateFilter](https://msdn.microsoft.com/en-us/library/azure/system.fabric.health.healthstatefilter.aspx). Only events that match the filter will be returned. All events will be used to evaluate the aggregated health state. If not specified, all entries will be returned. Possible values are:  
   
