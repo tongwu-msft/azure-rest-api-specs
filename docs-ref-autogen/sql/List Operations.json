@@ -40,6 +40,68 @@
     }
   },
   "definitions": {
+    "Resource": {
+      "description": "ARM resource.",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "TrackedResource": {
+      "description": "ARM tracked top level resource.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        },
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "Resource location."
+        }
+      },
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "ProxyResource": {
+      "description": "ARM proxy resource.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
     "RecommendedElasticPoolMetric": {
       "properties": {
         "dateTime": {
@@ -65,14 +127,14 @@
         "databaseEdition": {
           "readOnly": true,
           "type": "string",
-          "description": "The edition of the recommended elastic pool. The ElasticPoolEditions enumeration contains all the valid editions.",
+          "description": "The edition of the recommended elastic pool. The ElasticPoolEdition enumeration contains all the valid editions.",
           "enum": [
             "Basic",
             "Standard",
             "Premium"
           ],
           "x-ms-enum": {
-            "name": "ElasticPoolEditions",
+            "name": "ElasticPoolEdition",
             "modelAsString": true
           }
         },
@@ -149,7 +211,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyResource"
         }
       ],
       "description": "Represents a recommented elastic pool."
@@ -215,7 +277,7 @@
             "Premium"
           ],
           "x-ms-enum": {
-            "name": "ElasticPoolEditions",
+            "name": "ElasticPoolEdition",
             "modelAsString": true
           },
           "x-ms-mutability": [
@@ -261,7 +323,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/TrackedResource"
         }
       ],
       "description": "Represents a database elastic pool."
@@ -401,6 +463,14 @@
     },
     "ElasticPoolActivity": {
       "properties": {
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "The geo-location where the resource lives"
+        },
         "properties": {
           "$ref": "#/definitions/ElasticPoolActivityProperties",
           "description": "The properties representing the resource.",
@@ -409,7 +479,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyResource"
         }
       ],
       "description": "Represents the activity on an elastic pool."
@@ -467,6 +537,7 @@
         "operationId": {
           "readOnly": true,
           "type": "string",
+          "format": "uuid",
           "description": "The unique operation ID."
         },
         "percentComplete": {
@@ -516,6 +587,14 @@
     },
     "ElasticPoolDatabaseActivity": {
       "properties": {
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "The geo-location where the resource lives"
+        },
         "properties": {
           "$ref": "#/definitions/ElasticPoolDatabaseActivityProperties",
           "description": "The properties representing the resource.",
@@ -524,7 +603,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyResource"
         }
       ],
       "description": "Represents the activity on an elastic pool."
@@ -620,7 +699,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/TrackedResource"
         }
       ],
       "description": "Represents a server."
@@ -640,62 +719,6 @@
       ],
       "description": "Represents the response to a get server request."
     },
-    "UpgradeRecommendedElasticPoolProperties": {
-      "properties": {
-        "Name": {
-          "type": "string",
-          "description": "The name of the recommended elastic pool being upgraded."
-        },
-        "Edition": {
-          "type": "string",
-          "enum": [
-            "Basic",
-            "Standard",
-            "Premium"
-          ],
-          "description": "The target edition for the recommended elastic pool being upgraded.",
-          "x-ms-enum": {
-            "name": "TargetElasticPoolEditions"
-          }
-        },
-        "Dtu": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The DTU guarantee for the recommended elastic pool being upgraded."
-        },
-        "StorageMb": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The storage limit in MB for the recommended elastic pool being upgraded."
-        },
-        "DatabaseDtuMin": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The DTU guarantee for database for the recommended elastic pool being upgraded."
-        },
-        "DatabaseDtuMax": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The DTU cap for database for the recommended elastic pool being upgraded."
-        },
-        "DatabaseCollection": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "The list of database names to be put in the recommended elastic pool being upgraded."
-        },
-        "IncludeAllDatabases": {
-          "type": "boolean",
-          "description": "Gets or sets whether all databases to be put in the recommended elastic pool being upgraded."
-        }
-      },
-      "required": [
-        "Name",
-        "Edition"
-      ],
-      "description": "Represents the properties of a recommended elastic pool being upgraded."
-    },
     "RecommendedIndexProperties": {
       "properties": {
         "action": {
@@ -708,7 +731,7 @@
           ],
           "description": "The proposed index action. You can create a missing index, drop an unused index, or rebuild an existing index to improve its performance.",
           "x-ms-enum": {
-            "name": "RecommendedIndexActions"
+            "name": "RecommendedIndexAction"
           }
         },
         "state": {
@@ -729,7 +752,7 @@
           "type": "string",
           "description": "The current recommendation state.",
           "x-ms-enum": {
-            "name": "RecommendedIndexStates"
+            "name": "RecommendedIndexState"
           }
         },
         "created": {
@@ -755,7 +778,7 @@
           "type": "string",
           "description": "The type of index (CLUSTERED, NONCLUSTERED, COLUMNSTORE, CLUSTERED COLUMNSTORE)",
           "x-ms-enum": {
-            "name": "RecommendedIndexTypes"
+            "name": "RecommendedIndexType"
           }
         },
         "schema": {
@@ -819,7 +842,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyResource"
         }
       ],
       "description": "Represents a database recommended index."
@@ -834,7 +857,7 @@
             "Disabled"
           ],
           "x-ms-enum": {
-            "name": "TransparentDataEncryptionStates"
+            "name": "TransparentDataEncryptionStatus"
           }
         }
       },
@@ -850,7 +873,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SqlSubResource"
+          "$ref": "#/definitions/SubResource"
         }
       ],
       "description": "Represents a database transparent data encryption ."
@@ -968,7 +991,7 @@
         },
         "edition": {
           "type": "string",
-          "description": "The edition of the database. The DatabaseEditions enumeration contains all the valid editions. If createMode is NonReadableSecondary or OnlineSecondary, this value is ignored.",
+          "description": "The edition of the database. The DatabaseEditions enumeration contains all the valid editions. If createMode is NonReadableSecondary or OnlineSecondary, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: \"Capabilities_ListByLocation.\"",
           "enum": [
             "Web",
             "Business",
@@ -978,16 +1001,17 @@
             "Free",
             "Stretch",
             "DataWarehouse",
-            "System"
+            "System",
+            "System2"
           ],
           "x-ms-enum": {
-            "name": "DatabaseEditions",
+            "name": "DatabaseEdition",
             "modelAsString": true
           }
         },
         "maxSizeBytes": {
           "type": "string",
-          "description": "The max size of the database expressed in bytes. If createMode is not Default, this value is ignored. Note: Only the following sizes are supported (in addition to limitations being placed on each edition): { 100 MB | 500 MB |1 GB | 5 GB | 10 GB | 20 GB | 30 GB … 150 GB | 200 GB … 500 GB }"
+          "description": "The max size of the database expressed in bytes. If createMode is not Default, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: \"Capabilities_ListByLocation.\""
         },
         "requestedServiceObjectiveId": {
           "type": "string",
@@ -1008,7 +1032,7 @@
             "33d0db1f-6893-4210-99f9-463fb9b496a4",
             "da24338c-a6c9-46c2-a4bf-4ac95b496ae4"
           ],
-          "description": "The configured service level objective ID of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of currentServiceObjectiveId property. If requestedServiceObjectiveId and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveId overrides the value of requestedServiceObjectiveName.",
+          "description": "The configured service level objective ID of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of currentServiceObjectiveId property. If requestedServiceObjectiveId and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveId overrides the value of requestedServiceObjectiveName. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: \"Capabilities_ListByLocation.\"",
           "x-ms-enum": {
             "modelAsString": true,
             "name": "ServiceObjectiveId"
@@ -1030,13 +1054,14 @@
             "P11",
             "P15",
             "System",
+            "System2",
             "ElasticPool"
           ],
           "x-ms-enum": {
             "modelAsString": true,
             "name": "ServiceObjectiveName"
           },
-          "description": "The name of the configured service level objective of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of serviceLevelObjective property."
+          "description": "The name of the configured service level objective of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of serviceLevelObjective property. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: \"Capabilities_ListByLocation.\""
         },
         "serviceLevelObjective": {
           "readOnly": true,
@@ -1055,6 +1080,7 @@
             "P11",
             "P15",
             "System",
+            "System2",
             "ElasticPool"
           ],
           "x-ms-enum": {
@@ -1084,14 +1110,6 @@
             "$ref": "#/definitions/ServiceTierAdvisor"
           },
           "description": "The list of service tier advisors for this database. Expanded property"
-        },
-        "schemas": {
-          "readOnly": true,
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Schema"
-          },
-          "description": "The schemas from this database."
         },
         "transparentDataEncryption": {
           "readOnly": true,
@@ -1158,7 +1176,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/TrackedResource"
         }
       ],
       "description": "Represents a database."
@@ -1305,7 +1323,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SqlSubResource"
+          "$ref": "#/definitions/SubResource"
         }
       ],
       "description": "Represents a Service Tier Advisor."
@@ -1329,6 +1347,7 @@
             "P11",
             "P15",
             "System",
+            "System2",
             "ElasticPool"
           ],
           "x-ms-enum": {
@@ -1369,63 +1388,6 @@
       },
       "description": "Represents a Slo Usage Metric."
     },
-    "UpgradeHint": {
-      "properties": {
-        "targetServiceLevelObjective": {
-          "type": "string",
-          "description": "TargetServiceLevelObjective for upgrade hint."
-        },
-        "targetServiceLevelObjectiveId": {
-          "type": "string",
-          "format": "uuid",
-          "description": "TargetServiceLevelObjectiveId for upgrade hint."
-        }
-      },
-      "description": "Represents a Upgrade Hint."
-    },
-    "TableProperties": {
-      "properties": {
-        "tableType": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The type of database table.",
-          "enum": [
-            "BaseTable",
-            "View"
-          ],
-          "x-ms-enum": {
-            "name": "TableType"
-          }
-        },
-        "columns": {
-          "readOnly": true,
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Column"
-          },
-          "description": "The columns from this table."
-        },
-        "recommendedIndexes": {
-          "readOnly": true,
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RecommendedIndex"
-          },
-          "description": "The recommended indices for this table."
-        }
-      },
-      "description": "Represents the properties of a database table."
-    },
-    "ColumnProperties": {
-      "properties": {
-        "columnType": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The type of database table column."
-        }
-      },
-      "description": "Represents the properties of a database table column."
-    },
     "OperationImpact": {
       "properties": {
         "name": {
@@ -1452,64 +1414,6 @@
         }
       },
       "description": "Represents impact of an operation, both in absolute and relative terms."
-    },
-    "Column": {
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/ColumnProperties",
-          "description": "The properties representing the resource.",
-          "x-ms-client-flatten": true
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "description": "Represents a database table column."
-    },
-    "Table": {
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/TableProperties",
-          "description": "The properties representing the resource.",
-          "x-ms-client-flatten": true
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "description": "Represents a database table."
-    },
-    "SchemaProperties": {
-      "properties": {
-        "tables": {
-          "readOnly": true,
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Table"
-          },
-          "description": "The tables from this database."
-        }
-      },
-      "description": "Represents the properties of a database schema."
-    },
-    "Schema": {
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/SchemaProperties",
-          "description": "The properties representing the resource.",
-          "x-ms-client-flatten": true
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "description": "Represents a database schema."
     },
     "RestorePointProperties": {
       "properties": {
@@ -1550,7 +1454,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyResource"
         }
       ],
       "description": "Represents a database restore point."
@@ -1609,7 +1513,7 @@
       "description": "Represents database metrics.",
       "allOf": [
         {
-          "$ref": "#/definitions/SqlSubResource"
+          "$ref": "#/definitions/SubResource"
         }
       ]
     },
@@ -1741,7 +1645,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SqlSubResource"
+          "$ref": "#/definitions/SubResource"
         }
       ],
       "description": "Represents a database service objective."
@@ -1772,7 +1676,7 @@
             "Decrypting"
           ],
           "x-ms-enum": {
-            "name": "TransparentDataEncryptionActivityStates",
+            "name": "TransparentDataEncryptionActivityStatus",
             "modelAsString": true
           }
         },
@@ -1795,7 +1699,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SqlSubResource"
+          "$ref": "#/definitions/SubResource"
         }
       ],
       "description": "Represents a database transparent data encryption Scan."
@@ -1815,42 +1719,7 @@
       ],
       "description": "Represents the response to a list database transparent data encryption activity request."
     },
-    "Resource": {
-      "description": "Resource properties",
-      "properties": {
-        "name": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource name"
-        },
-        "id": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource ID"
-        },
-        "type": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource type"
-        },
-        "location": {
-          "type": "string",
-          "description": "Resource location"
-        },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Resource tags"
-        }
-      },
-      "required": [
-        "location"
-      ],
-      "x-ms-azure-resource": true
-    },
-    "SqlSubResource": {
+    "SubResource": {
       "description": "Subresource properties",
       "properties": {
         "name": {
@@ -1864,21 +1733,6 @@
           "description": "The resource ID."
         }
       }
-    },
-    "SqlTypedSubResource": {
-      "description": "Subresource properties",
-      "properties": {
-        "type": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource type"
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/SqlSubResource"
-        }
-      ]
     },
     "OperationListResult": {
       "description": "Result of the request to list SQL operations. It contains a list of operations and a URL link to get the next set of results.",
@@ -3634,6 +3488,14 @@
       "required": true,
       "type": "string",
       "description": "The name of the server.",
+      "x-ms-parameter-location": "method"
+    },
+    "DatabaseExpandParameter": {
+      "name": "$expand",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "description": "A comma separated list of child objects to expand in the response. Possible properties: serviceTierAdvisors, transparentDataEncryption.",
       "x-ms-parameter-location": "method"
     }
   },
