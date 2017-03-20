@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # Update synonym map (Azure Search Service REST API)
 > [!NOTE]  
->  Please note that the Synonyms feature is currently in preview and only available in the latest preview api version `2016-09-01-Preview`.
+>  Synonyms is a preview feature, exempt from the service level agreement (SLA). Query requests that call preview APIs are not covered by the SLA and are not intended to be used in production code.
 
   You can update an existing synonym map using an HTTP PUT request. You specify the name of the synonym map to update on the request URI:  
 

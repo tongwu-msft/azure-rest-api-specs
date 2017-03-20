@@ -27,13 +27,13 @@ translation.priority.mt:
 ---
 # Synonym Map Operations (Azure Search Service REST API)
 > [!NOTE]  
->  Please note that the Synonyms feature is currently in preview and only available in the latest preview api version `2016-09-01-Preview`.
+>  Synonyms is a preview feature, exempt from the service level agreement (SLA). Query requests that call preview APIs are not covered by the SLA and are not intended to be used in production code.
 
-  In Azure Search, user can define custom rules to expand or rewrite a search query with equivalent terms. The entity that contains the rules is called synonym map. Synonym maps are service level resources and maintained independently from search indexes. Once a synonym map is uploaded, you can then point any searchable field of your index to the synonym map to enable the synonym feature on the fields.
+  In Azure Search, developers can define custom rules to expand or rewrite a search query with equivalent terms. For example, in your application, the words "whirlpool", "jacuzzi" and "hot tub" may be equivalent and you want to have a rule that automatically expands the search when only one is searched for. The entity that contains the rules is called a synonym map. Synonym maps are service level resources and maintained independently from search indexes. Once a synonym map is uploaded, you can point any searchable field to the synonym map (one per field).
 
 ## Supportability
 
-  The synonyms feature is currently only available in the preview API in the latest preview API version `2016-09-01-Preview`.
+  The synonyms feature is currently only available in the preview API in the latest preview API version `2016-09-01-Preview`. You can use the preview REST API or [preview .NET SDK](https://docs.microsoft.com/azure/search/search-api-versions) to evaluate synonyms.
 
 ## Workflow  
 
@@ -52,7 +52,7 @@ Setting up synonyms in your search application is a two-step process:
 	   "name":"myindex",
 	   "fields":[
 	      {
-	         "name":"id",
+	         "name":"realestateid",
 	         "type":"Edm.String",
 	         "key":true
 	      },
@@ -115,3 +115,5 @@ DELETE https://[service name].search.windows.net/synonymmaps/[synonymmap name]?a
 
 ## See Also  
  [Azure Search Service REST](index.md)   
+ [Language support &#40;Azure Search Service REST API&#41;](language-support.md)
+ [Custom Analyzers in Azure Search &#40;Azure Search Service REST API&#41;](custom-analyzers-in-azure-search.md)
