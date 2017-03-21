@@ -1,7 +1,7 @@
 ---
 title: "Authenticating Service Fabric REST Requests"
 ms.custom: ""
-ms.date: "2017-02-03"
+ms.date: "2017-03-21"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-fabric"
@@ -55,7 +55,7 @@ A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a
 >  Clients with user access only have permission for read requests (for example, `https://localhost:19007/Nodes?api-version=1.0`). Clients with admin access have permission for read requests and write requests (write request example, `https://localhost:19007/Nodes/<NodeName>/$/Deactivate`).  
   
 ### Cluster Manifest Changes  
- This section assumes that you already have a cluster manifest configured to use X.509 certificates. To learn more please read [Secure a Cluster Using X.509 Certificates](http://msdn.microsoft.com/en-us/4a60dcdd-e4ac-49f2-a3f2-454bcb047900).  
+ This section assumes that you already have a cluster manifest configured to use X.509 certificates. To learn more please read [Secure a Cluster Using X.509 Certificates](/azure/service-fabric/service-fabric-cluster-security.md).  
   
  To configure a cluster to support authentication and authorization of clients (User and Admin) and authentication of Service Fabric nodes, the following parameters must be set in the cluster manifest:  
   
@@ -103,7 +103,7 @@ A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a
  Use Kerberos instead of NTLM whenever possible.  
   
 ### Cluster Manifest Changes  
- This section assumes that you already have a cluster manifest configured to use Kerberos for client authentication and X.509 certificates for server authentication and encryption. To learn more please read [Secure a Cluster Using Windows Kerberos](http://msdn.microsoft.com/en-us/6cbf595b-215c-4d43-a5b4-46f25b361739).  
+ This section assumes that you already have a cluster manifest configured to use Kerberos for client authentication and X.509 certificates for server authentication and encryption. To learn more please read [Secure a Cluster Using Windows Security](/azure/service-fabric/service-fabric-cluster-security.md).  
   
 ### How to Use the REST APIs with Kerberos  
  REST APIs do not change when using REST APIs to communicate with a Kerberos enabled cluster. The URLs, HTTP Headers, Request and Response Bodies of the REST call will be unchanged.  
