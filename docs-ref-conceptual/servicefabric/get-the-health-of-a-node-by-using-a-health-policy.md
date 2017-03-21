@@ -66,7 +66,7 @@ Gets the health of a Service Fabric node, by using the specified health policy.
 {  
     "ConsiderWarningAsError": true,  
     "MaxPercentUnhealthyNodes": 10,  
-    "MaxPercentUnhealthyApplications": 10  
+    "MaxPercentUnhealthyApplications": 10,  
     "ApplicationTypeHealthPolicyMap": []  
 }  
   
