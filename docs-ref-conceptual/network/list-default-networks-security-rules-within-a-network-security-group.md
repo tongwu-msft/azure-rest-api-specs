@@ -1,5 +1,5 @@
 ---
-title: "List default networks security rules within a network security group"
+title: List default networks security rules within a network security group
 ms.date: 03/15/2017
 ms.service: virtual-network
 ms.topic: reference
@@ -9,15 +9,24 @@ ms.author: gwallace
 ms.manager: timlt
 ---
 # List default networks security rules within a network security group
+
+This operations lists the default network security rules for a network security group.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](network-security-rules.md#bk_common) for headers and parameters that are used by all requests related to network security rules.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/networkSecurityGroups/{network-security-group-name}/defaultSecurityRules?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules?api-version={api-version}`|  
   
- Replace {network-security-group-name} with the name of the network security group whose default rules you wish to list.  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the network security group exists. |
+| resourceGroup | The name of the resource group that contains the network security group. |
+| networkSecurityGroupName | The name of the network security group. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  **Status code:** 200  
   
@@ -25,7 +34,7 @@ ms.manager: timlt
 [  
    {  
       "name": "rule1",  
-      "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNsg/securityRules/rule1",  
+      "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNsg/securityRules/rule1",  
       "etag": "W/\"00000000-0000-0000-0000-000000000000\"",  
       "properties": {  
          "provisioningState": "Succeeded",  

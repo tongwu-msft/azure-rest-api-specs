@@ -36,7 +36,7 @@ Returns 404 if resource not found.
    "value":[  
       {  
          "userDefinedRoute":{  
-            "id":"/subscriptions/{guid}/../resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{route-table-name}/routes/{route-name}"
+            "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{route-table-name}/routes/{route-name}"
          },
          "source":"User" | “VirtualNetworkGateway” | “Default”,
          "state":"Active" | “Invalid”,

@@ -1,5 +1,5 @@
 ---
-title: "List public IP addresses within a subscription&#160;"
+title: List public IP addresses within a subscription
 ms.date: 03/15/2017
 ms.service: virtual-network
 ms.topic: reference
@@ -8,14 +8,23 @@ author: georgewallace
 ms.author: gwallace
 ms.manager: timlt
 ---
-# List public IP addresses within a subscription&#160;
+# List public IP addresses within a subscription
+
+This operations lists all public IP addresses in a subscription.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See for headers and parameters that are used by all requests related to public IP addresses.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscription-id}/providers/Microsoft.Network/publicIPAddresses?api-version={api-version}`|  
-  
+|GET|`/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the public IP address exists. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  **Status code:** 200  
   
@@ -23,21 +32,21 @@ ms.manager: timlt
 [  
    {  
       "name": "myPublicIP1",  
-      "id": "/subscriptions/{guid}/resourceGroups/rg1/Microsoft.Network/publicIpAddresses/ip1",  
+      "id": "/subscriptions/{subscriptionId}/resourceGroups/rg1/Microsoft.Network/publicIpAddresses/ip1",  
       "location": "North US",  
       "tags": {  
          "key": "value"  
       },  
       "etag": "W/\"00000000-0000-0000-0000-000000000000\"",  
       "properties": {  
-         "resourceGuid":"0CB6BF8A-FFBD-486A-A6A2-DA6633481B50",  
+         "resourcesubscriptionId":"0CB6BF8A-FFBD-486A-A6A2-DA6633481B50",  
          "provisioningState": "Succeeded",           
          "ipAddress": "1.1.1.1",  
          "publicIPAllocationMethod": "Static",   
       "publicIPAddressVersion": "IPv4",  
          "idleTimeoutInMinutes": 4,   
          "ipConfiguration": {   
-            "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"  
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"  
          },  
          "dnsSettings": {  
             "domainNameLabel": "mylabel",  
@@ -56,7 +65,7 @@ ms.manager: timlt
 |location|Specifies the supported Azure location of the Public IP Address. For more information, see List all of the available geo-locations|  
 |tags|The tags and their values that are used by the Public IP Address|  
 |etag|System generated meta-data enabling concurrency control|  
-|resourceGuid|System generated unique identifier used for internal correlation and logging purpose by the platform|  
+|resourcesubscriptionId|System generated unique identifier used for internal correlation and logging purpose by the platform|  
 |provisioningState|Provisioning state of the Public IP Address|  
 |ipAddress|The IP address value that was allocated.|  
 |publicIPAllocationMethod|Defines whether the IP address is stable or dynamic. Options are Static or Dynamic|  

@@ -1,5 +1,5 @@
 ---
-title: "List routes within a route table2"
+title: List routes within a route table
 ms.date: 03/15/2017
 ms.service: virtual-network
 ms.topic: reference
@@ -9,15 +9,24 @@ ms.author: gwallace
 ms.manager: timlt
 ---
 # List routes within a route table
+
+This operations lists all route tables in a route table
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](routes.md#bk_common) for headers and parameters that are used by all requests related to Routes.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/routeTables/{route-table-name}/routes?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/routeTables/{routeTableName}/routes?api-version={api-version}`|  
   
- Replace {route-table-name} with the name of the route table whose routes you wish to list.  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the route exists. |
+| resourceGroup | The name of the resource group that contains the route. |
+| routeTableName | The name of the route table. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  **Status code:** Returns status code of 200 (OK)  
   
@@ -25,7 +34,7 @@ ms.manager: timlt
 [   
    {  
       "name": "myRoute1",  
-      "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/myRouteTable/routes/myRoute1",  
+      "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/myRouteTable/routes/myRoute1",  
       "etag": "W/\"00000000-0000-0000-0000-000000000000\"",  
       "properties": {   
          "provisioningState": "Updating|Deleting|Failed|Succeeded",  

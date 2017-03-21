@@ -19,6 +19,7 @@ For information about getting started with Azure REST operations including reque
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}?api-version={api-version}`|  
+
 | Parameter | Description |
 | --------- | ----------- |
 | subscriptionId | The identifier of your subscription where the network security group exists. |

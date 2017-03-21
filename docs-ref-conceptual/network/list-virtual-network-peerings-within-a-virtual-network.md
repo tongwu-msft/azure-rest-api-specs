@@ -1,5 +1,5 @@
 ---
-title: "List virtual network peerings within a virtual network"
+title: List virtual network peerings within a virtual network
 ms.date: 03/15/2017
 ms.service: virtual-network
 ms.topic: reference
@@ -9,13 +9,24 @@ ms.author: gwallace
 ms.manager: timlt
 ---
 # List virtual network peerings within a virtual network
+
+This operations lists all virtual network peerings in a virtual network
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](virtual-networks.md#bk_common) for headers and parameters that are used by all requests related to Virtual Networks.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/virtualNetworks/{virtual-network-name}/virtualNetworkPeerings?api-version={api-version}`|  
-  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the virtual network peering exists. |
+| resourceGroup | The name of the resource group that contains the virtual network peering. |
+| virtualNetworkName | The name of the virtual network. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+   
 ## Response  
  **Status code:** 200  
   
@@ -23,13 +34,13 @@ ms.manager: timlt
  { "value": [
     {
     "name": "LinktoVNet2",
-    "id": "/subscriptions/{guid}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1/virtualNetworkPeerings/LinktoVNet2",
+    "id": "/subscriptions/{subscriptionId}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1/virtualNetworkPeerings/LinktoVNet2",
     "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
     "properties": {
       "provisioningState": "Succeeded",
       "peeringState": "Connected",
     "remoteVirtualNetwork": { 
-      "id": "/subscriptions/{guid}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet2" }, 
+      "id": "/subscriptions/{subscriptionId}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet2" }, 
     "allowVnetAccess": true, 
     "allowForwardedTraffic": false, 
     "allowGatewayTransit": false, 
@@ -43,13 +54,13 @@ ms.manager: timlt
   },
     {
     "name": "LinktoVNet3",
-    "id": "/subscriptions/{guid}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1/virtualNetworkPeerings/LinktoVNet3",
+    "id": "/subscriptions/{subscriptionId}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1/virtualNetworkPeerings/LinktoVNet3",
     "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
     "properties": {
       "provisioningState": "Succeeded",
       "peeringState": "Connected",
     "remoteVirtualNetwork": { 
-      "id": "/subscriptions/{guid}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet3" }, 
+      "id": "/subscriptions/{subscriptionId}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet3" }, 
     "allowVnetAccess": true, 
     "allowForwardedTraffic": false, 
     "allowGatewayTransit": false, 

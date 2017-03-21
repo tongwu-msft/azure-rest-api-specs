@@ -1,5 +1,5 @@
 ---
-title: "List network security groups within a resource group"
+title: List network security groups within a resource group
 ms.date: 03/15/2017
 ms.service: virtual-network
 ms.topic: reference
@@ -9,13 +9,24 @@ ms.author: gwallace
 ms.manager: timlt
 ---
 # List network security groups within a resource group
-## Request  
- See [Common parameters and headers](network-security-groups.md#bk_common) for headers and parameters that are used by all requests related to network security groups.  
+
+This operations lists all network security groups in a resource group.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
+## Request   
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/networkSecurityGroups?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/networkSecurityGroups?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the network security group exists. |
+| resourceGroup | The name of the resource group that contains the network security group. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
   
+
 ## Response  
  **Status code:** 200  
   
@@ -23,19 +34,19 @@ ms.manager: timlt
 [   
    {   
       "name":"myNsg",  
-      "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNsg",  
+      "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNsg",  
       "location":"North US",  
       "tags":{   
          "key":"value"  
       },  
       "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
       "properties":{   
-         "resourceGuid":"AF6A2C41-9F74-46B3-9F65-F5286FFEE3DE",  
+         "resourcesubscriptionId":"AF6A2C41-9F74-46B3-9F65-F5286FFEE3DE",  
          "provisioningState":"Succeeded",  
          "securityRules":[   
             {   
                "name":"myNsRule",  
-               "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNsg/securityRules/myNsRule",  
+               "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNsg/securityRules/myNsRule",  
                "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
                "properties":{   
                   "provisioningState":"Succeeded",  
@@ -54,7 +65,7 @@ ms.manager: timlt
          "defaultSecurityRules":[   
             {   
                "name":"AllowVnetInBound",  
-               "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNsg/defaultSecurityRules/AllowVnetInBound",  
+               "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNsg/defaultSecurityRules/AllowVnetInBound",  
                "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
                "properties":{   
                   "provisioningState":"Succeeded",  
@@ -72,14 +83,14 @@ ms.manager: timlt
          ],  
          "networkInterfaces":[   
             {   
-               "id":"/subscriptions/{guid}/resourceGroups/myrg1/providers/Microsoft.Network/networkInterfaces/vm1nic1 "  
+               "id":"/subscriptions/{subscriptionId}/resourceGroups/myrg1/providers/Microsoft.Network/networkInterfaces/vm1nic1 "  
             }            {   
-               "id":"/subscriptions/{guid}/resourceGroups/myrg1/providers/Microsoft.Network/networkInterfaces/vm1nic2"  
+               "id":"/subscriptions/{subscriptionId}/resourceGroups/myrg1/providers/Microsoft.Network/networkInterfaces/vm1nic2"  
             }  
          ],  
          "subnets":[   
             {   
-               "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysubnet1"  
+               "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysubnet1"  
             }  
          ]  
       }  
@@ -94,7 +105,7 @@ ms.manager: timlt
 |location|Specifies the supported Azure location of the Network Security Group. For more information, see List all of the available geo-locations.|  
 |tags|The tags and their values that are used by the Network Security Group.|  
 |etag|System generated meta-data enabling concurrency control.|  
-|resourceGuid|System generated unique identifier used for internal correlation and logging purpose by the platform|  
+|resourcesubscriptionId|System generated unique identifier used for internal correlation and logging purpose by the platform|  
 |provisioningState|Provisioning state of the Network Security Group.|  
 |securityRules|A collection of Network Security Rules within this Network Security Group.|  
 |defaultSecurityRules|A collection of Default Network Security Rules within this Network Security Group.|  
