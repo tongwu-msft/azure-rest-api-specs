@@ -15,16 +15,16 @@ manager: "carolz"
 ---
 # Create or update a Traffic Manager profile
 Create or update a Traffic Manager profile within a resource group.  
-  
+
 ## Request  
  See [Traffic Manager profiles and endpoints](traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
 |PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles/{profile-name}?api-version={api-version}`|  
-  
+
  Replace {profile-name} with the name of the Traffic Manager profile to be created.  The profile name must be unique within the resource group.  
-  
+
 ```json  
 {  
   "location": "global",  
@@ -72,19 +72,23 @@ Create or update a Traffic Manager profile within a resource group.
           "weight": 10,  
           "priority": 1,  
           "endpointLocation": "westeurope",  
-          "minChildEndpoints": 1,  
+          "minChildEndpoints": 1,
+          "geoMapping": [
+                "GEO-EU",
+                "GEO-AF"
+            ]  
         }  
       }  
     ]  
   }  
 }  
-  
+
 ```  
-  
+
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
 |profileStatus|No|String|Specifies whether the profile should be enabled or disabled<br /><br /> Possible values are:<br /><br /> -   Enabled<br />-   Disabled<br /><br /> This parameter is optional, default value ‘Enabled’.|  
-|trafficRoutingMethod|Yes|String|Specifies the traffic routing method, used to determine which endpoint is returned in response to incoming DNS queries.<br /><br /> Possible values are:<br /><br /> -   Performance<br />-   Weighted<br />-   Priority|  
+|trafficRoutingMethod|Yes|String|Specifies the traffic routing method, used to determine which endpoint is returned in response to incoming DNS queries.<br /><br /> Possible values are:<br /><br /> -   Performance<br />-   Weighted<br />-   Priority<br />-   Geographic|  
 |dnsConfig|Yes|Complex|Container for DNS settings for this Traffic Manager profile.|  
 |relativeName|Yes|String|Specifies the relative DNS name provided by this Traffic Manager profile.  This value is combined with the DNS domain name used by Azure Traffic Manager to form the fully-qualified domain name (FQDN) of the profile. This value cannot be modified once set.|  
 |||||  
@@ -104,10 +108,11 @@ Create or update a Traffic Manager profile within a resource group.
 |priority|No|Positive Integer|Specifies the priority of this endpoint when using the ‘priority’ traffic routing method.<br /><br /> Priority must lie in the range 1…1000.  Lower values represent higher priority.  No two endpoints can share the same priority value.<br /><br /> This is an optional parameter.  If omitted, Traffic Manager assigns endpoints with default priority values 1, 2, 3 etc in the order the endpoints are provided.|  
 |endpointLocation|No|String|Specifies the location of the endpoint.  This value is used in the ‘Performance’ traffic-routing method when determining which endpoint is closest to the end user.<br /><br /> This property can only be specified on endpoints of type ‘ExternalEndpoints’ or ‘NestedEndpoints’.  For endpoints of type ‘AzureEndpoints’, the location is taken from the Azure resource specified in the targetResourceId.<br /><br /> This parameter is mandatory ExternalEndpoints and NestedEndpoints whenever the ‘Performance’ traffic-routing method is used.<br /><br /> For more information and possible values, see [List all of the available geo-locations](https://msdn.microsoft.com/en-us/library/azure/dn790540.aspx)|  
 |minChildEndpoints|No|Positive Integer|This parameter specifies the minimum number of endpoints that must be ‘online’ in the child profile in order for the parent profile to direct traffic to any of the endpoints in that child profile. It only applies to endpoints of type NestedEndpoints.  It is optional, with default ‘1’.|  
-  
+|geoMapping|No|String|This parameter specifies the geographic regions that are mapped to this endpoint. <br /><br /> It is only used if the endpoint is part of a profile that has routing type Geographic.|
+
 ## Response  
  **Status code:** *200 or 201 depending on whether the resource is updated or created.*  
-  
+
 ```json  
 {   
    "location": "global",  
@@ -169,14 +174,18 @@ Create or update a Traffic Manager profile within a resource group.
                "priority": 1,  
                "endpointLocation": "westeurope",  
                "minChildEndpoints": 1,  
+               "geoMapping": [
+                "GEO-EU",
+                "GEO-AF"
+                ]
              }  
          }  
       ]  
    }  
 }  
-  
+
 ```  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |profileStatus|Specifies whether the profile should be enabled or disabled.<br /><br /> Possible values are:<br /><br /> -   Enabled<br />-   Disabled|  
@@ -203,3 +212,4 @@ Create or update a Traffic Manager profile within a resource group.
 |endpointLocation|Specifies the location of the endpoint.  This value is used in the ‘Performance’ traffic-routing method when determining which endpoint is closest to the end user.|  
 |endpointMonitorStatus|Indicates the health status for the endpoint.<br /><br /> This is a read-only property.  Possible values are:<br /><br /> -   Online<br />-   Degraded<br />-   Inactive<br />-   Disabled<br />-   Stopped<br />-   CheckingEndpoint<br /><br /> See [About Traffic Manager Monitoring for further details.](https://azure.microsoft.com/documentation/articles/traffic-manager-monitoring/)|  
 |minChildEndpoints|This parameter specifies the minimum number of endpoints that must be ‘online’ in the child profile in order for the parent profile to direct traffic to any of the endpoints in that child profile. It only applies to endpoints of type NestedEndpoints.|
+|geoMapping|This parameter specifies the geographic regions that are mapped to this endpoint. <br /><br /> It is only used if the endpoint is part of a profile that has routing type Geographic.|
