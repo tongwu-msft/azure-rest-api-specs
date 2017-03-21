@@ -27,6 +27,18 @@ translation.priority.mt:
 # Application Gateway REST
 Application Gateway is a Network Service which provides HTTP Load balancing as a Service to Azure customers. This is a fully managed service implemented as dedicated Hosted Service in a subscription owned by Gateway Manager but deployed in customer vnet. In addition to basic HTTP Load balancing, it provides other Layer 7 features like Cookie based client affinity and SSL offload, URL routing and multi-site hosting.  
 
+## REST Operations
+
+| Operation | REST Verb | Description | 
+|---------|---------|-----------|
+| [Create or update an application gateway](create-or-update-an-application-gateway.md) |  PUT | Creates or updates an application gateway |  
+| [Delete an application gateway](delete-application-gateway--delete-.md) |  DELETE | Deletes an existing application gateway. |  
+| [Get an application gateway](get-application-gateway.md) |  GET | Gets details on an application gateway. |  
+| [List application gateways](list-application-gateways--get-.md) |  GET | Lists all application gateways. | 
+| [Start an application gateway](start-application-gateway.md) |  POST | Starts an application gateway. |  
+| [Stop an application gateway](stop-application-gateway.md) |  POST | Stops an application gateway. | 
+| [Get available rule sets (WAF)](application-gateway-get-waf-rules.md) |GET | Gets a list of available WAF rule sets.|
+
 ##  <a name="bk_common"></a> Common parameters and headers  
  The following information is common to all tasks:  
   
@@ -42,17 +54,3 @@ Application Gateway is a Network Service which provides HTTP Load balancing as a
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
-## Tasks  
- You can do the following with application gateways:  
-  
--   [Create or update an application gateway](create-or-update-an-application-gateway.md)  
-  
--   [Get Application Gateway](get-application-gateway.md)  
-  
--   [List application gateways (GET)](list-application-gateways--get-.md)  
-  
--   [Delete Application Gateway (DELETE)](delete-application-gateway--delete-.md)  
-  
--   [Start Application Gateway](start-application-gateway.md)  
-  
--   [Stop Application Gateway](stop-application-gateway.md)
