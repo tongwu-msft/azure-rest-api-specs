@@ -15,7 +15,7 @@ manager: "timlt"
 ---
 # Get available WAF rule sets
 
-Gets a list of available rule sets for web application firewall
+Gets a list of available rule sets for web application firewall.
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
