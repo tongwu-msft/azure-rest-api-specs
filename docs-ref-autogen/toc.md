@@ -1203,6 +1203,7 @@
 ## [Get a Traffic Manager endpoint](../docs-ref-conceptual/trafficmanager/get-a-traffic-manager-endpoint.md)
 ## [Delete a Traffic Manager endpoint](../docs-ref-conceptual/trafficmanager/delete-a-traffic-manager-endpoint.md)
 ## [Create or update a Traffic Manager profile](../docs-ref-conceptual/trafficmanager/create-or-update-a-traffic-manager-profile.md)
+## [List the regions used by Traffic Manager Geographic routing type](../docs-ref-conceptual/trafficmanager/list-geo-regions-traffic-manager.md)
 # [Virtual Machine Scale Sets](../docs-ref-conceptual/virtualmachinescalesets/index.md)
 ## [Create or update a set](../docs-ref-conceptual/virtualmachinescalesets/create-or-update-a-set.md)
 ## [Delete a set](../docs-ref-conceptual/virtualmachinescalesets/delete-a-set.md)
