@@ -50,7 +50,7 @@ A REST API request/response pair can be separated into 5 components:
     - MIME-encoded response objects may be returned in the HTTP response body, such as a response from a GET method that is returning data. Typically these will be returned in a structured format as JSON or XML, as indicated by the `Content-type` response header. For example, when requesting an access token from Azure AD, it will be returned in the response body as the `access_token` element, one of several name/value paired objects in a data collection. In this example, a response header of `Content-Type: application/json` will also be included.
 
 > [!NOTE] 
-> The Create/Send/Process-Response pattern discussed here is synchronous and applies to all REST messages. However, some services may also support an asynchronous pattern, which requires additional processing of response headers to monitor/complete the asynchronous request. See [Track asynchronous Azure operations](azure/azure-resource-manager/resource-manager-async-operations) for more details.
+> The Create/Send/Process-Response pattern discussed here is synchronous and applies to all REST messages. However, some services may also support an asynchronous pattern, which requires additional processing of response headers to monitor/complete the asynchronous request. See [Track asynchronous Azure operations][ARM-Async-Ops] for more details.
 > 
 
 ## Register your client application with Azure AD
@@ -264,6 +264,7 @@ Please use the LiveFyre comments section that follows this article to provide fe
 [AAD-Oauth-Code-Token]: /active-directory/active-directory-protocols-oauth-code#use-the-authorization-code-to-request-an-access-token
 [ARM-Create-Sp-Portal]: /azure/azure-resource-manager/resource-group-create-service-principal-portal
 [ARM-Provider-Summary]: /azure/azure-resource-manager/resource-manager-supported-services
+[ARM-Async-Ops]: /azure/azure-resource-manager/resource-manager-async-operations
 [SDK-NET]: /dotnet/api/
 [SDK-JAVA]: /java/api/
 [SDK-CLI]: /cli/azure/
