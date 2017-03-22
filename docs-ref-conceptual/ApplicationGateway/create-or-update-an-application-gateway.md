@@ -262,7 +262,7 @@ For information about getting started with Azure REST operations including reque
 |frontendPorts[i].port|Integer|Yes|Port number|  
 |probes|ComplexType|No|Specifies list of URL probes|  
 |probes[i].name|String|Yes|Name of probe|  
-|probes[i].protocol|String|Yes|Protocol used to send probe. Http only.|  
+|probes[i].protocol|String|Yes|Protocol used to send probe. Http or Https.|  
 |probes[i].host|String|Yes|Host name to send probe to|  
 |probes[i].path|String|Yes|Relative path of probe. Valid path starts from '/'. Probe is sent to \{Protocol}://\{host}:\{port}\{path}|  
 |probes[i].interval|Integer|Yes|Probe interval in seconds. This is the time interval between two consecutive probes. Minimum 1 second and Maximum 86,400 secs.|  
