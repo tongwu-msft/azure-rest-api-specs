@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Gatewa
+# Get Application Gateway
 Retrieve an application gateway properties.  
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
