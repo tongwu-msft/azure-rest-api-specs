@@ -1,36 +1,20 @@
 ---
-title: "Get the shared key for a connection&#160;"
-ms.custom: ""
-ms.date: "05/03/2015"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 3050fc8a-af43-4b16-bae6-9c9005e3f95b
-caps.latest.revision: 4
-author: "yushwang"
-ms.author: "yushwang"
-manager: "rossort"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Get the shared key for a connection
+ms.date: 03/09/2017
+ms.service: expressroute
+ms.devlang: rest-api
+ms.topic: reference
+author: yushwang
+ms.author: yushwang
+manager: rossort
 ---
 # Get the shared key for a connection&#160;
 Gets the shared key for the connection.  
-  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+
 ## Request  
- See [Connections](connections.md) for headers and parameters that are used by all requests related to connections.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/connections/{connection-name}/sharedkey?api-version={api-version}`|  
