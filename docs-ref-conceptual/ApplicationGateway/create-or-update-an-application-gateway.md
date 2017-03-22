@@ -1,7 +1,7 @@
 ---
 title: Create or update an application gateway
 ms.date: 03/09/2017
-ms.service: expressroute
+ms.service: application-gateway
 ms.devlang: rest-api
 ms.topic: reference
 author: amitsriva
