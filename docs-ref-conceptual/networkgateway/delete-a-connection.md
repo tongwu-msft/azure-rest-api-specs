@@ -11,7 +11,7 @@ manager: rossort
 # Delete a connection&#160;
 Delete the specified gateway connection.  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
 ## Request  
 

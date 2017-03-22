@@ -11,7 +11,7 @@ manager: rossort
 # Get a VPN device configuration script
 Get the configuration script for a VPN device that the local network gateway needs to establish a connection with the virtual network gateway.  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
 ## Request  
 

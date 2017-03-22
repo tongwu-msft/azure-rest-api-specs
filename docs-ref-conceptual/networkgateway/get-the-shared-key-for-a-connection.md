@@ -11,7 +11,7 @@ manager: rossort
 # Get the shared key for a connection&#160;
 Gets the shared key for the connection.  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
 ## Request  
 

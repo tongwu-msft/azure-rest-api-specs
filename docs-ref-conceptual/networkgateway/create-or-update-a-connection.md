@@ -11,7 +11,7 @@ manager: rossort
 # Create or update a connection
 Create a connection between two provided gateway resources.  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
 ## Request  
  

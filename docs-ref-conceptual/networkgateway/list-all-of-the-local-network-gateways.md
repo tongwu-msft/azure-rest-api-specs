@@ -11,7 +11,7 @@ manager: rossort
 # List all of the local network gateways
 List all of the local network gateways in a resource group.  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
 ## Request  
 
