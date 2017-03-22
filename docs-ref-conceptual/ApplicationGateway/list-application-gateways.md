@@ -1,28 +1,12 @@
 ---
-title: "List application gateways (GET)"
-ms.custom: ""
-ms.date: "2016-02-18"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 2ee13e10-92fe-4961-8aa1-799800aa3d0b
-caps.latest.revision: 3
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: List application gateways (GET)
+ms.date: 03/09/2017
+ms.service: expressroute
+ms.devlang: rest-api
+ms.topic: reference
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # List application gateways (GET)
 
@@ -35,6 +19,12 @@ For information about getting started with Azure REST operations including reque
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Application Gateways exists. |
+| resourceGroupName | The name of the resource group that contains the Application Gateways. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
   
 ### Response body  
  A collection of results of the GET on Application Gateway  

@@ -1,28 +1,12 @@
 ---
-title: "Get Application Gateway"
-ms.custom: ""
-ms.date: "2016-02-18"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 7a8c98c4-2c5b-4bc4-825c-7eb6e0e7453d
-caps.latest.revision: 3
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Get an application gateway
+ms.date: 03/09/2017
+ms.service: expressroute
+ms.devlang: rest-api
+ms.topic: reference
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # Get Application Gateway
 Retrieve an application gateway properties.  
@@ -35,8 +19,13 @@ For information about getting started with Azure REST operations including reque
 |------------|-----------------|  
 |GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}?api-version={api-version}`|  
   
- *Replace {ApplicationGatewayName} with the name of the application gateway to get its properties.*  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Application Gateway exists. |
+| resourceGroupName | The name of the resource group that contains the Application Gateway. |
+| applicationGatewayName | The name of the Application Gateway.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+   
 ## Request body  
 
 ```json 

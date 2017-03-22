@@ -1,28 +1,6 @@
 ---
-title: "Delete Application Gateway (DELETE)"
-ms.custom: ""
-ms.date: "2016-02-18"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: df397915-4520-42c3-a87c-8397a39cfae8
-caps.latest.revision: 3
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+redirect_url: /rest/api/application-gateway/delete-application-gateway
+redirect_document_id: TRUE 
 ---
 # Delete Application Gateway (DELETE)
 
@@ -35,8 +13,13 @@ For information about getting started with Azure REST operations including reque
 |Method|Request URI|  
 |------------|-----------------|  
 |DELETE|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}?api-version={api-version}`|  
-  
- *Replace {ApplicationGatewayName} with the name of the application gateway you want to delete.*  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Application Gateway exists. |
+| resourceGroupName | The name of the resource group that contains the Application Gateway. |
+| applicationGatewayName | The name of the Application Gateway. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
   
 ### Response body  
  None.  
