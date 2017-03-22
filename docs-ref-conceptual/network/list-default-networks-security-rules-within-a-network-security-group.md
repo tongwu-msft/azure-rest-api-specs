@@ -4,9 +4,9 @@ ms.date: 03/15/2017
 ms.service: virtual-network
 ms.topic: reference
 ms.devlang: rest
-author: georgewallace
-ms.author: gwallace
-ms.manager: timlt
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # List default networks security rules within a network security group
 

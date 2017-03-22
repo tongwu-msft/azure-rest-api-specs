@@ -4,9 +4,9 @@ ms.date: 03/15/2017
 ms.service: virtual-network
 ms.topic: reference
 ms.devlang: rest
-author: georgewallace
-ms.author: gwallace
-ms.manager: timlt
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # Virtual Networks
 A virtual network represents a computer network in which networking objects can be created. The virtual network reserves an address space and defines subnets in this address space. The DHCP options defined on a virtual network by default get applied to the NICs connected to this network.  

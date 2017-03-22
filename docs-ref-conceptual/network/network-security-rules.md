@@ -4,9 +4,9 @@ ms.date: 03/15/2017
 ms.service: virtual-network
 ms.topic: reference
 ms.devlang: rest
-author: georgewallace
-ms.author: gwallace
-ms.manager: timlt
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # Network Security Rules
 Network security rules define a pattern of traffic to be enabled or denied. Network security rules are contained within a Network Security Group (NSG). NSGs can be applied at the subnet or NIC level.  

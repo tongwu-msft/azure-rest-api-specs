@@ -4,9 +4,9 @@ ms.date: 03/15/2017
 ms.service: virtual-network
 ms.topic: reference
 ms.devlang: rest
-author: georgewallace
-ms.author: gwallace
-ms.manager: timlt
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # Network Security Groups
 A network security group (NSG) resource contains a list of network security rules. NSGs enable inbound or outbound traffic to be enabled or denied.  
