@@ -1,5 +1,5 @@
 ---
-title: "Stop packet capture"
+title: Stop packet capture
 ms.date: 2017-01-30
 ms.prod: azure
 ms.service: network-watcher
