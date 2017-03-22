@@ -17,8 +17,15 @@ For information about getting started with Azure REST operations including reque
 
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways/{local-network-gateway-name}/vpnDeviceConfiguration?api-version={api-version}`|  
-  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/microsoft.network/localnetworkgateways/{localNetworkGatewayName}/vpnDeviceConfiguration?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the local network gateway exists. |
+| resourceGroup | The name of the resource group that contains the local network gateway. |
+| localNetworkGatewayName | The name of the local network gateway.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+ 
 ## Response  
  Status code: 200 (OK) if the action is successful; otherwise, 404 (Not Found). 400 (Bad Request) can occur if the local network gateway exists but it doesn’t connect to a virtual network gateway.  
   

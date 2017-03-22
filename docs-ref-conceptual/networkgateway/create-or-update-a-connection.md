@@ -17,10 +17,17 @@ For information about getting started with Azure REST operations including reque
  
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`/subscriptions/{subscriptionId}/resourceGroup/{resource-group-name}/providers/microsoft.network/connections/{connection-name}?api-version={api-version}`|  
-|PATCH|`/subscriptions/{subscriptionId}/resourceGroup/{resource-group-name}/providers/microsoft.network/connections/{connection-name}?api-version={api-version}`|  
-  
- The Patch method can be used to update individual properties.  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroup/{resourceGroup}/providers/microsoft.network/connections/{connectionName}?api-version={api-version}`|  
+|PATCH|`/subscriptions/{subscriptionId}/resourceGroup/{resourceGroup}/providers/microsoft.network/connections/{connectionName}?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the connection exists. |
+| resourceGroup | The name of the resource group that contains the connection. |
+| connectionName | The name of the connection.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
+The Patch method can be used to update individual properties.  
   
 ```json  
 {  

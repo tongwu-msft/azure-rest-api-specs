@@ -17,8 +17,15 @@ For information about getting started with Azure REST operations including reque
 
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/connections/{connection-name}/sharedkey/reset?api-version={api-version}`|  
-  
+|POST|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/microsoft.network/connections/{connectionName}/sharedkey/reset?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the connection exists. |
+| resourceGroup | The name of the resource group that contains the connection. |
+| connectionName | The name of the connection.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+ 
 ```json  
 {  
    "KeyLength": {shared-key-length}  

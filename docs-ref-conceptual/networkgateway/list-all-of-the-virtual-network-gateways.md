@@ -17,8 +17,14 @@ For information about getting started with Azure REST operations including reque
 
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/virtualNetworkGateways?api-version={api-version}`|  
-  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/microsoft.network/virtualNetworkGateways?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the virtual network gateways exists. |
+| resourceGroup | The name of the resource group that contains the virtual network gateway. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+    
 ## Response  
  Status code: 200 (OK) if the action was successful; otherwise, 404 (Not Found).  
   

@@ -17,10 +17,17 @@ For information about getting started with Azure REST operations including reque
 
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/virtualNetworkGateways/{virtual-network-gateway-name}?api-version={api-version}`|  
-|PATCH|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/virtualNetworkGateways/{virtual-network-gateway-name}?api-version={api-version}`|  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/microsoft.network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version={api-version}`|  
+|PATCH|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/microsoft.network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the virtual network gateway exists. |
+| resourceGroup | The name of the resource group that contains the virtual network gateway. |
+| virtualNetworkGatewayName | The name of the virtual network gateway.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
   
- The Patch method can be used to update individual properties.  
+The Patch method can be used to update individual properties.  
   
 ```json  
 {  
