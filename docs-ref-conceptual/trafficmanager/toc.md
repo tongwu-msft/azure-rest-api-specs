@@ -6,3 +6,4 @@
 # [Get a Traffic Manager endpoint](get-a-traffic-manager-endpoint.md)
 # [Delete a Traffic Manager endpoint](delete-a-traffic-manager-endpoint.md)
 # [Create or update a Traffic Manager profile](create-or-update-a-traffic-manager-profile.md)
+# [List the regions used by Traffic Manager Geographic routing type](list-geo-regions-traffic-manager.md)
