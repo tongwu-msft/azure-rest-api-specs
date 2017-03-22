@@ -223,7 +223,7 @@ For information about getting started with Azure REST operations including reque
   ],
   "webApplicationFirewallConfiguration": {
     "enabled": true | false,
-    "firewallMode": "Prevention | Detection"
+    "firewallMode": "Prevention | Detection" 
   }
 }
 }
