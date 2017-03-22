@@ -4,9 +4,9 @@ ms.date: 03/09/2017
 ms.service: expressroute
 ms.devlang: rest-api
 ms.topic: reference
-author: georgewallace
-ms.author: gwallace
-manager: timlt
+author: amitsriva
+ms.author: amsriva
+manager: rossort
 ---
 # Create or update an application gateway
 
