@@ -16,8 +16,6 @@ manager: "carolz"
 # List the  regions used by Traffic Manager Geographic routing type
 Each endpoint that is associated with a Traffic Manager profile with Geographic routing type needs to have one or more geographic regions mapped to it. This API call returns the exhaustive list of supported regions, the hierarchy in which they are organized and the associated code that should be used when assigning region(s) to endpoints.
 
- This page explains the latter approach—how to retrieve an individual Traffic Manager endpoint directly as a child resource within an existing profile.  
-
 ## Request  
  See [Traffic Manager profiles and endpoints](traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
 

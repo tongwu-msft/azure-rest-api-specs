@@ -50,4 +50,6 @@ Enables you to manage Azure Traffic Manager profiles and endpoints.
 
 -   [Delete a Traffic Manager endpoint](delete-a-traffic-manager-endpoint.md)  
 
- To list the endpoints in a profile, see ‘[Get a Traffic Manager profile](get-a-traffic-manager-profile.md)’
+ To list the endpoints in a profile, see [Get a Traffic Manager profile](get-a-traffic-manager-profile.md)
+
+  To get the hierarchical list of regions that can be used with the geographic routing method, see [List the regions used by Traffic Manager Geographic routing type](list-geo-regions-traffic-manager.md)
