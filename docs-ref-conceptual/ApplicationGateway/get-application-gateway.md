@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Gatewa
+# Get Application Gateway
 Retrieve an application gateway properties.  
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
@@ -227,17 +227,7 @@ For information about getting started with Azure REST operations including reque
   ],
   "webApplicationFirewallConfiguration": {
     "enabled": true | false,
-    "firewallMode": "Prevention | Detection",
-    "ruleSetType": "OWASP",
-    "ruleSetVersion": "2.2.9 | 3.0",
-    "disabledRuleGroups": [
-      {
-        "ruleGroupName":"{rulegroupName}", 
-        "rules":[
-          "{ruleId}"
-        ]
-      }
-    ]
+    "firewallMode": "Prevention | Detection" 
   }
 }
 }

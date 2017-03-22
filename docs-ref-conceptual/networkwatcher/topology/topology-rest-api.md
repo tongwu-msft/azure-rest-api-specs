@@ -1,6 +1,6 @@
 ---
 title: "Topology REST API"
-ms.date: 2016-06-29
+ms.date: 2017-01-30
 ms.prod: azure
 ms.service: network-watcher
 ms.topic: reference
