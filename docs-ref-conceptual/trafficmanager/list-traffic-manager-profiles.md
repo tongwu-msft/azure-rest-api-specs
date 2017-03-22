@@ -15,17 +15,17 @@ manager: "carolz"
 ---
 # List Traffic Manager profiles
 List Traffic Manager profiles within a resource group.  
-  
+
 ## Request  
  See [Common parameters and headers](traffic-manager-profiles-and-endpoints.md#bk_common) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
 |GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles?api-version={api-version}`|  
-  
+
 ## Response  
  **Status code:** 200 OK.  
-  
+
 ```json  
 {   
    "value":[   
@@ -98,13 +98,13 @@ List Traffic Manager profiles within a resource group.
          }  
       ]  
    }  
-  
+
 ```  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |profileStatus|Specifies whether the profile should be enabled or disabled.<br /><br /> Possible values are:<br /><br /> -   Enabled<br />-   Disabled|  
-|trafficRoutingMethod|Specifies the traffic routing method, used to determine which endpoint is returned in response to incoming DNS queries.<br /><br /> Possible values are:<br /><br /> -   Performance<br />-   Weighted<br />-   Priority|  
+|trafficRoutingMethod|Specifies the traffic routing method, used to determine which endpoint is returned in response to incoming DNS queries.<br /><br /> Possible values are:<br /><br /> -   Performance<br />-   Weighted<br />-   Priority<br />-   Geographic|  
 |dnsConfig|Container for DNS settings for this Traffic Manager profile.|  
 |relativeName|Specifies the relative DNS name provided by this Traffic Manager profile.|  
 |fqdn|The fully-qualified domain name of the Traffic Manager profile. This is a read-only property, formed from the concatenation of the relativeName with the DNS domain used by Azure Traffic Manager.|  
@@ -127,3 +127,4 @@ List Traffic Manager profiles within a resource group.
 |endpointLocation|Specifies the location of the endpoint.  This value is used in the ‘Performance’ traffic-routing method when determining which endpoint is closest to the end user.|  
 |endpointMonitorStatus|Indicates the health status for the endpoint.<br /><br /> This is a read-only property.  Possible values are:<br /><br /> -   Online<br />-   Degraded<br />-   Inactive<br />-   Disabled<br />-   Stopped<br />-   CheckingEndpoint<br /><br /> See [About Traffic Manager Monitoring](https://azure.microsoft.com/documentation/articles/traffic-manager-monitoring/) for further details.|  
 |minChildEndpoints|This parameter specifies the minimum number of endpoints that must be ‘online’ in the child profile in order for the parent profile to direct traffic to any of the endpoints in that child profile. It only applies to endpoints of type NestedEndpoints.|
+|geoMapping|This parameter specifies the geographic regions that are mapped to this endpoint. It is only used if the endpoint is part of a profile that has routing type Geographic.|
