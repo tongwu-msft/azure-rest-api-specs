@@ -1,29 +1,30 @@
 ---
-title: "Get a Traffic Manager profile"
-ms.custom: ""
-ms.date: "2016-02-01"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "traffic-manager"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: eedef229-9b2a-4c41-9140-4384df18c173
-caps.latest.revision: 8
-ms.author: "cherylmc"
-manager: "carolz"
+title: Get a Traffic Manager profile
+ms.date: 03/23/2017
+ms.service: traffic-manager
+ms.devlang: rest-api
+ms.topic: reference
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # Get a Traffic Manager profile
 Get an existing Traffic Manager profile.  
 
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Traffic Manager profiles and endpoints](traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
 
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles/{profile-name}?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{profileName}?api-version={api-version}`|  
 
- Replace {profile-name} with the name of the Traffic Manager profile to be retrieved.  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Traffic Manager endpoint exists. |
+| resourceGroupName | The name of the resource group that contains the Traffic Manager endpoint. |
+| profileName | The name of the Traffic Manager profile.|
+| api-version | The version of the API to use. The current version is 2017-03-01. | 
 
 ## Response  
 
@@ -33,7 +34,7 @@ Get an existing Traffic Manager profile.
 {   
    "location": "global",   
    "tags": {},   
-   "id":"/subscriptions/{subsctiption-id}/resourceGroups/{resource-group-name}/Microsoft.Network/trafficManagerProfiles/{profile-name}",  
+   "id":"/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/Microsoft.Network/trafficManagerProfiles/{profile-name}",  
    "name": "{profile-name}",  
    "type": "Microsoft.Network/trafficManagerProfiles",  
    "properties": {   

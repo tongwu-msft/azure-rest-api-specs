@@ -1,27 +1,25 @@
 ---
-title: "List the regions used by Traffic Manager Geographic routing type"
-ms.custom: ""
-ms.date: "2016-02-01"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "traffic-manager"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: c4600957-4f13-4e84-8502-541c62a8670d
-caps.latest.revision: 3
-ms.author: "v-joagut"
-manager: "carolz"
+title: List the regions used by Traffic Manager Geographic routing type
+ms.date: 03/23/2017
+ms.service: traffic-manager
+ms.devlang: rest-api
+ms.topic: reference
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # List the  regions used by Traffic Manager Geographic routing type
 Each endpoint that is associated with a Traffic Manager profile with Geographic routing type needs to have one or more geographic regions mapped to it. This API call returns the exhaustive list of supported regions, the hierarchy in which they are organized and the associated code that should be used when assigning region(s) to endpoints.
 
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Traffic Manager profiles and endpoints](traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
 
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/Microsoft.Network/trafficManagerGeographicHierarchies/default?api-version={api-version}`|  
+|GET|`/providers/Microsoft.Network/trafficManagerGeographicHierarchies/default?api-version={api-version}`|  
+
+| api-version | The version of the API to use. The current version is 2017-03-01. | 
 
 ## Response  
  **Status code:** 200 OK or 404 Not Found.  

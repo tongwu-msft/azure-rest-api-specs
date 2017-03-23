@@ -1,27 +1,29 @@
 ---
-title: "List Traffic Manager profiles"
-ms.custom: ""
-ms.date: "2016-02-01"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "traffic-manager"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: c6cbd933-eaab-4349-8097-69da55aaa76e
-caps.latest.revision: 8
-ms.author: "cherylmc"
-manager: "carolz"
+title: List Traffic Manager profiles
+ms.date: 03/23/2017
+ms.service: traffic-manager
+ms.devlang: rest-api
+ms.topic: reference
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # List Traffic Manager profiles
 List Traffic Manager profiles within a resource group.  
 
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](traffic-manager-profiles-and-endpoints.md#bk_common) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
 
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Traffic Manager endpoint exists. |
+| resourceGroupName | The name of the resource group that contains the Traffic Manager endpoint. |
+| api-version | The version of the API to use. The current version is 2017-03-01. | 
 
 ## Response  
  **Status code:** 200 OK.  
@@ -30,7 +32,7 @@ List Traffic Manager profiles within a resource group.
 {   
    "value":[   
       {   
-         "id":"/subscriptions/{subsctiption-id}/resourceGroups/{resource-group-name}/Microsoft.Network/trafficManagerProfiles/{profile-name}",  
+         "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.Network/trafficManagerProfiles/{profileName}",  
          "name": "{profile-name}",  
          "type": "Microsoft.Network/trafficManagerProfiles",  
          "location": "global",  
@@ -52,7 +54,7 @@ List Traffic Manager profiles within a resource group.
       "endpoints": [   
          {  
             "id": "{ARM resource ID of this endpoint}",  
-            "name": "{endpoint-name}",  
+            "name": "{endpointName}",  
             "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",  
             "properties": {  
                "endpointStatus": "Enabled",  

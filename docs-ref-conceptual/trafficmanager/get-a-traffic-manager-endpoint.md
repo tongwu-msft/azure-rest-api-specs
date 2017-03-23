@@ -1,41 +1,34 @@
 ---
-title: "Get a Traffic Manager endpoint"
-ms.custom: ""
-ms.date: "2016-02-01"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "traffic-manager"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: c4600957-4f13-4e84-8502-541c62a8670d
-caps.latest.revision: 3
-ms.author: "v-joagut"
-manager: "carolz"
+title: Get a Traffic Manager endpoint
+ms.date: 03/23/2017
+ms.service: traffic-manager
+ms.devlang: rest-api
+ms.topic: reference
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # Get a Traffic Manager endpoint
 Each profile contains a list of endpoints.  These endpoints are child resource of the profile, each with their own unique ARM resource id.  Thus an endpoint can be retrieved in two ways: both by retrieving the profile, or by retrieving the endpoint resource directly.  
 
- This page explains the latter approach—how to retrieve an individual Traffic Manager endpoint directly as a child resource within an existing profile.  
+This page explains the latter approach—how to retrieve an individual Traffic Manager endpoint directly as a child resource within an existing profile.  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
 ## Request  
- See [Traffic Manager profiles and endpoints](traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
 
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles/{profile-name}/{endpoint-type}/{endpoint-name}?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{profileName}/{endpointType}/{endpointName}?api-version={api-version}`|  
 
- Replace {profile-name} with the name of the Traffic Manager profile.  
-
- Replace {endpoint-type} with the type of the endpoint, one of:  
-
--   azureEndpoints  
-
--   externalEndpoints  
-
--   nestedEndpoints  
-
- Replace {endpoint-name} with the name of the endpoint.  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Traffic Manager endpoint exists. |
+| resourceGroupName | The name of the resource group that contains the Traffic Manager endpoint. |
+| profileName | The name of the Traffic Manager profile.|
+| endpointType | The type of endpoint.  One of: azureEndPoints, externalEndpoints, or nestedEndpoints |
+| endpointName | The name of the Traffic Manager endpoint. |
+| api-version | The version of the API to use. The current version is 2017-03-01. | 
 
 ## Response  
  **Status code:** 200 OK or 404 Not Found.  
