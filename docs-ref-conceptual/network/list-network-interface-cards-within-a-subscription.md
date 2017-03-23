@@ -10,7 +10,7 @@ ms.manager: narayan
 ---
 # List network interface cards within a subscription
 
-This operations lists all network interface cards within a subscription.
+This operation lists all network interface cards within a subscription.
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 

@@ -10,7 +10,7 @@ ms.manager: narayan
 ---
 # List public IP addresses within a subscription
 
-This operations lists all public IP addresses in a subscription.
+This operation lists all public IP addresses in a subscription.
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 

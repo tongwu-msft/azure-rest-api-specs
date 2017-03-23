@@ -10,7 +10,7 @@ ms.manager: narayan
 ---
 # List route tables within a resource group
 
-This operations lists all route tables in a resource group
+This operation lists all route tables in a resource group
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 

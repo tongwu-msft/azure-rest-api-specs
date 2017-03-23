@@ -10,7 +10,7 @@ ms.manager: narayan
 ---
 # List network interface cards within a resource group
 
-This operations lists all network interface cards within a resource group.
+This operation lists all network interface cards within a resource group.
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 

@@ -10,7 +10,7 @@ ms.manager: narayan
 ---
 # Virtual Network
 
-<Insert Virtual Network description>. For a more detailed overview, see the [Azure Virtual Network product page](https://azure.microsoft.com/services/virtual-network). 
+An Azure virtual network (VNet) is a representation of your own network in the cloud. It is a logical isolation of the Azure cloud dedicated to your subscription. You can fully control the IP address blocks, DNS settings, security policies, and route tables within this network. For a more detailed overview, see the [Azure Virtual Network product page](https://azure.microsoft.com/services/virtual-network). 
   
 
 |Operation Group|Description|

@@ -10,7 +10,7 @@ ms.manager: narayan
 ---
 # List virtual networks within a subscription
 
-This operations lists all virtual networks in a subscription
+This operation lists all virtual networks in a subscription
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 

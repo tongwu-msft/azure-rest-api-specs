@@ -10,7 +10,7 @@ ms.manager: narayan
 ---
 # List default networks security rules within a network security group
 
-This operations lists the default network security rules for a network security group.
+This operation lists the default network security rules for a network security group.
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 

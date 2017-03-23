@@ -10,7 +10,7 @@ ms.manager: narayan
 ---
 # List subnets within a virtual network
 
-This operations lists all subnets within a virtual network
+This operation lists all subnets within a virtual network
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 

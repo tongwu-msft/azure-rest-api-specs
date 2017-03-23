@@ -10,7 +10,7 @@ ms.manager: narayan
 ---
 # List networks security rules within a network security group
 
-This operations lists all network security rules in a network security group.
+This operation lists all network security rules in a network security group.
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 

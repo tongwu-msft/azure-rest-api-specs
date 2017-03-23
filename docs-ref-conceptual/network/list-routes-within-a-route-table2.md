@@ -10,7 +10,7 @@ ms.manager: narayan
 ---
 # List routes within a route table
 
-This operations lists all route tables in a route table
+This operation lists all route tables in a route table
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 

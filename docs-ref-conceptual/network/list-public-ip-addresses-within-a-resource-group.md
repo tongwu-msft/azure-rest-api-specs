@@ -10,7 +10,7 @@ ms.manager: narayan
 ---
 # List public IP addresses within a resource group
 
-This operations lists all public IP addresses in a resource group.
+This operation lists all public IP addresses in a resource group.
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
