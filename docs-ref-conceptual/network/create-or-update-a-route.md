@@ -1,40 +1,33 @@
 ---
-title: "Create or update a route"
-ms.custom: ""
-ms.date: "2016-04-29"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: f4be9f85-7467-4f78-b4ce-235642353984
-caps.latest.revision: 16
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Create or update a route
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # Create or update a route
+
+This operations creates or updates a route.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](routes.md#bk_common) for headers and parameters that are used by all requests related to Routes.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}?api-version={api-version}`|  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}?api-version={api-version}`|  
   
- Replace {routeName} with the name of the route entry you want to create or update.  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the route exists. |
+| resourceGroup | The name of the resource group that contains the route. |
+| routeTableName | The name of the route table. |
+| routeName | The name of the route. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+ 
 ```json  
 {  
    "properties": {  

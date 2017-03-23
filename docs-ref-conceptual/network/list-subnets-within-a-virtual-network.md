@@ -1,38 +1,32 @@
 ---
-title: "List subnets within a virtual network"
-ms.custom: ""
-ms.date: "2015-11-04"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 320ba134-ab86-4048-8ce7-87532cdd0e81
-caps.latest.revision: 14
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: List subnets within a virtual network
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # List subnets within a virtual network
+
+This operation lists all subnets within a virtual network
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](subnets.md#bk_common) for headers and parameters that are used by all requests related to subnets.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/virtualNetworks/{virtual-network-name}/subnets`|  
-  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/virtualNetworks/{virtualNetowkrName}/subnets`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the subnet exists. |
+| resourceGroup | The name of the resource group that contains the subnet. |
+| virtualNetworkName | The name of the virtual network. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  **Status code:** 200  
   
@@ -40,24 +34,24 @@ translation.priority.mt:
 [   
    {   
       "name":"mysubnet1",  
-      "id":"/subscriptions/{guid}/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/mysubnet1",  
+      "id":"/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/mysubnet1",  
       "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
       "properties":{   
          "provisioningState":"Succeeded",  
          "addressPrefix":"10.1.0.0/24",  
          "networkSecurityGroup":{   
-            "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNSG1"  
+            "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNSG1"  
          },  
-         "routeTable": { "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/myRT1" },  
+         "routeTable": { "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/myRT1" },  
          "ipConfigurations":[   
             {   
-               "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"  
+               "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"  
             },  
             {   
-               "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/lb1/frontendIpConfigurations/ip1"  
+               "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/lb1/frontendIpConfigurations/ip1"  
             },  
             {   
-               "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/gw1/ipConfigurations/ip1"  
+               "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/gw1/ipConfigurations/ip1"  
             }  
          ]  
       }  

@@ -1,42 +1,32 @@
 ---
-title: "Check private IP address availability in a virtual network"
-ms.custom: ""
-ms.date: "2017-02-15"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 3a8cae97-3bed-430d-91b3-274696d91e34
-caps.latest.revision: 11
-author: "anavinahar"
-ms.author: "annahar"
-manager: "narayan"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Check private IP address availability in a virtual network
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # Check private IP address availability in a virtual network
+
+This operation checks if a private IP is available in a virtual network.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](virtual-networks.md#bk_common) for headers and parameters that are used by all requests related to Virtual Networks.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/virtualnetworks/{virtual-network-name}/CheckIPAddressAvailability?address={private-IP-address-to-check}&api-version={api-version}`|  
-  
-Replace {resource-group-name} and {virtual-network-name} with the name of the Resource Group within which the Virtual Network you want to check exists. 
+|GET|`subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/virtualnetworks/{virtualNetworkName}/CheckIPAddressAvailability?address={address}&api-version={api-version}`|  
 
-Repalce {private-IP-address-to-check} with the private IP address you want to check.
-
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the virtual network exists. |
+| resourceGroup | The name of the resource group that contains the virtual network. |
+| virtualNetworkName | The name of the virtual network to check the IP address availability. |
+| address | The private IP address to check. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
 
 ## Response  
  **Status code:** 200.  
