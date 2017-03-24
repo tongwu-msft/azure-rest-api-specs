@@ -29,9 +29,10 @@ translation.priority.mt:
 ---
 # Delete Synonym Map (Azure Search Service REST API)
 > [!NOTE]  
->  Synonyms is a preview feature, exempt from the service level agreement (SLA). Query requests that call preview APIs are not covered by the SLA and are not intended to be used in production code.
+> Synonyms is a preview feature and is not intended to be used in production code. Preview features are subject to change and are exempt from the service level agreement (SLA).
 
-The **Delete Synonym Map** operation removes a synonym map from your Azure Search service.  
+## Request  
+  The **Delete Synonym Map** operation removes a synonym map from your Azure Search service.  
 
 ```  
 DELETE https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-version=[api-version]  
@@ -41,9 +42,16 @@ api-key: [admin key]
 > [!NOTE]  
 >  Please ensure that no field in a search index is referencing the synonym map that you are deleting. The delete operation will still proceed but searches against the fields will fail with 400 (Bad Request) with the error message that the synonym map has been deleted.
 
- The **api-version** is required. The current version is `2016-09-01-Preview`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The **api-version** is required. The current preview version is `2016-09-01-Preview`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+### Request Headers  
+  The following table describes the required and optional request headers.  
+
+ |Request Header|Description|  
+ |--------------------|-----------------|  
+ |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Delete Synonym Map** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
+
+  You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ## Response  
  Status Code: 204 No Content is returned for a successful response.  

@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # Create Synonym Map (Azure Search Service REST API)
 > [!NOTE]  
-> Synonyms is a preview feature, exempt from the service level agreement (SLA). Query requests that call preview APIs are not covered by the SLA and are not intended to be used in production code.
+> Synonyms is a preview feature and is not intended to be used in production code. Preview features are subject to change and are exempt from the service level agreement (SLA).
 
   In Azure Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. You can create a new synonym map within an Azure Search service using an HTTP POST request.
 
@@ -47,7 +47,7 @@ Content-Type: application/json
 api-key: [admin key]  
 ```  
 
-The maximum number of synonym maps allowed varies by pricing tier. Each rule can have up to 20 expansions.
+  The maximum number of synonym maps allowed varies by pricing tier. Each rule can have up to 20 expansions.
 
 |SKU|Maximum number of synonym maps|Maximum number of rules in a synonym map|  
 |--------------------|-----------------|-----------------|
@@ -59,13 +59,13 @@ The maximum number of synonym maps allowed varies by pricing tier. Each rule can
 |S3 HD|20|10000|
 
 ## Request  
- HTTPS is required for all service requests. The **Create Synonym Map** request can be constructed using either a POST or PUT method. When using POST, you must provide a synonym map name in the request body along with the synonym map definition. With PUT, the name is part of the URL. If the synonym map doesn't exist, it is created. If it already exists, it is updated to the new definition  
+ HTTPS is required for all service requests. The **Create Synonym Map** request can be constructed using either a POST or PUT method. When using POST, you must provide a synonym map name in the request body along with the synonym map definition. With PUT, the name is part of the URL. If the synonym map doesn't exist, it is created. If it already exists, it is updated to the new definition.  
 
  The synonym map name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the synonym map name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](naming-rules.md) for details.  
 
  The **api-version** is required. The current preview version is `2016-09-01-Preview`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
-### Request Header  
+### Request Headers
  The following list describes the required and optional request headers.  
 
 |Request Header|Description|  
@@ -76,9 +76,9 @@ The maximum number of synonym maps allowed varies by pricing tier. Each rule can
  You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the [Azure portal](https://portal.azure.com). See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body Syntax  
- The body of the request contains a synonym map definition, which includes format of the synonym map and the list of rules in the specified format.
+ The body of the request contains a synonym map definition, which includes the format of the synonym map and the list of rules in the specified format.
 
- The syntax for structuring the request payload is as follows. A sample request is provided further on in this topic.  
+ The syntax of the request payload is as follows. A sample request is provided further on in this topic.  
 
 ```  
 {   
@@ -94,24 +94,24 @@ The maximum number of synonym maps allowed varies by pricing tier. Each rule can
 |Property|Description|  
 |--------------|-----------------|  
 |`name`|Required. The name of the synonym map. A synonym map name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
-|`format`|Required. Only Apache Solr format ('solr') is currently supported. If you have an existing synonym dictionary in a different format and want to use it directly, please let us know on [UserVoice](https://feedback.azure.com/forums/263029-azure-search)|  
+|`format`|Required. Only Apache Solr format ('solr') is currently supported. If you have an existing synonym dictionary in a different format and want to use it directly, please let us know on [UserVoice](https://feedback.azure.com/forums/263029-azure-search).|  
 |`synonyms`|Required. Synonym rules separated by the new line ('\n') character.|
 
 #### Apache Solr synonym format
 
-The Apache Solr format supports equivalent and explicit synonym mappings.
+  The Apache Solr format supports equivalent and explicit synonym mappings.
 
-1. Equivalent mapping rule lists equivalent terms or phrases separated with commas.
-```
-USA, United States, United States of America
-```
-The rule expands the search to all equivalent terms. For example, the search query "USA" will be expanded to "USA OR \"United States\" OR \"United States of America\"".
+  1. An equivalent mapping rule lists equivalent terms or phrases separated with commas.
+  ```
+  USA, United States, United States of America
+  ```
+  The rule expands the search to all equivalent terms. For example, the search query "USA" will be expanded to "USA" OR "United States" OR "United States of America".
 
-2. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left hand side of "=>" will be replaced with the alternatives on the right hand side.
-```
-Washington, Wash., WA => WA
-```
-Given the rule, the search queries "Washington", "Wash." or "WA" will all be rewritten to "WA". Explicit mapping only applies in the direction specified and does not rewrite the query "WA" to "Washington" in this case.
+  2. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left hand side of "=>" will be replaced with the alternatives on the right hand side.
+  ```
+  Washington, Wash., WA => WA
+  ```
+  Given the rule, the search queries "Washington", "Wash." or "WA" will all be rewritten to "WA". Explicit mapping only applies in the direction specified and does not rewrite the query "WA" to "Washington" in this case.
 
 ### Request Body Examples  
 
