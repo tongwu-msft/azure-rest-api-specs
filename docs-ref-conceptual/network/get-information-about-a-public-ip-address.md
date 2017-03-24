@@ -1,61 +1,53 @@
 ---
-title: "Get information about a public IP address&#160;"
-ms.custom: ""
-ms.date: "2016-07-07"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 1a5af830-e11f-4235-9a92-1ddc14c260f0
-caps.latest.revision: 10
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Get information about a public IP address
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
-# Get information about a public IP address&#160;
-## Request  
- See [Common parameters and headers](public-ip-addresses.md#bk_common) for headers and parameters that are used by all requests related to public IP addresses.  
-  
+# Get information about a public IP address
+
+This operations gets information about a public IP address.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
+## Request
+
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/publicIPAddresses/{public-IP-address-name}?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/publicIPAddresses/{publicIPAddressName}?api-version={api-version}`|  
   
- Replace {public-IP-address-name} with the name of the public IP address whose information you want.  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the public IP address exists. |
+| resourceGroup | The name of the resource group that contains the public IP address. |
+| publicIPAddressName | The name of the public IP address. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  **Status code:** 200; otherwise a 404 will be returned.  
   
 ```json  
 {  
    "name": "myPublicIP1",  
-   "id": "/subscriptions/{guid}/resourceGroups/rg1/Microsoft.Network/publicIpAddresses/ip1",  
+   "id": "/subscriptions/{subscriptionId}/resourceGroups/rg1/Microsoft.Network/publicIpAddresses/ip1",  
    "location": "North US",  
    "tags": {  
       "key": "value"  
    },  
    "etag": "W/\"00000000-0000-0000-0000-000000000000\"",  
    "properties": {  
-      "resourceGuid":"0CB6BF8A-FFBD-486A-A6A2-DA6633481B50",  
+      "resourcesubscriptionId":"0CB6BF8A-FFBD-486A-A6A2-DA6633481B50",  
       "provisioningState": "Succeeded",        
       "ipAddress": "1.1.1.1",  
       "publicIPAllocationMethod": "Static",   
       "publicIPAddressVersion": "IPv4",  
       "idleTimeoutInMinutes": 4,   
       "ipConfiguration": {   
-         "id": "/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"  
+         "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"  
       },  
       "dnsSettings": {  
          "domainNameLabel": "mylabel",  
@@ -72,7 +64,7 @@ translation.priority.mt:
 |location|Specifies the supported Azure location of the Public IP Address. For more information, see List all of the available geo-locations|  
 |tags|The tags and their values that are used by the Public IP Address|  
 |etag|System generated meta-data enabling concurrency control|  
-|resourceGuid|System generated unique identifier used for internal correlation and logging purpose by the platform|  
+|resourcesubscriptionId|System generated unique identifier used for internal correlation and logging purpose by the platform|  
 |provisioningState|Provisioning state of the Public IP Address|  
 |ipAddress|The IP address value that was allocated.|  
 |publicIPAllocationMethod|Defines whether the IP address is stable or dynamic. Options are Static or Dynamic|  

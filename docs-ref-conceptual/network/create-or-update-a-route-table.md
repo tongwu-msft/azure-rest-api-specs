@@ -1,40 +1,32 @@
 ---
-title: "Create or update a route table"
-ms.custom: ""
-ms.date: "2016-04-29"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 126d56f0-a065-4944-beae-418e37715984
-caps.latest.revision: 17
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Create or update a route table
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # Create or update a route table
+
+This operations creates or updates a route table.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](route-tables.md#bk_common) for headers and parameters that are used by all requests related to route table.  
-  
+ 
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/routeTables/{routeTableName}?api-version={api-version}`|  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/routeTables/{routeTableName}?api-version={api-version}`|  
   
- Replace {routeTableName} with the name of the route table which you want to create or update.  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the route table exists. |
+| resourceGroup | The name of the resource group that contains the route table. |
+| routeTableName | The name of the route table. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+ 
 ```json  
 {    
       "location":"North US",  
