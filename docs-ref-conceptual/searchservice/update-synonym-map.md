@@ -57,7 +57,7 @@ api-key: [admin key]
 ## Response  
  For a successful request, "201 Created" if a new synonym map was created, and "204 No Content" if an existing synonym map was updated  
 
- By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the synonym map that was updated. In this case, the success status code will be "200 OK.  
+ By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the synonym map that was updated or created. In this case, the success status code will be "201 Created" if a new synonym map was created and "200 OK" if an existing synonym map was updated.    
 
 ## See Also  
  [Azure Search Service REST](index.md)   
