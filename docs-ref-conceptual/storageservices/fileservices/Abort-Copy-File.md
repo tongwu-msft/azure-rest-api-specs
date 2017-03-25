@@ -34,7 +34,7 @@ The **Abort Copy File** operation aborts a pending **Copy File** operation, and 
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|**PUT**|https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?comp=copy&copyid=<id\>|HTTP/1.1|  
+|**PUT**|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?comp=copy&copyid=<id>`|HTTP/1.1|  
   
  Replace the path components shown in the request URI with your own, as follows:  
   

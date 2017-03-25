@@ -1,6 +1,6 @@
 # [Create or update an application gateway](create-or-update-an-application-gateway.md)
 # [Get Application Gateway](get-application-gateway.md)
-# [List application gateways (GET)](list-application-gateways--get-.md)
-# [Delete Application Gateway (DELETE)](delete-application-gateway--delete-.md)
+# [List application gateways (GET)](list-application-gateways.md)
+# [Delete Application Gateway (DELETE)](delete-application-gateway.md)
 # [Start Application Gateway](start-application-gateway.md)
 # [Stop Application Gateway](stop-application-gateway.md)

@@ -1,38 +1,31 @@
 ---
-title: "List virtual network peerings within a virtual network"
-ms.custom: ""
-ms.date: "2016-07-08"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 44b24c2f-8088-4c6b-a322-a7c8e4b491f1
-caps.latest.revision: 10
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: List virtual network peerings within a virtual network
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # List virtual network peerings within a virtual network
+This operation lists all virtual network peerings in a virtual network
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](virtual-networks.md#bk_common) for headers and parameters that are used by all requests related to Virtual Networks.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/virtualNetworks/{virtual-network-name}/virtualNetworkPeerings?api-version={api-version}`|  
-  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the virtual network peering exists. |
+| resourceGroup | The name of the resource group that contains the virtual network peering. |
+| virtualNetworkName | The name of the virtual network. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+   
 ## Response  
  **Status code:** 200  
   
@@ -40,13 +33,13 @@ translation.priority.mt:
  { "value": [
     {
     "name": "LinktoVNet2",
-    "id": "/subscriptions/{guid}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1/virtualNetworkPeerings/LinktoVNet2",
+    "id": "/subscriptions/{subscriptionId}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1/virtualNetworkPeerings/LinktoVNet2",
     "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
     "properties": {
       "provisioningState": "Succeeded",
       "peeringState": "Connected",
     "remoteVirtualNetwork": { 
-      "id": "/subscriptions/{guid}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet2" }, 
+      "id": "/subscriptions/{subscriptionId}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet2" }, 
     "allowVnetAccess": true, 
     "allowForwardedTraffic": false, 
     "allowGatewayTransit": false, 
@@ -60,13 +53,13 @@ translation.priority.mt:
   },
     {
     "name": "LinktoVNet3",
-    "id": "/subscriptions/{guid}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1/virtualNetworkPeerings/LinktoVNet3",
+    "id": "/subscriptions/{subscriptionId}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1/virtualNetworkPeerings/LinktoVNet3",
     "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
     "properties": {
       "provisioningState": "Succeeded",
       "peeringState": "Connected",
     "remoteVirtualNetwork": { 
-      "id": "/subscriptions/{guid}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet3" }, 
+      "id": "/subscriptions/{subscriptionId}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet3" }, 
     "allowVnetAccess": true, 
     "allowForwardedTraffic": false, 
     "allowGatewayTransit": false, 

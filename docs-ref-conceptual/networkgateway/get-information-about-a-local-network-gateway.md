@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: a898b868-f5cf-4738-a363-910d6ecff2ad
 caps.latest.revision: 4
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
+author: "yushwang"
+ms.author: "yushwang"
+manager: "rossort"
 translation.priority.mt: 
   - "de-de"
   - "es-es"

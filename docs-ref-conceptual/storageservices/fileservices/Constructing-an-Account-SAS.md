@@ -1,7 +1,7 @@
 ---
 title: "Constructing an Account SAS"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 2017-03-06
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -10,7 +10,7 @@ ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: 3caef6a2-096c-4284-87bb-f88297a72032
 caps.latest.revision: 19
-author: tamram
+author: robinsh
 translation.priority.mt: 
   - de-de
   - es-es
@@ -187,11 +187,13 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Delete  Table|Table (t)|Container (c)|Delete (d)|  
 |Query Entities|Table (t)|Object (o)|Read (r)|  
 |Insert Entity|Table (t)|Object (o)|Add (a)|  
-|Insert Or Merge Entity|Table (t)|Object (o)|Add (a) or Update (u)|  
-|Insert Or Replace Entity|Table (t)|Object (o)|Add (a) or Update (u)|  
+|Insert Or Merge Entity|Table (t)|Object (o)|Add (a) and Update (u)<sup>1</sup>|  
+|Insert Or Replace Entity|Table (t)|Object (o)|Add (a) and Update (u)<sup>1</sup>|  
 |Update Entity|Table (t)|Object (o)|Update (u)|  
 |Merge Entity|Table (t)|Object (o)|Update (u)|  
 |Delete Entity|Table (t)|Object (o)|Delete (d)|  
+
+<sup>1</sup>Add and Update permissions are required for upsert operations on the Table Service.
   
 ### File Service  
  The following table lists File service operations and indicates which signed resource type and signed permissions to specify to delegate access to those operations.  

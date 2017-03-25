@@ -1,40 +1,31 @@
 ---
-title: "Check subscription usages"
-ms.custom: ""
-ms.date: "2015-11-04"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 0e7beab4-2fcb-47f4-9437-e83ae9c1b3ae
-caps.latest.revision: 9
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Check subscription usages
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # Check subscription usages
+
+This operation returns the usage of network resources in a region.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](supporting-tasks.md#bk_common) for headers and parameters that are used by all requests related to supporting tasks.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages?api-version={api-version}`|  
-  
- Replace {location} with the name of the region for which you wish to view your usage of network resources.  
-  
+|GET|`/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the network resources exist. |
+| location | Region to get network resource usage for. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  **Status code:** Returns status code 200 (OK), if the operation was successful.  
   

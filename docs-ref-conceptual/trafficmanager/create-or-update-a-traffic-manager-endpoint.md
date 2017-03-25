@@ -15,30 +15,30 @@ manager: "carolz"
 ---
 # Create or update a Traffic Manager endpoint
 Each profile contains a list of endpoints.  These endpoints are child resource of the profile, each with their own unique ARM resource id.  Thus endpoints can be managed in two ways: both by modifying the endpoints list when updating a profile, or by modifying the endpoint resource directly.  
-  
+
  This page explains the latter approach—how to create or update an individual Traffic Manager endpoint directly as a child resource within an existing profile.  
-  
+
 ## Request  
  See [Traffic Manager profiles and endpoints](traffic-manager-profiles-and-endpoints.md) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
 |PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles/{profile-name}/{endpoint-type}/{endpoint-name}?api-version={api-version}`|  
-  
+
  Replace {profile-name} with the name of the Traffic Manager profile.  
-  
+
  Replace {endpoint-type} with the type of the endpoint, one of:  
-  
+
 -   azureEndpoints  
-  
+
 -   externalEndpoints  
-  
+
 -   nestedEndpoints  
-  
+
  Replace {endpoint-name} with the name of the endpoint.  
-  
+
  Example 1: AzureEndpoints  
-  
+
 ```json  
 {  
   "name": "{endpoint-name}",  
@@ -51,9 +51,9 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
   }  
 }  
 ```  
-  
+
  Example 2: ExternalEndpoints  
-  
+
 ```json  
 {  
   "name": "{endpoint-name}",  
@@ -63,13 +63,13 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
     "endpointStatus": "Enabled",  
     "weight": 10,  
     "priority": 5,  
-    "endpointLocation": "northeurope"  
+    "endpointLocation": "northeurope"
   }  
 }  
 ```  
-  
+
  Example 3: NestedEndpoints  
-  
+
 ```json  
 {  
   "name": "{endpoint-name}",  
@@ -80,11 +80,16 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
     "weight": 10,  
     "priority": 1,  
     "endpointLocation": "westeurope",  
-    "minChildEndpoints": 1,  
+    "minChildEndpoints": 1,
+    "geoMapping": [
+                "GEO-EU",
+                "GEO-AF"
+            ]
+
   }  
 }  
 ```  
-  
+
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
 |name|Yes|String|Specifies the name (ARM resource name) of the endpoint|  
@@ -96,13 +101,14 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
 |weight|No|Positive Integer|Specifies the weight assigned by Traffic Manager to the endpoint.  This is only used if the Traffic Manager profile is configured to use the 'weighted' traffic routing method.Possible values are from 1 to 1000.  This parameter is optional, if omitted a default weight of ‘1’ is used.|  
 |priority|No|Positive Integer|Specifies the priority of this endpoint when using the ‘priority’ traffic routing method.<br /><br /> Priority must lie in the range 1…1000.  Lower values represent higher priority.  No two endpoints can share the same priority value.<br /><br /> This is an optional parameter.  If omitted, Traffic Manager assigns endpoints with default priority values 1, 2, 3 etc in the order the endpoints are provided.|  
 |endpointLocation|No|String|Specifies the location of the endpoint.  This value is used in the ‘Performance’ traffic-routing method when determining which endpoint is closest to the end user.<br /><br /> This property can only be specified on endpoints of type ‘ExternalEndpoints’ or ‘NestedEndpoints’.  For endpoints of type ‘AzureEndpoints’, the location is taken from the Azure resource specified in the targetResourceId.<br /><br /> This parameter is mandatory ExternalEndpoints and NestedEndpoints whenever the ‘Performance’ traffic-routing method is used.<br /><br /> For more information and possible values, see List all of the available geo-locations|  
-|minChildEndpoints|No|Positive Integer|This parameter specifies the minimum number of endpoints that must be ‘online’ in the child profile in order for the parent profile to direct traffic to any of the endpoints in that child profile.<br /><br /> It only applies to endpoints of type NestedEndpoints.  It is optional, with default ‘1’.|  
-  
+|minChildEndpoints|No|Positive Integer|This parameter specifies the minimum number of endpoints that must be ‘online’ in the child profile in order for the parent profile to direct traffic to any of the endpoints in that child profile.<br /><br /> It only applies to endpoints of type NestedEndpoints.  It is optional, with default ‘1’.|
+|geoMapping|No|String Array|This parameter specifies the geographic regions that are mapped to this endpoint. <br /><br /> It is optional and is only used if the endpoint is part of a profile that has routing type Geographic (for which it is required). If used, it cannot be an empty list.|
+
 ## Response  
  **Status code:** 200 or 201 depending on whether the endpoint resource is updated or created.  
-  
+
  Example 1: AzureEndpoints  
-  
+
 ```json  
 {  
   "id": "{ARM resource ID of this endpoint}",  
@@ -119,9 +125,9 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
   }  
 }  
 ```  
-  
+
  Example 2: ExternalEndpoints  
-  
+
 ```json  
 {  
   "id": "{ARM resource ID of this endpoint}",  
@@ -137,9 +143,9 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
   }  
 }  
 ```  
-  
+
  Example 3: NestedEndpoints  
-  
+
 ```json  
 {  
   "id": "{ARM resource ID of this endpoint}",  
@@ -152,11 +158,16 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
     "weight": 10,  
     "priority": 1,  
     "endpointLocation": "westeurope",  
-    "minChildEndpoints": 1,  
+    "minChildEndpoints": 1,
+    "geoMapping": [
+                "GEO-EU",
+                "GEO-AF"
+            ]
+
   }  
 }  
 ```  
-  
+
 |Element name|Description|  
 |------------------|-----------------|  
 |id|Specifies the ARM resource ID of the endpoint.  Each endpoint is a child resource of the parent profile resource, hence each endpoint has a unique ARM resource ID.|  
@@ -171,3 +182,4 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
 |endpointLocation|Specifies the location of the endpoint.  This value is used in the ‘Performance’ traffic-routing method when determining which endpoint is closest to the end user.|  
 |endpointMonitorStatus|Indicates the health status for the endpoint.<br /><br /> This is a read-only property.  Possible values are:<br /><br /> -   Online<br />-   Degraded<br />-   Inactive<br />-   Disabled<br />-   Stopped<br />-   CheckingEndpoint<br /><br /> See [About Traffic Manager Monitoring](https://azure.microsoft.com/documentation/articles/traffic-manager-monitoring/) for further details.|  
 |minChildEndpoints|This parameter specifies the minimum number of endpoints that must be ‘online’ in the child profile in order for the parent profile to direct traffic to any of the endpoints in that child profile.<br /><br /> It only applies to endpoints of type NestedEndpoints.|
+|geoMapping|This parameter specifies the geographic regions that are mapped to this endpoint. <br /><br /> It is only used if the endpoint is part of a profile that has routing type Geographic (for which it is required).|

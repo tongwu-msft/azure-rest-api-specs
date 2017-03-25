@@ -1,7 +1,11 @@
 ---
 title: "Azure DocumentDB REST API Reference"
 ms.custom: ""
+<<<<<<< HEAD
 ms.date: "2017-03-01"
+=======
+ms.date: "2017-03-02"
+>>>>>>> 60e797a7411ee2f9a5b30aa4e935205aa45c202b
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "documentdb"

@@ -1,28 +1,12 @@
 ---
-title: "Create or update an application gateway"
-ms.custom: ""
-ms.date: "2016-02-18"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: cc786154-d03c-4533-9471-8fbdfd5b08bf
-caps.latest.revision: 3
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Create or update an application gateway
+ms.date: 03/09/2017
+ms.service: application-gateway
+ms.devlang: rest-api
+ms.topic: reference
+author: amitsriva
+ms.author: amsriva
+manager: rossort
 ---
 # Create or update an application gateway
 
@@ -34,10 +18,15 @@ For information about getting started with Azure REST operations including reque
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationgateways/{ApplicationGatewayName}?api-version={api-version}`|  
-  
- Replace {ApplicationGatewayName} with the name of the application gateway to be created.  The application gateway name must be unique within the resource group and be in its own empty virtual network subnet.  
-  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationgateways/{applicationGatewayName}?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Application Gateway exists. |
+| resourceGroupName | The name of the resource group that contains the Application Gateway. |
+| applicationGatewayName | The name of the Application Gateway. The application gateway name must be unique within the resource group and be in its own empty virtual network subnet.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+ 
 ## Request Body  
   
 ```json 
@@ -223,7 +212,7 @@ For information about getting started with Azure REST operations including reque
   ],
   "webApplicationFirewallConfiguration": {
     "enabled": true | false,
-    "firewallMode": "Prevention | Detection"
+    "firewallMode": "Prevention | Detection" 
   }
 }
 }
@@ -262,7 +251,7 @@ For information about getting started with Azure REST operations including reque
 |frontendPorts[i].port|Integer|Yes|Port number|  
 |probes|ComplexType|No|Specifies list of URL probes|  
 |probes[i].name|String|Yes|Name of probe|  
-|probes[i].protocol|String|Yes|Protocol used to send probe. Http only.|  
+|probes[i].protocol|String|Yes|Protocol used to send probe. Http or Https.|  
 |probes[i].host|String|Yes|Host name to send probe to|  
 |probes[i].path|String|Yes|Relative path of probe. Valid path starts from '/'. Probe is sent to \{Protocol}://\{host}:\{port}\{path}|  
 |probes[i].interval|Integer|Yes|Probe interval in seconds. This is the time interval between two consecutive probes. Minimum 1 second and Maximum 86,400 secs.|  
@@ -303,7 +292,7 @@ For information about getting started with Azure REST operations including reque
 |webApplicationFirewallConfiguration| ComplexType|No|Web Application Firewall configuration settings |
 |webApplicationFirewallConfiguration[i].enabled| boolean | Yes | Switch to determine if WAF is enabled or not|
 |webApplicationFirewallConfiguration[i].firewallMode|String|Yes|Firewall mode Supported values: Prevention &#124; Detection|  
-  
+
 ### Response  
  
 **Status code:** If successful, if gateway does not exist return HTTP Status code of 201(Created) otherwise HTTP status code of 200(OK).

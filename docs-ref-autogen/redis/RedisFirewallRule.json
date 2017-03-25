@@ -1,0 +1,1354 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "RedisManagementClient",
+    "description": "REST API for Azure Redis Cache Service.",
+    "version": "2016-04-01"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{cacheName}/firewallRules/{ruleName}": {
+      "put": {
+        "tags": [
+          "Redis",
+          "FirewallRules"
+        ],
+        "operationId": "RedisFirewallRule_CreateOrUpdate",
+        "description": "Create or update a redis cache firewall rule",
+        "x-ms-examples": {
+          "RedisCacheFirewallRuleCreate": {
+            "$ref": "#/definitions/RedisCacheFirewallRuleCreate"
+          }
+        },
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group."
+          },
+          {
+            "name": "cacheName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the Redis cache."
+          },
+          {
+            "name": "ruleName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the firewall rule."
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RedisFirewallRule"
+            },
+            "description": "Parameters supplied to the create or update redis firewall rule operation."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource was successfully updated",
+            "schema": {
+              "$ref": "#/definitions/RedisFirewallRule"
+            }
+          },
+          "201": {
+            "description": "Resource was successfully created",
+            "schema": {
+              "$ref": "#/definitions/RedisFirewallRule"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Redis",
+          "FirewallRules"
+        ],
+        "operationId": "RedisFirewallRule_Get",
+        "description": "Gets a single firewall rule in a specified redis cache.",
+        "x-ms-examples": {
+          "RedisCacheFirewallRuleGet": {
+            "$ref": "#/definitions/RedisCacheFirewallRuleGet"
+          }
+        },
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group."
+          },
+          {
+            "name": "cacheName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the Redis cache."
+          },
+          {
+            "name": "ruleName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the firewall rule."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found the rule",
+            "schema": {
+              "$ref": "#/definitions/RedisFirewallRule"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Redis",
+          "FirewallRules"
+        ],
+        "operationId": "RedisFirewallRule_Delete",
+        "description": "Deletes a single firewall rule in a specified redis cache.",
+        "x-ms-examples": {
+          "RedisCacheFirewallRuleDelete": {
+            "$ref": "#/definitions/RedisCacheFirewallRuleDelete"
+          }
+        },
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group."
+          },
+          {
+            "name": "cacheName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the Redis cache."
+          },
+          {
+            "name": "ruleName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the firewall rule."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted the rule"
+          },
+          "204": {
+            "description": "Successfully deleted the rule"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Sku": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)",
+          "enum": [
+            "Basic",
+            "Standard",
+            "Premium"
+          ],
+          "x-ms-enum": {
+            "name": "SkuName",
+            "modelAsString": true
+          }
+        },
+        "family": {
+          "type": "string",
+          "description": "The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).",
+          "enum": [
+            "C",
+            "P"
+          ],
+          "x-ms-enum": {
+            "name": "SkuFamily",
+            "modelAsString": true
+          }
+        },
+        "capacity": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3, 4)."
+        }
+      },
+      "required": [
+        "name",
+        "family",
+        "capacity"
+      ],
+      "description": "SKU parameters supplied to the create Redis operation."
+    },
+    "RedisProperties": {
+      "properties": {
+        "redisConfiguration": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc."
+        },
+        "enableNonSslPort": {
+          "type": "boolean",
+          "description": "Specifies whether the non-ssl Redis server port (6379) is enabled."
+        },
+        "tenantSettings": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "tenantSettings"
+        },
+        "shardCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of shards to be created on a Premium Cluster Cache."
+        },
+        "subnetId": {
+          "type": "string",
+          "pattern": "^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$",
+          "description": "The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subid}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1"
+        },
+        "staticIP": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+\\.\\d+$",
+          "description": "Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network."
+        }
+      },
+      "description": "Properties supplied to Create or Update Redis operation.",
+      "x-ms-external": true
+    },
+    "RedisCreateProperties": {
+      "properties": {
+        "sku": {
+          "$ref": "#/definitions/Sku",
+          "description": "The SKU of the Redis cache to deploy."
+        }
+      },
+      "required": [
+        "sku"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/RedisProperties"
+        }
+      ],
+      "description": "Properties supplied to Create Redis operation."
+    },
+    "RedisUpdateProperties": {
+      "properties": {
+        "sku": {
+          "$ref": "#/definitions/Sku",
+          "description": "The SKU of the Redis cache to deploy."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/RedisProperties"
+        }
+      ],
+      "description": "Properties supplied to Update Redis operation."
+    },
+    "Resource": {
+      "description": "The Resource definition.",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        },
+        "location": {
+          "type": "string",
+          "description": "Resource location."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "required": [
+        "location"
+      ],
+      "x-ms-azure-resource": true
+    },
+    "RedisCreateParameters": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/RedisCreateProperties",
+          "description": "Redis cache properties."
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Parameters supplied to the Create Redis operation."
+    },
+    "RedisUpdateParameters": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/RedisUpdateProperties",
+          "description": "Redis cache properties."
+        }
+      },
+      "description": "Parameters supplied to the Update Redis operation."
+    },
+    "RedisAccessKeys": {
+      "properties": {
+        "primaryKey": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The current primary key that clients can use to authenticate with Redis cache."
+        },
+        "secondaryKey": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The current secondary key that clients can use to authenticate with Redis cache."
+        }
+      },
+      "description": "Redis cache access keys."
+    },
+    "RedisFirewallRule": {
+      "description": "A firewall rule on a redis cache has a name, and describes a contiguous range of IP addresses permitted to connect",
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true,
+          "description": "resource ID (of the firewall rule)"
+        },
+        "name": {
+          "type": "string",
+          "readOnly": true,
+          "description": "name of the firewall rule"
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true,
+          "description": "type (of the firewall rule resource = 'Microsoft.Cache/redis/firewallRule')"
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/RedisFirewallRuleProperties",
+          "description": "redis cache firewall rule properties"
+        }
+      },
+      "required": [
+        "properties"
+      ]
+    },
+    "RedisFirewallRuleProperties": {
+      "description": "Specifies a range of IP addresses permitted to connect to the cache",
+      "properties": {
+        "startIP": {
+          "type": "string",
+          "description": "lowest IP address included in the range"
+        },
+        "endIP": {
+          "type": "string",
+          "description": "highest IP address included in the range"
+        }
+      },
+      "required": [
+        "startIP",
+        "endIP"
+      ]
+    },
+    "RedisFirewallRuleListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RedisFirewallRule"
+          },
+          "description": "Results of the list firewall rules operation."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Link for next set of locations."
+        }
+      },
+      "description": "The response of list firewall rules Redis operation.",
+      "required": [
+        "value"
+      ]
+    },
+    "RedisResourceProperties": {
+      "properties": {
+        "sku": {
+          "$ref": "#/definitions/Sku",
+          "description": "The SKU of the Redis cache to deploy."
+        },
+        "redisVersion": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Redis version."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Redis instance provisioning status."
+        },
+        "hostName": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Redis host name."
+        },
+        "port": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32",
+          "description": "Redis non-SSL port."
+        },
+        "sslPort": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32",
+          "description": "Redis SSL port."
+        },
+        "accessKeys": {
+          "$ref": "#/definitions/RedisAccessKeys",
+          "readOnly": true,
+          "description": "The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/RedisProperties"
+        }
+      ],
+      "description": "Parameters describing a Redis instance."
+    },
+    "RedisResource": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/RedisResourceProperties",
+          "description": "Redis cache properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "A single Redis item in List or Get Operation."
+    },
+    "RedisListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RedisResource"
+          },
+          "description": "List of Redis cache instances."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Link for next set of locations."
+        }
+      },
+      "description": "The response of list Redis operation."
+    },
+    "RedisRegenerateKeyParameters": {
+      "properties": {
+        "keyType": {
+          "type": "string",
+          "description": "The Redis access key to regenerate.",
+          "enum": [
+            "Primary",
+            "Secondary"
+          ],
+          "x-ms-enum": {
+            "name": "RedisKeyType",
+            "modelAsString": false
+          }
+        }
+      },
+      "required": [
+        "keyType"
+      ],
+      "description": "Specifies which Redis access keys to reset."
+    },
+    "RedisRebootParameters": {
+      "properties": {
+        "rebootType": {
+          "type": "string",
+          "description": "Which Redis node(s) to reboot. Depending on this value data loss is possible.",
+          "enum": [
+            "PrimaryNode",
+            "SecondaryNode",
+            "AllNodes"
+          ],
+          "x-ms-enum": {
+            "name": "RebootType",
+            "modelAsString": true
+          }
+        },
+        "shardId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "If clustering is enabled, the ID of the shard to be rebooted."
+        }
+      },
+      "required": [
+        "rebootType"
+      ],
+      "description": "Specifies which Redis node(s) to reboot."
+    },
+    "ExportRDBParameters": {
+      "properties": {
+        "format": {
+          "type": "string",
+          "description": "File format."
+        },
+        "prefix": {
+          "type": "string",
+          "description": "Prefix to use for exported files."
+        },
+        "container": {
+          "type": "string",
+          "description": "Container name to export to."
+        }
+      },
+      "required": [
+        "container",
+        "prefix"
+      ],
+      "description": "Parameters for Redis export operation."
+    },
+    "ImportRDBParameters": {
+      "properties": {
+        "format": {
+          "type": "string",
+          "description": "File format."
+        },
+        "files": {
+          "type": "array",
+          "description": "files to import.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "files"
+      ],
+      "description": "Parameters for Redis import operation."
+    },
+    "ScheduleEntry": {
+      "properties": {
+        "dayOfWeek": {
+          "type": "string",
+          "description": "Day of the week when a cache can be patched.",
+          "enum": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+            "Everyday",
+            "Weekend"
+          ],
+          "x-ms-enum": {
+            "name": "DayOfWeek",
+            "modelAsString": false
+          }
+        },
+        "startHourUtc": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Start hour after which cache patching can start."
+        },
+        "maintenanceWindow": {
+          "type": "string",
+          "format": "duration",
+          "description": "ISO8601 timespan specifying how much time cache patching can take. "
+        }
+      },
+      "required": [
+        "dayOfWeek",
+        "startHourUtc"
+      ],
+      "description": "Patch schedule entry for a Premium Redis Cache."
+    },
+    "ScheduleEntries": {
+      "properties": {
+        "scheduleEntries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScheduleEntry"
+          },
+          "description": "List of patch schedules for a Redis cache."
+        }
+      },
+      "required": [
+        "scheduleEntries"
+      ],
+      "description": "List of patch schedules for a Redis cache."
+    },
+    "RedisPatchSchedule": {
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        },
+        "location": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource location."
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ScheduleEntries",
+          "description": "List of patch schedules for a Redis cache."
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "description": "Response to put/get patch schedules for Redis cache."
+    },
+    "RedisForceRebootResponse": {
+      "properties": {
+        "Message": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Status message"
+        }
+      },
+      "description": "Response to force reboot for Redis cache."
+    },
+    "Operation": {
+      "description": "REST API operation",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Operation name: {provider}/{resource}/{operation}",
+          "type": "string"
+        },
+        "display": {
+          "description": "The object that describes the operation.",
+          "properties": {
+            "provider": {
+              "description": "Friendly name of the resource provider",
+              "type": "string"
+            },
+            "operation": {
+              "description": "Operation type: read, write, delete, listKeys/action, etc.",
+              "type": "string"
+            },
+            "resource": {
+              "description": "Resource type on which the operation is performed.",
+              "type": "string"
+            },
+            "description": {
+              "description": "Friendly name of the operation",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "OperationListResult": {
+      "description": "Result of the request to list REST API operations. It contains a list of operations and a URL nextLink to get the next set of results.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Operation"
+          },
+          "description": "List of operations supported by the resource provider."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of operation list results if there are any."
+        }
+      }
+    },
+    "RedisCacheCreate": {
+      "parameters": {
+        "name": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid",
+        "parameters": {
+          "location": "West US",
+          "properties": {
+            "sku": {
+              "name": "Premium",
+              "family": "P",
+              "capacity": 1
+            },
+            "enableNonSslPort": true,
+            "shardCount": 2,
+            "redisConfiguration": {
+              "maxmemory-policy": "allkeys-lru"
+            },
+            "subnetId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
+            "staticIP": "192.168.0.5"
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1",
+            "location": "West US",
+            "name": "cache1",
+            "type": "Microsoft.Cache/Redis",
+            "tags": {},
+            "properties": {
+              "accessKeys": {
+                "primaryKey": "secretkey1",
+                "secondaryKey": "secretKey2"
+              },
+              "provisioningState": "Succeeded",
+              "redisVersion": "3.0",
+              "sku": {
+                "name": "Premium",
+                "family": "P",
+                "capacity": 1
+              },
+              "enableNonSslPort": false,
+              "redisConfiguration": {
+                "maxmemory-policy": "allkeys-lru"
+              },
+              "hostName": "cache1.redis.cache.windows.net",
+              "port": 6379,
+              "sslPort": 6380
+            }
+          }
+        },
+        "200": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1",
+            "location": "West US",
+            "name": "cache1",
+            "type": "Microsoft.Cache/Redis",
+            "tags": {},
+            "properties": {
+              "accessKeys": {
+                "primaryKey": "secretkey1",
+                "secondaryKey": "secretKey2"
+              },
+              "provisioningState": "Succeeded",
+              "redisVersion": "3.0",
+              "sku": {
+                "name": "Premium",
+                "family": "P",
+                "capacity": 1
+              },
+              "enableNonSslPort": false,
+              "redisConfiguration": {
+                "maxclients": "1000",
+                "maxmemory-reserved": "50",
+                "maxmemory-delta": "50"
+              },
+              "hostName": "cache1.redis.cache.windows.net",
+              "port": 6379,
+              "sslPort": 6380
+            }
+          }
+        }
+      }
+    },
+    "RedisCacheUpdate": {
+      "parameters": {
+        "name": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid",
+        "parameters": {
+          "properties": {
+            "enableNonSslPort": true
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1",
+            "location": "West US",
+            "name": "cache1",
+            "type": "Microsoft.Cache/Redis",
+            "tags": {},
+            "properties": {
+              "accessKeys": {
+                "primaryKey": "secretkey1",
+                "secondaryKey": "secretKey2"
+              },
+              "provisioningState": "Succeeded",
+              "redisVersion": "3.0",
+              "sku": {
+                "name": "Premium",
+                "family": "P",
+                "capacity": 1
+              },
+              "enableNonSslPort": false,
+              "redisConfiguration": {
+                "maxclients": "1000",
+                "maxmemory-reserved": "50",
+                "maxmemory-delta": "50"
+              },
+              "hostName": "cache1.redis.cache.windows.net",
+              "port": 6379,
+              "sslPort": 6380
+            }
+          }
+        }
+      }
+    },
+    "RedisCacheDelete": {
+      "parameters": {
+        "name": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {},
+        "204": {}
+      }
+    },
+    "RedisCacheGet": {
+      "parameters": {
+        "name": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1",
+            "location": "West US",
+            "name": "cache1",
+            "type": "Microsoft.Cache/Redis",
+            "tags": {},
+            "properties": {
+              "provisioningState": "Creating",
+              "redisVersion": "3.2",
+              "sku": {
+                "name": "Standard",
+                "family": "C",
+                "capacity": 6
+              },
+              "enableNonSslPort": true,
+              "redisConfiguration": {},
+              "hostName": "cache1.redis.cache.windows.net",
+              "port": 6379,
+              "sslPort": 6380
+            }
+          }
+        }
+      }
+    },
+    "RedisCacheListByResourceGroup": {
+      "parameters": {
+        "api-version": "2016-04-01",
+        "resourceGroupName": "rg1",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1",
+                "location": "West US",
+                "name": "cache1",
+                "type": "Microsoft.Cache/Redis",
+                "tags": {},
+                "properties": {
+                  "provisioningState": "Creating",
+                  "redisVersion": "3.2",
+                  "sku": {
+                    "name": "Standard",
+                    "family": "C",
+                    "capacity": 6
+                  },
+                  "enableNonSslPort": true,
+                  "redisConfiguration": {},
+                  "hostName": "cache1.redis.cache.windows.net",
+                  "port": 6379,
+                  "sslPort": 6380
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "RedisCacheList": {
+      "parameters": {
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1",
+                "location": "West US",
+                "name": "cache1",
+                "type": "Microsoft.Cache/Redis",
+                "tags": {},
+                "properties": {
+                  "provisioningState": "Creating",
+                  "redisVersion": "3.2",
+                  "sku": {
+                    "name": "Standard",
+                    "family": "C",
+                    "capacity": 6
+                  },
+                  "enableNonSslPort": true,
+                  "redisConfiguration": {},
+                  "hostName": "cache1.redis.cache.windows.net",
+                  "port": 6379,
+                  "sslPort": 6380
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "RedisCacheListKeys": {
+      "parameters": {
+        "name": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "primaryKey": "secretkey1",
+            "secondaryKey": "secretKey2"
+          }
+        }
+      }
+    },
+    "RedisCacheRegenerateKey": {
+      "parameters": {
+        "name": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid",
+        "parameters": {
+          "keyType": "Primary"
+        }
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "primaryKey": "secretkey1",
+            "secondaryKey": "secretKey2"
+          }
+        }
+      }
+    },
+    "RedisCacheForceReboot": {
+      "parameters": {
+        "name": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid",
+        "parameters": {
+          "shardId": 0,
+          "rebootType": "AllNodes"
+        }
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "Message": "reboot operation enqueued"
+          }
+        }
+      }
+    },
+    "RedisCacheImport": {
+      "parameters": {
+        "name": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid",
+        "parameters": {
+          "format": "RDB",
+          "files": [
+            "http://fileuris.contoso.com/pathtofile1"
+          ]
+        }
+      },
+      "responses": {
+        "200": {},
+        "202": {
+          "headers": {
+            "location": "https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationResult..."
+          }
+        },
+        "204": {}
+      }
+    },
+    "RedisCacheExport": {
+      "parameters": {
+        "name": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid",
+        "parameters": {
+          "format": "RDB",
+          "prefix": "datadump1",
+          "container": "https://contosostorage.blob.core.window.net/urltoBlobContainer?sasKeyParameters"
+        }
+      },
+      "responses": {
+        "200": {},
+        "202": {
+          "headers": {
+            "location": "https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationResult..."
+          }
+        },
+        "204": {}
+      }
+    },
+    "RedisCacheFirewallRulesList": {
+      "parameters": {
+        "cacheName": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "value": [
+              {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1",
+                "name": "rule1",
+                "type": "Microsoft.Cache/Redis/firewallRules",
+                "properties": {
+                  "startIP": "192.168.1.1",
+                  "endIP": "192.168.1.4"
+                }
+              },
+              {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule2",
+                "name": "rule2",
+                "type": "Microsoft.Cache/Redis/firewallRules",
+                "properties": {
+                  "startIP": "192.169.1.0",
+                  "endIP": "192.169.1.255"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "RedisCacheFirewallRuleCreate": {
+      "parameters": {
+        "ruleName": "rule1",
+        "cacheName": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid",
+        "parameters": {
+          "properties": {
+            "startIP": "192.168.1.1",
+            "endIP": "192.168.1.4"
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1",
+            "name": "cache1/rule1",
+            "type": "Microsoft.Cache/Redis/firewallRules",
+            "properties": {
+              "startIP": "192.168.1.1",
+              "endIP": "192.168.1.4"
+            }
+          }
+        },
+        "201": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1",
+            "name": "cache1/rule1",
+            "type": "Microsoft.Cache/Redis/firewallRules",
+            "properties": {
+              "startIP": "192.168.1.1",
+              "endIP": "192.168.1.4"
+            }
+          }
+        }
+      }
+    },
+    "RedisCacheFirewallRuleGet": {
+      "parameters": {
+        "ruleName": "rule1",
+        "cacheName": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1",
+            "name": "cache1/rule1",
+            "type": "Microsoft.Cache/Redis/firewallRules",
+            "properties": {
+              "startIP": "192.168.1.1",
+              "endIP": "192.168.1.4"
+            }
+          }
+        }
+      }
+    },
+    "RedisCacheFirewallRuleDelete": {
+      "parameters": {
+        "ruleName": "rule1",
+        "cacheName": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {},
+        "204": {}
+      }
+    },
+    "RedisCachePatchSchedulesCreateOrUpdate": {
+      "parameters": {
+        "name": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid",
+        "parameters": {
+          "properties": {
+            "scheduleEntries": [
+              {
+                "dayOfWeek": "Monday",
+                "startHourUtc": 12,
+                "maintenanceWindow": "PT3H"
+              },
+              {
+                "dayOfWeek": "Tuesday",
+                "startHourUtc": 12
+              }
+            ]
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default",
+            "location": "West US",
+            "name": "default",
+            "type": "Microsoft.Cache/Redis/patchSchedules",
+            "properties": {
+              "scheduleEntries": [
+                {
+                  "dayOfWeek": "Monday",
+                  "startHourUtc": 12,
+                  "maintenanceWindow": "PT3H"
+                },
+                {
+                  "dayOfWeek": "Tuesday",
+                  "startHourUtc": 12
+                }
+              ]
+            }
+          }
+        },
+        "200": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default",
+            "location": "West US",
+            "name": "default",
+            "type": "Microsoft.Cache/Redis/patchSchedules",
+            "properties": {
+              "scheduleEntries": [
+                {
+                  "dayOfWeek": "Monday",
+                  "startHourUtc": 12,
+                  "maintenanceWindow": "PT3H"
+                },
+                {
+                  "dayOfWeek": "Tuesday",
+                  "startHourUtc": 12
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "RedisCachePatchSchedulesDelete": {
+      "parameters": {
+        "name": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {},
+        "204": {}
+      }
+    },
+    "RedisCachePatchSchedulesGet": {
+      "parameters": {
+        "name": "cache1",
+        "resourceGroupName": "rg1",
+        "api-version": "2016-04-01",
+        "subscriptionId": "subid"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/patchSchedules/default",
+            "location": "West US",
+            "name": "default",
+            "type": "Microsoft.Cache/Redis/patchSchedules",
+            "properties": {
+              "scheduleEntries": [
+                {
+                  "dayOfWeek": "Monday",
+                  "startHourUtc": 12,
+                  "maintenanceWindow": "PT3H"
+                },
+                {
+                  "dayOfWeek": "Tuesday",
+                  "startHourUtc": 12
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version."
+    }
+  }
+}

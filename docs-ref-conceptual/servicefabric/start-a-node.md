@@ -43,5 +43,15 @@ Starts a Service Fabric cluster node that is already stopped.
 |------------|-----------------|  
 |POST|`<URI>/Nodes/{node-name}/$/Start?api-version={api-version}`|  
   
+```
+{
+    "NodeInstanceId":"12345"
+}
+```
+
+|Element name|Required|Type|Description|
+|------------|-----------------|------------|-----------------|  
+|NodeInstanceId|Yes|String|The node instance id of the target node.  Find the instance id by doing a node query (see [Get a list of nodes](get-a-list-of-nodes.md).  A value of “0” may be used if you do not care about a specific instance.| 
+
 ## Response  
  A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).
