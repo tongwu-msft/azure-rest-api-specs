@@ -13,7 +13,7 @@
 	ms.workload="search"
 	ms.topic="article"
 	ms.tgt_pltfrm="na"
-	ms.date="10/28/2016"
+	ms.date="03/27/2017"
 	ms.author="heidist"/>
 
 # How to use the Management REST API (Azure Search)
@@ -27,8 +27,6 @@ The Management REST API of Azure Search provides programmatic access to much of 
 To fully administer your service programmatically, you will need two APIs: the Management REST API of Azure Search, plus the common [Azure Resource Manager REST API](http://msdn.microsoft.com/library/azure/dn790568.aspx).
 
 The Resource Manager API is used for general purpose operations that are not service specific, such as querying subscription data, listing geo-locations, and so forth. To create and manage Azure Search services in your subscription, make sure your HTTP request includes the Resource Manager endpoint, subscription ID, provider (in this case, Azure Search), and the Search service-specific operation.
-
-[Get started with Azure Search Management REST API](http://go.microsoft.com/fwlink/p/?LinkId=516968) is a walkthrough of sample code that demonstrates application configuration and service management operations. The sample application issues requests to the Azure Resource Manager API as well as the service management API for Azure Search, giving you an idea of how to piece together a cohesive application that draws on both APIs.
 
 ## Endpoint
 
@@ -50,7 +48,7 @@ Note that if your application code handles *service administration operations* a
 
 -   Data requests against the Azure Search service endpoint, such as [Create Index &#40;Azure Search Service REST API&#41;](https://msdn.microsoft.com/library/azure/dn798941.aspx) or [Search Documents &#40;Azure Search Service REST API&#41;](https://msdn.microsoft.com/library/azure/dn798927.aspx), use an `api-key` in the request header. See [Azure Search Service REST](https://msdn.microsoft.com/library/azure/dn798935.aspx) for information about authenticating a data request.
 
-The sample application documented in [Get started with Azure Search Management REST API](http://go.microsoft.com/fwlink/p/?LinkId=516968) demonstrates the authentication techniques for each type of operation. Instructions for configuring a client application to use Active Directory are included in the getting started. The sample application can be found at [Azure Search Management API Demo](https://github.com/Azure-Samples/search-dotnet-management-api) on Github.
+Authentication documentation for ARM can be found at [Use Resource Manager authentication API to access subscriptions](https://docs.microsoft.com/azure/azure-resource-manager/resource-manager-api-authentication).
 
 Access control for Azure Resource Manager uses the built-in Owner, Contributor, and Reader roles. By default, all service administrators are members of the Owner role. For details, see [Role-based access control in the Azure portal](http://azure.microsoft.com/documentation/articles/role-based-access-control-configure/).
 
