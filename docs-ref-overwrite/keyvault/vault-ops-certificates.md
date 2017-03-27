@@ -205,3 +205,100 @@ In your request:
 - Replace `{certificate-name}` with the name of the certificate you want created.
 
 For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+
+---
+uid: KeyVaultClient/2016-10-01/GetCertificateVersions
+authorization: Requires the certificates/list permission.
+parameters:
+    - name: api-version
+      description: Use the latest service version, 2016-10-01.
+description: *content
+---
+
+In your request:
+- Replace `{certificate-name}` with the name of the certificate for which you want a list of versions.
+- Query option `maxresults={maxresults}` is optional. The value of maxresults must be a non-negative integer less than 25. If a value out of the range is specified, the request will fail with an Http 400 error. If this query option is not specified, the service will return up to 25 results.
+
+Request body: None, this is an HTTP GET operation.
+
+For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+
+---
+uid: KeyVaultClient/2016-10-01/GetCertificatePolicy
+authorization: Requires the certificates/get permission.
+parameters:
+    - name: api-version
+      description: Use the latest service version, 2016-10-01.
+description: *content
+---
+
+In your request:
+- Replace `{certificate-name}` with the name of the certificate for which you want the policy.
+
+Request body: None, this is an HTTP GET operation.
+
+For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+
+---
+uid: KeyVaultClient/2016-10-01/UpdateCertificatePolicy
+authorization: Requires the certificates/update permission.
+parameters:
+    - name: api-version
+      description: Use the latest service version, 2016-10-01.
+description: *content
+---
+
+Set specified members in the certificate policy. Leave others as null.
+
+In your request:
+- Replace `{certificate-name}` with the name of the certificate for which you want to update the policy.
+
+Alternate Method: POST with X-HTTP-METHOD header that specifies 
+PATCH.
+
+- An alternative to using PATCH is to use PUT so, you effect a set / replacement behavior. PATCH will allow you to specify as few as one property in the request such that only that property will be updated. PUT will completely replace the policy. In other words, if you specify all properties with a PATCH method, then it is equivalent to using a PUT method effectively setting all properties of the certificate policy.
+
+For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+
+---
+uid: KeyVaultClient/2016-10-01/UpdateCertificate
+authorization: Requires the certificates/update permission.
+parameters:
+    - name: api-version
+      description: Use the latest service version, 2016-10-01.
+description: *content
+---
+
+The update operation changes non-read-only properties in the attributes or tags of current or specified version of a key vault certificate.
+
+In your request:
+- Replace `{certificate-name}` with the name of the certificate for which you want to update the policy.
+- You may also specificy the `{certificate-version}` of the certificate to update.
+
+Alternate Method: POST with X-HTTP-METHOD header that specifies 
+PATCH.
+
+For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+
+---
+uid: KeyVaultClient/2016-10-01/GetCertificate
+authorization: Requires the certificates/get permission.
+parameters:
+    - name: api-version
+      description: Use the latest service version, 2016-10-01.
+description: *content
+---
+
+Get the current or a particular verion of a key vault certificate.
+
+In your request:
+- Replace `{certificate-name}` with the name of the certificate for which you want to update the policy.
+- You may also specificy the `{certificate-version}` of the certificate to update.
+
+Request body: An HTTP GET has no request body.
+
+For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+
+
+
+
