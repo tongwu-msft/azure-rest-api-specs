@@ -144,6 +144,7 @@
 ### [Stop and deallocate a virtual machine](../docs-ref-conceptual/compute/virtualmachines/virtualmachines-stop-deallocate.md)
 ## [Container Services](compute/ContainerServices.json)
 # [Container Registry](../docs-ref-conceptual/containerregistry/index.md)
+## [Operations](containerregistry/Operations.json)
 ## [Registries](containerregistry/Registries.json)
 # [Data Catalog](../docs-ref-conceptual/datacatalog/index.md)
 ## [Data Catalog](../docs-ref-conceptual/datacatalog/data-catalog-data-catalog.md)
