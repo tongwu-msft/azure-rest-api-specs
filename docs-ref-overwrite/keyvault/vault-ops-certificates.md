@@ -144,7 +144,7 @@ In your request:
 
 - Replace `{certificate-name}` with the name of the certificate you want created.
 
-For more information about creating certificates, see [Get started with Key Vault certificates](../certificate-scenarios.md) and [Certificate creation methods](../create-a-certificate.md).
+For more information about creating certificates, see [Get started with Key Vault certificates](~/docs-ref-conceptual/certificate-scenarios.md) and [Certificate creation methods](~/docs-ref-conceptual/create-a-certificate.md).
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---

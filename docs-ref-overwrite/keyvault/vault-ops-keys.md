@@ -171,12 +171,14 @@ The key is restored in its entirety with the same key name as it had when it was
 Restore will restore all versions and preserve version identifiers.
 
 The RESTORE operation is subject to security constraints:
+
 - The target Key Vault must be owned by the same Microsoft Azure Subscription as the source Key Vault
 - The user must have RESTORE permission in the target Key Vault
 
 In your request, refer to the key to restore with `{key-name}` in the request URL.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
 uid: KeyVaultClient/2016-10-01/encrypt
@@ -192,10 +194,12 @@ Note that the ENCRYPT operation only supports a single block of data, the size o
 The ENCRYPT operation is only strictly necessary for symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be performed using public portion of the key. This operation is supported for asymmetric keys as a convenience for callers that have a key-reference but do not have access to the public key material.
 
 In your request:
+
 - Provide the name of the key to encrypt using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…` , encrypts using a specific version of a key.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
 uid: KeyVaultClient/2016-10-01/decrypt
@@ -210,12 +214,14 @@ The DECRYPT operation decrypts a well-formed block of ciphertext using the targe
 
 The DECRYPT operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key.
 
-In your request: 
+In your request:
+
 - Provide the name of the key to decrypt using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…` , decrypts using a specific version of a key.
 - The request body for the DECRYPT operation is the same as the response body for the ENCRYPT operation.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
 uid: KeyVaultClient/2016-10-01/sign
@@ -228,11 +234,13 @@ description: *content
 
 SIGN is applicable to asymmetric and symmetric keys stored in Azure Key Vault since this operation uses the private portion of the key.
 
-In your request: 
+In your request:
+
 - Provide the name of the key to sign using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…`, signs using a specific version of a key.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
 uid: KeyVaultClient/2016-10-01/verify
@@ -245,11 +253,13 @@ description: *content
 
 VERIFY is applicable to symmetric keys stored in Azure Key Vault. VERIFY is not strictly necessary for asymmetric keys stored in Azure Key Vault since signature verification can be performed using the public portion of the key but this operation is supported as a convenience for callers that only have a key-reference and not the public portion of the key.
 
-In your request: 
+In your request:
+
 - Provide the name of the key to verify using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…` , verifies using a specific version of a key.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
 uid: KeyVaultClient/2016-10-01/wrapKey
@@ -263,13 +273,15 @@ The WRAP operation supports encryption of a symmetric key using a key encryption
 
 The WRAP operation is only strictly necessary for symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be performed using the public portion of the key. This operation is supported for asymmetric keys as a convenience for callers that have a key-reference but do not have access to the public key material.
 
-In your request: 
+In your request:
+
 - Provide the name of the key to wrap using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…` , wraps using a specific version of a key.
 
 Usage recommendation: Each key’s metadata should be saved and wrapped with a key, for example; algorithm, keyURL used to wrap and cipher-text.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
 uid: KeyVaultClient/2016-10-01/unwrapKey
@@ -284,10 +296,12 @@ The UNWRAP operation supports decryption of a symmetric key using the target key
 
 The UNWRAP operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key.
 
-In your request: 
+In your request:
+
 - Provide the name of the key to unwrap using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…` , unwraps using a specific version of a key.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
