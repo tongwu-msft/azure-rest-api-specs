@@ -12,7 +12,7 @@ The CREATE operation adds a secret to the Azure Key Vault.. If the named secret 
 In your request:
 - Name the new or to be updated secret using `{secret-name}` in the request URL.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+For more information, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](authentication--requests-and-responses.md).
 
 ---
 uid: KeyVaultClient/2016-10-01/GetSecret
@@ -30,7 +30,7 @@ In your request:
 
 Request Body - None, this is an HTTP GET operation.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+For more information, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](authentication--requests-and-responses.md).
 
 ---
 uid: KeyVaultClient/2016-10-01/GetSecrets
@@ -50,7 +50,7 @@ In your request:
 
 Request Body - None, this is an HTTP GET operation.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+For more information, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](authentication--requests-and-responses.md).
 
 ---
 uid: KeyVaultClient/2016-10-01/GetSecretVersions
@@ -72,7 +72,7 @@ In your request:
 
 Request Body - None, this is an HTTP GET operation.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+For more information, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](authentication--requests-and-responses.md).
 
 ---
 uid: KeyVaultClient/2016-10-01/DeleteSecret
@@ -92,7 +92,7 @@ Alternative method: POST with X-HTTP-METHOD header that specifies DELETE.
 
 Request Body - None, this is an HTTP GET operation.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+For more information, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](authentication--requests-and-responses.md).
 
 ---
 uid: KeyVaultClient/2016-10-01/UpdateSecret
@@ -110,4 +110,4 @@ In your request:
 
 Alternate Method: POST with X-HTTP-METHOD header that specifies PATCH.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+For more information, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](authentication--requests-and-responses.md).
