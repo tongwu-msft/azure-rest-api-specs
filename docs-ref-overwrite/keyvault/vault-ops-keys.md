@@ -14,6 +14,7 @@ In your request:
 - When creating a new key, just specify the top-level name. The system will generate the version name and append that in the response.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
 uid: KeyVaultClient/2016-10-01/ImportKey
@@ -22,6 +23,7 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 description: *content
+
 ---
 
 Imports an externally created key, stores it, and returns key parameters and attributes to the client. The IMPORT operation may be used to import any key type into an Azure Key Vault. If the named key already exists, Azure Key Vault creates a new version of the key.
@@ -33,6 +35,7 @@ In your request, replace `{key-name}` with the name you want to give to the impo
 Alternate Method: POST with X-HTTP-METHOD header specifying PUT.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
 uid: KeyVaultClient/2016-10-01/DeleteKey
@@ -47,10 +50,12 @@ description: *content
 This operation removes the cryptographic material associated with the key, which means the key is not usable for Sign/Verify, Wrap/Unwrap or Encrypt/Decrypt operations.
 
 In your request:
+
 - Replace `{key-name}` with the name of the key you want to delete. 
 - Request body: An HTTP DELETE has no request body.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
 uid: KeyVaultClient/2016-10-01/UpdateKey
@@ -59,17 +64,20 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 description: *content
+
 ---
+
 The UPDATE operation changes specified attributes of a stored key and can be applied to any key type and key version stored in Azure Key Vault. The cryptographic material of a key itself cannot be changed.
 
 In order to perform this operation, the key must already exist in the Key Vault.
 
 In your request:
+
 - Replace `{key-name}` with the name and {key-version} with the version of the key you want to update. Key version may be excluded in which case the current version is updated.
 - Alternate Method: POST with X-HTTP-METHOD header that specifies PATCH
 
-
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
 uid: KeyVaultClient/2016-10-01/GetKey
@@ -84,11 +92,13 @@ description: *content
 The GET operation is applicable to all key types; however only the public portion of a key stored in Azure Key Vault is returned. If the target key is symmetric, then no key material is released in the response.
 
 In your request:
+
 - Provide the name of the key to get using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…`, retrieves a specific version of a key.
 - Request body: An HTTP GET has no request body.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
 uid: KeyVaultClient/2016-10-01/GetKeyVersions
@@ -97,13 +107,14 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 description: *content
+
 ---
 
 The LIST VERSIONS operation is applicable for all versions having the same key name. The full key identifier, attributes, and tags are provided in the response.
 
 You may use the nextLink field via an HTTP GET to retrieve the next set of results, which will include another nextLink field. The enumeration is completed if and only if nextLink is empty.
 
-In your request: 
+In your request:
 
 - A query option `maxresults={maxresults}` is optional. The value of maxresults must be a none negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
 
@@ -123,12 +134,13 @@ The LIST operation is applicable to all key types, however only the base key ide
 
 You may use the nextLink field via an HTTP GET to retrieve the next set of results, which will include another nextLink field. The enumeration is completed if and only if nextLink is empty.
 
-In your request: 
+In your request:
 
 - A query option `maxresults={maxresults}` is optional. The value of maxresults must be a none negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
 - Request body: None, this is an HTTP GET operation.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
 uid: KeyVaultClient/2016-10-01/BackupKey
@@ -137,6 +149,7 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 description: *content
+
 ---
 
 Backup operation exports a key from Azure Key Vault in a protected form. Note that this operation does NOT return key material in a form that can be used outside the Azure Key Vault system, the returned key material is either protected to a Azure Key Vault HSM or to Azure Key Vault itself. The intent of this operation is to allow a client to GENERATE a key in one Azure Key Vault instance, BACKUP the key, and then RESTORE it into another Azure Key Vault instance.
@@ -152,6 +165,7 @@ In your request:
 In your response, the backup attribute is an opaque value that contains the protected key.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
 ---
 
 uid: KeyVaultClient/2016-10-01/RestoreKey
@@ -160,6 +174,7 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 description: *content
+
 ---
 
 Imports a previously backed up key into Azure Key Vault, restoring the key, its key identifier, attributes and access control policies.
@@ -187,6 +202,7 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 description: *content
+
 ---
 
 Note that the ENCRYPT operation only supports a single block of data, the size of which is dependent on the target key and the encryption algorithm to be used.
@@ -208,6 +224,7 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 description: *content
+
 ---
 
 The DECRYPT operation decrypts a well-formed block of ciphertext using the target encryption key and specified algorithm. This operation is the reverse of the ENCRYPT operation; only a single block of data may be decrypted, the size of this block is dependent on the target key and the algorithm to be used.
@@ -230,6 +247,7 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 description: *content
+
 ---
 
 SIGN is applicable to asymmetric and symmetric keys stored in Azure Key Vault since this operation uses the private portion of the key.
@@ -249,6 +267,7 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 description: *content
+
 ---
 
 VERIFY is applicable to symmetric keys stored in Azure Key Vault. VERIFY is not strictly necessary for asymmetric keys stored in Azure Key Vault since signature verification can be performed using the public portion of the key but this operation is supported as a convenience for callers that only have a key-reference and not the public portion of the key.
@@ -268,7 +287,9 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 description: *content
+
 ---
+
 The WRAP operation supports encryption of a symmetric key using a key encryption key that has previously been stored in an Azure Key Vault.
 
 The WRAP operation is only strictly necessary for symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be performed using the public portion of the key. This operation is supported for asymmetric keys as a convenience for callers that have a key-reference but do not have access to the public key material.
@@ -290,6 +311,7 @@ parameters:
     - name: api-version
       description: Use the latest service version, 2016-10-01.
 description: *content
+
 ---
 
 The UNWRAP operation supports decryption of a symmetric key using the target key encryption key. This operation is the reverse of the WRAP operation.
@@ -303,5 +325,4 @@ In your request:
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
----
 
