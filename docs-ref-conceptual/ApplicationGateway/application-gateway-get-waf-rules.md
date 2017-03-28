@@ -1,17 +1,13 @@
 ---
-title: "Get available rule sets"
-ms.custom: ""
-ms.date: "2017-03-08"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: e519f661-1137-4951-8a41-d3bb03b2bc65
-caps.latest.revision: 3
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "timlt"
+title: Get available rule sets
+ms.date: 03/09/2017
+ms.service: application-gateway
+ms.devlang: rest-api
+ms.topic: reference
+author: amitsriva
+ms.author: amsriva
+manager: rossort
+---
 ---
 # Get available WAF rule sets
 
