@@ -69,7 +69,33 @@
     }  
   }  
 }  
-  
+```
+
+ Example payload to create an Azure Stream Analytics JavaScript function
+ 
+```
+{
+  "properties": {
+    "type": "Scalar",  //Function type. Scalar is the only supported value
+    "properties": {
+      "inputs": [ // Function input parameter(s).
+        {
+          "dataType": "any", // Input data type
+        }
+      ],
+      "output": { // Output
+        "dataType": "any" // Output data type
+      },
+      "binding": {
+        "type": "Microsoft.StreamAnalytics/JavascriptUdf",
+        "properties": { // Function definition
+          "script": "function hex2Int(hexValue) {return parseInt(hexValue, 16);}",
+        }
+      }
+    }
+  }
+}
+
 ```  
   
 |Property|Description|  
