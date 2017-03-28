@@ -45,11 +45,11 @@ description: *content
 
 The LIST operation is applicable to the entire vault, however only the base secret identifier and attributes are provided in the response. Individual secret versions are not listed in the response.
 
-You may use the `nextLink` field via an HTTP GET to retrieve the next set of results, which will include another nextLink field. The enumeration is completed if and only if nextLink is empty
+You may use the `nextLink` field via an HTTP GET to retrieve the next set of results, which will include another `nextLink` field. The enumeration is completed if and only if `nextLink` is empty
 
 In your request:
 
-- Query option “maxresults={maxresults}” is optional. The value of maxresults must be an non-negative integer less than 25. If a value out of the range is specified, the request will fail with an Http 400 error. If this query option is not specified, the service will return up to 25 results.
+- Query option `maxresults={maxresults}` is optional. The value of `maxresults` must be an non-negative integer less than 25. If a value out of the range is specified, the request will fail with an Http 400 error. If this query option is not specified, the service will return up to 25 results.
 
 Request Body - None, this is an HTTP GET operation.
 
@@ -66,13 +66,13 @@ description: *content
 
 The LIST VERSIONS operation can be applied to all versions having the same secret name in the same key vault. The full secret identifier and attributes are provided in the response.
 
-You may use the nextLink field via an HTTP GET to retrieve the next set of results, which will include another nextLink field. The enumeration is completed if and only if nextLink is empty.
+You may use the `nextLink` field via an HTTP GET to retrieve the next set of results, which will include another `nextLink` field. The enumeration is completed if and only if `nextLink` is empty.
 
 No values are returned for the secrets and only current versions of a secret are listed.
 
 In your request:
 
-- Query option “maxresults={maxresults}” is optional. The value of maxresults must be an non-negative integer less than 25. If a value out of the range is specified, the request will fail with an Http 400 error. If this query option is not specified, the service will return up to 25 results.
+- Query option `maxresults={maxresults}` is optional. The value of `maxresults` must be an non-negative integer less than 25. If a value out of the range is specified, the request will fail with an Http 400 error. If this query option is not specified, the service will return up to 25 results.
 
 Request Body - None, this is an HTTP GET operation.
 
@@ -112,7 +112,7 @@ The UPDATE operation changes specified attributes of an existing stored secret. 
 
 In your request:
 
-- Replace `{secret-name}` with the name and {secret-version} with the version of the secret you want to update. Secret version may be excluded in which case the current version is updated.
+- Replace `{secret-name}` with the name and `{secret-version}` with the version of the secret you want to update. Secret version may be excluded in which case the current version is updated.
 
 Alternate Method: POST with X-HTTP-METHOD header that specifies PATCH.
 

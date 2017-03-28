@@ -11,7 +11,7 @@ LIST current certificates. MaxResults is optional and specifies the maximum numb
 
 In your request:
 
-- Query option `maxresults={maxresults}` is optional. The value of maxresults must be a none negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
+- Query option `maxresults={maxresults}` is optional. The value of `maxresults` must be a none negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
 
 Request body: An HTTP GET has no request body.
 
@@ -69,7 +69,7 @@ List all certificate issuers for a given key vault.
 
 In your request:
 
-- Query option `maxresults={maxresults}` is optional. The value of maxresults must be an non-negative integer less than 25. If a value out of the range is specified, the request will fail with an Http 400 error. If this query option is not specified, the service will return up to 25 results.
+- Query option `maxresults={maxresults}` is optional. The value of `maxresults` must be an non-negative integer less than 25. If a value out of the range is specified, the request will fail with an Http 400 error. If this query option is not specified, the service will return up to 25 results.
 
 You may use the `nextLink` field via an HTTP GET to retrieve the next set of results, which will include another `nextLink` field. The enumeration is completed if and only if `nextLink` is empty.
 
@@ -222,7 +222,7 @@ description: *content
 In your request:
 
 - Replace `{certificate-name}` with the name of the certificate for which you want a list of versions.
-- Query option `maxresults={maxresults}` is optional. The value of maxresults must be a non-negative integer less than 25. If a value out of the range is specified, the request will fail with an Http 400 error. If this query option is not specified, the service will return up to 25 results.
+- Query option `maxresults={maxresults}` is optional. The value of `maxresults` must be a non-negative integer less than 25. If a value out of the range is specified, the request will fail with an Http 400 error. If this query option is not specified, the service will return up to 25 results.
 
 Request body: None, this is an HTTP GET operation.
 

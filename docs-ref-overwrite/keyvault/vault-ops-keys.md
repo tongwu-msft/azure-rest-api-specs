@@ -112,11 +112,11 @@ description: *content
 
 The LIST VERSIONS operation is applicable for all versions having the same key name. The full key identifier, attributes, and tags are provided in the response.
 
-You may use the nextLink field via an HTTP GET to retrieve the next set of results, which will include another nextLink field. The enumeration is completed if and only if nextLink is empty.
+You may use the `nextLink` field via an HTTP GET to retrieve the next set of results, which will include another `nextLink` field. The enumeration is completed if and only if `nextLink` is empty.
 
 In your request:
 
-- A query option `maxresults={maxresults}` is optional. The value of maxresults must be a none negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
+- A query option `maxresults={maxresults}` is optional. The value of `maxresults` must be a none negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
@@ -132,11 +132,11 @@ description: *content
 
 The LIST operation is applicable to all key types, however only the base key identifier,attributes, and tags are provided in the response. Individual versions of a key are not listed in the response.
 
-You may use the nextLink field via an HTTP GET to retrieve the next set of results, which will include another nextLink field. The enumeration is completed if and only if nextLink is empty.
+You may use the `nextLink` field via an HTTP GET to retrieve the next set of results, which will include another `nextLink` field. The enumeration is completed if and only if `nextLink` is empty.
 
 In your request:
 
-- A query option `maxresults={maxresults}` is optional. The value of maxresults must be a none negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
+- A query option `maxresults={maxresults}` is optional. The value of `maxresults` must be a none negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
 - Request body: None, this is an HTTP GET operation.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
