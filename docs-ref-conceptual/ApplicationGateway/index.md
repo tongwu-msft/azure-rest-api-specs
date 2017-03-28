@@ -32,9 +32,9 @@ Application Gateway is a Network Service which provides HTTP Load balancing as a
 | Operation | REST Verb | Description | 
 |---------|---------|-----------|
 | [Create or update an application gateway](create-or-update-an-application-gateway.md) |  PUT | Creates or updates an application gateway |  
-| [Delete an application gateway](delete-application-gateway--delete-.md) |  DELETE | Deletes an existing application gateway. |  
+| [Delete an application gateway](delete-application-gateway.md) |  DELETE | Deletes an existing application gateway. |  
 | [Get an application gateway](get-application-gateway.md) |  GET | Gets details on an application gateway. |  
-| [List application gateways](list-application-gateways--get-.md) |  GET | Lists all application gateways. | 
+| [List application gateways](list-application-gateways.md) |  GET | Lists all application gateways. | 
 | [Start an application gateway](start-application-gateway.md) |  POST | Starts an application gateway. |  
 | [Stop an application gateway](stop-application-gateway.md) |  POST | Stops an application gateway. | 
 | [Get available rule sets (WAF)](application-gateway-get-waf-rules.md) |GET | Gets a list of available WAF rule sets.|
