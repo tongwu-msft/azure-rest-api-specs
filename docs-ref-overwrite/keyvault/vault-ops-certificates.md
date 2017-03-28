@@ -230,7 +230,7 @@ The private key may be encrypted in which case the private key will be inside en
   -----END ENCRYPTED PRIVATE KEY-----
 ```
 
-The following PBE SHA1 encryption algorithms, outlined in RFC7292 - PKCS #12, are supported with an encrypted private key:
+The following PBE SHA1 encryption algorithms, outlined in [RFC7292 - PKCS #12](https://tools.ietf.org/html/rfc7292#appendix-C), are supported with an encrypted private key:
 
 - pbeWithSha1And128BitRc2
 - pbeWithSha1And128BitRc4
