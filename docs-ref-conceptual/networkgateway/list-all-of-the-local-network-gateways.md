@@ -1,40 +1,30 @@
 ---
-title: "List all of the local network gateways"
-ms.custom: ""
-ms.date: "05/03/2015"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: da65d985-b1d6-4169-8fa4-c7ec227f06ae
-caps.latest.revision: 4
-author: "yushwang"
-ms.author: "yushwang"
-manager: "rossort"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: List all of the local network gateways
+ms.date: 03/09/2017
+ms.service: expressroute
+ms.devlang: rest-api
+ms.topic: reference
+author: yushwang
+ms.author: yushwang
+manager: rossort
 ---
 # List all of the local network gateways
 List all of the local network gateways in a resource group.  
-  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Local Network Gateways ](local-network-gateways.md) for headers and parameters that are used by all requests related to local network gateways.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways?api-version={api-version}`|  
-  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/microsoft.network/localnetworkgateways?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the local network gateways exists. |
+| resourceGroup | The name of the resource group that contains the local network gateway. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+ 
 ## Response  
  Status code: 200 (OK) if the action is successful; otherwise, 404 (Not Found).  
   

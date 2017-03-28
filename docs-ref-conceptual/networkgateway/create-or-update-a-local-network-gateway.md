@@ -1,42 +1,33 @@
 ---
-title: "Create or update a local network gateway&#160;"
-ms.custom: ""
-ms.date: "05/03/2015"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 00a0bdd1-19aa-45cb-88d1-318fe94c737e
-caps.latest.revision: 4
-author: "yushwang"
-ms.author: "yushwang"
-manager: "rossort"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Create or update a local network gateway
+ms.date: 03/09/2017
+ms.service: expressroute
+ms.devlang: rest-api
+ms.topic: reference
+author: yushwang
+ms.author: yushwang
+manager: rossort
 ---
 # Create or update a local network gateway&#160;
 Create or update a representation of your on-premises network VPN gateway device.  
-  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Local Network Gateways ](local-network-gateways.md) for headers and parameters that are used by all requests related to local network gateways.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways/{local-network-gateway-name}?api-version={api-version}`|  
-|PATCH|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/localnetworkgateways/{local-network-gateway-name}?api-version={api-version}`|  
+|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/microsoft.network/localnetworkgateways/{localNetworkGatewayName}?api-version={api-version}`|  
+|PATCH|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/microsoft.network/localnetworkgateways/{localNetworkGatewayName}?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the local network gateway exists. |
+| resourceGroup | The name of the resource group that contains the local network gateway. |
+| localNetworkGatewayName | The name of the local network gateway.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
   
- The Patch method can be used to update individual properties.  
+The Patch method can be used to update individual properties.  
   
 ```json  
 {  

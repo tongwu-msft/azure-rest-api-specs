@@ -1,58 +1,22 @@
 ---
-title: "Local Network Gateways&#160;"
-ms.custom: ""
-ms.date: "05/03/2015"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: e7e51c17-0153-4b26-bc89-ed43d644f843
-caps.latest.revision: 4
-author: "yushwang"
-ms.author: "yushwang"
-manager: "rossort"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Local Network Gateways
+ms.date: 03/09/2017
+ms.service: expressroute
+ms.devlang: rest-api
+ms.topic: reference
+author: yushwang
+ms.author: yushwang
+manager: rossort
 ---
-# Local Network Gateways&#160;
+# Local Network Gateways
 Enables you to interact with on-premises VPN devices represented in the Gateway Manager.  
   
-## Common parameters and headers  
- The following information is common to all tasks that you might do related to network gateways:  
+This table lists the operations included in the Local Network Gateways REST API.  
   
--   Replace {api-version} with 2015-05-01-preview.  
-  
--   Replace {subscription-id} with your subscription identifier in the URI.  
-  
--   Replace {resource-group-name} with the name of the resource group. For more information, see [Using Resource groups to manage your Azure resources](http://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
-  
--   Replace {local-network-gateway-name} with the name of the virtual network gateway.  
-  
--   Set the Content-Type header to `application/json`.  
-  
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](../../index.md).  
-  
-## Tasks  
-  
- You can do the following with local network gateways:  
-  
--   [Create or update a local network gateway ](create-or-update-a-local-network-gateway.md)  
-  
--   [Delete a local network gateway](delete-a-local-network-gateway.md)  
-  
--   [Get a VPN device configuration script](get-a-vpn-device-configuration-script.md)  
-  
--   [Get information about a local network gateway](get-information-about-a-local-network-gateway.md)  
-  
--   [List all of the local network gateways](list-all-of-the-local-network-gateways.md)
+| Operation | REST Verb | Description | 
+|---------|---------|-----------|
+| [Create or update a local network gateway ](create-or-update-a-local-network-gateway.md)   |  PUT | Creates or updates a local network gateway resource.  |  
+| [Delete a local network gateway](delete-a-local-network-gateway.md)     |  DELETE | Deletes a local network gateway. |  
+| [Get a VPN device configuration script](get-a-vpn-device-configuration-script.md)   |  GET | Gets a configuration script for a VPN device. |  
+| [Get information about a local network gateway](get-information-about-a-local-network-gateway.md)   |  GET | Gets a local network gateway. |  
+| [List all of the local network gateways](list-all-of-the-local-network-gateways.md)  |  GET | Gets all local network gateways for a resource group. |  
