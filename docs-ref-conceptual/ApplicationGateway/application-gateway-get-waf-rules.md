@@ -21,6 +21,11 @@ For information about getting started with Azure REST operations including reque
 |------------|-----------------|
 |GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets?api-version={api-version}`|
 
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription. |
+| api-version | The version of the API to use. The current version is 2017-03-01. | 
+
 ## Request Body
 
 None
