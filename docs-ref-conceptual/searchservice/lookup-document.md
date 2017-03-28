@@ -1,7 +1,7 @@
 ---
 title: "Lookup Document (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-03-28"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -54,7 +54,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 
 |Parameter|Description|  
 |---------------|-----------------|  
-|`$select=[string]`|Optional. A list of comma-separated fields to retrieve. If unspecified or set to *, all fields marked as retrievable in the schema are included in the projection.|  
+|`$select=[string]`|Optional. A list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to *, all fields marked as retrievable in the schema are included in the projection.|  
 |`api-version=[string]`|The `api-version` parameter is required.  See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details. **Note:**  For this operation, the api-version is specified as a query parameter.|  
 
 ### Request Headers  

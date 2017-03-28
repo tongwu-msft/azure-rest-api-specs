@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2017-03-27"
+ms.date: "2017-03-28"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -115,7 +115,7 @@ A list of comma-separated expressions to sort the results by. When calling via P
 
 #### `$select=[string] (optional)`
 
-A list of comma-separated fields to retrieve. If unspecified or set to *, all fields marked as retrievable in the schema are included in the projection. When calling via POST, this parameter is named `select` instead of `$select`. 
+A list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to *, all fields marked as retrievable in the schema are included in the projection. When calling via POST, this parameter is named `select` instead of `$select`. 
 
 #### `facet=[string] (zero or more)`
 
