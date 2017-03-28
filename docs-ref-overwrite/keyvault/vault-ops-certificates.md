@@ -7,11 +7,13 @@ parameters:
 description: *content
 ---
 
-LIST current certificates. MaxResults is optional and specifies the maximum number of results required by caller.
+LIST current certificates.
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
-- Query option `maxresults={maxresults}` is optional. The value of `maxresults` must be a none negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
+- Query option `maxresults={maxresults}` is optional. The value of `maxresults` must be a non-negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
 
 Request body: An HTTP GET has no request body.
 
@@ -28,6 +30,23 @@ description: *content
 
 Deletes all versions of a certificate object along with its associated policy. Delete certificate cannot be used to remove individual versions of a certificate object.
 
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
+
+---
+uid: KeyVaultClient/2016-10-01/SetCertificateContacts
+authorization: Requires the certificates/managecontacts permission.
+parameters:
+    - name: api-version
+      description: Use the latest service version, 2016-10-01.
+description: *content
+---
+
+Set the contacts for a given certificate.
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
@@ -40,6 +59,8 @@ description: *content
 ---
 
 Gets all of the contacts for a given certificate.
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
@@ -54,6 +75,8 @@ description: *content
 
 Delete all the contacts for a given certificate.
 
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
@@ -66,6 +89,8 @@ description: *content
 ---
 
 List all certificate issuers for a given key vault.
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
@@ -86,7 +111,9 @@ description: *content
 
 Create/set a certificate issuer in a given key vault.
 
-An alternative to using PUT is to use PATCH for update only behavior. PATCH will allow you to specify as few as one property in the request such that only that property will be updated. If you specify all properties, then it is equivalent to using PUT.
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
+Alternate Method: An alternative to using PUT is to use PATCH for update only behavior. PATCH will allow you to specify as few as one property in the request such that only that property will be updated. If you specify all properties, then it is equivalent to using PUT.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
@@ -101,7 +128,9 @@ description: *content
 
 Update a certificate issuer in a given key vault.
 
-An alternative to using PUT is to use PATCH for update only behavior. PATCH will allow you to specify as few as one property in the request such that only that property will be updated. If you specify all properties, then it is equivalent to using PUT.
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
+Alternate Method: An alternative to using PUT is to use PATCH for update only behavior. PATCH will allow you to specify as few as one property in the request such that only that property will be updated. If you specify all properties, then it is equivalent to using PUT.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
@@ -115,6 +144,8 @@ description: *content
 ---
 
 Get a certificate issuer from a given key vault.
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
@@ -135,6 +166,8 @@ description: *content
 
 Delete a certificate issuer from the key vault.
 
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
 In your request:
 
 - Replace `{issuer-name}` with the issuer's name you want retrieved.
@@ -151,6 +184,8 @@ description: *content
 ---
 
 If this is the first version, the certificate resource is created.
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
@@ -173,6 +208,7 @@ Imports an existing valid certificate, containing a private key, into Azure Key 
 
 Following is an example of a supported PEM file format. The file must contain the private key and at least one of x509 certificate corresponding to the private key of the x509 certificate chain.
 
+```
    -----BEGIN PRIVATE KEY-----
        ...
    -----END PRIVATE KEY-----
@@ -184,12 +220,15 @@ Following is an example of a supported PEM file format. The file must contain th
    -----BEGIN CERTIFICATE-----
        ...
    -----END CERTIFICATE-----
+```
 
 The private key may be encrypted in which case the private key will be inside encrypted private key markers as follows:
 
-   -----BEGIN ENCRYPTED PRIVATE KEY-----
+```
+  -----BEGIN ENCRYPTED PRIVATE KEY-----
        ...
-   -----END ENCRYPTED PRIVATE KEY-----
+  -----END ENCRYPTED PRIVATE KEY-----
+```
 
 The following PBE SHA1 encryption algorithms, outlined in RFC7292 - PKCS #12, are supported with an encrypted private key:
 
@@ -203,6 +242,8 @@ The following PBE SHA1 encryption algorithms, outlined in RFC7292 - PKCS #12, ar
 Policy is optional and assumes import of a PFX file. If importing a PEM file, specify the *contentType* as `application/x-pem-file`.
 
 NOTE - When a certificate is imported without a specified policy or with a policy that does not have issuer or lifetime action fields specified, the issuer field is set to **unknown** and the *lifetime actions* field is set to **EmailContacts**. This policy can be modified to **AutoRenew** with a named issuer by patching the policy.
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
@@ -218,6 +259,10 @@ parameters:
       description: Use the latest service version, 2016-10-01.
 description: *content
 ---
+
+List all versions of a given certificate.
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
@@ -236,6 +281,8 @@ parameters:
       description: Use the latest service version, 2016-10-01.
 description: *content
 ---
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
@@ -256,14 +303,13 @@ description: *content
 
 Set specified members in the certificate policy. Leave others as null.
 
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
 In your request:
 
 - Replace `{certificate-name}` with the name of the certificate for which you want to update the policy.
 
-Alternate Method: POST with X-HTTP-METHOD header that specifies 
-PATCH.
-
-- An alternative to using PATCH is to use PUT so, you effect a set / replacement behavior. PATCH will allow you to specify as few as one property in the request such that only that property will be updated. PUT will completely replace the policy. In other words, if you specify all properties with a PATCH method, then it is equivalent to using a PUT method effectively setting all properties of the certificate policy.
+Alternate Method: An alternative to using PATCH is to use PUT so, you effect a set / replacement behavior. PATCH will allow you to specify as few as one property in the request such that only that property will be updated. PUT will completely replace the policy. In other words, if you specify all properties with a PATCH method, then it is equivalent to using a PUT method effectively setting all properties of the certificate policy.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
@@ -277,6 +323,8 @@ description: *content
 ---
 
 The update operation changes non-read-only properties in the attributes or tags of current or specified version of a key vault certificate.
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
@@ -298,6 +346,8 @@ description: *content
 ---
 
 Get the current or a particular verion of a key vault certificate.
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 

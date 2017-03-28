@@ -9,6 +9,8 @@ description: *content
 
 Creates a new key, stores it, then returns key parameters and attributes to the client. The CREATE operation can be used to create any key type in Azure Key Vault. If the named key already exists, Azure Key Vault creates a new version of the key.
 
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
 In your request:
 - Replace `{key-name}` with the name you want assigned to the new key.  
 - When creating a new key, just specify the top-level name. The system will generate the version name and append that in the response.
@@ -28,9 +30,13 @@ description: *content
 
 Imports an externally created key, stores it, and returns key parameters and attributes to the client. The IMPORT operation may be used to import any key type into an Azure Key Vault. If the named key already exists, Azure Key Vault creates a new version of the key.
 
-Import key currently supports two primary key types; soft key and HSM key, the following topic shows examples of each.
+Import key currently supports two primary key types; soft key and HSM key.
 
-In your request, replace `{key-name}` with the name you want to give to the imported key.
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
+In your request:
+
+- Replace `{key-name}` with the name you want to give to the imported key.
 
 Alternate Method: POST with X-HTTP-METHOD header specifying PUT.
 
@@ -49,10 +55,13 @@ description: *content
 
 This operation removes the cryptographic material associated with the key, which means the key is not usable for Sign/Verify, Wrap/Unwrap or Encrypt/Decrypt operations.
 
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
 In your request:
 
 - Replace `{key-name}` with the name of the key you want to delete. 
-- Request body: An HTTP DELETE has no request body.
+
+Request body: An HTTP DELETE has no request body.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
@@ -71,10 +80,13 @@ The UPDATE operation changes specified attributes of a stored key and can be app
 
 In order to perform this operation, the key must already exist in the Key Vault.
 
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
 In your request:
 
 - Replace `{key-name}` with the name and {key-version} with the version of the key you want to update. Key version may be excluded in which case the current version is updated.
-- Alternate Method: POST with X-HTTP-METHOD header that specifies PATCH
+
+Alternate Method: POST with X-HTTP-METHOD header that specifies PATCH
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
@@ -91,11 +103,14 @@ description: *content
 
 The GET operation is applicable to all key types; however only the public portion of a key stored in Azure Key Vault is returned. If the target key is symmetric, then no key material is released in the response.
 
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
 In your request:
 
 - Provide the name of the key to get using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…`, retrieves a specific version of a key.
-- Request body: An HTTP GET has no request body.
+
+Request body: An HTTP GET has no request body.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
@@ -112,11 +127,13 @@ description: *content
 
 The LIST VERSIONS operation is applicable for all versions having the same key name. The full key identifier, attributes, and tags are provided in the response.
 
-You may use the `nextLink` field via an HTTP GET to retrieve the next set of results, which will include another `nextLink` field. The enumeration is completed if and only if `nextLink` is empty.
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
-- A query option `maxresults={maxresults}` is optional. The value of `maxresults` must be a none negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
+- A query option `maxresults={maxresults}` is optional. The value of `maxresults` must be a non-negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
+
+You may use the `nextLink` field via an HTTP GET to retrieve the next set of results, which will include another `nextLink` field. The enumeration is completed if and only if `nextLink` is empty.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
@@ -132,12 +149,15 @@ description: *content
 
 The LIST operation is applicable to all key types, however only the base key identifier,attributes, and tags are provided in the response. Individual versions of a key are not listed in the response.
 
-You may use the `nextLink` field via an HTTP GET to retrieve the next set of results, which will include another `nextLink` field. The enumeration is completed if and only if `nextLink` is empty.
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
-- A query option `maxresults={maxresults}` is optional. The value of `maxresults` must be a none negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
-- Request body: None, this is an HTTP GET operation.
+- A query option `maxresults={maxresults}` is optional. The value of `maxresults` must be a non-negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
+
+Request body: None, this is an HTTP GET operation.
+
+You may use the `nextLink` field via an HTTP GET to retrieve the next set of results, which will include another `nextLink` field. The enumeration is completed if and only if `nextLink` is empty.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
@@ -158,9 +178,9 @@ The BACKUP operation may be used to export, in protected form, any key type from
 
 BACKUP / RESTORE can be performed within geographical boundaries only; meaning that a BACKUP from one geographical area cannot be restored to another geographical area. For example, a backup from the US geographical area cannot be restored in an EU geographical area.
 
-In your request: 
-- Refer to the key to backup with `{key-name}` in the request URL.
-- There is no JSON request body.
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
+Refer to the key to backup with `{key-name}` in the request URL. There is no JSON request body.
 
 In your response, the backup attribute is an opaque value that contains the protected key.
 
@@ -177,9 +197,7 @@ description: *content
 
 ---
 
-Imports a previously backed up key into Azure Key Vault, restoring the key, its key identifier, attributes and access control policies.
-
-The RESTORE operation may be used to import a previously backed up key. Individual versions of a key cannot be restored.
+The RESTORE operation imports a previously backed up key into Azure Key Vault, restoring the key, its key identifier, attributes and access control policies. Individual versions of a key cannot be restored.
 
 The key is restored in its entirety with the same key name as it had when it was backed up. If the key name is not available in the target Key Vault, the RESTORE operation will be rejected. While the key name is retained during restore, the final key identifier will change if the key is restored to a different vault.
 
@@ -190,7 +208,9 @@ The RESTORE operation is subject to security constraints:
 - The target Key Vault must be owned by the same Microsoft Azure Subscription as the source Key Vault
 - The user must have RESTORE permission in the target Key Vault
 
-In your request, refer to the key to restore with `{key-name}` in the request URL.
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
+Refer to the key to restore with `{key-name}` in the request URL. There is no JSON request body.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
@@ -205,9 +225,11 @@ description: *content
 
 ---
 
-Note that the ENCRYPT operation only supports a single block of data, the size of which is dependent on the target key and the encryption algorithm to be used.
+The ENCRYPT operation encrypts an arbitrary sequence of bytes using an encryption key that is stored in Azure Key Vault. Note that the ENCRYPT operation only supports a single block of data, the size of which is dependent on the target key and the encryption algorithm to be used.
 
 The ENCRYPT operation is only strictly necessary for symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be performed using public portion of the key. This operation is supported for asymmetric keys as a convenience for callers that have a key-reference but do not have access to the public key material.
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
@@ -231,11 +253,14 @@ The DECRYPT operation decrypts a well-formed block of ciphertext using the targe
 
 The DECRYPT operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key.
 
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
 In your request:
 
 - Provide the name of the key to decrypt using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…` , decrypts using a specific version of a key.
-- The request body for the DECRYPT operation is the same as the response body for the ENCRYPT operation.
+
+The request body for the DECRYPT operation is the same as the response body for the ENCRYPT operation.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
@@ -251,6 +276,8 @@ description: *content
 ---
 
 SIGN is applicable to asymmetric and symmetric keys stored in Azure Key Vault since this operation uses the private portion of the key.
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
@@ -271,6 +298,8 @@ description: *content
 ---
 
 VERIFY is applicable to symmetric keys stored in Azure Key Vault. VERIFY is not strictly necessary for asymmetric keys stored in Azure Key Vault since signature verification can be performed using the public portion of the key but this operation is supported as a convenience for callers that only have a key-reference and not the public portion of the key.
+
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
@@ -294,12 +323,14 @@ The WRAP operation supports encryption of a symmetric key using a key encryption
 
 The WRAP operation is only strictly necessary for symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be performed using the public portion of the key. This operation is supported for asymmetric keys as a convenience for callers that have a key-reference but do not have access to the public key material.
 
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
+
 In your request:
 
 - Provide the name of the key to wrap using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…` , wraps using a specific version of a key.
 
-Usage recommendation: Each key’s metadata should be saved and wrapped with a key, for example; algorithm, keyURL used to wrap and cipher-text.
+Usage recommendation - Each key’s metadata should be saved and wrapped with a key, for example; algorithm, keyURL used to wrap and cipher-text.
 
 For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
@@ -314,9 +345,9 @@ description: *content
 
 ---
 
-The UNWRAP operation supports decryption of a symmetric key using the target key encryption key. This operation is the reverse of the WRAP operation.
+The UNWRAP operation supports decryption of a symmetric key using the target key encryption key. This operation is the reverse of the WRAP operation. The UNWRAP operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key.
 
-The UNWRAP operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key.
+See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 In your request:
 
