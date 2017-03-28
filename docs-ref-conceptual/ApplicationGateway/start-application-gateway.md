@@ -18,7 +18,7 @@ For information about getting started with Azure REST operations including reque
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|`/subscriptions/{subscriptionId<subscription-id>/services/networking/applicationGateways/{applicationGatewayName}/Start?api-version={api-version}`|  
+|POST|`/subscriptions/{subscriptionId}/services/networking/applicationGateways/{applicationGatewayName}/Start?api-version={api-version}`|  
   
 | Parameter | Description |
 | --------- | ----------- |
