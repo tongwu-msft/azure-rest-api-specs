@@ -19,8 +19,13 @@ For information about getting started with Azure REST operations including reque
 |------------|-----------------|  
 |GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}?api-version={api-version}`|  
   
- *Replace {ApplicationGatewayName} with the name of the application gateway to get its properties.*  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Application Gateway exists. |
+| resourceGroupName | The name of the resource group that contains the Application Gateway. |
+| applicationGatewayName | The name of the Application Gateway.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Request body  
 
 ```json 

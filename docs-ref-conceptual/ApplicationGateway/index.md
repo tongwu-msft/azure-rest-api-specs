@@ -39,18 +39,4 @@ Application Gateway is a Network Service which provides HTTP Load balancing as a
 | [Stop an application gateway](stop-application-gateway.md) |  POST | Stops an application gateway. | 
 | [Get available rule sets (WAF)](application-gateway-get-waf-rules.md) |GET | Gets a list of available WAF rule sets.|
 
-##  <a name="bk_common"></a> Common parameters and headers  
- The following information is common to all tasks:  
-  
--   Replace {api-version} with **2016-09-01**.  
-  
--   Replace {subscription-id} with your subscription identifier in the URI.  
-  
--   Replace {resource-group-name} with the resource group. For more information, see [Using Resource groups to manage your Azure resources](http://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/) .  
-  
--   Set the Content-Type header to **application/json**.  
-  
--   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see ["Authenticating Azure Resource Manager requests"](../../index.md). 
-
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
 
