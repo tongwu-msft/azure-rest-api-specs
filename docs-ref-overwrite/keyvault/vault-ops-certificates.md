@@ -14,7 +14,7 @@ In your request:
 
 Request body: An HTTP GET has no request body.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
 uid: KeyVaultClient/2016-10-01/DeleteCertificate
@@ -27,8 +27,7 @@ description: *content
 
 Deletes all versions of a certificate object along with its associated policy. Delete certificate cannot be used to remove individual versions of a certificate object.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/GetCertificateContacts
 authorization: Requires the certificates/managecontacts permission.
@@ -40,8 +39,7 @@ description: *content
 
 Get all of the contacts for a given certificate.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/DeleteCertificateContacts
 authorization: Requires the certificates/managecontacts permission.
@@ -53,8 +51,7 @@ description: *content
 
 Delete all the contacts for a given certificate.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/GetCertificateIssuers
 authorization: Requires the certificates/listissuers permission.
@@ -71,8 +68,7 @@ In your request:
 
 You may use the `nextLink` field via an HTTP GET to retrieve the next set of results, which will include another `nextLink` field. The enumeration is completed if and only if `nextLink` is empty.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/SetCertificateIssuer
 authorization: Requires the certificates/setissuers permission.
@@ -86,8 +82,7 @@ Create/set a certificate issuer in a given key vault.
 
 An alternative to using PUT is to use PATCH for update only behavior. PATCH will allow you to specify as few as one property in the request such that only that property will be updated. If you specify all properties, then it is equivalent to using PUT.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/UpdateCertificateIssuer
 authorization: Requires the certificates/setissuers permission.
@@ -101,8 +96,7 @@ Update a certificate issuer in a given key vault.
 
 An alternative to using PUT is to use PATCH for update only behavior. PATCH will allow you to specify as few as one property in the request such that only that property will be updated. If you specify all properties, then it is equivalent to using PUT.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/GetCertificateIssuer
 authorization: Requires the certificates/getissuers permission.
@@ -119,8 +113,7 @@ In your request:
 
 The *pwd* field is never returned in response message.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/DeleteCertificateIssuer
 authorization: Requires the certificates/deleteissuers permission.
@@ -135,8 +128,7 @@ Delete a certificate issuer from the key vault.
 In your request:
 - Replace `{issuer-name}` with the issuer's name you want retrieved.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/CreateCertificate
 authorization: Requires the certificates/create permission.
@@ -154,8 +146,7 @@ In your request:
 
 For more information about creating certificates, see [Get started with Key Vault certificates](../certificate-scenarios.md) and [Certificate creation methods](../create-a-certificate.md).
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/ImportCertificate
 authorization: Requires the certificates/import permission.
@@ -204,8 +195,7 @@ In your request:
 
 - Replace `{certificate-name}` with the name of the certificate you want created.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/GetCertificateVersions
 authorization: Requires the certificates/list permission.
@@ -221,8 +211,7 @@ In your request:
 
 Request body: None, this is an HTTP GET operation.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/GetCertificatePolicy
 authorization: Requires the certificates/get permission.
@@ -237,8 +226,7 @@ In your request:
 
 Request body: None, this is an HTTP GET operation.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/UpdateCertificatePolicy
 authorization: Requires the certificates/update permission.
@@ -258,8 +246,7 @@ PATCH.
 
 - An alternative to using PATCH is to use PUT so, you effect a set / replacement behavior. PATCH will allow you to specify as few as one property in the request such that only that property will be updated. PUT will completely replace the policy. In other words, if you specify all properties with a PATCH method, then it is equivalent to using a PUT method effectively setting all properties of the certificate policy.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/UpdateCertificate
 authorization: Requires the certificates/update permission.
@@ -278,8 +265,7 @@ In your request:
 Alternate Method: POST with X-HTTP-METHOD header that specifies 
 PATCH.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 uid: KeyVaultClient/2016-10-01/GetCertificate
 authorization: Requires the certificates/get permission.
@@ -297,8 +283,7 @@ In your request:
 
 Request body: An HTTP GET has no request body.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 
 

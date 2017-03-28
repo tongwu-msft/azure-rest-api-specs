@@ -13,8 +13,7 @@ In your request:
 - Replace `{key-name}` with the name you want assigned to the new key.  
 - When creating a new key, just specify the top-level name. The system will generate the version name and append that in the response.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
 uid: KeyVaultClient/2016-10-01/ImportKey
@@ -33,8 +32,7 @@ In your request, replace `{key-name}` with the name you want to give to the impo
 
 Alternate Method: POST with X-HTTP-METHOD header specifying PUT.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
 uid: KeyVaultClient/2016-10-01/DeleteKey
@@ -52,8 +50,7 @@ In your request:
 - Replace `{key-name}` with the name of the key you want to delete. 
 - Request body: An HTTP DELETE has no request body.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
 uid: KeyVaultClient/2016-10-01/UpdateKey
@@ -72,8 +69,7 @@ In your request:
 - Alternate Method: POST with X-HTTP-METHOD header that specifies PATCH
 
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
 uid: KeyVaultClient/2016-10-01/GetKey
@@ -92,8 +88,7 @@ In your request:
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…`, retrieves a specific version of a key.
 - Request body: An HTTP GET has no request body.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
 uid: KeyVaultClient/2016-10-01/GetKeyVersions
@@ -109,10 +104,10 @@ The LIST VERSIONS operation is applicable for all versions having the same key n
 You may use the nextLink field via an HTTP GET to retrieve the next set of results, which will include another nextLink field. The enumeration is completed if and only if nextLink is empty.
 
 In your request: 
+
 - A query option `maxresults={maxresults}` is optional. The value of maxresults must be a none negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 
 ---
 
@@ -129,11 +124,11 @@ The LIST operation is applicable to all key types, however only the base key ide
 You may use the nextLink field via an HTTP GET to retrieve the next set of results, which will include another nextLink field. The enumeration is completed if and only if nextLink is empty.
 
 In your request: 
+
 - A query option `maxresults={maxresults}` is optional. The value of maxresults must be a none negative integer less than 25. If a value out of the range is specified, the request is failed with Http 400. If this query option is not specified, the service will return up to 25 results.
 - Request body: None, this is an HTTP GET operation.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
 uid: KeyVaultClient/2016-10-01/BackupKey
@@ -156,8 +151,7 @@ In your request:
 
 In your response, the backup attribute is an opaque value that contains the protected key.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
 uid: KeyVaultClient/2016-10-01/RestoreKey
@@ -182,8 +176,7 @@ The RESTORE operation is subject to security constraints:
 
 In your request, refer to the key to restore with `{key-name}` in the request URL.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
 uid: KeyVaultClient/2016-10-01/encrypt
@@ -202,8 +195,7 @@ In your request:
 - Provide the name of the key to encrypt using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…` , encrypts using a specific version of a key.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
 uid: KeyVaultClient/2016-10-01/decrypt
@@ -223,8 +215,7 @@ In your request:
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…` , decrypts using a specific version of a key.
 - The request body for the DECRYPT operation is the same as the response body for the ENCRYPT operation.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
 uid: KeyVaultClient/2016-10-01/sign
@@ -241,8 +232,7 @@ In your request:
 - Provide the name of the key to sign using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…`, signs using a specific version of a key.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
 uid: KeyVaultClient/2016-10-01/verify
@@ -259,8 +249,7 @@ In your request:
 - Provide the name of the key to verify using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…` , verifies using a specific version of a key.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
 uid: KeyVaultClient/2016-10-01/wrapKey
@@ -280,8 +269,7 @@ In your request:
 
 Usage recommendation: Each key’s metadata should be saved and wrapped with a key, for example; algorithm, keyURL used to wrap and cipher-text.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
 uid: KeyVaultClient/2016-10-01/unwrapKey
@@ -300,7 +288,6 @@ In your request:
 - Provide the name of the key to unwrap using `{key-name}` in the request URL.
 - Adding the key-version parameter, `…/keys/{key-name}/{key-version}…` , unwraps using a specific version of a key.
 
-For more information, see [About keys, secrets, and certificates](../about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](../authentication--requests-and-responses.md).
-
+For more information, see [About keys, secrets, and certificates](~/docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md) and [Authentication, requests and responses](~/docs-ref-conceptual/keyvault/authentication--requests-and-responses.md).
 ---
 
