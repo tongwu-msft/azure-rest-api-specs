@@ -59,6 +59,7 @@
 ## [Delete Application Gateway (DELETE)](../docs-ref-conceptual/ApplicationGateway/delete-application-gateway.md)
 ## [Start Application Gateway](../docs-ref-conceptual/ApplicationGateway/start-application-gateway.md)
 ## [Stop Application Gateway](../docs-ref-conceptual/ApplicationGateway/stop-application-gateway.md)
+## [Get available rule sets](../docs-ref-conceptual/ApplicationGateway/application-gateway-get-waf-rules.md)
 # [App Service](../docs-ref-conceptual/appservice/index.md)
 ## [App Service Certificate Orders](appservice/AppServiceCertificateOrders.json)
 ## [App Service Environments](appservice/AppServiceEnvironments.json)
