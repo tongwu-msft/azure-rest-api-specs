@@ -179,14 +179,15 @@ manager: "timlt"
 
 ```json
 {
-"schedulingError": {
-	"category": "UserError",
-	"code": "BlobNotFound",
-	"message": "The specified blob does not exist.",
-	"values": {
-		"name": "FilePath",
-		"value": "myfile.txt"
-	}
+  "schedulingError": {
+    "category": "UserError",
+    "code": "BlobNotFound",
+    "message": "The specified blob does not exist.",
+    "values": {
+      "name": "FilePath",
+      "value": "myfile.txt"
+    }
+  }
 }
 ```
 
