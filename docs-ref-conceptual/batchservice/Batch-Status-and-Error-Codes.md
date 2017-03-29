@@ -19,20 +19,23 @@ manager: "timlt"
 
  API operations may also return additional error information to provide the developer with more information about the error. For example, the following error response indicates that a query parameter specified on the request URI was invalid, and provides additional information about the invalid parameter’s name and value and the reason for the error.
 
-```
+```json
 {
-  "code":"InvalidQueryParameterValue",
-  "message":
-  {
-    "lang":"en-us",
-    "value":"Value for one of the query parameters specified in the request URI is invalid"
-  }
-  "values":
-  [
-{"key":"QueryParameterName","value":"state"},
-{"key":"QueryParameterValue","value":"deleted"},
-{"key":"Reason","value":"invalid state"}
-  ]
+  "code": "InvalidQueryParameterValue",
+  "message": {
+      "lang": "en-us",
+      "value": "Value for one of the query parameters specified in the request URI is invalid"
+  },
+  "values": [{
+      "key": "QueryParameterName",
+      "value": "state"
+  }, {
+      "key": "QueryParameterValue",
+      "value": "deleted"
+  }, {
+      "key": "Reason",
+      "value": "invalid state"
+  }]
 }
 ```
 
@@ -90,14 +93,14 @@ manager: "timlt"
 |Error code|HTTP status code|User message|
 |----------------|----------------------|------------------|
 |UnsupportedRequestVersion|BadRequest (400)|The specified request version is not supported.|
-|InvalidAutoScalingSettings|BadRequest<br /><br /> (400)|The specified auto-scaling settings are not valid.|
-|AutoScalingFormulaSyntaxError|BadRequest<br /><br /> (400)|The specified auto-scaling formula has a syntax error.|
-|AutoScalingFormulaTooLong|BadRequest<br /><br /> (400)|The specified auto-scaling formula exceeds lengths limit.|
+|InvalidAutoScalingSettings|BadRequest (400)|The specified auto-scaling settings are not valid.|
+|AutoScalingFormulaSyntaxError|BadRequest (400)|The specified auto-scaling formula has a syntax error.|
+|AutoScalingFormulaTooLong|BadRequest (400)|The specified auto-scaling formula exceeds lengths limit.|
 |OSVersionNotFound|BadRequest (400)|The specified OS Version does not exists.|
 |OSVersionDisabled|BadRequest (400)|The specified OS Version is disabled.|
 |OSVersionExpired|BadRequest (400)|The specified OS Version is expired.|
-|PoolVersionEqualsUpgradeVersion|BadRequest<br /><br /> (400)|The pool is already with the given version.|
-|PoolNotEligibleForOSVersionUpgrade|BadRequest<br /><br /> (400)|The specified pool is not eligible for OS Version upgrade.|
+|PoolVersionEqualsUpgradeVersion|BadRequest (400)|The pool is already with the given version.|
+|PoolNotEligibleForOSVersionUpgrade|BadRequest (400)|The specified pool is not eligible for OS Version upgrade.|
 |PoolNotFound|NotFound (404)|The specified pool does not exist.|
 |NodeNotFound|NotFound (404)|The specified node does not exist.|
 |JobScheduleNotFound|NotFound (404)|The specified job schedule does not exist.|
@@ -155,7 +158,7 @@ manager: "timlt"
 |IOError|Forbidden (403)|An I/O error occurred when accessing the specified resource.|
 |TooManyEnableAutoScaleRequests|ServiceUnavailable (503)|Too many Enable Pool AutoScale requests are issued on the pool.|
 |ApplicationNotFound|Not Found (404)|The specified application does not exist.|
-|InvalidApplicationPackageReferences|Bad Request (400)|One or more application package references could not be satisfied. This occurs if the application id or version does not exist or is not active, or if the reference did not specify a version and there is no default version configured.|
+|InvalidApplicationPackageReferences|Conflict (409)|One or more application package references could not be satisfied. This occurs if the application id or version does not exist or is not active, or if the reference did not specify a version and there is no default version configured.|
 |TaskDependenciesNotSpecifiedOnJob|Bad Request (400)|A task was specified as depending on other tasks, but the job did not specify that it would use task dependencies.|
 |TaskDependencyListTooLong|Bad Request (400)|A task was specified as depending on other tasks, but the list of dependencies was too long to be stored. The total stored length is limited to 64000 characters; the total length of task ids must be slightly less than this to allow for internal storage overhead. If you encounter this error, consider using task range dependencies instead.|
 |TaskDependencyRangesTooLong|Bad Request (400)|A task was specified as depending on multiple ranges of task ids, and the list of ranges was too long to be stored. Note that the issue is not with the size of ranges, but with the number of ranges.|
@@ -172,21 +175,18 @@ manager: "timlt"
 |UserError|Errors in the task specification provided by the user.|
 |ServerError|Errors encountered by the Batch service that prevent it from scheduling the task.|
 
- Below is an example Scheduling Error returned by the Batch service.
+ Below is a sample scheduling error returned by the Batch service.
 
-```
+```json
 {
-  "schedulingError":
-  {
-     "category" : "UserError"
-     "code" : "BlobNotFound"
-     "message" : "The specified blob does not exist."
-     "values" :
-     {
-      "name" : "FilePath"
-      "value" : "myfile.txt"
-    }
-  }
+"schedulingError": {
+	"category": "UserError",
+	"code": "BlobNotFound",
+	"message": "The specified blob does not exist.",
+	"values": {
+		"name": "FilePath",
+		"value": "myfile.txt"
+	}
 }
 ```
 
