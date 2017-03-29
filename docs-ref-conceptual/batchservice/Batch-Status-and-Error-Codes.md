@@ -1,48 +1,51 @@
-﻿---
-ms.assetid: 3e9b0aa3-81e2-44b9-bb5f-cca7e179ebbe
-ms.title: Batch status and error codes | Microsoft Docs
-ms.service: batch
-author: mmacy
-ms.author: marsma
-ms.manager: timlt
 ---
+title: "Batch Status and Error Codes | Microsoft Docs"
+ms.custom: ""
+ms.date: "2017-02-01"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "batch"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+ms.assetid: e9da2d54-053a-4392-a5ba-26229c7cc9a5
+caps.latest.revision: 22
+author: "tamram"
+ms.author: "tamram"
+manager: "timlt"
+---
+# Batch Status and Error Codes
+  REST API operations for the Batch service return standard HTTP status codes, as defined in the [HTTP/1.1 Status Code Definitions](http://go.microsoft.com/fwlink/?linkid=133333).
 
-# Batch status and error codes
+ API operations may also return additional error information to provide the developer with more information about the error. For example, the following error response indicates that a query parameter specified on the request URI was invalid, and provides additional information about the invalid parameter’s name and value and the reason for the error.
 
-REST API operations for the Batch service return standard HTTP status codes, as defined in the [HTTP/1.1 Status Code Definitions](http://go.microsoft.com/fwlink/?linkid=133333).
-
-API operations may also return additional error information to provide the developer with more information about the error. For example, the following error response indicates that a query parameter specified on the request URI was invalid, and provides additional information about the invalid parameter’s name and value and the reason for the error.
-
-```json
+```
 {
-    "code": "InvalidQueryParameterValue",
-    "message": {
-        "lang": "en-us",
-        "value": "Value for one of the query parameters specified in the request URI is invalid"
-    },
-    "values": [{
-        "key": "QueryParameterName",
-        "value": "state"
-    }, {
-        "key": "QueryParameterValue",
-        "value": "deleted"
-    }, {
-        "key": "Reason",
-        "value": "invalid state"
-    }]
+  "code":"InvalidQueryParameterValue",
+  "message":
+  {
+    "lang":"en-us",
+    "value":"Value for one of the query parameters specified in the request URI is invalid"
+  }
+  "values":
+  [
+{"key":"QueryParameterName","value":"state"},
+{"key":"QueryParameterValue","value":"deleted"},
+{"key":"Reason","value":"invalid state"}
+  ]
 }
 ```
 
  The following sections provide lists of error codes for the Batch service:
 
--   [Common REST API Error Codes](#common-rest-api-error-codes)
+-   [Common REST API Error Codes](#bk_ComRESTAPIErrCodes)
 
--   [Batch Service Error Codes](#batch-service-error-codes)
+-   [Batch Service Error Codes](#bk_batchsererrcode)
 
--   [Job/Task Scheduling Error Codes](#jobtask-scheduling-error-codes)
+-   [Job/Task Scheduling Error Codes](#BKMK_JobTaskError)
 
-## Common REST API Error Codes
-The error codes listed in the following table may be returned by an operation on the Batch service.
+##  <a name="bk_ComRESTAPIErrCodes"></a> Common REST API Error Codes
+ The error codes listed in the following table may be returned by an operation on the Batch service.
 
 |Error code|HTTP status code|User message|
 |----------------|----------------------|------------------|
@@ -81,20 +84,20 @@ The error codes listed in the following table may be returned by an operation on
 |OperationTimedOut|Internal Server Error (500)|The operation could not be completed within the permitted time.|
 |ServerBusy|Service Unavailable (503)|The server is currently unable to receive requests. Please retry your request.|
 
-## Batch Service Error Codes
+##  <a name="bk_batchsererrcode"></a> Batch Service Error Codes
  The error codes listed in the following table may be returned by an operation on the Batch service.
 
 |Error code|HTTP status code|User message|
 |----------------|----------------------|------------------|
 |UnsupportedRequestVersion|BadRequest (400)|The specified request version is not supported.|
-|InvalidAutoScalingSettings|BadRequest (400)|The specified auto-scaling settings are not valid.|
-|AutoScalingFormulaSyntaxError|BadRequest (400)|The specified auto-scaling formula has a syntax error.|
-|AutoScalingFormulaTooLong|BadRequest (400)|The specified auto-scaling formula exceeds lengths limit.|
+|InvalidAutoScalingSettings|BadRequest<br /><br /> (400)|The specified auto-scaling settings are not valid.|
+|AutoScalingFormulaSyntaxError|BadRequest<br /><br /> (400)|The specified auto-scaling formula has a syntax error.|
+|AutoScalingFormulaTooLong|BadRequest<br /><br /> (400)|The specified auto-scaling formula exceeds lengths limit.|
 |OSVersionNotFound|BadRequest (400)|The specified OS Version does not exists.|
 |OSVersionDisabled|BadRequest (400)|The specified OS Version is disabled.|
 |OSVersionExpired|BadRequest (400)|The specified OS Version is expired.|
-|PoolVersionEqualsUpgradeVersion|BadRequest (400)|The pool is already with the given version.|
-|PoolNotEligibleForOSVersionUpgrade|BadRequest (400)|The specified pool is not eligible for OS Version upgrade.|
+|PoolVersionEqualsUpgradeVersion|BadRequest<br /><br /> (400)|The pool is already with the given version.|
+|PoolNotEligibleForOSVersionUpgrade|BadRequest<br /><br /> (400)|The specified pool is not eligible for OS Version upgrade.|
 |PoolNotFound|NotFound (404)|The specified pool does not exist.|
 |NodeNotFound|NotFound (404)|The specified node does not exist.|
 |JobScheduleNotFound|NotFound (404)|The specified job schedule does not exist.|
@@ -152,40 +155,42 @@ The error codes listed in the following table may be returned by an operation on
 |IOError|Forbidden (403)|An I/O error occurred when accessing the specified resource.|
 |TooManyEnableAutoScaleRequests|ServiceUnavailable (503)|Too many Enable Pool AutoScale requests are issued on the pool.|
 |ApplicationNotFound|Not Found (404)|The specified application does not exist.|
-|InvalidApplicationPackageReferences|Conflict (409)|One or more application package references could not be satisfied. This occurs if the application id or version does not exist or is not active, or if the reference did not specify a version and there is no default version configured.|
+|InvalidApplicationPackageReferences|Bad Request (400)|One or more application package references could not be satisfied. This occurs if the application id or version does not exist or is not active, or if the reference did not specify a version and there is no default version configured.|
 |TaskDependenciesNotSpecifiedOnJob|Bad Request (400)|A task was specified as depending on other tasks, but the job did not specify that it would use task dependencies.|
 |TaskDependencyListTooLong|Bad Request (400)|A task was specified as depending on other tasks, but the list of dependencies was too long to be stored. The total stored length is limited to 64000 characters; the total length of task ids must be slightly less than this to allow for internal storage overhead. If you encounter this error, consider using task range dependencies instead.|
 |TaskDependencyRangesTooLong|Bad Request (400)|A task was specified as depending on multiple ranges of task ids, and the list of ranges was too long to be stored. Note that the issue is not with the size of ranges, but with the number of ranges.|
 
-## Job/Task Scheduling Error Codes
-If the Batch service encounters an error in scheduling a task on a node, it marks the task as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the files associated with a task](~/docs-ref-autogen/batchservice/task.json#Task_List) and [Get information about a task](~/docs-ref-autogen/batchservice/task.json#Task_Get) APIs.
+##  <a name="BKMK_JobTaskError"></a> Job/Task Scheduling Error Codes
+ If the Batch service encounters an error in scheduling a task on a node, it marks the task as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the files associated with a task](../batchservice/list-the-files-associated-with-a-task.md) and [Get information about a task](../batchservice/get-information-about-a-task.md) APIs.
 
-Similarly, if the Batch service encounters an error while starting the job, it marks the job as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the tasks associated with a job](~/docs-ref-autogen/batchservice/task.json#Task_List) and [Get information about a job in Batch](~/docs-ref-autogen/batchservice/job.json#Job_Get) APIs.
+ Similarly, if the Batch service encounters an error while starting the job, it marks the job as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the tasks associated with a job](../batchservice/list-the-tasks-associated-with-a-job.md) and [Get information about a job in Batch](../batchservice/get-information-about-a-job-in-batch.md) APIs.
 
-The following table provides the list of categories for task scheduling errors.
+ The following table provides the list of categories for task scheduling errors.
 
 |Category|Description|
 |--------------|-----------------|
 |UserError|Errors in the task specification provided by the user.|
 |ServerError|Errors encountered by the Batch service that prevent it from scheduling the task.|
 
-Below is an example Scheduling Error returned by the Batch service.
+ Below is an example Scheduling Error returned by the Batch service.
 
-```json
+```
 {
-	"schedulingError": {
-		"category": "UserError",
-		"code": "BlobNotFound",
-		"message": "The specified blob does not exist.",
-		"values": {
-			"name": "FilePath",
-			"value": "myfile.txt"
-		}
-	}
+  "schedulingError":
+  {
+     "category" : "UserError"
+     "code" : "BlobNotFound"
+     "message" : "The specified blob does not exist."
+     "values" :
+     {
+      "name" : "FilePath"
+      "value" : "myfile.txt"
+    }
+  }
 }
 ```
 
-The following table provides the list of job scheduling error codes that may be returned by the Batch service.
+ The following table provides the list of job scheduling error codes that may be returned by the Batch service.
 
 |Error code|Category|User message|
 |----------------|--------------|------------------|
@@ -215,3 +220,4 @@ The following table provides the list of job scheduling error codes that may be 
 |TaskSchedulingConstraintFailed|UserError|Task cannot be scheduled on the pool associated with the job|
 |DiskFull|ServerError|There is not enough disk space on the node that was selected to run the task.|
 |Unknown|ServerError|An unknown scheduling error has occurred.|
+
