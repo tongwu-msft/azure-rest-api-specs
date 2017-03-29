@@ -1,5 +1,5 @@
 ---
-title: List application gateways (GET)
+title: List application gateways (GET) | Microsoft Docs
 ms.date: 03/09/2017
 ms.service: application-gateway
 ms.devlang: rest-api

@@ -1,5 +1,5 @@
 ---
-title: Start Application Gateway
+title: Start Application Gateway | Microsoft Docs
 ms.date: 03/09/2017
 ms.service: application-gateway
 ms.devlang: rest-api
