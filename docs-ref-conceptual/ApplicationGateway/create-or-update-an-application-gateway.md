@@ -1,5 +1,5 @@
 ---
-title: Create or update an application gateway | Microsoft Docs
+title: Create or update an Azure Application Gateway | Microsoft Docs
 ms.date: 03/29/2017
 ms.service: application-gateway
 ms.devlang: rest-api

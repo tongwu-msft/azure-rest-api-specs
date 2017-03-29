@@ -1,5 +1,5 @@
 ---
-title: Get available rule sets | Microsoft Docs
+title: Get Azure Application Gateway WAF available rule sets | Microsoft Docs
 ms.date: 03/29/2017
 ms.service: application-gateway
 ms.devlang: rest-api

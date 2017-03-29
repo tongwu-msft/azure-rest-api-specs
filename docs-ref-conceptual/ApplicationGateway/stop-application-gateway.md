@@ -1,5 +1,5 @@
 ---
-title: Stop Application Gateway | Microsoft Docs
+title: Stop an Azure Application Gateway | Microsoft Docs
 ms.date: 03/29/2017
 ms.service: application-gateway
 ms.devlang: rest-api
