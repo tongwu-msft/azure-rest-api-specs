@@ -1,6 +1,6 @@
 ---
-title: Create or update an application gateway
-ms.date: 03/09/2017
+title: Create or update an Azure Application Gateway | Microsoft Docs
+ms.date: 03/29/2017
 ms.service: application-gateway
 ms.devlang: rest-api
 ms.topic: reference
@@ -18,15 +18,15 @@ For information about getting started with Azure REST operations including reque
   
 |Method|Request URI|  
 |------------|-----------------|  
-|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationgateways/{applicationGatewayName}?api-version={api-version}`|  
-
+|PUT|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationgateways/{ApplicationGatewayName}?api-version={api-version}`|  
+  
 | Parameter | Description |
 | --------- | ----------- |
 | subscriptionId | The identifier of your subscription where the Application Gateway exists. |
 | resourceGroupName | The name of the resource group that contains the Application Gateway. |
 | applicationGatewayName | The name of the Application Gateway. The application gateway name must be unique within the resource group and be in its own empty virtual network subnet.|
 | api-version | The version of the API to use. The current version is 2016-09-01. | 
- 
+
 ## Request Body  
   
 ```json 
@@ -212,7 +212,17 @@ For information about getting started with Azure REST operations including reque
   ],
   "webApplicationFirewallConfiguration": {
     "enabled": true | false,
-    "firewallMode": "Prevention | Detection" 
+    "firewallMode": "Prevention | Detection",
+    "ruleSetType": "OWASP",
+          "ruleSetVersion": "2.2.9 | 3.0",
+          "disabledRuleGroups": [
+            {
+              "ruleGroupName":"{ruleGroupName}", 
+              "rules":[
+                "{ruleId}"
+              ]
+            }
+          ]
   }
 }
 }
@@ -292,6 +302,10 @@ For information about getting started with Azure REST operations including reque
 |webApplicationFirewallConfiguration| ComplexType|No|Web Application Firewall configuration settings |
 |webApplicationFirewallConfiguration[i].enabled| boolean | Yes | Switch to determine if WAF is enabled or not|
 |webApplicationFirewallConfiguration[i].firewallMode|String|Yes|Firewall mode Supported values: Prevention &#124; Detection|  
+|webApplicationFirewallConfiguration[i].ruleSetType|String|Yes|Rule set type: Available values: OWASP|  
+|webApplicationFirewallConfiguration[i].ruleSetVersion|String|Yes|Ruleset version. Supported values: 2.2.9 &#124; 3.0 |  
+|webApplicationFirewallConfiguration[i].disabledRuleGroups|ComplexType|Yes|Rule group to disable | 
+|webApplicationFirewallConfiguration[i].disabledRuleGroups[i].rules|ComplexType|Yes|Array value of rules to disable| 
 
 ### Response  
  

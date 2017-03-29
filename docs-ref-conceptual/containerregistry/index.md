@@ -10,7 +10,7 @@ ms.manager: timlt
 
 # Container Registry
 
-Azure Container Registry (preview) is a managed Docker registry service to store and manage your private Docker container images. Push Docker container images to a registry as part of your development workflows. Pull images from a registry in your container deployments with orchestration tools or other Azure services.
+Azure Container Registry is a managed Docker registry service to store and manage your private Docker container images. Push Docker container images to a private registry as part of your development workflows. Pull images from a registry in your container deployments with orchestration tools or other Azure services.
 
 ## REST Operation Groups
 

@@ -1,6 +1,6 @@
 ---
-title: Get an application gateway
-ms.date: 03/09/2017
+title: Get an Azure Application Gateway | Microsoft Docs
+ms.date: 03/29/2017
 ms.service: application-gateway
 ms.devlang: rest-api
 ms.topic: reference
@@ -25,7 +25,7 @@ For information about getting started with Azure REST operations including reque
 | resourceGroupName | The name of the resource group that contains the Application Gateway. |
 | applicationGatewayName | The name of the Application Gateway.|
 | api-version | The version of the API to use. The current version is 2016-09-01. | 
-   
+
 ## Request body  
 
 ```json 
@@ -216,7 +216,17 @@ For information about getting started with Azure REST operations including reque
   ],
   "webApplicationFirewallConfiguration": {
     "enabled": true | false,
-    "firewallMode": "Prevention | Detection" 
+    "firewallMode": "Prevention | Detection",
+    "ruleSetType": "OWASP",
+    "ruleSetVersion": "2.2.9 | 3.0",
+    "disabledRuleGroups": [
+      {
+        "ruleGroupName":"{rulegroupName}", 
+        "rules":[
+          "{ruleId}"
+        ]
+      }
+    ]
   }
 }
 }
