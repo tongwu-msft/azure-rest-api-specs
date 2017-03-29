@@ -8,7 +8,7 @@ author: amitsriva
 ms.author: amsriva
 manager: rossort
 ---
----
+
 # Get available WAF rule sets
 
 Gets a list of available rule sets for web application firewall.
