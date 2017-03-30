@@ -109,20 +109,18 @@ The two Azure AD endpoints that you useg to authenticate your client and acquire
 This grant can be used by both web and native clients, and it requires credentials from a signed-in user to delegate resource access to the client application. It uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in or consent), followed by the `/token` endpoint to exchange the authorization code for an access token.  
 
 1. First, your client requests an authorization code from Azure AD. For details on the format of the HTTPS GET request to the `/authorize` endpoint, and example request/response messages, see [Request an authorization code][AAD-Oauth-Code-Authz]. The URI contains query-string parameters, including the following, which are specific to your client application:
+    * `client_id`: Also known as an application ID, this is the GUID that was assigned to your client application when you registered in the preceding section.
+    * `redirect_uri`: A URL-encoded version of one of the reply or redirect URIs that you specified when you registered your client application. The value you pass must match your registration value exactly.
+    * `resource`: A URL-encoded identifier URI that's specified by the REST API you are calling. Web/REST APIs (also known as resource applications) can expose one or more application ID URIs in their configuration. For example:  
 
-  * `client_id`: Also known as an application ID, this is the GUID that was assigned to your client application when you registered in the preceding section.
-  * `redirect_uri`: A URL-encoded version of one of the reply or redirect URIs that you specified when you registered your client application. The value you pass must match your registration value exactly.
-  * `resource`: A URL-encoded identifier URI that's specified by the REST API you are calling. Web/REST APIs (also known as resource applications) can expose one or more application ID URIs in their configuration. For example:  
+        * Azure Resource Manager provider (and classic Service Management) APIs use `https://management.core.windows.net/`.  
+        * For all other resources, see the API documentation or the resource application's configuration in the Azure portal. For more details, see the [`identifierUris` property][AAD-Graph-Application] of the Azure AD application object.  
 
-    * Azure Resource Manager provider (and classic Service Management) APIs use `https://management.core.windows.net/`.  
-    * For all other resources, see the API documentation or the resource application's configuration in the Azure portal. For more details, see the [`identifierUris` property][AAD-Graph-Application] of the Azure AD application object.  
-
-The request to the `/authorize` endpoint first triggers a sign-in prompt to authenticate the user. The response you receive is delivered as a redirect (302) to the URI that you specified in `redirect_uri`. The response header message contains a `location` field, which contains the redirect URI followed by a `code` query parameter, which in turn contains the authorization code that you need for step 2. 
+    The request to the `/authorize` endpoint first triggers a sign-in prompt to authenticate the user. The response you receive is delivered as a redirect (302) to the URI that you specified in `redirect_uri`. The response header message contains a `location` field, which contains the redirect URI followed by a `code` query parameter, which in turn contains the authorization code that you need for step 2. 
 
 2. Next, your client redeems the authorization code for an access token. For details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages, see [Use the authorization code to request an access token][AAD-Oauth-Code-Token]. This time, because this is a POST request, you package your application-specific parameters in the request body. In addition to some of the previously mentioned parameters (along with other new ones), you will pass:
-
-  * `code`: This query parameter contains the authorization code that you obtained in step 1.
-  * `client_secret`: This is the same secret or key value that you generated earlier, in [client registration](#client-registration). You need this parameter only if your client is configured as a web application. 
+    * `code`: This query parameter contains the authorization code that you obtained in step 1.
+    * `client_secret`: This is the same secret or key value that you generated earlier, in [client registration](#client-registration). You need this parameter only if your client is configured as a web application. 
 
 #### Client credentials grant (non-interactive clients)
 
