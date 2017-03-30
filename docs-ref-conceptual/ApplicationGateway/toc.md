@@ -4,3 +4,4 @@
 # [Delete Application Gateway (DELETE)](delete-application-gateway.md)
 # [Start Application Gateway](start-application-gateway.md)
 # [Stop Application Gateway](stop-application-gateway.md)
+# [Get available rule sets](application-gateway-get-waf-rules.md)
