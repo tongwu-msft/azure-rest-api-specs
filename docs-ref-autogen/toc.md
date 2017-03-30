@@ -60,6 +60,7 @@
 ## [Start Application Gateway](../docs-ref-conceptual/ApplicationGateway/start-application-gateway.md)
 ## [Stop Application Gateway](../docs-ref-conceptual/ApplicationGateway/stop-application-gateway.md)
 ## [Get available rule sets](../docs-ref-conceptual/ApplicationGateway/application-gateway-get-waf-rules.md)
+## [Application Gateways](application-gateway/ApplicationGateways.json)
 # [App Service](../docs-ref-conceptual/appservice/index.md)
 ## [App Service Certificate Orders](appservice/AppServiceCertificateOrders.json)
 ## [App Service Environments](appservice/AppServiceEnvironments.json)
