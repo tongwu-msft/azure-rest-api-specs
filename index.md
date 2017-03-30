@@ -51,7 +51,7 @@ A REST API request/response pair can be separated into five components:
     * Optional additional header fields, as required to support the request's response, such as a `Content-type` response header.
 
 * Optional HTTP **response message body** fields:
-    * MIME-encoded response objects may be returned in the HTTP response body, such as a response from a GET method that is returning data. Typically, these objects are returned in a structured format as JSON or XML, as indicated by the `Content-type` response header. For example, when you request an access token from Azure AD, it will be returned in the response body as the `access_token` element, one of several name/value paired objects in a data collection. In this example, a response header of `Content-Type: application/json` is also included.
+    * MIME-encoded response objects may be returned in the HTTP response body, such as a response from a GET method that is returning data. Typically, these objects are returned in a structured format such as JSON or XML, as indicated by the `Content-type` response header. For example, when you request an access token from Azure AD, it will be returned in the response body as the `access_token` element, one of several name/value paired objects in a data collection. In this example, a response header of `Content-Type: application/json` is also included.
 
 > [!NOTE] 
 > The Create/Send/Process-Response pattern that's discussed here is synchronous and applies to all REST messages. However, some services may also support an asynchronous pattern, which requires additional processing of response headers to monitor or complete the asynchronous request. See [Track asynchronous Azure operations][ARM-Async-Ops] for more details.
@@ -110,19 +110,19 @@ This grant can be used by both web and native clients, and it requires credentia
 
 1. First, your client requests an authorization code from Azure AD. For details on the format of the HTTPS GET request to the `/authorize` endpoint, and example request/response messages, see [Request an authorization code][AAD-Oauth-Code-Authz]. The URI contains query-string parameters, including the following, which are specific to your client application:
 
-    * `client_id`: Also known as an application ID, this is the GUID that was assigned to your client application when you registered in the preceding section.
-    * `redirect_uri`: A URL-encoded version of one of the reply or redirect URIs that you specified when you registered your client application. The value you pass must match your registration value exactly.
-    * `resource`: A URL-encoded identifier URI that's specified by the REST API you are calling. Web/REST APIs (also known as resource applications) can expose one or more application ID URIs in their configuration. For example:  
+  * `client_id`: Also known as an application ID, this is the GUID that was assigned to your client application when you registered in the preceding section.
+  * `redirect_uri`: A URL-encoded version of one of the reply or redirect URIs that you specified when you registered your client application. The value you pass must match your registration value exactly.
+  * `resource`: A URL-encoded identifier URI that's specified by the REST API you are calling. Web/REST APIs (also known as resource applications) can expose one or more application ID URIs in their configuration. For example:  
 
-        * Azure Resource Manager provider (and classic Service Management) APIs use `https://management.core.windows.net/`.  
-        * For all other resources, see the API documentation or the resource application's configuration in the Azure portal. For more details, see the [`identifierUris` property][AAD-Graph-Application] of the Azure AD application object.  
+    * Azure Resource Manager provider (and classic Service Management) APIs use `https://management.core.windows.net/`.  
+    * For all other resources, see the API documentation or the resource application's configuration in the Azure portal. For more details, see the [`identifierUris` property][AAD-Graph-Application] of the Azure AD application object.  
 
-    The request to the `/authorize` endpoint first triggers a sign-in prompt to authenticate the user. The response you receive is delivered as a redirect (302) to the URI that you specified in `redirect_uri`. The response header message contains a `location` field, which contains the redirect URI followed by a `code` query parameter, which in turn contains the authorization code that you need for step 2. 
+The request to the `/authorize` endpoint first triggers a sign-in prompt to authenticate the user. The response you receive is delivered as a redirect (302) to the URI that you specified in `redirect_uri`. The response header message contains a `location` field, which contains the redirect URI followed by a `code` query parameter, which in turn contains the authorization code that you need for step 2. 
 
 2. Next, your client redeems the authorization code for an access token. For details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages, see [Use the authorization code to request an access token][AAD-Oauth-Code-Token]. This time, because this is a POST request, you package your application-specific parameters in the request body. In addition to some of the previously mentioned parameters (along with other new ones), you will pass:
 
-    * `code`: This query parameter contains the authorization code that you obtained in step 1.
-    * `client_secret`: This is the same secret or key value that you generated earlier, in [client registration](#client-registration). You need this parameter only if your client is configured as a web application. 
+  * `code`: This query parameter contains the authorization code that you obtained in step 1.
+  * `client_secret`: This is the same secret or key value that you generated earlier, in [client registration](#client-registration). You need this parameter only if your client is configured as a web application. 
 
 #### Client credentials grant (non-interactive clients)
 
@@ -187,7 +187,7 @@ After you make the request, the response message header and optional body are re
 
 ## Process the response message
 
-The article concludes with the final two of the five components. 
+The process concludes with the final two of the five components. 
 
 To process the response, parse the response header and, optionally, the response body (depending on the request). In the HTTPS GET example provided in the preceding section, you used the /subscriptions endpoint to retrieve the list of subscriptions for a user. Assuming that the response was successful, you should receive response header fields similar to the following:
 
