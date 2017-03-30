@@ -208,7 +208,7 @@ Imports an existing valid certificate, containing a private key, into Azure Key 
 
 Following is an example of a supported PEM file format. The file must contain the private key and at least one of x509 certificate corresponding to the private key of the x509 certificate chain.
 
-```
+```PEM
    -----BEGIN PRIVATE KEY-----
        ...
    -----END PRIVATE KEY-----
@@ -224,7 +224,7 @@ Following is an example of a supported PEM file format. The file must contain th
 
 The private key may be encrypted in which case the private key will be inside encrypted private key markers as follows:
 
-```
+```PEM
   -----BEGIN ENCRYPTED PRIVATE KEY-----
        ...
   -----END ENCRYPTED PRIVATE KEY-----
@@ -241,7 +241,7 @@ The following PBE SHA1 encryption algorithms, outlined in [RFC7292 - PKCS #12](h
 
 Policy is optional and assumes import of a PFX file. If importing a PEM file, specify the *contentType* as `application/x-pem-file`.
 
-NOTE - When a certificate is imported without a specified policy or with a policy that does not have issuer or lifetime action fields specified, the issuer field is set to **unknown** and the *lifetime actions* field is set to **EmailContacts**. This policy can be modified to **AutoRenew** with a named issuer by patching the policy.
+[!NOTE] When a certificate is imported without a specified policy or with a policy that does not have issuer or lifetime action fields specified, the issuer field is set to **unknown** and the *lifetime actions* field is set to **EmailContacts**. This policy can be modified to **AutoRenew** with a named issuer by patching the policy.
 
 See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
