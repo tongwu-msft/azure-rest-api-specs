@@ -1,40 +1,31 @@
 ---
-title: "Get information about a connection&#160;"
-ms.custom: ""
-ms.date: "2016-04-19"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: af389a5f-ce66-4f4b-9fca-25bb846d50f3
-caps.latest.revision: 5
-author: "yushwang"
-ms.author: "yushwang"
-manager: "rossort"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Get information about a connection
+ms.date: 03/09/2017
+ms.service: expressroute
+ms.devlang: rest-api
+ms.topic: reference
+author: yushwang
+ms.author: yushwang
+manager: rossort
 ---
 # Get information about a connection&#160;
 Get the details of the specified connection.  
-  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Connections](connections.md) for headers and parameters that are used by all requests related to connections.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/connections/{connection-name}?api-version={api-version}`|  
-  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/microsoft.network/connections/{connectionName}?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the connection exists. |
+| resourceGroup | The name of the resource group that contains the connection. |
+| connectionName | The name of the connection.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+ 
 ## Response  
  Status code: 200 (OK) if the connection exists; otherwise, 404 (Not Found).  
   
