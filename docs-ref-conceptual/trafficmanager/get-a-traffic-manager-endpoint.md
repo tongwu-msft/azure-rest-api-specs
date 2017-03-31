@@ -9,7 +9,7 @@ ms.author: gwallace
 manager: timlt
 ---
 # Get a Traffic Manager endpoint
-Each profile contains a list of endpoints.  These endpoints are child resource of the profile, each with their own unique ARM resource id.  Thus an endpoint can be retrieved in two ways: both by retrieving the profile, or by retrieving the endpoint resource directly.  
+Each profile contains a list of endpoints.  These endpoints are child resource of the profile, each with their own unique resource id.  Thus an endpoint can be retrieved in two ways: both by retrieving the profile, or by retrieving the endpoint resource directly.  
 
 This page explains the latter approach—how to retrieve an individual Traffic Manager endpoint directly as a child resource within an existing profile.  
 
@@ -37,7 +37,7 @@ For information about getting started with Azure REST operations including reque
 
 ```json  
 {  
-  "id": "{ARM resource ID of this endpoint}",  
+  "id": "{resource ID of this endpoint}",  
   "name": "{endpoint-name}",  
   "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",  
   "properties": {  
@@ -56,7 +56,7 @@ For information about getting started with Azure REST operations including reque
 
 ```json  
 {  
-  "id": "{ARM resource ID of this endpoint}",  
+  "id": "{resource ID of this endpoint}",  
   "name": "{endpoint-name}",  
   "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",  
   "properties": {  
@@ -74,7 +74,7 @@ For information about getting started with Azure REST operations including reque
 
 ```json  
 {  
-  "id": "{ARM resource ID of this endpoint}",  
+  "id": "{resource ID of this endpoint}",  
   "name": "{endpoint-name}",  
   "type": "Microsoft.Network/trafficManagerProfiles/nestedEndpoints",  
   "properties": {  
@@ -96,8 +96,8 @@ For information about getting started with Azure REST operations including reque
 
 |Element name|Description|  
 |------------------|-----------------|  
-|id|Specifies the ARM resource ID of the endpoint.  Each endpoint is a child resource of the parent profile resource, hence each endpoint has a unique ARM resource ID.|  
-|name|Specifies the name (ARM resource name) of the endpoint.|  
+|id|Specifies the resource ID of the endpoint.  Each endpoint is a child resource of the parent profile resource, hence each endpoint has a unique resource ID.|  
+|name|Specifies the name (resource name) of the endpoint.|  
 |type|Specifies the type of the endpoint.|  
 |properties|Container for settings relating to this Traffic Manager endpoint.|  
 |target|The fully-qualified DNS name of the endpoint.  Traffic Manager returns this value in DNS responses when it directs traffic to this endpoint.<br /><br /> Applicable to endpoints of type ‘AzureEndpoints’ and ‘ExternalEndpoints’ only.|  

@@ -54,7 +54,7 @@ For information about getting started with Azure REST operations including reque
 
       "endpoints": [   
          {  
-            "id": "{ARM resource ID of this endpoint}",  
+            "id": "{resource ID of this endpoint}",  
             "name": "{endpoint-name}",  
             "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",  
             "properties": {  
@@ -68,7 +68,7 @@ For information about getting started with Azure REST operations including reque
             }  
          },  
          {   
-            "id": "{ARM resource ID of this endpoint}",  
+            "id": "{resource ID of this endpoint}",  
             "name": "{endpoint-name}",  
             "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",  
             "properties": {   
@@ -81,7 +81,7 @@ For information about getting started with Azure REST operations including reque
             }  
          },  
          {  
-            "id": "{ARM resource ID of this endpoint}",  
+            "id": "{resource ID of this endpoint}",  
             "name": "{endpoint-name}",  
             "type": "Microsoft.Network/trafficManagerProfiles/nestedEndpoints",  
             "properties": {  
@@ -114,8 +114,8 @@ For information about getting started with Azure REST operations including reque
 |port|Specifies the TCP port used to monitor endpoint health.|  
 |path|Specifies the path relative to the endpoint domain name used to probe for endpoint health.|  
 |endpoints|Specifies an array of Traffic Manager endpoints.|  
-|id (within ‘endpoints’ list)|Specifies the ARM resource ID of the endpoint.  Each endpoint is a child resource of the parent profile resource, hence each endpoint has a unique ARM resource ID.|  
-|name|Specifies the name (ARM resource name) of the endpoint.|  
+|id (within ‘endpoints’ list)|Specifies the resource ID of the endpoint.  Each endpoint is a child resource of the parent profile resource, hence each endpoint has a unique resource ID.|  
+|name|Specifies the name (resource name) of the endpoint.|  
 |type|Specifies the type of the endpoint.|  
 |properties|Container for settings relating to this Traffic Manager endpoint.|  
 |target|The fully-qualified DNS name of the endpoint. Traffic Manager returns this value in DNS responses when it directs traffic to this endpoint.  Applicable to endpoints of type ‘AzureEndpoints’ and ‘ExternalEndpoints’ only.|  

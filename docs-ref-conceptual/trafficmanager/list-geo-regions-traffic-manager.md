@@ -58,9 +58,9 @@ For information about getting started with Azure REST operations including reque
 
 |Element name|Description|  
 |------------------|-----------------|  
-|id|Specifies the ID of this ARM resource|  
-|name|Specifies the name of this ARM resource|  
-|type|Specifies the type of THIS ARM resource|  
+|id|Specifies the ID of this resource|  
+|name|Specifies the name of this resource|  
+|type|Specifies the type of this resource|  
 |properties|Container for the information within this resource|  
 |geographicHierarchy|The hierarchical listing of the regions|  
 |code|The string that represents this region and to be used when making API calls|  

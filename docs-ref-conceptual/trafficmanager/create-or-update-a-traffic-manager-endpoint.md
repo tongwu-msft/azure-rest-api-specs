@@ -9,7 +9,7 @@ ms.author: gwallace
 manager: timlt
 ---
 # Create or update a Traffic Manager endpoint
-Each profile contains a list of endpoints.  These endpoints are child resource of the profile, each with their own unique ARM resource id.  Thus endpoints can be managed in two ways: both by modifying the endpoints list when updating a profile, or by modifying the endpoint resource directly.  
+Each profile contains a list of endpoints.  These endpoints are child resource of the profile, each with their own unique resource id.  Thus endpoints can be managed in two ways: both by modifying the endpoints list when updating a profile, or by modifying the endpoint resource directly.  
 
 This page explains the latter approach—how to create or update an individual Traffic Manager endpoint directly as a child resource within an existing profile.  
 
@@ -85,7 +85,7 @@ For information about getting started with Azure REST operations including reque
 
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|name|Yes|String|Specifies the name (ARM resource name) of the endpoint|  
+|name|Yes|String|Specifies the name (resource name) of the endpoint|  
 |type|Yes|String|Specifies the type of the endpoint.  Possible values are:<br /><br /> -   Microsoft.Network/trafficManagerProfies/azureEndpoints<br />-   Microsoft.Network/trafficManagerProfies/externalEndpoints<br />-   Microsoft.Network/trafficManagerProfies/nestedEndpoints|  
 |properties|Yes|String|Container for settings relating to this Traffic Manager endpoint.|  
 |target|No|String|The fully-qualified DNS name of the endpoint.  Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.  For example, 'www.contoso.com'.<br /><br /> This parameter must be specified for the ExternalEndpoints endpoint type. For other endpoint types, specify the TargetResourceId parameter instead.|  
@@ -104,7 +104,7 @@ For information about getting started with Azure REST operations including reque
 
 ```json  
 {  
-  "id": "{ARM resource ID of this endpoint}",  
+  "id": "{resource ID of this endpoint}",  
   "name": "{endpoint-name}",  
   "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",  
   "properties": {  
@@ -123,7 +123,7 @@ For information about getting started with Azure REST operations including reque
 
 ```json  
 {  
-  "id": "{ARM resource ID of this endpoint}",  
+  "id": "{resource ID of this endpoint}",  
   "name": "{endpoint-name}",  
   "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",  
   "properties": {  
@@ -141,7 +141,7 @@ For information about getting started with Azure REST operations including reque
 
 ```json  
 {  
-  "id": "{ARM resource ID of this endpoint}",  
+  "id": "{resource ID of this endpoint}",  
   "name": "{endpoint-name}",  
   "type": "Microsoft.Network/trafficManagerProfiles/nestedEndpoints",  
   "properties": {  
@@ -163,8 +163,8 @@ For information about getting started with Azure REST operations including reque
 
 |Element name|Description|  
 |------------------|-----------------|  
-|id|Specifies the ARM resource ID of the endpoint.  Each endpoint is a child resource of the parent profile resource, hence each endpoint has a unique ARM resource ID.|  
-|name|Specifies the name (ARM resource name) of the endpoint.|  
+|id|Specifies the resource ID of the endpoint.  Each endpoint is a child resource of the parent profile resource, hence each endpoint has a unique resource ID.|  
+|name|Specifies the name (resource name) of the endpoint.|  
 |type|Specifies the type of the endpoint.|  
 |properties|Container for settings relating to this Traffic Manager endpoint.|  
 |target|The fully-qualified DNS name of the endpoint.  Traffic Manager returns this value in DNS responses when it directs traffic to this endpoint.<br /><br /> Applicable to endpoints of type ‘AzureEndpoints’ and ‘ExternalEndpoints’ only.|  
