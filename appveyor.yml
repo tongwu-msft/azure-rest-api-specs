@@ -1,4 +1,4 @@
-clone_folder: c:\projects\azure-rest-api-specs
+clone_folder: c:\projects\azure-docs-rest-apis
 
 environment:
   op_build_user: "OpenPublishBuild"
@@ -10,7 +10,10 @@ environment:
     secure: FlOlOHAHI9hhlrN7T1qduukWzJtIzTunHYoGHcz5lC97kTrAgqOl4sBCpzljrD2hVpJpaxp3UGQOD/8K2SQNVQ==
 
 install:
-  - git checkout master
+  - cmd: |
+        echo %APPVEYOR_REPO_BRANCH%
+        git checkout %APPVEYOR_REPO_BRANCH%
+        echo Done checking out %APPVEYOR_REPO_BRANCH%
 
 before_build:
   - ps: |
@@ -44,5 +47,5 @@ build_script:
 
 on_success:
   - cmd: if "%is_ci_build_enabled%" == "True" (
-           scripts\OnSuccess.cmd
+           scripts\OnSuccess.cmd %APPVEYOR_REPO_BRANCH%
          )
