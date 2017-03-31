@@ -710,7 +710,7 @@
 ## [Load Balancers](network/LoadBalancers.json)
 ## [Local Network Gateways](network/LocalNetworkGateways.json)
 ## [Network Interfaces](network/NetworkInterfaces.json)
-## [Network Interfaces 2017-03-01](network/Network Interfaces 2017-03-01.json)
+## [Network Interfaces VM Scale Sets](network/Network Interfaces VM Scale Sets.json)
 ## [Network Security Groups](network/NetworkSecurityGroups.json)
 ## [Network Watchers](network/NetworkWatchers.json)
 ## [Packet Captures](network/PacketCaptures.json)
