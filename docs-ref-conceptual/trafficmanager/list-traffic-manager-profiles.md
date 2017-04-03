@@ -1,27 +1,29 @@
 ---
-title: "List Traffic Manager profiles"
-ms.custom: ""
-ms.date: "2016-02-01"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "traffic-manager"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: c6cbd933-eaab-4349-8097-69da55aaa76e
-caps.latest.revision: 8
-ms.author: "cherylmc"
-manager: "carolz"
+title: List Traffic Manager profiles
+ms.date: 03/23/2017
+ms.service: traffic-manager
+ms.devlang: rest-api
+ms.topic: reference
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # List Traffic Manager profiles
 List Traffic Manager profiles within a resource group.  
 
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](traffic-manager-profiles-and-endpoints.md#bk_common) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
 
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Traffic Manager endpoint exists. |
+| resourceGroupName | The name of the resource group that contains the Traffic Manager endpoint. |
+| api-version | The version of the API to use. The current version is 2017-03-01. | 
 
 ## Response  
  **Status code:** 200 OK.  
@@ -30,7 +32,7 @@ List Traffic Manager profiles within a resource group.
 {   
    "value":[   
       {   
-         "id":"/subscriptions/{subsctiption-id}/resourceGroups/{resource-group-name}/Microsoft.Network/trafficManagerProfiles/{profile-name}",  
+         "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.Network/trafficManagerProfiles/{profileName}",  
          "name": "{profile-name}",  
          "type": "Microsoft.Network/trafficManagerProfiles",  
          "location": "global",  
@@ -51,8 +53,8 @@ List Traffic Manager profiles within a resource group.
             },  
       "endpoints": [   
          {  
-            "id": "{ARM resource ID of this endpoint}",  
-            "name": "{endpoint-name}",  
+            "id": "{resource ID of this endpoint}",  
+            "name": "{endpointName}",  
             "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",  
             "properties": {  
                "endpointStatus": "Enabled",  
@@ -65,7 +67,7 @@ List Traffic Manager profiles within a resource group.
             }  
          },  
          {   
-            "id": "{ARM resource ID of this endpoint}",  
+            "id": "{resource ID of this endpoint}",  
             "name": "{endpoint-name}",  
             "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",  
             "properties": {   
@@ -78,7 +80,7 @@ List Traffic Manager profiles within a resource group.
             }  
          },  
          {  
-            "id": "{ARM resource ID of this endpoint}",  
+            "id": "{resource ID of this endpoint}",  
             "name": "{endpoint-name}",  
             "type": "Microsoft.Network/trafficManagerProfiles/nestedEndpoints",  
             "properties": {  
@@ -115,8 +117,8 @@ List Traffic Manager profiles within a resource group.
 |port|Specifies the TCP port used to monitor endpoint health.|  
 |path|Specifies the path relative to the endpoint domain name used to probe for endpoint health.|  
 |endpoints|Specifies an array of Traffic Manager endpoints.|  
-|id (within ‘endpoints’ list)|Specifies the ARM resource ID of the endpoint.  Each endpoint is a child resource of the parent profile resource, hence each endpoint has a unique ARM resource ID.|  
-|name|Specifies the name (ARM resource name) of the endpoint.|  
+|id (within ‘endpoints’ list)|Specifies the resource ID of the endpoint.  Each endpoint is a child resource of the parent profile resource, hence each endpoint has a unique resource ID.|  
+|name|Specifies the name (resource name) of the endpoint.|  
 |type|Specifies the type of the endpoint.|  
 |properties|Container for settings relating to this Traffic Manager endpoint.|  
 |target|The fully-qualified DNS name of the endpoint. Traffic Manager returns this value in DNS responses when it directs traffic to this endpoint.  Applicable to endpoints of type ‘AzureEndpoints’ and ‘ExternalEndpoints’ only.|  

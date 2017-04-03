@@ -18,16 +18,13 @@
     "application/json"
   ],
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/vaults": {
       "get": {
         "tags": [
           "Vaults"
         ],
-        "description": "Get the Vault details.",
-        "operationId": "Vaults_Get",
-        "consumes": [
-          "application/json"
-        ],
+        "description": "Fetches all the resources of the specified type in the subscription.",
+        "operationId": "Vaults_ListBySubscriptionId",
         "produces": [
           "application/json"
         ],
@@ -36,13 +33,80 @@
             "$ref": "#/parameters/SubscriptionId"
           },
           {
+            "$ref": "#/parameters/ApiVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/VaultList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": null
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults": {
+      "get": {
+        "tags": [
+          "Vaults"
+        ],
+        "description": "Retrieve a list of Vaults.",
+        "operationId": "Vaults_ListByResourceGroup",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionId"
+          },
+          {
+            "$ref": "#/parameters/ApiVersion"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/VaultList"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-pageable": {
+          "nextLinkName": null
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}": {
+      "get": {
+        "tags": [
+          "Vaults"
+        ],
+        "description": "Get the Vault details.",
+        "operationId": "Vaults_Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionId"
+          },
+          {
+            "$ref": "#/parameters/ApiVersion"
+          },
+          {
             "$ref": "#/parameters/ResourceGroupName"
           },
           {
             "$ref": "#/parameters/VaultName"
-          },
-          {
-            "$ref": "#/parameters/ApiVersion"
           }
         ],
         "responses": {
@@ -72,13 +136,13 @@
             "$ref": "#/parameters/SubscriptionId"
           },
           {
+            "$ref": "#/parameters/ApiVersion"
+          },
+          {
             "$ref": "#/parameters/ResourceGroupName"
           },
           {
             "$ref": "#/parameters/VaultName"
-          },
-          {
-            "$ref": "#/parameters/ApiVersion"
           },
           {
             "name": "vault",
@@ -112,9 +176,6 @@
         ],
         "description": "Deletes a vault.",
         "operationId": "Vaults_Delete",
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
@@ -123,13 +184,13 @@
             "$ref": "#/parameters/SubscriptionId"
           },
           {
+            "$ref": "#/parameters/ApiVersion"
+          },
+          {
             "$ref": "#/parameters/ResourceGroupName"
           },
           {
             "$ref": "#/parameters/VaultName"
-          },
-          {
-            "$ref": "#/parameters/ApiVersion"
           }
         ],
         "responses": {
@@ -138,15 +199,13 @@
           }
         },
         "deprecated": false
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults": {
-      "get": {
+      },
+      "patch": {
         "tags": [
           "Vaults"
         ],
-        "summary": "Retrieve a list of Vaults.",
-        "operationId": "Vaults_ListByResourceGroup",
+        "description": "Updates the vault.",
+        "operationId": "Vaults_Update",
         "consumes": [
           "application/json"
         ],
@@ -158,66 +217,187 @@
             "$ref": "#/parameters/SubscriptionId"
           },
           {
+            "$ref": "#/parameters/ApiVersion"
+          },
+          {
             "$ref": "#/parameters/ResourceGroupName"
           },
           {
-            "$ref": "#/parameters/ApiVersion"
+            "$ref": "#/parameters/VaultName"
+          },
+          {
+            "name": "vault",
+            "in": "body",
+            "description": "Recovery Services Vault to be created.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Vault"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/VaultList"
+              "$ref": "#/definitions/Vault"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Vault"
             }
           }
         },
-        "deprecated": false,
-        "x-ms-pageable": {
-          "nextLinkName": "null"
-        }
+        "deprecated": false
       }
     }
   },
   "definitions": {
-    "Object": {
-      "description": "Base of all objects.",
-      "type": "object",
-      "properties": {}
-    },
-    "VaultList": {
-      "description": "The response model for Vault.",
+    "ClientDiscoveryDisplay": {
+      "description": "Localized display information of an operation.",
       "type": "object",
       "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Vault"
-          }
-        }
-      }
-    },
-    "Vault": {
-      "description": "Resource information, as returned by the resource provider.",
-      "required": [
-        "location"
-      ],
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "properties": {
-        "etag": {
-          "description": "ETag of the Vault.",
+        "Provider": {
+          "description": "Name of the resource provider.",
           "type": "string",
           "readOnly": true
         },
-        "properties": {
-          "$ref": "#/definitions/VaultProperties"
+        "Resource": {
+          "description": "Type of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "Operation": {
+          "description": "Name of the operation.",
+          "type": "string",
+          "readOnly": true
+        },
+        "Description": {
+          "description": "Operation description.",
+          "type": "string",
+          "readOnly": true
         }
       }
+    },
+    "ClientDiscoveryForLogSpecification": {
+      "description": "Log specification for the operation.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name of the log.",
+          "type": "string",
+          "readOnly": true
+        },
+        "displayName": {
+          "description": "Localized display name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "blobDuration": {
+          "description": "Blob duration.",
+          "format": "date-time",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ClientDiscoveryForServiceSpecification": {
+      "description": "Operation properties.",
+      "type": "object",
+      "properties": {
+        "logSpecifications": {
+          "description": "List of log specifications of this operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ClientDiscoveryForLogSpecification"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "ClientDiscoveryProperties": {
+      "description": "Operation properties.",
+      "type": "object",
+      "properties": {
+        "serviceSpecification": {
+          "$ref": "#/definitions/ClientDiscoveryForServiceSpecification",
+          "description": "Operation properties.",
+          "readOnly": true
+        }
+      }
+    },
+    "ClientDiscoveryResponse": {
+      "description": "List of available operations.",
+      "type": "object",
+      "properties": {
+        "Value": {
+          "description": "List of available operationss.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ClientDiscoveryValueForSingleApi"
+          },
+          "readOnly": true
+        },
+        "NextLink": {
+          "description": "NextLink",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ClientDiscoveryValueForSingleApi": {
+      "description": "Available operation details.",
+      "type": "object",
+      "properties": {
+        "Name": {
+          "description": "Name of the operation.",
+          "type": "string",
+          "readOnly": true
+        },
+        "Display": {
+          "$ref": "#/definitions/ClientDiscoveryDisplay",
+          "description": "Contains the localized display information for this particular operation.",
+          "readOnly": true
+        },
+        "Origin": {
+          "description": "The intended executor of the operation.",
+          "type": "string",
+          "readOnly": true
+        },
+        "Properties": {
+          "$ref": "#/definitions/ClientDiscoveryProperties",
+          "description": "Properties of the operation.",
+          "readOnly": true,
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "Resource": {
+      "description": "ARM Resource.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Resource Id represents the complete path to the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Resource name associated with the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...",
+          "type": "string",
+          "readOnly": true
+        },
+        "eTag": {
+          "description": "Optional ETag.",
+          "type": "string"
+        }
+      },
+      "x-ms-azure-resource": true
     },
     "Sku": {
       "description": "Identifies the unique system identifier for each Azure resource.",
@@ -240,6 +420,102 @@
         }
       }
     },
+    "TrackedResource": {
+      "description": "Tracked resource with location.",
+      "type": "object",
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "location": {
+          "description": "Resource location.",
+          "type": "string"
+        },
+        "tags": {
+          "description": "Resource tags.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Vault": {
+      "description": "Resource information, as returned by the resource provider.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/VaultProperties",
+          "x-ms-client-flatten": true
+        },
+        "sku": {
+          "$ref": "#/definitions/Sku"
+        }
+      }
+    },
+    "VaultExtendedInfo": {
+      "description": "Vault extended information.",
+      "type": "object",
+      "properties": {
+        "integrityKey": {
+          "description": "Integrity key.",
+          "type": "string"
+        },
+        "encryptionKey": {
+          "description": "Encryption key.",
+          "type": "string"
+        },
+        "encryptionKeyThumbprint": {
+          "description": "Encryption key thumbprint.",
+          "type": "string"
+        },
+        "algorithm": {
+          "description": "Algorithm.",
+          "type": "string"
+        }
+      }
+    },
+    "VaultExtendedInfoResource": {
+      "description": "Vault extended information.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/VaultExtendedInfo",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "VaultList": {
+      "description": "The response model for a list of Vaults.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Vault"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
     "VaultProperties": {
       "description": "Properties of the vault.",
       "type": "object",
@@ -250,40 +526,6 @@
           "readOnly": true
         }
       }
-    },
-    "Resource": {
-      "properties": {
-        "id": {
-          "description": "Resource Id",
-          "type": "string",
-          "readOnly": true
-        },
-        "name": {
-          "description": "Resource Name",
-          "type": "string",
-          "readOnly": true
-        },
-        "type": {
-          "description": "Resource Type",
-          "type": "string",
-          "readOnly": true
-        },
-        "location": {
-          "description": "Resource Location",
-          "type": "string"
-        },
-        "sku": {
-          "$ref": "#/definitions/Sku"
-        },
-        "tags": {
-          "description": "Resource Tags",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      },
-      "x-ms-azure-resource": true
     }
   },
   "parameters": {

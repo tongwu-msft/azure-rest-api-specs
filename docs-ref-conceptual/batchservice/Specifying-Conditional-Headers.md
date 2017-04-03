@@ -1,10 +1,18 @@
 ---
-ms.assetid: 05f376a8-64b6-4035-9d86-ca695e102b49
-ms.title: Specifying conditional headers | Microsoft Docs
-ms.service: batch
-author: mmacy
-ms.author: marsma
-ms.manager: timlt
+title: "Specifying Conditional Headers | Microsoft Docs"
+ms.custom: ""
+ms.date: "2017-02-01"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "batch"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+ms.assetid: b4eaa7c1-6397-4d45-81c4-ae8c27aa2071
+caps.latest.revision: 18
+author: "tamram"
+ms.author: "tamram"
+manager: "timlt"
 ---
 
 # Specifying conditional headers
@@ -40,5 +48,5 @@ The following table indicates the response codes returned for an unmet condition
 |`If-Match`|Precondition Failed (412)|
 |`If-None-Match`|Precondition Failed (412)|
 |`If-Modified-Since`|Precondition Failed (412)|
-|`If-Unmodified-Since`|Precondition Failed (412)|
-
+|`If-Unmodified-Since`|Precondition Failed (412)|  
+  
