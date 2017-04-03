@@ -17,7 +17,7 @@ ms.assetid: D35E3780-B2BC-4450-8EF6-2710A11F99A7
 
 Welcome to the Azure REST API Reference.
 
-Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create, retrieve, update, or delete access to the service's resources. This article presents:
+Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create, retrieve, update, or delete access to the service's resources. This article walks you through:
 
 * The basic components of a REST API request/response pair.
 * How to register your client application with Azure Active Directory (Azure AD) to secure your REST requests.
@@ -34,23 +34,23 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 
 A REST API request/response pair can be separated into five components:
 
-* The **request URI**, which consists of: `{URI-scheme} :// {URI-host} / {resource-path} ? {query-string}`. Although the request URI is included in the request message header, we call it out separately here because most languages or frameworks require you to pass it separately from the request message. 
+1. The **request URI**, which consists of: `{URI-scheme} :// {URI-host} / {resource-path} ? {query-string}`. Although the request URI is included in the request message header, we call it out separately here because most languages or frameworks require you to pass it separately from the request message. 
     * URI scheme: Indicates the protocol used to transmit the request. For example, `http` or `https`.  
     * URI host: Specifies the domain name or IP address of the server where the REST service endpoint is hosted, such as `graph.microsoft.com`.  
     * Resource path: Specifies the resource or resource collection, which may include multiple segments used by the service in determining the selection of those resources. For example: `beta/applications/00003f25-7e1f-4278-9488-efc7bac53c4a/owners` could be used to query the list of owners of a specific application within the applications collection.
     * Query string (optional): Provides additional simple parameters, such as the API version or resource selection criteria.
 
-* HTTP **request message header** fields:
+2. HTTP **request message header** fields:
     * A required [HTTP method](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) (also known as an operation or verb), which tells the service what type of operation you are requesting. Azure REST APIs support GET, HEAD, PUT, POST, and PATCH methods.
     * Optional additional header fields, as required by the specified URI and HTTP method. For example, an Authorization header that provides a bearer token containing client authorization information for the request.
 
-* Optional HTTP **request message body** fields, to support the URI and HTTP operation. For example, POST operations contain MIME-encoded objects that are passed as complex parameters. For POST or PUT operations, the MIME-encoding type for the body should be specified in the `Content-type` request header as well. Some services require you to use a specific MIME type, such as `application/json`.  
+3. Optional HTTP **request message body** fields, to support the URI and HTTP operation. For example, POST operations contain MIME-encoded objects that are passed as complex parameters. For POST or PUT operations, the MIME-encoding type for the body should be specified in the `Content-type` request header as well. Some services require you to use a specific MIME type, such as `application/json`.  
 
-* HTTP **response message header** fields:
+4. HTTP **response message header** fields:
     * An [HTTP status code](http://www.w3.org/Protocols/HTTP/HTRESP.html), ranging from 2xx success codes to 4xx or 5xx error codes. Alternatively, a service-defined status code may be returned, as indicated in the API documentation. 
     * Optional additional header fields, as required to support the request's response, such as a `Content-type` response header.
 
-* Optional HTTP **response message body** fields:
+5. Optional HTTP **response message body** fields:
     * MIME-encoded response objects may be returned in the HTTP response body, such as a response from a GET method that is returning data. Typically, these objects are returned in a structured format such as JSON or XML, as indicated by the `Content-type` response header. For example, when you request an access token from Azure AD, it will be returned in the response body as the `access_token` element, one of several name/value paired objects in a data collection. In this example, a response header of `Content-Type: application/json` is also included.
 
 > [!NOTE] 
@@ -59,21 +59,21 @@ A REST API request/response pair can be separated into five components:
 
 ## Register your client application with Azure AD
 
-Most Azure services (such as [Azure Resource Manager providers][ARM-Provider-Summary] and the classic Service Management APIs) require your client code to authenticate with valid credentials before you can call the service's API. Authentication is coordinated between the various actors by Azure AD, which provides your client with an [access token][AAD-Glossary-Access-Token] as proof of the authentication or authorization. The token is then sent to the Azure service in the HTTP Authorization header of all subsequent REST API requests. The token's [claims][AAD-Glossary-Claim] also provide information to the service, allowing it to validate the client and perform any required authorization.
+Most Azure services (such as [Azure Resource Manager providers][ARM-Provider-Summary] and the classic Service Management APIs) require your client code to authenticate with valid credentials before you can call the service's API. Authentication is coordinated between the various actors by Azure AD, which provides your client with an [access token][AAD-Glossary-Access-Token] as proof of the authentication/authorization. The token is then sent to the Azure service in the HTTP Authorization header of all subsequent REST API requests. The token's [claims][AAD-Glossary-Claim] also provide information to the service, allowing it to validate the client and perform any required authorization.
 
 If you are using a REST API that does not use integrated Azure AD authentication, or you've already registered your client, you can skip to the [Create the request](#create-the-request) section. 
 
 ### Prerequisites
 
-Your [client application][AAD-Glossary-Client-Application] must make its identity configuration known to Azure AD before run time by registering it in an [Azure AD tenant][AAD-Glossary-Tenant]. Before you register your client with Azure AD, consider the following: 
+Your [client application][AAD-Glossary-Client-Application] must make its identity configuration known to Azure AD before runtime by registering it in an [Azure AD tenant][AAD-Glossary-Tenant]. Before you register your client with Azure AD, consider the following: 
 
 * If you do not have an Azure AD tenant yet, see [How to get an Azure Active Directory tenant][AAD-Howto-Tenant]. 
 
-* In accordance with the OAuth2 Authorization Framework, Azure AD supports two types of clients. Understanding each client can help you decide which is the most appropriate for your scenario:  
-    * [web/confidential][AAD-Glossary-Web-Client] clients run on a web server and can access resources under their own identity (that is, service or daemon), or they can obtain delegated authorization to access resources under the identity of a signed-in user (that is, web app). Only a web client can securely maintain and present its own credentials during Azure AD authentication to acquire an access token.
-    * [native/public][AAD-Glossary-Native-Client] clients are installed and run on a device and can access resources on behalf of a user only under delegated authorization, using the identity of the signed-in user to acquire an access token.
+* In accordance with the OAuth2 Authorization Framework, Azure AD supports two types of clients. Understanding each will help you decide which is most appropriate for your scenario:  
+    * [web/confidential][AAD-Glossary-Web-Client] clients run on a web server and can access resources under their own identity (for example, a service or daemon), or they can obtain delegated authorization to access resources under the identity of a signed-in user (for example, a web app). Only a web client can securely maintain and present its own credentials during Azure AD authentication to acquire an access token.
+    * [native/public][AAD-Glossary-Native-Client] clients are installed and run on a device. They can access resources only under delegated authorization, using the identity of the signed-in user to acquire an access token on behalf of the user.
 
-* The registration process creates two related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at run time, see [Application and service principal objects in Azure Active Directory][AAD-Apps-And-Sps].
+* The registration process creates two related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at runtime, see [Application and service principal objects in Azure Active Directory][AAD-Apps-And-Sps].
 
 You are now ready to register your client application with Azure AD.
 
@@ -97,12 +97,12 @@ This section covers the first three of the five components that we discussed ear
 
 ### Acquire an access token
 
-After you have a valid client registration, you can acquire an access token for integrating with Azure AD in either of two ways:
+After you have a valid client registration, you have two ways to integrate with Azure AD to acquire an access token:
 
-* The Azure AD platform- and language-neutral OAuth2 service endpoints, which is what we use in this article. Like the instructions for the Azure REST API endpoints you are using, the instructions provided in this section make no assumptions about your client's platform, language, or script when using the Azure AD endpoints. The endpoints can send and receive HTTPS requests to and from Azure AD, and parse the response message.  
+* The Azure AD platform- and language-neutral OAuth2 service endpoints, which we use in this article. Like the instructions for the Azure REST API endpoints you are using, the instructions provided in this section assume nothing about your client's platform or language/script when you use the Azure AD endpoints. The endpoints can send and receive HTTPS requests to and from Azure AD, and parse the response message.  
 * The platform- and language-specific Azure AD Authentication Libraries (ADAL). The libraries provide asynchronous wrappers for the OAuth2 endpoint requests, and robust token-handling features such as caching and refresh token management. For more details, including reference documentation, library downloads, and sample code, see [Azure Active Directory Authentication Libraries][AAD-Auth-Libraries].
 
-The two Azure AD endpoints that you useg to authenticate your client and acquire an access token are referred to as the OAuth2 `/authorize` and `/token` endpoints. How you use them depends on your application's registration and the type of [OAuth2 authorization grant flow][AAD-Glossary-Authorization-Grant] you need to support your application at run time. For the purposes of this article, we assume that your client will use one of the following authorization grant flows: authorization code or client credentials. To acquire the access token that you will use in the remaining sections, follow the instructions for the authorization grant flow that best matches your scenario.
+The two Azure AD endpoints that you useg to authenticate your client and acquire an access token are referred to as the OAuth2 `/authorize` and `/token` endpoints. How you use them depends on your application's registration and the type of [OAuth2 authorization grant flow][AAD-Glossary-Authorization-Grant] you need to support your application at runtime. For the purposes of this article, we assume that your client will use one of the following authorization grant flows: authorization code or client credentials. To acquire the access token that you will use in the remaining sections, follow the instructions for the authorization grant flow that best matches your scenario.
 
 #### Authorization code grant (interactive clients)
 
