@@ -197,7 +197,7 @@ Creates a new Stream Analytics user-defined function.
 > [!NOTE]  
 >  Create Function will validate if the binding and input columns specified matches, if it doesn’t it would return an error. Note that this validation will be triggered only if either input or output is specified. For AzureML binding, endpoint and apikey are mandatory properties.  
 >   
->  Details on input, output and bindings are found in the [Functions &#40;Azure Stream Analytics&#41;](Azure-Stream-Analytics-Functions.md) page.  
+>  Details on input, output and bindings are found in the [Functions &#40;Azure Stream Analytics&#41;](Azure-Stream-Analytics-Function.md) page.  
   
 ### Example payloads  
  Example payload to create an Azure Machine learning scalar function  
