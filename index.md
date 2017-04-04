@@ -65,7 +65,7 @@ If you are using a REST API that does not use integrated Azure AD authentication
 
 ### Prerequisites
 
-Your [client application][AAD-Glossary-Client-Application] must make its identity configuration known to Azure AD before runtime by registering it in an [Azure AD tenant][AAD-Glossary-Tenant]. Before you register your client with Azure AD, consider the following: 
+Your [client application][AAD-Glossary-Client-Application] must make its identity configuration known to Azure AD before run-time by registering it in an [Azure AD tenant][AAD-Glossary-Tenant]. Before you register your client with Azure AD, consider the following: 
 
 * If you do not have an Azure AD tenant yet, see [How to get an Azure Active Directory tenant][AAD-Howto-Tenant]. 
 
@@ -73,7 +73,7 @@ Your [client application][AAD-Glossary-Client-Application] must make its identit
     * [web/confidential][AAD-Glossary-Web-Client] clients run on a web server and can access resources under their own identity (for example, a service or daemon), or they can obtain delegated authorization to access resources under the identity of a signed-in user (for example, a web app). Only a web client can securely maintain and present its own credentials during Azure AD authentication to acquire an access token.
     * [native/public][AAD-Glossary-Native-Client] clients are installed and run on a device. They can access resources only under delegated authorization, using the identity of the signed-in user to acquire an access token on behalf of the user.
 
-* The registration process creates two related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at runtime, see [Application and service principal objects in Azure Active Directory][AAD-Apps-And-Sps].
+* The registration process creates two related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at run-time, see [Application and service principal objects in Azure Active Directory][AAD-Apps-And-Sps].
 
 You are now ready to register your client application with Azure AD.
 
@@ -93,7 +93,7 @@ For all other clients, refer to [Integrating applications with Azure Active Dire
 Now that you've completed registration of your client application, you can move to your client code, where you create the REST request and handle the response.
 
 ## Create the request
-This section covers the first three of the five components that we discussed earlier. You first acquire the access token from Azure AD, which you use to assemble your request message header.
+This section covers the first three of the five components that we discussed earlier. You first need to acquire the access token from Azure AD, which you use to assemble your request message header.
 
 ### Acquire an access token
 
@@ -102,34 +102,34 @@ After you have a valid client registration, you have two ways to integrate with 
 * The Azure AD platform- and language-neutral OAuth2 service endpoints, which we use in this article. Like the instructions for the Azure REST API endpoints you are using, the instructions provided in this section assume nothing about your client's platform or language/script when you use the Azure AD endpoints. The endpoints can send and receive HTTPS requests to and from Azure AD, and parse the response message.  
 * The platform- and language-specific Azure AD Authentication Libraries (ADAL). The libraries provide asynchronous wrappers for the OAuth2 endpoint requests, and robust token-handling features such as caching and refresh token management. For more details, including reference documentation, library downloads, and sample code, see [Azure Active Directory Authentication Libraries][AAD-Auth-Libraries].
 
-The two Azure AD endpoints that you useg to authenticate your client and acquire an access token are referred to as the OAuth2 `/authorize` and `/token` endpoints. How you use them depends on your application's registration and the type of [OAuth2 authorization grant flow][AAD-Glossary-Authorization-Grant] you need to support your application at runtime. For the purposes of this article, we assume that your client will use one of the following authorization grant flows: authorization code or client credentials. To acquire the access token that you will use in the remaining sections, follow the instructions for the authorization grant flow that best matches your scenario.
+The two Azure AD endpoints that you use to authenticate your client and acquire an access token are referred to as the OAuth2 `/authorize` and `/token` endpoints. How you use them depends on your application's registration and the type of [OAuth2 authorization grant flow][AAD-Glossary-Authorization-Grant] you need to support your application at run-time. For the purposes of this article, we assume that your client will use one of the following authorization grant flows: authorization code or client credentials. To acquire the access token that you will use in the remaining sections, follow the instructions for the authorization grant flow that best matches your scenario.
 
 #### Authorization code grant (interactive clients)
 
-This grant can be used by both web and native clients, and it requires credentials from a signed-in user to delegate resource access to the client application. It uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in or consent), followed by the `/token` endpoint to exchange the authorization code for an access token.  
+This grant can be used by both web and native clients, and it requires credentials from a signed-in user to delegate resource access to the client application. It uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in/consent), followed by the `/token` endpoint to exchange the authorization code for an access token.  
 
-1. First, your client requests an authorization code from Azure AD. For details on the format of the HTTPS GET request to the `/authorize` endpoint, and example request/response messages, see [Request an authorization code][AAD-Oauth-Code-Authz]. The URI contains query-string parameters, including the following, which are specific to your client application:
+1. First, your client needs to request an authorization code from Azure AD. For details on the format of the HTTPS GET request to the `/authorize` endpoint, and example request/response messages, see [Request an authorization code][AAD-Oauth-Code-Authz]. The URI contains query-string parameters, including the following, which are specific to your client application:
 
     * `client_id`: Also known as an application ID, this is the GUID that was assigned to your client application when you registered in the preceding section.
 
-    * `redirect_uri`: A URL-encoded version of one of the reply or redirect URIs that you specified when you registered your client application. The value you pass must match your registration value exactly.
+    * `redirect_uri`: A URL-encoded version of one of the reply/redirect URIs that you specified when you registered your client application. The value you pass must match your registration value exactly.
 
     * `resource`: A URL-encoded identifier URI that's specified by the REST API you are calling. Web/REST APIs (also known as resource applications) can expose one or more application ID URIs in their configuration. For example:  
 
         * Azure Resource Manager provider (and classic Service Management) APIs use `https://management.core.windows.net/`.  
-        * For all other resources, see the API documentation or the resource application's configuration in the Azure portal. For more details, see the [`identifierUris` property][AAD-Graph-Application] of the Azure AD application object.  
+        * For any other resources, see the API documentation or the resource application's configuration in the Azure portal. For more details, see the [`identifierUris` property][AAD-Graph-Application] of the Azure AD application object.  
 
-    The request to the `/authorize` endpoint first triggers a sign-in prompt to authenticate the user. The response you receive is delivered as a redirect (302) to the URI that you specified in `redirect_uri`. The response header message contains a `location` field, which contains the redirect URI followed by a `code` query parameter, which in turn contains the authorization code that you need for step 2. 
+    The request to the `/authorize` endpoint first triggers a sign-in prompt to authenticate the user. The response you get back is delivered as a redirect (302) to the URI that you specified in `redirect_uri`. The response header message contains a `location` field, which contains the redirect URI followed by a `code` query parameter that contains the authorization code that you need for step 2. 
 
-2. Next, your client redeems the authorization code for an access token. For details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages, see [Use the authorization code to request an access token][AAD-Oauth-Code-Token]. This time, because this is a POST request, you package your application-specific parameters in the request body. In addition to some of the previously mentioned parameters (along with other new ones), you will pass:
+2. Next, your client needs to redeem the authorization code for an access token. For details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages, see [Use the authorization code to request an access token][AAD-Oauth-Code-Token]. This time, because this is a POST request, you package your application-specific parameters in the request body. In addition to some of the previously mentioned parameters (along with other new ones), you will pass:
 
     * `code`: This query parameter contains the authorization code that you obtained in step 1.
 
-    * `client_secret`: This is the same secret or key value that you generated earlier, in [client registration](#client-registration). You need this parameter only if your client is configured as a web application. 
+    * `client_secret`: This is the same secret/key value that you generated earlier, in [client registration](#client-registration). You need this parameter only if your client is configured as a web application. 
 
 #### Client credentials grant (non-interactive clients)
 
-This grant can be used only by web clients, allowing the application to access resources directly (no user delegation) and using the client's own credentials, which are provided at registration time. The grant is typically used by non-interactive clients (no UI) that run as a daemon or service, and it requires only the `/token` endpoint to acquire an access token.
+This grant can be used only by web clients, allowing the application to access resources directly (no user delegation) and using the client's own credentials, which are provided at registration time. The grant is typically used by non-interactive clients (no UI) that run as a service or daemon, and it requires only the `/token` endpoint to acquire an access token.
 
 The client/resource interactions for this grant are similar to step 2 of the authorization code grant. For details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages, see the "Request an Access Token" section in [Service to service calls using client credentials][AAD-Oauth-Client-Creds].
 
@@ -137,9 +137,9 @@ The client/resource interactions for this grant are similar to step 2 of the aut
 Most programming languages or frameworks and scripting environments make it easy to assemble and send a request message. They typically provide a web/HTTP class or API that abstracts the creation or formatting of the request, making it easier to write the client code (the HttpWebRequest class in the .NET Framework, for example). For brevity, and because most of the task is handled for you, this section covers only the important elements of the request.
 
 #### Request URI
-Because sensitive information is being transmitted and received, all secured REST requests require the HTTPS protocol for the URI scheme, which gives the request and response a secure channel. The information (that is, the Azure AD authorization code, access or bearer token, and sensitive request and response data) is encrypted by a lower transport layer, ensuring the privacy of the messages. 
+Because sensitive information is being transmitted and received, all secured REST requests require the HTTPS protocol for the URI scheme, which gives the request and response a secure channel. The information (that is, the Azure AD authorization code, access/bearer token, and sensitive request/response data) is encrypted by a lower transport layer, ensuring the privacy of the messages. 
 
-The remainder of your service's request URI (that is, the host, resource path, and any required query-string parameters) are determined by its related REST API specification. For example, Azure Resource Manager provider APIs use `https://management.azure.com/`, and classic Azure Service Management APIs use `https://management.core.windows.net/`. Both APIs require an `api-version` query-string parameter.
+The remainder of your service's request URI (the host, resource path, and any required query-string parameters) are determined by its related REST API specification. For example, Azure Resource Manager provider APIs use `https://management.azure.com/`, and classic Azure Service Management APIs use `https://management.core.windows.net/`. Both require an `api-version` query-string parameter.
 
 #### Request header
 The request URI is bundled in the request message header, along with any additional fields as determined by your service's REST API specification and the [HTTP specification](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). Your request might require the following common header fields:
@@ -172,7 +172,7 @@ Host: management.azure.com
 <no body>
 ```
 
-And you might send an HTTPS PUT request method for an Azure Resource Manager provider by using request header AND body fields that are similar to the following:
+And you might send an HTTPS PUT request method for an Azure Resource Manager provider by using request header *and* body fields that are similar to the following:
 
 ```
 PUT /subscriptions/03f09293-ce69-483a-a092-d06ea46dfb8c/resourcegroups/ExampleResourceGroup?api-version=2016-02-01  HTTP/1.1
@@ -192,7 +192,7 @@ After you make the request, the response message header and optional body are re
 
 The process concludes with the final two of the five components. 
 
-To process the response, parse the response header and, optionally, the response body (depending on the request). In the HTTPS GET example provided in the preceding section, you used the /subscriptions endpoint to retrieve the list of subscriptions for a user. Assuming that the response was successful, you should receive response header fields similar to the following:
+To process the response, parse the response header and, optionally, the response body (depending on the request). In the HTTPS GET example provided in the preceding section, you used the /subscriptions endpoint to retrieve the list of subscriptions for a user. Assuming that the response was successful, you should receive response header fields that are similar to the following:
 
 ```
 HTTP/1.1 200 OK
@@ -218,7 +218,7 @@ And you should receive a response body that contains a list of Azure subscriptio
 }
 ```
 
-For the HTTPS PUT example, you should receive a response header that confirms the success of the PUT operation to add the "ExampleResourceGroup", similar to the following:
+Similarly, for the HTTPS PUT example, you should receive a response header similar to the following, confirming that your PUT operation to add the "ExampleResourceGroup" was successful:
 
 ```
 HTTP/1.1 200 OK
@@ -239,16 +239,16 @@ And you should receive a response body that confirms the content of your newly a
 }
 ```
 
-As with the request, most programming languages and frameworks make it easy to process the response message. They typically return this information to your application following the request, allowing you to process it in a typed or structured format. Mainly, you should be interested in confirming the HTTP status code in the response header and, if you're successful, parsing the response body according to the API specification (or the `Content-Type` and `Content-Length` response header fields).
+As with the request, most programming languages and frameworks make it easy to process the response message. They typically return this information to your application following the request, allowing you to process it in a typed/structured format. Mainly, you will be interested in confirming the HTTP status code in the response header and, if you're successful, parsing the response body according to the API specification (or the `Content-Type` and `Content-Length` response header fields).
 
-That completes the process. After you have registered your Azure AD application and you have a componentized technique for acquiring an access token and creating and processing HTTP requests, it's fairly easy to replicate your code to take advantage of new REST APIs.
+The process is now complete. After you have registered your Azure AD application and you have a componentized technique for acquiring an access token and creating and processing HTTP requests, it's fairly easy to replicate your code to take advantage of new REST APIs.
 
 ## Related content
 
 For more information about application registration and the Azure AD programming model, including a comprehensive index of how-to and quick-start articles and sample code, see the [Azure AD developers guide][AAD-Dev-Guide].
 
 For information about testing HTTP requests/responses, see:
-* [Fiddler](http://www.telerik.com/fiddler). Fiddler is a free web debugging proxy that can intercept your REST requests, making it easy to diagnose the HTTP request and response messages.
+* [Fiddler](http://www.telerik.com/fiddler). Fiddler is a free web debugging proxy that can intercept your REST requests, making it easy to diagnose the HTTP request/ response messages.
 * [JWT Decoder](http://jwt.calebb.net/) and [JWT.io](https://jwt.io/), which make it quick and easy to dump the claims in your bearer token so you can validate their contents.
 
 Use the LiveFyre comments section that follows this article to provide feedback and help us refine and shape our content.
