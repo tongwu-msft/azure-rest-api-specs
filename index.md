@@ -99,20 +99,20 @@ This section covers the first three of the five components that we discussed ear
 
 After you have a valid client registration, you have two ways to integrate with Azure AD to acquire an access token:
 
-* The Azure AD platform- and language-neutral OAuth2 service endpoints, which we use in this article. Like the instructions for the Azure REST API endpoints you are using, the instructions provided in this section assume nothing about your client's platform or language/script when you use the Azure AD endpoints. The endpoints can send and receive HTTPS requests to and from Azure AD, and parse the response message.  
+* The Azure AD platform- and language-neutral OAuth2 service endpoints, which we use in this article. Like the instructions for the Azure REST API endpoints you are using, the instructions provided in this section assume nothing about your client's platform or language/script when you use the Azure AD endpoints. The only requirement is that you can send and receive HTTPS requests to and from Azure AD, and parse the response message.  
 * The platform- and language-specific Azure AD Authentication Libraries (ADAL). The libraries provide asynchronous wrappers for the OAuth2 endpoint requests, and robust token-handling features such as caching and refresh token management. For more details, including reference documentation, library downloads, and sample code, see [Azure Active Directory Authentication Libraries][AAD-Auth-Libraries].
 
 The two Azure AD endpoints that you use to authenticate your client and acquire an access token are referred to as the OAuth2 `/authorize` and `/token` endpoints. How you use them depends on your application's registration and the type of [OAuth2 authorization grant flow][AAD-Glossary-Authorization-Grant] you need to support your application at run-time. For the purposes of this article, we assume that your client will use one of the following authorization grant flows: authorization code or client credentials. To acquire the access token that you will use in the remaining sections, follow the instructions for the authorization grant flow that best matches your scenario.
 
 #### Authorization code grant (interactive clients)
 
-This grant can be used by both web and native clients, and it requires credentials from a signed-in user to delegate resource access to the client application. It uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in/consent), followed by the `/token` endpoint to exchange the authorization code for an access token.  
+This grant can be used by both web and native clients, and it requires credentials from a signed-in user in order to delegate resource access to the client application. It uses the `/authorize` endpoint to obtain an authorization code (in response to user sign-in/consent), followed by the `/token` endpoint to exchange the authorization code for an access token.  
 
 1. First, your client needs to request an authorization code from Azure AD. For details on the format of the HTTPS GET request to the `/authorize` endpoint, and example request/response messages, see [Request an authorization code][AAD-Oauth-Code-Authz]. The URI contains query-string parameters, including the following, which are specific to your client application:
 
     * `client_id`: Also known as an application ID, this is the GUID that was assigned to your client application when you registered in the preceding section.
 
-    * `redirect_uri`: A URL-encoded version of one of the reply/redirect URIs that you specified when you registered your client application. The value you pass must match your registration value exactly.
+    * `redirect_uri`: A URL-encoded version of one of the reply/redirect URIs that was specified during registration of your client application. The value you pass must match your registration value exactly.
 
     * `resource`: A URL-encoded identifier URI that's specified by the REST API you are calling. Web/REST APIs (also known as resource applications) can expose one or more application ID URIs in their configuration. For example:  
 
@@ -125,16 +125,16 @@ This grant can be used by both web and native clients, and it requires credentia
 
     * `code`: This query parameter contains the authorization code that you obtained in step 1.
 
-    * `client_secret`: This is the same secret/key value that you generated earlier, in [client registration](#client-registration). You need this parameter only if your client is configured as a web application. 
+    * `client_secret`: You need this parameter only if your client is configured as a web application. This is the same secret/key value that you generated earlier, in [client registration](#client-registration).  
 
 #### Client credentials grant (non-interactive clients)
 
-This grant can be used only by web clients, allowing the application to access resources directly (no user delegation) and using the client's own credentials, which are provided at registration time. The grant is typically used by non-interactive clients (no UI) that run as a service or daemon, and it requires only the `/token` endpoint to acquire an access token.
+This grant can be used only by web clients, allowing the application to access resources that directly (no user delegation) use the client's own credentials, which are provided at registration time. The grant is typically used by non-interactive clients (no UI) that run as a service or daemon, and it requires only the `/token` endpoint to acquire an access token.
 
 The client/resource interactions for this grant are similar to step 2 of the authorization code grant. For details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages, see the "Request an Access Token" section in [Service to service calls using client credentials][AAD-Oauth-Client-Creds].
 
 ### Assemble the request message
-Most programming languages or frameworks and scripting environments make it easy to assemble and send a request message. They typically provide a web/HTTP class or API that abstracts the creation or formatting of the request, making it easier to write the client code (the HttpWebRequest class in the .NET Framework, for example). For brevity, and because most of the task is handled for you, this section covers only the important elements of the request.
+Most programming languages or frameworks and scripting environments make it easy to assemble and send the request message. They typically provide a web/HTTP class or API that abstracts the creation or formatting of the request, making it easier to write the client code (the HttpWebRequest class in the .NET Framework, for example). For brevity, and because most of the task is handled for you, this section covers only the important elements of the request.
 
 #### Request URI
 Because sensitive information is being transmitted and received, all secured REST requests require the HTTPS protocol for the URI scheme, which gives the request and response a secure channel. The information (that is, the Azure AD authorization code, access/bearer token, and sensitive request/response data) is encrypted by a lower transport layer, ensuring the privacy of the messages. 
@@ -241,7 +241,7 @@ And you should receive a response body that confirms the content of your newly a
 
 As with the request, most programming languages and frameworks make it easy to process the response message. They typically return this information to your application following the request, allowing you to process it in a typed/structured format. Mainly, you will be interested in confirming the HTTP status code in the response header and, if you're successful, parsing the response body according to the API specification (or the `Content-Type` and `Content-Length` response header fields).
 
-The process is now complete. After you have registered your Azure AD application and you have a componentized technique for acquiring an access token and creating and processing HTTP requests, it's fairly easy to replicate your code to take advantage of new REST APIs.
+That's it. After you have registered your Azure AD application and you have a componentized technique for acquiring an access token and creating and processing HTTP requests, it's fairly easy to replicate your code to take advantage of new REST APIs.
 
 ## Related content
 
