@@ -4,13 +4,14 @@ Staging an overwrite--that is, viewing it on [review.docs.microsoft.com](https:/
 
 1. **Fork** the Microsoft/Azure reference repository to your GitHub account
 2. **Clone** your fork locally
-3. Create a **branch** in your local clone
-4. Add/edit your overwrites
-5. **Push** to your fork (a.k.a "origin")
-6. On [github.com](http://github.com), issue a **pull request (PR)** into the master branch of the reference repo (a.k.a. "upstream"). After a time, you'll recieve an email containing **staging links** for your modified content
+3. Create an **upstream** remote that points to the Microsoft/Azure reference repository
+4. Create a **branch** in your local clone
+5. Add/edit your overwrites
+6. **Push** to your fork (a.k.a "origin")
+7. On [github.com](http://github.com), issue a **pull request (PR)** into the master branch of the reference repo (a.k.a. "upstream"). After a time, you'll recieve an email containing **staging links** for your modified content
 8. **Repeat steps 4-5** as necessary--you'll get a new staging link email each time you push to your remote branch (origin)
 9. When you're ready to have your PR merged, add a comment to your PR containing `#sign-off`. This removes the **do-not-merge** tag from your PR and adds the **ready-to-merge** tag. This puts it into the queue for review by the PR reviewers, who will do so, and merge into master if all looks good.
-
+fdsa
 > [!TIP]
 > You can find more information about overwrites in the [DocFx documentation](https://dotnet.github.io/docfx/tutorial/intro_overwrite_files.html).
 >
