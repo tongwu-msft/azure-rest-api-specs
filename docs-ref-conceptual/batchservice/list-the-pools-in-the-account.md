@@ -100,7 +100,7 @@ manager: "timlt"
       "value":"myvalue"
     } ],
     "maxTasksPerNode":3,
-    "schedulingPolicy": {
+    "taskSchedulingPolicy": {
       "nodeFillType":"Spread"
     }
   } ]
