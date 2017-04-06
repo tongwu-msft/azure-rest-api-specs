@@ -1,40 +1,32 @@
 ---
-title: "Delete a network interface card"
-ms.custom: ""
-ms.date: "2016-07-07"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 084f8233-cedd-4c4a-9be9-75e8d3b5f40e
-caps.latest.revision: 9
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Delete a network interface card
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # Delete a network interface card
+
+This operations deletes a network interface card.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](network-interface-cards.md#bk_common) for headers and parameters that are used by all requests related to network interface cards.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/networkInterfaces/{network-interface-name}?api-version={api-version}`|  
-  
- Replace {network-interface-name} with the name of the network interface card you want deleted.  
-  
+|DELETE|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the network interface exists. |
+| resourceGroup | The name of the resource group that contains the network interface card. |
+| networkInterfaceName | The name of the network interface card. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  **Status code:**  
   

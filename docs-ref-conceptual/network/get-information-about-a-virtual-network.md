@@ -1,54 +1,46 @@
 ---
-title: "Get information about a virtual network"
-ms.custom: ""
-ms.date: "2017-02-22"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 164127ae-ce1d-4c93-9905-eb7a65703c96
-caps.latest.revision: 10
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Get information about a virtual network
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # Get information about a virtual network
+
+This operations gets information about a virtual network.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](virtual-networks.md#bk_common) for headers and parameters that are used by all requests related to Virtual Networks.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/virtualNetworks/{virtual-network-name}?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version={api-version}`|  
   
- Replace {virtual-network-name} with the name of the Virtual Network whose information you want.  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the virtual network exists. |
+| resourceGroup | The name of the resource group that contains the virtual network. |
+| virtualNetworkName | The name of the virtual network. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  **Status code:** 200; otherwise a 404 will be returned.  
   
 ```json  
 {   
    "name":" myvnet1",  
-   "id":"/subscriptions/{guid}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1",  
+   "id":"/subscriptions/{subscriptionId}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1",  
    "location":"North US",  
    "tags":{   
       "key":"value"  
    },  
    "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
    "properties":{  
-      "resourceGuid":"FA0F0F1A-158F-4725-ACCE-C7B6D5CD937F",   
+      "resourcesubscriptionId":"FA0F0F1A-158F-4725-ACCE-C7B6D5CD937F",   
       "provisioningState":"Succeeded",  
       "addressSpace":{   
          "addressPrefixes":[   
@@ -65,23 +57,23 @@ translation.priority.mt:
       "subnets":[   
          {   
             "name":"mysubnet1",  
-            "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysubnet1",  
+            "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysubnet1",  
             "etag":"W/\"00000000-0000-0000-0000-000000000000\"",  
             "properties":{   
                "provisioningState":"Succeeded",  
                "addressPrefix":"10.1.0.0/24",  
                "networkSecurityGroup":{   
-                  "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNSG1"  
+                  "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/myNSG1"  
                },  
                "ipConfigurations":[   
                   {   
-                     "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"  
+                     "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/vm1nic1/ipConfigurations/ip1"  
                   },  
                   {   
-                     "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/lb1/frontendIpConfigurations/ip1"  
+                     "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/lb1/frontendIpConfigurations/ip1"  
                   },  
                   {   
-                     "id":"/subscriptions/{guid}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/gw1/ipConfigurations/ip1"  
+                     "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/gw1/ipConfigurations/ip1"  
                   }  
                ]  
             }  
@@ -90,13 +82,13 @@ translation.priority.mt:
     "virtualNetworkPeerings": [
       {
         "name": "ARMtoASM",
-        "id": "/subscriptions/{guid}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1/virtualNetworkPeerings/LinktoVNet2",
+        "id": "/subscriptions/{subscriptionId}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1/virtualNetworkPeerings/LinktoVNet2",
         "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
         "properties": {
           "provisioningState": "Succeeded",
           "peeringState": "Connected",
           "remoteVirtualNetwork": {
-            "id": "/subscriptions/{guid}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet2"
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet2"
           },
           "allowVirtualNetworkAccess": true,
           "allowForwardedTraffic": false,
@@ -122,7 +114,7 @@ translation.priority.mt:
 |location|Specifies the supported Azure location of the Virtual Network. For more information, see List all of the available geo-locations|  
 |tags|The tags and their values that are used by the Virtual Network.|  
 |etag|System generated meta-data enabling concurrency control|  
-|resourceGuid|System generated unique identifier used for internal correlation and logging purpose by the platform|  
+|resourcesubscriptionId|System generated unique identifier used for internal correlation and logging purpose by the platform|  
 |provisioningState|Provisioning state of the Virtual Network|  
 |addressSpace|AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.|  
 |addressSpace.addressPrefixes|List of address blocks reserved for this virtual network in CIDR notation|  

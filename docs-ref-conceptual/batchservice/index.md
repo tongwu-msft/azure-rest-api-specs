@@ -1,33 +1,62 @@
 ---
-ms.assetid: 9bcc6f00-0b58-4c89-8829-7cbf54be3e24
-ms.title: Azure Batch REST API reference | Microsoft Docs
-ms.service: batch
-author: mmacy
-ms.author: marsma
-ms.manager: timlt
+title: "Azure Batch REST API Reference | Microsoft Docs"
+ms.custom: ""
+ms.date: "2017-02-01"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "batch"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+ms.assetid: 88634071-061f-40de-8e57-100970ea8d0f
+caps.latest.revision: 15
+author: "tamram"
+ms.author: "tamram"
+manager: "timlt"
 ---
-
-# Azure Batch REST API
-
-Azure Batch enables you to run large-scale parallel and high-performance computing (HPC) applications efficiently in the cloud. It's a platform service that schedules compute-intensive work to run on a managed collection of virtual machines, and can automatically scale compute resources to meet the needs of your jobs.
-
-## REST operation groups
-
-The Batch REST API provides operations for working with the following resources.
-
-| Operation group               | Description                                                                             |
-|-------------------------------|-----------------------------------------------------------------------------------------|
-| [Account](~/docs-ref-autogen/batchservice/account.json)          | Provides operations for working with account-level resources. |
-| [Application](~/docs-ref-autogen/batchservice/application.json)  | Application packages provide management and deployment of the applications run by your tasks. |
-| [Certificate](~/docs-ref-autogen/batchservice/certificate.json)  | Operations for managing certificates on compute nodes. |
-| [Compute Node](~/docs-ref-autogen/batchservice/computenode.json) | Compute nodes are the virtual machines (VMs) in a pool that execute your jobs' tasks. |
-| [File](~/docs-ref-autogen/batchservice/file.json)                | Operations for working with the files on a compute node or associated with a task. |
-| [Job](~/docs-ref-autogen/batchservice/job.json)                  | A job manages a collection of tasks. |
-| [Job Schedule](~/docs-ref-autogen/batchservice/jobschedule.json) | Create and manage recurring jobs. |
-| [Pool](~/docs-ref-autogen/batchservice/pool.json)                | A pool is a collection of compute nodes, the virtual machines (VMs) that process your workloads. |
-| [Task](~/docs-ref-autogen/batchservice/task.json)                | A task executes one or more applications on a compute node. |
-
-## See also
-
-- [Azure Batch documentation](/azure/batch/)
-- [Azure Batch code samples on GitHub](https://github.com/Azure/azure-batch-samples)
+# Azure Batch REST API Reference
+  The REST APIs for the Azure Batch service offer developers a means to schedule large-scale parallel and HPC applications in the cloud.  
+  
+ Azure Batch REST APIs can be accessed from within a service running in Azure, or directly over the Internet from any application that can send an HTTPS request and HTTPS response.  
+  
+## Batch account  
+ All access to the Batch service requires a Batch account, and the account is the basis for authentication.  
+  
+ The Base URL for Batch service is https://{account-name}.{region-id}.batch.azure.com  
+  
+## REST APIs  
+ Use these APIs to schedule and run large scale computational workloads. All operations conform to the HTTP/1.1 protocol specification and each operation returns a request-id header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure. For more information, see [Authenticate Requests to the Azure Batch Service](../batchservice/authenticate-requests-to-the-azure-batch-service.md).  
+  
+-   [Accounts](../batchservice/accounts.md)  
+  
+-   [Applications](../batchservice/applications.md)  
+  
+-   [Certificates](../batchservice/certificates-in-batch.md)  
+  
+-   [Pools](../batchservice/pools.md)  
+  
+-   [Jobs](../batchservice/jobs.md)  
+  
+-   [Job Schedules](../batchservice/job-schedules.md)  
+  
+-   [Tasks](../batchservice/tasks-in-batch.md)  
+  
+-   [Task and node files](../batchservice/task-and-node-files.md)  
+  
+-   [Nodes](../batchservice/nodes.md)  
+  
+-   [Node Users](../batchservice/node-users.md)  
+  
+-   [OData Batch Processing](../batchservice/odata-batch-processing.md)  
+  
+## Common operations  
+  
+-   [Add a pool to an account](../batchservice/add-a-pool-to-an-account.md)  
+  
+-   [Add a task to a job](../batchservice/add-a-task-to-a-job.md)  
+  
+-   [List the compute nodes in a pool](../batchservice/list-the-compute-nodes-in-a-pool.md)  
+  
+-   [Get information about a task](../batchservice/get-information-about-a-task.md)  
+  
+  

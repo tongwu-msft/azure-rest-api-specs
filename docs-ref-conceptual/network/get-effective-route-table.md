@@ -1,40 +1,32 @@
 ---
-title: "Get effective route table"
-ms.custom: ""
-ms.date: "2017-02-15"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 73209d73-1fb2-41bd-aaf7-7d951aede4a6
-caps.latest.revision: 12
-author: "anavinahar"
-ms.author: "annahar"
-manager: "narayan"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Get effective route table
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # Get effective route table
+
+This operations gets the effective route table for a network interface card.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](route-tables.md#bk_common) for headers and parameters that are used by all requests related to Route Tables.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable?api-version={api-version}`|  
+|GET|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable?api-version={api-version}`|  
   
- Replace {networkInterfacename} with the name of the Network Interface you want to get information for.  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the network interface exists. |
+| resourceGroup | The name of the resource group that contains the network interface card. |
+| networkInterfaceName | The name of the network interface card. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
 Returns status code 200 (OK), if the route table was found   
 Returns 404 if resource not found.  
@@ -44,7 +36,7 @@ Returns 404 if resource not found.
    "value":[  
       {  
          "userDefinedRoute":{  
-            "id":"/subscriptions/{guid}/../resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{route-table-name}/routes/{route-name}"
+            "id":"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{route-table-name}/routes/{route-name}"
          },
          "source":"User" | “VirtualNetworkGateway” | “Default”,
          "state":"Active" | “Invalid”,

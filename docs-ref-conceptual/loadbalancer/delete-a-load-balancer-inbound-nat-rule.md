@@ -1,29 +1,33 @@
 ---
-title: "Delete a load balancer inbound NAT rule"
-ms.custom: ""
-ms.date: "2016-07-14"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "article"
-ms.assetid: 88d853f4-69e0-4bb3-b359-0c560ec8b1b5
-caps.latest.revision: 6
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
+title: Delete a load balancer inbound NAT rule
+ms.date: 03/15/2017
+ms.service: load-balancer
+ms.topic: reference
+ms.devlang: rest-api
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # Delete a load balancer inbound NAT rule
+
+This operations deletes an inbound NAT rule on a load balancer.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](load-balancer.md#bk_common) for headers and parameters that are used by all requests related to load balancer inbound NAT rules.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/loadBalancers/{load-balancer-name}/inboundNatRules/{rule-name}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{ruleName}?api-version={api-version}`|  
   
- Replace {rule-name} with the name of the load balancer inbound NAT rule you want deleted.  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Load balancer exists. |
+| resourceGroup | The name of the resource group that contains the Load balancer. |
+| loadBalancerName | The name of the Load balancer that contains the inbound NAT rule. |
+| ruleName | The name of the inbound NAT rule. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ## Response  
  **Status code:**  
   

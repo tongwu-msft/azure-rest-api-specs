@@ -2,7 +2,7 @@
 ms.assetid: 26d66df1-84d9-4abc-980e-7995d846399d
 title: Azure Billing REST API | Microsoft Docs
 author: bryanla
-ms.author: bryanla:jlian
+ms.author: bryanla;jlian
 ms.date: 03/08/17
 ms.topic: reference
 ms.service: Azure
@@ -17,7 +17,7 @@ Azure Billing API (preview) provides programmatic access to your Azure billing i
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Invoice](./docs-ref-autogen/billing/Invoices.json)         | Operations for listing names and download URLs for Azure invoices. |
+| [Invoices](https://docs.microsoft.com/rest/api/billing/invoices)         | Operations for listing names and download URLs for Azure invoices. |
 
 ## See also
 

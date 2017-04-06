@@ -1,41 +1,33 @@
 ---
-title: "Delete a virtual network peering"
-ms.custom: ""
-ms.date: "2017-02-22"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: d1059519-b6d3-49ef-822c-9a18fb77b4aa
-caps.latest.revision: 11
-author: "anavinahar"
-ms.author: "annahar"
-manager: "narayan"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Delete a virtual network peering
+ms.date: 03/15/2017
+ms.service: virtual-network
+ms.topic: reference
+ms.devlang: rest
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 # Delete a virtual network peering
+
+This operations deletes a virtual network peering.
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](virtual-networks.md#bk_common) for headers and parameters that are used by all requests related to Virtual Networks.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/virtualNetworks/{virtual-network-name}/virtualNetworkPeerings/{virtual-network-peering-name}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}?api-version={api-version}`|  
   
-
-Replace {virtual-network-peering-name} with the name of the Virtual Network Peering you want deleted and {virtual-network-name} with the Virtual Network the peering is associated to.
-
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the virtual network peering exists. |
+| resourceGroup | The name of the resource group that contains the virtual network peering. |
+| virtualNetworkName | The name of the virtual network. |
+| virtualNetworkPeeringName | The name of the virtual network peering. |
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+  
 ## Response  
  **Status code:**  
   

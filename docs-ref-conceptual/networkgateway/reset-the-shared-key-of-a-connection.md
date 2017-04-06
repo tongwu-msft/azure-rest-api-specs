@@ -1,40 +1,31 @@
 ---
-title: "Reset the shared key of a connection&#160;"
-ms.custom: ""
-ms.date: "05/03/2015"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "virtual-network"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: cc1da6eb-f348-47ce-9a4e-fbd419e27c51
-caps.latest.revision: 4
-author: "yushwang"
-ms.author: "yushwang"
-manager: "rossort"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Reset the shared key of a connection
+ms.date: 03/09/2017
+ms.service: expressroute
+ms.devlang: rest-api
+ms.topic: reference
+author: yushwang
+ms.author: yushwang
+manager: rossort
 ---
 # Reset the shared key of a connection&#160;
 Resets the shared key for the virtual network gateway connection.  
-  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Connections](connections.md) for headers and parameters that are used by all requests related to connections.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/microsoft.network/connections/{connection-name}/sharedkey/reset?api-version={api-version}`|  
-  
+|POST|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/microsoft.network/connections/{connectionName}/sharedkey/reset?api-version={api-version}`|  
+
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the connection exists. |
+| resourceGroup | The name of the resource group that contains the connection. |
+| connectionName | The name of the connection.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+ 
 ```json  
 {  
    "KeyLength": {shared-key-length}  

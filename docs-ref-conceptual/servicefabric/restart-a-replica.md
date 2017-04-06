@@ -1,7 +1,7 @@
 ---
 title: "Restart a Replica"
 ms.custom: ""
-ms.date: "2017-02-03"
+ms.date: "2017-03-16"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-fabric"
@@ -43,7 +43,17 @@ Restarts a service fabric replica. This is only applicable for replicas belongin
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|`<URI>/Nodes/{node-name}/Partitions/{partition-id}/Replicas/{replica-id}/$/Restart?api-version={api-version}`|  
+|POST|`<URI>/Nodes/{node-name}/$/GetPartitions/{partition-id}/$/GetReplicas/{replica-id}/$/Restart?api-version={api-version}`|  
+
+The required information above can be found by performing a replica query.  See [Get a list of replicas](get-a-list-of-replicas.md).
+An example request, where:
+-	N0050 is the node name
+-	6b4b0b0d-5332-472c-b5b0-e940c6208997 is the target partition id
+-	131316019201647480 is the target replica
+
+```
+<URI>/Nodes/N0050/$/GetPartitions/6b4b0b0d-5332-472c-b5b0-e940c6208997/$/GetReplicas/131316019201647480/$/Restart?api-version=3.0
+```
   
 ## Response  
  A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).

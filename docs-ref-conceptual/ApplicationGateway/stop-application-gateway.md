@@ -1,28 +1,12 @@
 ---
-title: "Stop Application Gateway"
-ms.custom: ""
-ms.date: "2016-02-18"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: 43953e16-5967-4da0-8059-9078d233f7c4
-caps.latest.revision: 3
-author: "georgewallace"
-ms.author: "gwallace"
-manager: "carmonm"
-translation.priority.mt: 
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+title: Stop an Azure Application Gateway | Microsoft Docs
+ms.date: 03/29/2017
+ms.service: application-gateway
+ms.devlang: rest-api
+ms.topic: reference
+author: amitsriva
+ms.author: amsriva
+manager: rossort
 ---
 # Stop Application Gateway
 
@@ -34,9 +18,14 @@ For information about getting started with Azure REST operations including reque
   
 |Method|Request URI|  
 |------------|-----------------|  
-|POST|`/subscriptions/{subscriptionId<subscription-id>/services/networking/applicationGateways/{applicationGatewayName}/stop?api-version={api-version}`|  
+|POST|`/subscriptions/{subscriptionId}/services/networking/applicationGateways/{applicationGatewayName}/stop?api-version={api-version}`|  
   
- *Replace {ApplicationGatewayName} with the name of the application gateway you want to stop.*  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Application Gateway exists. |
+| resourceGroupName | The name of the resource group that contains the Application Gateway. |
+| applicationGatewayName | The name of the Application Gateway. The application gateway name must be unique within the resource group and be in its own empty virtual network subnet.|
+| api-version | The version of the API to use. The current version is 2016-09-01. | 
+
 ### Response body  
  None.
