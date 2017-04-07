@@ -129,7 +129,7 @@ This grant can be used by both web and native clients, and it requires credentia
 
 #### Client credentials grant (non-interactive clients)
 
-This grant can be used only by web clients, allowing the application to access resources that directly (no user delegation) use the client's own credentials, which are provided at registration time. The grant is typically used by non-interactive clients (no UI) that run as a service or daemon, and it requires only the `/token` endpoint to acquire an access token.
+This grant can be used only by web clients, allowing the application to access resources directly (no user delegation) using the client's own credentials, which are provided at registration time. The grant is typically used by non-interactive clients (no UI) that run as a service or daemon, and it requires only the `/token` endpoint to acquire an access token.
 
 The client/resource interactions for this grant are similar to step 2 of the authorization code grant. For details on the format of the HTTPS POST request to the `/token` endpoint, and example request/response messages, see the "Request an Access Token" section in [Service to service calls using client credentials][AAD-Oauth-Client-Creds].
 
