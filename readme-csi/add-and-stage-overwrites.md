@@ -9,7 +9,7 @@ Staging an overwrite--that is, viewing it on [review.docs.microsoft.com](https:/
 5. Add/edit your overwrites
 6. **Push** to your fork (a.k.a "origin")
 7. On [github.com](http://github.com), issue a **pull request (PR)** into the master branch of the reference repo (a.k.a. "upstream"). After a time, you'll recieve an email containing **staging links** for your modified content
-8. **Repeat steps 4-6** as necessary--you'll get a new staging link email each time you push to your remote branch (origin)
+8. **Repeat steps 5-6** as necessary--you'll get a new staging link email each time you push to your remote branch (origin)
 9. When you're ready to have your PR merged, add a comment to your PR containing `#sign-off`. This removes the **do-not-merge** tag from your PR and adds the **ready-to-merge** tag. This puts it into the queue for review by the PR reviewers, who will do so, and merge into master if all looks good.
 
 For more details on the preceding operation, please see the following two articles in the Contributor's Guide:
