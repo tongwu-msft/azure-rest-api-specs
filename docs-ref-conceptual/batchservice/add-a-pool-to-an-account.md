@@ -43,8 +43,8 @@ manager: "timlt"
   "resizeTimeout":"PT15M",
   "targetDedicated":5,
   "maxTasksPerNode":3,
-  "schedulingPolicy": {
-    "vmFillType":"Spread"
+  "taskSchedulingPolicy": {
+    "nodeFillType":"Spread"
   },
   "enableAutoScale":false,
   "enableInterNodeCommunication":true,
@@ -76,8 +76,8 @@ manager: "timlt"
   "resizeTimeout":"PT15M",
   "targetDedicated":5,
   "maxTasksPerNode":3,
-  "schedulingPolicy": {
-    "vmFillType":"Spread"
+  "taskSchedulingPolicy": {
+    "nodeFillType":"Spread"
   },
   "enableAutoScale":false,
   "enableInterNodeCommunication":true,
