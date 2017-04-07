@@ -12,14 +12,14 @@ Staging an overwrite--that is, viewing it on [review.docs.microsoft.com](https:/
 8. **Repeat steps 4-6** as necessary--you'll get a new staging link email each time you push to your remote branch (origin)
 9. When you're ready to have your PR merged, add a comment to your PR containing `#sign-off`. This removes the **do-not-merge** tag from your PR and adds the **ready-to-merge** tag. This puts it into the queue for review by the PR reviewers, who will do so, and merge into master if all looks good.
 
-> [!TIP]
-> You can find more information about overwrites in the [DocFx documentation](https://dotnet.github.io/docfx/tutorial/intro_overwrite_files.html).
->
-
 For more details on the preceding operation, please see the following two articles in the Contributor's Guide:
 
 * [Install and set up tools for authoring in GitHub](https://github.com/Microsoft/azure-docs/blob/master/contributor-guide/tools-and-setup.md)
 * [Git commands for creating a new article or updating an existing article](https://github.com/Microsoft/azure-docs/blob/master/contributor-guide/git-commands-for-master.md)
+
+> [!TIP]
+> You can find more information about overwrites in the [DocFx documentation](https://dotnet.github.io/docfx/tutorial/intro_overwrite_files.html).
+>
 
 ## Troubleshooting
 
