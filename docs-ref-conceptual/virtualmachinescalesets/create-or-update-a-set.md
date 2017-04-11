@@ -576,9 +576,9 @@ The following example shows the additional plan element that is required when yo
 
 ```
 {
-  "id": "/subscriptions/{subscription-id/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/virtualMachineScaleSets/virtualMachines/myvmid1",
-  "name": "myvm1",
-  "type": "Microsoft.Compute/virtualMachines",
+  "id": "/subscriptions/{subscription-id/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/virtualMachineScaleSets/myvmss1",
+  "name": "myvmss1",
+  "type": "Microsoft.Compute/virtualMachineScaleSets",
   "location": "westus",
   "tags": { 
     "department": "finance" 
