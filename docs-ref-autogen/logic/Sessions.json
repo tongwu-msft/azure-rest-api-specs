@@ -969,6 +969,13 @@
           "$ref": "#/definitions/Object",
           "readOnly": true,
           "description": "Gets the tracked properties."
+        },
+        "retryHistory": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RetryHistory"
+          },
+          "description": "Gets the retry histories."
         }
       },
       "description": "The workflow run action properties."
@@ -1140,6 +1147,48 @@
         }
       },
       "description": "The content hash."
+    },
+    "RegenerateActionParameter": {
+      "type": "object",
+      "properties": {
+        "keyType": {
+          "$ref": "#/definitions/KeyType",
+          "description": "The key type."
+        }
+      },
+      "description": "The access key regenerate action content."
+    },
+    "RetryHistory": {
+      "type": "object",
+      "properties": {
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Gets the start time."
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Gets the end time."
+        },
+        "code": {
+          "type": "string",
+          "description": "Gets the status code."
+        },
+        "clientRequestId": {
+          "type": "string",
+          "description": "Gets the client request Id."
+        },
+        "serviceRequestId": {
+          "type": "string",
+          "description": "Gets the service request Id."
+        },
+        "error": {
+          "$ref": "#/definitions/ErrorResponse",
+          "description": "Gets the error response."
+        }
+      },
+      "description": "The retry history."
     },
     "Correlation": {
       "type": "object",
@@ -2292,6 +2341,10 @@
         "enableNrrForInboundMdn": {
           "type": "boolean",
           "description": "The value indicating whether to enable NRR for inbound MDN."
+        },
+        "sha2AlgorithmFormat": {
+          "type": "string",
+          "description": "The Sha2 algorithm format. Valid values are Sha2, ShaHashSize, ShaHyphenHashSize, Sha2UnderscoreHashSize."
         }
       },
       "description": "The AS2 agreement security settings."
@@ -2346,6 +2399,10 @@
         "encryptionAlgorithm": {
           "$ref": "#/definitions/EncryptionAlgorithm",
           "description": "The encryption algorithm."
+        },
+        "signingAlgorithm": {
+          "$ref": "#/definitions/SigningAlgorithm",
+          "description": "The signing algorithm."
         }
       },
       "description": "The AS2 agreement validation settings."
@@ -3219,6 +3276,21 @@
       "x-ms-enum": {
         "name": "EncryptionAlgorithm",
         "modelAsString": false
+      }
+    },
+    "SigningAlgorithm": {
+      "type": "string",
+      "enum": [
+        "NotSpecified",
+        "Default",
+        "SHA1",
+        "SHA2256",
+        "SHA2384",
+        "SHA2512"
+      ],
+      "x-ms-enum": {
+        "name": "SigningAlgorithm",
+        "modelAsString": true
       }
     },
     "TrailingSeparatorPolicy": {
@@ -4284,6 +4356,55 @@
           "description": "Error message indicating why the operation failed.",
           "type": "string"
         }
+      }
+    },
+    "WorkflowsRegenerateAccessKey": {
+      "parameters": {
+        "api-version": "2016-06-01",
+        "resourceGroupName": "testResourceGroup",
+        "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "workflowName": "testWorkflowName"
+      },
+      "responses": {
+        "200": {}
+      }
+    },
+    "WorkflowVersionsListCallbackUrl": {
+      "parameters": {
+        "api-version": "2016-06-01",
+        "resourceGroupName": "testResourceGroup",
+        "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "workflowName": "testWorkflowName",
+        "versionId": "testWorkflowVersionId",
+        "triggerName": "testTriggerName"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "value": "http://test-host:100/workflows/fb9c8d79b15f41ce9b12861862f43546/versions/08587100027316071865/triggers/manualTrigger/paths/invoke?api-version=2015-08-01-preview&sp=%2Fversions%2F08587100027316071865%2Ftriggers%2FmanualTrigger%2Frun&sv=1.0&sig=IxEQ_ygZf6WNEQCbjV0Vs6p6Y4DyNEJVAa86U5B4xhk",
+            "method": "POST",
+            "basePath": "http://test-host:100/workflows/fb9c8d79b15f41ce9b12861862f43546/versions/08587100027316071865/triggers/manualTrigger/paths/invoke",
+            "queries": {
+              "api-version": "2015-08-01-preview",
+              "sp": "/versions/08587100027316071865/triggers/manualTrigger/run",
+              "sv": "1.0",
+              "sig": "IxEQ_ygZf6WNEQCbjV0Vs6p6Y4DyNEJVAa86U5B4xhk"
+            }
+          }
+        }
+      }
+    },
+    "WorkflowTriggerHistoriesResubmit": {
+      "parameters": {
+        "api-version": "2016-06-01",
+        "resourceGroupName": "testResourceGroup",
+        "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "workflowName": "testWorkflowName",
+        "triggerName": "testTriggerName",
+        "historyName": "testHistoryName"
+      },
+      "responses": {
+        "200": {}
       }
     },
     "IntegrationAccountsListBySubscription": {

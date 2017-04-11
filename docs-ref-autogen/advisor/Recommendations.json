@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2016-07-12-preview",
+    "version": "2017-03-31",
     "title": "AdvisorManagementClient",
     "description": "REST APIs for Azure Advisor"
   },
@@ -33,7 +33,7 @@
         ],
         "responses": {
           "202": {
-            "description": "Accepted.",
+            "description": "Accepted. Recommendation generation has been accepted.",
             "headers": {
               "Location": {
                 "description": "The URL where the status of the asynchronous operation can be checked.",
@@ -60,7 +60,7 @@
           "GenerateRecommendations"
         ],
         "description": "Retrieves the status of the recommendation computation or generation process. Invoke this API after calling the generation recommendation. The URI of this API is returned in the Location field of the response header.",
-        "operationId": "Recommendations_GetGenerateRecommendationsStatus",
+        "operationId": "Recommendations_GetGenerateStatus",
         "parameters": [
           {
             "$ref": "#/parameters/subscriptionIdParameter"
@@ -79,18 +79,13 @@
         ],
         "responses": {
           "202": {
-            "description": "Recommendation generation is in progress."
+            "description": "Accepted. Recommendation generation is in progress."
           },
           "204": {
-            "description": "Recommendation generation has been completed."
+            "description": "NoContent. Recommendation generation has been completed."
           }
         },
-        "deprecated": false,
-        "x-ms-examples": {
-          "PollGenerateRecommendationsStatus": {
-            "$ref": "#/definitions/PollGenerateRecommendationsStatus"
-          }
-        }
+        "deprecated": false
       }
     },
     "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations": {
@@ -131,7 +126,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK.",
+            "description": "OK. Successfully obtained cached recommendations.",
             "schema": {
               "$ref": "#/definitions/ResourceRecommendationBaseListResult"
             }
@@ -176,7 +171,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK. Successfully got recommendation detail.",
             "schema": {
               "$ref": "#/definitions/ResourceRecommendationBase"
             }
@@ -212,31 +207,16 @@
     "ResourceRecommendationBase": {
       "description": "Advisor Recommendation.",
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
       "properties": {
-        "id": {
-          "description": "The fully qualified recommendation ID, for example /subscriptions/subscriptionId/resourceGroups/resourceGroup1/providers/Microsoft.ClassicCompute/virtualMachines/vm1/providers/Microsoft.Advisor/recommendations/recommendationGUID.",
-          "type": "string"
-        },
-        "name": {
-          "description": "The name of recommendation.",
-          "type": "string"
-        },
         "properties": {
           "$ref": "#/definitions/RecommendationProperties",
           "description": "The properties of the recommendation.",
           "x-ms-client-flatten": true
-        },
-        "suppressionIds": {
-          "description": "The list of snoozed and dismissed rules for the recommendation.",
-          "type": "array",
-          "items": {
-            "format": "uuid",
-            "type": "string"
-          }
-        },
-        "type": {
-          "description": "The recommendation type: Microsoft.Advisor/recommendations.",
-          "type": "string"
         }
       }
     },
@@ -311,6 +291,14 @@
         "shortDescription": {
           "$ref": "#/definitions/ShortDescription",
           "description": "A summary of the recommendation."
+        },
+        "suppressionIds": {
+          "description": "The list of snoozed and dismissed rules for the recommendation.",
+          "type": "array",
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          }
         }
       }
     },
@@ -331,17 +319,6 @@
           "description": "The type of the resource.",
           "type": "string",
           "readOnly": true
-        },
-        "location": {
-          "description": "The location of the resource. This cannot be changed after the resource is created.",
-          "type": "string"
-        },
-        "tags": {
-          "description": "The tags of the resource.",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
         }
       },
       "x-ms-azure-resource": true
@@ -422,6 +399,17 @@
         }
       ],
       "properties": {
+        "properties": {
+          "$ref": "#/definitions/SuppressionProperties",
+          "description": "The properties of the suppression.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "SuppressionProperties": {
+      "description": "The properties of the suppression.",
+      "type": "object",
+      "properties": {
         "suppressionId": {
           "description": "The GUID of the suppression.",
           "type": "string"
@@ -435,38 +423,27 @@
     "GenerateRecommendations": {
       "parameters": {
         "subscriptionId": "subscriptionId",
-        "api-version": "2016-07-12-preview"
+        "api-version": "2017-03-31"
       },
       "responses": {
         "202": {
           "headers": {
-            "Location": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Microsoft.Advisor/generateRecommendations/recGUID?api-version=2016-07-12-preview",
+            "Location": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Microsoft.Advisor/generateRecommendations/recGUID?api-version=2017-03-31",
             "Retry-After": "60"
           }
         }
-      }
-    },
-    "PollGenerateRecommendationsStatus": {
-      "parameters": {
-        "subscriptionId": "subscriptionId",
-        "operationId": "operationGUID",
-        "api-version": "2016-07-12-preview"
-      },
-      "responses": {
-        "202": {},
-        "204": {}
       }
     },
     "ListRecommendations": {
       "parameters": {
         "subscriptionId": "subscriptionId",
         "$top": 10,
-        "api-version": "2016-07-12-preview"
+        "api-version": "2017-03-31"
       },
       "responses": {
         "200": {
           "body": {
-            "nextLink": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/recommendations?api-version=2016-07-12-preview&$top=10&$skiptoken=skiptoken",
+            "nextLink": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/recommendations?api-version=2017-03-31&$top=10&$skiptoken=skiptoken",
             "value": [
               {
                 "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recGUID",
@@ -495,16 +472,18 @@
         "resourceUri": "resourceUri",
         "recommendationId": "recommendationId",
         "name": "suppressionName1",
-        "api-version": "2016-07-12-preview"
+        "api-version": "2017-03-31"
       },
       "responses": {
         "200": {
           "body": {
             "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
-            "suppressionId": "suppressionId1",
             "name": "suppressionName1",
             "type": "Microsoft.Advisor/suppressions",
-            "ttl": "7.00:00:00"
+            "properties": {
+              "suppressionId": "suppressionId1",
+              "ttl": "7.00:00:00"
+            }
           }
         }
       }
@@ -518,18 +497,22 @@
           "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
           "name": "suppressionName1",
           "type": "Microsoft.Advisor/suppressions",
-          "ttl": "07:00:00:00"
+          "properties": {
+            "ttl": "07:00:00:00"
+          }
         },
-        "api-version": "2016-07-12-preview"
+        "api-version": "2017-03-31"
       },
       "responses": {
         "200": {
           "body": {
             "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
-            "suppressionId": "suppresionId",
             "name": "suppressionName1",
             "type": "Microsoft.Advisor/suppressions",
-            "ttl": "07:00:00:00"
+            "properties": {
+              "suppressionId": "suppresionId",
+              "ttl": "07:00:00:00"
+            }
           }
         }
       }
@@ -539,7 +522,7 @@
         "resourceUri": "resourceUri",
         "recommendationId": "recommendationId",
         "name": "suppressionName1",
-        "api-version": "2016-07-12-preview"
+        "api-version": "2017-03-31"
       },
       "responses": {
         "204": {}
@@ -549,7 +532,7 @@
       "parameters": {
         "resourceUri": "resourceUri",
         "recommendationId": "recommendationId",
-        "api-version": "2016-07-12-preview"
+        "api-version": "2017-03-31"
       },
       "responses": {
         "200": {
@@ -576,24 +559,28 @@
     "ListSuppressions": {
       "parameters": {
         "subscriptionId": "subscriptionId1",
-        "api-version": "2016-07-12-preview"
+        "api-version": "2017-03-31"
       },
       "responses": {
         "200": {
           "body": [
             {
               "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
-              "suppressionId": "suppressionId1",
               "name": "suppressionName1",
               "type": "Microsoft.Advisor/suppressions",
-              "ttl": "7.00:00:00"
+              "properties": {
+                "suppressionId": "suppressionId1",
+                "ttl": "7.00:00:00"
+              }
             },
             {
               "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName2",
-              "suppressionId": "suppressionId2",
               "name": "suppressionName2",
               "type": "Microsoft.Advisor/suppressions",
-              "ttl": "7.00:00:00"
+              "properties": {
+                "suppressionId": "suppressionId2",
+                "ttl": "7.00:00:00"
+              }
             }
           ]
         }

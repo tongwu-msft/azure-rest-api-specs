@@ -22,7 +22,7 @@ An Azure virtual network (VNet) is a representation of your own network in the c
 |[Subnets](subnets.md)  |Provides operations for managing Subnets.| 
 |[Virtual Networks](virtual-networks.md)  |Provides operations for managing Virtual Networks.| 
 |[Route Tables](route-tables.md)   |Provides operations for managing Route Tables.| 
-|[Routes](routes.md)   |Provides operations for managing Routes.| 
+|[Routes](~/docs-ref-autogen/network/routes.json)   |Provides operations for managing Routes.| 
 |[Supporting Tasks](supporting-tasks.md)   |Provides operations for checking DNS name availability and subscription limits.| 
 
  

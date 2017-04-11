@@ -1,29 +1,30 @@
 ---
-title: "Delete a Traffic Manager profile"
-ms.custom: ""
-ms.date: "2016-02-01"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "traffic-manager"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: e820aefd-0f9c-4294-832d-6ea91fa7549d
-caps.latest.revision: 8
-ms.author: "cherylmc"
-manager: "carolz"
+title: Delete a Traffic Manager profile
+ms.date: 03/23/2017
+ms.service: traffic-manager
+ms.devlang: rest-api
+ms.topic: reference
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # Delete a Traffic Manager profile
 Delete an existing Traffic Manager profile.  
-  
+
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+
 ## Request  
- See [Common parameters and headers](traffic-manager-profiles-and-endpoints.md#bk_common) for headers and parameters that are used by all requests related to Traffic Manager profiles and endpoints.  
-  
+
 |Method|Request URI|  
 |------------|-----------------|  
-|DELETE|`/subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/Microsoft.Network/trafficManagerProfiles/{profile-name}?api-version={api-version}`|  
+|DELETE|`/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{profileName}?api-version={api-version}`|  
   
- *Replace {profile-name} with the name of the Traffic Manager profile to be deleted.*  
-  
+| Parameter | Description |
+| --------- | ----------- |
+| subscriptionId | The identifier of your subscription where the Traffic Manager endpoint exists. |
+| resourceGroupName | The name of the resource group that contains the Traffic Manager endpoint. |
+| profileName | The name of the Traffic Manager profile.|
+| api-version | The version of the API to use. The current version is 2017-03-01. | 
+
 ## Response  
  **Status code:** 200 or 204 depending on whether the Traffic Manager profile was deleted or was not found.

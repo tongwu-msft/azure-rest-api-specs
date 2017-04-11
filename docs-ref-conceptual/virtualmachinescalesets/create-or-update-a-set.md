@@ -310,6 +310,14 @@ The following example shows the request to create a new virtual machine scale se
 |name|Yes|String|Specifies the size of  virtual machines in a scale set.|    
 |tier|No|String|Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic**|    
 |capacity|Yes||Specifies the number of virtual machines in the scale set.|    
+
+### <a name="plan"></a> plan    
+    
+| Element name | Required | Type | Description |    
+|--------------|----------|------|-------------|    
+| name | Yes | String | Specifies the name of the image from the marketplace. This is the same value that you use for Sku under the imageReference element. For more information about how to find image information, see [Navigating and Selecting Azure Virtual Machine images with PowerShell and the Azure CLI](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-cli-ps-findimage?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)|    
+| publisher | Yes | String | Specifies the publisher of the image. |    
+| product | Yes | String | Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element. |    
     
 ###  <a name="upgradepolicy"></a> upgradePolicy    
     
@@ -559,6 +567,30 @@ The following example shows the request to create a new virtual machine scale se
 }    
     
 ```    
+
+## Examples
+
+### Marketplace image
+
+The following example shows the additional plan element that is required when you use a marketplace image:
+
+```
+{
+  "id": "/subscriptions/{subscription-id/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/virtualMachineScaleSets/myvmss1",
+  "name": "myvmss1",
+  "type": "Microsoft.Compute/virtualMachineScaleSets",
+  "location": "westus",
+  "tags": { 
+    "department": "finance" 
+   }, 
+  "plan": {
+    "name": "imageName",
+    "publisher": "imagePublisher",
+    "product": "imageProduct"
+  },
+  "properties": {
+  ...
+```
     
 ### Response    
 

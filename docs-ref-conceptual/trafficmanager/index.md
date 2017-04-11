@@ -1,36 +1,26 @@
 ---
-title: "Traffic Manager REST"
-ms.custom: ""
-ms.date: "2016-02-01"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "traffic-manager"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
-ms.assetid: da180215-9247-4956-93fb-ea3a80418dc4
-caps.latest.revision: 7
-ms.author: "cherylmc"
-manager: "carolz"
+title: Traffic Manager REST
+ms.date: 03/23/2017
+ms.service: traffic-manager
+ms.devlang: rest-api
+ms.topic: reference
+author: georgewallace
+ms.author: gwallace
+manager: timlt
 ---
 # Traffic Manager REST
-Use these APIs to create and modify Traffic Manager profiles, their associated endpoints, and other settings.  
 
- Each profile is managed as an Azure Resource, of type [Traffic Manager profiles and endpoints](traffic-manager-profiles-and-endpoints.md). See "Using resource groups to manage your Azure resources" for more details on resources groups and Azure resources. All operations conform to the HTTP/1.1 protocol specification, you must make sure that requests made to these resources are secure. For more information, see [Authenticating Azure Resource Manager requests](../../index.md).  
+Microsoft Azure Traffic Manager allows you to control the distribution of user traffic for service endpoints in different datacenters. Service endpoints supported by Traffic Manager include Azure VMs, Web Apps, and cloud services. You can also use Traffic Manager with external, non-Azure endpoints.
 
-## Common tasks  
+Each profile contains a list of endpoints.  These endpoints are child resource of the profile, each with their own unique resource id.  Thus endpoints can be managed in two ways: both by modifying the endpoints list when updating a profile, or by modifying the endpoint resource directly.  
 
--   [Create or update a Traffic Manager profile](create-or-update-a-traffic-manager-profile.md)  
-
--   [Get a Traffic Manager profile](get-a-traffic-manager-profile.md)  
-
--   [Delete a Traffic Manager profile](delete-a-traffic-manager-profile.md)  
-
--   [List Traffic Manager profiles](list-traffic-manager-profiles.md)  
-
--   [Create or update a Traffic Manager endpoint](create-or-update-a-traffic-manager-endpoint.md)  
-
--   [Get a Traffic Manager endpoint](get-a-traffic-manager-endpoint.md)  
-
--   [Delete a Traffic Manager endpoint](delete-a-traffic-manager-endpoint.md)
--   [List the regions used by Traffic Manager Geographic routing type](list-geo-regions-traffic-manager.md)
+| Operation | REST Verb | Description | 
+|---------|---------|-----------|
+| [Create or update a Traffic Manager profile](create-or-update-a-traffic-manager-profile.md)    |  PUT | Creates or updates a Traffic Manager profile. |  
+| [Get a Traffic Manager profile](get-a-traffic-manager-profile.md)       |  GET | Gets a Traffic Manager profile. | 
+| [Delete a Traffic Manager profile](delete-a-traffic-manager-profile.md)    |  DELETE | Deletes a Traffic Manager profile. |  
+| [List Traffic Manager profiles](list-traffic-manager-profiles.md)  |  GET | Lists all Traffic Manager profiles in a resource group. |    
+| [Create or update a Traffic Manager endpoint](create-or-update-a-traffic-manager-endpoint.md)   |  PUT | Creates a Traffic Manager endpoint. |   
+| [Get a Traffic Manager endpoint](get-a-traffic-manager-endpoint.md)     |  GET | Gets a Traffic Manager endpoint. |   
+| [Delete a Traffic Manager endpoint](delete-a-traffic-manager-endpoint.md)   |  DELETE | Deletes Traffic Manager endpoint. |   
+| [List the regions used by Traffic Manager Geographic routing type](list-geo-regions-traffic-manager.md)   |  GET | Gets the hierarchical list of regions that can be used with the geographic routing method. |   
