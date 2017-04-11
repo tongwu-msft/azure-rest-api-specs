@@ -34,13 +34,16 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}/groups": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users": {
       "get": {
         "tags": [
-          "UserGroups"
+          "Users"
         ],
-        "operationId": "Groups_ListByUsers",
-        "description": "Lists all user groups.",
+        "operationId": "Users_ListByService",
+        "description": "Lists a collection of registered users in the specified service instance.",
+        "externalDocs": {
+          "url": "https://msdn.microsoft.com/en-us/library/azure/dn776330.aspx"
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -49,14 +52,11 @@
             "$ref": "#/parameters/ServiceNameParameter"
           },
           {
-            "$ref": "#/parameters/UserIdParameter"
-          },
-          {
             "name": "$filter",
             "in": "query",
             "required": false,
             "type": "string",
-            "description": "| Field       | Supported operators    | Supported functions                         |\n|-------------|------------------------|---------------------------------------------|\n| id          | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| name        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |"
+            "description": "| Field            | Supported operators    | Supported functions               |\n|------------------|------------------------|-----------------------------------|\n| id               | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| firstName        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| lastName         | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| email            | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| state            | eq                     | N/A                               |\n| registrationDate | ge, le, eq, ne, gt, lt | N/A                               |\n| note             | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |"
           },
           {
             "$ref": "#/parameters/TopQueryParameter"
@@ -73,9 +73,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Lists a collection of Group entities.",
+            "description": "Lists a collection of User entities.",
             "schema": {
-              "$ref": "#/definitions/GroupCollection"
+              "$ref": "#/definitions/UserCollection"
             }
           },
           "default": {
@@ -88,7 +88,253 @@
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         },
-        "x-ms-odata": "./apimgroups.json#/definitions/GroupContract"
+        "x-ms-odata": "#/definitions/UserContract"
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users_Get",
+        "description": "Gets the details of the user specified by its identifier.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/UserIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Gets the specified user entity.",
+            "schema": {
+              "$ref": "#/definitions/UserContract"
+            },
+            "headers": {
+              "ETag": {
+                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users_CreateOrUpdate",
+        "description": "Creates or Updates a user.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/UserIdParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserCreateParameters"
+            },
+            "description": "Create or update parameters."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User was successfully created."
+          },
+          "204": {
+            "description": "User was successfully updated."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users_Update",
+        "description": "Updates the details of the user specified by its identifier.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/UserIdParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserUpdateParameters"
+            },
+            "description": "Update parameters."
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "description": "The entity state (Etag) version of the user to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The user details were successfully updated."
+          },
+          "405": {
+            "description": "Administrator user cannot be modified.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users_Delete",
+        "description": "Deletes specific user.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/UserIdParameter"
+          },
+          {
+            "name": "deleteSubscriptions",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "description": "Whether to delete user's subscription or not."
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "description": "The entity state (Etag) version of the user to delete. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The user details were successfully deleted."
+          },
+          "405": {
+            "description": "Administrator user cannot be modified.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}/generateSsoUrl": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users_GenerateSsoUrl",
+        "description": "Retrieves a redirection URL containing an authentication token for signing a given user into the developer portal.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/UserIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The response body contains the single sign-on URL.",
+            "schema": {
+              "x-ms-client-flatten": true,
+              "$ref": "#/definitions/GenerateSsoUrlResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          }
+        }
       }
     }
   },
@@ -565,5 +811,5 @@
       "description": "Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
     }
   },
-  "x-internal-operation-group-name": "UserGroups"
+  "x-internal-operation-group-name": "APIMUsers-users"
 }
