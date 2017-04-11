@@ -13,7 +13,7 @@
 	ms.workload="search"
 	ms.topic="article"
 	ms.tgt_pltfrm="na"
-	ms.date="03/27/2017"
+	ms.date="04/11/2017"
 	ms.author="heidist"/>
 
 # How to use the Management REST API (Azure Search)
