@@ -18,7 +18,7 @@ The Automation REST API provides operations for working with the following resou
 
 |Operation Group | Description |
 |----------------|-------------|
-| [Activity](](~/docs-ref-autogen/automation/activity.json) | Manage activities available from a module imported in an Automation account.|  
+| [Activity](~/docs-ref-autogen/automation/activity.json) | Manage activities available from a module imported in an Automation account.|  
 | [Agent registration information](~/docs-ref-autogen/automation/agentregistrationinformation.json) | Manage the Automation agent registration information.|  
 |[Automation account](~/docs-ref-autogen/automation/automationaccount.json) | Manage and provide information about Automation accounts in a resource group.|  
 | [Certificate](~/docs-ref-autogen/automation/certificate.json) | Manage and provide information about certificate assets.|  
