@@ -133,7 +133,7 @@
           },
           {
             "name": "historyName",
-            "description": "The workflow trigger history name.",
+            "description": "The workflow trigger history name. Corresponds to the run name for triggers that resulted in a run.",
             "in": "path",
             "required": true,
             "type": "string"
@@ -148,6 +148,61 @@
             "schema": {
               "$ref": "#/definitions/WorkflowTriggerHistory"
             }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/histories/{historyName}/resubmit": {
+      "post": {
+        "tags": [
+          "WorkflowTriggerHistories"
+        ],
+        "operationId": "WorkflowTriggerHistories_Resubmit",
+        "description": "Resubmits a workflow run based on the trigger history.",
+        "x-ms-examples": {
+          "Resubmit a workflow run based on the trigger history": {
+            "$ref": "#/definitions/WorkflowTriggerHistoriesResubmit"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "name": "resourceGroupName",
+            "description": "The resource group name.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "workflowName",
+            "description": "The workflow name.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "triggerName",
+            "description": "The workflow trigger name.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "historyName",
+            "description": "The workflow trigger history name. Corresponds to the run name for triggers that resulted in a run.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/api-version"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "OK"
           }
         }
       }
@@ -836,6 +891,13 @@
           "$ref": "#/definitions/Object",
           "readOnly": true,
           "description": "Gets the tracked properties."
+        },
+        "retryHistory": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RetryHistory"
+          },
+          "description": "Gets the retry histories."
         }
       },
       "description": "The workflow run action properties."
@@ -1007,6 +1069,48 @@
         }
       },
       "description": "The content hash."
+    },
+    "RegenerateActionParameter": {
+      "type": "object",
+      "properties": {
+        "keyType": {
+          "$ref": "#/definitions/KeyType",
+          "description": "The key type."
+        }
+      },
+      "description": "The access key regenerate action content."
+    },
+    "RetryHistory": {
+      "type": "object",
+      "properties": {
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Gets the start time."
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Gets the end time."
+        },
+        "code": {
+          "type": "string",
+          "description": "Gets the status code."
+        },
+        "clientRequestId": {
+          "type": "string",
+          "description": "Gets the client request Id."
+        },
+        "serviceRequestId": {
+          "type": "string",
+          "description": "Gets the service request Id."
+        },
+        "error": {
+          "$ref": "#/definitions/ErrorResponse",
+          "description": "Gets the error response."
+        }
+      },
+      "description": "The retry history."
     },
     "Correlation": {
       "type": "object",
@@ -4174,6 +4278,55 @@
           "description": "Error message indicating why the operation failed.",
           "type": "string"
         }
+      }
+    },
+    "WorkflowsRegenerateAccessKey": {
+      "parameters": {
+        "api-version": "2016-06-01",
+        "resourceGroupName": "testResourceGroup",
+        "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "workflowName": "testWorkflowName"
+      },
+      "responses": {
+        "200": {}
+      }
+    },
+    "WorkflowVersionsListCallbackUrl": {
+      "parameters": {
+        "api-version": "2016-06-01",
+        "resourceGroupName": "testResourceGroup",
+        "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "workflowName": "testWorkflowName",
+        "versionId": "testWorkflowVersionId",
+        "triggerName": "testTriggerName"
+      },
+      "responses": {
+        "200": {
+          "body": {
+            "value": "http://test-host:100/workflows/fb9c8d79b15f41ce9b12861862f43546/versions/08587100027316071865/triggers/manualTrigger/paths/invoke?api-version=2015-08-01-preview&sp=%2Fversions%2F08587100027316071865%2Ftriggers%2FmanualTrigger%2Frun&sv=1.0&sig=IxEQ_ygZf6WNEQCbjV0Vs6p6Y4DyNEJVAa86U5B4xhk",
+            "method": "POST",
+            "basePath": "http://test-host:100/workflows/fb9c8d79b15f41ce9b12861862f43546/versions/08587100027316071865/triggers/manualTrigger/paths/invoke",
+            "queries": {
+              "api-version": "2015-08-01-preview",
+              "sp": "/versions/08587100027316071865/triggers/manualTrigger/run",
+              "sv": "1.0",
+              "sig": "IxEQ_ygZf6WNEQCbjV0Vs6p6Y4DyNEJVAa86U5B4xhk"
+            }
+          }
+        }
+      }
+    },
+    "WorkflowTriggerHistoriesResubmit": {
+      "parameters": {
+        "api-version": "2016-06-01",
+        "resourceGroupName": "testResourceGroup",
+        "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "workflowName": "testWorkflowName",
+        "triggerName": "testTriggerName",
+        "historyName": "testHistoryName"
+      },
+      "responses": {
+        "200": {}
       }
     },
     "IntegrationAccountsListBySubscription": {

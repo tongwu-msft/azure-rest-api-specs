@@ -34,13 +34,13 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/subscriptions": {
-      "get": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups/{groupId}": {
+      "put": {
         "tags": [
-          "ProductSubscriptions"
+          "ProductGroups"
         ],
-        "operationId": "Subscriptions_ListByProducts",
-        "description": "Lists the collection of subscriptions to the specified product.",
+        "operationId": "ProductGroups_Create",
+        "description": "Adds the association between the specified developer group with the specified product.",
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -52,17 +52,7 @@
             "$ref": "#/parameters/ProductIdParameter"
           },
           {
-            "name": "$filter",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "description": "| Field        | Supported operators    | Supported functions                         |\n|--------------|------------------------|---------------------------------------------|\n| id           | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| name         | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| stateComment | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| userId       | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| productId    | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| state        | eq                     |                                             |"
-          },
-          {
-            "$ref": "#/parameters/TopQueryParameter"
-          },
-          {
-            "$ref": "#/parameters/SkipQueryParameter"
+            "$ref": "#/parameters/GroupIdParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -72,10 +62,54 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Lists a collection of subscription entities.",
+          "201": {
+            "description": "The group was successfully associated with the product.."
+          },
+          "204": {
+            "description": "The specified group is already associated with the product."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/SubscriptionCollection"
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProductGroups"
+        ],
+        "operationId": "ProductGroups_Delete",
+        "description": "Deletes the association between the specified group and product.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ProductIdParameter"
+          },
+          {
+            "$ref": "#/parameters/GroupIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The group was successfully disassociated with the product."
+          },
+          "400": {
+            "description": "Request validation failed.This is typically caused by an invalid product or group id.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
             }
           },
           "default": {
@@ -84,11 +118,7 @@
               "$ref": "#/definitions/ErrorBodyContract"
             }
           }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-odata": "./apimsubscriptions.json#/definitions/SubscriptionContract"
+        }
       }
     }
   },
