@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2017-03-28"
+ms.date: "2017-04-12"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -119,7 +119,7 @@ A list of comma-separated fields to retrieve. Only fields marked as retrievable 
 
 #### `facet=[string] (zero or more)`
 
-A field to facet by. Optionally, the string may contain parameters to customize the faceting, expressed as comma-separated `name:value` pairs. When calling via POST, this parameter is named `facets` instead of `$facet`.
+A field to facet by. Optionally, the string may contain parameters to customize the faceting, expressed as comma-separated `name:value` pairs. When calling via POST, this parameter is named `facets` instead of `facet`.
 
 Valid parameters are:
 
