@@ -330,7 +330,7 @@ For information about getting started with Azure REST operations including reque
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
 | disablePasswordAuthentication | No | Boolean | Specifies whether password authentication should be disabled. | 
-| ssh.publicKeys | <li>No if password specified<li>Yes if password not specified | Collection | Specifies a collection of keys to be placed on the virtual machine. <li> When a SSH key is specified, "disablePasswordAuthentication" property is automatically set to "true".<br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json). |    
+| ssh.publicKeys | No if password specified<br><br>Yes if password not specified | Collection | Specifies a collection of keys to be placed on the virtual machine. When a SSH key is specified, "disablePasswordAuthentication" property is automatically set to "true".<br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json). |    
     
 ##### <a name="bk_publicKeys"></a> publicKeys    
     
