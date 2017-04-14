@@ -34,13 +34,57 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policy": {
       "get": {
         "tags": [
-          "ProductGroups"
+          "ProductPolicy"
         ],
-        "operationId": "Groups_ListByProducts",
-        "description": "Lists the collection of developer groups associated with the specified product.",
+        "operationId": "ProductPolicy_Get",
+        "description": "Get the policy configuration at the Product level.",
+        "produces": [
+          "application/vnd.ms-azure-apim.policy+xml"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ProductIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product Policy information.",
+            "schema": {
+              "type": "file"
+            },
+            "headers": {
+              "ETag": {
+                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ProductPolicy"
+        ],
+        "operationId": "ProductPolicy_CreateOrUpdate",
+        "description": "Creates or updates policy configuration for the Product.",
+        "consumes": [
+          "application/vnd.ms-azure-apim.policy+xml"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -52,17 +96,21 @@
             "$ref": "#/parameters/ProductIdParameter"
           },
           {
-            "name": "$filter",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "description": "| Field       | Supported operators    | Supported functions                         |\n|-------------|------------------------|---------------------------------------------|\n| id          | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| name        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| type        | eq, ne                 | N/A                                         |"
+            "name": "parameters",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "format": "file"
+            },
+            "required": true,
+            "description": "The policy contents to apply."
           },
           {
-            "$ref": "#/parameters/TopQueryParameter"
-          },
-          {
-            "$ref": "#/parameters/SkipQueryParameter"
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "description": "The entity state (Etag) version of the product policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
+            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -72,11 +120,11 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Lists a collection of Group entities.",
-            "schema": {
-              "$ref": "#/definitions/GroupCollection"
-            }
+          "201": {
+            "description": "Product policy configuration was successfully created."
+          },
+          "204": {
+            "description": "Product policy configuration of the tenant was successfully updated."
           },
           "default": {
             "description": "Error response describing why the operation failed.",
@@ -84,11 +132,49 @@
               "$ref": "#/definitions/ErrorBodyContract"
             }
           }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-odata": "./apimgroups.json#/definitions/GroupContract"
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProductPolicy"
+        ],
+        "operationId": "ProductPolicy_Delete",
+        "description": "Deletes the policy configuration at the Product.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ProductIdParameter"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "description": "The entity state (Etag) version of the product policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted the policy configuration at the Product level."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          }
+        }
       }
     }
   },
@@ -484,7 +570,7 @@
         },
         "externalId": {
           "type": "string",
-          "description": "For external groups, this property contains the id of the group from the external identity provider, e.g. Azure Active Directory; otherwise the value is null.",
+          "description": "For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.",
           "readOnly": true
         }
       },
@@ -706,5 +792,5 @@
       "x-ms-parameter-location": "method"
     }
   },
-  "x-internal-operation-group-name": "Product Groups"
+  "x-internal-operation-group-name": "Apim-ProductGroups"
 }

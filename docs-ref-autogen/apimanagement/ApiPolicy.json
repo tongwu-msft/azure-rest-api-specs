@@ -34,13 +34,16 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policy": {
       "get": {
         "tags": [
-          "Operations"
+          "ApiPolicy"
         ],
-        "operationId": "Operations_ListByApis",
-        "description": "Lists a collection of the operations for the specified API.",
+        "operationId": "ApiPolicy_Get",
+        "description": "Get the policy configuration at the API level.",
+        "produces": [
+          "application/vnd.ms-azure-apim.policy+xml"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -52,17 +55,62 @@
             "$ref": "#/parameters/ApiIdParameter"
           },
           {
-            "name": "$filter",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "description": "| Field       | Supported operators    | Supported functions               |\n|-------------|------------------------|-----------------------------------|\n| name        | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |\n| method      | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |\n| description | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |\n| urlTemplate | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |"
+            "$ref": "#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/TopQueryParameter"
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Api Policy information.",
+            "schema": {
+              "type": "file"
+            },
+            "headers": {
+              "ETag": {
+                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ApiPolicy"
+        ],
+        "operationId": "ApiPolicy_CreateOrUpdate",
+        "description": "Creates or updates policy configuration for the API.",
+        "consumes": [
+          "application/vnd.ms-azure-apim.policy+xml"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "#/parameters/SkipQueryParameter"
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiIdParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "format": "file"
+            },
+            "required": true,
+            "description": "The policy contents to apply."
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "description": "The entity state (Etag) version of the Api Policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
+            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -72,11 +120,11 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "A collection of operation summary entities at the API level.",
-            "schema": {
-              "$ref": "#/definitions/OperationCollection"
-            }
+          "201": {
+            "description": "Api policy configuration was successfully created."
+          },
+          "204": {
+            "description": "Api policy configuration of the tenant was successfully updated."
           },
           "default": {
             "description": "Error response describing why the operation failed.",
@@ -84,11 +132,49 @@
               "$ref": "#/definitions/ErrorBodyContract"
             }
           }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-odata": "#/definitions/OperationContract"
+        }
+      },
+      "delete": {
+        "tags": [
+          "ApiPolicy"
+        ],
+        "operationId": "ApiPolicy_Delete",
+        "description": "Deletes the policy configuration at the Api.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiIdParameter"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "description": "The entity state (Etag) version of the Api policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted the policy configuration at the API level."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          }
+        }
       }
     }
   },
