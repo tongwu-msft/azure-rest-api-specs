@@ -1,5 +1,5 @@
 ---
-title: "Create or update a virtual machine"
+title: "Create or update an Azure virtual machine | Microsoft Docs"
 author: davidmu1
 ms.date: 2017-02-06
 ms.prod: azure
@@ -329,7 +329,8 @@ For information about getting started with Azure REST operations including reque
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
-| disablePasswordAuthentication | No | Boolean | Specifies whether password authentication should be disabled. | | ssh.publicKeys | <li>No if password specified<li>Yes if password not specified | Collection | Specifies a collection of keys to be placed on the virtual machine. <li> When a SSH key is specified, "disablePasswordAuthentication" property is automatically set to "true".<br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json). |    
+| disablePasswordAuthentication | No | Boolean | Specifies whether password authentication should be disabled. | 
+| ssh.publicKeys | <li>No if password specified<li>Yes if password not specified | Collection | Specifies a collection of keys to be placed on the virtual machine. <li> When a SSH key is specified, "disablePasswordAuthentication" property is automatically set to "true".<br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json). |    
     
 ##### <a name="bk_publicKeys"></a> publicKeys    
     
@@ -359,7 +360,7 @@ For information about getting started with Azure REST operations including reque
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
 | [sourceVault](../virtualmachines/virtualmachines-create-or-update.md#bk_srcvault) | Yes | Complex Type | Specifies the key vault to use. |    
-| [vaultCertificates](../virtualmachines/virtualmachines-create-or-update.md#bk_vaultcert) | Yes on Windows <br><br> No on Linux | Collection | The certificate store in LocalMachine on windows Virtual Machine where the certificate should be added to. |    
+| [vaultCertificates](../virtualmachines/virtualmachines-create-or-update.md#bk_vaultcert) | Yes  | Collection | Specifies additional certificate information. |    
     
 ##### <a name="bk_srcvault"></a> sourceVault    
     
@@ -372,7 +373,7 @@ For information about getting started with Azure REST operations including reque
 | Element name | Required | Type| Description |    
 |--------------|----------|-----|-------------|    
 | certificateUrl | Yes | String | This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>  "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>} |    
-| certificateStore | No | String | Specifies the certificate store on the Virtual Machine where the certificate should be added to. The specified certificate store is implicitly in the LocalMachine account. <br><br>This is only applicable for a Windows VM. |    
+| certificateStore | No | String | For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name <UppercaseThumbprint>.crt for the X509 certificate file and <UppercaseThumbpring>.prv for private key. Both of these files are .pem formatted. |    
     
 #### <a name="bk_netprofile"></a> networkProfile    
     

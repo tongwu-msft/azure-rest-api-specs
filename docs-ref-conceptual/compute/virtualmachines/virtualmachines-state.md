@@ -1,7 +1,7 @@
 ---
-title: "Virtual machine state information | Microsoft Azure"
+title: "Azure virtual machine state information | Microsoft Docs"
 author: stephbaron
-ms.date: 2017-03-09
+ms.date: 2017-04-14
 ms.prod: azure
 ms.service: virtual-machines
 ms.topic: reference
