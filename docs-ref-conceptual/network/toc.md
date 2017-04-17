@@ -25,7 +25,7 @@
 ## [Get information about a public IP address ](get-information-about-a-public-ip-address.md)
 ## [List public IP addresses within a resource group ](list-public-ip-addresses-within-a-resource-group.md)
 ## [List public IP addresses within a subscription ](list-public-ip-addresses-within-a-subscription.md)
-# Subnets
+# Subnet
 ## [Create or update a subnet](create-or-update-a-subnet.md)
 ## [Delete a subnet](delete-a-subnet.md)
 ## [Get information about a subnet](get-information-about-a-subnet.md)
