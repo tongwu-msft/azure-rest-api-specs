@@ -1,5 +1,6 @@
 ---
-title: "Delete Synonym Map (Azure Search Service REST API)"
+title: "Delete Synonym Map (Azure Search Service REST API) | Microsoft Docs"
+description: "A synonym map can be deleted using REST API in Azure Search."
 ms.custom: ""
 ms.date: "2016-11-09"
 ms.prod: "azure"

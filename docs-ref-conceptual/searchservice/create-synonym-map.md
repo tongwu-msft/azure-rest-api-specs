@@ -1,5 +1,7 @@
 ---
-title: "Create Synonym Map (Azure Search Service REST API)"
+title: "Create Synonym Map (Azure Search Service REST API) | Microsoft Docs"
+description: "A synonym map to expand or rewrite a search query can be created using REST API in Azure Search."
+services: "Azure Search"
 ms.custom: ""
 ms.date: "2017-03-13"
 ms.prod: "azure"
