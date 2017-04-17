@@ -125,8 +125,8 @@ The response body is in the following format:
 ```
 
 ## See Also  
- [Azure Search Service REST](index.md)
- [Custom analyzers in Azure Search](custom-analyzers-in-azure-search.md)
- [Language support](language-support.md)
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)
+ [Azure Search Service REST](index.md)  
+ [Custom analyzers in Azure Search](custom-analyzers-in-azure-search.md)  
+ [Language support](language-support.md)  
+ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md) 
  [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)
