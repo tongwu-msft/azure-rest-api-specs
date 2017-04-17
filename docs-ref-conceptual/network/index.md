@@ -75,5 +75,5 @@ This is the documentation for the REST APIs for Azure networking resources.
 
 |Operation Group|Description|
 |---|---|
-| [Check DNS name availability](check-dns-name-availability.md)       |  Checks if the DNS name is available. |
-| [Check subscription usages](check-subscription-usages.md)           |  Returns the subscription usage for a region. |
+| [Check DNS name availability](~/docs-ref-autogen/network/checkdnsnameavailability.json)       |  Checks if the DNS name is available. |
+| [Check subscription usages]((~/docs-ref-autogen/network/usages.json)           |  Returns the subscription usage for a region. |
