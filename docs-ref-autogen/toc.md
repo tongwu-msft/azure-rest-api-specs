@@ -691,7 +691,7 @@
 ### [Get information about a public IP address ](../docs-ref-conceptual/network/get-information-about-a-public-ip-address.md)
 ### [List public IP addresses within a resource group ](../docs-ref-conceptual/network/list-public-ip-addresses-within-a-resource-group.md)
 ### [List public IP addresses within a subscription ](../docs-ref-conceptual/network/list-public-ip-addresses-within-a-subscription.md)
-## [Subnets](../docs-ref-conceptual/network/subnets.md)
+## Subnet
 ### [Create or update a subnet](../docs-ref-conceptual/network/create-or-update-a-subnet.md)
 ### [Delete a subnet](../docs-ref-conceptual/network/delete-a-subnet.md)
 ### [Get information about a subnet](../docs-ref-conceptual/network/get-information-about-a-subnet.md)
