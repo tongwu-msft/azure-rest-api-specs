@@ -12,4 +12,4 @@ ms.manager: timlt
 
 This is the documentation for the REST APIs used for accessing the data plane of Azure Storage, including Blobs, Files, Tables, and Queues.
 
-- **[Blob, Queue, Table, and File service REST API](fileservices/azure-storage-services-rest-api-reference.md)**: This API provides programmatic access to your data objects in Azure Storage.
+- **[Blob, Queue, Table, and File service REST API](azure-storage-services-rest-api-reference.md)**: This API provides programmatic access to your data objects in Azure Storage.
