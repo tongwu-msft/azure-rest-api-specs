@@ -165,7 +165,7 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
   
  **SMB Client Directory Change Notifications**  
   
- The SMB protocol supports the [FindFirstChangeNotification](msdn.microsoft.com/library/windows/desktop/aa364417.aspx) API function that allows applications to detect when changes occur in the file system. It can detect when a file or directory is added, changed, deleted, and when a file’s size, attributes, or security descriptors change. SMB clients using this API will not receive notifications when a file or directory change happens via the File service REST API. However, changes caused by other SMB clients will propagate notifications.  
+ The SMB protocol supports the [FindFirstChangeNotification](http://msdn.microsoft.com/library/windows/desktop/aa364417.aspx) API function that allows applications to detect when changes occur in the file system. It can detect when a file or directory is added, changed, deleted, and when a file’s size, attributes, or security descriptors change. SMB clients using this API will not receive notifications when a file or directory change happens via the File service REST API. However, changes caused by other SMB clients will propagate notifications.  
   
  **Sample Unaligned Clear Range**  
   

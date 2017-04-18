@@ -27,7 +27,9 @@ translation.priority.mt:
 # Designing a Scalable Partitioning Strategy for Azure Table Storage
 **Author:**  [RBA Consulting](https://msdn.microsoft.com/en-us/library/azure/hh307529.aspx)  
   
- ![Referenced Image](media/RBALogo.gif "RBALogo")  
+ ![RBA Consulting logo](../media/RBALogo.gif)  
+
+ ![Azure Storage resources](./media/storage-blob-snapshots/storage-blob-snapshots-billing-scenario-2.png)
   
  Learn more about [RBA Consulting](http://www.rbaconsulting.com).  
   
