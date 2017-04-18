@@ -34,13 +34,16 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties/{propId}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties": {
       "get": {
         "tags": [
           "Property"
         ],
-        "operationId": "Property_Get",
-        "description": "Gets the details of the property specified by its identifier.",
+        "operationId": "Properties_ListByService",
+        "description": "Lists a collection of properties defined within a service instance.",
+        "externalDocs": {
+          "url": "https://msdn.microsoft.com/en-us/library/azure/mt651775.aspx"
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -49,7 +52,17 @@
             "$ref": "#/parameters/ServiceNameParameter"
           },
           {
-            "$ref": "#/parameters/PropertyIdParameter"
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "| Field | Supported operators    | Supported functions                                   |\n|-------|------------------------|-------------------------------------------------------|\n| tags  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith, any, all |\n| name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith           |"
+          },
+          {
+            "$ref": "#/parameters/TopQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/SkipQueryParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -60,170 +73,16 @@
         ],
         "responses": {
           "200": {
-            "description": "The response body contains the specified Property entity.",
+            "description": "A Collection of the Property entities for the specified API Management service instance.",
             "schema": {
-              "$ref": "#/definitions/PropertyContract"
-            },
-            "headers": {
-              "ETag": {
-                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
-                "type": "string"
-              }
-            }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/PropertyCollection"
             }
           }
-        }
-      },
-      "put": {
-        "tags": [
-          "Property"
-        ],
-        "operationId": "Property_CreateOrUpdate",
-        "description": "Creates or updates a property.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/PropertyIdParameter"
-          },
-          {
-            "name": "parameters",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PropertyCreateParameters"
-            },
-            "description": "Create parameters."
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Property was successfully created."
-          },
-          "204": {
-            "description": "Property was successfully updated."
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
-            }
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Property"
-        ],
-        "operationId": "Property_Update",
-        "description": "Updates the specific property.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/PropertyIdParameter"
-          },
-          {
-            "name": "parameters",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PropertyUpdateParameters"
-            },
-            "description": "Update parameters."
-          },
-          {
-            "name": "If-Match",
-            "in": "header",
-            "required": true,
-            "description": "The entity state (Etag) version of the property to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Property was successfully updated."
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Property"
-        ],
-        "operationId": "Property_Delete",
-        "description": "Deletes specific property from the the API Management service instance.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/PropertyIdParameter"
-          },
-          {
-            "name": "If-Match",
-            "in": "header",
-            "required": true,
-            "description": "The entity state (Etag) version of the property to delete. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Property was successfully deleted."
-          },
-          "405": {
-            "description": "The specified property cannot be deleted because it is in use in a policy. You must remove all references to this property before it can be deleted.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
-            }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
-            }
-          }
-        }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-odata": "#/definitions/PropertyContract"
       }
     }
   },

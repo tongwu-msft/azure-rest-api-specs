@@ -34,13 +34,16 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/configuration/syncState": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/policy": {
       "get": {
         "tags": [
-          "TenantConfigurationSyncState"
+          "TenantPolicy"
         ],
-        "operationId": "TenantConfigurationSyncState_Get",
-        "description": "Gets the status of the most recent synchronization between the configuration database and the Git repository.",
+        "operationId": "TenantPolicy_Get",
+        "description": "Get the global policy configuration of the tenant.",
+        "produces": [
+          "application/vnd.ms-azure-apim.policy+xml"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -57,9 +60,109 @@
         ],
         "responses": {
           "200": {
-            "description": "Sync state result.",
+            "description": "Tenant Global Policy information.",
             "schema": {
-              "$ref": "#/definitions/TenantConfigurationSyncStateContract"
+              "type": "file"
+            },
+            "headers": {
+              "ETag": {
+                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "TenantPolicy"
+        ],
+        "operationId": "TenantPolicy_CreateOrUpdate",
+        "description": "Creates or updates global policy configuration for the tenant.",
+        "consumes": [
+          "application/vnd.ms-azure-apim.policy+xml"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "format": "file"
+            },
+            "required": true,
+            "description": "The policy content details."
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "description": "The entity state (Etag) version of the tenant policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Global policy configuration was successfully created."
+          },
+          "204": {
+            "description": "Global policy configuration of the tenant was successfully updated."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "TenantPolicy"
+        ],
+        "operationId": "TenantPolicy_Delete",
+        "description": "Deletes the global tenant policy configuration.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "description": "The entity state (Etag) version of the tenant policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted the global policy configuration of the Tenant."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
             }
           }
         }

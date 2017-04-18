@@ -61,7 +61,7 @@ translation.priority.mt:
     {  
     "name": "sg",  
     "searchMode": "analyzingInfixMatching",  
-    "sourceFields: ["hotelName", "category"]  
+    "sourceFields": ["hotelName", "category"]  
     }  
   ],  
   "scoringProfiles": [  

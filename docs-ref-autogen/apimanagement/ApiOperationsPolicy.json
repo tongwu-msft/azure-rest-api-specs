@@ -34,75 +34,15 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/policy": {
       "get": {
         "tags": [
-          "Apis"
+          "ApiOperationsPolicy"
         ],
-        "operationId": "Apis_ListByService",
-        "description": "Lists all APIs of the API Management service instance.",
-        "externalDocs": {
-          "url": "https://msdn.microsoft.com/en-us/library/azure/dn781423.aspx"
-        },
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "name": "$filter",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "description": "| Field       | Supported operators    | Supported functions               |\n|-------------|------------------------|-----------------------------------|\n| id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |\n| name        | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |\n| description | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |\n| serviceUrl  | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |\n| path        | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |"
-          },
-          {
-            "$ref": "#/parameters/TopQueryParameter"
-          },
-          {
-            "$ref": "#/parameters/SkipQueryParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Paged Result reponse of Apis.",
-            "schema": {
-              "$ref": "#/definitions/ApiCollection"
-            }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-odata": "#/definitions/ApiContract"
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}": {
-      "get": {
-        "tags": [
-          "Apis"
-        ],
-        "operationId": "Apis_Get",
-        "description": "Gets the details of the API specified by its identifier.",
+        "operationId": "ApiOperationsPolicy_Get",
+        "description": "Get the policy configuration at the API Operation level.",
         "produces": [
-          "application/json",
-          "application/vnd.sun.wadl+xml",
-          "application/vnd.swagger.doc+json",
-          "application/wsdl+xml"
+          "application/vnd.ms-azure-apim.policy+xml"
         ],
         "parameters": [
           {
@@ -115,6 +55,9 @@
             "$ref": "#/parameters/ApiIdParameter"
           },
           {
+            "$ref": "#/parameters/OperationIdParameter"
+          },
+          {
             "$ref": "#/parameters/ApiVersionParameter"
           },
           {
@@ -123,9 +66,9 @@
         ],
         "responses": {
           "200": {
-            "description": "The response body contains the specified API entity.",
+            "description": "Api Operation Policy information.",
             "schema": {
-              "$ref": "#/definitions/ApiContract"
+              "type": "file"
             },
             "headers": {
               "ETag": {
@@ -133,21 +76,18 @@
                 "type": "string"
               }
             }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
-            }
           }
         }
       },
       "put": {
         "tags": [
-          "Apis"
+          "ApiOperationsPolicy"
         ],
-        "operationId": "Apis_CreateOrUpdate",
-        "description": "Creates new or updates existing specified API of the API Management service instance.",
+        "operationId": "ApiOperationsPolicy_CreateOrUpdate",
+        "description": "Creates or updates policy configuration for the API Operation level.",
+        "consumes": [
+          "application/vnd.ms-azure-apim.policy+xml"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -159,73 +99,23 @@
             "$ref": "#/parameters/ApiIdParameter"
           },
           {
-            "name": "parameters",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ApiContract"
-            },
-            "description": "Create or update parameters."
-          },
-          {
-            "name": "If-Match",
-            "in": "header",
-            "required": false,
-            "type": "string",
-            "description": "ETag of the Api Entity. For Create Api Etag should not be specified. For Update Etag should match the existing Entity or it can be * for unconditional update."
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "API was successfully created."
-          },
-          "204": {
-            "description": "API was successfully updated."
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
-            }
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Apis"
-        ],
-        "operationId": "Apis_Update",
-        "description": "Updates the specified API of the API Management service instance.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiIdParameter"
+            "$ref": "#/parameters/OperationIdParameter"
           },
           {
             "name": "parameters",
             "in": "body",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/ApiUpdateContract"
+              "type": "object",
+              "format": "file"
             },
-            "description": "API Update Contract parameters."
+            "required": true,
+            "description": "The policy contents to apply."
           },
           {
             "name": "If-Match",
             "in": "header",
             "required": true,
-            "description": "ETag of the API entity. ETag should match the current entity state in the header response of the GET request or it should be * for unconditional update.",
+            "description": "The entity state (Etag) version of the Api Operation policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
             "type": "string"
           },
           {
@@ -236,8 +126,11 @@
           }
         ],
         "responses": {
+          "201": {
+            "description": "Api Operation policy configuration was successfully created."
+          },
           "204": {
-            "description": "The API was successfully updated."
+            "description": "Api Operation policy configuration of the tenant was successfully updated."
           },
           "default": {
             "description": "Error response describing why the operation failed.",
@@ -249,10 +142,10 @@
       },
       "delete": {
         "tags": [
-          "Apis"
+          "ApiOperationsPolicy"
         ],
-        "operationId": "Apis_Delete",
-        "description": "Deletes the specified API of the API Management service instance.",
+        "operationId": "ApiOperationsPolicy_Delete",
+        "description": "Deletes the policy configuration at the Api Operation.",
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -264,10 +157,13 @@
             "$ref": "#/parameters/ApiIdParameter"
           },
           {
+            "$ref": "#/parameters/OperationIdParameter"
+          },
+          {
             "name": "If-Match",
             "in": "header",
             "required": true,
-            "description": "ETag of the API Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.",
+            "description": "The entity state (Etag) version of the Api operation policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
             "type": "string"
           },
           {
@@ -279,7 +175,7 @@
         ],
         "responses": {
           "204": {
-            "description": "The API was successfully deleted."
+            "description": "Successfully deleted the policy configuration at the API Operation level."
           },
           "default": {
             "description": "Error response describing why the operation failed.",
