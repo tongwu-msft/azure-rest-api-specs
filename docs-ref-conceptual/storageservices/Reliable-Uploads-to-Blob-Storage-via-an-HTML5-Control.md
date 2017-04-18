@@ -77,8 +77,8 @@ translation.priority.mt:
   
  The diagram below shows the steps in process:  
   
- ![HTML 5 Blob Upload process](./media/HTML5BlobUpload_Process.gif)  
-  
+![HTML 5 Blob Upload process](./media/HTML5BlobUpload_Process.gif)
+
  Let’s now implement the solution by breaking down the algorithm in steps. Please note that trivial implementations have been left out for simplicity:  
   
 1.  Accepting file from user and checking browser capabilities.  
