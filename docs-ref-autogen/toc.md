@@ -389,7 +389,6 @@
 ## [Consumer Groups](EventHub/ConsumerGroups.json)
 ## [Event Hubs](EventHub/EventHubs.json)
 ## [Namespaces](EventHub/Namespaces.json)
-## [Operations](EventHub/Operations.json)
 # [Express Route](../docs-ref-conceptual/ExpressRoute/index.md)
 ## [Operations on ExpressRoute Service Providers](../docs-ref-conceptual/ExpressRoute/operations-on-expressroute-service-providers.md)
 ### [List Express Route Service Providers](../docs-ref-conceptual/ExpressRoute/list-express-route-service-providers.md)
