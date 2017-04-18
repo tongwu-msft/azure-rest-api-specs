@@ -26,7 +26,7 @@ For information about getting started with Azure REST operations including reque
 
 | Method | Request URI |    
 |--------|-------------|    
-| PUT or PATCH | `https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}?api-version={apiVersion} |    
+|PUT or PATCH| `https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}?api-version={apiVersion}`|    
 
 | Parameter | Description |
 | --------- | ----------- |
