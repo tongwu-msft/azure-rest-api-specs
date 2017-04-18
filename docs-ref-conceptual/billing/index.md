@@ -1,9 +1,9 @@
 ---
 ms.assetid: 26d66df1-84d9-4abc-980e-7995d846399d
 title: Azure Billing REST API | Microsoft Docs
-author: bryanla
-ms.author: bryanla;jlian
-ms.date: 03/08/17
+author: jlian
+ms.author: jlian
+ms.date: 03/08/2017 
 ms.topic: reference
 ms.service: Azure
 ms.devlang: rest-api 
@@ -11,7 +11,7 @@ ms.devlang: rest-api
 
 # Azure Billing REST API
 
-Azure Billing API (preview) provides programmatic access to your Azure billing information and invoices. 
+Azure Billing API (preview) provides programmatic access to your Azure billing information and invoices. To use this API, the account admin must opt in via the Azure portal. See [Manage access to Azure billing using roles](https://docs.microsoft.com/azure/billing/billing-manage-access).
 
 ## REST Operation Groups 
 
