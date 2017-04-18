@@ -1,5 +1,5 @@
 ---
-title: Traffic Manager REST
+title: Azure Traffic Manager REST
 ms.date: 04/18/2017
 ms.service: traffic-manager
 ms.devlang: rest-api
