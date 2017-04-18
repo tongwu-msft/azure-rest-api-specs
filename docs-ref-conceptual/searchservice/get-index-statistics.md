@@ -35,7 +35,8 @@ GET https://[service name].search.windows.net/indexes/[index name]/stats?api-ver
 api-key: [admin key]  
 
 ```  
- > [AZURE.NOTE] Statistics on document count and storage size are collected every few minutes, not in real time. Therefore, the statistics returned by this API may not reflect changes caused by recent indexing operations.
+ > [!NOTE] 
+ > Statistics on document count and storage size are collected every few minutes, not in real time. Therefore, the statistics returned by this API may not reflect changes caused by recent indexing operations.
 
 
 ## Request  
