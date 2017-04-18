@@ -16,7 +16,7 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
 
 | Operation Group | Description |
 |---------|-----------|
-| [Create or update a Traffic Manager profile](~/docs-ref-autogen/trafficmanager/Endpoints.json) | Provides operations for Traffic Manager endpoints.|
-| [Get a Traffic Manager profile](~/docs-ref-autogen/trafficmanager/GeographicHierarchies.json) | Gets the geographic hierarchy used by the georgraphic routing method.|
-| [Delete a Traffic Manager profile](~/docs-ref-autogen/trafficmanager/Profiles.json )    | Provides operations for Traffic Manager profiles.|
+| [Traffic Manager endpoints](~/docs-ref-autogen/trafficmanager/Endpoints.json) | Provides operations for Traffic Manager endpoints.|
+| [Geographic hierarchy](~/docs-ref-autogen/trafficmanager/GeographicHierarchies.json) | Gets the geographic hierarchy used by the georgraphic routing method.|
+| [Traffic Manager profiles](~/docs-ref-autogen/trafficmanager/Profiles.json )    | Provides operations for Traffic Manager profiles.|
 
