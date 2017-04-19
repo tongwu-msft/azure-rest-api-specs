@@ -1,5 +1,5 @@
 ---
-uid: management.azure.com/ApiManagementClient/2016-07-07/Property_ListByService
+uid: management.azure.com/ApiManagementClient/2016-10-10/Properties_ListByService
 description: *content
 ---
 Lists a collection of properties defined within a service instance.

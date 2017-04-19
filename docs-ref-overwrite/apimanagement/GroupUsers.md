@@ -16,7 +16,7 @@ You can filter the results by specifying a value for the `$filter` parameter usi
 | note             | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
 ---
-uid: management.azure.com/ApiManagementClient/2016-10-10/GroupUsers_ListByGroup
+uid: management.azure.com/ApiManagementClient/2016-10-10/GroupUsers_ListByGroups
 description: *content
 ---
 Lists a collection of the members of the group, specified by its identifier.

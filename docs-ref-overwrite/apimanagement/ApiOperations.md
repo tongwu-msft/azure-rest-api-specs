@@ -14,7 +14,7 @@ You can filter the results by specifying a value for the `$filter` parameter usi
 | urlTemplate  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
 ---
-uid: management.azure.com/ApiManagementClient/2016-10-10/ApiOperations_ListByApi
+uid: management.azure.com/ApiManagementClient/2016-10-10/ApiOperations_ListByApis
 description: *content
 ---
 Lists a collection of the operations for the specified API.

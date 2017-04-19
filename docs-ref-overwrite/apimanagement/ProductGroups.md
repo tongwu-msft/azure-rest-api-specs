@@ -13,7 +13,7 @@ You can filter the results by specifying a value for the `$filter` parameter usi
 | description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
 ---
-uid: management.azure.com/ApiManagementClient/2016-10-10/ProductGroups_ListByProduct
+uid: management.azure.com/ApiManagementClient/2016-10-10/ProductGroups_ListByProducts
 description: *content
 ---
 Lists the collection of developer groups associated with the specified product.

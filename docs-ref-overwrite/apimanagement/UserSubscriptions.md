@@ -16,7 +16,7 @@ You can filter the results by specifying a value for the `$filter` parameter usi
 | state        | eq                     | N/A |
 
 ---
-uid: management.azure.com/ApiManagementClient/2016-10-10/UserSubscriptions_ListByUser
+uid: management.azure.com/ApiManagementClient/2016-10-10/UserSubscriptions_ListByUsers
 description: *content
 ---
 Lists the collection of subscriptions of the specified user.

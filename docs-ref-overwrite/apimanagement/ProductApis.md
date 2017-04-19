@@ -15,7 +15,7 @@ You can filter the results by specifying a value for the `$filter` parameter usi
 | path        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
 ---
-uid: management.azure.com/ApiManagementClient/2016-10-10/ProductApis_ListByProduct
+uid: management.azure.com/ApiManagementClient/2016-10-10/ProductApis_ListByProducts
 description: *content
 ---
 Lists a collection of the APIs associated with a product.

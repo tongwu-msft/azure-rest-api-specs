@@ -14,7 +14,7 @@ You can filter the results by specifying a value for the `$filter` parameter usi
 | productId    | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
 ---
-uid: management.azure.com/ApiManagementClient/2016-10-10/Subscriptions_ListByService
+uid: management.azure.com/ApiManagementClient/2016-10-10/Subscriptions_List
 description: *content
 ---
 Lists all subscriptions of the API Management service instance.

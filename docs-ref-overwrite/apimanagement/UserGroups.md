@@ -13,7 +13,7 @@ You can filter the results by specifying a value for the `$filter` parameter usi
 | description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
 ---
-uid: management.azure.com/ApiManagementClient/2016-10-10/UserGroups_ListByUser
+uid: management.azure.com/ApiManagementClient/2016-10-10/UserGroups_ListByUsers
 description: *content
 ---
 Lists all user groups associated with the specified user.
