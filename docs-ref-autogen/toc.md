@@ -389,6 +389,7 @@
 ## [Consumer Groups](EventHub/ConsumerGroups.json)
 ## [Event Hubs](EventHub/EventHubs.json)
 ## [Namespaces](EventHub/Namespaces.json)
+## [Operations](EventHub/Operations.json)
 # [Express Route](../docs-ref-conceptual/ExpressRoute/index.md)
 # [Graph RBAC](../docs-ref-conceptual/graphrbac/index.md)
 ## [Applications](graphrbac/Applications.json)
