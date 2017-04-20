@@ -1,6 +1,6 @@
 ---
 ms.title: Azure Network REST APIs
-ms.date: 03/15/2017
+ms.date: 04/13/2017
 ms.service: virtual-network
 ms.topic: reference
 ms.devlang: rest
