@@ -1,0 +1,7 @@
+# Bing APIs v5
+## [Bing Autosuggest API v5](bing-apis-v5/bing-autosuggest-api-v5-reference.md)
+## [Bing Images Search API v5](bing-apis-v5/bing-images-api-v5-reference.md)
+## [Bing news Search API v5](bing-apis-v5/bing-news-api-v5-reference.md)
+## [Bing Spell Check API v5](bing-apis-v5/bing-spell-check-api-v5-reference.md)
+## [Bing Video Search API v5](bing-apis-v5/bing-video-api-v5-reference.md)
+## [Bing Web Search API v5](bing-apis-v5/bing-web-api-v5-reference.md)
