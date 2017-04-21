@@ -1,5 +1,3 @@
-## Bing Market Codes
-
 The following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change.  
   
 For a list of country codes that you may specify in the `cc` query parameter, see [Country Codes](#countrycodes).  
