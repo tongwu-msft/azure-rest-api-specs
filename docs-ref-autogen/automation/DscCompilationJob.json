@@ -27,7 +27,46 @@
         },
         "x-ms-examples": {
           "Create or update a DSC Compilation job": {
-            "$ref": "#/definitions/createCompilationJob"
+            "parameters": {
+              "subscriptionId": "subid",
+              "resourceGroupName": "rg",
+              "automationAccountName": "myAutomationAccount33",
+              "compilationJobId": "ce6fe3e3-9db3-4096-a6b4-82bfb4c10a9a",
+              "api-version": "2015-10-31",
+              "parameters": {
+                "properties": {
+                  "configuration": {
+                    "name": "SetupServer"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "headers": {},
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/compilationjobs/ce6fe3e3-9db3-4096-a6b4-82bfb4c10a9a",
+                  "name": null,
+                  "properties": {
+                    "jobId": "ce6fe3e3-9db3-4096-a6b4-82bfb4c10a9a",
+                    "creationTime": "2017-03-28T23:14:26.903+00:00",
+                    "provisioningState": "Processing",
+                    "status": "New",
+                    "statusDetails": "None",
+                    "startTime": null,
+                    "endTime": null,
+                    "lastModifiedTime": "2017-03-28T23:14:26.903+00:00",
+                    "lastStatusModifiedTime": "2017-03-28T23:14:26.903+00:00",
+                    "exception": null,
+                    "parameters": {},
+                    "configuration": {
+                      "name": "SetupServer"
+                    },
+                    "runOn": null
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -246,6 +285,81 @@
     }
   },
   "definitions": {
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message indicating why the operation failed.",
+          "type": "string"
+        }
+      },
+      "description": "Error response of an operation failure"
+    },
+    "JobStreamProperties": {
+      "properties": {
+        "jobStreamId": {
+          "type": "string",
+          "description": "Gets or sets the id of the job stream."
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Gets or sets the creation time of the job."
+        },
+        "streamType": {
+          "type": "string",
+          "description": "Gets or sets the stream type.",
+          "enum": [
+            "Progress",
+            "Output",
+            "Warning",
+            "Error",
+            "Debug",
+            "Verbose",
+            "Any"
+          ],
+          "x-ms-enum": {
+            "name": "JobStreamType",
+            "modelAsString": true
+          }
+        },
+        "streamText": {
+          "type": "string",
+          "description": "Gets or sets the stream text."
+        },
+        "summary": {
+          "type": "string",
+          "description": "Gets or sets the summary."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          },
+          "description": "Gets or sets the values of the job stream."
+        }
+      },
+      "x-ms-client-flatten": true,
+      "description": "Definition of the job stream."
+    },
+    "JobStream": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Gets or sets the id of the resource."
+        },
+        "properties": {
+          "$ref": "#/definitions/JobStreamProperties",
+          "x-ms-client-flatten": true,
+          "description": "Gets or sets the id of the job stream."
+        }
+      },
+      "description": "Definition of the job stream."
+    },
     "DscConfigurationAssociationProperty": {
       "properties": {
         "name": {
@@ -254,53 +368,6 @@
         }
       },
       "description": "The Dsc configuration property associated with the entity."
-    },
-    "DscCompilationJobCreateProperties": {
-      "properties": {
-        "configuration": {
-          "$ref": "#/definitions/DscConfigurationAssociationProperty",
-          "description": "Gets or sets the configuration."
-        },
-        "parameters": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Gets or sets the parameters of the job."
-        }
-      },
-      "required": [
-        "configuration"
-      ],
-      "description": "The parameters supplied to the create compilation job operation."
-    },
-    "DscCompilationJobCreateParameters": {
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/DscCompilationJobCreateProperties",
-          "x-ms-client-flatten": true,
-          "description": "Gets or sets the list of compilation job properties."
-        },
-        "name": {
-          "type": "string",
-          "description": "Gets or sets name of the resource."
-        },
-        "location": {
-          "type": "string",
-          "description": "Gets or sets the location of the resource."
-        },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Gets or sets the tags attached to the resource."
-        }
-      },
-      "required": [
-        "properties"
-      ],
-      "description": "The parameters supplied to the create compilation job operation."
     },
     "DscCompilationJobProperties": {
       "properties": {
@@ -406,20 +473,6 @@
       },
       "description": "Definition of the Dsc Compilation job."
     },
-    "ErrorResponse": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "description": "Error code",
-          "type": "string"
-        },
-        "message": {
-          "description": "Error message indicating why the operation failed.",
-          "type": "string"
-        }
-      },
-      "description": "Error response of an operation failure"
-    },
     "DscCompilationJobListResult": {
       "properties": {
         "value": {
@@ -436,119 +489,61 @@
       },
       "description": "The response model for the list job operation."
     },
-    "JobStreamProperties": {
+    "DscCompilationJobCreateProperties": {
       "properties": {
-        "jobStreamId": {
-          "type": "string",
-          "description": "Gets or sets the id of the job stream."
+        "configuration": {
+          "$ref": "#/definitions/DscConfigurationAssociationProperty",
+          "description": "Gets or sets the configuration."
         },
-        "time": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Gets or sets the creation time of the job."
-        },
-        "streamType": {
-          "type": "string",
-          "description": "Gets or sets the stream type.",
-          "enum": [
-            "Progress",
-            "Output",
-            "Warning",
-            "Error",
-            "Debug",
-            "Verbose",
-            "Any"
-          ],
-          "x-ms-enum": {
-            "name": "JobStreamType",
-            "modelAsString": true
-          }
-        },
-        "streamText": {
-          "type": "string",
-          "description": "Gets or sets the stream text."
-        },
-        "summary": {
-          "type": "string",
-          "description": "Gets or sets the summary."
-        },
-        "value": {
+        "parameters": {
           "type": "object",
           "additionalProperties": {
-            "type": "object"
+            "type": "string"
           },
-          "description": "Gets or sets the values of the job stream."
+          "description": "Gets or sets the parameters of the job."
         }
       },
-      "x-ms-client-flatten": true,
-      "description": "Definition of the job stream."
+      "required": [
+        "configuration"
+      ],
+      "description": "The parameters supplied to the create compilation job operation."
     },
-    "JobStream": {
+    "DscCompilationJobCreateParameters": {
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Gets or sets the id of the resource."
-        },
         "properties": {
-          "$ref": "#/definitions/JobStreamProperties",
+          "$ref": "#/definitions/DscCompilationJobCreateProperties",
           "x-ms-client-flatten": true,
-          "description": "Gets or sets the id of the job stream."
+          "description": "Gets or sets the list of compilation job properties."
+        },
+        "name": {
+          "type": "string",
+          "description": "Gets or sets name of the resource."
+        },
+        "location": {
+          "type": "string",
+          "description": "Gets or sets the location of the resource."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Gets or sets the tags attached to the resource."
         }
       },
-      "description": "Definition of the job stream."
-    },
-    "createCompilationJob": {
-      "parameters": {
-        "subscriptionId": "subid",
-        "resourceGroupName": "rg",
-        "automationAccountName": "myAutomationAccount33",
-        "compilationJobId": "ce6fe3e3-9db3-4096-a6b4-82bfb4c10a9a",
-        "api-version": "2015-10-31",
-        "parameters": {
-          "properties": {
-            "configuration": {
-              "name": "SetupServer"
-            }
-          }
-        }
-      },
-      "responses": {
-        "201": {
-          "headers": {},
-          "body": {
-            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/compilationjobs/ce6fe3e3-9db3-4096-a6b4-82bfb4c10a9a",
-            "name": null,
-            "properties": {
-              "jobId": "ce6fe3e3-9db3-4096-a6b4-82bfb4c10a9a",
-              "creationTime": "2017-03-28T23:14:26.903+00:00",
-              "provisioningState": "Processing",
-              "status": "New",
-              "statusDetails": "None",
-              "startTime": null,
-              "endTime": null,
-              "lastModifiedTime": "2017-03-28T23:14:26.903+00:00",
-              "lastStatusModifiedTime": "2017-03-28T23:14:26.903+00:00",
-              "exception": null,
-              "parameters": {},
-              "configuration": {
-                "name": "SetupServer"
-              },
-              "runOn": null
-            }
-          }
-        }
-      }
+      "required": [
+        "properties"
+      ],
+      "description": "The parameters supplied to the create compilation job operation."
     }
   },
   "parameters": {
-    "ResourceGroupNameParameter": {
-      "name": "resourceGroupName",
-      "in": "path",
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
       "required": true,
       "type": "string",
-      "pattern": "^[-\\w\\._]+$",
-      "description": "The resource group name.",
-      "x-ms-parameter-location": "method"
+      "description": "Client Api Version."
     },
     "SubscriptionIdParameter": {
       "name": "subscriptionId",
@@ -557,12 +552,14 @@
       "type": "string",
       "description": "Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
     },
-    "ApiVersionParameter": {
-      "name": "api-version",
-      "in": "query",
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
       "required": true,
       "type": "string",
-      "description": "Client Api Version."
+      "pattern": "^[-\\w\\._]+$",
+      "description": "The resource group name.",
+      "x-ms-parameter-location": "method"
     }
   }
 }
