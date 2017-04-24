@@ -21,7 +21,7 @@ Foreach($reference in $mappingFile.mapping.reference)
         $swaggerPath = Join-Path $RestSrcPath $reference.source_swagger
         if (Test-Path $swaggerPath)
         {
-            autorest -FANCY -g SwaggerResolver -i $swaggerPath -outputFileName $swaggerPath --version=1.0.1-20170328-1431-preview
+            autorest -FANCY -g SwaggerResolver -i $swaggerPath -outputFileName $swaggerPath
             Write-Host "Done resolving swagger file by AutoRest" $swaggerPath
         }
     }
