@@ -572,75 +572,6 @@
       },
       "description": "Error Body contract."
     },
-    "GroupContract": {
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Uniquely identifies the group within the current API Management service instance. The value is a valid relative URL in the format of /groups/{groupid} where {groupid} is a group identifier.",
-          "readOnly": true
-        },
-        "name": {
-          "type": "string",
-          "description": "Group name.",
-          "maxLength": 300,
-          "minLength": 1
-        },
-        "description": {
-          "type": "string",
-          "description": "Group description. Can contain HTML formatting tags.",
-          "maxLength": 1000
-        },
-        "builtIn": {
-          "readOnly": true,
-          "type": "boolean",
-          "description": "true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false."
-        },
-        "type": {
-          "type": "string",
-          "description": "Group type.",
-          "readOnly": true,
-          "enum": [
-            "Custom",
-            "System",
-            "External"
-          ],
-          "x-ms-enum": {
-            "name": "GroupTypeContract",
-            "modelAsString": false
-          }
-        },
-        "externalId": {
-          "type": "string",
-          "description": "For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "name"
-      ],
-      "description": "Developer group."
-    },
-    "GroupCollection": {
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/GroupContract"
-          },
-          "description": "Page values."
-        },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Total record count number across all pages."
-        },
-        "nextLink": {
-          "type": "string",
-          "description": "Next page link if any."
-        }
-      },
-      "description": "Paged Group list representation."
-    },
     "SubscriptionContract": {
       "properties": {
         "id": {
@@ -743,6 +674,75 @@
         }
       },
       "description": "Paged Subscriptions list representation."
+    },
+    "GroupContract": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Uniquely identifies the group within the current API Management service instance. The value is a valid relative URL in the format of /groups/{groupid} where {groupid} is a group identifier.",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Group name.",
+          "maxLength": 300,
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "Group description. Can contain HTML formatting tags.",
+          "maxLength": 1000
+        },
+        "builtIn": {
+          "readOnly": true,
+          "type": "boolean",
+          "description": "true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false."
+        },
+        "type": {
+          "type": "string",
+          "description": "Group type.",
+          "readOnly": true,
+          "enum": [
+            "Custom",
+            "System",
+            "External"
+          ],
+          "x-ms-enum": {
+            "name": "GroupTypeContract",
+            "modelAsString": false
+          }
+        },
+        "externalId": {
+          "type": "string",
+          "description": "For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "description": "Developer group."
+    },
+    "GroupCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GroupContract"
+          },
+          "description": "Page values."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total record count number across all pages."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "Paged Group list representation."
     }
   },
   "parameters": {
@@ -757,13 +757,19 @@
       "pattern": "^[^*#&+:<>?]+$",
       "x-ms-parameter-location": "method"
     },
-    "ResourceGroupNameParameter": {
-      "name": "resourceGroupName",
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "The name of the resource group.",
-      "x-ms-parameter-location": "method"
+      "description": "Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Version of the API to be used with the client request."
     },
     "ServiceNameParameter": {
       "name": "serviceName",
@@ -776,14 +782,12 @@
       "pattern": "^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$",
       "x-ms-parameter-location": "method"
     },
-    "TopQueryParameter": {
-      "name": "$top",
-      "in": "query",
-      "required": false,
-      "type": "integer",
-      "format": "int32",
-      "description": "Number of records to return.",
-      "minimum": 1,
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
       "x-ms-parameter-location": "method"
     },
     "SkipQueryParameter": {
@@ -796,19 +800,15 @@
       "minimum": 0,
       "x-ms-parameter-location": "method"
     },
-    "ApiVersionParameter": {
-      "name": "api-version",
+    "TopQueryParameter": {
+      "name": "$top",
       "in": "query",
-      "required": true,
-      "type": "string",
-      "description": "Version of the API to be used with the client request."
-    },
-    "SubscriptionIdParameter": {
-      "name": "subscriptionId",
-      "in": "path",
-      "required": true,
-      "type": "string",
-      "description": "Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+      "required": false,
+      "type": "integer",
+      "format": "int32",
+      "description": "Number of records to return.",
+      "minimum": 1,
+      "x-ms-parameter-location": "method"
     }
   }
 }
