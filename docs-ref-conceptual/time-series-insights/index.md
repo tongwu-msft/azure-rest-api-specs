@@ -10,4 +10,4 @@ ms.manager: jhubbard
 
 # Time Series Insights API
 
-Use the operations described in this REST API to manage Azure Time Series Insights resources through Azure Resource Manager. All task operations in this REST API conform to the HTTP/1.1 protocol specification, and each operation returns an x-ms-request-id header that can be used to obtain information about the request. You must ensure that requests made to these resources are secure. For more information, see [Authenticating Azure Resource Manager requests](/rest/api/index.md).
+Use the operations described in this REST API to query data in Azure Time Series Insights environments. All task operations in this REST API conform to the HTTP/1.1 protocol specification. You must ensure that requests made to these resources are secure and contain an [Authorization header](/rest/api/authorization/).
