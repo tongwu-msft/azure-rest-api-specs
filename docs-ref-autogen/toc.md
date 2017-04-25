@@ -208,7 +208,6 @@
 ## [Origins](cdn/Origins.json)
 ## [Profiles](cdn/Profiles.json)
 # [Cognitive Services](../docs-ref-conceptual/cognitiveservices/index.md)
-## Bing APIs v5
 ### [Bing Autosuggest API v5](../docs-ref-conceptual/cognitiveservices/bing-apis-v5/bing-autosuggest-api-v5-reference.md)
 ### [Bing Images Search API v5](../docs-ref-conceptual/cognitiveservices/bing-apis-v5/bing-images-api-v5-reference.md)
 ### [Bing news Search API v5](../docs-ref-conceptual/cognitiveservices/bing-apis-v5/bing-news-api-v5-reference.md)
