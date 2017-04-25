@@ -5,6 +5,7 @@ services: cognitive-services
 author: swhite-msft
 manager: ehansen
 
+ms.assetid: CD3BE837-2928-4278-AC5B-F6E5D9943880
 ms.service: cognitive-services
 ms.technology: bing-news-search
 ms.topic: article

@@ -5,6 +5,7 @@ services: cognitive-services
 author: swhite-msft
 manager: ehansen
 
+ms.assetid: 4169FA8D-5A95-432D-9F02-8226A6149E4A
 ms.service: cognitive-services
 ms.technology: bing-image-search
 ms.topic: article
@@ -18,7 +19,7 @@ The Image Search API lets you send a search query to Bing and get back a list of
 
 For details about the headers that requests should include, see [Request Headers](#headers).  
   
-For details about the query parameters that requests should include, see [Query Parameters](#parameters-parameters).  
+For details about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
   
 For details about the JSON response objects that responses may include, see [Response Objects](#response-objects).  
   

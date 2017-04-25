@@ -5,6 +5,7 @@ services: cognitive-services
 author: swhite-msft
 manager: ehansen
 
+ms.assetid: 2CB12DAB-1659-4AC1-8018-6A1D481E625F
 ms.service: cognitive-services
 ms.technology: bing-spell-check
 ms.topic: article
