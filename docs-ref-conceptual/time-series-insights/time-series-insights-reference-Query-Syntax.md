@@ -1,10 +1,13 @@
-﻿For REST Query API the input JSON payload should be created using JSON-based domain-specific strongly typed query language.
+# Azure Time Series Insights Query Syntax
+
+This document describes query request format for query API. Query requests must be in JSON format. The request JSON payload should be created using JSON-based domain-specific strongly typed query language.
+
 The language is subdivided into the following elements:
 - Scalar expressions, which produce scalar values.
 - Aggregate expressions, used to partition collections of events and compute measures over the partitions.
 - Clauses, which form constituent components of input JSON query and also can be a part of expressions.
 
-# Data Model
+## Data Model
 
 Query API operates on data stored as individual **events** within an environment.
 Each event is a set of property name and value pairs.
@@ -13,7 +16,7 @@ Event properties can be of one of the following primitive types: `Boolean`, `Dat
 Original event source formats may support a larger set of value types, in which case Time Series Insights ingress maps them to the closest primitive types.
 All primitive types are nullable.
 
-All events have the following built-in properties with predefined name and type: 
+All events have the following built-in properties with predefined name and type:
 | Property name | Property type | Definition |
 |-|-|-|
 | $ts | DateTime | Event timestamp |
@@ -22,7 +25,7 @@ All events have the following built-in properties with predefined name and type:
 By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp.
 However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp.
 
-Event source name is the display name of the event source from which Time Series Insights has received the event. 
+Event source name is the display name of the event source from which Time Series Insights has received the event.
 It is associated with a particular event at the ingress time of the event and stays unchanged for the life-time of the event.
 When the name is changed in the event source configuration, already processed events will carry the old name and new events will carry the new name.
 
@@ -38,10 +41,10 @@ User can pass these values as strings for ingress, so in query expressions these
 Query API converts empty string literals to nulls in the output.
 
 **Event schema** describes properties of an event.
-Different events can have different schemas or share the same schema. 
+Different events can have different schemas or share the same schema.
 Schema contains the name of the event source and ordered set of properties for the event.
 
-# Scalar Expressions
+## Scalar Expressions
 
 **Constant expressions** are represented using the following literals for each of the primitive types.
 
@@ -62,7 +65,7 @@ JSON example:
 {"dateTime": null}
 ```
 
-**Property reference expression** is used to access values of non-built-in properties of an event. 
+**Property reference expression** is used to access values of non-built-in properties of an event.
 Result type of a property reference expression is the primitive type of the property.
 Properties in the event schema are uniquely identified by name and type and the reference expression requires both to be specified.
 
@@ -80,9 +83,7 @@ Built-in properties are referenced by name only, no type is needed in the refere
 
 JSON example:
 ```json
-"builtInProperty": {
-    "name": "$esn"
-}
+{ "builtInProperty": "$esn" }
 ```
 
 Time Series Insights supports the following **boolean comparison expressions**:
@@ -101,12 +102,12 @@ All types implicitly cast only to themselves and explicit casts are not supporte
 
 JSON example:
 ```json
-"eq": { 
+"eq": {
     "left": {
         "property": {
-            "name": "p1", 
+            "name": "p1",
             "type": "String"
-        } 
+        }
     },
     "right": "abc"
 }
@@ -135,27 +136,29 @@ Time Series Insights supports the following **boolean logical expressions**:
 
 JSON example:
 ```json
-"and": [
-    "eq": { 
-        "left": {
-            "property": {
-                "name": "p1", 
-                "type": "String"
-            } 
-        },
-        "right": "abc"
-    },
-    "not" : { 
-        "lt": {
-            "left": {
-                "property": {
-                    "name": "p1", 
-                    "type": "Double"
-                } 
-            },
-            "right": 1.0
-        } 
-    }
+"and": [{
+		"eq": {
+			"left": {
+				"property": {
+					"name": "p1",
+					"type": "String"
+				}
+			},
+			"right": "abc"
+		}
+	}, {
+		"not": {
+			"lt": {
+				"left": {
+					"property": {
+						"name": "p1",
+						"type": "Double"
+					}
+				},
+				"right": 1.0
+			}
+		}
+	}
 ]
 ```
 
@@ -176,7 +179,7 @@ JSON example:
 "predicateString": "PointValue.Double = 3.14"
 ```
 
-## Predicate String
+### Predicate String
 
 Expression in predicate string is evaluated into JSON boolean expression. It should comply with the following grammar (simplified):
 
@@ -287,7 +290,7 @@ Here are examples given properties "p1" of type String and Double and properties
 
 4. If operator is omitted together with property name the `HAS` operation is assumed.
 
-# Aggregate Expressions
+## Aggregate Expressions
 
 **Dimension expressions** are used inside of *aggregates clause* to partition a set of events and assign a scalar key to each partition.
 
@@ -299,7 +302,7 @@ Dimension expression types:
 | `"numericalHistogram"` | Dimension values in the result are ranges of values in a given property. | Numerical histogram of temperature may result in 10 degree ranges returned. |
 
 **Unique values expression** is used to group a set of events by values of the specified event property.
- 
+
 Evaluation of this JSON expression will result in up to 100 records grouped by `sensorId` string property:
 
 JSON example:
@@ -319,7 +322,7 @@ Evaluation of this JSON expression will result in a set of Timestamp records flo
 
 JSON example:
 ```json
-"dateHistogram": { 
+"dateHistogram": {
     "input": {
         "builtInProperty": "$ts"
     },
@@ -335,7 +338,7 @@ Evaluation of this JSON expression will result in 10 records, so the range betwe
 
 JSON example:
 ```json
-"numericHistogram": { 
+"numericHistogram": {
     "input": {
         "property": "p1",
         "type": "Double"
@@ -376,7 +379,7 @@ Supported dimension and measure expressions depending on property type:
 | Double | `"uniqueValues"`, `"numericHistogram"` | `"sum"`, `"avg"`, `"min"`, `"max"` |
 | String | `"uniqueValues"` | - |
 
-# Clauses
+## Clauses
 
 **Search span clause** is used to filter built-in Timestamp property of event to a given interval. Start of interval is inclusive, end of interval is exclusive.
 
@@ -393,12 +396,12 @@ JSON example:
 JSON example:
 ```json
 "predicate": {
-    "eq": { 
+    "eq": {
         "left": {
             "property": {
-                "name": "p1", 
+                "name": "p1",
                 "type": "String"
-            } 
+            }
         },
         "right": "abc"
     }
@@ -406,7 +409,7 @@ JSON example:
 ```
 Filtering of events means running a predicate represented by a boolean expression on each event in environment.
 Execution of an expression on an event returns `true` if event must be included in further operation or `false` if event must be omitted from further processing.
-In addition to predicate expression, events are always filtered by search span. 
+In addition to predicate expression, events are always filtered by search span.
 
 **Limit top clause** is used to get a given number of values in a given order.
 
@@ -454,7 +457,7 @@ JSON example:
 }
 ```
 
-**Aggregates clause** is used to partition a set of events by a given property, while measuring values of other event properties. 
+**Aggregates clause** is used to partition a set of events by a given property, while measuring values of other event properties.
 Measures are evaluated on each partion produced by the dimension expression.
 
 This JSON expression computes average, min and max temperatures per sensor ID:
@@ -545,7 +548,7 @@ JSON example:
         },
         "aggregate": {
             "dimension": {
-                "dateHistogram": { 
+                "dateHistogram": {
                     "input": { "builtInProperty": "$ts" },
                     "breaks": { "size": "1m" }
                 }

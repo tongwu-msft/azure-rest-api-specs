@@ -1,16 +1,20 @@
-﻿# Common Headers and Parameters
+# Azure Time Series Insights Query API
 
-For authentication and authorization, valid OAuth2.0 Bearer token must be passed in `Authorization` header.
+This document describes various query APIs. For the details of input format, see [Query Syntax](time-series-insights-reference-Query-Syntax.md).
+
+#﻿# Common Headers and Parameters
+
+For authentication and authorization, valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
 Optional request headers:
 - `x-ms-client-request-id` - a client request id. Service logs this ID. Allows to trace operation end-to-end across services.
-- `x-ms-client-session-id` - a client session id. Service logs this ID. Allows to trace group of operations end-to-end across services.
+- `x-ms-client-session-id` - a client session id. Service logs this ID. Allows to trace a group of related operations end-to-end across services.
 - `x-ms-client-application-name` - name of the application that generated this request. Service logs this value.
 
-Response headers: 
+Response headers:
 - `x-ms-request-id` - server generated request ID. Can be used to contact Microsoft to investigate a particular request.
 
-# Get Environments API
+## Get Environments API
 
 `GET https://api.timeseries.azure.com/environments?api-version=2016-12-12`
 
@@ -31,7 +35,7 @@ Response Body:
 
 Here, `environmentFqdn` is unique Fully-Qualified Domain Name for environment used in per-environment query API requests below.
 
-# Get Environment Availability API
+## Get Environment Availability API
 
 `GET https://<environmentFqdn>/availability?api-version=2016-12-12`
 
@@ -56,9 +60,9 @@ Response Body:
 ```
 
 Empty object is returned for environments with no events.
-Environment availability is cached, and the response time does not depend on the number of events in an environment. 
+Environment availability is cached, and the response time does not depend on the number of events in an environment.
 
-# Get Environment Metadata API
+## Get Environment Metadata API
 
 `GET https://<environmentFqdn>/metadata?api-version=2016-12-12`
 
@@ -97,7 +101,7 @@ Time Series Insights internally caches and approximates metadata and may return 
 Empty `properties` array is returned for either empty environment or environment with no events in a given search span.
 Built-in properties are not returned in the list of properties.
 
-# Get Environment Events API
+## Get Environment Events API
 
 `GET wss://<environmentFqdn>/events?api-version=<apiVersion>`
 
@@ -126,11 +130,11 @@ Request Message:
         "searchSpan" : {...},
         "predicate" : {...},
         "top" : {
-            "sort" : [{ 
-                "input" : { 
-                    "builtInProperty" : "$ts" 
-                }, 
-                "order" : "Asc" 
+            "sort" : [{
+                "input" : {
+                    "builtInProperty" : "$ts"
+                },
+                "order" : "Asc"
             }],
             "count" : 1000
         }
@@ -171,12 +175,12 @@ Response Message:
 }
 ```
 
-Events can be sorted and limited to the top. 
+Events can be sorted and limited to the top.
 All property types are supported to be sorted on. Sorting relies on comparison operators defined for *boolean expressions*.
 
 > NOTE: Nested sorting (sort by two or more properties) is currently not supported.
 
-# Get Environment Aggregates API
+## Get Environment Aggregates API
 
 `GET wss://<environmentFqdn>/aggregates?api-version=<apiVersion>`
 
@@ -206,8 +210,8 @@ Request Message:
         "aggregates": [{
             "dimension": {
                 "uniqueValues": {
-                    "input": { 
-                        "property": "sensorId", 
+                    "input": {
+                        "property": "sensorId",
                         "type": "String"
                     },
                     "take": 100
@@ -225,8 +229,8 @@ Request Message:
                 "measures": [
                     {
                         "min": {
-                            "input": { 
-                                "property": "sensorValue", 
+                            "input": {
+                                "property": "sensorValue",
                                 "type": "Double"
                             }
                         }
@@ -300,7 +304,7 @@ For numeric histogram bucket boundaries are aligned to one of 10^n, 2x10^n or 5x
 If list of events is empty the response will be empty if no measure expressions are specified.
 If measures are present, the response will contain a single record with `null` dimension value, 0 value for count and `null` value for other kinds of measures.
 
-# Limits
+## Limits
 
 The following limits are applied during query execution to fairly utilize resources among multiple environments and users:
 
@@ -316,7 +320,7 @@ The following limits are applied during query execution to fairly utilize resour
 | Get Aggregates | Max total cardinality across all dimensions | 150,000 | S1, S2 |  |
 | Get Aggregates | Max number of measures | 5 | S1, S2 |  |
 
-# Reporting Unresolved Properties
+## Reporting Unresolved Properties
 
 Property references can be specified for predicate, dimension and measure expressions.
 If property with specific name and type does not exist for a given search span an attempt is made to resolve a property over a global time span.
@@ -324,17 +328,17 @@ An error or warning might be emitted depending on the success of resolution:
 * If property exists in the environment over a global time span, it is resolved appropriately and a warning is emitted to notify that the value of this property is `null` for a given search span.
 * If property does not exists in the environment an error is emitted and query execution fails.
 
-# Error Responses
+## Error Responses
 
 If query execution fails, the JSON response payload contains error response with the following structure:
 ```json
 {
-    "error" : { 
-        "code" : "...", 
-        "message" : "...", 
+    "error" : {
+        "code" : "...",
+        "message" : "...",
         "innerError" : {  
             "code" : "...",
-            "message" : "...", 
+            "message" : "...",
         }
     }
 }
@@ -361,7 +365,7 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 | 400 | InvalidInput | Property reference count exceeded limit. | PropertyReferenceCountExceededLimit |
 | 400 | InvalidMethod | Only WebSocket requests are allowed on the path 'aggregates'. | - |
 
-# Warnings
+## Warnings
 
 Query API response may contain a list of warnings as a sibling of `"content"` entry.
 Currently warnings are generated if property is not found for a given search span but is found in an environment for global time span.

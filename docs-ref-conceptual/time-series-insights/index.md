@@ -10,4 +10,4 @@ ms.manager: jhubbard
 
 # Time Series Insights API
 
-Use the operations described in this REST API to query data in Azure Time Series Insights environments. All task operations in this REST API conform to the HTTP/1.1 protocol specification. You must ensure that requests made to these resources are secure and contain an [Authorization header](/rest/api/#create-the-request).
+Use the operations described in this REST API to query data in Azure Time Series Insights environments. All operations in the API conform to the HTTP/1.1 protocol specification. You must ensure that requests made to these resources are secure and contain an [Authorization header](/rest/api/#create-the-request).
