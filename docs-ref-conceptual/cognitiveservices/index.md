@@ -9,13 +9,13 @@ ms.manager: douge
 
 # Azure Cognitive Services REST API reference
 
-Azure Cognitive Services enables natural and contextual interaction with tools that augment the users' experiences using the power of machine-based intelligence. The operations in the Azure Cognitive Services REST API provide operations for managing your Cognitive Services accounts.
+Azure Cognitive Services enables natural and contextual interaction with tools that augment users' experiences using the power of machine-based intelligence. The operations in the Azure Cognitive Services REST API providing operations for managing your Cognitive Service accounts.
 
 ## REST operation groups
 
 | Operation group                                                         | Description                                                   |
 |-------------------------------------------------------------------------|---------------------------------------------------------------|
-| [Cognitive Services Accounts](~/docs-ref-autogen/cognitiveservices/cognitiveservicesaccounts.json) | Provides operations for managing Cognitive Services accounts. |
+| [Cognitive Services Accounts](~/docs-ref-autogen/cognitiveservices/cognitiveservicesaccounts.json) | Provides operations for managive Cognitive Services accounts. |
 
 ## See also
 
