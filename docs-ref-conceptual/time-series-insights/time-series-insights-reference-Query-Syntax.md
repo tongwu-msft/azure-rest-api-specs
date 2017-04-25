@@ -30,7 +30,7 @@ It is associated with a particular event at the ingress time of the event and st
 When the name is changed in the event source configuration, already processed events will carry the old name and new events will carry the new name.
 
 Custom event properties are uniquely identified and referenced in query expressions by name and type.
-An event can have more than one property with the same name and such properties will always have different types.
+An event can have more than one property with the same name and different types.
 This might happen as a result of ingress type splitting: in certain cases an event property value of string type can be stored as a property with a different type:
 * If String value is a valid Double value, then it is stored both as Double and String.
 * If String value is a valid DateTime value, then it is stored as DateTime only.
@@ -253,7 +253,7 @@ Here are examples given properties "p1" and "p2" of type String, and property "p
 | p1.String HAS 'abc' | Yes |  |
 | p3.Double HAS '1.0' | Yes | String literal was successfully parsed to a Double value. |
 
-2. If type is omitted for property but name is specified, then all properties with given name and types are taken, left-hand side and right-hand side operands are grouped in pairs by type and concantenated via `AND` operation.
+2. If type is omitted for property but name is specified, then all properties with given name and types are taken, left-hand side and right-hand side operands are grouped in pairs by type and concatenated via `AND` operation.
 Here are examples given properties "p1" and "p2" of type String and Double:
 
 | Predicate string | Equivalent strong-typed predicate string | Notes |
@@ -299,7 +299,7 @@ Dimension expression types:
 |-|-|-|
 | `"uniqueValues"` | Dimension values in the result are exact values of a given property. |  |
 | `"dateHistogram"` | Dimension values in the result are ranges of time of a given property. | Date histogram of timestamp may result in 10 1-hour ranges for a 10-hour search span. |
-| `"numericalHistogram"` | Dimension values in the result are ranges of values in a given property. | Numerical histogram of temperature may result in 10 degree ranges returned. |
+| `"numericalHistogram"` | Dimension values in the result are ranges of values in a given property. | Numerical histogram of temperature may result in 10 degrees ranges returned. |
 
 **Unique values expression** is used to group a set of events by values of the specified event property.
 
@@ -433,7 +433,7 @@ JSON example:
 "take": 10
 ```
 
-**Limit sample clause** is used to get a statistically representive given number of values.
+**Limit sample clause** is used to get a statistically representative given number of values.
 
 JSON example:
 ```json
@@ -458,7 +458,7 @@ JSON example:
 ```
 
 **Aggregates clause** is used to partition a set of events by a given property, while measuring values of other event properties.
-Measures are evaluated on each partion produced by the dimension expression.
+Measures are evaluated on each partition produced by the dimension expression.
 
 This JSON expression computes average, min and max temperatures per sensor ID:
 

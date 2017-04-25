@@ -1,8 +1,11 @@
 # Azure Time Series Insights Query API
 
-This document describes various query APIs. For the details of input format, see [Query Syntax](time-series-insights-reference-Query-Syntax.md).
+This document describes various query APIs.
 
-#﻿# Common Headers and Parameters
+For the details of input format, see [Query Syntax](time-series-insights-reference-Query-Syntax.md).
+
+
+## Common Headers and Parameters
 
 For authentication and authorization, valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
