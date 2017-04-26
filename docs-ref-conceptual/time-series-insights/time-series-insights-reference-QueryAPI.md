@@ -10,9 +10,9 @@ For the details of input format, see [Query Syntax](time-series-insights-referen
 For authentication and authorization, valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
 Optional request headers:
-- `x-ms-client-request-id` - a client request id. Service logs this ID. Allows to trace operation end-to-end across services.
-- `x-ms-client-session-id` - a client session id. Service logs this ID. Allows to trace a group of related operations end-to-end across services.
-- `x-ms-client-application-name` - name of the application that generated this request. Service logs this value.
+- `x-ms-client-request-id` - a client request ID. Service records this value. Allows the service to trace operation across services.
+- `x-ms-client-session-id` - a client session ID. Service records this value. Allows the service to trace a group of related operations across services.
+- `x-ms-client-application-name` - name of the application that generated this request. Service records this value.
 
 Response headers:
 - `x-ms-request-id` - server generated request ID. Can be used to contact Microsoft to investigate a particular request.
@@ -36,7 +36,7 @@ Response Body:
 }
 ```
 
-Here, `environmentFqdn` is unique Fully-Qualified Domain Name for environment used in per-environment query API requests below.
+Here, `environmentFqdn` is unique fully qualified domain name for environment used in per-environment query API requests.
 
 ## Get Environment Availability API
 
@@ -100,8 +100,8 @@ Response Body:
 }
 ```
 
-Time Series Insights internally caches and approximates metadata and may return more properties that are actually present in the exact events in the search span.
-Empty `properties` array is returned for either empty environment or environment with no events in a given search span.
+Time Series Insights internally caches and approximates metadata and may return more properties that are present in the exact events in the search span.
+Empty `properties` array is returned when environment is empty or there are no events in a given search span.
 Built-in properties are not returned in the list of properties.
 
 ## Get Environment Events API
@@ -179,7 +179,7 @@ Response Message:
 ```
 
 Events can be sorted and limited to the top.
-All property types are supported to be sorted on. Sorting relies on comparison operators defined for *boolean expressions*.
+Sorting is supported on all property types. Sorting relies on comparison operators defined for *boolean expressions*.
 
 > NOTE: Nested sorting (sort by two or more properties) is currently not supported.
 
@@ -304,8 +304,8 @@ Response Messages:
 
 For numeric histogram bucket boundaries are aligned to one of 10^n, 2x10^n or 5x10^n values.
 
-If list of events is empty the response will be empty if no measure expressions are specified.
-If measures are present, the response will contain a single record with `null` dimension value, 0 value for count and `null` value for other kinds of measures.
+If no measure expressions are specified and the list of events is empty, the response will be empty.
+If measures are present, the response contains a single record with `null` dimension value, 0 value for count and `null` value for other kinds of measures.
 
 ## Limits
 
@@ -316,7 +316,7 @@ The following limits are applied during query execution to fairly utilize resour
 | All | Max request size | 32 KB | S1, S2 |  |
 | Get Availability, Get Metadata, Get Events, Get Aggregates | Max number of concurrent requests per environment | 10 | S1, S2 |  |
 | Get Events, Get Aggregates | Max response size | 16 MB | S1, S2 |  |
-| Get Events, Get Aggregates | Max number of property references in predicate, including predicate string(s) | 50 | S1, S2 |  |
+| Get Events, Get Aggregates | Max number of property references in predicate, including predicate string expressions | 50 | S1, S2 |  |
 | Get Events, Get Aggregates | Max full-text search terms with no property reference in predicate string | 2 | S1, S2 | Example: `HAS 'abc'`, `'abc'` |
 | Get Events | Max number of events in response | 10,000 | S1, S2 |  |
 | Get Aggregates | Max number of dimensions | 3 | S1, S2 |  |
@@ -325,11 +325,11 @@ The following limits are applied during query execution to fairly utilize resour
 
 ## Reporting Unresolved Properties
 
-Property references can be specified for predicate, dimension and measure expressions.
+Property references can be specified for predicate, dimension, and measure expressions.
 If property with specific name and type does not exist for a given search span an attempt is made to resolve a property over a global time span.
 An error or warning might be emitted depending on the success of resolution:
 * If property exists in the environment over a global time span, it is resolved appropriately and a warning is emitted to notify that the value of this property is `null` for a given search span.
-* If property does not exists in the environment an error is emitted and query execution fails.
+* If property does not exist in the environment, an error is emitted and query execution fails.
 
 ## Error Responses
 
@@ -380,9 +380,9 @@ Each warning object may contain the following fields:
 | code | String | One of predefined warning codes |
 | message | String | Detailed warning message |
 | target | String | Dot-separated JSON path to the JSON input payload entry causing the warning |
-| warningDetails | Dictionary | Optional. Additional warning details, e.g. the position in predicate string. |
+| warningDetails | Dictionary | Optional. Additional warning details, for example, the position in predicate string. |
 
-Example of warnings for predicate, predicate string within predicate, dimension and measure:
+Example of warnings for predicate, predicate string within predicate, dimension, and measure:
 ```json
 "warnings": [
     {

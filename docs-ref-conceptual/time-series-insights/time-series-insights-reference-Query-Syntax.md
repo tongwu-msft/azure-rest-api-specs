@@ -27,16 +27,16 @@ However, this behavior can be changed in event source configuration by specifyin
 
 Event source name is the display name of the event source from which Time Series Insights has received the event.
 It is associated with a particular event at the ingress time of the event and stays unchanged for the life-time of the event.
-When the name is changed in the event source configuration, already processed events will carry the old name and new events will carry the new name.
+When the name is changed in the event source configuration, already processed events carry the old name and new events carry the new name.
 
 Custom event properties are uniquely identified and referenced in query expressions by name and type.
 An event can have more than one property with the same name and different types.
-This might happen as a result of ingress type splitting: in certain cases an event property value of string type can be stored as a property with a different type:
+Properties with the same name but different types might result from ingress type splitting. An event property value of string type can be stored as a property with a different type in the following cases:
 * If String value is a valid Double value, then it is stored both as Double and String.
 * If String value is a valid DateTime value, then it is stored as DateTime only.
 
 Time Series Insights has limited support for the following values within the Double type: `Double.NaN`, `Double.PositiveInfinity` and `Double.NegativeInfinity`.
-These values are converted to `null` during ingress, but if query evaluation produces one of these values, the value will be properly evaluated and serialized as a `String` in response.
+These values are converted to `null` during ingress, but if query evaluation produces one of these values, the value is evaluated and serialized as a `String` in response.
 User can pass these values as strings for ingress, so in query expressions these values should be also passed as strings.
 Query API converts empty string literals to nulls in the output.
 
@@ -79,7 +79,7 @@ JSON example:
 
 **Built-in Property reference expression** is used to access built-in properties of an event.
 Result type of a built-in property reference expression is the primitive type of the property.
-Built-in properties are referenced by name only, no type is needed in the reference expression.
+Built-in properties are referenced by name only; therefore, no type is needed in the reference expression.
 
 JSON example:
 ```json
@@ -123,7 +123,7 @@ The following table shows supported types of arguments for each of the compariso
 
 Null literal can only be used in the following expressions: `eq`, `in`.
 The `eq` operation results in `true` if both sides are null values and `false` otherwise.
-For other operations the error is raised for null literal and behavior is undefined for null-value properties (any comparison operation will result in `false`).
+For other operations, the error is raised for null literal and behavior is undefined for null-value properties (any comparison operation results in `false`).
 Null value precedes non-null value in the sort order (occurs, for example, if sorting by a property is applied when getting a list of events).
 
 Time Series Insights supports the following **boolean logical expressions**:
@@ -163,7 +163,8 @@ JSON example:
 ```
 
 **Boolean predicate string expression** contains boolean predicate represented as a human-readable expression called Predicate String.
-Some examples of predicate strings are listed below:
+
+Examples of predicate string:
 
 | Predicate string | Description |
 |-|-|
@@ -229,7 +230,7 @@ Supported operand types:
 | IN | String, Bool, Double, DateTime, NULL | All operands should be of the same type or be NULL constant. Multiple NULLs are equivalent to a single NULL. |
 | HAS | String | Only constant string literals are allowed at right-hand side. Empty string and NULL are not allowed. |
 
-Right-hand side constant literal of `HAS` operator is parsed to Bool, Double or DateTime value. For each successfully parsed value, predicate with `=` operator is created. These predicates and the original `HAS` predicate are joined together into an `OR` predicate.
+Right-hand side constant literal of `HAS` operator is parsed to Bool, Double, or DateTime value. For each successfully parsed value, predicate with `=` operator is created. These predicates and the original `HAS` predicate are joined into an `OR` predicate.
 For example, predicate string `p1 HAS '1.0'` is equivalent to `p1.String HAS '1.0' OR p1.Double = 1.0` if "p1" properties with String and Double types exist.
 
 For comparison predicates (`<`, `>`, `<=`, `>=`, `=`, `!=`) and `IN` predicate, operand can be `NULL` or have a single type.
@@ -238,61 +239,66 @@ In each predicate expression, types of left-hand side and right-hand side operan
 Errors occur when types of left and right sides do not agree, or operation is not allowed on particular types.
 
 1. If type is specified for property, then type check is applied:
-* Any property type is accepted against NULL literal
-* Otherwise, types of left-hand side and right-hand side should match
+   * Any property type is accepted against NULL literal
+   * Otherwise, types of left-hand side and right-hand side should match
 
-Here are examples given properties "p1" and "p2" of type String, and property "p3" of type Double:
+    Here are examples given properties "p1" and "p2" of type String, and property "p3" of type Double:
 
-| Predicate string | Is valid? | Notes |
-|--|--|--|--|
-| p1.String = 'abc' | Yes |  |
-| p1.String = p2.String | Yes |  |
-| p1.String = NULL | Yes | NULL matches any left-hand side type. |
-| p3.Double = 'abc' | No | Type mismatch. |
-| p3.Double = p1.String | No | Type mismatch. |
-| p1.String HAS 'abc' | Yes |  |
-| p3.Double HAS '1.0' | Yes | String literal was successfully parsed to a Double value. |
+    | Predicate string | Is valid? | Notes |
+    | - | - | - |
+    | p1.String = 'abc' | Yes | |
+    | p1.String = p2.String | Yes | |
+    | p1.String = NULL | Yes | NULL matches any left-hand side type. |
+    | p3.Double = 'abc' | No | Type mismatch. |
+    | p3.Double = p1.String | No | Type mismatch. |
+    | p1.String HAS 'abc' | Yes | |
+    | p3.Double HAS '1.0' | Yes | String literal was successfully parsed to a Double value. |
 
-2. If type is omitted for property but name is specified, then all properties with given name and types are taken, left-hand side and right-hand side operands are grouped in pairs by type and concatenated via `AND` operation.
-Here are examples given properties "p1" and "p2" of type String and Double:
+2. If type is omitted for property but name is specified, then the following steps are performed:
 
-| Predicate string | Equivalent strong-typed predicate string | Notes |
-|--|--|--|--|
-| p1 = 'abc' | p1.String = 'abc' |  |
-| p1 = true | - | No p1 property of type Bool, so missing property error is emitted. |
-| p1 = NULL | p1.String = NULL AND p1.Double = NULL | For NULL right-hand side it is assumed that all matching properties should be NULL. |
-| p1 != NULL | p1.String != NULL OR p1.Double != NULL | Inversion of the expression above |
-| p1 = '1.0' | p1.String = '1.0' |  |
-| p1 IN (1.0, NULL) | p1.Double = 1.0 OR p1.Double = NULL |  |
-| p1 IN (NULL) | p1.String = NULL AND p1.Double = NULL | Equivalent to p1 = NULL. |
-| p1 HAS '1.0' | p1.String HAS '1.0' OR p1.Double = 1.0 | String literal was successfully parsed to a valid Double value. |
-| p1 HAS 'true' | p1.String HAS 'true' | String literal was successfully parsed to Bool but no p1.Bool property exists. |
-| p1 = p2 | p1.String = p2.String AND p1.Double = p2.Double |  |
-| p1 != p2 | p1.String != p2.String OR p1.Double != p2.Double | Inversion of the expression above |
+    1. All properties with given name and types are taken.
+    2. Left-hand side and right-hand side operands are grouped in pairs by type.
+    3. Pairs are concatenated via `AND` operation.
+
+    Here are examples given properties "p1" and "p2" of type String and Double:
+
+    | Predicate string | Equivalent strong-typed predicate string | Notes |
+    |--|--|--|--|
+    | p1 = 'abc' | p1.String = 'abc' |  |
+    | p1 = true | - | No p1 property of type Bool, so missing property error is emitted. |
+    | p1 = NULL | p1.String = NULL AND p1.Double = NULL | For NULL right-hand side it is assumed that all matching properties should be NULL. |
+    | p1 != NULL | p1.String != NULL OR p1.Double != NULL | Inversion of the preceding expression |
+    | p1 = '1.0' | p1.String = '1.0' |  |
+    | p1 IN (1.0, NULL) | p1.Double = 1.0 OR p1.Double = NULL |  |
+    | p1 IN (NULL) | p1.String = NULL AND p1.Double = NULL | Equivalent to p1 = NULL. |
+    | p1 HAS '1.0' | p1.String HAS '1.0' OR p1.Double = 1.0 | String literal was successfully parsed to a valid Double value. |
+    | p1 HAS 'true' | p1.String HAS 'true' | String literal was successfully parsed to Bool but no p1.Bool property exists. |
+    | p1 = p2 | p1.String = p2.String AND p1.Double = p2.Double |  |
+    | p1 != p2 | p1.String != p2.String OR p1.Double != p2.Double | Inversion of the preceding expression |
 
 3. Both property name and type can be omitted for left-hand side property if type of right-hand side is well-defined: right-hand side has const literal(s) and NULL literal is not the only right-hand side literal.
-This is a generalization of full-text search `HAS` operand.
-In this case all properties matching the right-hand side type are taken and concatenated via `OR` operation.
+This case is a generalization of full-text search `HAS` operand.
+All properties matching the right-hand side type are taken, and resulting expressions concatenated via `OR` operation.
 Here are examples given properties "p1" of type String and Double and properties "p2" of type String and DateTime:
 
-| Predicate string | Equivalent strong-typed predicate string | Notes |
-|--|--|--|--|
-| = 'abc' | p1.String = 'abc' OR p2.String = 'abc' |  |
-| != 'abc' | p1.String != 'abc' AND p2.String != 'abc' | Inversion of the expression above |
-| = 1.0 | p1.Double = 1.0 | |
-| = dt'2000-01-02T03:04:05' | p2.DateTime = dt'2000-01-02T03:04:05' | |
-| = true | - | Error. No Bool property exists, so missing property error is emitted. |
-| = NULL | - | Error. Omitting property name for NULL right-hand side is not allowed. |
-| IN (NULL) | - | Same as above. |
-| IN (1.0, NULL) | p1.Double = 1.0 OR p1.Double = NULL |  |
-| HAS '1.0' | p1.String HAS '1.0' OR p1.Double = 1.0 OR p2.String HAS '1.0' |  |
-| HAS 'true' | p1.String HAS 'true' OR p2.String HAS 'true' | No property with type Bool. |
+    | Predicate string | Equivalent strong-typed predicate string | Notes |
+    |--|--|--|--|
+    | = 'abc' | p1.String = 'abc' OR p2.String = 'abc' |  |
+    | != 'abc' | p1.String != 'abc' AND p2.String != 'abc' | Inversion of the preceding expression |
+    | = 1.0 | p1.Double = 1.0 | |
+    | = dt'2000-01-02T03:04:05' | p2.DateTime = dt'2000-01-02T03:04:05' | |
+    | = true | - | Error. No Bool property exists, so missing property error is emitted. |
+    | = NULL | - | Error. Omitting property name for NULL right-hand side is not allowed. |
+    | IN (NULL) | - | Same as above. |
+    | IN (1.0, NULL) | p1.Double = 1.0 OR p1.Double = NULL |  |
+    | HAS '1.0' | p1.String HAS '1.0' OR p1.Double = 1.0 OR p2.String HAS '1.0' |  |
+    | HAS 'true' | p1.String HAS 'true' OR p2.String HAS 'true' | No property with type Bool. |
 
-4. If operator is omitted together with property name the `HAS` operation is assumed.
+4. If operator is omitted together with property name, the `HAS` operation is assumed.
 
 ## Aggregate Expressions
 
-**Dimension expressions** are used inside of *aggregates clause* to partition a set of events and assign a scalar key to each partition.
+**Dimension expressions** are used inside *aggregates clause* to partition a set of events and assign a scalar key to each partition.
 
 Dimension expression types:
 | Property name in JSON | Description | Example |
@@ -303,7 +309,7 @@ Dimension expression types:
 
 **Unique values expression** is used to group a set of events by values of the specified event property.
 
-Evaluation of this JSON expression will result in up to 100 records grouped by `sensorId` string property:
+Evaluation of this JSON expression results in up to 100 records grouped by `sensorId` string property:
 
 JSON example:
 ```json
@@ -318,7 +324,7 @@ JSON example:
 
 **Date histogram expression** is used to group DateTime property values into buckets of given size.
 
-Evaluation of this JSON expression will result in a set of Timestamp records floor-rounded such that each value has seconds zeroed:
+Evaluation of this JSON expression results in a set of Timestamp records floor-rounded such that each value has seconds zeroed:
 
 JSON example:
 ```json
@@ -334,7 +340,7 @@ JSON example:
 
 **Numeric histogram expression** is used to group Double property values into given number of buckets.
 
-Evaluation of this JSON expression will result in 10 records, so the range between min and max values of `p1` is divided into 10 buckets:
+Evaluation of this JSON expression results in 10 records, so the range between min and max values of `p1` is divided into 10 buckets:
 
 JSON example:
 ```json
@@ -349,8 +355,7 @@ JSON example:
 }
 ```
 
-**Measure expression** is used inside of *aggregates clause* to compute a scalar value on a set of events
-(for example, maximum value of a temperature sensor during the last 24 hours).
+**Measure expression** is used inside *aggregates clause* to compute a scalar value on a set of events. For example, measure expression is the calculation of the maximum value of a temperature sensor during the last 24 hours.
 
 Count expression is used to calculate number of events within corresponding bucket.
 
@@ -381,7 +386,7 @@ Supported dimension and measure expressions depending on property type:
 
 ## Clauses
 
-**Search span clause** is used to filter built-in Timestamp property of event to a given interval. Start of interval is inclusive, end of interval is exclusive.
+**Search span clause** is used to filter built-in Timestamp property of event to a given interval. Start of the interval is inclusive. End of the interval is exclusive.
 
 JSON example:
 ```json
@@ -441,7 +446,7 @@ JSON example:
 ```
 
 **Breaks clause** is used in histogram expressions to specify how a range analyzed should be divided.
-* For date histogram one should specify a size of individual datetime interval. Interval boundaries should also be specified, unless a histogram is based on built-in Timestamp property where boundaries are determined based on search span.
+* For date histogram one should specify a size of datetime interval, and interval boundaries unless a histogram is based on built-in Timestamp property where boundaries are determined based on search span.
 * For numeric histogram one should specify number of breaks. Interval boundaries are determined based on minimum and maximum values of a property.
 
 JSON example:
@@ -460,7 +465,7 @@ JSON example:
 **Aggregates clause** is used to partition a set of events by a given property, while measuring values of other event properties.
 Measures are evaluated on each partition produced by the dimension expression.
 
-This JSON expression computes average, min and max temperatures per sensor ID:
+This JSON expression computes average, min, and max temperatures per sensor ID:
 
 JSON example:
 ```json
@@ -530,7 +535,8 @@ JSON example:
 ]
 ```
 
-> NOTE: Currently having more than 1 element in aggregates array is not supported.
+> [!NOTE]
+> Currently having more than one element in aggregates array is not supported.
 
 An aggregation definition may include a nested aggregation, which allows specifying a multi-dimensional lattice.
 
