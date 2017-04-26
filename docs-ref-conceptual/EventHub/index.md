@@ -14,9 +14,9 @@ Azure Event Hubs is a highly scalable data ingress service that ingests millions
 
 The REST APIs fall into the following categories:
 
-- [Azure Resource Manager APIs](#azure-resource-manager): these generally have `/providers/Microsoft.EventHub/` as part of the request URI. 
-- [Event Hubs service, or "run-time" APIs](#event-hubs-service): these have `<namespaceName>.servicebus.windows.net/` in the request URI. 
-- ["Classic" or RDFE management APIs](#classic-management): with `management.core.windows.net` in the URI.
+- **Azure Resource Manager**: these APIs have `/providers/Microsoft.EventHub/` as part of the request URI. 
+- **Event Hubs service, or "run-time"**: APIs with `<namespaceName>.servicebus.windows.net/` in the request URI. 
+- **"Classic" or RDFE management**: these APIs have `management.core.windows.net` in the URI. Event Hubs does not have RDFE REST APIs at this time.
 
 ## REST operation groups
 
@@ -36,13 +36,7 @@ The Event Hubs REST API provides operations for working with the following resou
 
 Event Hubs [run-time APIs](/rest/api/eventhub/event-hubs-runtime-rest) access the Event Hubs service directly, and perform various management operations at the entity level, rather than at the namespace level (such as [publisher policy operations](/rest/api/eventhub/publisher-policy-operations) and [sending events](/rest/api/eventhub/send-event). These run-time APIs use [SAS authentication](/azure/event-hubs/event-hubs-authentication-and-security-model-overview).
 
-At this time, the Event Hubs run-time APIs are documented on [Microsoft.com](/rest/api/eventhub/event-hubs-runtime-rest) as well as [MSDN](https://msdn.microsoft.com/library/azure/mt652156.aspx).
-
-### Classic management
-
-The "classic" management, or RDFE APIs provide programmatic access to much of the functionality available through the Azure portal. For an example of these, see the [Service Bus APIs](/rest/api/servicebus/resource-provider-apis).
-
-Event Hubs does not have RDFE REST APIs at this time.
+At this time, the Event Hubs run-time APIs are documented on [Microsoft.com](/rest/api/eventhub/event-hubs-runtime-rest) as well as on [MSDN](https://msdn.microsoft.com/library/azure/mt652156.aspx).
 
 ## See also
 
