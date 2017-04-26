@@ -15,7 +15,7 @@ Azure Event Hubs is a highly scalable data ingress service that ingests millions
 The REST APIs fall into the following categories:
 
 - **Azure Resource Manager**: APIs that perform resource manager operations, and have `/providers/Microsoft.EventHub/` as part of the request URI. 
-- **Event Hubs service**: APIs that enable operations irectly on the Event Hubs service, and have `<namespaceName>.servicebus.windows.net/` in the request URI. 
+- **Event Hubs service**: APIs that enable operations directly on the Event Hubs service, and have `<namespaceName>.servicebus.windows.net/` in the request URI. 
 - **"Classic" or RDFE management**: APIs that provide programmatic access to much of the functionality available through the Azure portal. These APIs have `management.core.windows.net` in the URI. Event Hubs does not have RDFE REST APIs at this time.
 
 ## REST operation groups
