@@ -1,0 +1,4351 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-05-15",
+    "title": "DevTestLabsClient",
+    "description": "The DevTest Labs Client."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/costs/{name}": {
+      "get": {
+        "tags": [
+          "Costs"
+        ],
+        "description": "Get cost.",
+        "operationId": "Costs_Get",
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "$ref": "#/parameters/resourceGroupName"
+          },
+          {
+            "name": "labName",
+            "in": "path",
+            "description": "The name of the lab.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the cost.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Specify the $expand query. Example: 'properties($expand=labCostDetails)'",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/api-version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/LabCost"
+            }
+          },
+          "default": {
+            "description": "BadRequest",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "user_impersonation"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Costs"
+        ],
+        "description": "Create or replace an existing cost.",
+        "operationId": "Costs_CreateOrUpdate",
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "$ref": "#/parameters/resourceGroupName"
+          },
+          {
+            "name": "labName",
+            "in": "path",
+            "description": "The name of the lab.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the cost.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "labCost",
+            "in": "body",
+            "description": "A cost item.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LabCost"
+            }
+          },
+          {
+            "$ref": "#/parameters/api-version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/LabCost"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/LabCost"
+            }
+          },
+          "default": {
+            "description": "BadRequest",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "user_impersonation"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ApplicableSchedule": {
+      "description": "Schedules applicable to a virtual machine. The schedules may have been defined on a VM or on lab level.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ApplicableScheduleProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ApplicableScheduleFragment": {
+      "description": "Schedules applicable to a virtual machine. The schedules may have been defined on a VM or on lab level.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ApplicableSchedulePropertiesFragment",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ApplicableScheduleProperties": {
+      "description": "Properties of a schedules applicable to a virtual machine.",
+      "type": "object",
+      "properties": {
+        "labVmsShutdown": {
+          "$ref": "#/definitions/Schedule",
+          "description": "The auto-shutdown schedule, if one has been set at the lab or lab resource level."
+        },
+        "labVmsStartup": {
+          "$ref": "#/definitions/Schedule",
+          "description": "The auto-startup schedule, if one has been set at the lab or lab resource level."
+        }
+      }
+    },
+    "ApplicableSchedulePropertiesFragment": {
+      "description": "Properties of a schedules applicable to a virtual machine.",
+      "type": "object",
+      "properties": {
+        "labVmsShutdown": {
+          "$ref": "#/definitions/ScheduleFragment",
+          "description": "The auto-shutdown schedule, if one has been set at the lab or lab resource level."
+        },
+        "labVmsStartup": {
+          "$ref": "#/definitions/ScheduleFragment",
+          "description": "The auto-startup schedule, if one has been set at the lab or lab resource level."
+        }
+      }
+    },
+    "ApplyArtifactsRequest": {
+      "description": "Request body for applying artifacts to a virtual machine.",
+      "type": "object",
+      "properties": {
+        "artifacts": {
+          "description": "The list of artifacts to apply.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArtifactInstallProperties"
+          }
+        }
+      }
+    },
+    "ArmTemplate": {
+      "description": "An Azure Resource Manager template.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ArmTemplateProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ArmTemplateInfo": {
+      "description": "Information about a generated ARM template.",
+      "type": "object",
+      "properties": {
+        "template": {
+          "description": "The template's contents.",
+          "type": "object"
+        },
+        "parameters": {
+          "description": "The parameters of the ARM template.",
+          "type": "object"
+        }
+      }
+    },
+    "ArmTemplateParameterProperties": {
+      "description": "Properties of an Azure Resource Manager template parameter.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the template parameter.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value of the template parameter.",
+          "type": "string"
+        }
+      }
+    },
+    "ArmTemplateProperties": {
+      "description": "Properties of an Azure Resource Manager template.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "The display name of the ARM template.",
+          "type": "string",
+          "readOnly": true
+        },
+        "description": {
+          "description": "The description of the ARM template.",
+          "type": "string",
+          "readOnly": true
+        },
+        "publisher": {
+          "description": "The publisher of the ARM template.",
+          "type": "string",
+          "readOnly": true
+        },
+        "icon": {
+          "description": "The URI to the icon of the ARM template.",
+          "type": "string",
+          "readOnly": true
+        },
+        "contents": {
+          "description": "The contents of the ARM template.",
+          "type": "object",
+          "readOnly": true
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The creation date of the armTemplate.",
+          "type": "string",
+          "readOnly": true
+        },
+        "parametersValueFilesInfo": {
+          "description": "File name and parameter values information from all azuredeploy.*.parameters.json for the ARM template.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParametersValueFileInfo"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "Artifact": {
+      "description": "An artifact.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ArtifactProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ArtifactDeploymentStatusProperties": {
+      "description": "Properties of an artifact deployment.",
+      "type": "object",
+      "properties": {
+        "deploymentStatus": {
+          "description": "The deployment status of the artifact.",
+          "type": "string"
+        },
+        "artifactsApplied": {
+          "format": "int32",
+          "description": "The total count of the artifacts that were successfully applied.",
+          "type": "integer"
+        },
+        "totalArtifacts": {
+          "format": "int32",
+          "description": "The total count of the artifacts that were tentatively applied.",
+          "type": "integer"
+        }
+      }
+    },
+    "ArtifactDeploymentStatusPropertiesFragment": {
+      "description": "Properties of an artifact deployment.",
+      "type": "object",
+      "properties": {
+        "deploymentStatus": {
+          "description": "The deployment status of the artifact.",
+          "type": "string"
+        },
+        "artifactsApplied": {
+          "format": "int32",
+          "description": "The total count of the artifacts that were successfully applied.",
+          "type": "integer"
+        },
+        "totalArtifacts": {
+          "format": "int32",
+          "description": "The total count of the artifacts that were tentatively applied.",
+          "type": "integer"
+        }
+      }
+    },
+    "ArtifactInstallProperties": {
+      "description": "Properties of an artifact.",
+      "type": "object",
+      "properties": {
+        "artifactId": {
+          "description": "The artifact's identifier.",
+          "type": "string"
+        },
+        "parameters": {
+          "description": "The parameters of the artifact.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArtifactParameterProperties"
+          }
+        },
+        "status": {
+          "description": "The status of the artifact.",
+          "type": "string"
+        },
+        "deploymentStatusMessage": {
+          "description": "The status message from the deployment.",
+          "type": "string"
+        },
+        "vmExtensionStatusMessage": {
+          "description": "The status message from the virtual machine extension.",
+          "type": "string"
+        },
+        "installTime": {
+          "format": "date-time",
+          "description": "The time that the artifact starts to install on the virtual machine.",
+          "type": "string"
+        }
+      }
+    },
+    "ArtifactInstallPropertiesFragment": {
+      "description": "Properties of an artifact.",
+      "type": "object",
+      "properties": {
+        "artifactId": {
+          "description": "The artifact's identifier.",
+          "type": "string"
+        },
+        "parameters": {
+          "description": "The parameters of the artifact.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArtifactParameterPropertiesFragment"
+          }
+        },
+        "status": {
+          "description": "The status of the artifact.",
+          "type": "string"
+        },
+        "deploymentStatusMessage": {
+          "description": "The status message from the deployment.",
+          "type": "string"
+        },
+        "vmExtensionStatusMessage": {
+          "description": "The status message from the virtual machine extension.",
+          "type": "string"
+        },
+        "installTime": {
+          "format": "date-time",
+          "description": "The time that the artifact starts to install on the virtual machine.",
+          "type": "string"
+        }
+      }
+    },
+    "ArtifactParameterProperties": {
+      "description": "Properties of an artifact parameter.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the artifact parameter.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value of the artifact parameter.",
+          "type": "string"
+        }
+      }
+    },
+    "ArtifactParameterPropertiesFragment": {
+      "description": "Properties of an artifact parameter.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the artifact parameter.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value of the artifact parameter.",
+          "type": "string"
+        }
+      }
+    },
+    "ArtifactProperties": {
+      "description": "Properties of an artifact.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "The artifact's title.",
+          "type": "string",
+          "readOnly": true
+        },
+        "description": {
+          "description": "The artifact's description.",
+          "type": "string",
+          "readOnly": true
+        },
+        "publisher": {
+          "description": "The artifact's publisher.",
+          "type": "string",
+          "readOnly": true
+        },
+        "filePath": {
+          "description": "The file path to the artifact.",
+          "type": "string",
+          "readOnly": true
+        },
+        "icon": {
+          "description": "The URI to the artifact icon.",
+          "type": "string",
+          "readOnly": true
+        },
+        "targetOsType": {
+          "description": "The artifact's target OS.",
+          "type": "string",
+          "readOnly": true
+        },
+        "parameters": {
+          "description": "The artifact's parameters.",
+          "type": "object",
+          "readOnly": true
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The artifact's creation date.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ArtifactSource": {
+      "description": "Properties of an artifact source.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ArtifactSourceProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ArtifactSourceFragment": {
+      "description": "Properties of an artifact source.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ArtifactSourcePropertiesFragment",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ArtifactSourceProperties": {
+      "description": "Properties of an artifact source.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "The artifact source's display name.",
+          "type": "string"
+        },
+        "uri": {
+          "description": "The artifact source's URI.",
+          "type": "string"
+        },
+        "sourceType": {
+          "description": "The artifact source's type.",
+          "enum": [
+            "VsoGit",
+            "GitHub"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "SourceControlType",
+            "modelAsString": true
+          }
+        },
+        "folderPath": {
+          "description": "The folder containing artifacts.",
+          "type": "string"
+        },
+        "armTemplateFolderPath": {
+          "description": "The folder containing Azure Resource Manager templates.",
+          "type": "string"
+        },
+        "branchRef": {
+          "description": "The artifact source's branch reference.",
+          "type": "string"
+        },
+        "securityToken": {
+          "description": "The security token to authenticate to the artifact source.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Indicates if the artifact source is enabled (values: Enabled, Disabled).",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "EnableStatus",
+            "modelAsString": true
+          }
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The artifact source's creation date.",
+          "type": "string",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "ArtifactSourcePropertiesFragment": {
+      "description": "Properties of an artifact source.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "The artifact source's display name.",
+          "type": "string"
+        },
+        "uri": {
+          "description": "The artifact source's URI.",
+          "type": "string"
+        },
+        "sourceType": {
+          "description": "The artifact source's type.",
+          "enum": [
+            "VsoGit",
+            "GitHub"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "SourceControlType",
+            "modelAsString": true
+          }
+        },
+        "folderPath": {
+          "description": "The folder containing artifacts.",
+          "type": "string"
+        },
+        "armTemplateFolderPath": {
+          "description": "The folder containing Azure Resource Manager templates.",
+          "type": "string"
+        },
+        "branchRef": {
+          "description": "The artifact source's branch reference.",
+          "type": "string"
+        },
+        "securityToken": {
+          "description": "The security token to authenticate to the artifact source.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Indicates if the artifact source is enabled (values: Enabled, Disabled).",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "EnableStatus",
+            "modelAsString": true
+          }
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "AttachDiskProperties": {
+      "description": "Properties of the disk to attach.",
+      "type": "object",
+      "properties": {
+        "leasedByLabVmId": {
+          "description": "The resource ID of the Lab virtual machine to which the disk is attached.",
+          "type": "string"
+        }
+      }
+    },
+    "AttachNewDataDiskOptions": {
+      "description": "Properties to attach new disk to the Virtual Machine.",
+      "type": "object",
+      "properties": {
+        "diskSizeGiB": {
+          "format": "int32",
+          "description": "Size of the disk to be attached in GibiBytes.",
+          "type": "integer"
+        },
+        "diskName": {
+          "description": "The name of the disk to be attached.",
+          "type": "string"
+        },
+        "diskType": {
+          "description": "The storage type for the disk (i.e. Standard, Premium).",
+          "enum": [
+            "Standard",
+            "Premium"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "StorageType",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "BulkCreationParameters": {
+      "description": "Parameters for creating multiple virtual machines as a single action.",
+      "type": "object",
+      "properties": {
+        "instanceCount": {
+          "format": "int32",
+          "description": "The number of virtual machine instances to create.",
+          "type": "integer"
+        }
+      }
+    },
+    "CloudError": {
+      "description": "Error from a REST request.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/CloudErrorBody"
+        }
+      },
+      "x-ms-external": true
+    },
+    "CloudErrorBody": {
+      "description": "Body of an error from a REST request.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "details": {
+          "description": "Inner errors.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CloudErrorBody"
+          }
+        }
+      },
+      "x-ms-external": true
+    },
+    "ComputeDataDisk": {
+      "description": "A data disks attached to a virtual machine.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Gets data disk name.",
+          "type": "string"
+        },
+        "diskUri": {
+          "description": "When backed by a blob, the URI of underlying blob.",
+          "type": "string"
+        },
+        "managedDiskId": {
+          "description": "When backed by managed disk, this is the ID of the compute disk resource.",
+          "type": "string"
+        },
+        "diskSizeGiB": {
+          "format": "int32",
+          "description": "Gets data disk size in GiB.",
+          "type": "integer"
+        }
+      }
+    },
+    "ComputeDataDiskFragment": {
+      "description": "A data disks attached to a virtual machine.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Gets data disk name.",
+          "type": "string"
+        },
+        "diskUri": {
+          "description": "When backed by a blob, the URI of underlying blob.",
+          "type": "string"
+        },
+        "managedDiskId": {
+          "description": "When backed by managed disk, this is the ID of the compute disk resource.",
+          "type": "string"
+        },
+        "diskSizeGiB": {
+          "format": "int32",
+          "description": "Gets data disk size in GiB.",
+          "type": "integer"
+        }
+      }
+    },
+    "ComputeVmInstanceViewStatus": {
+      "description": "Status information about a virtual machine.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Gets the status Code.",
+          "type": "string"
+        },
+        "displayStatus": {
+          "description": "Gets the short localizable label for the status.",
+          "type": "string"
+        },
+        "message": {
+          "description": "Gets the message associated with the status.",
+          "type": "string"
+        }
+      }
+    },
+    "ComputeVmInstanceViewStatusFragment": {
+      "description": "Status information about a virtual machine.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Gets the status Code.",
+          "type": "string"
+        },
+        "displayStatus": {
+          "description": "Gets the short localizable label for the status.",
+          "type": "string"
+        },
+        "message": {
+          "description": "Gets the message associated with the status.",
+          "type": "string"
+        }
+      }
+    },
+    "ComputeVmProperties": {
+      "description": "Properties of a virtual machine returned by the Microsoft.Compute API.",
+      "type": "object",
+      "properties": {
+        "statuses": {
+          "description": "Gets the statuses of the virtual machine.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComputeVmInstanceViewStatus"
+          }
+        },
+        "osType": {
+          "description": "Gets the OS type of the virtual machine.",
+          "type": "string"
+        },
+        "vmSize": {
+          "description": "Gets the size of the virtual machine.",
+          "type": "string"
+        },
+        "networkInterfaceId": {
+          "description": "Gets the network interface ID of the virtual machine.",
+          "type": "string"
+        },
+        "osDiskId": {
+          "description": "Gets OS disk blob uri for the virtual machine.",
+          "type": "string"
+        },
+        "dataDiskIds": {
+          "description": "Gets data disks blob uri for the virtual machine.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dataDisks": {
+          "description": "Gets all data disks attached to the virtual machine.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComputeDataDisk"
+          }
+        }
+      }
+    },
+    "ComputeVmPropertiesFragment": {
+      "description": "Properties of a virtual machine returned by the Microsoft.Compute API.",
+      "type": "object",
+      "properties": {
+        "statuses": {
+          "description": "Gets the statuses of the virtual machine.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComputeVmInstanceViewStatusFragment"
+          }
+        },
+        "osType": {
+          "description": "Gets the OS type of the virtual machine.",
+          "type": "string"
+        },
+        "vmSize": {
+          "description": "Gets the size of the virtual machine.",
+          "type": "string"
+        },
+        "networkInterfaceId": {
+          "description": "Gets the network interface ID of the virtual machine.",
+          "type": "string"
+        },
+        "osDiskId": {
+          "description": "Gets OS disk blob uri for the virtual machine.",
+          "type": "string"
+        },
+        "dataDiskIds": {
+          "description": "Gets data disks blob uri for the virtual machine.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dataDisks": {
+          "description": "Gets all data disks attached to the virtual machine.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ComputeDataDiskFragment"
+          }
+        }
+      }
+    },
+    "CostThresholdProperties": {
+      "description": "Properties of a cost threshold item.",
+      "type": "object",
+      "properties": {
+        "thresholdId": {
+          "description": "The ID of the cost threshold item.",
+          "type": "string"
+        },
+        "percentageThreshold": {
+          "$ref": "#/definitions/PercentageCostThresholdProperties",
+          "description": "The value of the percentage cost threshold."
+        },
+        "displayOnChart": {
+          "description": "Indicates whether this threshold will be displayed on cost charts.",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "CostThresholdStatus",
+            "modelAsString": true
+          }
+        },
+        "sendNotificationWhenExceeded": {
+          "description": "Indicates whether notifications will be sent when this threshold is exceeded.",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "CostThresholdStatus",
+            "modelAsString": true
+          }
+        },
+        "NotificationSent": {
+          "description": "Indicates the datetime when notifications were last sent for this threshold.",
+          "type": "string"
+        }
+      }
+    },
+    "CustomImage": {
+      "description": "A custom image.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/CustomImageProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "CustomImageProperties": {
+      "description": "Properties of a custom image.",
+      "type": "object",
+      "properties": {
+        "vm": {
+          "$ref": "#/definitions/CustomImagePropertiesFromVm",
+          "description": "The virtual machine from which the image is to be created."
+        },
+        "vhd": {
+          "$ref": "#/definitions/CustomImagePropertiesCustom",
+          "description": "The VHD from which the image is to be created."
+        },
+        "description": {
+          "description": "The description of the custom image.",
+          "type": "string"
+        },
+        "author": {
+          "description": "The author of the custom image.",
+          "type": "string"
+        },
+        "creationDate": {
+          "format": "date-time",
+          "description": "The creation date of the custom image.",
+          "type": "string",
+          "readOnly": true
+        },
+        "managedImageId": {
+          "description": "The Managed Image Id backing the custom image.",
+          "type": "string"
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "CustomImagePropertiesCustom": {
+      "description": "Properties for creating a custom image from a VHD.",
+      "required": [
+        "osType"
+      ],
+      "type": "object",
+      "properties": {
+        "imageName": {
+          "description": "The image name.",
+          "type": "string"
+        },
+        "sysPrep": {
+          "description": "Indicates whether sysprep has been run on the VHD.",
+          "type": "boolean"
+        },
+        "osType": {
+          "description": "The OS type of the custom image (i.e. Windows, Linux)",
+          "enum": [
+            "Windows",
+            "Linux",
+            "None"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "CustomImageOsType",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "CustomImagePropertiesFromVm": {
+      "description": "Properties for creating a custom image from a virtual machine.",
+      "type": "object",
+      "properties": {
+        "sourceVmId": {
+          "description": "The source vm identifier.",
+          "type": "string"
+        },
+        "windowsOsInfo": {
+          "$ref": "#/definitions/WindowsOsInfo",
+          "description": "The Windows OS information of the VM."
+        },
+        "linuxOsInfo": {
+          "$ref": "#/definitions/LinuxOsInfo",
+          "description": "The Linux OS information of the VM."
+        }
+      }
+    },
+    "DataDiskProperties": {
+      "description": "Request body for adding a new or existing data disk to a virtual machine.",
+      "type": "object",
+      "properties": {
+        "attachNewDataDiskOptions": {
+          "$ref": "#/definitions/AttachNewDataDiskOptions",
+          "description": "Specifies options to attach a new disk to the virtual machine."
+        },
+        "existingLabDiskId": {
+          "description": "Specifies the existing lab disk id to attach to virtual machine.",
+          "type": "string"
+        },
+        "hostCaching": {
+          "description": "Caching option for a data disk (i.e. None, ReadOnly, ReadWrite).",
+          "enum": [
+            "None",
+            "ReadOnly",
+            "ReadWrite"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "HostCachingOptions",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "DayDetails": {
+      "description": "Properties of a daily schedule.",
+      "type": "object",
+      "properties": {
+        "time": {
+          "description": "The time of day the schedule will occur.",
+          "type": "string"
+        }
+      }
+    },
+    "DayDetailsFragment": {
+      "description": "Properties of a daily schedule.",
+      "type": "object",
+      "properties": {
+        "time": {
+          "description": "The time of day the schedule will occur.",
+          "type": "string"
+        }
+      }
+    },
+    "DetachDataDiskProperties": {
+      "description": "Request body for detaching data disk from a virtual machine.",
+      "type": "object",
+      "properties": {
+        "existingLabDiskId": {
+          "description": "Specifies the disk resource ID to detach from virtual machine.",
+          "type": "string"
+        }
+      }
+    },
+    "DetachDiskProperties": {
+      "description": "Properties of the disk to detach.",
+      "type": "object",
+      "properties": {
+        "leasedByLabVmId": {
+          "description": "The resource ID of the Lab VM to which the disk is attached.",
+          "type": "string"
+        }
+      }
+    },
+    "Disk": {
+      "description": "A Disk.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DiskProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "DiskProperties": {
+      "description": "Properties of a disk.",
+      "type": "object",
+      "properties": {
+        "diskType": {
+          "description": "The storage type for the disk (i.e. Standard, Premium).",
+          "enum": [
+            "Standard",
+            "Premium"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "StorageType",
+            "modelAsString": true
+          }
+        },
+        "diskSizeGiB": {
+          "format": "int32",
+          "description": "The size of the disk in GibiBytes.",
+          "type": "integer"
+        },
+        "leasedByLabVmId": {
+          "description": "The resource ID of the VM to which this disk is leased.",
+          "type": "string"
+        },
+        "diskBlobName": {
+          "description": "When backed by a blob, the name of the VHD blob without extension.",
+          "type": "string"
+        },
+        "diskUri": {
+          "description": "When backed by a blob, the URI of underlying blob.",
+          "type": "string"
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The creation date of the disk.",
+          "type": "string",
+          "readOnly": true
+        },
+        "hostCaching": {
+          "description": "The host caching policy of the disk (i.e. None, ReadOnly, ReadWrite).",
+          "type": "string"
+        },
+        "managedDiskId": {
+          "description": "When backed by managed disk, this is the ID of the compute disk resource.",
+          "type": "string"
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "DtlEnvironment": {
+      "description": "An environment, which is essentially an ARM template deployment.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/EnvironmentProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "EnvironmentDeploymentProperties": {
+      "description": "Properties of an environment deployment.",
+      "type": "object",
+      "properties": {
+        "armTemplateId": {
+          "description": "The Azure Resource Manager template's identifier.",
+          "type": "string"
+        },
+        "parameters": {
+          "description": "The parameters of the Azure Resource Manager template.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArmTemplateParameterProperties"
+          }
+        }
+      }
+    },
+    "EnvironmentProperties": {
+      "description": "Properties of an environment.",
+      "type": "object",
+      "properties": {
+        "deploymentProperties": {
+          "$ref": "#/definitions/EnvironmentDeploymentProperties",
+          "description": "The deployment properties of the environment."
+        },
+        "armTemplateDisplayName": {
+          "description": "The display name of the Azure Resource Manager template that produced the environment.",
+          "type": "string"
+        },
+        "resourceGroupId": {
+          "description": "The identifier of the resource group containing the environment's resources.",
+          "type": "string",
+          "readOnly": true
+        },
+        "createdByUser": {
+          "description": "The creator of the environment.",
+          "type": "string",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "EvaluatePoliciesProperties": {
+      "description": "Properties for evaluating a policy set.",
+      "type": "object",
+      "properties": {
+        "factName": {
+          "description": "The fact name.",
+          "type": "string"
+        },
+        "factData": {
+          "description": "The fact data.",
+          "type": "string"
+        },
+        "valueOffset": {
+          "description": "The value offset.",
+          "type": "string"
+        }
+      }
+    },
+    "EvaluatePoliciesRequest": {
+      "description": "Request body for evaluating a policy set.",
+      "type": "object",
+      "properties": {
+        "policies": {
+          "description": "Policies to evaluate.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EvaluatePoliciesProperties"
+          }
+        }
+      }
+    },
+    "EvaluatePoliciesResponse": {
+      "description": "Response body for evaluating a policy set.",
+      "type": "object",
+      "properties": {
+        "results": {
+          "description": "Results of evaluating a policy set.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PolicySetResult"
+          }
+        }
+      }
+    },
+    "Event": {
+      "description": "An event to be notified for.",
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "description": "The event type for which this notification is enabled (i.e. AutoShutdown, Cost)",
+          "enum": [
+            "AutoShutdown",
+            "Cost"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "NotificationChannelEventType",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "EventFragment": {
+      "description": "An event to be notified for.",
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "description": "The event type for which this notification is enabled (i.e. AutoShutdown, Cost)",
+          "enum": [
+            "AutoShutdown",
+            "Cost"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "NotificationChannelEventType",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "ExportResourceUsageParameters": {
+      "description": "The parameters of the export operation.",
+      "type": "object",
+      "properties": {
+        "blobStorageAbsoluteSasUri": {
+          "description": "The blob storage absolute sas uri with write permission to the container which the usage data needs to be uploaded to.",
+          "type": "string"
+        },
+        "usageStartDate": {
+          "format": "date-time",
+          "description": "The start time of the usage. If not provided, usage will be reported since the beginning of data collection.",
+          "type": "string"
+        }
+      }
+    },
+    "ExternalSubnet": {
+      "description": "Subnet information as returned by the Microsoft.Network API.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Gets or sets the identifier.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Gets or sets the name.",
+          "type": "string"
+        }
+      }
+    },
+    "ExternalSubnetFragment": {
+      "description": "Subnet information as returned by the Microsoft.Network API.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Gets or sets the identifier.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Gets or sets the name.",
+          "type": "string"
+        }
+      }
+    },
+    "Formula": {
+      "description": "A formula for creating a VM, specifying an image base and other parameters",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/FormulaProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "FormulaProperties": {
+      "description": "Properties of a formula.",
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "The description of the formula.",
+          "type": "string"
+        },
+        "author": {
+          "description": "The author of the formula.",
+          "type": "string"
+        },
+        "osType": {
+          "description": "The OS type of the formula.",
+          "type": "string"
+        },
+        "creationDate": {
+          "format": "date-time",
+          "description": "The creation date of the formula.",
+          "type": "string",
+          "readOnly": true
+        },
+        "formulaContent": {
+          "$ref": "#/definitions/LabVirtualMachineCreationParameter",
+          "description": "The content of the formula."
+        },
+        "vm": {
+          "$ref": "#/definitions/FormulaPropertiesFromVm",
+          "description": "Information about a VM from which a formula is to be created."
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "FormulaPropertiesFromVm": {
+      "description": "Information about a VM from which a formula is to be created.",
+      "type": "object",
+      "properties": {
+        "labVmId": {
+          "description": "The identifier of the VM from which a formula is to be created.",
+          "type": "string"
+        }
+      }
+    },
+    "GalleryImage": {
+      "description": "A gallery image.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/GalleryImageProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "GalleryImageProperties": {
+      "description": "Properties of a gallery image.",
+      "type": "object",
+      "properties": {
+        "author": {
+          "description": "The author of the gallery image.",
+          "type": "string"
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The creation date of the gallery image.",
+          "type": "string",
+          "readOnly": true
+        },
+        "description": {
+          "description": "The description of the gallery image.",
+          "type": "string"
+        },
+        "imageReference": {
+          "$ref": "#/definitions/GalleryImageReference",
+          "description": "The image reference of the gallery image."
+        },
+        "icon": {
+          "description": "The icon of the gallery image.",
+          "type": "string"
+        },
+        "enabled": {
+          "description": "Indicates whether this gallery image is enabled.",
+          "type": "boolean"
+        }
+      }
+    },
+    "GalleryImageReference": {
+      "description": "The reference information for an Azure Marketplace image.",
+      "type": "object",
+      "properties": {
+        "offer": {
+          "description": "The offer of the gallery image.",
+          "type": "string"
+        },
+        "publisher": {
+          "description": "The publisher of the gallery image.",
+          "type": "string"
+        },
+        "sku": {
+          "description": "The SKU of the gallery image.",
+          "type": "string"
+        },
+        "osType": {
+          "description": "The OS type of the gallery image.",
+          "type": "string"
+        },
+        "version": {
+          "description": "The version of the gallery image.",
+          "type": "string"
+        }
+      }
+    },
+    "GalleryImageReferenceFragment": {
+      "description": "The reference information for an Azure Marketplace image.",
+      "type": "object",
+      "properties": {
+        "offer": {
+          "description": "The offer of the gallery image.",
+          "type": "string"
+        },
+        "publisher": {
+          "description": "The publisher of the gallery image.",
+          "type": "string"
+        },
+        "sku": {
+          "description": "The SKU of the gallery image.",
+          "type": "string"
+        },
+        "osType": {
+          "description": "The OS type of the gallery image.",
+          "type": "string"
+        },
+        "version": {
+          "description": "The version of the gallery image.",
+          "type": "string"
+        }
+      }
+    },
+    "GenerateArmTemplateRequest": {
+      "description": "Parameters for generating an ARM template for deploying artifacts.",
+      "type": "object",
+      "properties": {
+        "virtualMachineName": {
+          "description": "The resource name of the virtual machine.",
+          "type": "string"
+        },
+        "parameters": {
+          "description": "The parameters of the ARM template.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterInfo"
+          }
+        },
+        "location": {
+          "description": "The location of the virtual machine.",
+          "type": "string"
+        },
+        "fileUploadOptions": {
+          "description": "Options for uploading the files for the artifact. UploadFilesAndGenerateSasTokens is the default value.",
+          "enum": [
+            "UploadFilesAndGenerateSasTokens",
+            "None"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "FileUploadOptions",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "GenerateUploadUriParameter": {
+      "description": "Properties for generating an upload URI.",
+      "type": "object",
+      "properties": {
+        "blobName": {
+          "description": "The blob name of the upload URI.",
+          "type": "string"
+        }
+      }
+    },
+    "GenerateUploadUriResponse": {
+      "description": "Reponse body for generating an upload URI.",
+      "type": "object",
+      "properties": {
+        "uploadUri": {
+          "description": "The upload URI for the VHD.",
+          "type": "string"
+        }
+      }
+    },
+    "HourDetails": {
+      "description": "Properties of an hourly schedule.",
+      "type": "object",
+      "properties": {
+        "minute": {
+          "format": "int32",
+          "description": "Minutes of the hour the schedule will run.",
+          "type": "integer"
+        }
+      }
+    },
+    "HourDetailsFragment": {
+      "description": "Properties of an hourly schedule.",
+      "type": "object",
+      "properties": {
+        "minute": {
+          "format": "int32",
+          "description": "Minutes of the hour the schedule will run.",
+          "type": "integer"
+        }
+      }
+    },
+    "IdentityProperties": {
+      "description": "IdentityProperties",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Managed identity.",
+          "type": "string"
+        },
+        "principalId": {
+          "description": "The principal id of resource identity.",
+          "type": "string"
+        },
+        "tenantId": {
+          "description": "The tenant identifier of resource.",
+          "type": "string"
+        },
+        "clientSecretUrl": {
+          "description": "The client secret URL of the identity.",
+          "type": "string"
+        }
+      }
+    },
+    "InboundNatRule": {
+      "description": "A rule for NAT - exposing a VM's port (backendPort) on the public IP address using a load balancer.",
+      "type": "object",
+      "properties": {
+        "transportProtocol": {
+          "description": "The transport protocol for the endpoint.",
+          "enum": [
+            "Tcp",
+            "Udp"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "TransportProtocol",
+            "modelAsString": true
+          }
+        },
+        "frontendPort": {
+          "format": "int32",
+          "description": "The external endpoint port of the inbound connection. Possible values range between 1 and 65535, inclusive. If unspecified, a value will be allocated automatically.",
+          "type": "integer"
+        },
+        "backendPort": {
+          "format": "int32",
+          "description": "The port to which the external traffic will be redirected.",
+          "type": "integer"
+        }
+      }
+    },
+    "InboundNatRuleFragment": {
+      "description": "A rule for NAT - exposing a VM's port (backendPort) on the public IP address using a load balancer.",
+      "type": "object",
+      "properties": {
+        "transportProtocol": {
+          "description": "The transport protocol for the endpoint.",
+          "enum": [
+            "Tcp",
+            "Udp"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "TransportProtocol",
+            "modelAsString": true
+          }
+        },
+        "frontendPort": {
+          "format": "int32",
+          "description": "The external endpoint port of the inbound connection. Possible values range between 1 and 65535, inclusive. If unspecified, a value will be allocated automatically.",
+          "type": "integer"
+        },
+        "backendPort": {
+          "format": "int32",
+          "description": "The port to which the external traffic will be redirected.",
+          "type": "integer"
+        }
+      }
+    },
+    "Lab": {
+      "description": "A lab.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LabProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "LabCost": {
+      "description": "A cost item.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LabCostProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "LabCostDetailsProperties": {
+      "description": "The properties of a lab cost item.",
+      "type": "object",
+      "properties": {
+        "date": {
+          "format": "date-time",
+          "description": "The date of the cost item.",
+          "type": "string"
+        },
+        "cost": {
+          "format": "double",
+          "description": "The cost component of the cost item.",
+          "type": "number"
+        },
+        "costType": {
+          "description": "The type of the cost.",
+          "enum": [
+            "Unavailable",
+            "Reported",
+            "Projected"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "CostType",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "LabCostProperties": {
+      "description": "Properties of a cost item.",
+      "type": "object",
+      "properties": {
+        "targetCost": {
+          "$ref": "#/definitions/TargetCostProperties",
+          "description": "The target cost properties"
+        },
+        "labCostSummary": {
+          "$ref": "#/definitions/LabCostSummaryProperties",
+          "description": "The lab cost summary component of the cost data.",
+          "readOnly": true
+        },
+        "labCostDetails": {
+          "description": "The lab cost details component of the cost data.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LabCostDetailsProperties"
+          },
+          "readOnly": true
+        },
+        "resourceCosts": {
+          "description": "The resource cost component of the cost data.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LabResourceCostProperties"
+          },
+          "readOnly": true
+        },
+        "currencyCode": {
+          "description": "The currency code of the cost.",
+          "type": "string"
+        },
+        "startDateTime": {
+          "format": "date-time",
+          "description": "The start time of the cost data.",
+          "type": "string"
+        },
+        "endDateTime": {
+          "format": "date-time",
+          "description": "The end time of the cost data.",
+          "type": "string"
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The creation date of the cost.",
+          "type": "string"
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "LabCostSummaryProperties": {
+      "description": "The properties of the cost summary.",
+      "type": "object",
+      "properties": {
+        "estimatedLabCost": {
+          "format": "double",
+          "description": "The cost component of the cost item.",
+          "type": "number"
+        }
+      }
+    },
+    "LabFragment": {
+      "description": "A lab.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LabPropertiesFragment",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "LabProperties": {
+      "description": "Properties of a lab.",
+      "type": "object",
+      "properties": {
+        "defaultStorageAccount": {
+          "description": "The lab's default storage account.",
+          "type": "string",
+          "readOnly": true
+        },
+        "defaultPremiumStorageAccount": {
+          "description": "The lab's default premium storage account.",
+          "type": "string",
+          "readOnly": true
+        },
+        "artifactsStorageAccount": {
+          "description": "The lab's artifact storage account.",
+          "type": "string",
+          "readOnly": true
+        },
+        "premiumDataDiskStorageAccount": {
+          "description": "The lab's premium data disk storage account.",
+          "type": "string",
+          "readOnly": true
+        },
+        "vaultName": {
+          "description": "The lab's Key vault.",
+          "type": "string",
+          "readOnly": true
+        },
+        "labStorageType": {
+          "description": "Type of storage used by the lab. It can be either Premium or Standard. Default is Premium.",
+          "enum": [
+            "Standard",
+            "Premium"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "StorageType",
+            "modelAsString": true
+          }
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The creation date of the lab.",
+          "type": "string",
+          "readOnly": true
+        },
+        "premiumDataDisks": {
+          "description": "The setting to enable usage of premium data disks.\r\nWhen its value is 'Enabled', creation of standard or premium data disks is allowed.\r\nWhen its value is 'Disabled', only creation of standard data disks is allowed.",
+          "enum": [
+            "Disabled",
+            "Enabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "PremiumDataDisk",
+            "modelAsString": true
+          }
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "LabPropertiesFragment": {
+      "description": "Properties of a lab.",
+      "type": "object",
+      "properties": {
+        "labStorageType": {
+          "description": "Type of storage used by the lab. It can be either Premium or Standard. Default is Premium.",
+          "enum": [
+            "Standard",
+            "Premium"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "StorageType",
+            "modelAsString": true
+          }
+        },
+        "premiumDataDisks": {
+          "description": "The setting to enable usage of premium data disks.\r\nWhen its value is 'Enabled', creation of standard or premium data disks is allowed.\r\nWhen its value is 'Disabled', only creation of standard data disks is allowed.",
+          "enum": [
+            "Disabled",
+            "Enabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "PremiumDataDisk",
+            "modelAsString": true
+          }
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "LabResourceCostProperties": {
+      "description": "The properties of a resource cost item.",
+      "type": "object",
+      "properties": {
+        "resourcename": {
+          "description": "The name of the resource.",
+          "type": "string"
+        },
+        "resourceUId": {
+          "description": "The unique identifier of the resource.",
+          "type": "string"
+        },
+        "resourceCost": {
+          "format": "double",
+          "description": "The cost component of the resource cost item.",
+          "type": "number"
+        },
+        "resourceType": {
+          "description": "The logical resource type (ex. virtualmachine, storageaccount)",
+          "type": "string"
+        },
+        "resourceOwner": {
+          "description": "The owner of the resource (ex. janedoe@microsoft.com)",
+          "type": "string"
+        },
+        "resourcePricingTier": {
+          "description": "The category of the resource (ex. Premium_LRS, Standard_DS1)",
+          "type": "string"
+        },
+        "resourceStatus": {
+          "description": "The status of the resource (ex. Active)",
+          "type": "string"
+        },
+        "resourceId": {
+          "description": "The ID of the resource",
+          "type": "string"
+        },
+        "externalResourceId": {
+          "description": "The ID of the external resource",
+          "type": "string"
+        }
+      }
+    },
+    "LabVhd": {
+      "description": "Properties of a VHD in the lab.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The URI to the VHD.",
+          "type": "string"
+        }
+      }
+    },
+    "LabVirtualMachine": {
+      "description": "A virtual machine.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LabVirtualMachineProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "LabVirtualMachineCreationParameter": {
+      "description": "Properties for creating a virtual machine.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LabVirtualMachineCreationParameterProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        },
+        "name": {
+          "description": "The name of the virtual machine or environment",
+          "type": "string"
+        },
+        "location": {
+          "description": "The location of the new virtual machine or environment",
+          "type": "string"
+        },
+        "tags": {
+          "description": "The tags of the resource.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "LabVirtualMachineCreationParameterProperties": {
+      "description": "Properties for virtual machine creation.",
+      "type": "object",
+      "properties": {
+        "bulkCreationParameters": {
+          "$ref": "#/definitions/BulkCreationParameters",
+          "description": "The number of virtual machine instances to create."
+        },
+        "notes": {
+          "description": "The notes of the virtual machine.",
+          "type": "string"
+        },
+        "ownerObjectId": {
+          "description": "The object identifier of the owner of the virtual machine.",
+          "type": "string"
+        },
+        "ownerUserPrincipalName": {
+          "description": "The user principal name of the virtual machine owner.",
+          "type": "string"
+        },
+        "createdByUserId": {
+          "description": "The object identifier of the creator of the virtual machine.",
+          "type": "string"
+        },
+        "createdByUser": {
+          "description": "The email address of creator of the virtual machine.",
+          "type": "string"
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The creation date of the virtual machine.",
+          "type": "string"
+        },
+        "customImageId": {
+          "description": "The custom image identifier of the virtual machine.",
+          "type": "string"
+        },
+        "osType": {
+          "description": "The OS type of the virtual machine.",
+          "type": "string"
+        },
+        "size": {
+          "description": "The size of the virtual machine.",
+          "type": "string"
+        },
+        "userName": {
+          "description": "The user name of the virtual machine.",
+          "type": "string"
+        },
+        "password": {
+          "description": "The password of the virtual machine administrator.",
+          "type": "string"
+        },
+        "sshKey": {
+          "description": "The SSH key of the virtual machine administrator.",
+          "type": "string"
+        },
+        "isAuthenticationWithSshKey": {
+          "description": "Indicates whether this virtual machine uses an SSH key for authentication.",
+          "type": "boolean"
+        },
+        "fqdn": {
+          "description": "The fully-qualified domain name of the virtual machine.",
+          "type": "string"
+        },
+        "labSubnetName": {
+          "description": "The lab subnet name of the virtual machine.",
+          "type": "string"
+        },
+        "labVirtualNetworkId": {
+          "description": "The lab virtual network identifier of the virtual machine.",
+          "type": "string"
+        },
+        "disallowPublicIpAddress": {
+          "description": "Indicates whether the virtual machine is to be created without a public IP address.",
+          "type": "boolean"
+        },
+        "artifacts": {
+          "description": "The artifacts to be installed on the virtual machine.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArtifactInstallProperties"
+          }
+        },
+        "artifactDeploymentStatus": {
+          "$ref": "#/definitions/ArtifactDeploymentStatusProperties",
+          "description": "The artifact deployment status for the virtual machine."
+        },
+        "galleryImageReference": {
+          "$ref": "#/definitions/GalleryImageReference",
+          "description": "The Microsoft Azure Marketplace image reference of the virtual machine."
+        },
+        "computeVm": {
+          "$ref": "#/definitions/ComputeVmProperties",
+          "description": "The compute virtual machine properties."
+        },
+        "networkInterface": {
+          "$ref": "#/definitions/NetworkInterfaceProperties",
+          "description": "The network interface properties."
+        },
+        "applicableSchedule": {
+          "$ref": "#/definitions/ApplicableSchedule",
+          "description": "The applicable schedule for the virtual machine."
+        },
+        "expirationDate": {
+          "format": "date-time",
+          "description": "The expiration date for VM.",
+          "type": "string"
+        },
+        "allowClaim": {
+          "description": "Indicates whether another user can take ownership of the virtual machine",
+          "type": "boolean"
+        },
+        "storageType": {
+          "description": "Storage type to use for virtual machine (i.e. Standard, Premium).",
+          "type": "string"
+        },
+        "virtualMachineCreationSource": {
+          "description": "Tells source of creation of lab virtual machine. Output property only.",
+          "enum": [
+            "FromCustomImage",
+            "FromGalleryImage"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "VirtualMachineCreationSource",
+            "modelAsString": true
+          }
+        },
+        "environmentId": {
+          "description": "The resource ID of the environment that contains this virtual machine, if any.",
+          "type": "string"
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "LabVirtualMachineFragment": {
+      "description": "A virtual machine.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/LabVirtualMachinePropertiesFragment",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "LabVirtualMachineProperties": {
+      "description": "Properties of a virtual machine.",
+      "type": "object",
+      "properties": {
+        "notes": {
+          "description": "The notes of the virtual machine.",
+          "type": "string"
+        },
+        "ownerObjectId": {
+          "description": "The object identifier of the owner of the virtual machine.",
+          "type": "string"
+        },
+        "ownerUserPrincipalName": {
+          "description": "The user principal name of the virtual machine owner.",
+          "type": "string"
+        },
+        "createdByUserId": {
+          "description": "The object identifier of the creator of the virtual machine.",
+          "type": "string"
+        },
+        "createdByUser": {
+          "description": "The email address of creator of the virtual machine.",
+          "type": "string"
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The creation date of the virtual machine.",
+          "type": "string"
+        },
+        "computeId": {
+          "description": "The resource identifier (Microsoft.Compute) of the virtual machine.",
+          "type": "string",
+          "readOnly": true
+        },
+        "customImageId": {
+          "description": "The custom image identifier of the virtual machine.",
+          "type": "string"
+        },
+        "osType": {
+          "description": "The OS type of the virtual machine.",
+          "type": "string"
+        },
+        "size": {
+          "description": "The size of the virtual machine.",
+          "type": "string"
+        },
+        "userName": {
+          "description": "The user name of the virtual machine.",
+          "type": "string"
+        },
+        "password": {
+          "description": "The password of the virtual machine administrator.",
+          "type": "string"
+        },
+        "sshKey": {
+          "description": "The SSH key of the virtual machine administrator.",
+          "type": "string"
+        },
+        "isAuthenticationWithSshKey": {
+          "description": "Indicates whether this virtual machine uses an SSH key for authentication.",
+          "type": "boolean"
+        },
+        "fqdn": {
+          "description": "The fully-qualified domain name of the virtual machine.",
+          "type": "string"
+        },
+        "labSubnetName": {
+          "description": "The lab subnet name of the virtual machine.",
+          "type": "string"
+        },
+        "labVirtualNetworkId": {
+          "description": "The lab virtual network identifier of the virtual machine.",
+          "type": "string"
+        },
+        "disallowPublicIpAddress": {
+          "description": "Indicates whether the virtual machine is to be created without a public IP address.",
+          "type": "boolean"
+        },
+        "artifacts": {
+          "description": "The artifacts to be installed on the virtual machine.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArtifactInstallProperties"
+          }
+        },
+        "artifactDeploymentStatus": {
+          "$ref": "#/definitions/ArtifactDeploymentStatusProperties",
+          "description": "The artifact deployment status for the virtual machine."
+        },
+        "galleryImageReference": {
+          "$ref": "#/definitions/GalleryImageReference",
+          "description": "The Microsoft Azure Marketplace image reference of the virtual machine."
+        },
+        "computeVm": {
+          "$ref": "#/definitions/ComputeVmProperties",
+          "description": "The compute virtual machine properties."
+        },
+        "networkInterface": {
+          "$ref": "#/definitions/NetworkInterfaceProperties",
+          "description": "The network interface properties."
+        },
+        "applicableSchedule": {
+          "$ref": "#/definitions/ApplicableSchedule",
+          "description": "The applicable schedule for the virtual machine."
+        },
+        "expirationDate": {
+          "format": "date-time",
+          "description": "The expiration date for VM.",
+          "type": "string"
+        },
+        "allowClaim": {
+          "description": "Indicates whether another user can take ownership of the virtual machine",
+          "type": "boolean"
+        },
+        "storageType": {
+          "description": "Storage type to use for virtual machine (i.e. Standard, Premium).",
+          "type": "string"
+        },
+        "virtualMachineCreationSource": {
+          "description": "Tells source of creation of lab virtual machine. Output property only.",
+          "enum": [
+            "FromCustomImage",
+            "FromGalleryImage"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "VirtualMachineCreationSource",
+            "modelAsString": true
+          }
+        },
+        "environmentId": {
+          "description": "The resource ID of the environment that contains this virtual machine, if any.",
+          "type": "string"
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "LabVirtualMachinePropertiesFragment": {
+      "description": "Properties of a virtual machine.",
+      "type": "object",
+      "properties": {
+        "notes": {
+          "description": "The notes of the virtual machine.",
+          "type": "string"
+        },
+        "ownerObjectId": {
+          "description": "The object identifier of the owner of the virtual machine.",
+          "type": "string"
+        },
+        "ownerUserPrincipalName": {
+          "description": "The user principal name of the virtual machine owner.",
+          "type": "string"
+        },
+        "createdByUserId": {
+          "description": "The object identifier of the creator of the virtual machine.",
+          "type": "string"
+        },
+        "createdByUser": {
+          "description": "The email address of creator of the virtual machine.",
+          "type": "string"
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The creation date of the virtual machine.",
+          "type": "string"
+        },
+        "customImageId": {
+          "description": "The custom image identifier of the virtual machine.",
+          "type": "string"
+        },
+        "osType": {
+          "description": "The OS type of the virtual machine.",
+          "type": "string"
+        },
+        "size": {
+          "description": "The size of the virtual machine.",
+          "type": "string"
+        },
+        "userName": {
+          "description": "The user name of the virtual machine.",
+          "type": "string"
+        },
+        "password": {
+          "description": "The password of the virtual machine administrator.",
+          "type": "string"
+        },
+        "sshKey": {
+          "description": "The SSH key of the virtual machine administrator.",
+          "type": "string"
+        },
+        "isAuthenticationWithSshKey": {
+          "description": "Indicates whether this virtual machine uses an SSH key for authentication.",
+          "type": "boolean"
+        },
+        "fqdn": {
+          "description": "The fully-qualified domain name of the virtual machine.",
+          "type": "string"
+        },
+        "labSubnetName": {
+          "description": "The lab subnet name of the virtual machine.",
+          "type": "string"
+        },
+        "labVirtualNetworkId": {
+          "description": "The lab virtual network identifier of the virtual machine.",
+          "type": "string"
+        },
+        "disallowPublicIpAddress": {
+          "description": "Indicates whether the virtual machine is to be created without a public IP address.",
+          "type": "boolean"
+        },
+        "artifacts": {
+          "description": "The artifacts to be installed on the virtual machine.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArtifactInstallPropertiesFragment"
+          }
+        },
+        "artifactDeploymentStatus": {
+          "$ref": "#/definitions/ArtifactDeploymentStatusPropertiesFragment",
+          "description": "The artifact deployment status for the virtual machine."
+        },
+        "galleryImageReference": {
+          "$ref": "#/definitions/GalleryImageReferenceFragment",
+          "description": "The Microsoft Azure Marketplace image reference of the virtual machine."
+        },
+        "computeVm": {
+          "$ref": "#/definitions/ComputeVmPropertiesFragment",
+          "description": "The compute virtual machine properties."
+        },
+        "networkInterface": {
+          "$ref": "#/definitions/NetworkInterfacePropertiesFragment",
+          "description": "The network interface properties."
+        },
+        "applicableSchedule": {
+          "$ref": "#/definitions/ApplicableScheduleFragment",
+          "description": "The applicable schedule for the virtual machine."
+        },
+        "expirationDate": {
+          "format": "date-time",
+          "description": "The expiration date for VM.",
+          "type": "string"
+        },
+        "allowClaim": {
+          "description": "Indicates whether another user can take ownership of the virtual machine",
+          "type": "boolean"
+        },
+        "storageType": {
+          "description": "Storage type to use for virtual machine (i.e. Standard, Premium).",
+          "type": "string"
+        },
+        "virtualMachineCreationSource": {
+          "description": "Tells source of creation of lab virtual machine. Output property only.",
+          "enum": [
+            "FromCustomImage",
+            "FromGalleryImage"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "VirtualMachineCreationSource",
+            "modelAsString": true
+          }
+        },
+        "environmentId": {
+          "description": "The resource ID of the environment that contains this virtual machine, if any.",
+          "type": "string"
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "LinuxOsInfo": {
+      "description": "Information about a Linux OS.",
+      "type": "object",
+      "properties": {
+        "linuxOsState": {
+          "description": "The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied).",
+          "enum": [
+            "NonDeprovisioned",
+            "DeprovisionRequested",
+            "DeprovisionApplied"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "LinuxOsState",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "NetworkInterfaceProperties": {
+      "description": "Properties of a network interface.",
+      "type": "object",
+      "properties": {
+        "virtualNetworkId": {
+          "description": "The resource ID of the virtual network.",
+          "type": "string"
+        },
+        "subnetId": {
+          "description": "The resource ID of the sub net.",
+          "type": "string"
+        },
+        "publicIpAddressId": {
+          "description": "The resource ID of the public IP address.",
+          "type": "string"
+        },
+        "publicIpAddress": {
+          "description": "The public IP address.",
+          "type": "string"
+        },
+        "privateIpAddress": {
+          "description": "The private IP address.",
+          "type": "string"
+        },
+        "dnsName": {
+          "description": "The DNS name.",
+          "type": "string"
+        },
+        "rdpAuthority": {
+          "description": "The RdpAuthority property is a server DNS host name or IP address followed by the service port number for RDP (Remote Desktop Protocol).",
+          "type": "string"
+        },
+        "sshAuthority": {
+          "description": "The SshAuthority property is a server DNS host name or IP address followed by the service port number for SSH.",
+          "type": "string"
+        },
+        "sharedPublicIpAddressConfiguration": {
+          "$ref": "#/definitions/SharedPublicIpAddressConfiguration",
+          "description": "The configuration for sharing a public IP address across multiple virtual machines."
+        }
+      }
+    },
+    "NetworkInterfacePropertiesFragment": {
+      "description": "Properties of a network interface.",
+      "type": "object",
+      "properties": {
+        "virtualNetworkId": {
+          "description": "The resource ID of the virtual network.",
+          "type": "string"
+        },
+        "subnetId": {
+          "description": "The resource ID of the sub net.",
+          "type": "string"
+        },
+        "publicIpAddressId": {
+          "description": "The resource ID of the public IP address.",
+          "type": "string"
+        },
+        "publicIpAddress": {
+          "description": "The public IP address.",
+          "type": "string"
+        },
+        "privateIpAddress": {
+          "description": "The private IP address.",
+          "type": "string"
+        },
+        "dnsName": {
+          "description": "The DNS name.",
+          "type": "string"
+        },
+        "rdpAuthority": {
+          "description": "The RdpAuthority property is a server DNS host name or IP address followed by the service port number for RDP (Remote Desktop Protocol).",
+          "type": "string"
+        },
+        "sshAuthority": {
+          "description": "The SshAuthority property is a server DNS host name or IP address followed by the service port number for SSH.",
+          "type": "string"
+        },
+        "sharedPublicIpAddressConfiguration": {
+          "$ref": "#/definitions/SharedPublicIpAddressConfigurationFragment",
+          "description": "The configuration for sharing a public IP address across multiple virtual machines."
+        }
+      }
+    },
+    "NotificationChannel": {
+      "description": "A notification.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/NotificationChannelProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "NotificationChannelFragment": {
+      "description": "A notification.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/NotificationChannelPropertiesFragment",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "NotificationChannelProperties": {
+      "description": "Properties of a schedule.",
+      "type": "object",
+      "properties": {
+        "webHookUrl": {
+          "description": "The webhook URL to send notifications to.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of notification.",
+          "type": "string"
+        },
+        "events": {
+          "description": "The list of event for which this notification is enabled.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Event"
+          }
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The creation date of the notification channel.",
+          "type": "string",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "NotificationChannelPropertiesFragment": {
+      "description": "Properties of a schedule.",
+      "type": "object",
+      "properties": {
+        "webHookUrl": {
+          "description": "The webhook URL to send notifications to.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of notification.",
+          "type": "string"
+        },
+        "events": {
+          "description": "The list of event for which this notification is enabled.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EventFragment"
+          }
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "NotificationSettings": {
+      "description": "Notification settings for a schedule.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "If notifications are enabled for this schedule (i.e. Enabled, Disabled).",
+          "enum": [
+            "Disabled",
+            "Enabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "NotificationStatus",
+            "modelAsString": true
+          }
+        },
+        "timeInMinutes": {
+          "format": "int32",
+          "description": "Time in minutes before event at which notification will be sent.",
+          "type": "integer"
+        },
+        "webhookUrl": {
+          "description": "The webhook URL to which the notification will be sent.",
+          "type": "string"
+        }
+      }
+    },
+    "NotificationSettingsFragment": {
+      "description": "Notification settings for a schedule.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "If notifications are enabled for this schedule (i.e. Enabled, Disabled).",
+          "enum": [
+            "Disabled",
+            "Enabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "NotificationStatus",
+            "modelAsString": true
+          }
+        },
+        "timeInMinutes": {
+          "format": "int32",
+          "description": "Time in minutes before event at which notification will be sent.",
+          "type": "integer"
+        },
+        "webhookUrl": {
+          "description": "The webhook URL to which the notification will be sent.",
+          "type": "string"
+        }
+      }
+    },
+    "NotifyParameters": {
+      "description": "Properties for generating a Notification.",
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "description": "The type of event (i.e. AutoShutdown, Cost)",
+          "enum": [
+            "AutoShutdown",
+            "Cost"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "NotificationChannelEventType",
+            "modelAsString": true
+          }
+        },
+        "jsonPayload": {
+          "description": "Properties for the notification in json format.",
+          "type": "string"
+        }
+      }
+    },
+    "ParameterInfo": {
+      "description": "Information about an artifact's parameter.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the artifact parameter.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value of the artifact parameter.",
+          "type": "string"
+        }
+      }
+    },
+    "ParametersValueFileInfo": {
+      "description": "A file containing a set of parameter values for an ARM template.",
+      "type": "object",
+      "properties": {
+        "fileName": {
+          "description": "File name.",
+          "type": "string"
+        },
+        "parametersValueInfo": {
+          "description": "Contents of the file.",
+          "type": "object"
+        }
+      }
+    },
+    "PercentageCostThresholdProperties": {
+      "description": "Properties of a percentage cost threshold.",
+      "type": "object",
+      "properties": {
+        "thresholdValue": {
+          "format": "double",
+          "description": "The cost threshold value.",
+          "type": "number"
+        }
+      }
+    },
+    "Policy": {
+      "description": "A Policy.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/PolicyProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "PolicyFragment": {
+      "description": "A Policy.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/PolicyPropertiesFragment",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "PolicyProperties": {
+      "description": "Properties of a Policy.",
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "The description of the policy.",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the policy.",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "PolicyStatus",
+            "modelAsString": true
+          }
+        },
+        "factName": {
+          "description": "The fact name of the policy (e.g. LabVmCount, LabVmSize, MaxVmsAllowedPerLab, etc.",
+          "enum": [
+            "UserOwnedLabVmCount",
+            "UserOwnedLabPremiumVmCount",
+            "LabVmCount",
+            "LabPremiumVmCount",
+            "LabVmSize",
+            "GalleryImage",
+            "UserOwnedLabVmCountInSubnet",
+            "LabTargetCost"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "PolicyFactName",
+            "modelAsString": true
+          }
+        },
+        "factData": {
+          "description": "The fact data of the policy.",
+          "type": "string"
+        },
+        "threshold": {
+          "description": "The threshold of the policy (i.e. a number for MaxValuePolicy, and a JSON array of values for AllowedValuesPolicy).",
+          "type": "string"
+        },
+        "evaluatorType": {
+          "description": "The evaluator type of the policy (i.e. AllowedValuesPolicy, MaxValuePolicy).",
+          "enum": [
+            "AllowedValuesPolicy",
+            "MaxValuePolicy"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "PolicyEvaluatorType",
+            "modelAsString": true
+          }
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The creation date of the policy.",
+          "type": "string",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "PolicyPropertiesFragment": {
+      "description": "Properties of a Policy.",
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "The description of the policy.",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the policy.",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "PolicyStatus",
+            "modelAsString": true
+          }
+        },
+        "factName": {
+          "description": "The fact name of the policy (e.g. LabVmCount, LabVmSize, MaxVmsAllowedPerLab, etc.",
+          "enum": [
+            "UserOwnedLabVmCount",
+            "UserOwnedLabPremiumVmCount",
+            "LabVmCount",
+            "LabPremiumVmCount",
+            "LabVmSize",
+            "GalleryImage",
+            "UserOwnedLabVmCountInSubnet",
+            "LabTargetCost"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "PolicyFactName",
+            "modelAsString": true
+          }
+        },
+        "factData": {
+          "description": "The fact data of the policy.",
+          "type": "string"
+        },
+        "threshold": {
+          "description": "The threshold of the policy (i.e. a number for MaxValuePolicy, and a JSON array of values for AllowedValuesPolicy).",
+          "type": "string"
+        },
+        "evaluatorType": {
+          "description": "The evaluator type of the policy (i.e. AllowedValuesPolicy, MaxValuePolicy).",
+          "enum": [
+            "AllowedValuesPolicy",
+            "MaxValuePolicy"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "PolicyEvaluatorType",
+            "modelAsString": true
+          }
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "PolicySetResult": {
+      "description": "Result of a policy set evaluation.",
+      "type": "object",
+      "properties": {
+        "hasError": {
+          "description": "A value indicating whether this policy set evaluation has discovered violations.",
+          "type": "boolean"
+        },
+        "policyViolations": {
+          "description": "The list of policy violations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PolicyViolation"
+          }
+        }
+      }
+    },
+    "PolicyViolation": {
+      "description": "Policy violation.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "The code of the policy violation.",
+          "type": "string"
+        },
+        "message": {
+          "description": "The message of the policy violation.",
+          "type": "string"
+        }
+      }
+    },
+    "Port": {
+      "description": "Properties of a network port.",
+      "type": "object",
+      "properties": {
+        "transportProtocol": {
+          "description": "Protocol type of the port.",
+          "enum": [
+            "Tcp",
+            "Udp"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "TransportProtocol",
+            "modelAsString": true
+          }
+        },
+        "backendPort": {
+          "format": "int32",
+          "description": "Backend port of the target virtual machine.",
+          "type": "integer"
+        }
+      }
+    },
+    "PortFragment": {
+      "description": "Properties of a network port.",
+      "type": "object",
+      "properties": {
+        "transportProtocol": {
+          "description": "Protocol type of the port.",
+          "enum": [
+            "Tcp",
+            "Udp"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "TransportProtocol",
+            "modelAsString": true
+          }
+        },
+        "backendPort": {
+          "format": "int32",
+          "description": "Backend port of the target virtual machine.",
+          "type": "integer"
+        }
+      }
+    },
+    "Resource": {
+      "description": "An Azure resource.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The identifier of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "The name of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "The type of the resource.",
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "description": "The location of the resource.",
+          "type": "string"
+        },
+        "tags": {
+          "description": "The tags of the resource.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "ResponseWithContinuation[ArmTemplate]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArmTemplate"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[Artifact]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Artifact"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[ArtifactSource]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArtifactSource"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[CustomImage]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CustomImage"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[Disk]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Disk"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[DtlEnvironment]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DtlEnvironment"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[Formula]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Formula"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[GalleryImage]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GalleryImage"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[Lab]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Lab"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[LabVhd]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LabVhd"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[LabVirtualMachine]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LabVirtualMachine"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[NotificationChannel]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NotificationChannel"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[Policy]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Policy"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[Schedule]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Schedule"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[Secret]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Secret"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[ServiceRunner]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceRunner"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[User]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "ResponseWithContinuation[VirtualNetwork]": {
+      "description": "The response of a list operation.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Results of the list operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VirtualNetwork"
+          }
+        },
+        "nextLink": {
+          "description": "Link for next set of results.",
+          "type": "string"
+        }
+      }
+    },
+    "RetargetScheduleProperties": {
+      "description": "Properties for retargeting a virtual machine schedule.",
+      "type": "object",
+      "properties": {
+        "currentResourceId": {
+          "description": "The resource Id of the virtual machine on which the schedule operates",
+          "type": "string"
+        },
+        "targetResourceId": {
+          "description": "The resource Id of the virtual machine that the schedule should be retargeted to",
+          "type": "string"
+        }
+      }
+    },
+    "Schedule": {
+      "description": "A schedule.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ScheduleProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ScheduleFragment": {
+      "description": "A schedule.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SchedulePropertiesFragment",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ScheduleProperties": {
+      "description": "Properties of a schedule.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "The status of the schedule (i.e. Enabled, Disabled)",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "EnableStatus",
+            "modelAsString": true
+          }
+        },
+        "taskType": {
+          "description": "The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).",
+          "type": "string"
+        },
+        "weeklyRecurrence": {
+          "$ref": "#/definitions/WeekDetails",
+          "description": "If the schedule will occur only some days of the week, specify the weekly recurrence."
+        },
+        "dailyRecurrence": {
+          "$ref": "#/definitions/DayDetails",
+          "description": "If the schedule will occur once each day of the week, specify the daily recurrence."
+        },
+        "hourlyRecurrence": {
+          "$ref": "#/definitions/HourDetails",
+          "description": "If the schedule will occur multiple times a day, specify the hourly recurrence."
+        },
+        "timeZoneId": {
+          "description": "The time zone ID (e.g. Pacific Standard time).",
+          "type": "string"
+        },
+        "notificationSettings": {
+          "$ref": "#/definitions/NotificationSettings",
+          "description": "Notification settings."
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The creation date of the schedule.",
+          "type": "string",
+          "readOnly": true
+        },
+        "targetResourceId": {
+          "description": "The resource ID to which the schedule belongs",
+          "type": "string"
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "SchedulePropertiesFragment": {
+      "description": "Properties of a schedule.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "The status of the schedule (i.e. Enabled, Disabled)",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "EnableStatus",
+            "modelAsString": true
+          }
+        },
+        "taskType": {
+          "description": "The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).",
+          "type": "string"
+        },
+        "weeklyRecurrence": {
+          "$ref": "#/definitions/WeekDetailsFragment",
+          "description": "If the schedule will occur only some days of the week, specify the weekly recurrence."
+        },
+        "dailyRecurrence": {
+          "$ref": "#/definitions/DayDetailsFragment",
+          "description": "If the schedule will occur once each day of the week, specify the daily recurrence."
+        },
+        "hourlyRecurrence": {
+          "$ref": "#/definitions/HourDetailsFragment",
+          "description": "If the schedule will occur multiple times a day, specify the hourly recurrence."
+        },
+        "timeZoneId": {
+          "description": "The time zone ID (e.g. Pacific Standard time).",
+          "type": "string"
+        },
+        "notificationSettings": {
+          "$ref": "#/definitions/NotificationSettingsFragment",
+          "description": "Notification settings."
+        },
+        "targetResourceId": {
+          "description": "The resource ID to which the schedule belongs",
+          "type": "string"
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "Secret": {
+      "description": "A secret.",
+      "required": [
+        "properties"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SecretProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "SecretProperties": {
+      "description": "Properties of a secret.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "The value of the secret for secret creation.",
+          "type": "string"
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "ServiceRunner": {
+      "description": "A container for a managed identity to execute DevTest lab services.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "identity": {
+          "$ref": "#/definitions/IdentityProperties",
+          "description": "The identity of the resource."
+        }
+      }
+    },
+    "SharedPublicIpAddressConfiguration": {
+      "description": "Properties of a virtual machine that determine how it is connected to a load balancer.",
+      "type": "object",
+      "properties": {
+        "inboundNatRules": {
+          "description": "The incoming NAT rules",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/InboundNatRule"
+          }
+        }
+      }
+    },
+    "SharedPublicIpAddressConfigurationFragment": {
+      "description": "Properties of a virtual machine that determine how it is connected to a load balancer.",
+      "type": "object",
+      "properties": {
+        "inboundNatRules": {
+          "description": "The incoming NAT rules",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/InboundNatRuleFragment"
+          }
+        }
+      }
+    },
+    "ShutdownNotificationContent": {
+      "description": "The contents of a shutdown notification. Webhooks can use this type to deserialize the request body when they get notified of an imminent shutdown.",
+      "type": "object",
+      "properties": {
+        "skipUrl": {
+          "description": "The URL to skip auto-shutdown.",
+          "type": "string"
+        },
+        "delayUrl60": {
+          "description": "The URL to delay shutdown by 60 minutes.",
+          "type": "string"
+        },
+        "delayUrl120": {
+          "description": "The URL to delay shutdown by 2 hours.",
+          "type": "string"
+        },
+        "vmName": {
+          "description": "The virtual machine to be shut down.",
+          "type": "string"
+        },
+        "guid": {
+          "description": "The GUID for the virtual machine to be shut down.",
+          "type": "string"
+        },
+        "owner": {
+          "description": "The owner of the virtual machine.",
+          "type": "string"
+        },
+        "eventType": {
+          "description": "The event for which a notification will be sent.",
+          "type": "string"
+        },
+        "text": {
+          "description": "The text for the notification.",
+          "type": "string"
+        },
+        "subscriptionId": {
+          "description": "The subscription ID for the schedule.",
+          "type": "string"
+        },
+        "resourceGroupName": {
+          "description": "The resource group name for the schedule.",
+          "type": "string"
+        },
+        "labName": {
+          "description": "The lab for the schedule.",
+          "type": "string"
+        }
+      }
+    },
+    "Subnet": {
+      "description": "Subnet information.",
+      "type": "object",
+      "properties": {
+        "resourceId": {
+          "description": "The resource ID of the subnet.",
+          "type": "string"
+        },
+        "labSubnetName": {
+          "description": "The name of the subnet as seen in the lab.",
+          "type": "string"
+        },
+        "allowPublicIp": {
+          "description": "The permission policy of the subnet for allowing public IP addresses (i.e. Allow, Deny)).",
+          "enum": [
+            "Default",
+            "Deny",
+            "Allow"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "UsagePermissionType",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "SubnetFragment": {
+      "description": "Subnet information.",
+      "type": "object",
+      "properties": {
+        "resourceId": {
+          "description": "The resource ID of the subnet.",
+          "type": "string"
+        },
+        "labSubnetName": {
+          "description": "The name of the subnet as seen in the lab.",
+          "type": "string"
+        },
+        "allowPublicIp": {
+          "description": "The permission policy of the subnet for allowing public IP addresses (i.e. Allow, Deny)).",
+          "enum": [
+            "Default",
+            "Deny",
+            "Allow"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "UsagePermissionType",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "SubnetOverride": {
+      "description": "Property overrides on a subnet of a virtual network.",
+      "type": "object",
+      "properties": {
+        "resourceId": {
+          "description": "The resource ID of the subnet.",
+          "type": "string"
+        },
+        "labSubnetName": {
+          "description": "The name given to the subnet within the lab.",
+          "type": "string"
+        },
+        "useInVmCreationPermission": {
+          "description": "Indicates whether this subnet can be used during virtual machine creation (i.e. Allow, Deny).",
+          "enum": [
+            "Default",
+            "Deny",
+            "Allow"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "UsagePermissionType",
+            "modelAsString": true
+          }
+        },
+        "usePublicIpAddressPermission": {
+          "description": "Indicates whether public IP addresses can be assigned to virtual machines on this subnet (i.e. Allow, Deny).",
+          "enum": [
+            "Default",
+            "Deny",
+            "Allow"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "UsagePermissionType",
+            "modelAsString": true
+          }
+        },
+        "sharedPublicIpAddressConfiguration": {
+          "$ref": "#/definitions/SubnetSharedPublicIpAddressConfiguration",
+          "description": "Properties that virtual machines on this subnet will share."
+        },
+        "virtualNetworkPoolName": {
+          "description": "The virtual network pool associated with this subnet.",
+          "type": "string"
+        }
+      }
+    },
+    "SubnetOverrideFragment": {
+      "description": "Property overrides on a subnet of a virtual network.",
+      "type": "object",
+      "properties": {
+        "resourceId": {
+          "description": "The resource ID of the subnet.",
+          "type": "string"
+        },
+        "labSubnetName": {
+          "description": "The name given to the subnet within the lab.",
+          "type": "string"
+        },
+        "useInVmCreationPermission": {
+          "description": "Indicates whether this subnet can be used during virtual machine creation (i.e. Allow, Deny).",
+          "enum": [
+            "Default",
+            "Deny",
+            "Allow"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "UsagePermissionType",
+            "modelAsString": true
+          }
+        },
+        "usePublicIpAddressPermission": {
+          "description": "Indicates whether public IP addresses can be assigned to virtual machines on this subnet (i.e. Allow, Deny).",
+          "enum": [
+            "Default",
+            "Deny",
+            "Allow"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "UsagePermissionType",
+            "modelAsString": true
+          }
+        },
+        "sharedPublicIpAddressConfiguration": {
+          "$ref": "#/definitions/SubnetSharedPublicIpAddressConfigurationFragment",
+          "description": "Properties that virtual machines on this subnet will share."
+        },
+        "virtualNetworkPoolName": {
+          "description": "The virtual network pool associated with this subnet.",
+          "type": "string"
+        }
+      }
+    },
+    "SubnetSharedPublicIpAddressConfiguration": {
+      "description": "Configuration for public IP address sharing.",
+      "type": "object",
+      "properties": {
+        "allowedPorts": {
+          "description": "Backend ports that virtual machines on this subnet are allowed to expose",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Port"
+          }
+        }
+      }
+    },
+    "SubnetSharedPublicIpAddressConfigurationFragment": {
+      "description": "Configuration for public IP address sharing.",
+      "type": "object",
+      "properties": {
+        "allowedPorts": {
+          "description": "Backend ports that virtual machines on this subnet are allowed to expose",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PortFragment"
+          }
+        }
+      }
+    },
+    "TargetCostProperties": {
+      "description": "Properties of a cost target.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "Target cost status",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "TargetCostStatus",
+            "modelAsString": true
+          }
+        },
+        "target": {
+          "format": "int32",
+          "description": "Lab target cost",
+          "type": "integer"
+        },
+        "costThresholds": {
+          "description": "Cost thresholds.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CostThresholdProperties"
+          }
+        },
+        "cycleStartDateTime": {
+          "format": "date-time",
+          "description": "Reporting cycle start date.",
+          "type": "string"
+        },
+        "cycleEndDateTime": {
+          "format": "date-time",
+          "description": "Reporting cycle end date.",
+          "type": "string"
+        },
+        "cycleType": {
+          "description": "Reporting cycle type.",
+          "enum": [
+            "CalendarMonth",
+            "Custom"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ReportingCycleType",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "User": {
+      "description": "Profile of a lab user.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/UserProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "UserFragment": {
+      "description": "Profile of a lab user.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/UserPropertiesFragment",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "UserIdentity": {
+      "description": "Identity attributes of a lab user.",
+      "type": "object",
+      "properties": {
+        "principalName": {
+          "description": "Set to the principal name / UPN of the client JWT making the request.",
+          "type": "string"
+        },
+        "principalId": {
+          "description": "Set to the principal Id of the client JWT making the request. Service principal will not have the principal Id.",
+          "type": "string"
+        },
+        "tenantId": {
+          "description": "Set to the tenant ID of the client JWT making the request.",
+          "type": "string"
+        },
+        "objectId": {
+          "description": "Set to the object Id of the client JWT making the request. Not all users have object Id. For CSP (reseller) scenarios for example, object Id is not available.",
+          "type": "string"
+        },
+        "appId": {
+          "description": "Set to the app Id of the client JWT making the request.",
+          "type": "string"
+        }
+      }
+    },
+    "UserIdentityFragment": {
+      "description": "Identity attributes of a lab user.",
+      "type": "object",
+      "properties": {
+        "principalName": {
+          "description": "Set to the principal name / UPN of the client JWT making the request.",
+          "type": "string"
+        },
+        "principalId": {
+          "description": "Set to the principal Id of the client JWT making the request. Service principal will not have the principal Id.",
+          "type": "string"
+        },
+        "tenantId": {
+          "description": "Set to the tenant ID of the client JWT making the request.",
+          "type": "string"
+        },
+        "objectId": {
+          "description": "Set to the object Id of the client JWT making the request. Not all users have object Id. For CSP (reseller) scenarios for example, object Id is not available.",
+          "type": "string"
+        },
+        "appId": {
+          "description": "Set to the app Id of the client JWT making the request.",
+          "type": "string"
+        }
+      }
+    },
+    "UserProperties": {
+      "description": "Properties of a lab user profile.",
+      "type": "object",
+      "properties": {
+        "identity": {
+          "$ref": "#/definitions/UserIdentity",
+          "description": "The identity of the user."
+        },
+        "secretStore": {
+          "$ref": "#/definitions/UserSecretStore",
+          "description": "The secret store of the user."
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The creation date of the user profile.",
+          "type": "string",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "UserPropertiesFragment": {
+      "description": "Properties of a lab user profile.",
+      "type": "object",
+      "properties": {
+        "identity": {
+          "$ref": "#/definitions/UserIdentityFragment",
+          "description": "The identity of the user."
+        },
+        "secretStore": {
+          "$ref": "#/definitions/UserSecretStoreFragment",
+          "description": "The secret store of the user."
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "UserSecretStore": {
+      "description": "Properties of a user's secret store.",
+      "type": "object",
+      "properties": {
+        "keyVaultUri": {
+          "description": "The URI of the user's Key vault.",
+          "type": "string"
+        },
+        "keyVaultId": {
+          "description": "The ID of the user's Key vault.",
+          "type": "string"
+        }
+      }
+    },
+    "UserSecretStoreFragment": {
+      "description": "Properties of a user's secret store.",
+      "type": "object",
+      "properties": {
+        "keyVaultUri": {
+          "description": "The URI of the user's Key vault.",
+          "type": "string"
+        },
+        "keyVaultId": {
+          "description": "The ID of the user's Key vault.",
+          "type": "string"
+        }
+      }
+    },
+    "VirtualNetwork": {
+      "description": "A virtual network.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/VirtualNetworkProperties",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "VirtualNetworkFragment": {
+      "description": "A virtual network.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/VirtualNetworkPropertiesFragment",
+          "description": "The properties of the resource.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "VirtualNetworkProperties": {
+      "description": "Properties of a virtual network.",
+      "type": "object",
+      "properties": {
+        "allowedSubnets": {
+          "description": "The allowed subnets of the virtual network.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Subnet"
+          }
+        },
+        "description": {
+          "description": "The description of the virtual network.",
+          "type": "string"
+        },
+        "externalProviderResourceId": {
+          "description": "The Microsoft.Network resource identifier of the virtual network.",
+          "type": "string"
+        },
+        "externalSubnets": {
+          "description": "The external subnet properties.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExternalSubnet"
+          }
+        },
+        "subnetOverrides": {
+          "description": "The subnet overrides of the virtual network.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubnetOverride"
+          }
+        },
+        "createdDate": {
+          "format": "date-time",
+          "description": "The creation date of the virtual network.",
+          "type": "string",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "VirtualNetworkPropertiesFragment": {
+      "description": "Properties of a virtual network.",
+      "type": "object",
+      "properties": {
+        "allowedSubnets": {
+          "description": "The allowed subnets of the virtual network.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubnetFragment"
+          }
+        },
+        "description": {
+          "description": "The description of the virtual network.",
+          "type": "string"
+        },
+        "externalProviderResourceId": {
+          "description": "The Microsoft.Network resource identifier of the virtual network.",
+          "type": "string"
+        },
+        "externalSubnets": {
+          "description": "The external subnet properties.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExternalSubnetFragment"
+          }
+        },
+        "subnetOverrides": {
+          "description": "The subnet overrides of the virtual network.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubnetOverrideFragment"
+          }
+        },
+        "provisioningState": {
+          "description": "The provisioning status of the resource.",
+          "type": "string"
+        },
+        "uniqueIdentifier": {
+          "description": "The unique immutable identifier of a resource (Guid).",
+          "type": "string"
+        }
+      }
+    },
+    "WeekDetails": {
+      "description": "Properties of a weekly schedule.",
+      "type": "object",
+      "properties": {
+        "weekdays": {
+          "description": "The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "time": {
+          "description": "The time of the day the schedule will occur.",
+          "type": "string"
+        }
+      }
+    },
+    "WeekDetailsFragment": {
+      "description": "Properties of a weekly schedule.",
+      "type": "object",
+      "properties": {
+        "weekdays": {
+          "description": "The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "time": {
+          "description": "The time of the day the schedule will occur.",
+          "type": "string"
+        }
+      }
+    },
+    "WindowsOsInfo": {
+      "description": "Information about a Windows OS.",
+      "type": "object",
+      "properties": {
+        "windowsOsState": {
+          "description": "The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied).",
+          "enum": [
+            "NonSysprepped",
+            "SysprepRequested",
+            "SysprepApplied"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "WindowsOsState",
+            "modelAsString": true
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "api-version": {
+      "name": "api-version",
+      "in": "query",
+      "description": "Client API version.",
+      "required": true,
+      "type": "string",
+      "default": "2016-05-15"
+    },
+    "resourceGroupName": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "description": "The name of the resource group.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "subscriptionId": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "The subscription ID.",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "securityDefinitions": {
+    "oauth2": {
+      "type": "oauth2",
+      "description": "OAuth2 Implicit Grant",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "Access Microsoft Azure"
+      }
+    }
+  },
+  "security": [
+    {
+      "oauth2": [
+        "user_impersonation"
+      ]
+    }
+  ]
+}

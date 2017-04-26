@@ -294,7 +294,7 @@ For information about getting started with Azure REST operations including reque
 | caching | No | String | Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage** |    
 | lun | Yes | Int | Specifies the logical unit number of the data disk. |    
 | vhd | Yes | String | Specifies the uri of the location in storage where the VHD for the virtual machine should be placed. | 
-| [mamagedDisk](#managedDisk) | Specified the identifier and optional storage account type for the disk. |   
+| [managedDisk](#managedDisk) | Specified the identifier and optional storage account type for the disk. |   
 | creationOption | Yes | String | Specifies how the data disk should be created. <br><br> Possible values are: <br><br> **Attach** - This value is used when you are using a specialized disk/VHD to attach to the virtual machine. <br><br> **FromImage** - This value is used when you are using an image to create the virtual machine. If you are using a platform image, you will also use the imageReference element described above. If you are using a marketplace image, you will also use the plan element described above. |    
 
 #### <a name="managedDisk"></a> managedDisk
