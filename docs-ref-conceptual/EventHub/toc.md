@@ -1,4 +1,4 @@
-# [Event Hubs Runtime REST](event-hubs-runtime-rest.md)
+# [Event Hubs service REST](event-hubs-runtime-rest.md)
 ## [Publisher policy operations](publisher-policy-operations.md)
 ### [Get revoked publishers](get-revoked-publishers.md)
 ### [Revoke publisher](revoke-publisher.md)

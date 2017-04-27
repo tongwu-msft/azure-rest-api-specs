@@ -1,4 +1,4 @@
-# [Service Bus Runtime REST](service-bus-runtime-rest.md)
+# [Service Bus service REST](service-bus-runtime-rest.md)
 ## [Introduction](introduction.md)
 ## [REST vs. .NET Client Support](rest-dotnet-client-support.md)
 ## [Addressing and Protocol](addressing-and-protocol.md)
