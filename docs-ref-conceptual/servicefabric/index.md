@@ -40,7 +40,7 @@ Use these APIs to manage Service Fabric clusters, applications, and services.
   
  All task operations conform to the HTTP/1.1 protocol specification. All task operations return standard HTTP status codes and may also return additional [Status and Error Codes](status-and-error-codes1.md) in the response body. You must make sure that requests made to these resources are secure. For more information, see [Authenticating Service Fabric REST Requests](authenticating-service-fabric-rest-requests.md).  
   
- To connect to the local development cluster, you must use the correct URI with the correct client connection port, identified by {connection-port} in the URIs listed below. If the cluster is running in Microsoft Azure, the client connection port is specified by HttpGatewayListenAddress in the ServiceDefinition.csdef file. If the cluster is running in Windows, the client connection port is specified by HttpGatewayEndpoint in the cluster manifest file.  
+ To connect to the local development cluster, you must use the correct URI with the correct client connection port, identified by {connection-port} in the URIs listed below. The client connection port is specified by HttpGatewayEndpoint in the cluster manifest file.  
   
  Though the examples show http, both http and https protocols are supported by Service Fabric. The protocol is specified by HttpGatewayEndpoint in the cluster manifest file.  
   
