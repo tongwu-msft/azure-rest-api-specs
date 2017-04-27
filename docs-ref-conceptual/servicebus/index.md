@@ -35,7 +35,7 @@ The Service Bus REST API provides operations for working with the following reso
 
 ### Service Bus service
 
-Service Bus [service APIs](/rest/api/servicebus/service-bus-runtime-rest) access the Service Bus service directly, and perform various management operations at the entity level, rather than at the namespace level (such as [sending a message to a queue](/rest/api/servicebus/send-message-to-queue). These APIs use [SAS authentication](/azure/service-bus/service-bus-sas). 
+Service Bus [service APIs](/rest/api/servicebus/service-bus-runtime-rest) access the Service Bus service directly, and perform various management operations at the entity level, rather than at the namespace level (such as [sending a message to a queue](/rest/api/servicebus/send-message-to-queue). These APIs use [SAS authentication](/azure/service-bus-messaging/service-bus-sas). 
 
 ### RDFE management
 
