@@ -1,25 +1,17 @@
 ---
 title: "Partition"
-ms.custom: ""
-ms.date: "2016-12-14"
+ms.date: "2017-04-26"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "service-fabric"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 applies_to: 
   - "Azure"
-  - "Windows 10"
-  - "Windows 8"
-  - "Windows 8.1"
   - "Windows Server 2012 R2"
+  - "Windows Server 2016"
 dev_langs: 
-  - "CSharp"
+  - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-ms.assetid: 02f920e8-2c2d-46e6-859f-2ede5c900415
-caps.latest.revision: 7
 author: "rwike77"
 ms.author: "ryanwi"
 manager: "timlt"
@@ -35,35 +27,17 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Partition
-APIs to manage Azure Service Fabric partitions.  
-  
-##  <a name="bk_common"></a> Common parameters and headers  
- The following information is common to all tasks that you might do related to partitions:  
-  
--   Replace {api-version} with the version of the REST API you are targeting. For version 1.0, use the value "1.0".  
-  
--   Replace {application-name} with the name of the application in the URI.  
-  
--   Replace {service-name} with the name of the service in the URI.  
-  
--   Replace {partition-id} with the partition ID in the URI.  
-  
-## Tasks  
- You can do the following with partition resources:  
-  
--   [Get a list of partitions](get-a-list-of-partitions.md)  
-  
--   [Get the health of a partition](get-the-health-of-a-partition.md)  
-  
--   [Get the health of a partition by using a health policy](get-the-health-of-a-partition-by-using-a-health-policy.md)  
-  
--   [Report the health of a partition](report-the-health-of-a-partition.md)  
-  
--   [Recover a partition from quorum loss state](recover-a-partition-from-quorum-loss-state.md)  
-  
--   [Get the load of a partition](get-the-load-of-a-partition.md)  
-  
--   [Reset the load of a partition](reset-the-load-of-a-partition.md)
+# Partition APIs
 
--   [Get the service for a partition](get-the-service-for-a-partition.md)
+## [Get Partition Info List](get-partition-info-list.md)
+## [Get Partition Info](get-partition-info.md)
+## [Get Service Name Info](get-service-name-info.md)
+## [Get Partition Health](get-partition-health.md)
+## [Get Partition Health Using Policy](get-partition-health-using-policy.md)
+## [Report Partition Health](report-partition-health.md)
+## [Get Partition Load Information](get-partition-load-information.md)
+## [Recover Partition](recover-partition.md)
+## [Recover Service Partitions](recover-service-partitions.md)
+## [Recover System Partitions](recover-system-partitions.md)
+## [Recover All Partitions](recover-all-partitions.md)
+

@@ -1,25 +1,17 @@
 ---
 title: "Service Fabric REST API Reference"
-ms.custom: ""
-ms.date: "2017-02-03"
+ms.date: "2017-04-26"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "service-fabric"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 applies_to: 
   - "Azure"
-  - "Windows 10"
-  - "Windows 8"
-  - "Windows 8.1"
   - "Windows Server 2012 R2"
+  - "Windows Server 2016"
 dev_langs: 
-  - "CSharp"
+  - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-ms.assetid: 68ce493e-e3e4-435a-a730-34410545f04b
-caps.latest.revision: 30
 author: "rwike77"
 ms.author: "ryanwi"
 manager: "timlt"
@@ -35,11 +27,16 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Service Fabric REST API Reference
-Use these APIs to manage Service Fabric clusters, applications, and services.  
-  
- All task operations conform to the HTTP/1.1 protocol specification. All task operations return standard HTTP status codes and may also return additional [Status and Error Codes](status-and-error-codes1.md) in the response body. You must make sure that requests made to these resources are secure. For more information, see [Authenticating Service Fabric REST Requests](authenticating-service-fabric-rest-requests.md).  
-  
+
+
+# Service Fabric REST Client API Reference
+
+[Service Fabric](http://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. Service Fabric also addresses the significant challenges in developing and managing cloud applications. Developers and administrators can avoid complex infrastructure problems and focus on implementing mission-critical, demanding workloads that are scalable, reliable, and manageable. Service Fabric represents the next-generation middleware platform for building and managing these enterprise-class, tier-1, cloud-scale applications.
+
+This document provides a reference of REST APIs to manager Service Fabric cluster, applications and services.
+
+All task operations conform to the HTTP/1.1 protocol specification. All task operations return standard HTTP status codes and may also return additional [Status and Error Codes](status-and-error-codes.md) in the response body. See [Service Fabric Names and JSON Serialization](service-fabric-names-and-json-serialization.md) for special considerations when serializing and de-serializing names and identities of various entities such as nodes, applications, services, partitions and replicas in the Service Fabric cluster, to and from request and response. You must make sure that requests and responses are secure. For more information, see [Authenticating Service Fabric REST Requests](authenticating-service-fabric-rest-requests.md). 
+
  To connect to the local development cluster, you must use the correct URI with the correct client connection port, identified by {connection-port} in the URIs listed below. The client connection port is specified by HttpGatewayEndpoint in the cluster manifest file.  
   
  Though the examples show http, both http and https protocols are supported by Service Fabric. The protocol is specified by HttpGatewayEndpoint in the cluster manifest file.  
@@ -61,111 +58,143 @@ http://MyCluster.cloudapp.net:{connection-port}
 ```  
 http://65.52.117.43:{connection-port}  
 ```  
-  
- When de-serializing Service Fabric Names in a JSON request body, the following should be considered:  
-  
--   " " (space) should not be converted to %20  
-  
--   / should be converted to \\/  
-  
- Therefore, .NET users should not convert their Service Fabric Name into a URI before deserializing it and should prefer string.  
-  
- The following sample demonstrates the correct request body format for “/”:  
-  
-```  
-POST http://localhost:19007/Applications/$/Create?api-version=1.0 HTTP/1.1  
-User-Agent: Fiddler  
-Host: localhost:19007  
-Content-Length: 114  
-Content-Type: application/json; charset=utf-8  
-{"Name":"fabric:\/sample Application","TypeName":"PersistentPiEstimatorApp","TypeVersion":"1.0","ParameterList":[]}  
-```  
-  
--   [Service](service.md)  
-  
--   [Partition](partition.md)  
-  
--   [Service package](service-package.md)  
-  
--   [Cluster](cluster.md)  
-  
--   [Replica](replica.md)  
-  
--   [Deployed application](deployed-application.md)  
-  
--   [Node](node.md)  
-  
--   [Code package](code-package.md)  
-  
--   [Application type](application-type.md)  
-  
--   [Service type](service-type.md)  
-  
--   [Application](application2.md)  
-  
--   [Native image store](native-image-store.md)  
 
--   [Image store](image-store.md)
-  
-## Common tasks  
- **Cluster**  
-  
--   [Get a list of system services ](get-a-list-of-system-services.md)  
-  
--   [Register a cluster package](register-a-cluster-package.md)  
-  
- **Node**  
-  
--   [Get a list of nodes](get-a-list-of-nodes.md)  
-  
--   [Activate a node](activate-a-node.md)  
-  
- **Deployed application**  
-  
--   [Get a list of applications](get-a-list-of-applications.md)  
-  
--   [Get the health of an application](get-the-health-of-an-application.md)  
-  
- **Service package**  
-  
--   [Get a list of services](get-a-list-of-services.md)  
-  
--   [Get the health of a service](get-the-health-of-a-service.md)  
-  
- **Code package**  
-  
--   [Get a list of code packages](get-a-list-of-code-packages.md)  
-  
- **Application type**  
-  
--   [Get a list of application types](get-a-list-of-application-types.md)  
-  
--   [Provision an application](provision-an-application.md)  
-  
- **Service type**  
-  
--   [Get a list of service types](get-a-list-of-service-types.md)  
-  
- **Application**  
-  
--   [Get a list of applications](get-a-list-of-applications.md)  
-  
--   [Create an application](create-an-application.md)  
-  
- **Service**  
-  
--   [Get a list of services](get-a-list-of-services.md)  
-  
--   [Create a service](create-a-service.md)  
-  
- **Partition**  
-  
--   [Get a list of partitions](get-a-list-of-partitions.md)  
-  
--   [Get the health of a partition](get-the-health-of-a-partition.md)  
-  
- **Replica**  
-  
--   [Get a list of replicas](get-a-list-of-replicas.md)  
-  
--   [Get the health of a replica](get-the-health-of-a-replica.md)
+Following is a list of Service Fabric REST Client APIs.
+
+# [Cluster](Cluster.md)
+
+## [Get Cluster Manifest](get-cluster-manifest.md)
+## [Get Cluster Health](get-cluster-health.md)
+## [Get Cluster Health Using Policy](get-cluster-health-using-policy.md)
+## [Report Cluster Health](report-cluster-health.md)
+## [Get Provisioned Fabric Code Version Info List](get-provisioned-fabric-code-version-info-list.md)
+## [Get Provisioned Fabric Config Version Info List](get-provisioned-fabric-config-version-info-list.md)
+## [Get Cluster Upgrade Progress](get-cluster-upgrade-progress.md)
+## [Get Aad Metadata](get-aad-metadata.md)
+
+# [Node](Node.md)
+
+## [Get Node Info List](get-node-info-list.md)
+## [Get Node Info](get-node-info.md)
+## [Get Node Health](get-node-health.md)
+## [Get Node Health Using Policy](get-node-health-using-policy.md)
+## [Report Node Health](report-node-health.md)
+## [Get Node Load Info](get-node-load-info.md)
+## [Disable Node](disable-node.md)
+## [Enable Node](enable-node.md)
+## [Remove Node State](remove-node-state.md)
+## [Start Node](start-node.md)
+## [Stop Node](stop-node.md)
+## [Restart Node](restart-node.md)
+
+# [ApplicationType](ApplicationType.md)
+
+## [Get Application Type Info List](get-application-type-info-list.md)
+## [Get Application Type Info List By Name](get-application-type-info-list-by-name.md)
+## [Register Application Type](register-application-type.md)
+## [Unregister Application Type](unregister-application-type.md)
+## [Get Application Manifest](get-application-manifest.md)
+
+# [ServiceType](ServiceType.md)
+
+## [Get Service Type Info List](get-service-type-info-list.md)
+## [Get Service Manifest](get-service-manifest.md)
+## [Get Deployed Service Type Info List](get-deployed-service-type-info-list.md)
+## [Get Deployed Service Type Info By Name](get-deployed-service-type-info-by-name.md)
+
+# [Application](Application.md)
+
+## [Create Application](create-application.md)
+## [Delete Application](delete-application.md)
+## [Get Application Info List](get-application-info-list.md)
+## [Get Application Info](get-application-info.md)
+## [Get Application Health](get-application-health.md)
+## [Get Application Health Using Policy](get-application-health-using-policy.md)
+## [Report Application Health](report-application-health.md)
+## [Start Application Upgrade](start-application-upgrade.md)
+## [Get Application Upgrade](get-application-upgrade.md)
+## [Get Deployed Application Info List](get-deployed-application-info-list.md)
+## [Get Deployed Application Info](get-deployed-application-info.md)
+## [Get Deployed Application Health](get-deployed-application-health.md)
+## [Get Deployed Application Health Using Policy](get-deployed-application-health-using-policy.md)
+## [Report Deployed Application Health](report-deployed-application-health.md)
+
+# [Service](Service.md)
+
+## [Get Service Info List](get-service-info-list.md)
+## [Get Application Name Info](get-application-name-info.md)
+## [Create Service](create-service.md)
+## [Create Service From Template](create-service-from-template.md)
+## [Delete Service](delete-service.md)
+## [Update Service](update-service.md)
+## [Get Service Description](get-service-description.md)
+## [Get Service Health](get-service-health.md)
+## [Get Service Health Using Policy](get-service-health-using-policy.md)
+## [Report Service Health](report-service-health.md)
+## [Resolve Service](resolve-service.md)
+## [Get Partition Info List](get-partition-info-list.md)
+
+# [Partition](Partition.md)
+
+## [Get Partition Info List](get-partition-info-list.md)
+## [Get Partition Info](get-partition-info.md)
+## [Get Service Name Info](get-service-name-info.md)
+## [Get Partition Health](get-partition-health.md)
+## [Get Partition Health Using Policy](get-partition-health-using-policy.md)
+## [Report Partition Health](report-partition-health.md)
+## [Get Partition Load Information](get-partition-load-information.md)
+## [Recover Partition](recover-partition.md)
+## [Recover Service Partitions](recover-service-partitions.md)
+## [Recover System Partitions](recover-system-partitions.md)
+## [Recover All Partitions](recover-all-partitions.md)
+
+# [Replica](Replica.md)
+
+## [Get Replica Info List](get-replica-info-list.md)
+## [Get Replica Health](get-replica-health.md)
+## [Get Replica Health Using Policy](get-replica-health-using-policy.md)
+## [Report Replica Health](report-replica-health.md)
+## [Get Deployed Service Replica Info List](get-deployed-service-replica-info-list.md)
+## [Get Deployed Service Replica Detail Info](get-deployed-service-replica-detail-info.md)
+## [Restart Replica](restart-replica.md)
+## [Remove Replica](remove-replica.md)
+
+# [Service Package](Service-Package.md)
+
+## [Get Deployed Service Package Info List](get-deployed-service-package-info-list.md)
+## [Get Deployed Service Package Info List By Name](get-deployed-service-package-info-list-by-name.md)
+## [Get Deployed Service Package Health](get-deployed-service-package-health.md)
+## [Get Deployed Service Package Health Using Policy](get-deployed-service-package-health-using-policy.md)
+## [Report Deployed Service Package Health](report-deployed-service-package-health.md)
+
+# [Code Package](Code-Package.md)
+
+## [Get Deployed Code Package Info List](get-deployed-code-package-info-list.md)
+## [Restart Deployed Code Package](restart-deployed-code-package.md)
+
+# [Compose Deployment](Compose-Deployment.md)
+
+## [Create Compose Application](create-compose-application.md)
+## [Get Compose Application Status](get-compose-application-status.md)
+## [Get Compose Application Status List](get-compose-application-status-list.md)
+## [Remove Compose Application](remove-compose-application.md)
+
+# [Chaos](Chaos.md)
+
+## [Start Chaos](start-chaos.md)
+## [Stop Chaos](stop-chaos.md)
+## [Get Chaos Report](get-chaos-report.md)
+
+# [ImageStore](ImageStore.md)
+
+## [Upload File](upload-file.md)
+## [Get Image Store Content](get-image-store-content.md)
+## [Delete Image Store Content](delete-image-store-content.md)
+## [Get Image Store Root Content](get-image-store-root-content.md)
+## [Copy Image Store Content](copy-image-store-content.md)
+
+# [Infrastructure](Infrastructure.md)
+
+## [Invoke Infrastructure Command](invoke-infrastructure-command.md)
+## [Invoke Infrastructure Query](invoke-infrastructure-query.md)
+

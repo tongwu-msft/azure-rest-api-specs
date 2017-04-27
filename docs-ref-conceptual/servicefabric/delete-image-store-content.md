@@ -1,85 +1,67 @@
 ---
-title: "Delete image store content"
-ms.custom: ""
-ms.date: "2016-12-14"
+title: "Delete Image Store Content"
+ms.date: "2017-04-26"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "service-fabric"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 applies_to: 
   - "Azure"
-  - "Windows 10"
-  - "Windows 8"
-  - "Windows 8.1"
   - "Windows Server 2012 R2"
+  - "Windows Server 2016"
 dev_langs: 
-  - "CSharp"
-ms.assetid: 
-caps.latest.revision: 4
+  - "rest-api"
+helpviewer_keywords: 
+  - "Service Fabric REST API Reference"
 author: "rwike77"
 ms.author: "ryanwi"
 manager: "timlt"
+translation.priority.mt: 
+  - "de-de"
+  - "es-es"
+  - "fr-fr"
+  - "it-it"
+  - "ja-jp"
+  - "ko-kr"
+  - "pt-br"
+  - "ru-ru"
+  - "zh-cn"
+  - "zh-tw"
 ---
-# Delete image store content
-Deletes image store content from the given relative path.  
-  
-## Request  
- See [Image Store](image-store.md) for headers and parameters that are used by all requests related the image store.  
-  
-|Method|Request URI|  
-|------------|-----------------|  
-|DELETE|`<URI>/ImageStore/{remote-location}?api-version={api-version}`|  
-  
-## URI Parameters  
-  
-|URI Parameter|Required|Description|  
-|-------------------|--------------|-----------------|  
-|api-version|Yes|The API Version, which is "1.0”.|  
-|remote-location|Yes|Relative path in the image store.|  
-  
-## Response  
- A successful operation will return 200 OK. For information on error codes, see [Status and Error Codes](status-and-error-codes1.md).  
-  
-## Examples  
- The following example deletes an application.  
-  
-```  
-public static bool DeleteImageStoreContent(Uri clusterUri, string remoteLocation)
-{
-    Uri requestUri = new Uri(clusterUri, string.Format("/ImageStore/{0}?api-version={1}", remoteLocation, "1.0"));
+# Delete Image Store Content
+Deletes existing image store content.
+
+Deletes existing image store content being found within the given image store relative path. This can be used to delete uploaded application packages once they are provisioned.
+
+## Request
+| Method | Request URI |
+| ------ | ----------- |
+| DELETE | `/ImageStore/{contentPath}?api-version=3.0` |
 
 
-    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requestUri);
-    request.Method = "DELETE";
-    HttpStatusCode statusCode;
+## Parameters
+| Name | Type | Required | Location |
+| --- | --- | --- | --- |
+| [contentPath](#contentpath) | string | Yes | Path |
+| [api-version](#api-version) | string | Yes | Query |
 
-    try
-    {
-       using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-       {
-          statusCode = response.StatusCode;
-       }
-    }
-    catch (WebException e)
-    {
-         Console.WriteLine("Error deleting image store content:");
-         Console.WriteLine(e.Message);
-         if (e.InnerException != null)
-         {
-            Console.WriteLine(e.InnerException.Message);
-         }
+____
+### contentPath
+__Type__: string <br/>
+__Required__: Yes<br/>
+<br/>
+Relative path to file or folder in the image store from its root.
 
-         return false;
-       }
-       catch (Exception e)
-       {
-         throw (e);
-       }
+____
+### api-version
+__Type__: string <br/>
+__Required__: Yes<br/>
+__Default__: 3.0 <br/>
+<br/>
+The version of the API. This is a required parameter and it's value must be "3.0".
 
-       Console.WriteLine("Delet image store content response status = " + statusCode.ToString());
-       return true;
-    }
-  
-```
+## Responses
+
+| HTTP Status Code | Description | Response Schema |
+| --- | --- | --- |
+| 200 (OK) | A successful operation will return 200 status code.<br/> |  |
+| All other status codes | The detailed error response.<br/> | [FabricError](model-FabricError.md) |
