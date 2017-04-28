@@ -50,7 +50,7 @@ Azure Premium Storage offers a world-class cloud storage solution for Azure Virt
   
 -   A snapshot of a page blob in a Premium Storage account may be taken once every ten minutes. If that rate is exceeded, the `Snapshot Blob` operation returns error code 409 (SnaphotOperationRateExceeded).  
   
--   Public access to a container containing page blobs in Premium Storage is not permitted. Calling [Set Container ACL](Set-Container-ACL.md) with the `x-ms-blob-public-access` header returns error code 400 (UnsupportedHeader). You can, however, obtain public access for Premium Storage by creating a [SAS URI](storage-dotnet-shared-access-signature-part-1.md) with the right permissions and an infinite expiration time.
+-   Public access to a container containing page blobs in Premium Storage is not permitted. Calling [Set Container ACL](Set-Container-ACL.md) with the `x-ms-blob-public-access` header returns error code 400 (UnsupportedHeader). You can, however, obtain public access for Premium Storage by creating a [SAS URI](/azure/storage/storage-dotnet-shared-access-signature-part-1.md) with the right permissions and an infinite expiration time.
   
  For additional error information, see [Blob Service Error Codes](Blob-Service-Error-Codes.md).  
   
