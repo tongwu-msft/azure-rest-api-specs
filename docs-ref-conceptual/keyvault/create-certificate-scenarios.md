@@ -5,13 +5,14 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
+ms.date: 04/28/2017
 ---
 # Monitor and manage certificate creation
 Applies To: Azure  
 
-The following scenarios demonstrate a range of options for creating, monitoring, and interacting with the certificate creation process with Key Vault.
+The following scenarios demonstrate a range of options for creating, monitoring, and interacting with the certificate creation process with Key Vault (KV).
 
-The scenarios listed here are:
+The scenarios / operations outlined in this article are:
 
 - Request a KV Certificate with a supported issuer
 - Get pending request - request status is "inProgress"
