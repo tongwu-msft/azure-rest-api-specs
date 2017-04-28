@@ -1,6 +1,6 @@
 ---
-title: "Chaos"
-ms.date: "2017-04-26"
+title: "Infrastructure"
+ms.date: "2017-04-27"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,9 +27,10 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Chaos APIs
+# Infrastructure APIs
 
-## [Start Chaos](start-chaos.md)
-## [Stop Chaos](stop-chaos.md)
-## [Get Chaos Report](get-chaos-report.md)
+| Name | Description |
+| --- | --- |
+| [Invoke Infrastructure Command](invoke-infrastructure-command.md) | Invokes an administrative command on the given Infrastructure Service instance.<br/> |
+| [Invoke Infrastructure Query](invoke-infrastructure-query.md) | Invokes a read-only query on the given infrastructure service instance.<br/> |
 

@@ -1,6 +1,6 @@
 ---
 title: "ResolvedServiceEndpoint"
-ms.date: "2017-04-26"
+ms.date: "2017-04-27"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,11 +34,11 @@ Endpoint of a resolved service partition.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceEndpointRole](#serviceendpointrole) | string (enum) | No |
+| [Kind](#kind) | string (enum) | No |
 | [Address](#address) | string | No |
 
 ____
-### ServiceEndpointRole
+### Kind
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>

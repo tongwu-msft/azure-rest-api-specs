@@ -1,6 +1,6 @@
 ---
-title: "ApplicationType"
-ms.date: "2017-04-26"
+title: "Chaos"
+ms.date: "2017-04-27"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,11 +27,11 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationType APIs
+# Chaos APIs
 
-## [Get Application Type Info List](get-application-type-info-list.md)
-## [Get Application Type Info List By Name](get-application-type-info-list-by-name.md)
-## [Register Application Type](register-application-type.md)
-## [Unregister Application Type](unregister-application-type.md)
-## [Get Application Manifest](get-application-manifest.md)
+| Name | Description |
+| --- | --- |
+| [Start Chaos](start-chaos.md) | Starts Chaos in the cluster.<br/> |
+| [Stop Chaos](stop-chaos.md) | Stops Chaos in the cluster if it is already running, otherwise it does nothing.<br/> |
+| [Get Chaos Report](get-chaos-report.md) | Gets the next segment of the Chaos report based on the passed-in continuation token or the passed-in time-range.<br/> |
 

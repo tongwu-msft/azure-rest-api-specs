@@ -1,6 +1,6 @@
 ---
-title: "Infrastructure"
-ms.date: "2017-04-26"
+title: "Code Package"
+ms.date: "2017-04-27"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,8 +27,10 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Infrastructure APIs
+# Code Package APIs
 
-## [Invoke Infrastructure Command](invoke-infrastructure-command.md)
-## [Invoke Infrastructure Query](invoke-infrastructure-query.md)
+| Name | Description |
+| --- | --- |
+| [Get Deployed Code Package Info List](get-deployed-code-package-info-list.md) | Gets the list of code packages deployed on a Service Fabric node.<br/> |
+| [Restart Deployed Code Package](restart-deployed-code-package.md) | Restarts a code package deployed on a Service Fabric node in a cluster.<br/> |
 

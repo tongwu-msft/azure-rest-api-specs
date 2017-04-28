@@ -1,6 +1,6 @@
 ---
 title: "Report Service Health"
-ms.date: "2017-04-26"
+ms.date: "2017-04-27"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
