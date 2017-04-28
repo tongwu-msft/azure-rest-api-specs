@@ -30,7 +30,7 @@ The service will use HTTP status codes to indicate success or failure. In additi
 
 |Element name | Type | Description |
 |---|---|---|
-| code | string | The type of error that occured.|
+| code | string | The type of error that occurred.|
 | message | string | A description of what caused the error. |
 
 
