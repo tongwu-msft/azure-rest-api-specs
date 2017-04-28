@@ -5,39 +5,34 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
+ms.date: 04/28/2017
 ---
 # Certificates and policies
 
-A certificate and policy are the two primary resources that are use to compose a Key Vault certificate. A policy may be used for multiple certificates and contains the important information about how a certificate shall behave.
+A certificate and policy are the two primary resources that comprise a Key Vault certificate. A policy may be used for multiple certificates and contains important information about how a certificate will behave.
 
 Following are a list of the tasks with each certificates and certificate policies.
 
-## Tasks  
+## Tasks
+
  The Azure Key Vault REST API supports the following operations on certificates:  
 
 -   [Create a certificate ](../../docs-ref-autogen/keyvault/CreateCertificate.json)
-
 -   [Import a certificate](../../docs-ref-autogen/keyvault/ImportCertificate.json)  
-
 -   [List versions of a certificate](../../docs-ref-autogen/keyvault/GetCertificateVersions.json)  
-
 -   [List certificates](../../docs-ref-autogen/keyvault/GetCertificates.json)  
-
 -   [Get a certificate](../../docs-ref-autogen/keyvault/GetCertificate.json)  
-
 -   [Delete a certificate](../../docs-ref-autogen/keyvault/DeleteCertificate.json)  
-
 -   [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.json)  
-
 -   [Merge a certificate](../../docs-ref-autogen/keyvault/MergeCertificate.json)
 
  The following operations are available on a certificate policy:  
 
 -   [Get a certificate policy](../../docs-ref-autogen/keyvault/GetCertificatePolicy.json)  
-
 -   [Update a certificate policy](../../docs-ref-autogen/keyvault/UpdateCertificatePolicy.json)
 
 ## Certificate and policy resource details
+
 Certificates and their supporting policies are complex resources with the following elements.
 
 ### Certificate resource
@@ -60,6 +55,7 @@ A certificate resource is composed of the following elements.
 |Tags|Complex type|user provided set of key value pairs associated with certificate object|  
 
 ### Policy resource  
+
 A policy resource is used to aggregate several complex types used by a KV certificate. A policy may be referenced by more than one KV certificate.
 
 |Element Name|Type|Description|  
@@ -72,7 +68,7 @@ A policy resource is used to aggregate several complex types used by a KV certif
 |Issuer||Information about the x509 certificate issuer.|  
 |attributes||Complex type containing attributes associated with the policy|  
 
- **x509_props**  
+ #### D509 props  
 
  Some of these fields are required on create as specified. On import the values are parsed from imported x509 certificate.  
 
@@ -85,7 +81,7 @@ A policy resource is used to aggregate several complex types used by a KV certif
 |basic_contraints|Complex type|Complex type for basic constraints. Optional. Defaults to values for an end entity cert on create (not import)<br /><br /> ca: boolean - (optional) indicates if the x509 cert is a ca cert path_len_contraint: number (int) - (optional) number of allowed children if x509 cert is ca cert.|  
 |validity_months|number (int)|Expected validity of certificate in months. Optional. Default is 12 on create. On import takes the value from imported certificate.|  
 
- **key_props**  
+ #### Key props 
 Elements of a policy's key.
 
 |Element Name|Type|Description|  
@@ -95,18 +91,19 @@ Elements of a policy's key.
 |exportable|Boolean|Specifies if private key is exportable. This value must be false with kty = RSA-HSM. (optional). Defaults to true when kty is RSA and false for RSA-HSM|  
 |reuse_key|Boolean|Specifies if to reuse key from the current KV Certificate when create a new one.<br /><br /> This value is ignored when creating KV Certificate for the first time, or importing a certificate.<br /><br /> Default value is false.|  
 
- **secret_props**  
+#### Secret props
  Elements of a policy's secret.
 
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |contentType|string|MIME type for X509 certificate representation. Supported values are application/x-pkcs12, application/x-pem-file|  
 
- **lifetime_actions**  
+#### lifetime_actions
 
- Lifetime actions is an array of LifetimeAction types.
+ `Lifetime_actions` is an array of `LifetimeAction` types.
 
- **LifetimeAction**  
+#### LifetimeAction
+
   LifetimeAction contains Action and Trigger information of the policy.
 
 |Element Name|Type|Description|  
@@ -131,7 +128,8 @@ Elements of a policy's key.
 
  Trigger is a union of lifetime_percentage and dbe so, only one or the other is allowed.  
 
- **Issuer**  
+ #### Issuer
+
  Information about the certificate issuer provider.
 
 |Element Name|Type|Description|  
@@ -139,7 +137,8 @@ Elements of a policy's key.
 |name|String|Possible values are "Unknown", "Self" or {IssuerName}. Default value is "Unknown" which represents an out of band issuer. "Self" is for a self-signed issuance of x509 certificate.<br /><br /> IssuerName is name of the object created using an partner issuers provider created as /certificates/issuers/{issuerName}|  
 |cty|String|Certificate type that should be supplied to the issuer provider. This field is optional. The allowed values depend on the issuer provider. The following values are allowed with specified providers<br /><br /> DigiCert: OV-SSL, EV-SSL (defaults to OV-SSL if nothing is specified)<br /><br /> GlobalSign: OV-SSL, EV-SSL (defaults to OV-SSL if nothing is specified)<br /><br /> WoSign: OV-SSL, EV-SSL (defaults to value as configured on the WoSign portal)|  
 
- **attributes**  
+#### Attributes
+
  Additional elements of a policy resource.
 
 |Element Name|Type|Description|  
