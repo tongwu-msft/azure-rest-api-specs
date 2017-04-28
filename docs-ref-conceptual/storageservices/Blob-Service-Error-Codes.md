@@ -29,7 +29,6 @@ The error codes listed in the following table may be returned by an operation ag
   
 |Error code|HTTP status code|User message|  
 |----------------|----------------------|------------------|  
-
 |AppendPositionConditionNotMet|Precondition Failed (412)|The append position condition specified was not met.|  
 |BlobAlreadyExists|Conflict (409)|The specified blob already exists.|  
 |BlobNotFound|Not Found (404)|The specified blob does not exist.|  
@@ -59,7 +58,6 @@ The error codes listed in the following table may be returned by an operation ag
 |InvalidSourceBlobType|Conflict (409)|The copy source blob type is invalid for this operation.|
 |InvalidSourceBlobUrl|Conflict (409)|The source URL for incremental copy request must be valid Azure Storage blob URL.|
 |InvalidVersionForPageBlobOperation|Bad Request (400)|All operations on page blobs require at least version 2009-09-19.|  
-
 |LeaseAlreadyPresent|Conflict (409)|There is already a lease present.|  
 |LeaseAlreadyBroken|Conflict (409)|The lease has already been broken and cannot be broken again.|  
 |LeaseIdMismatchWithBlobOperation|Precondition Failed (412)|The lease ID specified did not match the lease ID for the blob.|  
@@ -76,7 +74,6 @@ The error codes listed in the following table may be returned by an operation ag
 |MaxBlobSizeConditionNotMet|Precondition Failed (412)|The max blob size condition specified was not met.|  
 |NoPendingCopyOperation|Conflict (409)|There is currently no pending copy operation.|  
 |OperationNotAllowedOnIncrementalCopyBlob|Conflict (409)|The specified operation is not allowed on an incremental copy blob.|
-
 |PendingCopyOperation|Conflict (409)|There is currently a pending copy operation.|  
 |PreviousSnapshotCannotBeNewer|Bad Request (400)|The `prevsnapshot` query parameter value cannot be newer than snapshot query parameter value.|  
 |PreviousSnapshotNotFound|Conflict (409)|The previous snapshot is not found.|  
