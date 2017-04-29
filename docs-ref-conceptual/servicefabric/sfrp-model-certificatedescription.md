@@ -1,6 +1,6 @@
 ---
 title: "CertificateDescription"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # CertificateDescription
 
-Certificate details
+Describes the certificate details.
 
 ## Properties
 | Name | Type | Required |
@@ -41,18 +41,18 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-Thumbprint of the primary certificate
+Thumbprint of the primary certificate.
 
 ____
 ### thumbprintSecondary
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Thumbprint of the secondary certificate
+Thumbprint of the secondary certificate.
 
 ____
 ### x509StoreName
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-The local certificate store location
+The local certificate store location.

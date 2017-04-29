@@ -1,6 +1,6 @@
 ---
 title: "PartitionHealth"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,7 +37,7 @@ Information about the health of a Service Fabric partition.
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |
 | [HealthEvents](#healthevents) | array of [HealthEvent](sfclient-model-healthevent.md) | No |
 | [UnhealthyEvaluations](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
-| [PartitionId](#partitionid) | string | No |
+| [PartitionId](#partitionid) | string (uuid) | No |
 | [ReplicaHealthStates](#replicahealthstates) | array of [ReplicaHealthState](sfclient-model-replicahealthstate.md) | No |
 
 ____
@@ -76,7 +76,7 @@ The unhealthy evaluations that show why the current aggregated health state was 
 
 ____
 ### PartitionId
-__Type__: string <br/>
+__Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>
 ID of the partition whose health information is described by this object.

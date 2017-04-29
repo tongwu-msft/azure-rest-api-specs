@@ -1,6 +1,6 @@
 ---
 title: "HealthEvent"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -42,7 +42,6 @@ Represents health information reported on a health entity, such as cluster, appl
 | [Description](#description) | string | No |
 | [SequenceNumber](#sequencenumber) | string (int64) | No |
 | [RemoveWhenExpired](#removewhenexpired) | boolean | No |
-| [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |
 | [IsExpired](#isexpired) | boolean | No |
 | [SourceUtcTimestamp](#sourceutctimestamp) | string (date-time) | No |
 | [LastModifiedUtcTimestamp](#lastmodifiedutctimestamp) | string (date-time) | No |
@@ -135,20 +134,6 @@ If set to false, the report is treated as an error when expired. The value of th
 When clients report periodically, they should set RemoveWhenExpired false (default).
 This way, is the reporter has issues (eg. deadlock) and can't report, the entity is evaluated at error when the health report expires.
 This flags the entity as being in Error health state.
-
-
-____
-### AggregatedHealthState
-__Type__: string (enum) <br/>
-__Required__: No<br/>
-<br/>
-The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
-
-  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ok - Indicates the health state is okay. The value is 1.
-  - Warning - Indicates the health state is at a warning level. The value is 2.
-  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
-  - Unknown - Indicates an unknown health status. The value is 65535.
 
 
 ____

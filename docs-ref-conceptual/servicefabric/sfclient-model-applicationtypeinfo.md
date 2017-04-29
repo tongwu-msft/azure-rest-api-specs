@@ -1,6 +1,6 @@
 ---
 title: "ApplicationTypeInfo"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,7 +36,7 @@ Information about an application type.
 | --- | --- | --- |
 | [Name](#name) | string | No |
 | [Version](#version) | string | No |
-| [Status](#status) | integer | No |
+| [Status](#status) | string (enum) | No |
 | [DefaultParameterList](#defaultparameterlist) | array of [ApplicationParameter](sfclient-model-applicationparameter.md) | No |
 
 ____
@@ -55,7 +55,7 @@ The version of the application type.
 
 ____
 ### Status
-__Type__: integer <br/>
+__Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
 The status of the application type. Possible values are following.

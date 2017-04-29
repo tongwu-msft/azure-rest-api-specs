@@ -1,6 +1,6 @@
 ---
 title: "DeployedServicePackageHealthState"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,6 +38,7 @@ Represents the health state of a deployed service package, containing the entity
 | [NodeName](#nodename) | string | No |
 | [ApplicationName](#applicationname) | string | No |
 | [ServiceManifestName](#servicemanifestname) | string | No |
+| [ServicePackageActivationId](#servicepackageactivationid) | string | No |
 
 ____
 ### AggregatedHealthState
@@ -73,3 +74,13 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Name of the manifest describing the service package.
+
+____
+### ServicePackageActivationId
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+The ActivationId of a deployed service package. If ServicePackageActivationMode specified at the time of creating the service
+is 'SharedProcess' (or if it is not specified, in which case it defaults to 'SharedProcess'), then value of ServicePackageActivationId
+is always an empty string.
+

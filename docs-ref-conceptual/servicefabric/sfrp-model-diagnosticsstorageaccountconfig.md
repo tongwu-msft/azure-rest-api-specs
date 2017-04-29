@@ -1,6 +1,6 @@
 ---
 title: "DiagnosticsStorageAccountConfig"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # DiagnosticsStorageAccountConfig
 
-Diagnostics storage account config
+The storage account information for storing Service Fabric diagnostic logs.
 
 ## Properties
 | Name | Type | Required |
@@ -43,32 +43,32 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-Diagnostics storage account name
+The Azure storage account name.
 
 ____
 ### protectedAccountKeyName
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-Protected Diagnostics storage key name
+The protected diagnostics storage key name.
 
 ____
 ### blobEndpoint
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-Diagnostics storage account blob endpoint
+The blob endpoint of the azure storage account.
 
 ____
 ### queueEndpoint
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-Diagnostics storage account queue endpoint
+The queue endpoint of the azure storage account.
 
 ____
 ### tableEndpoint
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-Diagnostics storage account table endpoint
+The table endpoint of the azure storage account.

@@ -1,6 +1,6 @@
 ---
 title: "ClusterUpdateParameters"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,7 +40,7 @@ ____
 __Type__: [ClusterPropertiesUpdateParameters](sfrp-model-clusterpropertiesupdateparameters.md) <br/>
 __Required__: No<br/>
 <br/>
-The cluster resource properties can be updated
+Describes the cluster resource properties that can be updated during PATCH operation.
 
 ____
 ### tags

@@ -1,6 +1,6 @@
 ---
 title: "Get Application Health"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -87,10 +87,14 @@ __Type__: integer <br/>
 __Required__: No<br/>
 __Default__: 0 <br/>
 <br/>
-Allows filtering of the deployed applications health state objects returned in the result of deployed application health query based on their health state. The possible values for this parameter include integer value of one of the following health states. Only events that match the filter will be returned. All events will be used to evaluate the aggregated health state. If not specified, all entries will be returned. The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, if the provided value is 6 then health state of applications with HealthState value of OK (2) and Warning (4) will be returned. 
+Allows filtering of the deployed applications health state objects returned in the result of application health query based on their health state.
+The possible values for this parameter include integer value of one of the following health states. Only deployed applications that match the filter will be returned.\
+All deployed applications are used to evaluate the aggregated health state. If not specified, all entries are returned.
+The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator.
+For example, if the provided value is 6 then health state of deployed applications with HealthState value of OK (2) and Warning (4) are returned. 
   
 - Default - Default value. Matches any HealthState. The value is zero. 
-- None - Filter that doesn�t match any HealthState value. Used in order to return no results on a given collection of states. The value is 1. 
+- None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1. 
 - Ok - Filter that matches input with HealthState value Ok. The value is 2. 
 - Warning - Filter that matches input with HealthState value Warning. The value is 4. 
 - Error - Filter that matches input with HealthState value Error. The value is 8. 
@@ -103,7 +107,11 @@ __Type__: integer <br/>
 __Required__: No<br/>
 __Default__: 0 <br/>
 <br/>
-Allows filtering of the services health state objects returned in the result of services health query based on their health state. The possible values for this parameter include integer value of one of the following health states. Only events that match the filter will be returned. All events will be used to evaluate the aggregated health state. If not specified, all entries will be returned. The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, if the provided value is 6 then health state of services with HealthState value of OK (2) and Warning (4) will be returned. 
+Allows filtering of the services health state objects returned in the result of services health query based on their health state.
+The possible values for this parameter include integer value of one of the following health states.
+Only services that match the filter are returned. All services are used to evaluate the aggregated health state.
+If not specified, all entries are returned. The state values are flag based enumeration, so the value could be a combination of these value
+obtained using bitwise 'OR' operator. For example, if the provided value is 6 then health state of services with HealthState value of OK (2) and Warning (4) will be returned. 
   
 - Default - Default value. Matches any HealthState. The value is zero. 
 - None - Filter that doesn�t match any HealthState value. Used in order to return no results on a given collection of states. The value is 1. 

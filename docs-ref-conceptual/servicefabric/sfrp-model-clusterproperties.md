@@ -1,6 +1,6 @@
 ---
 title: "ClusterProperties"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # ClusterProperties
 
-The cluster resource properties
+Describes the cluster resource properties.
 
 ## Properties
 | Name | Type | Required |
@@ -47,7 +47,7 @@ The cluster resource properties
 | [managementEndpoint](#managementendpoint) | string | Yes |
 | [nodeTypes](#nodetypes) | array of [NodeTypeDescription](sfrp-model-nodetypedescription.md) | Yes |
 | [azureActiveDirectory](#azureactivedirectory) | [AzureActiveDirectory](sfrp-model-azureactivedirectory.md) | No |
-| [provisioningState](#provisioningstate) | [ProvisioningState](sfrp-model-provisioningstate.md) | No |
+| [provisioningState](#provisioningstate) | string (enum) | No |
 | [vmImage](#vmimage) | string | No |
 | [diagnosticsStorageAccountConfig](#diagnosticsstorageaccountconfig) | [DiagnosticsStorageAccountConfig](sfrp-model-diagnosticsstorageaccountconfig.md) | No |
 | [upgradeDescription](#upgradedescription) | [ClusterUpgradePolicy](sfrp-model-clusterupgradepolicy.md) | No |
@@ -57,126 +57,126 @@ ____
 __Type__: array of [ClusterVersionDetails](sfrp-model-clusterversiondetails.md) <br/>
 __Required__: No<br/>
 <br/>
-The available cluster code version which the cluster can upgrade to, note that you must choose upgradeMode to manual to upgrade to
+The available Service Fabric cluster versions available for this cluster.
 
 ____
 ### clusterId
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The unique identifier for the cluster resource
+A service generated unique identifier for the cluster resource.
 
 ____
 ### clusterState
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-The state for the cluster
+The state for the cluster.
 
 ____
 ### clusterEndpoint
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The endpoint for the cluster connecting to servicefabric resource provider
+The Azure Resource Provider endpoint. A system service in the cluster connects to this  endpoint.
 
 ____
 ### clusterCodeVersion
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The ServiceFabric code version running in your cluster
+The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**.
 
 ____
 ### certificate
 __Type__: [CertificateDescription](sfrp-model-certificatedescription.md) <br/>
 __Required__: No<br/>
 <br/>
-This primay certificate will be used as cluster node to node security, SSL certificate for cluster management endpoint and default admin client
+The certificate to use for securing the cluster. The certificate provided will be used for  node to node security within the cluster, SSL certificate for cluster management endpoint and default  admin client.
 
 ____
 ### reliabilityLevel
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-Cluster reliability level indicates replica set size of system service
+The reliability level sets the replica set size of system services. Learn about [ReliabilityLevel](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-capacity).
 
 ____
 ### upgradeMode
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-Cluster upgrade mode indicates if fabric upgrade is initiated automatically by the system or not
+The upgrade mode of the cluster. This indicates if the cluster should be automatically upgraded when new Service Fabric runtime version is available.
 
 ____
 ### clientCertificateThumbprints
 __Type__: array of [ClientCertificateThumbprint](sfrp-model-clientcertificatethumbprint.md) <br/>
 __Required__: No<br/>
 <br/>
-The client thumbprint details ,it is used for client access for cluster operation
+The list of client certificates referenced by thumbprint that are allowed to manage the cluster.
 
 ____
 ### clientCertificateCommonNames
 __Type__: array of [ClientCertificateCommonName](sfrp-model-clientcertificatecommonname.md) <br/>
 __Required__: No<br/>
 <br/>
- List of client certificates to whitelist based on common names
+The list of client certificates referenced by common name that are allowed to manage the cluster.
 
 ____
 ### fabricSettings
 __Type__: array of [SettingsSectionDescription](sfrp-model-settingssectiondescription.md) <br/>
 __Required__: No<br/>
 <br/>
-List of custom fabric settings to configure the cluster.
+The list of custom fabric settings to configure the cluster.
 
 ____
 ### reverseProxyCertificate
 __Type__: [CertificateDescription](sfrp-model-certificatedescription.md) <br/>
 __Required__: No<br/>
 <br/>
-The server certificate used by reverse proxy
+The server certificate used by reverse proxy.
 
 ____
 ### managementEndpoint
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The http management endpoint of the cluster
+The http management endpoint of the cluster.
 
 ____
 ### nodeTypes
 __Type__: array of [NodeTypeDescription](sfrp-model-nodetypedescription.md) <br/>
 __Required__: Yes<br/>
 <br/>
-The list of nodetypes that make up the cluster
+The list of node types in the cluster.
 
 ____
 ### azureActiveDirectory
 __Type__: [AzureActiveDirectory](sfrp-model-azureactivedirectory.md) <br/>
 __Required__: No<br/>
 <br/>
-The settings to enable AAD authentication on the cluster
+The AAD authentication settings of the cluster.
 
 ____
 ### provisioningState
-__Type__: [ProvisioningState](sfrp-model-provisioningstate.md) <br/>
+__Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-The provisioning state of the cluster resource
+The provisioning state of the cluster resource.
 
 ____
 ### vmImage
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of VM image VMSS has been configured with. Generic names such as Windows or Linux can be used.
+The VM image VMSS has been configured with. Generic names such as Windows or Linux can be used.
 
 ____
 ### diagnosticsStorageAccountConfig
 __Type__: [DiagnosticsStorageAccountConfig](sfrp-model-diagnosticsstorageaccountconfig.md) <br/>
 __Required__: No<br/>
 <br/>
-The storage diagnostics account configuration details
+The storage account information for storing Service Fabric diagnostic logs.
 
 ____
 ### upgradeDescription

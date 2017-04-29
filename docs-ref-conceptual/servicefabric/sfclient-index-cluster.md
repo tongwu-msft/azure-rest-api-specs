@@ -1,6 +1,6 @@
 ---
 title: "Cluster"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,6 +34,8 @@ translation.priority.mt:
 | [Get Cluster Manifest](sfclient-api-getclustermanifest.md) | Get the Service Fabric cluster manifest.<br/> |
 | [Get Cluster Health](sfclient-api-getclusterhealth.md) | Gets the health of a Service Fabric cluster.<br/> |
 | [Get Cluster Health Using Policy](sfclient-api-getclusterhealthusingpolicy.md) | Gets the health of a Service Fabric cluster using the specified policy.<br/> |
+| [Get Cluster Health Chunk](sfclient-api-getclusterhealthchunk.md) | Gets the health of a Service Fabric cluster using health chunks.<br/> |
+| [Get Cluster Health Chunk Using Policy And Advanced Filters](sfclient-api-getclusterhealthchunkusingpolicyandadvancedfilters.md) | Gets the health of a Service Fabric cluster using health chunks.<br/> |
 | [Report Cluster Health](sfclient-api-reportclusterhealth.md) | Sends a health report on the Service Fabric cluster.<br/> |
 | [Get Provisioned Fabric Code Version Info List](sfclient-api-getprovisionedfabriccodeversioninfolist.md) | Gets a list of fabric code versions that are provisioned in a Service Fabric cluster.<br/> |
 | [Get Provisioned Fabric Config Version Info List](sfclient-api-getprovisionedfabricconfigversioninfolist.md) | Gets a list of fabric config versions that are provisioned in a Service Fabric cluster.<br/> |

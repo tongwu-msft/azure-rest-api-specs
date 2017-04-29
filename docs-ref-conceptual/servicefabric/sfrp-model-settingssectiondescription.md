@@ -1,6 +1,6 @@
 ---
 title: "SettingsSectionDescription"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # SettingsSectionDescription
 
-ServiceFabric section settings
+Describes a section in the fabric settings of the cluster.
 
 ## Properties
 | Name | Type | Required |
@@ -40,11 +40,11 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The name of settings section
+The section name of the fabric settings.
 
 ____
 ### parameters
 __Type__: array of [SettingsParameterDescription](sfrp-model-settingsparameterdescription.md) <br/>
 __Required__: Yes<br/>
 <br/>
-Collection of settings in the section, each setting is a tuple consisting of setting name and value
+The collection of parameters in the section.

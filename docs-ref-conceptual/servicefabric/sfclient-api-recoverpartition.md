@@ -1,6 +1,6 @@
 ---
 title: "Recover Partition"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,15 +35,22 @@ Indicates to the Service Fabric cluster that it should attempt to recover a spec
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Services/$/{service-name}/$/GetPartitions/$/{partitionId}/$/Recover?api-version=3.0` |
+| POST | `/Services/$/{serviceId}/$/GetPartitions/$/{partitionId}/$/Recover?api-version=3.0` |
 
 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
+| [serviceId](#serviceid) | string | Yes | Path |
 | [partitionId](#partitionid) | string (uuid) | Yes | Path |
-| [service-name](#service-name) | string | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
+
+____
+### serviceId
+__Type__: string <br/>
+__Required__: Yes<br/>
+<br/>
+The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
 
 ____
 ### partitionId
@@ -51,13 +58,6 @@ __Type__: string (uuid) <br/>
 __Required__: Yes<br/>
 <br/>
 The identity of the partition.
-
-____
-### service-name
-__Type__: string <br/>
-__Required__: Yes<br/>
-<br/>
-The name of the target service.
 
 ____
 ### api-version

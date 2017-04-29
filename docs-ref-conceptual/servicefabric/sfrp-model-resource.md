@@ -1,6 +1,6 @@
 ---
 title: "Resource"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,21 +43,21 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Resource ID.
+Azure resource ID.
 
 ____
 ### name
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Resource name.
+Azure resource name.
 
 ____
 ### type
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Resource type.
+Azure resource type.
 
 ____
 ### location

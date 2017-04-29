@@ -1,6 +1,6 @@
 ---
 title: "ClusterVersionDetails"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # ClusterVersionDetails
 
-The detail of the ServiceFabric runtime version result
+The detail of the Service Fabric runtime version result
 
 ## Properties
 | Name | Type | Required |
@@ -41,21 +41,21 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The ServiceFabric runtime version of the cluster
+The Service Fabric runtime version of the cluster.
 
 ____
 ### supportExpiryUtc
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The date of expiry of support of the version
+The date of expiry of support of the version.
 
 ____
 ### environment
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-Cluster operating system
+Indicates if this version is for Windows or Linux operating system.
 
 Cluster operating system, the default will be Windows
 

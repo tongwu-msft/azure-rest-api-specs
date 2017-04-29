@@ -1,6 +1,6 @@
 ---
 title: "AzureActiveDirectory"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # AzureActiveDirectory
 
-The settings to enable AAD authentication on the cluster
+The settings to enable AAD authentication on the cluster.
 
 ## Properties
 | Name | Type | Required |
@@ -41,18 +41,18 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Azure active directory tenant id
+Azure active directory tenant id.
 
 ____
 ### clusterApplication
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Azure active directory cluster application id
+Azure active directory cluster application id.
 
 ____
 ### clientApplication
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Azure active directory client application id
+Azure active directory client application id.

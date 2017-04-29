@@ -1,6 +1,6 @@
 ---
 title: "OperationListResult"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # OperationListResult
 
-Result of the request to list ServiceFabric operations. It contains a list of operations and a URL link to get the next set of results.
+Describes the result of the request to list Service Fabric operations.
 
 ## Properties
 | Name | Type | Required |
@@ -40,7 +40,7 @@ ____
 __Type__: array of [OperationResult](sfrp-model-operationresult.md) <br/>
 __Required__: No<br/>
 <br/>
-List of ServiceFabric operations supported by the Microsoft.ServiceFabric resource provider.
+List of Service Fabric operations supported by the Microsoft.ServiceFabric resource provider.
 
 ____
 ### nextLink

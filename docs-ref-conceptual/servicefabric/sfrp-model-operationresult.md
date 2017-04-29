@@ -1,6 +1,6 @@
 ---
 title: "OperationResult"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -42,14 +42,14 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Result name
+The name of the operation.
 
 ____
 ### display
 __Type__: [AvailableOperationDisplay](sfrp-model-availableoperationdisplay.md) <br/>
 __Required__: No<br/>
 <br/>
-Dispaly of the result
+The object that represents the operation.
 
 ____
 ### origin

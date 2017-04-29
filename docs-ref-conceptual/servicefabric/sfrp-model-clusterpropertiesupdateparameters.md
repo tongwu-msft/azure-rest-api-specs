@@ -1,6 +1,6 @@
 ---
 title: "ClusterPropertiesUpdateParameters"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # ClusterPropertiesUpdateParameters
 
-The cluster resource properties can be updated
+Describes the cluster resource properties that can be updated during PATCH operation.
 
 ## Properties
 | Name | Type | Required |
@@ -48,63 +48,63 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-This level is used to set the number of replicas of the system services
+The reliability level sets the replica set size of system services. Learn about [ReliabilityLevel](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-capacity).
 
 ____
 ### upgradeMode
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-Cluster upgrade mode indicates if fabric upgrade is initiated automatically by the system or not
+The upgrade mode of the cluster. This indicates if the cluster should be automatically upgraded when new Service Fabric runtime version is available.
 
 ____
 ### clusterCodeVersion
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The ServiceFabric code version, if set it, please make sure you have set upgradeMode to Manual, otherwise ,it will fail, if you are using PUT new cluster, you can get the version by using ClusterVersions_List, if you are updating existing cluster, you can get the availableClusterVersions from Clusters_Get
+The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**.
 
 ____
 ### certificate
 __Type__: [CertificateDescription](sfrp-model-certificatedescription.md) <br/>
 __Required__: No<br/>
 <br/>
-This primay certificate will be used as cluster node to node security, SSL certificate for cluster management endpoint and default admin client, the certificate should exist in the virtual machine scale sets or Azure key vault, before you add it. It will override original value
+The certificate to use for securing the cluster. The certificate provided will be used for  node to node security within the cluster, SSL certificate for cluster management endpoint and default  admin client.
 
 ____
 ### clientCertificateThumbprints
 __Type__: array of [ClientCertificateThumbprint](sfrp-model-clientcertificatethumbprint.md) <br/>
 __Required__: No<br/>
 <br/>
-The client thumbprint details, it is used for client access for cluster operation, it will override existing collection
+The list of client certificates referenced by thumbprint that are allowed to manage the cluster. This will overwrite the existing list.
 
 ____
 ### clientCertificateCommonNames
 __Type__: array of [ClientCertificateCommonName](sfrp-model-clientcertificatecommonname.md) <br/>
 __Required__: No<br/>
 <br/>
-List of client certificates to whitelist based on common names.
+The list of client certificates referenced by common name that are allowed to manage the cluster. This will overwrite the existing list.
 
 ____
 ### fabricSettings
 __Type__: array of [SettingsSectionDescription](sfrp-model-settingssectiondescription.md) <br/>
 __Required__: No<br/>
 <br/>
-List of custom fabric settings to configure the cluster, Note, it will overwrite existing collection
+The list of custom fabric settings to configure the cluster. This will overwrite the existing list.
 
 ____
 ### reverseProxyCertificate
 __Type__: [CertificateDescription](sfrp-model-certificatedescription.md) <br/>
 __Required__: No<br/>
 <br/>
-Certificate for the reverse proxy
+The server certificate used by reverse proxy.
 
 ____
 ### nodeTypes
 __Type__: array of [NodeTypeDescription](sfrp-model-nodetypedescription.md) <br/>
 __Required__: No<br/>
 <br/>
-The list of nodetypes that make up the cluster, it will override
+The list of node types in the cluster. This will overwrite the existing list.
 
 ____
 ### upgradeDescription

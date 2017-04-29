@@ -1,6 +1,6 @@
 ---
 title: "SettingsParameterDescription"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # SettingsParameterDescription
 
-ServiceFabric settings under sections
+Describes a parameter in fabric settings of the cluster.
 
 ## Properties
 | Name | Type | Required |
@@ -40,11 +40,11 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The name of settings property
+The parameter name of fabric setting.
 
 ____
 ### value
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The value of the property
+The parameter value of fabric setting.

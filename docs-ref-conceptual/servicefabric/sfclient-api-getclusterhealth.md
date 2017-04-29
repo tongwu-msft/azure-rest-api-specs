@@ -1,6 +1,6 @@
 ---
 title: "Get Cluster Health"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -65,7 +65,7 @@ __Default__: 0 <br/>
 <br/>
 Allows filtering of the node health state objects returned in the result of cluster health query 
 based on their health state. The possible values for this parameter include integer value of one of the 
-following health states. Only events that match the filter are returned. All events are used to evaluate the aggregated health state.
+following health states. Only nodes that match the filter are returned. All nodes are used to evaluate the aggregated health state.
 If not specified, all entries are returned.
 The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
 For example, if the provided value is 6 then health state of nodes with HealthState value of OK (2) and Warning (4) are returned.
@@ -87,8 +87,8 @@ __Default__: 0 <br/>
 Allows filtering of the application health state objects returned in the result of cluster health 
 query based on their health state.
 The possible values for this parameter include integer value obtained from members or bitwise operations
-on members of HealthStateFilter enumeration. Only events that match the filter are returned. 
-All events are used to evaluate the aggregated health state. If not specified, all entries are returned.
+on members of HealthStateFilter enumeration. Only applications that match the filter are returned. 
+All applications are used to evaluate the aggregated health state. If not specified, all entries are returned.
 The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
 For example, if the provided value is 6 then health state of applications with HealthState value of OK (2) and Warning (4) are returned.
   

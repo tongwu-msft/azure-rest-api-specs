@@ -1,6 +1,6 @@
 ---
 title: "List By Resource Group"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,7 @@ List cluster resource by resource group
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters?api-version={api-version}` |
+| GET | `/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters?api-version=2016-09-01` |
 
 
 ## Parameters
@@ -49,7 +49,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The name of the resource group to which the resource belongs or get created
+The name of the resource group.
 
 ____
 ### subscriptionId
@@ -62,8 +62,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
+__Default__: 2016-09-01 <br/>
 <br/>
-The version of the ServiceFabric resouce provider api
+The version of the API. This is a required parameter and it's value must be "2016-09-01".
 
 ## Responses
 

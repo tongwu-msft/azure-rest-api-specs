@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceInstanceHealthState"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,17 @@ Represents the health state of the stateless service instance, which contains th
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
+| [ServiceKind](#servicekind) | string | Yes |
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |
-| [ServiceKind](#servicekind) | string (enum) | No |
 | [PartitionId](#partitionid) | string (uuid) | No |
 | [ReplicaId](#replicaid) | string (int64) | No |
+
+____
+### ServiceKind
+__Type__: string <br/>
+__Required__: Yes <br/>
+<br/>
+A discriminator property. Its value must be 'Stateless' for objects of type 'StatelessServiceInstanceHealthState'.
 
 ____
 ### AggregatedHealthState
@@ -54,23 +61,11 @@ The health state of a Service Fabric entity such as Cluster, Node, Application, 
 
 
 ____
-### ServiceKind
-__Type__: string (enum) <br/>
-__Required__: No<br/>
-<br/>
-The kind of service (Stateless or Stateful). Following are the possible values.
-
-- Invalid - Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-- Stateless - Does not use Service Fabric to make its state highly available or reliable. The value is 1.
-- Stateful - Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.
-
-
-____
 ### PartitionId
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>
-Id of the partition to which this replica belongs.
+The ID of the partition to which this replica belongs.
 
 ____
 ### ReplicaId

@@ -1,6 +1,6 @@
 ---
 title: "ClusterCodeVersionsResult"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -63,4 +63,4 @@ ____
 __Type__: [ClusterVersionDetails](sfrp-model-clusterversiondetails.md) <br/>
 __Required__: No<br/>
 <br/>
-The detail of the ServiceFabric runtime version result
+The detail of the Service Fabric runtime version result

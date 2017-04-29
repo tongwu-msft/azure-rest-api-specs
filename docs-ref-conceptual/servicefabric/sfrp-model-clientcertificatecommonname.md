@@ -1,6 +1,6 @@
 ---
 title: "ClientCertificateCommonName"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # ClientCertificateCommonName
 
-Client certificate details using common name
+Describes the client certificate details using common name.
 
 ## Properties
 | Name | Type | Required |
@@ -41,18 +41,18 @@ ____
 __Type__: boolean <br/>
 __Required__: Yes<br/>
 <br/>
-Is this certificate used for admin access from the client, if false , it is used or query only access
+Indicates if the client certificate has admin access to the cluster. Non admin clients can perform only read only operations on the cluster.
 
 ____
 ### certificateCommonName
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-Certificate common name to be granted access; be carefull using wild card common names
+The common name of the client certificate.
 
 ____
 ### certificateIssuerThumbprint
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-Certificate issuer thumbprint
+The issuer thumbprint of the client certificate.

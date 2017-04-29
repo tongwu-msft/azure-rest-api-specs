@@ -1,6 +1,6 @@
 ---
 title: "ClusterUpgradeDeltaHealthPolicy"
-ms.date: "2017-04-28"
+ms.date: "2017-04-29"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # ClusterUpgradeDeltaHealthPolicy
 
-Delta health policy for the cluster
+Describes the delta health policies for the cluster upgrade.
 
 ## Properties
 | Name | Type | Required |
@@ -43,7 +43,7 @@ __Required__: Yes<br/>
 __InclusiveMaximum__: 100 <br/>
 __InclusiveMinimum__: 0 <br/>
 <br/>
-Additional unhealthy nodes percentage
+The maximum allowed percentage of nodes health degradation allowed during cluster upgrades. The delta is measured between the state of the nodes at the beginning of upgrade and the state of the nodes at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits.
 
 ____
 ### maxPercentUpgradeDomainDeltaUnhealthyNodes
@@ -52,7 +52,7 @@ __Required__: Yes<br/>
 __InclusiveMaximum__: 100 <br/>
 __InclusiveMinimum__: 0 <br/>
 <br/>
-Additional unhealthy nodes percentage per upgrade domain 
+The maximum allowed percentage of upgrade domain nodes health degradation allowed during cluster upgrades. The delta is measured between the state of the upgrade domain nodes at the beginning of upgrade and the state of the upgrade domain nodes at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion for all completed upgrade domains to make sure the state of the upgrade domains is within tolerated limits. 
 
 ____
 ### maxPercentDeltaUnhealthyApplications
@@ -61,4 +61,4 @@ __Required__: Yes<br/>
 __InclusiveMaximum__: 100 <br/>
 __InclusiveMinimum__: 0 <br/>
 <br/>
-Additional unhealthy applications percentage
+The maximum allowed percentage of applications health degradation allowed during cluster upgrades. The delta is measured between the state of the applications at the beginning of upgrade and the state of the applications at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits. System services are not included in this.
