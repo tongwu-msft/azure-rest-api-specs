@@ -1,7 +1,7 @@
 ---
 title: "OData Expression Syntax for Azure Search"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-04-11"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -28,9 +28,11 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # OData Expression Syntax for Azure Search
-  Azure Search supports a subset of the OData expression syntax for **$filter** expressions.  
+  Azure Search supports a subset of the OData expression syntax for **$filter** and **$orderby** expressions.  
 
-## Operators  
+## Filter syntax
+
+### Operators  
 
 -   Logical operators (and, or, not).  
 
@@ -53,12 +55,12 @@ translation.priority.mt:
 > [!NOTE]  
 >  For the result of the `geo.distance` function only the `lt, le, gt, ge` operators are supported. Operators `eq` and `ne` cannot be used.  
 
-## Geospatial queries and polygons spanning the 180th meridian  
+### Geospatial queries and polygons spanning the 180th meridian  
  For many geospatial query libraries formulating a query that includes the 180th meridian (near the dateline) is either off-limits or requires a workaround, such as splitting the polygon into two, one on either side of the meridian.  
 
  In Azure Search, geospatial queries that include 180-degree longitude will work as expected if the query shape is rectangular and your coordinates align to a grid layout along longitude and latitude (for example, `geo.intersects(location, geography'POLYGON((179 65,179 66,-179 66,-179 65,179 65))'`). Otherwise, for non-rectangular or unaligned shapes, consider the split polygon approach.  
 
-##  <a name="bkmk_unsupported"></a> Unsupported features of OData filters  
+###  <a name="bkmk_unsupported"></a> Unsupported features of OData filters  
 
 -   Arithmetic expressions  
 
@@ -66,11 +68,21 @@ translation.priority.mt:
 
 -   `any/all` with arbitrary lambda expressions  
 
-##  <a name="bkmk_limits"></a> Filter size limitations  
+###  <a name="bkmk_limits"></a> Filter size limitations  
  There are limits to the size and complexity of filter expressions that you can send to Azure Search. The limits are based roughly on the number of clauses in your filter expression. A good rule of thumb is that if you have hundreds of clauses, you are at risk of running into the limit. We recommend designing your application in such a way that it does not generate filters of unbounded size.  
 
-##  <a name="bkmk_examples"></a> OData filter examples  
- For more details on OData filters and URI conventions, see [OData.org](http://odata.org).  
+## Order-by syntax
+
+The **$orderby** parameter accepts a comma-separated list of up to 32 expressions of the form `sort-criteria [asc|desc]`. The sort criteria can either be the name of a `sortable` field or a call to the `geo.distance` function. You can use either `asc` or `desc` to explicitly specify the sort order. The default order is ascending.
+
+If multiple documents have the same sort criteria (for example, if you sort by a numeric `rating` field and three documents all have a rating of 4), ties will be broken by document score in descending order. When document scores are the same (for example, when there is no full-text search query specified in the request), then the relative ordering of the tied documents is indeterminate.
+
+The syntax for `geo.distance` in **$orderby** is the same as it is in **$filter**. When using `geo.distance` in **$orderby**, the field to which it applies must be of type `Edm.GeographyPoint` and it must also be `sortable`.  
+
+##  <a name="bkmk_examples"></a> OData examples
+ For more details on OData expressions and URI conventions, see [OData.org](http://odata.org).  
+
+### Filter examples  
 
  Find all hotels with a base rate less than $100 that are rated at or above 4:  
 
@@ -143,6 +155,26 @@ $filter=geo.intersects(location, geography'POLYGON((-122.031577 47.578581, -122.
 ```  
 $filter=description eq null  
 ```  
+
+### Order-by examples
+
+Sort hotels ascending by base rate:
+
+```
+$orderby=baseRate asc
+```
+
+Sort hotels descending by rating, then ascending by base rate (remember that ascending is the default):
+
+```
+$orderby=rating desc,baseRate
+```
+
+Sort hotels descending by rating, then ascending by distance from the given co-ordinates:
+
+```
+$orderby=rating desc,geo.distance(location, geography'POINT(-122.131577 47.678581)') asc
+```
 
 ## See Also  
  [Faceted navigation in Azure Search](https://azure.microsoft.com/documentation/articles/search-faceted-navigation/)  

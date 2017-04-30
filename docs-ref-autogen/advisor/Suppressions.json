@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2016-07-12-preview",
+    "version": "2017-03-31",
     "title": "AdvisorManagementClient",
     "description": "REST APIs for Azure Advisor"
   },
@@ -51,7 +51,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK.",
+            "description": "OK. Successfully got suppression detail.",
             "schema": {
               "$ref": "#/definitions/SuppressionContract"
             }
@@ -60,7 +60,25 @@
         "deprecated": false,
         "x-ms-examples": {
           "GetSuppressionDetail": {
-            "$ref": "#/definitions/GetSuppressionDetail"
+            "parameters": {
+              "resourceUri": "resourceUri",
+              "recommendationId": "recommendationId",
+              "name": "suppressionName1",
+              "api-version": "2017-03-31"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
+                  "name": "suppressionName1",
+                  "type": "Microsoft.Advisor/suppressions",
+                  "properties": {
+                    "suppressionId": "suppressionId1",
+                    "ttl": "7.00:00:00"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -107,7 +125,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK.",
+            "description": "OK. Successfully created suppression.",
             "schema": {
               "$ref": "#/definitions/SuppressionContract"
             }
@@ -116,7 +134,33 @@
         "deprecated": false,
         "x-ms-examples": {
           "CreateSuppression": {
-            "$ref": "#/definitions/CreateSuppression"
+            "parameters": {
+              "resourceUri": "resourceUri",
+              "recommendationId": "recommendationId",
+              "name": "suppressionName1",
+              "suppressionContract": {
+                "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
+                "name": "suppressionName1",
+                "type": "Microsoft.Advisor/suppressions",
+                "properties": {
+                  "ttl": "07:00:00:00"
+                }
+              },
+              "api-version": "2017-03-31"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
+                  "name": "suppressionName1",
+                  "type": "Microsoft.Advisor/suppressions",
+                  "properties": {
+                    "suppressionId": "suppresionId",
+                    "ttl": "07:00:00:00"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -154,13 +198,21 @@
         ],
         "responses": {
           "204": {
-            "description": "The recommendation has been activated."
+            "description": "NoContent. The recommendation has been activated."
           }
         },
         "deprecated": false,
         "x-ms-examples": {
           "DeleteSuppression": {
-            "$ref": "#/definitions/DeleteSuppression"
+            "parameters": {
+              "resourceUri": "resourceUri",
+              "recommendationId": "recommendationId",
+              "name": "suppressionName1",
+              "api-version": "2017-03-31"
+            },
+            "responses": {
+              "204": {}
+            }
           }
         }
       }
@@ -182,7 +234,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK.",
+            "description": "OK. Successfully got all suppressions in a subscription.",
             "schema": {
               "type": "array",
               "items": {
@@ -194,7 +246,34 @@
         "deprecated": false,
         "x-ms-examples": {
           "ListSuppressions": {
-            "$ref": "#/definitions/ListSuppressions"
+            "parameters": {
+              "subscriptionId": "subscriptionId1",
+              "api-version": "2017-03-31"
+            },
+            "responses": {
+              "200": {
+                "body": [
+                  {
+                    "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
+                    "name": "suppressionName1",
+                    "type": "Microsoft.Advisor/suppressions",
+                    "properties": {
+                      "suppressionId": "suppressionId1",
+                      "ttl": "7.00:00:00"
+                    }
+                  },
+                  {
+                    "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName2",
+                    "name": "suppressionName2",
+                    "type": "Microsoft.Advisor/suppressions",
+                    "properties": {
+                      "suppressionId": "suppressionId2",
+                      "ttl": "7.00:00:00"
+                    }
+                  }
+                ]
+              }
+            }
           }
         }
       }
@@ -221,31 +300,16 @@
     "ResourceRecommendationBase": {
       "description": "Advisor Recommendation.",
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
       "properties": {
-        "id": {
-          "description": "The fully qualified recommendation ID, for example /subscriptions/subscriptionId/resourceGroups/resourceGroup1/providers/Microsoft.ClassicCompute/virtualMachines/vm1/providers/Microsoft.Advisor/recommendations/recommendationGUID.",
-          "type": "string"
-        },
-        "name": {
-          "description": "The name of recommendation.",
-          "type": "string"
-        },
         "properties": {
           "$ref": "#/definitions/RecommendationProperties",
           "description": "The properties of the recommendation.",
           "x-ms-client-flatten": true
-        },
-        "suppressionIds": {
-          "description": "The list of snoozed and dismissed rules for the recommendation.",
-          "type": "array",
-          "items": {
-            "format": "uuid",
-            "type": "string"
-          }
-        },
-        "type": {
-          "description": "The recommendation type: Microsoft.Advisor/recommendations.",
-          "type": "string"
         }
       }
     },
@@ -320,6 +384,14 @@
         "shortDescription": {
           "$ref": "#/definitions/ShortDescription",
           "description": "A summary of the recommendation."
+        },
+        "suppressionIds": {
+          "description": "The list of snoozed and dismissed rules for the recommendation.",
+          "type": "array",
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          }
         }
       }
     },
@@ -340,17 +412,6 @@
           "description": "The type of the resource.",
           "type": "string",
           "readOnly": true
-        },
-        "location": {
-          "description": "The location of the resource. This cannot be changed after the resource is created.",
-          "type": "string"
-        },
-        "tags": {
-          "description": "The tags of the resource.",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
         }
       },
       "x-ms-azure-resource": true
@@ -431,6 +492,17 @@
         }
       ],
       "properties": {
+        "properties": {
+          "$ref": "#/definitions/SuppressionProperties",
+          "description": "The properties of the suppression.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "SuppressionProperties": {
+      "description": "The properties of the suppression.",
+      "type": "object",
+      "properties": {
         "suppressionId": {
           "description": "The GUID of the suppression.",
           "type": "string"
@@ -438,173 +510,6 @@
         "ttl": {
           "description": "The duration for which the suppression is valid.",
           "type": "string"
-        }
-      }
-    },
-    "GenerateRecommendations": {
-      "parameters": {
-        "subscriptionId": "subscriptionId",
-        "api-version": "2016-07-12-preview"
-      },
-      "responses": {
-        "202": {
-          "headers": {
-            "Location": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Microsoft.Advisor/generateRecommendations/recGUID?api-version=2016-07-12-preview",
-            "Retry-After": "60"
-          }
-        }
-      }
-    },
-    "PollGenerateRecommendationsStatus": {
-      "parameters": {
-        "subscriptionId": "subscriptionId",
-        "operationId": "operationGUID",
-        "api-version": "2016-07-12-preview"
-      },
-      "responses": {
-        "202": {},
-        "204": {}
-      }
-    },
-    "ListRecommendations": {
-      "parameters": {
-        "subscriptionId": "subscriptionId",
-        "$top": 10,
-        "api-version": "2016-07-12-preview"
-      },
-      "responses": {
-        "200": {
-          "body": {
-            "nextLink": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/recommendations?api-version=2016-07-12-preview&$top=10&$skiptoken=skiptoken",
-            "value": [
-              {
-                "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recGUID",
-                "name": "recGUID",
-                "properties": {
-                  "category": "HighAvailability",
-                  "impact": "Medium",
-                  "impactedField": "Microsoft.Compute/availabilitySets",
-                  "impactedValue": "armavset",
-                  "lastUpdated": "2017-02-24T22:24:43.3216408Z",
-                  "risk": "Warning",
-                  "shortDescription": {
-                    "problem": "This availability set is not configured for fault tolerance",
-                    "solution": "To ensure high availability add one or more virtual machines to this availability set"
-                  }
-                },
-                "type": "Microsoft.Advisor/recommendations"
-              }
-            ]
-          }
-        }
-      }
-    },
-    "GetSuppressionDetail": {
-      "parameters": {
-        "resourceUri": "resourceUri",
-        "recommendationId": "recommendationId",
-        "name": "suppressionName1",
-        "api-version": "2016-07-12-preview"
-      },
-      "responses": {
-        "200": {
-          "body": {
-            "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
-            "suppressionId": "suppressionId1",
-            "name": "suppressionName1",
-            "type": "Microsoft.Advisor/suppressions",
-            "ttl": "7.00:00:00"
-          }
-        }
-      }
-    },
-    "CreateSuppression": {
-      "parameters": {
-        "resourceUri": "resourceUri",
-        "recommendationId": "recommendationId",
-        "name": "suppressionName1",
-        "suppressionContract": {
-          "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
-          "name": "suppressionName1",
-          "type": "Microsoft.Advisor/suppressions",
-          "ttl": "07:00:00:00"
-        },
-        "api-version": "2016-07-12-preview"
-      },
-      "responses": {
-        "200": {
-          "body": {
-            "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
-            "suppressionId": "suppresionId",
-            "name": "suppressionName1",
-            "type": "Microsoft.Advisor/suppressions",
-            "ttl": "07:00:00:00"
-          }
-        }
-      }
-    },
-    "DeleteSuppression": {
-      "parameters": {
-        "resourceUri": "resourceUri",
-        "recommendationId": "recommendationId",
-        "name": "suppressionName1",
-        "api-version": "2016-07-12-preview"
-      },
-      "responses": {
-        "204": {}
-      }
-    },
-    "GetRecommendationDetail": {
-      "parameters": {
-        "resourceUri": "resourceUri",
-        "recommendationId": "recommendationId",
-        "api-version": "2016-07-12-preview"
-      },
-      "responses": {
-        "200": {
-          "body": {
-            "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId",
-            "name": "recommendationId",
-            "properties": {
-              "category": "HighAvailability",
-              "impact": "Medium",
-              "impactedField": "Microsoft.Compute/availabilitySets",
-              "impactedValue": "armavset",
-              "lastUpdated": "2017-02-24T22:24:43.3216408Z",
-              "risk": "Warning",
-              "shortDescription": {
-                "problem": "This availability set is not configured for fault tolerance",
-                "solution": "To ensure high availability add one or more virtual machines to this availability set"
-              }
-            },
-            "type": "Microsoft.Advisor/recommendations"
-          }
-        }
-      }
-    },
-    "ListSuppressions": {
-      "parameters": {
-        "subscriptionId": "subscriptionId1",
-        "api-version": "2016-07-12-preview"
-      },
-      "responses": {
-        "200": {
-          "body": [
-            {
-              "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
-              "suppressionId": "suppressionId1",
-              "name": "suppressionName1",
-              "type": "Microsoft.Advisor/suppressions",
-              "ttl": "7.00:00:00"
-            },
-            {
-              "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName2",
-              "suppressionId": "suppressionId2",
-              "name": "suppressionName2",
-              "type": "Microsoft.Advisor/suppressions",
-              "ttl": "7.00:00:00"
-            }
-          ]
         }
       }
     }

@@ -1,0 +1,386 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ApiManagementClient",
+    "description": "Use these REST APIs for performing operations on tenant entity associated with your Azure API Management deployment. Using this entity you can manage properties and configuration that apply to the entire API Management service instance.",
+    "version": "2016-10-10"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/policy": {
+      "get": {
+        "tags": [
+          "TenantPolicy"
+        ],
+        "operationId": "TenantPolicy_Get",
+        "description": "Get the global policy configuration of the tenant.",
+        "produces": [
+          "application/vnd.ms-azure-apim.policy+xml"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tenant Global Policy information.",
+            "schema": {
+              "type": "file"
+            },
+            "headers": {
+              "ETag": {
+                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "TenantPolicy"
+        ],
+        "operationId": "TenantPolicy_CreateOrUpdate",
+        "description": "Creates or updates global policy configuration for the tenant.",
+        "consumes": [
+          "application/vnd.ms-azure-apim.policy+xml"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "format": "file"
+            },
+            "required": true,
+            "description": "The policy content details."
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "description": "The entity state (Etag) version of the tenant policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Global policy configuration was successfully created."
+          },
+          "204": {
+            "description": "Global policy configuration of the tenant was successfully updated."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "TenantPolicy"
+        ],
+        "operationId": "TenantPolicy_Delete",
+        "description": "Deletes the global tenant policy configuration.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "description": "The entity state (Etag) version of the tenant policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted the global policy configuration of the Tenant."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AccessInformationContract": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier."
+        },
+        "primaryKey": {
+          "type": "string",
+          "description": "Primary access key."
+        },
+        "secondaryKey": {
+          "type": "string",
+          "description": "Secondary access key."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Tenant access information of the API Management service."
+        }
+      },
+      "description": "Tenant access information contract of the API Management service."
+    },
+    "AccessInformationUpdateParameters": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Tenant access information of the API Management service."
+        }
+      },
+      "required": [
+        "enabled"
+      ],
+      "description": "Tenant access information update parameters of the API Management service."
+    },
+    "DeployConfigurationParameters": {
+      "properties": {
+        "branch": {
+          "type": "string",
+          "description": "The name of the Git branch from which the configuration is to be deployed to the configuration database."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "The value enforcing deleting subscriptions to products that are deleted in this update."
+        }
+      },
+      "required": [
+        "branch"
+      ],
+      "description": "Parameters supplied to the Deploy Configuration operation."
+    },
+    "OperationResultContract": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Operation result identifier."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of an async operation.",
+          "enum": [
+            "Started",
+            "InProgress",
+            "Succeeded",
+            "Failed"
+          ],
+          "x-ms-enum": {
+            "name": "AsyncOperationState",
+            "modelAsString": false
+          }
+        },
+        "started": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "resultInfo": {
+          "type": "string",
+          "description": "Optional result info."
+        },
+        "error": {
+          "$ref": "#/definitions/ErrorBodyContract"
+        }
+      },
+      "description": "Operation Result."
+    },
+    "SaveConfigurationParameter": {
+      "properties": {
+        "branch": {
+          "type": "string",
+          "description": "The name of the Git branch in which to commit the current configuration snapshot."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "The value if true, the current configuration database is committed to the Git repository, even if the Git repository has newer changes that would be overwritten."
+        }
+      },
+      "required": [
+        "branch"
+      ],
+      "description": "Parameters supplied to the Save Tenant Configuration operation."
+    },
+    "TenantConfigurationSyncStateContract": {
+      "properties": {
+        "branch": {
+          "type": "string",
+          "description": "The name of Git branch."
+        },
+        "commitId": {
+          "type": "string",
+          "description": "The latest commit Id."
+        },
+        "isExport": {
+          "type": "boolean",
+          "description": "value indicating if last sync was save (true) or deploy (false) operation."
+        },
+        "isSynced": {
+          "type": "boolean",
+          "description": "value indicating if last synchronization was later than the configuration change."
+        },
+        "isGitEnabled": {
+          "type": "boolean",
+          "description": "value indicating whether Git configuration access is enabled."
+        },
+        "syncDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date of the latest synchronization. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "configurationChangeDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date of the latest configuration change. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        }
+      },
+      "description": "Tenant Configuration Synchronization State."
+    },
+    "ErrorFieldContract": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Property level error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of property-level error."
+        },
+        "target": {
+          "type": "string",
+          "description": "Property name."
+        }
+      },
+      "description": "Error Field contract."
+    },
+    "ErrorBodyContract": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of the error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorFieldContract"
+          },
+          "description": "The list of invalid fields send in request, in case of validation error."
+        }
+      },
+      "description": "Error Body contract."
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Version of the API to be used with the client request."
+    },
+    "ServiceNameParameter": {
+      "name": "serviceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the API Management service.",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$",
+      "x-ms-parameter-location": "method"
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

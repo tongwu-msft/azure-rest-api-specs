@@ -1,7 +1,7 @@
 ---
 title: "Add scoring profiles to a search index (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-12-14"
+ms.date: "2017-03-28"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -253,7 +253,7 @@ GET /indexes/hotels/docs?search=inn&scoringProfile=geo&scoringParameter=currentL
 |`distance`|The distance scoring function is used to affect the score of documents based on how close or far they are relative to a reference geographic location. The reference location is given as part of the query in a parameter (using the `scoringParameterquery` string option) as a lon,lat argument.|  
 |`distance` &#124; `referencePointParameter`|A parameter to be passed in queries to use as reference location. `scoringParameter` is a query parameter. See [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md) for descriptions of query parameters.|  
 |`distance` &#124; `boostingDistance`|A number that indicates the distance in kilometers from the reference location where the boosting range ends.|  
-|`tag`|The tag scoring function is used to affect the score of documents based on tags in documents and search queries. Documents that have tags in common iwth the search query will be boosted. The tags for the search query is provided as a scoring parameter in each search request (using the `scoringParameterquery` string option).|  
+|`tag`|The tag scoring function is used to affect the score of documents based on tags in documents and search queries. Documents that have tags in common with the search query will be boosted. The tags for the search query is provided as a scoring parameter in each search request (using the `scoringParameterquery` string option).|  
 |`tag` &#124; `tagsParameter`|A parameter to be passed in queries to specify tags for a particular request. `scoringParameter` is a query parameter. See [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md) for descriptions of query parameters.|  
 |`functionAggregation`|Optional. Applies only when functions are specified. Valid values include: sum (default), average, minimum, maximum, and firstMatching. A search score is single value that is computed from multiple variables, including multiple functions. This attribute indicates how the boosts of all the functions are combined into a single aggregate boost that then is applied to the base document score. The base score is based on the [tf-idf](http://www.tfidf.com/) value computed from the document and the search query.|  
 |`defaultScoringProfile`|When executing a search request, if no scoring profile is specified, then default scoring is used ([tf-idf](http://www.tfidf.com/) only).<br /><br /> A default scoring profile name can be set here, causing Azure Search to use that profile when no specific profile is given in the search request.|  

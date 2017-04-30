@@ -3,7 +3,7 @@
   "info": {
     "title": "ApiManagementClient",
     "description": "Use these REST APIs to manage Azure API Management deployment.",
-    "version": "2016-07-07"
+    "version": "2016-10-10"
   },
   "host": "management.azure.com",
   "schemes": [
@@ -41,6 +41,98 @@
         ],
         "operationId": "ApiManagementServices_ManageDeployments",
         "description": "Manages deployments of an API Management service. This operation can be used to do the following: Change SKU, Change SKU Units, Change Service Tier (Developer/Standard/Premium) and Manage VPN Configuration. This is a long running operation and can take several minutes to complete.",
+        "x-ms-examples": {
+          "ApiManagementServiceManageDeployment": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-10-10",
+              "subscriptionId": "subid",
+              "parameters": {
+                "location": "West US",
+                "skuType": "Developer",
+                "skuUnitCount": 1,
+                "vpnConfiguration": {
+                  "subnetResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/dfVirtualNetwork/subnets/backendSubnet",
+                  "location": "West US"
+                },
+                "vpnType": "External"
+              }
+            },
+            "responses": {
+              "202": {
+                "headers": {
+                  "location": "https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2016-10-10"
+                },
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+                  "name": "apimService1",
+                  "type": "Microsoft.ApiManagement/service",
+                  "tags": {},
+                  "location": "West US",
+                  "etag": "AAAAAAAAjQM=",
+                  "properties": {
+                    "publisherEmail": "admin@live.com",
+                    "publisherName": "Contoso",
+                    "provisioningState": "Succeeded",
+                    "targetProvisioningState": "",
+                    "createdAtUtc": "2017-03-20T03:45:14.1412986Z",
+                    "runtimeUrl": "https://apimService1.azure-api.net",
+                    "portalUrl": "https://apimService1.portal.azure-api.net",
+                    "managementApiUrl": "https://apimService1.management.azure-api.net",
+                    "scmUrl": "https://apimService1.scm.azure-api.net",
+                    "hostnameConfigurations": [],
+                    "staticIPs": [
+                      "xx.xxx.xx.xxx"
+                    ],
+                    "vpnType": "None"
+                  },
+                  "sku": {
+                    "name": "Developer",
+                    "capacity": 1
+                  }
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+                  "name": "apimService1",
+                  "type": "Microsoft.ApiManagement/service",
+                  "tags": {
+                    "TestExpiration": "Tue, 22 Sep 2015 02:52:00 GMT",
+                    "Pool": "Manual",
+                    "TestSuiteExpiration": "Tue, 22 Sep 2015 05:10:46 GMT"
+                  },
+                  "location": "West US",
+                  "etag": "AAAAAAAV8XM=",
+                  "properties": {
+                    "publisherEmail": "admin@live.com",
+                    "publisherName": "Contoso",
+                    "provisioningState": "Succeeded",
+                    "targetProvisioningState": "",
+                    "createdAtUtc": "2015-09-22T01:52:02.4307221Z",
+                    "runtimeUrl": "https://apimService1.azure-api.net",
+                    "portalUrl": "https://apimService1.portal.azure-api.net",
+                    "managementApiUrl": "https://apimService1.management.azure-api.net",
+                    "scmUrl": "https://apimService1.scm.azure-api.net",
+                    "staticIPs": [
+                      "xx.xx.xxx.xxx"
+                    ],
+                    "vpnconfiguration": {
+                      "subnetResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/dfVirtualNetwork/subnets/backendSubnet",
+                      "location": "West US"
+                    },
+                    "vpnType": "External"
+                  },
+                  "sku": {
+                    "name": "Developer",
+                    "capacity": 1
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -72,7 +164,10 @@
             }
           },
           "202": {
-            "description": "Accepted. The location header contains the URL where the status of the long running operation can be checked."
+            "description": "Accepted. The location header contains the URL where the status of the long running operation can be checked.The response also includes the unmodified ApiManagementServiceResource.",
+            "schema": {
+              "$ref": "#/definitions/ApiManagementServiceResource"
+            }
           },
           "default": {
             "description": "Error response describing why the operation failed.",
@@ -91,6 +186,62 @@
         ],
         "operationId": "ApiManagementServices_Restore",
         "description": "Restores a backup of an API Management service created using the ApiManagementServices_Backup operation on the current service. This is a long running operation and could take several minutes to complete.",
+        "x-ms-examples": {
+          "ApiManagementRestoreService": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-10-10",
+              "subscriptionId": "subid",
+              "parameters": {
+                "storageAccount": "teststorageaccount",
+                "accessKey": "**************************************************",
+                "containerName": "backupContainer",
+                "backupName": "apimService1backup_2017_03_19"
+              }
+            },
+            "responses": {
+              "202": {
+                "headers": {
+                  "location": "https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2016-10-10"
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+                  "name": "apimService1",
+                  "type": "Microsoft.ApiManagement/service",
+                  "tags": {
+                    "TestExpiration": "Tue, 22 Sep 2015 02:52:00 GMT",
+                    "Pool": "Manual",
+                    "TestSuiteExpiration": "Tue, 22 Sep 2015 05:10:46 GMT"
+                  },
+                  "location": "West US",
+                  "etag": "AAAAAAAV8XM=",
+                  "properties": {
+                    "publisherEmail": "admin@live.com",
+                    "publisherName": "Contoso",
+                    "provisioningState": "Succeeded",
+                    "targetProvisioningState": "",
+                    "createdAtUtc": "2015-09-22T01:52:02.4307221Z",
+                    "runtimeUrl": "https://apimService1.azure-api.net",
+                    "portalUrl": "https://apimService1.portal.azure-api.net",
+                    "managementApiUrl": "https://apimService1.management.azure-api.net",
+                    "scmUrl": "https://apimService1.scm.azure-api.net",
+                    "staticIPs": [
+                      "xx.xxx.xx.xxx"
+                    ],
+                    "vpnType": "None"
+                  },
+                  "sku": {
+                    "name": "Premium",
+                    "capacity": 1
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -141,6 +292,62 @@
         ],
         "operationId": "ApiManagementServices_Backup",
         "description": "Creates a backup of the API Management service to the given Azure Storage Account. This is long running operation and could take several minutes to complete.",
+        "x-ms-examples": {
+          "ApiManagementCreateBackup": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-10-10",
+              "subscriptionId": "subid",
+              "parameters": {
+                "storageAccount": "teststorageaccount",
+                "accessKey": "**************************************************",
+                "containerName": "backupContainer",
+                "backupName": "apimService1backup_2017_03_19"
+              }
+            },
+            "responses": {
+              "202": {
+                "headers": {
+                  "location": "https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2016-10-10"
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+                  "name": "apimService1",
+                  "type": "Microsoft.ApiManagement/service",
+                  "tags": {
+                    "TestExpiration": "Tue, 22 Sep 2015 02:52:00 GMT",
+                    "Pool": "Manual",
+                    "TestSuiteExpiration": "Tue, 22 Sep 2015 05:10:46 GMT"
+                  },
+                  "location": "West US",
+                  "etag": "AAAAAAAV8XM=",
+                  "properties": {
+                    "publisherEmail": "admin@live.com",
+                    "publisherName": "Contoso",
+                    "provisioningState": "Succeeded",
+                    "targetProvisioningState": "",
+                    "createdAtUtc": "2015-09-22T01:52:02.4307221Z",
+                    "runtimeUrl": "https://apimService1.azure-api.net",
+                    "portalUrl": "https://apimService1.portal.azure-api.net",
+                    "managementApiUrl": "https://apimService1.management.azure-api.net",
+                    "scmUrl": "https://apimService1.scm.azure-api.net",
+                    "staticIPs": [
+                      "xx.xxx.xx.xxx"
+                    ],
+                    "vpnType": "None"
+                  },
+                  "sku": {
+                    "name": "Premium",
+                    "capacity": 1
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -191,6 +398,85 @@
         ],
         "operationId": "ApiManagementServices_CreateOrUpdate",
         "description": "Creates or updates an API Management service. This is long running operation and could take several minutes to complete.",
+        "x-ms-examples": {
+          "ApiManagementCreateService": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-10-10",
+              "subscriptionId": "subid",
+              "parameters": {
+                "location": "West US",
+                "sku": {
+                  "name": "Premium",
+                  "capacity": 1
+                },
+                "properties": {
+                  "publisherEmail": "admin@live.com",
+                  "publisherName": "contoso"
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "headers": {
+                  "location": "https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2016-10-10"
+                },
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+                  "name": "apimService1",
+                  "type": "Microsoft.ApiManagement/service",
+                  "tags": {},
+                  "location": "West US",
+                  "etag": "AAAAAAAV8Yo=",
+                  "properties": {
+                    "publisherEmail": "sasolank@microsoft.com",
+                    "publisherName": "sasolank@microsoft.com",
+                    "provisioningState": "Created",
+                    "targetProvisioningState": "Activating",
+                    "createdAtUtc": "2017-03-19T21:55:27.7443915Z",
+                    "hostnameConfigurations": [],
+                    "staticIPs": [],
+                    "vpnType": "None"
+                  },
+                  "sku": {
+                    "name": "Premium",
+                    "capacity": 1
+                  }
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+                  "name": "apimService1",
+                  "type": "Microsoft.ApiManagement/service",
+                  "tags": {},
+                  "location": "West US",
+                  "etag": "AAAAAAAV8XM=",
+                  "properties": {
+                    "publisherEmail": "admin@live.com",
+                    "publisherName": "Contoso",
+                    "provisioningState": "Succeeded",
+                    "targetProvisioningState": "",
+                    "createdAtUtc": "2015-09-22T01:52:02.4307221Z",
+                    "runtimeUrl": "https://apimService1.azure-api.net",
+                    "portalUrl": "https://apimService1.portal.azure-api.net",
+                    "managementApiUrl": "https://apimService1.management.azure-api.net",
+                    "scmUrl": "https://apimService1.scm.azure-api.net",
+                    "staticIPs": [
+                      "xx.xx.250.222"
+                    ],
+                    "vpnType": "None"
+                  },
+                  "sku": {
+                    "name": "Premium",
+                    "capacity": 1
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -227,9 +513,6 @@
               "$ref": "#/definitions/ApiManagementServiceResource"
             }
           },
-          "202": {
-            "description": "Accepted: Location header contains the URL where the status of the long running operation can be checked."
-          },
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
@@ -256,7 +539,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ApiManagementServiceBaseParameters"
+              "$ref": "#/definitions/ApiManagementServiceUpdateParameters"
             },
             "description": "Parameters supplied to the CreateOrUpdate API Management service operation."
           },
@@ -313,8 +596,8 @@
               "$ref": "#/definitions/ApiManagementServiceResource"
             }
           },
-          "404": {
-            "description": "ApiManagement Service not found.",
+          "default": {
+            "description": "Error response describing why the operation failed.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
@@ -348,8 +631,8 @@
           "204": {
             "description": "Service is already deleted."
           },
-          "404": {
-            "description": "ApiManagement Service not found.",
+          "default": {
+            "description": "Error response describing why the operation failed.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
@@ -417,12 +700,29 @@
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/getssotoken": {
-      "get": {
+      "post": {
         "tags": [
           "ApiManagementService"
         ],
         "operationId": "ApiManagementServices_GetSsoToken",
         "description": "Gets the Single-Sign-On token for the API Management Service which is valid for 5 Minutes.",
+        "x-ms-examples": {
+          "ApiManagementServiceGetSsoToken": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-10-10",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "redirect_uri": "https://apimService1.portal.azure-api.net:443/signin-sso?token=1%26201703200238%26nmWpz5mPSCMn%2b7BJXmwufoEn5AGN6xUt3y1aSQ8p6Gi4IdRHcEOo959Qt8nxojihYgSj%2fbxwykTUETMdyr4f%2fw%3d%3d"
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -455,6 +755,27 @@
         ],
         "operationId": "ApiManagementServices_CheckNameAvailability",
         "description": "Checks availability and correctness of a name for an API Management service.",
+        "x-ms-examples": {
+          "ApiManagementServiceCheckNameAvailability": {
+            "parameters": {
+              "resourceGroupName": "rg1",
+              "api-version": "2016-10-10",
+              "subscriptionId": "subid",
+              "parameters": {
+                "name": "apimService1"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "nameAvailable": true,
+                  "reason": "Valid",
+                  "message": ""
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "name": "parameters",
@@ -482,13 +803,37 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/updatecertificate": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/uploadcertificate": {
       "post": {
         "tags": [
           "ApiManagementService"
         ],
         "operationId": "ApiManagementServices_UploadCertificate",
         "description": "Upload Custom Domain SSL certificate for an API Management service.",
+        "x-ms-examples": {
+          "ApiManagementServiceUploadProxyCertificate": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-10-10",
+              "subscriptionId": "subid",
+              "parameters": {
+                "type": "Proxy",
+                "certificate": "MIIZ7wI************************************************************",
+                "certificate_password": "******"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "expiry": "2018-03-17T21:55:07+00:00",
+                  "thumbprint": "DE57B************************",
+                  "subject": "CN=*.contoso.com"
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -535,6 +880,165 @@
         ],
         "operationId": "ApiManagementServices_UpdateHostname",
         "description": "Creates, updates, or deletes the custom hostnames for an API Management service. The custom hostname can be applied to the Proxy and Portal endpoint. This is a long running operation and could take several minutes to complete.",
+        "x-ms-examples": {
+          "ApiManagementServiceUpdateHostName": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-10-10",
+              "subscriptionId": "subid",
+              "parameters": {
+                "update": [
+                  {
+                    "type": "Proxy",
+                    "hostname": "internalproxy2.contoso.com",
+                    "certificate": {
+                      "expiry": "2018-03-17T21:55:07+00:00",
+                      "thumbprint": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                      "subject": "CN=*.contoso.com"
+                    }
+                  },
+                  {
+                    "type": "Portal",
+                    "hostname": "internalportal2.contoso.com",
+                    "certificate": {
+                      "expiry": "2018-03-17T21:55:07+00:00",
+                      "thumbprint": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                      "subject": "CN=*.contoso.com"
+                    }
+                  },
+                  {
+                    "type": "Management",
+                    "hostname": "internalmgmt2.contoso.com",
+                    "certificate": {
+                      "expiry": "2018-03-17T21:55:07+00:00",
+                      "thumbprint": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                      "subject": "CN=*.contoso.com"
+                    }
+                  },
+                  {
+                    "type": "Scm",
+                    "hostname": "internalscm2.contoso.com",
+                    "certificate": {
+                      "expiry": "2018-03-17T21:55:07+00:00",
+                      "thumbprint": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                      "subject": "CN=*.contoso.com"
+                    }
+                  }
+                ]
+              }
+            },
+            "responses": {
+              "202": {
+                "headers": {
+                  "location": "https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2016-10-10"
+                },
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+                  "tags": {
+                    "TestExpiration": "Tue, 22 Sep 2015 02:52:00 GMT",
+                    "Pool": "Manual",
+                    "TestSuiteExpiration": "Tue, 22 Sep 2015 05:10:46 GMT"
+                  },
+                  "location": "West US",
+                  "etag": "AAAAAAAV8ZY=",
+                  "properties": {
+                    "publisherEmail": "admin@live.com",
+                    "publisherName": "Contoso",
+                    "provisioningState": "Succeeded",
+                    "targetProvisioningState": "",
+                    "createdAtUtc": "2015-09-22T01:52:02.4307221Z",
+                    "runtimeUrl": "https://apimService1.azure-api.net",
+                    "portalUrl": "https://apimService1.portal.azure-api.net",
+                    "managementApiUrl": "https://apimService1.management.azure-api.net",
+                    "scmUrl": "https://apimService1.scm.azure-api.net",
+                    "staticIPs": [
+                      "xx.xx.xxxx.xxxx"
+                    ],
+                    "vpnType": "None"
+                  },
+                  "sku": {
+                    "name": "Premium",
+                    "capacity": 1
+                  },
+                  "name": "apimService1",
+                  "type": "Microsoft.ApiManagement/service"
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/20010222-2b48-4245-a95c-090db6312d5f/resourceGroups/Admin-ResourceGroup/providers/Microsoft.ApiManagement/service/apimService1",
+                  "name": "apimService1",
+                  "type": "Microsoft.ApiManagement/service",
+                  "tags": {
+                    "TestExpiration": "Tue, 22 Sep 2015 02:52:00 GMT",
+                    "Pool": "Manual",
+                    "TestSuiteExpiration": "Tue, 22 Sep 2015 05:10:46 GMT"
+                  },
+                  "location": "West US",
+                  "etag": "AAAAAAAV8aU=",
+                  "properties": {
+                    "publisherEmail": "admin@live.com",
+                    "publisherName": "Contoso",
+                    "provisioningState": "Succeeded",
+                    "targetProvisioningState": "",
+                    "createdAtUtc": "2015-09-22T01:52:02.4307221Z",
+                    "runtimeUrl": "https://apimService1.azure-api.net",
+                    "portalUrl": "https://apimService1.portal.azure-api.net",
+                    "managementApiUrl": "https://apimService1.management.azure-api.net",
+                    "scmUrl": "https://apimService1.scm.azure-api.net",
+                    "hostnameConfigurations": [
+                      {
+                        "type": "Portal",
+                        "hostname": "internalportal2.contoso.com",
+                        "certificate": {
+                          "expiry": "2018-03-17T21:55:07+00:00",
+                          "thumbprint": "*******************************",
+                          "subject": "CN=*.contoso.com"
+                        }
+                      },
+                      {
+                        "type": "Proxy",
+                        "hostname": "internalproxy2.contoso.com",
+                        "certificate": {
+                          "expiry": "2018-03-17T21:55:07+00:00",
+                          "thumbprint": "*******************************",
+                          "subject": "CN=*.contoso.com"
+                        }
+                      },
+                      {
+                        "type": "Management",
+                        "hostname": "internalmgmt2.contoso.com",
+                        "certificate": {
+                          "expiry": "2018-03-17T21:55:07+00:00",
+                          "thumbprint": "*******************************",
+                          "subject": "CN=*.contoso.com"
+                        }
+                      },
+                      {
+                        "type": "Scm",
+                        "hostname": "internalscm2.contoso.com",
+                        "certificate": {
+                          "expiry": "2018-03-17T21:55:07+00:00",
+                          "thumbprint": "*******************************",
+                          "subject": "CN=*.contoso.com"
+                        }
+                      }
+                    ],
+                    "staticIPs": [
+                      "xx.xxx.xx.xxx"
+                    ],
+                    "vpnType": "None"
+                  },
+                  "sku": {
+                    "name": "Premium",
+                    "capacity": 1
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -564,6 +1068,107 @@
             "schema": {
               "$ref": "#/definitions/ApiManagementServiceResource"
             }
+          },
+          "202": {
+            "description": "Accepted. The location header contains the URL where the status of the long running operation can be checked. The response also includes the unmodified ApiManagementServiceResource.",
+            "schema": {
+              "$ref": "#/definitions/ApiManagementServiceResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/applynetworkconfigurationupdates": {
+      "post": {
+        "tags": [
+          "ApiManagementService"
+        ],
+        "operationId": "ApiManagementServices_ApplyNetworkConfigurationUpdates",
+        "description": "Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated network settings.",
+        "x-ms-examples": {
+          "ApiManagementApplyNetworkConfigurationUpdates": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-10-10",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "202": {
+                "headers": {
+                  "location": "https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2016-10-10"
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+                  "name": "apimService1",
+                  "type": "Microsoft.ApiManagement/service",
+                  "tags": {
+                    "TestExpiration": "Tue, 22 Sep 2015 02:52:00 GMT",
+                    "Pool": "Manual",
+                    "TestSuiteExpiration": "Tue, 22 Sep 2015 05:10:46 GMT"
+                  },
+                  "location": "West US",
+                  "etag": "AAAAAAAV8XM=",
+                  "properties": {
+                    "publisherEmail": "admin@live.com",
+                    "publisherName": "Contoso",
+                    "provisioningState": "Succeeded",
+                    "targetProvisioningState": "",
+                    "createdAtUtc": "2015-09-22T01:52:02.4307221Z",
+                    "runtimeUrl": "https://apimService1.azure-api.net",
+                    "portalUrl": "https://apimService1.portal.azure-api.net",
+                    "managementApiUrl": "https://apimService1.management.azure-api.net",
+                    "scmUrl": "https://apimService1.scm.azure-api.net",
+                    "staticIPs": [
+                      "xx.xxx.xx.xxx"
+                    ],
+                    "vpnconfiguration": {
+                      "subnetResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/dfVirtualNetwork/subnets/backendSubnet",
+                      "location": "West US"
+                    },
+                    "vpnType": "External"
+                  },
+                  "sku": {
+                    "name": "Premium",
+                    "capacity": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service was successfully updated with new virtual network configurations.",
+            "schema": {
+              "$ref": "#/definitions/ApiManagementServiceResource"
+            }
+          },
+          "202": {
+            "description": "Accepted: Location header contains the URL where the status of the long running operation can be checked."
           },
           "default": {
             "description": "Error response describing why the operation failed.",
@@ -646,7 +1251,8 @@
         },
         "subnetResourceId": {
           "type": "string",
-          "description": "The name of the subnet Resource ID. This has format /subscriptions/{subid}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/{virtual network name}/subnets/{subnet name}."
+          "pattern": "^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$",
+          "description": "The full resource ID of a subnet in a virtual network to deploy the API Management service in."
         },
         "location": {
           "type": "string",
@@ -921,51 +1527,6 @@
     },
     "ApiManagementServiceResource": {
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "The ID of the created API Management service.",
-          "readOnly": true
-        },
-        "location": {
-          "type": "string",
-          "description": "Datacenter location of the API Management service."
-        },
-        "name": {
-          "type": "string",
-          "description": "Name of the API Management service.",
-          "readOnly": true
-        },
-        "type": {
-          "type": "string",
-          "description": "Resource type of the API Management service.",
-          "readOnly": true
-        },
-        "etag": {
-          "type": "string",
-          "description": "ETag of the resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/ApiManagementServiceBaseParameters"
-        }
-      ],
-      "required": [
-        "sku",
-        "properties",
-        "location"
-      ],
-      "description": "Description of an API Management service resource."
-    },
-    "ApiManagementServiceBaseParameters": {
-      "properties": {
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "API Management service tags. A maximum of 10 tags can be provided for a resource, and each tag must have a key no greater than 128 characters (and a value no greater than 256 characters)."
-        },
         "properties": {
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/ApiManagementServiceProperties",
@@ -974,6 +1535,83 @@
         "sku": {
           "$ref": "#/definitions/ApiManagementServiceSkuProperties",
           "description": "SKU properties of the API Management service."
+        },
+        "etag": {
+          "type": "string",
+          "description": "ETag of the resource.",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "required": [
+        "sku",
+        "properties"
+      ],
+      "description": "A single API Management service resource in List or Get response."
+    },
+    "Resource": {
+      "description": "The Resource definition.",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "Resource name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type for API Management resource is set to Microsoft.ApiManagement."
+        },
+        "location": {
+          "type": "string",
+          "description": "Resource location.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "required": [
+        "location"
+      ],
+      "x-ms-azure-resource": true
+    },
+    "ApiManagementServiceUpdateParameters": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ApiManagementServiceProperties",
+          "description": "Properties of the API Management service."
+        },
+        "sku": {
+          "$ref": "#/definitions/ApiManagementServiceSkuProperties",
+          "description": "SKU properties of the API Management service."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
         }
       },
       "description": "Parameters supplied to the Update API Management service operation."
@@ -1120,6 +1758,53 @@
         }
       },
       "description": "Error Response."
+    },
+    "Operation": {
+      "description": "REST API operation",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Operation name: {provider}/{resource}/{operation}",
+          "type": "string"
+        },
+        "display": {
+          "description": "The object that describes the operation.",
+          "properties": {
+            "provider": {
+              "description": "Friendly name of the resource provider",
+              "type": "string"
+            },
+            "operation": {
+              "description": "Operation type: read, write, delete, listKeys/action, etc.",
+              "type": "string"
+            },
+            "resource": {
+              "description": "Resource type on which the operation is performed.",
+              "type": "string"
+            },
+            "description": {
+              "description": "Friendly name of the operation",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "OperationListResult": {
+      "description": "Result of the request to list REST API operations. It contains a list of operations and a URL nextLink to get the next set of results.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Operation"
+          },
+          "description": "List of operations supported by the resource provider."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of operation list results if there are any."
+        }
+      }
     }
   },
   "parameters": {
@@ -1128,7 +1813,7 @@
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "Subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+      "description": "Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
     },
     "ApiVersionParameter": {
       "name": "api-version",

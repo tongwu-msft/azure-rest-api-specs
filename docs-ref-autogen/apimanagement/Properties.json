@@ -1,0 +1,317 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ApiManagementClient",
+    "description": "Use these REST APIs for performing operations on Property entity associated with your Azure API Management deployment. API Management policies are a powerful capability of the system that allow the publisher to change the behavior of the API through configuration. Policies are a collection of statements that are executed sequentially on the request or response of an API. Policy statements can be constructed using literal text values, policy expressions, and properties. Each API Management service instance has a properties collection of key/value pairs that are global to the service instance. These properties can be used to manage constant string values across all API configuration and policies.",
+    "version": "2016-10-10"
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties": {
+      "get": {
+        "tags": [
+          "Property"
+        ],
+        "operationId": "Properties_ListByService",
+        "description": "Lists a collection of properties defined within a service instance.",
+        "externalDocs": {
+          "url": "https://msdn.microsoft.com/en-us/library/azure/mt651775.aspx"
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "| Field | Supported operators    | Supported functions                                   |\n|-------|------------------------|-------------------------------------------------------|\n| tags  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith, any, all |\n| name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith           |"
+          },
+          {
+            "$ref": "#/parameters/TopQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/SkipQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A Collection of the Property entities for the specified API Management service instance.",
+            "schema": {
+              "$ref": "#/definitions/PropertyCollection"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-odata": "#/definitions/PropertyContract"
+      }
+    }
+  },
+  "definitions": {
+    "PropertyCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PropertyContract"
+          },
+          "description": "Page values."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total record count number across all pages."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "Paged Property list representation."
+    },
+    "PropertyContract": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Uniquely identifies the property within the current API Management service instance. The value is a valid relative URL in the format of /properties/{propId} where {propId} is a property identifier.",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[A-Z0-9-._]+$"
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 32,
+          "description": "Optional tags that when provided can be used to filter the property list."
+        },
+        "secret": {
+          "type": "boolean",
+          "description": "Determines whether the value is a secret and should be encrypted or not. Default value is false."
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "description": "Property details."
+    },
+    "PropertyCreateParameters": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[A-Z0-9-._]+$"
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 32,
+          "description": "Optional tags that when provided can be used to filter the property list."
+        },
+        "secret": {
+          "type": "boolean",
+          "description": "Determines whether the value is a secret and should be encrypted or not. Default value is false."
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "description": "Parameters supplied to the Create Property operation."
+    },
+    "PropertyUpdateParameters": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[A-Z0-9-._]+$"
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 32,
+          "description": "Optional tags that when provided can be used to filter the property list."
+        },
+        "secret": {
+          "type": "boolean",
+          "description": "Determines whether the value is a secret and should be encrypted or not. Default value is false."
+        }
+      },
+      "description": "Parameters supplied to the Update Property operation."
+    },
+    "ErrorFieldContract": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Property level error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of property-level error."
+        },
+        "target": {
+          "type": "string",
+          "description": "Property name."
+        }
+      },
+      "description": "Error Field contract."
+    },
+    "ErrorBodyContract": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of the error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorFieldContract"
+          },
+          "description": "The list of invalid fields send in request, in case of validation error."
+        }
+      },
+      "description": "Error Body contract."
+    }
+  },
+  "parameters": {
+    "PropertyIdParameter": {
+      "name": "propId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Identifier of the property.",
+      "maxLength": 256,
+      "pattern": "^[^*#&+:<>?]+$",
+      "x-ms-parameter-location": "method"
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Version of the API to be used with the client request."
+    },
+    "ServiceNameParameter": {
+      "name": "serviceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the API Management service.",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$",
+      "x-ms-parameter-location": "method"
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    },
+    "SkipQueryParameter": {
+      "name": "$skip",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "format": "int32",
+      "description": "Number of records to skip.",
+      "minimum": 0,
+      "x-ms-parameter-location": "method"
+    },
+    "TopQueryParameter": {
+      "name": "$top",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "format": "int32",
+      "description": "Number of records to return.",
+      "minimum": 1,
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

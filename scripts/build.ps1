@@ -11,6 +11,22 @@ $RestProcessorZip = "RestProcessor.zip"
 $RestProcessor = "RestProcessor"
 $MappingFilePath = "mapping.json"
 
+# Pre-resolve swagger files by AutoRest
+Write-Host "Pre-resolve swagger files by AutoRest"
+$mappingFile = Get-Content $restDocsPath\$MappingFilePath -Raw | ConvertFrom-Json
+Foreach($reference in $mappingFile.mapping.reference)
+{
+    if ($reference.source_swagger)
+    {
+        $swaggerPath = Join-Path $RestSrcPath $reference.source_swagger
+        if (Test-Path $swaggerPath)
+        {
+            autorest -FANCY -g SwaggerResolver -i $swaggerPath -outputFileName $swaggerPath
+            Write-Host "Done resolving swagger file by AutoRest" $swaggerPath
+        }
+    }
+}
+
 # Unzip RestProcessorZip to RestProcessor
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 function Unzip
@@ -34,3 +50,4 @@ if($LASTEXITCODE -ne 0)
 Remove-Item $RestProcessor -recurse -Force
 
 Pop-Location
+
