@@ -1,5 +1,5 @@
 ---
-title: Bing News Search API v5 Reference | Microsoft Docs
+title: Bing News Search API v7 Reference | Microsoft Docs
 description: Describes the programming elements of the Bing News Search API.
 services: cognitive-services
 author: swhite-msft
@@ -13,7 +13,7 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# News Search API v5 Reference
+# News Search API v7 Beta Reference
 
 > [!NOTE]
 > Beta release of the News API. All aspects of the API and documentation are subject to change. 

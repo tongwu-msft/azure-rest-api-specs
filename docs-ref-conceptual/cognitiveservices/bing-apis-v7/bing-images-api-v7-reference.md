@@ -13,7 +13,7 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# Image Search API v7 Reference
+# Image Search API v7 Beta Reference
 
 > [!NOTE]
 > Beta release of the Image API. All aspects of the API and documentation are subject to change. 

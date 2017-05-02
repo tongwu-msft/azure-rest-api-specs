@@ -13,7 +13,7 @@ ms.date: 06/21/2016
 ms.author: scottwhi
 ---
 
-# Spell Check API v7 Reference
+# Spell Check API v7 Beta Reference
 
 > [!NOTE]
 > Beta release of the Spell Check API. All aspects of the API and documentation are subject to change. 
