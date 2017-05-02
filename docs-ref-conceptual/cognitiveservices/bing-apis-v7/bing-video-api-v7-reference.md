@@ -13,7 +13,7 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# Video Search API v7 Reference
+# Video Search API v7 Beta Reference
 
 > [!NOTE]
 > Beta release of the Video API. All aspects of the API and documentation are subject to change.
