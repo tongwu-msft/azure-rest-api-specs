@@ -21,7 +21,7 @@ Key Vault also supports certificates, described in more detail in the following 
 
 -   [Objects, Identifiers and Versioning](about-keys--secrets-and-certificates.md#BKMK_ObjId)  
 
- ## Key Vault Keys 
+ ## Key Vault Keys
 
 -   [Keys and key types](about-keys--secrets-and-certificates.md#BKMK_KeyTypes)  
 
