@@ -5,7 +5,7 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 03/09/2017
+ms.date: 05/02/2017
 ---
 # About keys, secrets, and certificates
 Azure Key Vault enables users to store and use cryptographic keys within the Microsoft Azure environment. Azure Key Vault supports multiple key types and algorithms and enables the use of Hardware Security Modules (HSM) for high value customer keys. In addition, Azure Key Vault allows users to securely store secrets, limited size octet objects. Key Vault applies no specific semantics to secrets.
@@ -62,7 +62,7 @@ Key Vault also supports certificates, described in more detail in the following 
 ---
 
 ###  <a name="BKMK_Standards"></a> Supporting standards  
- The JavaScript Object Notation (JSON) Object Signing and Encryption (JOSE) specifications at IETF are important background information for this specification:  
+ The JavaScript Object Notation (JSON) and JavaScript Object Signing and Encryption (JOSE) specifications are important background information.  
 
 -   [JSON Web Key (JWK)](http://tools.ietf.org/html/draft-ietf-jose-json-web-key)  
 
