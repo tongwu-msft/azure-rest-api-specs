@@ -226,7 +226,7 @@ The following is a list of possible news categories that you may set the [catego
 
 ## Error Codes 
 
-<!--[!INCLUDE [bing-error-codes](../includes/bing-error-codes.md)]
+[!INCLUDE [bing-error-codes](../includes/bing-error-codes.md)]
 
 ## Market Codes 
 
