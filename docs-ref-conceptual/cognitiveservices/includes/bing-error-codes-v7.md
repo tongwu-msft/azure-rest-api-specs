@@ -1,5 +1,3 @@
-## Error Codes
-
 The following are the possible HTTP status codes that a request returns.  
   
 |Status Code|Description|  
