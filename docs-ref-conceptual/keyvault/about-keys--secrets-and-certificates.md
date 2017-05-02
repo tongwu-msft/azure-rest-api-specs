@@ -73,7 +73,7 @@ Key Vault also supports certificates, described in more detail in the following 
 -   [JSON Web Signature (JWS)](http://tools.ietf.org/html/draft-ietf-jose-json-web-signature)  
 
 ###  <a name="BKMK_DataTypes"></a> Data types  
- Refer to the JOSE specifications for relevant data types for Keys, Encryption and Signing.  
+ Refer to the [JOSE specifications](#BKMK_Standards) for relevant data types for Keys, Encryption and Signing.  
 
 -   **algorithm** - a supported algorithm for a key operation,for example, RSA1_5  
 
