@@ -294,8 +294,8 @@ The following are the possible news categories that you may set the [category](#
 
 ## Error Codes 
 
-[!INCLUDE [bing-error-codes](../includes/bing-error-codes-v7.md)]
+[!INCLUDE [bing-error-codes](./includes/bing-error-codes-v7.md)]
 
 ## Market Codes 
 
-[!INCLUDE [bing-market-codes](../includes/bing-market-codes.md)]
+[!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]

@@ -1,11 +1,11 @@
 ---
-title: Bing Spell Check API v7 reference | Microsoft Docs
+title: Bing Spell Check API v5 reference | Microsoft Docs
 description: Describes the programming elements of the Bing Video Search API.
 services: cognitive-services
 author: swhite-msft
 manager: ehansen
 
-ms.assetid: C844CA95-A5F5-46DE-9B24-EE2A21AE21BA
+ms.assetid: 2CB12DAB-1659-4AC1-8018-6A1D481E625F
 ms.service: cognitive-services
 ms.technology: bing-spell-check
 ms.topic: article
@@ -13,10 +13,7 @@ ms.date: 06/21/2016
 ms.author: scottwhi
 ---
 
-# Spell Check API v7 Preview Reference
-
-> [!NOTE]
-> Preview release of the Spell Check API. All aspects of the API and documentation are subject to change. 
+# Spell Check API v5 Reference
 
 The Spell Check API lets you check a text string for spelling and grammar errors. This section provides technical details about the query parameters and headers that you use to request spell checking, and the JSON response objects that contain the results. For examples that show how to make requests, see [Proofing a Text String](https://docs.microsoft.com/azure/cognitive-services/bing-spell-check/proofing-text).  
   
@@ -31,7 +28,7 @@ For details about the JSON objects that the response may include, see [Response 
 To check the spelling and grammar of a block of text, send a GET or POST request to:  
   
 ```
-https://api.cognitive.microsoft.com/bing/v7.0/SpellCheck
+https://api.cognitive.microsoft.com/bing/v5.0/SpellCheck
 ```  
   
 The request must use the HTTPS protocol.  
@@ -43,6 +40,7 @@ Because of the query string length limit, you typically use a POST request unles
   
   
 ## Request Headers  
+
 The following are the headers that a request and response may include.  
   
 |Header|Description|  
@@ -52,7 +50,6 @@ The following are the headers that a request and response may include.
 |<a name="market" />BingAPIs-Market|Response header.<br /><br /> The market used by the request. The form is \<languageCode\>-\<countryCode\>. For example, en-US.<br /><br /> If you specify a market that is not listed in [Market Codes](#market-codes), this value may differ from the market you specified in the [mkt](#mkt) query parameter. The same is true if you specify values for [cc](#cc) and [Accept-Language](#acceptlanguage) that can't be reconciled.|  
 |<a name="traceid" />BingAPIs-TraceId|Response header.<br /><br /> The ID of the log entry that contains the details of the request. When an error occurs, capture this ID. If you are not able to determine and resolve the issue, include this ID along with the other information that you provide the Support team.|  
 |<a name="subscriptionkey" />Ocp-Apim-Subscription-Key|Required request header.<br /><br /> The subscription key that you received when you signed up for this service in [Cognitive Services](https://www.microsoft.com/cognitive-services/).|  
-|<a name="pragma" />Pragma|Optional request header<br /><br /> By default, Bing returns cached content, if available. To prevent cached content, set the Pragma header to no-cache (for example, Pragma: no-cache).
 |<a name="retryafter" />Retry-After|Response header.<br /><br /> The response includes this header if you exceed the number of queries allowed per second (QPS) or per month (QPM). The header contains the number of seconds that you must wait before sending another request.|  
 |<a name="useragent" />User-Agent|Optional request header.<br /><br /> The user agent originating the request. Bing uses the user agent to provide mobile users with an optimized experience. Although optional, you are encouraged to always specify this header.<br /><br /> The user-agent should be the same string that any commonly used browser sends. For information about user agents, see [RFC 2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html).<br /><br /> The following are examples of user-agent strings.<br /><ul><li>Windows Phone&mdash;Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; NOKIA; Lumia 822)<br /><br /></li><li>Android&mdash;Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; SCH-I500 Build/GINGERBREAD) AppleWebKit/533.1 (KHTML; like Gecko) Version/4.0 Mobile Safari/533.1<br /><br /></li><li>iPhone&mdash;Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML; like Gecko) Mobile/10B142 iPhone4;1 BingWeb/3.03.1428.20120423<br /><br /></li><li>PC&mdash;Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko<br /><br /></li><li>iPad&mdash;Mozilla/5.0 (iPad; CPU OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53</li></ul>|
 |<a name="clientid" />X-MSEdge-ClientID|Optional request and response header.<br /><br /> Bing uses this header to provide users with consistent behavior across Bing API calls. Bing often flights new features and improvements, and it uses the client ID as a key for assigning traffic on different flights. If you do not use the same client ID for a user across multiple requests, then Bing may assign the user to multiple conflicting flights. Being assigned to multiple conflicting flights can lead to an inconsistent user experience. For example, if the second request has a different flight assignment than the first, the experience may be unexpected. Also, Bing can use the client ID to tailor web results to that client ID’s search history, providing a richer experience for the user.<br /><br /> Bing also uses this header to help improve result rankings by analyzing the activity generated by a client ID. The relevance improvements help with better quality of results delivered by Bing APIs and in turn enables higher click-through rates for the API consumer.<br /><br /> **IMPORTANT:** Although optional, you should consider this header required. Persisting the client ID across multiple requests for the same end user and device combination enables 1) the API consumer to receive a consistent user experience, and 2) higher click-through rates via better quality of results from the Bing APIs.<br /><br /> The following are the basic usage rules that apply to this header.<br /><ul><li>Each user that uses your application on the device must have a unique, Bing generated client ID.<br /><br/>If you do not include this header in the request, Bing generates an ID and returns it in the X-MSEdge-ClientID response header. The only time that you should NOT include this header in a request is the first time the user uses your app on that device.<br /><br/></li><li>Use the client ID for each Bing API request that your app makes for this user on the device.<br /><br/></li><li>Persist the client ID. To persist the ID in a browser app, use a persistent HTTP cookie to ensure the ID is used across all sessions. Do not use a session cookie. For other apps such as mobile apps, use the device's persistent storage to persist the ID.<br /><br/>The next time the user uses your app on that device, get the client ID that you persisted.</li></ul><br /> **NOTE:** Bing responses may or may not include this header. If the response includes this header, capture the client ID and use it for all subsequent Bing requests for the user on that device.<br /><br /> **NOTE** If you include the X-MSEdge-ClientID, you must not include cookies in the request.|  
@@ -63,25 +60,27 @@ The following are the headers that a request and response may include.
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
   
 ## Query Parameters  
-The following are the query parameters that the request may include. The Required column indicates whether you must specify the parameter. You must URL encode the query parameter values.  
+
+The following is the list of query parameters that the request may include. The Required column indicates whether you must specify the parameter. The query parameter values must be URL encoded.  
   
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
 |<a name="actiontype" />actionType|A string that's used by logging to determine whether the request is coming from an interactive session or a page load. The following are the possible values.<br /><ul><li>Edit&mdash;The request is from an interactive session</li><li>Load&mdash;The request is from a page load</li></ul>|String|No|  
 |<a name="appname" />appName|The unique name of your app.<br /><br /> The name must be known by Bing. Do not include this parameter unless you have previously contacted Bing to get a unique app name. To get a unique name, contact your Bing Business Development manager.|String|No|  
 |<a name="cc" />cc|A 2-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
-|<a name="clientmachinename" />clientMachineName|A unique name of the device that the request is being made from. Generate a unique value for each device (the value is unimportant).<br /><br /> The service uses the ID to help debug issues and improve the quality of corrections.|String|No|  
+|<a name="clientmachinename" />clientMachineName|A unique name of the device that the request is being made from. Generate a unique value for each device; the value is unimportant.<br /><br /> The service uses the ID to help debug issues and improve the quality of corrections.|String|No|  
 |<a name="docid" />docId|A unique ID that identifies the document that the text belongs to. Generate a unique value for each document (the value is unimportant).<br /><br /> The service uses the ID to help debug issues and improve the quality of corrections.|String|No|  
 |<a name="mkt" />mkt|The market where the results come from. Typically, `mkt` is the country where the user is making the request from. However, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form \<language code\>-\<country code\>. For example, en-US. The string is case insensitive. For a list of possible market values, see [Market Codes](#market-codes).<br /><br /> **NOTE:** If known, you are encouraged to always specify the market. Specifying the market helps Bing route the request and return an appropriate and optimal response. If you specify a market that is not listed in [Market Codes](#market-codes), Bing uses a best fit market code based on an internal mapping that is subject to change.<br /><br /> This parameter and the [cc](#cc) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
 |<a name="mode" />mode|The type of spelling and grammar checks to perform. The following are the possible values (the values are case insensitive). The default is Proof.<br /><ul><li>Proof&mdash;Finds most spelling and grammar mistakes<br /><br/></li><li>Spell&mdash;Finds most spelling mistakes but does not find some of the grammar errors that Proof catches (for example, capitalization and repeated words)</li></ul><br /> **NOTE:** Proof is supported only in the en-US market. If you specify a market other than en-US, the call succeeds but the `flaggedTokens` array is empty.|String|No|  
-|<a name="precontexttext" />preContextText|A string that gives context to the [text](#text) string. For example, the `text` string *petal* is valid. However, if you set `preContextText` to *bike*, the context changes and the text string becomes not valid. In this case, the API suggests that you change *petal* to *pedal* (as in *bike pedal*).<br /><br /> This text is not checked for grammar or spelling errors.<br /><br /> The combined length of the `text` string, `preContextText` string, and `postContextText` string may not exceed 10,000 characters.<br /><br /> You may specify this parameter in the query string of a GET request or in the body of a POST request.|String|No|  
-|<a name="postcontexttext" />postContextText|A string that gives context to the [text](#text) string. For example, the `text` string *read* is valid. However, if you set `postContextText` to *carpet*, the context changes and the text string becomes not valid. In this case, the API suggests that you change *read* to *red* (as in *red carpet*).<br /><br /> This text is not checked for grammar or spelling errors.<br /><br /> The combined length of the `text` string, `preContextText` string, and `postContextText` string may not exceed 10,000 characters.<br /><br /> You may specify this parameter in the query string of a GET request or in the body of a POST request.|String|No|  
+|<a name="precontexttext" />preContextText|A string that gives context to the [text](#text) string. For example, the `text` string *petal* is valid, but if you set `preContextText` to *bike*, the context changes and the text string becomes not valid. In this case, the API suggests that you change *petal* to *pedal* (as in *bike pedal*).<br /><br /> This text is not checked for grammar or spelling errors.<br /><br /> The combined length of the `text` string, `preContextText`, and `postContextText` may not exceed 10,000 characters.<br /><br /> You may specify this parameter in the query string of a GET request or in the body of a POST request.|String|No|  
+|<a name="postcontexttext" />postContextText|A string that gives context to the [text](#text) string. For example, the `text` string *read* is valid, but if you set `postContextText` to *carpet*, the context changes and the text string becomes not valid. In this case, the API suggests that you change *read* to *red* (as in *red carpet*).<br /><br /> This text is not checked for grammar or spelling errors.<br /><br /> The combined length of the `text` string, `preContextText`, and `postContextText` may not exceed 10,000 characters.<br /><br /> You may specify this parameter in the query string of a GET request or in the body of a POST request.|String|No|  
 |<a name="sessionid" />sessionId|A unique ID that identifies this user session. Generate a unique value for each user session (the value is unimportant).<br /><br /> The service uses the ID to help debug issues and improve the quality of corrections.|String|No|  
 |<a name="setlang" />setLang|The language to use for user interface strings. Specify the language using the ISO 639-1 2-letter language code. For example, the language code for English is EN. The default is EN (English).<br /><br /> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br /> This parameter and the [Accept-Language](#acceptlanguage) header are mutually exclusive&mdash;do not specify both.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
-|<a name="text" />text|The text string to check for spelling and grammar errors.<br /><br /> The combined length of the `text` string, `preContextText` string, and `postContextText` string may not exceed 10,000 characters.<br /><br /> You may specify this parameter in the query string of a GET request or in the body of a POST request. Because of the query string length limit, you'll typically use a POST request unless you're checking only short strings.|String|Yes|  
-|<a name="userid" />userId|A unique ID that identifies the user. Generate a unique value for each user (the value is unimportant).<br /><br /> The service uses the ID to help debug issues and improve the quality of corrections.|String|No|  
+|<a name="text" />text|The text string to check for spelling and grammar errors.<br /><br /> The combined length of the `text` string, `preContextText`, and `postContextText` may not exceed 10,000 characters.<br /><br /> You may specify this parameter in the query string of a GET request or in the body of a POST request. Because of the query string length limit, you typically use a POST request unless you're checking only short strings.|String|Yes|  
+|<a name="userid" />userId|A unique ID that identifies the user. Generate a unique value for each user; the value is unimportant.<br /><br /> The service uses the ID to help debug issues and improve the quality of corrections.|String|No|  
   
 ## Response Objects  
+
 The following are the JSON response objects that the response may include. If the request is successful, the top-level object in the response is the [SpellCheck](#spellcheck) object. If the request fails, the top-level object is [ErrorResponse](#errorresponse).  
   
 |Object|Description|  
@@ -94,15 +93,13 @@ The following are the JSON response objects that the response may include. If th
   
 <a name="error"></a>   
 ### Error  
-Defines the error that occurred.  
+The reason why the request failed.  
   
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
-|<a name="error-code" />code|The error code that identifies the cateory of error. For a list of possible codes, see [Error Codes](#errorcodes).|String|  
+|<a name="error-code" />code|The error code that identifies the error. For a list of possible codes, see [Error Codes](#error-codes).|String|  
 |<a name="error-message" />message|A description of the error.|String|  
-|<a name="error-moredetails" />moreDetails|A description that provides additional information about the error.|String|  
 |<a name="error-parameter" />parameter|The query parameter in the request that caused the error.|String|  
-|<a name="error-subcode" />subCode|The error code that identifies the error. For example, if `code` is InvalidRequest, `subCode` may be ParameterInvalid or ParameterInvalidValue. |String|  
 |<a name="error-value" />value|The query parameter's value that was not valid.|String|  
   
 <a name="errorresponse"></a>   
@@ -112,7 +109,7 @@ The top-level object that the response includes when the request fails.
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
-|<a name="errors" />errors|A list of errors that describe the reasons why the request failed.|[Error](#error)[]|  
+|<a name="errors" />errors|An array of [Error](#error) objects that describe the reasons why the request failed.|[Error](#error)[]|  
   
 <a name="flaggedtoken"></a>   
 ### FlaggedToken  
@@ -129,12 +126,12 @@ The word that is not spelled correctly or is grammatically incorrect.
 ### SpellCheck  
 The top-level object that the response includes when the request succeeds.  
   
-Note that if the service suspects a denial of service attack, the request succeeds (HTTP status code is 200 OK), but the body of the response is empty.  
+If the service suspects a denial of service attack, the request succeeds (HTTP status code is 200 OK), but the body of the response is empty.  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|_type|A type hint, which is set to SpellCheck.|String|  
-|<a name="flaggedtokens" />flaggedTokens|A list of words in [text](#text) that were flagged as not being spelled correctly or are grammatically incorrect.<br /><br /> If no spelling or grammar errors were found, or the specified market is not supported, the array is empty .|[FlaggedToken](#flaggedtoken)[]|  
+|_type|Type hint.|String|  
+|<a name="flaggedtokens" />flaggedTokens|An array of words in [text](#text) that were flagged as not being spelled correctly or are grammatically incorrect.<br /><br /> If no spelling or grammar errors were found, or the specified market is not supported, the array is empty.|[FlaggedToken](#flaggedtoken)[]|  
   
 <a name="tokensuggestion"></a>   
 ### TokenSuggestion  
@@ -145,12 +142,10 @@ The suggested spelling or grammar correction.
 |<a name="score" />score|A value that indicates the level of confidence that the suggested correction is correct. If the `mode`query parameter is set to Spell, this field is set to 1.0.|Double|  
 |<a name="suggestion" />suggestion|The suggested word to replace the flagged word.<br /><br /> If the flagged word is a repeated word (see [type](#flaggedtoken-type)), this string is empty.|String|  
   
-
-
 ## Error Codes 
 
-[!INCLUDE [bing-error-codes](../includes/bing-error-codes-v7.md)]
+[!INCLUDE [bing-error-codes](./includes/bing-error-codes.md)]
 
 ## Market Codes 
 
-[!INCLUDE [bing-market-codes](../includes/bing-market-codes.md)]
+[!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]
