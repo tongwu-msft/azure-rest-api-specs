@@ -28,11 +28,13 @@ Request Body: None
 Response Body:
 ```json
 {
-    "environments":[{
-        "displayName":"Sensors",
-        "environmentFqdn": "00000000-0000-0000-0000-000000000000.env.timeseries.azure.com",
-        "environmentId":"00000000-0000-0000-0000-000000000000"
-    }]
+    "environments": [
+        {
+            "displayName":"Sensors",
+            "environmentFqdn": "00000000-0000-0000-0000-000000000000.env.timeseries.azure.com",
+            "environmentId":"00000000-0000-0000-0000-000000000000"
+        }
+    ]
 }
 ```
 

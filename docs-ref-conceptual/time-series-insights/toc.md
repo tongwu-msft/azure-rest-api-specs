@@ -1,2 +1,4 @@
-# [Query API](time-series-insights-reference-QueryAPI.md)
-# [Query Syntax](time-series-insights-reference-Query-Syntax.md)
+# Data Access
+## Query
+### [API](time-series-insights-reference-QueryAPI.md)
+### [Syntax](time-series-insights-reference-Query-Syntax.md)

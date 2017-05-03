@@ -136,7 +136,8 @@ Time Series Insights supports the following **boolean logical expressions**:
 
 JSON example:
 ```json
-"and": [{
+"and": [
+    {
 		"eq": {
 			"left": {
 				"property": {
@@ -146,7 +147,8 @@ JSON example:
 			},
 			"right": "abc"
 		}
-	}, {
+	},
+    {
 		"not": {
 			"lt": {
 				"left": {
@@ -492,7 +494,8 @@ JSON example:
                 "max": {
                     "input": { "property": "temperature", "type": "Double" }
                 }
-            }]
+            }
+        ]
     }
 ]
 ```
