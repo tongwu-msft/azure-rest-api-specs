@@ -32,7 +32,7 @@ These APIs enable you to perform management operations on Event Hubs.
   
 -   Set the Content-Type header to **application/atom+xml;type=entry;charset=utf-8**.  
   
--   Set the Authorization header to a SAS token (see the [Generate SAS token](../Topic/Generate%20SAS%20token.md) section for more information), or a WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to WRAP access_token=”{swt}”.  
+-   Set the Authorization header to a SAS token (see the [Generate SAS token](~/docs-ref-conceptual/EventHub/generate-sas-token.md) section for more information), or a WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to WRAP access_token=”{swt}”.  
   
 ## Tasks  
  You can perform the following management operations:  
