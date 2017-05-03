@@ -487,8 +487,8 @@ The top-level object that the response includes when a trending images request s
 
 ## Error Codes 
 
-[!INCLUDE [bing-error-codes](../includes/bing-error-codes.md)]
+[!INCLUDE [bing-error-codes](./includes/bing-error-codes.md)]
 
 ## Market Codes 
 
-[!INCLUDE [bing-market-codes](../includes/bing-market-codes.md)]
+[!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]
