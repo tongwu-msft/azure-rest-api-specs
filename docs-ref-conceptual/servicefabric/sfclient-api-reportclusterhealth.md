@@ -1,6 +1,6 @@
 ---
 title: "Report Cluster Health"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,13 +40,14 @@ To see whether the report was applied in the health store, run GetClusterHealth 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/$/ReportClusterHealth?api-version=3.0` |
+| POST | `/$/ReportClusterHealth?api-version=3.0&timeout={timeout}` |
 
 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 | [HealthInformation](#healthinformation) | [HealthInformation](sfclient-model-healthinformation.md) | Yes | Body |
 
 ____
@@ -56,6 +57,16 @@ __Required__: Yes<br/>
 __Default__: 3.0 <br/>
 <br/>
 The version of the API. This is a required parameter and it's value must be "3.0".
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
 ### HealthInformation

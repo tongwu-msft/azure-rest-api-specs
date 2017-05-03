@@ -1,6 +1,6 @@
 ---
 title: "Get Cluster Health"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,7 +38,7 @@ Similarly, use NodesHealthStateFilter and ApplicationsHealthStateFilter to filte
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/$/GetClusterHealth?api-version=3.0&NodesHealthStateFilter={NodesHealthStateFilter}&ApplicationsHealthStateFilter={ApplicationsHealthStateFilter}&EventsHealthStateFilter={EventsHealthStateFilter}` |
+| GET | `/$/GetClusterHealth?api-version=3.0&NodesHealthStateFilter={NodesHealthStateFilter}&ApplicationsHealthStateFilter={ApplicationsHealthStateFilter}&EventsHealthStateFilter={EventsHealthStateFilter}&timeout={timeout}` |
 
 
 ## Parameters
@@ -48,6 +48,7 @@ Similarly, use NodesHealthStateFilter and ApplicationsHealthStateFilter to filte
 | [NodesHealthStateFilter](#nodeshealthstatefilter) | integer | No | Query |
 | [ApplicationsHealthStateFilter](#applicationshealthstatefilter) | integer | No | Query |
 | [EventsHealthStateFilter](#eventshealthstatefilter) | integer | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### api-version
@@ -118,6 +119,16 @@ If not specified, all entries are returned. The state values are flag based enum
 - Error - Filter that matches input with HealthState value Error. The value is 8. 
 - All - Filter that matches input with any HealthState value. The value is 65535. 
 
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

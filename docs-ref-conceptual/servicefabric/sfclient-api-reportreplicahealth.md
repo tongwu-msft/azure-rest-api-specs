@@ -1,6 +1,6 @@
 ---
 title: "Report Replica Health"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,7 +40,7 @@ To see whether the report was applied in the health store, run GetReplicaHealth 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/ReportHealth?api-version=3.0&ServiceKind={ServiceKind}` |
+| POST | `/Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/ReportHealth?api-version=3.0&ServiceKind={ServiceKind}&timeout={timeout}` |
 
 
 ## Parameters
@@ -50,6 +50,7 @@ To see whether the report was applied in the health store, run GetReplicaHealth 
 | [replicaId](#replicaid) | string (int64) | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
 | [ServiceKind](#servicekind) | string (enum) | Yes | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 | [HealthInformation](#healthinformation) | [HealthInformation](sfclient-model-healthinformation.md) | Yes | Body |
 
 ____
@@ -84,6 +85,16 @@ The kind of service replica (Stateless or Stateful) for which the health is bein
 - Stateless - Does not use Service Fabric to make its state highly available or reliable. The value is 1
 - Stateful - Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.
 . Possible values include: 'Stateless', 'Stateful'
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
 ### HealthInformation

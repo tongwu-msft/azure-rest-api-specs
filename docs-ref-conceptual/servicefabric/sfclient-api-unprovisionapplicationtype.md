@@ -1,6 +1,6 @@
 ---
-title: "Unprovision Application"
-ms.date: "2017-04-29"
+title: "Unprovision Application Type"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Unprovision Application
+# Unprovision Application Type
 Removes or unregisters a Service Fabric application type from the cluster.
 
 Removes or unregisters a Service Fabric application type from the cluster. This operation can only be performed if all application instance of the application type has been deleted. Once the application type is unregistered, no new application instance can be created for this particular application type.
@@ -35,7 +35,7 @@ Removes or unregisters a Service Fabric application type from the cluster. This 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/ApplicationTypes/{applicationTypeName}/$/Unprovision?api-version=3.0` |
+| POST | `/ApplicationTypes/{applicationTypeName}/$/Unprovision?api-version=3.0&timeout={timeout}` |
 
 
 ## Parameters
@@ -43,6 +43,7 @@ Removes or unregisters a Service Fabric application type from the cluster. This 
 | --- | --- | --- | --- |
 | [applicationTypeName](#applicationtypename) | string | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 | [ApplicationTypeImageStoreVersion](#applicationtypeimagestoreversion) | [ApplicationTypeImageStoreVersion](sfclient-model-applicationtypeimagestoreversion.md) | Yes | Body |
 
 ____
@@ -59,6 +60,16 @@ __Required__: Yes<br/>
 __Default__: 3.0 <br/>
 <br/>
 The version of the API. This is a required parameter and it's value must be "3.0".
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
 ### ApplicationTypeImageStoreVersion

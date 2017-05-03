@@ -1,6 +1,6 @@
 ---
 title: "Get Compose Application Status List"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Gets the status about the compose applications that were created or in the proce
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/ComposeDeployments?api-version=4.0-preview&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}` |
+| GET | `/ComposeDeployments?api-version=4.0-preview&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
 
 
 ## Parameters
@@ -44,6 +44,7 @@ Gets the status about the compose applications that were created or in the proce
 | [api-version](#api-version) | string | Yes | Query |
 | [ContinuationToken](#continuationtoken) | string | No | Query |
 | [MaxResults](#maxresults) | integer (int64) | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### api-version
@@ -68,6 +69,16 @@ __Default__: 0 <br/>
 __InclusiveMinimum__: 0 <br/>
 <br/>
 The maximum number of results to be returned as part of the paged queries. This parameter defines the upper bound on the number of results returned. The results returned can be less than the specified maximum results if they do not fit in the message as per the max message size restrictions defined in the configuration. If this parameter is zero or not specified, the paged queries includes as much results as possible that fit in the return message.
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

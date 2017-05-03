@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Code Package Info List"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Gets the list of code packages deployed on a Service Fabric node for the given a
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetCodePackages?api-version=3.0&ServiceManifestName={ServiceManifestName}&CodePackageName={CodePackageName}` |
+| GET | `/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetCodePackages?api-version=3.0&ServiceManifestName={ServiceManifestName}&CodePackageName={CodePackageName}&timeout={timeout}` |
 
 
 ## Parameters
@@ -46,6 +46,7 @@ Gets the list of code packages deployed on a Service Fabric node for the given a
 | [api-version](#api-version) | string | Yes | Query |
 | [ServiceManifestName](#servicemanifestname) | string | No | Query |
 | [CodePackageName](#codepackagename) | string | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### nodeName
@@ -82,6 +83,16 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of code package specified in service manifest registered as part of an application type in a Service Fabric cluster.
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

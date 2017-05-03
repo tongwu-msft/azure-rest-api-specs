@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Service Type Info List"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Gets the list containing the information about service types from the applicatio
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServiceTypes?api-version=3.0&ServiceManifestName={ServiceManifestName}` |
+| GET | `/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServiceTypes?api-version=3.0&ServiceManifestName={ServiceManifestName}&timeout={timeout}` |
 
 
 ## Parameters
@@ -45,6 +45,7 @@ Gets the list containing the information about service types from the applicatio
 | [applicationId](#applicationid) | string | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
 | [ServiceManifestName](#servicemanifestname) | string | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### nodeName
@@ -74,6 +75,16 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the service manifest to filter the list of deployed service type information. If specified, the response will only contain the information about service types that are defined in this service manifest.
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

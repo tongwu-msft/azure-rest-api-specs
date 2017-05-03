@@ -1,6 +1,6 @@
 ---
 title: "Get Replica Info List"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -28,14 +28,14 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Get Replica Info List
-Gets the information about a Service Fabric replica.
+Gets the information about replicas of a Service Fabric service partition.
 
 The GetReplicas endpoint returns information about the replicas of the specified partition. The respons include the id, role, status, health, node name, uptime, and other details about the replica.
 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Partitions/{partitionId}/$/GetReplicas?api-version=3.0&ContinuationToken={ContinuationToken}` |
+| GET | `/Partitions/{partitionId}/$/GetReplicas?api-version=3.0&ContinuationToken={ContinuationToken}&timeout={timeout}` |
 
 
 ## Parameters
@@ -44,6 +44,7 @@ The GetReplicas endpoint returns information about the replicas of the specified
 | [partitionId](#partitionid) | string (uuid) | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
 | [ContinuationToken](#continuationtoken) | string | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### partitionId
@@ -66,6 +67,16 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The continuation token parameter is used to obtain next set of results. A continuation token with a non empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

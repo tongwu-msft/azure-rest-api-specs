@@ -1,6 +1,6 @@
 ---
 title: "Invoke Infrastructure Command"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,7 +43,7 @@ This API supports the Service Fabric platform; it is not meant to be used direct
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/$/InvokeInfrastructureCommand?api-version=3.0&Command={Command}&ServiceId={ServiceId}` |
+| POST | `/$/InvokeInfrastructureCommand?api-version=3.0&Command={Command}&ServiceId={ServiceId}&timeout={timeout}` |
 
 
 ## Parameters
@@ -52,6 +52,7 @@ This API supports the Service Fabric platform; it is not meant to be used direct
 | [api-version](#api-version) | string | Yes | Query |
 | [Command](#command) | string | Yes | Query |
 | [ServiceId](#serviceid) | string | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### api-version
@@ -74,6 +75,16 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The identity of the infrastructure service. This is  the full name of the infrastructure service without the 'fabric:' URI scheme. This parameter required only for the cluster that have more than one instance of infrastructure service running.
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Application Health"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Gets the information about health of an application deployed on a Service Fabric
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetHealth?api-version=3.0&EventsHealthStateFilter={EventsHealthStateFilter}&DeployedServicePackagesHealthStateFilter={DeployedServicePackagesHealthStateFilter}` |
+| GET | `/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetHealth?api-version=3.0&EventsHealthStateFilter={EventsHealthStateFilter}&DeployedServicePackagesHealthStateFilter={DeployedServicePackagesHealthStateFilter}&timeout={timeout}` |
 
 
 ## Parameters
@@ -46,6 +46,7 @@ Gets the information about health of an application deployed on a Service Fabric
 | [api-version](#api-version) | string | Yes | Query |
 | [EventsHealthStateFilter](#eventshealthstatefilter) | integer | No | Query |
 | [DeployedServicePackagesHealthStateFilter](#deployedservicepackageshealthstatefilter) | integer | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### nodeName
@@ -108,6 +109,16 @@ For example, if the provided value is 6 then health state of service packages wi
 - Error - Filter that matches input with HealthState value Error. The value is 8. 
 - All - Filter that matches input with any HealthState value. The value is 65535. 
 
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

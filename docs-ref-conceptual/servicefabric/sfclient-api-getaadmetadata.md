@@ -1,6 +1,6 @@
 ---
 title: "Get Aad Metadata"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,13 +37,14 @@ This API is not supposed to be called separately. It provides information needed
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/$/GetAadMetadata?api-version=1.0` |
+| GET | `/$/GetAadMetadata?api-version=1.0&timeout={timeout}` |
 
 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### api-version
@@ -52,6 +53,16 @@ __Required__: Yes<br/>
 __Default__: 1.0 <br/>
 <br/>
 The version of the API. This is a required parameter and it's value must be "1.0".
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

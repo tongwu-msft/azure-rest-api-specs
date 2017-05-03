@@ -1,6 +1,6 @@
 ---
 title: "Get Application Info List"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Gets the information about the applications that were created or in the process 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Applications?api-version=3.0&ApplicationTypeName={ApplicationTypeName}&ExcludeApplicationParameters={ExcludeApplicationParameters}&ContinuationToken={ContinuationToken}` |
+| GET | `/Applications?api-version=3.0&ApplicationTypeName={ApplicationTypeName}&ExcludeApplicationParameters={ExcludeApplicationParameters}&ContinuationToken={ContinuationToken}&timeout={timeout}` |
 
 
 ## Parameters
@@ -45,6 +45,7 @@ Gets the information about the applications that were created or in the process 
 | [ApplicationTypeName](#applicationtypename) | string | No | Query |
 | [ExcludeApplicationParameters](#excludeapplicationparameters) | boolean | No | Query |
 | [ContinuationToken](#continuationtoken) | string | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### api-version
@@ -75,6 +76,16 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The continuation token parameter is used to obtain next set of results. A continuation token with a non empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceDescription"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

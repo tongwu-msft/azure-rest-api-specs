@@ -1,6 +1,6 @@
 ---
 title: "Get Fault Operation List"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Gets the a list of user-induced fault operations filtered by provided input.
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Faults/?api-version=3.0&TypeFilter={TypeFilter}&StateFilter={StateFilter}` |
+| GET | `/Faults/?api-version=3.0&TypeFilter={TypeFilter}&StateFilter={StateFilter}&timeout={timeout}` |
 
 
 ## Parameters
@@ -44,6 +44,7 @@ Gets the a list of user-induced fault operations filtered by provided input.
 | [api-version](#api-version) | string | Yes | Query |
 | [TypeFilter](#typefilter) | integer | Yes | Query |
 | [StateFilter](#statefilter) | integer | Yes | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### api-version
@@ -82,6 +83,16 @@ Used to filter on OperationState's for user-induced operations.
 32    - select Cancelled
 64    - select ForceCancelled
 
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

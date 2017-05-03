@@ -1,6 +1,6 @@
 ---
 title: "Resolve Service"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Resolve a Service Fabric service partition, to get the endpoints of the service 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Services/{serviceId}/$/ResolvePartition?api-version=3.0&PartitionKeyType={PartitionKeyType}&PartitionKeyValue={PartitionKeyValue}&PreviousRspVersion={PreviousRspVersion}` |
+| GET | `/Services/{serviceId}/$/ResolvePartition?api-version=3.0&PartitionKeyType={PartitionKeyType}&PartitionKeyValue={PartitionKeyValue}&PreviousRspVersion={PreviousRspVersion}&timeout={timeout}` |
 
 
 ## Parameters
@@ -46,6 +46,7 @@ Resolve a Service Fabric service partition, to get the endpoints of the service 
 | [PartitionKeyType](#partitionkeytype) | integer | No | Query |
 | [PartitionKeyValue](#partitionkeyvalue) | string | No | Query |
 | [PreviousRspVersion](#previousrspversion) | string | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### serviceId
@@ -86,6 +87,16 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The value in the Version field of the response that was received previously. This is required if the user knows that the result that was got previously is stale.
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

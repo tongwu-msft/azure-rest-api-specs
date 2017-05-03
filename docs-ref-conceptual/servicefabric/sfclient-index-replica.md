@@ -1,6 +1,6 @@
 ---
 title: "Replica"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -31,7 +31,8 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [Get Replica Info List](sfclient-api-getreplicainfolist.md) | Gets the information about a Service Fabric replica.<br/> |
+| [Get Replica Info List](sfclient-api-getreplicainfolist.md) | Gets the information about replicas of a Service Fabric service partition.<br/> |
+| [Get Replica Info](sfclient-api-getreplicainfo.md) | Gets the information about a replica of a Service Fabric partition.<br/> |
 | [Get Replica Health](sfclient-api-getreplicahealth.md) | Gets the health of a Service Fabric stateful service replica or stateless service instance.<br/> |
 | [Get Replica Health Using Policy](sfclient-api-getreplicahealthusingpolicy.md) | Gets the health of a Service Fabric stateful service replica or stateless service instance using the specified policy.<br/> |
 | [Report Replica Health](sfclient-api-reportreplicahealth.md) | Sends a health report on the Service Fabric replica.<br/> |

@@ -1,6 +1,6 @@
 ---
 title: "Get Replica Health Using Policy"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,7 +38,7 @@ Use ApplicationHealthPolicy to optionally override the health policies used to e
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/GetHealth?api-version=3.0&EventsHealthStateFilter={EventsHealthStateFilter}` |
+| POST | `/Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/GetHealth?api-version=3.0&EventsHealthStateFilter={EventsHealthStateFilter}&timeout={timeout}` |
 
 
 ## Parameters
@@ -48,6 +48,7 @@ Use ApplicationHealthPolicy to optionally override the health policies used to e
 | [replicaId](#replicaid) | string (int64) | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
 | [EventsHealthStateFilter](#eventshealthstatefilter) | integer | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 | [ApplicationHealthPolicy](#applicationhealthpolicy) | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | No | Body |
 
 ____
@@ -90,6 +91,16 @@ If not specified, all entries are returned. The state values are flag based enum
 - Error - Filter that matches input with HealthState value Error. The value is 8. 
 - All - Filter that matches input with any HealthState value. The value is 65535. 
 
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
 ### ApplicationHealthPolicy

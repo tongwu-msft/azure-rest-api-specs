@@ -1,6 +1,6 @@
 ---
 title: "Get Chaos Report"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,7 +38,7 @@ When the Chaos report contains more than 100 Chaos events, the Chaos report is r
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Tools/Chaos/$/Report?api-version=3.0&ContinuationToken={ContinuationToken}&StartTimeUtc={StartTimeUtc}&EndTimeUtc={EndTimeUtc}` |
+| GET | `/Tools/Chaos/$/Report?api-version=3.0&ContinuationToken={ContinuationToken}&StartTimeUtc={StartTimeUtc}&EndTimeUtc={EndTimeUtc}&timeout={timeout}` |
 
 
 ## Parameters
@@ -48,6 +48,7 @@ When the Chaos report contains more than 100 Chaos events, the Chaos report is r
 | [ContinuationToken](#continuationtoken) | string | No | Query |
 | [StartTimeUtc](#starttimeutc) | string (int64) | No | Query |
 | [EndTimeUtc](#endtimeutc) | string (int64) | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### api-version
@@ -77,6 +78,16 @@ __Type__: string (int64) <br/>
 __Required__: No<br/>
 <br/>
 End of the time range for which a Chaos report is to be generated.
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

@@ -1,6 +1,6 @@
 ---
-title: "Provision Application"
-ms.date: "2017-04-29"
+title: "Reset Partition Load"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,22 +27,30 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Provision Application
-Provisions or registers a Service Fabric application type with the cluster.
+# Reset Partition Load
+Resets the current load of a Service Fabric partition.
 
-Provisions or registers a Service Fabric application type with the cluster. This is required before any new applications can be instantiated.
+Resets the current load of a Service Fabric partition to the default load for the service.
 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/ApplicationTypes/$/Provision?api-version=3.0` |
+| POST | `/Partitions/{partitionId}/$/ResetLoad?api-version=3.0&timeout={timeout}` |
 
 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
+| [partitionId](#partitionid) | string (uuid) | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
-| [ApplicationTypeImageStorePath](#applicationtypeimagestorepath) | [ApplicationTypeImageStorePath](sfclient-model-applicationtypeimagestorepath.md) | Yes | Body |
+| [timeout](#timeout) | integer (int64) | No | Query |
+
+____
+### partitionId
+__Type__: string (uuid) <br/>
+__Required__: Yes<br/>
+<br/>
+The identity of the partition.
 
 ____
 ### api-version
@@ -53,15 +61,18 @@ __Default__: 3.0 <br/>
 The version of the API. This is a required parameter and it's value must be "3.0".
 
 ____
-### ApplicationTypeImageStorePath
-__Type__: [ApplicationTypeImageStorePath](sfclient-model-applicationtypeimagestorepath.md) <br/>
-__Required__: Yes<br/>
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
 <br/>
-The relative path for the application package in the image store specified during the prior copy operation.
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
-| 200 (OK) | A successful provision will return 200 status code.<br/> |  |
+| 200 (OK) | A successful operation request will return 200 status code.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |

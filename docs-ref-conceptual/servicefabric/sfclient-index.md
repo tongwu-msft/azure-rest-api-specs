@@ -1,6 +1,6 @@
 ---
 title: "Service Fabric Client REST API Reference"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -107,8 +107,8 @@ Following is a list of Service Fabric Client REST APIs.
 | --- | --- |
 | [Get Application Type Info List](sfclient-api-getapplicationtypeinfolist.md) | Gets the list of application types in the Service Fabric cluster.<br/> |
 | [Get Application Type Info List By Name](sfclient-api-getapplicationtypeinfolistbyname.md) | Gets the list of application types in the Service Fabric cluster matching exactly the specified name.<br/> |
-| [Provision Application](sfclient-api-provisionapplication.md) | Provisions or registers a Service Fabric application type with the cluster.<br/> |
-| [Unprovision Application](sfclient-api-unprovisionapplication.md) | Removes or unregisters a Service Fabric application type from the cluster.<br/> |
+| [Provision Application Type](sfclient-api-provisionapplicationtype.md) | Provisions or registers a Service Fabric application type with the cluster.<br/> |
+| [Unprovision Application Type](sfclient-api-unprovisionapplicationtype.md) | Removes or unregisters a Service Fabric application type from the cluster.<br/> |
 | [Get Application Manifest](sfclient-api-getapplicationmanifest.md) | Gets the manifest describing an application type.<br/> |
 
 ----
@@ -135,7 +135,9 @@ Following is a list of Service Fabric Client REST APIs.
 | [Report Application Health](sfclient-api-reportapplicationhealth.md) | Sends a health report on the Service Fabric application.<br/> |
 | [Start Application Upgrade](sfclient-api-startapplicationupgrade.md) | Starts upgrading an application in the Service Fabric cluster.<br/> |
 | [Get Application Upgrade](sfclient-api-getapplicationupgrade.md) | Gets details for the latest upgrade performed on this application.<br/> |
+| [Update Application Upgrade](sfclient-api-updateapplicationupgrade.md) | Updates an ongoing application upgrade in the Service Fabric cluster.<br/> |
 | [Resume Application Upgrade](sfclient-api-resumeapplicationupgrade.md) | Resumes upgrading an application in the Service Fabric cluster.<br/> |
+| [Rollback Application Upgrade](sfclient-api-rollbackapplicationupgrade.md) | Starts rolling back the currently on-going upgrade of an application in the Service Fabric cluster.<br/> |
 | [Get Deployed Application Info List](sfclient-api-getdeployedapplicationinfolist.md) | Gets the list of applications deployed on a Service Fabric node.<br/> |
 | [Get Deployed Application Info](sfclient-api-getdeployedapplicationinfo.md) | Gets the information about an application deployed on a Service Fabric node.<br/> |
 | [Get Deployed Application Health](sfclient-api-getdeployedapplicationhealth.md) | Gets the information about health of an application deployed on a Service Fabric node.<br/> |
@@ -148,6 +150,7 @@ Following is a list of Service Fabric Client REST APIs.
 | Name | Description |
 | --- | --- |
 | [Get Service Info List](sfclient-api-getserviceinfolist.md) | Gets the information about all services belonging to the application specified by the application id.<br/> |
+| [Get Service Info](sfclient-api-getserviceinfo.md) | Gets the information about the specific service belonging to a Service Fabric application.<br/> |
 | [Get Application Name Info](sfclient-api-getapplicationnameinfo.md) | Gets the name of the Service Fabric application for a service.<br/> |
 | [Create Service](sfclient-api-createservice.md) | Creates the specified service.<br/> |
 | [Create Service From Template](sfclient-api-createservicefromtemplate.md) | Creates a Service Fabric service from the service template defined in the application manifest.<br/> |
@@ -171,6 +174,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [Get Partition Health Using Policy](sfclient-api-getpartitionhealthusingpolicy.md) | Gets the health of the specified Service Fabric partition, by using the specified health policy.<br/> |
 | [Report Partition Health](sfclient-api-reportpartitionhealth.md) | Sends a health report on the Service Fabric partition.<br/> |
 | [Get Partition Load Information](sfclient-api-getpartitionloadinformation.md) | Gets the load of the specified Service Fabric partition.<br/> |
+| [Reset Partition Load](sfclient-api-resetpartitionload.md) | Resets the current load of a Service Fabric partition.<br/> |
 | [Recover Partition](sfclient-api-recoverpartition.md) | Indicates to the Service Fabric cluster that it should attempt to recover a specific partition which is currently stuck in quorum loss.<br/> |
 | [Recover Service Partitions](sfclient-api-recoverservicepartitions.md) | Indicates to the Service Fabric cluster that it should attempt to recover the specified service which is currently stuck in quorum loss.<br/> |
 | [Recover System Partitions](sfclient-api-recoversystempartitions.md) | Indicates to the Service Fabric cluster that it should attempt to recover the system services which are currently stuck in quorum loss.<br/> |
@@ -181,7 +185,8 @@ Following is a list of Service Fabric Client REST APIs.
 
 | Name | Description |
 | --- | --- |
-| [Get Replica Info List](sfclient-api-getreplicainfolist.md) | Gets the information about a Service Fabric replica.<br/> |
+| [Get Replica Info List](sfclient-api-getreplicainfolist.md) | Gets the information about replicas of a Service Fabric service partition.<br/> |
+| [Get Replica Info](sfclient-api-getreplicainfo.md) | Gets the information about a replica of a Service Fabric partition.<br/> |
 | [Get Replica Health](sfclient-api-getreplicahealth.md) | Gets the health of a Service Fabric stateful service replica or stateless service instance.<br/> |
 | [Get Replica Health Using Policy](sfclient-api-getreplicahealthusingpolicy.md) | Gets the health of a Service Fabric stateful service replica or stateless service instance using the specified policy.<br/> |
 | [Report Replica Health](sfclient-api-reportreplicahealth.md) | Sends a health report on the Service Fabric replica.<br/> |
@@ -260,7 +265,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [Start Partition Restart](sfclient-api-startpartitionrestart.md) | This API will restart some or all replicas or instances of the specified partition.<br/> |
 | [Get Partition Restart Progress](sfclient-api-getpartitionrestartprogress.md) | Gets the progress of a PartitionRestart operation started using StartPartitionRestart.<br/> |
 | [Start Node Transition](sfclient-api-startnodetransition.md) | Starts or stops a cluster node.<br/> |
-| [Get Transition Progress](sfclient-api-gettransitionprogress.md) | Gets the progress of an operation started using StartNodeTransition.<br/> |
+| [Get Node Transition Progress](sfclient-api-getnodetransitionprogress.md) | Gets the progress of an operation started using StartNodeTransition.<br/> |
 | [Get Fault Operation List](sfclient-api-getfaultoperationlist.md) | Gets a list of user-induced fault operations filtered by provided input.<br/> |
 | [Cancel Operation](sfclient-api-canceloperation.md) | Cancels a user-induced fault operation.<br/> |
 
@@ -295,6 +300,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [ApplicationTypeManifest](sfclient-model-applicationtypemanifest.md) | Contains the manifest describing an application type registered in a Service Fabric cluster.<br/> |
 | [ApplicationUpgradeDescription](sfclient-model-applicationupgradedescription.md) | Describes the parameters for an application upgrade. Please note that upgrade description replaces the existing application description. This means that if the parameters are not specified, the existing parameters on the applications will be overwritten with the empty parameters list. This would results in application using the default value of the parameters from the application manifest. If you do not want to change any existing parameter values, please get the application parameters first using the GetApplicationInfo query and then supply those values as Parameters in this ApplicationUpgradeDescription.<br/> |
 | [ApplicationUpgradeProgressInfo](sfclient-model-applicationupgradeprogressinfo.md) | Describes the parameters for an application upgrade.<br/> |
+| [ApplicationUpgradeUpdateDescription](sfclient-model-applicationupgradeupdatedescription.md) | Describes the parameters for updating an ongoing application upgrade.<br/> |
 | [ChaosContext](sfclient-model-chaoscontext.md) | Describes a map, which is collection of (string, string) type key-value pairs. The map can be used to record information about<br/>the Chaos run. There cannot be more than 100 such pairs. <br/>This map is set by the starter of the Choas run to optionally store the context about the specific run.<br/> |
 | [ChaosContextMapItem](sfclient-model-chaoscontextmapitem.md) | Describes an item in the ChaosContextMap in ChaosParameters.<br/> |
 | [ChaosEvent](sfclient-model-chaosevent.md) | Represents an event generated during a Chaos run.<br/> |
@@ -437,6 +443,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [RestartNodeDescription](sfclient-model-restartnodedescription.md) | Describes the parameters to restart a Service Fabric node.<br/> |
 | [RestartPartitionResult](sfclient-model-restartpartitionresult.md) | Represents information about an operation in a terminal state (Completed or Faulted).<br/> |
 | [ResumeApplicationUpgradeDescription](sfclient-model-resumeapplicationupgradedescription.md) | Describes the parameters for resuming an unmonitored manual Service Fabric application upgrade<br/> |
+| [RollingUpgradeUpdateDescription](sfclient-model-rollingupgradeupdatedescription.md) | Describes the parameters for updating a rolling upgrade of application or cluster.<br/> |
 | [SafetyCheck](sfclient-model-safetycheck.md) | Represents a safety check performed by service fabric before continuing with the operations. These checks ensure the avaiability of the service and the reliability of the state.<br/> |
 | [SafetyCheckWrapper](sfclient-model-safetycheckwrapper.md) | A wrapper for the safety check object. Safety checks are performed by service fabric before continuing with the operations. These checks ensure the avaiability of the service and the reliability of the state.<br/> |
 | [SecondaryActiveReplicatorStatus](sfclient-model-secondaryactivereplicatorstatus.md) | Status of the secondary replicator when it is in active mode and is part of the replica set.<br/> |

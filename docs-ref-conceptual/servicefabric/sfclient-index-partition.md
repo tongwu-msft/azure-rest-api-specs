@@ -1,6 +1,6 @@
 ---
 title: "Partition"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,6 +38,7 @@ translation.priority.mt:
 | [Get Partition Health Using Policy](sfclient-api-getpartitionhealthusingpolicy.md) | Gets the health of the specified Service Fabric partition, by using the specified health policy.<br/> |
 | [Report Partition Health](sfclient-api-reportpartitionhealth.md) | Sends a health report on the Service Fabric partition.<br/> |
 | [Get Partition Load Information](sfclient-api-getpartitionloadinformation.md) | Gets the load of the specified Service Fabric partition.<br/> |
+| [Reset Partition Load](sfclient-api-resetpartitionload.md) | Resets the current load of a Service Fabric partition.<br/> |
 | [Recover Partition](sfclient-api-recoverpartition.md) | Indicates to the Service Fabric cluster that it should attempt to recover a specific partition which is currently stuck in quorum loss.<br/> |
 | [Recover Service Partitions](sfclient-api-recoverservicepartitions.md) | Indicates to the Service Fabric cluster that it should attempt to recover the specified service which is currently stuck in quorum loss.<br/> |
 | [Recover System Partitions](sfclient-api-recoversystempartitions.md) | Indicates to the Service Fabric cluster that it should attempt to recover the system services which are currently stuck in quorum loss.<br/> |

@@ -1,6 +1,6 @@
 ---
 title: "Get Service Description"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Gets the description of an existing Service Fabric service. A service must be cr
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Services/{serviceId}/$/GetDescription?api-version=3.0` |
+| GET | `/Services/{serviceId}/$/GetDescription?api-version=3.0&timeout={timeout}` |
 
 
 ## Parameters
@@ -43,6 +43,7 @@ Gets the description of an existing Service Fabric service. A service must be cr
 | --- | --- | --- | --- |
 | [serviceId](#serviceid) | string | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### serviceId
@@ -58,6 +59,16 @@ __Required__: Yes<br/>
 __Default__: 3.0 <br/>
 <br/>
 The version of the API. This is a required parameter and it's value must be "3.0".
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

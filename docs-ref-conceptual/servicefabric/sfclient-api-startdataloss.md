@@ -1,6 +1,6 @@
 ---
 title: "Start Data Loss"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -48,7 +48,7 @@ Call the GetDataLossProgress API with the same OperationId to return information
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartDataLoss?api-version=3.0&OperationId={OperationId}&DataLossMode={DataLossMode}` |
+| POST | `/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartDataLoss?api-version=3.0&OperationId={OperationId}&DataLossMode={DataLossMode}&timeout={timeout}` |
 
 
 ## Parameters
@@ -59,6 +59,7 @@ Call the GetDataLossProgress API with the same OperationId to return information
 | [api-version](#api-version) | string | Yes | Query |
 | [OperationId](#operationid) | string (uuid) | Yes | Query |
 | [DataLossMode](#datalossmode) | string (enum) | Yes | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### serviceId
@@ -99,6 +100,16 @@ This enum is passed to the StartDataLoss API to indicate what type of data loss 
 - PartialDataLoss - PartialDataLoss option will cause a quorum of replicas to go down, triggering an OnDataLoss event in the system for the given partition. 
 - FullDataLoss - FullDataLoss option will drop all the replicas which means that all the data will be lost. 
 . Possible values include: 'Invalid', 'PartialDataLoss', 'FullDataLoss'
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

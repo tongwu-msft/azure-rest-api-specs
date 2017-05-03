@@ -1,6 +1,6 @@
 ---
 title: "Restart Node"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Restarts a Service Fabric cluster node that is already started.
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Nodes/{nodeName}/$/Restart?api-version=3.0` |
+| POST | `/Nodes/{nodeName}/$/Restart?api-version=3.0&timeout={timeout}` |
 
 
 ## Parameters
@@ -43,6 +43,7 @@ Restarts a Service Fabric cluster node that is already started.
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 | [RestartNodeDescription](#restartnodedescription) | [RestartNodeDescription](sfclient-model-restartnodedescription.md) | Yes | Body |
 
 ____
@@ -59,6 +60,16 @@ __Required__: Yes<br/>
 __Default__: 3.0 <br/>
 <br/>
 The version of the API. This is a required parameter and it's value must be "3.0".
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
 ### RestartNodeDescription

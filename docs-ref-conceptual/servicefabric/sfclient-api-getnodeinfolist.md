@@ -1,6 +1,6 @@
 ---
 title: "Get Node Info List"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ The Nodes endpoint returns information about the nodes in the Service Fabric Clu
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Nodes?api-version=3.0&ContinuationToken={ContinuationToken}&NodeStatusFilter={NodeStatusFilter}` |
+| GET | `/Nodes?api-version=3.0&ContinuationToken={ContinuationToken}&NodeStatusFilter={NodeStatusFilter}&timeout={timeout}` |
 
 
 ## Parameters
@@ -44,6 +44,7 @@ The Nodes endpoint returns information about the nodes in the Service Fabric Clu
 | [api-version](#api-version) | string | Yes | Query |
 | [ContinuationToken](#continuationtoken) | string | No | Query |
 | [NodeStatusFilter](#nodestatusfilter) | string (enum) | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### api-version
@@ -78,6 +79,16 @@ Allows filtering the nodes based on the NodeStatus. Only the nodes that are matc
   - unknown - This filter value will match nodes whose status is Unknown. A node would be in Unknown state if Service Fabric does not have authoritative information about that node. This can happen if the system learns about a node at runtime.
   - removed - This filter value will match nodes whose status is Removed. These are the nodes that are removed from the cluster using the RemoveNodeState API.
 . Possible values include: 'default', 'all', 'up', 'down', 'enabling', 'disabling', 'disabled', 'unknown', 'removed'
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

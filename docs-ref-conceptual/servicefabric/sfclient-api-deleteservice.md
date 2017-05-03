@@ -1,6 +1,6 @@
 ---
 title: "Delete Service"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Deletes an existing Service Fabric service. A service must be created before it 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Services/{serviceId}/$/Delete?api-version=3.0&ForceRemove={ForceRemove}` |
+| POST | `/Services/{serviceId}/$/Delete?api-version=3.0&ForceRemove={ForceRemove}&timeout={timeout}` |
 
 
 ## Parameters
@@ -44,6 +44,7 @@ Deletes an existing Service Fabric service. A service must be created before it 
 | [serviceId](#serviceid) | string | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
 | [ForceRemove](#forceremove) | boolean | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### serviceId
@@ -66,6 +67,16 @@ __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>
 Remove a Service Fabric application or service forcefully without going through the graceful shutdown sequence. This parameter can be used to forcefully delete an application or service for which delete is timing out due to issues in the service code that prevents graceful close of replicas.
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

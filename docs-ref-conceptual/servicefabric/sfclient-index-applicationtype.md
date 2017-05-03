@@ -1,6 +1,6 @@
 ---
 title: "ApplicationType"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -33,7 +33,7 @@ translation.priority.mt:
 | --- | --- |
 | [Get Application Type Info List](sfclient-api-getapplicationtypeinfolist.md) | Gets the list of application types in the Service Fabric cluster.<br/> |
 | [Get Application Type Info List By Name](sfclient-api-getapplicationtypeinfolistbyname.md) | Gets the list of application types in the Service Fabric cluster matching exactly the specified name.<br/> |
-| [Provision Application](sfclient-api-provisionapplication.md) | Provisions or registers a Service Fabric application type with the cluster.<br/> |
-| [Unprovision Application](sfclient-api-unprovisionapplication.md) | Removes or unregisters a Service Fabric application type from the cluster.<br/> |
+| [Provision Application Type](sfclient-api-provisionapplicationtype.md) | Provisions or registers a Service Fabric application type with the cluster.<br/> |
+| [Unprovision Application Type](sfclient-api-unprovisionapplicationtype.md) | Removes or unregisters a Service Fabric application type from the cluster.<br/> |
 | [Get Application Manifest](sfclient-api-getapplicationmanifest.md) | Gets the manifest describing an application type.<br/> |
 

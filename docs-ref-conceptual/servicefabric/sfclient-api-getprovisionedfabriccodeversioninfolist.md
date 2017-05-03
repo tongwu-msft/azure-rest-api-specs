@@ -1,6 +1,6 @@
 ---
 title: "Get Provisioned Fabric Code Version Info List"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Gets a list of information about fabric code versions that are provisioned in th
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/$/GetProvisionedCodeVersions?api-version=3.0&CodeVersion={CodeVersion}` |
+| GET | `/$/GetProvisionedCodeVersions?api-version=3.0&CodeVersion={CodeVersion}&timeout={timeout}` |
 
 
 ## Parameters
@@ -43,6 +43,7 @@ Gets a list of information about fabric code versions that are provisioned in th
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |
 | [CodeVersion](#codeversion) | string | No | Query |
+| [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
 ### api-version
@@ -58,6 +59,16 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The product version of Service Fabric.
+
+____
+### timeout
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: 60 <br/>
+__InclusiveMaximum__: 4294967295 <br/>
+__InclusiveMinimum__: 1 <br/>
+<br/>
+The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

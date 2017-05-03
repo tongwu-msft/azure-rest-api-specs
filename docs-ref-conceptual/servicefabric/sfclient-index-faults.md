@@ -1,6 +1,6 @@
 ---
 title: "Faults"
-ms.date: "2017-04-29"
+ms.date: "2017-05-03"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,7 +38,7 @@ translation.priority.mt:
 | [Start Partition Restart](sfclient-api-startpartitionrestart.md) | This API will restart some or all replicas or instances of the specified partition.<br/> |
 | [Get Partition Restart Progress](sfclient-api-getpartitionrestartprogress.md) | Gets the progress of a PartitionRestart operation started using StartPartitionRestart.<br/> |
 | [Start Node Transition](sfclient-api-startnodetransition.md) | Starts or stops a cluster node.<br/> |
-| [Get Transition Progress](sfclient-api-gettransitionprogress.md) | Gets the progress of an operation started using StartNodeTransition.<br/> |
+| [Get Node Transition Progress](sfclient-api-getnodetransitionprogress.md) | Gets the progress of an operation started using StartNodeTransition.<br/> |
 | [Get Fault Operation List](sfclient-api-getfaultoperationlist.md) | Gets a list of user-induced fault operations filtered by provided input.<br/> |
 | [Cancel Operation](sfclient-api-canceloperation.md) | Cancels a user-induced fault operation.<br/> |
 
