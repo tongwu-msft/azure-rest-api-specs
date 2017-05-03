@@ -208,6 +208,8 @@ The RESTORE operation is subject to security constraints:
 - The target Key Vault must be owned by the same Microsoft Azure Subscription as the source Key Vault
 - The user must have RESTORE permission in the target Key Vault
 
+BACKUP / RESTORE can be performed within geographical boundaries only; meaning that a BACKUP from one geographical area cannot be restored to another geographical area. For example, a backup from the US geographical area cannot be restored in an EU geographical area.
+
 See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
 Refer to the key to restore with `{key-name}` in the request URL. There is no JSON request body.
