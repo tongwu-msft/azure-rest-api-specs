@@ -13,8 +13,6 @@ Azure Key Vault is a multi-tenant service and uses a pool of Hardware Security M
 
 A backup taken of a key from a key vault in one Azure location can be restored to a key vault in another Azure location, as long as both the Azure locations belong to the same geography and, both key vaults belong to the same subscription. For example, a backup taken by a given subscription of a key in a key vault in West India, can only be restored to another key vault in the same subscription and geography; West India, Central India or South India. For a complete list of Azure geographic regions and locations, see LINK_HERE.
 
-
-
 ## See Also
 
 - [Common parameters and headers](common-parameters-and-headers.md)
