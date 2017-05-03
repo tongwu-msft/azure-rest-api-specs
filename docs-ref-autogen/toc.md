@@ -298,6 +298,7 @@
 ### [List jobs](../docs-ref-conceptual/datalakeanalytics/list-jobs.md)
 ### [Cancel a job](../docs-ref-conceptual/datalakeanalytics/cancel-a-job1.md)
 ## [Account](datalakeanalytics/Account.json)
+## [Compute Policy](datalakeanalytics/ComputePolicy.json)
 ## [Data Lake Store Accounts](datalakeanalytics/DataLakeStoreAccounts.json)
 ## [Firewall Rules](datalakeanalytics/FirewallRules.json)
 ## [Storage Accounts](datalakeanalytics/StorageAccounts.json)
