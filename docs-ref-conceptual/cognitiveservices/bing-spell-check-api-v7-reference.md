@@ -149,8 +149,8 @@ The suggested spelling or grammar correction.
 
 ## Error Codes 
 
-[!INCLUDE [bing-error-codes](../includes/bing-error-codes-v7.md)]
+[!INCLUDE [bing-error-codes](./includes/bing-error-codes-v7.md)]
 
 ## Market Codes 
 
-[!INCLUDE [bing-market-codes](../includes/bing-market-codes.md)]
+[!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]

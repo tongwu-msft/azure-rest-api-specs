@@ -149,8 +149,8 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
   
 ## Error Codes 
 
-[!INCLUDE [bing-error-codes](../includes/bing-error-codes.md)]
+[!INCLUDE [bing-error-codes](./includes/bing-error-codes.md)]
 
 ## Market Codes 
 
-[!INCLUDE [bing-market-codes](../includes/bing-market-codes.md)]
+[!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]
