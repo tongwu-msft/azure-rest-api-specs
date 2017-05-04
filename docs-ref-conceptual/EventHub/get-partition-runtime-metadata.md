@@ -18,7 +18,7 @@ manager: "timlt"
 
 # Get partition runtime metadata
 
-Returns the metadata for a specified partition on an Event Hub. See [PartitionDescription Properties](https://msdn.microsoft.com/library/azure/microsoft.servicebus.messaging.partitiondescription_properties.aspx).  
+Returns the metadata for a specified partition on an Event Hub. See [PartitionDescription Properties](/dotnet/api/microsoft.servicebus.messaging.partitiondescription#properties_).  
   
 ## Request  
   
@@ -28,7 +28,7 @@ Returns the metadata for a specified partition on an Event Hub. See [PartitionDe
   
 ### Request Headers  
 
-See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
 

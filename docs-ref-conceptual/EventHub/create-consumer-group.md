@@ -18,9 +18,9 @@ manager: "timlt"
 
 # Create consumer group
 
-Creates a new consumer group. When creating a consumer group, you can specify the following properties in **ConsumerGroupDescription**. If a property is not specified, Service Bus uses the default value for that property.  See [ConsumerGroupDescription Properties](../Topic/ConsumerGroupDescription%20Properties.md).  
+Creates a new consumer group. When creating a consumer group, you can specify the following properties in **ConsumerGroupDescription**. If a property is not specified, Service Bus uses the default value for that property.  See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription#properties_).  
   
- Default value of [ConsumerGroupDescription Properties](../Topic/ConsumerGroupDescription%20Properties.md):  
+ Default value of [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription#properties_):  
   
 |Property Name|Default|  
 |-------------------|-------------|  
@@ -34,7 +34,7 @@ Creates a new consumer group. When creating a consumer group, you can specify th
   
 ### Request Headers  
 
-See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
 

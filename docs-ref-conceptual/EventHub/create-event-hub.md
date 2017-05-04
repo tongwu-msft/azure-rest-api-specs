@@ -18,7 +18,7 @@ manager: "timlt"
 
 # Create Event Hub
 
-Creates a new Event Hub. When creating an Event Hub, you can specify the following properties. If a property is not specified, Event Hubs uses the default value for this property. See [EventHubDescription Properties](../Topic/EventHubDescription%20Properties.md).  
+Creates a new Event Hub. When creating an Event Hub, you can specify the following properties. If a property is not specified, Event Hubs uses the default value for this property. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties_).  
   
 ## Properties  
 
@@ -42,7 +42,7 @@ You must specify the properties in the order given below. Any property that is s
   
 ### Request Headers  
 
-See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ### Request Body  
 

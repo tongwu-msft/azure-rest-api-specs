@@ -24,7 +24,7 @@ Updates an Event Hub. When updating an Event Hub, you can only change the proper
   
 |Property Name|Available since API version|Default|Property Description|  
 |-------------------|---------------------------------|-------------|--------------------------|  
-|MessageRetentionInDays|2014-01|0|<xref:Microsoft.ServiceBus.Messaging.EventHubDescription.MessageRetentionInDays%2A>|  
+|MessageRetentionInDays|2014-01|0|[MessageRetentionInDays](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.messageretentionindays#Microsoft_ServiceBus_Messaging_EventHubDescription_MessageRetentionInDays)|  
   
 ## Request  
   
@@ -34,7 +34,7 @@ Updates an Event Hub. When updating an Event Hub, you can only change the proper
   
 ### Request Headers
   
-See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ### Additional Request Headers  
   

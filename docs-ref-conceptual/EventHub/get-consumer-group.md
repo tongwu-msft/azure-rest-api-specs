@@ -18,7 +18,7 @@ manager: "timlt"
 
 # Get consumer group
 
-Retrieves all metadata associated with the specified consumer group. See [ConsumerGroupDescription Properties](../Topic/ConsumerGroupDescription%20Properties.md).  
+Retrieves all metadata associated with the specified consumer group. See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription#properties_).  
   
 ## Request  
   
@@ -28,7 +28,7 @@ Retrieves all metadata associated with the specified consumer group. See [Consum
   
 ### Request Headers  
 
-See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
 

@@ -18,7 +18,7 @@ manager: "timlt"
 
 # List Event Hubs
 
-Retrieves all metadata associated with all Event Hubs within a specified Service Bus namespace. See [EventHubDescription Properties](../Topic/EventHubDescription%20Properties.md).  
+Retrieves all metadata associated with all Event Hubs within a specified Service Bus namespace. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties_).  
   
 ## Request  
   
@@ -28,7 +28,7 @@ Retrieves all metadata associated with all Event Hubs within a specified Service
   
 ### Request Headers
   
-See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response
   
