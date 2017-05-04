@@ -5,13 +5,12 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 03/09/2017
+ms.date: 05/02/2017
 ---
 # About keys, secrets, and certificates
-Azure Key Vault enables users to store and use cryptographic keys within the Microsoft Azure environment. Azure Key Vault supports multiple key types and algorithms and enables the use of Hardware Security Modules (HSM) for high value customer keys. In addition, Azure Key Vault allows users to securely store secrets, limited size octet objects. Key Vault applies no specific semantics to secrets.
-Key Vault also supports certificates, described in more detail in the following overview.  
+Azure Key Vault enables users to store and use cryptographic keys within the Microsoft Azure environment. Key Vault supports multiple key types and algorithms, and enables the use of Hardware Security Modules (HSM) for high value keys. In addition, Key Vault allows users to securely store secrets, limited size octet objects with no specific semantics. Key Vault also supports certificates which are built on top of keys and secrets and add an automated renewal feature. 
 
- A Key Vault may contain a mix of keys,  secrets and certificates, and access for these types of objects is independently controlled.  
+For more general information about Azure Key Vault, see [What is Azure Key Vault?](/azure/key-vault/key-vault-whatis).
 
  This topic outlines:  
 
@@ -21,7 +20,7 @@ Key Vault also supports certificates, described in more detail in the following 
 
 -   [Objects, Identifiers and Versioning](about-keys--secrets-and-certificates.md#BKMK_ObjId)  
 
- ## Key Vault Keys 
+ ## Key Vault Keys
 
 -   [Keys and key types](about-keys--secrets-and-certificates.md#BKMK_KeyTypes)  
 
@@ -62,7 +61,7 @@ Key Vault also supports certificates, described in more detail in the following 
 ---
 
 ###  <a name="BKMK_Standards"></a> Supporting standards  
- The JavaScript Object Notation (JSON) Object Signing and Encryption (JOSE) specifications at IETF are important background information for this specification:  
+ The JavaScript Object Notation (JSON) and JavaScript Object Signing and Encryption (JOSE) specifications are important background information.  
 
 -   [JSON Web Key (JWK)](http://tools.ietf.org/html/draft-ietf-jose-json-web-key)  
 
@@ -73,7 +72,7 @@ Key Vault also supports certificates, described in more detail in the following 
 -   [JSON Web Signature (JWS)](http://tools.ietf.org/html/draft-ietf-jose-json-web-signature)  
 
 ###  <a name="BKMK_DataTypes"></a> Data types  
- Refer to the JOSE specifications for relevant data types for Keys, Encryption and Signing.  
+ Refer to the [JOSE specifications](#BKMK_Standards) for relevant data types for Keys, Encryption and Signing.  
 
 -   **algorithm** - a supported algorithm for a key operation,for example, RSA1_5  
 
