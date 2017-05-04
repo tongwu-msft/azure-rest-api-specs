@@ -1,6 +1,6 @@
 ---
 title: "Get Application Type Info List By Name"
-ms.date: "2017-05-03"
+ms.date: "2017-05-04"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -102,5 +102,5 @@ The server timeout for performing the operation in seconds. This specifies the t
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
 | 200 (OK) | List of application types in the cluster.<br/> | [PagedApplicationTypeInfoList](sfclient-model-pagedapplicationtypeinfolist.md) |
-| 204 (NoContent) | An empty response is returned if there are no application types registered in the cluster matching the specified name.<br/> |  |
+| 204 (NoContent) | An empty response is returned if there are no application types registered in the cluster matching the specified name and query parameters.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |

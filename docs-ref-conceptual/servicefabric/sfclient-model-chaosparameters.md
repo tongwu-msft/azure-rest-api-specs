@@ -1,6 +1,6 @@
 ---
 title: "ChaosParameters"
-ms.date: "2017-05-03"
+ms.date: "2017-05-04"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -121,7 +121,7 @@ ____
 __Type__: [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) <br/>
 __Required__: No<br/>
 <br/>
-Passed-in cluster health policy is used to validate health of the cluster in between Chaos iterations. If the cluster health is in error, Chaos will wait for ChaosParameters.WaitTimeBetweenIterationsInSeconds before the next check.
+Passed-in cluster health policy is used to validate health of the cluster in between Chaos iterations. If the cluster health is in error or if an unexpected exception happens during fault execution--to provide the cluster with some time to recuperate--Chaos will wait for 30 minutes before the next health-check.
 
 
 ____
@@ -129,7 +129,7 @@ ____
 __Type__: [ChaosContext](sfclient-model-chaoscontext.md) <br/>
 __Required__: No<br/>
 <br/>
-Describes a map, which is collection of (string, string) type key-value pairs. The map can be used to record information about
-the Chaos run. There cannot be more than 100 such pairs. 
-This map is set by the starter of the Choas run to optionally store the context about the specific run. 
+Describes a map, which is a collection of (string, string) type key-value pairs. The map can be used to record information about
+the Chaos run. There cannot be more than 100 such pairs and each string (key or value) can be at most 4095 characters long. 
+This map is set by the starter of the Chaos run to optionally store the context about the specific run. 
 

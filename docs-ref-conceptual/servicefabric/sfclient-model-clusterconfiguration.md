@@ -1,5 +1,5 @@
 ---
-title: "ServiceTypeManifest"
+title: "ClusterConfiguration"
 ms.date: "2017-05-04"
 ms.prod: "azure"
 ms.service: "service-fabric"
@@ -27,18 +27,18 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceTypeManifest
+# ClusterConfiguration
 
-Contains the manifest describing a service type registered as part of an application in a Service Fabric cluster.
+Information about the standalone cluster configuration.
 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Manifest](#manifest) | string | No |
+| [ClusterConfiguration](#clusterconfiguration) | string | No |
 
 ____
-### Manifest
+### ClusterConfiguration
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The XML manifest as a string.
+The contents of the cluster configuration file.

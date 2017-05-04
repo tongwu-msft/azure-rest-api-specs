@@ -1,5 +1,5 @@
 ---
-title: "Rollback Application Upgrade"
+title: "Get Cluster Configuration"
 ms.date: "2017-05-04"
 ms.prod: "azure"
 ms.service: "service-fabric"
@@ -27,30 +27,24 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Rollback Application Upgrade
-Starts rolling back the currently on-going upgrade of an application in the Service Fabric cluster.
+# Get Cluster Configuration
+Get the Service Fabric standalone cluster configuration.
 
-Starts rolling back the current application upgrade to the previous version. This API can only be used to rollback the current in-progress upgrade that is rolling forward to new version. If the application is not currently being upgraded use StartApplicationUpgrade API to upgrade it to desired version including rolling back to a previous version.
+Get the Service Fabric standalone cluster configuration. The cluster configuration contains properties of the cluster that include different node types on the cluster,
+security configurations, fault and upgrade domain topologies etc.
+
 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Applications/{applicationId}/$/RollbackUpgrade?api-version=3.0&timeout={timeout}` |
+| GET | `/$/GetClusterConfiguration?api-version=3.0&timeout={timeout}` |
 
 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [applicationId](#applicationid) | string | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
 | [timeout](#timeout) | integer (int64) | No | Query |
-
-____
-### applicationId
-__Type__: string <br/>
-__Required__: Yes<br/>
-<br/>
-The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
 
 ____
 ### api-version
@@ -74,5 +68,5 @@ The server timeout for performing the operation in seconds. This specifies the t
 
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
-| 200 (OK) | A successful response means that the application has started to rollback. Use GetApplicationUpgrade operation to get the status of the upgrade.<br/> |  |
+| 200 (OK) | A successful operation will return 200 status code and the requested cluster configuration information.<br/> | [ClusterConfiguration](sfclient-model-clusterconfiguration.md) |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |

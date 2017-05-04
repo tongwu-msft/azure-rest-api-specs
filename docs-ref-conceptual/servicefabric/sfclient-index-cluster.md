@@ -1,6 +1,6 @@
 ---
 title: "Cluster"
-ms.date: "2017-05-03"
+ms.date: "2017-05-04"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,5 +40,6 @@ translation.priority.mt:
 | [Get Provisioned Fabric Code Version Info List](sfclient-api-getprovisionedfabriccodeversioninfolist.md) | Gets a list of fabric code versions that are provisioned in a Service Fabric cluster.<br/> |
 | [Get Provisioned Fabric Config Version Info List](sfclient-api-getprovisionedfabricconfigversioninfolist.md) | Gets a list of fabric config versions that are provisioned in a Service Fabric cluster.<br/> |
 | [Get Cluster Upgrade Progress](sfclient-api-getclusterupgradeprogress.md) | Gets the progress of the current cluster upgrade.<br/> |
+| [Get Cluster Configuration](sfclient-api-getclusterconfiguration.md) | Get the Service Fabric standalone cluster configuration.<br/> |
 | [Get Aad Metadata](sfclient-api-getaadmetadata.md) | Gets the Azure Active Directory metadata used for secured connection to cluster.<br/> |
 

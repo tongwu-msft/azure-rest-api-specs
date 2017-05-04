@@ -1,6 +1,6 @@
 ---
 title: "ApplicationTypeInfo"
-ms.date: "2017-05-03"
+ms.date: "2017-05-04"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

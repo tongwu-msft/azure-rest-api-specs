@@ -1,6 +1,6 @@
 ---
 title: "Get Chaos Report"
-ms.date: "2017-05-03"
+ms.date: "2017-05-04"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,9 +30,9 @@ translation.priority.mt:
 # Get Chaos Report
 Gets the next segment of the Chaos report based on the passed-in continuation token or the passed-in time-range.
 
-You can either specify the ContinuationTokenOptionalQueryParam to get the next segment of the Chaos report or you can specify the time-range
-through StartTimeUtcOptionalQueryParam and EndTimeUtcOptionalQueryParam, but you cannot specify both the ContinuationTokenOptionalQueryParam and the time-range at the same time.
-When the Chaos report contains more than 100 Chaos events, the Chaos report is returned in segments where a segment contains no more than 100 Chaos events.
+You can either specify the ContinuationToken to get the next segment of the Chaos report or you can specify the time-range
+through StartTimeUtc and EndTimeUtc, but you cannot specify both the ContinuationToken and the time-range in the same call.
+When there are more than 100 Chaos events, the Chaos report is returned in segments where a segment contains no more than 100 Chaos events.
 
 
 ## Request
@@ -70,14 +70,14 @@ ____
 __Type__: string (int64) <br/>
 __Required__: No<br/>
 <br/>
-Start of the time range for which a Chaos report is to be generated.
+The count of ticks representing the start time of the time range for which a Chaos report is to be generated. Please consult [DateTime.Ticks Property](https://msdn.microsoft.com/en-us/library/system.datetime.ticks%28v=vs.110%29) for details about tick.
 
 ____
 ### EndTimeUtc
 __Type__: string (int64) <br/>
 __Required__: No<br/>
 <br/>
-End of the time range for which a Chaos report is to be generated.
+The count of ticks representing the end time of the time range for which a Chaos report is to be generated. Please consult [DateTime.Ticks Property](https://msdn.microsoft.com/en-us/library/system.datetime.ticks%28v=vs.110%29) for details about tick.
 
 ____
 ### timeout
