@@ -33,7 +33,7 @@ Azure DevTest Labs is a service that helps developers and testers quickly create
 | [Schedules](./schedules)                        | Provides operations for managing schedules.                                                                          |
 | [Secrets](./secrets)                            | Provides operations for managing a lab's secrets.                                                                    |
 | [Service Runners](./servicerunners)             | Provides operations for managing a lab's service runners.                                                            |
-| [Users](./users)                                | Provides operations for managing a lab's users                .                                                      |
+| [Users](./users)                                | Provides operations for managing a lab's users.                                                      |
 | [VM Schedules](./virtualmachineschedules)       | Provides operations for managing schedules for a lab's virtual machines.                                             |
 | [Virtual Machines](./virtualmachines)           | Provides operations for adding artifacts to and managing a lab's virtual machines.                                   |
 | [Virtual Networks](./virtualnetworks)           | Provides operations for managing a lab's virtual networks.                                                           |
