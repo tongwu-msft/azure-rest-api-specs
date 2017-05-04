@@ -1,7 +1,7 @@
 ---
 title: "Get consumer group"
 ms.custom: ""
-ms.date: "2016-11-14"
+ms.date: "2017-05-05"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -13,8 +13,11 @@ caps.latest.revision: 7
 author: "sethmanheim"
 ms.author: "sethm"
 manager: "timlt"
+
 ---
+
 # Get consumer group
+
 Retrieves all metadata associated with the specified consumer group. See [ConsumerGroupDescription Properties](../Topic/ConsumerGroupDescription%20Properties.md).  
   
 ## Request  
@@ -24,10 +27,12 @@ Retrieves all metadata associated with the specified consumer group. See [Consum
 |GET|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/consumergroups/{consumergroupName}`|  
   
 ### Request Headers  
- See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+
+See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
- The response includes an HTTP status code, a set of response headers, and a response body.  
+
+The response includes an HTTP status code, a set of response headers, and a response body.  
   
 |Element name|Required|Type|Version|Description|  
 |------------------|--------------|----------|-------------|-----------------|  
@@ -43,10 +48,12 @@ Retrieves all metadata associated with the specified consumer group. See [Consum
 |500|Internal error.|  
   
 ### Response Body  
- If the request is successful, the response body contains the description of the specified consumer group. If the request is not successful, the body contains an error code and error message.  
+
+If the request is successful, the response body contains the description of the specified consumer group. If the request is not successful, the body contains an error code and error message.  
   
 ## Examples  
- **Request**  
+
+**Request**  
   
 ```  
 GET https://your-namespace.servicebus.windows.net/your-event-hub/consumergroups/$default?timeout=60&api-version=2014-01 HTTP/1.1  
@@ -55,7 +62,7 @@ Content-Type: application/atom+xml;type=entry;charset=utf-8
 Host: your-namespace.servicebus.windows.net  
 ```  
   
- **Response**  
+**Response**  
   
 ```  
 HTTP/1.1 200 Created  

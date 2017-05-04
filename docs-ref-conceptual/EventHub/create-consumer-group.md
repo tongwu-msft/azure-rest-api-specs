@@ -1,7 +1,7 @@
 ---
 title: "Create consumer group2"
 ms.custom: ""
-ms.date: "2016-11-14"
+ms.date: "2017-05-05"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -13,8 +13,11 @@ caps.latest.revision: 7
 author: "sethmanheim"
 ms.author: "sethm"
 manager: "timlt"
+
 ---
+
 # Create consumer group
+
 Creates a new consumer group. When creating a consumer group, you can specify the following properties in **ConsumerGroupDescription**. If a property is not specified, Service Bus uses the default value for that property.  See [ConsumerGroupDescription Properties](../Topic/ConsumerGroupDescription%20Properties.md).  
   
  Default value of [ConsumerGroupDescription Properties](../Topic/ConsumerGroupDescription%20Properties.md):  
@@ -30,10 +33,12 @@ Creates a new consumer group. When creating a consumer group, you can specify th
 |PUT|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/consumergroups/{consumergroupName}`|  
   
 ### Request Headers  
- See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+
+See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
- The response includes an HTTP status code, a set of response headers, and a response body.  
+
+The response includes an HTTP status code, a set of response headers, and a response body.  
   
 |Element name|Required|Type|Version|Description|  
 |------------------|--------------|----------|-------------|-----------------|  
@@ -52,10 +57,12 @@ Creates a new consumer group. When creating a consumer group, you can specify th
 |500|Internal error.|  
   
 ### Response Body  
- If the request is successful, the response body contains the description of the specified consumer group. If the request is not successful, the body contains an error code and error message.  
+
+If the request is successful, the response body contains the description of the specified consumer group. If the request is not successful, the body contains an error code and error message.  
   
 ## Examples  
- **Request**  
+
+**Request**  
   
 ```  
 PUT https://your-namespace.servicebus.windows.net/your-event-hub/consumergroups/testCG?timeout=60&api-version=2014-01 HTTP/1.1  
@@ -72,7 +79,7 @@ Host: your-namespace.servicebus.windows.net
   
 ```  
   
- **Response**  
+**Response**  
   
 ```  
 HTTP/1.1 201 Created  

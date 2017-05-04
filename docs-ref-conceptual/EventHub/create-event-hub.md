@@ -1,7 +1,7 @@
 ---
-title: "Create Event Hub1"
+title: "Create Event Hub"
 ms.custom: ""
-ms.date: "2016-03-14"
+ms.date: "2017-05-04"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -13,22 +13,26 @@ caps.latest.revision: 10
 author: "sethmanheim"
 ms.author: "sethm"
 manager: "timlt"
+
 ---
+
 # Create Event Hub
-Creates a new Event Hub. When creating an Event Hub, you can specify the following properties. If a property is not specified, [!INCLUDE[sb2](../EventHub/includes/sb2-md.md)] uses the default value for this property. See [EventHubDescription Properties](../Topic/EventHubDescription%20Properties.md).  
+
+Creates a new Event Hub. When creating an Event Hub, you can specify the following properties. If a property is not specified, Event Hubs uses the default value for this property. See [EventHubDescription Properties](../Topic/EventHubDescription%20Properties.md).  
   
 ## Properties  
- In addition to the properties listed below, you can specify additional properties that appear in the Event Hub description, but are ignored by [!INCLUDE[sb2](../EventHub/includes/sb2-md.md)].  
+
+In addition to the properties listed as follows, you can specify additional properties that appear in the Event Hub description, but are ignored by the service.  
   
- You must specify the properties in the order given below. Any property that is specified out of order is interpreted as a user property. This property will appear twice in the Event Hub description, once with the value that is set by the user, and once with the default value that is used by [!INCLUDE[sb2](../EventHub/includes/sb2-md.md)].  
+You must specify the properties in the order given below. Any property that is specified out of order is interpreted as a user property. This property will appear twice in the Event Hub description: once with the value that is set by the user, and once with the default value that is used by Event Hubs.  
   
 |Property Name|Available since API version|Default|Property Description|  
 |-------------------|---------------------------------|-------------|--------------------------|  
-|MessageRetentionInDays|2014-01|0|<xref:Microsoft.ServiceBus.Messaging.EventHubDescription>|  
-|Authorization|2014-01|(empty)|<xref:Microsoft.ServiceBus.Messaging.EventHubDescription.Authorization%2A?displayProperty=fullName>|  
-|Status|2014-01|Active|<xref:Microsoft.ServiceBus.Messaging.EventHubDescription.Status%2A?displayProperty=fullName>|  
-|UserMetadata|2014-01|(empty)|<xref:Microsoft.ServiceBus.Messaging.EventHubDescription.UserMetadata%2A?displayProperty=fullName>|  
-|PartitionCount|2014-01|16|<xref:Microsoft.ServiceBus.Messaging.EventHubDescription.PartitionCount%2A?displayProperty=fullName>|  
+|MessageRetentionInDays|2014-01|0|[MessageRetentionInDays](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.messageretentionindays#Microsoft_ServiceBus_Messaging_EventHubDescription_MessageRetentionInDays)|  
+|Authorization|2014-01|(empty)|[Authorization](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.authorization#Microsoft_ServiceBus_Messaging_EventHubDescription_Authorization)|  
+|Status|2014-01|Active|[Status](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.status#Microsoft_ServiceBus_Messaging_EventHubDescription_Status)|  
+|UserMetadata|2014-01|(empty)|[UserMetadata](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.usermetadata#Microsoft_ServiceBus_Messaging_EventHubDescription_UserMetadata)|  
+|PartitionCount|2014-01|16|[PartitionCount](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.partitioncount#Microsoft_ServiceBus_Messaging_EventHubDescription_PartitionCount)|  
   
 ## Request  
   
@@ -37,10 +41,12 @@ Creates a new Event Hub. When creating an Event Hub, you can specify the followi
 |PUT|`https://{serviceNamespace}.servicebus.windows.net/{eventHubPath}`|HTTP/1.1|  
   
 ### Request Headers  
- See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+
+See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ### Request Body  
- Atom entry with the description embedded in the content. For example:  
+
+Atom entry with the description embedded in the content. For example:  
   
 ```xml  
 <entry xmlns='http://www.w3.org/2005/Atom'>  
@@ -51,7 +57,8 @@ Creates a new Event Hub. When creating an Event Hub, you can specify the followi
 ```  
   
 ## Response  
- The response includes an HTTP status code, a set of response headers, and a response body.  
+
+The response includes an HTTP status code, a set of response headers, and a response body.  
   
 ### Response Codes  
   
@@ -64,11 +71,13 @@ Creates a new Event Hub. When creating an Event Hub, you can specify the followi
 |409|The specified Event Hub already exists (or the specified path is already occupied).|  
 |500|Internal error.|  
   
-### Response Body  
- If the request is successful, the response body contains the description of the created Event Hub. If the request is not successful, the body contains an error code and error message.  
+### Response Body
+  
+If the request is successful, the response body contains the description of the created Event Hub. If the request is not successful, the body contains an error code and error message.  
   
 ## Examples  
- **Request**  
+
+**Request**  
   
 ```  
 PUT https://your-namespace.servicebus.windows.net/your-event-hub?timeout=60&api-version=2014-01 HTTP/1.1  
@@ -87,7 +96,7 @@ Connection: Keep-Alive
 </entry>  
 ```  
   
- **Response**  
+**Response**  
   
 ```  
 HTTP/1.1 201 Created  
@@ -118,7 +127,7 @@ Date: Wed, 25 Jun 2014 22:43:27 GMT
 </entry>  
 ```  
   
- The following HTTP request creates an Event Hub with custom settings:  
+The following HTTP request creates an Event Hub with custom settings:  
   
 ```  
 PUT https://your-namespace.servicebus.windows.net/your-event-hub?timeout=60&api-version=2014-01 HTTP/1.1  
@@ -137,7 +146,7 @@ Host: your-namespace.servicebus.windows.net
   
 ```  
   
- [!INCLUDE[sb2](../EventHub/includes/sb2-md.md)] returns the following response:  
+Event Hubs returns the following response:  
   
 ```  
 HTTP/1.1 201 Created  

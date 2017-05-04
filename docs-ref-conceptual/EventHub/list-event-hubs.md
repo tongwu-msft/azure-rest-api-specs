@@ -1,7 +1,7 @@
 ---
 title: "List Event Hubs"
 ms.custom: ""
-ms.date: "2016-11-14"
+ms.date: "2017-05-05"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -13,8 +13,11 @@ caps.latest.revision: 6
 author: "sethmanheim"
 ms.author: "sethm"
 manager: "timlt"
+
 ---
+
 # List Event Hubs
+
 Retrieves all metadata associated with all Event Hubs within a specified Service Bus namespace. See [EventHubDescription Properties](../Topic/EventHubDescription%20Properties.md).  
   
 ## Request  
@@ -23,11 +26,13 @@ Retrieves all metadata associated with all Event Hubs within a specified Service
 |------------|-----------------|  
 |GET|`https://{servicebusNamespace}.servicebus.windows.net/$Resources/Eventhubs`|  
   
-### Request Headers  
- See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+### Request Headers
   
-## Response  
- The response includes an HTTP status code, a set of response headers, and a response body.  
+See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+  
+## Response
+  
+The response includes an HTTP status code, a set of response headers, and a response body.  
   
 |Element name|Required|Type|Version|Description|  
 |------------------|--------------|----------|-------------|-----------------|  
@@ -47,11 +52,13 @@ Retrieves all metadata associated with all Event Hubs within a specified Service
 |401|Authorization failure.|  
 |500|Internal error.|  
   
-### Response Body  
- If the request is successful, the response body contains the description of all the Event Hubs under the queried Service Bus namespace. If the request is not successful, the body contains an error code and error message.  
+### Response Body
   
-## Examples  
- **Request**  
+If the request is successful, the response body contains the description of all the Event Hubs under the queried Service Bus namespace. If the request is not successful, the body contains an error code and error message.  
+  
+## Examples
+  
+**Request**  
   
 ```  
 GET https://your-namespace.servicebus.windows.net/ $Resources/Eventhubs?timeout=60&api-version=2014-01 HTTP/1.1  
@@ -60,7 +67,7 @@ Content-Type: application/atom+xml;type=entry;charset=utf-8
 Host: your-namespace.servicebus.windows.net  
 ```  
   
- **Response**  
+**Response**  
   
 ```  
 HTTP/1.1 200 OK  
