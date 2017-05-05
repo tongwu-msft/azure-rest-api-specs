@@ -1,7 +1,7 @@
 ---
 title: "Delete consumer group"
 ms.custom: ""
-ms.date: "2016-03-08"
+ms.date: "2017-05-05"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -13,8 +13,11 @@ caps.latest.revision: 6
 author: "sethmanheim"
 ms.author: "sethm"
 manager: "timlt"
+
 ---
+
 # Delete consumer group
+
 Deletes a consumer group. This operation also removes all associated state.  
   
 ## Request  
@@ -24,10 +27,12 @@ Deletes a consumer group. This operation also removes all associated state.
 |DELETE|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/consumergroups/{consumergroupName}`|  
   
 ### Request Headers  
- See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+
+See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
- The response includes an HTTP status code, a set of response headers, and a response body.  
+
+The response includes an HTTP status code, a set of response headers, and a response body.  
   
 ### Response Codes  
   
@@ -38,7 +43,8 @@ Deletes a consumer group. This operation also removes all associated state.
 |500|Internal error.|  
   
 ### Response Body  
- If the request is successful, the response body is empty. If the request is not successful, the body contains an error code and error message.  
+
+If the request is successful, the response body is empty. If the request is not successful, the body contains an error code and error message.  
   
 ## Examples  
  **Request**  
@@ -50,7 +56,7 @@ Content-Type: application/atom+xml;type=entry;charset=utf-8
 Host: your-namespace.servicebus.windows.net  
 ```  
   
- **Response**  
+**Response**  
   
 ```  
 HTTP/1.1 200 OK  

@@ -1,7 +1,7 @@
 ---
 title: "Get Event Hub"
 ms.custom: ""
-ms.date: "2016-03-14"
+ms.date: "2017-05-05"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -13,9 +13,12 @@ caps.latest.revision: 14
 author: "sethmanheim"
 ms.author: "sethm"
 manager: "timlt"
+
 ---
+
 # Get Event Hub
-Retrieves all metadata associated with the specified Event Hub. See [EventHubDescription Properties](../Topic/EventHubDescription%20Properties.md).  
+
+Retrieves all metadata associated with the specified Event Hub. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties_).  
   
 ## Request  
   
@@ -24,10 +27,10 @@ Retrieves all metadata associated with the specified Event Hub. See [EventHubDes
 |GET|`https://{serviceNamespace}.servicebus.windows.net/{eventHubPath}`|  
   
 ### Request Headers  
- See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
- The response includes an HTTP status code, a set of response headers, and a response body.  
+The response includes an HTTP status code, a set of response headers, and a response body.  
   
 |Element name|Required|Type|Version|Description|  
 |------------------|--------------|----------|-------------|-----------------|  
@@ -48,10 +51,10 @@ Retrieves all metadata associated with the specified Event Hub. See [EventHubDes
 |500|Internal error.|  
   
 ### Response Body  
- If the request is successful, the response body contains the description of the queried Event Hub. If the request is not successful, the body contains an error code and error message.  
+If the request is successful, the response body contains the description of the queried Event Hub. If the request is not successful, the body contains an error code and error message.  
   
 ## Examples  
- **Request**  
+**Request**  
   
 ```  
 GET https://your-namespace.servicebus.windows.net/your-event-hub?timeout=60&api-version=2014-01 HTTP/1.1  
@@ -60,7 +63,7 @@ ContentType: application/atom+xml;type=entry;charset=utf-8
 Host: your-namespace.servicebus.windows.net  
 ```  
   
- **Response**  
+**Response**  
   
 ```  
 HTTP/1.1 200 Created  

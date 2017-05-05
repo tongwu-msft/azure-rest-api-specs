@@ -1,7 +1,7 @@
 ---
 title: "Update Event Hub"
 ms.custom: ""
-ms.date: "2016-03-14"
+ms.date: "2017-05-05"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -13,15 +13,18 @@ caps.latest.revision: 14
 author: "sethmanheim"
 ms.author: "sethm"
 manager: "timlt"
+
 ---
+
 # Update Event Hub
+
 Updates an Event Hub. When updating an Event Hub, you can only change the properties listed here. An attempt to change any other properties results in an error. Properties that can be changed but are not specified are set to their default values.  
   
 ## Properties  
   
 |Property Name|Available since API version|Default|Property Description|  
 |-------------------|---------------------------------|-------------|--------------------------|  
-|MessageRetentionInDays|2014-01|0|<xref:Microsoft.ServiceBus.Messaging.EventHubDescription.MessageRetentionInDays%2A>|  
+|MessageRetentionInDays|2014-01|0|[MessageRetentionInDays](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.messageretentionindays#Microsoft_ServiceBus_Messaging_EventHubDescription_MessageRetentionInDays)|  
   
 ## Request  
   
@@ -29,8 +32,9 @@ Updates an Event Hub. When updating an Event Hub, you can only change the proper
 |------------|-----------------|  
 |PUT|`https://{serviceNamespace}.servicebus.windows.net/{eventHubPath}`|  
   
-### Request Headers  
- See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+### Request Headers
+  
+See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ### Additional Request Headers  
   
@@ -38,8 +42,9 @@ Updates an Event Hub. When updating an Event Hub, you can only change the proper
 |--------------------|--------------------------|-----------------|  
 |If-Match|Optional|Set this header to “*” to update the Event Hub. You must provide all the desired property values on the updated Event Hub; any values not provided are set to the service default values. If this header is missing, then the update call returns an error indicating that this Event Hub already exists.|  
   
-### Request Body  
- Atom entry with the description embedded in the content. For example:  
+### Request Body
+  
+Atom entry with the description embedded in the content. For example:  
   
 ```xml  
 <entry xmlns='http://www.w3.org/2005/Atom'>  
@@ -49,8 +54,9 @@ Updates an Event Hub. When updating an Event Hub, you can only change the proper
 </entry>  
 ```  
   
-## Response  
- The response includes an HTTP status code, a set of response headers, and a response body.  
+## Response
+  
+The response includes an HTTP status code, a set of response headers, and a response body.  
   
 ### Response Codes  
   
@@ -61,8 +67,9 @@ Updates an Event Hub. When updating an Event Hub, you can only change the proper
 |401|Authorization failure.|  
 |500|Internal error.|  
   
-### Response Body  
- If the request is successful, the response body contains the Event Hub description. Properties that were missing from the PUT request are returned with default values. If the request is not successful, the body contains an error code and error message.  
+### Response Body
+  
+If the request is successful, the response body contains the Event Hub description. Properties that were missing from the PUT request are returned with default values. If the request is not successful, the body contains an error code and error message.  
   
 |Element Name|Description|  
 |------------------|-----------------|  
@@ -74,8 +81,9 @@ Updates an Event Hub. When updating an Event Hub, you can only change the proper
 |PartitionCount|The current number of partitions on the Event Hub.|  
 |PartitionIds|Identifiers for partitions created for the Event Hub.|  
   
-## Examples  
- **Request**  
+## Examples
+  
+**Request**  
   
 ```  
 PUT https://your-namespace.servicebus.windows.net/your-event-hub?timeout=60&api-version=2014-01 HTTP/1.1  
@@ -95,7 +103,7 @@ Connection: Keep-Alive
 </entry>  
 ```  
   
- **Response**  
+**Response**  
   
 ```  
 HTTP/1.1 201 Created  
