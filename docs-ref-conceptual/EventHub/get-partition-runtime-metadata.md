@@ -1,7 +1,7 @@
 ---
 title: "Get partition runtime metadata"
 ms.custom: ""
-ms.date: "2016-03-08"
+ms.date: "2017-05-05"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -13,9 +13,12 @@ caps.latest.revision: 9
 author: "sethmanheim"
 ms.author: "sethm"
 manager: "timlt"
+
 ---
+
 # Get partition runtime metadata
-Returns the metadata for a specified partition on an Event Hub. See [PartitionDescription Properties](https://msdn.microsoft.com/library/azure/microsoft.servicebus.messaging.partitiondescription_properties.aspx).  
+
+Returns the metadata for a specified partition on an Event Hub. See [PartitionDescription Properties](/dotnet/api/microsoft.servicebus.messaging.partitiondescription#properties_).  
   
 ## Request  
   
@@ -24,10 +27,12 @@ Returns the metadata for a specified partition on an Event Hub. See [PartitionDe
 |GET|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/consumergroups/{consumergroupName}/partitions/{partitionId}`|  
   
 ### Request Headers  
- See [Common parameters and headers](../EventHub/event-hubs-management-rest-classic.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+
+See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
- The response includes an HTTP status code, a set of response headers, and a response body.  
+
+The response includes an HTTP status code, a set of response headers, and a response body.  
   
 |Element name|Required|Type|Version|Description|  
 |------------------|--------------|----------|-------------|-----------------|  
@@ -48,10 +53,12 @@ Returns the metadata for a specified partition on an Event Hub. See [PartitionDe
 |500|Internal error.|  
   
 ### Response Body  
- If the request is successful, the response body contains the description of the specified partition. If the request is not successful, the body contains an error code and error message.  
+
+If the request is successful, the response body contains the description of the specified partition. If the request is not successful, the body contains an error code and error message.  
   
 ## Examples  
- **Request**  
+
+**Request**  
   
 ```  
 GET https://your-namespace.servicebus.windows.net/your-event-hub//consumergroups/$Default/partitions/0?timeout=60&api-version=2015-01 HTTP/1.1  
@@ -61,7 +68,7 @@ Host: your-namespace.servicebus.windows.net
   
 ```  
   
- **Response**  
+**Response**  
   
 ```  
 HTTP/1.1 200 OK  
