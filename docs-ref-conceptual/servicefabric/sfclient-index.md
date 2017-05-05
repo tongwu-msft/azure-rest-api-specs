@@ -33,7 +33,14 @@ translation.priority.mt:
 
 [Service Fabric](http://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
 
-Service Fabric Client APIs allows deploying and managing microservices based applications and containers in a Service Fabric cluster on Azure, on-premise, on local development machine or in other cloud. This document provides a reference for these APIs.
+Service Fabric Client APIs allows deploying and managing microservices based applications and containers in a Service Fabric cluster on Azure, on-premise, on local development machine or in other cloud. This document provides a reference for these APIs. 
+
+The Swagger specification for these APIs is available in [Azure REST APIs specification repository](https://github.com/Azure/azure-rest-api-specs/blob/master/servicefabric/) repository.
+
+> [!IMPORTANT]
+> These APIs work with Service Fabric clusters running on version 5.6.*.* and above. 
+> [Compose Deployment APIs](sfclient-index-compose-deployment.md) work with Service Fabric clusters running on preview version 255.255.57*.* 
+>
 
 All task operations conform to the HTTP/1.1 protocol specification. All task operations return standard HTTP status codes and may also return additional [Status and Error Codes](sfclient-status-and-error-codes.md) in the response body. See [Service Fabric Names and JSON Serialization](sfclient-service-fabric-names-and-json-serialization.md) for special considerations when serializing and de-serializing names and identities of various entities such as nodes, applications, services, partitions and replicas in the Service Fabric cluster, to and from request and response. You must make sure that requests and responses are secure. For more information, see [Authenticating Service Fabric REST Requests](sfclient-authenticating-service-fabric-rest-requests.md). 
 
@@ -60,10 +67,6 @@ http://65.52.117.43:{connection-port}
 ```  
 
 Following is a list of Service Fabric Client REST APIs.
-
-> [!IMPORTANT]
->  These APIs work with Service Fabric clusters running runtime version 5.6.* and above.
->
 
 
 ----
