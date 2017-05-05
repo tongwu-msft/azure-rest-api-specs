@@ -73,13 +73,15 @@ translation.priority.mt:
 
 ## Order-by syntax
 
-The **$orderby** parameter accepts a comma-separated list of up to 32 expressions of the form `sort-criteria [asc|desc]`. The sort criteria can either be the name of a `sortable` field or a call to either the `geo.distance` or the `score` functions. You can use either `asc` or `desc` to explicitly specify the sort order. The default order is ascending.
+The **$orderby** parameter accepts a comma-separated list of up to 32 expressions of the form `sort-criteria [asc|desc]`. The sort criteria can either be the name of a `sortable` field or a call to either the `geo.distance` or the `search.score` functions. You can use either `asc` or `desc` to explicitly specify the sort order. The default order is ascending.
 
-If multiple documents have the same sort criteria and `score` function is not used (for example, if you sort by a numeric `rating` field and three documents all have a rating of 4), ties will be broken by document score in descending order. When document scores are the same (for example, when there is no full-text search query specified in the request), then the relative ordering of the tied documents is indeterminate.
+If multiple documents have the same sort criteria and `search.score` function is not used (for example, if you sort by a numeric `rating` field and three documents all have a rating of 4), ties will be broken by document score in descending order. When document scores are the same (for example, when there is no full-text search query specified in the request), then the relative ordering of the tied documents is indeterminate.
+
+If the documents should be first sorted by their score, then `search.score` should be used as first expression followed by the rest desired expressions (for example, sorting by `score` and `rating` would result with `$orderby search.score(), rating`).  
 
 The syntax for `geo.distance` in **$orderby** is the same as it is in **$filter**. When using `geo.distance` in **$orderby**, the field to which it applies must be of type `Edm.GeographyPoint` and it must also be `sortable`.  
 
-The syntax for `score` in **$orderby** is `search.score()`. The funtion `score` returns the document score as `Edm.double`.  
+The syntax for `search.score` in **$orderby** is `search.score()`. The function `search.score` returns the document score as `Edm.double`.  
 
 ##  <a name="bkmk_examples"></a> OData examples
  For more details on OData expressions and URI conventions, see [OData.org](http://odata.org).  
@@ -178,7 +180,7 @@ Sort hotels descending by rating, then ascending by distance from the given co-o
 $orderby=rating desc,geo.distance(location, geography'POINT(-122.131577 47.678581)') asc
 ```
 
-Sort hotels descending by score, rating, then ascending by distance from the given co-ordinates:
+Sort hotels in descending order by search.score and rating, and then in ascending order by distance from the given coordinates:
 
 ```
 $orderby=search.score() desc,rating desc,geo.distance(location, geography'POINT(-122.131577 47.678581)') asc
