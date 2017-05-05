@@ -15,7 +15,7 @@ ms.author: scottwhi
 
 # Image Search API v5 Reference
 
-The Image Search API lets you send a search query to Bing and get back a list of relevant images. This section provides technical details about the query parameters and headers that you use to request images and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/searching-the-web).  
+The Image Search API lets you send a search query to Bing and get back a list of relevant images. This section provides technical details about the query parameters and headers that you use to request images and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/search-the-web).  
 
 For details about the headers that requests should include, see [Request Headers](#headers).  
   
@@ -487,8 +487,8 @@ The top-level object that the response includes when a trending images request s
 
 ## Error Codes 
 
-[!INCLUDE [bing-error-codes](../includes/bing-error-codes.md)]
+[!INCLUDE [bing-error-codes](./includes/bing-error-codes.md)]
 
 ## Market Codes 
 
-[!INCLUDE [bing-market-codes](../includes/bing-market-codes.md)]
+[!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]
