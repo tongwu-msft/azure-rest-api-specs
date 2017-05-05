@@ -125,7 +125,7 @@ The following example shows the request to create a new virtual machine scale se
             "lun": 0,
             "createOption": "Empty",
             "caching": "None",
-            "manageDisk": {
+            "managedDisk": {
               "storageAccountType": "Standard_LRS"
             },
             "diskSizeGB": 100
