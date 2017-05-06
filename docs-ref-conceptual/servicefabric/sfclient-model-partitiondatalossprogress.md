@@ -1,6 +1,6 @@
 ---
 title: "PartitionDataLossProgress"
-ms.date: "2017-05-04"
+ms.date: "2017-05-06"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
