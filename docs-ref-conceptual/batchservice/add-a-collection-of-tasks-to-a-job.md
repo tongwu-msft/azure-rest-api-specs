@@ -215,8 +215,9 @@ Each task in the request has the following schema:
 |------------------|--------------|----------|-----------|
 |[exitCodes](#exitCodeMapping)|Optional|Collection|A list of task exit codes and how the Batch service should respond to them.|
 |[exitCodeRanges](#exitCodeRangeMapping)|Optional|Collection|A list of task exit code ranges and how the Batch service should respond to them.|
-|[schedulingError](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if the task fails with a scheduling error.|
-|[default](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if the task fails with an exit condition not covered by any of the other properties – that is, any nonzero exit code not listed in the exitCodes or exitCodeRanges collection, or a scheduling error if the schedulingError property is not present.<br /><br /> Note that the default condition does not include exit code 0. If you want non-default behaviour on exit code 0, you must list it explicitly using the exitCodes or exitCodeRanges collection.|
+|[preProcessingError](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if the task fails to start due to an error.|
+|[fileUploadError](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if a file upload error occurs.|
+|[default](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if the task fails with an exit condition not covered by any of the other properties. <br /><br />This value is used if the task exits with any nonzero exit code not listed in the exitCodes or exitCodeRanges collection, with a pre-processing error if the preProcessingError property is not present, or with a file upload error if the fileUploadError property is not present. For non-default behaviour on exit code 0, list it explicitly using the exitCodes or exitCodeRanges collection.|
 
 ###  <a name="exitCodeMapping"></a> exitCodeMapping
 

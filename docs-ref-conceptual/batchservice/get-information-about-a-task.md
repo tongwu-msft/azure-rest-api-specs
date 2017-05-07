@@ -121,7 +121,7 @@ The following example shows additional information in case of a multi-instance t
 |previousStateTransitionTime|DateTime|The time at which the task entered its previous state. This property is not present if the task is in its initial active state.|
 |commandLine|String|The command line of the task.|
 |[resourceFiles](../batchservice/get-information-about-a-task.md#resourceFiles)|Collection|A list of files that Batch will download to the compute node before running the command line.|
-|[applicationPackageReferences](../batchservice/get-information-about-a-task.md#applicationPackageReferences)|Collection|A list of application packages that the Batch service will deploy to the compute node before running the command line.<br /><br /> Application packages are downloaded to a shared directory, not the task directory.  Therefore, if a referenced package is already on the compute node, and is up to date, then it is not re-downloaded; the existing copy on the compute node is used.<br /><br /> If a referenced application package cannot be installed, for example because the package has been deleted or because download failed, the task fails with a scheduling error.|
+|[applicationPackageReferences](../batchservice/get-information-about-a-task.md#applicationPackageReferences)|Collection|A list of application packages that the Batch service will deploy to the compute node before running the command line.<br /><br /> Application packages are downloaded to a shared directory, not the task directory.  Therefore, if a referenced package is already on the compute node, and is up to date, then it is not re-downloaded; the existing copy on the compute node is used.<br /><br /> If a referenced application package cannot be installed, for example because the package has been deleted or because download failed, the task fails to start due to an error.|
 |[environmentSettings](../batchservice/get-information-about-a-task.md#environmentSettings)|Collection|A list of environment variable settings for the task.|
 |[affinityInfo](../batchservice/get-information-about-a-task.md#affinityInfo)|Complex Type|A locality hint that can be used by the Batch service to select a node on which to start the new task.|
 |[constraints](../batchservice/get-information-about-a-task.md#constraints)|Complex Type|The execution constraints that apply to this task.|
@@ -191,13 +191,13 @@ The following example shows additional information in case of a multi-instance t
 |startTime|DateTime|The time at which the task started running.  'Running' corresponds to the **running** state, so if the task specifies resource files or application packages, then the start time reflects the time at which the task started downloading or deploying these.  If the task has been restarted or retried, this is the most recent time at which the task started running.  This property is present only for tasks that are in the **running** or **completed** state.|
 |endTime|DateTime|The time at which the task completed. This property is only returned if the task is in **completed** state.|
 |exitCode|Int32|The exit code of the task. This property is only returned if the task is in **completed** state.|
-|schedulingError|Complex Type|If there was an error scheduling the task, and the task is now in a **completed** state, this element contains the error details.|
+|preProcessingError|Complex Type|If there was an error scheduling the task, and the task is now in a **completed** state, this element contains the error details.|
 |retryCount|Int32|The number of times the task has been retried by the Batch service. The task is retried if it exits with a nonzero exit code, up to the specified MaxTaskRetryCount|
 |lastRetryTime|DateTime|The most recent time at which a retry of the task started running.<br /><br /> This element is present only if the task was retried \(i.e. retryCount is nonzero\). If present, this is typically the same as startTime, but may be different if the task has been restarted for reasons other than retry; for example, if the compute node was rebooted during a retry, then the startTime is updated but the lastRetryTime is not.|
 |requeueCount|Int32|The number of times the task has been requeued by the Batch service as the result of a user request.<br /><br /> When the user removes nodes from a pool \(by resizing or shrinking the pool\) or when the job is being disabled, the user can specify that running tasks on the nodes be requeued for execution. This count tracks how many times the task has been requeued for these reasons.|
 |lastRequeueTime|DateTime|The most recent time at which the task has been requeued by the Batch service as the result of a user request.<br /><br /> This property is present only if the requeueCount is nonzero.|
 
-###  <a name="schedulingError"></a> schedulingError
+###  <a name="preProcessingError"></a> preProcessingError
 
 |Element name|Type|Notes|
 |------------------|----------|-----------|
@@ -261,10 +261,12 @@ The following example shows additional information in case of a multi-instance t
 
 |Element name|Type|Notes|
 |------------------|----------|-----------|
-|[exitCodes](../batchservice/get-information-about-a-task.md#exitCodeMapping)|Collection|A list of task exit codes and how the Batch service should respond to them.|
-|[exitCodeRanges](../batchservice/get-information-about-a-task.md#exitCodeRangeMapping)|Collection|A list of task exit code ranges and how the Batch service should respond to them.|
-|[schedulingError](../batchservice/get-information-about-a-task.md#exitOptions)|Complex Type|Specifies how the Batch service should respond if the task fails with a scheduling error.|
-|[default](../batchservice/get-information-about-a-task.md#exitOptions)|Complex Type|Specifies how the Batch service should respond if the task fails with an exit condition not covered by any of the other properties – that is, any nonzero exit code not listed in the exitCodes or exitCodeRanges collection, or a scheduling error if the schedulingError property is not present.<br /><br /> Note that the default condition does not include exit code 0. If you want non-default behaviour on exit code 0, you must list it explicitly using the exitCodes or exitCodeRanges collection.|
+|[exitCodes](#exitCodeMapping)|Collection|A list of task exit codes and how the Batch service should respond to them.|
+|[exitCodeRanges](#exitCodeRangeMapping)|Collection|A list of task exit code ranges and how the Batch service should respond to them.|
+|[preProcessingError](#exitOptions)|Complex Type|Specifies how the Batch service should respond if the task fails to start due to an error.|
+|[fileUploadError](#exitOptions)|Complex Type|Specifies how the Batch service should respond if a file upload error occurs.|
+|[default](#exitOptions)|Complex Type|Specifies how the Batch service should respond if the task fails with an exit condition not covered by any of the other properties. <br /><br />This value is used if the task exits with any nonzero exit code not listed in the exitCodes or exitCodeRanges collection, with a pre-processing error if the preProcessingError property is not present, or with a file upload error if the fileUploadError property is not present. For non-default behaviour on exit code 0, list it explicitly using the exitCodes or exitCodeRanges collection.|
+
 
 ###  <a name="exitCodeMapping"></a> exitCodeMapping
 

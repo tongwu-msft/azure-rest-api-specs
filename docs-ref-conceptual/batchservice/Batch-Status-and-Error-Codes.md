@@ -164,9 +164,9 @@ manager: "timlt"
 |TaskDependencyRangesTooLong|Bad Request (400)|A task was specified as depending on multiple ranges of task ids, and the list of ranges was too long to be stored. Note that the issue is not with the size of ranges, but with the number of ranges.|
 
 ##  <a name="BKMK_JobTaskError"></a> Job/Task Scheduling Error Codes
- If the Batch service encounters an error in scheduling a task on a node, it marks the task as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the files associated with a task](../batchservice/list-the-files-associated-with-a-task.md) and [Get information about a task](../batchservice/get-information-about-a-task.md) APIs.
+ If the Batch service encounters an error in scheduling a task on a node, it marks the task as completed.  This scheduling error information is returned within a `preProcessingError` element in the response body of [List the files associated with a task](../batchservice/list-the-files-associated-with-a-task.md) and [Get information about a task](../batchservice/get-information-about-a-task.md) APIs.
 
- Similarly, if the Batch service encounters an error while starting the job, it marks the job as completed.  This scheduling error information is returned within a `SchedulingError` element in the response body of [List the tasks associated with a job](../batchservice/list-the-tasks-associated-with-a-job.md) and [Get information about a job in Batch](../batchservice/get-information-about-a-job-in-batch.md) APIs.
+ Similarly, if the Batch service encounters an error while starting the job, it marks the job as completed.  This scheduling error information is returned within a `preProcessingError` element in the response body of [List the tasks associated with a job](../batchservice/list-the-tasks-associated-with-a-job.md) and [Get information about a job in Batch](../batchservice/get-information-about-a-job-in-batch.md) APIs.
 
  The following table provides the list of categories for task scheduling errors.
 
@@ -179,7 +179,7 @@ manager: "timlt"
 
 ```json
 {
-  "schedulingError": {
+  "preProcessingError": {
     "category": "UserError",
     "code": "BlobNotFound",
     "message": "The specified blob does not exist.",

@@ -1,7 +1,7 @@
 ---
 title: "Batch Service REST API Versioning | Microsoft Docs"
 ms.custom: ""
-ms.date: "2017-03-09"
+ms.date: "2017-05-05"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
@@ -20,9 +20,35 @@ manager: "timlt"
  To specify which version of an operation to use, specify the *api\-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY\-MM\-DD’ and Major is an integer and Minor is an integer.
 
 ## Supported Versions
- The version of the Batch API described here is 2017-01-01.4.0. Using the latest version is recommended where possible.
+ The version of the Batch API described here is 2017-05-01.5.0. Using the latest version is recommended when possible.
 
- Earlier versions include '2016-07-01.3.1', '2016-02-01.3.0', '2015-12-01.2.1', '2015-11-01.2.1', '2015-06-01.2.0', '2015-03-01.1.1', and '2014-10-01.1.0'.
+ Earlier versions include '2017-01-01.4.0', '2016-07-01.3.1', '2016-02-01.3.0', '2015-12-01.2.1', '2015-11-01.2.1', '2015-06-01.2.0', '2015-03-01.1.1', and '2014-10-01.1.0'.
+
+### Version 2017-05-01.5.0
+
+- **Support for low-priority compute nodes**
+
+
+
+- Added support for the new low-priority node type.
+  - **[Breaking]** `TargetDedicated` and `CurrentDedicated` on `CloudPool` and `PoolSpecification` have been renamed to `TargetDedicatedComputeNodes` and `CurrentDedicatedComputeNodes`.
+  - **[Breaking]** `ResizeError` on `CloudPool` is now a collection called `ResizeErrors`.
+  - Added a new `IsDedicated` property on `ComputeNode`, which is `false` for low-priority nodes.
+  - Added a new `AllowLowPriorityNode` property to `JobManagerTask`, which if `false` forces the `JobManagerTask` to run on a dedicated compute node.
+  - `PoolOperations.ResizePool` and `ResizePoolAsync` now take two optional parameters, `targetDedicatedComputeNodes` and `targetLowPriorityComputeNodes`, instead of one required parameter `targetDedicated`. At least one of these two parameters must be specified.
+- Linux user creation improvements
+  - **[Breaking]** Moved `SshPrivateKey` on `UserAccount` to a new class `LinuxUserConfiguration`, which is now a property of `UserAccount`.
+  - Added support for specifying a `Uid` and `Gid` when creating a Linux user, also on the new `LinuxUserConfiguration` class.
+- Added new output files support, allowing tasks to specify files to be uploaded after completion.
+  - Added a new property `OutputFiles` on `CloudTask` and `JobManagerTask`, which allows for the specification of files to upload to Azure Storage.
+  - Added new property `FileUploadError` to `ExitConditions`, for specifying actions to take based on a task's output file upload status.
+- Task error reporting improvements
+  - **[Breaking]** Renamed `SchedulingError` on all `ExecutionInfo` classes to `FailureInformation`. `FailureInformation` is returned any time there is a task failure. This includes all previous scheduling error cases, as well as nonzero task exit codes, and file upload failures from the new output files feature.
+  - Added support for determining if a task was a success or a failure via the new `Result` property on all `ExecutionInfo` classes.
+  - **[Breaking]** Renamed `SchedulingError` on `ExitConditions` to `PreProcessingError` to more clearly clarify when the error took place in the task life-cycle.
+  - **[Breaking]** Renamed `SchedulingErrorCateogry` to `ErrorCategory`.
+- Added support for requesting application licenses be provisioned to your pool, via a new `ApplicationLicenses` property on `CloudPool` and `PoolSpecification`.
+
 
 ### Version 2017-01-01.4.0
 

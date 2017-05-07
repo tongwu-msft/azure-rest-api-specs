@@ -174,7 +174,7 @@ manager: "timlt"
 |startTime|DateTime|The time at which the start task started running. This value is reset every time the task is restarted or retried \(that is, this is the most recent time at which the start task started running\).|
 |endTime|DateTime|The time at which the start task stopped running. This is the end time of the most recent run of the start task, if that run has completed \(even if that run failed and a retry is pending\). This element is not present if the start task is currently running.|
 |exitCode|Int32|The exit code of the start task. If the start task has run more than once this is the exit code of the most recent run to have completed. This element is not present if the start task has never run to completion.|
-|[schedulingError](../batchservice/get-information-about-a-node.md#schedulingError)|ComplexType|If there was an error scheduling the start task, this element contains the error details.|
+|[preProcessingError](../batchservice/get-information-about-a-node.md#preProcessingError)|ComplexType|If there was an error scheduling the start task, this element contains the error details.|
 |retryCount|Int32|The number of times the task has been retried by the Batch service. The task is retried if it exits with a nonzero exit code, up to the specified MaxTaskRetryCount.|
 |lastRetryTime|DateTime|The most recent time at which a retry of the task started running. This element is present only if the task was retried \(i.e. retryCount is nonzero\). If present, this is typically the same as startTime, but may be different if the task has been restarted for reasons other than retry; for example, if the compute node was rebooted during a retry, then the startTime is updated but the lastRetryTime is not.|
 
@@ -195,13 +195,13 @@ manager: "timlt"
 |startTime|DateTime|The time at which the task started running. If the task has been restarted or retried, this is the most recent time at which the task started running.<br /><br /> This property is present only for tasks that are in the **running** or **completed** state.|
 |endTime|DateTime|The time at which the task completed.<br /><br /> This property is present only if the task is in the **completed** state.|
 |exitCode|Int32|The exit code of the task.<br /><br /> This property is present only if the task is in **completed** state.|
-|[schedulingError](../batchservice/get-information-about-a-node.md#schedulingError)|Complex Type|If there was an error scheduling the task, and the task is now in a **completed** state, this element contains the error details.|
+|[preProcessingError](../batchservice/get-information-about-a-node.md#preProcessingError)|Complex Type|If there was an error scheduling the task, and the task is now in a **completed** state, this element contains the error details.|
 |retryCount|Int32|The number of times the task has been retried by the Batch service. The task is retried if it exits with a nonzero exit code, up to the specified MaxTaskRetryCount.|
 |lastRetryTime|DateTime|The most recent time at which a retry of the task started running.<br /><br /> This element is present only if the task was retried \(i.e. retryCount is nonzero\). If present, this is typically the same as startTime, but may be different if the task has been restarted for reasons other than retry; for example, if the compute node was rebooted during a retry, then the startTime is updated but the lastRetryTime is not.|
 |requeueCount|Int32|The number of times the task has been requeued by the Batch service as the result of a user request.<br /><br /> When the user removes nodes from a pool \(by resizing or shrinking the pool\) or when the job is being disabled, the user can specify that running tasks on the nodes be requeued for execution. This count tracks how many times the task has been requeued for these reasons.|
 |lastRequeueTime|DateTime|The most recent time at which the task has been requeued by the Batch service as the result of a user request.<br /><br /> This property is present only if the requeueCount is nonzero.|
 
-###  <a name="schedulingError"></a> schedulingError
+###  <a name="preProcessingError"></a> preProcessingError
 
 |Element name|Type|Notes|
 |------------------|----------|-----------|

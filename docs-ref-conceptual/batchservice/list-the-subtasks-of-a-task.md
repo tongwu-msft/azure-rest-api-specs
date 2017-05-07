@@ -88,7 +88,7 @@ manager: "timlt"
 |startTime|DateTime|The time at which the subtask started running. If the subtask has been restarted or retried, this is the most recent time at which the subtask started running.|
 |endTime|DateTime|The time at which the subtask completed. This property is only returned if the subtask is in **completed** state.|
 |exitCode|Int32|The exit code of the subtask. This property is only returned if the subtask is in **completed** state.|
-|schedulingError|Complex Type|If there was an error scheduling the subtask, and the subtask is now in a **completed** state, this element contains the error details,|
+|preProcessingError|Complex Type|If there was an error scheduling the subtask, and the subtask is now in a **completed** state, this element contains the error details,|
 |[nodeInfo](../batchservice/list-the-subtasks-of-a-task.md#nodeInfo)|Complex Type|Contains information about the compute node on which the subtask ran.|
 
 ###  <a name="nodeInfo"></a> nodeInfo
