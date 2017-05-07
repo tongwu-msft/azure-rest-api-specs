@@ -267,7 +267,6 @@ The following example shows additional information in case of a multi-instance t
 |[fileUploadError](#exitOptions)|Complex Type|Specifies how the Batch service should respond if a file upload error occurs.|
 |[default](#exitOptions)|Complex Type|Specifies how the Batch service should respond if the task fails with an exit condition not covered by any of the other properties. <br /><br />This value is used if the task exits with any nonzero exit code not listed in the exitCodes or exitCodeRanges collection, with a pre-processing error if the preProcessingError property is not present, or with a file upload error if the fileUploadError property is not present. For non-default behaviour on exit code 0, list it explicitly using the exitCodes or exitCodeRanges collection.|
 
-
 ###  <a name="exitCodeMapping"></a> exitCodeMapping
 
 |Element name|Type|Notes|
