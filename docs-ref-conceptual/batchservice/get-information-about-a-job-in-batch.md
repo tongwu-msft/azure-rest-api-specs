@@ -303,8 +303,17 @@ manager: "timlt"
 |startTime|DateTime|The start time of the job. The job ‘starts’ when the first task starts running on any compute node.  \(This includes Job Manager and Job Preparation tasks.\)|
 |endTime|DateTime|The completion time of the job. This property is present only if the job is in the **completed** state.|
 |poolId|String|The id of the pool to which this job is assigned.  This depends on the *poolInfo* you specified when creating or updating the job.<br /><br /> If you specified a *poolId*, this is that poolId.<br /><br /> If you specified an  *autoPoolSpecification*, this is the id of the auto pool that Batch created for this job.<br /><br /> \(Note: this element contains the *actual* pool where the job is assigned. The Get Job response also contains a poolInfo element, which contains the pool configuration data from Add/Update Job. This may also contain a poolId element.  If it does, the two ids are the same.  If it does not, it means the job ran on an auto pool, and this element contains the id of that auto pool.\)|
-|[failureInfo](#taskFailureInformation)|String|Information describing the task failure. This property is set only if the task is in the completed state.|
+|schedulingError|Complex Type|If there was an error starting the job, this element contains the error details.<br /><br /> Otherwise, this element is not present.|
 |terminateReason|String|If the job has completed, a string describing the reason the job ended.<br /><br /> The Batch service sets the reason as following:<br /><br /> **JMComplete** – the Job Manager task completed, and killJobOnCompletion was set to true<br /><br /> **MaxWallClockTimeExpiry** – the job reached its *maxWallClockTime* constraint<br /><br /> **TerminateJobSchedule** – the job ran as part of a schedule, and the schedule terminated<br /><br /> **AllTasksComplete** – the job's onAllTasksComplete attribute is set to **terminatejob**, and all tasks in the job are complete<br /><br /> **TaskFailed** – the job's onTaskFailure attribute is set to **performexitoptionsjobaction**, and a task in the job failed with an exit condition that specified a jobAction of **terminatejob**<br /><br /> Any other string is a user\-defined reason specified in a call to the [Terminate a job](../batchservice/terminate-a-job.md) operation.<br /><br /> If the job has not completed, this element is not present.|
+
+### schedulingError
+
+|Element name|Type|Notes|
+|------------------|----------|-----------|
+|category|String|The category of the job scheduling error.|
+|code|String|An identifier for the job scheduling error.  Codes are invariant and are intended to be consumed programmatically.|
+|message|String|A message describing the job scheduling error, intended to be suitable for display in a user interface.|
+|details|Collection|A list of additional error details related to the scheduling error.|
 
 ###  <a name="stats"></a> stats
 
@@ -324,13 +333,4 @@ manager: "timlt"
 |numFailedTasks|Int64|The total number of tasks in the job that failed during the given time range. A task fails if it exhausts its maximum retry count without returning exit code 0.|
 |numTaskRetries|Int64|The total number of retries on all the tasks in the job during the given time range.|
 |waitTime|Time|The total wait time of all the tasks in the job.  The *wait time* for a task is defined as the elapsed time between the creation of the task creation and the start of task execution.  \(If the task is retried due to failures, the wait time is the time to the *most recent* task execution.\)  This value is only reported in the account lifetime statistics; it is not included in the job statistics.|
-
-###  <a name="taskFailureInformation"></a> taskFailureInformation
-
-|Element name|Type|Notes|
-|------------------|----------|-----------|
-|category|String|The category of the task error.|
-|code|String|An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.|
-|message|String|A message describing the task error, intended to be suitable for display in a user interface.|
-|values|Collection|A list of additional details related to the error.|
 
