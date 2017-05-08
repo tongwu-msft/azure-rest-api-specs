@@ -83,7 +83,7 @@ manager: "timlt"
           "targetOSVersion":"*"
         },
         "resizeTimeout":"PT15M",
-        "targetDedicated":3,
+        "targetDedicatedNodes":3,
         "maxTasksPerNode":2,
         "taskSchedulingPolicy": {
           "nodeFillType":"Spread"
@@ -175,12 +175,14 @@ manager: "timlt"
 |displayName|No|String|A display name for the Job Manager task. It need not be unique and can contain any Unicode characters up to a maximum length of 1024.|
 |commandLine|Yes|String|The command line of the Job Manager task.|
 |[resourceFiles](../batchservice/add-a-job-to-an-account.md#resourceFiles)|No|Collection|A list of files that Batch will download to the compute node before running the command line.<br /><br /> Files listed under this element are located in the task’s **wd** directory. For more information, see [List the files associated with a task](../batchservice/list-the-files-associated-with-a-task.md).|
+|[outputFiles](#outputFile)|No|Collection|A list of files that the Batch service will upload from the compute node after running the command line. For multi-instance tasks, the files will only be uploaded from the compute node on which the primary task is executed.|
 |[applicationPackageReferences](../batchservice/add-a-job-to-an-account.md#applicationPackageReferences)|No|Collection|A list of application packages that the Batch service will deploy to the compute node before running the command line.<br /><br /> Application packages are downloaded and deployed to a shared directory, not the task directory. Therefore, if a referenced package is already on the compute node, and is up to date, then it is not re-downloaded; the existing copy on the compute node is used.<br /><br /> If a referenced application package cannot be installed, for example because the package has been deleted or because download failed, the task fails to start due to an error.<br /><br /> This property is currently not supported on jobs running on pools created using the virtualMachineConfiguration (IaaS) property. If a task specifying applicationPackageReferences runs on such a pool, it fails to start due to an error with code TaskSchedulingConstraintFailed.|
 |[environmentSettings](../batchservice/add-a-job-to-an-account.md#environmentSettings)|No|Collection|A list of environment variable settings for the Job Manager task.|
 |[constraints](../batchservice/add-a-job-to-an-account.md#constraints1)|No|Complex Type|Specifies constraints that apply to the Job Manager task.|
 |killJobOnCompletion|No|Boolean|Specifies whether completion of the Job Manager task signifies completion of the entire job.<br /><br /> If true, when the Job Manager task completes, the Batch service marks the job as complete.  If any tasks are still running at this time \(other than Job Release\), those tasks are terminated.<br /><br /> If false, the completion of the Job Manager task does not affect the job status. In this case, you should either use the onAllTasksComplete attribute to terminate the job, or have a client or user terminate the job explicitly. An example of this is if the Job Manager creates a set of tasks but then takes no further role in their execution.<br /><br /> The default value is true. If you are using the onAllTasksComplete and onTaskFailure attributes to control job lifetime, and using the job manager task only to create the tasks for the job (not to monitor progress), then it is important to set killJobOnCompletion to false.|
 |[userIdentity](#userIdentity)|No|Complex Type|The user identity under which the task runs. If omitted, the task runs as a non-administrative user unique to the task.|
 |runExclusive|No|Boolean|Specifies whether the Job Manager task requires exclusive use of the compute node where it runs.<br /><br /> If true, no other tasks will run on the same compute node for as long as the Job Manager is running.<br /><br /> If false, other tasks can run simultaneously with the Job Manager on a compute node. \(The Job Manager task counts normally against the node’s concurrent task limit, so this is only relevant if the node allows multiple concurrent tasks.\)<br /><br /> The default value is true.|
+|allowLowPriorityNode|No|Boolean|Specifies whether the Job Manager task may run on a low-priority compute node. The default value is false.|
 
 ###  <a name="jobPreparationTask"></a> jobPreparationTask
  A Job Preparation task is special in the following ways:
@@ -257,7 +259,6 @@ manager: "timlt"
 |retentionTime|No|TimeInterval|Specifies the minimum time to retain the working directory for the Job Release task on the compute node.  After this time, the Batch service may delete the working directory and all its contents.<br /><br /> The default is infinite, i.e. the working directory will be retained until the compute node is removed or reimaged.|
 |[userIdentity](#userIdentity)|No|Complex Type|The user identity under which the task runs. If omitted, the task runs as a non-administrative user unique to the task.|
 
-
 ###  <a name="resourceFiles"></a> resourceFiles
 
 |Element name|Required|Type|Notes|
@@ -265,6 +266,35 @@ manager: "timlt"
 |blobSource|Yes|String|The URL of a blob in Azure storage. The Batch service downloads the blob to the specified file path.<br /><br /> The URL must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob.  There are two ways to get such a URL for a blob in Azure storage: use a Shared Access Signature \(SAS\) granting read permissions on the blob, or set the ACL for the blob’s container to allow public access.|
 |filePath|Yes|String|The location on the compute node to which the file should be downloaded.|
 |fileMode|No|String|The file permission mode attribute in octal format. This property is applicable only if the resourceFile is downloaded to a Linux node. This property will be ignored if it is specified for a resourceFile which is downloaded to a Windows node.<br /><br /> If this property is not specified for a Linux node, then a default value of 0770 is applied to the file.|
+
+###  <a name="outputFile"></a> outputFile
+
+|Element name|Required|Type|Notes|
+|------------------|--------------|----------|-----------|
+|filePattern|Yes|String|A pattern indicating which file(s) to upload.<br /><br /> Both relative and absolute paths are supported. Relative paths are relative to the task working directory.<br /><br /> For wildcards, use * to match any character and ** to match any directory. For example, **\\*.txt matches any file ending in .txt in the task working directory or any subdirectory.<br /><br /> Note that \\ and / are treated interchangeably and mapped to the correct directory separator on the compute node operating system.|
+|[destination](#outputFileDestination)|Yes|Complex Type|The destination for the output file(s).|
+|[uploadOptions](#outputFileUploadOptions)|Yes|Complex Type|Additional options for the upload operation, including under what conditions to perform the upload.|
+
+###  <a name="outputFileDestination"></a> outputFileDestination
+
+|Element name|Required|Type|Notes|
+|------------------|--------------|----------|-----------|
+|[container](#outputFileBlobContainerDestination)|Yes|ComplexType|A location in Azure blob storage to which files are uploaded.|
+
+###  <a name="outputFileBlobContainerDestination"></a> outputFileBlobContainerDestination
+
+|Element name|Required|Type|Notes|
+|------------------|--------------|----------|-----------|
+|path|No|String|The destination blob or virtual directory within the Azure Storage container. If filePattern contains one or more wildcards, then path is the name of the blob virtual directory (blob name prefix). If filePattern contains no wildcards, then path is the name of the blob.|
+|containerUrl|Yes|String|A SAS URL granting write access to the Azure storage container. The Batch service uses the SAS URL to authenticate to Azure Storage in order to write the output files to the container.|
+
+###  <a name="outputFileUploadOptions"></a> outputFileUploadOptions
+
+|Element name|Required|Type|Notes|
+|------------------|--------------|----------|-----------|
+|uploadCondition|Yes|String|The conditions under which the task output file or set of files should be uploaded. Possible values include:<br /><br /> - **taskSuccess**: Upload the file(s) only after the task process exits with an exit code of 0.<br /><br /> - **taskFailure**: Upload the file(s) only after the task process exits with a nonzero exit code.<br /><br /> **taskCompletion**: Upload the file(s) after the task process exits, no matter what the exit code was.<br /><br /> 
+The default is taskCompletion.|
+
 
 ### <a name="applicationPackageReferences"></a> applicationPackageReferences
 
@@ -328,12 +358,12 @@ manager: "timlt"
 |[virtualMachineConfiguration](../batchservice/add-a-job-to-an-account.md#bk_vmconf)|No|Complex Type|The virtual machine configuration for the pool. This property must be specified if the pool needs to be created with Azure IaaS VMs.<br />Note that the cloudServiceConfiguration and virtualMachineConfiguration properties are mutually exclusive and only one of the properties can be specified. If neither is specified then the Batch service returns Bad Request \(400\).|
 |[networkConfiguration](../batchservice/add-a-job-to-an-account.md#bk_netconf)|Optional|Complex Type|The network configuration for the pool.|
 |resizeTimeout|No|Time|Specifies the timeout for allocation of compute nodes to the pool.<br /><br /> This timeout applies only to manual scaling; it has no effect when enableAutoScale is set to true.<br /><br /> The default value is 15 minutes.<br /><br /> The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns a Bad Request \(400\).|
-|targetDedicated|No|Int32|Specifies the desired number of compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to true.  It is required if enableAutoScale is set to false.|
-|maxTasksPerNode|No|Int32|The maximum number of tasks that can run concurrently on a single compute node in the pool.<br /><br /> The default value is 1.<br /><br /> The maximum value of this setting depends on the size of the compute nodes in the pool \(the vmSize setting\).|
+|targetDedicatedNodes|No|Int32|Specifies the desired number of dedicated compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to true.  If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both.|
+|targetLowPriorityNodes|Optional|Int32|Specifies the desired number of low-priority compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to true.  If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both.||maxTasksPerNode|No|Int32|The maximum number of tasks that can run concurrently on a single compute node in the pool.<br /><br /> The default value is 1.<br /><br /> The maximum value of this setting depends on the size of the compute nodes in the pool \(the vmSize setting\).|
 |taskSchedulingPolicy|No|Complex Type|Defines how the Batch service distributes tasks between compute nodes in the pool.|
-|autoScaleFormula|No|String|Specifies a formula for the desired number of compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to false. It is required if enableAutoScale is set to true.<br /><br /> The formula is checked for validity before the pool is created. If the formula is not valid, the Batch service rejects the request with detailed error information.|
+|autoScaleFormula|No|String|Specifies a formula for the desired number of dedicated compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to false. It is required if enableAutoScale is set to true.<br /><br /> The formula is checked for validity before the pool is created. If the formula is not valid, the Batch service rejects the request with detailed error information.|
 |autoScaleEvaluationInterval|No|Time|Specifies a time interval at which to automatically adjust the pool size according to the autoscale formula.<br />The default value is 15 minutes.<br /><br /> The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service returns a Bad Request \(400\).|
-|enableAutoScale|No|Boolean|Specifies whether the pool size should automatically adjust over time.<br /><br /> If false, the targetDedicated element is required.<br /><br /> If true, the autoScaleFormula element is required. The pool automatically resizes according to the formula.<br /><br /> The default value is false.|
+|enableAutoScale|No|Boolean|Specifies whether the pool size should automatically adjust over time.<br /><br /> If false, the targetDedicatedNodes element is required.<br /><br /> If true, the autoScaleFormula element is required. The pool automatically resizes according to the formula.<br /><br /> The default value is false.|
 |enableInterNodeCommunication|No|Boolean|Specifies whether the pool permits direct communication between nodes.<br /><br /> The default value is false.|
 |startTask|No|Complex Type|Specifies a task to run on each compute node as it joins the pool. The task runs when the node is added to the pool or when the node is restarted.|
 |certificateReferences|No|Collection|A list of certificates to be installed on each compute node in the pool.<br /><br /> Each certificate in the list must have been previously added to the Batch account.|
@@ -374,8 +404,7 @@ manager: "timlt"
 
 |Element name|Required|Type|Notes|
 |------------------|--------------|----------|-----------|
-|subnetId|Required|String|Specifies the resource identifier of the subnet in which the pool's compute nodes should be created. The following conditions must be met:<ul><li>The specified [Virtual Network (VNet)](https://azure.microsoft.com/documentation/articles/virtual-networks-overview/)  must be in the same Azure region as the Azure Batch account.</li><li>The specified VNet must be in the same subscription as the Azure Batch account.</li><li>The specified VNet must be a Classic VNet. VNets created via Azure Resource Manager are not supported.</li><li>The specified subnet should have enough free IP addresses to accommodate the "targetDedicated" property. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes, and a resize error will occur.</li><li>The "MicrosoftAzureBatch" service principal must have the ["Classic Virtual Machine Contributor" Role-Based Access Control (RBAC) role](https://azure.microsoft.com/documentation/articles/role-based-access-built-in-roles/#classic-virtual-machine-contributor) for the specified VNet. If the specified RBAC role is not given, the Batch service returns 400 (Bad Request). </li><li>The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated  Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. </li><li>This property can be specified only for pools created with [cloudServiceConfiguration](#bk_csconf). If this is specified on pools created with the [virtualMachineConfiguration](#bk_vmconf) property, the Batch service returns 400 (Bad Request).</li></ul>|
-
+|subnetId|Required|String|Specifies the resource identifier of the subnet in which the pool's compute nodes should be created. The following conditions must be met:<ul><li>The specified [Virtual Network (VNet)](https://azure.microsoft.com/documentation/articles/virtual-networks-overview/)  must be in the same Azure region as the Azure Batch account.</li><li>The specified VNet must be in the same subscription as the Azure Batch account.</li><li>The specified VNet must be a Classic VNet. VNets created via Azure Resource Manager are not supported.</li><li>The specified subnet should have enough free IP addresses to accommodate the "targetDedicatedNodes" property. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes, and a resize error will occur.</li><li>The "MicrosoftAzureBatch" service principal must have the ["Classic Virtual Machine Contributor" Role-Based Access Control (RBAC) role](https://azure.microsoft.com/en-us/documentation/articles/role-based-access-built-in-roles/#classic-virtual-machine-contributor) for the specified VNet. If the specified RBAC role is not given, the Batch service returns 400 (Bad Request). </li><li>The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated  Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. </li><li>For pools created with a virtualMachineConfiguration, the Batch account must have its poolAllocationMode property set to 'userSubscription' in order to use a VNet.</li></ul>|
 
 ###  <a name="bk_meta"></a> metadata
 
@@ -407,5 +436,5 @@ manager: "timlt"
 
  If you specify an autoPoolSpecification, the Batch service manages the lifetime \(both creation and, unless keepAlive is specified, deletion\) of the auto pool. Any user actions that affect the lifetime of the auto pool while the job is active will result in unexpected behavior.
 
- If auto pool creation fails, the Batch service moves the job to a Completed state, and the pool creation error is set in the job’s preProcessingError property. For example, if any of the certificates specified in the certificateReferences for the auto pool does not exist, or is in the deleting or deletefailed state, the auto pool creation will fail, and the Batch service will terminate the job.
+ If auto pool creation fails, the Batch service moves the job to a Completed state, and the pool creation error is set in the job’s failureInfo property. For example, if any of the certificates specified in the certificateReferences for the auto pool does not exist, or is in the deleting or deletefailed state, the auto pool creation will fail, and the Batch service will terminate the job.
 

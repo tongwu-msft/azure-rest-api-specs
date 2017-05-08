@@ -94,9 +94,10 @@ manager: "timlt"
 |taskRootDirectory|String|The root directory for the Job Preparation task on the compute node.|
 |taskRootDirectoryUrl|String|The URL to the root directory of the Job Preparation task on the compute node. You can use this URL to retrieve files created by the task such as log files.|
 |exitCode|Int32|The exit code of the Job Preparation task. This element is present only if the task is in the completed state.|
-|[preProcessingError](../batchservice/list-the-status-of-the-job-preparation-and-job-release-tasks-for-a-job.md#preProcessingError)|Complex Type|If there was an error starting the Job Preparation task, and the task is now in a completed state but with a nonzero exit code, this element contains the error details.|
+|[failureInfo](#taskFailureInformation)|String|Information describing the task failure. This property is set only if the task is in the completed state.
 |retryCount|Int32|The number of times the Job Preparation task has been retried by the Batch service. The task is retried if it exits with a nonzero exit code, up to the specified MaxTaskRetryCount.|
 |lastRetryTime|DateTime|The most recent time at which a retry of the Job Preparation task started running.<br /><br /> This element is present only if the task was retried \(i.e. retryCount is nonzero\). If present, this is typically the same as startTime, but may be different if the task has been restarted for reasons other than retry; for example, if the compute node was rebooted during a retry, then the startTime is updated but the lastRetryTime is not.|
+|result|String|The result of task execution. If the value is 'failed', then the details of the failure can be found in the failureInfo property.|
 
 ###  <a name="jobReleaseTaskExecutionInfo"></a> jobReleaseTaskExecutionInfo
 
@@ -108,16 +109,17 @@ manager: "timlt"
 |taskRootDirectory|String|The root directory for the Job Release task on the compute node.|
 |taskRootDirectoryUrl|String|The URL to the root directory of the Job Release task on the compute node. You can use this URL to retrieve files created by the task such as log files.|
 |exitCode|Int32|The exit code of the Job Release task. This element is present only if the task is in the completed state.|
-|[preProcessingError](../batchservice/list-the-status-of-the-job-preparation-and-job-release-tasks-for-a-job.md#preProcessingError)|Complex Type|If there was an error starting the Job Release task, and the task is now in a completed state but with a nonzero exit code, this element contains the error details.<br /><br /> Otherwise, this element is not present.|
+|[failureInfo](#taskFailureInformation)|String|Information describing the task failure. This property is set only if the task is in the completed state.
+|result|String|The result of task execution. If the value is 'failed', then the details of the failure can be found in the failureInfo property.|
 
-###  <a name="preProcessingError"></a> preProcessingError
+###  <a name="taskFailureInformation"></a> taskFailureInformation
 
 |Element name|Type|Notes|
 |------------------|----------|-----------|
-|category|String|The category of the job scheduling error.|
-|code|String|An identifier for the job scheduling error.  Codes are invariant and are intended to be consumed programmatically.|
-|message|String|A message describing the job scheduling error, intended to be suitable for display in a user interface.|
-|values|Collection|A list of additional error details related to the scheduling error.|
+|category|String|The category of the task error.|
+|code|String|An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.|
+|message|String|A message describing the task error, intended to be suitable for display in a user interface.|
+|values|Collection|A list of additional details related to the error.|
 
 ## Remarks
 

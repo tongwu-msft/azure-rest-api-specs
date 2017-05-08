@@ -142,6 +142,7 @@ manager: "timlt"
 |killJobOnCompletion|Boolean|Specifies whether completion of the Job Manager task signifies completion of the entire job.<br /><br /> If true, when the Job Manager task completes, the Batch service marks the job as complete.  If any tasks are still running at this time \(other than Job Release\), those tasks are terminated.<br /><br /> If false, the completion of the Job Manager task does not affect the job status. In this case, you should either use the onAllTasksComplete attribute to terminate the job, or have a client or user terminate the job explicitly. An example of this is if the Job Manager creates a set of tasks but then takes no further role in their execution.<br /><br /> The default value is true.|
 |[userIdentity](#userIdentity)|Complex Type|The user identity under which the task runs. If absent, the task runs as a non-administrative user unique to the task.|
 |runExclusive|Boolean|Specifies whether the Job Manager task requires exclusive use of the compute node where it runs.<br /><br /> If true, no other tasks will run on the same compute node for as long as the Job Manager is running.<br /><br /> If false, other tasks can run simultaneously with the Job Manager on a compute node. \(The Job Manager task counts normally against the node’s concurrent task limit, so this is only relevant if the node allows multiple concurrent tasks.\)<br /><br /> The default value is true.|
+|allowLowPriorityNode|No|Boolean|Specifies whether the Job Manager task may run on a low-priority compute node. The default value is false.|
 
 ###  <a name="bk_jobsta"></a> jobPreparationTask
 
@@ -245,15 +246,17 @@ manager: "timlt"
 |[virtualMachineConfiguration](../batchservice/get-information-about-a-job-in-batch.md#bk_vmconf)|Complex Type|The virtual machine configuration for the pool.|
 |[networkConfiguration](../batchservice/get-information-about-a-job-in-batch.md#bk_netconf)|Complex Type|The network configuration for the pool.|
 |resizeTimeout|Time|Specifies the timeout for allocation of compute nodes to the pool.<br /><br /> This timeout applies only to manual scaling; it has no effect when enableAutoScale is set to true.<br /><br /> The default value is 15 minutes.<br /><br /> The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns a Bad Request \(400\).|
-|targetDedicated|Int32|Specifies the desired number of compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to true.  It is required if enableAutoScale is set to false.|
+|targetDedicatedNodes|Int32|Specifies the desired number of dedicated compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to true.  If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both.|
+|targetLowPriorityNodes|Optional|Int32|Specifies the desired number of low-priority compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to true.  If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both.|
 |maxTasksPerNode|Int32|The maximum number of tasks that can run concurrently on a single compute node in the pool.<br /><br /> The default value is 1.<br /><br /> The maximum value of this setting depends on the size of the compute nodes in the pool \(the vmSize setting\).|
 |taskSchedulingPolicy|Complex Type|Defines how the Batch service distributes tasks between compute nodes in the pool.|
-|autoScaleFormula|String|Specifies a formula for the desired number of compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to false. It is required if enableAutoScale is set to true.<br /><br /> The formula is checked for validity before the pool is created. If the formula is not valid, the Batch service rejects the request with detailed error information.|
+|autoScaleFormula|String|Specifies a formula for the desired number of dedicated compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to false. It is required if enableAutoScale is set to true.<br /><br /> The formula is checked for validity before the pool is created. If the formula is not valid, the Batch service rejects the request with detailed error information.|
 |autoScaleEvaluationInterval|Time|Specifies a time interval at which to automatically adjust the pool size according to the AutoScale formula.<br />The default value is 15 minutes.<br /><br /> The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service returns a Bad Request \(400\).|
-|enableAutoScale|Boolean|Specifies whether the pool size should automatically adjust over time.<br /><br /> If false, the targetDedicated element is required.<br /><br /> If true, the autoScaleFormula element is required. The pool automatically resizes according to the formula.<br /><br /> The default value is false.|
+|enableAutoScale|Boolean|Specifies whether the pool size should automatically adjust over time.<br /><br /> If false, the targetDedicatedNodes element is required.<br /><br /> If true, the autoScaleFormula element is required. The pool automatically resizes according to the formula.<br /><br /> The default value is false.|
 |enableInterNodeCommunication|Boolean|Specifies whether the pool permits direct communication between nodes.<br /><br /> The default value is false.|
 |startTask|Complex Type|Specifies a task to run on each compute node as it joins the pool. The task runs when the node is added to the pool or when the node is restarted.|
 |certificateReferences|Collection|A list of certificates to be installed on each compute node in the pool.<br /><br /> Each certificate in the list must have been previously added to the Batch account.|
+|applicationLicenses|Collection|The list of application licenses the Batch service will make available on each compute node in the pool.|
 |metadata|Collection|A list of name\-value pairs associated with the pool as metadata.<br /><br /> The Batch service does not assign any meaning to metadata; it is solely for the use of user code.|
 
 ###  <a name="bk_csconf"></a> cloudServiceConfiguration
@@ -300,17 +303,8 @@ manager: "timlt"
 |startTime|DateTime|The start time of the job. The job ‘starts’ when the first task starts running on any compute node.  \(This includes Job Manager and Job Preparation tasks.\)|
 |endTime|DateTime|The completion time of the job. This property is present only if the job is in the **completed** state.|
 |poolId|String|The id of the pool to which this job is assigned.  This depends on the *poolInfo* you specified when creating or updating the job.<br /><br /> If you specified a *poolId*, this is that poolId.<br /><br /> If you specified an  *autoPoolSpecification*, this is the id of the auto pool that Batch created for this job.<br /><br /> \(Note: this element contains the *actual* pool where the job is assigned. The Get Job response also contains a poolInfo element, which contains the pool configuration data from Add/Update Job. This may also contain a poolId element.  If it does, the two ids are the same.  If it does not, it means the job ran on an auto pool, and this element contains the id of that auto pool.\)|
-|preProcessingError|Complex Type|If there was an error starting the job, this element contains the error details.<br /><br /> Otherwise, this element is not present.|
+|[failureInfo](#taskFailureInformation)|String|Information describing the task failure. This property is set only if the task is in the completed state.|
 |terminateReason|String|If the job has completed, a string describing the reason the job ended.<br /><br /> The Batch service sets the reason as following:<br /><br /> **JMComplete** – the Job Manager task completed, and killJobOnCompletion was set to true<br /><br /> **MaxWallClockTimeExpiry** – the job reached its *maxWallClockTime* constraint<br /><br /> **TerminateJobSchedule** – the job ran as part of a schedule, and the schedule terminated<br /><br /> **AllTasksComplete** – the job's onAllTasksComplete attribute is set to **terminatejob**, and all tasks in the job are complete<br /><br /> **TaskFailed** – the job's onTaskFailure attribute is set to **performexitoptionsjobaction**, and a task in the job failed with an exit condition that specified a jobAction of **terminatejob**<br /><br /> Any other string is a user\-defined reason specified in a call to the [Terminate a job](../batchservice/terminate-a-job.md) operation.<br /><br /> If the job has not completed, this element is not present.|
-
-### preProcessingError
-
-|Element name|Type|Notes|
-|------------------|----------|-----------|
-|category|String|The category of the job scheduling error.|
-|code|String|An identifier for the job scheduling error.  Codes are invariant and are intended to be consumed programmatically.|
-|message|String|A message describing the job scheduling error, intended to be suitable for display in a user interface.|
-|details|Collection|A list of additional error details related to the scheduling error.|
 
 ###  <a name="stats"></a> stats
 
@@ -330,4 +324,13 @@ manager: "timlt"
 |numFailedTasks|Int64|The total number of tasks in the job that failed during the given time range. A task fails if it exhausts its maximum retry count without returning exit code 0.|
 |numTaskRetries|Int64|The total number of retries on all the tasks in the job during the given time range.|
 |waitTime|Time|The total wait time of all the tasks in the job.  The *wait time* for a task is defined as the elapsed time between the creation of the task creation and the start of task execution.  \(If the task is retried due to failures, the wait time is the time to the *most recent* task execution.\)  This value is only reported in the account lifetime statistics; it is not included in the job statistics.|
+
+###  <a name="taskFailureInformation"></a> taskFailureInformation
+
+|Element name|Type|Notes|
+|------------------|----------|-----------|
+|category|String|The category of the task error.|
+|code|String|An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.|
+|message|String|A message describing the task error, intended to be suitable for display in a user interface.|
+|values|Collection|A list of additional details related to the error.|
 

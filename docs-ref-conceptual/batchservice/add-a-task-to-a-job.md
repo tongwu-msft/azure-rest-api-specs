@@ -71,6 +71,7 @@ manager: "timlt"
 |displayName|Optional|String|A display name for the task. It need not be unique and can contain any Unicode characters up to a maximum length of 1024.|
 |commandLine|Required|String|The command line of the task.|
 |[resourceFiles](../batchservice/add-a-task-to-a-job.md#resourceFiles)|Optional|Collection|A list of files that Batch will download to the compute node before running the command line.<br /><br /> Files that listed under this element are located in the task’s **wd** directory. For more information, see [List the files associated with a task](../batchservice/list-the-files-associated-with-a-task.md).|
+|[outputFiles](#outputFile)|No|Collection|A list of files that the Batch service will upload from the compute node after running the command line. For multi-instance tasks, the files will only be uploaded from the compute node on which the primary task is executed.|
 |[applicationPackageReferences](../batchservice/add-a-task-to-a-job.md#applicationPackageReferences)|Optional|Collection|A list of application packages that the Batch service will deploy to the compute node before running the command line.<br /><br /> Application packages are downloaded and deployed to a shared directory, not the task directory. Therefore, if a referenced package is already on the compute node, and is up to date, then it is not re-downloaded; the existing copy on the compute node is used.<br /><br /> If a referenced application package cannot be installed, for example because the package has been deleted or because download failed, the task fails to start due to an error.<br /><br /> This property is currently not supported on tasks running on pools created using the virtualMachineConfiguration (IaaS) property. If a task specifying applicationPackageReferences runs on such a pool, it fails to start due to an error with code TaskSchedulingConstraintFailed.|
 |[authenticationTokenSettings](#authenticationTokenSettings)|Optional|Complex Type|The settings for an authentication token that the task can use to perform Batch service operations.<br /><br /> If this property is set, the Batch service provides the task with an authentication token which can be used to authenticate Batch service operations without requiring an account access key. The token is provided via the AZ_BATCH_AUTHENTICATION_TOKEN environment variable. The operations that the task can carry out using the token depend on the settings. For example, a task can request job permissions in order to add other tasks to the job, or check the status of the job or of other tasks under the job.|
 |[environmentSettings](../batchservice/add-a-task-to-a-job.md#environmentSettings)|Optional|Collection|A list of environment variable settings for the task.|
@@ -96,6 +97,34 @@ manager: "timlt"
 |blobSource|Yes|String|The URL of the file within Azure Blob Storage. The Batch service downloads the blob to the specified file path.<br /><br /> The URL must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob.  There are two ways to get such a URL for a blob in Azure storage: use a Shared Access Signature \(SAS\) granting read permissions on the blob, set the ACL for the blob’s container to allow public access.|
 |filePath|Yes|String|The location on the compute node to which the file should be downloaded, relative to the task's working directory.|
 |fileMode|No|String|The file permission mode attribute in octal format. This property is applicable only if the resourceFile is downloaded to a Linux node. This property will be ignored if it is specified for a resourceFile which is downloaded to a Windows node.<br /><br /> If this property is not specified for a Linux node, then a default value of 0770 is applied to the file.|
+
+###  <a name="outputFiles"></a> outputFiles
+
+|Element name|Required|Type|Notes|
+|------------------|--------------|----------|-----------|
+|filePattern|Yes|String|A pattern indicating which file(s) to upload.<br /><br /> Both relative and absolute paths are supported. Relative paths are relative to the task working directory.<br /><br /> For wildcards, use * to match any character and ** to match any directory. For example, **\\*.txt matches any file ending in .txt in the task working directory or any subdirectory.<br /><br /> Note that \\ and / are treated interchangeably and mapped to the correct directory separator on the compute node operating system.|
+|[destination](#outputFileDestination)|Yes|Complex Type|The destination for the output file(s).|
+|[uploadOptions](#outputFileUploadOptions)|Yes|Complex Type|Additional options for the upload operation, including under what conditions to perform the upload.|
+
+###  <a name="outputFileDestination"></a> outputFileDestination
+
+|Element name|Required|Type|Notes|
+|------------------|--------------|----------|-----------|
+|[container](#outputFileBlobContainerDestination)|Yes|ComplexType|A location in Azure blob storage to which files are uploaded.|
+
+###  <a name="outputFileBlobContainerDestination"></a> outputFileBlobContainerDestination
+
+|Element name|Required|Type|Notes|
+|------------------|--------------|----------|-----------|
+|path|No|String|The destination blob or virtual directory within the Azure Storage container. If filePattern contains one or more wildcards, then path is the name of the blob virtual directory (blob name prefix). If filePattern contains no wildcards, then path is the name of the blob.|
+|containerUrl|Yes|String|A SAS URL granting write access to the Azure storage container. The Batch service uses the SAS URL to authenticate to Azure Storage in order to write the output files to the container.|
+
+###  <a name="outputFileUploadOptions"></a> outputFileUploadOptions
+
+|Element name|Required|Type|Notes|
+|------------------|--------------|----------|-----------|
+|uploadCondition|Yes|String|The conditions under which the task output file or set of files should be uploaded. Possible values include:<br /><br /> - **taskSuccess**: Upload the file(s) only after the task process exits with an exit code of 0.<br /><br /> - **taskFailure**: Upload the file(s) only after the task process exits with a nonzero exit code.<br /><br /> **taskCompletion**: Upload the file(s) after the task process exits, no matter what the exit code was.<br /><br /> 
+The default is taskCompletion.|
 
 ### <a name="applicationPackageReferences"></a> applicationPackageReferences
 

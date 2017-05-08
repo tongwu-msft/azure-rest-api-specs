@@ -88,8 +88,9 @@ manager: "timlt"
 |startTime|DateTime|The time at which the subtask started running. If the subtask has been restarted or retried, this is the most recent time at which the subtask started running.|
 |endTime|DateTime|The time at which the subtask completed. This property is only returned if the subtask is in **completed** state.|
 |exitCode|Int32|The exit code of the subtask. This property is only returned if the subtask is in **completed** state.|
-|preProcessingError|Complex Type|If there was an error scheduling the subtask, and the subtask is now in a **completed** state, this element contains the error details,|
 |[nodeInfo](../batchservice/list-the-subtasks-of-a-task.md#nodeInfo)|Complex Type|Contains information about the compute node on which the subtask ran.|
+|result|String|The result of the subtask execution. If the value is 'failed', then the details of the failure can be found in the failureInfo property.|
+|[failureInfo](#taskFailureInformation)|String|Information describing the subtask failure. This property is set only if the subtask is in the completed state.
 
 ###  <a name="nodeInfo"></a> nodeInfo
 
@@ -102,3 +103,11 @@ manager: "timlt"
 |taskRootDirectory|String|The root directory for the subtask on the node where the task ran.|
 |taskRootDirectoryUrl|String|The URL for root directory for the subtask where task ran. This URL can be used for retrieving the task files.|
 
+###  <a name="taskFailureInformation"></a> taskFailureInformation
+
+|Element name|Type|Notes|
+|------------------|----------|-----------|
+|category|String|The category of the task error.|
+|code|String|An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.|
+|message|String|A message describing the task error, intended to be suitable for display in a user interface.|
+|values|Collection|A list of additional details related to the error.|

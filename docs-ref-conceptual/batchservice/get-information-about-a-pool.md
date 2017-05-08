@@ -54,7 +54,7 @@ manager: "timlt"
   }
   "resizeTimeout":"PT15M",
   "currentDedicated":5,
-  "targetDedicated":5,
+  "targetDedicatedNodes":5,
   "enableAutoScale":false,
   "enableInterNodeCommunication":false,
   "maxTasksPerNode":3,
@@ -71,7 +71,7 @@ manager: "timlt"
 |displayName|String|The display name of the pool|
 |url|String|The url of the pool.|
 |eTag|String|The ETag of the pool. This is an opaque string. You can use it to detect whether the pool has changed between requests.  In particular, you can be pass the ETag with an Update Job request to specify that your changes should take effect only if nobody else has modified the job in the meantime.|
-|lastModifed|DateTime|The last modified time of the pool. This is the last time at which the pool level data, such as the targetDedicated or enableAutoscale, changed.  It does not factor in node\-level changes such as a compute node changing state.|
+|lastModifed|DateTime|The last modified time of the pool. This is the last time at which the pool level data, such as the targetDedicatedNodes or enableAutoscale, changed.  It does not factor in node\-level changes such as a compute node changing state.|
 |creationTime|DateTime|The creation time of the pool.|
 |state|String|The current state of the pool. Possible values are:<br /><br /> **active** – The pool is available to run tasks subject to the availability of compute nodes.<br /><br /> **deleting** – The user has requested that the pool be deleted, but the delete operation has not yet completed.<br /><br /> **upgrading** – The user has requested that the operating system of the pool’s nodes be upgraded, but the upgrade operation has not yet completed \(that is, some nodes in the pool have not yet been upgraded\). The pool may be able to run tasks \(with reduced capacity\) but this is not guaranteed.|
 |stateTransitionTime|DateTime|The time at which the pool entered its current state.|
@@ -82,11 +82,13 @@ manager: "timlt"
 |[virtualMachineConfiguration](../batchservice/get-information-about-a-pool.md#bk_vmconf)|Complex Type|The virtual machine configuration for the pool.|
 |[networkConfiguration](../batchservice/get-information-about-a-pool.md#bk_netconf)|Complex Type|The network configuration for the pool.|
 |resizeTimeout|Time|The timeout for allocation of compute nodes to the pool specified for the last resize operation on the pool.  \(The initial sizing when the pool is created counts as a resize.\)|
-|[resizeError](../batchservice/get-information-about-a-pool.md#bk_reserr)|Complex Type|Contains details of any error encountered while performing the last resize on the pool.<br /><br /> This element is present only if an error occurred during the last pool resize, and only when the pool allocationState is steady.|
-|currentDedicated|Int32|The number of compute nodes currently assigned to the pool.|
-|targetDedicated|Int32|The number of compute nodes that are requested for the pool.|
+|[resizeErrors](../batchservice/get-information-about-a-pool.md#bk_reserr)|Collection|A list of errors encountered while performing the last resize on the pool. This property is set only if one or more errors occurred during the last pool resize, and only when the pool allocationState is Steady.|
+|currentDedicatedNodes|Int32|The number of dedicated compute nodes currently in the pool.|
+|currentLowPriorityNodes|Int32|The number of low-priority compute nodes currently in the pool.|
+|targetDedicatedNodes|Int32|The number of compute nodes that are requested for the pool.|
+|targetLowPriorityNodes|Int32|The number of low-priority compute nodes in the pool.|
 |enableAutoScale|Bool|Specifies whether the pool size automatically adjusts over time.|
-|autoScaleFormula|String|The formula for the desired number of compute nodes in the pool.<br /><br /> This element is present only if the pool automatically scales, i.e. enableAutoScale is true.|
+|autoScaleFormula|String|The formula for the desired number of dedicated compute nodes in the pool.<br /><br /> This element is present only if the pool automatically scales, i.e. enableAutoScale is true.|
 |autoScaleEvaluationInterval|Time|The time interval at which to automatically adjust the pool size according to the autoscale formula.<br /><br /> This element is present only if the pool automatically scales, i.e. enableAutoScale is true.|
 |[autoScaleRun](../batchservice/get-information-about-a-pool.md#bk_autrun)|Complex Type|Contains the results and errors from the last execution of the autoscale formula.<br /><br /> This element is present only if the pool automatically scales, i.e. enableAutoScale is true.|
 |enableInterNodeCommunication|Bool|Specifies whether the pool is set up for direct communication between nodes.|
@@ -95,6 +97,7 @@ manager: "timlt"
 |maxTasksPerNode|Int32|The maximum number of tasks that can run concurrently on a single compute node in the pool.|
 |[taskSchedulingPolicy](../batchservice/get-information-about-a-pool.md#bk_tassched)|Complex Type|Defines how the Batch service distributes tasks between compute nodes in the pool.|
 |[applicationPackageReferences](../batchservice/get-information-about-a-pool.md#applicationPackageReferences)|Collection|A list of application packages to be installed on each compute node in the pool.|
+|applicationLicenses|Collection|The list of application licenses the Batch service will make available on each compute node in the pool.|
 |[metadata](../batchservice/get-information-about-a-pool.md#bk_metadat)|Collection|Name value pairs associated with the pool as metadata.|
 |[stats](../batchservice/get-information-about-a-pool.md#bk_postat)|Complex Type|The lifetime resource usage statistics for the pool.|
 
@@ -135,7 +138,7 @@ manager: "timlt"
 |------------------|--------------|----------|
 |subnetId|String|Specifies the resource identifier of the subnet in which the pool's compute nodes are created.|
 
-###  <a name="bk_reserr"></a> resizeError
+###  <a name="bk_reserr"></a> resizeErrors
 
 |Element name|Type|Notes|
 |------------------|----------|-----------|

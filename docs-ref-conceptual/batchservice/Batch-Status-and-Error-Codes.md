@@ -175,7 +175,7 @@ manager: "timlt"
 |UserError|Errors in the task specification provided by the user.|
 |ServerError|Errors encountered by the Batch service that prevent it from scheduling the task.|
 
- Below is a sample scheduling error returned by the Batch service.
+ Below is a sample pre-processing error returned by the Batch service.
 
 ```json
 {

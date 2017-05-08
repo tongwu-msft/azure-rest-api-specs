@@ -121,6 +121,7 @@ The following example shows additional information in case of a multi-instance t
 |previousStateTransitionTime|DateTime|The time at which the task entered its previous state. This property is not present if the task is in its initial active state.|
 |commandLine|String|The command line of the task.|
 |[resourceFiles](../batchservice/get-information-about-a-task.md#resourceFiles)|Collection|A list of files that Batch will download to the compute node before running the command line.|
+|[outputFiles](#outputFile)|Collection|A list of files that the Batch service will upload from the compute node after running the command line. For multi-instance tasks, the files will only be uploaded from the compute node on which the primary task is executed.|
 |[applicationPackageReferences](../batchservice/get-information-about-a-task.md#applicationPackageReferences)|Collection|A list of application packages that the Batch service will deploy to the compute node before running the command line.<br /><br /> Application packages are downloaded to a shared directory, not the task directory.  Therefore, if a referenced package is already on the compute node, and is up to date, then it is not re-downloaded; the existing copy on the compute node is used.<br /><br /> If a referenced application package cannot be installed, for example because the package has been deleted or because download failed, the task fails to start due to an error.|
 |[environmentSettings](../batchservice/get-information-about-a-task.md#environmentSettings)|Collection|A list of environment variable settings for the task.|
 |[affinityInfo](../batchservice/get-information-about-a-task.md#affinityInfo)|Complex Type|A locality hint that can be used by the Batch service to select a node on which to start the new task.|
@@ -140,6 +141,34 @@ The following example shows additional information in case of a multi-instance t
 |blobSource|String|The URL of a blob in Azure storage. The Batch service downloads the blob to the specified file path.<br /><br /> The URL must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob.  There are two ways to get such a URL for a blob in Azure storage: use a Shared Access Signature \(SAS\) granting read permissions on the blob, set the ACL for the blob’s container to allow public access.|
 |filePath|String|The location on the compute node to which the file should be downloaded.|
 |fileMode|String|The file permission mode attribute in octal format. This property is applicable only if the resourceFile is downloaded to a Linux node. This property will be ignored if it is specified for a resourceFile which is downloaded to a Windows node.<br /><br /> If this property is not specified for a Linux node, then a default value of 0770 is applied to the file.|
+
+###  <a name="outputFiles"></a> outputFiles
+
+|Element name|Type|Notes|
+|------------------|--------------|----------|-----------|
+|filePattern|String|A pattern indicating which file(s) to upload.<br /><br /> Both relative and absolute paths are supported. Relative paths are relative to the task working directory.<br /><br /> For wildcards, use * to match any character and ** to match any directory. For example, **\\*.txt matches any file ending in .txt in the task working directory or any subdirectory.<br /><br /> Note that \\ and / are treated interchangeably and mapped to the correct directory separator on the compute node operating system.|
+|[destination](#outputFileDestination)|Complex Type|The destination for the output file(s).|
+|[uploadOptions](#outputFileUploadOptions)|Complex Type|Additional options for the upload operation, including under what conditions to perform the upload.|
+
+###  <a name="outputFileDestination"></a> outputFileDestination
+
+|Element name|Type|Notes|
+|------------------|--------------|----------|-----------|
+|[container](#outputFileBlobContainerDestination)|ComplexType|A location in Azure blob storage to which files are uploaded.|
+
+###  <a name="outputFileBlobContainerDestination"></a> outputFileBlobContainerDestination
+
+|Element name|Type|Notes|
+|------------------|--------------|----------|-----------|
+|path|String|The destination blob or virtual directory within the Azure Storage container. If filePattern contains one or more wildcards, then path is the name of the blob virtual directory (blob name prefix). If filePattern contains no wildcards, then path is the name of the blob.|
+|containerUrl|String|A SAS URL granting write access to the Azure storage container. The Batch service uses the SAS URL to authenticate to Azure Storage in order to write the output files to the container.|
+
+###  <a name="outputFileUploadOptions"></a> outputFileUploadOptions
+
+|Element name|Type|Notes|
+|------------------|--------------|----------|-----------|
+|uploadCondition|String|The conditions under which the task output file or set of files should be uploaded. Possible values include:<br /><br /> - **taskSuccess**: Upload the file(s) only after the task process exits with an exit code of 0.<br /><br /> - **taskFailure**: Upload the file(s) only after the task process exits with a nonzero exit code.<br /><br /> **taskCompletion**: Upload the file(s) after the task process exits, no matter what the exit code was.<br /><br /> 
+The default is taskCompletion.|
 
 ### <a name="applicationPackageReferences"></a> applicationPackageReferences
 
@@ -191,20 +220,21 @@ The following example shows additional information in case of a multi-instance t
 |startTime|DateTime|The time at which the task started running.  'Running' corresponds to the **running** state, so if the task specifies resource files or application packages, then the start time reflects the time at which the task started downloading or deploying these.  If the task has been restarted or retried, this is the most recent time at which the task started running.  This property is present only for tasks that are in the **running** or **completed** state.|
 |endTime|DateTime|The time at which the task completed. This property is only returned if the task is in **completed** state.|
 |exitCode|Int32|The exit code of the task. This property is only returned if the task is in **completed** state.|
-|preProcessingError|Complex Type|If there was an error scheduling the task, and the task is now in a **completed** state, this element contains the error details.|
+|[failureInfo](#taskFailureInformation)|String|Information describing the task failure. This property is set only if the task is in the completed state.|
 |retryCount|Int32|The number of times the task has been retried by the Batch service. The task is retried if it exits with a nonzero exit code, up to the specified MaxTaskRetryCount|
 |lastRetryTime|DateTime|The most recent time at which a retry of the task started running.<br /><br /> This element is present only if the task was retried \(i.e. retryCount is nonzero\). If present, this is typically the same as startTime, but may be different if the task has been restarted for reasons other than retry; for example, if the compute node was rebooted during a retry, then the startTime is updated but the lastRetryTime is not.|
 |requeueCount|Int32|The number of times the task has been requeued by the Batch service as the result of a user request.<br /><br /> When the user removes nodes from a pool \(by resizing or shrinking the pool\) or when the job is being disabled, the user can specify that running tasks on the nodes be requeued for execution. This count tracks how many times the task has been requeued for these reasons.|
 |lastRequeueTime|DateTime|The most recent time at which the task has been requeued by the Batch service as the result of a user request.<br /><br /> This property is present only if the requeueCount is nonzero.|
+|result|String|The result of task execution. If the value is 'failed', then the details of the failure can be found in the failureInfo property.|
 
-###  <a name="preProcessingError"></a> preProcessingError
+###  <a name="taskFailureInformation"></a> taskFailureInformation
 
 |Element name|Type|Notes|
 |------------------|----------|-----------|
-|category|String|The category of the task scheduling error.|
-|code|String|An identifier for the task scheduling error.  Codes are invariant and are intended to be consumed programmatically.|
-|message|String|A message describing the task scheduling error, intended to be suitable for display in a user interface.|
-|details|Collection|A list of additional error details related to the scheduling error.|
+|category|String|The category of the task error.|
+|code|String|An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.|
+|message|String|A message describing the task error, intended to be suitable for display in a user interface.|
+|values|Collection|A list of additional details related to the error.|
 
 ###  <a name="nodeInfo"></a> nodeInfo
 

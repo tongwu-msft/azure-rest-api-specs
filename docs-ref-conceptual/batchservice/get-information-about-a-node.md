@@ -97,7 +97,7 @@ manager: "timlt"
 |-------------|----------|-----------|
 |id|String|The id of the node.|
 |url|String|The URL of the node.|
-|state|String|The current state of the node. Possible values are:<br /><br /> -   **creating** – The Batch service has obtained the node, but it has not yet started to join a pool.<br />-   **starting** – The Batch service is starting on the node.<br />-   **waitingforstarttask** – The start task has started running on the node, but waitForSuccess is set and the start task has not yet completed.<br />-   **starttaskfailed** – The start task has failed on the node \(and exhausted all retries\), and waitForSuccess is set.  The node is not usable for running tasks.<br />-   **idle** – The node is not currently running a task.<br />-   **offline** – The node is not currently running a task, and scheduling of new tasks to the node is disabled.<br />-   **rebooting** – The node is rebooting.<br />-   **reimaging** – The node is being reimaged.<br />-   **running** –The node is running one or more tasks \(other than the start task\).<br />-   **leavingpool** – The node is leaving the pool, either because the user explicitly removed it or because the pool is resizing or autoscaling down.<br />-   **unknown** – The Batch service has lost contact with the node, and does not know its true state.<br />-   **unusable** – The node cannot be used for task execution due to errors.|
+|state|String|The current state of the node. Possible values are:<br /><br /> -   **creating** – The Batch service has obtained the node, but it has not yet started to join a pool.<br />-   **starting** – The Batch service is starting on the node.<br />-   **waitingforstarttask** – The start task has started running on the node, but waitForSuccess is set and the start task has not yet completed.<br />-   **starttaskfailed** – The start task has failed on the node \(and exhausted all retries\), and waitForSuccess is set.  The node is not usable for running tasks.<br />-   **idle** – The node is not currently running a task.<br />-   **offline** – The node is not currently running a task, and scheduling of new tasks to the node is disabled.<br />-   **rebooting** – The node is rebooting.<br />-   **reimaging** – The node is being reimaged.<br />-   **running** –The node is running one or more tasks \(other than the start task\).<br />-   **leavingpool** – The node is leaving the pool, either because the user explicitly removed it or because the pool is resizing or autoscaling down.<br />-   **unknown** – The Batch service has lost contact with the node, and does not know its true state.<br />-   **unusable** – The node cannot be used for task execution due to errors.<br />-   **preempted** The low-priority node has been preempted. Running tasks will be rescheduled when another node becomes available.|
 |schedulingState|String|Specifies whether the node is available for task scheduling. Possible values are:<br /><br /> -   **enabled** – Tasks can be scheduled on the node.<br />-   **disabled** – No new tasks will be scheduled on the node. Tasks already running on the node may still run to completion.<br /><br /> All nodes start with scheduling enabled.|
 |stateTransitionTime|DateTime|The time at which the node entered its current state.|
 |lastBootTime|DateTime|The time at which the node was started. This property may not be present if the node state is **unusable.**|
@@ -113,6 +113,7 @@ manager: "timlt"
 |[startTaskInfo](../batchservice/get-information-about-a-node.md#startTaskInfo)|Complex|Runtime information about the execution of the start task on this node, including current state, error details, exit code, start time, end time, etc.<br /><br /> This element is present only if a start task is configured on the pool that contains the node.|
 |[certificateReferences](../batchservice/get-information-about-a-node.md#certificateReferences)|Collection|A list of certificates installed on the node.<br /><br /> This element is present only if at least one certificate is configured to be installed on the pool that contains the node.|
 |errors|Complex Type|A list of errors that are currently being encountered by the node.<br /><br /> This element is present only if the node has any errors.|
+|isDedicated|Boolean|Indicates whether this compute node is a dedicated node. If false, the node is a low-priority node.|
 
 ###  <a name="recentTasks"></a> recentTasks
 
@@ -174,7 +175,7 @@ manager: "timlt"
 |startTime|DateTime|The time at which the start task started running. This value is reset every time the task is restarted or retried \(that is, this is the most recent time at which the start task started running\).|
 |endTime|DateTime|The time at which the start task stopped running. This is the end time of the most recent run of the start task, if that run has completed \(even if that run failed and a retry is pending\). This element is not present if the start task is currently running.|
 |exitCode|Int32|The exit code of the start task. If the start task has run more than once this is the exit code of the most recent run to have completed. This element is not present if the start task has never run to completion.|
-|[preProcessingError](../batchservice/get-information-about-a-node.md#preProcessingError)|ComplexType|If there was an error scheduling the start task, this element contains the error details.|
+|[failureInfo](#taskFailureInformation)|String|Information describing the task failure. This property is set only if the task is in the completed state.|
 |retryCount|Int32|The number of times the task has been retried by the Batch service. The task is retried if it exits with a nonzero exit code, up to the specified MaxTaskRetryCount.|
 |lastRetryTime|DateTime|The most recent time at which a retry of the task started running. This element is present only if the task was retried \(i.e. retryCount is nonzero\). If present, this is typically the same as startTime, but may be different if the task has been restarted for reasons other than retry; for example, if the compute node was rebooted during a retry, then the startTime is updated but the lastRetryTime is not.|
 
@@ -195,20 +196,21 @@ manager: "timlt"
 |startTime|DateTime|The time at which the task started running. If the task has been restarted or retried, this is the most recent time at which the task started running.<br /><br /> This property is present only for tasks that are in the **running** or **completed** state.|
 |endTime|DateTime|The time at which the task completed.<br /><br /> This property is present only if the task is in the **completed** state.|
 |exitCode|Int32|The exit code of the task.<br /><br /> This property is present only if the task is in **completed** state.|
-|[preProcessingError](../batchservice/get-information-about-a-node.md#preProcessingError)|Complex Type|If there was an error scheduling the task, and the task is now in a **completed** state, this element contains the error details.|
+|[failureInfo](#taskFailureInformation)|String|Information describing the task failure. This property is set only if the task is in the completed state.|
 |retryCount|Int32|The number of times the task has been retried by the Batch service. The task is retried if it exits with a nonzero exit code, up to the specified MaxTaskRetryCount.|
 |lastRetryTime|DateTime|The most recent time at which a retry of the task started running.<br /><br /> This element is present only if the task was retried \(i.e. retryCount is nonzero\). If present, this is typically the same as startTime, but may be different if the task has been restarted for reasons other than retry; for example, if the compute node was rebooted during a retry, then the startTime is updated but the lastRetryTime is not.|
 |requeueCount|Int32|The number of times the task has been requeued by the Batch service as the result of a user request.<br /><br /> When the user removes nodes from a pool \(by resizing or shrinking the pool\) or when the job is being disabled, the user can specify that running tasks on the nodes be requeued for execution. This count tracks how many times the task has been requeued for these reasons.|
 |lastRequeueTime|DateTime|The most recent time at which the task has been requeued by the Batch service as the result of a user request.<br /><br /> This property is present only if the requeueCount is nonzero.|
+|result|String|The result of task execution. Possible values include:<br /><br />- success: The task ran successfully.<br /><br />- failure:There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.<br /><br /> If the value is 'failed', then the details of the failure can be found in the failureInfo property.|
 
-###  <a name="preProcessingError"></a> preProcessingError
+###  <a name="taskFailureInformation"></a> taskFailureInformation
 
 |Element name|Type|Notes|
 |------------------|----------|-----------|
-|category|String|The category of the task scheduling error.|
-|code|String|An identifier for the task scheduling error. Codes are invariant and are intended to be consumed programmatically.|
-|message|String|A message describing the task scheduling error, intended to be suitable for display in a user interface.|
-|values|Collection|A list of additional error details related to the scheduling error.|
+|category|String|The category of the task error.|
+|code|String|An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.|
+|message|String|A message describing the task error, intended to be suitable for display in a user interface.|
+|values|Collection|A list of additional details related to the error.|
 
 ## Remarks
  Every node that is added to a pool is assigned a unique id and IP address. Whenever a node is removed from a pool, all of its local files are deleted, and the id and IP address are reclaimed and could be reused for new nodes.
