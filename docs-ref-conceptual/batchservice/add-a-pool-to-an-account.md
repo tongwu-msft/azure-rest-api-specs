@@ -84,8 +84,7 @@ manager: "timlt"
   "userAccounts": [ {
     "name":"myaccount",
     "password":"mypassword",
-    "elevationLevel":"nonAdmin",
-    "sshPrivateKey":"myprivatekey"
+    "elevationLevel":"nonAdmin"
   } ]  
   "metadata": [ {
     "name":"myproperty",
@@ -116,7 +115,7 @@ manager: "timlt"
 |[certificateReferences](../batchservice/add-a-pool-to-an-account.md#certificateReferences)|Optional|Collection|A list of certificates to be installed on each compute node in the pool.<br /><br /> Each certificate in the list must have been previously added to the Batch account. For more information about adding certificates, see [Add a certificate to an account](../batchservice/add-a-certificate-to-an-account.md).|
 |applicationPackageReferences|Optional|Collection|The list of application licenses the Batch service will make available on each compute node in the pool.<br /><br /> This property is currently not supported on pools created using the virtualMachineConfiguration \(IaaS\) property.|
 |applicationLicenses|Optional|Collection|A list of application packages to be installed on each compute node in the pool.<br /><br /> The list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, pool creation will fail.|
-|[userAccounts](#userAccounts)|Optional|Collection|The list of user accounts to be created on each node in the pool.|
+|[userAccounts](#userAccount)|Optional|Collection|The list of user accounts to be created on each node in the pool.|
 |[metadata](../batchservice/add-a-pool-to-an-account.md#bk_meta)|Optional|Collection|A list of name\-value pairs associated with the pool as metadata.<br /><br /> The Batch service does not assign any meaning to metadata; it is solely for the use of user code.|
 
 ###  <a name="bk_csconf"></a> cloudServiceConfiguration
@@ -226,13 +225,12 @@ manager: "timlt"
 |applicationId|Required|String|The id of the application to install.|
 |version|Optional|String|The version of the application to install.<br />If omitted, the default version is installed. If no default version is specified for this application, the request fails with HTTP status code 403 and error code InvalidApplicationPackageReferences.|
 
-### <a name="userAccounts"></a> userAccounts
+### <a name="userAccount"></a> userAccount
 |Element name|Required|Type|Notes|
 |------------------|--------------|----------|-----------|
 |name|Required|String|The name of the user account.|
 |password|Required|String|The password for the user account.|
 |elevationLevel|Optional|String|The elevation level of the user account.<br /><br />**nonAdmin** - The auto user is a standard user without elevated access.<br /><br />**admin** - The auto user is a user with elevated access and operates with full Administrator permissions.<br /><br />The default value is **nonAdmin**.|
-|sshPrivateKey|Optional|String|The SSH private key establishes password-less SSH between nodes in a Linux pool when the pool's enableInterNodeCommunication property is true.<br /><br />This property will be ignored in a Windows pool.|
 |linuxUserConfiguration|Optional|String|The Linux-specific user configuration for the user account.<br /><br />This property is ignored if specified on a Windows pool. If it is not specified, the user is created with the default options.|
 
 ### <a name="linuxUserConfiguration"></a> linuxUserConfiguration

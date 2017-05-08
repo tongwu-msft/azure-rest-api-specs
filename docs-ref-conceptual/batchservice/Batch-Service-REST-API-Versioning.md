@@ -26,28 +26,52 @@ manager: "timlt"
 
 ### Version 2017-05-01.5.0
 
-- **Support for low-priority compute nodes**
+The following sections outline new and changed features in version 2017-05-01.5.0.
 
+> [!IMPORTANT]
+> Version 2017-05-01.5.0 includes several breaking changes. Please review the breaking changes noted below and update your code in order to call version 2017-05-01.5.0. 
+>
+>
 
+#### Low-priority compute nodes
 
-- Added support for the new low-priority node type.
-  - **[Breaking]** `TargetDedicated` and `CurrentDedicated` on `CloudPool` and `PoolSpecification` have been renamed to `TargetDedicatedComputeNodes` and `CurrentDedicatedComputeNodes`.
-  - **[Breaking]** `ResizeError` on `CloudPool` is now a collection called `ResizeErrors`.
-  - Added a new `IsDedicated` property on `ComputeNode`, which is `false` for low-priority nodes.
-  - Added a new `AllowLowPriorityNode` property to `JobManagerTask`, which if `false` forces the `JobManagerTask` to run on a dedicated compute node.
-  - `PoolOperations.ResizePool` and `ResizePoolAsync` now take two optional parameters, `targetDedicatedComputeNodes` and `targetLowPriorityComputeNodes`, instead of one required parameter `targetDedicated`. At least one of these two parameters must be specified.
-- Linux user creation improvements
-  - **[Breaking]** Moved `SshPrivateKey` on `UserAccount` to a new class `LinuxUserConfiguration`, which is now a property of `UserAccount`.
-  - Added support for specifying a `Uid` and `Gid` when creating a Linux user, also on the new `LinuxUserConfiguration` class.
-- Added new output files support, allowing tasks to specify files to be uploaded after completion.
-  - Added a new property `OutputFiles` on `CloudTask` and `JobManagerTask`, which allows for the specification of files to upload to Azure Storage.
-  - Added new property `FileUploadError` to `ExitConditions`, for specifying actions to take based on a task's output file upload status.
-- Task error reporting improvements
-  - **[Breaking]** Renamed `SchedulingError` on all `ExecutionInfo` classes to `FailureInformation`. `FailureInformation` is returned any time there is a task failure. This includes all previous scheduling error cases, as well as nonzero task exit codes, and file upload failures from the new output files feature.
-  - Added support for determining if a task was a success or a failure via the new `Result` property on all `ExecutionInfo` classes.
-  - **[Breaking]** Renamed `SchedulingError` on `ExitConditions` to `PreProcessingError` to more clearly clarify when the error took place in the task life-cycle.
-  - **[Breaking]** Renamed `SchedulingErrorCateogry` to `ErrorCategory`.
-- Added support for requesting application licenses be provisioned to your pool, via a new `ApplicationLicenses` property on `CloudPool` and `PoolSpecification`.
+Azure Batch now offers low-priorty compute nodes to reduce the cost of Batch workloads. Low-priority VMs make new types of Batch workloads possible by providing a large amount of compute power that is also economical.
+
+There are several changes to the REST API for low-priority nodes:  
+
+- (**Breaking change**) The `targetDedicated` and `currentDedicated` properties of a pool or pool specification have been renamed to `targetDedicatedComputeNodes` and `currentDedicatedComputeNodes`.
+- (**Breaking change**) The `resizeError` property of a pool is now a collection called `resizeErrors`. 
+- Compute nodes have a new `IsDedicated` property. This property is `true` for dedicated nodes, and `false` for low-priority nodes.
+- A Job Manager task has a new `AllowLowPriorityNode` property. If this property is true, the Job Manager task may run on a low-priority node. If it is `false`, then the Job Manager task will run on a dedicated compute node.
+
+#### Named users on Linux
+
+Azure Batch now offers additional support for creating named users on Linux nodes. 
+
+- The new `linuxUserConfiguration` property supports specifying a `Uid` (user ID) and `Gid` (group ID) when creating a Linux user.
+- (**Breaking change**) The `sshPrivateKey` property has been moved from the `userAccount` property to the new `linuxUserConfiguration` property. The `linuxUserConfiguration` property is itself a property of the `userAccount` property.
+
+See [Run tasks under user accounts in Batch](https://docs.microsoft.com/azure/batch/batch-user-accounts) for more information about named user accounts.
+
+#### Output files for task data
+
+You can now specify output files to upload task data after a task has completed.
+
+- The new `outputFiles` property supports specifying task files to upload to Azure Storage.
+- The new `fileUploadError` property of the `exitConditions` property supports specifying actions to take based on the upload status of an output file.
+
+#### Task error reporting
+
+Several changes have been made to improve reporting for task errors.
+
+- The new `result` property of the `executionInfo` property indicates whether a task succeeded or failed.
+- (**Breaking change**) The `schedulingError` property of the `executionInfo` property has been renamed `failureInformation`. The `failureInformation` property is returned any time there is a task failure. This includes all previous scheduling error cases, all cases where a nonzero task exit codes is returned, and any file upload failures.
+- (**Breaking change**) The `schedulingError` property of the `exitConditions` property has been renamed to `preProcessingError` to clarify when the error took place in the task life-cycle.
+- (**Breaking change**) The `schedulingErrorCateogry` property has been renamed to `errorCategory`.
+
+#### Application licenses
+
+You can now request that application licenses be provisioned to your pool, via the new `applicationLicenses` property on a pool or pool specification.
 
 
 ### Version 2017-01-01.4.0
