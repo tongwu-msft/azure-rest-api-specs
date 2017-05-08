@@ -1,11 +1,11 @@
 ---
-title: Bing Video Search API v5 Reference | Microsoft Docs
+title: Bing Video Search API v7 Reference | Microsoft Docs
 description: Describes the programming elements of the Bing Video Search API.
 services: cognitive-services
 author: swhite-msft
 manager: ehansen
 
-ms.assetid: B55AF83A-E847-4EEE-B9EF-583799058782
+ms.assetid: D77E06E6-1125-4C7A-BF99-94940A101DCF
 ms.service: cognitive-services
 ms.technology: bing-video-search
 ms.topic: article
@@ -13,9 +13,12 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# Video Search API v5 Reference
+# Video Search API v7 Preview Reference
 
-The Video Search API lets you send a search query to Bing and get back a list of videos that are relevant to the search query. This section provides technical details about the query parameters and headers that you use to request videos and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Videos](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/searching-the-web).  
+> [!NOTE]
+> Preview release of the Video API. All aspects of the API and documentation are subject to change.
+
+The Video Search API lets you send a search query to Bing and get back a list of videos that are relevant to the search query. This section provides technical details about the query parameters and headers that you use to request videos and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Videos](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/search-the-web).  
 
 For details about the headers that requests should include, see [Request Headers](#headers).  
   
@@ -30,15 +33,14 @@ To request videos, send a GET request to one of the following URLs:
   
 |Endpoint|Description|  
 |--------------|-----------------|  
-|https://api.cognitive.microsoft.com/bing/v5.0/videos/search|Returns videos that are relevant to the users search query.|  
-|https://api.cognitive.microsoft.com/bing/v5.0/videos/details|Returns insights about a video, such as related videos.|  
-|https://api.cognitive.microsoft.com/bing/v5.0/videos/trending|Returns videos that are trending based on search requests made by others. The videos are broken out into different categories. For example, Top Music Videos.<br /><br /> For a list of markets that support trending videos, see [Trending Videos](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/trending-videos).|  
+|https://api.cognitive.microsoft.com/bing/v7.0/videos/search|Returns videos that are relevant to the users search query.|  
+|https://api.cognitive.microsoft.com/bing/v7.0/videos/details|Returns insights about a video, such as related videos.|  
+|https://api.cognitive.microsoft.com/bing/v7.0/videos/trending|Returns videos that are trending based on search requests made by others. The videos are broken out into different categories. For example, Top Music Videos.<br /><br /> For a list of markets that support trending videos, see [Trending Videos](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/trending-videos).|  
 
- The request must use the HTTPS protocol.
+The request must use the HTTPS protocol.
 
 > [!NOTE]
 > The maximum URL length is 2,048 characters. To ensure that your URL length does not exceed the limit, the maximum length of your query parameters should be less than 1,500 characters. If the URL exceeds 2,048 characters, the server returns 404 Not found.  
-  
   
 ## Headers  
 The following are the headers that a request and response may include.  
@@ -59,34 +61,35 @@ The following are the headers that a request and response may include.
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
   
-
 ## Query Parameters  
-The following is the list of query parameters that a request may specify. See the Required column for required parameters. The query parameter values must be URL encoded.  For information about query parameters used to filter the videos that Bing returns, see [Filter Query Parameters](#filter).  
+The following is the list of query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters used to filter the videos that Bing returns, see [Filter Query Parameters](#filter).  
   
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
 |<a name="cc" />cc|A 2-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
-|<a name="count" />count|The number of videos to return in the response. The actual number delivered may be less than requested. The default is 35. The maximum is 105.<br /><br /> Use this parameter along with the `offset` parameter to page results. For example, if your user interface presents 20 videos per page, you would set `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, you would increment `offset` by 20 (for example, 0, 20, 40).<br /><br /> This parameter is supported only by the Video API; do not specify this parameter when calling the Trending Videos API or the Search API.|UnsignedShort|No|  
-|<a name="freshness" />freshness|Filter videos by age. Age refers to the date and time that the video was discovered by Bing. The following are the possible filter values.<br /><ul><li>Day&mdash;Return videos discovered within the last 24 hours<br /></li><li>Week&mdash;Return videos discovered within the last 7 days<br /><br /></li><li>Month&mdash;Return videos discovered within the last 30 days</li></ul>|String|No|  
-|<a name="id" />id|An ID that uniquely identifies a video. The [Video](#video) object's `videoId` field contains the ID that you set this parameter to.<br /><br /> For the /videos/search endpoint, you can use this parameter to ensure that the specified video is the first video in the videos list.<br /><br /> For the /videos/details endpoint, you use this parameter to identify the video that you want to get insights of.|String|No|  
-|<a name="modulesrequested" />modulesRequested|A comma-delimited list of one or more insights to request. (When you URL encode the query string, the commas change to %2C.) The following are the possible case-insensitive values.<br /><ul><li>All&mdash;Return all available insights.<br /><br/></li><li>RelatedVideos&mdash;Return a list of videos that are similar to the video specified by the `id` query parameter.<br /><br/></li><li>VideoResult&mdash;Return the video that you're requesting insights of (this video is the video that you set the `id` query parameter to in your insights request).</li></ul><br /> If you specify an insight and there is no data for it, the response object does not include the related field. For example, if you specify RelatedVideos and none exist, the response does not include the `relatedVideos` field.<br /><br /> Although the user's query string is not required, you should always include it because it helps to improve relevance and the results.<br /><br /> This parameter is supported only by the `/videos/details` endpoint; do not specify this parameter when calling the `/videos` endpoint or the Search API.|String|Yes|  
+|<a name="count" />count|The number of videos to return in the response. The actual number delivered may be less than requested. The default is 35. The maximum is 105.<br /><br /> You may use this parameter along with the `offset` parameter to page results. For example, if your user interface presents 20 videos per page, set `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, increment `offset` by 20 (for example, 0, 20, 40).<br /><br /> Use this parameter only with the Video Search API. Do not specify this parameter when calling the Trending Videos API or the Web Search API.|UnsignedShort|No|  
+|<a name="freshness" />freshness|Filter videos by the date and time that Bing discovered the video. The following are the possible filter values.<br /><ul><li>Day&mdash;Return videos discovered within the last 24 hours<br /><br /></li><li>Week&mdash;Return videos discovered within the last 7 days<br /><br /></li><li>Month&mdash;Return videos discovered within the last 30 days</li></ul>|String|No|  
+|<a name="id" />id|An ID that uniquely identifies a video. The [Video](#video) object's `videoId` field contains the ID that you set this parameter to.<br /><br /> For the /videos/search endpoint, you use this parameter to ensure that the specified video is the first video in the list of videos that Bing returns.<br /><br /> For the /videos/details endpoint, you use this parameter to identify the video to get insights of.|String|No|  
+|<a name="modulesrequested" />modules|A comma-delimited list of insights to request. The following are the possible case-insensitive values.<br /><ul><li>All&mdash;Return all available insights.<br /><br/></li><li>RelatedVideos&mdash;Return a list of videos that are similar to the video specified by the `id` query parameter.<br /><br/></li><li>VideoResult&mdash;Return the video that you're requesting insights of (this is the video that you set the `id` query parameter to in your insights request).</li></ul><br /> If you specify an insight and there is no data for it, the response object does not include the related field. For example, if you specify RelatedVideos and none exist, the response does not include the `relatedVideos` field.<br /><br /> Although the user's query term is not required, you should always include it because it helps to improve relevance and the results.<br /><br /> Use this parameter only when calling the `/videos/details` endpoint. Do not specify this parameter when calling the `/videos` endpoint or the Web Search API.|String|Yes|  
 |<a name="mkt" />mkt|The market where the results come from. Typically, `mkt` is the country where the user is making the request from. However, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form \<language code\>-\<country code\>. For example, en-US. The string is case insensitive. For a list of possible market values, see [Market Codes](#market-codes).<br /><br /> **NOTE:** If known, you are encouraged to always specify the market. Specifying the market helps Bing route the request and return an appropriate and optimal response. If you specify a market that is not listed in [Market Codes](#market-codes), Bing uses a best fit market code based on an internal mapping that is subject to change.<br /><br /> This parameter and the [cc](#cc) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
-|<a name="offset" />offset|The zero-based offset that indicates the number of videos to skip before returning videos. The default is 0. The offset should be less than ([totalEstimatedMatches](#totalmatches) - `count`).<br /><br /> Use this parameter along with the `count` parameter to page results. For example, if your user interface presents 20 videos per page, you would set  `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, you would increment `offset` by 20 (for example, 0, 20, 40).<br /><br /> It is possible for multiple pages to include some overlap in results. To prevent duplicates, see [nextOffsetAddCount](#nextoffsetaddcount).<br /><br /> This parameter is supported only by the Video API; do not specify this parameter when calling the Trending Videos API or the Search API.|Unsigned Short|No|  
-|<a name="query" />q|The user's search query string. The query string cannot be empty.<br /><br /> The query string may contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). For example, to limit videos to a specific domain, use the [site:](http://msdn.microsoft.com/library/ff795613.aspx) operator.<br /><br /> This parameter is supported only by the Video API; do not specify this parameter when calling the Trending Videos API.|String|Yes|  
-|<a name="safesearch" />safeSearch|Filter videos for adult content. The following are the possible filter values.<br /><ul><li>Off&mdash;If the request is through the Video Search API, the response includes adult videos, and the thumbnail images of the videos are clear (non-fuzzy). If the request is through the Web Search API, the response includes adult videos, and the thumbnail images of the videos are pixelated (fuzzy).<br /><br/></li><li>Moderate&mdash;If the request is through the Video Search API, the response won't include videos with adult content. If the request is through the Web Search API, the response may include videos with adult content but the thumbnail images of the videos are pixelated (fuzzy).<br /><br/></li><li>Strict&mdash;Do not return videos with adult content.<br /><br /> If not specified, the default is Moderate.</li></ul><br /> **NOTE:** If the request comes from a market that Bing's adult policy requires `safeSearch` be set to Strict, Bing ignores the `safeSearch` value and uses Strict.<br/><br/>**NOTE:** If you use the `site:` query operator, there is the chance that the response may contain adult content regardless of what the `safeSearch` query parameter is set to. Use `site:` only if you are aware of the content on the site and your scenario supports the possibility of adult content.|String|No|  
+|<a name="offset" />offset|The zero-based offset that indicates the number of videos to skip before returning videos. The default is 0. The offset should be less than ([totalEstimatedMatches](#videos-totalmatches) - `count`).<br /><br /> Use this parameter along with the `count` parameter to page results. For example, if your user interface displays 20 videos per page, set `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, increment `offset` by 20 (for example, 0, 20, 40).<br /><br /> It is possible for multiple pages to include some overlap in results. To prevent duplicates, see [nextOffset](#videos-nextoffset).<br /><br /> Use this parameter only with the Video Search API. Do not specify this parameter when calling the Trending Videos API or the Web Search API.|Unsigned Short|No|  
+|<a name="query" />q|The user's search query string. The query string cannot be empty.<br /><br /> The query string may contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). For example, to limit videos to a specific domain, use the [site:](http://msdn.microsoft.com/library/ff795613.aspx) operator.<br /><br /> Use this parameter only with the Video Search API. Do not specify this parameter when calling the Trending Videos API.|String|Yes|  
+|<a name="safesearch" />safeSearch|Filter videos for adult content. The following are the possible filter values.<br /><ul><li>Off&mdash;If the request is through the Video Search API, the response includes adult videos and the thumbnail images of the videos are clear (non-fuzzy). If the request is through the Web Search API, the response includes adult videos but the thumbnail images of the videos are pixelated (fuzzy).<br /><br/></li><li>Moderate&mdash;If the request is through the Video Search API, the response does not include videos with adult content. If the request is through the Web Search API, the response may include videos with adult content but the thumbnail images of the videos are pixelated (fuzzy).<br /><br/></li><li>Strict&mdash;Does not return videos with adult content.</li></ul><br /> The default is Moderate.<br /><br /> **NOTE:** If the request comes from a market that Bing's adult policy requires `safeSearch` be set to Strict, Bing ignores the `safeSearch` value and uses Strict.<br/><br/>**NOTE:** If you use the `site:` query operator, there is the chance that the response may contain adult content regardless of what the `safeSearch` query parameter is set to. Use `site:` only if you are aware of the content on the site and your scenario supports the possibility of adult content.|String|No|  
 |<a name="setlang" />setLang|The language to use for user interface strings. Specify the language using the ISO 639-1 2-letter language code. For example, the language code for English is EN. The default is EN (English).<br /><br /> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br /> This parameter and the [Accept-Language](#acceptlanguage) header are mutually exclusive&mdash;do not specify both.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
+|<a name="textdecorations" />textDecorations|A Boolean value that determines whether display strings contain decoration markers such as hit highlighting characters. If **true**, the strings may include markers. The default is **false**.<br /><br /> To specify whether to use Unicode characters or HTML tags as the markers, see the [textFormat](#textformat) query parameter.<br /><br /> For information about hit highlighting, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).|Boolean|No|  
+|<a name="textformat" />textFormat|The type of markers to use for text decorations (see the `textDecorations` query parameter).<br /><br /> The following are the possible values.<br /><ul><li>Raw&mdash;Use Unicode characters to mark content that needs special formatting. The Unicode characters are in the range E000 through E019. For example, Bing uses E000 and E001 to mark the beginning and end of query terms for hit highlighting.<br /><br/></li><li>HTML&mdash;Use HTML tags to mark content that needs special formatting. For example, use \<b> tags to highlight query terms in display strings.</li></ul><br /> The default is Raw.<br /><br />For a list of markers, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).<br /><br /> For display strings that contain escapable HTML characters such as <, >, and &, if `textFormat` is set to HTML, Bing escapes the characters as appropriate (for example, < is escaped to \&lt;).<br /><br />For information about processing strings with the embedded Unicode characters, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).|String|No|  
 
-
-## Filter Query Parameters  
-The following are the optional filter query parameters that you can use to filter the videos that Bing returns. The query parameter values must be URL encoded.  
   
-These query parameters are supported only by the Video Search API; do not specify these parameters when calling the Trending Videos API and the Web Search API.  
+## Filter Query Parameters  
+The following are the optional filter query parameters that you can use to filter the videos that Bing returns. You must URL encode the query parameters.  
+  
+Use these query parameters only with the Video Search API. Do not specify these parameter when calling the Trending Videos API and the Search API.  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|<a name="pricing" />pricing|Filter videos by price. The following are the possible filter values.<br /><br /><ul><li>Free&mdash;Return videos that are free to view<br /></li><li>Paid&mdash;Return videos that require a subscription or payment to view<br /></li><li>All&mdash;Do not filter by pricing. Specifying this value is the same as not specifying the `pricing` parameter.</li></ul>|String|  
-|<a name="resolution" />resolution|Filter videos by resolution. The following are the possible filter values.<br /><br /><ul><li>480p&mdash;Return videos with a 480p or higher resolution<br /></li><li>720p&mdash;Return videos with a 720p or higher resolution<br /></li><li>1080p&mdash;Return videos with a 1080p or higher resolution<br /></li><li>All&mdash;Do not filter by resolution. Specifying this value is the same as not specifying the `resolution` parameter.</li></ul>|String|  
-|<a name="videolength" />videoLength|Filter videos by length. The following are the possible filter values.<br /><br /></li><li>Short&mdash;Return videos that are less than 5 minutes<br /></li><li>Medium&mdash;Return videos that are between 5 and 20 minutes, inclusive<br /></li><li>Long&mdash;Return videos that are longer than 20 minutes<br /></li><li>All&mdash;Do not filter by length. Specifying this value is the same as not specifying the `videoLength` parameter.</li></ul>|String|  
+|<a name="pricing" />pricing|Filter videos by the following pricing options:<br /><ul><li>Free&mdash;Return videos that are free to view</li><li>Paid&mdash;Return videos that require a subscription or payment to view</li><li>All&mdash;Do not filter by pricing. Specifying this value is the same as not specifying the `pricing` parameter.</li></ul>|String|  
+|<a name="resolution" />resolution|Filter videos by the following resolutions:<br /><ul><li>480p&mdash;Return videos with a 480p or higher resolution</li><li>720p&mdash;Return videos with a 720p or higher resolution</li><li>1080p&mdash;Return videos with a 1080p or higher resolution</li><li>All&mdash;Do not filter by resolution. Specifying this value is the same as not specifying the `resolution` parameter.</li></ul>|String|  
+|<a name="videolength" />videoLength|Filter videos by the following lengths:<br /><ul><li>Short&mdash;Return videos that are less than 5 minutes</li><li>Medium&mdash;Return videos that are between 5 and 20 minutes, inclusive</li><li>Long&mdash;Return videos that are longer than 20 minutes</li><li>All&mdash;Do not filter by length. Specifying this value is the same as not specifying the `videoLength` parameter.</li></ul>|String|  
   
 ## Response Objects  
 The following are the JSON response objects that the response may include. If the request succeeds, the top-level object in the response is the [Videos](#videos) object if the endpoint is /videos/search, [VideoDetails](#videodetails) if the endpoint is /videos/details, and [TrendingVideos](#trendingvideos) if the endpoint is /videos/trending. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object.  
@@ -109,6 +112,7 @@ The following are the JSON response objects that the response may include. If th
 |[Video](#video)|Defines a video that is relevant to the query.|  
 |[VideoDetails](#videodetails)|The top-level object that the response includes when a video insights request succeeds.|  
 |[Videos](#videos)|The top-level object that the response includes when the video request succeeds.|  
+|[VideosModule](#videosmodule)|Defines a list of videos.|  
   
 <a name="category"></a>   
 ### Category  
@@ -116,18 +120,20 @@ Defines the category of trending videos.
   
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
-|<a name="category-subcategories" />subcategories|An array of subcategories. For example, Top Music Videos.|[Subcategory](#subcategory)[]|  
+|<a name="category-subcategories" />subcategories|A list of subcategories. For example, Top Music Videos.|[Subcategory](#subcategory)[]|  
 |<a name="category-title" />title|The name of the video category. For example, Music Videos.|String|  
   
 <a name="error"></a>   
 ### Error  
-Defines the reason why the request failed.  
+Defines the error that occurred.  
   
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
-|<a name="error-code" />code|The error code that identifies the error. For a list of possible codes, see [Error Codes](#error-codes).|String|  
+|<a name="error-code" />code|The error code that identifies the cateory of error. For a list of possible codes, see [Error Codes](#errorcodes).|String|  
 |<a name="error-message" />message|A description of the error.|String|  
+|<a name="error-moredetails" />moreDetails|A description that provides additional information about the error.|String|  
 |<a name="error-parameter" />parameter|The query parameter in the request that caused the error.|String|  
+|<a name="error-subcode" />subCode|The error code that identifies the error. For example, if `code` is InvalidRequest, `subCode` may be ParameterInvalid or ParameterInvalidValue. |String|  
 |<a name="error-value" />value|The query parameter's value that was not valid.|String|  
   
 <a name="errorresponse"></a>   
@@ -149,6 +155,7 @@ Defines a thumbnail image.
 |<a name="image-description" />description|An attribution.|String|  
 |<a name="image-headline" />headline|A description of the video.|String|  
 |<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
+  
   
 <a name="mediasize"></a>   
 ### MediaSize  
@@ -178,13 +185,13 @@ Defines a publisher or creator.
   
 <a name="query_obj"></a>   
 ### Query  
-Defines a search query string.  
+Defines a search query term.  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|<a name="query-displaytext" />displayText|The display version of the query string.|String|  
+|<a name="query-displaytext" />displayText|The display version of the query term.|String|  
 |<a name="query-searchurl" />searchUrl|The URL that you use to get the results of the related search. Before using the URL, you must append query parameters as appropriate and include the [Ocp-Apim-Subscription-Key](#subscriptionkey) header.<br /><br /> Use this URL if you're displaying the results in your own user interface. Otherwise, use the `webSearchUrl` URL.|String|  
-|<a name="query-text" />text|The query string.|String|  
+|<a name="query-text" />text|The query term.|String|  
 |<a name="query-thumbnail" />thumbnail|The URL to a thumbnail of a related image.<br /><br /> The object includes this field only for pivot suggestions and related searches.|[Thumbnail](#thumbnail)|  
 |<a name="query-websearchurl" />webSearchUrl|The URL that takes the user to the Bing search results page for the query.|String|  
   
@@ -198,6 +205,7 @@ Defines a subcategory of videos.
 |<a name="subcategory-title" />title|The name of the subcategory. For example, This Week's Viral Videos.|String|  
   
 <a name="thing"></a>   
+### Thing  
 Defines the main entity shown in the video.  
   
 |Name|Value|Type|  
@@ -235,27 +243,27 @@ The top-level object that the response includes when a trending videos request s
 Defines a video that is relevant to the query.  
   
 > [!NOTE]
-> Because the URL format and parameters are subject to change without notice, all URLs should be used as-is. You should not take dependencies on the URL format or parameters.  
+> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters.  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="video-allowhttpsembed" />allowHttpsEmbed|A Boolean value that determines whether you may embed the video (see the `embedHtml` field) on pages that use the HTTPS protocol.|Boolean|  
 |<a name="video-allowmobileembed" />allowMobileEmbed|A Boolean value that determines whether you may embed the video (see the `embedHtml` field) on a mobile device. If `true`, you may use the HTML on a mobile device.|Boolean|  
-|<a name="video-creator" />creator|The name of the video's creator.<br /><br /> **NOTE:** This field is included only in Video API responses, not in Search API responses.|[Publisher](#publisher)|  
+|<a name="video-creator" />creator|The name of the video's creator.<br /><br /> Only Video Search API responses include this field.|[Publisher](#publisher)|  
 |<a name="video-contenturl" />contentUrl|The URL to the video on the host website.|String|  
 |<a name="video-datepublished" />datePublished|The date and time that Bing discovered the video. The date is in the format, YYYY-MM-DDTHH:MM:SS.|String|  
 |<a name="video-description" />description|A short description of the video.|String|  
-|<a name="video-duration" />duration|The video's duration or length. For example, PT2M50S. For information about the format, see [Durations](http://en.wikipedia.org/wiki/ISO_8601#Durations) on Wikipedia.com.|String|  
-|<a name="video-embedhtml" />embedHtml|An iframe that lets you embed and run the video on your webpage.|String|  
+|<a name="video-duration" />duration|The video's duration or length. For example, PT2M50S. For information about the format, see [http://en.wikipedia.org/wiki/ISO_8601#Durations](http://en.wikipedia.org/wiki/ISO_8601#Durations).|String|  
+|<a name="video-embedhtml" />embedHtml|An iframe that lets you embed and run the video in your webpage.|String|  
 |<a name="video-encodingformat" />encodingFormat|The video's mime type (for example, mp4).|String|  
 |height|The height of the video, in pixels.|Integer|  
-|<a name="video-hostpagedisplayurl" />hostPageDisplayUrl|The display URL of the webpage that hosts the video.<br /><br /> You may use this URL in your user interface to identify the host webpage that contains the video. This URL is not a well-formed so don't use it to access the host webpage. The URL does not include the protocol (for example, HTTP) and may include hit highlighting characters. To access the host webpage, use the `hostPageUrl` URL.|String|  
+|<a name="video-hostpagedisplayurl" />hostPageDisplayUrl|The display URL of the webpage that hosts the video.<br /><br /> Use this URL in your user interface to identify the host webpage that contains the video. The URL is not a well-formed and should not be used to access the host webpage. To access the host webpage, use the `hostPageUrl` URL.|String|  
 |<a name="video-hostpageurl" />hostPageUrl|The URL to the webpage that hosts the video.<br /><br /> This URL and `contentUrl` URL may be the same URL.|String|  
-|id|An ID that uniquely identifies this video in the list of videos.<br /><br /> The Video object includes this field only when the video is included in the Search API search results and the ranking response specifies a specific position for the video. For information about how to use this field, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results) in the Search API guide.|String|  
+|id|An ID that uniquely identifies this video in the list of videos.<br /><br /> Only Web Search API responses include this field. For information about how to use this field, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results) in the Web Search API guide.|String|  
 |<a name="video-isaccessibleforfree" />isAccessibleForFree|A Boolean value that indicates whether the video requires payment or a paid subscription to view. If **true**, the video is free to watch. Otherwise, if **false**, a payment or subscription is required.<br /><br /> **NOTE:** If Bing is unable to determine whether payment is required, the object may not include this field.<br /><br /> To ensure that Bing returns only free videos, set the [pricing](#pricing) query parameter to Free.|Boolean|  
-|<a name="video-issuperfresh" />isSuperfresh|A Boolean value that indicates whether the video was recently discovered by Bing. If **true**, the video was recently discovered; otherwise, **false**.<br /><br /> To get videos discovered within the last 24 hours or the last week, use the [freshness](#freshness) query parameter.|Boolean|  
+|<a name="video-issuperfresh" />isSuperfresh|A Boolean value that indicates whether the video was recently discovered by Bing. If **true**, the video was recently discovered.<br /><br /> To get videos discovered within the last 24 hours or the last week, use the [freshness](#freshness) query parameter.|Boolean|  
 |<a name="video-mainentity" />mainEntity|The name of the main entity shown in the video.<br /><br /> The object includes this field only when `scenario` is SingleDominantVideo (see [Videos](#videos)).|[Thing](#thing)|  
-|<a name="video-motionthumbnailurl" />motionThumbnailUrl|The URL to an animated thumbnail that shows a preview of the video. Typically, you would use this URL to play a preview of the video when the user mouses over the thumbnail of the video on your results page.|String|  
+|<a name="video-motion" />motionThumbnailUrl|The URL to an animated thumbnail that shows a preview of the video. Typically, you would use this URL to play a preview of the video when the user mouses over the thumbnail of the video on your results page.|String|  
 |<a name="video-name" />name|The name of the video.|String|  
 |<a name="video-publisher" />publisher|A list of the publishers that published the video.|[Publisher](#publisher)|  
 |<a name="video-thumbnail" />thumbnail|The width and height of the thumbnail image (see `thumbnailUrl`).|[MediaSize](#mediasize)|  
@@ -269,37 +277,46 @@ Defines a video that is relevant to the query.
 ### VideoDetails  
 The top-level object that the response includes when a video insights request succeeds.  
   
-The [modulesRequested](#modulesrequested) query parameter affects the fields that Bing includes in the response. If you set `modulesRequested` to RelatedVideos, this object includes only the `relatedVideos` field.  
+The [modules](#modules) query parameter affects the fields that Bing includes in the response. If you set `modules` to RelatedVideos, then this object includes only the `relatedVideos` field.  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
-|relatedVideos|A list of videos that are similar to the specified video.|[Video](#query)[]|  
-|videoResult|The original video that you request insights of (this video is the video that you set the `id` query parameter to in your insights request).|[Video](#query)|  
+|<a name="videodetials-relatedvideos" />relatedVideos|A list of videos that are similar to the specified video.|[VideosModule](#query)|  
+|<a name="videodetails-videoresults" />videoResult|The original video that you requested insights of (this is the video that you set the [id](#id) query parameter to in your insights request).|[Video](#query)|  
   
 <a name="videos"></a>   
 ### Videos  
 The top-level object that the response includes when the video request succeeds.  
   
-If the service suspects a denial of service attack, the request succeeds (HTTP status code is 200 OK); however, the body of the response is empty.  
+Note that if the service suspects a denial of service attack, the request succeeds (HTTP status code is 200 OK), but the body of the response is empty.  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
-|id|An ID that uniquely identifies the video answer.<br /><br /> For information about how to use this field, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results) in the Search API guide.|String|  
-|<a name="video-isfamilyfriendly" />isFamilyFriendly|A Boolean value that determines whether one or more of the videos contain adult content. If none of the videos contain adult content, `isFamilyFriendly` is set to **true**. Otherwise, if one or more of the videos contain adult content, `isFamilyFriendly` is set to **false**.<br /><br /> If **false**, the thumbnail images of the videos are pixelated (fuzzy).<br /><br /> **NOTE:** This field is included only in Web Search API responses, not in Video Search API responses.|Boolean|  
-|<a name="videos-nextoffset" />nextOffsetAddCount|The number to add to the [offset](#offset) query parameter to ensure that you don't receive duplicates when paging results.<br /><br /> If you set `offset` to 0 and `count` to 30 in your first request, and then set `offset` to 30 in your second request, some results in the second response may be duplicates of the first response.<br /><br /> To prevent duplicates, add the value of `nextOffsetAddCount` to the sum of `count` and `offset`. For example, if the current value of `offset` and `count` is 30, and the value of `nextOffsetAddCount` is 9, set `offset` to 69 (count + offset + nextOffsetAddCount).|Integer|  
-|<a name="videos-pivotsuggestions" />pivotSuggestions|A list of pivots that segment the original query. For example, if the query was *Cleaning Gutters*, Bing might segment the query into Cleaning and Gutters.<br /><br /> The Cleaning pivot may contain query suggestions such as Gutter Installation and Gutter Repair, and the Gutters pivot may contain query suggestions such as Roof Cleaning and Window Cleaning.|[Pivot](#pivot)[]|  
-|<a name="videos-queryexpansions" />queryExpansions|A list of expanded queries that narrows the original query. For example, if the query was *Cleaning+Gutters*, the expanded queries might be: Gutter Cleaning **Tools**, Cleaning Gutters **From the Ground**, Gutter Cleaning **Machine**, and **Easy** Gutter Cleaning.|[Query](#query)[]|  
-|<a name="videos-scenario" />scenario|The scenario that reflects the query's intent. The following are the possible values.<br /><ul><li>List&mdash;For scenarios where there's more than one video that matches the user's intent.<br /></li><li>SingleDominantVideo&mdash;For scenarios where there's a single music video that matches the user's request (the Videos answer contains only one music video). This scenario is set only for music videos.</li></ul><br /> The response includes this field only when calling Web Search API. The Video Search API response does not include this field.|String|  
-|<a name="videos-totalestimatedmatches" />totalEstimatedMatches|The estimated number of videos that match the query. Use this number along with the [count](#count) and [offset](#offset) query parameters to page the results.<br /><br /> The response includes this field only when calling the Video Search API. The Web Search API does not include this field in the response.|Long|  
+|id|An ID that uniquely identifies the video answer.<br /><br /> For information about how to use this field, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results) in the Web Search API guide.|String|  
+|<a name="video-isfamilyfriendly" />isFamilyFriendly|A Boolean value that determines whether one or more of the videos contain adult content. If none of the videos contain adult content, `isFamilyFriendly` is set to **true**. Otherwise, if one or more of the videos contain adult content, `isFamilyFriendly` is set to **false**.<br /><br /> If **false**, the thumbnail images of the videos are pixelated (fuzzy).<br /><br /> **NOTE:** Only Web Search API responses include this field (Video Search API responses do not include this field).|Boolean|  
+|nextOffsetAddCount|The number to add to the [offset](#offset) query parameter to ensure that you don't receive duplicates when paging results.<br /><br /> If you set `offset` to 0 and `count` to 30 on your first request, and then set `offset` to 30 on your second request, some of the results in the second response may be duplicates of the first response.<br /><br /> To prevent duplicates, set `offset` to the value of `nextOffset`.|Integer|  
+|<a name="videos-pivotsuggestions" />pivotSuggestions|A list of pivots that segment the original query. For example, if the query was *Cleaning Gutters*, Bing might segment the query into *Cleaning* and *Gutters*.<br /><br /> The Cleaning pivot may contain query suggestions such as Gutter Installation and Gutter Repair, and the Gutters pivot may contain query suggestions such as Roof Cleaning and Window Cleaning.|[Pivot](#pivot)[]|  
+|<a name="videos-queryexpansion" />queryExpansions|A list of expanded queries that narrows the original query. For example, if the query was *Cleaning+Gutters*, the expanded queries might be: Gutter Cleaning **Tools**, Cleaning Gutters **From the Ground**, Gutter Cleaning **Machine**, and **Easy** Gutter Cleaning.|[Query](#query)[]|  
+|<a name="videos-scenario" />scenario|The scenario that reflects the query's intent. The following are the possible values.<br /><ul><li>List&mdash;For scenarios where there's more than one video that matches the user's intent.<br/><br/></li><li>SingleDominantVideo&mdash;For scenarios where there's a single music video that matches the user's request (the `Videos` answer will contain only one music video). This scenario is set only for music videos.</li></ul><br /> Only Web Search API responses include this field.|String|  
+|<a name="videos-totalestimatedmatches" />totalEstimatedMatches|The estimated number of videos that match the query. Use this number along with the [count](#count) and [offset](#offset) query parameters to page the results.<br /><br /> Only Video Search API responses include this field.|Long|  
 |<a name="videos-value" />value|A list of videos that are relevant to the query.|[Video](#video)[]|  
 |<a name="videos-websearchurl" />webSearchUrl|The URL to the Bing search results for the requested videos.|String|  
   
+<a name="videosmodule"></a>   
+### VideosModule  
+Defines a list of videos.  
+  
+|Element|Description|Type|  
+|-------------|-----------------|----------|  
+|value|A list of videos.|[Video](#video)[]|  
+  
+  
 ## Error Codes 
 
-[!INCLUDE [bing-error-codes](../includes/bing-error-codes.md)]
+[!INCLUDE [bing-error-codes](./includes/bing-error-codes-v7.md)]
 
 ## Market Codes 
 
-[!INCLUDE [bing-market-codes](../includes/bing-market-codes.md)]
+[!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]
