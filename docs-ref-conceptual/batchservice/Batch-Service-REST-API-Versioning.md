@@ -349,7 +349,7 @@ To specify which version of an operation to use, specify the *api-version* query
 
 - Capability to reactivate a failed task.
 
-    - A new operation [Reactivate a task](~/docs-ref-autogen/batchservice/task.json#Task_Reactivate) has been added to reset a failed task's state to active. This allows failures to be retried, for example if the failure was transient or if you have been able to fix the cause of the failure, without recreating the task.
+    - A new operation [Reactivate a task](reactivate-a-task.md) has been added to reset a failed task's state to active. This allows failures to be retried, for example if the failure was transient or if you have been able to fix the cause of the failure, without recreating the task.
 
 ### Version 2016-02-01.3.0
  This version release extends all support from the previous version, 2015-12-01.2.2. Additionally, it supports the following capabilities:
@@ -360,15 +360,15 @@ To specify which version of an operation to use, specify the *api-version* query
 
     -   A new property 'virtualMachineConfiguration' is added to both the Pool and AutoPool resources. This property can be specified to configure a pool/auto pool with IaaS VMs.
 
-    -   A new API is added to obtain information about all the node agent SKUs supported by the Batch service. See [List supported node agent SKUs](~/docs-ref-autogen/batchservice/account.json#Account_ListNodeAgentSkus).
+    -   A new API is added to obtain information about all the node agent SKUs supported by the Batch service. See [List supported node agent SKUs](list-supported-node-agent-skus.md).
 
-    -   A new API is added to obtain remote login settings which can be used to remotely login to a compute node created with IaaS VM configuration. See [Get remote login settings for a node](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_GetRemoteLoginSettings).
+    -   A new API is added to obtain remote login settings which can be used to remotely login to a compute node created with IaaS VM configuration. See [Get remote login settings for a node](get-remote-login-settings-for-a-node.md).
 
     -   A new API is added to add a collection of tasks to a job. See [Add a collection of tasks to a job](add-a-collection-of-tasks-to-a-job.md).
 
     -   A new optional property 'sshPublicKey' is added to the User resource which can be used for adding/updating users on a Linux compute node.
 
-    -   Two new properties 'totalTasksSucceeded' and 'runningTasksCount' are added to the Node resource. These properties can be obtained via [Get information about a node](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_Get) or [List the compute nodes in a pool](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_List).
+    -   Two new properties 'totalTasksSucceeded' and 'runningTasksCount' are added to the Node resource. These properties can be obtained via [Get information about a node](get-information-about-a-node.md) or [List the compute nodes in a pool](list-the-compute-nodes-in-a-pool.md).
 
     -   A new property 'fileMode' is added to the 'ResourceFile' complex type. This property is applied only on Linux compute nodes and ignored for Windows compute nodes.
 
@@ -378,45 +378,45 @@ To specify which version of an operation to use, specify the *api-version* query
 
 -   The URLs of the following APIs are changed to replace "?" for the action name to "/":
 
-    -   [Replace the properties of a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_UpdateProperties)
+    -   [Replace the properties of a pool](replace-the-properties-of-a-pool.md)
 
-    -   [Disable automatic scaling on a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_DisableAutoScale)
+    -   [Disable automatic scaling on a pool](disable-automatic-scaling-on-a-pool.md)
 
-    -   [Enable automatic scaling on a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_EnableAutoScale)
+    -   [Enable automatic scaling on a pool](enable-automatic-scaling-on-a-pool.md)
 
-    -   [Evaluate an automatic scaling formula](~/docs-ref-autogen/batchservice/pool.json#Pool_EvaluateAutoScale)
+    -   [Evaluate an automatic scaling formula](evaluate-an-automatic-scaling-formula.md)
 
-    -   [Change the size of a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_Resize)
+    -   [Change the size of a pool](change-the-size-of-a-pool.md)
 
-    -   [Stop changing the size of a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_StopResize)
+    -   [Stop changing the size of a pool](stop-changing-the-size-of-a-pool.md)
 
-    -   [Upgrade the operating system of compute nodes in a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_UpgradeOS)
+    -   [Upgrade the operating system of compute nodes in a pool](upgrade-the-operating-system-of-compute-nodes-in-a-pool.md)
 
-    -   [Remove compute nodes from a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_RemoveNodes)
+    -   [Remove compute nodes from a pool](remove-compute-nodes-from-a-pool.md)
 
-    -   [Reboot a node](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_Reboot)
+    -   [Reboot a node](reboot-a-node.md)
 
-    -   [Reimage a node](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_Reimage)
+    -   [Reimage a node](reimage-a-node.md)
 
-    -   [Disable task scheduling on a node](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_DisableScheduling)
+    -   [Disable task scheduling on a node](disable-task-scheduling-on-a-node.md)
 
-    -   [Enable task scheduling on a node](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_EnableScheduling)
+    -   [Enable task scheduling on a node](enable-task-scheduling-on-a-node.md)
 
-    -   [Disable a job schedule](~/docs-ref-autogen/batchservice/jobschedule.json#JobSchedule_Disable)
+    -   [Disable a job schedule](disable-a-job-schedule.md)
 
-    -   [Enable a job schedule](~/docs-ref-autogen/batchservice/jobschedule.json#JobSchedule_Enable)
+    -   [Enable a job schedule](enable-a-job-schedule.md)
 
-    -   [Terminate a job schedule](~/docs-ref-autogen/batchservice/jobschedule.json#JobSchedule_Terminate)
+    -   [Terminate a job schedule](terminate-a-job-schedule.md)
 
-    -   [Disable a job](~/docs-ref-autogen/batchservice/job.json#Job_Disable)
+    -   [Disable a job](disable-a-job.md)
 
-    -   [Enable a job](~/docs-ref-autogen/batchservice/job.json#Job_Enable)
+    -   [Enable a job](enable-a-job.md)
 
-    -   [Terminate a job](~/docs-ref-autogen/batchservice/job.json#Job_Terminate)
+    -   [Terminate a job](terminate-a-job.md)
 
-    -   [Terminate a task](~/docs-ref-autogen/batchservice/task.json#Task_Terminate)
+    -   [Terminate a task](terminate-a-task.md)
 
-    -   [Cancel the deletion of a certificate](~/docs-ref-autogen/batchservice/certificate.json#Certificate_CancelDeletion)
+    -   [Cancel the deletion of a certificate](cancel-the-deletion-of-a-certificate.md)
 
 ### Version 2015-12-01.2.2
  This version release extends all support from the previous version, 2015-11-01.2.1. Additionally, it supports the following capabilities:
