@@ -27,11 +27,13 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # User Defined Functions
-  A user defined function (UDF) is a side effect free piece of application logic written in JavaScript. It allows developers to construct a query operator, thus extending the core of the DocumentDB query language. Like stored procedures, UDFs live in the confines of a collection, thus confining the application logic to the collection.  
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+
+A user defined function (UDF) is a side effect free piece of application logic written in JavaScript. It allows developers to construct a query operator, thus extending the core of the DocumentDB query language. Like stored procedures, UDFs live in the confines of a collection, thus confining the application logic to the collection.  
   
- The user defined function resource is represented by udfs in the [DocumentDB resource model](https://azure.microsoft.com/en-us/documentation/articles/documentdb-resources/). There is a quota limit on the number of UDFs created in a collection. For more information on the limits and quotas, see [DocumentDB limits](https://azure.microsoft.com/en-us/documentation/articles/documentdb-limits/).  
+The user defined function resource is represented by udfs in the [DocumentDB resource model](https://azure.microsoft.com/en-us/documentation/articles/documentdb-resources/). There is a quota limit on the number of UDFs created in a collection. For more information on the limits and quotas, see [DocumentDB limits](https://azure.microsoft.com/en-us/documentation/articles/documentdb-limits/).  
   
- Similar to stored procedures, the UDFs resource has a fixed schema. The body property contains the application logic. The following example illustrates the JSON construct of a user defined function.  
+Similar to stored procedures, the UDFs resource has a fixed schema. The body property contains the application logic. The following example illustrates the JSON construct of a user defined function.  
   
 ```  
 {  
@@ -66,7 +68,7 @@ function tax(income) {
 |**_etag**|This is a system generated property that specifies the resource etag required for optimistic concurrency control.|  
   
 ## Tasks  
- You can do the following with user defined functions:  
+You can do the following with user defined functions:  
   
 -   [Create a User Defined Function](create-a-user-defined-function.md)  
   
@@ -76,12 +78,11 @@ function tax(income) {
   
 -   [Delete a User Defined Function](delete-a-user-defined-function.md)  
   
- For information on how UDFs work, including executing an UDF in a query, see [DocumentDB programming: Stored procedures, triggers, and UDFs](https://azure.microsoft.com/en-us/documentation/articles/documentdb-programming/).  
+For information on how UDFs work, including executing an UDF in a query, see [DocumentDB programming: Stored procedures, triggers, and UDFs](https://azure.microsoft.com/en-us/documentation/articles/documentdb-programming/).  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
-  
-  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
+* [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
+* [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) 

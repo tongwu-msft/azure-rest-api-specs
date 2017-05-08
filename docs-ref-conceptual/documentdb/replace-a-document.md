@@ -27,7 +27,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Replace a Document
-  Performing a PUT operation on a specific document resource replaces the entire document resource. All user settable properties, including the id, and the user defined JSON elements must be submitted in the body to perform the replacement. Any element omissions result in unintended data loss as this operation is a full replace operation. The x-ms-indexing-directive header can be set and submitted for the operation to include or exclude the document from being indexed.  
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+
+The `Replace Document` operation replaces the entire content of a document.
   
 ## Request  
   

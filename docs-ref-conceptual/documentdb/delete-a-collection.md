@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Delete a Collection
-  The Delete Collection operation removes the collection and associated documents, stored procedures, triggers and user-defined functions.  
+The `Delete Collection` operation deletes an existing collection in a database.  
   
 ## Request  
   

@@ -26,8 +26,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create a User Defined Function
-  A new UDF can be created under a collection by executing an HTTPS POST request against the URI resource path udfs.  
+# Create User Defined Function
+The `Create User Defined Function` operation creates a new stored procedure in a collection. 
   
 ## Request  
   

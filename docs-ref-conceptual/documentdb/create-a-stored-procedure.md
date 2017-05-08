@@ -26,8 +26,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create a Stored Procedure
-  A new stored procedure can be created under a collection by executing an HTTPS POST request against the URI resource path sprocs.  
+# Create Stored Procedure
+The `Create Stored Procedure` operation creates a new stored procedure in a collection.  
   
 ## Request  
   

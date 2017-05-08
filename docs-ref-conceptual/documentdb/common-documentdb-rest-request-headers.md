@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Common DocumentDB REST request headers
-  The following request headers are common to all tasks that you might do with DocumentDB:  
+The following request headers are common to all tasks that you might do with the DocumentDB API:  
   
 |Header|Required|Type|Description|  
 |------------|--------------|----------|-----------------|  
@@ -46,11 +46,11 @@ translation.priority.mt:
 |**x-ms-version**|Required|String|The version of the DocumentDB REST service. <br />                For a list of supported API versions, see [Azure DocumentDB REST API Reference](index.md)|  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [DocumentDB Resource URI Syntax for REST](documentdb-resource-uri-syntax-for-rest.md)   
- [Access Control on DocumentDB Resources](access-control-on-documentdb-resources.md)   
- [Querying DocumentDB resources using the REST API](querying-documentdb-resources-using-the-rest-api.md)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
+* [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
+* [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+
   
   

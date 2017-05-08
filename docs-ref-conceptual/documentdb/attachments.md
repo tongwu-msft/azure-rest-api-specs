@@ -27,9 +27,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Attachments
-The DocumentDB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the REST operations used to manage DocumentDB attachments.  
-  
-Attachments are special documents that contain references and associated metadata with an external blob or media file.  
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+
+The DocumentDB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the REST operations used to manage DocumentDB attachments. Attachments are special documents that contain references and associated metadata with an external blob or media file.  
   
 Developers can choose to have:  
   

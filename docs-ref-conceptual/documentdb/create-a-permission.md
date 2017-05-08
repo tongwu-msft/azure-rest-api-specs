@@ -26,8 +26,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create a Permission
-  A new permission can be created by executing an HTTPS POST request against the URI resource path permissions.  
+# Create Permission
+The `Create Permission` operation creates a new permission in a database.
   
 ## Request  
   

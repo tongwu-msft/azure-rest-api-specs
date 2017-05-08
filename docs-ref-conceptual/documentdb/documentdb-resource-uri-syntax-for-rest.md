@@ -66,9 +66,10 @@ translation.priority.mt:
 -   [Triggers](triggers.md)  
   
 ## See Also  
- [Azure DocumentDB REST API Reference](index.md)   
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [DocumentDB documentation](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
+* [Azure DocumentDB Reference Documentation](index.md)   
+* [DocumentDB SDKs](https://docs.microsoft.com/azure/documentdb/documentdb-sdk-dotnet)    
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+  
   
   

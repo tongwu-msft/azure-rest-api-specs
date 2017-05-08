@@ -26,13 +26,9 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create an Attachment
-  There are two ways to create an attachment resource – post the media content to DocumentDB like in the [AtomPub Protocol](https://tools.ietf.org/html/rfc5023), or post just the attachment metadata to media stored externally.  
-  
- The first is to POST the raw media in the body payload to store it in the provided attachment storage under your DocumentDB account. For the attachment storage quota, see [DocumentDB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/). To create this type of attachment, developers include the raw attachment (video, audio, file, blob, etc.) as the body of the POST. Two headers must be set: Content-Type and Slug. The Content-Type header is set to the MIME type of the attachment while the Slug header is set to the name of the attachment.  
-  
- The second way to create an attachment resource is to POST the attachment resource properties noting the type and media link of the attachment. Unlike the first type of attachment resource, the Content-Type and Slug headers are not to be set as the raw media is not part of the request payload.  
-  
+# Create Attachment
+The `Create Attachment` operation creates an attachment for a document.
+
 ## Request  
   
 |Method|Request URI|Description|  
@@ -164,7 +160,14 @@ Content-Length: 292
 }  
   
 ```  
-  
+
+## Remarks
+There are two ways to create an attachment resource – post the media content to DocumentDB like in the [AtomPub Protocol](https://tools.ietf.org/html/rfc5023), or post just the attachment metadata to media stored externally.  
+
+The first is to POST the raw media in the body payload to store it in the provided attachment storage under your DocumentDB account. To create this type of attachment, you must include the raw attachment (video, audio, file, blob, etc.) as the body of the POST. Two headers must be set: Content-Type and Slug. The Content-Type header is set to the MIME type of the attachment while the Slug header is set to the name of the attachment.  
+
+The second way to create an attachment resource is to POST the attachment resource properties noting the type and media link of the attachment. Unlike the first type of attachment resource, you must not set the Content-Type and Slug headers. 
+
 ## See Also  
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
  [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
