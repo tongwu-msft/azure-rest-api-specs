@@ -152,7 +152,7 @@ Each task in the request has the following schema:
 |filePath|Yes|String|The location on the compute node to which the file should be downloaded, relative to the task's working directory.|
 |fileMode|No|String|The file permission mode attribute in octal format. This property is applicable only if the resourceFile is downloaded to a Linux node. This property will be ignored if it is specified for a resourceFile which is downloaded to a Windows node.<br /><br /> If this property is not specified for a Linux node, then a default value of 0770 is applied to the file.|
 
-###  <a name="outputFiles"></a> outputFiles
+###  <a name="outputFile"></a> outputFile
 
 |Element name|Required|Type|Notes|
 |------------------|--------------|----------|-----------|
