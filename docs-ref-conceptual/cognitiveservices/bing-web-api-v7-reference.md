@@ -13,18 +13,21 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# Web Search API v7 Preview Reference
+# Web Search API v7 Preview reference
 
 > [!NOTE]
 > Preview release of the Web Search API. All aspects of the API and documentation are subject to change. 
 
-The Web Search API lets you send a search query to Bing and get back search results that include links to webpages, images, and more. This section provides technical details about the webpages, related searches, and ranking results in addition to the query parameters that affect the search results. For examples that show how to make requests, see [Searching the Web](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/search-the-web) 
+The Web Search API lets you send a search query to Bing and get back search results that include links to webpages, images, and more. This section provides technical details about the webpages, related searches, and ranking results in addition to the query parameters that affect the search results. For examples that show how to make requests, see [Searching the web](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/search-the-web) 
   
-For details about headers that requests should include, see [Request Headers](#headers).  
+For information about headers that requests should include, see [Request Headers](#headers).  
   
-For details about query parameters that requests should include, see [Query Parameters](#query-parameters).  
+For information about query parameters that requests should include, see [Query Parameters](#query-parameters).  
   
-For details about the JSON objects that the response may include, see [Response Body](#response-objects). This reference contains JSON object specific to web answers. For details about the JSON objects for other answer types that the search results may include, see the API-specific reference documentation. For example, if the search result contains the images and news answers, see the [Image Search API](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/search-the-web) and [News Search API](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/search-the-web).
+For information about the JSON objects that the response may include, see [Response Body](#response-objects). This reference contains JSON object specific to web answers. For details about the JSON objects for other answer types that the search results may include, see the API-specific reference documentation. For example, if the search result contains the images and news answers, see the [Image Search API](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/search-the-web) and [News Search API](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/search-the-web).
+
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/useanddisplayrequirements).
+
   
   
 ## Endpoints  
@@ -60,7 +63,7 @@ The following are the headers that a request and response may include.
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
   
-## Query Parameters  
+## Query parameters  
 The following are the query parameters that the request may include. The Required column indicates whether you must specify the parameter. You must URL encode the query parameter values.  
   
 |Name|Value|Type|Required|  
@@ -80,7 +83,7 @@ The following are the query parameters that the request may include. The Require
 |<a name="textformat" />textFormat|The type of markers to use for text decorations (see the `textDecorations` query parameter).<br /><br /> The following are the possible values.<br /><ul><li>Raw&mdash;Use Unicode characters to mark content that needs special formatting. The Unicode characters are in the range E000 through E019. For example, Bing uses E000 and E001 to mark the beginning and end of query terms for hit highlighting.<br /><br/></li><li>HTML&mdash;Use HTML tags to mark content that needs special formatting. For example, use \<b> tags to highlight query terms in display strings.</li></ul><br /> The default is Raw.<br /><br />For a list of markers, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/hit-highlighting).<br /><br /> For display strings that contain escapable HTML characters such as <, >, and &, if `textFormat` is set to HTML, Bing escapes the characters as appropriate (for example, < is escaped to \&lt;).<br /><br />For information about processing strings with the embedded Unicode characters, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/hit-highlighting).|String|No| 
   
   
-## Response Objects  
+## Response objects  
 The following are the JSON response objects that the response may include. If the request succeeds, the top-level object in the response is the [SearchResponse](#searchresponse) object. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object.
 
 This list contains JSON objects that are specific to web answers. For details about the JSON objects for other answer types that the search results may include, see the API-specific reference documentation. For example, if the search result contains the images and news answers, see the [Image API](./bing-images-api-v7-reference.md) and [News API](./bing-news-api-v7-reference.md).
@@ -300,10 +303,10 @@ Defines a webpage that is relevant to the query.
 |<a name="url" />url|The URL to the webpage.<br /><br /> Use this URL along with `name` to create a hyperlink that when clicked takes the user to the webpage.|String|  
   
 
-## Error Codes 
+## Error codes 
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes-v7.md)]
 
-## Market Codes 
+## Market codes 
 
 [!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]

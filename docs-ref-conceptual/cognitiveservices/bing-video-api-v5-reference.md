@@ -13,15 +13,18 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# Video Search API v5 Reference
+# Video Search API v5 reference
 
 The Video Search API lets you send a search query to Bing and get back a list of videos that are relevant to the search query. This section provides technical details about the query parameters and headers that you use to request videos and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Videos](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/search-the-web).  
 
-For details about the headers that requests should include, see [Request Headers](#headers).  
+For information about the headers that requests should include, see [Request Headers](#headers).  
   
-For details about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
+For information about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
   
-For details about the JSON objects that the response may include, see [Response Objects](#response-objects).  
+For information about the JSON objects that the response may include, see [Response Objects](#response-objects).  
+
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/useanddisplayrequirements).
+
  
   
 ## Endpoints  
@@ -61,7 +64,7 @@ The following are the headers that a request and response may include.
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
   
 
-## Query Parameters  
+## Query parameters  
 The following is the list of query parameters that a request may specify. See the Required column for required parameters. The query parameter values must be URL encoded.  For information about query parameters used to filter the videos that Bing returns, see [Filter Query Parameters](#filter).  
   
 |Name|Value|Type|Required|  
@@ -78,7 +81,7 @@ The following is the list of query parameters that a request may specify. See th
 |<a name="setlang" />setLang|The language to use for user interface strings. Specify the language using the ISO 639-1 2-letter language code. For example, the language code for English is EN. The default is EN (English).<br /><br /> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br /> This parameter and the [Accept-Language](#acceptlanguage) header are mutually exclusive&mdash;do not specify both.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
 
 
-## Filter Query Parameters  
+## Filter query parameters  
 The following are the optional filter query parameters that you can use to filter the videos that Bing returns. The query parameter values must be URL encoded.  
   
 These query parameters are supported only by the Video Search API; do not specify these parameters when calling the Trending Videos API and the Web Search API.  
@@ -89,7 +92,7 @@ These query parameters are supported only by the Video Search API; do not specif
 |<a name="resolution" />resolution|Filter videos by resolution. The following are the possible filter values.<br /><br /><ul><li>480p&mdash;Return videos with a 480p or higher resolution<br /></li><li>720p&mdash;Return videos with a 720p or higher resolution<br /></li><li>1080p&mdash;Return videos with a 1080p or higher resolution<br /></li><li>All&mdash;Do not filter by resolution. Specifying this value is the same as not specifying the `resolution` parameter.</li></ul>|String|  
 |<a name="videolength" />videoLength|Filter videos by length. The following are the possible filter values.<br /><br /></li><li>Short&mdash;Return videos that are less than 5 minutes<br /></li><li>Medium&mdash;Return videos that are between 5 and 20 minutes, inclusive<br /></li><li>Long&mdash;Return videos that are longer than 20 minutes<br /></li><li>All&mdash;Do not filter by length. Specifying this value is the same as not specifying the `videoLength` parameter.</li></ul>|String|  
   
-## Response Objects  
+## Response objects  
 The following are the JSON response objects that the response may include. If the request succeeds, the top-level object in the response is the [Videos](#videos) object if the endpoint is /videos/search, [VideoDetails](#videodetails) if the endpoint is /videos/details, and [TrendingVideos](#trendingvideos) if the endpoint is /videos/trending. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object.  
   
 |Object|Description|  
@@ -297,10 +300,10 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
 |<a name="videos-value" />value|A list of videos that are relevant to the query.|[Video](#video)[]|  
 |<a name="videos-websearchurl" />webSearchUrl|The URL to the Bing search results for the requested videos.|String|  
   
-## Error Codes 
+## Error codes 
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes.md)]
 
-## Market Codes 
+## Market codes 
 
 [!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]

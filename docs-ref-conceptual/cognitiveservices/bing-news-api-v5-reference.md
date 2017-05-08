@@ -13,15 +13,18 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# News Search API v5 Reference
+# News Search API v5 reference
 
 The News Search API lets you send a search query to Bing and get back a list of relevant news articles. This section provides technical details about the query parameters and headers that you use to request news articles and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for News](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/search-the-web).  
 
-For details about the headers that requests should include, see [Request Headers](#headers).  
+For information about the headers that requests should include, see [Request Headers](#headers).  
   
-For details about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
+For information about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
   
-For details about the JSON objects that the response may include, see [Response Objects](#response-objects).  
+For information about the JSON objects that the response may include, see [Response Objects](#response-objects). 
+
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/useanddisplayrequirements).
+ 
   
 ## Endpoints
   
@@ -57,7 +60,7 @@ The following are the headers that a request and response may include.
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
   
-## Query Parameters  
+## Query parameters  
 The following are the query parameters that the request may include. See the Required column for required parameters. The query parameter values must be URL encoded.  
   
 |Name|Value|Type|Required|  
@@ -77,7 +80,7 @@ The following are the query parameters that the request may include. See the Req
 |<a name="textformat" />textFormat|The type of markers to use for text decorations (see the `textDecorations` query parameter).<br /><br /> The following are the possible values.<br /><ul><li>Raw&mdash;Use Unicode characters to mark content that needs special formatting. The Unicode characters are in the range E000 through E019. For example, Bing uses E000 and E001 to mark the beginning and end of query terms for hit highlighting.<br /><br/></li><li>HTML&mdash;Use HTML tags to mark content that needs special formatting. For example, use \<b> tags to highlight query terms in display strings.</li></ul><br /> The default is Raw.<br /><br />For a list of markers, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).<br /><br /> For display strings that contain escapable HTML characters such as <, >, and &, if `textFormat` is set to HTML, Bing escapes the characters as appropriate (for example, < is escaped to \&lt;).<br /><br />For information about processing strings with the embedded Unicode characters, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).|String|No|  
  
   
-## Response Objects  
+## Response objects  
 
 The following are the JSON objects that the response may include. If the request succeeds, the top-level object in the response is the [News](#news) object if the endpoint is /news/search or /news, and [TrendingTopicAnswer](#trendingtopicanswer) if the endpoint is /news/trendingtopics. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object. 
   
@@ -224,10 +227,10 @@ The following is a list of possible news categories that you may set the [catego
 |United States (en-US)|<ul><li>Business</li><li>Entertainment<br /><br /> <ul><li>Entertainment_MovieAndTV</li><li>Entertainment_Music</li></ul></li><li>Health</li><li>Politics</li><li>ScienceAndTechnology<br /><br /> <ul><li>Technology</li><li>Science</li></ul></li><li>Sports<br /><br /> <ul><li>Sports_Golf</li><li>Sports_MLB</li><li>Sports_NBA</li><li>Sports_NFL</li><li>Sports_NHL</li><li>Sports_Soccer</li><li>Sports_Tennis</li><li>Sports_CFB</li><li>Sports_CBB</li></ul></li><li>US<br /><br /> <ul><li>US_Northeast</li><li>US_South</li><li>US_Midwest</li><li>US_West</li></ul></li><li>World<br /><br /> <ul><li>World_Africa</li><li>World_Americas</li><li>World_Asia</li><li>World_Europe</li><li>World_MiddleEast</li></ul></li></ul>|  
   
 
-## Error Codes 
+## Error codes 
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes.md)]
 
-## Market Codes 
+## Market codes 
 
 [!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]

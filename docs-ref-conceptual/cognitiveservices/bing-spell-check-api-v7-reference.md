@@ -13,18 +13,21 @@ ms.date: 06/21/2016
 ms.author: scottwhi
 ---
 
-# Spell Check API v7 Preview Reference
+# Spell Check API v7 Preview reference
 
 > [!NOTE]
 > Preview release of the Spell Check API. All aspects of the API and documentation are subject to change. 
 
-The Spell Check API lets you check a text string for spelling and grammar errors. This section provides technical details about the query parameters and headers that you use to request spell checking, and the JSON response objects that contain the results. For examples that show how to make requests, see [Proofing a Text String](https://docs.microsoft.com/azure/cognitive-services/bing-spell-check/proof-text).  
+The Spell Check API lets you check a text string for spelling and grammar errors. This section provides technical details about the query parameters and headers that you use to request spell checking, and the JSON response objects that contain the results. For examples that show how to make requests, see [Spell check a text string](https://docs.microsoft.com/azure/cognitive-services/bing-spell-check/proof-text).  
   
-For details about the headers that requests should include, see [Request Headers](#headers).  
+For information about the headers that requests should include, see [Request Headers](#headers).  
   
-For details about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
+For information about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
   
-For details about the JSON objects that the response may include, see [Response Objects](#response-objects). 
+For information about the JSON objects that the response may include, see [Response Objects](#response-objects). 
+
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-spell-check/useanddisplayrequirements).
+
  
 ## Endpoints
   
@@ -42,7 +45,7 @@ Because of the query string length limit, you typically use a POST request unles
 > The maximum URL length is 2,048 characters. To ensure that your URL length does not exceed the limit, the maximum length of your query parameters should be less than 1,500 characters. If the URL exceeds 2,048 characters, the server returns 404 Not found.  
   
   
-## Request Headers  
+## Request headers  
 The following are the headers that a request and response may include.  
   
 |Header|Description|  
@@ -62,7 +65,7 @@ The following are the headers that a request and response may include.
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
   
-## Query Parameters  
+## Query parameters  
 The following are the query parameters that the request may include. The Required column indicates whether you must specify the parameter. You must URL encode the query parameter values.  
   
 |Name|Value|Type|Required|  
@@ -81,7 +84,7 @@ The following are the query parameters that the request may include. The Require
 |<a name="text" />text|The text string to check for spelling and grammar errors.<br /><br /> The combined length of the `text` string, `preContextText` string, and `postContextText` string may not exceed 10,000 characters.<br /><br /> You may specify this parameter in the query string of a GET request or in the body of a POST request. Because of the query string length limit, you'll typically use a POST request unless you're checking only short strings.|String|Yes|  
 |<a name="userid" />userId|A unique ID that identifies the user. Generate a unique value for each user (the value is unimportant).<br /><br /> The service uses the ID to help debug issues and improve the quality of corrections.|String|No|  
   
-## Response Objects  
+## Response objects  
 The following are the JSON response objects that the response may include. If the request is successful, the top-level object in the response is the [SpellCheck](#spellcheck) object. If the request fails, the top-level object is [ErrorResponse](#errorresponse).  
   
 |Object|Description|  
@@ -147,10 +150,10 @@ The suggested spelling or grammar correction.
   
 
 
-## Error Codes 
+## Error codes 
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes-v7.md)]
 
-## Market Codes 
+## Market codes 
 
 [!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]
