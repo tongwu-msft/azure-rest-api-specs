@@ -563,7 +563,7 @@
 ## [wrap Key](keyvault/wrapKey.json)
 # [Load Balancer](../docs-ref-conceptual/loadbalancer/index.md)
 # [Log Analytics](../docs-ref-conceptual/loganalytics/index.md)
-## [Create Request](../docs-ref-conceptual/loganalytics/create-request.md)
+## [Data](../docs-ref-conceptual/loganalytics/create-request.md)
 ## [Data Sources](loganalytics/DataSources.json)
 ## [Linked Services](loganalytics/LinkedServices.json)
 ## [Saved Searches](loganalytics/SavedSearches.json)
