@@ -26,8 +26,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create a User
-  To create a new user, execute an HTTPS POST request against the URI resource path users.  
+# Create User
+The `Create User` operation creates a new stored procedure in a database.
   
 ## Request  
   

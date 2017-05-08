@@ -26,10 +26,10 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create a Document
-  A new document can be created by executing an HTTPS POST request against the docs URI resource path.  
-  
- Documents are automatically indexed. If automatic indexing is turned off at the collection level, documents can be manually included or excluded from being indexed by using the **x-ms-indexing-directive** header during the POST operation. Documents must adhere to size limits, as specified in [DocumentDB Limits](https://azure.microsoft.com/en-us/documentation/articles/documentdb-limits/).  
+# Create Document
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+
+The `Create Document` operation creates a new document in a collection.  
   
 ## Request  
   

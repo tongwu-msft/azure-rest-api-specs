@@ -26,8 +26,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create a Trigger
-  A new trigger can be created under a collection by executing an HTTPS POST request against the URI resource path triggers.  
+# Create Trigger
+The `Create Trigger` operation creates a new trigger in a collection.  
   
 ## Request  
   

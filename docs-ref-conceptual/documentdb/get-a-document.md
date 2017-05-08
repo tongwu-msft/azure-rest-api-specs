@@ -27,7 +27,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Get a Document
-  Performing a GET operation on a specific document resource retrieves the user defined JSON elements and system properties of the document.  
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+
+The `Get Document` operation retrieves a document by its partition key and document key. 
   
 ## Request  
   
@@ -177,9 +179,7 @@ Date: Tue, 29 Mar 2016 02:03:06 GMT
 ```  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
-  
-  
+* [DocumentDB documentation](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
+* [Azure DocumentDB Reference Documentation](index.md)   
+* [DocumentDB SDKs](https://docs.microsoft.com/azure/documentdb/documentdb-sdk-dotnet)    
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  

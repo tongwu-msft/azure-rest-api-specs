@@ -27,11 +27,11 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Common DocumentDB REST response headers
-  The following response headers are common to all DocumentDB responses:  
+The following response headers are common to all responses from the DocumentDB API:  
   
 |Header|Description|  
 |------------|-----------------|  
-|**Content-Type**|The **Content-Type** is **application/json**. DocumentDB always returns the response body in standard JSON format.|  
+|**Content-Type**|The **Content-Type** is **application/json**. The DocumentDB API always returns the response body in standard JSON format.|  
 |**Date**|The date time of the response operation. This date time format conforms to the RFC 1123 date time format expressed in Coordinated Universal Time.|  
 |**etag**|The **etag** header shows the resource **etag** for the resource retrieved. The **etag** has the same value as the **_etag** property in the response body.|  
 |**x-ms-activity-id**|Represents a unique identifier for the operation. This echoes the value of the x-ms-activity-id request header, and commonly used for troubleshooting purposes.|  
@@ -47,11 +47,9 @@ translation.priority.mt:
 |**x-ms-session-token**|The session token of the request. For session consistency, clients must echo this request via the x-ms-session-token request header for subsequent operations made to the corresponding collection.|  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [DocumentDB Resource URI Syntax for REST](documentdb-resource-uri-syntax-for-rest.md)   
- [Access Control on DocumentDB Resources](access-control-on-documentdb-resources.md)   
- [Querying DocumentDB resources using the REST API](querying-documentdb-resources-using-the-rest-api.md)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
-  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
+* [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
+* [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)   
   

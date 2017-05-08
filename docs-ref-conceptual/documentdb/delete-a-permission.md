@@ -26,28 +26,28 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete a Permission
-  To delete a permission resource, perform a DELETE operation on that permission resource.  
+# Delete Permission
+The `Delete Permission` operation deletes an existing permission in a database.  
   
 ## Request  
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|DELETE|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/users/{user-name}/permissions/{permission-name}|Note that the {databaseaccount} is the name of the DocumentDB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {user-name} value is the name of the user. The {permission-name} value is the name of the permission to be deleted.|  
+|DELETE|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/users/{user-id}/permissions/{permission-id}|Note that the {databaseaccount} is the name of the DocumentDB account created under your subscription.|  
   
 ### Headers  
- See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests.  
+See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests.  
   
 ### Body  
- None.  
+None.  
   
 ## Response  
   
 ### Headers  
- See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  
+See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  
   
 ### Status codes  
- The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](https://msdn.microsoft.com/library/azure/dn783364.aspx).  
+The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](https://msdn.microsoft.com/library/azure/dn783364.aspx).  
   
 |HTTP status code|Description|  
 |----------------------|-----------------|  
@@ -55,7 +55,7 @@ translation.priority.mt:
 |404 Not Found|The permission to be deleted is no longer a resource, i.e. the permission was deleted.|  
   
 ### Body  
- None.  
+None.  
   
 ## Example  
   
@@ -83,18 +83,12 @@ Content-Type: application/json
 Content-Location: https://contosomarketing.documents.azure.com/dbs/volcanodb/users/a_user/permissions/another_permission  
 Server: Microsoft-HTTPAPI/2.0  
 Strict-Transport-Security: max-age=31536000  
-x-ms-last-state-change-utc: Sun, 29 Nov 2015 02:25:35.212 GMT  
 x-ms-resource-quota: permissions=2000000;  
 x-ms-resource-usage: permissions=1;  
-x-ms-schemaversion: 1.1  
 x-ms-alt-content-path: dbs/volcanodb/users/a_user  
 x-ms-content-path: Sl8fAG8cXgA=  
-x-ms-quorum-acked-lsn: 867  
 x-ms-session-token: 868  
-x-ms-current-write-quorum: 3  
-x-ms-current-replica-set-size: 4  
 x-ms-request-charge: 4.95  
-x-ms-serviceversion: version=1.5.57.3  
 x-ms-activity-id: f404ce51-a0e7-4232-9a93-b5f18ea61693  
 Set-Cookie: x-ms-session-token=868; Domain=contosomarketing.documents.azure.com; Path=/dbs/volcanodb/users/a_user  
 x-ms-gatewayversion: version=1.5.57.3  
@@ -103,9 +97,9 @@ Date: Tue, 08 Dec 2015 20:08:17 GMT
 ```  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
+* [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
+* [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   

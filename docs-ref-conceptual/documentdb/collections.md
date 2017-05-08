@@ -27,22 +27,15 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Collections
-  The DocumentDB REST API supports basic CRUD operations on the resources under a database account.   
-A collection is a container of JSON documents and associated JavaScript application logic, i.e. stored procedures, triggers and user-defined functions. This topic outlines the REST operations used to manage DocumentDB document collections.  
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+
+The DocumentDB REST API supports basic CRUD operations on the resources under a database account. A collection is a container of JSON documents and associated JavaScript application logic, i.e. stored procedures, triggers and user-defined functions. This topic outlines the REST operations used to manage DocumentDB document collections.  
   
- A collection is a billable entity, where the cost is determined by the provisioned throughput of the collection. Collections can span one or more partitions/servers and scaled up and down in terms of throughput. Collections are automatically partitioned into one or more physical servers by DocumentDB.  
+A collection maps to a container in Azure Cosmos DB. Therefore, it is a billable entity, where the cost is determined by the provisioned throughput expressed in request units per second. Collections can span one or more partitions/servers and scaled up and down in terms of throughput. Collections are automatically partitioned into one or more physical servers by Azure Cosmos DB. 
+
+Since a collection is a system resource, it has a fixed schema. A collection's URI path is represented by colls in the [resource model](http://azure.microsoft.com/documentation/articles/documentdb-resources/).  
   
- Collections are not the same as tables in relational databases. Collections do not enforce schema, in fact DocumentDB does not enforce any schemas, it's a schema-free database. Therefore, you can store different types of documents with diverse schemas in the same collection. You can choose to use collections to store objects of a single type like you would with tables. The best model depends only on how the data appears together in queries and transactions.  
-  
- DocumentDB supports the creation of both single-partition and partitioned collections.  
-  
--   **Partitioned collections** can span multiple partitions and support very large amounts of storage and throughput. You must specify a partition key for the collection.  
-  
--   **Single-partition collections** have lower price options and the ability to query and perform transactions across all collection data. They have the scalability and storage limits of a single partition. You do not have to specify a partition key for these collections.  
-  
- Since a collection is a system resource, it has a fixed schema. A collection's URI path is represented by colls in the [DocumentDB resource model](http://azure.microsoft.com/documentation/articles/documentdb-resources/).  
-  
- The following example illustrates the JSON definition of a collection:  
+The following example illustrates the JSON definition of a collection:  
   
 ```  
 {  
@@ -109,8 +102,8 @@ A collection is a container of JSON documents and associated JavaScript applicat
 |--------------|-----------------|  
 |**automatic**|Indicates whether automatic indexing is on or off. The default value is **True**, thus all documents are indexed. Setting the value to **False** would allow manual configuration of indexing paths.|  
 |**indexingMode**|By default, the indexing mode is **Consistent**. This means that indexing occurs synchronously during insertion, replacment or deletion of documents. To have indexing occur asynchronously, set the indexing mode to lazy.|  
-|**includePaths**|The array containing document paths to be indexed. By default, two paths are included: the / path which specifies that all document paths be indexed, and the _ts path, which indexes for a timestamp range comparison.|  
-|**excludePaths**|The array containing document paths to be excluded from indexing.|  
+|**includedPaths**|The array containing document paths to be indexed. By default, two paths are included: the / path which specifies that all document paths be indexed, and the _ts path, which indexes for a timestamp range comparison.|  
+|**excludedPaths**|The array containing document paths to be excluded from indexing.|  
   
  **Properties under Included Paths**  
   
@@ -161,21 +154,17 @@ A collection is a container of JSON documents and associated JavaScript applicat
  For more information about DocumentDB indexing policies, see DocumentDB indexing policies. For the purpose of the REST API documentation, all examples use automatic indexing.  
   
 ## Offers and Performance Levels  
- When a collection is created, an Offer resource is also created that references the created collection. The Offer resource contains configuration information about the performance level of the collection. Offers can be specified as pre-defined performance levels (S1, S2, S3) or user-defined performance levels expressed as throughput in request units per second.  
+When a collection is created, an Offer resource is also created that references the created collection. The Offer resource contains configuration information about the collection throughput in request units per second and request units per minute.  
   
  The performance level of a collection can be changed using Replace Offer.  
   
 ## Tasks  
  You can do the following with document collections:  
   
--   [Create a Collection](create-a-collection.md)  
-  
--   [List Collections](list-collections.md)  
-  
--   [Get a Collection](get-a-collection.md)  
-  
--   [Delete a Collection](delete-a-collection.md)  
-  
--   [Replace a Collection](replace-a-collection.md)  
+- [Create a Collection](create-a-collection.md)  
+- [List Collections](list-collections.md)  
+- [Get a Collection](get-a-collection.md)  
+- [Delete a Collection](delete-a-collection.md)  
+- [Replace a Collection](replace-a-collection.md)  
   
   

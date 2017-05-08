@@ -26,8 +26,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create a Database
-  A new database can be programmatically created by executing an HTTPS POST request against the URI resource path dbs.  
+# Create Database
+The `Create Database` operation creates a new database in the database account. 
   
 ## Request  
   
