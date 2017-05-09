@@ -1,6 +1,6 @@
 ---
 title: "Compose Deployment"
-ms.date: "2017-05-08"
+ms.date: "2017-05-09"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,16 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
+
+
 # Compose Deployment APIs
+
+
+
+> [!IMPORTANT]
+>
+>  These APIs work with Service Fabric clusters running preview runtime version of 255.255.57--.255 and above.
+>
 
 | Name | Description |
 | --- | --- |

@@ -1,6 +1,6 @@
 ---
 title: "Create Compose Application"
-ms.date: "2017-05-08"
+ms.date: "2017-05-09"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,16 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
+
+
 # Create Compose Application
+
+
+> [!IMPORTANT]
+>
+>  These API work with Service Fabric clusters running preview runtime version of 255.255.57--.255 and above.
+>
+
 Creates a Service Fabric compose application.
 
 Creates a Service Fabric compose application.
@@ -76,3 +85,4 @@ Describes the compose application that needs to be created.
 | --- | --- | --- |
 | 202 (Accepted) | A successful operation will return 202 status code.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |
+

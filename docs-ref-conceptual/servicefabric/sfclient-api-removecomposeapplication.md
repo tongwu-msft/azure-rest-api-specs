@@ -1,6 +1,6 @@
 ---
 title: "Remove Compose Application"
-ms.date: "2017-05-08"
+ms.date: "2017-05-09"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,16 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
+
+
 # Remove Compose Application
+
+
+> [!IMPORTANT]
+>
+>  These API work with Service Fabric clusters running preview runtime version of 255.255.57--.255 and above.
+>
+
 Deletes an existing Service Fabric compose application from cluster.
 
 Deletes an existing Service Fabric compose application. An application must be created before it can be deleted.
@@ -76,3 +85,5 @@ The server timeout for performing the operation in seconds. This specifies the t
 | --- | --- | --- |
 | 202 (Accepted) | A successful operation will return 202 status code.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |
+
+

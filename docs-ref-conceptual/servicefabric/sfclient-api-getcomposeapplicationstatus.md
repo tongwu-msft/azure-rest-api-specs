@@ -1,6 +1,6 @@
 ---
 title: "Get Compose Application Status"
-ms.date: "2017-05-08"
+ms.date: "2017-05-09"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,16 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
+
+
 # Get Compose Application Status
+
+
+> [!IMPORTANT]
+>
+>  These API work with Service Fabric clusters running preview runtime version of 255.255.57--.255 and above.
+>
+
 Gets information about a Service Fabric compose application.
 
 Returns the status of compose application that was created or in the process of being created in the Service Fabric cluster and whose name matches the one specified as the parameter. The response includes the name, status and other details about the application.
@@ -76,3 +85,5 @@ The server timeout for performing the operation in seconds. This specifies the t
 | --- | --- | --- |
 | 200 (OK) | Information about the compose application.<br/> | [ComposeApplicationStatusInfo](sfclient-model-composeapplicationstatusinfo.md) |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |
+
+

@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Service Replica Detail Info"
-ms.date: "2017-05-08"
+ms.date: "2017-05-09"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
