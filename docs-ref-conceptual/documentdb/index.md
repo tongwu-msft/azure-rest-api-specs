@@ -25,8 +25,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Azure DocumentDB REST API Reference
-[Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. It supports the [DocumentDB API](https://docs.microsoft.com/en-us/azure/documentd/documentdb-introduction) for creating, querying, and managing resources. This article is a reference for the DocumentDB REST API.  
+# Azure Cosmos DB: DocumentDB REST API Reference
+[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. It supports the [DocumentDB API](/azure/documentdb/documentdb-introduction) for creating, querying, and managing resources. This article is a reference for the DocumentDB REST API.  
 
 The DocumentDB REST API provides programmatic access to DocumentDB resources to create, query, and delete databases, document collections, and documents. To perform operations on DocumentDB resources, you send HTTPS requests with a supported method: `GET`, `POST`, `PUT`, or `DELETE` to an endpoint that targets a resource collection or a specific resource. This section contains information about working with resources by using the REST API. 
   
@@ -35,10 +35,10 @@ The following table lists the supported REST API versions by the Azure DocumentD
 
 |Version|Change introduced|Retirement date|  
 |-------------|---------------------|-----------------------|  
-|2017-02-22|[Consistent prefix](https://docs.microsoft.com/azure/documentdb/documentdb-consistency-levels)||
+|2017-02-22|[Consistent prefix](/azure/documentdb/documentdb-consistency-levels)||
 |2017-01-19|Lowered minimum throughput for partitioned collections to 2500 RU/s||
-|2016-07-11|[Change feed](https://docs.microsoft.com/azure/documentdb/documentdb-change-feed)||  
-|2015-12-16|[Partitioned collections](https://docs.microsoft.com/azure/documentdb/documentdb-partition-data)||  
+|2016-07-11|[Change feed](/azure/documentdb/documentdb-change-feed)||  
+|2015-12-16|[Partitioned collections](/azure/documentdb/documentdb-partition-data)||  
 |2015-08-06|Upsert||  
 |2015-06-03|Order By support||  
 |2015-04-08|DocumentDB general availability||  
@@ -46,7 +46,7 @@ The following table lists the supported REST API versions by the Azure DocumentD
     
 
 ## DocumentDB Resources  
-The following articles describe the supported REST APIs for each resource type. For general information about the resource model, see [Resource model](https://docs.microsoft.com/azure/documentdb/documentdb-interactions-with-resources) and [DocumentDB resource URIs](documentdb-resource-uri-syntax-for-rest.md). 
+The following articles describe the supported REST APIs for each resource type. For general information about the resource model, see [Resource model](/azure/documentdb/documentdb-interactions-with-resources) and [DocumentDB resource URIs](documentdb-resource-uri-syntax-for-rest.md). 
   
 * [Databases](databases.md)  
 * [Collections](collections.md)  
@@ -67,8 +67,8 @@ See [Access control using the DocumentDB API](access-control-on-documentdb-resou
 * [Supported operations](common-tasks-using-the-documentdb-rest-api.md)  
 
 ## See Also  
-* [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/en-us/azure/documentdb/documentdb-introduction)   
+* [Azure Cosmos DB](/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: DocumentDB API](/azure/documentdb/documentdb-introduction)   
 * [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
 * [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
