@@ -310,7 +310,7 @@
 # [DNS](../docs-ref-conceptual/dns/index.md)
 ## [Record Sets](dns/RecordSets.json)
 ## [Zones](dns/Zones.json)
-# [DocumentDB](../docs-ref-conceptual/documentdb/index.md)
+# [Cosmos DB](../docs-ref-conceptual/documentdb/index.md)
 ## [Introduction](../docs-ref-conceptual/documentdb/restful-interactions-with-documentdb-resources.md)
 ## [URIs](../docs-ref-conceptual/documentdb/documentdb-resource-uri-syntax-for-rest.md)
 ## [Operations](../docs-ref-conceptual/documentdb/common-tasks-using-the-documentdb-rest-api.md)
