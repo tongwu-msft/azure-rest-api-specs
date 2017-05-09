@@ -13,15 +13,18 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# Image Search API v5 Reference
+# Image Search API v5 reference
 
 The Image Search API lets you send a search query to Bing and get back a list of relevant images. This section provides technical details about the query parameters and headers that you use to request images and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/search-the-web).  
 
-For details about the headers that requests should include, see [Request Headers](#headers).  
+For information about the headers that requests should include, see [Request Headers](#headers).  
   
-For details about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
+For information about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
   
-For details about the JSON response objects that responses may include, see [Response Objects](#response-objects).  
+For information about the JSON response objects that responses may include, see [Response Objects](#response-objects). 
+
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/useanddisplayrequirements).
+ 
   
 ## Endpoints  
 
@@ -57,7 +60,7 @@ The following are the headers that a request and response may include.
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
   
-## Query Parameters  
+## Query parameters  
 The following are the query parameters that the request may include. See the Required column for required parameters. The query parameter values must be URL encoded. For information about query parameters used to filter the images that Bing returns, see [Filter Query Parameters](#filter).  
   
 |Name|Value|Type|Required|  
@@ -80,7 +83,7 @@ The following are the query parameters that the request may include. See the Req
 |<a name="setlang" />setLang|The language to use for user interface strings. Specify the language using the ISO 639-1 2-letter language code. For example, the language code for English is EN. The default is EN (English).<br /><br /> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br /> This parameter and the [Accept-Language](#acceptlanguage) header are mutually exclusive&mdash;do not specify both.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
   
   
-## Filter Query Parameters  
+## Filter query parameters  
 
 The following are the optional filter query parameters that you can use to filter the images that Bing returns. The query parameter values must be URL encoded.  
   
@@ -94,11 +97,11 @@ Only the Image Search API supports these query parameters; do not specify these 
 |<a name="height" />height|Filter images that have the specified height, in pixels.<br /><br /> You may use this filter along with the `size` filter. For example, return small images that have a height of 150 pixels.|UnsignedShort|  
 |<a name="imagecontent" />imageContent|Filter images by content. The following are the possible filter values.<br /><ul><li>Face&mdash;Return images that show only a person's face</li><li>Portrait&mdash;Return images that show only a person's head and shoulders</li></ul>|String|  
 |<a name="imagetype" />imageType|Filter images by image type. The following are the possible filter values.<br /><br /><ul><li>AnimatedGif&mdash;Return only animated GIFs<br /><br/></li><li>Clipart&mdash;Return only clip art images<br /><br/></li><li>Line&mdash;Return only line drawings<br /><br/></li><li>Photo&mdash;Return only photographs (excluding line drawings, animated Gifs, and clip art)<br /><br/></li><li>Shopping&mdash;Return only images that contain items where Bing knows of a merchant that is selling the items. This option is valid in the en-US market only.<br /><br/></li><li>Transparent&mdash;Return only images with a transparent background.</li></ul>|String|  
-|<a name="license" />license|Filter images by its type of license. The following are the possible filter values.<br /><ul><li>Any&mdash;Return images that are under any license type. The response only includes images that explicitly specify a license.<br /><br/></li><li>Public&mdash;Return images where the creator has waived their exclusive rights, to the fullest extent allowed by law.<br /><br/></li><li>Share&mdash;Return images that may be shared with others. Changing or editing the image might not be allowed. Also, modifying, sharing, and using the image for commercial purposes might not be allowed. Typically, this option returns the most images.<br /><br/></li><li>ShareCommercially&mdash;Return images that may be shared with others for personal or commercial purposes. Changing or editing the image might not be allowed.<br /><br/></li><li>Modify&mdash;Return images that may be modified, shared, and used. Changing or editing the image might not be allowed. Modifying, sharing, and using the image for commercial purposes might not be allowed.<br /><br/></li><li>ModifyCommercially&mdash;Return images that may be modified, shared, and used for personal or commercial purposes. Typically, this option returns the fewest images.<br /><br/></li><li>All&mdash;Do not filter by license type. Specifying this value is the same as not specifying the `license` parameter.</li></ul><br /> For more information about these license types, see [Filter Images By License Type](http://go.microsoft.com/fwlink/?LinkId=309768).|String|  
+|<a name="license" />license|Filter results by its associated type of license. The following are the possible filter values.<br /><ul><li>Any&mdash;Return images that are under any license type. The response only includes images that explicitly specify a license.<br /><br/></li><li>Public&mdash;Return images where the creator has waived their exclusive rights, to the fullest extent allowed by law.<br /><br/></li><li>Share&mdash;Return images that may be shared with others. Changing or editing the image might not be allowed. Also, modifying, sharing, and using the image for commercial purposes might not be allowed. Typically, this option returns the most images.<br /><br/></li><li>ShareCommercially&mdash;Return images that may be shared with others for personal or commercial purposes. Changing or editing the image might not be allowed.<br /><br/></li><li>Modify&mdash;Return images that may be modified, shared, and used. Changing or editing the image might not be allowed. Modifying, sharing, and using the image for commercial purposes might not be allowed.<br /><br/></li><li>ModifyCommercially&mdash;Return images that may be modified, shared, and used for personal or commercial purposes. Typically, this option returns the fewest images.<br /><br/></li><li>All&mdash;Do not filter by license type. Specifying this value is the same as not specifying the `license` parameter.</li></ul><br /> **NOTE:** Bing doesn't verify or represent that a specific license is associated with an image or that users can use the image under that license. For more information about these license types, see [Filter Images By License Type](http://go.microsoft.com/fwlink/?LinkId=309768).|String|  
 |<a name="size" />size|Filter images by size. The following are the possible filter values.<br /><ul><li>Small&mdash;Return images that are less than 200x200 pixels<br /><br/></li><li>Medium&mdash;Return images that are greater than or equal to 200x200 pixels but less than 500x500 pixels<br /><br/></li><li>Large&mdash;Return images that are 500x500 pixels or larger<br /><br/></li><li>Wallpaper&mdash;Return wallpaper images.<br /><br/></li><li>All&mdash;Do not filter by size. Specifying this value is the same as not specifying the `size` parameter.</li></ul><br /> You may use this parameter along with the `height` or `width` parameters. For example, you may use `height` and `size` to request small images that are 150 pixels tall.|String|  
 |<a name="width" />width|Filter images that have the specified width, in pixels.<br /><br /> you may use this filter along with the `size` filter. For example, return small images that have a width of 150 pixels.|UnsignedShort|  
   
-## Response Objects  
+## Response objects  
 
 The following are the JSON objects that the response may include. If the request succeeds, the top-level object in the response is the [Images](#images) object if the endpoint is /images/search, [ImageInsightsResponse](#imageinsightsresponse) if the request is for image insights, and [TrendingImages](#trendingimages) if the endpoint is /images/trending. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object. 
   
@@ -485,10 +488,10 @@ The top-level object that the response includes when a trending images request s
 |categories|A list that identifies categories of images and a list of trending images in that category.|[Category](#category)[]|  
   
 
-## Error Codes 
+## Error codes 
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes.md)]
 
-## Market Codes 
+## Market codes 
 
 [!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]

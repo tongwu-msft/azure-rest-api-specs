@@ -13,18 +13,21 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# Image Search API v7 Preview Reference
+# Image Search API v7 Preview reference
 
 > [!NOTE]
 > Preview release of the Image API. All aspects of the API and documentation are subject to change. 
 
 The Image Search API lets you send a search query to Bing and get back a list of relevant images. This section provides technical details about the query parameters and headers that you use to request images and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/search-the-web).  
 
-For details about the headers that requests should include, see [Request Headers](#headers).  
+For information about the headers that requests should include, see [Request Headers](#headers).  
   
-For details about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
+For information about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
   
-For details about the JSON response objects that responses may include, see [Response Objects](#response-objects).  
+For information about the JSON response objects that responses may include, see [Response Objects](#response-objects).  
+
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/useanddisplayrequirements).
+
   
 ## Endpoints  
 
@@ -63,7 +66,7 @@ The following are the headers that a request and response may include.
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
   
    
-## Query Parameters 
+## Query parameters 
 
 The following are the query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters that you use to filter the images that Bing returns, see [Filter Query Parameters](#filter).  
   
@@ -87,7 +90,7 @@ The following are the query parameters that a request may include. See the Requi
 |<a name="setlang" />setLang|The language to use for user interface strings. Specify the language using the ISO 639-1 2-letter language code. For example, the language code for English is EN. The default is EN (English).<br /><br /> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br /> This parameter and the [Accept-Language](#acceptlanguage) header are mutually exclusive&mdash;do not specify both.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
 
 
-## Filter Query Parameters  
+## Filter query parameters  
 The following are the optional filter query parameters that you can use to filter the images that Bing returns. You must URL encode the query parameters.  
   
 Use these parameter only with the Image Search API. Do not specify these parameter when calling the Trending Images API or Web Search API.  
@@ -110,7 +113,7 @@ Use these parameter only with the Image Search API. Do not specify these paramet
 |<a name="size" />size|Filter images by the following sizes:<br /><ul><li>Small&mdash;Return images that are less than 200x200 pixels<br /><br/></li><li>Medium&mdash;Return images that are greater than or equal to 200x200 pixels but less than 500x500 pixels<br /><br/></li><li>Large&mdash;Return images that are 500x500 pixels or larger<br /><br/></li><li>Wallpaper&mdash;Return wallpaper images.<br /><br/></li><li>All&mdash;Do not filter by size. Specifying this value is the same as not specifying the `size` parameter.</li></ul><br /> You may use this parameter along with the `height` or `width` parameters. For example, you may use `height` and `size` to request small images that are 150 pixels tall.|String|  
 |<a name="width" />width|Filter images that have the specified width, in pixels.<br /><br /> You may use this filter with the `size` filter to return small images that have a width of 150 pixels.|UnsignedShort|  
   
-## Response Objects  
+## Response objects  
 The following are the JSON objects that the response may include. If the request succeeds, the top-level object in the response is the [Images](#images) object if the endpoint is /images/search, [ImageInsightsResponse](#imageinsightsresponse) if endpoint is /images/details, and [TrendingImages](#trendingimages) if the endpoint is /images/trending. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object. 
   
 |Object|Description|  
@@ -512,10 +515,10 @@ The top-level object that the response includes when a trending images request s
 |categories|A list that identifies categories of images and a list of trending images in that category.|[Category](#category)[]|  
 
 
-## Error Codes 
+## Error codes 
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes-v7.md)]
 
-## Market Codes 
+## Market codes 
 
 [!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]
