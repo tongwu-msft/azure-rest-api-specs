@@ -178,7 +178,7 @@ Each task in the request has the following schema:
 |Element name|Required|Type|Notes|
 |------------------|--------------|----------|-----------|
 |uploadCondition|Yes|String|The conditions under which the task output file or set of files should be uploaded. Possible values include:<br /><br /> - **taskSuccess**: Upload the file(s) only after the task process exits with an exit code of 0.<br /><br /> - **taskFailure**: Upload the file(s) only after the task process exits with a nonzero exit code.<br /><br /> **taskCompletion**: Upload the file(s) after the task process exits, no matter what the exit code was.<br /><br /> 
-The default is taskCompletion.|
+The default is **taskCompletion**.|
 
 ### <a name="authenticationTokenSettings"></a> authenticationTokenSettings
 

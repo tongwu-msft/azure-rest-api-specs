@@ -84,7 +84,7 @@ manager: "timlt"
 |resizeTimeout|Time|The timeout for allocation of compute nodes to the pool specified for the last resize operation on the pool.  \(The initial sizing when the pool is created counts as a resize.\)|
 |[resizeErrors](../batchservice/get-information-about-a-pool.md#bk_reserr)|Collection|A list of errors encountered while performing the last resize on the pool. This property is set only if one or more errors occurred during the last pool resize, and only when the pool allocationState is Steady.|
 |currentDedicatedNodes|Int32|The number of dedicated compute nodes currently in the pool.|
-|currentLowPriorityNodes|Int32|The number of low-priority compute nodes currently in the pool.|
+|currentLowPriorityNodes|Int32|The number of low-priority compute nodes currently in the pool. Low-priority compute nodes which have been preempted are included in this count.|
 |targetDedicatedNodes|Int32|The number of compute nodes that are requested for the pool.|
 |targetLowPriorityNodes|Int32|The number of low-priority compute nodes in the pool.|
 |enableAutoScale|Bool|Specifies whether the pool size automatically adjusts over time.|
