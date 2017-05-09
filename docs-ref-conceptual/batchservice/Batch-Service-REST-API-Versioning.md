@@ -39,16 +39,16 @@ Azure Batch now offers low-priorty compute nodes to reduce the cost of Batch wor
 
 There are several changes to the REST API for low-priority nodes:  
 
-- (**Breaking change**) The **targetDedicated** and **currentDedicated** properties of a pool or pool specification have been renamed to **targetDedicatedComputeNodes** and **currentDedicatedComputeNodes**.
+- (**Breaking change**) The **targetDedicated** and **currentDedicated** properties of a pool or pool specification have been renamed to **targetDedicatedNodes** and **currentComputeNodes**.
 - (**Breaking change**) The **resizeError** property of a pool is now a collection called **resizeErrors**. 
 - Compute nodes have a new **isDedicated** property. This property is **true** for dedicated nodes, and **false** for low-priority nodes.
-- A Job Manager task has a new **AllowLowPriorityNode** property. If this property is true, the Job Manager task may run on a low-priority node. If it is **false**, then the Job Manager task will run on a dedicated compute node.
+- A Job Manager task has a new **allowLowPriorityNode** property. If this property is **true**, the Job Manager task may run on a low-priority node. If it is **false**, then the Job Manager task will run on a dedicated compute node.
 
 #### Named users on Linux
 
 Azure Batch now offers additional support for creating named users on Linux nodes. 
 
-- The new **linuxUserConfiguration** property supports specifying a **Uid** (user ID) and **Gid** (group ID) when creating a Linux user.
+- The new **linuxUserConfiguration** property supports specifying a **uid** (user ID) and **gid** (group ID) when creating a Linux user.
 - (**Breaking change**) The **sshPrivateKey** property has been moved from the **userAccount** property to the new **linuxUserConfiguration** property. The **linuxUserConfiguration** property is itself a property of the **userAccount** property.
 
 See [Run tasks under user accounts in Batch](https://docs.microsoft.com/azure/batch/batch-user-accounts) for more information about named user accounts.
@@ -65,7 +65,7 @@ You can now specify output files to upload task data after a task has completed.
 Several changes have been made to improve reporting for task errors.
 
 - The new **result** property of the **executionInfo** property indicates whether a task succeeded or failed.
-- (**Breaking change**) The **schedulingError** property of the **executionInfo** property has been renamed **failureInformation**. The **failureInformation** property is returned any time there is a task failure. This includes all previous scheduling error cases, all cases where a nonzero task exit codes is returned, and any file upload failures.
+- (**Breaking change**) The **schedulingError** property of the **executionInfo** property has been renamed **failureInfo**. The **failureInfo** property is returned any time there is a task failure. This includes all previous scheduling error cases, all cases where a nonzero task exit codes is returned, and any file upload failures.
 - (**Breaking change**) The **schedulingError** property of the **exitConditions** property has been renamed to **preProcessingError** to clarify when the error took place in the task life-cycle.
 - (**Breaking change**) The **schedulingErrorCateogry** property has been renamed to **errorCategory**.
 

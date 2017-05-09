@@ -89,7 +89,7 @@ manager: "timlt"
 |endTime|DateTime|The time at which the subtask completed. This property is only returned if the subtask is in **completed** state.|
 |exitCode|Int32|The exit code of the subtask. This property is only returned if the subtask is in **completed** state.|
 |[nodeInfo](../batchservice/list-the-subtasks-of-a-task.md#nodeInfo)|Complex Type|Contains information about the compute node on which the subtask ran.|
-|result|String|The result of the subtask execution. If the value is 'failed', then the details of the failure can be found in the failureInfo property.|
+|result|String|The result of task execution. The result of task execution. Possible values include:<br /><br />- **success**: The task ran successfully.<br /><br />- **failure**: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.<br /><br /> If the value is 'failure', then the details of the failure can be found in the failureInfo property.|
 |[failureInfo](#taskFailureInformation)|String|Information describing the subtask failure. This property is set only if the subtask is in the completed state.
 
 ###  <a name="nodeInfo"></a> nodeInfo

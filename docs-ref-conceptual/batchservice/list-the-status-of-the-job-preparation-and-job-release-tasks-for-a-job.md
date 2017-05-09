@@ -94,10 +94,10 @@ manager: "timlt"
 |taskRootDirectory|String|The root directory for the Job Preparation task on the compute node.|
 |taskRootDirectoryUrl|String|The URL to the root directory of the Job Preparation task on the compute node. You can use this URL to retrieve files created by the task such as log files.|
 |exitCode|Int32|The exit code of the Job Preparation task. This element is present only if the task is in the completed state.|
-|[failureInfo](#taskFailureInformation)|String|Information describing the task failure. This property is set only if the task is in the completed state.
+|[failureInfo](#taskFailureInformation)|String|Information describing the task failure, if any.<br /><br /> This property is set only if the task is in the completed state and encountered a failure.
 |retryCount|Int32|The number of times the Job Preparation task has been retried by the Batch service. The task is retried if it exits with a nonzero exit code, up to the specified MaxTaskRetryCount.|
 |lastRetryTime|DateTime|The most recent time at which a retry of the Job Preparation task started running.<br /><br /> This element is present only if the task was retried \(i.e. retryCount is nonzero\). If present, this is typically the same as startTime, but may be different if the task has been restarted for reasons other than retry; for example, if the compute node was rebooted during a retry, then the startTime is updated but the lastRetryTime is not.|
-|result|String|The result of task execution. If the value is 'failed', then the details of the failure can be found in the failureInfo property.|
+|result|String|The result of task execution. Possible values include:<br /><br />- **success**: The task ran successfully.<br /><br />- **failure**: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.<br /><br /> If the value is 'failure', then the details of the failure can be found in the failureInfo property.|
 
 ###  <a name="jobReleaseTaskExecutionInfo"></a> jobReleaseTaskExecutionInfo
 
@@ -109,8 +109,8 @@ manager: "timlt"
 |taskRootDirectory|String|The root directory for the Job Release task on the compute node.|
 |taskRootDirectoryUrl|String|The URL to the root directory of the Job Release task on the compute node. You can use this URL to retrieve files created by the task such as log files.|
 |exitCode|Int32|The exit code of the Job Release task. This element is present only if the task is in the completed state.|
-|[failureInfo](#taskFailureInformation)|String|Information describing the task failure. This property is set only if the task is in the completed state.
-|result|String|The result of task execution. If the value is 'failed', then the details of the failure can be found in the failureInfo property.|
+|[failureInfo](#taskFailureInformation)|String|Information describing the task failure, if any.<br /><br /> This property is set only if the task is in the completed state and encountered a failure.
+|result|String|The result of task execution. Possible values include:<br /><br />- **success**: The task ran successfully.<br /><br />- **failure**: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.<br /><br /> If the value is 'failure', then the details of the failure can be found in the failureInfo property.|
 
 ###  <a name="taskFailureInformation"></a> taskFailureInformation
 

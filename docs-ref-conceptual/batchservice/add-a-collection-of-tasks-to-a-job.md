@@ -170,8 +170,8 @@ Each task in the request has the following schema:
 
 |Element name|Required|Type|Notes|
 |------------------|--------------|----------|-----------|
-|path|No|String|The destination blob or virtual directory within the Azure Storage container. If filePattern contains one or more wildcards, then path is the name of the blob virtual directory (blob name prefix). If filePattern contains no wildcards, then path is the name of the blob.|
-|containerUrl|Yes|String|A SAS URL granting write access to the Azure storage container. The Batch service uses the SAS URL to authenticate to Azure Storage in order to write the output files to the container.|
+|path|No|String|The destination blob or virtual directory within the Azure Storage container. If filePattern refers to a specific file (i.e. contains no wildcards), then path is the name of the blob to which to upload that file. If filePattern contains one or more wildcards (and therefore may match multiple files), then path is the name of the blob virtual directory (which is prepended to each blob name) to which to upload the file(s). If omitted, file(s) are uploaded to the root of the container with a blob name matching their file name.|
+|containerUrl|Yes|String|The URL of the container within Azure Blob Storage to which to upload the file(s). The URL must include a Shared Access Signature (SAS) granting write permissions to the container.|
 
 ###  <a name="outputFileUploadOptions"></a> outputFileUploadOptions
 
@@ -245,7 +245,7 @@ The default is taskCompletion.|
 |[exitCodes](#exitCodeMapping)|Optional|Collection|A list of task exit codes and how the Batch service should respond to them.|
 |[exitCodeRanges](#exitCodeRangeMapping)|Optional|Collection|A list of task exit code ranges and how the Batch service should respond to them.|
 |[preProcessingError](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if the task fails to start due to an error.|
-|[fileUploadError](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if a file upload error occurs.|
+|[fileUploadError](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if a file upload error occurs. If the task exited with an exit code that was specified via exitCodes or exitCodeRanges, and then encountered a file upload error, then the action specified by the exit code takes precedence.|
 |[default](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if the task fails with an exit condition not covered by any of the other properties. <br /><br />This value is used if the task exits with any nonzero exit code not listed in the exitCodes or exitCodeRanges collection, with a pre-processing error if the preProcessingError property is not present, or with a file upload error if the fileUploadError property is not present. For non-default behaviour on exit code 0, list it explicitly using the exitCodes or exitCodeRanges collection.|
 
 ###  <a name="exitCodeMapping"></a> exitCodeMapping

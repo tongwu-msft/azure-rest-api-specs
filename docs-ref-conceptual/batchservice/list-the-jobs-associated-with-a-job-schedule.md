@@ -201,8 +201,8 @@ manager: "timlt"
 
 |Element name|Type|Notes|
 |------------------|--------------|----------|-----------|
-|path|String|The destination blob or virtual directory within the Azure Storage container. If filePattern contains one or more wildcards, then path is the name of the blob virtual directory (blob name prefix). If filePattern contains no wildcards, then path is the name of the blob.|
-|containerUrl|String|A SAS URL granting write access to the Azure storage container. The Batch service uses the SAS URL to authenticate to Azure Storage in order to write the output files to the container.|
+|path|String|The destination blob or virtual directory within the Azure Storage container. If filePattern refers to a specific file (i.e. contains no wildcards), then path is the name of the blob to which to upload that file. If filePattern contains one or more wildcards (and therefore may match multiple files), then path is the name of the blob virtual directory (which is prepended to each blob name) to which to upload the file(s). If omitted, file(s) are uploaded to the root of the container with a blob name matching their file name.|
+|containerUrl|String|The URL of the container within Azure Blob Storage to which to upload the file(s). The URL must include a Shared Access Signature (SAS) granting write permissions to the container.|
 
 ###  <a name="outputFileUploadOptions"></a> outputFileUploadOptions
 
@@ -279,14 +279,14 @@ The default is taskCompletion.|
 |targetLowPriorityNodes|Int32|The number of low-priority compute nodes in the pool.|
 |maxTasksPerNode|Int32|The maximum number of tasks that can run concurrently on a single compute node in the pool.<br /><br /> The default value is 1.<br /><br /> The maximum value of this setting depends on the size of the compute nodes in the pool \(the vmSize setting\).|
 |taskSchedulingPolicy|Complex Type|Defines how the Batch service distributes tasks between compute nodes in the pool.|
-|autoScaleFormula|String|Specifies a formula for the desired number of dedicated compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to false. It is required if enableAutoScale is set to true.<br /><br /> The formula is checked for validity before the pool is created. If the formula is not valid, the Batch service rejects the request with detailed error information.|
+|autoScaleFormula|String|Specifies a formula for the desired number of compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to false. It is required if enableAutoScale is set to true.<br /><br /> The formula is checked for validity before the pool is created. If the formula is not valid, the Batch service rejects the request with detailed error information.|
 |autoScaleEvaluationInterval|Time|Specifies a time interval at which to automatically adjust the pool size according to the AutoScale formula.<br />The default value is 15 minutes.<br />The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service returns a Bad Request \(400\).|
 |enableAutoScale|Boolean|Specifies whether the pool size should automatically adjust over time.<br /><br /> If false, the targetDedicatedNodes element is required.<br /><br /> If true, the autoScaleFormula element is required. The pool automatically resizes according to the formula.<br /><br /> The default value is false.|
 |enableInterNodeCommunication|Boolean|Specifies whether the pool permits direct communication between nodes.<br /><br /> The default value is false.|
 |startTask|Complex Type|Specifies a task to run on each compute node as it joins the pool. The task runs when the node is added to the pool or when the node is restarted.|
 |certificateReferences|Collection|A list of certificates to be installed on each compute node in the pool.<br /><br /> Each certificate in the list must have been previously added to the Batch account.|
 |applicationPackageReferences|Collection|A list of application packages to be installed on each compute node in the pool.|
-|applicationLicenses|Collection|The list of application licenses the Batch service will make available on each compute node in the pool.|
+|applicationLicenses|Collection| The list of application licenses the Batch service will make available on each compute node in the pool.<br /><br /> The list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, pool creation will fail.|
 |metadata|Collection|A list of name\-value pairs associated with the pool as metadata.<br /><br /> The Batch service does not assign any meaning to metadata; it is solely for the use of user code.|
 
 ###  <a name="bk_csconf"></a> cloudServiceConfiguration
@@ -332,7 +332,7 @@ The default is taskCompletion.|
 |startTime|DateTime|The start time of the job. The job ‘starts’ when the first task starts running on any compute node.  \(This includes Job Manager and Job Preparation tasks.\)|
 |endTime|DateTime|The completion time of the job. This property is present only if the job is in the **completed** state.|
 |poolId|String|The id of the pool to which this job is assigned.  This depends on the *poolInfo* you specified when creating or updating the job.<br /><br /> If you specified a *poolId*, this is that poolId.<br /><br /> If you specified an *autoPoolSpecification*, this is the id of the auto pool that Batch created for this job.<br /><br /> \(Note: this element contains the *actual* pool where the job is assigned. The Get Job response also contains a poolInfo element, which contains the pool configuration data from Add/Update Job. This may also contain a poolId element.  If it does, the two ids are the same.  If it does not, it means the job ran on an auto pool, and this element contains the id of that auto pool.\)|
-|[failureInfo](#taskFailureInformation)|String|Information describing the task failure. This property is set only if the task is in the completed state.|
+|[failureInfo](#taskFailureInformation)|String|Information describing the task failure, if any.<br /><br /> This property is set only if the task is in the completed state and encountered a failure.|
 |terminateReason|String|If the job has completed, a string describing the reason the job ended.<br /><br /> The Batch Service sets the reason as following:<br /><br /> **JMComplete** – the Job Manager task completed, and killJobOnCompletion was set to true<br /><br /> **MaxWallClockTimeExpiry** – the job reached its *maxWallClockTime* constraint<br /><br /> **TerminateJobSchedule** – the job ran as part of a schedule, and the schedule terminated<br /><br /> **AllTasksComplete** – the job's onAllTasksComplete attribute is set to **terminatejob**, and all tasks in the job are complete<br /><br /> **TaskFailed** – the job's onTaskFailure attribute is set to **performexitoptionsjobaction**, and a task in the job failed with an exit condition that specified a jobAction of **terminatejob**<br /><br /> Any other string is a user\-defined reason specified in a call to the Terminate a job operation.<br /><br /> If the job has not completed, this element is not present.|
 
 ###  <a name="taskFailureInformation"></a> taskFailureInformation

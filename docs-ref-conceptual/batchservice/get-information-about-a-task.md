@@ -160,8 +160,8 @@ The following example shows additional information in case of a multi-instance t
 
 |Element name|Type|Notes|
 |------------------|--------------|----------|-----------|
-|path|String|The destination blob or virtual directory within the Azure Storage container. If filePattern contains one or more wildcards, then path is the name of the blob virtual directory (blob name prefix). If filePattern contains no wildcards, then path is the name of the blob.|
-|containerUrl|String|A SAS URL granting write access to the Azure storage container. The Batch service uses the SAS URL to authenticate to Azure Storage in order to write the output files to the container.|
+|path|String|The destination blob or virtual directory within the Azure Storage container. If filePattern refers to a specific file (i.e. contains no wildcards), then path is the name of the blob to which to upload that file. If filePattern contains one or more wildcards (and therefore may match multiple files), then path is the name of the blob virtual directory (which is prepended to each blob name) to which to upload the file(s). If omitted, file(s) are uploaded to the root of the container with a blob name matching their file name.|
+|containerUrl|String|The URL of the container within Azure Blob Storage to which to upload the file(s). The URL must include a Shared Access Signature (SAS) granting write permissions to the container.|
 
 ###  <a name="outputFileUploadOptions"></a> outputFileUploadOptions
 
@@ -220,12 +220,12 @@ The default is taskCompletion.|
 |startTime|DateTime|The time at which the task started running.  'Running' corresponds to the **running** state, so if the task specifies resource files or application packages, then the start time reflects the time at which the task started downloading or deploying these.  If the task has been restarted or retried, this is the most recent time at which the task started running.  This property is present only for tasks that are in the **running** or **completed** state.|
 |endTime|DateTime|The time at which the task completed. This property is only returned if the task is in **completed** state.|
 |exitCode|Int32|The exit code of the task. This property is only returned if the task is in **completed** state.|
-|[failureInfo](#taskFailureInformation)|String|Information describing the task failure. This property is set only if the task is in the completed state.|
+|[failureInfo](#taskFailureInformation)|String|Information describing the task failure, if any.<br /><br /> This property is set only if the task is in the completed state and encountered a failure.|
 |retryCount|Int32|The number of times the task has been retried by the Batch service. The task is retried if it exits with a nonzero exit code, up to the specified MaxTaskRetryCount|
 |lastRetryTime|DateTime|The most recent time at which a retry of the task started running.<br /><br /> This element is present only if the task was retried \(i.e. retryCount is nonzero\). If present, this is typically the same as startTime, but may be different if the task has been restarted for reasons other than retry; for example, if the compute node was rebooted during a retry, then the startTime is updated but the lastRetryTime is not.|
 |requeueCount|Int32|The number of times the task has been requeued by the Batch service as the result of a user request.<br /><br /> When the user removes nodes from a pool \(by resizing or shrinking the pool\) or when the job is being disabled, the user can specify that running tasks on the nodes be requeued for execution. This count tracks how many times the task has been requeued for these reasons.|
 |lastRequeueTime|DateTime|The most recent time at which the task has been requeued by the Batch service as the result of a user request.<br /><br /> This property is present only if the requeueCount is nonzero.|
-|result|String|The result of task execution. If the value is 'failed', then the details of the failure can be found in the failureInfo property.|
+|result|String|The result of task execution. Possible values include:<br /><br />- **success**: The task ran successfully.<br /><br />- **failure**: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.<br /><br /> If the value is 'failure', then the details of the failure can be found in the failureInfo property.|
 
 ###  <a name="taskFailureInformation"></a> taskFailureInformation
 
@@ -294,7 +294,7 @@ The default is taskCompletion.|
 |[exitCodes](#exitCodeMapping)|Collection|A list of task exit codes and how the Batch service should respond to them.|
 |[exitCodeRanges](#exitCodeRangeMapping)|Collection|A list of task exit code ranges and how the Batch service should respond to them.|
 |[preProcessingError](#exitOptions)|Complex Type|Specifies how the Batch service should respond if the task fails to start due to an error.|
-|[fileUploadError](#exitOptions)|Complex Type|Specifies how the Batch service should respond if a file upload error occurs.|
+|[fileUploadError](#exitOptions)|Complex Type|Specifies how the Batch service should respond if a file upload error occurs. If the task exited with an exit code that was specified via exitCodes or exitCodeRanges, and then encountered a file upload error, then the action specified by the exit code takes precedence.|
 |[default](#exitOptions)|Complex Type|Specifies how the Batch service should respond if the task fails with an exit condition not covered by any of the other properties. <br /><br />This value is used if the task exits with any nonzero exit code not listed in the exitCodes or exitCodeRanges collection, with a pre-processing error if the preProcessingError property is not present, or with a file upload error if the fileUploadError property is not present. For non-default behaviour on exit code 0, list it explicitly using the exitCodes or exitCodeRanges collection.|
 
 ###  <a name="exitCodeMapping"></a> exitCodeMapping

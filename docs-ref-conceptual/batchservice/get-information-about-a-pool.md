@@ -97,7 +97,7 @@ manager: "timlt"
 |maxTasksPerNode|Int32|The maximum number of tasks that can run concurrently on a single compute node in the pool.|
 |[taskSchedulingPolicy](../batchservice/get-information-about-a-pool.md#bk_tassched)|Complex Type|Defines how the Batch service distributes tasks between compute nodes in the pool.|
 |[applicationPackageReferences](../batchservice/get-information-about-a-pool.md#applicationPackageReferences)|Collection|A list of application packages to be installed on each compute node in the pool.|
-|applicationLicenses|Collection|The list of application licenses the Batch service will make available on each compute node in the pool.|
+|applicationLicenses|Collection| The list of application licenses the Batch service will make available on each compute node in the pool.<br /><br /> The list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, pool creation will fail.|
 |[metadata](../batchservice/get-information-about-a-pool.md#bk_metadat)|Collection|Name value pairs associated with the pool as metadata.|
 |[stats](../batchservice/get-information-about-a-pool.md#bk_postat)|Complex Type|The lifetime resource usage statistics for the pool.|
 

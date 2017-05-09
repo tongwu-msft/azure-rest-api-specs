@@ -40,7 +40,7 @@ manager: "timlt"
   
 |Element name|Required|Type|Notes|  
 |------------------|--------------|----------|-----------|  
-|autoScaleFormula|Yes|String|Specifies a formula for the desired number of dedicated compute nodes in the pool.<br /><br /> The formula is validated and its results calculated, but is not applied to the pool.  To apply the formula to the pool, use [Enable automatic scaling on a pool](../batchservice/enable-automatic-scaling-on-a-pool.md).<br /><br /> For more information about specifying this formula, see [Automatically scale compute nodes in an Azure Batch pool](https://msdn.microsoft.com/en-us/library/azure/dn820182.aspx).|  
+|autoScaleFormula|Yes|String|Specifies a formula for the desired number of compute nodes in the pool.<br /><br /> The formula is validated and its results calculated, but is not applied to the pool.  To apply the formula to the pool, use [Enable automatic scaling on a pool](../batchservice/enable-automatic-scaling-on-a-pool.md).<br /><br /> For more information about specifying this formula, see [Automatically scale compute nodes in an Azure Batch pool](https://msdn.microsoft.com/en-us/library/azure/dn820182.aspx).|  
   
 ## Response  
  For more information, see [Batch Status and Error Codes](../batchservice/batch-status-and-error-codes.md).  

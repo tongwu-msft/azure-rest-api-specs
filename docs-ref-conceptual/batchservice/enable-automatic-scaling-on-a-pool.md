@@ -57,7 +57,7 @@ manager: "timlt"
   
 |Element name|Required|Type|Notes|  
 |------------------|--------------|----------|-----------|  
-|autoScaleFormula|No|String|Specifies a formula for the desired number of dedicated compute nodes in the pool.<br /><br /> The formula is checked for validity before it is applied to the pool. If the formula is not valid, the Batch service rejects the request with detailed error information.<br /><br /> For more information about specifying this formula, see [Automatically scale compute nodes in an Azure Batch pool.](https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling)|  
+|autoScaleFormula|No|String|Specifies a formula for the desired number of compute nodes in the pool.<br /><br /> The formula is checked for validity before it is applied to the pool. If the formula is not valid, the Batch service rejects the request with detailed error information.<br /><br /> For more information about specifying this formula, see [Automatically scale compute nodes in an Azure Batch pool.](https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling)|  
 |autoScaleEvaluationInterval|No|Time|Specifies a time interval at which to automatically adjust the pool size according to the autoscale formula.<br />The default value is 15 minutes.<br /><br /> The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service returns a Bad Request (400).|  
   
 ## Response  
