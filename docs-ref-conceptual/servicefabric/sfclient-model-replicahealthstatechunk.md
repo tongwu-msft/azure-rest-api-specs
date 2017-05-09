@@ -1,6 +1,6 @@
 ---
 title: "ReplicaHealthStateChunk"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,7 +37,7 @@ The replica health state contains the replica ID and its aggregated health state
 | Name | Type | Required |
 | --- | --- | --- |
 | [HealthState](#healthstate) | string (enum) | No |
-| [ReplicaOrInstanceId](#replicaorinstanceid) | string (int64) | No |
+| [ReplicaOrInstanceId](#replicaorinstanceid) | string | No |
 
 ____
 ### HealthState
@@ -55,7 +55,7 @@ The health state of a Service Fabric entity such as Cluster, Node, Application, 
 
 ____
 ### ReplicaOrInstanceId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The ID of the stateful service replica or the stateless service instance.

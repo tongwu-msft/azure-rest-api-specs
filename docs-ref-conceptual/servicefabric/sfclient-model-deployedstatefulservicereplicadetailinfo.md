@@ -1,6 +1,6 @@
 ---
 title: "DeployedStatefulServiceReplicaDetailInfo"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,7 +40,7 @@ Information about a stateful replica running in a code package.
 | [CurrentServiceOperation](#currentserviceoperation) | string (enum) | No |
 | [CurrentServiceOperationStartTimeUtc](#currentserviceoperationstarttimeutc) | string (date-time) | No |
 | [ReportedLoad](#reportedload) | array of [LoadMetricReportInfo](sfclient-model-loadmetricreportinfo.md) | No |
-| [ReplicaId](#replicaid) | string (int64) | No |
+| [ReplicaId](#replicaid) | string | No |
 | [CurrentReplicatorOperation](#currentreplicatoroperation) | string (enum) | No |
 | [ReadStatus](#readstatus) | string (enum) | No |
 | [WriteStatus](#writestatus) | string (enum) | No |
@@ -98,7 +98,7 @@ List of load reported by replica.
 
 ____
 ### ReplicaId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Id of the stateful service replica.

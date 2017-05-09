@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceInstanceInfo"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -39,8 +39,8 @@ Represents a stateless service instance. This includes information about the ide
 | [HealthState](#healthstate) | string (enum) | No |
 | [NodeName](#nodename) | string | No |
 | [Address](#address) | string | No |
-| [LastInBuildDurationInSeconds](#lastinbuilddurationinseconds) | string (int64) | No |
-| [InstanceId](#instanceid) | string (int64) | No |
+| [LastInBuildDurationInSeconds](#lastinbuilddurationinseconds) | string | No |
+| [InstanceId](#instanceid) | string | No |
 
 ____
 ### ServiceKind
@@ -94,14 +94,14 @@ The address the replica is listening on.
 
 ____
 ### LastInBuildDurationInSeconds
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The last in build duration of the replica in seconds.
 
 ____
 ### InstanceId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Id of the stateless service instance.

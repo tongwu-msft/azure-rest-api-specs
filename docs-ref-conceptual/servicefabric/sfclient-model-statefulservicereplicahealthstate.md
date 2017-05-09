@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceReplicaHealthState"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,7 +37,7 @@ Represents the health state of the stateful service replica, which contains the 
 | [ServiceKind](#servicekind) | string | Yes |
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |
 | [PartitionId](#partitionid) | string (uuid) | No |
-| [ReplicaId](#replicaid) | string (int64) | No |
+| [ReplicaId](#replicaid) | string | No |
 
 ____
 ### ServiceKind
@@ -69,7 +69,7 @@ The ID of the partition to which this replica belongs.
 
 ____
 ### ReplicaId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The ID of the stateful service replica.

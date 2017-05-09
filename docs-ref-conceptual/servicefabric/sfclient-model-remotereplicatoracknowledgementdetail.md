@@ -1,6 +1,6 @@
 ---
 title: "RemoteReplicatorAcknowledgementDetail"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,35 +34,35 @@ Provides various statistics of the acknowledgements that are being received from
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [AverageReceiveDuration](#averagereceiveduration) | string (int64) | No |
-| [AverageApplyDuration](#averageapplyduration) | string (int64) | No |
-| [NotReceivedCount](#notreceivedcount) | string (int64) | No |
-| [ReceivedAndNotAppliedCount](#receivedandnotappliedcount) | string (int64) | No |
+| [AverageReceiveDuration](#averagereceiveduration) | string | No |
+| [AverageApplyDuration](#averageapplyduration) | string | No |
+| [NotReceivedCount](#notreceivedcount) | string | No |
+| [ReceivedAndNotAppliedCount](#receivedandnotappliedcount) | string | No |
 
 ____
 ### AverageReceiveDuration
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Represents the average duration it takes for the remote replicator to receive an operation.
 
 ____
 ### AverageApplyDuration
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Represents the average duration it takes for the remote replicator to apply an operation. This usually entails writing the operation to disk.
 
 ____
 ### NotReceivedCount
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Represents the number of operations not yet received by a remote replicator.
 
 ____
 ### ReceivedAndNotAppliedCount
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Represents the number of operations received and not yet applied by a remote replicator.

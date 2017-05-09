@@ -1,6 +1,6 @@
 ---
 title: "DeployedStatelessServiceInstanceInfo"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,7 +43,7 @@ Information about a stateless service instance deployed on a node.
 | [ReplicaStatus](#replicastatus) | string (enum) | No |
 | [Address](#address) | string | No |
 | [ServicePackageActivationId](#servicepackageactivationid) | string | No |
-| [InstanceId](#instanceid) | string (int64) | No |
+| [InstanceId](#instanceid) | string | No |
 
 ____
 ### ServiceKind
@@ -121,7 +121,7 @@ is always an empty string.
 
 ____
 ### InstanceId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Id of the stateless service instance.

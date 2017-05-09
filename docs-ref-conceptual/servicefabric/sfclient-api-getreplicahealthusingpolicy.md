@@ -1,6 +1,6 @@
 ---
 title: "Get Replica Health Using Policy"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -45,7 +45,7 @@ Use ApplicationHealthPolicy to optionally override the health policies used to e
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [partitionId](#partitionid) | string (uuid) | Yes | Path |
-| [replicaId](#replicaid) | string (int64) | Yes | Path |
+| [replicaId](#replicaid) | string | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
 | [EventsHealthStateFilter](#eventshealthstatefilter) | integer | No | Query |
 | [timeout](#timeout) | integer (int64) | No | Query |
@@ -60,7 +60,7 @@ The identity of the partition.
 
 ____
 ### replicaId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The identifier of the replica.

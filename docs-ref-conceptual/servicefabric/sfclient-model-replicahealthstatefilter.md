@@ -1,6 +1,6 @@
 ---
 title: "ReplicaHealthStateFilter"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,12 +37,12 @@ One filter can match zero, one or multiple replicas, depending on its properties
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ReplicaOrInstanceIdFilter](#replicaorinstanceidfilter) | string (int64) | No |
+| [ReplicaOrInstanceIdFilter](#replicaorinstanceidfilter) | string | No |
 | [HealthStateFilter](#healthstatefilter) | integer | No |
 
 ____
 ### ReplicaOrInstanceIdFilter
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Id of the stateful service replica or stateles service instance that matches the filter. The filter is applied only to the specified replica, if it exists.

@@ -1,6 +1,6 @@
 ---
 title: "Get Application Type Info List"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -123,7 +123,7 @@ GET http://localhost:19080/ApplicationTypes?api-version=4.0&MaxResults=5
           "Value": "3"
         }
       ],
-      "Status": 2
+      "Status": "Available"
     },
     {
       "Name": "CalculatorApp",
@@ -134,7 +134,7 @@ GET http://localhost:19080/ApplicationTypes?api-version=4.0&MaxResults=5
           "Value": "3"
         }
       ],
-      "Status": 2
+      "Status": "Available"
     },
     {
       "Name": "GatewayApp",
@@ -149,7 +149,7 @@ GET http://localhost:19080/ApplicationTypes?api-version=4.0&MaxResults=5
           "Value": "1000"
         }
       ],
-      "Status": 2
+      "Status": "Available"
     },
     {
       "Name": "PersistentQueueApp",
@@ -164,7 +164,7 @@ GET http://localhost:19080/ApplicationTypes?api-version=4.0&MaxResults=5
           "Value": "3"
         }
       ],
-      "Status": 2
+      "Status": "Available"
     },
     {
       "Name": "PersistentQueueApp",
@@ -179,7 +179,7 @@ GET http://localhost:19080/ApplicationTypes?api-version=4.0&MaxResults=5
           "Value": "3"
         }
       ],
-      "Status": 2
+      "Status": "Available"
     }
   ]
 }
@@ -214,7 +214,7 @@ GET http://localhost:19080/ApplicationTypes?api-version=4.0&ContinuationToken=Pe
           "Value": "3"
         }
       ],
-      "Status": 2
+      "Status": "Available"
     },
     {
       "Name": "VolatileQueueApp",
@@ -229,7 +229,7 @@ GET http://localhost:19080/ApplicationTypes?api-version=4.0&ContinuationToken=Pe
           "Value": "3"
         }
       ],
-      "Status": 2
+      "Status": "Available"
     }
   ]
 }
@@ -255,43 +255,43 @@ GET http://localhost:19080/ApplicationTypes?api-version=4.0&ExcludeApplicationPa
       "Name": "CalculatorApp",
       "Version": "1.0",
       "DefaultParameterList": [],
-      "Status": 2
+      "Status": "Available"
     },
     {
       "Name": "CalculatorApp",
       "Version": "2.0",
       "DefaultParameterList": [],
-      "Status": 2
+      "Status": "Available"
     },
     {
       "Name": "GatewayApp",
       "Version": "1.0",
       "DefaultParameterList": [],
-      "Status": 2
+      "Status": "Available"
     },
     {
       "Name": "PersistentQueueApp",
       "Version": "1.0",
       "DefaultParameterList": [],
-      "Status": 2
+      "Status": "Available"
     },
     {
       "Name": "PersistentQueueApp",
       "Version": "2.0",
       "DefaultParameterList": [],
-      "Status": 2
+      "Status": "Available"
     },
     {
       "Name": "VolatileQueueApp",
       "Version": "1.0",
       "DefaultParameterList": [],
-      "Status": 2
+      "Status": "Available"
     },
     {
       "Name": "VolatileQueueApp",
       "Version": "2.0",
       "DefaultParameterList": [],
-      "Status": 2
+      "Status": "Available"
     }
   ]
 }

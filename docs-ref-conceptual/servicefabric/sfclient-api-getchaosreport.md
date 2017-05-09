@@ -1,6 +1,6 @@
 ---
 title: "Get Chaos Report"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -46,8 +46,8 @@ When there are more than 100 Chaos events, the Chaos report is returned in segme
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |
 | [ContinuationToken](#continuationtoken) | string | No | Query |
-| [StartTimeUtc](#starttimeutc) | string (int64) | No | Query |
-| [EndTimeUtc](#endtimeutc) | string (int64) | No | Query |
+| [StartTimeUtc](#starttimeutc) | string | No | Query |
+| [EndTimeUtc](#endtimeutc) | string | No | Query |
 | [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
@@ -67,14 +67,14 @@ The continuation token parameter is used to obtain next set of results. A contin
 
 ____
 ### StartTimeUtc
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The count of ticks representing the start time of the time range for which a Chaos report is to be generated. Please consult [DateTime.Ticks Property](https://msdn.microsoft.com/en-us/library/system.datetime.ticks%28v=vs.110%29) for details about tick.
 
 ____
 ### EndTimeUtc
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The count of ticks representing the end time of the time range for which a Chaos report is to be generated. Please consult [DateTime.Ticks Property](https://msdn.microsoft.com/en-us/library/system.datetime.ticks%28v=vs.110%29) for details about tick.

@@ -1,6 +1,6 @@
 ---
 title: "Int64RangePartitionInformation"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,8 +36,8 @@ Describes the partition information for the integer range that is based on parti
 | --- | --- | --- |
 | [ServicePartitionKind](#servicepartitionkind) | string | Yes |
 | [Id](#id) | string (uuid) | No |
-| [LowKey](#lowkey) | string (int64) | No |
-| [HighKey](#highkey) | string (int64) | No |
+| [LowKey](#lowkey) | string | No |
+| [HighKey](#highkey) | string | No |
 
 ____
 ### ServicePartitionKind
@@ -55,14 +55,14 @@ An internal ID used by Service Fabric to uniquely identify a partition. This is 
 
 ____
 ### LowKey
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Specifies the minimum key value handled by this partition.
 
 ____
 ### HighKey
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Specifies the maximum key value handled by this partition.

@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Service Replica Detail Info"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,7 +43,7 @@ Gets the details of the replica deployed on a Service Fabric node. The informati
 | --- | --- | --- | --- |
 | [nodeName](#nodename) | string | Yes | Path |
 | [partitionId](#partitionid) | string (uuid) | Yes | Path |
-| [replicaId](#replicaid) | string (int64) | Yes | Path |
+| [replicaId](#replicaid) | string | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
 | [timeout](#timeout) | integer (int64) | No | Query |
 
@@ -63,7 +63,7 @@ The identity of the partition.
 
 ____
 ### replicaId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The identifier of the replica.

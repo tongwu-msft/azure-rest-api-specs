@@ -1,6 +1,6 @@
 ---
 title: "ReplicatorQueueStatus"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,11 +38,11 @@ Depending on the role of the replicator, the properties in this type imply diffe
 | Name | Type | Required |
 | --- | --- | --- |
 | [QueueUtilizationPercentage](#queueutilizationpercentage) | integer (int32) | No |
-| [QueueMemorySize](#queuememorysize) | string (int64) | No |
-| [FirstSequenceNumber](#firstsequencenumber) | string (int64) | No |
-| [CompletedSequenceNumber](#completedsequencenumber) | string (int64) | No |
-| [CommittedSequenceNumber](#committedsequencenumber) | string (int64) | No |
-| [LastSequenceNumber](#lastsequencenumber) | string (int64) | No |
+| [QueueMemorySize](#queuememorysize) | string | No |
+| [FirstSequenceNumber](#firstsequencenumber) | string | No |
+| [CompletedSequenceNumber](#completedsequencenumber) | string | No |
+| [CommittedSequenceNumber](#committedsequencenumber) | string | No |
+| [LastSequenceNumber](#lastsequencenumber) | string | No |
 
 ____
 ### QueueUtilizationPercentage
@@ -53,14 +53,14 @@ Represents the utilization of the queue. A value of 0 indicates that the queue i
 
 ____
 ### QueueMemorySize
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Represents the virtual memory consumed by the queue in bytes.
 
 ____
 ### FirstSequenceNumber
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 On a primary replicator, this is semantically the sequence number of the operation for which all the secondary replicas have sent an acknowledgement.
@@ -69,7 +69,7 @@ On a secondary replicator, this is the smallest sequence number of the operation
 
 ____
 ### CompletedSequenceNumber
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 On a primary replicator, this is semantically the highest sequence number of the operation for which all the secondary replicas have sent an acknowledgement.
@@ -78,7 +78,7 @@ On a secondary replicator, this is semantically the highest sequence number that
 
 ____
 ### CommittedSequenceNumber
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 On a primary replicator, this is semantically the highest sequence number of the operation for which a write quorum of the secondary replicas have sent an acknowledgement.
@@ -87,7 +87,7 @@ On a secondary replicator, this is semantically the highest sequence number of t
 
 ____
 ### LastSequenceNumber
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Represents the latest sequence number of the operation that is available in the queue.

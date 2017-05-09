@@ -1,6 +1,6 @@
 ---
 title: "DeployedCodePackageInfo"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,7 +41,7 @@ Information about code package deployed on a Service Fabric node.
 | [HostType](#hosttype) | string (enum) | No |
 | [HostIsolationMode](#hostisolationmode) | string (enum) | No |
 | [Status](#status) | string (enum) | No |
-| [RunFrequencyInterval](#runfrequencyinterval) | string (int64) | No |
+| [RunFrequencyInterval](#runfrequencyinterval) | string | No |
 | [SetupEntryPoint](#setupentrypoint) | [CodePackageEntryPoint](sfclient-model-codepackageentrypoint.md) | No |
 | [MainEntryPoint](#mainentrypoint) | [CodePackageEntryPoint](sfclient-model-codepackageentrypoint.md) | No |
 
@@ -117,7 +117,7 @@ Specifies the status of a deployed application or service package on a Service F
 
 ____
 ### RunFrequencyInterval
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The interval at which code package is run. This is used for periodic code package.

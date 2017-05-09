@@ -1,6 +1,6 @@
 ---
 title: "OperationStatus"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -67,9 +67,9 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-- invalid - The operation state is invalid.
-- partitionDataLoss - An operation started using the StartDataLoss API.
-- partitionQuorumLoss - An operation started using the StartQuorumLoss API.
-- partitionRestart - An operation started using the StartPartitionRestart API.
-- nodeTransition - An operation started using the StartNodeTransition API.
+- Invalid - The operation state is invalid.
+- PartitionDataLoss - An operation started using the StartDataLoss API.
+- PartitionQuorumLoss - An operation started using the StartQuorumLoss API.
+- PartitionRestart - An operation started using the StartPartitionRestart API.
+- NodeTransition - An operation started using the StartNodeTransition API.
 

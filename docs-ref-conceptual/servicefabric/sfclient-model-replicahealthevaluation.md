@@ -1,6 +1,6 @@
 ---
 title: "ReplicaHealthEvaluation"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,7 +38,7 @@ Represents health evaluation for a replica, containing information about the dat
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |
 | [Description](#description) | string | No |
 | [PartitionId](#partitionid) | string (uuid) | No |
-| [ReplicaOrInstanceId](#replicaorinstanceid) | string (int64) | No |
+| [ReplicaOrInstanceId](#replicaorinstanceid) | string | No |
 | [UnhealthyEvaluations](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
 
 ____
@@ -78,7 +78,7 @@ Id of the partition to which the replica belongs.
 
 ____
 ### ReplicaOrInstanceId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Id of the stateful service replica or the stateless service instance.

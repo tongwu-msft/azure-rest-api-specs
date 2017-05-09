@@ -1,6 +1,6 @@
 ---
 title: "CodePackageEntryPoint"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,12 +35,12 @@ Information about setup or main entry point of a code package deployed on a Serv
 | Name | Type | Required |
 | --- | --- | --- |
 | [EntryPointLocation](#entrypointlocation) | string | No |
-| [ProcessId](#processid) | string (int64) | No |
+| [ProcessId](#processid) | string | No |
 | [RunAsUserName](#runasusername) | string | No |
 | [CodePackageEntryPointStatistics](#codepackageentrypointstatistics) | [CodePackageEntryPointStatistics](sfclient-model-codepackageentrypointstatistics.md) | No |
 | [Status](#status) | string (enum) | No |
 | [NextActivationTime](#nextactivationtime) | string (date-time) | No |
-| [InstanceId](#instanceid) | string (int64) | No |
+| [InstanceId](#instanceid) | string | No |
 
 ____
 ### EntryPointLocation
@@ -51,7 +51,7 @@ The location of entry point executable on the node.
 
 ____
 ### ProcessId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The process id of the entry point.
@@ -94,7 +94,7 @@ The time (in UTC) when the entry point executable will be run next.
 
 ____
 ### InstanceId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The instance id for current running entry point. For a code package setup entry point (if specified) runs first and after it finishes main entry point is started. Each time entry point executable is run, its instance id will change.

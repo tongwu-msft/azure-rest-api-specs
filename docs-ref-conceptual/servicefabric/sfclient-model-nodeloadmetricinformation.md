@@ -1,6 +1,6 @@
 ---
 title: "NodeLoadMetricInformation"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,12 +35,12 @@ Represents data structure that contains load information for a certain metric on
 | Name | Type | Required |
 | --- | --- | --- |
 | [Name](#name) | string | No |
-| [NodeCapacity](#nodecapacity) | string (int64) | No |
-| [NodeLoad](#nodeload) | string (int64) | No |
-| [NodeRemainingCapacity](#noderemainingcapacity) | string (int64) | No |
+| [NodeCapacity](#nodecapacity) | string | No |
+| [NodeLoad](#nodeload) | string | No |
+| [NodeRemainingCapacity](#noderemainingcapacity) | string | No |
 | [IsCapacityViolation](#iscapacityviolation) | boolean | No |
-| [NodeBufferedCapacity](#nodebufferedcapacity) | string (int64) | No |
-| [NodeRemainingBufferedCapacity](#noderemainingbufferedcapacity) | string (int64) | No |
+| [NodeBufferedCapacity](#nodebufferedcapacity) | string | No |
+| [NodeRemainingBufferedCapacity](#noderemainingbufferedcapacity) | string | No |
 
 ____
 ### Name
@@ -51,21 +51,21 @@ Name of the metric for which this load information is provided.
 
 ____
 ### NodeCapacity
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Total capacity on the node for this metric.
 
 ____
 ### NodeLoad
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Current load on the node for this metric.
 
 ____
 ### NodeRemainingCapacity
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The remaining capacity on the node for this metric.
@@ -79,14 +79,14 @@ Indicates if there is a capacity violation for this metric on the node.
 
 ____
 ### NodeBufferedCapacity
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The value that indicates the reserved capacity for this metric on the node.
 
 ____
 ### NodeRemainingBufferedCapacity
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The remaining reserved capacity for this metric on the node.

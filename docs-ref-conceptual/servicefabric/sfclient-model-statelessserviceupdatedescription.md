@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceUpdateDescription"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Describes an update for a stateless service.
 | Name | Type | Required |
 | --- | --- | --- |
 | [ServiceKind](#servicekind) | string | Yes |
-| [Flags](#flags) | string (int64) | No |
+| [Flags](#flags) | string | No |
 | [PlacementConstraints](#placementconstraints) | string | No |
 | [CorrelationScheme](#correlationscheme) | array of [ServiceCorrelationDescription](sfclient-model-servicecorrelationdescription.md) | No |
 | [LoadMetrics](#loadmetrics) | array of [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) | No |
@@ -52,7 +52,7 @@ A discriminator property. Its value must be 'Stateless' for objects of type 'Sta
 
 ____
 ### Flags
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.

@@ -1,6 +1,6 @@
 ---
 title: "RestartDeployedCodePackageDescription"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,7 +38,7 @@ Defines description for restarting a deloyed code package on Service Fabric node
 | [ServiceManifestName](#servicemanifestname) | string | No |
 | [ServicePackageActivationId](#servicepackageactivationid) | string | No |
 | [CodePackageName](#codepackagename) | string | No |
-| [CodePackageInstanceId](#codepackageinstanceid) | string (int64) | No |
+| [CodePackageInstanceId](#codepackageinstanceid) | string | No |
 
 ____
 ### ServiceManifestName
@@ -66,7 +66,7 @@ The name of the code package.
 
 ____
 ### CodePackageInstanceId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The instance id for current running entry point. For a code package setup entry point (if specified) runs first and after it finishes main entry point is started. Each time entry point executable is run, its instance id will change.

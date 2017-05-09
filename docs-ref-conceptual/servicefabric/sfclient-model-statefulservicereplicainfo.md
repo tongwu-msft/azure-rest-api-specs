@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceReplicaInfo"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -39,9 +39,9 @@ Represents a stateful service replica. This includes information about the ident
 | [HealthState](#healthstate) | string (enum) | No |
 | [NodeName](#nodename) | string | No |
 | [Address](#address) | string | No |
-| [LastInBuildDurationInSeconds](#lastinbuilddurationinseconds) | string (int64) | No |
+| [LastInBuildDurationInSeconds](#lastinbuilddurationinseconds) | string | No |
 | [ReplicaRole](#replicarole) | string (enum) | No |
-| [ReplicaId](#replicaid) | string (int64) | No |
+| [ReplicaId](#replicaid) | string | No |
 
 ____
 ### ServiceKind
@@ -95,7 +95,7 @@ The address the replica is listening on.
 
 ____
 ### LastInBuildDurationInSeconds
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The last in build duration of the replica in seconds.
@@ -115,7 +115,7 @@ The role of a replica of a stateful service. Possible values are following.
 
 ____
 ### ReplicaId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 An internal ID used by Service Fabric to uniquely identify a replica of a partition. The replica ID is unique within a partition and does not change for the lifetime of the replica. If a replica gets dropped and another replica gets created on the same node for the same partition, it will get a different replica ID.

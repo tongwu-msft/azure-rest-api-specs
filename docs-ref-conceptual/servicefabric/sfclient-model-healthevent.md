@@ -1,6 +1,6 @@
 ---
 title: "HealthEvent"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,7 +40,7 @@ Represents health information reported on a health entity, such as cluster, appl
 | [HealthState](#healthstate) | string (enum) | Yes |
 | [TimeToLiveInMilliSeconds](#timetoliveinmilliseconds) | string (duration) | No |
 | [Description](#description) | string | No |
-| [SequenceNumber](#sequencenumber) | string (int64) | No |
+| [SequenceNumber](#sequencenumber) | string | No |
 | [RemoveWhenExpired](#removewhenexpired) | boolean | No |
 | [IsExpired](#isexpired) | boolean | No |
 | [SourceUtcTimestamp](#sourceutctimestamp) | string (date-time) | No |
@@ -115,7 +115,7 @@ Note that when truncated, the description has less than 4096 characters from the
 
 ____
 ### SequenceNumber
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The sequence number for this health report as a numeric string.

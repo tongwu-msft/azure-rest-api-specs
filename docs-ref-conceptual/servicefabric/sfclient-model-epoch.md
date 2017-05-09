@@ -1,6 +1,6 @@
 ---
 title: "Epoch"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,19 +35,19 @@ An Epoch is a configuration number for the partition as a whole. When the config
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ConfigurationVersion](#configurationversion) | string (int64) | No |
-| [DataLossVersion](#datalossversion) | string (int64) | No |
+| [ConfigurationVersion](#configurationversion) | string | No |
+| [DataLossVersion](#datalossversion) | string | No |
 
 ____
 ### ConfigurationVersion
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The current configuration number of this Epoch. The configuration number is an increasing value that is updated whenever the configuration of this replica set changes.
 
 ____
 ### DataLossVersion
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The current dataloss number of this Epoch. The data loss number property is an increasing value which is updated whenever data loss is suspected, as when loss of a quorum of replicas in the replica set that includes the Primary replica.

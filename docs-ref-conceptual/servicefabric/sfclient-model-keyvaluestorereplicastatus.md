@@ -1,6 +1,6 @@
 ---
 title: "KeyValueStoreReplicaStatus"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,10 +35,10 @@ Key value store related information for the replica.
 | Name | Type | Required |
 | --- | --- | --- |
 | [Kind](#kind) | string | Yes |
-| [DatabaseRowCountEstimate](#databaserowcountestimate) | string (int64) | No |
-| [DatabaseLogicalSizeEstimate](#databaselogicalsizeestimate) | string (int64) | No |
+| [DatabaseRowCountEstimate](#databaserowcountestimate) | string | No |
+| [DatabaseLogicalSizeEstimate](#databaselogicalsizeestimate) | string | No |
 | [CopyNotificationCurrentKeyFilter](#copynotificationcurrentkeyfilter) | string | No |
-| [CopyNotificationCurrentProgress](#copynotificationcurrentprogress) | string (int64) | No |
+| [CopyNotificationCurrentProgress](#copynotificationcurrentprogress) | string | No |
 | [StatusDetails](#statusdetails) | string | No |
 
 ____
@@ -50,14 +50,14 @@ A discriminator property. Its value must be 'KeyValueStore' for objects of type 
 
 ____
 ### DatabaseRowCountEstimate
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Value indicating the estimated number of rows in the underlying database.
 
 ____
 ### DatabaseLogicalSizeEstimate
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Value indicating the estimated size of the underlying database.
@@ -71,7 +71,7 @@ Value indicating the latest key-prefix filter applied to enumeration during the 
 
 ____
 ### CopyNotificationCurrentProgress
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Value indicating the latest number of keys enumerated during the callback. 0 if there is no pending callback.

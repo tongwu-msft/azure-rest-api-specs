@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceInstanceHealth"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,7 +41,7 @@ Contains the instance aggregated health state, the health events and the unhealt
 | [HealthEvents](#healthevents) | array of [HealthEvent](sfclient-model-healthevent.md) | No |
 | [UnhealthyEvaluations](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
 | [PartitionId](#partitionid) | string (uuid) | No |
-| [InstanceId](#instanceid) | string (int64) | No |
+| [InstanceId](#instanceid) | string | No |
 
 ____
 ### ServiceKind
@@ -93,7 +93,7 @@ Id of the partition to which this replica belongs.
 
 ____
 ### InstanceId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Id of the stateless service instance.

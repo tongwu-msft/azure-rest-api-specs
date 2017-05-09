@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceUpdateDescription"
-ms.date: "2017-05-06"
+ms.date: "2017-05-08"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Describes an update for a stateful service.
 | Name | Type | Required |
 | --- | --- | --- |
 | [ServiceKind](#servicekind) | string | Yes |
-| [Flags](#flags) | string (int64) | No |
+| [Flags](#flags) | string | No |
 | [PlacementConstraints](#placementconstraints) | string | No |
 | [CorrelationScheme](#correlationscheme) | array of [ServiceCorrelationDescription](sfclient-model-servicecorrelationdescription.md) | No |
 | [LoadMetrics](#loadmetrics) | array of [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) | No |
@@ -43,9 +43,9 @@ Describes an update for a stateful service.
 | [DefaultMoveCost](#defaultmovecost) | string (enum) | No |
 | [TargetReplicaSetSize](#targetreplicasetsize) | integer | No |
 | [MinReplicaSetSize](#minreplicasetsize) | integer | No |
-| [ReplicaRestartWaitDurationSeconds](#replicarestartwaitdurationseconds) | string (int64) | No |
-| [QuorumLossWaitDurationSeconds](#quorumlosswaitdurationseconds) | string (int64) | No |
-| [StandByReplicaKeepDurationSeconds](#standbyreplicakeepdurationseconds) | string (int64) | No |
+| [ReplicaRestartWaitDurationSeconds](#replicarestartwaitdurationseconds) | string | No |
+| [QuorumLossWaitDurationSeconds](#quorumlosswaitdurationseconds) | string | No |
+| [StandByReplicaKeepDurationSeconds](#standbyreplicakeepdurationseconds) | string | No |
 
 ____
 ### ServiceKind
@@ -56,7 +56,7 @@ A discriminator property. Its value must be 'Stateful' for objects of type 'Stat
 
 ____
 ### Flags
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.
@@ -138,21 +138,21 @@ The minimum replica set size as a number.
 
 ____
 ### ReplicaRestartWaitDurationSeconds
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The duration, in seconds, between when a replica goes down and when a new replica is created.
 
 ____
 ### QuorumLossWaitDurationSeconds
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The maximum duration, in seconds, for which a partition is allowed to be in a state of quorum loss.
 
 ____
 ### StandByReplicaKeepDurationSeconds
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The definition on how long StandBy replicas should be maintained before being removed.
