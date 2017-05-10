@@ -32,7 +32,7 @@ translation.priority.mt:
 
 [Service Fabric](http://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. Service Fabric also addresses the significant challenges in developing and managing cloud applications. Developers and administrators can avoid complex infrastructure problems and focus on implementing mission-critical, demanding workloads that are scalable, reliable, and manageable. Service Fabric represents the next-generation middleware platform for building and managing these enterprise-class, tier-1, cloud-scale applications.
 
-THe REST APIs fall into two main categories:
+The REST APIs fall into two main categories:
 
   - **Service Fabric Resource Manager**: APIs that perform resource manager operations are typically located at `management.azure.com` and include some form of the following in the request URI: `/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric`. 
   
@@ -44,4 +44,4 @@ THe REST APIs fall into two main categories:
 
 ## [Service Fabric Client APIs](sfclient-index.md)
 
-Once a cluster is created you can deploy and manage your applications, services, and containers using the [Service Fabric Client APIs](sfclient-index.md). These APIs are provided by Service Fabric itself and are always available anywhere Service Fabric runs, whether that's in Azure, on-premises, or another cloud. This APIs is the primary way of interacting with your Service Fabric cluster to deploy, upgrade, delete, and query your applications and services. 
+Once a cluster is created you can deploy and manage your applications, services, and containers using the [Service Fabric Client APIs](sfclient-index.md). These APIs are provided by Service Fabric itself and are always available anywhere Service Fabric runs, whether that's in Azure, on-premises, or another cloud. This API is the primary way of interacting with your Service Fabric cluster to deploy, upgrade, delete, and query your applications and services. 
