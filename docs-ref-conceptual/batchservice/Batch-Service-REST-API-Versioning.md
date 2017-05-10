@@ -1,7 +1,7 @@
 ---
 title: "Batch Service REST API Versioning | Microsoft Docs"
 ms.custom: ""
-ms.date: "2017-03-09"
+ms.date: "2017-05-05"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
@@ -20,9 +20,59 @@ manager: "timlt"
  To specify which version of an operation to use, specify the *api\-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY\-MM\-DD’ and Major is an integer and Minor is an integer.
 
 ## Supported Versions
- The version of the Batch API described here is 2017-01-01.4.0. Using the latest version is recommended where possible.
+ The version of the Batch API described here is 2017-05-01.5.0. Using the latest version is recommended when possible.
 
- Earlier versions include '2016-07-01.3.1', '2016-02-01.3.0', '2015-12-01.2.1', '2015-11-01.2.1', '2015-06-01.2.0', '2015-03-01.1.1', and '2014-10-01.1.0'.
+ Earlier versions include '2017-01-01.4.0', '2016-07-01.3.1', '2016-02-01.3.0', '2015-12-01.2.1', '2015-11-01.2.1', '2015-06-01.2.0', '2015-03-01.1.1', and '2014-10-01.1.0'.
+
+### Version 2017-05-01.5.0
+
+The following sections outline new and changed features in version 2017-05-01.5.0.
+
+> [!IMPORTANT]
+> Version 2017-05-01.5.0 includes several breaking changes. Please review the breaking changes noted below and update your code in order to call version 2017-05-01.5.0. 
+>
+>
+
+#### Low-priority compute nodes
+
+Azure Batch now offers low-priorty compute nodes to reduce the cost of Batch workloads. Low-priority VMs make new types of Batch workloads possible by providing a large amount of compute power that is also economical.
+
+There are several changes to the REST API for low-priority nodes:  
+
+- (**Breaking change**) The **targetDedicated** and **currentDedicated** properties of a pool or pool specification have been renamed to **targetDedicatedNodes** and **currentComputeNodes**.
+- (**Breaking change**) The **resizeError** property of a pool is now a collection called **resizeErrors**. 
+- Compute nodes have a new **isDedicated** property. This property is **true** for dedicated nodes, and **false** for low-priority nodes.
+- A Job Manager task has a new **allowLowPriorityNode** property. If this property is **true**, the Job Manager task may run on a low-priority node. If it is **false**, then the Job Manager task will run on a dedicated compute node.
+
+#### Named users on Linux
+
+Azure Batch now offers additional support for creating named users on Linux nodes. 
+
+- The new **linuxUserConfiguration** property supports specifying a **uid** (user ID) and **gid** (group ID) when creating a Linux user.
+- (**Breaking change**) The **sshPrivateKey** property has been moved from the **userAccount** property to the new **linuxUserConfiguration** property. The **linuxUserConfiguration** property is itself a property of the **userAccount** property.
+
+See [Run tasks under user accounts in Batch](https://docs.microsoft.com/azure/batch/batch-user-accounts) for more information about named user accounts.
+
+#### Output files for task data
+
+You can now specify output files to upload task data after a task has completed.
+
+- The new **outputFiles** property supports specifying task files to upload to Azure Storage.
+- The new **fileUploadError** property of the **exitConditions** property supports specifying actions to take based on the upload status of an output file.
+
+#### Task error reporting
+
+Several changes have been made to improve reporting for task errors.
+
+- The new **result** property of the **executionInfo** property indicates whether a task succeeded or failed.
+- (**Breaking change**) The **schedulingError** property of the **executionInfo** property has been renamed **failureInfo**. The **failureInfo** property is returned any time there is a task failure. This includes all previous scheduling error cases, all cases where a nonzero task exit codes is returned, and any file upload failures.
+- (**Breaking change**) The **schedulingError** property of the **exitConditions** property has been renamed to **preProcessingError** to clarify when the error took place in the task life-cycle.
+- (**Breaking change**) The **schedulingErrorCateogry** property has been renamed to **errorCategory**.
+
+#### Application licenses
+
+You can now request that application licenses be provisioned to your pool, via the new `applicationLicenses` property on a pool or pool specification.
+
 
 ### Version 2017-01-01.4.0
 
@@ -267,7 +317,7 @@ To specify which version of an operation to use, specify the *api-version* query
 
 - **Define user accounts across all nodes in a pool.** 
 
-    You can now run a task or task collection under a user account that you define on the pool resource. Define a user account via the new **userAccounts** property in requests to [Add Pool](~/docs-ref-autogen/batchservice/pool.json#Pool_Add). When you define the account, you can specify the account name, password, elevation level (admin or non-admin), and SSH private key (for Linux pools).
+    You can now run a task or task collection under a user account that you define on the pool resource. Define a user account via the new **userAccounts** property in requests to [Add Pool](add-a-pool-to-an-account.md). When you define the account, you can specify the account name, password, elevation level (admin or non-admin), and SSH private key (for Linux pools).
     
     Once you define the user account, you can specify that user account for the **userIdentity** property in requests that add a task or a task collection.
 
@@ -277,19 +327,19 @@ To specify which version of an operation to use, specify the *api-version* query
     
     Currently authentication tokens are supported for calling operations on the job resource only. The authentication token grants access to all operations on the job that contains the task. 
 
-    To have the Batch service provide the authentication token, specify the new **authenticationTokenSettings** property, together with its **access** property, in requests to [Add Task](~/docs-ref-autogen/batchservice/task.json#Task_Add) or [Add Task Collection](~/docs-ref-autogen/batchservice/task.json#Task_AddCollection).
+    To have the Batch service provide the authentication token, specify the new **authenticationTokenSettings** property, together with its **access** property, in requests to [Add Task](add-a-task-to-a-job.md) or [Add Task Collection](add-a-collection-of-tasks-to-a-job.md).
 
 - **Specify an action to take on a task's dependencies if the task fails.** 
     
     You can now specify that dependent tasks proceed even if the task that they depend on fails. Set the new **dependencyAction** property of a task resource to *satisfy* to run dependent tasks even if the parent task fails. Alternately, set **dependencyAction** to *block* to block running of dependent tasks if the parent task fails.  
 
-    Specify the **dependencyAction** property in requests to [Add Task](~/docs-ref-autogen/batchservice/task.json#Task_Add) or [Add Task Collection](~/docs-ref-autogen/batchservice/task.json#Task_AddCollection).
+    Specify the **dependencyAction** property in requests to [Add Task](add-a-task-to-a-job.md) or [Add Task Collection](add-a-collection-of-tasks-to-a-job.md).
 
 - **Use custom OS disk images when creating a pool.** 
 
     You can now use custom OS disk images to create a pool.  
     
-    To do so, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. In a call to [Create Account](~/docs-ref-autogen/batchmanagement/batchaccount.json#BatchAccount_Create), set the **poolAllocationMode** property to _UserSubscription_. Then   use the **osDisk** property to specify a reference to a disk image in a request to [Add Pool](~/docs-ref-autogen/batchservice/pool.json#Pool_Add).
+    To do so, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. In a call to [Create Account](~/docs-ref-autogen/batchmanagement/batchaccount.json#BatchAccount_Create), set the **poolAllocationMode** property to _UserSubscription_. Then   use the **osDisk** property to specify a reference to a disk image in a request to [Add Pool](add-a-pool-to-an-account.md).
 
     > [!IMPORTANT] 
     > When you create your Batch account, if you specify that pools are to be provisioned in the user subscription, then you must use Azure Active Directory-based authentication for all requests made through that account.
@@ -308,22 +358,22 @@ To specify which version of an operation to use, specify the *api-version* query
 
 -   Capability to create a pool and an auto-pool with Network configuration
 
-    -   A new property [networkConfiguration](~/docs-ref-autogen/batchservice/pool.json#Pool_Add), has been added to both the pool and auto-pool resources. This property can be used to specify the pool's network configuration, such as the subnet in which the pool's compute nodes will be created.
+    -   A new property [networkConfiguration](add-a-pool-to-an-account.md), has been added to both the pool and auto-pool resources. This property can be used to specify the pool's network configuration, such as the subnet in which the pool's compute nodes will be created.
 
 - Automatically terminate a job when all tasks are complete.
-    - A new property [onAllTasksComplete](~/docs-ref-autogen/batchservice/job.json#Job_Add) has been added to the job resource. You can specify this when you create or update a job.
+    - A new property [onAllTasksComplete](add-a-job-to-an-account.md) has been added to the job resource. You can specify this when you create or update a job.
 
 - Automatically terminate or disable a job when a task fails.
 
-    - A new property [onTaskFailure](~/docs-ref-autogen/batchservice/job.json#Job_Add) has been added to the job resource, and a new property [exitConditions](~/docs-ref-autogen/batchservice/task.json#Task_Add) has been added to the task resource. The job onTaskFailure setting indicates whether task failure may have a job-level impact, and the task exitConditions property allows tasks to tailor the job-level impact to the nature of the failure.
+    - A new property [onTaskFailure](add-a-job-to-an-account.md) has been added to the job resource, and a new property [exitConditions](add-a-task-to-a-job.md) has been added to the task resource. The job onTaskFailure setting indicates whether task failure may have a job-level impact, and the task exitConditions property allows tasks to tailor the job-level impact to the nature of the failure.
 
 - Associate application packages with tasks as well as pools.
 
-    - A new property [applicationPackageReferences](~/docs-ref-autogen/batchservice/job.json#Job_Add) has been added to the task resource and to the job jobManagerTask settings. This allows application packages to be deployed on demand as tasks require them rather than requiring them to be specified at pool creation time. This is particularly valuable for long-lived pools that may be called on to run different kinds of jobs or different application versions over their lifetime, or if you have a large application package that is not required by all tasks.
+    - A new property [applicationPackageReferences](add-a-job-to-an-account.md) has been added to the task resource and to the job jobManagerTask settings. This allows application packages to be deployed on demand as tasks require them rather than requiring them to be specified at pool creation time. This is particularly valuable for long-lived pools that may be called on to run different kinds of jobs or different application versions over their lifetime, or if you have a large application package that is not required by all tasks.
 
 - Capability to reactivate a failed task.
 
-    - A new operation [Reactivate a task](~/docs-ref-autogen/batchservice/task.json#Task_Reactivate) has been added to reset a failed task's state to active. This allows failures to be retried, for example if the failure was transient or if you have been able to fix the cause of the failure, without recreating the task.
+    - A new operation [Reactivate a task](reactivate-a-task.md) has been added to reset a failed task's state to active. This allows failures to be retried, for example if the failure was transient or if you have been able to fix the cause of the failure, without recreating the task.
 
 ### Version 2016-02-01.3.0
  This version release extends all support from the previous version, 2015-12-01.2.2. Additionally, it supports the following capabilities:
@@ -334,15 +384,15 @@ To specify which version of an operation to use, specify the *api-version* query
 
     -   A new property 'virtualMachineConfiguration' is added to both the Pool and AutoPool resources. This property can be specified to configure a pool/auto pool with IaaS VMs.
 
-    -   A new API is added to obtain information about all the node agent SKUs supported by the Batch service. See [List supported node agent SKUs](~/docs-ref-autogen/batchservice/account.json#Account_ListNodeAgentSkus).
+    -   A new API is added to obtain information about all the node agent SKUs supported by the Batch service. See [List supported node agent SKUs](list-supported-node-agent-skus.md).
 
-    -   A new API is added to obtain remote login settings which can be used to remotely login to a compute node created with IaaS VM configuration. See [Get remote login settings for a node](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_GetRemoteLoginSettings).
+    -   A new API is added to obtain remote login settings which can be used to remotely login to a compute node created with IaaS VM configuration. See [Get remote login settings for a node](get-remote-login-settings-for-a-node.md).
 
-    -   A new API is added to add a collection of tasks to a job. See [Add a collection of tasks to a job](~/docs-ref-autogen/batchservice/task.json#Task_AddCollection).
+    -   A new API is added to add a collection of tasks to a job. See [Add a collection of tasks to a job](add-a-collection-of-tasks-to-a-job.md).
 
     -   A new optional property 'sshPublicKey' is added to the User resource which can be used for adding/updating users on a Linux compute node.
 
-    -   Two new properties 'totalTasksSucceeded' and 'runningTasksCount' are added to the Node resource. These properties can be obtained via [Get information about a node](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_Get) or [List the compute nodes in a pool](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_List).
+    -   Two new properties 'totalTasksSucceeded' and 'runningTasksCount' are added to the Node resource. These properties can be obtained via [Get information about a node](get-information-about-a-node.md) or [List the compute nodes in a pool](list-the-compute-nodes-in-a-pool.md).
 
     -   A new property 'fileMode' is added to the 'ResourceFile' complex type. This property is applied only on Linux compute nodes and ignored for Windows compute nodes.
 
@@ -352,45 +402,45 @@ To specify which version of an operation to use, specify the *api-version* query
 
 -   The URLs of the following APIs are changed to replace "?" for the action name to "/":
 
-    -   [Replace the properties of a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_UpdateProperties)
+    -   [Replace the properties of a pool](replace-the-properties-of-a-pool.md)
 
-    -   [Disable automatic scaling on a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_DisableAutoScale)
+    -   [Disable automatic scaling on a pool](disable-automatic-scaling-on-a-pool.md)
 
-    -   [Enable automatic scaling on a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_EnableAutoScale)
+    -   [Enable automatic scaling on a pool](enable-automatic-scaling-on-a-pool.md)
 
-    -   [Evaluate an automatic scaling formula](~/docs-ref-autogen/batchservice/pool.json#Pool_EvaluateAutoScale)
+    -   [Evaluate an automatic scaling formula](evaluate-an-automatic-scaling-formula.md)
 
-    -   [Change the size of a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_Resize)
+    -   [Change the size of a pool](change-the-size-of-a-pool.md)
 
-    -   [Stop changing the size of a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_StopResize)
+    -   [Stop changing the size of a pool](stop-changing-the-size-of-a-pool.md)
 
-    -   [Upgrade the operating system of compute nodes in a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_UpgradeOS)
+    -   [Upgrade the operating system of compute nodes in a pool](upgrade-the-operating-system-of-compute-nodes-in-a-pool.md)
 
-    -   [Remove compute nodes from a pool](~/docs-ref-autogen/batchservice/pool.json#Pool_RemoveNodes)
+    -   [Remove compute nodes from a pool](remove-compute-nodes-from-a-pool.md)
 
-    -   [Reboot a node](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_Reboot)
+    -   [Reboot a node](reboot-a-node.md)
 
-    -   [Reimage a node](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_Reimage)
+    -   [Reimage a node](reimage-a-node.md)
 
-    -   [Disable task scheduling on a node](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_DisableScheduling)
+    -   [Disable task scheduling on a node](disable-task-scheduling-on-a-node.md)
 
-    -   [Enable task scheduling on a node](~/docs-ref-autogen/batchservice/computenode.json#ComputeNode_EnableScheduling)
+    -   [Enable task scheduling on a node](enable-task-scheduling-on-a-node.md)
 
-    -   [Disable a job schedule](~/docs-ref-autogen/batchservice/jobschedule.json#JobSchedule_Disable)
+    -   [Disable a job schedule](disable-a-job-schedule.md)
 
-    -   [Enable a job schedule](~/docs-ref-autogen/batchservice/jobschedule.json#JobSchedule_Enable)
+    -   [Enable a job schedule](enable-a-job-schedule.md)
 
-    -   [Terminate a job schedule](~/docs-ref-autogen/batchservice/jobschedule.json#JobSchedule_Terminate)
+    -   [Terminate a job schedule](terminate-a-job-schedule.md)
 
-    -   [Disable a job](~/docs-ref-autogen/batchservice/job.json#Job_Disable)
+    -   [Disable a job](disable-a-job.md)
 
-    -   [Enable a job](~/docs-ref-autogen/batchservice/job.json#Job_Enable)
+    -   [Enable a job](enable-a-job.md)
 
-    -   [Terminate a job](~/docs-ref-autogen/batchservice/job.json#Job_Terminate)
+    -   [Terminate a job](terminate-a-job.md)
 
-    -   [Terminate a task](~/docs-ref-autogen/batchservice/task.json#Task_Terminate)
+    -   [Terminate a task](terminate-a-task.md)
 
-    -   [Cancel the deletion of a certificate](~/docs-ref-autogen/batchservice/certificate.json#Certificate_CancelDeletion)
+    -   [Cancel the deletion of a certificate](cancel-the-deletion-of-a-certificate.md)
 
 ### Version 2015-12-01.2.2
  This version release extends all support from the previous version, 2015-11-01.2.1. Additionally, it supports the following capabilities:
