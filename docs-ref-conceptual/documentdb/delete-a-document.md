@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Delete Document
-Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the Azure Cosmos DB API for Azure Cosmos DB. 
 
 The `Delete Document` operation deletes an existing document in a collection.    
   
@@ -35,10 +35,10 @@ The `Delete Document` operation deletes an existing document in a collection.
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|DELETE|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs/{doc-id}|Note that the {databaseaccount} is the name of the DocumentDB account created under your subscription.|  
+|DELETE|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs/{doc-id}|Note that the {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription.|  
   
 ### Headers  
-See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests.  
+See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
   
 |Header|Required|Type|Description|  
 |------------|--------------|----------|-----------------|  
@@ -51,7 +51,7 @@ None.
 The service returns an empty response body.  
   
 ### Headers  
-See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses. The important response headers for Delete Document are the following:  
+See [Common Azure Cosmos DB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all Cosmos DB responses. The important response headers for Delete Document are the following:  
   
 |Property|Type|Description|  
 |--------------|----------|-----------------|  
@@ -109,9 +109,9 @@ Date: Tue, 29 Mar 2016 02:03:07 GMT
 ```  
   
 ## See also  
-* [DocumentDB documentation](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
+* [Azure Cosmos DB documentation](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
 * [Azure DocumentDB Reference Documentation](index.md)   
-* [DocumentDB SDKs](https://docs.microsoft.com/azure/documentdb/documentdb-sdk-dotnet)    
+* [Azure Cosmos DB SDKs](https://docs.microsoft.com/azure/documentdb/documentdb-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   

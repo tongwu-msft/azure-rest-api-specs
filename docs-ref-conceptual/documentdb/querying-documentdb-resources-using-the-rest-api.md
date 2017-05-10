@@ -1,10 +1,10 @@
 ---
-title: "Querying DocumentDB resources using the REST API"
+title: "Querying Azure Cosmos DB resources using the REST API"
 ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -25,11 +25,11 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Querying DocumentDB resources using the REST API
-Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article describes how to use REST to query resources using the DocumentDB API. 
+# Querying Azure Cosmos DB resources using the REST API
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article describes how to use REST to query resources using the Azure Cosmos DB API. 
   
 ## What resources can be queried by using REST?  
-All DocumentDB resources except account resources can be queried using DocumentDB SQL language.  For more information on DocumentDB SQL Language, see [Query with DocumentDB SQL](http://azure.microsoft.com/documentation/articles/documentdb-sql-query).  
+All Azure Cosmos DB resources except account resources can be queried using Azure Cosmos DB SQL language.  For more information on Azure Cosmos DB SQL Language, see [Query with Azure Cosmos DB SQL](http://azure.microsoft.com/documentation/articles/documentdb-sql-query).  
   
 ## How do I query a resource by using REST?  
 To perform a SQL query on a resource, do the following:  
@@ -66,16 +66,16 @@ Content-Length: 50
   
 |**Method**|**Request URI**|  
 |-|-|  
-|**POST**|**Required**. The authentication type and signature token. Only the master key token is allowed for this operation. For more information, see [Access Control on DocumentDB Resources](access-control-on-documentdb-resources.md).|  
+|**POST**|**Required**. The authentication type and signature token. Only the master key token is allowed for this operation. For more information, see [Access Control on Cosmos DB Resources](access-control-on-documentdb-resources.md).|  
   
 ## Request Headers  
  The following table contains the common headers used to perform query operations.  
   
 |**Standard Header**|**Description**|  
 |-|-|  
-|**Authorization**|**Required**. The authentication type and signature token. Only the master key token is allowed for this operation. For more information, see [Access Control on DocumentDB Resources](access-control-on-documentdb-resources.md).|  
+|**Authorization**|**Required**. The authentication type and signature token. Only the master key token is allowed for this operation. For more information, see [Access Control on Cosmos DB Resources](access-control-on-documentdb-resources.md).|  
 |**Content-Type**|**Required**. Must be set to application/query+json.|  
-|**Accept**|**Optional**. At the moment, DocumentDB always returns the response payload in standard JSON format. The client must be able to accept the response body in standard JSON format.|  
+|**Accept**|**Optional**. At the moment, Cosmos DB always returns the response payload in standard JSON format. The client must be able to accept the response body in standard JSON format.|  
 |**User-Agent**|**Optional**. The user agent performing the request. The recommended format is {user agent name}/{version}. For example, the DocumentDB .NET SDK sets the User-Agent string to Microsoft.Document.Client/1.0.0.0.|  
   
 |**Custom Header**|**Description**|  
@@ -84,7 +84,7 @@ Content-Length: 50
 |**x-ms-documentdb-isquery**|**Required**. This property must be set to true.|  
 |**x-ms-max-item-count**|**Optional**. To page through a result set, set this header to the maximum number for items to be returned back in a single page.|  
 |**x-ms-continuation**|**Optional**. To navigate to the next page of items, set this header to the continuation token for the next page.|  
-|**x-ms-version**|**Optional**. The version of DocumentDB REST service. The latest version is used when the header is not provided. For more information, see [Azure DocumentDB REST API Reference](index.md).|  
+|**x-ms-version**|**Optional**. The version of Cosmos DB REST service. The latest version is used when the header is not provided. For more information, see [Azure Cosmos DB REST API Reference](index.md).|  
 |**x-ms-documentdb-query-enable-scan**|**Optional**. Use an index scan to process the query if the right index path of type is not available.|  
 |**x-ms-session-token**|**Optional**. The session token for the request. Used for session consistency.|  
 |**x-ms-partition-key**|**Optional**. If specified, the query is executed only on documents that match the partition key value in the header.|  
@@ -95,7 +95,7 @@ The request body should be a valid JSON document containing the SQL query and pa
   
 |Property|Description|  
 |--------------|-----------------|  
-|query|**Required**. The SQL query string for the query. For more information see [DocumentDB SQL Query Language](https://go.microsoft.com/fwlink/?linkid=834808).|  
+|query|**Required**. The SQL query string for the query. For more information see [DocumentDB API SQL Query Language](https://go.microsoft.com/fwlink/?linkid=834808).|  
 |parameters|**Required**. A JSON array of parameters specified as name value pairs. The parameter array can contain from zero to many parameters.Each parameter must have the following values:**name**: the name of the parameter. Parameter names must be valid string literals and begin with ‘@’.**value**: the value of the parameter. Can be any valid JSON value (string, number, object, array, Boolean or null).|  
   
 ## Request Example  
@@ -121,10 +121,10 @@ Content-Length: 50
 }  
 ```  
   
-For more information on the DocumentDB SQL Language, see [Query with DocumentDB SQL](http://azure.microsoft.com/documentation/articles/documentdb-sql-query).  
+For more information on the DocumentDB API SQL Language, see [Query with DocumentDB API SQL](http://azure.microsoft.com/documentation/articles/documentdb-sql-query).  
   
 ## Response Details  
-The following are common status codes returned by this operation. For information about error status codes, please see [HTTP Status Codes for DocumentDB](http-status-codes-for-documentdb.md).  
+The following are common status codes returned by this operation. For information about error status codes, please see [HTTP Status Codes for Azure Cosmos DB](http-status-codes-for-documentdb.md).  
   
 |**Code**|**Description**|  
 |-|-|  
@@ -139,15 +139,15 @@ This operation returns the following common headers. There may be additional sta
   
 |**Standard Header**|**Description**|  
 |-|-|  
-|**Content-Type**|The Content-Type is application/json. DocumentDB always return the response body in standard JSON format.|  
+|**Content-Type**|The Content-Type is application/json. Cosmos DB always return the response body in standard JSON format.|  
 |**Date**|The date-time of the response operation. This date time format conforms to the [RFC1123] date time format expressed in UTC.|  
   
 |**Custom Header**|**Description**|  
 |-|-|  
 |**x-ms-item-count**|The number of item returned by the operation.|  
 |**x-ms-continuation**|This is an opaque string returned when the query has potentially more items to be retrieved.<br /><br /> The x-ms-continuation can be included in subsequent requests as a request header to resume execution of the query.|  
-|**x-ms-request-charge**|This is the number of request units (RU) consumed by the operation. For more information about request units, see [Managing DocumentDB Capacity and Performance](http://azure.microsoft.com/documentation/articles/documentdb-manage).|  
-|**x-ms-activity-id**|This is a unique identifier for the operation. It can be used for tracing execution of DocumentDB requests.|  
+|**x-ms-request-charge**|This is the number of request units (RU) consumed by the operation. For more information about request units, see [Managing Azure Cosmos DB Capacity and Performance](http://azure.microsoft.com/documentation/articles/documentdb-manage).|  
+|**x-ms-activity-id**|This is a unique identifier for the operation. It can be used for tracing execution of Cosmos DB requests.|  
 |**x-ms-session-token**|The session token to be used for subsequent requests. Used for session consistency.|  
   
 ## Response Body  
@@ -211,7 +211,7 @@ Queries will return from zero up to the maximum specified **x-ms-max-item-count*
   
 Clients can fetch subsequent pages of results by echoing the **x-ms-continuation** header as another request. In order to read all results, clients must repeat this process until an empty **x-ms-continuation** is returned.  
   
-DocumentDB query executions are stateless at the server side, and can be resumed at any time using the **x-ms-continuation** header. The **x-ms-continuation** value uses the last processed document resource ID (_rid) to track progress of execution. Therefore if documents are deleted and re-inserted between fetching of pages, then it could potentially be excluded from any of the query batches. However, the behavior and format of the **x-ms-continuation** header might change in a future service update.  
+Cosmos DB query executions are stateless at the server side, and can be resumed at any time using the **x-ms-continuation** header. The **x-ms-continuation** value uses the last processed document resource ID (_rid) to track progress of execution. Therefore if documents are deleted and re-inserted between fetching of pages, then it could potentially be excluded from any of the query batches. However, the behavior and format of the **x-ms-continuation** header might change in a future service update.  
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 

@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-02-25"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -33,10 +33,10 @@ The `Delete Trigger` operation deletes an existing trigger in a collection.
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|DELETE|`https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/triggers/{trigger-id}`|Note that the {databaseaccount} is the name of the DocumentDB account created under your subscription.|  
+|DELETE|`https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/triggers/{trigger-id}`|Note that the {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription.|  
   
 ### Headers  
-See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests.  
+See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
   
 ### Body  
 None.  
@@ -44,7 +44,7 @@ None.
 ## Response  
   
 ### Headers  
-See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  
+See [Common Azure Cosmos DB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all Cosmos DB responses.  
   
 ### Status codes  
 The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](https://msdn.microsoft.com/library/azure/dn783364.aspx).  
@@ -98,9 +98,9 @@ Date: Wed, 09 Dec 2015 19:44:58 GMT
 ```  
   
 ## See also  
-* [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
+* [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
 * [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
-* [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+* [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) 
  
   

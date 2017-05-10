@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-02-12"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 # Users
 Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
 
-The DocumentDB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the operations that can be used on a DocumentDB account. A user is a logical namespace for scoping permissions on collections, documents, attachment, stored procedures, triggers, and user-defined functions. The user construct lives under a database resource and thus cannot cross the database boundary it is under. The user resource is represented by users in the DocumentDB REST resource model. It is a system resource, and thus contains a fixed schema.  
+The Azure Cosmos DB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the operations that can be used on an Azure Cosmos DB account. A user is a logical namespace for scoping permissions on collections, documents, attachment, stored procedures, triggers, and user-defined functions. The user construct lives under a database resource and thus cannot cross the database boundary it is under. The user resource is represented by users in the Azure Cosmos DB REST resource model. It is a system resource, and thus contains a fixed schema.  
   
 The following example shows an example JSON representation for a user:  
   
@@ -67,7 +67,7 @@ The following example shows an example JSON representation for a user:
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
 * [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
 * [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
-* [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+* [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) 
   
   

@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Replace a Document
-Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the Azure Cosmos DB API for Cosmos DB. 
 
 The `Replace Document` operation replaces the entire content of a document.
   
@@ -35,10 +35,10 @@ The `Replace Document` operation replaces the entire content of a document.
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|PUT|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs/{doc-name}|Note that the {databaseaccount} is the name of the DocumentDB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection. The {doc-name} value is the name of the document to be replaced.|  
+|PUT|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs/{doc-name}|Note that the {databaseaccount} is the name of the Cosmos DB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection. The {doc-name} value is the name of the document to be replaced.|  
   
 ### Headers  
- See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests. The important headers for this request are:  
+ See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests. The important headers for this request are:  
   
 |Header|Required|Type|Description|  
 |------------|--------------|----------|-----------------|  
@@ -51,7 +51,7 @@ The `Replace Document` operation replaces the entire content of a document.
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|This is a user settable property. It is a unique name to identify a document, i.e. no two documents should share the same **id**. The **id** must not exceed 255 characters.|  
-|\<custom>|Required|JSON|Any user defined JSON. For information about document size limits, see [DocumentDB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
+|\<custom>|Required|JSON|Any user defined JSON. For information about document size limits, see [Azure Cosmos DB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
   
 ```  
 {  
@@ -75,7 +75,7 @@ The `Replace Document` operation replaces the entire content of a document.
  Replace Document returns the updated document body.  
   
 ### Headers  
- See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses. The important response headers for Replace Document are the following:  
+ See [Common Azure Cosmos DB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all Cosmos DB responses. The important response headers for Replace Document are the following:  
   
 |Header|Type|Description|  
 |------------|----------|-----------------|  
@@ -91,7 +91,7 @@ The `Replace Document` operation replaces the entire content of a document.
 |400 Bad Request|The JSON body is invalid. Check for missing curly brackets or quotes.|  
 |404 Not Found|The document no longer exists, i.e. the document was deleted.|  
 |409 Conflict|The id provided for the new document has been taken by an existing document.|  
-|413 Entity Too Large|The document size in the request exceeded the allowable document size in a request. For more information on document size limits, see [DocumentDB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
+|413 Entity Too Large|The document size in the request exceeded the allowable document size in a request. For more information on document size limits, see [Azure Cosmos DB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
   
 ### Body  
   
@@ -199,9 +199,9 @@ Date: Tue, 29 Mar 2016 02:03:07 GMT
 ```  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
+ [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
  [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+ [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
