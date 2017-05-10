@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -33,10 +33,10 @@ translation.priority.mt:
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|GET|`https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs`|Note that the `{databaseaccount}` is the name of the DocumentDB account created under your subscription. The `{db-id}` value is id of the database and {coll-id} value is the name of the collection.|  
+|GET|`https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs`|Note that the `{databaseaccount}` is the name of the Azure Cosmos DB account created under your subscription. The `{db-id}` value is id of the database and {coll-id} value is the name of the collection.|  
   
 ### Headers  
- See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests. The important response headers for ReadFeed Document are the following:  
+ See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests. The important response headers for ReadFeed Document are the following:  
   
 |Header|Required|Type|Description|  
 |------------|--------------|----------|-----------------|  
@@ -56,7 +56,7 @@ translation.priority.mt:
  Returns an array of documents stored within the collection.  
   
 ### Headers  
- See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  The important response headers are:  
+ See [Common Azure Cosmos DB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all Cosmos DB responses.  The important response headers are:  
   
 |Header|Type|Description|  
 |------------|----------|-----------------|  
@@ -260,9 +260,9 @@ Date: Tue, 29 Mar 2016 02:03:07 GMT
 ```  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
+ [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
  [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+ [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   

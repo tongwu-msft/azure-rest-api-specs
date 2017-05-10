@@ -159,12 +159,14 @@ manager: "timlt"
 |displayName|String|A display name for the Job Manager task. It need not be unique and can contain any Unicode characters up to a maximum length of 1024.|
 |commandLine|String|The command line of the Job Manager task.|
 |[resourceFiles](../batchservice/list-the-job-schedules-in-an-account.md#resourceFiles)|Collection|A list of files that Batch will download to the compute node before running the command line.<br /><br /> Files that listed under this element are located in the task’s **wd** directory. For more information, see [List the files associated with a task](../batchservice/list-the-files-associated-with-a-task.md).|
-|[applicationPackageReferences](../batchservice/list-the-job-schedules-in-an-account.md#applicationPackageReferences)|Collection|A list of application packages that the Batch service will deploy to the compute node before running the command line.<br /><br /> Application packages are downloaded to a shared directory, not the task directory.  Therefore, if a referenced package is already on the compute node, and is up to date, then it is not re-downloaded; the existing copy on the compute node is used.<br /><br /> If a referenced application package cannot be installed, for example because the package has been deleted or because download failed, the task fails with a scheduling error.|
+|[outputFiles](#outputFile)|Collection|A list of files that the Batch service will upload from the compute node after running the command line. For multi-instance tasks, the files will only be uploaded from the compute node on which the primary task is executed.|
+|[applicationPackageReferences](../batchservice/list-the-job-schedules-in-an-account.md#applicationPackageReferences)|Collection|A list of application packages that the Batch service will deploy to the compute node before running the command line.<br /><br /> Application packages are downloaded to a shared directory, not the task directory.  Therefore, if a referenced package is already on the compute node, and is up to date, then it is not re-downloaded; the existing copy on the compute node is used.<br /><br /> If a referenced application package cannot be installed, for example because the package has been deleted or because download failed, the task fails to start due to an error.|
 |[environmentSettings](../batchservice/list-the-job-schedules-in-an-account.md#environmentSettings)|Collection|A list of environment variable settings for the Job Manager task.|
 |[constraints](../batchservice/list-the-job-schedules-in-an-account.md#constraints2)|Complex Type|Specifies constraints that apply to the Job Manager task.|
 |killJobOnCompletion|Boolean|Specifies whether completion of the Job Manager task signifies completion of the entire job.<br /><br /> If true, when the Job Manager task completes, the Batch service marks the job as complete.  If any tasks are still running at this time \(other than Job Release\), those tasks are terminated.<br /><br /> If false, the completion of the Job Manager task does not affect the job status. In this case, you should either use the onAllTasksComplete attribute to terminate the job, or have a client or user terminate the job explicitly. An example of this is if the Job Manager creates a set of tasks but then takes no further role in their execution.<br /><br /> The default value is true.|
 |[userIdentity](#userIdentity)|Complex Type|The user identity under which the task runs. If absent, the task runs as a non-administrative user unique to the task.|
 |runExclusive|Boolean|Specifies whether the Job Manager task requires exclusive use of the compute node where it runs.<br /><br /> If true, no other tasks will run on the same compute node for as long as the Job Manager is running.<br /><br /> If false, other tasks can run simultaneously with the Job Manager on a compute node. \(The Job Manager task counts normally against the node’s concurrent task limit, so this is only relevant if the node allows multiple concurrent tasks.\)<br /><br /> The default value is true.|
+|allowLowPriorityNode|Boolean|Specifies whether the Job Manager task may run on a low-priority compute node. The default value is false.|
 
 ###  <a name="jobPreparationTask"></a> jobPreparationTask
 
@@ -199,6 +201,34 @@ manager: "timlt"
 |blobSource|String|The URL of a blob in Azure storage. The Batch service downloads the blob to the specified file path.<br /><br /> The URL must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob.  There are two ways to get such a URL for a blob in Azure storage: use a Shared Access Signature \(SAS\) granting read permissions on the blob, set the ACL for the blob’s container to allow public access.|
 |filePath|String|The location on the compute node to which the file should be downloaded.|
 |fileMode|String|The file permission mode attribute in octal format. This property is applicable only if the resourceFile is downloaded to a Linux node. This property will be ignored if it is specified for a resourceFile which is downloaded to a Windows node.<br /><br /> If this property is not specified for a Linux node, then a default value of 0770 is applied to the file.|
+
+###  <a name="outputFile"></a> outputFile
+
+|Element name|Type|Notes|
+|------------------|--------------|----------|-----------|
+|filePattern|String|A pattern indicating which file(s) to upload.<br /><br /> Both relative and absolute paths are supported. Relative paths are relative to the task working directory.<br /><br /> For wildcards, use * to match any character and ** to match any directory. For example, **\\*.txt matches any file ending in .txt in the task working directory or any subdirectory.<br /><br /> Note that \\ and / are treated interchangeably and mapped to the correct directory separator on the compute node operating system.|
+|[destination](#outputFileDestination)|Complex Type|The destination for the output file(s).|
+|[uploadOptions](#outputFileUploadOptions)|Complex Type|Additional options for the upload operation, including under what conditions to perform the upload.|
+
+###  <a name="outputFileDestination"></a> outputFileDestination
+
+|Element name|Type|Notes|
+|------------------|--------------|----------|-----------|
+|[container](#outputFileBlobContainerDestination)|ComplexType|A location in Azure blob storage to which files are uploaded.|
+
+###  <a name="outputFileBlobContainerDestination"></a> outputFileBlobContainerDestination
+
+|Element name|Type|Notes|
+|------------------|--------------|----------|-----------|
+|path|String|The destination blob or virtual directory within the Azure Storage container. If filePattern refers to a specific file (i.e. contains no wildcards), then path is the name of the blob to which to upload that file. If filePattern contains one or more wildcards (and therefore may match multiple files), then path is the name of the blob virtual directory (which is prepended to each blob name) to which to upload the file(s). If omitted, file(s) are uploaded to the root of the container with a blob name matching their file name.|
+|containerUrl|String|The URL of the container within Azure Blob Storage to which to upload the file(s). The URL must include a Shared Access Signature (SAS) granting write permissions to the container.|
+
+###  <a name="outputFileUploadOptions"></a> outputFileUploadOptions
+
+|Element name|Type|Notes|
+|------------------|--------------|----------|-----------|
+|uploadCondition|String|The conditions under which the task output file or set of files should be uploaded. Possible values include:<br /><br /> - **taskSuccess**: Upload the file(s) only after the task process exits with an exit code of 0.<br /><br /> - **taskFailure**: Upload the file(s) only after the task process exits with a nonzero exit code.<br /><br /> **taskCompletion**: Upload the file(s) after the task process exits, no matter what the exit code was.<br /><br /> 
+The default is taskCompletion.|
 
 ### <a name="applicationPackageReferences"></a> applicationPackageReferences
 
@@ -264,16 +294,18 @@ manager: "timlt"
 |[virtualMachineConfiguration](../batchservice/list-the-job-schedules-in-an-account.md#bk_vmconf)|Complex Type|The virtual machine configuration for the pool. This property must be specified if the pool needs to be created with Azure IaaS VMs.<br />Note that the cloudServiceConfiguration and virtualMachineConfiguration properties are mutually exclusive and only one of the properties can be specified. If neither is specified then the Batch service returns Bad Request \(400\).|
 |[networkConfiguration](../batchservice/list-the-job-schedules-in-an-account.md#bk_netconf)|Complex Type|The network configuration for the pool.|
 |resizeTimeout|Time|Specifies the timeout for allocation of compute nodes to the pool.<br /><br /> This timeout applies only to manual scaling; it has no effect when enableAutoScale is set to true.<br /><br /> The default value is 15 minutes.<br /><br /> The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns a Bad Request \(400\).|
-|targetDedicated|Int32|Specifies the desired number of compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to true.  It is required if enableAutoScale is set to false.|
+|targetDedicatedNodes|Int32|The number of compute nodes that are requested for the pool.|
+|targetLowPriorityNodes|Int32|The number of low-priority compute nodes in the pool.|
 |maxTasksPerNode|Int32|The maximum number of tasks that can run concurrently on a single compute node in the pool.<br /><br /> The default value is 1.<br /><br /> The maximum value of this setting depends on the size of the compute nodes in the pool \(the vmSize setting\).|
 |taskSchedulingPolicy|Complex Type|Defines how the Batch service distributes tasks between compute nodes in the pool.|
 |autoScaleFormula|String|Specifies a formula for the desired number of compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to false. It is required if enableAutoScale is set to true.<br /><br /> The formula is checked for validity before the pool is created. If the formula is not valid, the Batch service rejects the request with detailed error information.|
 |autoScaleEvaluationInterval|Time|Specifies a time interval at which to automatically adjust the pool size according to the AutoScale formula.<br /><br /> The default value is 15 minutes.<br /><br /> The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service returns a Bad Request \(400\).|
-|enableAutoScale|Boolean|Specifies whether the pool size should automatically adjust over time.<br /><br /> If false, the targetDedicated element is required.<br /><br /> If true, the autoScaleFormula element is required. The pool automatically resizes according to the formula.<br /><br /> The default value is false.|
+|enableAutoScale|Boolean|Specifies whether the pool size should automatically adjust over time.<br /><br /> If false, the targetDedicatedNodes element is required.<br /><br /> If true, the autoScaleFormula element is required. The pool automatically resizes according to the formula.<br /><br /> The default value is false.|
 |enableInterNodeCommunication|Boolean|Specifies whether the pool permits direct communication between nodes<br /><br /> The default value is false.|
 |startTask|Complex Type|Specifies a task to run on each compute node as it joins the pool. The task runs when the node is added to the pool or when the node is restarted.|
 |certificateReferences|Collection|A list of certificates to be installed on each compute node in the pool.<br /><br /> Each certificate in the list must have been previously added to the Batch account.|
 |applicationPackageReferences|Collection|A list of application packages to be installed on each compute node in the pool.|
+|applicationLicenses|Collection| The list of application licenses the Batch service will make available on each compute node in the pool.<br /><br /> The list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, pool creation will fail.|
 |metadata|Collection|A list of name\-value pairs associated with the pool as metadata.<br /><br /> The Batch service does not assign any meaning to metadata; it is solely for the use of user code.|
 
 ###  <a name="bk_csconf"></a> cloudServiceConfiguration

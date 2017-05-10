@@ -33,7 +33,7 @@ manager: "timlt"
 {  
   "resizeTimeout":"PT5M",  
   "nodeDeallocationOption":"terminate",  
-  "targetDedicated":5  
+  "targetDedicatedNodes":5  
 }  
   
 ```  
@@ -42,8 +42,9 @@ manager: "timlt"
 |------------------|--------------|----------|-----------|  
 |resizeTimeout|No|Time|Specifies the timeout for allocation of compute nodes to the pool or removal of compute nodes from the pool.<br /><br /> The default value is 15 minutes.<br /><br /> The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns a Bad Request (400).|  
 |nodeDeallocationOption|No|String|Specifies when nodes may be removed from the pool, if the pool size is decreasing.<br /><br /> Possible values are:<br /><br /> **requeue** – Terminate running tasks and requeue them. The tasks will run again when the job is enabled. Remove nodes as soon as tasks have been terminated.<br /><br /> **terminate** – Terminate running tasks. The tasks will not run again. Remove nodes as soon as tasks have been terminated.<br /><br /> **taskcompletion** – Allow currently running tasks to complete. Schedule no new tasks while waiting. Remove nodes when all tasks have completed.<br /><br /> **Retaineddata** -  Allow currently running tasks to complete, then wait for all task data retention periods to expire. Schedule no new tasks while waiting. Remove nodes when all task retention periods have expired.<br /><br /> The default value is requeue.|  
-|targetDedicated|Yes|Int32|Specifies the number of compute nodes that should be in the pool.|  
-  
+|targetDedicatedNodes|Yes|Int32|Specifies the number of compute nodes that should be in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to true.  If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both.|  
+|targetLowPriorityNodes|Optional|Int32|Specifies the desired number of low-priority compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to true.  If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both.|
+
 ## Response  
  Status code: 202. For more information, see [Batch Status and Error Codes](../batchservice/batch-status-and-error-codes.md).  
   

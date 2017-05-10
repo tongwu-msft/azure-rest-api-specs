@@ -33,7 +33,7 @@ manager: "timlt"
   
 ```  
 {  
-  "autoScaleFormula": "totalNodes=($CPUPercent.GetSamplePercent(TimeInterval_Minute*0,TimeInterval_Minute*10)<0.7?5:(min($CPUPercent.GetSample(TimeInterval_Minute*0, TimeInterval_Minute*10))>0.8?($CurrentDedicated*1.1):$CurrentDedicated));$TargetDedicated=min(100,totalNodes);"  
+  "autoScaleFormula": "totalNodes=($CPUPercent.GetSamplePercent(TimeInterval_Minute*0,TimeInterval_Minute*10)<0.7?5:(min($CPUPercent.GetSample(TimeInterval_Minute*0, TimeInterval_Minute*10))>0.8?($CurrentDedicated*1.1):$CurrentDedicated));$targetDedicatedNodes=min(100,totalNodes);"  
 }  
   
 ```  
@@ -49,7 +49,7 @@ manager: "timlt"
 {  
   "odata.metadata":"https://myaccount.batch.core.windows.net/$metadata#Microsoft.WindowsAzure.Batch.Protocol.Entities.AutoScaleRun",  
   "timestamp":"2014-09-02T17:04:50.0818057Z",  
-  "results":"$TargetDedicated=5;$NodeDeallocationOption=requeue",  
+  "results":"$targetDedicatedNodes=5;$NodeDeallocationOption=requeue",  
   "error": {  
     "code":"InsufficientSampleData",  
     "message":"Autoscale evaluation failed due to insufficient sample data",  

@@ -60,13 +60,13 @@ manager: "timlt"
     "vmSize":"small",
     "resizeTimeout":"P1D",
     "currentDedicated":0,
-    "targetDedicated":0,
+    "targetDedicatedNodes":0,
     "enableAutoScale":true,
-    "autoScaleFormula":"totalNodes=($CPUPercent.GetSamplePercent(TimeInterval_Minute*0,TimeInterval_Minute*10)<0.7?5:(min($CPUPercent.GetSample(TimeInterval_Minute*0, TimeInterval_Minute*10))>0.8?($CurrentDedicated*1.1):$CurrentDedicated));$TargetDedicated=min(100,totalNodes);",
+    "autoScaleFormula":"totalNodes=($CPUPercent.GetSamplePercent(TimeInterval_Minute*0,TimeInterval_Minute*10)<0.7?5:(min($CPUPercent.GetSample(TimeInterval_Minute*0, TimeInterval_Minute*10))>0.8?($CurrentDedicated*1.1):$CurrentDedicated));$targetDedicatedNodes=min(100,totalNodes);",
 "autoScaleEvaluationInterval": "PT10M",
     "autoScaleRun": {
       "timestamp":"2014-09-23T21:37:40.6519011Z",
-      "results":"$TargetDedicated=5;$NodeDeallocationOption=requeue;totalNodes=5"
+      "results":"$targetDedicatedNodes=5;$NodeDeallocationOption=requeue;totalNodes=5"
      },
     "enableInterNodeCommunication":true,
     "startTask": {

@@ -26,12 +26,12 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Common DocumentDB REST request headers
-  The following request headers are common to all tasks that you might do with DocumentDB:  
+# Common Azure Cosmos DB REST request headers
+The following request headers are common to all tasks that you might do with the DocumentDB API:  
   
 |Header|Required|Type|Description|  
 |------------|--------------|----------|-----------------|  
-|**Authorization**|Required|String|The authorization token for the request. For more information on generating a valid authorization token, see [Access Control on DocumentDB Resources](https://msdn.microsoft.com/library/azure/dn783368.aspx)|  
+|**Authorization**|Required|String|The authorization token for the request. For more information on generating a valid authorization token, see [Access Control on Cosmos DB Resources](https://msdn.microsoft.com/library/azure/dn783368.aspx)|  
 |**Content-Type**|Required (on PUT and POST)|String|For POST on query operations, it must be application/query+json.<br /><br /> For attachments, must be set to the Mime type of the attachment. For more information on Mime types, see [Create an Attachment](create-an-attachment.md)<br /><br /> For all other tasks, must be application/json.|  
 |**If-Match**|Optional (applicable only on PUT and DELETE)|String|Used to make operation conditional for optimistic concurrency. The value should be the etag value of the resource.|  
 |**If-None-Match**|Optional (applicable only on GET)|String|Makes operation conditional to only execute if the resource has changed. The value should be the etag of the resource.|  
@@ -42,15 +42,15 @@ translation.priority.mt:
 |**x-ms-date**|Required|Date|The date of the request per RFC 1123 date format expressed in Coordinated Universal Time, for example, Fri, 08 Apr 2015 03:52:31 GMT.|  
 |**x-ms-max-item-count**|Optional|Number|An integer indicating the maximum number of items to be returned per page. An x-ms-max-item-count of -1 can be specified to let the service determine the optimal item count. This is the recommended configuration value for x-ms-max-item-count|  
 |**x-ms-documentdb-partitionkey**|Optional|Array|The partition key value for the requested document or attachment operation. Required for operations against documents and attachments when the collection definition includes a partition key definition. Supported in API versions 2015-12-16 and newer. Currently, DocumentDB supports a single partition key, so this is an array containing just one value.|  
-|**x-ms-session-token**|Required (for session consistency only)|String|A string token used with session level consistency. For more information, see <br />                [Using consistency levels in DocumentDB](https://azure.microsoft.com/en-us/documentation/articles/documentdb-consistency-levels/)|  
-|**x-ms-version**|Required|String|The version of the DocumentDB REST service. <br />                For a list of supported API versions, see [Azure DocumentDB REST API Reference](index.md)|  
+|**x-ms-session-token**|Required (for session consistency only)|String|A string token used with session level consistency. For more information, see <br />                [Using consistency levels in Cosmos DB](https://azure.microsoft.com/en-us/documentation/articles/documentdb-consistency-levels/)|  
+|**x-ms-version**|Required|String|The version of the Cosmos DB REST service. <br />                For a list of supported API versions, see [Azure Cosmos DB REST API Reference](index.md)|  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [DocumentDB Resource URI Syntax for REST](documentdb-resource-uri-syntax-for-rest.md)   
- [Access Control on DocumentDB Resources](access-control-on-documentdb-resources.md)   
- [Querying DocumentDB resources using the REST API](querying-documentdb-resources-using-the-rest-api.md)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
+* [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
+* [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+
   
   
