@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -26,16 +26,16 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Query Documents
-  You can query arbitrary JSON documents in a collection by performing a POST against the “colls” resource in DocumentDB. The SQL syntax of DocumentDB provides hierarchical, relational, and spatial query operators to query and project documents. For additional details on querying resources in DocumentDB, see Querying Resources.  
+  you can query arbitrary json documents in a collection by performing a post against the “colls” resource in cosmosdb. the sql syntax of cosmosdb provides hierarchical, relational, and spatial query operators to query and project documents. for additional details on querying resources in cosmosdb, see querying resources.  
   
 ## Request  
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|POST|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs|Note that the {databaseaccount} is the name of the DocumentDB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection.|  
+|post|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs|note that the {databaseaccount} is the name of the cosmosdb account created under your subscription. the {db-id} value is the user generated name/id of the database, not the system generated id (rid). the {coll-id} value is the name of the collection.|  
   
 ### Headers  
- See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests.  
+ See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
   
 |Header|Required|Type|Description|  
 |------------|--------------|----------|-----------------|  
@@ -75,7 +75,7 @@ translation.priority.mt:
  Returns an array of documents that match the requested query.  
   
 ### Headers  
- See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses. The important response headers are:  
+ See [Common Azure Cosmos DB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all Cosmos DB responses. The important response headers are:  
   
 |Property|Type|Description|  
 |--------------|----------|-----------------|  
@@ -263,7 +263,7 @@ Date: Tue, 29 Mar 2016 02:28:30 GMT
 ## See Also  
  [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
  [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+ [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   

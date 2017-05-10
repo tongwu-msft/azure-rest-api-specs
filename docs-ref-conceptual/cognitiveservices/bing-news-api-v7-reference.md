@@ -13,18 +13,21 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# News Search API v7 Preview Reference
+# News Search API v7 Preview reference
 
 > [!NOTE]
 > Preview release of the News API. All aspects of the API and documentation are subject to change. 
 
 The News Search API lets you send a search query to Bing and get back a list of relevant news articles. This section provides technical details about the query parameters and headers that you use to request news articles and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for News](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/search-the-web).  
 
-For details about the headers that requests should include, see [Request Headers](#headers).  
+For information about the headers that requests should include, see [Request Headers](#headers).  
   
-For details about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
+For information about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
   
-For details about the JSON objects that the response may include, see [Response Objects](#response-objects).  
+For information about the JSON objects that the response may include, see [Response Objects](#response-objects).  
+
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/useanddisplayrequirements).
+
   
 ## Endpoints
   
@@ -63,7 +66,7 @@ The following are the headers that a request and response may include.
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
   
-## Query Parameters  
+## Query parameters  
 The following are the query parameters that the request may include. The Required column indicates whether you must specify the parameter. You must URL encode the query parameter values.  
   
 |Name|Value|Type|Required|  
@@ -79,13 +82,13 @@ The following are the query parameters that the request may include. The Require
 |<a name="query" />q|The user's search query term. If the term is empty (for example, q=), the response includes the top news stories.<br /><br /> The term string may contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). For example, to limit news to a specific domain, use the [site:](http://msdn.microsoft.com/library/ff795613.aspx) operator.<br /><br /> If you're getting news articles by category, do not include this parameter. Trending Topics ignores this parameter.|String|Yes|  
 |<a name="safesearch" />safeSearch|Filter news articles for adult content. The following are the possible filter values.<br /><ul><li>Off&mdash;Return news articles with adult text, images, or videos.<br /><br/></li><li>Moderate&mdash;Return news articles with adult text but not adult images or videos.<br /><br/></li><li>Strict&mdash;Do not return news articles with adult text, images, or videos.</li></ul><br /> The default is Moderate.<br /><br /> **NOTE:** If the request comes from a market that Bing's adult policy requires `safeSearch` be set to Strict, Bing ignores the `safeSearch` value and uses Strict.|String|No|  
 |<a name="setlang" />setLang|The language to use for user interface strings. Specify the language using the ISO 639-1 2-letter language code. For example, the language code for English is EN. The default is EN (English).<br /><br /> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br /> This parameter and the [Accept-Language](#acceptlanguage) header are mutually exclusive&mdash;do not specify both.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
-|<a name="since" />since|The Unix epoch time (Unix timestamp) that Bing uses to select the trending topics. Bing returns trending topics that it discovered on or after the specified date and time, not the date the topic was published.<br /><br /> To use this parameter, also specify the `sortBy` parameter.<br /><br /> Use this parameter only with Trending Topics.|Integer|No|  
-|<a name="sortby" />sortBy|The order to return the trending topics in. The following are the possible case-insensitive values.<br /><ul><li>Date&mdash;Returns trending topics sorted by date from the most recent to the oldest</li></ul><br /> If you do not specify this parameter, there is no specific ordering. However, topic freshness, category, global user engagement, and personalized features are taken into account.<br /><br /> Use this parameter only with Trending Topics.|String|No|  
+|<a name="since" />since|The Unix epoch time (Unix timestamp) that Bing uses to select the trending topics. Bing returns trending topics that it discovered on or after the specified date and time, not the date the topic was published.<br /><br /> To use this parameter, also specify the `sortBy` parameter.|Integer|No|  
+|<a name="sortby" />sortBy|The order to return the trending topics in. The following are the possible case-insensitive values.<br /><ul><li>Date&mdash;Returns trending topics sorted by date from the most recent to the oldest</li></ul><br /> If you do not specify this parameter, there is no specific ordering. However, topic freshness, category, global user engagement, and personalized features are taken into account.|String|No|  
 |<a name="textdecorations" />textDecorations|A Boolean value that determines whether display strings should contain decoration markers such as hit highlighting characters. If **true**, the strings may include markers. The default is **false**.<br /><br /> To specify whether to use Unicode characters or HTML tags as the markers, see the [textFormat](#textformat) query parameter.<br /><br /> For information about hit highlighting, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).|Boolean|No|  
 |<a name="textformat" />textFormat|The type of markers to use for text decorations (see the `textDecorations` query parameter).<br /><br /> The following are the possible values.<br /><ul><li>Raw&mdash;Use Unicode characters to mark content that needs special formatting. The Unicode characters are in the range E000 through E019. For example, Bing uses E000 and E001 to mark the beginning and end of query terms for hit highlighting.<br /><br/></li><li>HTML&mdash;Use HTML tags to mark content that needs special formatting. For example, use \<b> tags to highlight query terms in display strings.</li></ul><br /> The default is Raw.<br /><br />For a list of markers, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).<br /><br /> For display strings that contain escapable HTML characters such as <, >, and &, if `textFormat` is set to HTML, Bing escapes the characters as appropriate (for example, < is escaped to \&lt;).<br /><br />For information about processing strings with embedded Unicode characters, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).|String|No|  
 |String|No|  
   
-## Response Objects  
+## Response objects  
 The following are the JSON objects that the response may include. If the request succeeds, the top-level object in the response is the [News](#news) object if the endpoint is /news/search or /news, and [TrendingTopicAnswer](#trendingtopicanswer) if the endpoint is /news/trendingtopics. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object. 
   
 |Object|Description|  
@@ -207,7 +210,7 @@ Defines a sort order to use for the request.
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|id|An identifier that identifies the sort order. The followin are the possible values.<br /><ul><li>date&mdash;Sort articles by date</li><li>relevance&mdash;Sort by relevance</li></ul>|String|  
+|id|An identifier that identifies the articles sort order. The following are the possible values.<br /><ul><li>date&mdash;Sort by date</li><li>relevance&mdash;Sort by relevance</li></ul>|String|  
 |isSelected|A Boolean value that determines whether the response used this sort order. If **true**, the response used this sort order.|Boolean|  
 |name|The display name of the sort order.|String|  
 |url|A URL that you can use to make the same request using this sort order.|String|  
@@ -292,10 +295,10 @@ The following are the possible news categories that you may set the [category](#
 |United States (en-US)|<ul><li>Business</li><li>Entertainment<ul><li>Entertainment_MovieAndTV</li><li>Entertainment_Music</li></ul></li><li>Health</li><li>Politics</li><li>Products</li><li>ScienceAndTechnology<ul><li>Technology</li><li>Science</li></ul></li><li>Sports<ul><li>Sports_Golf</li><li>Sports_MLB</li><li>Sports_NBA</li><li>Sports_NFL</li><li>Sports_NHL</li><li>Sports_Soccer</li><li>Sports_Tennis</li><li>Sports_CFB</li><li>Sports_CBB</li></ul></li><li>US<ul><li>US_Northeast</li><li>US_South</li><li>US_Midwest</li><li>US_West</li></ul></li><li>World</li><li>World_Africa</li><li>World_Americas</li><li>World_Asia</li><li>World_Europe</li><li>World_MiddleEast</li></ul></li></ul>|  
   
 
-## Error Codes 
+## Error codes 
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes-v7.md)]
 
-## Market Codes 
+## Market codes 
 
 [!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]

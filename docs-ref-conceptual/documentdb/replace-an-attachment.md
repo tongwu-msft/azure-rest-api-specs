@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-02-25"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -27,9 +27,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Replace an Attachment
-  There are two ways to replace an attachment resource – put the media content to DocumentDB like in the [AtomPub Protocol](https://tools.ietf.org/html/rfc5023), or put just the attachment metadata to media stored externally.  
+  There are two ways to replace an attachment resource – put the media content to Azure Cosmos DB like in the [AtomPub Protocol](https://tools.ietf.org/html/rfc5023), or put just the attachment metadata to media stored externally.  
   
- The first is to PUT the raw media in the body payload to store it in the provided attachment storage under your DocumentDB account. For the attachment storage quota, see [DocumentDB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/). To replace this type of attachment, developers include the raw attachment (video, audio, file, blob, etc.) as the body of the PUT. Two headers must be set: Content-Type and Slug. The Content-Type header is set to the MIME type of the attachment while the Slug header is set to the name of the attachment.  
+ The first is to PUT the raw media in the body payload to store it in the provided attachment storage under your Cosmos DB account. For the attachment storage quota, see [Cosmos DB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/). To replace this type of attachment, developers include the raw attachment (video, audio, file, blob, etc.) as the body of the PUT. Two headers must be set: Content-Type and Slug. The Content-Type header is set to the MIME type of the attachment while the Slug header is set to the name of the attachment.  
   
  The second way to replace an attachment resource is to PUT the attachment resource properties noting the type and media link of the attachment. Unlike the first type of attachment resource, the Content-Type and Slug headers are not to be set as the raw media is not part of the request payload.  
   
@@ -37,21 +37,21 @@ translation.priority.mt:
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|PUT|https:// {databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs/{doc-name}/attachments/{att-name}|Note that the {databaseaccount} is the name of the DocumentDB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection the document is contained in. The {doc-name} value is the name of the document associated with the attachment. The {att-name} value is the name of the attachment to be replaced.|  
+|PUT|https:// {databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs/{doc-name}/attachments/{att-name}|Note that the {databaseaccount} is the name of the Cosmos DB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection the document is contained in. The {doc-name} value is the name of the document associated with the attachment. The {att-name} value is the name of the attachment to be replaced.|  
   
 ### Headers  
- See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests.  
+ See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
   
 |Header|Required|Type|Description|  
 |------------|--------------|----------|-----------------|  
-|**Slug**|Optional|String|The name of the attachment. This is only required when raw media is submitted to the DocumentDB attachment storage. For more details, refer to [AtomPub Protocol](https://tools.ietf.org/html/rfc5023).|  
+|**Slug**|Optional|String|The name of the attachment. This is only required when raw media is submitted to the Cosmos DB attachment storage. For more details, refer to [AtomPub Protocol](https://tools.ietf.org/html/rfc5023).|  
   
 ### Body  
   
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
 |**id**|Optional|String|Not Required to be set when attaching raw media. This is a user settable property. It is the unique name that identifies the attachment, i.e. no two attachments will share the same **id**. The **id** must not exceed 255 characters.|  
-|**contentType**|Optional|String|Not Required to be set when attaching raw media. This is a user settable property. It notes the content type of the attachment. When submitting the attachment bits as body, DocumentDB sets the **contentType** to the type set in the **Content-Type** header.|  
+|**contentType**|Optional|String|Not Required to be set when attaching raw media. This is a user settable property. It notes the content type of the attachment. When submitting the attachment bits as body, Cosmos DB sets the **contentType** to the type set in the **Content-Type** header.|  
 |**Media**|Optional|String|Not Required to be set when attaching raw media. This is the URL link or file path where the attachment resides.|  
   
 ```  
@@ -66,7 +66,7 @@ translation.priority.mt:
 ## Response  
   
 ### Headers  
- See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  
+ See [Common Azure Cosmos DB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all Cosmos DB responses.  
   
 ### Status codes  
  The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](https://msdn.microsoft.com/library/azure/dn783364.aspx).  
@@ -77,7 +77,7 @@ translation.priority.mt:
 |400 Bad Request|The JSON body is invalid. Check for missing curly brackets or quotes.|  
 |404 Not Found|The attachment to be replaced is no longer a resource, i.e. the attachment has been deleted.|  
 |409 Conflict|The id provided for the attachment has been taken by an existing attachment.|  
-|413 Entity Too Large|The document size in the request exceeded the allowable document size in a request. For more information on document size limits, see [DocumentDB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
+|413 Entity Too Large|The document size in the request exceeded the allowable document size in a request. For more information on document size limits, see [Azure Cosmos DB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
   
 ### Body  
   
@@ -165,9 +165,9 @@ Content-Length: 299
 ```  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
+ [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
  [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+ [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
