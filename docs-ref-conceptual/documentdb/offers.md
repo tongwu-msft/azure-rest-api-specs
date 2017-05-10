@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-12-13"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -27,11 +27,11 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Offers
-Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the Azure Cosmos DB API for Azure Cosmos DB. 
 
-The DocumentDB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the operations that can be executed on a DocumentDB offer. Each DocumentDB collection is provisioned with an associated performance level represented as an **Offer** resource in the REST model. DocumentDB supports offers representing both user-defined performance levels and pre-defined performance levels. Each offer has an associated request unit (RU) rate limit. This is the throughput that will be reserved for a collection based on its performance level, and is available for use by that collection exclusively.  
+The Azure Cosmos DB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the operations that can be executed on an Azure Cosmos DB offer. Each Azure Cosmos DB collection is provisioned with an associated performance level represented as an **Offer** resource in the REST model. Azure Cosmos DB supports offers representing both user-defined performance levels and pre-defined performance levels. Each offer has an associated request unit (RU) rate limit. This is the throughput that will be reserved for a collection based on its performance level, and is available for use by that collection exclusively.  
   
-The offer resource is represented by offers in the DocumentDB resource model. Here’s an example of the URI: https://mydbaccount.documents.azure.com/offers.  
+The offer resource is represented by offers in the Cosmos DB resource model. Here’s an example of the URI: https://mydbaccount.documents.azure.com/offers.  
   
 The following example illustrates the JSON construct of an offer with user-defined throughput (V2):  
   
@@ -80,9 +80,9 @@ The following example illustrates the JSON construct of an offer with user-defin
 -   [Querying Offers](querying-offers.md)  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
+ [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
  [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+ [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   

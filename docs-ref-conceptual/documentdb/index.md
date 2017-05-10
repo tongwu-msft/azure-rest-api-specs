@@ -1,10 +1,10 @@
 ---
-title: "Azure DocumentDB REST API Reference"
+title: "Azure Cosmos DB REST API Reference"
 ms.custom: ""
 ms.date: "2017-03-02"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -28,10 +28,10 @@ translation.priority.mt:
 # Azure Cosmos DB: DocumentDB REST API Reference
 [Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. It supports the [DocumentDB API](/azure/documentdb/documentdb-introduction) for creating, querying, and managing resources. This article is a reference for the DocumentDB REST API.  
 
-The DocumentDB REST API provides programmatic access to DocumentDB resources to create, query, and delete databases, document collections, and documents. To perform operations on DocumentDB resources, you send HTTPS requests with a supported method: `GET`, `POST`, `PUT`, or `DELETE` to an endpoint that targets a resource collection or a specific resource. This section contains information about working with resources by using the REST API. 
+The Azure Cosmos DB REST API provides programmatic access to Azure Cosmos DB resources to create, query, and delete databases, document collections, and documents. To perform operations on Azure Cosmos DB resources, you send HTTPS requests with a supported method: `GET`, `POST`, `PUT`, or `DELETE` to an endpoint that targets a resource collection or a specific resource. This section contains information about working with resources by using the REST API. 
   
 ## Supported REST API Versions
-The following table lists the supported REST API versions by the Azure DocumentDB service. The version must be specified via the `x-ms-version` header in every request. If not specified, the service defaults to the latest version `2017-02-22`.
+The following table lists the supported REST API versions by the Azure Cosmos DB service. The version must be specified via the `x-ms-version` header in every request. If not specified, the service defaults to the latest version `2017-02-22`.
 
 |Version|Change introduced|Retirement date|  
 |-------------|---------------------|-----------------------|  
@@ -41,12 +41,12 @@ The following table lists the supported REST API versions by the Azure DocumentD
 |2015-12-16|[Partitioned collections](/azure/documentdb/documentdb-partition-data)||  
 |2015-08-06|Upsert||  
 |2015-06-03|Order By support||  
-|2015-04-08|DocumentDB general availability||  
+|2015-04-08|Cosmos DB general availability||  
 |2014-08-21|DocumentDB public preview|February 29th, 2016|  
     
 
-## DocumentDB Resources  
-The following articles describe the supported REST APIs for each resource type. For general information about the resource model, see [Resource model](/azure/documentdb/documentdb-interactions-with-resources) and [DocumentDB resource URIs](documentdb-resource-uri-syntax-for-rest.md). 
+## Cosmos DB Resources  
+The following articles describe the supported REST APIs for each resource type. For general information about the resource model, see [Resource model](/azure/documentdb/documentdb-interactions-with-resources) and [Cosmos DB resource URIs](documentdb-resource-uri-syntax-for-rest.md). 
   
 * [Databases](databases.md)  
 * [Collections](collections.md)  

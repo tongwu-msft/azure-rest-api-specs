@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -128,7 +128,7 @@ The following example illustrates the JSON definition of a collection:
 |**kind**|The algorithm used for partitioning. Only **Hash** is supported.|  
   
 ## Indexing Policy  
- As documents are added to a collection, DocumentDB by default automatically indexes the documents, thus allowing documents to be queried. It is at the collection level that you configure the indexing policy. Since indexing policy is set at the collection level, each collection within a database can have different indexing policies.  
+ As documents are added to a collection, Cosmos DB by default automatically indexes the documents, thus allowing documents to be queried. It is at the collection level that you configure the indexing policy. Since indexing policy is set at the collection level, each collection within a database can have different indexing policies.  
   
  The indexing policy for a collection can specify the following options:  
   
@@ -151,7 +151,7 @@ The following example illustrates the JSON definition of a collection:
 |/props/[]/subprop/?|Index path required to serve iteration and JOIN queries against arrays of objects like<br /><br /> [{subprop: "a"}, {subprop: "b"}]:<br /><br /> SELECT tag FROM tag IN collection.props WHERE tag.subprop = "value"<br /><br /> SELECT tag FROM collection c JOIN tag IN c.props WHERE tag.subprop = "value"|  
 |/prop/subprop/?|Index path required to serve queries (with Hash or Range types respectively):<br /><br /> SELECT * FROM collection c WHERE c.prop.subprop = "value"<br /><br /> SELECT \* FROM collection c WHERE c.prop.subprop > 5<br /><br /> SELECT \* FROM collection c ORDER BY c.prop.subprop|  
   
- For more information about DocumentDB indexing policies, see DocumentDB indexing policies. For the purpose of the REST API documentation, all examples use automatic indexing.  
+ For more information about Cosmos DB indexing policies, see Cosmos DB indexing policies. For the purpose of the REST API documentation, all examples use automatic indexing.  
   
 ## Offers and Performance Levels  
 When a collection is created, an Offer resource is also created that references the created collection. The Offer resource contains configuration information about the collection throughput in request units per second and request units per minute.  

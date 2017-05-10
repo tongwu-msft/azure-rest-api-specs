@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-02-16"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -29,9 +29,9 @@ translation.priority.mt:
 # Databases
 Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. The DocumentDB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the operations that can be executed on a database.  
   
-Each DocumentDB account supports multiple independently named databases. A database is a logical namespace for collections, users, and permissions. The database resource is represented by **dbs** in the [DocumentDB resource model](http://azure.microsoft.com/documentation/articles/documentdb-resources/). Here’s an example of the URI: https://mydbaccount.documents.azure.com/dbs.
+Each Cosmos DB account supports multiple independently named databases. A database is a logical namespace for collections, users, and permissions. The database resource is represented by **dbs** in the [Cosmos DB resource model](http://azure.microsoft.com/documentation/articles/documentdb-resources/). Here’s an example of the URI: https://mydbaccount.documents.azure.com/dbs.
   
-Here is a sample representation of a database in DocumentDB:  
+Here is a sample representation of a database in Cosmos DB:  
   
 ```json
 {  
@@ -66,9 +66,9 @@ Here is a sample representation of a database in DocumentDB:
 * Query Databases  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
+ [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
  [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+ [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   

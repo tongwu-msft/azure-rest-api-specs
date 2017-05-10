@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -26,8 +26,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Common tasks using the DocumentDB REST API
-  This topic provides a list of the most common tasks in DocumentDB and links to articles that show how to perform these tasks by using the DocumentDB REST API. For a sample showing how to perform REST operations in .NET, see [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net).  
+# Common tasks using the Azure Cosmos DB REST API
+  This topic provides a list of the most common tasks in Azure Cosmos DB and links to articles that show how to perform these tasks by using the Azure Cosmos DB REST API. For a sample showing how to perform REST operations in .NET, see [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net).  
   
 ## Databases  
   
@@ -116,8 +116,8 @@ translation.priority.mt:
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) 
 * [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/en-us/azure/documentdb/documentdb-introduction)   
-* [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
-* [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+* [Azure Cosmos DB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
+* [Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
