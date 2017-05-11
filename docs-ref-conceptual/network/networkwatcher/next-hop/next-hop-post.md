@@ -13,7 +13,7 @@ manager: timlt
 
 View the next hop from a VM. Using Next Hop, you can investigate where outbound traffic from your VM is heading first after it leaves the VM. Next hop allows you to view the type of Azure resource, the associated IP address of that resource, and the routing table rule that is responsible for the route.
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../../index.md).
 
 ## Request
 

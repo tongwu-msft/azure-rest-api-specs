@@ -13,7 +13,7 @@ manager: timlt
 
 Stop packet capture stops a running packet capture session. Once the session is stopped, the packet capture is uploaded to the specified storage account or saved locally on the VM. If the packet capture session has already stopped (due to time or size constraints) then there is no need to explicitly call stop again.
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../../index.md).
 
 ## Request
 

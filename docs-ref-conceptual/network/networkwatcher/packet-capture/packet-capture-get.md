@@ -13,7 +13,7 @@ manager: timlt
 
 Returns the properties of an existing packet capture session.
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../../index.md).
 
 ## Request
 

@@ -13,7 +13,7 @@ manager: timlt
 
 In order to create and start a packet capture session you invoke a PUT call containing the required and optional parameters.
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../../index.md).
 
 ## Request
 

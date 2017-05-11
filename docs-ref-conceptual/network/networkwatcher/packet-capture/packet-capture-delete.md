@@ -21,8 +21,7 @@ Delete removes a packet capture session. To ensure that a capture is saved to st
 
 If Delete is called on a running packet capture session, there is no guarantee that data from the session will be retained.
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
-
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../../index.md).
 ## Request
 
 | HTTP Method | URI|  

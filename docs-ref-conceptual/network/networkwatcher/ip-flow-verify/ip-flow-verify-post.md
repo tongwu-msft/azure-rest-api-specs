@@ -13,7 +13,7 @@ manager: timlt
 
 For a specified VM resource and a packet with specified direction using local and remote, IP addresses and ports, returns whether the packet is allowed or denied.
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../../index.md).
 
 ## Request
 
