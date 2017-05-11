@@ -12,7 +12,7 @@ manager: timlt
 
 This operations creates or updates an inbound NAT rule on a load balancer.
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 
 ## Request  
 

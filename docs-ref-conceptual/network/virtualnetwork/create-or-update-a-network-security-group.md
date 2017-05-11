@@ -12,7 +12,7 @@ ms.manager: narayan
 
 This operation creates or updates an network security group.
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 
 ## Request  
 

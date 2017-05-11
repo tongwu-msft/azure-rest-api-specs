@@ -12,7 +12,7 @@ manager: timlt
 # Get ExpressRoute Circuit
 This operation fetches details of a particular circuit in a Resource Group.  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 
 ## Request  
   

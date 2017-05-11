@@ -12,7 +12,7 @@ ms.manager: timlt
 
 This operation checks the availability of a DNS name in a region.
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 ## Request  
 
 |Method|Request URI|  

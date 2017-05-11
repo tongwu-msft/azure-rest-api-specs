@@ -12,7 +12,7 @@ manager: timlt
 # Get ExpressRoute Circuit BGP Peering
 The Get peering operation retrieves details of a peering for the circuit and peering specified.  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 
 ## Request  
   

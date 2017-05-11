@@ -12,7 +12,7 @@ manager: timlt
 # Delete ExpressRoute Circuit BGP Peering
 The DELETE peering operation deletes the specified peering for a given circuit.  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
   
 ## Request  
   

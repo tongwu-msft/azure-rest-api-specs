@@ -11,7 +11,7 @@ manager: rossort
 # Create or update a local network gateway&#160;
 Create or update a representation of your on-premises network VPN gateway device.  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 
 ## Request  
 

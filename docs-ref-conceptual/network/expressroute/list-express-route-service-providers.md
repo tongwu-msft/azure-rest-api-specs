@@ -12,7 +12,7 @@ manager: timlt
 # List Express Route Service Providers
 This operation lists the currently supported connectivity providers, their peering locations and bandwidths offered.  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 
 ## Request
   

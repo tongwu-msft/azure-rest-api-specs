@@ -11,7 +11,7 @@ manager: rossort
 # List all of the connections for a virtual network gateway&#160;
 List all of the connections for the specific virtual network gateway.  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 
 ## Request  
 

@@ -12,7 +12,7 @@ manager: rossort
 
 Create or update an application gateway zone within a resource *group*.  
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 
 ## Request  
   

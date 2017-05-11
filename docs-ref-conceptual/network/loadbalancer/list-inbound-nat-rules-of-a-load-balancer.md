@@ -12,7 +12,7 @@ manager: timlt
 
 This operation lists all inbound NAT rules of a load balancer.
 
-For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).
+For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../../index.md).
 
 ## Request  
 
