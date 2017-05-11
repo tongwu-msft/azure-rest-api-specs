@@ -71,7 +71,7 @@ Several changes have been made to improve reporting for task errors.
 
 #### Application licenses
 
-You can now request that application licenses be provisioned to your pool, via the new `applicationLicenses` property on a pool or pool specification.
+You can now request that application licenses be provisioned to your pool, via the new **applicationLicenses** property on a pool or pool specification.
 
 
 ### Version 2017-01-01.4.0
