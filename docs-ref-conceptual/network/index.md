@@ -19,10 +19,10 @@ An Azure virtual network (VNet) is a representation of your own network in the c
 |[Network Security Groups](network-security-groups.md)   | Provides operations for managing Network Security Groups.|
 |[Network Security Rules](network-security-rules.md)   |Provides operations for managing Network Security Rules.| 
 |[Public IP Addresses](public-ip-addresses.md)   | Provides operations for managing Public IP Addresses.| 
-|[Subnets](subnets.md)  |Provides operations for managing Subnets.| 
+|[Subnets](virtualnetworksubnets.md)  |Provides operations for managing Subnets.| 
 |[Virtual Networks](virtual-networks.md)  |Provides operations for managing Virtual Networks.| 
 |[Route Tables](route-tables.md)   |Provides operations for managing Route Tables.| 
-|[Routes](~/docs-ref-autogen/network/routes.json)   |Provides operations for managing Routes.| 
+|[Routes](networkroutes.md)   |Provides operations for managing Routes.| 
 |[Supporting Tasks](supporting-tasks.md)   |Provides operations for checking DNS name availability and subscription limits.| 
 
  
