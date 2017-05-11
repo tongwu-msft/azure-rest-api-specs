@@ -39,8 +39,8 @@ This is the documentation for the REST APIs for Azure networking resources.
 |Operation Group|Description|
 |---|---|
 |[Connections](networkgateway/connections.md)  |Provides operations for managing connections|
-|[Local Network Gateways](networkgateway/local-network-gateway.md) | Provides operations for managing local network gateways|
-|[Virtual Network Gateways](networkgateway/virtual-network-gateway) |Provides operations for managing virtual network gateways|
+|[Local Network Gateways](networkgateway/local-network-gateways.md) | Provides operations for managing local network gateways|
+|[Virtual Network Gateways](networkgateway/virtual-network-gateways.md) |Provides operations for managing virtual network gateways|
 
 ## Network Watcher
 
