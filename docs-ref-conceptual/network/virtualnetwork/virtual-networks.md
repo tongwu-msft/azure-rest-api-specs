@@ -20,6 +20,6 @@ A virtual network represents a computer network in which networking objects can 
 | [Delete a virtual network](delete-a-virtual-network.md)      |  DELETE | Delets a virtual network. |  
 | [Check private IP address availability in a virtual network](check-private-ip-address-availability.md) |  GET | Check if a private IP address is available in a virtual network. |  
 | [Create or update a virtual network peering](create-or-update-a-virtual-network-peering.md)|  PUT | Creates or updates a virtual network peering. |  
-| [List virtual network peerings within a virtual network](list-virtual-network-peerings-within-a-virtual-network.md)|  GET | Gets all virtual network peerings in a virtual network. |  
+| [List virtual network peerings within a virtual network](list-virtual-network-peerings-within-a-virtual-network.md)|  GET | Gets all virtual network peerings in a virtual network. | 
 | [Get information about a virtual network peering](get-information-about-a-virtual-network-peering.md)|  GET | Gets a virtual network peering. |  
 | [Delete a virtual network peering](delete-a-virtual-network-peering.md)|  DELETE | Delets a virtual network peering. |  
