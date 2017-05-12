@@ -16,11 +16,11 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
 
 | Operation | REST Verb | Description | 
 |---------|---------|-----------|
-| [Create or update a Traffic Manager profile](create-or-update-a-traffic-manager-profile.md)    |  PUT | Creates or updates a Traffic Manager profile. |  
-| [Get a Traffic Manager profile](get-a-traffic-manager-profile.md)       |  GET | Gets a Traffic Manager profile. | 
-| [Delete a Traffic Manager profile](delete-a-traffic-manager-profile.md)    |  DELETE | Deletes a Traffic Manager profile. |  
-| [List Traffic Manager profiles](list-traffic-manager-profiles.md)  |  GET | Lists all Traffic Manager profiles in a resource group. |    
-| [Create or update a Traffic Manager endpoint](create-or-update-a-traffic-manager-endpoint.md)   |  PUT | Creates a Traffic Manager endpoint. |   
-| [Get a Traffic Manager endpoint](get-a-traffic-manager-endpoint.md)     |  GET | Gets a Traffic Manager endpoint. |   
-| [Delete a Traffic Manager endpoint](delete-a-traffic-manager-endpoint.md)   |  DELETE | Deletes Traffic Manager endpoint. |   
-| [List the regions used by Traffic Manager Geographic routing type](list-geo-regions-traffic-manager.md)   |  GET | Gets the hierarchical list of regions that can be used with the geographic routing method. |   
+| [Create or update a Traffic Manager profile](~/docs-ref-autogen/trafficmanager/Profiles.json)    |  PUT | Creates or updates a Traffic Manager profile. |  
+| [Get a Traffic Manager profile](~/docs-ref-autogen/trafficmanager/Profiles.json)       |  GET | Gets a Traffic Manager profile. | 
+| [Delete a Traffic Manager profile](~/docs-ref-autogen/trafficmanager/Profiles.json)    |  DELETE | Deletes a Traffic Manager profile. |  
+| [List Traffic Manager profiles](~/docs-ref-autogen/trafficmanager/Profiles.json)  |  GET | Lists all Traffic Manager profiles in a resource group. |    
+| [Create or update a Traffic Manager endpoint](~/docs-ref-autogen/trafficmanager/EndPoints.json)   |  PUT | Creates a Traffic Manager endpoint. |   
+| [Get a Traffic Manager endpoint](~/docs-ref-autogen/trafficmanager/EndPoints.json)     |  GET | Gets a Traffic Manager endpoint. |   
+| [Delete a Traffic Manager endpoint](~/docs-ref-autogen/trafficmanager/EndPoints.json)   |  DELETE | Deletes Traffic Manager endpoint. |   
+| [List the regions used by Traffic Manager Geographic routing type](~/docs-ref-autogen/trafficmanager/GeographicHierarchies.json)   |  GET | Gets the hierarchical list of regions that can be used with the geographic routing method. |   
