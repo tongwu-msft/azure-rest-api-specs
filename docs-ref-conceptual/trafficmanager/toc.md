@@ -1,7 +1,6 @@
 # [Get a Traffic Manager profile](get-a-traffic-manager-profile.md)
 # [Delete a Traffic Manager profile](delete-a-traffic-manager-profile.md)
 # [Create or update a Traffic Manager endpoint](create-or-update-a-traffic-manager-endpoint.md)
-# [Traffic Manager profiles and endpoints](traffic-manager-profiles-and-endpoints.md)
 # [List Traffic Manager profiles](list-traffic-manager-profiles.md)
 # [Get a Traffic Manager endpoint](get-a-traffic-manager-endpoint.md)
 # [Delete a Traffic Manager endpoint](delete-a-traffic-manager-endpoint.md)
