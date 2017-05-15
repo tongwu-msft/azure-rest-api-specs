@@ -111,6 +111,7 @@
 ## [Application Package](BatchManagement/ApplicationPackage.json)
 ## [Batch Account](BatchManagement/BatchAccount.json)
 ## [Location](BatchManagement/Location.json)
+## [Operations](BatchManagement/Operations.json)
 # [Batch Service](../docs-ref-conceptual/batchservice/index.md)
 ## [Authenticate Requests to the Azure Batch service](../docs-ref-conceptual/batchservice/authenticate-requests-to-the-azure-batch-service.md)
 ## [Batch status and error codes](../docs-ref-conceptual/batchservice/batch-status-and-error-codes.md)
