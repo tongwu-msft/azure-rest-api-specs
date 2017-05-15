@@ -1,7 +1,7 @@
 ---
 title: "Get started creating a Data Catalog app"
 ms.custom: na
-ms.date: 2016-07-21
+ms.date: 2017-05-15
 ms.prod: azure
 ms.reviewer: na
 ms.service: data-catalog
