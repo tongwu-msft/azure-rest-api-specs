@@ -1369,7 +1369,6 @@
 ## [Elastic Pools](sql/ElasticPools.json)
 ## [Firewall Rules](sql/FirewallRules.json)
 ## [Recommended Elastic Pools](sql/RecommendedElasticPools.json)
-## [Servers](sql/Servers.json)
 # [Storage Import-Export](../docs-ref-conceptual/storageimportexport/index.md)
 ## [Get Location](storageimportexport/GetLocation.json)
 ## [Jobs](storageimportexport/Jobs.json)
