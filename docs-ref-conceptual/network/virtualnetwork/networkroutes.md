@@ -17,4 +17,4 @@ Route resource describes the packet forwarding rule for a given IP address or a 
 | [Create or update a route](create-or-update-a-route.md)     |  PUT | Creates or updates a route. |  
 | [Delete a route](delete-a-route.md)          |  DELETE | Deletes a route. |  
 | [Get information about a route](get-information-about-a-route.md)             |  GET | Gets a route. |  
-| [List routes within a route table](list-routes-within-a-route-table2.md)    |  GET | Gets all routes in a route table. |  
+| [List routes within a route table](list-routes-within-a-route-table.md)    |  GET | Gets all routes in a route table. |  
