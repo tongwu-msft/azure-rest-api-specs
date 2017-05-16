@@ -40,7 +40,9 @@ Network REST APIs include:
 
 |Operation Group|Description|
 |---|---|
-|[Network Gateway](networkgateway/index.md) | Provides operations to manage Virtual Network Gateways and Connections.|
+|[Connections](~/docs-ref-autogen/network/virtualnetworkgatewayconnections.json)  |Provides operations for managing connections|
+|[Local Network Gateways](~/docs-ref-autogen/network/localnetworkgateways.json) | Provides operations for managing local network gateways|
+|[Virtual Network Gateways](~/docs-ref-autogen/network/virtualnetworkgateways.json) |Provides operations for managing virtual network gateways|
 
 ## Network Watcher
 
