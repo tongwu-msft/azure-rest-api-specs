@@ -20,7 +20,7 @@ Network REST APIs include:
 |---|---|
 |[Application Gateway](applicationgateway/index.md) |Provides operations for managing Application Gateways.|
 
-## Express Route
+## ExpressRoute
 
 |Operation Group|Description|
 |---|---|
