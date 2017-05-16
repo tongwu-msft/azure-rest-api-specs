@@ -14,12 +14,63 @@ Use these APIs to manage your Azure Networking resources. All task operations co
 
 Network REST APIs include:
 
+## Application Gateway
 
-|Service|Description|
+|Operation Group|Description|
 |---|---|
-|[Application Gateway](applicationgateway/index.md) |Provides operations to manage Application Gateways.|
-|[ExpressRoute](expressroute/index.md)    |Provides operations to manage ExpressRoute circuits and peerings.|
-|[Load Balancer](loadbalancer/index.md) |Provides operations to manage Load Balancers.|
+|[Application Gateway](applicationgateway/index.md) |Provides operations for managing Application Gateways.|
+
+## Express Route
+
+|Operation Group|Description|
+|---|---|
+|[ExpressRoute Service Providers](~/docs-ref-autogen/network/expressrouteserviceproviders.json)    |Provides operations listing ExpressRoute providers.|
+|[ExpressRoute Circuits](~/docs-ref-autogen/network/expressroutecircuits.json)   | Provides operations for managing ExpressRoute circuit authorizations.|
+|[ExpressRoute Authorizations](~/docs-ref-autogen/network/expressroutecircuitauthorizations.json)  |Provides operations for managing ExpressRoute BGP peerings.|
+|[ExpressRoute BGP Peering](~/docs-ref-autogen/network/expressroutecircuitpeerings.json)  |Provides operations for managing ExpressRoute BGP peerings.|
+|[BGP Service communities](~/docs-ref-autogen/network/bgpservicecommunities.json)    |Gets all available BGP service comunities.|
+
+## Load Balancer
+
+|Operation Group|Description|
+|---|---|
+|[Load Balancer](loadbalancer/index.md) |Provides operations for managing Load Balancers.|
+
+## Network Gateway
+
+|Operation Group|Description|
+|---|---|
 |[Network Gateway](networkgateway/index.md) | Provides operations to manage Virtual Network Gateways and Connections.|
-|[Network Watcher](networkwatcher/index.md) |Provides operations to manage Network Watchers and run network watcher monitoring tasks.|
-|[Virtual Networks](virtualnetwork/index.md)  |Provides operations to manage Virtual Networks.|
+
+## Network Watcher
+
+|Operation Group|Description|
+|---|---|
+|[Network Watcher](~/docs-ref-autogen/network/networkwatchers.json) |Provides the ability to manage Network Watchers.|
+|[Topology](~/docs-ref-autogen/network/networkwatchers.json#NetworkWatchers_GetTopology)   | Provides the ability to view the relationships of your networking resources. |
+|[Packet Capture](~/docs-ref-autogen/network/packetcaptures.json)   |Provides the ability to capture network traffic on a virtual machine.| 
+|[Security Group View](~/docs-ref-autogen/network/networkwatchers.json#NetworkWatchers_GetVMSecurityRules)   | Provides a view of the security rules associated with a virtual machine.| 
+|[IP Flow verify](~/docs-ref-autogen/network/networkwatchers.json#NetworkWatchers_VerifyIPFlow)  |Provides information on whether or not traffic is allowed or denied from a virtual machine.| 
+|[Next hop](~/docs-ref-autogen/network/networkwatchers.json#NetworkWatchers_GetNextHop)  |Provides operations for managing Virtual Networks.| 
+|[Troubleshoot](~/docs-ref-autogen/network/networkwatchers.json#NetworkWatchers_GetTroubleshooting)   |Provides the ablity to troubleshoot your networking resources in Azure.| 
+|[NSG Flow Logging](~/docs-ref-autogen/network/networkwatchers.json#NetworkWatchers_GetFlowLogStatus)   |Provides the ablity to configure and manage Network Security Group Flow Logs.| 
+
+## Virtual Network
+
+|Operation Group|Description|
+|---|---|
+|[Network Interface Cards](virtualnetwork/network-interface-cards.md) |Provides operations for managing Network Interface Cards.|
+|[Network Security Groups](virtualnetwork/network-security-groups.md)   | Provides operations for managing Network Security Groups.|
+|[Network Security Rules](virtualnetwork/network-security-rules.md)   |Provides operations for managing Network Security Rules.|
+|[Public IP Addresses](virtualnetwork/public-ip-addresses.md)   | Provides operations for managing Public IP Addresses.|
+|[Subnets](virtualnetwork/virtualnetworksubnets.md)  |Provides operations for managing Subnets.|
+|[Virtual Networks](virtualnetwork/index.md)  |Provides operations for managing Virtual Networks.|
+|[Route Tables](virtualnetwork/route-tables.md)   |Provides operations for managing Route Tables.|
+|[Routes](virtualnetwork/networkroutes.md)   |Provides operations for managing Routes.|
+
+## General
+
+|Operation Group|Description|
+|---|---|
+| [Check DNS name availability](virtualnetwork/check-dns-name-availability.md)       |  Checks if the DNS name is available. |
+| [Check subscription usages](~/docs-ref-autogen/network/usages.json)           |  Returns the subscription usage for a region. |
