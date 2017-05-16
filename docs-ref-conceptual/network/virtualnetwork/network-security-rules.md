@@ -15,7 +15,7 @@ Default network security rules are created to protect your virtual network by de
 
 | Operation | REST Verb | Description | 
 |---------|---------|-----------|
-| [Create or update a network security group](create-or-update-a-network-security-rule.md) |  PUT | Creates or updates a network security rule. |  
+| [Create or update a network security rule](create-or-update-a-network-security-rule.md) |  PUT | Creates or updates a network security rule. |  
 | [Delete a network security rule](delete-a-network-security-rule.md)       |  DELETE | Deletes a network security rule. |  
 | [Get information about a default network security rule ](get-information-about-a-default-network-security-rule.md)       |  GET | Gets a default network security rule. |  
 | [Get information about a network security rule ](get-information-about-a-network-security-rule.md)      |  GET | Gets a network security rule. |  
