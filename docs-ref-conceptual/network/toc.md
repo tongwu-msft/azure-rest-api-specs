@@ -72,7 +72,7 @@
 ### [Create or update a route](virtualnetwork/create-or-update-a-route.md)
 ### [Delete a route](virtualnetwork/delete-a-route.md)
 ### [Get information about a route](virtualnetwork/get-information-about-a-route.md)
-### [List routes within a route table2](virtualnetwork/list-routes-within-a-route-table.md)
+### [List routes within a route table](virtualnetwork/list-routes-within-a-route-table.md)
 ## [Supporting Tasks](virtualnetwork/supporting-tasks.md)
 ### [Check Dns name availability](virtualnetwork/check-dns-name-availability.md)
 ### [Check subscription usages](virtualnetwork/check-subscription-usages.md)
