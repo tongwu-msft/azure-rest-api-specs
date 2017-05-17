@@ -1,6 +1,6 @@
 ---
 title: "Delete"
-ms.date: "2017-05-09"
+ms.date: "2017-05-16"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -78,8 +78,8 @@ The version of the API. This is a required parameter and it's value must be "201
 
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
-| 200 (OK) | OK - cluster deleted  successfully<br/> |  |
-| 204 (NoContent) | NoContent<br/> |  |
+| 200 (OK) | OK - cluster deleted successfully<br/> |  |
+| 204 (NoContent) | NoContent - cluster does not exist<br/> |  |
 | All other status codes | Error<br/> | [ErrorModel](sfrp-model-errormodel.md) |
 
 ## Examples

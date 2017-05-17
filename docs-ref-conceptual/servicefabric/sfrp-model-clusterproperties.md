@@ -1,6 +1,6 @@
 ---
 title: "ClusterProperties"
-ms.date: "2017-05-09"
+ms.date: "2017-05-16"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -57,7 +57,7 @@ ____
 __Type__: array of [ClusterVersionDetails](sfrp-model-clusterversiondetails.md) <br/>
 __Required__: No<br/>
 <br/>
-The available Service Fabric cluster versions available for this cluster.
+The Service Fabric runtime versions available for this cluster.
 
 ____
 ### clusterId
@@ -71,7 +71,19 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-The state for the cluster.
+The current state of the cluster.
+
+  - WaitingForNodes - Indicates that the cluster resource is created and the resource provider is waiting for Service Fabric VM extension to boot up and report to it.
+  - Deploying - Indicates that the Service Fabric runtime is being installed on the VMs. Cluster resource will be in this state until the cluster boots up and system services are up.
+  - BaselineUpgrade - Indicates that the cluster is upgrading to establishes the cluster version. This upgrade is automatically initiated when the cluster boots up for the first time.
+  - UpdatingUserConfiguration - Indicates that the cluster is being upgraded with the user provided configuration.
+  - UpdatingUserCertificate - Indicates that the cluster is being upgraded with the user provided certificate.
+  - UpdatingInfrastructure - Indicates that the cluster is being upgraded with the latest Service Fabric runtime version. This happens only when the **upgradeMode** is set to 'Automatic'.
+  - EnforcingClusterVersion - Indicates that cluster is on a different version than expected and the cluster is being upgraded to the expected version.
+  - UpgradeServiceUnreachable - Indicates that the system service in the cluster is no longer polling the Resource Provider. Clusters in this state cannot be managed by the Resource Provider.
+  - AutoScale - Indicates that the ReliabilityLevel of the cluster is being adjusted.
+  - Ready - Indicates that the cluster is in a stable state.
+
 
 ____
 ### clusterEndpoint
@@ -101,12 +113,23 @@ __Required__: No<br/>
 <br/>
 The reliability level sets the replica set size of system services. Learn about [ReliabilityLevel](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-capacity).
 
+  - None - Run the System services with a target replica set count of 1. This should only be used for test clusters.
+  - Bronze - Run the System services with a target replica set count of 3. This should only be used for test clusters.
+  - Silver - Run the System services with a target replica set count of 5.
+  - Gold - Run the System services with a target replica set count of 7.
+  - Platinum - Run the System services with a target replica set count of 9.
+
+
 ____
 ### upgradeMode
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-The upgrade mode of the cluster. This indicates if the cluster should be automatically upgraded when new Service Fabric runtime version is available.
+The upgrade mode of the cluster when new Service Fabric runtime version is available.
+
+  - Automatic - The cluster will be automatically upgraded to the latest Service Fabric runtime version as soon as it is available.
+  - Manual - The cluster will not be automatically upgraded to the latest Service Fabric runtime version. The cluster is upgraded by setting the **clusterCodeVersion** property in the cluster resource.
+
 
 ____
 ### clientCertificateThumbprints
