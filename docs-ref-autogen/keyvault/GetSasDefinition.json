@@ -27,32 +27,29 @@
     "application/json"
   ],
   "paths": {
-    "/keys/{key-name}": {
-      "put": {
+    "/storage/{storage-account-name}/sas/{sas-definition-name}": {
+      "get": {
         "tags": [
-          "Keys"
+          "Storage"
         ],
-        "operationId": "ImportKey",
-        "summary": "Imports an externally created key, stores it, and returns key parameters and attributes to the client.",
-        "description": "The import key operation may be used to import any key type into an Azure Key Vault. If the named key already exists, Azure Key Vault creates a new version of the key.",
+        "operationId": "GetSasDefinition",
+        "description": "Gets information about a sas definition for the specified storage account.",
         "parameters": [
           {
-            "name": "key-name",
+            "name": "storage-account-name",
             "in": "path",
             "required": true,
             "type": "string",
-            "pattern": "^[0-9a-zA-Z-]+$",
-            "description": "Name for the imported key."
+            "pattern": "^[0-9a-zA-Z]+$",
+            "description": "The name of the storage account."
           },
           {
-            "name": "parameters",
-            "in": "body",
+            "name": "sas-definition-name",
+            "in": "path",
             "required": true,
-            "x-ms-client-flatten": true,
-            "schema": {
-              "$ref": "#/definitions/KeyImportParameters"
-            },
-            "description": "The parameters to import a key."
+            "type": "string",
+            "pattern": "^[0-9a-zA-Z]+$",
+            "description": "The name of the sas definition."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -60,15 +57,47 @@
         ],
         "responses": {
           "200": {
-            "description": "Imported key bundle to the vault.",
+            "description": "The retrieved sas definition.",
             "schema": {
-              "$ref": "#/definitions/KeyBundle"
+              "$ref": "#/definitions/SasDefinitionBundle"
             }
           },
           "default": {
             "description": "Key Vault error response describing why the operation failed.",
             "schema": {
               "$ref": "#/definitions/KeyVaultError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get Storage Sas Definition": {
+            "parameters": {
+              "storage-account-name": "getsas01",
+              "sas-definition-name": "getStrgSasDef01",
+              "api-version": "2016-10-01"
+            },
+            "responses": {
+              "200": {
+                "headers": {},
+                "body": {
+                  "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/getsas01/sas/getStrgSasDef01",
+                  "sid": "https://storage-sdk-test.vault-int.azure-int.net/secrets/getsas01-getStrgSasDef01",
+                  "parameters": {
+                    "sasType": "account",
+                    "signedProtocols": "https",
+                    "signedServices": "bq",
+                    "signedResourceTypes": "sco",
+                    "signedPermissions": "rw",
+                    "signedVersion": "2016-05-31",
+                    "validityPeriod": "PT10H"
+                  },
+                  "attributes": {
+                    "enabled": true,
+                    "created": 1490738438,
+                    "updated": 1490738438
+                  }
+                }
+              }
             }
           }
         }
