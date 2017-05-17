@@ -766,7 +766,7 @@
 #### [Create or update a route](../docs-ref-conceptual/network/virtualnetwork/create-or-update-a-route.md)
 #### [Delete a route](../docs-ref-conceptual/network/virtualnetwork/delete-a-route.md)
 #### [Get information about a route](../docs-ref-conceptual/network/virtualnetwork/get-information-about-a-route.md)
-#### [List routes within a route table2](../docs-ref-conceptual/network/virtualnetwork/list-routes-within-a-route-table.md)
+#### [List routes within a route table](../docs-ref-conceptual/network/virtualnetwork/list-routes-within-a-route-table.md)
 ### [Supporting Tasks](../docs-ref-conceptual/network/virtualnetwork/supporting-tasks.md)
 #### [Check Dns name availability](../docs-ref-conceptual/network/virtualnetwork/check-dns-name-availability.md)
 #### [Check subscription usages](../docs-ref-conceptual/network/virtualnetwork/check-subscription-usages.md)
