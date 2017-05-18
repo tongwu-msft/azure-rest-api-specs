@@ -13,21 +13,30 @@ ms.manager: douge
 Azure DevTest Labs is a service that helps developers and testers quickly create environments in Azure while minimizing waste and controlling cost. You can test the latest version of your application by quickly provisioning Windows and Linux environments using reusable templates and artifacts. Easily integrate your deployment pipeline with DevTest Labs to provision on-demand environments. Scale up your load testing by provisioning multiple test agents, and create pre-provisioned environments for training and demos.
 
 ## REST Operation Groups
-
-| Resource Groups                     | Description                                                                                                          |
-|-------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| [Artifact](./artifact)              | Provides operations for working with artifacts, including generating a Resource Management template for an artifact. |
-| [Artifact Source](./artifactsource) | Provides operations for managing artifact sources.                                                                   |
-| [Cost](./cost)                      | Lists the costs for a lab.                                                                                           |
-| [Custom Image](./customimage)       | Provides operations for creating and managing custom images.                                                         |
-| [Formula](./formula)                | Provides operations for managing formulas.                                                                           |
-| [Gallery Image](./galleryimage)     | Lists the gallery images for a lab.                                                                                  |
-| [Lab](./lab)                        | Provides operations for managing labs.                                                                               |
-| [Policy](./policy)                  | Provides operations for managing a lab's policies.                                                                            |
-| [Policy Set](./policyset)           | Evaluates the lab policy.                                                                                            |
-| [Schedule](./schedule)              | Provides operations for managing schedules.                                                                          |
-| [Virtual Machine](./virtualmachine) | Provides operations for adding artifacts to and managing a lab's virtual machines.                                   |
-| [Virtual Network](./virtualnetwork) | Provides operations for managing a lab's virtual networks.                                                           |   |
+ 
+| Resource Groups                                 | Description                                                                                                          |
+|-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| [ARM Templates](./armtemplates)                 | Provides operations for getting and listing a lab's ARM templates.                                                   |
+| [Artifacts](./artifacts)                        | Provides operations for working with artifacts, including generating a Resource Management template for an artifact. |
+| [Artifact Sources](./artifactsources)           | Provides operations for managing artifact sources.                                                                   |
+| [Costs](./costs)                                | Lists the costs for a lab.                                                                                           |
+| [Custom Images](./customimages)                 | Provides operations for creating and managing custom images.                                                         |
+| [Disks](./disks)                                | Provides operations for managing a lab's storage disks.                                                              |
+| [Environments](./environments)                  | Provides operations for managing a lab's environments (ARM template deployments).                                    |
+| [Formulas](./formulas)                          | Provides operations for managing formulas.                                                                           |
+| [Gallery Images](./galleryimages)               | Lists the gallery images for a lab.                                                                                  |
+| [Global Schedules](./globalschedules)           | Provides operations for managing the global schedules for a lab.                                                     |
+| [Labs](./labs)                                  | Provides operations for managing labs.                                                                               |
+| [Notification Channels](./notificationchannels) | Provides operations for managing a lab's notification channels.                                                      |
+| [Policies](./policies)                          | Provides operations for managing a lab's policies.                                                                   |
+| [Policy Sets](./policysets)                     | Evaluates the lab policy.                                                                                            |
+| [Schedules](./schedules)                        | Provides operations for managing schedules.                                                                          |
+| [Secrets](./secrets)                            | Provides operations for managing a lab's secrets.                                                                    |
+| [Service Runners](./servicerunners)             | Provides operations for managing a lab's service runners.                                                            |
+| [Users](./users)                                | Provides operations for managing a lab's users.                                                      |
+| [VM Schedules](./virtualmachineschedules)       | Provides operations for managing schedules for a lab's virtual machines.                                             |
+| [Virtual Machines](./virtualmachines)           | Provides operations for adding artifacts to and managing a lab's virtual machines.                                   |
+| [Virtual Networks](./virtualnetworks)           | Provides operations for managing a lab's virtual networks.                                                           |
 
 
 ## See Also

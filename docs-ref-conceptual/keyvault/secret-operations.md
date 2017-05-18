@@ -5,10 +5,11 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
+ms.date: 04/28/2017
 ---
 # Secret operations
 
-The Azure Key Vault REST API supports the following operations for secret operations.
+The Azure Key Vault REST API supports the following operations for secrets.
 
 - [Set a secret](../../docs-ref-autogen/keyvault/SetSecret.json)
 
@@ -16,7 +17,7 @@ The Azure Key Vault REST API supports the following operations for secret operat
 - [Get a secret](../../docs-ref-autogen/keyvault/GetSecret.json)
 
 
-- [Get secrets in a vault](../../docs-ref-autogen/keyvault/GetSecrets.json)
+- [Get secrets in a key vault](../../docs-ref-autogen/keyvault/GetSecrets.json)
 
 
 - [Get versions of a secret](../../docs-ref-autogen/keyvault/GetSecretVersions.json)

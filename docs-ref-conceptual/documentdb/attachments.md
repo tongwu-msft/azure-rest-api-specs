@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-12-20"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -27,16 +27,16 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Attachments
-The DocumentDB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the REST operations used to manage DocumentDB attachments.  
-  
-Attachments are special documents that contain references and associated metadata with an external blob or media file.  
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+
+The DocumentDB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the REST operations used to manage DocumentDB attachments. Attachments are special documents that contain references and associated metadata with an external blob or media file.  
   
 Developers can choose to have:  
   
-* The attachment media/blob managed by DocumentDB or  
-* Store it with an external blob service provider such as OneDrive, Dropbox, etc. and store the reference metadata for attachment in DocumentDB.  
+* The attachment media/blob managed by Cosmos DB or  
+* Store it with an external blob service provider such as OneDrive, Dropbox, etc. and store the reference metadata for attachment in Cosmos DB.  
     
-The attachment resource is represented by attachments in the [DocumentDB REST resource model](http://azure.microsoft.com/documentation/articles/documentdb-resources/). The attachment resource has a fixed schema. Regardless of where the raw media is stored, the following properties are required.  
+The attachment resource is represented by attachments in the [Cosmos DB REST resource model](http://azure.microsoft.com/documentation/articles/documentdb-resources/). The attachment resource has a fixed schema. Regardless of where the raw media is stored, the following properties are required.  
   
 The following example illustrates the JSON construct of a document attachment.  
   
@@ -56,7 +56,7 @@ The following example illustrates the JSON construct of a document attachment.
 |Property|Description|  
 |--------------|-----------------|  
 |`id`|Required. This is a user settable property. It is the unique name that identifies the attachment, i.e. no two attachments share the same id for the same document. The id must not exceed 255 characters.|  
-|`contentType`|Required. This is a user settable property. It specifies the content type of the attachment. When submitting the attachment bits as the body, DocumentDB sets the `contentType` to the type set in the `Content-Type` header.|  
+|`contentType`|Required. This is a user settable property. It specifies the content type of the attachment. When submitting the attachment bits as the body, Cosmos DB sets the `contentType` to the type set in the `Content-Type` header.|  
 |`Media`|Required. This is the URL link or file path where the attachment resides.|  
 |`_rid`|This is a system generated property. The resource ID (`_rid`) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the attachment resource.|  
 |`_ts`|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
@@ -68,8 +68,8 @@ The following example illustrates the JSON construct of a document attachment.
   
 |Header|Description|  
 |------------|-----------------|  
-|`x-ms-max-media-storage-usage-mb`|When using DocumentDB attachment storage to store raw media, this header shows the total allotted attachment storage quota for the account. For more information on limits and quotas, see [DocumentDB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
-|`x-ms-media-storage-usage-mb`|When using DocumentDB attachment storage to store raw media, this header shows the current attachment storage consumed.|  
+|`x-ms-max-media-storage-usage-mb`|When using Cosmos DB attachment storage to store raw media, this header shows the total allotted attachment storage quota for the account. For more information on limits and quotas, see [Cosmos DB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
+|`x-ms-media-storage-usage-mb`|When using Cosmos DB attachment storage to store raw media, this header shows the current attachment storage consumed.|  
   
 ## Tasks  
  You can do the following with attachments:  
@@ -87,8 +87,8 @@ The following example illustrates the JSON construct of a document attachment.
  These operations are similar to the ones for [Documents](documents.md). Instead of performing the operations against the docs, they are preformed against the attachments resource path under a particular document. Hence, we will skip elaborating each of the operations. Instead, in the next section, we will discuss how to create an attachment with raw media posting and with metadata-only posting.  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
+ [Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
+ [Azure Cosmos DB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
  [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   

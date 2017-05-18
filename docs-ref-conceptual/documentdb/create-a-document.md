@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -26,23 +26,23 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create a Document
-  A new document can be created by executing an HTTPS POST request against the docs URI resource path.  
-  
- Documents are automatically indexed. If automatic indexing is turned off at the collection level, documents can be manually included or excluded from being indexed by using the **x-ms-indexing-directive** header during the POST operation. Documents must adhere to size limits, as specified in [DocumentDB Limits](https://azure.microsoft.com/en-us/documentation/articles/documentdb-limits/).  
+# Create Document
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+
+The `Create Document` operation creates a new document in a collection.  
   
 ## Request  
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|POST|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs|Note that the {databaseaccount} is the name of the DocumentDB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection that contains the document.|  
+|POST|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs|Note that the {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection that contains the document.|  
   
 ### Headers  
- See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests.  
+ See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Azure Cosmos DB requests.  
   
 |Header|Required|Type|Description|  
 |------------|--------------|----------|-----------------|  
-|**x-ms-documentdb-is-upsert**|Optional|Boolean|If set to true, DocumentDB will create the document with the id (and partition key value if applicable) if it doesn’t exist, or update the document if it exists.|  
+|**x-ms-documentdb-is-upsert**|Optional|Boolean|If set to true, Cosmos DB will create the document with the id (and partition key value if applicable) if it doesn’t exist, or update the document if it exists.|  
 |**x-ms-indexing-directive**|Optional|String|The acceptable value is **Include** or **Exclude**.<br /><br /> -   **Include** adds the document to the index.<br />-   **Exclude** omits the document from indexing.<br /><br /> The default for indexing behavior is determined by the automatic property’s value in the indexing policy for the collection.|  
   
 ### Body  
@@ -50,7 +50,7 @@ translation.priority.mt:
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|This is a user settable property. It is the unique name that identifies the document, i.e. no two documents should share the same **id**. The **id** must not exceed 255 characters.|  
-|\<custom>|Required|JSON|Any user defined JSON. For document size limit, see [DocumentDB Limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
+|\<custom>|Required|JSON|Any user defined JSON. For document size limit, see [Azure Cosmos DB Limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
   
 ```  
 {  
@@ -93,7 +93,7 @@ translation.priority.mt:
  Returns the body of the created document.  
   
 ### Headers  
- See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  
+ See [Common Azure Cosmos DB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all Azure Cosmos DB responses.  
   
 |Property|Type|Description|  
 |--------------|----------|-----------------|  
@@ -109,7 +109,7 @@ translation.priority.mt:
 |400 Bad Request|The JSON body is invalid.|  
 |403 Forbidden|The operation could not be completed because the storage limit of the partition has been reached.|  
 |409 Conflict|The id provided for the new document has been taken by an existing document.|  
-|413 Entity Too Large|The document size in the request exceeded the allowable document size. For more information about document size limits, see [DocumentDB Limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
+|413 Entity Too Large|The document size in the request exceeded the allowable document size. For more information about document size limits, see [Azure Cosmos DB Limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
   
 ### Body  
   

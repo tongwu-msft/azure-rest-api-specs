@@ -1,10 +1,10 @@
 ---
-title: "Access Control on DocumentDB Resources"
+title: "Access Control on Azure Cosmos DB Resources"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-04-26"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -25,30 +25,30 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Access Control on DocumentDB Resources
-  Access to DocumentDB resources is governed by a master key token or a resource token. To access a resource, the selected token is included in the REST authorization header, as part of the authorization string.  
+# Access control in the DocumentDB API
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. Access to resources in the DocumentDB API is governed by a master key token or a resource token. To access a resource, the selected token is included in the REST authorization header, as part of the authorization string.  
   
 ## Master key tokens  
- The master key token is the all access key token that allows individuals to have full control of DocumentDB resources in a particular account. The master key is created during the creation of an account. There are two sets of master keys, the primary key and the secondary key. The administrator of the account can then exercise key rotation using the secondary key. In addition, the account administrator can also regenerate the keys as needed. For instructions on regenerating and rolling keys, see [How to manage a DocumentDB account](http://azure.microsoft.com/documentation/articles/documentdb-manage-account/).  
+The master key token is the all access key token that allows users to have full control of Cosmos DB resources in a particular account. The master key is created during the creation of an account. There are two sets of master keys, the primary key and the secondary key. The administrator of the account can then exercise key rotation using the secondary key. In addition, the account administrator can also regenerate the keys as needed. For instructions on regenerating and rolling keys, see [How to manage an Azure Cosmos DB account](https://docs.microsoft.com/azure/documentdb/documentdb-manage-account/).  
   
 ## Resource tokens  
- Resource tokens are created when users in a database are set up with access permissions for precise access control on a resource, also known as a permission resource. A permission resource contains a hash resource token specifically constructed with the information regarding the resource path and access type a user has access to. The permission resource token is time bound and the validity period can be overridden. When a permission resource is acted upon on (POST, GET, PUT), a new resource token is generated. For information on permissions and resource tokens, see [Operations on DocumentDB Permissions](permissions.md).  
+Resource tokens are created when users in a database are set up with access permissions for precise access control on a resource, also known as a permission resource. A permission resource contains a hash resource token specifically constructed with the information regarding the resource path and access type a user has access to. The permission resource token is time bound and the validity period can be overridden. When a permission resource is acted upon on (POST, GET, PUT), a new resource token is generated. For information on permissions and resource tokens, see [Operations on Cosmos DB Permissions](permissions.md).  
   
 ## Authorization header  
- All REST operations, whether you're using a master key token or resource token, must include the authorization header with the authorization string in order to interact with a resource. The authorization string has the following format:  
+All REST operations, whether you're using a master key token or resource token, must include the authorization header with the authorization string in order to interact with a resource. The authorization string has the following format:  
   
 ```  
 type={typeoftoken}&ver={tokenversion}&sig={hashsignature}  
 ```  
   
- An example authorization string looks like this:  
+An example authorization string looks like this:  
   
 ```  
 type=master&ver=1.0&sig=5mDuQBYA0kb70WDJoTUzSBMTG3owkC0/cEN4fqa18/s=  
   
 ```  
   
- The parts enclosed in brackets are as follows:  
+The parts enclosed in brackets are as follows:  
   
 -   {typeoftoken} denotes the type of token: master or resource.  
   
@@ -73,7 +73,7 @@ The hash signature for the master key token can be constructed from the followin
     
 5.  All new line characters (\n) shown are required within the signature string including the last empty string("").
   
- To encode the signature string for a request against DocumentDB, use the following format:  
+ To encode the signature string for a request against Cosmos DB, use the following format:  
   
 StringToSign = Verb.toLowerCase() + "\n" + ResourceType.toLowerCase() + "\n" + ResourceLink + "\n" + Date.toLowerCase() + "\n" + "" + "\n";  
   
@@ -137,6 +137,19 @@ function getAuthorizationTokenUsingMasterKey(verb, resourceType, resourceLink, d
 }  
   
 ```  
+
+Example Encoding:
+
+| Argument | Value |
+| - | - |
+| Verb | GET |
+| Resource Type | "dbs" |
+| Resource Link | "dbs/ToDoList" |
+| Date | Thu, 27 Apr 2017 00:51:12 GMT |
+| Key | dsZQi3KtZmCv1ljt3VNWNm7sQUF1y5rJfC6kv5JiwvW0EndXdDku/dkKBp8/ufDToSxLzR4y+O/0H/t4bQtVNw== |
+| Key Type | master |
+| Token Version | 1.0 |
+| Output Authorization String | type%3dmaster%26ver%3d1.0%26sig%3dc09PEVJrgp2uQRkr934kFbTqhByc7TVr3OHyqlu%2bc%2bc%3d |
   
 ##  <a name="constructresourcetoken"></a> Constructing the hash signature for a resource token  
  Resource tokens must be generated by an intermediate server. The server serves as the master-key guardian and generates time-constrained tokens for untrusted clients, such as web browsers.  
@@ -147,14 +160,13 @@ function getAuthorizationTokenUsingMasterKey(verb, resourceType, resourceLink, d
   
 2.  Verifies client identity in an application-specific way.  
   
-3.  If the client authenticates successfully, it uses the DocumentDB interfaces (SDK or REST) to generate a new time-limited token and returns it to the client.  
+3.  If the client authenticates successfully, it uses the Cosmos DB interfaces (SDK or REST) to generate a new time-limited token and returns it to the client.  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)   
- [DocumentDB Resource URI Syntax for REST](documentdb-resource-uri-syntax-for-rest.md)   
- [Querying DocumentDB resources using the REST API](querying-documentdb-resources-using-the-rest-api.md)   
- [HTTP Status Codes for DocumentDB](http-status-codes-for-documentdb.md)  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
+* [Azure Cosmos DB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
+* [Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) 
   
   

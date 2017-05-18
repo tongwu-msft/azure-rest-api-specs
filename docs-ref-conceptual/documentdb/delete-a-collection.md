@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmosdb"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -27,16 +27,16 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Delete a Collection
-  The Delete Collection operation removes the collection and associated documents, stored procedures, triggers and user-defined functions.  
+The `Delete Collection` operation deletes an existing collection in a database.  
   
 ## Request  
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|DELETE|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}|Note that the {databaseaccount} is the name of the DocumentDB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection to be deleted.|  
+|DELETE|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}|Note that the {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection to be deleted.|  
   
 ### Headers  
- Delete Collection requires the headers listed under [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md).  
+ Delete Collection requires the headers listed under [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md).  
   
 ### Body  
  None.  
@@ -44,7 +44,7 @@ translation.priority.mt:
 ## Response  
   
 ### Headers  
- See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  
+ See [Common Azure Cosmos DB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all Azure Cosmos DB responses.  
   
 ### Status codes  
  The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](https://msdn.microsoft.com/library/azure/dn783364.aspx).  
@@ -104,9 +104,9 @@ Date: Mon, 28 Mar 2016 20:56:35 GMT
 ```  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+ [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
+ [Azure Cosmos DB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
+ [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   

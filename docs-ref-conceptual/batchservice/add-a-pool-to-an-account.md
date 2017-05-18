@@ -41,7 +41,7 @@ manager: "timlt"
     "targetOSVersion":"*"
   },
   "resizeTimeout":"PT15M",
-  "targetDedicated":5,
+  "targetDedicatedNodes":5,
   "maxTasksPerNode":3,
   "taskSchedulingPolicy": {
     "nodeFillType":"Spread"
@@ -74,7 +74,7 @@ manager: "timlt"
       "nodeAgentSKUId":"batch.node.ubuntu 14.04"
   },
   "resizeTimeout":"PT15M",
-  "targetDedicated":5,
+  "targetDedicatedNodes":5,
   "maxTasksPerNode":3,
   "taskSchedulingPolicy": {
     "nodeFillType":"Spread"
@@ -84,8 +84,7 @@ manager: "timlt"
   "userAccounts": [ {
     "name":"myaccount",
     "password":"mypassword",
-    "elevationLevel":"nonAdmin",
-    "sshPrivateKey":"myprivatekey"
+    "elevationLevel":"nonAdmin"
   } ]  
   "metadata": [ {
     "name":"myproperty",
@@ -104,17 +103,19 @@ manager: "timlt"
 |[virtualMachineConfiguration](../batchservice/add-a-pool-to-an-account.md#bk_vmconf)|Optional|Complex Type|The virtual machine configuration for the pool. This property must be specified if the pool needs to be created with Azure IaaS VMs.<br />Note that the cloudServiceConfiguration and virtualMachineConfiguration properties are mutually exclusive and only one of the properties can be specified. If neither is specified then the Batch service returns Bad Request \(400\).|
 |[networkConfiguration](../batchservice/add-a-pool-to-an-account.md#bk_netconf)|Optional|Complex Type|The network configuration for the pool.|
 |resizeTimeout|Optional|Time|Specifies the timeout for allocation of compute nodes to the pool.<br /><br /> This timeout applies only to manual scaling; it has no effect when enableAutoScale is set to true.<br /><br /> The default value is 15 minutes.<br /><br /> The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns a Bad Request \(400\).|
-|targetDedicated|Optional|Int32|Specifies the desired number of compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to true.  It is required if enableAutoScale is set to false.|
+|targetDedicatedNodes|Optional|Int32|Specifies the desired number of dedicated compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to true.  If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both.|
+|targetLowPriorityNodes|Optional|Int32|Specifies the desired number of low-priority compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to true.  If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both.|
 |maxTasksPerNode|Optional|Int32|The maximum number of tasks that can run concurrently on a single compute node in the pool.<br /><br /> The default value is 1.<br /><br /> The maximum value of this setting depends on the size of the compute nodes in the pool \(the vmSize setting\).|
 |[taskSchedulingPolicy](../batchservice/add-a-pool-to-an-account.md#bk_schedpol)|Optional|Complex Type|Defines how the Batch service distributes tasks between compute nodes in the pool.|
 |autoScaleFormula|Optional|String|Specifies a formula for the desired number of compute nodes in the pool.<br /><br /> This property must not be specified if enableAutoScale is set to false. It is required if enableAutoScale is set to true.<br /><br /> The formula is checked for validity before the pool is created. If the formula is not valid, the Batch service rejects the request with detailed error information. For more information about specifying this formula, see [Automatically scale compute nodes in an Azure Batch pool](https://azure.microsoft.com/documentation/articles/batch-automatic-scaling/).|
 |autoScaleEvaluationInterval|Optional|Time|Specifies a time interval at which to automatically adjust the pool size according to the AutoScale formula.<br />The default value is 15 minutes.<br /><br /> The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service returns a Bad Request \(400\).|
-|enableAutoScale|Optional|Boolean|Specifies whether the pool size should automatically adjust over time.<br /><br /> If false, the targetDedicated element is required and the autoScaleFormula and  autoScaleEvaluationInterval elements must be omitted.<br /><br /> If true, the autoScaleFormula element is required and the targetDedicated element must be omitted. The pool automatically resizes according to the formula.<br /><br /> The default value is false.|
+|enableAutoScale|Optional|Boolean|Specifies whether the pool size should automatically adjust over time.<br /><br />If false, the targetDedicatedNodes element is required. If true, the autoScaleFormula element is required. The pool automatically resizes according to the formula. The default value is false.|
 |enableInterNodeCommunication|Optional|Boolean|Specifies whether the pool permits direct communication between nodes.<br /><br /> Enabling inter\-node communication limits the maximum size of the pool due to deployment restrictions on the nodes of the pool. This may result in the pool not reaching its desired size.<br /><br /> The default value is false.|
 |[startTask](../batchservice/add-a-pool-to-an-account.md#bk_starttask)|Optional|Complex Type|Specifies a task to run on each compute node as it joins the pool. The task runs when the node is added to the pool or when the node is restarted.|
 |[certificateReferences](../batchservice/add-a-pool-to-an-account.md#certificateReferences)|Optional|Collection|A list of certificates to be installed on each compute node in the pool.<br /><br /> Each certificate in the list must have been previously added to the Batch account. For more information about adding certificates, see [Add a certificate to an account](../batchservice/add-a-certificate-to-an-account.md).|
-|[applicationPackageReferences](../batchservice/add-a-pool-to-an-account.md#bk_apkgreference)|Optional|Collection|A list of application packages to be installed on each compute node in the pool.<br /><br /> This property is currently not supported on pools created using the virtualMachineConfiguration \(IaaS\) property.|
-|[userAccounts](#userAccounts)|Optional|Collection|The list of user accounts to be created on each node in the pool.|
+|applicationPackageReferences|Optional|Collection|A list of application packages to be installed on each compute node in the pool.<br /><br /> This property is currently not supported on auto pools created with the virtualMachineConfiguration \(IaaS\) property.|
+|[userAccounts](#userAccount)|Optional|Collection|The list of user accounts to be created on each node in the pool.|
+|applicationLicenses|Optional|Collection|The list of application licenses the Batch service will make available on each compute node in the pool.<br /><br /> The list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, pool creation will fail.|
 |[metadata](../batchservice/add-a-pool-to-an-account.md#bk_meta)|Optional|Collection|A list of name\-value pairs associated with the pool as metadata.<br /><br /> The Batch service does not assign any meaning to metadata; it is solely for the use of user code.|
 
 ###  <a name="bk_csconf"></a> cloudServiceConfiguration
@@ -146,7 +147,7 @@ manager: "timlt"
 
 |Element name|Required|Type|Notes|
 |------------------|--------------|----------|-----------|
-|imageUris|Required|Collection|The collection of Virtual Hard Disk (VHD) URIs.<br /><br /> All the VHDs must be identical and must reside in an Azure Storage account within the same subscription and same region as the Batch account. For best performance, it is recommended that each VHD resides in a separate Azure Storage account. Each VHD can serve up to 20 Windows compute nodes or 40 Linux compute nodes. You must supply enough VHD URIs to satisfy the 'targetDedicated' property of the pool. If you do not supply enough VHD URIs, the pool will partially allocate compute nodes, and a resize error will occur.|
+|imageUris|Required|Collection|The collection of Virtual Hard Disk (VHD) URIs.<br /><br /> All the VHDs must be identical and must reside in an Azure Storage account within the same subscription and same region as the Batch account. For best performance, it is recommended that each VHD resides in a separate Azure Storage account. Each VHD can serve up to 20 Windows compute nodes or 40 Linux compute nodes. You must supply enough VHD URIs to satisfy the 'targetDedicatedNodes' property of the pool. If you do not supply enough VHD URIs, the pool will partially allocate compute nodes, and a resize error will occur.|
 |caching|Optional|String|The type of caching to enable for the OS disk.|
 
 ###  <a name="bk_winconf"></a> windowsConfiguration
@@ -159,7 +160,7 @@ manager: "timlt"
 
 |Element name|Required|Type|Notes|
 |------------------|--------------|----------|-----------|
-|subnetId|Required|String|Specifies the resource identifier of the subnet in which the pool's compute nodes should be created. The following conditions must be met:<ul><li>The specified [Virtual Network (VNet)](https://azure.microsoft.com/documentation/articles/virtual-networks-overview/)  must be in the same Azure region as the Azure Batch account.</li><li>The specified VNet must be in the same subscription as the Azure Batch account.</li><li>The specified VNet must be a Classic VNet. VNets created via Azure Resource Manager are not supported.</li><li>The specified subnet should have enough free IP addresses to accommodate the "targetDedicated" property. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes, and a resize error will occur.</li><li>The "MicrosoftAzureBatch" service principal must have the ["Classic Virtual Machine Contributor" Role-Based Access Control (RBAC) role](https://azure.microsoft.com/en-us/documentation/articles/role-based-access-built-in-roles/#classic-virtual-machine-contributor) for the specified VNet. If the specified RBAC role is not given, the Batch service returns 400 (Bad Request). </li><li>The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated  Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. </li></ul>|
+|subnetId|Required|String|Specifies the resource identifier of the subnet in which the pool's compute nodes should be created. The following conditions must be met:<ul><li>The specified [Virtual Network (VNet)](https://azure.microsoft.com/documentation/articles/virtual-networks-overview/)  must be in the same Azure region as the Azure Batch account.</li><li>The specified VNet must be in the same subscription as the Azure Batch account.</li><li>The specified VNet must be a Classic VNet. VNets created via Azure Resource Manager are not supported.</li><li>The specified subnet should have enough free IP addresses to accommodate the "targetDedicatedNodes" property. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes, and a resize error will occur.</li><li>The "MicrosoftAzureBatch" service principal must have the ["Classic Virtual Machine Contributor" Role-Based Access Control (RBAC) role](https://azure.microsoft.com/en-us/documentation/articles/role-based-access-built-in-roles/#classic-virtual-machine-contributor) for the specified VNet. If the specified RBAC role is not given, the Batch service returns 400 (Bad Request). </li><li>The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated  Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. </li><li>For pools created with a virtualMachineConfiguration, the Batch account must have its poolAllocationMode property set to 'userSubscription' in order to use a VNet.</li></ul>|
 
 ###  <a name="bk_schedpol"></a> taskSchedulingPolicy
 
@@ -224,14 +225,20 @@ manager: "timlt"
 |applicationId|Required|String|The id of the application to install.|
 |version|Optional|String|The version of the application to install.<br />If omitted, the default version is installed. If no default version is specified for this application, the request fails with HTTP status code 403 and error code InvalidApplicationPackageReferences.|
 
-### <a name="userAccounts"></a> userAccounts
+### <a name="userAccount"></a> userAccount
 |Element name|Required|Type|Notes|
 |------------------|--------------|----------|-----------|
 |name|Required|String|The name of the user account.|
 |password|Required|String|The password for the user account.|
 |elevationLevel|Optional|String|The elevation level of the user account.<br /><br />**nonAdmin** - The auto user is a standard user without elevated access.<br /><br />**admin** - The auto user is a user with elevated access and operates with full Administrator permissions.<br /><br />The default value is **nonAdmin**.|
-|sshPrivateKey|Optional|String|The SSH private key establishes password-less SSH between nodes in a Linux pool when the pool's enableInterNodeCommunication property is true.<br /><br />This property will be ignored in a Windows pool.|
+|linuxUserConfiguration|Optional|String|The Linux-specific user configuration for the user account. This property is ignored if specified on a Windows pool. If not specified, the user is created with the default options.|
 
+### <a name="linuxUserConfiguration"></a> linuxUserConfiguration
+|Element name|Required|Type|Notes|
+|------------------|--------------|----------|-----------|
+|uid|Optional|Integer|The user ID of the user account.<br /><br />The uid and gid properties must be specified together or not at all. If these properties are not specified, the underlying operating system picks the uid.|
+|gidname|Optional|Integer|The group ID for the user account.<br /><br />"The uid and gid properties must be specified together or not at all. If these properties are not specified the underlying operating system picks the gid.|
+|sshPrivateKey|Optional|String|The SSH private key for the user account.<br /><br />The SSH private key is used to automatically configure password-less SSH between nodes in a Linux pool when the pool's enableInterNodeCommunication property is true. If not specified, password-less SSH is not configured between nodes.|
 
 ###  <a name="bk_meta"></a> metadata
 
@@ -258,7 +265,7 @@ manager: "timlt"
       "nodeAgentSKUId":"batch.node.ubuntu 14.04"
   },
   "resizeTimeout":"PT15M",
-  "targetDedicated":5,
+  "targetDedicatedNodes":5,
   "maxTasksPerNode":3,
   "taskSchedulingPolicy": {
     "nodeFillType":"Spread"
@@ -310,7 +317,7 @@ manager: "timlt"
     "targetOSVersion":"*"
   },
   "resizeTimeout":"PT15M",
-  "targetDedicated":5,
+  "targetDedicatedNodes":5,
   "maxTasksPerNode":3,
   "taskSchedulingPolicy": {
     "nodeFillType":"Spread"
@@ -357,7 +364,7 @@ manager: "timlt"
     "targetOSVersion":"*"
   },
   "resizeTimeout":"PT15M",
-  "targetDedicated":5,
+  "targetDedicatedNodes":5,
   "maxTasksPerNode":3,
   "taskSchedulingPolicy": {
     "nodeFillType":"Spread"

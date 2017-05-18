@@ -11,7 +11,7 @@ ms.manager: douge
 
 # Azure SQL Database REST API
 
-The Azure SQL Database REST API includes operations for managing Azure SQL Database servers, databases, elastic database pools, elastic databases, server firewall rules.
+The Azure SQL Database REST API includes operations for managing Azure SQL Database servers, databases, elastic database pools, elastic databases, server firewall rules, and failover groups.
 
 ## REST Operation Groups
 
@@ -19,10 +19,11 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |-----------------|-------------|
 |[Databases](~/docs-ref-autogen/sql/Databases.json)| Create, get, update, and delete SQL databases, data warehouses, restore points, service tier advisors, and transparent data encryption configuration.|
 |[Servers](~/docs-ref-autogen/sql/Servers.json)|Create, get, update, or list information about an Azure SQL server.|
-|[Server Firewall Rules](~/docs-ref-autogen/sql/ServersFirewallRules.json)|Create, get, update, delete, or list firewall rules.|
+|[Server Firewall Rules](~/docs-ref-autogen/sql/firewallrules.json)|Create, get, update, delete, or list firewall rules.|
 |[Elastic Pools](~/docs-ref-autogen/sql/ElasticPools.json)|Create, get, update, or delete elastic pools.|
 |[Recommended Elastic Pools](~/docs-ref-autogen/sql/RecommendedElasticPools.json)|Get and list information about Azure SQL recommended pools and Azure SQL databases inside pools.|
-|[Database Replication Links](~/docs-ref-autogen/sql/DatabaseReplicationLinks.json)| Get, list, delete, and failover a replication link.|
+|[Database Replication Links](~/docs-ref-autogen/sql/databases%20-%20replicationlinks.json)| Get, list, delete, and failover a replication link.|
+|[Failover Groups](~/docs-ref-autogen/sql/failovergroups.json)| Create, get, update, list, delete, and failover a failover group.| 
 
 
 ## See Also
