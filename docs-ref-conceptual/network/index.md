@@ -1,6 +1,6 @@
 ---
-ms.title: Azure Network REST APIs
-ms.date: 04/13/2017
+ms.title: Network REST APIs
+ms.date: 03/15/2017
 ms.service: virtual-network
 ms.topic: reference
 ms.devlang: rest
@@ -10,16 +10,17 @@ ms.manager: narayan
 ---
 # Network
 
-This is the documentation for the REST APIs for Azure networking resources.
+Use these APIs to manage your Azure Networking resources. All task operations conform to the HTTP/1.1 protocol specification and each operation returns an x-ms-request-id header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure.
 
+Network REST APIs include:
 
 ## Application Gateway
 
 |Operation Group|Description|
 |---|---|
-|[Application Gateway](~/docs-ref-autogen/network/applicationgateways.json) |Provides operations for managing Application Gateways.|
+|[Application Gateway](applicationgateway/index.md) |Provides operations for managing Application Gateways.|
 
-## Express Route
+## ExpressRoute
 
 |Operation Group|Description|
 |---|---|
@@ -33,7 +34,7 @@ This is the documentation for the REST APIs for Azure networking resources.
 
 |Operation Group|Description|
 |---|---|
-|[Load Balancers](~/docs-ref-autogen/network/loadbalancers.json) |Provides operations for managing Load Balancers.|
+|[Load Balancer](loadbalancer/index.md) |Provides operations for managing Load Balancers.|
 
 ## Network Gateway
 
@@ -60,20 +61,18 @@ This is the documentation for the REST APIs for Azure networking resources.
 
 |Operation Group|Description|
 |---|---|
-|[Network Interface Cards](~/docs-ref-autogen/network/networkinterfaces.json) |Provides operations for managing Network Interface Cards.|
-|[Network Security Groups](~/docs-ref-autogen/network/networksecuritygroups.json)   | Provides operations for managing Network Security Groups.|
-|[Network Security Rules](~/docs-ref-autogen/network/securityrules.json)   |Provides operations for managing Network Security Rules.|
-|[Public IP Addresses](~/docs-ref-autogen/network/publicipaddresses.json)   | Provides operations for managing Public IP Addresses.|
-|[Subnets](~/docs-ref-autogen/network/subnets.json)  |Provides operations for managing Subnets.|
-|[Virtual Networks](~/docs-ref-autogen/network/virtualnetworks.json)  |Provides operations for managing Virtual Networks.|
-|[Route Tables](~/docs-ref-autogen/network/routetables.json)   |Provides operations for managing Route Tables.|
-|[Routes](~/docs-ref-autogen/network/routes.json)   |Provides operations for managing Routes.|
-|[Route filters](~/docs-ref-autogen/network/routefilters.json)   |Provides operations for managing Route filters.|
-|[Network Interfce Cards (Virtual Machine scale sets)](~/docs-ref-autogen/network/Network%20Interfaces%20VM%20Scale%20Sets.json)   |Provides operations for managing Network Interface Cards on virtual machine scale sets.|
+|[Network Interface Cards](virtualnetwork/network-interface-cards.md) |Provides operations for managing Network Interface Cards.|
+|[Network Security Groups](virtualnetwork/network-security-groups.md)   | Provides operations for managing Network Security Groups.|
+|[Network Security Rules](virtualnetwork/network-security-rules.md)   |Provides operations for managing Network Security Rules.|
+|[Public IP Addresses](virtualnetwork/public-ip-addresses.md)   | Provides operations for managing Public IP Addresses.|
+|[Subnets](virtualnetwork/virtualnetworksubnets.md)  |Provides operations for managing Subnets.|
+|[Virtual Networks](virtualnetwork/index.md)  |Provides operations for managing Virtual Networks.|
+|[Route Tables](virtualnetwork/route-tables.md)   |Provides operations for managing Route Tables.|
+|[Routes](virtualnetwork/networkroutes.md)   |Provides operations for managing Routes.|
 
 ## General
 
 |Operation Group|Description|
 |---|---|
-| [Check DNS name availability](~/docs-ref-autogen/network/checkdnsnameavailability.json)       |  Checks if the DNS name is available. |
+| [Check DNS name availability](virtualnetwork/check-dns-name-availability.md)       |  Checks if the DNS name is available. |
 | [Check subscription usages](~/docs-ref-autogen/network/usages.json)           |  Returns the subscription usage for a region. |
