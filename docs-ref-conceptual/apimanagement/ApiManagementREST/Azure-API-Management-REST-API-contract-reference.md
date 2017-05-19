@@ -137,6 +137,7 @@ This topic describes the entity and type representations for common items in Azu
 |property|object|Additional backend-specific properties. Example: <br/>`{ “serviceFabricCluster”: { … } }`|Only applicable to Service Fabric backends at the moment. See below table for more details.|  
 
 The `serviceFabricCluster` object hs the following properties.
+
 |Property|Type|Required|Description|  
 |--------------|----------|-----|-----------------|
 |managementEndpoints|array of string|yes|The list of cluster management service URIs.|
