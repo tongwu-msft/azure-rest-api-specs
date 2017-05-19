@@ -143,7 +143,7 @@ The `serviceFabricCluster` object has the following properties.
 |managementEndpoints|array of string|yes|Cluster management service URIs.|
 |clientCertificateThumbprint|string|yes|Thumbprint of the client certificate used by APIM to authenticate against the cluster management service for request resolution.|
 |serverCertificateThumbprints|array of string|no|Thumbprints of server certificates used by the cluster management service.|
-|serverX509Names|X509CertificateName|no|See more details [here]( https://docs.microsoft.com/azure/service-fabric/service-fabric-windows-cluster-x509-security)|
+|serverX509Names|X509CertificateName|no|See more details [here](https://docs.microsoft.com/azure/service-fabric/service-fabric-windows-cluster-x509-security)|
 |maxPartitionResolutionRetries|int|no|The number of attempts to resolve a partition before a request is failed by APIM.|
 |partitionResolutionRequestTimeout|interval|no|Partition resolution request timeout.|
 
