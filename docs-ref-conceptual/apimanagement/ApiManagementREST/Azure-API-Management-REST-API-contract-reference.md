@@ -136,13 +136,13 @@ This topic describes the entity and type representations for common items in Azu
 |skipCertificateChainValidation|boolean|Flag indicating whether SSL certificate chain validation should be skipped when using self-signed certificates for this backend host.|This property is passed as a path parameter and is not present as part of the request body when creating or updating this entity.|  
 |property|object|Additional backend-specific properties. Example: <br/>`{ “serviceFabricCluster”: { … } }`|Only applicable to Service Fabric backends at the moment. See below table for more details.|  
 
-The `serviceFabricCluster` object hs the following properties.
+The `serviceFabricCluster` object has the following properties.
 
 |Property|Type|Required|Description|  
 |--------------|----------|-----|-----------------|
-|managementEndpoints|array of string|yes|The list of cluster management service URIs.|
-|clientCertificateThumbprint|string|yes|Thumbprint of the client certificate used by APIM to authenticate against the cluster management service for resolution calls.|
-|serverCertificateThumbprints|array of string|no|Thumbprints of server certificates used by the cluster management.|
+|managementEndpoints|array of string|yes|Cluster management service URIs.|
+|clientCertificateThumbprint|string|yes|Thumbprint of the client certificate used by APIM to authenticate against the cluster management service for request resolution.|
+|serverCertificateThumbprints|array of string|no|Thumbprints of server certificates used by the cluster management service.|
 |serverX509Names|X509CertificateName|no|See more details [here]( https://docs.microsoft.com/azure/service-fabric/service-fabric-windows-cluster-x509-security)|
 |maxPartitionResolutionRetries|int|no|The number of attempts to resolve a partition before a request is failed by APIM.|
 |partitionResolutionRequestTimeout|interval|no|Partition resolution request timeout.|
