@@ -134,7 +134,7 @@ This topic describes the entity and type representations for common items in Azu
 |id|string|Resource identifier. Uniquely identifies the backend within the current API Management service instance. The value is a valid relative URL in the format of `/backends/{backendId}` where `{backendId}` is a backend identifier. This property is read-only.|This property is passed as a path parameter and is not present as part of the request body when creating or updating this entity.|  
 |host|string|Host attribute of the backend. Host is a pure hostname without a port or suffix, for example `backend.contoso.com`. Must not be empty. Maximum length is 255 characters.|This property is passed as a path parameter and is not present as part of the request body when creating or updating this entity.|  
 |skipCertificateChainValidation|boolean|Flag indicating whether SSL certificate chain validation should be skipped when using self-signed certificates for this backend host.|This property is passed as a path parameter and is not present as part of the request body when creating or updating this entity.|  
-|property|object|Additional backend-specific metadata.|Only applicable to Service Fabric backends at the moment.|  
+|property|object|Additional backend-specific metadata. `{ “serviceFabricCluster”: { … } }`|Only applicable to Service Fabric backends at the moment.|  
   
 > [!NOTE]
 >  For more information about `backend` entity operations, see [Backend](../ApiManagementREST/Azure-API-Management-REST-API-Backend-entity.md).  
