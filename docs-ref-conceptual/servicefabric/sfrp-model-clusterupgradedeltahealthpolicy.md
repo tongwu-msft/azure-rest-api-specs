@@ -1,6 +1,6 @@
 ---
 title: "ClusterUpgradeDeltaHealthPolicy"
-ms.date: "2017-05-09"
+ms.date: "2017-05-16"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

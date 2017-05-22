@@ -1,6 +1,6 @@
 ---
 title: "ClusterPropertiesUpdateParameters"
-ms.date: "2017-05-09"
+ms.date: "2017-05-16"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -62,7 +62,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**.
+The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](sfrp-api-clusterversions_list.md). To get the list of available version for existing clusters use **availableClusterVersions**.
 
 ____
 ### certificate
