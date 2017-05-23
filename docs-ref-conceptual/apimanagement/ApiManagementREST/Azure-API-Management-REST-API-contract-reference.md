@@ -138,8 +138,7 @@ This topic describes the entity and type representations for common items in Azu
 |protocol|string|Backend communication protocol.|"http" or "soap"|
 |resourceId|string|If the backend is Azure Logic Apps, Function Apps or Api Apps, this field will contain the ARM resource ID.|For example: `https://management.azure.com/subscriptions/xxxxyyyyzzz/resourceGroups/rg001/providers/Microsoft.Logic/mywf001`|
 |properties|object|Additional backend-specific properties.|Only applicable to Service Fabric backends at the moment. See below table for more details. For example: <br/>`{ “serviceFabricCluster”: { … } }`|  
-|credentials|object|Backend-specific authentication required to make runtime calls|For example: <br/> `{  
- "certificate": [ "thumbprint1", "thumbprint2" ], 
+|credentials|object|Backend-specific authentication required to make runtime calls|For example: <br/> `{"certificate": [ "thumbprint1", "thumbprint2" ], 
  “query”: { “param1”:  ["val1", "val2"], "param2": ["val1", "val2"] }, 
  “header”: { “X-My-Header1”: ["val1", "val2"], "X-My-Header2": ["val1", "val2"] }, 
  "authorization": { "scheme": "Bearer", "parameter" : "<token>" } 
