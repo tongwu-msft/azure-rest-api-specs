@@ -37,17 +37,24 @@ function Unzip
 if (Test-Path $RestProcessor){
     Remove-Item $RestProcessor -recurse -Force
 }
-Unzip $scriptsHome\$RestProcessorZip $scriptsHome\$RestProcessor
 
-& $RestProcessor\$RestProcessor\$RestProcessor.exe $RestSrcPath $restDocsPath $restDocsPath\$MappingFilePath
+Write-Host "Downloading RestProcessorArtifacts"
+$RestProcessorArtifactsSource = "https://ci.appveyor.com/api/projects/VisualStudioChinaAppVeyorUsers/restprocessor/artifacts/RestProcessor/bin/RestProcessorArtifacts.zip?branch=master"
+$RestProcessorArtifactsDestination = Join-Path $scriptsHome $RestProcessorZip
+Invoke-WebRequest $RestProcessorArtifactsSource -OutFile $RestProcessorArtifactsDestination -Headers @{ "Authorization" = "Bearer $env:appveyor_api_token" }
+Unzip $RestProcessorArtifactsDestination $scriptsHome\$RestProcessor
+
+& $RestProcessor\$RestProcessor.exe $RestSrcPath $restDocsPath $restDocsPath\$MappingFilePath
 if($LASTEXITCODE -ne 0)
 {
     Pop-Location
     exit 1
 }
 
-# Clean unzipped folder
+# Clean unzipped folder and zip
 Remove-Item $RestProcessor -recurse -Force
+Remove-Item $RestProcessorArtifactsDestination
+
 
 Pop-Location
 
