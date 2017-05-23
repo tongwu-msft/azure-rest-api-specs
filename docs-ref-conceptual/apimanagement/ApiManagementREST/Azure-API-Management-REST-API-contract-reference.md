@@ -132,20 +132,15 @@ This topic describes the entity and type representations for common items in Azu
 |Property|Type|Description|Remarks|  
 |--------------|----------|-----------------|-------------|  
 |id|string|Resource identifier. Uniquely identifies the backend within the current API Management service instance. The value is a valid relative URL in the format of `/backends/{backendId}` where `{backendId}` is a backend identifier. This property is read-only.|This property is passed as a path parameter and is not present as part of the request body when creating or updating this entity.|  
-|name|string|Name of the backend entity.||
-|name|string|Description of the backend entity.||
-|url|string|Runtime Url of the Backend.||
+|name|string|Name of the backend entity.| |
+|description|string|Description of the backend entity.| |
+|url|string|Runtime Url of the Backend.| |
 |protocol|string|Backend communication protocol.|"http" or "soap"|
-|resourceId|string|Management Uri of the Resource in External System. This url can be the Arm Resource Id of Logic Apps, Function Apps or Api Apps.|e.g., `https://management.azure.com/subscriptions/xxxxyyyyzzz/resourceGroups/rg001/providers/Microsoft.Logic/mywf001 
+|resourceId|string|Management Uri of the Resource in External System. This url can be the Arm Resource Id of Logic Apps, Function Apps or Api Apps.|`https://management.azure.com/subscriptions/xxxxyyyyzzz/resourceGroups/rg001/providers/Microsoft.Logic/mywf001 
 https://management.azure.com/subscriptions/xxxxyyyyzzz/resourceGroups/rg001/providers/Microsoft.ServiceFabric/clusters/mycluster01`|
 |properties|object|Additional backend-specific properties. Example: <br/>`{ “serviceFabricCluster”: { … } }`|Only applicable to Service Fabric backends at the moment. See below table for more details.|  
-|credentials|object|Backend-specific authentication required to make runtime calls||
-|proxy|object|HTTP proxy used to send the request|` 
-{  
-"url" : "http://192.168.1.1:8080",  
-"username": "username", 
-"password": "password" 
-}`|
+|credentials|object|Backend-specific authentication required to make runtime calls| |
+|proxy|object|HTTP proxy used to send the request|` {  "url" : "http://192.168.1.1:8080",  "username": "username", "password":"password" }`|
 |tls|object|Settings controlling TLS certificate validation:<br/>
 - validateCertificateChain: boolean, indicating whether certificate chain validation should be performed. Defaults to true. 
 - validateCertificateName: boolean, indicating whether certificate name validation should be performed. Defaults to true.|`{ 
