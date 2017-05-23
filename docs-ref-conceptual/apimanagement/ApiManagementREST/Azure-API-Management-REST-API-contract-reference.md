@@ -140,10 +140,7 @@ This topic describes the entity and type representations for common items in Azu
 |properties|object|Additional backend-specific properties.|Only applicable to Service Fabric backends at the moment. See below table for more details. For example: <br/>`{ "serviceFabricCluster": { … } }`| 
 |credentials|object|Backend-specific authentication required to make runtime calls|For example: <br/>`{"certificate": [ "thumbprint1","thumbprint2" ], "query": { "param1":  ["val1", "val2"], "param2": ["val1", "val2"] }, "header": { "X-My-Header1": ["val1", "val2"], "X-My-Header2": ["val1", "val2"] }, "authorization": { "scheme": "Bearer", "parameter" : "<token>" } }`|
 |proxy|object|HTTP proxy used to send the request| For example: `{ "url" : "http://192.168.1.1:8080",  "username": "username",  "password":"password" }`|
-|tls|object|Settings controlling TLS certificate validation:<br/>
-- validateCertificateChain: boolean, indicating whether certificate chain validation should be performed. Defaults to true. 
-- validateCertificateName: boolean, indicating whether certificate name validation should be performed. Defaults to true.
-|For example: `{ "validateCertificateChain": false, "validateCertificateName": false  }`|
+|tls|object|Settings controlling TLS certificate validation: |For example: `{ "validateCertificateChain": false, "validateCertificateName": false  }`|
 
 The `serviceFabricCluster` object has the following properties.
 
