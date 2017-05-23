@@ -136,8 +136,7 @@ This topic describes the entity and type representations for common items in Azu
 |description|string|Description of the backend entity.| |
 |url|string|Runtime Url of the Backend.| |
 |protocol|string|Backend communication protocol.|"http" or "soap"|
-|resourceId|string|Management Uri of the Resource in External System. This url can be the Arm Resource Id of Logic Apps, Function Apps or Api Apps.|`https://management.azure.com/subscriptions/xxxxyyyyzzz/resourceGroups/rg001/providers/Microsoft.Logic/mywf001 
-https://management.azure.com/subscriptions/xxxxyyyyzzz/resourceGroups/rg001/providers/Microsoft.ServiceFabric/clusters/mycluster01`|
+|resourceId|string|Management Uri of the Resource in External System. This url can be the Arm Resource Id of Logic Apps, Function Apps or Api Apps.| |
 |properties|object|Additional backend-specific properties. Example: <br/>`{ “serviceFabricCluster”: { … } }`|Only applicable to Service Fabric backends at the moment. See below table for more details.|  
 |credentials|object|Backend-specific authentication required to make runtime calls| |
 |proxy|object|HTTP proxy used to send the request|` {  "url" : "http://192.168.1.1:8080",  "username": "username", "password":"password" }`|
