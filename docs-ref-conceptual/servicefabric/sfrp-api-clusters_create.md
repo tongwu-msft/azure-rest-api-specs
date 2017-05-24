@@ -1,6 +1,6 @@
 ---
 title: "Create"
-ms.date: "2017-05-09"
+ms.date: "2017-05-16"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -125,7 +125,6 @@ PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
         "vmInstanceCount": 5
       }
     ],
-    "provisioningState": "Succeeded",
     "vmImage": "Windows",
     "diagnosticsStorageAccountConfig": {
       "storageAccountName": "7623qfhwmnstw2",
@@ -166,11 +165,7 @@ PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
       "thumbprint": "483B5DE52ECA35147B94C5E116FA7B2E34BB68F9",
       "x509StoreName": "My"
     },
-    "clientCertificateThumbprints": [],
-    "clientCertificateCommonNames": [],
-    "fabricSettings": [],
     "upgradeDescription": {
-      "overrideUserUpgradePolicy": false,
       "forceRestart": true,
       "upgradeReplicaSetCheckTimeout": "10675199.02:48:05.4775807",
       "healthCheckWaitDuration": "00:05:00",
@@ -217,66 +212,6 @@ PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
     "reliabilityLevel": "Silver",
     "upgradeMode": "Automatic",
     "availableClusterVersions": [
-      {
-        "codeVersion": "5.1.158.9590",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.2.0.100",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.2.207.9590",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.3.121.9494",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.3.311.9590",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.30.100",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.35.100",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.38.100",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.118.9494",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.132.9494",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.145.9494",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.164.9494",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
       {
         "codeVersion": "5.5.67.9494",
         "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
@@ -352,7 +287,6 @@ PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
         "vmInstanceCount": 5
       }
     ],
-    "provisioningState": "Succeeded",
     "vmImage": "Windows",
     "diagnosticsStorageAccountConfig": {
       "storageAccountName": "7623qfhwmnstw2",
@@ -362,7 +296,6 @@ PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
       "tableEndpoint": "https://7623qfhwmnstw2.table.core.windows.net/"
     },
     "upgradeDescription": {
-      "overrideUserUpgradePolicy": false,
       "forceRestart": true,
       "upgradeReplicaSetCheckTimeout": "10675199.02:48:05.4775807",
       "healthCheckWaitDuration": "00:05:00",
@@ -434,7 +367,6 @@ PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
       }
     ],
     "upgradeDescription": {
-      "overrideUserUpgradePolicy": false,
       "forceRestart": true,
       "upgradeReplicaSetCheckTimeout": "10675199.02:48:05.4775807",
       "healthCheckWaitDuration": "00:05:00",
@@ -481,66 +413,6 @@ PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
     "reliabilityLevel": "Silver",
     "upgradeMode": "Automatic",
     "availableClusterVersions": [
-      {
-        "codeVersion": "5.1.158.9590",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.2.0.100",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.2.207.9590",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.3.121.9494",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.3.311.9590",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.30.100",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.35.100",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.38.100",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.118.9494",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.132.9494",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.145.9494",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
-      {
-        "codeVersion": "5.4.164.9494",
-        "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-        "environment": "Windows"
-      },
       {
         "codeVersion": "5.5.67.9494",
         "supportExpiryUtc": "9999-12-31T23:59:59.9999999",

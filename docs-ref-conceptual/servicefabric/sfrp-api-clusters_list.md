@@ -1,6 +1,6 @@
 ---
 title: "List"
-ms.date: "2017-05-09"
+ms.date: "2017-05-16"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -82,24 +82,20 @@ GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
     {
       "type": "Microsoft.ServiceFabric/clusters",
       "location": "westus",
-      "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/bmwdemo/providers/Microsoft.ServiceFabric/clusters/bmwdemo",
-      "name": "bmwdemo",
+      "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/demo/providers/Microsoft.ServiceFabric/clusters/demo",
+      "name": "demo",
       "tags": {
         "resourceType": "Service Fabric",
-        "clusterName": "bmwdemo"
+        "clusterName": "demo"
       },
       "properties": {
         "provisioningState": "Succeeded",
         "clusterId": "a4e23572-8443-470e-adcb-3b7ebe6d582b",
         "clusterCodeVersion": "5.4.164.9494",
         "clusterState": "Ready",
-        "managementEndpoint": "http://bmwdemo.westus.cloudapp.azure.com:19080",
+        "managementEndpoint": "http://demo.westus.cloudapp.azure.com:19080",
         "clusterEndpoint": "https://westus.servicefabric.azure.com/runtime/clusters/a4e23572-8443-470e-adcb-3b7ebe6d582b",
-        "clientCertificateThumbprints": [],
-        "clientCertificateCommonNames": [],
-        "fabricSettings": [],
         "upgradeDescription": {
-          "overrideUserUpgradePolicy": false,
           "forceRestart": true,
           "upgradeReplicaSetCheckTimeout": "10675199.02:48:05.4775807",
           "healthCheckWaitDuration": "00:05:00",
@@ -118,11 +114,11 @@ GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
           }
         },
         "diagnosticsStorageAccountConfig": {
-          "storageAccountName": "sflogsbmwdemo4564",
+          "storageAccountName": "sflogsdemo4564",
           "protectedAccountKeyName": "StorageAccountKey1",
-          "blobEndpoint": "https://sflogsbmwdemo4564.blob.core.windows.net/",
-          "queueEndpoint": "https://sflogsbmwdemo4564.queue.core.windows.net/",
-          "tableEndpoint": "https://sflogsbmwdemo4564.table.core.windows.net/"
+          "blobEndpoint": "https://sflogsdemo4564.blob.core.windows.net/",
+          "queueEndpoint": "https://sflogsdemo4564.queue.core.windows.net/",
+          "tableEndpoint": "https://sflogsdemo4564.table.core.windows.net/"
         },
         "nodeTypes": [
           {
@@ -174,8 +170,6 @@ GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
           "thumbprint": "68A89C30F20B2A198B0A26DF3744079D0F5AC2FC",
           "x509StoreName": "My"
         },
-        "clientCertificateThumbprints": [],
-        "clientCertificateCommonNames": [],
         "fabricSettings": [
           {
             "name": "Security",
@@ -188,7 +182,6 @@ GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
           }
         ],
         "upgradeDescription": {
-          "overrideUserUpgradePolicy": false,
           "forceRestart": true,
           "upgradeReplicaSetCheckTimeout": "10675199.02:48:05.4775807",
           "healthCheckWaitDuration": "00:05:00",
@@ -235,66 +228,6 @@ GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
         "reliabilityLevel": "Silver",
         "upgradeMode": "Automatic",
         "availableClusterVersions": [
-          {
-            "codeVersion": "5.1.158.9590",
-            "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-            "environment": "Windows"
-          },
-          {
-            "codeVersion": "5.2.0.100",
-            "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-            "environment": "Windows"
-          },
-          {
-            "codeVersion": "5.2.207.9590",
-            "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-            "environment": "Windows"
-          },
-          {
-            "codeVersion": "5.3.121.9494",
-            "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-            "environment": "Windows"
-          },
-          {
-            "codeVersion": "5.3.311.9590",
-            "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-            "environment": "Windows"
-          },
-          {
-            "codeVersion": "5.4.30.100",
-            "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-            "environment": "Windows"
-          },
-          {
-            "codeVersion": "5.4.35.100",
-            "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-            "environment": "Windows"
-          },
-          {
-            "codeVersion": "5.4.38.100",
-            "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-            "environment": "Windows"
-          },
-          {
-            "codeVersion": "5.4.118.9494",
-            "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-            "environment": "Windows"
-          },
-          {
-            "codeVersion": "5.4.132.9494",
-            "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-            "environment": "Windows"
-          },
-          {
-            "codeVersion": "5.4.145.9494",
-            "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-            "environment": "Windows"
-          },
-          {
-            "codeVersion": "5.4.164.9494",
-            "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
-            "environment": "Windows"
-          },
           {
             "codeVersion": "5.5.67.9494",
             "supportExpiryUtc": "9999-12-31T23:59:59.9999999",

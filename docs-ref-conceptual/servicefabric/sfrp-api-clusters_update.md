@@ -1,6 +1,6 @@
 ---
 title: "Update"
-ms.date: "2017-05-09"
+ms.date: "2017-05-16"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -142,11 +142,7 @@ PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-0000000
     "clusterState": "Ready",
     "managementEndpoint": "http://myCluster.southcentralus.cloudapp.azure.com:19080",
     "clusterEndpoint": "https://warp-test-winfabrp-southcentralus.trafficmanager.net/runtime/clusters/8d566293-3508-4d62-ba7b-056fa710c3c9",
-    "clientCertificateThumbprints": [],
-    "clientCertificateCommonNames": [],
-    "fabricSettings": [],
     "upgradeDescription": {
-      "overrideUserUpgradePolicy": false,
       "forceRestart": true,
       "upgradeReplicaSetCheckTimeout": "10675199.02:48:05.4775807",
       "healthCheckWaitDuration": "00:00:01",

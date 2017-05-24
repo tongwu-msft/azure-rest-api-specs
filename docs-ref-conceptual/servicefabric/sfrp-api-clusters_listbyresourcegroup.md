@@ -1,6 +1,6 @@
 ---
 title: "List By Resource Group"
-ms.date: "2017-05-09"
+ms.date: "2017-05-16"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -121,7 +121,6 @@ GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
           }
         ],
         "upgradeDescription": {
-          "overrideUserUpgradePolicy": false,
           "forceRestart": false,
           "upgradeReplicaSetCheckTimeout": "10675199.02:48:05.4775807",
           "healthCheckWaitDuration": "00:05:00",
@@ -168,16 +167,6 @@ GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000
         "reliabilityLevel": "Silver",
         "upgradeMode": "Automatic",
         "availableClusterVersions": [
-          {
-            "codeVersion": "5.4.145.9494",
-            "supportExpiryUtc": "2017-05-10T00:00:00",
-            "environment": "Windows"
-          },
-          {
-            "codeVersion": "5.4.164.9494",
-            "supportExpiryUtc": "2017-05-10T00:00:00",
-            "environment": "Windows"
-          },
           {
             "codeVersion": "5.5.216.0",
             "supportExpiryUtc": "9999-12-31T23:59:59.9999999",
