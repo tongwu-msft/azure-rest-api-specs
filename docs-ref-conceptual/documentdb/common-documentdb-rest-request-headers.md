@@ -1,10 +1,10 @@
----
+﻿---
 title: "Common DocumentDB REST request headers"
 ms.custom: ""
 ms.date: "2017-02-01"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"

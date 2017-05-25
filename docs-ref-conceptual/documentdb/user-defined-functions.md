@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-02-12"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cosmosdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -86,3 +86,4 @@ For information on how UDFs work, including executing an UDF in a query, see [Co
 * [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
 * [Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) 
+

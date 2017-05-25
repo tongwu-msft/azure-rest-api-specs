@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-02-25"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cosmosdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -175,3 +175,4 @@ The second way to create an attachment resource is to POST the attachment resour
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
+

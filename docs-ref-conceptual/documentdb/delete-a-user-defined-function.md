@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-02-25"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cosmosdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -102,3 +102,4 @@ Date: Wed, 09 Dec 2015 19:22:09 GMT
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) 
   
   
+
