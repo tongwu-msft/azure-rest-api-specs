@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cosmosdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -97,3 +97,4 @@ This sample JSON document shows the entry for a volcano in a DocumentDB collecti
 
   
   
+

@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cosmosdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -122,3 +122,4 @@ translation.priority.mt:
   
   
   
+
