@@ -155,7 +155,7 @@ The `serviceFabricCluster` object has the following properties.
 
 
 > [!NOTE]
->  For more information about `backend` entity operations, see [Backend](../ApiManagementREST/Azure-API-Management-REST-API-Backend-entity.md).  dd
+>  For more information about `backend` entity operations, see [Backend](../ApiManagementREST/Azure-API-Management-REST-API-Backend-entity.md). 
   
 ##  <a name="Certificate"></a> Certificate  
  The `certificate` entity has the following properties.  
