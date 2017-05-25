@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-11-18"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cosmosdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -57,3 +57,4 @@ This topic provides the HTTP status codes returned by the REST operations.
 
   
   
+

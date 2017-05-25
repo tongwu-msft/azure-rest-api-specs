@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-12-20"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cosmosdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -93,3 +93,4 @@ The following example illustrates the JSON construct of a document attachment.
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
+

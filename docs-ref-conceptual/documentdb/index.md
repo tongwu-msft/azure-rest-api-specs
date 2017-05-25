@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2017-03-02"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cosmosdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -74,3 +74,4 @@ See [Access control using the DocumentDB API](access-control-on-documentdb-resou
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
+

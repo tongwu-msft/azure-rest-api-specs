@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-08-30"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cosmosdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -229,3 +229,4 @@ Content-Type: application/json1
  [Entity Tags](http://en.wikipedia.org/wiki/HTTP_ETag)  
   
   
+
