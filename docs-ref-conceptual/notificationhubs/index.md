@@ -16,5 +16,5 @@ Provides operations to manage and create notification hubs and their associated 
 
 | Operation Group | Description |
 |-----------------|-------------|
-| Namespaces | Use these operations to create and manage namespaces. |
-| Notification Hubs | Use these operations to create and manage notification hubs. |
+| [Namespaces](~/docs-ref-autogen/notificationhubs/namespaces.json) | Use these operations to create and manage namespaces. |
+| [Notification Hubs](~/docs-ref-autogen/notificationhubs/notificationhubs.json) | Use these operations to create and manage notification hubs. |
