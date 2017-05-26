@@ -112,7 +112,6 @@ Authorization: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T
 |Version|Description|  
 |-------------|-----------------|  
 |`2017-03-01`|Added support for Service Fabric backend in the backend entity.|  
-|`2017-02-14`|Removed the preview tag of the API Management REST API.|  Ｉ
 |`2014-02-14-preview`|Initial public release of the API Management REST API.| 
   
 ## In this section  
