@@ -28,7 +28,7 @@ All of the Billing API REST operations conform to the HTTP/1.1 protocol specific
 - Replace `{subscription-Id}` in the request URI with your subscription identifier.
 - Replace `{api-version}` with `2017-02-27-preview`. 
 - Set the `Content-Type` request header to `application/json`.
-- Set the `Authorization` request header to an OAuth bearer token formatted as a JSON Web Token, which you obtain from Azure Active Directory. For more information, see [Azure REST API Reference](/rest).
+- Set the `Authorization` request header to an OAuth bearer token formatted as a JSON Web Token, which you obtain from Azure Active Directory. For more information, see [Azure REST API Reference](/rest/api).
 
 ## See also
 
