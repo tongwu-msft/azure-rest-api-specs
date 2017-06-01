@@ -5,6 +5,7 @@ ms.service: cdn
 author: mmacy
 ms.author: marsma
 ms.manager: erikre
+service_description: To be added
 ---
 
 # Azure CDN REST API

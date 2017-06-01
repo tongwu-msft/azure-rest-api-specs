@@ -6,7 +6,7 @@ ms.service: data-lake-store
 author: nitinme
 ms.author: nitinme
 ms.manager: jhubbard
-
+service_description: To be added
 ---
 
 # Azure Data Lake Store REST API

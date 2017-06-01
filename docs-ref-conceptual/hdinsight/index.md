@@ -6,7 +6,7 @@ ms.service: hdinsight
 author: nitinme
 ms.author: nitinme
 ms.manager: jhubbard
-
+service_description: To be added
 ---
 
 # Azure HDInsight REST API

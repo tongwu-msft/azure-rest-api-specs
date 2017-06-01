@@ -3,10 +3,11 @@ ms.assetid: 26d66df1-84d9-4abc-980e-7995d846399d
 title: Azure Billing REST API | Microsoft Docs
 author: jlian
 ms.author: jlian
-ms.date: 04/25/2017 
+ms.date: 04/25/2017
 ms.topic: reference
 ms.service: Azure
-ms.devlang: rest-api 
+ms.devlang: rest-api
+service_description: To be added
 ---
 
 # Azure Billing REST API

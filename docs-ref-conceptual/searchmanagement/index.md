@@ -6,6 +6,7 @@ ms.service: search
 author: HeidiSteen
 ms.author: heidist
 ms.manager: jhubbard
+service_description: To be added
 ---
 
 # Search Management

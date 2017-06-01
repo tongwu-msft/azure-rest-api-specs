@@ -5,6 +5,7 @@ ms.service: power-bi-embedded
 author: steved0x
 ms.author: sdanie
 ms.manager: douge
+service_description: To be added
 ---
 
 # Azure Power BI Embedded REST API reference
