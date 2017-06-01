@@ -7,6 +7,7 @@ ms.topic: reference
 author: georgewallace
 ms.author: gwallace
 manager: timlt
+service_description: To be added
 ---
 # Traffic Manager REST
 

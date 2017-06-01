@@ -6,7 +6,7 @@ ms.service: documentdb
 author: mimig1
 ms.author: mimig
 ms.manager: jhubbard
-
+service_description: To be added
 ---
 
 # Azure DocumentDB Resource Provider REST API

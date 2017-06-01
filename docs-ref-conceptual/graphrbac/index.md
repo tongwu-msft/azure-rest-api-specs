@@ -5,6 +5,7 @@ ms.service: active-directory
 author: steved0x
 ms.author: sdanie
 ms.manager: douge
+service_description: To be added
 ---
 
 # Azure Graph API REST API reference

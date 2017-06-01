@@ -4,9 +4,10 @@ ms.date: 03/15/2017
 ms.service: virtual-network
 ms.topic: reference
 ms.devlang: rest
-author: anavinahar 
-ms.author: annahar 
+author: anavinahar
+ms.author: annahar
 ms.manager: narayan
+service_description: To be added
 ---
 # Network
 

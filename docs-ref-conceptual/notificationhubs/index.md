@@ -6,6 +6,7 @@ ms.service: NotificationHubs
 author: davidmu1
 ms.author: davidmu
 ms.manager: timt
+service_description: To be added
 ---
 
 # Notification Hubs

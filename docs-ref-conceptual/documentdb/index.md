@@ -24,6 +24,7 @@ translation.priority.mt:
   - "ru-ru"
   - "zh-cn"
   - "zh-tw"
+service_description: To be added
 ---
 # Azure Cosmos DB: DocumentDB REST API Reference
 [Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. It supports the [DocumentDB API](/azure/documentdb/documentdb-introduction) for creating, querying, and managing resources. This article is a reference for the DocumentDB REST API.  

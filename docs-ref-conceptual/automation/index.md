@@ -7,7 +7,8 @@ ms.manager: carmonm
 ms.date: 04/12/17
 ms.topic: reference
 ms.service: Azure
-ms.devlang: rest-api 
+ms.devlang: rest-api
+service_description: To be added
 ---
 
 # Automation REST API Reference
