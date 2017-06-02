@@ -49,7 +49,7 @@ The following are the headers that a request and response may include.
 |Header|Description|  
 |------------|-----------------|  
 |Accept|Optional request header.<br /><br /> The default media type is application/json. To specify that the response use [JSON-LD](http://json-ld.org/), set the Accept header to application/ld+json.|  
-|<a name="acceptlanguage" />Accept-Language|Optional request header.<br /><br /> A comma-delimited list of languages to use for user interface strings. The list is in decreasing order of preference. For more information, including expected format, see [RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html).<br /><br /> This header and the [setLang](#setlang) query parameter are mutually exclusive&mdash;do not specify both.<br /><br /> If you set this header, you must also specify the [cc](#cc) query parameter. To to determine the market to return results for, Bing uses the first supported language it finds from the list and combines it with the `cc` parameter value. If the list does not include a supported language, Bing finds the closest language and market that supports the request or it uses an aggregated or default market for the results. To determine the market that Bing used, see the BingAPIs-Market header.<br /><br /> Use this header and the `cc` query parameter only if you specify multiple languages. Otherwise, use the [mkt](#mkt) and [setLang](#setlang) query parameters.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Any links to Bing.com properties in the response objects apply the specified language.|  
+|<a name="acceptlanguage" />Accept-Language|Optional request header.<br /><br /> A comma-delimited list of languages to use for user interface strings. The list is in decreasing order of preference. For more information, including expected format, see [RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html).<br /><br /> This header and the [setLang](#setlang) query parameter are mutually exclusive&mdash;do not specify both.<br /><br /> If you set this header, you must also specify the [cc](#cc) query parameter. To determine the market to return results for, Bing uses the first supported language it finds from the list and combines it with the `cc` parameter value. If the list does not include a supported language, Bing finds the closest language and market that supports the request or it uses an aggregated or default market for the results. To determine the market that Bing used, see the BingAPIs-Market header.<br /><br /> Use this header and the `cc` query parameter only if you specify multiple languages. Otherwise, use the [mkt](#mkt) and [setLang](#setlang) query parameters.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Any links to Bing.com properties in the response objects apply the specified language.|  
 |<a name="market" />BingAPIs-Market|Response header.<br /><br /> The market used by the request. The form is \<languageCode\>-\<countryCode\>. For example, en-US.<br /><br /> If you specify a market that is not listed in [Market Codes](#market-codes), this value may differ from the market you specified in the [mkt](#mkt) query parameter. The same is true if you specify values for [cc](#cc) and [Accept-Language](#acceptlanguage) that can't be reconciled.|  
 |<a name="traceid" />BingAPIs-TraceId|Response header.<br /><br /> The ID of the log entry that contains the details of the request. When an error occurs, capture this ID. If you are not able to determine and resolve the issue, include this ID along with the other information that you provide the Support team.|  
 |<a name="subscriptionkey" />Ocp-Apim-Subscription-Key|Required request header.<br /><br /> The subscription key that you received when you signed up for this service in [Cognitive Services](https://www.microsoft.com/cognitive-services/).|  
@@ -122,7 +122,7 @@ Defines the error that occurred.
   
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
-|<a name="error-code" />code|The error code that identifies the cateory of error. For a list of possible codes, see [Error Codes](#errorcodes).|String|  
+|<a name="error-code" />code|The error code that identifies the category of error. For a list of possible codes, see [Error Codes](#errorcodes).|String|  
 |<a name="error-message" />message|A description of the error.|String|  
 |<a name="error-moredetails" />moreDetails|A description that provides additional information about the error.|String|  
 |<a name="error-parameter" />parameter|The query parameter in the request that caused the error.|String|  
@@ -140,7 +140,7 @@ The top-level object that the response includes when the request fails.
   
 <a name="identifiable"></a>   
 ### Identifiable  
-Defines the identify of a resource.  
+Defines the identity of a resource.  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -174,9 +174,9 @@ Defines the query string that Bing used for the request.
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |<a name="querycontext-adultintent" />adultIntent|A Boolean value that indicates whether the specified query has adult intent. The value is **true** if the query has adult intent.<br /><br /> If **true**, and the request's [safeSearch](#safesearch) query parameter is set to Strict, then the response will not contain results except for news results, if applicable.|Boolean|  
-|<a name="querycontext-alterationoverridequery" />alterationOverrideQuery|The query string to use to force Bing to use the original string. For example, if the query string is *saling downwind*, the override query string is *+saling downwind*. Remember to encode the query string which results in *%2Bsaling+downwind*.<br /><br /> the object includes this field only if the original query string contains a spelling mistake.|String|  
+|<a name="querycontext-alterationoverridequery" />alterationOverrideQuery|The query string to use to force Bing to use the original string. For example, if the query string is *saling downwind*, the override query string is *+saling downwind*. Remember to encode the query string, which results in *%2Bsaling+downwind*.<br /><br /> the object includes this field only if the original query string contains a spelling mistake.|String|  
 |<a name="querycontext-alteredquery" />alteredQuery|The query string that Bing used to perform the query. Bing uses the altered query string if the original query string contained spelling mistakes. For example, if the query string is `saling downwind`, the altered query string is `sailing downwind`.<br /><br /> The object includes this field only if the original query string contains a spelling mistake.|String|  
-|askUserForLocation|A Boolean value that indicates whether Bing requires the user's location to provide accurate results. If you specified the user's location by using the [X-MSEdge-ClientIP](#clientip) and [X-Search-Location](#location) headers, you can ignore this field.<br /><br /> For location aware queries, such as "today's weather" or "restaurants near me" that need the user's location to provide accurate results, this field is set to **true**.<br /><br /> For location aware queries that include the location (for example, "Seattle weather"), this field is set to **false**. This field is also set to **false** for queries that are not location aware, such as "best sellers".|Boolean|  
+|askUserForLocation|A Boolean value that indicates whether Bing requires the user's location to provide accurate results. If you specified the user's location by using the [X-MSEdge-ClientIP](#clientip) and [X-Search-Location](#location) headers, you can ignore this field.<br /><br /> For location aware queries, such as "today's weather" or "restaurants near me" that need the user's location to provide accurate results, this field is set to **true**.<br /><br /> For location aware queries that include the location (for example, "Seattle weather"), this field is set to **false**. This field is also set to **false** for queries that are not location aware, such as "best sellers."|Boolean|  
 |<a name="querycontext-originalquery" />originalQuery|The query string as specified in the request.|String|  
   
 <a name="rankinggroup"></a>   
@@ -276,7 +276,7 @@ Defines a date and time for a geographical location.
   
 <a name="webanswer"></a>   
 ### WebAnswer  
-Defines a lsit of relevant webpage links.  
+Defines a list of relevant webpage links.  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -300,7 +300,7 @@ Defines a webpage that is relevant to the query.
 |<a name="name" />name|The name of the webpage.<br /><br /> Use this name along with `url` to create a hyperlink that when clicked takes the user to the webpage.|String|  
 |mentions|For internal use only.|Object|  
 |<a name="searchtags" />searchTags|A list of search tags that the webpage owner specified on the webpage. The API returns only indexed search tags.<br /><br /> The `name` field of the `MetaTag` object contains the indexed search tag. Search tags begin with search.* (for example, search.assetId). The `content` field contains the tag's value.|[MetaTag](#metatag)[]|  
-|snippet|A snippet of text from the webpage that describe its contents.|String|  
+|snippet|A snippet of text from the webpage that describes its contents.|String|  
 |<a name="url" />url|The URL to the webpage.<br /><br /> Use this URL along with `name` to create a hyperlink that when clicked takes the user to the webpage.|String|  
   
 
