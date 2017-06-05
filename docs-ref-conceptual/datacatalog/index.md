@@ -5,6 +5,7 @@ ms.service: data-catalog
 author: steved0x
 ms.author: sdanie
 ms.manager: douge
+service_description: To be added
 ---
 
 

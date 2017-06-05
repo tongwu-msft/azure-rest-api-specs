@@ -1,5 +1,5 @@
 ---
-title: "Client-side Logging with the .NET Storage Client Library"
+title: "Client-side logging with the .NET Storage Client Library"
 ms.custom: na
 ms.date: 2016-10-03
 ms.prod: azure
@@ -25,14 +25,16 @@ translation.priority.mt:
   - zh-tw
 ---
 # Client-side Logging with the .NET Storage Client Library
-The storage client Library (from version 2.1 onwards) enables you to log Azure Storage requests client-side from within your .NET client application using the standard .NET diagnostics infrastructure. This enables you to see details of the requests your client sends to the Azure Storage services and the responses it receives.  
+
+The Storage Client Library (from version 2.1 onwards) enables you to log Azure Storage requests client-side from within your .NET client application using the standard .NET diagnostics infrastructure. This enables you to see details of the requests your client sends to the Azure Storage services and the responses it receives. 
   
- The Storage Client Library gives you control over which storage requests you want to log on the client (Azure web or worker role, or an on-premises application) and the .NET diagnostics infrastructure gives you full control over the log data, such as where to send it. For example, you could choose to send the log data to a file, or send it to an application for processing. In combination with Azure Storage Analytics and network monitoring, Storage Client Library logging enables you to build up a detailed picture of how your application interacts with Azure Storage services. For more information, see the guide [Monitoring, Diagnosing, and Troubleshooting Microsoft Azure Storage](http://go.microsoft.com/fwlink/?LinkID=510535).  
+The Storage Client Library gives you control over which storage requests you want to log on the client (Azure web or worker role, or an on-premises application) and the .NET diagnostics infrastructure gives you full control over the log data, such as where to send it. For example, you could choose to send the log data to a file, or send it to an application for processing. In combination with Azure Storage Analytics and network monitoring, Storage Client Library logging enables you to build up a detailed picture of how your application interacts with Azure Storage services. For more information, see the guide [Monitoring, Diagnosing, and Troubleshooting Microsoft Azure Storage](http://go.microsoft.com/fwlink/?LinkID=510535).  
   
 ## How to enable Storage Client Library logging  
- The following example shows the system.diagnostics configuration necessary to collect and persist storage log messages to a text file. This configuration section can be added to either app.config or web.config files.  
-  
-```  
+
+The following example shows the system.diagnostics configuration necessary to collect and persist storage log messages to a text file. This configuration section can be added to either app.config or web.config files.  
+
+```xml
 <system.diagnostics>  
      <!—In a dev/test environment you can set autoflush to true in order to autoflush to the log file. -->  
   <trace autoflush="false">  
@@ -61,7 +63,12 @@ The storage client Library (from version 2.1 onwards) enables you to log Azure S
   
 ```  
   
- This particular example configures the Storage Client Library to write log messages to the physical file C:\logs\WebRole.log, but you could use other trace listeners such as the **EventLogTraceListener** to write to the Windows Event Log, or the **EventProviderTraceListener** to write trace data to the ETW subsystem. In addition, this example you can also configure **autoflush** to true in order to write the log entries to the file immediately instead of buffering them; this may be useful in a dev/test environment with low volumes of trace messages, but in a production environment you may want to set **autoflush** to false. You use the configuration settings to enable client tracing (and specify the level such as **Verbose** for all messages) for all storage operations in the client.  
+This particular example configures the Storage Client Library to write log messages to the physical file `C:\logs\WebRole.log`, but you could use other trace listeners such as the **EventLogTraceListener** to write to the Windows Event Log, or the **EventProviderTraceListener** to write trace data to the ETW subsystem.
+
+>[!IMPORTANT]
+> The full folder path for the log file must exist on the local filesystem. In this example, that means you must first create the `C:\logs` folder before writing logs to a file in that folder.
+
+In addition, you can also set **autoflush** to true in order to write the log entries to the file immediately instead of buffering them; this may be useful in a dev/test environment with low volumes of trace messages, but in a production environment you may want to set **autoflush** to false. You use the configuration settings to enable client tracing (and specify the level such as **Verbose** for all messages) for all storage operations in the client.  
   
 ||||  
 |-|-|-|  
@@ -74,7 +81,7 @@ The storage client Library (from version 2.1 onwards) enables you to log Azure S
   
  By default, the Storage Client Library logs details of all storage operations at the verbosity level you specify in the configuration file. It is also possible to limit the logging to specific areas of your client application: this can reduce the amount of data logged and help you find the information you need. TO do this, you need to add some code to your client application. Typically, after enabling client-side tracing in the configuration file, you then switch it off again globally in code by using the **OperationContext** class. For example, in an ASP.NET MVC application in the **Application_Start** method before your application performs any storage operations:  
   
-```  
+```csharp
 protected void Application_Start()  
 {  
     ...  
@@ -90,7 +97,7 @@ protected void Application_Start()
   
  Then you can enable tracing for the specific operations you are interested in by creating a custom **OperationContext** object that defines the logging level. Then pass the **OperationContext** object as a parameter to the **Execute** method you use to invoke a storage operation as shown in the following example:  
   
-```  
+```csharp
 [HttpPost]  
 [ValidateAntiForgeryToken]  
 public ActionResult Create(Subscriber subscriber)  

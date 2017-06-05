@@ -35,7 +35,7 @@ manager: "timlt"
 
 |Element name|Required|Type|Notes|
 |------------------|--------------|----------|-----------|
-|targetOSVersion|Yes|String|The Azure Guest OS version to be installed on the virtual machines in the pool.<br /><br /> For permitted values, see [Azure Guest OS Releases](https://azure.microsoft.com/en-us/documentation/articles/cloud-services-guestos-update-matrix/#releases)|
+|targetOSVersion|Yes|String|The Azure Guest OS version to be installed on the virtual machines in the pool.<br /><br /> For permitted values, see [Azure Guest OS Releases](https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases)|
 
 ## Response
  Status code: 202. For more information, see [Batch Status and Error Codes](../batchservice/batch-status-and-error-codes.md)

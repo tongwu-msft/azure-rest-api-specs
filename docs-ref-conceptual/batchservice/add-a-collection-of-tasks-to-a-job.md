@@ -126,6 +126,7 @@ Each task in the request has the following schema:
 |displayName|No|String|A display name for the task. It need not be unique and can contain any Unicode characters up to a maximum length of 1024.|
 |commandLine|Yes|String|The command line of the task.|
 |[resourceFiles](../batchservice/add-a-collection-of-tasks-to-a-job.md#resourceFiles)|No|Collection|A list of files that Batch will download to the compute node before running the command line.<br /><br /> If you are providing the executable for the task, at least one instance of this element is required to specify the source location and target location of the executable file.<br /><br /> If the task requires additional supporting files, add additional instances of this element to list these files.<br /><br /> Files that listed under this element are located in the task’s **wd** directory. For more information, see [List the files associated with a task](../batchservice/list-the-files-associated-with-a-task.md).<br /><br /> If the command line is a default server program, and requires no additional supporting files, you do not need to include this element.|
+|[outputFiles](#outputFile)|No|Collection|A list of files that the Batch service will upload from the compute node after running the command line. For multi-instance tasks, the files will only be uploaded from the compute node on which the primary task is executed.|
 |[authenticationTokenSettings](#authenticationTokenSettings)|Optional|Complex Type|The settings for an authentication token that the task can use to perform Batch service operations.<br /><br /> If this property is set, the Batch service provides the task with an authentication token which can be used to authenticate Batch service operations without requiring an account access key. The token is provided via the AZ_BATCH_AUTHENTICATION_TOKEN environment variable. The operations that the task can carry out using the token depend on the settings. For example, a task can request job permissions in order to add other tasks to the job, or check the status of the job or of other tasks under the job.|
 |[environmentSettings](../batchservice/add-a-collection-of-tasks-to-a-job.md#environmentSettings)|No|Collection|A list of environment variable settings for the task.|
 |affinityInfo|No|Complex Type|Specifies a locality hint that can be used by the Batch service to select a node on which to start the new task.|
@@ -150,6 +151,34 @@ Each task in the request has the following schema:
 |blobSource|Yes|String|The URL of the file within Azure Blob Storage. The Batch service downloads the blob to the specified file path.<br /><br /> The URL must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob.  There are two ways to get such a URL for a blob in Azure storage: use a Shared Access Signature \(SAS\) granting read permissions on the blob, set the ACL for the blob’s container to allow public access.|
 |filePath|Yes|String|The location on the compute node to which the file should be downloaded, relative to the task's working directory.|
 |fileMode|No|String|The file permission mode attribute in octal format. This property is applicable only if the resourceFile is downloaded to a Linux node. This property will be ignored if it is specified for a resourceFile which is downloaded to a Windows node.<br /><br /> If this property is not specified for a Linux node, then a default value of 0770 is applied to the file.|
+
+###  <a name="outputFile"></a> outputFile
+
+|Element name|Required|Type|Notes|
+|------------------|--------------|----------|-----------|
+|filePattern|Yes|String|A pattern indicating which file(s) to upload.<br /><br /> Both relative and absolute paths are supported. Relative paths are relative to the task working directory.<br /><br /> For wildcards, use * to match any character and ** to match any directory. For example, **\\*.txt matches any file ending in .txt in the task working directory or any subdirectory.<br /><br /> Note that \\ and / are treated interchangeably and mapped to the correct directory separator on the compute node operating system.|
+|[destination](#outputFileDestination)|Yes|Complex Type|The destination for the output file(s).|
+|[uploadOptions](#outputFileUploadOptions)|Yes|Complex Type|Additional options for the upload operation, including under what conditions to perform the upload.|
+
+###  <a name="outputFileDestination"></a> outputFileDestination
+
+|Element name|Required|Type|Notes|
+|------------------|--------------|----------|-----------|
+|[container](#outputFileBlobContainerDestination)|Yes|ComplexType|A location in Azure blob storage to which files are uploaded.|
+
+###  <a name="outputFileBlobContainerDestination"></a> outputFileBlobContainerDestination
+
+|Element name|Required|Type|Notes|
+|------------------|--------------|----------|-----------|
+|path|No|String|The destination blob or virtual directory within the Azure Storage container. If filePattern refers to a specific file (i.e. contains no wildcards), then path is the name of the blob to which to upload that file. If filePattern contains one or more wildcards (and therefore may match multiple files), then path is the name of the blob virtual directory (which is prepended to each blob name) to which to upload the file(s). If omitted, file(s) are uploaded to the root of the container with a blob name matching their file name.|
+|containerUrl|Yes|String|The URL of the container within Azure Blob Storage to which to upload the file(s). The URL must include a Shared Access Signature (SAS) granting write permissions to the container.|
+
+###  <a name="outputFileUploadOptions"></a> outputFileUploadOptions
+
+|Element name|Required|Type|Notes|
+|------------------|--------------|----------|-----------|
+|uploadCondition|Yes|String|The conditions under which the task output file or set of files should be uploaded. Possible values include:<br /><br /> - **taskSuccess**: Upload the file(s) only after the task process exits with an exit code of 0.<br /><br /> - **taskFailure**: Upload the file(s) only after the task process exits with a nonzero exit code.<br /><br /> **taskCompletion**: Upload the file(s) after the task process exits, no matter what the exit code was.<br /><br /> 
+The default is **taskCompletion**.|
 
 ### <a name="authenticationTokenSettings"></a> authenticationTokenSettings
 
@@ -215,8 +244,9 @@ Each task in the request has the following schema:
 |------------------|--------------|----------|-----------|
 |[exitCodes](#exitCodeMapping)|Optional|Collection|A list of task exit codes and how the Batch service should respond to them.|
 |[exitCodeRanges](#exitCodeRangeMapping)|Optional|Collection|A list of task exit code ranges and how the Batch service should respond to them.|
-|[schedulingError](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if the task fails with a scheduling error.|
-|[default](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if the task fails with an exit condition not covered by any of the other properties – that is, any nonzero exit code not listed in the exitCodes or exitCodeRanges collection, or a scheduling error if the schedulingError property is not present.<br /><br /> Note that the default condition does not include exit code 0. If you want non-default behaviour on exit code 0, you must list it explicitly using the exitCodes or exitCodeRanges collection.|
+|[preProcessingError](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if the task fails to start due to an error.|
+|[fileUploadError](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if a file upload error occurs. If the task exited with an exit code that was specified via exitCodes or exitCodeRanges, and then encountered a file upload error, then the action specified by the exit code takes precedence.|
+|[default](#exitOptions)|Optional|Complex Type|Specifies how the Batch service should respond if the task fails with an exit condition not covered by any of the other properties. <br /><br />This value is used if the task exits with any nonzero exit code not listed in the exitCodes or exitCodeRanges collection, with a pre-processing error if the preProcessingError property is not present, or with a file upload error if the fileUploadError property is not present. For non-default behaviour on exit code 0, list it explicitly using the exitCodes or exitCodeRanges collection.|
 
 ###  <a name="exitCodeMapping"></a> exitCodeMapping
 

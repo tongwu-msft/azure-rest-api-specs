@@ -1,11 +1,12 @@
 ---
 ms.assetid: 
 ms.title: Machine Learning API Web Service
-ms.prod:
+ms.prod: 
 ms.service: machine-learning
 author: vDonGlover
 ms.author: garye
 ms.manager: jhubbard
+service_description: To be added
 ---
 
 # Azure Machine Learning Management REST APIs

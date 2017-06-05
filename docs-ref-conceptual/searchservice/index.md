@@ -24,6 +24,7 @@ translation.priority.mt:
   - "ru-ru"
   - "zh-cn"
   - "zh-tw"
+service_description: To be added
 ---
 # Azure Search Service REST
 

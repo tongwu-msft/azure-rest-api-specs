@@ -5,6 +5,7 @@ ms.service: managed-disks
 author: davidmu1
 ms.author: davidmu
 ms.manager: timt
+service_description: To be added
 ---
 
 

@@ -1,10 +1,10 @@
 ---
-title: "DocumentDB Resource URI Syntax for REST"
+title: "Azure Cosmos DB Resource URI Syntax for REST"
 ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DocumentDB Resource URI Syntax for REST
+# Azure Cosmos DB Resource URI Syntax for REST
   The base URI for the rest of the resources are based on the URI endpoint created for the database account name. Using the example above, the URL would be https://contosomarketing.documents.azure.com.  
   
  The following table shows the base URI for each of the resources. The base URL for a resource is composed of the database account name, and a list of resource types and names of the requested resource and its parents.  
@@ -66,9 +66,11 @@ translation.priority.mt:
 -   [Triggers](triggers.md)  
   
 ## See Also  
- [Azure DocumentDB REST API Reference](index.md)   
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [Azure Cosmos DB documentation](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
+* [Azure DocumentDB Reference Documentation](index.md)   
+* [Azure Cosmos DB SDKs](https://docs.microsoft.com/azure/documentdb/documentdb-sdk-dotnet)    
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
+  
+

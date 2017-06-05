@@ -5,6 +5,7 @@ ms.service: batch
 author: mmacy
 ms.author: marsma
 ms.manager: timlt
+service_description: To be added
 ---
 
 # Azure Batch Management REST API

@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-02-12"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -27,13 +27,13 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Stored Procedures
-  A stored procedure is a piece of application logic written in JavaScript that is registered and executed against a collection as a single transaction.  
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the Azure Cosmos DB API for Azure Cosmos DB. 
+
+A stored procedure is a piece of application logic written in JavaScript that is registered and executed against a collection as a single transaction. In Azure Cosmos DB, JavaScript is hosted in the same memory space as the database. Hence, requests made within stored procedures execute in the same scope of a database session. This enables Azure Cosmos DB to guarantee ACID for all operations that are part of a single stored procedure.  
   
- In DocumentDB, JavaScript is hosted in the same memory space as the database. Hence, requests made within stored procedures execute in the same scope of a database session. This enables DocumentDB to guarantee ACID for all operations that are part of a single stored procedure.  
+The stored procedure resource is represented by sprocs in the [Azure Cosmos DB resource model](http://azure.microsoft.com/documentation/articles/documentdb-resources/).  
   
- The stored procedure resource is represented by sprocs in the [DocumentDB resource model](http://azure.microsoft.com/documentation/articles/documentdb-resources/).  
-  
- The stored procedure resource has a fixed schema. The body property contains the application logic. The following example illustrates the JSON construct of a stored procedure.  
+The stored procedure resource has a fixed schema. The body property contains the application logic. The following example illustrates the JSON construct of a stored procedure.  
   
 ```  
 {    
@@ -58,7 +58,7 @@ translation.priority.mt:
 |**_self**|This is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|This is a system generated property that specifies the resource etag required for optimistic concurrency control.|  
   
- Stored procedures can use the DocumentDB JavaScript Server-side SDK to make database operations like create, read, update, delete and query documents, as well as read from the request body and write to the response body of the stored procedure. For more details, refer to the [DocumentDB server-side SDK documentation](http://dl.windowsazure.com/documentDB/jsserverdocs/) and the server [DocumentDB side programming tutorial](http://azure.microsoft.com/documentation/articles/documentdb-programming/).  
+Stored procedures can use the Cosmos DB JavaScript Server-side SDK to make database operations like create, read, update, delete and query documents, as well as read from the request body and write to the response body of the stored procedure. For more details, refer to the [Cosmos DB server-side SDK documentation](http://dl.windowsazure.com/documentDB/jsserverdocs/) and the server [Cosmos DB side programming tutorial](http://azure.microsoft.com/documentation/articles/documentdb-programming/).  
 For example, here’s a stored procedure for “Hello World”:  
   
 ```  
@@ -95,7 +95,7 @@ var helloWorldStoredProc = {
   
 ```  
   
- The following example swaps two items inside a stored procedure:  
+The following example swaps two items inside a stored procedure:  
   
 ```  
 // JavaScript source code  
@@ -157,7 +157,7 @@ var exchangeItemsSproc = {
 ```  
   
 ## Tasks  
- You can do the following with stored procedures:  
+You can do the following with stored procedures:  
   
 -   [Create a Stored Procedure](create-a-stored-procedure.md)  
   
@@ -169,12 +169,14 @@ var exchangeItemsSproc = {
   
 -   [Execute a Stored Procedure](execute-a-stored-procedure.md)  
   
- For information on how stored procedures work, including execution of a stored procedure, see [DocumentDB programming: Stored procedures, triggers, and UDFs](http://azure.microsoft.com/en-us/documentation/articles/documentdb-programming/).  
+ For information on how stored procedures work, including execution of a stored procedure, see [Azure Cosmos DB programming: Stored procedures, triggers, and UDFs](http://azure.microsoft.com/en-us/documentation/articles/documentdb-programming/).  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: Azure Cosmos DB API](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
+* [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
+* [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) 
   
   
+

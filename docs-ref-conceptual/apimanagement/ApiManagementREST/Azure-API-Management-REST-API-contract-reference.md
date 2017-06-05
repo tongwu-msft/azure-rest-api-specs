@@ -129,14 +129,33 @@ This topic describes the entity and type representations for common items in Azu
 ##  <a name="Backend"></a> Backend  
  The `backend` entity has the following properties.  
   
-|Property|Type|Description|Remarks|  
-|--------------|----------|-----------------|-------------|  
-|id|string|Resource identifier. Uniquely identifies the backend within the current API Management service instance. The value is a valid relative URL in the format of `/backends/{backendId}` where `{backendId}` is a backend identifier. This property is read-only.|This property is passed as a path parameter and is not present as part of the request body when creating or updating this entity.|  
-|host|string|Host attribute of the backend. Host is a pure hostname without a port or suffix, for example `backend.contoso.com`. Must not be empty. Maximum length is 255 characters.|This property is passed as a path parameter and is not present as part of the request body when creating or updating this entity.|  
-|skipCertificateChainValidation|boolean|Flag indicating whether SSL certificate chain validation should be skipped when using self-signed certificates for this backend host.|This property is passed as a path parameter and is not present as part of the request body when creating or updating this entity.|  
-  
+|Property|Type|Required|Description|Remarks|  
+|-----------|----------|-----|------------------------|-------------|  
+|id|string|yes|Resource identifier. Uniquely identifies the backend within the current API Management service instance. The value is a valid relative URL in the format of `/backends/{backendId}` where `{backendId}` is a backend identifier. This property is read-only.|This property is passed as a path parameter and is not present as part of the request body when creating or updating this entity.|  
+|name|string|no|Name of the backend entity.| |
+|description|string|no|Description of the backend entity.| |
+|url|string|yes|Runtime Url of the Backend.|For example: `https://contoso.com/api/people` or `fabric://myapp/myservice` |
+|protocol|string|yes|Backend communication protocol.|`http` or `soap`|
+|resourceId|string|no|Identifier of the backend service. If the backend is an Azure service such as Logic Apps, this field will contain the ARM resource ID.|For example: `https://management.azure.com/subscriptions/xxxxyyyyzzz/resourceGroups/rg001/providers/Microsoft.Logic/mywf001`|
+|properties|object|no|Additional backend-specific properties.|Only applicable to Service Fabric backends at the moment. See below table for more details. For example: <br/>`{ "serviceFabricCluster": { … } }`| 
+|credentials|object|no|Backend-specific authentication required to make runtime calls|For example: `{"certificate": ["thumbprint1","thumbprint2" ], "query": { "param1":  ["val1", "val2"], "param2": ["val1", "val2"] }, "header": { "X-My-Header1": ["val1", "val2"], "X-My-Header2": ["val1", "val2"] }, "authorization": { "scheme": "Bearer", "parameter" : "<token>" } }`|
+|proxy|object|no|HTTP proxy used to send the request| For example: `{ "url" : "http://192.168.1.1:8080",  "username": "username",  "password":"password" }`|
+|tls|object|no|Settings controlling TLS certificate validation. |For example: `{ "validateCertificateChain": false, "validateCertificateName": false  }`|
+
+The `serviceFabricCluster` object has the following properties.
+
+|Property|Type|Required|Description|  
+|--------------|----------|-----|-----------------|
+|managementEndpoints|array of string|yes|Cluster management service URIs.|
+|clientCertificateThumbprint|string|yes|Thumbprint of the client certificate used by APIM to authenticate against the cluster management service for request resolution.|
+|serverCertificateThumbprints|array of string|no|Thumbprints of server certificates used by the cluster management service.|
+|serverX509Names|X509CertificateName|no|See more details [here](https://docs.microsoft.com/azure/service-fabric/service-fabric-windows-cluster-x509-security)|
+|maxPartitionResolutionRetries|int|no|The number of attempts to resolve a partition before a request is failed by APIM.|
+|partitionResolutionRequestTimeout|interval|no|Partition resolution request timeout.|
+
+
 > [!NOTE]
->  For more information about `backend` entity operations, see [Backend](../ApiManagementREST/Azure-API-Management-REST-API-Backend-entity.md).  
+>  For more information about `backend` entity operations, see [Backend](../ApiManagementREST/Azure-API-Management-REST-API-Backend-entity.md). 
   
 ##  <a name="Certificate"></a> Certificate  
  The `certificate` entity has the following properties.  

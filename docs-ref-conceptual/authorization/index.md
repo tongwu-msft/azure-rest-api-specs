@@ -5,6 +5,7 @@ ms.service: azure-resource-manager
 author: tfitzmac
 ms.author: tomfitz
 ms.manager: timlt
+service_description: To be added
 ---
 
 # Authorization
