@@ -1419,6 +1419,7 @@
 ## [Recommended Elastic Pools](sql/RecommendedElasticPools.json)
 ## [Server Azure A D Administrators](sql/ServerAzureADAdministrators.json)
 ## [Servers](sql/Servers.json)
+## [Servers - Sql](sql/Servers - Sql.json)
 ## [Vnet Firewall Rules](sql/VnetFirewallRules.json)
 # [Storage Import-Export](../docs-ref-conceptual/storageimportexport/index.md)
 ## [Get Location](storageimportexport/GetLocation.json)

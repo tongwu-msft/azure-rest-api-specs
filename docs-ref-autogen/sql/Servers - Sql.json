@@ -16,130 +16,75 @@
     "application/json"
   ],
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recommendedElasticPools/{recommendedElasticPoolName}": {
-      "get": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/checkNameAvailability": {
+      "post": {
         "tags": [
-          "RecommendedElasticPools"
+          "Servers"
         ],
-        "operationId": "RecommendedElasticPools_Get",
-        "description": "Gets a recommented elastic pool.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupParameter"
-          },
-          {
-            "$ref": "#/parameters/ServerNameParameter"
-          },
-          {
-            "name": "recommendedElasticPoolName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the recommended elastic pool to be retrieved."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/RecommendedElasticPool"
+        "operationId": "Servers_CheckNameAvailability",
+        "description": "Determines whether a resource can be created with the specified name.",
+        "x-ms-examples": {
+          "Check for a server name that is available": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "api-version": "2014-04-01",
+              "parameters": {
+                "name": "server1",
+                "type": "Microsoft.Sql/servers"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "name": "server1",
+                  "available": true,
+                  "reason": null,
+                  "message": null
+                }
+              }
             }
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recommendedElasticPools/{recommendedElasticPoolName}/databases/{databaseName}": {
-      "get": {
-        "tags": [
-          "RecommendedElasticPools"
-        ],
-        "operationId": "RecommendedElasticPools_GetDatabases",
-        "description": "Gets a database inside of a recommented elastic pool.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
           },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupParameter"
-          },
-          {
-            "$ref": "#/parameters/ServerNameParameter"
-          },
-          {
-            "name": "recommendedElasticPoolName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the elastic pool to be retrieved."
-          },
-          {
-            "name": "databaseName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the database to be retrieved."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Database"
+          "Check for a server name that already exists": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "api-version": "2014-04-01",
+              "parameters": {
+                "name": "server1",
+                "type": "Microsoft.Sql/servers"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "name": "server1",
+                  "available": false,
+                  "reason": "AlreadyExists",
+                  "message": "Specified server name is already used"
+                }
+              }
             }
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recommendedElasticPools": {
-      "get": {
-        "tags": [
-          "RecommendedElasticPools"
-        ],
-        "operationId": "RecommendedElasticPools_ListByServer",
-        "description": "Returns recommended elastic pools.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
           },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupParameter"
-          },
-          {
-            "$ref": "#/parameters/ServerNameParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/RecommendedElasticPoolListResult"
+          "Check for a server name that is invalid": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "api-version": "2014-04-01",
+              "parameters": {
+                "name": "SERVER1",
+                "type": "Microsoft.Sql/servers"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "name": "SERVER1",
+                  "available": false,
+                  "reason": "Invalid",
+                  "message": "Specified server name contains unsupported characters or is too long. Server name must be no longer than 63 characters long, contain only lower-case characters or digits, cannot contain '.' or '_' characters and can't start or end with '-' character."
+                }
+              }
             }
           }
         },
-        "x-ms-pageable": {
-          "nextLinkName": null
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recommendedElasticPools/{recommendedElasticPoolName}/databases": {
-      "get": {
-        "tags": [
-          "RecommendedElasticPools"
-        ],
-        "operationId": "RecommendedElasticPools_ListDatabases",
-        "description": "Returns a list of databases inside a recommented elastic pool.",
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -148,70 +93,22 @@
             "$ref": "#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "#/parameters/ResourceGroupParameter"
-          },
-          {
-            "$ref": "#/parameters/ServerNameParameter"
-          },
-          {
-            "name": "recommendedElasticPoolName",
-            "in": "path",
+            "name": "parameters",
+            "in": "body",
             "required": true,
-            "type": "string",
-            "description": "The name of the recommended elastic pool to be retrieved."
+            "schema": {
+              "$ref": "#/definitions/CheckNameAvailabilityRequest"
+            },
+            "description": "The parameters to request for name availability."
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/DatabaseListResult"
+              "$ref": "#/definitions/CheckNameAvailabilityResponse"
             }
           }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": null
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recommendedElasticPools/{recommendedElasticPoolName}/metrics": {
-      "get": {
-        "tags": [
-          "RecommendedElasticPools"
-        ],
-        "operationId": "RecommendedElasticPools_ListMetrics",
-        "description": "Returns a recommented elastic pool metrics.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupParameter"
-          },
-          {
-            "$ref": "#/parameters/ServerNameParameter"
-          },
-          {
-            "name": "recommendedElasticPoolName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the recommended elastic pool to be retrieved."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/RecommendedElasticPoolListMetricsResult"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": null
         }
       }
     }
