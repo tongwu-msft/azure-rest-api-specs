@@ -176,7 +176,7 @@ Backup operation exports a key from Azure Key Vault in a protected form. Note th
 
 The BACKUP operation may be used to export, in protected form, any key type from Azure Key Vault. Individual versions of a key cannot be backed up.
 
-BACKUP / RESTORE can be performed within geographical boundaries only; meaning that a BACKUP from one geographical area cannot be restored to another geographical area. For example, a backup from the US geographical area cannot be restored in an EU geographical area.
+BACKUP / RESTORE can be performed within geographical boundaries only; meaning that a BACKUP from one geographical area cannot be restored to another geographical area. For example, a backup from the US geographical area cannot be restored in an EU geographical area. For more information, see [Key Vault security worlds](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-security-worlds).
 
 See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
@@ -208,7 +208,7 @@ The RESTORE operation is subject to security constraints:
 - The target Key Vault must be owned by the same Microsoft Azure Subscription as the source Key Vault
 - The user must have RESTORE permission in the target Key Vault
 
-BACKUP / RESTORE can be performed within geographical boundaries only; meaning that a BACKUP from one geographical area cannot be restored to another geographical area. For example, a backup from the US geographical area cannot be restored in an EU geographical area.
+BACKUP / RESTORE can be performed within geographical boundaries only; meaning that a BACKUP from one geographical area cannot be restored to another geographical area. For example, a backup from the US geographical area cannot be restored in an EU geographical area. For more information, see [Key Vault security worlds](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-security-worlds).
 
 See [Common parameters and headers](~/docs-ref-conceptual/keyvault/common-parameters-and-headers.md) for headers and parameters that are used by all requests.
 
