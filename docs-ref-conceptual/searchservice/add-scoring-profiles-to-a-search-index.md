@@ -257,7 +257,7 @@ The search score is computed based on statistical properties of the data and the
 |`defaultScoringProfile`|When executing a search request, if no scoring profile is specified, then default scoring is used ([tf-idf](http://www.tfidf.com/) only).<br /><br /> A default scoring profile name can be set here, causing Azure Search to use that profile when no specific profile is given in the search request.|  
 
 ##  <a name="bkmk_interpolation"></a> Set interpolations  
- Interpolations allow you to define the slope for which the score is boosted at the start of the range and declines towards the end of the range. The following interpolations can be used:  
+ Interpolations allow you to set the shape of the slope used for scoring. Because scoring is high to low, the slope is always decreasing, but the interpolation determines the curve of the downward slope. The following interpolations can be used:  
 
 |||  
 |-|-|  
