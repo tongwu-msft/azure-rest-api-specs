@@ -223,10 +223,13 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 
 - *updated*: IntDate, optional. The updated attribute indicates when this version of the key was updated. This value is null for keys that were last updated prior to the addition of this attribute. Its value MUST be a number containing an IntDate value.  
 
->[!NOTE]
->*Not-yet-valid* and *expired* keys will work for **decrypt**, **unwrap** and **verify** operations (won’t return 403, Forbidden). The rationale for using *not-yet-valid* this way is to allow a key to be tested. The rationale for using *expired* this way is to allow recovery operations on data that was created when the key was valid.
->Access to the **encrypt**, **wrap**, and **sign** operations is not changed. These operations will not be allowed with *not-yet-valid* and *expired* keys.
->Also note that you can disable access to a key using Key Vault policies, or by updating the key attribute *enabled* to false.
+#### Data/time controlled operations
+
+*Not-yet-valid* and *expired* keys will work for **decrypt**, **unwrap** and **verify** operations (won’t return 403, Forbidden). The rationale for using *not-yet-valid* this way is to allow a key to be tested. The rationale for using *expired* this way is to allow recovery operations on data that was created when the key was valid.
+
+Access to the **encrypt**, **wrap**, and **sign** operations is not changed. These operations will not be allowed with *not-yet-valid* and *expired* keys.
+
+Also note that you can disable access to a key using Key Vault policies, or by updating the key attribute *enabled* to false.
 
 
  For information on data types see, [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes).  
