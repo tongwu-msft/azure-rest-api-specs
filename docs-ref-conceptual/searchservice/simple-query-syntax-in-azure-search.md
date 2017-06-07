@@ -31,7 +31,7 @@ translation.priority.mt:
   Azure Search implements two Lucene-based query languages: [Simple Query Parser](https://lucene.apache.org/core/4_7_0/queryparser/org/apache/lucene/queryparser/simple/SimpleQueryParser.html) and the [Lucene Query Parser](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html). In Azure Search, the simple query syntax excludes the fuzzy/slop options.  
 
 > [!NOTE]  
->  Azure Search provides the [Lucene Query Syntax](lucene-query-syntax-in-azure-search.md) for cases that require fine-grained control.  
+>  Azure Search provides the [Lucene Query Syntax](lucene-query-syntax-in-azure-search.md) for cases that require fine-grained control. To learn more about how queries are processed, see [How full text search works in Azure Search](search-lucene-query-architecture.md).
 
 ## How the simple parser works with your application  
  As noted, any text with one or more terms is considered a valid starting point for query execution. Azure Search will match documents containing any or all of the terms, including any variations found during analysis of the text.  

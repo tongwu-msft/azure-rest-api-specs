@@ -124,6 +124,9 @@ The response body is in the following format:
      }
 ```
 
+ > [!Tip]
+ > The [Search Analyzer Demo](http://alice.unearth.ai/) provides side-by-side comparison of results produced by the standard Lucene analyzer, Lucene's English language analyzer, and Microsoft's English natural language processor. For each search input you provide, results from each analyzer are displayed in adjacent panes.
+ 
 ## See Also  
  [Azure Search Service REST](index.md)  
  [Custom analyzers in Azure Search](custom-analyzers-in-azure-search.md)  
