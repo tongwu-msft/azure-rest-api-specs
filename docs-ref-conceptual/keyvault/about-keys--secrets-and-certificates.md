@@ -232,11 +232,9 @@ For more information on IntDate and other data types, see [Data types](about-key
 
 #### <a name="BKMK_key-date-time-ctrld-ops"></a> Date-time controlled operations
 
-Not-yet-valid and expired keys, those outside the *nbf* / *exp* window, will work for **decrypt**, **unwrap** and **verify** operations (won’t return 403, Forbidden). The rationale for using the not-yet-valid state is to allow a key to be tested before production use. The rationale for using the expired state is to allow recovery operations on data that was created when the key was valid.
+Not-yet-valid and expired keys, those outside the *nbf* / *exp* window, will work for **decrypt**, **unwrap** and **verify** operations (won’t return 403, Forbidden). The rationale for using the not-yet-valid state is to allow a key to be tested before production use. The rationale for using the expired state is to allow recovery operations on data that was created when the key was valid. 
 
-Access to the **encrypt**, **wrap**, and **sign** operations is not changed. These operations will not be allowed with not-yet-valid or expired keys.
-
-Also note that you can disable access to a key using Key Vault policies, or by updating the *enabled* key attribute to **false**.
+Also, you can disable access to a key using Key Vault policies, or by updating the *enabled* key attribute to **false**.
 
 For more information on data types see, [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes).
 
