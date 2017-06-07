@@ -456,13 +456,13 @@ Before a certificate issuer can be created in a Key Vault, following prerequisit
 
 1. Onboard to Certificate Authority (CA) Providers  
 
-    -   An organization administrator must on board their company (ex. Contoso) with at least one of above mentioned CA providers.  
+    -   An organization administrator must on-board their company (ex. Contoso) with at least one CA provider.  
 
 2. Admin creates requester credentials for Key Vault to enroll (and renew) SSL certificates  
 
-    -   This will provide the configuration to be used to create an issuer object of the provider in the Key Vault  
+    -   Provides the configuration to be used to create an issuer object of the provider in the key vault  
 
- For more information on creating Issuer objects from the Certificates portal, see the [Key Vault Certificates blog](http://aka.ms/kvcertsblog)  
+For more information on creating Issuer objects from the Certificates portal, see the [Key Vault Certificates blog](http://aka.ms/kvcertsblog)  
 
 Key Vault allows for creation of multiple issuer objects with different issuer provider configuration. Once an issuer object is created, its name can be referenced in one or multiple certificate policies. Referencing the issuer object instructs Key Vault to use configuration as specified in the issuer object when requesting the x509 certificate from CA provider during the certificate creation and renewal.  
 
@@ -470,19 +470,19 @@ Issuer objects are created in the vault and can only be used with KV certificate
 
 ###  <a name="BKMK_CertificateContacts"></a> Certificate contacts
 
-ertificate contacts contain contact information to send notifications to on certificate lifetime events. The contacts information is shared by all the certificates in the vault. A notification is sent to all the specified contacts for an event for any certificate in the key vault.  
+Certificate contacts contain contact information to send notifications triggered by certificate lifetime events. The contacts information is shared by all the certificates in the key vault. A notification is sent to all the specified contacts for an event for any certificate in the key vault.  
 
-If certificate is set to be auto renewed in policy, then a notification is sent on following events.  
+If a certificate's policy is set to auto-renewal, then a notification is sent on the following events.  
 
--   Prior to certificate renewal
+-   Before certificate renewal
 
--   After certificate renewal, stating if the certificate was successfully renewed, or if there was an error, and hence the owner needs to manually renew the certificate.  
+-   After certificate renewal, stating if the certificate was successfully renewed, or if there was an error, requiring manual renewal of the certificate.  
 
- If certificate is set to be manually renewed in policy (email only), then a notification is sent when it’s time to renew the certificate manually.  
+ If a certificate's policy is set to be manually renewed (email only), then a notification is sent when it’s time to renew the certificate.  
 
 ###  <a name="BKMK_CertificateAccessControl"></a> Certificate Access Control
 
- Access control for certificates is managed by Key Vault is provided at the level of a Key Vault that acts as the container of those certificates. There is an access control policy for certificates that is distinct from the access control policy for keys and secrets in the same Key Vault. Users may create one or more vaults to hold certificates and are required to maintain scenario appropriate segmentation and management of certificates.  
+ Access control for certificates is managed by Key Vault and is provided at the level of a Key Vault that acts as the container of those certificates. There is an access control policy for certificates that is distinct from the access control policy for keys and secrets in the same Key Vault. Users may create one or more vaults to hold certificates and are required to maintain scenario appropriate segmentation and management of certificates.  
 
  The following permissions can be used, on a per-principal basis, in the secrets access control entry on a key vault, and closely mirrors the operations allowed on a secret object:  
 
