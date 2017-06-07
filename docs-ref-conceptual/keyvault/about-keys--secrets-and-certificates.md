@@ -299,17 +299,13 @@ Azure Key Vault also supports a contentType field for secrets. Clients may speci
 
 In addition to the secret data, the following attributes may be specified:  
 
-- *exp*: IntDate, optional, default is **forever**. The *exp* (expiration time) attribute identifies the expiration time on or after which the secret data MUST NOT be retrieved, except in [particular situations](about-keys--secrets-and-certificates.md#BKMK_secret-date-time-ctrld-ops). 
+- *exp*: IntDate, optional, default is **forever**. The *exp* (expiration time) attribute identifies the expiration time on or after which the secret data MUST NOT be retrieved, except in [particular situations](about-keys--secrets-and-certificates.md#BKMK_secret-date-time-ctrld-ops). The processing of the *exp* attribute requires that the current date/time MUST be before the expiration date/time listed in the *exp* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
 
-The processing of the *exp* attribute requires that the current date/time MUST be before the expiration date/time listed in the *exp* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
-
-- *nbf*: IntDate, optional, default is **now**. The *nbf* (not before) attribute identifies the time before which the secret data MUST NOT be retrieved, except in [particular situations](about-keys--secrets-and-certificates.md#BKMK_secret-date-time-ctrld-ops). 
-
-The processing of the *nbf* attribute requires that the current date/time MUST be after or equal to the not-before date/time listed in the *nbf* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
+- *nbf*: IntDate, optional, default is **now**. The *nbf* (not before) attribute identifies the time before which the secret data MUST NOT be retrieved, except in [particular situations](about-keys--secrets-and-certificates.md#BKMK_secret-date-time-ctrld-ops). The processing of the *nbf* attribute requires that the current date/time MUST be after or equal to the not-before date/time listed in the *nbf* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
 
 - *enabled*: boolean, optional, default is **true**. This attribute specifies whether or not the secret data can be retrieved. The enabled attribute is used in conjunction with and *exp* when an operation occurs between and exp, it will only be permitted if enabled is set to **true**. Operations outside the *nbf* and *exp* window are automatically disallowed, except in [particular situations](about-keys--secrets-and-certificates.md#BKMK_secret-date-time-ctrld-ops).  
 
- There are additional read-only attributes that are included in any response that includes secret attributes:  
+There are additional read-only attributes that are included in any response that includes secret attributes:  
 
 - *created*: IntDate, optional. The created attribute indicates when this version of the secret was created. This value is null for secrets created prior to the addition of this attribute. Its value must be a number containing an IntDate value.  
 
@@ -337,7 +333,7 @@ The following permissions can be used, on a per-principal basis, in the secrets 
 
 -   *all*: All permissions  
 
- For more information on working with secrets, see [Secret operations](secret-operations.md).  
+For more information on working with secrets, see [Secret operations](secret-operations.md).  
 
 ###  <a name="BKMK_SecretTags"></a> Secret tags  
 You can specify additional application-specific metadata in the form of tags. Azure Key Vault supports up to 15 tags, each of which can have a 256 character name and a 256 character value.  
