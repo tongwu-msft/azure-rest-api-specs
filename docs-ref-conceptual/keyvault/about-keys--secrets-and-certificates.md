@@ -305,13 +305,13 @@ Azure Key Vault also supports a contentType field for secrets. Clients may speci
 
 In addition to the secret data, the following attributes may be specified:  
 
-- *exp*: IntDate, optional, default is "forever". The exp (expiration time) attribute identifies the expiration time on or after which the secret data MUST NOT be retrieved. The processing of the exp attribute requires that the current date/time MUST be before the expiration date/time listed in the exp attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
+- *exp*: IntDate, optional, default is "forever". The*exp*(expiration time) attribute identifies the expiration time on or after which the secret data MUST NOT be retrieved. The processing of the*exp*attribute requires that the current date/time MUST be before the expiration date/time listed in the*exp*attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
 
 - *nbf*: IntDate, optional, default is "now". The *nbf* (not before) attribute identifies the time before which the secret data MUST NOT be retrieved. 
 
 The processing of the *nbf* attribute requires that the current date/time MUST be after or equal to the not-before date/time listed in the *nbf* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
 
-- *enabled*: boolean, optional, default is "true". This attribute specifies whether or not the secret data can be retrieved. The enabled attribute is used in conjunction with nbf and exp when an operation occurs between nbf and exp, it will only be permitted if enabled is set to true. Operations outside the nbf and exp window are automatically disallowed.  
+- *enabled*: boolean, optional, default is **true**. This attribute specifies whether or not the secret data can be retrieved. The enabled attribute is used in conjunction with and*exp*when an operation occurs between and exp, it will only be permitted if enabled is set to **true**. Operations outside the *nbf* and*exp*window are automatically disallowed.  
 
  There are additional read only attributes that are included in any response that includes secret attributes:  
 
@@ -388,19 +388,19 @@ The certificate attributes are mirrored to attributes of the addressable key and
 
 A Key Vault certificate has the following attributes:  
 
--   *enabled*: boolean, optional, default is "true". This attribute can be specified to indicate if the certificate data can be retrieved as secret or operable as a key. This is used in conjunction with nbf and exp when an operation occurs between nbf and exp, it will only be permitted if enabled is set to true. Operations outside the nbf and exp window are automatically disallowed.  
+-   *enabled*: boolean, optional, default is "true". This attribute can be specified to indicate if the certificate data can be retrieved as secret or operable as a key. This is used in conjunction with *nbf* and*exp*when an operation occurs between *nbf* and exp, it will only be permitted if enabled is set to true. Operations outside the *nbf* and*exp*window are automatically disallowed.  
 
-There are additional read only attributes that are included in response:
+There are additional read-only attributes that are included in response:
 
 -   *created*: IntDate: indicates when this version of the certificate was created.  
 -   *updated*: IntDate: indicates when this version of the certificate was updated.  
 -   *exp*: IntDate:  contains the value of the expiry date of the x509 certificate.  
--   *nbf*: IntDate: contains the value of the nbf date of the x509 certificate.  
+-   *nbf*: IntDate: contains the value of the  date of the x509 certificate.  
 
 > [!Note] 
 > If a Key Vault certificate expires, it’s addressable key and secret become inoperable.  
 
- #### Tags
+#### Tags
 
  Client specified dictionary of key value pairs, similar to tags in keys and secrets.  
 
