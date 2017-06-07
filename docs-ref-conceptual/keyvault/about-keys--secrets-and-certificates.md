@@ -5,7 +5,7 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 05/02/2017
+ms.date: 06/07/2017
 ---
 # About keys, secrets, and certificates
 Azure Key Vault enables users to store and use cryptographic keys within the Microsoft Azure environment. Key Vault supports multiple key types and algorithms, and enables the use of Hardware Security Modules (HSM) for high value keys. In addition, Key Vault allows users to securely store secrets, limited size octet objects with no specific semantics. Key Vault also supports certificates which are built on top of keys and secrets and add an automated renewal feature. 
@@ -20,7 +20,7 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 
 -   [Objects, Identifiers and Versioning](about-keys--secrets-and-certificates.md#BKMK_ObjId)  
 
- ## Key Vault Keys
+ ## Key Vault keys
 
 -   [Keys and key types](about-keys--secrets-and-certificates.md#BKMK_KeyTypes)  
 
@@ -34,7 +34,7 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 
 -   [Key tags](about-keys--secrets-and-certificates.md#BKMK_Keytags)  
 
- ## Key Vault Secrets 
+ ## Key Vault secrets 
 
 -   [Working with Secrets](about-keys--secrets-and-certificates.md#BKMK_WorkingWithSecrets)  
 
@@ -44,7 +44,7 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 
 -   [Secret Access Control](about-keys--secrets-and-certificates.md#BKMK_SecretAccessControl)  
 
- ## Key Vault Certificates 
+ ## Key Vault certificates 
 
 -   [Composition of a Certificate](#BKMK_CompositionOfCertificate)  
 
@@ -116,7 +116,7 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 |`object-name`|An `object-name` is a user provided name for and must be unique within a Key Vault. The name must be a string 1-127 characters in length containing only 0-9, a-z, A-Z, and -.|  
 |`object-version`|An `object-version` is a system generated, 32 character string identifier that is optionally used to address a unique version of an object.|  
 
-## Key Vault Keys  
+## Key Vault keys  
 
 ###  <a name="BKMK_KeyTypes"></a> Keys and key types  
  Cryptographic keys in Azure Key Vault are represented as JSON Web Key [JWK] objects. The base JWK/JWA specifications are also extended to enable key types unique to the Azure Key Vault implementation, for example the import of keys to Azure Key Vault using the HSM vendor (Thales) specific packaging to enable secure transportation of keys such that they may only be used in the Azure Key Vault HSMs.  
@@ -222,6 +222,12 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 - *created*: IntDate, optional. The created attribute indicates when this version of the key was created. This value is null for keys created prior to the addition of this attribute. Its value MUST be a number containing an IntDate value.  
 
 - *updated*: IntDate, optional. The updated attribute indicates when this version of the key was updated. This value is null for keys that were last updated prior to the addition of this attribute. Its value MUST be a number containing an IntDate value.  
+
+>[!NOTE]
+>*Not-yet-valid* and *expired* keys will work for **decrypt**, **unwrap** and **verify** operations (won’t return 403, Forbidden). The rationale for using *not-yet-valid* this way is to allow a key to be tested. The rationale for using *expired* this way is to allow recovery operations on data that was created when the key was valid.
+>Access to the **encrypt**, **wrap**, and **sign** operations is not changed. These operations will not be allowed with *not-yet-valid* and *expired* keys.
+>Also note that you can disable access to a key using Key Vault policies, or by updating the key attribute *enabled* to false.
+
 
  For information on data types see, [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes).  
 
