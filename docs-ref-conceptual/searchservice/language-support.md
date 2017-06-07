@@ -132,6 +132,6 @@ See [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) for 
 
  All analyzers with names annotated with **Lucene** are powered by [Apache Lucene's language analyzers](http://lucene.apache.org/core/4_9_0/analyzers-common/overview-summary.html). More information about the ASCII folding filter can be found [Class ASCIIFoldingFilter](http://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.html).  
 
-## See Also  
+## See also  
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  
  [AnalyzerName Class](https://docs.microsoft.com/dotnet/api/microsoft.azure.search.models.analyzername)  

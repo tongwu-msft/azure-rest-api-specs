@@ -130,7 +130,7 @@ api-key: [admin key]
 ## Response  
  For a successful request: 201 Created.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Synonym map operations &#40;Azure Search Service REST API&#41;](synonym-map-operations.md)   

@@ -118,7 +118,7 @@ DELETE https://[service name].search.windows.net/synonymmaps/[synonymmap name]?a
 api-key: [admin key]  
 ```  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Language support &#40;Azure Search Service REST API&#41;](language-support.md)
  [Custom Analyzers in Azure Search &#40;Azure Search Service REST API&#41;](custom-analyzers-in-azure-search.md)

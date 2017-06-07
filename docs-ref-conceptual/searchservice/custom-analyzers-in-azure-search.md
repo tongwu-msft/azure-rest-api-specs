@@ -536,6 +536,6 @@ Fields containing strings in different languages can use a language analyzer, wh
   }
 ~~~~
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  

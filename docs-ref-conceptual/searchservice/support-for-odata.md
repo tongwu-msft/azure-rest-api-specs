@@ -94,7 +94,7 @@ GET /indexes('[index name]')/docs/$count?api-version=2015-02-28
 GET /indexes('[index name]')/docs/suggest?[query parameters]  
 ```  
 
-## See Also  
+## See also  
  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   

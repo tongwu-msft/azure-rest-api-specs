@@ -95,7 +95,7 @@ Language-specific fields are also illustrated in this index. Description fields 
 
 -   [Get Index Statistics &#40;Azure Search Service REST API&#41;](get-index-statistics.md)  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Service limits in Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)   
  [Azure Search .NET library](https://msdn.microsoft.com/library/azure/dn951165.aspx)  

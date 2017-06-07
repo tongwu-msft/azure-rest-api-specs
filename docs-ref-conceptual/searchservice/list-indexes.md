@@ -96,6 +96,6 @@ GET /indexes?api-version=2014-07-31-Preview&$select=name
 
  This is a useful technique to save bandwidth if you have a lot of indexes in your Search service.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)  

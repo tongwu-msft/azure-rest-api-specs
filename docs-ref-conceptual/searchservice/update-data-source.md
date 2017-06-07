@@ -49,7 +49,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 > [!NOTE]  
 >  Some properties cannot be updated on an existing data source. For example, you cannot change the type of an existing data source.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   

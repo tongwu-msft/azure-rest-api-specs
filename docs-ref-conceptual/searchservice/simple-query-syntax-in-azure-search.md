@@ -83,5 +83,5 @@ The precedence operator encloses the string in parentheses. For example, `motel+
 > [!NOTE]  
 >  Although escaping keeps tokens together, text analysis may split them up, depending on the analysis mode. See [Language support &#40;Azure Search Service REST API&#41;](language-support.md) for details.  
 
-## See Also  
+## See also  
  [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md)  

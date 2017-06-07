@@ -284,7 +284,7 @@ The search score is computed based on statistical properties of the data and the
 
  For more examples, see [XML Schema: Datatypes (W3.org web site)](http://www.w3.org/TR/xmlschema11-2/#dayTimeDuration).  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
  [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
