@@ -28,7 +28,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Search Documents (Azure Search Service REST API)
-  Queries in Azure Search are implemented using the .NET library or REST API. For an overview of querying documents and different methodologies available, see [Queries in Azure Search](https://azure.microsoft.com/documentation/articles/search-query-overview/). For architecture and overview, see [How full text search works in Azure Search](search-lucene-query-architecture.md).
+  Queries in Azure Search are implemented using the .NET library or REST API. For an overview of querying documents and different methodologies available, see [Queries in Azure Search](https://azure.microsoft.com/documentation/articles/search-query-overview/). For architecture and overview, see [How full text search works in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
 
  In the REST API, a **Search Documents** operation is issued as a GET or POST request and specifies query parameters that give the criteria for selecting matching documents.  
 

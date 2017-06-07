@@ -30,11 +30,11 @@ translation.priority.mt:
 # Custom analyzers in Azure Search
 
 > [!NOTE]
->  Analyzers are a specific component of search technology, which you can learn about in [How full text search works in Azure Search](search-lucene-query-architecture.md). If you came to this page looking for log or traffic analysis, please see [Enabling and using Search Traffic Analytics](https://azure.microsoft.com/documentation/articles/search-traffic-analytics/) instead.  
+>  Analyzers are a specific component of search technology, which you can learn about in [How full text search works in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture). If you came to this page looking for log or traffic analysis, please see [Enabling and using Search Traffic Analytics](https://azure.microsoft.com/documentation/articles/search-traffic-analytics/) instead.  
 
 ## Overview
 
- The role of a [full-text search engine](search-lucene-query-architecture.md), in simple terms, is to process and store documents in a way that enables efficient querying and retrieval. At a high level, it all comes down to extracting important words from documents, putting them in an index, and then using the index to find documents that match words of a given query. The process of extracting words from documents and search queries is called lexical analysis. Components that perform lexical analysis are called analyzers.
+ The role of a [full-text search engine](https://docs.microsoft.com/azure/search/search-lucene-query-architecture), in simple terms, is to process and store documents in a way that enables efficient querying and retrieval. At a high level, it all comes down to extracting important words from documents, putting them in an index, and then using the index to find documents that match words of a given query. The process of extracting words from documents and search queries is called lexical analysis. Components that perform lexical analysis are called analyzers.
 
  In Azure Search you can choose from a set of predefined language agnostic analyzers in the [Analyzers](#AnalyzerTable) table and language specific analyzers listed in [Language analyzers &#40;Azure Search Service REST API&#41;](language-support.md). You also have an option to define your own custom analyzers.  
 
