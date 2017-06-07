@@ -216,19 +216,19 @@ For more information on JWK objects, see [JSON Web Key (JWK)](http://tools.ietf.
 
 In addition to the key material, the following attributes may be specified. In a JSON Request, the attributes keyword and braces, ‘{‘ ‘}’, are required even if there are no attributes specified.  
 
--   *enabled*: boolean, optional, default is **true**. Specifies whether the key is enabled and useable for cryptographic operations. 
+- *enabled*: boolean, optional, default is **true**. Specifies whether the key is enabled and useable for cryptographic operations. 
 
-    The *enabled* attribute is used in conjunction with *nbf* and *exp*: when an operation occurs between nbf and exp, it will only be permitted if enabled is set to true. Operations outside the *nbf* and *exp* window are automatically disallowed, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_date-time-ctrld-ops).
+The *enabled* attribute is used in conjunction with *nbf* and *exp*. When an operation occurs between *nbf* and *exp*, it will only be permitted if *enabled* is set to **true**. Operations outside the *nbf* / *exp* window are automatically disallowed, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_date-time-ctrld-ops).
 
--   *nbf*: IntDate, optional, default is now. The *nbf* (not before) attribute identifies the time before which the key MUST NOT be used for cryptographic operations, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_date-time-ctrld-ops). 
+- *nbf*: IntDate, optional, default is now. The *nbf* (not before) attribute identifies the time before which the key MUST NOT be used for cryptographic operations, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_date-time-ctrld-ops).
+
+The processing of the *nbf* attribute requires that the current date/time MUST be after or equal to the not-before date/time listed in the *nbf* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
+
+For more information on IntDate and other data types, see [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes)  
+
+- *exp*: IntDate, optional, default is "forever". The *exp* (expiration time) attribute identifies the expiration time on or after which the key MUST NOT be used for cryptographic operation, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_date-time-ctrld-ops). 
     
-    The processing of the *nbf* attribute requires that the current date/time MUST be after or equal to the not-before date/time listed in the *nbf* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
-
-     For more information on IntDate and other data types, see [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes)  
-
--   *exp*: IntDate, optional, default is "forever". The *exp* (expiration time) attribute identifies the expiration time on or after which the key MUST NOT be used for cryptographic operation, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_date-time-ctrld-ops). 
-    
-    The processing of the *exp* attribute requires that the current date/time MUST be before the expiration date/time listed in the *exp* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
+The processing of the *exp* attribute requires that the current date/time MUST be before the expiration date/time listed in the *exp* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
 
 There are additional read-only attributes that are included in any response that includes key attributes:  
 
@@ -244,11 +244,11 @@ Access to the **encrypt**, **wrap**, and **sign** operations is not changed. The
 
 Also note that you can disable access to a key using Key Vault policies, or by updating the *enabled* key attribute to **false**.
 
-For information on data types see, [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes).
+For more information on data types see, [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes).
 
-For further information on possible attributes, see the [JSON Web Key (JWK)](http://tools.ietf.org/html/draft-ietf-jose-json-web-key).
+For further information on other possible attributes, see the [JSON Web Key (JWK)](http://tools.ietf.org/html/draft-ietf-jose-json-web-key).
 
-###  <a name="BKMK_Keytags"></a> Key tags
+### <a name="BKMK_Keytags"></a> Key tags
 
 You can specify additional application-specific metadata in the form of tags. Azure Key Vault supports up to 15 tags, each of which can have a 256 character name and a 256 character value.  
 
