@@ -309,7 +309,7 @@ There are additional read-only attributes that are included in any response that
 
 #### <a name="BKMK_secret-date-time-ctrld-ops"></a> Date-time controlled operations
 
-A secret's **get** operation will work for not-yet-valid and expired secrets, outside the *nbf* / *exp* window. Invoking a secret's **get** operation, for a not-yet-valid secret, can be used for test purposes. Retrieving, using **get** an expired secret, can be used for recovery operations.
+A secret's **get** operation will work for not-yet-valid and expired secrets, outside the *nbf* / *exp* window. Calling a secret's **get** operation, for a not-yet-valid secret, can be used for test purposes. Retrieving (**get**ing) an expired secret, can be used for recovery operations.
 
 For more information on data types see, [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes).  
 
