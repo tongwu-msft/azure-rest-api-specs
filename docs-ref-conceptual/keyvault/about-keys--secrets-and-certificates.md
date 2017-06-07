@@ -220,13 +220,13 @@ In addition to the key material, the following attributes may be specified. In a
 
 The *enabled* attribute is used in conjunction with *nbf* and *exp*. When an operation occurs between *nbf* and *exp*, it will only be permitted if *enabled* is set to **true**. Operations outside the *nbf* / *exp* window are automatically disallowed, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_date-time-ctrld-ops).
 
-- *nbf*: IntDate, optional, default is now. The *nbf* (not before) attribute identifies the time before which the key MUST NOT be used for cryptographic operations, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_date-time-ctrld-ops).
+- *nbf*: IntDate, optional, default is now. The *nbf* (not before) attribute identifies the time before which the key MUST NOT be used for cryptographic operations, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_key-date-time-ctrld-ops).
 
 The processing of the *nbf* attribute requires that the current date/time MUST be after or equal to the not-before date/time listed in the *nbf* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
 
 For more information on IntDate and other data types, see [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes)  
 
-- *exp*: IntDate, optional, default is "forever". The *exp* (expiration time) attribute identifies the expiration time on or after which the key MUST NOT be used for cryptographic operation, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_date-time-ctrld-ops). 
+- *exp*: IntDate, optional, default is "forever". The *exp* (expiration time) attribute identifies the expiration time on or after which the key MUST NOT be used for cryptographic operation, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_key-date-time-ctrld-ops). 
     
 The processing of the *exp* attribute requires that the current date/time MUST be before the expiration date/time listed in the *exp* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
 
@@ -236,7 +236,7 @@ There are additional read-only attributes that are included in any response that
 
 - *updated*: IntDate, optional. The *updated* attribute indicates when this version of the key was updated. This value is null for keys that were last updated prior to the addition of this attribute. Its value MUST be a number containing an IntDate value.  
 
-#### <a name="BKMK_date-time-ctrld-ops"></a> Date-time controlled operations
+#### <a name="BKMK_key-date-time-ctrld-ops"></a> Date-time controlled operations
 
 Not-yet-valid and expired keys, those outside the *nbf* / *exp* window, will work for **decrypt**, **unwrap** and **verify** operations (won’t return 403, Forbidden). The rationale for using the not-yet-valid state is to allow a key to be tested before production use. The rationale for using the expired state is to allow recovery operations on data that was created when the key was valid.
 
@@ -305,19 +305,25 @@ Azure Key Vault also supports a contentType field for secrets. Clients may speci
 
 In addition to the secret data, the following attributes may be specified:  
 
-- *exp*: IntDate, optional, default is "forever". The*exp*(expiration time) attribute identifies the expiration time on or after which the secret data MUST NOT be retrieved. The processing of the*exp*attribute requires that the current date/time MUST be before the expiration date/time listed in the*exp*attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
+- *exp*: IntDate, optional, default is **forever**. The *exp* (expiration time) attribute identifies the expiration time on or after which the secret data MUST NOT be retrieved, except in [particular situations](about-keys--secrets-and-certificates.md#BKMK_secret-date-time-ctrld-ops). 
 
-- *nbf*: IntDate, optional, default is "now". The *nbf* (not before) attribute identifies the time before which the secret data MUST NOT be retrieved. 
+The processing of the *exp* attribute requires that the current date/time MUST be before the expiration date/time listed in the *exp* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
+
+- *nbf*: IntDate, optional, default is **now**. The *nbf* (not before) attribute identifies the time before which the secret data MUST NOT be retrieved, except in [particular situations](about-keys--secrets-and-certificates.md#BKMK_secret-date-time-ctrld-ops). 
 
 The processing of the *nbf* attribute requires that the current date/time MUST be after or equal to the not-before date/time listed in the *nbf* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
 
-- *enabled*: boolean, optional, default is **true**. This attribute specifies whether or not the secret data can be retrieved. The enabled attribute is used in conjunction with and*exp*when an operation occurs between and exp, it will only be permitted if enabled is set to **true**. Operations outside the *nbf* and*exp*window are automatically disallowed.  
+- *enabled*: boolean, optional, default is **true**. This attribute specifies whether or not the secret data can be retrieved. The enabled attribute is used in conjunction with and *exp* when an operation occurs between and exp, it will only be permitted if enabled is set to **true**. Operations outside the *nbf* and *exp* window are automatically disallowed, except in [particular situations](about-keys--secrets-and-certificates.md#BKMK_secret-date-time-ctrld-ops).  
 
- There are additional read only attributes that are included in any response that includes secret attributes:  
+ There are additional read-only attributes that are included in any response that includes secret attributes:  
 
 - *created*: IntDate, optional. The created attribute indicates when this version of the secret was created. This value is null for secrets created prior to the addition of this attribute. Its value must be a number containing an IntDate value.  
 
-- *updated*: IntDate, optional. The updated attribute indicates when this version of the secret was updated. This value is null for secrets that were last updated prior to the addition of this attribute. Its value must be a number containing an IntDate value.  
+- *updated*: IntDate, optional. The updated attribute indicates when this version of the secret was updated. This value is null for secrets that were last updated prior to the addition of this attribute. Its value must be a number containing an IntDate value.
+
+#### <a name="BKMK_secret-date-time-ctrld-ops"></a> Date-time controlled operations
+
+A secret's **get** operation will work for not-yet-valid and expired secrets, outside the *nbf* / *exp* window. Invoking a secret's **get** operation, for a not-yet-valid secret, can be used for test purposes. Retrieving, using **get** an expired secret, can be used for recovery operations.
 
 For more information on data types see, [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes).  
 
@@ -388,7 +394,7 @@ The certificate attributes are mirrored to attributes of the addressable key and
 
 A Key Vault certificate has the following attributes:  
 
--   *enabled*: boolean, optional, default is "true". This attribute can be specified to indicate if the certificate data can be retrieved as secret or operable as a key. This is used in conjunction with *nbf* and*exp*when an operation occurs between *nbf* and exp, it will only be permitted if enabled is set to true. Operations outside the *nbf* and*exp*window are automatically disallowed.  
+-   *enabled*: boolean, optional, default is **true**. This attribute can be specified to indicate if the certificate data can be retrieved as secret or operable as a key. This is used in conjunction with *nbf* and*exp*when an operation occurs between *nbf* and exp, it will only be permitted if enabled is set to true. Operations outside the *nbf* and*exp*window are automatically disallowed.  
 
 There are additional read-only attributes that are included in response:
 
