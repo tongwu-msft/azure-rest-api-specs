@@ -230,7 +230,7 @@ There are additional read-only attributes that are included in any response that
 
 - *updated*: IntDate, optional. The updated attribute indicates when this version of the key was updated. This value is null for keys that were last updated prior to the addition of this attribute. Its value MUST be a number containing an IntDate value.  
 
-#### Data-time controlled operations
+#### Date-time controlled operations
 
 *Not-yet-valid* and *expired* keys will work for **decrypt**, **unwrap** and **verify** operations (won’t return 403, Forbidden). The rationale for using *not-yet-valid* this way is to allow a key to be tested. The rationale for using *expired* this way is to allow recovery operations on data that was created when the key was valid.
 
