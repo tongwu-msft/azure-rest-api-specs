@@ -124,7 +124,7 @@ To learn more about when and how to use field mapping functions, see [Field Mapp
 ## Response  
  201 Created for a successful request.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
