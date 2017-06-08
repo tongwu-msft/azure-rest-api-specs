@@ -28,7 +28,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Lucene query syntax in Azure Search
-  You can write queries against Azure Search based on the rich [Lucene Query Parser](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html) syntax. Much of the syntax is implemented intact in Azure Search, with the exception of *range searches* which are constructed in Azure Search through `$filter` expressions. See [Lucene query syntax examples for building queries in Azure Search](https://azure.microsoft.com/documentation/articles/search-query-lucene-examples/) for examples of how the syntax is used.  
+  You can write queries against Azure Search based on the rich [Lucene Query Parser](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html) syntax. Much of the syntax is [implemented intact in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture), with the exception of *range searches* which are constructed in Azure Search through `$filter` expressions. See [Lucene query syntax examples for building queries in Azure Search](https://azure.microsoft.com/documentation/articles/search-query-lucene-examples/) for examples of how the syntax is used.  
 
 > [!NOTE]  
 >  Azure Search also supports [Simple Query Syntax](simple-query-syntax-in-azure-search.md), a simple and robust query language that can be used for straightforward keyword search.  
@@ -170,7 +170,7 @@ POST /indexes/hotels/docs/search?api-version=2015-02-28
 }  
 ```  
 
-## See Also  
+## See also  
 [Search Documents](search-documents.md)
  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
  [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md)   

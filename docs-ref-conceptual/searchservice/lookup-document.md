@@ -91,7 +91,7 @@ GET /indexes/hotels/docs/2?api-version=2016-09-01
 GET /indexes/hotels/docs('3')?api-version=2016-09-01  
 ```  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Document operations &#40;Azure Search Service REST API&#41;](document-operations.md)   
  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   

@@ -1,7 +1,7 @@
 ---
 title: "Add scoring profiles to a search index (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2017-03-28"
+ms.date: "2017-06-06"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -34,7 +34,7 @@ translation.priority.mt:
 
  A scoring profile is part of the index definition, composed of weighted fields, functions, and parameters.  
 
- To give you an idea of what a scoring profile looks like, the following example shows a simple profile named 'geo'. This one boosts items that have the search term in the **hotelName** field. It also uses the `distance` function to favor items that are within ten kilometers of the current location. If someone searches on the term 'inn', and 'inn' happens to be part of the hotel name, documents that include hotels with 'inn' will appear higher in the search results.  
+ To give you an idea of what a scoring profile looks like, the following example shows a simple profile named 'geo'. This one boosts items that have the search term in the **hotelName** field. It also uses the `distance` function to favor items that are within ten kilometers of the current location. If someone searches on the term 'inn', and 'inn' happens to be part of the hotel name, documents that include hotels with 'inn' within a 10 KM radius of the current location will appear higher in the search results.  
 
 
 ```  
@@ -76,7 +76,7 @@ GET /indexes/hotels/docs?search=inn&scoringProfile=geo&scoringParameter=currentL
 ## What is default scoring?  
  Scoring computes a search score for each item in a rank ordered result set. Every item in a search result set is assigned a search score, then ranked highest to lowest. Items with the higher scores are returned to the application. By default, the top 50 are returned, but you can use the `$top` parameter to return a smaller or larger number of items (up to 1000 in a single response).  
 
- By default, a search score is computed based on statistical properties of the data and the query. Azure Search finds documents that include the search terms in the query string (some or all, depending on `searchMode`), favoring documents that contain many instances of the search term. The search score goes up even higher if the term is rare across the data corpus, but common within the document. The basis for this approach to computing relevance is known as [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) or term frequency-inverse document frequency.  
+The search score is computed based on statistical properties of the data and the query. Azure Search finds documents that include the search terms in the query string (some or all, depending on `searchMode`), favoring documents that contain many instances of the search term. The search score goes up even higher if the term is rare across the data corpus, but common within the document. The basis for this approach to computing relevance is known as [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) or term frequency-inverse document frequency.  
 
  Assuming there is no custom sorting, results are then ranked by search score before they are returned to the calling application. If $top is not specified, 50 items having the highest search score are returned.  
 
@@ -91,8 +91,6 @@ GET /indexes/hotels/docs?search=inn&scoringProfile=geo&scoringParameter=currentL
  As noted earlier, customized scoring is implemented through one or more scoring profiles defined in an index schema.  
 
  This example shows the schema of an index with two scoring profiles (`boostGenre`, `newAndHighlyRated`). Any query against this index that includes either profile as a query parameter will use the profile to score the result set.  
-
- [Try this example.](http://go.microsoft.com/fwlink/p/?linkID=517255)  
 
 ```  
 {  
@@ -160,7 +158,7 @@ GET /indexes/hotels/docs?search=inn&scoringProfile=geo&scoringParameter=currentL
 ```  
 
 ## Workflow  
- To implement custom scoring behavior, add a scoring profile to the schema that defines the index. You can have up to 16 scoring profiles within an index (see [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)), but you can only specify one profile at time in any given query.  
+ To implement custom scoring behavior, add a scoring profile to the schema that defines the index. You can have up to 100 scoring profiles within an index (see [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)), but you can only specify one profile at time in any given query.  
 
  Start with the [Template](#bkmk_template) provided in this topic.  
 
@@ -259,7 +257,7 @@ GET /indexes/hotels/docs?search=inn&scoringProfile=geo&scoringParameter=currentL
 |`defaultScoringProfile`|When executing a search request, if no scoring profile is specified, then default scoring is used ([tf-idf](http://www.tfidf.com/) only).<br /><br /> A default scoring profile name can be set here, causing Azure Search to use that profile when no specific profile is given in the search request.|  
 
 ##  <a name="bkmk_interpolation"></a> Set interpolations  
- Interpolations allow you to define the slope for which the score boosting increases from the start of the range to the end of the range. The following interpolations can be used:  
+ Interpolations allow you to set the shape of the slope used for scoring. Because scoring is high to low, the slope is always decreasing, but the interpolation determines the curve of the downward slope. The following interpolations can be used:  
 
 |||  
 |-|-|  
@@ -286,7 +284,7 @@ GET /indexes/hotels/docs?search=inn&scoringProfile=geo&scoringParameter=currentL
 
  For more examples, see [XML Schema: Datatypes (W3.org web site)](http://www.w3.org/TR/xmlschema11-2/#dayTimeDuration).  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
  [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  

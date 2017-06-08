@@ -60,7 +60,7 @@ api-key: [admin key]
 > [!NOTE]  
 >  You can use a diagnostic tool such as Fiddler to view the response payload. See [How to use Fiddler to evaluate and test Azure Search REST APIs](https://azure.microsoft.com/documentation/articles/search-fiddler/).  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)
