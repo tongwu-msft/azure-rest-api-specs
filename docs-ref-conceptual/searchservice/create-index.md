@@ -244,7 +244,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
  By default, the response body will contain the JSON for the index definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the index.   
 
-## See Also  
+## See also  
  [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md)   
  [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md)   
  [Azure Search Service REST](index.md)   

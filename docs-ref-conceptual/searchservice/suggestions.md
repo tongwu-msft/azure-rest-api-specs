@@ -168,7 +168,7 @@ POST /indexes/hotels/docs/suggest?api-version=2016-09-01
 
  Notice that **suggesterName** is required in a Suggestions operation.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Suggesters](suggesters.md)   
