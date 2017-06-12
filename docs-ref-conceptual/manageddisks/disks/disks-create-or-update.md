@@ -1,6 +1,6 @@
 ---
 title: "Create a managed disk"
-ms.date: 2017-01-30
+ms.date: 2017-06-15
 ms.prod: azure
 ms.service: managed-disks
 ms.topic: reference
@@ -24,7 +24,7 @@ For information about getting started with Azure REST operations including reque
 | subscriptionId | The identifier of your subscription where the managed disk is being created. |
 | resourceGroup | The name of the resource group that will contain the managed disk. |
 | diskName | The name of the managed disk that is being created. The name can’t be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters. |
-| api-version | The version of the API to use. The current version is 2016-04-30-preview. |
+| api-version | The version of the API to use. The current version is 2017-03-30. |
 
 The structure of the request body depends on how you want to create a managed disk. Each of these sections shows the required elements in a request for each creation method. Optional elements are described later in this article.
 
@@ -177,8 +177,22 @@ You can add encryption to the managed disk by adding `encryptionSettings`:
 } 
 ```
 
-You can specify a hidden storage account of the requested supported type to be used, and copy the source blob to a new blob in the storage account. To specify a storage account, add `accountType`to the main body of the request. Possible values are **Standard_LRS** or **Premium_LRS**:
+You can specify a hidden storage account of the requested supported type to be used, and copy the source blob to a new blob in the storage account. To specify a storage account, add `sku.name` to the main body of the request. Possible values are **Standard_LRS** or **Premium_LRS**:
 
+*Api-version 2017-03-30 and later*
+```json
+  "sku": {
+    "name": "Standard_LRS"
+  },
+  "properties": {
+    ...
+    ...
+    ...
+  }
+
+```
+
+*Api-version 2016-04-30-preview*
 ```json
   "accountType": "Standard_LRS", 
 ```

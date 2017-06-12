@@ -1,6 +1,6 @@
 ---
 title: "Get information about a managed disk"
-ms.date: 2017-01-30
+ms.date: 2017-06-15
 ms.prod: azure
 ms.service: managed-disks
 ms.topic: reference
@@ -26,7 +26,7 @@ For information about getting started with Azure REST operations including reque
 | subscriptionId | The identifier of your subscription where the managed disk is located. |
 | resourceGroup | The name of the resource group that contains the managed disk. |
 | diskName | The name of the disk that you want information about. |
-| api-version | The version of the API to use. The current version is 2016-04-30-preview. |
+| api-version | The version of the API to use. The current version is 2017-03-30. |
  
 ## Response  
 
@@ -50,8 +50,14 @@ The response includes an HTTP status code and a set of response headers.
 
 This response example includes all optional elements. Your actual response may not include all elements.
 
+*Api-version 2017-03-30*
+
 ```json
 { 
+  "managedBy": "/subscriptions/123caaa-123v-v211-a49f-f88ccac5bf88/resourceGroups/ResourceGroupName/providers/Microsoft.Compute/virtualMachines/TestVM414689371c88843d65ec",
+  "sku": {
+    "name": "Standard_LRS" 
+  },
   "accountType": "Standard_LRS", 
   "properties": { 
     "osType": "Windows", 
@@ -89,3 +95,19 @@ This response example includes all optional elements. Your actual response may n
 }    
 ```
  
+*Api-version 2016-04-30-preview*
+
+In this previous version of the API, the "managedBy" field was represented by "ownerId" and "sku.Name" was represented by "accountType".
+
+```json
+{    
+  "properties": { 
+    "ownerId": "/subscriptions/123caaa-123v-v211-a49f-f88ccac5bf88/resourceGroups/ResourceGroupName/providers/Microsoft.Compute/virtualMachines/TestVM414689371c88843d65ec",
+    "accountType": "Standard_LRS",
+    ...
+    ...
+    ...
+    "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk", 
+    "name": "myManagedDisk" 
+}    
+```

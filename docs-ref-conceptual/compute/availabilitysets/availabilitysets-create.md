@@ -1,7 +1,7 @@
 ---
 title: "Create an availability set"
 author: davidmu1
-ms.date: 2017-02-06
+ms.date: 2017-06-15
 ms.prod: azure
 ms.service: virtual-machines
 ms.topic: reference
@@ -25,9 +25,11 @@ For information about getting started with Azure REST operations including reque
 | subscriptionId | The identifier of your subscription where the availability set is being created. |
 | resourceGroup | The name of the resource group that will contain the availability set. |
 | availabilitySet | The name of the availability set to create. |
-| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. | 
+| apiVersion | The version of the API to use. The current version is 2017-03-30. | 
 
-```    
+*Api-version 2017-03-30*
+
+```json 
 {     
    "name": "myAVSet",     
    "type": "Microsoft.Compute/availabilitySets",     
@@ -42,7 +44,23 @@ For information about getting started with Azure REST operations including reque
    }     
 }    
 ```    
-    
+
+*Api-version 2016-04-30-preview*
+
+In the previous api version, the "sku.name" property was represented by "managed" property.
+
+```json
+{     
+   "name": "myAVSet",     
+   ...
+   ...
+   "properties": {     
+      ...
+      ...
+      "managed": true   
+   }     
+}   
+
 | Element name | Required | Type | Description |    
 |------------- |----------|------|-------------|    
 | name | Yes | String | Specifies the name of the availability set. |    
