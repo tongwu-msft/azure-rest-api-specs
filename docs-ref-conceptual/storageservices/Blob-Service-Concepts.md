@@ -46,7 +46,7 @@ You can use the REST API for the Blob service to upload, manage, organize, and d
   
  [Reliable Uploads to Blob Storage via an HTML5 Control](Reliable-Uploads-to-Blob-Storage-via-an-HTML5-Control.md)  
   
- [Deciding when to use Azure Blobs, Azure Files, or Azure Data Disks](Deciding-when-to-use-Azure-Blobs--Azure-Files--or-Azure-Data-Disks.md)  
+ [Deciding when to use Azure Blobs, Azure Files, or Azure Data Disks](/azure/storage/storage-deciding-when-to-use-blobs-files-or-disks)  
   
  [Using Blob Service Operations with Azure Premium Storage](Using-Blob-Service-Operations-with-Azure-Premium-Storage.md)  
   
