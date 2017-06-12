@@ -193,8 +193,14 @@ You can specify a hidden storage account of the requested supported type to be u
 ```
 
 *Api-version 2016-04-30-preview*
+
 ```json
-  "accountType": "Standard_LRS", 
+  "properties": {
+    ...
+    "accountType": "Standard_LRS", 
+    ...
+  }
+  
 ```
 
 You can assign tags for tracking purposes to the managed disks that you create by adding `tags` to the main body of the request:

@@ -60,6 +60,7 @@ In the previous api version, the "sku.name" property was represented by "managed
       "managed": true   
    }     
 }   
+```
 
 | Element name | Required | Type | Description |    
 |------------- |----------|------|-------------|    
