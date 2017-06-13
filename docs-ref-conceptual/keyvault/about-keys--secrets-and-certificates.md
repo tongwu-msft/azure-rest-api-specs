@@ -5,7 +5,7 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 06/07/2017
+ms.date: 06/13/2017
 ---
 # About keys, secrets, and certificates
 Azure Key Vault enables users to store and use cryptographic keys within the Microsoft Azure environment. Key Vault supports multiple key types and algorithms, and enables the use of Hardware Security Modules (HSM) for high value keys. In addition, Key Vault allows users to securely store secrets. Secrets are limited size octet objects with no specific semantics. Key Vault also supports certificates, which are built on top of keys and secrets and add an automated renewal feature.
