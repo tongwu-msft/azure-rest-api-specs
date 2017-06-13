@@ -5,7 +5,7 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 04/28/2017
+ms.date: 06/13/2017
 ---
 # Key operations
 
@@ -31,6 +31,8 @@ The Azure Key Vault REST API supports the following operations for key objects.
 - [Unwrap a key](../../docs-ref-autogen/keyvault/unwrapKey.json)
 
 ## Soft-delete operations
+
+The soft-delete feature suppports these operations for deleted keys
 
 - [Get deleted key](../../docs-ref-autogen/keyvault/GetDeletedKey.json)
 - [Get deleted keys](../../docs-ref-autogen/keyvault/GetDeletedKeys.json)
