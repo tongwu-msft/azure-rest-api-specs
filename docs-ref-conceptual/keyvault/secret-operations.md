@@ -1,13 +1,13 @@
 ---
 ms.assetid: cef1870f-eaea-418e-a730-22ba444825ba
-title: Secret operations | Microsoft Docs
+title: Azure Key Vault secret operations | Microsoft Docs
 ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
 ms.date: 06/13/2017
 ---
-# Secret operations
+# Azure Key Vault secret operations
 
 The Azure Key Vault REST API supports the following operations for secrets.
 

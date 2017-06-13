@@ -1,13 +1,13 @@
 ﻿---
 ms.assetid: 63a42254-f2ea-4beb-9aff-d23341006538
-title: Certificates and policies | Microsoft Docs
+title: Azure Key Vault certificates and policies | Microsoft Docs
 ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 04/28/2017
+ms.date: 06/13/2017
 ---
-# Certificates and policies
+# Azure Key Vault certificates and policies
 
 A certificate and policy are the two primary resources that comprise a Key Vault certificate. A policy may be used for multiple certificates and contains important information about how a certificate will behave.
 
@@ -15,7 +15,9 @@ Following are a list of the tasks with each certificates and certificate policie
 
 ## Tasks
 
- The Azure Key Vault REST API supports the following operations on certificates:  
+### Certificate operations
+
+ The Azure Key Vault REST API supports the following operations on certificates.  
 
 -   [Create a certificate ](../../docs-ref-autogen/keyvault/CreateCertificate.json)
 -   [Import a certificate](../../docs-ref-autogen/keyvault/ImportCertificate.json)  
@@ -25,6 +27,17 @@ Following are a list of the tasks with each certificates and certificate policie
 -   [Delete a certificate](../../docs-ref-autogen/keyvault/DeleteCertificate.json)  
 -   [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.json)  
 -   [Merge a certificate](../../docs-ref-autogen/keyvault/MergeCertificate.json)
+
+#### Soft-delete operations
+
+The soft-delete feature suppports these operations for deleted certificates
+
+- [Get deleted certificate](../../docs-ref-autogen/keyvault/GetDeletedCertificate.json)
+- [Get deleted certificates](../../docs-ref-autogen/keyvault/GetDeletedCertificates.json)
+- [Purge deleted certificate](../../docs-ref-autogen/keyvault/PurgeDeletedCertificate.json)
+- [Recover deleted certificate](../../docs-ref-autogen/keyvault/RecoverDeletedCertificate.json)
+
+### Certificate policy operations
 
  The following operations are available on a certificate policy:  
 
