@@ -5,7 +5,7 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 06/13/2017
+ms.date: 06/14/2017
 ---
 # Azure Key Vault certificates and policies
 
@@ -28,21 +28,23 @@ Following are a list of the tasks with each certificates and certificate policie
 -   [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.json)  
 -   [Merge a certificate](../../docs-ref-autogen/keyvault/MergeCertificate.json)
 
-#### Soft-delete operations
-
-The soft-delete feature suppports these operations for deleted certificates
-
-- [Get deleted certificate](../../docs-ref-autogen/keyvault/GetDeletedCertificate.json)
-- [Get deleted certificates](../../docs-ref-autogen/keyvault/GetDeletedCertificates.json)
-- [Purge deleted certificate](../../docs-ref-autogen/keyvault/PurgeDeletedCertificate.json)
-- [Recover deleted certificate](../../docs-ref-autogen/keyvault/RecoverDeletedCertificate.json)
-
 ### Certificate policy operations
 
  The following operations are available on a certificate policy:  
 
 -   [Get a certificate policy](../../docs-ref-autogen/keyvault/GetCertificatePolicy.json)  
 -   [Update a certificate policy](../../docs-ref-autogen/keyvault/UpdateCertificatePolicy.json)
+
+### Soft-delete operations
+
+The soft-delete feature suppports these operations for deleted certificates:
+
+- [Get deleted certificate](../../docs-ref-autogen/keyvault/GetDeletedCertificate.json)
+- [Get deleted certificates](../../docs-ref-autogen/keyvault/GetDeletedCertificates.json)
+- [Purge deleted certificate](../../docs-ref-autogen/keyvault/PurgeDeletedCertificate.json)
+- [Recover deleted certificate](../../docs-ref-autogen/keyvault/RecoverDeletedCertificate.json)
+
+For more information on Key Vault's soft-delete feature, see [Azure Key Vault soft-delete feature overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete).
 
 ## Certificate and policy resource details
 
