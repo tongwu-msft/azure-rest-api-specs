@@ -28,6 +28,16 @@ Following are a list of the tasks with each certificates and certificate policie
 -   [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.json)  
 -   [Merge a certificate](../../docs-ref-autogen/keyvault/MergeCertificate.json)
 
+### Certificate managment operations
+
+These REST operations are for the management of certificate operations associated with a Key Vault certificate.
+
+-   [Delete certificate operation](../../docs-ref-autogen/keyvault/DeleteCertificateOperation.json)
+-   [Get certificate operation](../../docs-ref-autogen/keyvault/GetCertificateOperation.json)
+-   [Update certificate operation](../../docs-ref-autogen/keyvault/UpdateCertificateOperation.json)
+
+For usage detail and examples, see [Monitor and manage certificate creation](https://docs.microsoft.com/rest/api/keyvault/create-certificate-scenarios).
+
 ### Certificate policy operations
 
  The following operations are available on a certificate policy:  
