@@ -20,7 +20,7 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 
 -   [Objects, identifiers and, versioning](about-keys--secrets-and-certificates.md#BKMK_ObjId)  
 
- **About keys**
+**About keys**
 
 -   [Keys and key types](about-keys--secrets-and-certificates.md#BKMK_KeyTypes)  
 
