@@ -9,7 +9,7 @@ ms.date: 06/14/2017
 ---
 # Azure Key Vault certificates and policies
 
-A certificate and policy are the two primary resources that comprise a Key Vault certificate. A policy may be used for multiple certificates and contains important information about how a certificate will behave.
+A certificate and policy are the two primary resources that comprise a Key Vault certificate. A policy may be used for multiple certificates and contains important information about how a certificate behaves.
 
 Following are a list of the tasks with each certificates and certificate policies.
 
@@ -28,7 +28,7 @@ Following are a list of the tasks with each certificates and certificate policie
 -   [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.json)  
 -   [Merge a certificate](../../docs-ref-autogen/keyvault/MergeCertificate.json)
 
-### Certificate managment operations
+### Certificate management operations
 
 These REST operations are for the management of certificate operations associated with a Key Vault certificate.
 
@@ -47,7 +47,7 @@ For usage detail and examples, see [Monitor and manage certificate creation](htt
 
 ### Soft-delete operations
 
-The soft-delete feature suppports these operations for deleted certificates:
+The soft-delete feature supports these operations for deleted certificates:
 
 - [Get deleted certificate](../../docs-ref-autogen/keyvault/GetDeletedCertificate.json)
 - [Get deleted certificates](../../docs-ref-autogen/keyvault/GetDeletedCertificates.json)
@@ -62,32 +62,32 @@ Certificates and their supporting policies are complex resources with the follow
 
 ### Certificate resource
 
-A certificate resource is composed of the following elements.
+A certificate resource is composed of the following elements:
 
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
-|Id|String|Versioned external id of the kv certificate.|  
-|Kid|String|Versioned external id of key of kv certificate|  
-|Sid|String|Versioned external id of secret of kv certificate|  
+|Id|String|Versioned external id of the Key Vault certificate.|  
+|Kid|String|Versioned external id of key of Key Vault certificate|  
+|Sid|String|Versioned external id of secret of Key Vault certificate|  
 |x5t|String|Readonly. The "x5t" (X.509 Certificate SHA-1 Thumbprint) member is a base64 url encoded SHA-1 thumbprint (a.k.a. digest) of the DER encoding of an X.509 certificate [RFC5280].|  
 |Cer|String|Readonly. X509 public certificate in base64|  
 |Attributes||Complex type containing attributes associated with the certificate object.|  
-|Attributes.Enabled|Boolean|Default is true. Specifies whether the certificate is enabled for non-management operations (e.g. export).|  
-|Attributes.Nbf|IntDate|Read only field for client. Nbf date of x509 certificate. The x509 certificate’s not before is used to fill this nbf value.|  
-|Attributes.Exp|IntDate|Read only field for client. Exp date of x509 certificate. The x509 certificate’s expiry  is used to fill this exp value.|  
-|Attributes.Created|IntDate|Read only field for the client. This contains the date when certificate object was created.|  
-|Attributes.Updated|IntDate|Read only field for the client. This contains the date when certificate object was last updated.|  
+|Attributes.Enabled|Boolean|Default is true. Specifies whether the certificate is enabled for non-management operations (for example, export).|  
+|Attributes.Nbf|IntDate|Read-only field for client. Nbf date of x509 certificate. The x509 certificate’s not before is used to fill this nbf value.|  
+|Attributes.Exp|IntDate|Read-only field for client. Exp date of x509 certificate. The x509 certificate’s expiry  is used to fill this exp value.|  
+|Attributes.Created|IntDate|Read-only field for the client. The date when certificate object was created.|  
+|Attributes.Updated|IntDate|Read-only field for the client. The date when certificate object was last updated.|  
 |Tags|Complex type|user provided set of key value pairs associated with certificate object|  
 
 ### Policy resource  
 
-A policy resource is used to aggregate several complex types used by a KV certificate. A policy may be referenced by more than one KV certificate.
+A policy resource is used to aggregate several complex types used by a Key Vault certificate. A policy may be referenced by more than one Key Vault certificate.
 
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |Id|String|Identity of the certificate policy|  
-|x509_props||Complex type containing subjectname, subject alternate names etc used for create a csr.|  
-|key_props||Complex type containing kty, key_length, exportable and reuse_key fields. These fields are used to generate a key.|  
+|x509_props||Complex type containing *subjectname*, subject alternate names etc. used for create a csr.|  
+|key_props||Complex type containing kty, key_length, exportable, and reuse_key fields. These fields are used to generate a key.|  
 |secret_props||Complex type containing secret properties such as content type used for generating a secret.|  
 |lifetime_actions||Complex type containing lifetime actions. Each lifetime action contains<br /><br /> Trigger – specified via days before expiry or lifetime span percentage<br /><br /> Action – specifying action type – EmailContacts or AutoRenew.|  
 |Issuer||Information about the x509 certificate issuer.|  
@@ -114,7 +114,7 @@ Elements of a policy's key.
 |kty|String|Key Type. Supported values = RSA or RSA-HSM (optional). Default to RSA|  
 |key_len|number (int)|Key length. Only supported value is 2048 for now. (optional) Default value is 2048|  
 |exportable|Boolean|Specifies if private key is exportable. This value must be false with kty = RSA-HSM. (optional). Defaults to true when kty is RSA and false for RSA-HSM|  
-|reuse_key|Boolean|Specifies if to reuse key from the current KV Certificate when create a new one.<br /><br /> This value is ignored when creating KV Certificate for the first time, or importing a certificate.<br /><br /> Default value is false.|  
+|reuse_key|Boolean|Specifies if to reuse key from the current Key Vault certificate when create a new one.<br /><br /> This value is ignored when creating Key Vault certificate for the first time, or importing a certificate.<br /><br /> Default value is false.|  
 
 #### Secret props
  Elements of a policy's secret.
@@ -168,9 +168,9 @@ Elements of a policy's key.
 
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
-|Enabled|Boolean|Default is true. Specifies whether the policy is enabled or disabled. Disabling a policy disables the lifetime management on the KV certificate|  
-|Created|IntDate|Read only field for the client. This contains the date when the policy was created.|  
-|Updated|IntDate|Read only field for the client. This contains the date when the policy was last updated.|  
+|Enabled|Boolean|Default is true. Specifies whether the policy is enabled or disabled. Disabling a policy disables the lifetime management on the Key Vault certificate|  
+|Created|IntDate|Read-only field for the client. This contains the date when the policy was created.|  
+|Updated|IntDate|Read-only field for the client. This contains the date when the policy was last updated.|  
 
 
 
