@@ -5,7 +5,7 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 06/13/2017
+ms.date: 06/14/2017
 ---
 # Azure Key Vault key operations
 
@@ -38,6 +38,8 @@ The soft-delete feature suppports these operations for deleted keys
 - [Get deleted keys](../../docs-ref-autogen/keyvault/GetDeletedKeys.json)
 - [Purge deleted key](../../docs-ref-autogen/keyvault/PurgeDeletedKey.json)
 - [Recover deleted key](../../docs-ref-autogen/keyvault/RecoverDeletedKey.json)
+
+For more information on Key Vault's soft-delete feature, see [Azure Key Vault soft-delete feature overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete).
 
 ## See Also
 

@@ -151,7 +151,6 @@
 ### [Setting Timeouts for File Service Operations](setting-timeouts-for-file-service-operations.md)
 ### [Specifying the Range Header for File Service Operations](specifying-the-range-header-for-file-service-operations.md)
 ### [Features Not Supported By the Azure File Service](features-not-supported-by-the-azure-file-service.md)
-### [Deciding when to use Azure Blobs, Azure Files, or Azure Data Disks](deciding-when-to-use-azure-blobs--azure-files--or-azure-data-disks.md)
 ## [Operations on the Account (File Service)](operations-on-the-account--file-service-.md)
 ### [List Shares](list-shares.md)
 ### [Get File Service Properties](get-file-service-properties.md)
