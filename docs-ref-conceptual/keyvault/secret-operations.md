@@ -5,7 +5,7 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 06/13/2017
+ms.date: 06/14/2017
 ---
 # Azure Key Vault secret operations
 
@@ -29,9 +29,7 @@ The soft-delete feature suppports these operations for deleted secrets
 - [Purge deleted secret](../../docs-ref-autogen/keyvault/PurgeDeletedSecret.json)
 - [Recover deleted secret](../../docs-ref-autogen/keyvault/RecoverDeletedSecret.json)
 
-
-
-
+For more information on Key Vault's soft-delete feature, see [Azure Key Vault soft-delete feature overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete).
 
 ## See Also
 [Common parameters and headers](common-parameters-and-headers.md)
