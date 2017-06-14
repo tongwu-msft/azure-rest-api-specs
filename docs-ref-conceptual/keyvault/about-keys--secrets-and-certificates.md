@@ -12,7 +12,7 @@ Azure Key Vault enables users to store and use cryptographic keys within the Mic
 
 For more general information about Azure Key Vault, see [What is Azure Key Vault?](/azure/key-vault/key-vault-whatis)
 
- This topic outlines:  
+**Key Vault general details**
 
 -   [Supporting standards](about-keys--secrets-and-certificates.md#BKMK_Standards)  
 
@@ -20,7 +20,7 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 
 -   [Objects, identifiers and, versioning](about-keys--secrets-and-certificates.md#BKMK_ObjId)  
 
- ## Key Vault keys
+ **About keys**
 
 -   [Keys and key types](about-keys--secrets-and-certificates.md#BKMK_KeyTypes)  
 
@@ -34,7 +34,7 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 
 -   [Key tags](about-keys--secrets-and-certificates.md#BKMK_Keytags)  
 
- ## Key Vault secrets 
+**About secrets** 
 
 -   [Working with Secrets](about-keys--secrets-and-certificates.md#BKMK_WorkingWithSecrets)  
 
@@ -44,7 +44,7 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 
 -   [Secret Access Control](about-keys--secrets-and-certificates.md#BKMK_SecretAccessControl)  
 
- ## Key Vault certificates 
+**About certificates**
 
 -   [Composition of a Certificate](#BKMK_CompositionOfCertificate)  
 
@@ -59,6 +59,10 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 -   [Certificate Access Control](#BKMK_CertificateAccessControl)  
 
 ---
+
+## Key Vault general details
+
+The following sections offer general information applicable across the implemenation of the Azure Key Vault service.
 
 ###  <a name="BKMK_Standards"></a> Supporting standards
 
