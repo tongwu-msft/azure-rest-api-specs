@@ -67,8 +67,8 @@ A certificate resource is composed of the following elements:
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |Id|String|Versioned external id of the Key Vault certificate.|  
-|Kid|String|Versioned external id of key of Key Vault certificate|  
-|Sid|String|Versioned external id of secret of Key Vault certificate|  
+|Kid|String|Versioned external id of the key associated with the Key Vault certificate|  
+|Sid|String|Versioned external id of secret associated with the Key Vault certificate|  
 |x5t|String|Readonly. The "x5t" (X.509 Certificate SHA-1 Thumbprint) member is a base64 url encoded SHA-1 thumbprint (a.k.a. digest) of the DER encoding of an X.509 certificate [RFC5280].|  
 |Cer|String|Readonly. X509 public certificate in base64|  
 |Attributes||Complex type containing attributes associated with the certificate object.|  
@@ -95,7 +95,7 @@ A policy resource is used to aggregate several complex types used by a Key Vault
 
  #### D509 props  
 
- Some of these fields are required on create as specified. On import the values are parsed from imported x509 certificate.  
+ Some of these fields are required on create as specified. On import the values are parsed from imported x509 certificate. CA is an abbreviation for certificate authority.  
 
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
@@ -103,7 +103,7 @@ A policy resource is used to aggregate several complex types used by a Key Vault
 |Sans||Complex type group for subject alternate names. If this value is absent, then “subject” must not be absent on create.<br /><br /> emails - array - Array of emails addresses<br /><br /> dns_names - array - X500 Distinguished Names.<br /><br /> upns - array - Array of user principal names|  
 |Ekus|Array|(optional) Enhanced key usage values to put in the csr. If not specified, ServerAuthEku = "1.3.6.1.5.5.7.3.1" and  ClientAuthEku = "1.3.6.1.5.5.7.3.2" are put by default at create (not import). Can be an empty array.|  
 |key_usage|Array|(optional) Possible values: digitalSignature nonRepudiation keyEncipherment dataEncipherment keyAgreement keyCertSign cRLSign encipherOnly decipherOnly Can be an empty array. (Optional). Defaults to [digitalSignature, keyEncipherment] on create (not import)|  
-|basic_contraints|Complex type|Complex type for basic constraints. Optional. Defaults to values for an end entity cert on create (not import)<br /><br /> ca: boolean - (optional) indicates if the x509 cert is a ca cert path_len_contraint: number (int) - (optional) number of allowed children if x509 cert is ca cert.|  
+|basic_contraints|Complex type|Complex type for basic constraints. Optional. Defaults to values for an end entity certificate on create (not import)<br /><br /> CA: boolean - (optional) indicates if the x509 cert is a CA cert path_len_contraint: number (int) - (optional) number of allowed children if x509 cert is CA cert.|  
 |validity_months|number (int)|Expected validity of certificate in months. Optional. Default is 12 on create. On import takes the value from imported certificate.|  
 
  #### Key props 
