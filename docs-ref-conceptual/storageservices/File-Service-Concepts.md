@@ -40,7 +40,7 @@ This topic contains concepts about the File Service REST API.
   
 -   [Features Not Supported By the Azure File Service](Features-Not-Supported-By-the-Azure-File-Service.md)  
   
--   [Deciding when to use Azure Blobs, Azure Files, or Azure Data Disks](/azure/storage/storage-deciding-when-to-use-blobs-files-or-disks)
+-   [Deciding when to use Azure Blobs, Azure Files, or Azure Data Disks](/azure/storage/storage-decide-blobs-files-disks)
   
 ## See Also  
  [File Service REST API](File-Service-REST-API.md)
