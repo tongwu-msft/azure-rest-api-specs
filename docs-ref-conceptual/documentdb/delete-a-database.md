@@ -1,5 +1,5 @@
 ---
-title: "Delete a Database1"
+title: "Delete a Database"
 ms.custom: ""
 ms.date: "2016-02-25"
 ms.prod: "azure"
