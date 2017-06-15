@@ -9,7 +9,7 @@ ms.manager: jhubbard
 
 ---
 
-# Common headers for the Azure Cosmos DB: DocumentDB Resource Provider REST API
+# Common headers for the Azure Cosmos DB: REST Resource Provider for the DocumentDB API
 
 The following are the common request and response headers for the Resource Provider REST API.
 
@@ -34,5 +34,5 @@ The following are the common request and response headers for the Resource Provi
 ## See Also
 
 - [Azure Cosmos DB](https://azure.microsoft.com/services/cosmos-db/)
-- [Azure DocumentDB REST API](/rest/api/documentdb)
-- [Azure DocumentDB Resource Provider REST API](/rest/api/documentdbresourceprovider)
+- [Azure Cosmos DB REST API](/rest/api/documentdb)
+- [Azure Cosmos DB: REST Resource Provider for the DocumentDB API](/rest/api/documentdbresourceprovider)
