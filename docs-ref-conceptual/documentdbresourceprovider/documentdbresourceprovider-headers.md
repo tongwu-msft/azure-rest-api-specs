@@ -9,7 +9,7 @@ ms.manager: jhubbard
 
 ---
 
-# Common headers for the Azure Cosmos DB: REST Resource Provider for the DocumentDB API
+# Azure Cosmos DB: Common headers for the REST Resource Provider
 
 The following are the common request and response headers for the Resource Provider REST API.
 
