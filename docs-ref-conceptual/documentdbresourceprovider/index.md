@@ -1,6 +1,6 @@
 ---
 ms.assetid: 7b406a24-3966-484a-b926-af54421b1dc1
-ms.title: Azure Cosmos DB: REST Resource Provider for DocumentDB API
+ms.title: "Azure Cosmos DB: REST Resource Provider for DocumentDB API"
 ms.prod: azure
 ms.service: cosmos-db
 author: mimig1
