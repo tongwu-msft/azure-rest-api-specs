@@ -1377,6 +1377,8 @@
 ## [Firewall Rules](sql/FirewallRules.json)
 ## [Operations](sql/Operations.json)
 ## [Recommended Elastic Pools](sql/RecommendedElasticPools.json)
+## [Recoverable Databases](sql/RecoverableDatabases.json)
+## [Restorable Dropped Databases](sql/RestorableDroppedDatabases.json)
 ## [Server Azure A D Administrators](sql/ServerAzureADAdministrators.json)
 ## [Servers](sql/Servers.json)
 ## [Servers - Sql](sql/Servers - Sql.json)
