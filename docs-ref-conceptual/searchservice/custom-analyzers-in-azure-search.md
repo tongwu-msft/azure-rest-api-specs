@@ -186,7 +186,7 @@ You can use the **Test Analyzer operation** in the [Preview REST API](https://do
         "position": 1
       },
       {
-        "token": "opossite",
+        "token": "opposite",
         "startOffset": 16,
         "endOffset": 24,
         "position": 2
