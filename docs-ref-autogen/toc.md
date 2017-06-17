@@ -1382,7 +1382,7 @@
 ## [Server Azure A D Administrators](sql/ServerAzureADAdministrators.json)
 ## [Servers](sql/Servers.json)
 ## [Servers - Sql](sql/Servers - Sql.json)
-## [Vnet Firewall Rules](sql/VnetFirewallRules.json)
+## [Virtual Network Rules](sql/VirtualNetworkRules.json)
 # [Storage Import-Export](../docs-ref-conceptual/storageimportexport/index.md)
 ## [Get Location](storageimportexport/GetLocation.json)
 ## [Jobs](storageimportexport/Jobs.json)
