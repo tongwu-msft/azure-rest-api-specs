@@ -280,7 +280,7 @@
 ### [Create a Database](../docs-ref-conceptual/documentdb/create-a-database.md)
 ### [List Databases](../docs-ref-conceptual/documentdb/list-databases.md)
 ### [Get a Database](../docs-ref-conceptual/documentdb/get-a-database.md)
-### [Delete a Database1](../docs-ref-conceptual/documentdb/delete-a-database1.md)
+### [Delete a Database](../docs-ref-conceptual/documentdb/delete-a-database.md)
 ## [Collections](../docs-ref-conceptual/documentdb/collections.md)
 ### [Create a Collection](../docs-ref-conceptual/documentdb/create-a-collection.md)
 ### [List Collections](../docs-ref-conceptual/documentdb/list-collections.md)
