@@ -34,7 +34,7 @@ translation.priority.mt:
 * [Create a Database](create-a-database.md)  
 * [List Databases](list-databases.md)  
 * [Get a Database](get-a-database.md)  
-* [Delete a Database](delete-a-database1.md)
+* [Delete a Database](delete-a-database.md)
 * [Query Databases](querying-documentdb-resources-using-the-rest-api.md)  
   
 ## Documents  
