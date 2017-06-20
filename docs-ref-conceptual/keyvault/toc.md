@@ -8,6 +8,7 @@
 #### [Monitor and manage certificate creation](create-certificate-scenarios.md)
 ## [Certificate issuers](certificate-issuers.md)
 ## [Certificate contacts](certificate-contacts.md)
+# [Storage account key operations](storage-account-key-operations.md)
 # [About Keys, Secrets and Certificates](about-keys--secrets-and-certificates.md)
 # [Authentication, Requests and Responses](authentication--requests-and-responses.md)
 # [Common parameters and headers](common-parameters-and-headers.md)

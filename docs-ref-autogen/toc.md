@@ -482,6 +482,7 @@
 ##### [Monitor and manage certificate creation](../docs-ref-conceptual/keyvault/create-certificate-scenarios.md)
 ### [Certificate issuers](../docs-ref-conceptual/keyvault/certificate-issuers.md)
 ### [Certificate contacts](../docs-ref-conceptual/keyvault/certificate-contacts.md)
+## [Storage account key operations](../docs-ref-conceptual/keyvault/storage-account-key-operations.md)
 ## [About Keys, Secrets and Certificates](../docs-ref-conceptual/keyvault/about-keys--secrets-and-certificates.md)
 ## [Authentication, Requests and Responses](../docs-ref-conceptual/keyvault/authentication--requests-and-responses.md)
 ## [Common parameters and headers](../docs-ref-conceptual/keyvault/common-parameters-and-headers.md)
