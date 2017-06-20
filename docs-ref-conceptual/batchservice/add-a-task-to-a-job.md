@@ -1,4 +1,4 @@
----
+﻿---
 title: "Add a task to a job | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -28,7 +28,7 @@ manager: "timlt"
 
  The following example shows the optional elements for defining a task:
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.core.windows.net/$metadata#tasks/@Element",
   "id":"mytask1",

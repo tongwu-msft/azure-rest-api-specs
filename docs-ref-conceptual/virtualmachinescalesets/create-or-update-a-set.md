@@ -1,4 +1,4 @@
----
+﻿---
 title: "Create or update a scale set"
 ms.custom: ""
 ms.date: "2017-02-07"
@@ -574,7 +574,7 @@ The following example shows the request to create a new virtual machine scale se
 
 The following example shows the additional plan element that is required when you use a marketplace image:
 
-```
+```json
 {
   "id": "/subscriptions/{subscription-id/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/virtualMachineScaleSets/myvmss1",
   "name": "myvmss1",

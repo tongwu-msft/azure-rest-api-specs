@@ -33,8 +33,7 @@ manager: "timlt"
 ## Response
  Status code: 200. For more information, see [Batch Status and Error Codes](../batchservice/batch-status-and-error-codes.md).
 
-```
-
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#usagemetrics",
   "value":[

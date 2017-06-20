@@ -30,7 +30,7 @@ For information about getting started with Azure REST operations including reque
  
 Status code: If successful, the operation returns 200 (OK); otherwise 502 (Bad Gateway) is returned.    
     
-```
+```json
 {    
   "value": [    
     {    

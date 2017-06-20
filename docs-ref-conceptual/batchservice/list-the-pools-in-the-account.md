@@ -1,4 +1,4 @@
----
+﻿---
 title: "List the pools in the account | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -44,7 +44,7 @@ manager: "timlt"
 
  The following example shows information about a pool that has an autoscale formula that scales based on the CPU percentage of the compute nodes:
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#pools",
   "value": [ {

@@ -745,7 +745,7 @@ x-ms-client-request-id        : 00000000-1111-1111-1111-000000000000
 
 Body: 
 
-```
+```json
 {
   "top": 5
 }
@@ -915,7 +915,7 @@ X-Powered-By                  : ASP.NET
   
 ### Using filter in the request body
 
-```
+```json
 {
   "filter": "(ActivityName eq 'BlobToSqlCopyActivity') and (PipelineName eq 'DP_WikipediaSamplePipeline')"
 }
