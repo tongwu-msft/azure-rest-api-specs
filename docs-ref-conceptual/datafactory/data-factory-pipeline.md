@@ -32,8 +32,7 @@ Creates a new pipeline, or updates the content of an existing pipeline.
   
  The format of the request body is as follows:  
   
-```  
-  
+```json
 {  
     "name": <name>,  
     "properties": {  
@@ -83,8 +82,7 @@ Creates a new pipeline, or updates the content of an existing pipeline.
   
 #### Response Body  
   
-```  
-  
+```json
 {  
     "name": <name>,  
     "id": <ID>,  
@@ -126,8 +124,7 @@ x-ms-client-request-id        : 00000000-1111-1111-1111-000000000000
   
  and the following body:  
   
-```  
-  
+```json
 {  
   "name": "ADFTutorialPipeline",  
   "properties": {  
@@ -203,8 +200,7 @@ client-tracking-id            : 51
   
  The response includes the following XML body:  
   
-```  
-  
+```json
 Body:  
 {  
   "name": "ADFTutorialPipeline",  
@@ -434,8 +430,7 @@ Gets information about the specified pipeline.
 #### Response Body  
  Response body depends on your pipeline property, for more information about pipelines, see [Pipelines and Activities](https://azure.microsoft.com/en-us/documentation/articles/data-factory-create-pipelines/).  
   
-```  
-  
+```json
 {  
     "name": <name>,  
     "id": <ID>,  
@@ -500,8 +495,7 @@ X-Powered-By                  : ASP.NET
   
  The response includes the following XML body.  
   
-```  
-  
+```json
 {  
   "name": "ADFTutorialPipeline",  
   "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ADF/providers/Microsoft.DataFactory/datafactories/SPRestDataFactory/datapipelines/ADFTutorialPipeline",  
@@ -626,8 +620,7 @@ Lists information about all linked services in a data factory.
   
 #### Response Body  
   
-```  
-  
+```json
 {  
     "value": [  
     {  
@@ -673,7 +666,7 @@ Lists information about all linked services in a data factory.
  
 If there are more than 100 records, you will get 100 records at a time with a nextLink:
 
-```  
+```json
 {
     "value": [  
     {  
@@ -740,8 +733,7 @@ X-Powered-By                  : ASP.NET
   
  The response includes the following XML body.  
   
-```  
-  
+```json
 {  
   "value": [  
     {  
@@ -917,8 +909,7 @@ Lists the first page of activity window instances associated with a pipeline alo
   
 #### Response Body  
   
-```  
-  
+```json
 {  
     "value": {  
     "activityWindows": [  
@@ -1002,8 +993,7 @@ X-Powered-By                  : ASP.NET
   
  The response includes the following XML body.  
   
-```  
-  
+```json
 "value": {  
     "activityWindows": [  
       {  
@@ -1138,8 +1128,7 @@ Lists the first page of activity window instances associated with an activity al
   
 #### Response Body  
   
-```  
-  
+```json
 {  
     "value": {  
     "activityWindows": [  
@@ -1223,8 +1212,7 @@ X-Powered-By                  : ASP.NET
   
  The response includes the following XML body.  
   
-```  
-  
+```json
 "value": {  
     "activityWindows": [  
       {  

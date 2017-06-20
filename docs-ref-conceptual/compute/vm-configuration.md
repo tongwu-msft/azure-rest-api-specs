@@ -46,7 +46,7 @@ This example shows how to create a VM from a specialized (non-sysprepped) VHD. T
 
 > Note: In this case osProfile is not needed since all OS properties such as username/password as persisted in the VHD when it is not generalized.
 
-```
+```json
 "storageProfile": {
   "osDisk": {
     "name": "osdisk",
@@ -86,7 +86,7 @@ The following example shows the additional plan element that is required when yo
 
 The following example shows the linuxConfiguation element that is required when you are creating a Linux virtual machine.
 
-```
+```json
 "osProfile": {
   "computerName": "virtualMachineName",
   "adminUsername": "username",
@@ -108,7 +108,7 @@ The following example shows the linuxConfiguation element that is required when 
 
 The following example shows the licenseType element that is used when the image or disk was licensed on-premises.
 
-```
+```json
 "properties": {  
    "licenseType": "Windows_Server",
    "availabilitySet": {  

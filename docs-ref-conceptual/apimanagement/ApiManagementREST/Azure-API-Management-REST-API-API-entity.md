@@ -162,7 +162,7 @@ This topic describes how to manage APIs and their operations using the API Manag
   "count": 4,  
   "nextLink": null  
 }  
-```  
+```
   
 #### 400 Bad Request  
  Request validation failed.  
@@ -231,7 +231,7 @@ This topic describes how to manage APIs and their operations using the API Manag
     "query": "subscription-key"  
   }  
 }  
-```  
+```
   
 ##### Sample response body with export=true in application/json  
   
@@ -431,7 +431,7 @@ eed\": 125,\r\n\t\t\t\"avgSpeed\": 90,\r\n\t\t\t\"speedUnit\": \"mph\"\r\n\t\t}"
     "query": "subscription-key"  
   }  
 }  
-```  
+```
   
 ##### Sample response body with export=true in application/vnd.sun.wadl+xml  
   
@@ -526,7 +526,7 @@ eed\": 125,\r\n\t\t\t\"avgSpeed\": 90,\r\n\t\t\t\"speedUnit\": \"mph\"\r\n\t\t}"
         </resource>  
     </resources>  
 </application>  
-```  
+```
   
 ##### Sample response body with export=true in application/vnd.swagger.doc+json  
   
@@ -679,7 +679,7 @@ eed\": 125,\r\n\t\t\t\"avgSpeed\": 90,\r\n\t\t\t\"speedUnit\": \"mph\"\r\n\t\t}"
     "description": "Echoes back response headers and body."  
   }  
 }  
-```  
+```
   
 #### 400 Bad Request  
  Request validation failed.  
@@ -981,7 +981,7 @@ eed\": 125,\r\n\t\t\t\"avgSpeed\": 90,\r\n\t\t\t\"speedUnit\": \"mph\"\r\n\t\t}"
   "count": 6,  
   "nextLink": null  
 }  
-```  
+```
   
 #### 400 Bad Request  
  Request validation failed.  
@@ -1073,7 +1073,7 @@ eed\": 125,\r\n\t\t\t\"avgSpeed\": 90,\r\n\t\t\t\"speedUnit\": \"mph\"\r\n\t\t}"
     }  
   ]  
 }  
-```  
+```
   
 #### 400 Bad Request  
  Request validation failed.  
@@ -1314,7 +1314,7 @@ eed\": 125,\r\n\t\t\t\"avgSpeed\": 90,\r\n\t\t\t\"speedUnit\": \"mph\"\r\n\t\t}"
   </outbound>  
 </policies>  
   
-```  
+```
   
 #### 400 Bad Request  
  Request validation failed.  
@@ -1400,7 +1400,7 @@ eed\": 125,\r\n\t\t\t\"avgSpeed\": 90,\r\n\t\t\t\"speedUnit\": \"mph\"\r\n\t\t}"
   </outbound>  
 </policies>  
   
-```  
+```
   
 ### Responses  
  This operation has the following responses.  
@@ -1503,7 +1503,7 @@ eed\": 125,\r\n\t\t\t\"avgSpeed\": 90,\r\n\t\t\t\"speedUnit\": \"mph\"\r\n\t\t}"
     <xml-to-json apply="content-type-xml" consider-accept-header="true" kind="direct"/>  
   </outbound>  
 </policies>  
-```  
+```
   
 #### 400 Bad Request  
  Request validation failed.  
@@ -1581,7 +1581,7 @@ eed\": 125,\r\n\t\t\t\"avgSpeed\": 90,\r\n\t\t\t\"speedUnit\": \"mph\"\r\n\t\t}"
     <xml-to-json apply="content-type-xml" consider-accept-header="true" kind="direct"/>  
   </outbound>  
 </policies>  
-```  
+```
   
 ### Responses  
  This operation has the following responses.  

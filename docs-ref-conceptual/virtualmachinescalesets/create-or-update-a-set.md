@@ -37,7 +37,7 @@ For information about getting started with Azure REST operations including reque
 
 The following example shows the request to create a new virtual machine scale set using managed disks:
 
-```    
+```json
 {     
   "tags": {    
     "key": "value"          
@@ -165,7 +165,7 @@ The following example shows the request to create a new virtual machine scale se
 
 The following example shows the request to create a new virtual machine scale set with an unmanged disk and a storage account:    
     
-```    
+```json
 {     
   "tags": {    
     "key": "value"          
@@ -470,7 +470,7 @@ The following example shows the request to create a new virtual machine scale se
     
  The following example shows a request to update a virtual machine scale set:    
     
-```    
+```json
 {     
   "tags": {    
     "key": "value"          
