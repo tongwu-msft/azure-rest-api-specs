@@ -24,7 +24,7 @@ Azure Key Vault's implementation of storage account keys also removes the need f
 - [Set a SAS definition](../../docs-ref-autogen/keyvault/SetSasDefinition.json)
 - [Update a SAS definition](../../docs-ref-autogen/keyvault/UpdateSasDefinition.json)
 - [Get a SAS definition](../../docs-ref-autogen/keyvault/GetSasDefinition.json)
-- [Set a SAS definitions](../../docs-ref-autogen/keyvault/SetSasDefinitions.json)
+- [Set a SAS definition](../../docs-ref-autogen/keyvault/SetSasDefinition.json)
 - [Delete a SAS definition](../../docs-ref-autogen/keyvault/DeleteSasDefinition.json)
 
 For more information on Key Vault's storage account keys, see [Azure Key Vault storage account keys overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-storage-keys).
