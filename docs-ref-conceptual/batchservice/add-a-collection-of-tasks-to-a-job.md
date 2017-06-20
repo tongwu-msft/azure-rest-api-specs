@@ -276,7 +276,7 @@ The default is **taskCompletion**.|
 
  The following example shows the result of two tasks added successfully and one task with an error "TaskExists":
 
- ```
+ ```json
  {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#taskaddresult",
   "value":[

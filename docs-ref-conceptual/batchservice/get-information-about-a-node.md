@@ -1,4 +1,4 @@
----
+﻿---
 title: "Get information about a node | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -29,8 +29,7 @@ manager: "timlt"
 ## Response
  Status code: 200. For more information, see [Batch Status and Error Codes](../batchservice/batch-status-and-error-codes.md).
 
-```
-
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#nodes/@Element",
   "id":"tvm-2167304207_2-20140919t215614z",

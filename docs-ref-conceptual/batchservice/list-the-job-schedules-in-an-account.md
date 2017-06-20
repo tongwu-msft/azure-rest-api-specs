@@ -1,4 +1,4 @@
----
+﻿---
 title: "List the job schedules in an account | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -40,8 +40,7 @@ manager: "timlt"
 ## Response
  Status code: 200. For more information, see [Batch Status and Error Codes](../batchservice/batch-status-and-error-codes.md).
 
-```
-
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#jobschedules",
   "value": [ {

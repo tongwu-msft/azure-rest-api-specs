@@ -29,8 +29,7 @@ manager: "timlt"
 
  The following example shows a start task being added to the pool:
 
-```
-
+```json
 {
   "startTask": {
     "commandLine":"myprogram.exe",
