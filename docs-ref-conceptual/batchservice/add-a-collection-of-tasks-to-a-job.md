@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Add a collection of tasks to a job | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
