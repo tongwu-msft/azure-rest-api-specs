@@ -1,4 +1,4 @@
----
+﻿---
 title: "Add a pool to an account | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -58,7 +58,7 @@ manager: "timlt"
 
  The following example shows a request to add a pool with virtual machine configuration \(IaaS\) and without autoscaling enabled, without installing a start task and without installing certificates. See the examples later in this page for adding these optional elements.
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#pools/@Element",
   "id":"mypool1",

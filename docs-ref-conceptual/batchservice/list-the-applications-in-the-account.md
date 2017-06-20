@@ -29,7 +29,7 @@ manager: "timlt"
 
  The following example shows a sample list of application summaries:
 
-```
+```json
 {
   "value": [ {
     "id":"litware",

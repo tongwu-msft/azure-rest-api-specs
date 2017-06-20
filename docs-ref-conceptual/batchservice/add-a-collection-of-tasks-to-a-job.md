@@ -1,4 +1,4 @@
----
+﻿---
 title: "Add a collection of tasks to a job | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -28,7 +28,7 @@ Replace {job-id} with the id of the job to which the tasks are to be added.
 
 The following example shows the optional elements for adding a collection of tasks:
 
-```
+```json
 {
   "value": [ {
     "id":"mytask1",

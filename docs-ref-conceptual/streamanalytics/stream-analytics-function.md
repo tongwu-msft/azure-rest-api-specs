@@ -1,4 +1,4 @@
-# Function
+﻿# Function
 
   A (User-Defined) Function provides an extensible way for a Streaming Job to transform input data to output data using a facility that is not completely described by the Transformation query. Currently Azure Machine Learning Request-Response Service (RRS) is the supported UDF framework.  
   
@@ -73,7 +73,7 @@
 
  Example payload to create an Azure Stream Analytics JavaScript function
  
-```
+```json
 {
   "properties": {
     "type": "Scalar",  //Function type. Scalar is the only supported value

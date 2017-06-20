@@ -1,4 +1,4 @@
----
+﻿---
 title: "List the jobs associated with a job schedule | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -43,7 +43,7 @@ manager: "timlt"
 
  The following example shows that the schedule has created only a single job so far, and that this job ran on a temporary pool and has now completed.
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#jobs",
   "value": [ {
