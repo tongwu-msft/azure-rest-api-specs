@@ -6,6 +6,7 @@ ms.service: service-bus-messaging
 author: sethmanheim
 ms.author: sethm
 ms.manager: timlt
+service_description: To be added
 ---
 
 # Azure Service Bus REST API

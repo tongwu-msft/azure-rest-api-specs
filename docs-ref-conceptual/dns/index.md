@@ -5,6 +5,7 @@ ms.service: dns
 author: georgewallace
 ms.author: gwallace
 ms.manager: timlt
+service_description: To be added
 ---
 
 # Azure DNS

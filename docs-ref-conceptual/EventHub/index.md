@@ -6,6 +6,7 @@ ms.service: event-hubs
 author: sethmanheim
 ms.author: sethm
 ms.manager: timlt
+service_description: To be added
 ---
 
 # Azure Event Hubs REST API

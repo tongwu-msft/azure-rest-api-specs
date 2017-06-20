@@ -5,6 +5,7 @@ ms.service: monitoring-and-diagnostics
 author: steved0x
 ms.author: sdanie
 ms.manager: douge
+service_description: To be added
 ---
 
 # Azure Monitor REST API reference

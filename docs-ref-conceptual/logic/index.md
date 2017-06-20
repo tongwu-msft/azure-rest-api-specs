@@ -5,6 +5,7 @@ ms.service: logic-apps
 author: MandiOhlinger
 ms.author: mandia
 ms.manager: anneta
+service_description: To be added
 ---
 
 

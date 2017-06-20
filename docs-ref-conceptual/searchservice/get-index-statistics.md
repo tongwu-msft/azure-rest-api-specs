@@ -68,6 +68,6 @@ api-key: [admin key]
 }  
 ```  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)

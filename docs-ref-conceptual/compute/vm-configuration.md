@@ -64,7 +64,7 @@ This example shows how to create a VM from a specialized (non-sysprepped) VHD. T
 
 The following example shows the additional plan element that is required when you use a marketplace image:
 
-```
+```json
 {
   "id": "/subscriptions/{subscription-id/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/virtualMachines/myvm1",
   "name": "myvm1",

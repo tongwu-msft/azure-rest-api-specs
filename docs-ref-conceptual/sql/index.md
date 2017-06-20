@@ -3,10 +3,10 @@ ms.assetid: 709f9922-66f0-4315-ad60-4cac7beb4847
 ms.title: Azure SQL Database REST API reference
 ms.prod: azure
 ms.service: sql-database
-author:
+author: 
 ms.author: sstein
 ms.manager: douge
-
+service_description: To be added
 ---
 
 # Azure SQL Database REST API

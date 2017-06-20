@@ -6,7 +6,8 @@ ms.service: storage
 author: robinsh
 ms.author: robinsh
 ms.manager: timlt
-ms.date : 04/18/2017
+ms.date: 04/18/2017
+service_description: To be added
 ---
 
 # Azure Storage Services REST API Reference

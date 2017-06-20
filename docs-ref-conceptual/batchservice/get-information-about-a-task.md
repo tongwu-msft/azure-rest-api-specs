@@ -1,4 +1,4 @@
----
+﻿---
 title: "Get information about a task | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -31,7 +31,7 @@ manager: "timlt"
 
  The following example shows information about a completed task:
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#tasks/@Element",
   "id":"mytask1",
@@ -90,7 +90,7 @@ manager: "timlt"
 
 The following example shows additional information in case of a multi-instance task:
 
-```
+```json
 {
   "multiInstanceSettings" : {
     "numberOfInstances": 3,

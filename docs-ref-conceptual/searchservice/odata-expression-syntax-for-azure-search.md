@@ -187,5 +187,5 @@ between two hotels with identical ratings, the closest one is listed first:
 $orderby=search.score() desc,rating desc,geo.distance(location, geography'POINT(-122.131577 47.678581)') asc
 ```
 
-## See Also  
+## See also  
  [Faceted navigation in Azure Search](https://azure.microsoft.com/documentation/articles/search-faceted-navigation/)  

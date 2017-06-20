@@ -13,6 +13,7 @@ caps.latest.revision: 15
 author: "tamram"
 ms.author: "tamram"
 manager: "timlt"
+service_description: To be added
 ---
 # Azure Batch REST API Reference
   The REST APIs for the Azure Batch service offer developers a means to schedule large-scale parallel and HPC applications in the cloud.  

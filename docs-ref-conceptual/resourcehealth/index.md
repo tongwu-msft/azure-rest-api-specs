@@ -5,7 +5,8 @@ ms.author: gwallace
 ms.date: 05/05/17
 ms.topic: reference
 ms.service: Azure
-ms.devlang: rest-api 
+ms.devlang: rest-api
+service_description: To be added
 ---
 
 # Azure Resource health REST API

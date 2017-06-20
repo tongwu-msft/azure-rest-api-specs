@@ -1,4 +1,4 @@
----
+﻿---
 title: "Create or update an Azure virtual machine | Microsoft Docs"
 author: davidmu1
 ms.date: 2017-02-06
@@ -529,7 +529,7 @@ This example shows how to create a VM from a virtual machine image. The key thin
 
 ### Create a VM from a virtual machine image with an attached managed disk
 
-```
+```json
 {
   "storageProfile": {
     "imageReference": {
@@ -622,7 +622,7 @@ In this case osProfile is not needed since all OS properties such as username/pa
 
 The following example shows the additional plan element that is required when you use a marketplace image:
 
-```
+```json
 {
   "id": "/subscriptions/{subscription-id/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/virtualMachines/myvm1",
   "name": "myvm1",

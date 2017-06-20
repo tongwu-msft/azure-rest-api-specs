@@ -5,6 +5,7 @@ ms.service: cognitive-services
 author: steved0x
 ms.author: sdanie
 ms.manager: douge
+service_description: To be added
 ---
 
 # Azure Cognitive Services REST API reference
