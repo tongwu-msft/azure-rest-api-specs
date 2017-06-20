@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Remove compute nodes from a pool | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"

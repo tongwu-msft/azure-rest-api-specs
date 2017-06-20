@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Upgrade the operating system of compute nodes in a pool | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"

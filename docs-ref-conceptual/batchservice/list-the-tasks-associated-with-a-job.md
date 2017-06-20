@@ -1,4 +1,4 @@
-﻿---
+---
 title: "List the tasks associated with a job | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"

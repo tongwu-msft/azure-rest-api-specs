@@ -1,4 +1,4 @@
-﻿---
+---
 title: "List the subtasks of a task | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"

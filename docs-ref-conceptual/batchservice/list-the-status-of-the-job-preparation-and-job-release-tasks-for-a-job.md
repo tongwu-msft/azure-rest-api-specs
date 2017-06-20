@@ -1,4 +1,4 @@
-﻿---
+---
 title: "List the status of the job preparation and job release tasks for a job | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"

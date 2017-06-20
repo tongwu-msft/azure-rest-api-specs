@@ -1,4 +1,4 @@
-﻿---
+---
 title: "List the pools in the account | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"

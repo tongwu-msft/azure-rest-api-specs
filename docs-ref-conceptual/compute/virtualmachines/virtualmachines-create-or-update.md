@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Create or update an Azure virtual machine | Microsoft Docs"
 author: davidmu1
 ms.date: 2017-02-06

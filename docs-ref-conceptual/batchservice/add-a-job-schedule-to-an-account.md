@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Add a job schedule to an account | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"

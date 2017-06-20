@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Get information about a pool | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
