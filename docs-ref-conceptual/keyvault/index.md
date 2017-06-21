@@ -8,7 +8,7 @@ ms.manager: mbaldwin
 ms.date: 06/21/2017
 ---
 
-# Key Vault REST API Reference
+# Azure Key Vault REST API reference
 
 Managing your key vaults as well as the keys, secrets, and certificates within your key vaults can be accomplished through a REST interface.
 
@@ -26,7 +26,7 @@ For conceptual and detailed information, see - [About keys, secrets, and certifi
 
 ## Common tasks
 
-### Key Vaults
+### Key vaults
 
 - [Create or update a key vault](../../docs-ref-autogen/keyvault/Vaults.json#Vaults_CreateOrUpdate)
 - [Deletes a key vault](../../docs-ref-autogen/keyvault/Vaults.json#Vaults_Delete)
@@ -53,13 +53,13 @@ For conceptual and detailed information, see - [About keys, secrets, and certifi
 - [Update a certificate policy](../../docs-ref-autogen/keyvault/UpdateCertificatePolicy.json)
 - [Recover deleted certificate](../../docs-ref-autogen/keyvault/RecoverDeletedCertificate.json)
 
-### Storage Accounts
+### Storage accounts
 
 - [Set a storage account](../../docs-ref-autogen/keyvault/SetStorageAccount.json)
 - [Get a storage account](../../docs-ref-autogen/keyvault/GetStorageAccount.json)
 - [Delete a storage account](../../docs-ref-autogen/keyvault/DeleteStorageAccount.json)
 
-### See Also
+### See also
 
 - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
 - [Authentication, requests and responses](authentication--requests-and-responses.md)
