@@ -182,7 +182,7 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Get Table Service Properties|Table (t)|Service (s)|Read (r)|  
 |Set Table Service Properties|Table (t)|Service (s)|Write (w)|  
 |Get Table Service Stats|Table (t)|Service (s)|Read (r)|  
-|Query Tables|Table (t)|Container (c)|List (l)|  
+|Query Tables|Table (t)|Service (s)|List (l)|  
 |Create Table|Table (t)|Container (c)|Create (c) or Write (w)|  
 |Delete  Table|Table (t)|Container (c)|Delete (d)|  
 |Query Entities|Table (t)|Object (o)|Read (r)|  
