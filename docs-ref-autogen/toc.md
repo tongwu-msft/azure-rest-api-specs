@@ -332,6 +332,10 @@
 ### [List Offers](../docs-ref-conceptual/documentdb/list-offers.md)
 ### [Replace an Offer](../docs-ref-conceptual/documentdb/replace-an-offer.md)
 ### [Querying Offers](../docs-ref-conceptual/documentdb/querying-offers.md)
+# [CosmosDB Resource Provider](../docs-ref-conceptual/documentdbresourceprovider/index.md)
+## [Common headers](../docs-ref-conceptual/documentdbresourceprovider/documentdbresourceprovider-headers.md)
+## Reference
+### [Database Accounts](documentdbresourceprovider/DatabaseAccounts.json)
 # [Data Catalog](../docs-ref-conceptual/datacatalog/index.md)
 ## [Data Catalog](../docs-ref-conceptual/datacatalog/data-catalog-data-catalog.md)
 ## [Data Asset](../docs-ref-conceptual/datacatalog/data-catalog-data-asset.md)
@@ -402,10 +406,6 @@
 # [DNS](../docs-ref-conceptual/dns/index.md)
 ## [Record Sets](dns/RecordSets.json)
 ## [Zones](dns/Zones.json)
-# [DocumentDB Resource Provider](../docs-ref-conceptual/documentdbresourceprovider/index.md)
-## [Common headers](../docs-ref-conceptual/documentdbresourceprovider/documentdbresourceprovider-headers.md)
-## Reference
-### [Database Accounts](documentdbresourceprovider/DatabaseAccounts.json)
 # [Event Hubs](../docs-ref-conceptual/EventHub/index.md)
 ## [Event Hubs service REST](../docs-ref-conceptual/EventHub/event-hubs-runtime-rest.md)
 ### [Publisher policy operations](../docs-ref-conceptual/EventHub/publisher-policy-operations.md)
