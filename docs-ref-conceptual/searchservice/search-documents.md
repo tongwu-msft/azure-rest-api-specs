@@ -58,7 +58,7 @@ api-key: [admin or query key]
  As a best practice when creating GET requests, remember to [URL-encode](https://msdn.microsoft.com/library/system.uri.escapedatastring.aspx) specific query parameters when calling the REST API directly. For **Search Documents** operations, this includes:  
 
 -   **$filter**  
-
+ 
 -   **facet**  
 
 -   **highlightPreTag**  
@@ -107,7 +107,7 @@ Azure Search uses *server-side paging* to prevent queries from retrieving too ma
 
 #### `$count=true | false`
 
-Optional, defaults to `false`. When calling via POST, this parameter is named `count` instead of `$count`. Specifies whether to fetch the total count of results. This is the count of all documents that match the \`search\` and \`$filter\` parameters, ignoring \`$top\` and \`$skip\`. Setting this value to \`true\` may have a performance impact. Note that the count returned is an approximation.
+Optional, defaults to `false`. When calling via POST, this parameter is named `count` instead of `$count`. Specifies whether to fetch the total count of results. This is the count of all documents that match the \`search\` and \`$filter\` parameters, ignoring \`$top\` and \`$skip\`. Setting this value to \`true\` may have a performance impact. Note that the count returned is an approximation. If you’d like to get only the count without any documents, you can use `$top=0`.
 
 #### `$orderby=[string] (optional)`
 
