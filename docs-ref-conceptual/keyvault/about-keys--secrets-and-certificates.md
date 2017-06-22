@@ -4,7 +4,7 @@ title: About keys, secrets and, certificates | Microsoft Docs
 ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
-manager: mbaldwin
+ms.manager: mbaldwin
 ms.date: 06/13/2017
 ---
 # About keys, secrets, and certificates
