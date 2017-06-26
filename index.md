@@ -153,7 +153,7 @@ As mentioned earlier, the request message body is optional, depending on the spe
 
 The request body is separated from the header by an empty line, and it should be formatted in accordance with the `Content-Type` header field. An example of an "application/json" formatted body would appear as follows: 
 
-```
+```json
 {
   "<name>": "<value>"
 }
@@ -201,7 +201,7 @@ Content-Type: application/json;
 ```
 
 And you should receive a response body that contains a list of Azure subscriptions and their individual properties encoded in JSON format, similar to:
-```
+```json
 {
     "value":[
         {
@@ -227,7 +227,7 @@ Content-Type: application/json;
 ```
 
 And you should receive a response body that confirms the content of your newly added resource group encoded in JSON format, similar to:
-```
+```json
 {
     "id":"/subscriptions/03f09293-ce69-483a-a092-d06ea46dfb8c/resourceGroups/ExampleResourceGroup",
     "name":"ExampleResourceGroup",

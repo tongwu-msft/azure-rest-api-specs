@@ -1,11 +1,11 @@
-# Function
+﻿# Function
 
   A (User-Defined) Function provides an extensible way for a Streaming Job to transform input data to output data using a facility that is not completely described by the Transformation query. Currently Azure Machine Learning Request-Response Service (RRS) is the supported UDF framework.  
   
 ### Request  
  The **Function** property is a properties bag needed to completely specify the information needed to make use of an Azure Machine Learning function.  
   
-```  
+```json
 {  
   "type": <function type>,  
   "properties": {  
@@ -27,7 +27,7 @@
   
  Example payload to create an Azure Machine Learning scalar function  
   
-```  
+```json
 {  
   "name": "scoreTweet",  
   "properties": {  
@@ -73,7 +73,7 @@
 
  Example payload to create an Azure Stream Analytics JavaScript function
  
-```
+```json
 {
   "properties": {
     "type": "Scalar",  //Function type. Scalar is the only supported value
@@ -174,8 +174,7 @@ Creates a new Stream Analytics user-defined function.
   
  **JSON**  
   
-```  
-  
+```json
 {  
   "properties": {  
     "type": {function type},  
@@ -224,7 +223,7 @@ Creates a new Stream Analytics user-defined function.
   
  **Response Body**  
   
-```  
+```json
 {  
   "properties": {  
     "type": {function type},  
@@ -248,8 +247,7 @@ Creates a new Stream Analytics user-defined function.
   
  **Example**  
   
-```  
-  
+```json
 {  
     "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/0c3767c3-b17f-45ba-a306-cd490802f99f/providers/Microsoft.StreamAnalytics/streamingjobs/581ca559-5224-46b6-8668-dae42d0194be/functions/azuremlscalarFunction",  
     "name": "azuremlscalarFunction",  
@@ -370,8 +368,7 @@ Gets information about a specific user-defined function.
   
  **JSON**  
   
-```  
-  
+```json
 {  
   "id": "/subscriptions/{id}/resourceGroups/{group}/providers/microsoft.streamAnalytics/streamingjobs/filterSample/functions/{functionName}",  
   "name": {functionName},  
@@ -390,7 +387,7 @@ Gets information about a specific user-defined function.
   
  Example Azure Machine Learning RRS scalar UDF response.  
   
-```  
+```json
 {  
   "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.StreamAnalytics/streamingjobs/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/functions/azuremlscalarFunction",  
   "name": "azuremlscalarFunction",  
@@ -468,8 +465,7 @@ Lists all of the functions that are defined in a Stream Analytics job.
   
  The example below shows a response from a List Functions  request for an Stream Analytics job with one Azure Machine Learning Function.  
   
-```  
-  
+```json
 {   
   "id": "/subscriptions/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/resourceGroups/0c3767c3-b17f-45ba-a306-cd490802f99f/providers/Microsoft.StreamAnalytics/streamingjobs/581ca559-5224-46b6-8668-dae42d0194be/functions/azuremlscalarFunction",  
   "name": "azuremlscalarFunction",   
@@ -588,7 +584,7 @@ Testing is performed based on the union of the functions current property values
   
  **Examples**  
   
-```  
+```json
 {   
   "id": "/subscriptions/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/resourceGroups/0c3767c3-b17f-45ba-a306-cd490802f99f/providers/Microsoft.StreamAnalytics/streamingjobs/581ca559-5224-46b6-8668-dae42d0194be/functions/azuremlscalarFunction",  
   "name": "azuremlscalarFunction",   
@@ -671,8 +667,7 @@ Updates the specified function to use a different Azure Machine Language RRS end
   
  **JSON**  
   
-```  
-  
+```json
 {  
   "properties": {  
     "type": {function type},  
@@ -719,7 +714,7 @@ Updates the specified function to use a different Azure Machine Language RRS end
   
  **Response Body**  
   
-```  
+```json
 {  
   "properties": {  
     "type": {function type},  
