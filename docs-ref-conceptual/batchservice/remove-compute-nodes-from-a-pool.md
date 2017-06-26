@@ -1,4 +1,4 @@
----
+﻿---
 title: "Remove compute nodes from a pool | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -26,8 +26,7 @@ manager: "timlt"
 
  Replace {pool-id} with the id of the pool from which you want to remove a node.
 
-```
-
+```json
 {
   "resizeTimeout":"PT5M",
   "nodeDeallocationOption":"terminate",

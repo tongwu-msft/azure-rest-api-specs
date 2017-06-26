@@ -52,14 +52,14 @@ The following list describes the required and optional request headers.
  You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body
-```   
+```json
 {
   "text": "Text to analyze",
   "analyzer": "analyzer_name"
 }
 ```  
 or
-```  
+```json
 {
   "text": "Text to analyze",
   "tokenizer": "tokenizer_name",
@@ -75,7 +75,7 @@ The `analyzer_name`, `tokenizer_name`, `token_filter_name` and `char_filter_name
 Status Code: 200 OK is returned for a successful response.
 
 The response body is in the following format:
-```
+```json
     {
       "tokens": [
         {
@@ -92,14 +92,14 @@ The response body is in the following format:
 ## Analyze API example
 
  **Request**
-```
+```json
      {
        "text": "Text to analyze",
        "analyzer": "standard"
      }
 ```
  **Response**
-```
+```json
      {
        "tokens": [
          {
