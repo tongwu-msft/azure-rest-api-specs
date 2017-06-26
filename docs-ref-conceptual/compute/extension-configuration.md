@@ -2,7 +2,7 @@
 
 ## Custom Script Public Storage
 
-```
+```json
 { 
   "location": "eastus",
   "properties": {
@@ -20,7 +20,7 @@
 
 ## Custom Script Azure Storage
 
-```
+```json
 { 
   "location": "eastus",
   "properties": {
@@ -42,7 +42,7 @@
 
 ## Custom Script Public Storage
 
-```
+```json
 {
   "properties": {
     "publisher": "Microsoft.OSTCExtensions",
@@ -61,7 +61,7 @@
 
 ## Custom Script Azure Storage
 
-```
+```json
 {
   "properties": {
     "publisher": "Microsoft.OSTCExtensions",

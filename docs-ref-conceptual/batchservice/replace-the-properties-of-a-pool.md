@@ -1,4 +1,4 @@
----
+﻿---
 title: "Replace the properties of a pool | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -29,8 +29,7 @@ manager: "timlt"
 
  The following example shows a start task being added to the pool:
 
-```
-
+```json
 {
   "startTask": {
     "commandLine":"myprogram.exe",
@@ -131,7 +130,7 @@ manager: "timlt"
 
  The following example shows a start task, certificate, and a metadata property being added to the pool.
 
-```
+```json
 {
   "startTask": {
     "commandLine":"myprogram.exe",

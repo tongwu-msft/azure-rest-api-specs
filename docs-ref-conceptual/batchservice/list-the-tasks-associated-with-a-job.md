@@ -1,4 +1,4 @@
----
+﻿---
 title: "List the tasks associated with a job | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -44,7 +44,7 @@ manager: "timlt"
 
  The following example shows information about a task that is waiting to run:
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#tasks",
   "value": [ {
@@ -92,7 +92,7 @@ manager: "timlt"
 
  The following example shows information about a running task, which includes information about the compute node on which the task is running, and the pool that contains the compute node:
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#tasks",
   "value": [ {
@@ -149,7 +149,7 @@ manager: "timlt"
 
  The following example shows information about a multi\-instance task that is waiting to run.  Because the task is multi\-instance, information such as the node id, affinity info and root directories reflects the primary \(which is assumed to be where outputs will be gathered\):
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#tasks",
   "value": [ {

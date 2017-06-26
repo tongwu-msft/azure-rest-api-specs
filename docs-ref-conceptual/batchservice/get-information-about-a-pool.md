@@ -1,4 +1,4 @@
----
+﻿---
 title: "Get information about a pool | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -33,8 +33,7 @@ manager: "timlt"
 
  The following example shows information about a pool that does not include autoscaling, a start task, or certificates. See the examples later in this page of a pool with these optional elements.
 
-```
-
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#pools/@Element",
   "id":"mypool1",

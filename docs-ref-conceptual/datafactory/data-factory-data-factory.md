@@ -31,8 +31,7 @@
 #### Request Body  
  The format of the request body is as follows:  
   
-```  
-  
+```json
 {  
     "name": <name>,  
     "location": <location>,  
@@ -82,8 +81,7 @@
   
 #### Response Body  
   
-```  
-  
+```json
 {
 	"name": "<Name>",
 	"id": "<ID>",
@@ -131,8 +129,7 @@ x-ms-client-request-id        : 029a8839-027e-43c5-8854-af4388dcd232
   
  **Request body:**  
   
-```  
-  
+```json
 Body:  
 {  
   "name": "RestDataFactory",  
@@ -334,8 +331,7 @@ Gets information about the specified data factory.
   
 #### Response Body  
   
-```  
-  
+```json
 {  
     "name": "<Name>",  
     "id": "<ID>",  
@@ -468,8 +464,7 @@ Lists information of all data factories in a resource group.
   
 #### Response Body  
   
-```  
-  
+```json
 {  
     "value": [  
     {  
@@ -518,7 +513,7 @@ Lists information of all data factories in a resource group.
 
 If there are more than 100 records, you will get 100 records at a time with a nextLink:
 
-```  
+```json
 {
     "value": [  
     {  
@@ -689,8 +684,7 @@ The response for this operation includes the following headers. The response may
   
 #### Response Body  
   
-```  
-  
+```json
 {  
     "value": {  
     "activityWindows": [  
@@ -745,7 +739,7 @@ x-ms-client-request-id        : 00000000-1111-1111-1111-000000000000
 
 Body: 
 
-```
+```json
 {
   "top": 5
 }
@@ -774,8 +768,7 @@ X-Powered-By                  : ASP.NET
   
  The response includes the following XML body.  
   
-```  
-  
+```json
 "value": {  
     "activityWindows": [  
       {  
@@ -915,7 +908,7 @@ X-Powered-By                  : ASP.NET
   
 ### Using filter in the request body
 
-```
+```json
 {
   "filter": "(ActivityName eq 'BlobToSqlCopyActivity') and (PipelineName eq 'DP_WikipediaSamplePipeline')"
 }

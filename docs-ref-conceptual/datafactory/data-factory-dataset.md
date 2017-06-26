@@ -32,8 +32,7 @@ Creates a new dataset, or updates the content of an existing dataset.
   
  The format of the request body is as follows.  
   
-```  
-  
+```json
 {  
   "name": "MyDataset",  
   "properties": {  
@@ -96,8 +95,7 @@ Creates a new dataset, or updates the content of an existing dataset.
   
 #### Response Body  
   
-```  
-  
+```json
 {  
   "name": "InputDataset",  
   "id":  
@@ -140,7 +138,7 @@ x-ms-client-request-id        : 00000000-1111-1111-1111-000000000000
   
  and with the following body:  
   
-```  
+```json
 {  
   "name": "InputDataset",  
   "properties": {  
@@ -386,8 +384,7 @@ Gets information about datasets in a data factory.
 #### Response Body  
  Response body depends on your dataset type. This example uses an AzureBlob dataset.  
   
-```  
-  
+```json
 {  
   "name": "InputDataset",  
   "id":  
@@ -453,8 +450,7 @@ X-Powered-By                  : ASP.NET
   
  The response includes the following XML body.  
   
-```  
-  
+```json
 {  
   "name": "InputDataset",  
   "id":  
@@ -550,7 +546,7 @@ Lists information of all datasets in the data factory.
   
 #### Response Body  
   
-```  
+```json
 {  
   "value": [  
     {  
@@ -588,7 +584,7 @@ Lists information of all datasets in the data factory.
 
 If there are more than 100 records, you will get 100 records at a time with a nextLink:
 
-```  
+```json
 {
   "value": [
     {
@@ -661,8 +657,7 @@ X-Powered-By                  : ASP.NET
   
  The response includes the following XML body.  
   
-```  
-  
+```json
 {  
   "value": [  
     {  
@@ -769,8 +764,7 @@ Lists the first page of activity window instances associated with a dataset alon
   
 #### Response Body  
   
-```  
-  
+```json
 {  
     "value": {  
     "activityWindows": [  
@@ -825,7 +819,7 @@ x-ms-client-request-id        : 00000000-1111-1111-1111-000000000000
 
 Body: 
 
-```
+```json
 {
   "top": 5,
   "windowState": "Failed",
@@ -856,8 +850,7 @@ X-Powered-By                  : ASP.NET
   
  The response includes the following XML body.  
   
-```  
-
+```json
 {
   "value": {
     "activityWindows": [

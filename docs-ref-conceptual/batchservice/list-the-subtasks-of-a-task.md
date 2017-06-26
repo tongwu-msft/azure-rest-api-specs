@@ -1,4 +1,4 @@
----
+﻿---
 title: "List the subtasks of a task | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -34,7 +34,7 @@ manager: "timlt"
 
  The following example shows information about a completed task:
 
-```
+```json
 {
 "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#subtasksinfo",
   "value": [

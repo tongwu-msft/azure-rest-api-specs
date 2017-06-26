@@ -1,4 +1,4 @@
----
+﻿---
 title: "Add a job schedule to an account | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -44,7 +44,7 @@ manager: "timlt"
 
 -   The auto pool has a single metadata property named myproperty.
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#jobschedules/@Element",
   "id":"myjobschedule1",

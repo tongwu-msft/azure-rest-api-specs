@@ -39,7 +39,7 @@ manager: "timlt"
 
  The following example shows some files that were automatically added to the node, and others that were added and used by a running task.
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#files",
   "value": [ {

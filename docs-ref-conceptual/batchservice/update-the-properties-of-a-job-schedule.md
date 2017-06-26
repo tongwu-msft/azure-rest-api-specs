@@ -1,4 +1,4 @@
----
+﻿---
 title: "Update the properties of a job schedule | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -26,7 +26,7 @@ manager: "timlt"
 
  Replace {jobschedule\-id} with the id of the job schedule that you want to update.
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#jobschedules/@Element",
   "schedule": {

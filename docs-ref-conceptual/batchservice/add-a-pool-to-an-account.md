@@ -1,4 +1,4 @@
----
+﻿---
 title: "Add a pool to an account | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -29,8 +29,7 @@ manager: "timlt"
 
  The following example shows a request to add a pool with cloud service configuration \(PaaS\) and without autoscaling enabled, without installing a start task and without installing certificates. See the examples later in this page for adding these optional elements.
 
-```
-
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#pools/@Element",
   "id":"mypool1",
@@ -58,7 +57,7 @@ manager: "timlt"
 
  The following example shows a request to add a pool with virtual machine configuration \(IaaS\) and without autoscaling enabled, without installing a start task and without installing certificates. See the examples later in this page for adding these optional elements.
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#pools/@Element",
   "id":"mypool1",
@@ -249,8 +248,7 @@ manager: "timlt"
 
  The following example shows an autoscale formula that increases the number of compute nodes that are used by 10% when the CPU usage in the pool for past 10 minutes stays over 70%. The formula is evaluated every 10 minutes.
 
-```
-
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#pools/@Element",
   "id":"mypool1",
@@ -306,8 +304,7 @@ manager: "timlt"
 
  The following example specifies that myprogram.exe should run as a start task on each compute node, with elevated permissions and a custom environment variable.
 
-```
-
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#pools/@Element",
   "id":"mypool1",
@@ -353,8 +350,7 @@ manager: "timlt"
 
  The following example installs a certificate into the machine root certificate store of all compute nodes, and makes it available to job tasks but not the start task or Remote Desktop users.
 
-```
-
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#pools/@Element",
   "id":"mypool1",

@@ -1,4 +1,4 @@
----
+﻿---
 title: "Add a job to an account | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -34,7 +34,7 @@ manager: "timlt"
 |------------|-----------------|
 |POST|`https://{account-name}.{region-id}.batch.azure.com/jobs?api-version={api-version}`|
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#jobs/@Element",
   "id":"myjob1",

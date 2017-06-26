@@ -1,4 +1,4 @@
----
+﻿---
 title: "Update the properties of a job | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -24,8 +24,7 @@ manager: "timlt"
 |------------|-----------------|
 |PUT or PATCH|`https://{account-name}.{region-id}.batch.azure.com/jobs/{job-id}?api-version={api-version}`|
 
-```
-
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#jobs/@Element",
   "priority":100,
