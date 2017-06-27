@@ -1,4 +1,4 @@
----
+﻿---
 title: "Get remote login settings for a node | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -31,8 +31,7 @@ manager: "timlt"
 
  The following example shows remote login settings for a node:
 
-```
-
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#Microsoft.Azure.Batch.Protocol.Entities.RemoteLoginSettings",
   "remoteLoginIPAddress":"10.0.0.1",

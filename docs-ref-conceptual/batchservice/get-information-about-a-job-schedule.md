@@ -1,4 +1,4 @@
----
+﻿---
 title: "Get information about a job schedule | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -41,7 +41,7 @@ manager: "timlt"
 
 -   A start task that runs myprogram2.exe on each compute node as it enters the pool.
 
-```
+```json
 {
 "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#jobschedules/@Element",
   "id":"myschedule1",

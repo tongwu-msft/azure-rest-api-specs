@@ -1,4 +1,4 @@
----
+﻿---
 title: "List the jobs in an account | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -41,8 +41,7 @@ The value for {filter} can be the following or any AND-ed or OR-ed combination o
 ## Response
  Status code: 200. For more information, see [Batch Status and Error Codes](../batchservice/batch-status-and-error-codes.md)
 
-```
-
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#jobs",
   "value": [ {

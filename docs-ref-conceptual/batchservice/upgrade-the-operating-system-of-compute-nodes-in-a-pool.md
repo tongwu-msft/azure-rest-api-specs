@@ -1,4 +1,4 @@
----
+﻿---
 title: "Upgrade the operating system of compute nodes in a pool | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -26,7 +26,7 @@ manager: "timlt"
 
  Replace {pool\-id} with the id of the pool that you want to upgrade.
 
-```
+```json
 {
     "targetOSVersion":"WA-GUEST-OS-2.28_201409-01"
 }

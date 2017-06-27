@@ -1,4 +1,4 @@
----
+﻿---
 title: "Get information about a job in Batch | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -31,7 +31,7 @@ manager: "timlt"
 
  The following example shows information about a completed job.
 
-```
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#jobs/@Element",
   "id":"job-0000000001",
