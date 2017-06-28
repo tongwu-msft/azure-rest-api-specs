@@ -19,9 +19,11 @@ ms.author: scottwhi
 > Preview release of the Entity Search API. All aspects of the API and documentation are subject to change. 
 
 
-The Entity Search API lets you send a search query to Bing and get back search results that include entities and places. Entities include persons, places (for example, a tourist attraction), or things (for example, a banana). The API returns entities if Bing is confident that only one entity satisfies the request. For example, if the request specifies the movie's exact title, the response includes the entity if Bing is confident that only one movie satisfies the request. But if the request specifies the title of a movie franchise, the response will not include an entity because it's ambiguous as to which version you want. 
+The Entity Search API lets you send a search query to Bing and get back search results that include entities and places. Place results include restaurants, hotel, or other local businesses. For places, the query can specify the name of the local business or it can ask for a list (for example, restaurants near me).
 
-Places include restaurants, hotel, or other local businesses. For places, the query can specify the name of the local business or it can ask for a list (for example, restaurants near me).
+Entity results include persons, places, or things. Place in this context are tourist attractions, states, countries, etc. The API returns entities if Bing is confident that only one entity satisfies the request. For example, if the request specifies a movie, the response includes the entity if Bing is confident that only one movie satisfies the request. But if the request specifies the title of a movie franchise, the response will not include an entity because it's ambiguous as to which version you want. 
+
+
 
 This section provides technical details about the response objects, and the query parameters and headers that affect the search results. For examples that show how to make requests, see [Searching the web](https://docs.microsoft.com/azure/cognitive-services/bing-entity-search/search-the-web) 
   
@@ -142,7 +144,7 @@ Defines an entity such as a person, place, or thing.
 |bingId|An ID that uniquely identifies this entity.|String  
 |contractualRules|A list of rules that you must adhere to if you display the entity. For example, the rules may govern attributing the entity's description.<br /><br /> The following contractual rules may apply.<br /><br /><ul><li>[LicenseAttribution](#licenseattribution)</li><li>[LinkAttribution](#linkattribution)</li><li>[MediaAttribution](#mediaattribution)</li><li>[TextAttribution](#textattribution)</li></ul><br /> Not all entities include rules. If the entity provides contractual rules, you must abide by them. For more information about using contractual rules, see [Attributing Data](https://docs.microsoft.com/azure/cognitive-services/bing-entity-search/attribution).|Object[]|  
 |description|A short description of the entity.|String|  
-|entityPresentationInfo|Additional information about the entity such as hints that you can use to determine the entity's type. For example, whether it's a person, restaurant, or movie.|[EntityPresentationInfo](#entitypresentationinfo)|  
+|entityPresentationInfo|Additional information about the entity such as hints that you can use to determine the entity's type. For example, whether it's a person or movie.<br /><br />The `entityScenario` field is set to DominantEntity. Bing returns entities where only a single entity match is likely. For example, a book, movie, person, or attraction. The API will not return entities where there are multiple possible answers. For example, if the request uses the generic title of a movie franchise, the response will not include an Entities answer. However, the response will include the entity if the request specifies a specific title from the franchise.|[EntityPresentationInfo](#entitypresentationinfo)|  
 |image|An image of the entity.|[Image](#image)|  
 |name|The entity's name.|String|  
 |webSearchUrl|The URL that takes the user to the Bing search results page for this entity.|String|  
@@ -162,7 +164,7 @@ Defines additional information about an entity such as type hints.
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|entityScenario|The supported scenario. This field is set to DominantEntity. The API returns entities where only a single entity match is likely. For example, a book, movie, person, or attraction. The API will not return entities where there are multiple possible answers. For example, if the request uses the generic title of a movie franchise, the response will not include an Entities answer. However, the response will include the entity if the request specifies a specific title from the franchise.|String|  
+|entityScenario|The supported scenario. |String|  
 |entityTypeDisplayHint|A display version of the entity hint. For example, if  `entityTypeHints` is Artist, this field may be set to *American Singer*.|String|  
 |entityTypeHint|A list of hints that indicate the entity's type. The list could contain a single hint such as Movie or a list of hints such as Place, LocalBusiness, Restaurant. Each successive hint in the array narrows the entity's type.<br /><br /> For a list of possible types, see [Entity Types](#entitytypes). If the object does not include this field, Generic is assumed.|String[]|  
   
@@ -289,7 +291,7 @@ Defines information about a local entity, such as a restaurant or hotel.
 |----------|-----------|----------|  
 |_type|Type hint, which may be set to one of the following:<br /><br /><ul><li>Hotel</li><li>LocalBusiness<br /></li><li>Restaurant</ul><li>|String|  
 |address|The postal address of where the entity is located.|[PostalAddress](#postaladdress)|  
-|entityPresentationInfo|Additional information about the entity such as hints that you can use to determine the entity's type. For example, whether it's a restaurant or hotel.|[EntityPresentationInfo](#entitypresentationinfo)|  
+|entityPresentationInfo|Additional information about the entity such as hints that you can use to determine the entity's type. For example, whether it's a restaurant or hotel. The `entityScenario` field is set to ListItem.|[EntityPresentationInfo](#entitypresentationinfo)|  
 |name|The entity's name.|String|  
 |telephone|The entity's telephone number.|String|  
 |url|The URL to the entity's website.<br /><br /> Use this URL along with the entity's name to create a hyperlink that when clicked takes the user to the entity's website.|String|  
@@ -390,11 +392,6 @@ The following are the entity hints that fall under the Media base type.
 -   TelevisionShow  
 -   VideoGame  
   
-The following are the music-related entity hints.  
-  
--   MusicAlbum  
--   MusicGroup  
--   MusicRecording  
   
 The following are the event-related entity hints.  
   
