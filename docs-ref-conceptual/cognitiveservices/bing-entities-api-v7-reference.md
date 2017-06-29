@@ -13,7 +13,7 @@ ms.date: 07/06/2017
 ms.author: scottwhi
 ---
 
-# Web Entity Search API v7 Preview reference
+# Bing Entity Search API v7 Preview reference
 
 > [!NOTE]
 > Preview release of the Entity Search API. All aspects of the API and documentation are subject to change. 
@@ -93,8 +93,6 @@ The following are the JSON response objects that the response may include. If th
 
 |Object|Description|  
 |------------|-----------------|  
-|[BrandingGuidelines](#brandingguidelines)|Defines a contractual rule that provides guidelines about how the entity data must be displayed.|  
-|[DisplayRequirement](#displayrequirement)|Defines a contractual rule that indicates whether you must display specific entity data.|  
 |[Entity](#entity)|Defines an entity such as a person, place, or thing.|  
 |[EntityAnswer](#entityanswer)|Defines an entity answer.|  
 |[EntityPresentationInfo](#entitypresentationinfo)|Defines additional information about an entity such as type hints.|  
@@ -114,26 +112,6 @@ The following are the JSON response objects that the response may include. If th
 |[SearchResponse](#searchresponse)|The top-level object that the response includes when the request succeeds.|  
 |[TextAttribution](#textattribution)|Defines a contractual rule for plain text attribution.|  
   
-  
-  
-
-### BrandingGuidelines  
-Defines a contractual rule that provides guidelines about how the entity data must be displayed.  
-  
-|Name|Value|Type|  
-|----------|-----------|----------|  
-|_type|A type hint, which is set to BrandingGuidelines.|String|  
-|url|The URL to a website that describes the branding guidelines and rules for displaying the data.|String|  
-
-
-  
-### DisplayRequirement  
-Defines a contractual rule that indicates whether you must display specific entity data.  
-  
-|Name|Value|Type|  
-|----------|-----------|----------|  
-|_type|A type hint, which is set to DisplayRequirement.|String|  
-|mustDisplay|A Boolean value that determines whether you must display the item. If **true**, you must display the item; otherwise,  **false**.|Boolean|  
   
 
 ### Entity  
