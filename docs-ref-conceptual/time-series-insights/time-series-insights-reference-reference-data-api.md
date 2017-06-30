@@ -16,7 +16,7 @@ Response headers:
 
 ## API Overview
 
-The reference data management API is a batch API. All operations against this API are http POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of the operation which can be one of the following:
+The reference data management API is a batch API. All operations against this API are http POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. The operation names are the following:
 
 * [put](time-series-insights-reference-reference-data-api.md#put-reference-data-items)
 * [patch](time-series-insights-reference-reference-data-api.md#patch-reference-data-items)
@@ -34,7 +34,7 @@ Each item is processed individually and an error with one piece of data does not
 
 Inserts / replaces the entire reference data item $.put[i] (the *i* th item in the array with key 'put'). The unit of commit is $.put[i]. The operation is idempotent.
 
-Assume a reference data set that defines one key with name *deviceId* and type *string*. A sample request and response message is the following:
+Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
 
 ### Put Request Message
 
@@ -66,8 +66,8 @@ Assume a reference data set that defines one key with name *deviceId* and type *
 
 ### Put Request Validations
 
-1. Each item in $.put can specify its own list of non-key properties (“color”, “maxSpeed”, “location”, etc).
-2. For any two item sets X and Y, non-key properties in [X].put[i] and [Y].put[j] must not intersect. Consider the following two posts. The second post is not allowed since “color” is present for items belonging to two different reference data sets:  “deviceInfo” and “manufacturerInfo”.
+1. Each item in $.put can specify its own list of non-key properties (“color”, “maxSpeed”, “location”, etc.).
+2. For any two item sets X and Y, non-key properties in [X].put[i] and [Y].put[j] must not intersect. Consider the following two posts:
 
 `POST https://<environmentFqdn>/referencedatasets/deviceInfo/$batch?api-version=2016-12-12`
 
@@ -94,14 +94,16 @@ Assume a reference data set that defines one key with name *deviceId* and type *
 }
 ```
 
+The second post for set *manufacturerInfo* is not allowed since “color” is already defined in the first post for set *deviceInfo*.
+
 3. All key property values in $.put[i] should be of json primitive type and should be parsable to type defined during reference data set creation.
-4. All non-key property values in $.put[i] can be of any JSON type. At the root, if it is an object, it will be flattened to individual properties. If it is an array, it will be serialized and indexed as Json string.
+4. All non-key property values in $.put[i] can be of any JSON type. At the root, if it is an object, it is flattened to individual properties. If it is an array, it is serialized and indexed as Json string.
 5. $.put[i] should contain all properties specified as key properties in the reference data set.
 6. $.put[i] should contain at least one non-key property.
 7. Values of key properties in $.put[i] cannot be null.
-8. Case-sensitive persistence: When persisted, the value of the key that are of type String, will have the same casing as the input event stream. This is because, keys are expected to be immutable.
-9. Any validation failure will result in a response code of 400 with the appropriate error information.
-10. Individual items will carry a response of either JSON null (success) or error information JSON object.
+8. Case-sensitive persistence: When persisted, the value of the key whose type is *String* has the same casing as the input event stream. Keys are expected to be immutable.
+9. Any validation failure results in a response code of 400 with the appropriate error information.
+10. The response for individual items is either JSON null (for success) or error information JSON object.
 
 ## Patch Reference Data Items
 
@@ -109,7 +111,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
 
 Updates / inserts specific properties for the reference data item $.patch[i].
 
-Assume a reference data set that defines one key with name *deviceId* and type *string*. A sample request and response message is the following:
+Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
 
 ### Patch Request Message
 
@@ -141,7 +143,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
 ### Patch Request Validations
 
 1. Same as [POST-PUT](time-series-insights-reference-reference-data-api.md###put-request-validations).
-2. If item does not exist, a new item will be created.
+2. If item does not exist, a new item is created.
 
 ## Delete Properties in Reference Data Items
 
@@ -149,7 +151,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
 
 Delete the specified properties from the reference data item $.deleteproperties[i].
 
-Assume a reference data set that defines one key with name *deviceId* and type *string*. A sample request and response message is the following:
+Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
 
 ### Delete Properties Request Message
 
@@ -188,7 +190,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
 
 Deletes the entire reference data identified by the key property values specified in each $.delete[i].
 
-Assume a reference data set that defines one key with name *deviceId* and type *string*. A sample request and response message is the following:
+Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
 
 ### Delete Request Message
 
@@ -222,7 +224,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
 
 Get the entire reference data identified by the key property values specified in each $.get[i].
 
-Assume a reference data set that defines one key with name *deviceId* and type *string*. A sample request and response message is the following:
+Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
 
 ### Get Request Message
 
@@ -266,7 +268,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
 
 ## Common Error Response Example
 
-The following JSON shows sample error response for a request where the first item is invalid while the second item is successfully posted. This response structure is the same for all operations except for [get](time-series-insights-reference-reference-data-api.md###get-reference-data-items). For *get*, on successful completion of an operation, the item itself will be returned.
+The following JSON shows sample error response. The first item in the request was invalid while the second item was successfully posted. This response structure is the same for all operations except for [get](time-series-insights-reference-reference-data-api.md###get-reference-data-items). For *get*, on successful completion of an operation, the item itself is returned.
 
 ```json
 {
@@ -306,7 +308,7 @@ Consider a reference data item set with the name "contoso" and key "deviceId" of
 |Fan1|Red|5||
 |Fan2|White||2|
 
-When the two events in the event hub message are processed by the Time Series Insights ingress engine, they will be joined with the correct reference data item. The events output has the following structure:
+When the two events in the event hub message are processed by the Time Series Insights ingress engine, they are joined with the correct reference data item. The events output has the following structure:
 
 ```json
 [
@@ -328,14 +330,14 @@ When the two events in the event hub message are processed by the Time Series In
 ### Reference Data Join Rules
 
 1. Key name comparison during join is case-sensitive
-2. Key value comparison during join case-sentitive for string properties.
+2. Key value comparison during join case-sensitive for string properties.
 
 ### Handling Multiple Reference Data Sets Join Semantics
 
-When more than one reference data set is defined for an environment, three constraints are enforced to avoid considering hierarchy and ordering during join.
+For an environment with more than one reference data set, three constraints are enforced during join. These constraints help avoid considering hierarchy and ordering during join by the Time Series Insights ingress engine.
 
 1. Each item in a reference data set, can specify its own list of non-key properties.
 2. For any two reference data sets A and B, non-key properties must not intersect.
-3. Reference data sets are only joined directly to events, never to other referenced data sets (and then to events). In order to join reference data item with an event, all key properties used in the reference data item must be present in the event, and it should not come from the non-key properties joined to an event through some other reference data item. This will be enforced during ingress of events.
+3. Reference data sets are only joined directly to events, never to other referenced data sets (and then to events). To join reference data item with an event, all key properties used in the reference data item must be present in the event. Also, the key properties should not come from the non-key properties joined to an event through some other reference data item.
 
 Given these three constraints, the join engine can apply the join in any order for a given event. Hierarchy and ordering are not considered.
