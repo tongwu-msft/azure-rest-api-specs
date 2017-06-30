@@ -142,7 +142,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### Patch Request Validations
 
-1. Same as [POST-PUT](time-series-insights-reference-reference-data-api.md###put-request-validations).
+1. Same as [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
 2. If item does not exist, a new item is created.
 
 ## Delete Properties in Reference Data Items
@@ -181,7 +181,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### Delete Properties Request Validations
 
-1. Same as [POST-PUT](time-series-insights-reference-reference-data-api.md###put-request-validations).
+1. Same as [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
 2. If a property specified in $.deleteProperties[i].properties does not exist, it will be a no-op for that property.
 
 ## Delete Reference Data Items
@@ -215,7 +215,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### Delete Request Validations
 
-1. Values in delete.[i] follow same key properties restrictions mentioned in [POST-PUT](time-series-insights-reference-reference-data-api.md###put-request-validations).
+1. Values in delete.[i] follow same key properties restrictions mentioned in [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
 2. If item not found, a response code of 404 is returned.
 
 ## Get Reference Data Items
@@ -263,7 +263,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### Get Operation Validations
 
-1. Values in get.[i] follow same key properties restrictions mentioned in [POST-PUT](time-series-insights-reference-reference-data-api.md###put-request-validations).
+1. Values in get.[i] follow same key properties restrictions mentioned in [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
 2. If item not found, return error response 404 against that item.
 
 ## Common Error Response Example
