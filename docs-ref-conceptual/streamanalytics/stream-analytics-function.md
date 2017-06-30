@@ -1,144 +1,6 @@
 ﻿# Function
 
-  A (User-Defined) Function provides an extensible way for a Streaming Job to transform input data to output data using a facility that is not completely described by the Transformation query. Currently Azure Machine Learning Request-Response Service (RRS) is the supported UDF framework.  
-  
-### Request  
- The **Function** property is a properties bag needed to completely specify the information needed to make use of an Azure Machine Learning function.  
-  
-```json
-{  
-  "type": <function type>,  
-  "properties": {  
-    .  
-    .  
-    .  
-  }  
-}  
-  
-```  
-  
- **Type**: Scalar  
-  
- Properties  
-  
- Azure Machine Learning Request-Response Service (RRS) Endpoint  
-  
- A transformation query can call out to an operationalized Azure ML Request-Response Service (RRS) endpoint to perform scoring against a trained model. The properties in the property bag are just those needed to call the operationalized RRS endpoint.  
-  
- Example payload to create an Azure Machine Learning scalar function  
-  
-```json
-{  
-  "name": "scoreTweet",  
-  "properties": {  
-    "type": "Scalar",  
-    "properties": {  
-      "inputs": [  
-        {  
-          "dataType": "nvarchar(max)",  
-          "isConfigurationParameter": false  
-        }  
-      ],  
-      "output": {  
-        "dataType": "nvarchar(max)"  
-      },  
-      "binding": {  
-        "type": "Microsoft.MachineLearning/WebService",  
-        "properties": {  
-          "endpoint": "https://ussouthcentral.services.azureml.net/workspaces/f80d5d7a77fa4a46bf2a30c63c078dca/services/b7be5e40fd194258896fb602c1858eaf/execute",  
-          "apiKey": "apiKey",  
-          "inputs": {  
-            "name": "input1",  
-            "columnNames": [  
-              {  
-                "name": "tweet",  
-                "dataType": "String",  
-                "mapTo": 0  
-              }  
-            ]  
-          },  
-          "outputs": [  
-            {  
-              "name": "Sentiment",  
-              "dataType": "String"  
-            }  
-          ],  
-          "batchSize": 100  
-        }  
-      }  
-    }  
-  }  
-}  
-```
-
- Example payload to create an Azure Stream Analytics JavaScript function
- 
-```json
-{
-  "properties": {
-    "type": "Scalar",  //Function type. Scalar is the only supported value
-    "properties": {
-      "inputs": [ // Function input parameter(s).
-        {
-          "dataType": "any", // Input data type
-        }
-      ],
-      "output": { // Output
-        "dataType": "any" // Output data type
-      },
-      "binding": {
-        "type": "Microsoft.StreamAnalytics/JavascriptUdf",
-        "properties": { // Function definition
-          "script": "function hex2Int(hexValue) {return parseInt(hexValue, 16);}",
-        }
-      }
-    }
-  }
-}
-
-```  
-  
-|Property|Description|  
-|--------------|-----------------|  
-|name|Name of the UDF|  
-|Type|Scalar|  
-|inputs|An array of inputs, describing the parameters of the UDF.|  
-|Inputs.dataType|Data type of the UDF parameter. List of valid Azure Stream Analytics data types are  described at [Azure Stream Analytics data types](https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx).|  
-|Input.isConfigurationParameter|Optional. True if this parameter is expected to be a constant. Default is false.|  
-|output|Described output of the UDF.|  
-|Output.dataType|Data type of UDF output. List of valid Azure Stream Analytics data types are  described at [Azure Stream Analytics data types](https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx).|  
-|Binding|Described the physical binding for the UDF. For example, in Azure Machine Learning RRS's this described the endpoint.|  
-|Binding.Type|Type of the binding. Currently **Microsoft.MachineLearning/WebService** is the only valid binding at this time.|  
-|Binding.Properties|Properties for the binding. Values are dependent on the type of binding.|  
-  
- Binding properties for Microsoft.MachineLearning/WebService.  
-  
-|Property|Description|  
-|--------------|-----------------|  
-|Endpoint|Request-Response execute endpoint of Azure Machine Learning Webservice. This endpoint is available from the Request-Response Endpoint documentation page in the Azure Management portal.|  
-|apiKey|API key used to authenticate with Request-Response endpoint. This is available from the Azure Management portal.|  
-|batchSize|Optional. Value between 10 and 1000 describing maximum number of rows for every Azure Machine Learning RRS execute request. Default is 10.|  
-|Inputs|Describes the set of inputs for RRS enpoint.|  
-|Inputs.name|Name of the input. This is the name provided while authoring the endpoint. The name is available from Azure Machine Learning Studio or from the RRS endpoint documentation page.|  
-|Input.ColumnNames|Array describing inputs to Azure Machine Learning  endpoint|  
-  
- Element properties of Input.ColumnNames  
-  
-|Property|Description|  
-|--------------|-----------------|  
-|Name|Name of the input column.|  
-|dataType|Azure Machine Learning data type. List of valid types are available at [Azure Machine Learning data types](https://msdn.microsoft.com/library/azure/dn905923.aspx). These are also described in RRS endpoint documentation.|  
-|MapTo|Zero based index of the UDF parameter this input maps to.|  
-|Outputs|Array describing outputs from an Azure Machine Learning RRS endpoint execution.|  
-  
- Element properties of Outputs  
-  
-|Property|Description|  
-|--------------|-----------------|  
-|Name|Name of the output column.|  
-|dataType|Azure Machine Learning data type. List of valid types are available at [Azure Machine Learning data types](https://msdn.microsoft.com/library/azure/dn905923.aspx). These are also described in RRS endpoint documentation.|  
-  
-  
+  A (User-Defined) Function provides an extensible way for a Streaming Job to transform input data to output data using a facility that is not completely described by the Transformation query.
 
 ## Create
 Creates a new Stream Analytics user-defined function.  
@@ -171,13 +33,14 @@ Creates a new Stream Analytics user-defined function.
  Common request headers only.  
   
  **Request Body**  
+   The **Function** property is a properties bag needed to completely specify the information needed to make use of an Azure Machine Learning function.  
   
  **JSON**  
   
 ```json
 {  
   "properties": {  
-    "type": {function type},  
+    "type": <function type>,  
     "properties": {  
       .  
       . function type-specific properties  
@@ -192,17 +55,125 @@ Creates a new Stream Analytics user-defined function.
 |--------------|--------------|-----------------|  
 |**type**|Yes|The function type. String. “Scalar” is the only allowed type.|  
 |**properties**|Yes|Collection of function type-specific properties. May be empty.|  
-  
+
+
+Properties for Scalar fuction type:
+|Property|Description|
+|--------------|-----------------|
+|inputs|An array of inputs, describing the parameters of the UDF.|
+|Inputs.dataType|Data type of the UDF parameter. List of valid Azure Stream Analytics data types are  described at [Azure Stream Analytics data types](https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx).|
+|Input.isConfigurationParameter|Optional. True if this parameter is expected to be a constant. Default is false.|
+|output|Described output of the UDF.|
+|Output.dataType|Data type of UDF output. List of valid Azure Stream Analytics data types are  described at [Azure Stream Analytics data types](https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx).|
+|Binding|Described the physical binding for the UDF. For example, in Azure Machine Learning RRS's this described the endpoint.|
+|Binding.Type|Type of the binding. |
+|Binding.Properties|Properties for the binding. Values are dependent on the type of binding.|
+
 > [!NOTE]  
->  Create Function will validate if the binding and input columns specified matches, if it doesn’t it would return an error. Note that this validation will be triggered only if either input or output is specified. For AzureML binding, endpoint and apikey are mandatory properties.  
->   
->  Details on input, output and bindings are found in the [Functions &#40;Azure Stream Analytics&#41;](stream-analytics-function.md) page.  
-  
-### Example payloads  
- Example payload to create an Azure Machine learning scalar function  
-  
- Function type, Binding type and key properties describing the binding should always be provided. For Azure machine learning scalar function, “endpoint” is the only key property.  
-  
+>  Create Function will validate if the binding and input columns specified matches, if it doesn’t it would return an error. Note that this validation will be triggered only if either input or output is specified.
+
+### Example payload to create an Azure Stream Analytics JavaScript function
+
+```json
+{
+  "properties": {
+    "type": "Scalar",  //Function type. Scalar is the only supported value
+    "properties": {
+      "inputs": [ // Function input parameter(s).
+        {
+          "dataType": "any", // Input data type
+        }
+      ],
+      "output": { // Output
+        "dataType": "any" // Output data type
+      },
+      "binding": {
+        "type": "Microsoft.StreamAnalytics/JavascriptUdf",
+        "properties": { // Function definition
+          "script": "function hex2Int(hexValue) {return parseInt(hexValue, 16);}"
+        }
+      }
+    }
+  }
+}
+
+```
+
+ Binding properties for Microsoft.StreamAnalytics/JavascriptUdf.
+
+|Property|Description|  
+|--------------|-----------------|  
+|script|JavaScript code that implements this UDF.|  
+
+
+### Example payload to create an Azure Machine Learning scalar function
+
+```json
+{
+    "properties": {
+    "type": "Scalar",
+    "properties": {
+      "inputs": [
+        {
+          "dataType": "nvarchar(max)",
+          "isConfigurationParameter": false
+        }
+      ],
+      "output": {
+        "dataType": "nvarchar(max)"
+      },
+      "binding": {
+        "type": "Microsoft.MachineLearning/WebService",
+        "properties": {
+          "endpoint": "https://ussouthcentral.services.azureml.net/workspaces/f80d5d7a77fa4a46bf2a30c63c078dca/services/b7be5e40fd194258896fb602c1858eaf/execute",
+          "apiKey": "apiKey",
+          "inputs": {
+            "name": "input1",
+            "columnNames": [
+              {
+                "name": "tweet",
+                "dataType": "String",
+                "mapTo": 0
+              }
+            ]
+          },
+          "outputs": [
+            {
+              "name": "Sentiment",
+              "dataType": "String"
+            }
+          ],
+          "batchSize": 100
+        }
+      }
+    }
+  }
+}
+```
+ Binding properties for Microsoft.MachineLearning/WebService.
+
+|Property|Description|
+|--------------|-----------------|
+|endpoint|Request-Response execute endpoint of Azure Machine Learning Webservice. This endpoint is available from the Request-Response Endpoint documentation page in the Azure Management portal.|
+|apiKey|API key used to authenticate with Request-Response endpoint. This is available from the Azure Management portal.|
+|batchSize|Optional. Value between 10 and 1000 describing maximum number of rows for every Azure Machine Learning RRS execute request. Default is 10.|
+|inputs|Describes the set of inputs for RRS enpoint.|
+|inputs.name|Name of the input. This is the name provided while authoring the endpoint. The name is available from Azure Machine Learning Studio or from the RRS endpoint documentation page.|
+|input.columnNames|Array describing inputs to Azure Machine Learning  endpoint|
+|outputs|Array describing outputs from an Azure Machine Learning RRS endpoint execution.|
+|outputs.name|Name of the output column.|
+|outputs.dataType|Azure Machine Learning data type. List of valid types are available at [Azure Machine Learning data types](https://msdn.microsoft.com/library/azure/dn905923.aspx). These are also described in RRS endpoint documentation.|
+
+
+ Element properties of Input.ColumnNames
+
+|Property|Description|
+|--------------|-----------------|
+|name|Name of the input column.|
+|dataType|Azure Machine Learning data type. List of valid types are available at [Azure Machine Learning data types](https://msdn.microsoft.com/library/azure/dn905923.aspx). These are also described in RRS endpoint documentation.|
+|mapTo|Zero based index of the UDF parameter this input maps to.|
+
+
  **Response**  
   
  **Status code:**  
