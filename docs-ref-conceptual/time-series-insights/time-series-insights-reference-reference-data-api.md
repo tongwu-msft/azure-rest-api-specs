@@ -18,11 +18,11 @@ Response headers:
 
 The reference data management API is a batch API. All operations against this API are http POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of the operation which can be one of the following:
 
-* put
-* patch
-* deleteproperties
-* delete
-* get
+* [put](time-series-insights-reference-reference-data-api.md#put-reference-data-items)
+* [patch](time-series-insights-reference-reference-data-api.md#patch-reference-data-items)
+* [deleteproperties](time-series-insights-reference-reference-data-api.md#delete-properties-in-reference-data-items)
+* [delete](time-series-insights-reference-reference-data-api.md#delete-reference-data-items)
+* [get](time-series-insights-reference-reference-data-api.md#get-reference-data-items)
 
 The property value is an array of reference data items over which the operation has to be applied.
 
