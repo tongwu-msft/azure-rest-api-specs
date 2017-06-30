@@ -2,5 +2,5 @@
 ## [Query](time-series-insights-reference-query.md)
 ### [API](time-series-insights-reference-QueryAPI.md)
 ### [Syntax](time-series-insights-reference-Query-Syntax.md)
-## [ReferenceData](time-series-insights-reference-reference-data.md)
+## [Reference Data](time-series-insights-reference-reference-data.md)
 ### [API](time-series-insights-reference-reference-data-api.md)
