@@ -49,9 +49,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
         "deviceId": "Fan2",
         "color": "White",
         "floor": 2
-    },
-    ...
-    ]
+    }]
 }
 ```
 
@@ -61,8 +59,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
 {
     "put": [
         null,
-        null,
-        ...
+        null
     ]
 }
 ```
@@ -126,9 +123,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
     {
         "deviceId": "Fan2",
         "floor": 18
-    },
-    ...
-    ]
+    }]
 }
 ```
 
@@ -138,8 +133,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
 {
     "patch": [
         null,
-        null,
-        ...
+        null
     ]
 }
 ```
@@ -169,9 +163,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
         "properties":[
             "floor"
         ]
-    },
-    ...
-    ]
+    }]
 }
 ```
 
@@ -180,8 +172,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
 ```json
 {
     "deleteProperties": [
-        null,
-        ...
+        null
     ]
 }
 ```
@@ -206,9 +197,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
     "delete": [
     {
         "deviceId": "Fan1"
-    },
-    ...
-    ]
+    }]
 }
 ```
 
@@ -217,8 +206,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
 ```json
 {
     "delete": [
-        null,
-        ...
+        null
     ]
 }
 ```
@@ -246,9 +234,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
     },
     {
         "deviceId": "Fan2"
-    },
-    ...
-    ]
+    }]
 }
 
 ```
@@ -268,9 +254,7 @@ Assume a reference data set that defines one key with name *deviceId* and type *
     {
         "id": "Fan2",
         "floor": 18
-    },
-    ...
-    ]
+    }]
 }
 
 ```
@@ -294,9 +278,7 @@ The following JSON shows sample error response for a request where the first ite
         "details": null,
         "innerError": null
     },
-    null,
-    ...
-    ]
+    null]
 }
 ```
 
