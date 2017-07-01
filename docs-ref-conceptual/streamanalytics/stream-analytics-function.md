@@ -10,8 +10,6 @@ Creates a new Stream Analytics user-defined function.
   
  For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
- **Request**  
-  
 |Method|Request URI|  
 |------------|-----------------|  
 |**PUT**|https://<endpoint\>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}?api-version={api-version}|  
@@ -33,8 +31,7 @@ Creates a new Stream Analytics user-defined function.
  Common request headers only.  
   
  **Request Body**  
-   The **Function** property is a properties bag needed to completely specify the information needed to make use of an Azure Machine Learning function.  
-  
+
  **JSON**  
   
 ```json
@@ -603,7 +600,7 @@ Testing is performed based on the union of the functions current property values
   
   
 ## Update
-Updates the specified function to use a different Azure Machine Language RRS endpoint (specified with the API key) that uses the scoring type (same feature vector) as the function.  
+Updates the specified function.  
   
 ### Request  
  The **Update Function** request is specified as follows.  
