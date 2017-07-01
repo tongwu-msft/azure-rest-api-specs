@@ -284,7 +284,7 @@ The following JSON shows sample error response. The first item in the request wa
 }
 ```
 
-## Reference Data Join Illustration
+## Reference Data Join Example
 
 Consider an event hub message that has the following structure:
 
