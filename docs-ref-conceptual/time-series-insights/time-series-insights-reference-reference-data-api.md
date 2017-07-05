@@ -1,8 +1,28 @@
-# Azure Time Series Insights Reference Data API
+---
+title: Reference Data API for Azure Time Series Insights environment | Microsoft Docs
+description: This tutorial covers how to work with the reference data API for an Azure Time Series Insights environment
+keywords:
+services: time-series-insights
+documentationcenter:
+author: venkatgct
+manager: almineev
+editor: cgronlun
+
+ms.assetid:
+ms.service: time-series-insights
+ms.devlang: na
+ms.topic: data-acesss-api
+ms.tgt_pltfrm: na
+ms.workload: big-data
+ms.date: 06/29/2017
+ms.author: venkatja
+---
+
+# Azure Time Series Insights reference data API
 
 This document describes the reference data API used to manage items within a reference data set. It assumes that the reference data set has already been created.
 
-## Common Headers and Parameters
+## Common headers and parameters
 
 For authentication and authorization, valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
@@ -14,7 +34,7 @@ Optional request headers:
 Response headers:
 - `x-ms-request-id` - server generated request ID. Can be used to contact Microsoft to investigate a particular request.
 
-## API Overview
+## API overview
 
 The reference data management API is a batch API. All operations against this API are http POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. The operation names are the following:
 
@@ -28,7 +48,7 @@ The property value is an array of reference data items over which the operation 
 
 Each item is processed individually and an error with one piece of data does not affect the storing of good data. If your request has 100 items and 1 item has an error, then 99 items are written and 1 is rejected.
 
-## Put Reference Data Items
+## Put reference data items
 
 `POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
 
@@ -36,7 +56,7 @@ Inserts / replaces the entire reference data item $.put[i] (the *i* th item in t
 
 Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
 
-### Put Request Message
+### *Put* operation request message example
 
 ```json
 {
@@ -53,7 +73,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 }
 ```
 
-### Put Response Message
+### *Put* operation response message example
 
 ```json
 {
@@ -64,7 +84,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 }
 ```
 
-### Put Request Validations
+### *Put* operation validations
 
 1. Each item in $.put can specify its own list of non-key properties (“color”, “maxSpeed”, “location”, etc.).
 2. For any two item sets X and Y, non-key properties in [X].put[i] and [Y].put[j] must not intersect. Consider the following two posts:
@@ -105,7 +125,7 @@ The second post for set *manufacturerInfo* is not allowed since “color” is a
 9. Any validation failure results in a response code of 400 with the appropriate error information.
 10. The response for individual items is either JSON null (for success) or error information JSON object.
 
-## Patch Reference Data Items
+## *Patch* reference data items
 
 `POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
 
@@ -113,7 +133,7 @@ Updates / inserts specific properties for the reference data item $.patch[i].
 
 Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
 
-### Patch Request Message
+### *Patch* operation request message example
 
 ```json
 {
@@ -129,7 +149,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 }
 ```
 
-### Patch Response Message
+### *Patch* operation response message example
 
 ```json
 {
@@ -140,12 +160,12 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 }
 ```
 
-### Patch Request Validations
+### *Patch* operation request validations
 
 1. Same as [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
 2. If item does not exist, a new item is created.
 
-## Delete Properties in Reference Data Items
+## *Delete properties* in reference data items
 
 `POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
 
@@ -153,7 +173,7 @@ Delete the specified properties from the reference data item $.deleteproperties[
 
 Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
 
-### Delete Properties Request Message
+### *Delete properties* operation request message example
 
 ```json
 {
@@ -169,7 +189,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 }
 ```
 
-### Delete Properties Response Message
+### *Delete properties* operation response message example
 
 ```json
 {
@@ -179,12 +199,12 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 }
 ```
 
-### Delete Properties Request Validations
+### *Delete properties* operation validations
 
 1. Same as [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
-2. If a property specified in $.deleteProperties[i].properties does not exist, it will be a no-op for that property.
+2. If a property specified in $.deleteProperties[i].properties does not exist, it is a no-op for that property.
 
-## Delete Reference Data Items
+## *Delete* reference data items
 
 `POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
 
@@ -192,7 +212,7 @@ Deletes the entire reference data identified by the key property values specifie
 
 Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
 
-### Delete Request Message
+### *Delete* operation request message example
 
 ```json
 {
@@ -203,7 +223,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 }
 ```
 
-### Delete Response Message
+### *Delete* operation response message example
 
 ```json
 {
@@ -213,12 +233,12 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 }
 ```
 
-### Delete Request Validations
+### *Delete* operation request validations
 
 1. Values in delete.[i] follow same key properties restrictions mentioned in [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
 2. If item not found, a response code of 404 is returned.
 
-## Get Reference Data Items
+## *Get* reference data items
 
 `POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
 
@@ -226,7 +246,7 @@ Get the entire reference data identified by the key property values specified in
 
 Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
 
-### Get Request Message
+### *Get* operation request message example
 
 ```json
 {
@@ -241,7 +261,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ```
 
-### Get Response Message
+### *Get* operation response message example
 
 ```json
 {
@@ -261,12 +281,12 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ```
 
-### Get Operation Validations
+### *Get* operation validations
 
 1. Values in get.[i] follow same key properties restrictions mentioned in [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
 2. If item not found, return error response 404 against that item.
 
-## Common Error Response Example
+## Common error response example
 
 The following JSON shows sample error response. The first item in the request was invalid while the second item was successfully posted. This response structure is the same for all operations except for [get](time-series-insights-reference-reference-data-api.md###get-reference-data-items). For *get*, on successful completion of an operation, the item itself is returned.
 
@@ -284,7 +304,7 @@ The following JSON shows sample error response. The first item in the request wa
 }
 ```
 
-## Reference Data Join Example
+## Reference data join example
 
 Consider an event hub message that has the following structure:
 
@@ -327,12 +347,12 @@ When the two events in the event hub message are processed by the Time Series In
 ]
 ```
 
-### Reference Data Join Rules
+### Reference data join rules
 
 1. Key name comparison during join is case-sensitive
 2. Key value comparison during join case-sensitive for string properties.
 
-### Handling Multiple Reference Data Sets Join Semantics
+### Handling multiple reference data sets join semantics
 
 For an environment with more than one reference data set, three constraints are enforced during join. These constraints help avoid considering hierarchy and ordering during join by the Time Series Insights ingress engine.
 
