@@ -1,6 +1,6 @@
 ﻿# Function
 
-  A (User-Defined) Function provides an extensible way for a Streaming Job to transform input data to output data using a facility that is not completely described by the Transformation query.
+  A (User-Defined) Function provides an extensible way for a Streaming Job to transform input data to output data using a facility that is not described by the Transformation query.
 
 ## Create
 Creates a new Stream Analytics user-defined function.  
@@ -8,7 +8,7 @@ Creates a new Stream Analytics user-defined function.
 ### Request  
  The **Create Function** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Please make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -18,7 +18,7 @@ Creates a new Stream Analytics user-defined function.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name that you want to assign to the Stream Analytics job that you are creating. The job name is case insensitive and must be unique among all inputs in the job, containing only numbers, letters, and hyphens. It must be 3 to 63 characters long.  
   
@@ -54,7 +54,7 @@ Creates a new Stream Analytics user-defined function.
 |**properties**|Yes|Collection of function type-specific properties. May be empty.|  
 
 
-Properties for Scalar fuction type:
+Properties for Scalar function type:
 |Property|Description|
 |--------------|-----------------|
 |inputs|An array of inputs, describing the parameters of the UDF.|
@@ -62,12 +62,12 @@ Properties for Scalar fuction type:
 |Input.isConfigurationParameter|Optional. True if this parameter is expected to be a constant. Default is false.|
 |output|Described output of the UDF.|
 |Output.dataType|Data type of UDF output. List of valid Azure Stream Analytics data types are  described at [Azure Stream Analytics data types](https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx).|
-|Binding|Described the physical binding for the UDF. For example, in Azure Machine Learning RRS's this described the endpoint.|
+|Binding|Described the physical binding for the UDF. For example, in Azure Machine Learning Request-Response Service this described the endpoint.|
 |Binding.Type|Type of the binding. |
 |Binding.Properties|Properties for the binding. Values are dependent on the type of binding.|
 
 > [!NOTE]  
->  Create Function will validate if the binding and input columns specified matches, if it doesn’t it would return an error. Note that this validation will be triggered only if either input or output is specified.
+>  Create Function will validate if the binding and input columns specified matches, if it doesn’t it would return an error. This validation is triggered only if either input or output is specified.
 
 ### Example payload to create an Azure Stream Analytics JavaScript function
 
@@ -151,15 +151,15 @@ Properties for Scalar fuction type:
 
 |Property|Description|
 |--------------|-----------------|
-|endpoint|Request-Response execute endpoint of Azure Machine Learning Webservice. This endpoint is available from the Request-Response Endpoint documentation page in the Azure Management portal.|
-|apiKey|API key used to authenticate with Request-Response endpoint. This is available from the Azure Management portal.|
+|endpoint|Request-Response endpoint of Azure Machine Learning Web service. This endpoint is available from the Request-Response Endpoint documentation page in the Azure portal.|
+|apiKey|API key used to authenticate with Request-Response endpoint.|
 |batchSize|Optional. Value between 10 and 1000 describing maximum number of rows for every Azure Machine Learning RRS execute request. Default is 10.|
-|inputs|Describes the set of inputs for RRS enpoint.|
-|inputs.name|Name of the input. This is the name provided while authoring the endpoint. The name is available from Azure Machine Learning Studio or from the RRS endpoint documentation page.|
+|inputs|Describes the set of inputs for RRS endpoint.|
+|inputs.name|Name of the input. This property is the name provided while authoring the endpoint. The name is available from Azure Machine Learning Studio or from the RRS endpoint documentation page.|
 |input.columnNames|Array describing inputs to Azure Machine Learning  endpoint|
 |outputs|Array describing outputs from an Azure Machine Learning RRS endpoint execution.|
 |outputs.name|Name of the output column.|
-|outputs.dataType|Azure Machine Learning data type. List of valid types are available at [Azure Machine Learning data types](https://msdn.microsoft.com/library/azure/dn905923.aspx). These are also described in RRS endpoint documentation.|
+|outputs.dataType|Azure Machine Learning data type. List of valid types are available at [Azure Machine Learning data types](https://msdn.microsoft.com/library/azure/dn905923.aspx), they are also described in RRS endpoint documentation.|
 
 
  Element properties of Input.ColumnNames
@@ -167,7 +167,7 @@ Properties for Scalar fuction type:
 |Property|Description|
 |--------------|-----------------|
 |name|Name of the input column.|
-|dataType|Azure Machine Learning data type. List of valid types are available at [Azure Machine Learning data types](https://msdn.microsoft.com/library/azure/dn905923.aspx). These are also described in RRS endpoint documentation.|
+|dataType|Azure Machine Learning data type. List of valid types are available at [Azure Machine Learning data types](https://msdn.microsoft.com/library/azure/dn905923.aspx), they are also described in RRS endpoint documentation.|
 |mapTo|Zero based index of the UDF parameter this input maps to.|
 
 
@@ -177,7 +177,7 @@ Properties for Scalar fuction type:
   
 -   201  (Created) or 200 (OK) if request completed successfully  
   
--   404 (NotFound) if top level resources are not found (subscription, resource group, mdw).  
+-   404 (NotFound) if top-level resources are not found (subscription, resource group, or job).  
   
 -   409 (Conflict) if job is in a state where updating functions is not allowed  
   
@@ -269,7 +269,7 @@ Deletes the specified user-defined function.
 ### Request  
  The **Delete Function** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Please make sure the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
  Request  
   
@@ -281,7 +281,7 @@ Deletes the specified user-defined function.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name that you want to assign to the Stream Analytics job that you are creating. The job name is case insensitive and must be unique among all inputs in the job, containing only numbers, letters, and hyphens. It must be 3 to 63 characters long.  
   
@@ -315,7 +315,7 @@ Deletes the specified user-defined function.
 Gets information about a specific user-defined function.  
   
 ### Request  
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Please make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -323,7 +323,7 @@ Gets information about a specific user-defined function.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that you want information about.  
   
@@ -334,7 +334,7 @@ Gets information about a specific user-defined function.
 ## Response  
  Status code: 200  
   
- **JSON**  
+ **JSON**
   
 ```json
 {  
@@ -412,7 +412,7 @@ Lists all of the functions that are defined in a Stream Analytics job.
 ### Request  
  The **List Functions** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Please make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -420,7 +420,7 @@ Lists all of the functions that are defined in a Stream Analytics job.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job.  
   
@@ -431,7 +431,7 @@ Lists all of the functions that are defined in a Stream Analytics job.
   
  **JSON**  
   
- The example below shows a response from a List Functions  request for an Stream Analytics job with one Azure Machine Learning Function.  
+ The example below shows a response from a List Functions  request for a Stream Analytics job with one Azure Machine Learning Function.  
   
 ```json
 {   
@@ -499,7 +499,7 @@ Testing is performed based on the union of the functions current property values
 ### Request  
  The **Test Function** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Please make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
  Request  
   
@@ -511,7 +511,7 @@ Testing is performed based on the union of the functions current property values
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name that you want to assign to the Stream Analytics job that you are creating. The job name is case insensitive and must be unique among all inputs in the job, containing only numbers, letters, and hyphens. It must be 3 to 63 characters long.  
   
@@ -533,9 +533,9 @@ Testing is performed based on the union of the functions current property values
   
 -   202  (Accepted) if the request was accepted to complete asynchronously.  
   
--   404 (NotFound) if top level resources are not found (subscription, resource group, mdw).  
+-   404 (NotFound) if top-level resources are not found (subscription, resource group, job).  
   
--   400 (Bad Reqeust) if Test Function is called with an empty request body or a non-existing source.  
+-   400 (Bad Request) if Test Function is called with an empty request body or a non-existing source.  
   
 -   5xx if the service is unable to run the test due to service or communication issues.  
   
@@ -548,7 +548,7 @@ Testing is performed based on the union of the functions current property values
  None from the POST operation itself. Clients should use the Asynchronous Operations pattern to get the results of the test. Results are returned as Test Operation Results.  
   
 > [!NOTE]  
->  The Azure Machine Learning RRS apiKey secret is returned in the PUT response, as it was supplied in the PUT request.  
+>  The Azure Machine Learning RRS api-key secret is returned in the PUT response, as it was supplied in the PUT request.  
   
  **Examples**  
   
@@ -605,7 +605,7 @@ Updates the specified function.
 ### Request  
  The **Update Function** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). You must make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Please make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
  **Request**  
   
@@ -617,7 +617,7 @@ Updates the specified function.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name that you want to assign to the Stream Analytics job that you are creating. The job name is case insensitive and must be unique among all inputs in the job, containing only numbers, letters, and hyphens. It must be 3 to 63 characters long.  
   
@@ -657,12 +657,12 @@ Updates the specified function.
  **\***Using PATCH to change the function type is not permitted. Since changing the function type likely would specify a whole new set of function type-specific properties. PUT rather than PATCH should be used to replace the complete entity.  
   
 > [!NOTE]  
->  Update Function will validate if the binding and input columns specified matches, if it doesn’t it would return an error. Note that this validation will be triggered only if either input or output is specified. For AzureML binding, endpoint and apikey are mandatory properties.  
+>  Update Function validates if the binding and input columns specified matches, if it doesn’t it would return an error. This validation is triggered only if either input or output is specified. For AzureML binding, endpoint and apikey are mandatory properties.  
   
 ## Examples  
  Change the function to use a different Azure Machine Learning RRS endpoint (with a corresponding different API key) that does the same kind of scoring (same feature vector) as the old one.  
   
- Function type, Binding type and key properties describing the binding should always be provided. For Azure machine learning scalar function, “endpoint” is the only key property.  
+ Function type, Binding type, and key properties describing the binding should always be provided. For Azure machine learning scalar function, “endpoint” is the only key property.  
   
  **Response**  
   
