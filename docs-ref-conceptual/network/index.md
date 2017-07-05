@@ -67,7 +67,7 @@ Network REST APIs include:
 |[Network Security Rules](virtualnetwork/network-security-rules.md)   |Provides operations for managing Network Security Rules.|
 |[Public IP Addresses](virtualnetwork/public-ip-addresses.md)   | Provides operations for managing Public IP Addresses.|
 |[Subnets](virtualnetwork/virtualnetworksubnets.md)  |Provides operations for managing Subnets.|
-|[Virtual Networks](virtualnetwork/index.md)  |Provides operations for managing Virtual Networks.|
+|[Virtual Networks](virtualnetwork/virtual-networks.md)  |Provides operations for managing Virtual Networks.|
 |[Route Tables](virtualnetwork/route-tables.md)   |Provides operations for managing Route Tables.|
 |[Routes](virtualnetwork/networkroutes.md)   |Provides operations for managing Routes.|
 
