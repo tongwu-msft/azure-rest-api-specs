@@ -125,7 +125,7 @@ The second post for set *manufacturerInfo* is not allowed since “color” is a
 9. Any validation failure results in a response code of 400 with the appropriate error information.
 10. The response for individual items is either JSON null (for success) or error information JSON object.
 
-## *Patch* reference data items
+## Patch reference data items
 
 `POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
 
@@ -165,7 +165,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 1. Same as [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
 2. If item does not exist, a new item is created.
 
-## *Delete properties* in reference data items
+## Delete properties in reference data items
 
 `POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
 
@@ -204,7 +204,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 1. Same as [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
 2. If a property specified in $.deleteProperties[i].properties does not exist, it is a no-op for that property.
 
-## *Delete* reference data items
+## Delete reference data items
 
 `POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
 
@@ -238,7 +238,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 1. Values in delete.[i] follow same key properties restrictions mentioned in [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
 2. If item not found, a response code of 404 is returned.
 
-## *Get* reference data items
+## Get reference data items
 
 `POST https://<environmentFqdn>/referencedatasets/<referenceDataSetName>/$batch?api-version=2016-12-12`
 
