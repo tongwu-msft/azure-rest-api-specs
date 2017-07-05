@@ -8,7 +8,7 @@ Creates a new Stream Analytics user-defined function.
 ### Request  
  The **Create Function** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Please make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -62,12 +62,12 @@ Properties for Scalar function type:
 |Input.isConfigurationParameter|Optional. True if this parameter is expected to be a constant. Default is false.|
 |output|Described output of the UDF.|
 |Output.dataType|Data type of UDF output. List of valid Azure Stream Analytics data types are  described at [Azure Stream Analytics data types](https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx).|
-|Binding|Described the physical binding for the UDF. For example, in Azure Machine Learning Request-Response Service this described the endpoint.|
+|Binding|Described the physical binding for the UDF. For example, in Azure Machine Learning Request-Response Service binding described the endpoint.|
 |Binding.Type|Type of the binding. |
 |Binding.Properties|Properties for the binding. Values are dependent on the type of binding.|
 
 > [!NOTE]  
->  Create Function will validate if the binding and input columns specified matches, if it doesn’t it would return an error. This validation is triggered only if either input or output is specified.
+>  Create Function validates if the binding and input columns specified matches, if it doesn’t it would return an error. This validation is triggered only if either input or output is specified.
 
 ### Example payload to create an Azure Stream Analytics JavaScript function
 
@@ -269,7 +269,7 @@ Deletes the specified user-defined function.
 ### Request  
  The **Delete Function** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Please make sure the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
  Request  
   
@@ -315,7 +315,7 @@ Deletes the specified user-defined function.
 Gets information about a specific user-defined function.  
   
 ### Request  
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Please make sure that the request that is made to the management service is secure. For additional details, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -412,7 +412,7 @@ Lists all of the functions that are defined in a Stream Analytics job.
 ### Request  
  The **List Functions** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Please make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -431,7 +431,7 @@ Lists all of the functions that are defined in a Stream Analytics job.
   
  **JSON**  
   
- The example below shows a response from a List Functions  request for a Stream Analytics job with one Azure Machine Learning Function.  
+ The following example shows a response from a List Functions  request for a Stream Analytics job with one Azure Machine Learning Function.  
   
 ```json
 {   
@@ -499,7 +499,7 @@ Testing is performed based on the union of the functions current property values
 ### Request  
  The **Test Function** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Please make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
  Request  
   
@@ -605,7 +605,7 @@ Updates the specified function.
 ### Request  
  The **Update Function** request is specified as follows.  
   
- For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Please make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
+ For headers and parameters that are used by all requests related to Stream Analytics jobs, see [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
  **Request**  
   
