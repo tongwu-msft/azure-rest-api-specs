@@ -1630,6 +1630,7 @@
 ### [Query](../docs-ref-conceptual/time-series-insights/time-series-insights-reference-query.md)
 #### [API](../docs-ref-conceptual/time-series-insights/time-series-insights-reference-QueryAPI.md)
 #### [Syntax](../docs-ref-conceptual/time-series-insights/time-series-insights-reference-Query-Syntax.md)
+### [Reference Data API](../docs-ref-conceptual/time-series-insights/time-series-insights-reference-reference-data-api.md)
 # [Traffic Manager](../docs-ref-conceptual/trafficmanager/index.md)
 ## [Endpoints](trafficmanager/Endpoints.json)
 ## [Geographic Hierarchies](trafficmanager/GeographicHierarchies.json)
