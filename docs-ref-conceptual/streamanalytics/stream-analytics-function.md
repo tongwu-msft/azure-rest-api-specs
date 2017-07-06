@@ -107,7 +107,7 @@ Properties for Scalar function type:
 
 ```json
 {
-    "properties": {
+  "properties": {
     "type": "Scalar",
     "properties": {
       "inputs": [
@@ -217,47 +217,47 @@ Properties for Scalar function type:
   
 ```json
 {  
-    "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/0c3767c3-b17f-45ba-a306-cd490802f99f/providers/Microsoft.StreamAnalytics/streamingjobs/581ca559-5224-46b6-8668-dae42d0194be/functions/azuremlscalarFunction",  
-    "name": "azuremlscalarFunction",  
-    "type": "Microsoft.StreamAnalytics/streamingjobs/functions",  
+  "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/0c3767c3-b17f-45ba-a306-cd490802f99f/providers/Microsoft.StreamAnalytics/streamingjobs/581ca559-5224-46b6-8668-dae42d0194be/functions/azuremlscalarFunction",  
+  "name": "azuremlscalarFunction",  
+  "type": "Microsoft.StreamAnalytics/streamingjobs/functions",  
+  "properties": {  
+    "type": "Scalar",  
     "properties": {  
-        "type": "Scalar",  
+      "inputs": [  
+        {  
+          "dataType": "nvarchar(max)",  
+          "isConfigurationParameter": false  
+        }
+      ],  
+      "output": {  
+        "dataType": "nvarchar(max)"
+      },  
+      "binding": {  
+        "type": "Microsoft.MachineLearning/WebService",  
         "properties": {  
-            "inputs": [  
-                {  
-                "dataType": "nvarchar(max)",  
-                "isConfigurationParameter": false  
-                }  
-            ],  
-            "output": {  
-                "dataType": "nvarchar(max)"  
-            },  
-            "binding": {  
-                "type": "Microsoft.MachineLearning/WebService",  
-                "properties": {  
-                    "endpoint": "https://ussouthcentral.services.azureml.net/workspaces/f80d5d7a77fa4a46bf2a30c63c078dca/services/b7be5e40fd194258896fb602c1858eaf/execute",  
-                    "apiKey": null,  
-                    "inputs": {  
-                        "name": "input1",  
-                        "columnNames": [  
-                            {  
-                                "name": "78f69f41-aab4-43d2-844a-800b116eed3a",  
-                                "dataType": "Boolean",  
-                                "mapTo": 0  
-                            }  
-                        ]  
-                    },  
-                    "outputs": [  
-                        {  
-                            "name": "output",  
-                            "dataType": "String"  
-                        }  
-                    ],  
-                    "batchSize": 100  
-                }  
-            }  
+          "endpoint": "https://ussouthcentral.services.azureml.net/workspaces/f80d5d7a77fa4a46bf2a30c63c078dca/services/b7be5e40fd194258896fb602c1858eaf/execute",  
+          "apiKey": null,  
+          "inputs": {  
+            "name": "input1",  
+            "columnNames": [  
+              {  
+                "name": "78f69f41-aab4-43d2-844a-800b116eed3a",  
+                "dataType": "Boolean",  
+                "mapTo": 0
+              }
+            ]
+          },  
+          "outputs": [  
+            {  
+              "name": "output",  
+              "dataType": "String"
+            } 
+          ],  
+          "batchSize": 100
         }  
+      } 
     }  
+  }
 }  
   
 ```  
