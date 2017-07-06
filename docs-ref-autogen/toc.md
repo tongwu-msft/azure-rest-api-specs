@@ -332,7 +332,7 @@
 ### [List Offers](../docs-ref-conceptual/documentdb/list-offers.md)
 ### [Replace an Offer](../docs-ref-conceptual/documentdb/replace-an-offer.md)
 ### [Querying Offers](../docs-ref-conceptual/documentdb/querying-offers.md)
-# [CosmosDB Resource Provider](../docs-ref-conceptual/documentdbresourceprovider/index.md)
+# [Cosmos DB Resource Provider](../docs-ref-conceptual/documentdbresourceprovider/index.md)
 ## [Common headers](../docs-ref-conceptual/documentdbresourceprovider/documentdbresourceprovider-headers.md)
 ## Reference
 ### [Database Accounts](documentdbresourceprovider/DatabaseAccounts.json)
