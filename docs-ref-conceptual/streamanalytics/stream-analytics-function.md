@@ -58,10 +58,10 @@ Properties for Scalar function type:
 |Property|Description|
 |--------------|-----------------|
 |inputs|An array of inputs, describing the parameters of the UDF.|
-|Inputs.dataType|Data type of the UDF parameter. List of valid Azure Stream Analytics data types are  described at [Azure Stream Analytics data types](https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx).|
+|Inputs.dataType|Data type of the UDF parameter. List of valid Azure Stream Analytics data types are  described at [Azure Stream Analytics data types](https://msdn.microsoft.com/library/azure/dn835065.aspx).|
 |Input.isConfigurationParameter|Optional. True if this parameter is expected to be a constant. Default is false.|
 |output|Described output of the UDF.|
-|Output.dataType|Data type of UDF output. List of valid Azure Stream Analytics data types are  described at [Azure Stream Analytics data types](https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx).|
+|Output.dataType|Data type of UDF output. List of valid Azure Stream Analytics data types are  described at [Azure Stream Analytics data types](https://msdn.microsoft.com/library/azure/dn835065.aspx).|
 |Binding|Described the physical binding for the UDF. For example, in Azure Machine Learning Request-Response Service binding described the endpoint.|
 |Binding.Type|Type of the binding. |
 |Binding.Properties|Properties for the binding. Values are dependent on the type of binding.|
@@ -331,7 +331,7 @@ Gets information about a specific user-defined function.
   
  Replace {api-version} with 2015-10-01 in the URI.  
   
-## Response  
+### Response  
  Status code: 200  
   
  **JSON**
