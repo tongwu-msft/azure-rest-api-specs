@@ -331,7 +331,7 @@ Gets information about a specific user-defined function.
   
  Replace {api-version} with 2015-10-01 in the URI.  
   
-## Response  
+### Response  
  Status code: 200  
   
  **JSON**
