@@ -1,7 +1,7 @@
 ---
 title: "Create a Document"
 ms.custom: ""
-ms.date: "2016-03-29"
+ms.date: "2017/07-07"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "cosmos-db"
@@ -50,7 +50,7 @@ The `Create Document` operation creates a new document in a collection.
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|This is a user settable property. It is the unique name that identifies the document, i.e. no two documents should share the same **id**. The **id** must not exceed 255 characters.|  
-|\<custom>|Required|JSON|Any user defined JSON. For document size limit, see [Azure Cosmos DB Limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
+|\<custom>|Required|JSON|Any user defined JSON.|  
   
 ```  
 {  
@@ -109,7 +109,7 @@ The `Create Document` operation creates a new document in a collection.
 |400 Bad Request|The JSON body is invalid.|  
 |403 Forbidden|The operation could not be completed because the storage limit of the partition has been reached.|  
 |409 Conflict|The id provided for the new document has been taken by an existing document.|  
-|413 Entity Too Large|The document size in the request exceeded the allowable document size. For more information about document size limits, see [Azure Cosmos DB Limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
+|413 Entity Too Large|The document size in the request exceeded the allowable document size.|  
   
 ### Body  
   
