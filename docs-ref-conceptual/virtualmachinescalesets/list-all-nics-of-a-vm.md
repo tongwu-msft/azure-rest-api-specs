@@ -1,7 +1,7 @@
 ---
 title: "List all NICs of a VM"
 ms.custom: ""
-ms.date: "2017-02-07"
+ms.date: "2017-07-07"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "virtual-machines"
@@ -12,8 +12,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
 ms.assetid: 474f2936-0939-46ab-a78e-57a93fd48d2c
 caps.latest.revision: 5
-ms.author: "davidmu"
-manager: "timlt"
+ms.author: "anavin"
+manager: "narayan"
 ---
 # List all NICs of a VM
 Retrieves information about network interfaces that are used by a virtual machine in the specified virtual machine scale set.    
@@ -32,7 +32,7 @@ For information about getting started with Azure REST operations including reque
 | resourceGroup | The resource group that contains the scale set. |
 | vmScaleSet | The name of the scale set. |
 | vmInstanceId | The instance identifier of the virtual machine. |
-| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. | 
+| apiVersion | The version of the API to use. The current version is 2016-03-30. | 
     
 ## Response    
 
@@ -59,12 +59,12 @@ Status code: 200 (OK).
         "properties": {     
           "provisioningState": "Succeeded",    
           "privateIPAddress": "10.0.0.8",    
-          "privateIPAllocationMethod": "Static",    
+          "privateIPAllocationMethod": "Dynamic",    
           "subnet": {    
             "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysub1"    
           },    
           "publicIPAddress": {    
-            "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/publicIPAddresses/myip1"    
+            "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Compute/virtualMachineScaleSets/myscaleset1/virtualMachines/0/networkInterfaces/nicipconfig1/ipConfigurations/ipconfig1/publicIPAddresses/myip1"    
           },    
           "loadBalancerBackendAddressPools": [ {    
             "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/loadBalancers/mylb1/backendAddressPools/pool1"    
@@ -81,7 +81,10 @@ Status code: 200 (OK).
         }    
       } ],    
       "macAddress": "00-0D-3A-A0-AE-61",    
-      "enableIPForwarding": false,    
+      "enableIPForwarding": false,
+       "networkSecurityGroup": {
+          "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/Microsoft.Network/networkSecurityGroups/nsg1"
+        },
       "primary": true,    
       "virtualMachine": {    
         "id": "/subscriptions/(sub-id}/resourceGroups/myrg1/providers/Microsoft.Compute/virtualMachines/myvmss1_0"    
@@ -102,7 +105,8 @@ Status code: 200 (OK).
 |resourceGuid|Specifies a unique identifier of the network interface instance.|    
 |[ipConfigurations](#ipConfigurations)|Specifies the IP configurations for the network interface configuration.|    
 |virtualMachine|Specifies the identifier of the virtual machine that is associated with the network interface configuration.|    
-|macAddress|Specifies the media access control (MAC) address of the network interface configuration.|    
+|macAddress|Specifies the media access control (MAC) address of the network interface configuration.|
+|networkSecurityGroup| Specifies the security groups associated with the network interface.|    
     
 ###  <a name="ipConfigurations"></a> ipConfigurations    
     
