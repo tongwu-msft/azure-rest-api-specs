@@ -138,6 +138,9 @@ The following example shows the request to create a new virtual machine scale se
           "properties": {
             "primary": true,
             "enableAcceleratedNetworking": false,
+            "networkSecurityGroup": {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myrg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"
+              },
                   "dnsSettings": {
                     "dnsServers": []
                   },   
