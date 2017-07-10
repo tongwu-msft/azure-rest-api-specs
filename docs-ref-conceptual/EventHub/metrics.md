@@ -41,10 +41,10 @@ These APIs enable you to obtain metrics for an Event Hub. You can also access th
   
 -   [Available metrics for Event Hubs](available-metrics-for-event-hubs.md)  
   
--   [Get Supported Metrics]()  
+-   [Get Supported Metrics](/rest/api/servicebus/get-supported-metrics)  
   
--   [Get Metrics Rollups]()  
+-   [Get Metrics Rollups](/rest/api/servicebus/get-metrics-rollups)  
   
--   [Supported Rollups]()  
+-   [Supported Rollups](/rest/api/servicebus/supported-rollups)  
   
--   [Get Metrics Data]()
+-   [Get Metrics Data](/rest/api/servicebus/get-metrics-data)

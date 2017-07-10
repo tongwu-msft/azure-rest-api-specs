@@ -1,5 +1,5 @@
----
-title: "Create or update a virtual machine"
+﻿---
+title: "Create or update an Azure virtual machine | Microsoft Docs"
 author: davidmu1
 ms.date: 2017-02-06
 ms.prod: azure
@@ -31,7 +31,7 @@ For information about getting started with Azure REST operations including reque
 
  The following example shows the request body for creating a virtual machine from a platform image. For examples of creating virtual machines in other ways, see the Examples section below.    
     
-```    
+```json
 {
   "name": "myvm1",
   "location": "westus",
@@ -257,7 +257,7 @@ For information about getting started with Azure REST operations including reque
 |--------------|----------|------|-------------|    
 | name | Yes | String | Specifies the disk name. This element can be used to overwrite the name of the disk in a virtual machine image. |    
 | Uri | Yes | String | Specifies the vhd uri. |    
-| caching | No | String |Specifies the caching requirements. |    
+| caching | No | String | Specifies the caching requirements. Note that the OS disk will always use read caching even if the setting is configured to None.<br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **ReadWrite** | 
 | createOption | Yes | String | Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** – This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** – This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. |   
 | diskSizeGB | No | Int | Specifies the resized size of the OS Disk. Allows you to resize an existing OS disk size. <br><br> This value cannot be larger than 1023 GB. This element is not returned in the GET VM call unless specified on the first resize disk operation. The partitions on the VMs will need to be adjusted for the new size from within the OS. <br><br> Minimum api-version: 2015-06-15 |   
 | osType | Yes for user-image deployments <br> Do not specify for platform/marketplace image deployments | Int | This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** |
@@ -294,7 +294,7 @@ For information about getting started with Azure REST operations including reque
 | caching | No | String | Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage** |    
 | lun | Yes | Int | Specifies the logical unit number of the data disk. |    
 | vhd | Yes | String | Specifies the uri of the location in storage where the VHD for the virtual machine should be placed. | 
-| [mamagedDisk](#managedDisk) | Specified the identifier and optional storage account type for the disk. |   
+| [managedDisk](#managedDisk) | Specified the identifier and optional storage account type for the disk. |   
 | creationOption | Yes | String | Specifies how the data disk should be created. <br><br> Possible values are: <br><br> **Attach** - This value is used when you are using a specialized disk/VHD to attach to the virtual machine. <br><br> **FromImage** - This value is used when you are using an image to create the virtual machine. If you are using a platform image, you will also use the imageReference element described above. If you are using a marketplace image, you will also use the plan element described above. |    
 
 #### <a name="managedDisk"></a> managedDisk
@@ -329,7 +329,8 @@ For information about getting started with Azure REST operations including reque
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
-| disablePasswordAuthentication | No | Boolean | Specifies whether password authentication should be disabled. | | ssh.publicKeys | <li>No if password specified<li>Yes if password not specified | Collection | Specifies a collection of keys to be placed on the virtual machine. <li> When a SSH key is specified, "disablePasswordAuthentication" property is automatically set to "true".<br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json). |    
+| disablePasswordAuthentication | No | Boolean | Specifies whether password authentication should be disabled. | 
+| ssh.publicKeys | No if password specified<br><br>Yes if password not specified | Collection | Specifies a collection of keys to be placed on the virtual machine. When a SSH key is specified, "disablePasswordAuthentication" property is automatically set to "true".<br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json). |    
     
 ##### <a name="bk_publicKeys"></a> publicKeys    
     
@@ -359,7 +360,7 @@ For information about getting started with Azure REST operations including reque
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
 | [sourceVault](../virtualmachines/virtualmachines-create-or-update.md#bk_srcvault) | Yes | Complex Type | Specifies the key vault to use. |    
-| [vaultCertificates](../virtualmachines/virtualmachines-create-or-update.md#bk_vaultcert) | Yes on Windows <br><br> No on Linux | Collection | The certificate store in LocalMachine on windows Virtual Machine where the certificate should be added to. |    
+| [vaultCertificates](../virtualmachines/virtualmachines-create-or-update.md#bk_vaultcert) | Yes  | Collection | Specifies additional certificate information. |    
     
 ##### <a name="bk_srcvault"></a> sourceVault    
     
@@ -372,7 +373,7 @@ For information about getting started with Azure REST operations including reque
 | Element name | Required | Type| Description |    
 |--------------|----------|-----|-------------|    
 | certificateUrl | Yes | String | This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>  "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>} |    
-| certificateStore | No | String | Specifies the certificate store on the Virtual Machine where the certificate should be added to. The specified certificate store is implicitly in the LocalMachine account. <br><br>This is only applicable for a Windows VM. |    
+| certificateStore | No | String | For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name <UppercaseThumbprint>.crt for the X509 certificate file and <UppercaseThumbpring>.prv for private key. Both of these files are .pem formatted. |    
     
 #### <a name="bk_netprofile"></a> networkProfile    
     
@@ -404,7 +405,7 @@ Status code: 200 (OK). 404 (NotFound) if a resource does not exist.
     
 The following example shows the response body for a virtual machine that was created from a platform image. Responses from other create operations will include the elements shown in the following Examples section.    
     
-```    
+```json
 {      
   "id":"/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/virtualMachines/myvm1",    
   "name":"myvm1",     
@@ -491,7 +492,7 @@ The provisioningState element specifies the status of the virtual machine deploy
 
 ### Create a managed VM
 
-```
+```json
 "storageProfile": {
   "imageReference": {
     "publisher":"MicrosoftWindowsServerEssentials",    
@@ -513,7 +514,7 @@ The provisioningState element specifies the status of the virtual machine deploy
 
 This example shows how to create a VM from a virtual machine image. The key things to notice are the value fromImage for the createOption property and the imageReference.id property. The imageRefence.id value is the resource identifier of a virtual machine image in your subscription.
 
-```
+```json
 "storageProfile": {
   "imageReference": {
     "id": "/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/images/myImage"
@@ -528,7 +529,7 @@ This example shows how to create a VM from a virtual machine image. The key thin
 
 ### Create a VM from a virtual machine image with an attached managed disk
 
-```
+```json
 {
   "storageProfile": {
     "imageReference": {
@@ -561,7 +562,7 @@ This example shows how to create a VM from a virtual machine image. The key thin
 
 This example shows how to create a VM from a generalized/sysprepped VHD in Azure storage. The key things to notice are the value fromImage for the createOption property and image.uri and vhd.uri properties in the osDisk object. image.uri is the location of your image and vhd.uri is where the disk is copied to and the VM is booted from.
 
-```
+```json
 "osProfile": {
     "computerName": "contosoVM",
     "adminUsername": "contosouser",
@@ -603,7 +604,7 @@ This example shows how to create a VM from an existing disk. The key things to n
 
 In this case osProfile is not needed since all OS properties such as username/password as persisted in the VHD when it is not generalized.
 
-```
+```json
 "storageProfile": {
   "osDisk": {
     "name": "osdisk",
@@ -621,7 +622,7 @@ In this case osProfile is not needed since all OS properties such as username/pa
 
 The following example shows the additional plan element that is required when you use a marketplace image:
 
-```
+```json
 {
   "id": "/subscriptions/{subscription-id/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/virtualMachines/myvm1",
   "name": "myvm1",
@@ -643,7 +644,7 @@ The following example shows the additional plan element that is required when yo
 
 The following example shows the linuxConfiguation element that is required when you are creating a Linux virtual machine.
 
-```
+```json
 "osProfile": {
   "computerName": "virtualMachineName",
   "adminUsername": "username",
@@ -665,7 +666,7 @@ The following example shows the linuxConfiguation element that is required when 
 
 The following example shows the licenseType element that is used when the image or disk was licensed on-premises.
 
-```
+```json
 "properties": {  
    "licenseType": "Windows_Server",
    "availabilitySet": {  

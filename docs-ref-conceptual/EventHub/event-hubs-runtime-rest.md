@@ -1,7 +1,7 @@
 ---
-title: "Event Hubs Runtime REST"
+title: "Event Hubs service REST"
 ms.custom: ""
-ms.date: "2016-12-01"
+ms.date: "2017-04-27"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -14,8 +14,9 @@ author: "sethmanheim"
 ms.author: "sethm"
 manager: "timlt"
 ---
-# Event Hubs Runtime REST
-These APIs enable you to perform runtime operations on Event Hubs.  
+
+# Event Hubs service REST
+These APIs enable you to access the Event Hubs service to perform operations on event hubs.  
   
 ##  <a name="bk_common"></a> Common parameters and headers  
  The following information is common to all tasks that you might do related to Event Hubs publisher policy:  

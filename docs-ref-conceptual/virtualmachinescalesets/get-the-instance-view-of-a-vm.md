@@ -66,29 +66,33 @@ Status code: 200 (OK).
   },      
   "disks": [ {     
     "name": "osdisk",     
-    "statuses": [ {     
-      "code": "ProvisioningState/succeeded",     
-      "level": "Info",     
-      "displayStatus": "Provisioning succeeded",     
-      "time": "<time disk created>"     
-    } ]     
+    "statuses": [ 
+      {     
+        "code": "ProvisioningState/succeeded",     
+        "level": "Info",     
+        "displayStatus": "Provisioning succeeded",     
+        "time": "<time disk created>"     
+      } 
+    ]     
   } ],     
-        "statuses": [ {     
-    "code": "ProvisioningState/failed/VMAgentProvisioningFailure",     
-    "level": "Error",     
-    "displayStatus": "VM Agent provisioning failed"     
-  },     
-  {     
-    "code": "PowerState/Running",     
-    "level": "Info",     
-    "displayStatus": "VM Running"     
-  },    
-  {     
-    "code" : "OSState/Generalized",     
-    "message" : "Virtual Machine XYZ is Generalized",     
-    "level" : "Info",     
-    "displayStatus" : "VM Generalized"     
-  } ],    
+  "statuses": [ 
+    {     
+      "code": "ProvisioningState/failed/VMAgentProvisioningFailure",     
+      "level": "Error",     
+      "displayStatus": "VM Agent provisioning failed"     
+    },     
+    {     
+      "code": "PowerState/Running",     
+      "level": "Info",     
+      "displayStatus": "VM Running"     
+    },    
+    {     
+      "code" : "OSState/Generalized",     
+      "message" : "Virtual Machine XYZ is Generalized",     
+      "level" : "Info",     
+      "displayStatus" : "VM Generalized"     
+    } 
+  ],    
   "extensions": [ {     
     "name": "mydomainjoinscript",     
     "type": "Microsoft.Compute.CustomScriptExtension",    
@@ -106,7 +110,8 @@ Status code: 200 (OK).
       "displayStatus": "Succeeded",     
       "message": "Creating log file..."     
     } ]     
-  } ]     
+  } ],
+  "placementGroupId": "<placement-group-identifier>"    
 }    
     
 ```    
@@ -119,7 +124,8 @@ Status code: 200 (OK).
 |windowsConfiguration|Specifies the RDP thumbprint used to access the virtual machine instance.|    
 |[vmAgent](#vmagent)|Specifies the status of the VM Agent installed on the virtual machine instance.|    
 |[disks](#disks)|Specifies the disks that are associated with the virtual machine instance.|    
-|[extensions](#extensions)|Specifies the status of the extensions installed on the virtual machine instance.|    
+|[extensions](#extensions)|Specifies the status of the extensions installed on the virtual machine instance.| 
+|placementGroupId|Specifies the identifier of the placement group in which the VM is running. If the VM is deallocated it will not have a placementGroupId.   
     
 ###  <a name="vmagent"></a> vmAgent    
     

@@ -6,6 +6,7 @@ ms.service: search
 author: HeidiSteen
 ms.author: heidist
 ms.manager: jhubbard
+service_description: To be added
 ---
 
 # Search Management
@@ -29,6 +30,5 @@ You can use [.NET](https://aka.ms/search-mgmt-sdk) or [PowerShell](https://azure
 ## See Also
 
 - [How to use the search management API](search-howto-management-rest-api.md)
-- [Get started with Azure Search management API](http://go.microsoft.com/fwlink/p/?LinkId=516968)
 - [Azure Search documentation](https://azure.microsoft.com/documentation/services/search/)
 - [Search Service REST](~/docs-ref-conceptual/searchservice/index.md)   

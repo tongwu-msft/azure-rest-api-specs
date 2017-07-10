@@ -32,10 +32,7 @@ For information about getting started with Azure REST operations including reque
   
 ```json
 {  
-  "accountType": { 
-    "name": "Standard_LRS", 
-    "tier": "Standard" 
-  },
+  "accountType": "Standard_LRS",
   "tags": {  
     "tagName": "tagValue"
   },      
@@ -47,8 +44,7 @@ For information about getting started with Azure REST operations including reque
 
 | Element name | Description |
 | ------------ | ----------- |
-| **name** | Specifies the name of the storage account type. If the accountType element is included, the managed disk is moved to a different storage account of the desired type. |
-| **tier** | Specifies the tier of the storage account. |
+| **accountType** | Specifies the storage account type. If the accountType element is included, the managed disk is moved to a different storage account of the desired type. Possible values are Premium_LRS or Standard_LRS. |
 | **tags** | Specifies the name and value string pairs that can be used to track resources. |
 | **diskSizeGB** | Specifies the size that the managed disk should be changed to. |
 
@@ -78,10 +74,7 @@ This response example includes all optional elements. Your actual response may n
 
 ```json
 { 
-  "accountType": { 
-    "name": "Standard_LRS", 
-    "tier": "Standard" 
-  }, 
+  "accountType": "Standard_LRS"
   "properties": { 
     "osType": "Windows", 
     "creationData": { 

@@ -5,6 +5,7 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
+ms.date: 04/28/2017
 ---
 # Common parameters and headers
 
@@ -15,7 +16,7 @@ The following information is common to all operations that you might do related 
 - Replace `{resource-group-name}` with the resource group. For more information, see Using Resource groups to manage your Azure resources.
 - Replace `{vault-name}` with your key vault name in the URI.
 - Set the Content-Type header to application/json.
-- Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager](authentication--requests-and-responses.md) requests.
+- Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory (AAD). For more information, see [Authenticating Azure Resource Manager](authentication--requests-and-responses.md) requests.
 
 ## Common error response
 The service will use HTTP status codes to indicate success or failure. In addition, failures contain a response in the following format:
@@ -29,7 +30,7 @@ The service will use HTTP status codes to indicate success or failure. In additi
 
 |Element name | Type | Description |
 |---|---|---|
-| code | string | The type of error that occured.|
+| code | string | The type of error that occurred.|
 | message | string | A description of what caused the error. |
 
 

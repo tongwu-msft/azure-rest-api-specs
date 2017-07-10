@@ -1,7 +1,7 @@
 ---
-title: "Language support (Azure Search Service REST API)"
+title: "Language analyzers (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-03-16"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Language support (Azure Search Service REST API)
+# Language analyzers (Azure Search Service REST API)
   Are you new to search technologies and custom analyzers in particular?  [Learn how custom analyzers add value to search applications](https://azure.microsoft.com/blog/language-support-in-azure-search).  
 
 ## Introduction  
@@ -46,6 +46,9 @@ translation.priority.mt:
  In comparison, the Microsoft analyzer performs lemmatization instead of stemming. This means it can handle inflected and irregular word forms much better what results in more relevant search results [(watch module 7 of Azure Search MVA presentation for more details)](https://channel9.msdn.com/Series/Adding-Microsoft-Azure-Search-to-Your-Websites-and-Apps/07).  
 
  Indexing with Microsoft analyzers is on average two to three times slower than their Lucene equivalents, depending on the language. Search performance should not be significantly affected for average size queries.  
+
+ > [!Tip]
+ > The [Search Analyzer Demo](http://alice.unearth.ai/) provides side-by-side comparison of results produced by the standard Lucene analyzer, Lucene's English language analyzer, and Microsoft's English natural language processor. For each search input you provide, results from each analyzer are displayed in adjacent panes.
 
  **Configuration**  
 
@@ -129,6 +132,6 @@ See [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) for 
 
  All analyzers with names annotated with **Lucene** are powered by [Apache Lucene's language analyzers](http://lucene.apache.org/core/4_9_0/analyzers-common/overview-summary.html). More information about the ASCII folding filter can be found [Class ASCIIFoldingFilter](http://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.html).  
 
-## See Also  
+## See also  
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  
- [AnalyzerName Class](https://msdn.microsoft.com/library/microsoft.azure.search.models.analyzername.aspx)  
+ [AnalyzerName Class](https://docs.microsoft.com/dotnet/api/microsoft.azure.search.models.analyzername)  

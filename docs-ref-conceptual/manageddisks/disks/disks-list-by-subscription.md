@@ -52,10 +52,7 @@ This response example includes all optional elements. Your actual response may n
 { 
   "value": [ 
     { 
-      "accountType": { 
-        "name": "Standard_LRS", 
-        "tier": "Standard" 
-      }, 
+      "accountType": "Standard_LRS",
       "properties": { 
         "osType": "Windows", 
         "creationData": { 
@@ -92,10 +89,7 @@ This response example includes all optional elements. Your actual response may n
       "name": "myManagedDisk1" 
     }, 
     { 
-      "accountType": { 
-        "name": "Standard_LRS", 
-        "tier": "Standard" 
-      }, 
+      "accountType": "Standard_LRS",
       "properties": { 
         "osType": "Windows", 
         "creationData": { 
@@ -104,6 +98,7 @@ This response example includes all optional elements. Your actual response may n
         "diskSizeGB": 10, 
         "timeCreated": "2016-12-28T04:41:36.872242+00:00", 
         "provisioningState": "Succeeded", 
+        "ownerId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
         "diskState": "Attached"
       }, 
       "type": "Microsoft.Compute/disks", 
@@ -112,10 +107,7 @@ This response example includes all optional elements. Your actual response may n
       "name": "myManagedDisk2" 
     }, 
     { 
-      "accountType": { 
-        "name": "Standard_LRS", 
-        "tier": "Standard" 
-      }, 
+      "accountType": "Standard_LRS",
       "properties": { 
         "osType": "Windows", 
         "creationData": { 

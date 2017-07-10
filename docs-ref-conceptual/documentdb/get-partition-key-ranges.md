@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-12-11"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -33,10 +33,10 @@ Performing a `GET` on a specific collection's `pkranges` child resource retrieve
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|GET|`https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/pkranges`|Note that the `{databaseaccount}` is the name of the DocumentDB account created under your subscription. The `{db-id}` id of the database and {coll-id} value is the id of the collection.|  
+|GET|`https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/pkranges`|Note that the `{databaseaccount}` is the name of the Azure Cosmos DB account created under your subscription. The `{db-id}` id of the database and {coll-id} value is the id of the collection.|  
   
 ### Headers  
- See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests.  
+ See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
   
 ### Body  
  None.  
@@ -45,7 +45,7 @@ Performing a `GET` on a specific collection's `pkranges` child resource retrieve
 Returns the list of partition key ranges for the collection.  
   
 ### Headers  
- See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  
+ See [Common Azure Cosmos DB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all Cosmos DB responses.  
   
 ### Status codes  
  The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](http-status-codes-for-documentdb.md).  
@@ -113,9 +113,10 @@ This request returns the following response containing metadata about the partit
 
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
+ [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
  [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+ [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
+

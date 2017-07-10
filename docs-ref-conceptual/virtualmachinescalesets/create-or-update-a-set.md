@@ -1,4 +1,4 @@
----
+﻿---
 title: "Create or update a scale set"
 ms.custom: ""
 ms.date: "2017-02-07"
@@ -26,7 +26,7 @@ For information about getting started with Azure REST operations including reque
 
 | Method | Request URI |    
 |--------|-------------|    
-| PUT or PATCH | `https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}?api-version={apiVersion} |    
+|PUT or PATCH| `https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}?api-version={apiVersion}`|    
 
 | Parameter | Description |
 | --------- | ----------- |
@@ -37,7 +37,7 @@ For information about getting started with Azure REST operations including reque
 
 The following example shows the request to create a new virtual machine scale set using managed disks:
 
-```    
+```json
 {     
   "tags": {    
     "key": "value"          
@@ -48,7 +48,8 @@ The following example shows the request to create a new virtual machine scale se
     "tier": "Standard",    
     "capacity": 10          
   },     
-  "properties": {    
+  "properties": {  
+    "singlePlacementGroup": true,  
     "overprovision": true,    
     "upgradePolicy": {    
       "mode": "Manual"    
@@ -76,7 +77,7 @@ The following example shows the request to create a new virtual machine scale se
           },    
         },    
         "windowsConfiguration": {    
-          "provisionVMAgent": "true",    
+          "provisionVMAgent": true,    
           "winRM": {    
             "listeners": [ {    
               "protocol": "https",    
@@ -124,7 +125,7 @@ The following example shows the request to create a new virtual machine scale se
             "lun": 0,
             "createOption": "Empty",
             "caching": "None",
-            "manageDisk": {
+            "managedDisk": {
               "storageAccountType": "Standard_LRS"
             },
             "diskSizeGB": 100
@@ -175,7 +176,7 @@ The following example shows the request to create a new virtual machine scale se
 
 The following example shows the request to create a new virtual machine scale set with an unmanged disk and a storage account:    
     
-```    
+```json
 {     
   "tags": {    
     "key": "value"          
@@ -186,7 +187,8 @@ The following example shows the request to create a new virtual machine scale se
     "tier": "Standard",    
     "capacity": 10          
   },     
-  "properties": {    
+  "properties": { 
+    "singlePlacementGroup": true,   
     "overprovision": true,    
     "upgradePolicy": {    
       "mode": "Manual"    
@@ -214,7 +216,7 @@ The following example shows the request to create a new virtual machine scale se
           },    
         },    
         "windowsConfiguration": {    
-          "provisionVMAgent": "true",    
+          "provisionVMAgent": true,    
           "winRM": {    
             "listeners": [ {    
               "protocol": "https",    
@@ -307,7 +309,8 @@ The following example shows the request to create a new virtual machine scale se
 |tags|No|String|Specifies the tags that are assigned to the scale set. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md).|    
 |location|Yes|String|Specifies the supported Azure location where the resource exists. For more information, see [List all of the available geo-locations](../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations) .|    
 |[sku](#sku)|Yes|Complex Type|Specifies configuration information for virtual machines in the scale set.|    
-|overprovision|No|bool|Indicates whether over-provisioning should be enabled. An attempt is made to reliably provision the count of virtual machines requested in the value of the capacity element. The number of new virtual machines may over-provisioned. A success status is  returned  as soon as the capacity value is reached.<br /><br /> The count of successfully provisioned virtual machines is maximized while providing best-effort Fault Domain (FD) distribution. It is possible that in some cases, due to higher number of provisioning failures the FD distribution can be uneven.<br /><br /> Applications may start temporarily on over-provisioned virtual machines, but are terminated when the machines are deleted.<br /><br /> The over-provisioned virtual machines can be accessed using APIs while an operation is in progress. When the operation completes, the machines are deleted and no longer accessible.<br /><br /> This element is only used with version **2016-03-30** and higher.|    
+|singlePlacementGroup|No|Boolean|Indicates whether the scale set is limited to a single placement group, of max size 100 virtual machines. Set this value to false for large scale sets, greater than 100 for platform images and greater than 40 for custom images. The default is true.|
+|overprovision|No|Boolean|Indicates whether over-provisioning should be enabled. An attempt is made to reliably provision the count of virtual machines requested in the value of the capacity element. The number of new virtual machines may over-provisioned. A success status is  returned  as soon as the capacity value is reached.<br /><br /> The count of successfully provisioned virtual machines is maximized while providing best-effort Fault Domain (FD) distribution. It is possible that in some cases, due to higher number of provisioning failures the FD distribution can be uneven.<br /><br /> Applications may start temporarily on over-provisioned virtual machines, but are terminated when the machines are deleted.<br /><br /> The over-provisioned virtual machines can be accessed using APIs while an operation is in progress. When the operation completes, the machines are deleted and no longer accessible.<br /><br /> This element is only used with version **2016-03-30** and higher.|    
 |[upgradePolicy](#upgradepolicy)|Yes|Complex Type|Specifies the mode of the upgrade policy.|    
 |[virtualMachineProfile](#virtualmachineprofile)|Yes|Complex Type|Specifies configuration settings for the virtual machines in the scale set.|    
     
@@ -318,6 +321,14 @@ The following example shows the request to create a new virtual machine scale se
 |name|Yes|String|Specifies the size of  virtual machines in a scale set.|    
 |tier|No|String|Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic**|    
 |capacity|Yes||Specifies the number of virtual machines in the scale set.|    
+
+### <a name="plan"></a> plan    
+    
+| Element name | Required | Type | Description |    
+|--------------|----------|------|-------------|    
+| name | Yes | String | Specifies the name of the image from the marketplace. This is the same value that you use for Sku under the imageReference element. For more information about how to find image information, see [Navigating and Selecting Azure Virtual Machine images with PowerShell and the Azure CLI](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-cli-ps-findimage?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)|    
+| publisher | Yes | String | Specifies the publisher of the image. |    
+| product | Yes | String | Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element. |    
     
 ###  <a name="upgradepolicy"></a> upgradePolicy    
     
@@ -470,7 +481,7 @@ The following example shows the request to create a new virtual machine scale se
     
  The following example shows a request to update a virtual machine scale set:    
     
-```    
+```json
 {     
   "tags": {    
     "key": "value"          
@@ -567,6 +578,30 @@ The following example shows the request to create a new virtual machine scale se
 }    
     
 ```    
+
+## Examples
+
+### Marketplace image
+
+The following example shows the additional plan element that is required when you use a marketplace image:
+
+```json
+{
+  "id": "/subscriptions/{subscription-id/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/virtualMachineScaleSets/myvmss1",
+  "name": "myvmss1",
+  "type": "Microsoft.Compute/virtualMachineScaleSets",
+  "location": "westus",
+  "tags": { 
+    "department": "finance" 
+   }, 
+  "plan": {
+    "name": "imageName",
+    "publisher": "imagePublisher",
+    "product": "imageProduct"
+  },
+  "properties": {
+  ...
+```
     
 ### Response    
 

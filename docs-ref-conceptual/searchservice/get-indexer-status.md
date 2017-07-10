@@ -53,6 +53,7 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
             "startTime":"2014-11-26T03:37:18.853Z",  
             "endTime":"2014-11-26T03:37:19.012Z",  
             "errors":[],  
+	    "warnings":[],
             "itemsProcessed":11,  
             "itemsFailed":0,  
             "initialTrackingState":null,  
@@ -64,7 +65,8 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
             "errorMessage":null,  
             "startTime":"2014-11-26T03:37:18.853Z",  
             "endTime":"2014-11-26T03:37:19.012Z",  
-            "errors":[],  
+            "errors":[], 
+	    "warnings":[],
             "itemsProcessed":11,  
             "itemsFailed":0,  
             "initialTrackingState":null,  
@@ -76,12 +78,17 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
             "startTime":"2014-11-26T03:28:10.125Z",  
             "endTime":"2014-11-26T03:28:12.007Z",  
             "errors":[
-			 {
+	     {
                  "key":  "",
                  "status":  false,
                  "errorMessage":  "Document key cannot be missing or empty.",
                  "statusCode":  400
              }],  
+	    "warnings":[
+	     {
+                 "key":  "document id",
+                 "message":  "A warning doesn't stop indexing, and is intended to inform you of certain interesting situations, like when a blob indexer truncates the amount of text extracted from a blob."
+             }],
             "itemsProcessed":1,  
             "itemsFailed":1,  
             "initialTrackingState":null,  
@@ -111,6 +118,8 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
 
 -   **errors**: A list of item-level errors, if any. See the sample response above for an example.  
 
+-   **warnings**: A list of item-level warnings, if any. See the sample response above for an example. 
+
 -   **itemsProcessed**: The number of data source items (for example, table rows) that the indexer attempted to index during this execution.  
 
 -   **itemsFailed**: The number of items that failed during this execution. The error provides the ID of the item that failed.  
@@ -132,7 +141,7 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
 
 -   **Reset** indicates that the indexer has been reset by a call to [Reset Indexer &#40;Azure Search Service REST API&#41;](reset-indexer.md).  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   

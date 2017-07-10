@@ -14,6 +14,7 @@ ms.assetid: 30a2c884-e1ae-4914-bdd8-4fc56c6df278
 caps.latest.revision: 6
 ms.author: "davidmu"
 manager: "timlt"
+service_description: To be added
 ---
 
 # Azure Virtual Machine Scale Sets REST

@@ -1,7 +1,7 @@
 ---
 title: "Data Catalog Search syntax reference"
 ms.custom: na
-ms.date: 2016-07-21
+ms.date: 2017-05-15
 ms.prod: azure
 ms.reviewer: na
 ms.service: data-catalog
@@ -86,7 +86,7 @@ Quotes behave in a special way when using property scoping. Quotes in any other 
   
 The general principle for property names in **Searchable Properties** is camel-case, which means that first letter is lower-case, and then each of the word first letters are uppercase.  
   
-The most useful properties are listed below.  For the full list of properties see the Developer concepts section.  
+The most useful properties are listed below.  
   
 |Property|Use|Example  
 |---|---|---  
@@ -99,6 +99,7 @@ The most useful properties are listed below.  For the full list of properties se
 |lastRegisteredTime|Finds items based on the date and time their metadata was registered|lastRegisteredTime:>"11/05/2014"  
 |friendlyName|Finds items were the search term appears in the data source friendly name|friendlyName:finance  
 |experts|Finds items were the data source expert matches the search term|experts:user@example.com experts:user  
+|termName|Finds items where the search term appears in business glossary terms applied to the data asset|termName:marketing
   
 You can also use the following property names along with "has:" filter to check where assets have specific properties set.  
   

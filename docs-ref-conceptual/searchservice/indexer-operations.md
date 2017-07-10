@@ -189,6 +189,6 @@ POST https://[service name].search.windows.net/indexers/[indexer name]/reset?api
     api-key: [admin key]  
 ```  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)  

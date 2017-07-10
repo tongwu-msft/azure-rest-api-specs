@@ -12,10 +12,10 @@ Creates a new node on the cluster (referred to as an edge node) and installs an 
   
  The following example shows the request body for installing applications on a Linux-based HDInsight cluster.  
   
-```  
+```json
 {  
   
-	"name": “clusterName / applicationName”  
+	"name": "clusterName / applicationName"  
 		"type": "Microsoft.HDInsight/clusters/applications",  
 	"properties": {  
 		"computeProfile": {  
@@ -33,7 +33,7 @@ Creates a new node on the cluster (referred to as an edge node) and installs an 
 			{  
 				"name": "hue-install",  
 				"uri": "https://publicEndpoint-bash-file.sh",  
-				“parameters”: “”,  
+				"parameters": "",  
 				"roles": ["edgenode"]  
 			}  
 		],  
@@ -41,7 +41,7 @@ Creates a new node on the cluster (referred to as an edge node) and installs an 
 			{  
 				"name": "hue-uninstall",  
 				"uri": "https://publicEndpoint-bash-file.sh",  
-				“parameters”: “”,  
+				"parameters": "",  
 				"roles": ["edgenode"]  
 			}  
 		],  
@@ -77,7 +77,7 @@ Creates a new node on the cluster (referred to as an edge node) and installs an 
 |[InstallScriptActions](#bk_installscriptaction)|Yes|Complex Type|Describes the install script actions for the application. At least one script must be specified and the scripts must be idempotent, which means the scripts can be called repeatedly while producing the same result.|  
 |[UninstallScriptActions](#bk_uninstallscriptaction)|No|Complex Type|Describes the uninstall script actions for the application. This is optional, but any uninstall script actions specified must be idempotent (which means the scripts can be called repeatedly while producing the same result).|  
 |[HttpEndpoint](#bk_httpendpoint)|No|Complex Type|Describes which endpoints on the application should be Internet addressable.|  
-|applicationType|Yes|String|This should always be set to “CustomApplication”|  
+|applicationType|Yes|String|This should always be set to "CustomApplication"|  
   
 ####  <a name="bk_computeprof"></a> computeProfile  
  This should contain exactly one role  
@@ -149,15 +149,15 @@ Gets details about an HDInsight application.
   
  Example response:  
   
-```  
+```json
 {  
-	“ value”: [  
+	"value": [  
 		{  
-			“			id”: “resourceId”  
-				"name": “clusterName / applicationName”  
-				"type": "Microsoft.HDInsight/clusters/applications",  
-			“etag”: “etagValue”  
-			“ tags”: null,  
+			"id": "resourceId",
+			"name": "clusterName / applicationName",
+			"type": "Microsoft.HDInsight/clusters/applications",  
+			"etag": "etagValue",
+			"tags": null,  
 			"properties": {  
 				"computeProfile": {  
 					"roles": [  
@@ -174,7 +174,7 @@ Gets details about an HDInsight application.
 					{  
 						"name": "hue-install",  
 						"uri": "https://publicEndpoint-bash-file.sh",  
-						“parameters”: “”,  
+						"parameters": "",  
 						"roles": ["edgenode"]  
 					}  
 				],  
@@ -182,7 +182,7 @@ Gets details about an HDInsight application.
 					{  
 						"name": "hue-uninstall",  
 						"uri": "https://publicEndpoint-bash-file.sh",  
-						“parameters”: “”,  
+						"parameters": "",  
 						"roles": ["edgenode"]  
 					}  
 				],  

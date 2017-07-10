@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -26,21 +26,21 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create a Collection
-  A new collection can be created under the database by executing an HTTPS POST request against the URI resource path colls.  
+# Create Collection
+The `Create Collection` operation creates a new collection in a database.   
   
 ## Request  
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|POST|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls|Note that the {databaseaccount} is the name of the DocumentDB account created under your subscription The {db-id} value is the user generated name/id of the database where the collection will be created (not the system generated id (rid) of the database).|  
+|POST|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls|Note that the {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. {db-id} can be either the id or the _rid value for the database.|  
   
 ### Headers  
- See [Common DocumentDB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB requests.  
+ See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Azure Cosmos DB requests.  
   
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
-|**x-ms-offer-throughput**|Optional|Number|The user specified throughput for the collection expressed in units of 100 request units per second. This can be between 400 and 250,000 (or higher by requesting a limit increase).<br /><br /> If the **x-ms-offer-throughput** is over 10,000, then the collection must include a **partitionKey** definition. If the **x-ms-offer-throughput** is equal to or under 10,000, then the collection must not include a **partitionKey** definition.<br /><br /> One of **x-ms-offer-throughput** or **x-ms-offer-type** must be specified. Both headers cannot be specified together.|  
+|**x-ms-offer-throughput**|Optional|Number|The user specified throughput for the collection expressed in units of 100 request units per second. This can be between 400 and 250,000 (or higher by requesting a limit increase).<br /><br /> If the **x-ms-offer-throughput** is over 10,000, then the collection must include a **partitionKey** definition. If the **x-ms-offer-throughput** is equal to or under 10,000, then the **partitionKey** definition is optional.<br /><br /> One of **x-ms-offer-throughput** or **x-ms-offer-type** must be specified. Both headers cannot be specified together.|  
 |**x-ms-offer-type**|Optional|String|The user specified performance level for pre-defined performance levels S1, S2 and S3. One of x-ms-offer-throughput or x-ms-offer-type must be specified. Both headers cannot be specified together.|  
   
 ### Body  
@@ -84,7 +84,7 @@ translation.priority.mt:
  Create Collection returns the created collection as a response body.  
   
 ### Headers  
- See [Common DocumentDB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all DocumentDB responses.  
+ See [Common Azure Cosmos DB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all Azure Cosmos DB responses.  
   
 ### Status codes  
  The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](https://msdn.microsoft.com/library/azure/dn783364.aspx).  
@@ -291,9 +291,10 @@ Date: Mon, 28 Mar 2016 21:30:12 GMT
 ```  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+ [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
+ [Azure Cosmos DB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
+ [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
+

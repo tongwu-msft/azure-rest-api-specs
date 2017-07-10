@@ -42,7 +42,7 @@ translation.priority.mt:
 ## Response  
  Status Code: 204 No Content for a successful response.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   

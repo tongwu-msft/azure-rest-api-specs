@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Azure SQL Database API spec",
-    "description": "Provides create, read, update and delete functionality for Azure SQL resources including servers, databases, elastic pools, recommendations, operations, and usage metrics.",
+    "title": "Azure SQL Database",
+    "description": "Provides create, read, update and delete functionality for Azure SQL Database resources including servers, databases, elastic pools, recommendations, and operations.",
     "version": "2014-04-01"
   },
   "host": "management.azure.com",
@@ -22,7 +22,120 @@
           "ElasticPools"
         ],
         "operationId": "ElasticPools_CreateOrUpdate",
-        "description": "Creates a new Azure SQL elastic pool or updates an existing Azure SQL elastic pool.",
+        "description": "Creates a new elastic pool or updates an existing elastic pool.",
+        "x-ms-examples": {
+          "Create elastic pool max": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-2369",
+              "serverName": "sqlcrudtest-8069",
+              "elasticPoolName": "sqlcrudtest-8102",
+              "api-version": "2014-04-01",
+              "parameters": {
+                "location": "Japan East",
+                "properties": {
+                  "creationDate": "2017-02-10T01:25:25.033Z",
+                  "edition": "Basic",
+                  "state": "Ready",
+                  "dtu": 50,
+                  "databaseDtuMin": 0,
+                  "databaseDtuMax": 5,
+                  "storageMB": 5000
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102",
+                  "name": "sqlcrudtest-8102",
+                  "type": "Microsoft.Sql/servers/elasticPools",
+                  "location": "Japan East",
+                  "kind": null,
+                  "properties": {
+                    "creationDate": "2017-02-10T01:25:25.033Z",
+                    "edition": "Basic",
+                    "state": "Ready",
+                    "dtu": 50,
+                    "databaseDtuMin": 0,
+                    "databaseDtuMax": 5,
+                    "storageMB": 5000
+                  }
+                }
+              },
+              "201": {
+                "body": {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102",
+                  "name": "sqlcrudtest-8102",
+                  "type": "Microsoft.Sql/servers/elasticPools",
+                  "location": "Japan East",
+                  "kind": null,
+                  "properties": {
+                    "creationDate": "2017-02-10T01:25:25.033Z",
+                    "edition": "Basic",
+                    "state": "Ready",
+                    "dtu": 50,
+                    "databaseDtuMin": 0,
+                    "databaseDtuMax": 5,
+                    "storageMB": 5000
+                  }
+                }
+              },
+              "202": {}
+            }
+          },
+          "Create elastic pool min": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-2369",
+              "serverName": "sqlcrudtest-8069",
+              "elasticPoolName": "sqlcrudtest-8102",
+              "api-version": "2014-04-01",
+              "parameters": {
+                "location": "Japan East"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102",
+                  "name": "sqlcrudtest-8102",
+                  "type": "Microsoft.Sql/servers/elasticPools",
+                  "location": "Japan East",
+                  "kind": null,
+                  "properties": {
+                    "creationDate": "2017-02-10T01:25:25.033Z",
+                    "edition": "Standard",
+                    "state": "Ready",
+                    "dtu": 100,
+                    "databaseDtuMin": 0,
+                    "databaseDtuMax": 100,
+                    "storageMB": 102400
+                  }
+                }
+              },
+              "201": {
+                "body": {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102",
+                  "name": "sqlcrudtest-8102",
+                  "type": "Microsoft.Sql/servers/elasticPools",
+                  "location": "Japan East",
+                  "kind": null,
+                  "properties": {
+                    "creationDate": "2017-02-10T01:25:25.033Z",
+                    "edition": "Standard",
+                    "state": "Ready",
+                    "dtu": 100,
+                    "databaseDtuMin": 0,
+                    "databaseDtuMax": 100,
+                    "storageMB": 102400
+                  }
+                }
+              },
+              "202": {}
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -41,7 +154,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Azure SQL Elastic Pool to be operated on (Updated or created)."
+            "description": "The name of the elastic pool to be operated on (updated or created)."
           },
           {
             "name": "parameters",
@@ -50,7 +163,7 @@
             "schema": {
               "$ref": "#/definitions/ElasticPool"
             },
-            "description": "The required parameters for creating or updating an Elastic Pool."
+            "description": "The required parameters for creating or updating an elastic pool."
           }
         ],
         "responses": {
@@ -67,20 +180,91 @@
             }
           },
           "202": {
-            "description": "Accepted",
-            "schema": {
-              "$ref": "#/definitions/ElasticPool"
-            }
+            "description": "Accepted"
           }
         },
         "x-ms-long-running-operation": true
       },
-      "delete": {
+      "patch": {
         "tags": [
           "ElasticPools"
         ],
-        "operationId": "ElasticPools_Delete",
-        "description": "Deletes the Azure SQL elastic pool.",
+        "operationId": "ElasticPools_Update",
+        "description": "Updates an existing elastic pool.",
+        "x-ms-examples": {
+          "Update elastic pool max": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-2369",
+              "serverName": "sqlcrudtest-8069",
+              "elasticPoolName": "sqlcrudtest-8102",
+              "api-version": "2014-04-01",
+              "parameters": {
+                "properties": {
+                  "creationDate": "2017-02-10T01:25:25.033Z",
+                  "edition": "Basic",
+                  "state": "Ready",
+                  "dtu": 50,
+                  "databaseDtuMin": 0,
+                  "databaseDtuMax": 5,
+                  "storageMB": 5000
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102",
+                  "name": "sqlcrudtest-8102",
+                  "type": "Microsoft.Sql/servers/elasticPools",
+                  "location": "Japan East",
+                  "kind": null,
+                  "properties": {
+                    "creationDate": "2017-02-10T01:25:25.033Z",
+                    "edition": "Basic",
+                    "state": "Ready",
+                    "dtu": 50,
+                    "databaseDtuMin": 0,
+                    "databaseDtuMax": 5,
+                    "storageMB": 5000
+                  }
+                }
+              },
+              "202": {}
+            }
+          },
+          "Update elastic pool min": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-2369",
+              "serverName": "sqlcrudtest-8069",
+              "elasticPoolName": "sqlcrudtest-8102",
+              "api-version": "2014-04-01",
+              "parameters": {}
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102",
+                  "name": "sqlcrudtest-8102",
+                  "type": "Microsoft.Sql/servers/elasticPools",
+                  "location": "Japan East",
+                  "kind": null,
+                  "properties": {
+                    "creationDate": "2017-02-10T01:25:25.033Z",
+                    "edition": "Basic",
+                    "state": "Ready",
+                    "dtu": 50,
+                    "databaseDtuMin": 0,
+                    "databaseDtuMax": 5,
+                    "storageMB": 5000
+                  }
+                }
+              },
+              "202": {}
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -99,7 +283,75 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Azure SQL Elastic Pool to be deleted."
+            "description": "The name of the elastic pool to be updated."
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ElasticPoolUpdate"
+            },
+            "description": "The required parameters for updating an elastic pool."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ElasticPool"
+            }
+          },
+          "202": {
+            "description": "Accepted"
+          }
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "tags": [
+          "ElasticPools"
+        ],
+        "operationId": "ElasticPools_Delete",
+        "description": "Deletes the elastic pool.",
+        "x-ms-examples": {
+          "Delete elastic pool": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-3129",
+              "serverName": "sqlcrudtest-228",
+              "elasticPoolName": "sqlcrudtest-3851",
+              "api-version": "2014-04-01"
+            },
+            "responses": {
+              "200": {
+                "body": ""
+              },
+              "204": {
+                "body": ""
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ServerNameParameter"
+          },
+          {
+            "name": "elasticPoolName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the elastic pool to be deleted."
           }
         ],
         "responses": {
@@ -116,7 +368,38 @@
           "ElasticPools"
         ],
         "operationId": "ElasticPools_Get",
-        "description": "Gets information about an Azure SQL elastic pool.",
+        "description": "Gets an elastic pool.",
+        "x-ms-examples": {
+          "Get elastic pool": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-2369",
+              "serverName": "sqlcrudtest-8069",
+              "elasticPoolName": "sqlcrudtest-8102",
+              "api-version": "2014-04-01"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102",
+                  "name": "sqlcrudtest-8102",
+                  "type": "Microsoft.Sql/servers/elasticPools",
+                  "location": "Japan East",
+                  "kind": null,
+                  "properties": {
+                    "creationDate": "2017-02-10T01:25:25.033Z",
+                    "edition": "Basic",
+                    "state": "Ready",
+                    "dtu": 50,
+                    "databaseDtuMin": 0,
+                    "databaseDtuMax": 5,
+                    "storageMB": 5000
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -135,7 +418,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Azure SQL Elastic Pool to be retrieved."
+            "description": "The name of the elastic pool to be retrieved."
           }
         ],
         "responses": {
@@ -154,7 +437,73 @@
           "ElasticPools"
         ],
         "operationId": "ElasticPools_ListByServer",
-        "description": "Returns information about Azure SQL elastic pools.",
+        "description": "Returns a list of elastic pools in a server.",
+        "x-ms-examples": {
+          "List elastic pools": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-2369",
+              "serverName": "sqlcrudtest-8069",
+              "api-version": "2014-04-01"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-2729",
+                      "name": "sqlcrudtest-2729",
+                      "type": "Microsoft.Sql/servers/elasticPools",
+                      "location": "Japan East",
+                      "kind": null,
+                      "properties": {
+                        "creationDate": "2017-02-10T01:27:21.32Z",
+                        "edition": "Basic",
+                        "state": "Ready",
+                        "dtu": 50,
+                        "databaseDtuMin": 0,
+                        "databaseDtuMax": 5,
+                        "storageMB": 5000
+                      }
+                    },
+                    {
+                      "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-3191",
+                      "name": "sqlcrudtest-3191",
+                      "type": "Microsoft.Sql/servers/elasticPools",
+                      "location": "Japan East",
+                      "kind": null,
+                      "properties": {
+                        "creationDate": "2017-02-10T01:26:26.45Z",
+                        "edition": "Basic",
+                        "state": "Ready",
+                        "dtu": 50,
+                        "databaseDtuMin": 0,
+                        "databaseDtuMax": 5,
+                        "storageMB": 5000
+                      }
+                    },
+                    {
+                      "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102",
+                      "name": "sqlcrudtest-8102",
+                      "type": "Microsoft.Sql/servers/elasticPools",
+                      "location": "Japan East",
+                      "kind": null,
+                      "properties": {
+                        "creationDate": "2017-02-10T01:25:25.033Z",
+                        "edition": "Basic",
+                        "state": "Ready",
+                        "dtu": 50,
+                        "databaseDtuMin": 0,
+                        "databaseDtuMax": 5,
+                        "storageMB": 5000
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -188,7 +537,51 @@
           "ElasticPools"
         ],
         "operationId": "ElasticPools_ListActivity",
-        "description": "Returns information about Azure SQL elastic pool activities.",
+        "description": "Returns elastic pool activities.",
+        "x-ms-examples": {
+          "List Elastic pool activity": {
+            "parameters": {
+              "subscriptionId": "00000000-1111-2222-3333-444444444444",
+              "resourceGroupName": "sqlcrudtest-4291",
+              "serverName": "sqlcrudtest-6574",
+              "elasticPoolName": "8749",
+              "api-version": "2014-04-01"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4291/providers/Microsoft.Sql/servers/sqlcrudtest-6574/elasticPools/8749/elasticPoolActivity/851f1672-f7f0-46f6-a262-ee9b51e18e97",
+                      "name": "851f1672-f7f0-46f6-a262-ee9b51e18e97",
+                      "type": "Microsoft.Sql/servers/elasticPools/elasticPoolActivity",
+                      "location": "Japan East",
+                      "properties": {
+                        "operationId": "851f1672-f7f0-46f6-a262-ee9b51e18e97",
+                        "serverName": "sqlcrudtest-6574",
+                        "elasticPoolName": "8749",
+                        "state": "COMPLETED",
+                        "operation": "CREATE",
+                        "errorCode": null,
+                        "errorMessage": null,
+                        "errorSeverity": null,
+                        "startTime": "2017-02-10T02:03:06.16Z",
+                        "endTime": "2017-02-10T02:03:23.263Z",
+                        "percentComplete": 100,
+                        "requestedElasticPoolName": null,
+                        "requestedDtuGuarantee": 100,
+                        "requestedDatabaseDtuCap": 5,
+                        "requestedDatabaseDtuGuarantee": 0,
+                        "requestedStorageLimitInGB": 9,
+                        "requestedStorageLimitInMB": 10000
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -207,7 +600,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Azure SQL Elastic Pool for which to get the current activity."
+            "description": "The name of the elastic pool for which to get the current activity."
           }
         ],
         "responses": {
@@ -229,7 +622,72 @@
           "ElasticPools"
         ],
         "operationId": "ElasticPools_ListDatabaseActivity",
-        "description": "Returns information about activity on Azure SQL databases inside of an Azure SQL elastic pool.",
+        "description": "Returns activity on databases inside of an elastic pool.",
+        "x-ms-examples": {
+          "List elastic pool database activity": {
+            "parameters": {
+              "subscriptionId": "9d4e2ad0-e20b-4464-9219-353bded52513",
+              "resourceGroupName": "sqlcrudtest-4673",
+              "serverName": "sqlcrudtest-603",
+              "elasticPoolName": "7537",
+              "api-version": "2014-04-01"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/9d4e2ad0-e20b-4464-9219-353bded52513/resourceGroups/sqlcrudtest-4673/providers/Microsoft.Sql/servers/sqlcrudtest-603/elasticPools/7537/elasticPoolDatabaseActivity/3a3272b3-f1fe-423c-9feb-7b843157eda5",
+                      "name": "3a3272b3-f1fe-423c-9feb-7b843157eda5",
+                      "type": "Microsoft.Sql/servers/elasticPools/elasticPoolDatabaseActivity",
+                      "location": "Japan East",
+                      "properties": {
+                        "operationId": "3a3272b3-f1fe-423c-9feb-7b843157eda5",
+                        "serverName": "sqlcrudtest-603",
+                        "databaseName": "2396",
+                        "state": "COMPLETED",
+                        "operation": "UPDATE",
+                        "errorCode": null,
+                        "errorMessage": null,
+                        "errorSeverity": null,
+                        "startTime": "2016-10-23T03:07:12.577",
+                        "endTime": "2016-10-23T03:08:02.95",
+                        "percentComplete": 100,
+                        "currentServiceObjective": "ElasticPool",
+                        "requestedServiceObjective": null,
+                        "currentElasticPoolName": "7537",
+                        "requestedElasticPoolName": null
+                      }
+                    },
+                    {
+                      "id": "/subscriptions/9d4e2ad0-e20b-4464-9219-353bded52513/resourceGroups/sqlcrudtest-4673/providers/Microsoft.Sql/servers/sqlcrudtest-603/elasticPools/7537/elasticPoolDatabaseActivity/95108a78-384e-48d3-b4de-7bf23b93a26d",
+                      "name": "95108a78-384e-48d3-b4de-7bf23b93a26d",
+                      "type": "Microsoft.Sql/servers/elasticPools/elasticPoolDatabaseActivity",
+                      "location": "Japan East",
+                      "properties": {
+                        "operationId": "95108a78-384e-48d3-b4de-7bf23b93a26d",
+                        "serverName": "sqlcrudtest-603",
+                        "databaseName": "2396",
+                        "state": "COMPLETED",
+                        "operation": "CREATE",
+                        "errorCode": null,
+                        "errorMessage": null,
+                        "errorSeverity": null,
+                        "startTime": "2016-10-23T03:06:11.19",
+                        "endTime": "2016-10-23T03:06:49.197",
+                        "percentComplete": 100,
+                        "currentServiceObjective": "ElasticPool",
+                        "requestedServiceObjective": null,
+                        "currentElasticPoolName": "7537",
+                        "requestedElasticPoolName": null
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -248,7 +706,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Azure SQL Elastic Pool."
+            "description": "The name of the elastic pool."
           }
         ],
         "responses": {
@@ -270,7 +728,7 @@
           "ElasticPools"
         ],
         "operationId": "ElasticPools_GetDatabase",
-        "description": "Gets information about an Azure SQL database inside of an Azure SQL elastic pool.",
+        "description": "Gets a database inside of an elastic pool.",
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -289,14 +747,14 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Azure SQL Elastic Pool to be retrieved."
+            "description": "The name of the elastic pool to be retrieved."
           },
           {
             "name": "databaseName",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Azure SQL database to be retrieved."
+            "description": "The name of the database to be retrieved."
           }
         ],
         "responses": {
@@ -315,7 +773,7 @@
           "ElasticPools"
         ],
         "operationId": "ElasticPools_ListDatabases",
-        "description": "Returns information about an Azure SQL database inside of an Azure SQL elastic pool.",
+        "description": "Returns a list of databases in an elastic pool.",
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -334,7 +792,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Azure SQL Elastic Pool to be retrieved."
+            "description": "The name of the elastic pool to be retrieved."
           }
         ],
         "responses": {
@@ -352,6 +810,125 @@
     }
   },
   "definitions": {
+    "Resource": {
+      "description": "ARM resource.",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "TrackedResource": {
+      "description": "ARM tracked top level resource.",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create",
+            "update"
+          ],
+          "description": "Resource tags."
+        },
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "Resource location."
+        }
+      },
+      "required": [
+        "location"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "ProxyResource": {
+      "description": "ARM proxy resource.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
+    "CheckNameAvailabilityRequest": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name whose availability is to be checked."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of resource that is used as the scope of the availability check.",
+          "enum": [
+            "Microsoft.Sql/servers"
+          ],
+          "x-ms-enum": {
+            "name": "CheckNameAvailabilityResourceType",
+            "modelAsString": false
+          }
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "description": "A request to check whether the specified name for a resource is available."
+    },
+    "CheckNameAvailabilityResponse": {
+      "properties": {
+        "available": {
+          "type": "boolean",
+          "description": "True if the name is available, otherwise false.",
+          "readOnly": true
+        },
+        "message": {
+          "type": "string",
+          "description": "A message explaining why the name is unavailable. Will be null if the name is available.",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "The name whose availability was checked.",
+          "readOnly": true
+        },
+        "reason": {
+          "type": "string",
+          "description": "The reason code explaining why the name is unavailable. Will be null if the name is available.",
+          "enum": [
+            "Invalid",
+            "AlreadyExists"
+          ],
+          "x-ms-enum": {
+            "name": "CheckNameAvailabilityReason",
+            "modelAsString": false
+          },
+          "readOnly": true
+        }
+      },
+      "description": "A response indicating whether the specified name for a resource is available."
+    },
     "RecommendedElasticPoolMetric": {
       "properties": {
         "dateTime": {
@@ -370,28 +947,28 @@
           "description": "Gets or sets size in gigabytes."
         }
       },
-      "description": "Represents Azure SQL recommended elastic pool metric."
+      "description": "Represents recommended elastic pool metric."
     },
     "RecommendedElasticPoolProperties": {
       "properties": {
         "databaseEdition": {
           "readOnly": true,
           "type": "string",
-          "description": "The edition of the Azure SQL Recommended Elastic Pool. The ElasticPoolEditions enumeration contains all the valid editions.",
+          "description": "The edition of the recommended elastic pool. The ElasticPoolEdition enumeration contains all the valid editions.",
           "enum": [
             "Basic",
             "Standard",
             "Premium"
           ],
           "x-ms-enum": {
-            "name": "ElasticPoolEditions",
+            "name": "ElasticPoolEdition",
             "modelAsString": true
           }
         },
         "dtu": {
           "type": "number",
           "format": "double",
-          "description": "The DTU for the SQL Azure Recommended Elastic Pool."
+          "description": "The DTU for the recommended elastic pool."
         },
         "databaseDtuMin": {
           "type": "number",
@@ -438,7 +1015,7 @@
           "items": {
             "$ref": "#/definitions/Database"
           },
-          "description": "The list of Azure SQL Databases in this pool. Expanded property"
+          "description": "The list of databases in this pool. Expanded property"
         },
         "metrics": {
           "readOnly": true,
@@ -446,10 +1023,10 @@
           "items": {
             "$ref": "#/definitions/RecommendedElasticPoolMetric"
           },
-          "description": "The list of Azure SQL Databases housed in the server. Expanded property"
+          "description": "The list of databases housed in the server. Expanded property"
         }
       },
-      "description": "Represents the properties of an Azure SQL Recommended Elastic Pool."
+      "description": "Represents the properties of a recommented elastic pool."
     },
     "RecommendedElasticPool": {
       "properties": {
@@ -461,10 +1038,10 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyResource"
         }
       ],
-      "description": "Represents an Azure SQL Recommended Elastic Pool."
+      "description": "Represents a recommented elastic pool."
     },
     "RecommendedElasticPoolListResult": {
       "properties": {
@@ -473,13 +1050,13 @@
           "items": {
             "$ref": "#/definitions/RecommendedElasticPool"
           },
-          "description": "The list of Azure SQL Recommended Elastic Pools hosted in the server."
+          "description": "The list of recommended elastic pools hosted in the server."
         }
       },
       "required": [
         "value"
       ],
-      "description": "Represents the response to a List Azure SQL Recommended Elastic Pool request."
+      "description": "Represents the response to a list recommended elastic pool request."
     },
     "RecommendedElasticPoolListMetricsResult": {
       "properties": {
@@ -488,42 +1065,13 @@
           "items": {
             "$ref": "#/definitions/RecommendedElasticPoolMetric"
           },
-          "description": "The list of Azure SQL Recommended Elastic Pools metrics."
+          "description": "The list of recommended elastic pools metrics."
         }
       },
       "required": [
         "value"
       ],
-      "description": "Represents the response to a List Azure SQL Recommended Elastic Pool metrics request."
-    },
-    "RecommendedDatabaseProperties": {
-      "properties": {
-        "Name": {
-          "type": "string",
-          "description": "The name of the Azure SQL database being upgraded."
-        },
-        "TargetEdition": {
-          "type": "string",
-          "description": "The target edition for the Azure SQL database being upgraded.",
-          "enum": [
-            "Basic",
-            "Standard",
-            "Premium",
-            "Free",
-            "Stretch",
-            "DataWarehouse"
-          ],
-          "x-ms-enum": {
-            "name": "TargetDatabaseEditions",
-            "modelAsString": true
-          }
-        },
-        "TargetServiceLevelObjective": {
-          "type": "string",
-          "description": "The target Service Level Objective for the Azure SQL database being upgraded."
-        }
-      },
-      "description": "Represents the properties of a recommended Azure SQL Database being upgraded."
+      "description": "Represents the response to a list recommended elastic pool metrics request."
     },
     "ElasticPoolProperties": {
       "properties": {
@@ -531,7 +1079,7 @@
           "readOnly": true,
           "type": "string",
           "format": "date-time",
-          "description": "The creation date of the Azure SQL Elastic Pool (ISO8601 format)."
+          "description": "The creation date of the elastic pool (ISO8601 format)."
         },
         "state": {
           "readOnly": true,
@@ -541,7 +1089,7 @@
             "Ready",
             "Disabled"
           ],
-          "description": "The state of the Azure SQL Elastic Pool.",
+          "description": "The state of the elastic pool.",
           "x-ms-enum": {
             "modelAsString": true,
             "name": "ElasticPoolState"
@@ -549,42 +1097,73 @@
         },
         "edition": {
           "type": "string",
-          "description": "The edition of the Azure SQL Elastic Pool.",
+          "description": "The edition of the elastic pool.",
           "enum": [
             "Basic",
             "Standard",
             "Premium"
           ],
           "x-ms-enum": {
-            "name": "ElasticPoolEditions",
+            "name": "ElasticPoolEdition",
             "modelAsString": true
-          }
+          },
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
         },
         "dtu": {
           "type": "integer",
           "format": "int32",
-          "description": "The total shared DTU for the SQL Azure Database Elastic Pool."
+          "description": "The total shared DTU for the database elastic pool."
         },
         "databaseDtuMax": {
           "type": "integer",
           "format": "int32",
-          "description": "The maximum DTU any one SQL Azure Database can consume."
+          "description": "The maximum DTU any one database can consume."
         },
         "databaseDtuMin": {
           "type": "integer",
           "format": "int32",
-          "description": "The minimum DTU all SQL Azure Databases are guaranteed."
+          "description": "The minimum DTU all databases are guaranteed."
         },
         "storageMB": {
           "type": "integer",
           "format": "int32",
-          "description": "Gets storage limit for the SQL Azure Database Elastic Pool in MB."
+          "description": "Gets storage limit for the database elastic pool in MB."
         }
       },
-      "description": "Represents the properties of an Azure SQL Elastic Pool."
+      "description": "Represents the properties of an elastic pool."
     },
     "ElasticPool": {
       "properties": {
+        "properties": {
+          "$ref": "#/definitions/ElasticPoolProperties",
+          "description": "The properties representing the resource.",
+          "x-ms-client-flatten": true
+        },
+        "kind": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Kind of elastic pool.  This is metadata used for the Azure portal experience."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ],
+      "description": "Represents a database elastic pool."
+    },
+    "ElasticPoolUpdate": {
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        },
         "properties": {
           "$ref": "#/definitions/ElasticPoolProperties",
           "description": "The properties representing the resource.",
@@ -596,7 +1175,7 @@
           "$ref": "#/definitions/Resource"
         }
       ],
-      "description": "Represents an Azure SQL Database elastic pool."
+      "description": "Represents an elastic pool update."
     },
     "ElasticPoolListResult": {
       "properties": {
@@ -605,13 +1184,13 @@
           "items": {
             "$ref": "#/definitions/ElasticPool"
           },
-          "description": "The list of Azure SQL Elastic Pools hosted in the server."
+          "description": "The list of elastic pools hosted in the server."
         }
       },
       "required": [
         "value"
       ],
-      "description": "Represents the response to a List Azure SQL Elastic Pool request."
+      "description": "Represents the response to a list elastic pool request."
     },
     "ElasticPoolActivityProperties": {
       "properties": {
@@ -646,7 +1225,9 @@
         "operationId": {
           "readOnly": true,
           "type": "string",
-          "description": "The unique operation ID."
+          "format": "uuid",
+          "description": "The unique operation ID.",
+          "x-nullable": false
         },
         "percentComplete": {
           "readOnly": true,
@@ -675,7 +1256,7 @@
         "requestedElasticPoolName": {
           "readOnly": true,
           "type": "string",
-          "description": "The requested name for the Elastic Pool if available."
+          "description": "The requested name for the elastic pool if available."
         },
         "requestedStorageLimitInGB": {
           "readOnly": true,
@@ -686,12 +1267,12 @@
         "elasticPoolName": {
           "readOnly": true,
           "type": "string",
-          "description": "The name of the Elastic Pool."
+          "description": "The name of the elastic pool."
         },
         "serverName": {
           "readOnly": true,
           "type": "string",
-          "description": "The name of the Azure SQL server the Elastic Pool is in."
+          "description": "The name of the server the elastic pool is in."
         },
         "startTime": {
           "readOnly": true,
@@ -703,12 +1284,44 @@
           "readOnly": true,
           "type": "string",
           "description": "The current state of the operation."
+        },
+        "requestedStorageLimitInMB": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32",
+          "description": "The requested storage limit in MB."
+        },
+        "requestedDatabaseDtuGuarantee": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32",
+          "description": "The requested per database DTU guarantee."
+        },
+        "requestedDatabaseDtuCap": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32",
+          "description": "The requested per database DTU cap."
+        },
+        "requestedDtuGuarantee": {
+          "readOnly": true,
+          "type": "integer",
+          "format": "int32",
+          "description": "The requested DTU guarantee."
         }
       },
-      "description": "Represents the properties of an Azure SQL Elastic Pool."
+      "description": "Represents the properties of an elastic pool."
     },
     "ElasticPoolActivity": {
       "properties": {
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "The geo-location where the resource lives"
+        },
         "properties": {
           "$ref": "#/definitions/ElasticPoolActivityProperties",
           "description": "The properties representing the resource.",
@@ -717,10 +1330,10 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyResource"
         }
       ],
-      "description": "Represents the activity on an Azure SQL Elastic Pool."
+      "description": "Represents the activity on an elastic pool."
     },
     "ElasticPoolActivityListResult": {
       "properties": {
@@ -729,13 +1342,13 @@
           "items": {
             "$ref": "#/definitions/ElasticPoolActivity"
           },
-          "description": "The list of Azure SQL Elastic Pool Activities."
+          "description": "The list of elastic pool activities."
         }
       },
       "required": [
         "value"
       ],
-      "description": "Represents the response to a List Azure SQL Elastic Pool Activity request."
+      "description": "Represents the response to a list elastic pool activity request."
     },
     "ElasticPoolDatabaseActivityProperties": {
       "properties": {
@@ -775,7 +1388,9 @@
         "operationId": {
           "readOnly": true,
           "type": "string",
-          "description": "The unique operation ID."
+          "format": "uuid",
+          "description": "The unique operation ID.",
+          "x-nullable": false
         },
         "percentComplete": {
           "readOnly": true,
@@ -786,12 +1401,12 @@
         "requestedElasticPoolName": {
           "readOnly": true,
           "type": "string",
-          "description": "The name for the Elastic Pool the database is moving into if available."
+          "description": "The name for the elastic pool the database is moving into if available."
         },
         "currentElasticPoolName": {
           "readOnly": true,
           "type": "string",
-          "description": "The name of the current Elastic Pool the database is in if available."
+          "description": "The name of the current elastic pool the database is in if available."
         },
         "currentServiceObjective": {
           "readOnly": true,
@@ -806,7 +1421,7 @@
         "serverName": {
           "readOnly": true,
           "type": "string",
-          "description": "The name of the Azure SQL server the Elastic Pool is in."
+          "description": "The name of the server the elastic pool is in."
         },
         "startTime": {
           "readOnly": true,
@@ -820,10 +1435,18 @@
           "description": "The current state of the operation."
         }
       },
-      "description": "Represents the properties of an Azure SQL Elastic Pool Database Activity."
+      "description": "Represents the properties of an elastic pool database activity."
     },
     "ElasticPoolDatabaseActivity": {
       "properties": {
+        "location": {
+          "type": "string",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "The geo-location where the resource lives"
+        },
         "properties": {
           "$ref": "#/definitions/ElasticPoolDatabaseActivityProperties",
           "description": "The properties representing the resource.",
@@ -832,10 +1455,10 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyResource"
         }
       ],
-      "description": "Represents the activity on an Azure SQL Elastic Pool."
+      "description": "Represents the activity on an elastic pool."
     },
     "ElasticPoolDatabaseActivityListResult": {
       "properties": {
@@ -844,129 +1467,13 @@
           "items": {
             "$ref": "#/definitions/ElasticPoolDatabaseActivity"
           },
-          "description": "The list of Azure SQL Elastic Pool Database Activities."
+          "description": "The list of elastic pool database activities."
         }
       },
       "required": [
         "value"
       ],
-      "description": "Represents the response to a List Azure SQL Elastic Pool Database Activity request."
-    },
-    "ServerProperties": {
-      "properties": {
-        "fullyQualifiedDomainName": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The fully qualified domain name of the server."
-        },
-        "version": {
-          "type": "string",
-          "enum": [
-            "2.0",
-            "12.0"
-          ],
-          "description": "The version of the server.",
-          "x-ms-enum": {
-            "name": "ServerVersion",
-            "modelAsString": true
-          }
-        },
-        "administratorLogin": {
-          "type": "string",
-          "description": "Administrator username for the server. Can only be specified when the server is being created (and is required for creation)."
-        },
-        "administratorLoginPassword": {
-          "type": "string",
-          "description": "The administrator login password (required for server creation)."
-        }
-      },
-      "description": "Represents the properties of an Azure SQL server."
-    },
-    "Server": {
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/ServerProperties",
-          "description": "Represents the properties of the resource.",
-          "x-ms-client-flatten": true
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "description": "Represents an Azure SQL server."
-    },
-    "ServerListResult": {
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Server"
-          },
-          "description": "The list of Azure SQL servers."
-        }
-      },
-      "required": [
-        "value"
-      ],
-      "description": "Represents the response to a Get Azure SQL server request."
-    },
-    "UpgradeRecommendedElasticPoolProperties": {
-      "properties": {
-        "Name": {
-          "type": "string",
-          "description": "The name of the Azure SQL Recommended Elastic Pool being upgraded."
-        },
-        "Edition": {
-          "type": "string",
-          "enum": [
-            "Basic",
-            "Standard",
-            "Premium"
-          ],
-          "description": "The target edition for the Azure SQL Recommended Elastic Pool being upgraded.",
-          "x-ms-enum": {
-            "name": "TargetElasticPoolEditions"
-          }
-        },
-        "Dtu": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The DTU guarantee for the Azure SQL Recommended Elastic Pool being upgraded."
-        },
-        "StorageMb": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The storage limit in MB for the Azure SQL Recommended Elastic Pool being upgraded."
-        },
-        "DatabaseDtuMin": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The DTU guarantee for database for the Azure SQL Recommended Elastic Pool being upgraded."
-        },
-        "DatabaseDtuMax": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The DTU cap for database for the Azure SQL Recommended Elastic Pool being upgraded."
-        },
-        "DatabaseCollection": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "The list of database names to be put in the Azure SQL Recommended Elastic Pool being upgraded."
-        },
-        "IncludeAllDatabases": {
-          "type": "boolean",
-          "description": "Gets or sets whether all databases to be put in the Azure SQL Recommended Elastic Pool being upgraded."
-        }
-      },
-      "required": [
-        "Name",
-        "Edition"
-      ],
-      "description": "Represents the properties of a Azure SQL Recommended Elastic Pool being upgraded."
+      "description": "Represents the response to a list elastic pool database activity request."
     },
     "RecommendedIndexProperties": {
       "properties": {
@@ -978,9 +1485,9 @@
             "Drop",
             "Rebuild"
           ],
-          "description": "The proposed index action. You can create a missing index, drop an unused index, or rebuild an existing index to improve its performance. Possible values are 'Create', 'Drop', 'Rebuild'.",
+          "description": "The proposed index action. You can create a missing index, drop an unused index, or rebuild an existing index to improve its performance.",
           "x-ms-enum": {
-            "name": "RecommendedIndexActions"
+            "name": "RecommendedIndexAction"
           }
         },
         "state": {
@@ -999,9 +1506,9 @@
             "Success"
           ],
           "type": "string",
-          "description": "The current recommendation state. Current options are: 'Active', 'Pending', 'Executing', 'Verifying', 'Pending Revert', 'Reverting', 'Reverted', 'Ignored', 'Expired', 'Blocked', 'Success'.",
+          "description": "The current recommendation state.",
           "x-ms-enum": {
-            "name": "RecommendedIndexStates"
+            "name": "RecommendedIndexState"
           }
         },
         "created": {
@@ -1027,7 +1534,7 @@
           "type": "string",
           "description": "The type of index (CLUSTERED, NONCLUSTERED, COLUMNSTORE, CLUSTERED COLUMNSTORE)",
           "x-ms-enum": {
-            "name": "RecommendedIndexTypes"
+            "name": "RecommendedIndexType"
           }
         },
         "schema": {
@@ -1078,7 +1585,7 @@
           "description": "The values reported after index action is complete."
         }
       },
-      "description": "Represents the properties of an Azure SQL Database recommended index."
+      "description": "Represents the properties of a database recommended index."
     },
     "RecommendedIndex": {
       "properties": {
@@ -1091,26 +1598,26 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ProxyResource"
         }
       ],
-      "description": "Represents an Azure SQL Database recommended index."
+      "description": "Represents a database recommended index."
     },
     "TransparentDataEncryptionProperties": {
       "properties": {
         "status": {
           "type": "string",
-          "description": "The status of the Azure SQL Database Transparent Data Encryption.",
+          "description": "The status of the database transparent data encryption.",
           "enum": [
             "Enabled",
             "Disabled"
           ],
           "x-ms-enum": {
-            "name": "TransparentDataEncryptionStates"
+            "name": "TransparentDataEncryptionStatus"
           }
         }
       },
-      "description": "Represents the properties of an Azure SQL Database Transparent Data Encryption."
+      "description": "Represents the properties of a database transparent data encryption."
     },
     "TransparentDataEncryption": {
       "properties": {
@@ -1122,63 +1629,54 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SqlSubResource"
+          "$ref": "#/definitions/SubResource"
         }
       ],
-      "description": "Represents an Azure SQL Database Transparent Data Encryption ."
+      "description": "Represents a database transparent data encryption configuration."
     },
     "DatabaseProperties": {
       "properties": {
         "collation": {
           "type": "string",
-          "description": "The collation of the Azure SQL database."
+          "description": "The collation of the database. If createMode is not Default, this value is ignored.",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
         },
         "creationDate": {
           "readOnly": true,
           "type": "string",
           "format": "date-time",
-          "description": "The creation date of the Azure SQL database (ISO8601 format)."
+          "description": "The creation date of the database (ISO8601 format)."
         },
         "containmentState": {
           "readOnly": true,
           "type": "integer",
           "format": "int64",
-          "description": "The containment state of the Azure SQL database."
+          "description": "The containment state of the database."
         },
         "currentServiceObjectiveId": {
           "readOnly": true,
           "type": "string",
           "format": "uuid",
-          "enum": [
-            "dd6d99bb-f193-4ec1-86f2-43d3bccbc49c",
-            "f1173c43-91bd-4aaa-973c-54e79e15235b",
-            "1b1ebd4d-d903-4baa-97f9-4ea675f5e928",
-            "455330e1-00cd-488b-b5fa-177c226f28b7",
-            "789681b8-ca10-4eb0-bdf2-e0b050601b40",
-            "7203483a-c4fb-4304-9e9f-17c71c904f5d",
-            "a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0",
-            "a7c4c615-cfb1-464b-b252-925be0a19446"
-          ],
-          "description": "The current Service Level Objective ID of the Azure SQL database. This is the ID of the Service Level Objective that is currently active.",
-          "x-ms-enum": {
-            "modelAsString": true,
-            "name": "ServiceObjectiveId"
-          }
+          "description": "The current service level objective ID of the database. This is the ID of the service level objective that is currently active."
         },
         "databaseId": {
           "readOnly": true,
           "type": "string",
-          "description": "The ID of the Azure SQL database."
+          "format": "uuid",
+          "description": "The ID of the database."
         },
         "earliestRestoreDate": {
           "readOnly": true,
           "type": "string",
           "format": "date-time",
-          "description": "The recovery period start date of the Azure SQL database. This records the start date and time when recovery is available for this Azure SQL Database (ISO8601 format)."
+          "description": "This records the earliest start date and time that restore is available for this database (ISO8601 format)."
         },
         "createMode": {
           "type": "string",
-          "description": "Specifies the type of database to create.",
+          "description": "Specifies the mode of database creation.\n\nDefault: regular database creation.\n\nCopy: creates a database as a copy of an existing database. sourceDatabaseId must be specified as the resource ID of the source database.\n\nOnlineSecondary/NonReadableSecondary: creates a database as a (readable or nonreadable) secondary replica of an existing database. sourceDatabaseId must be specified as the resource ID of the existing primary database.\n\nPointInTimeRestore: Creates a database by restoring a point in time backup of an existing database. sourceDatabaseId must be specified as the resource ID of the existing database, and restorePointInTime must be specified.\n\nRecovery: Creates a database by restoring a geo-replicated backup. sourceDatabaseId must be specified as the recoverable database resource ID to restore.\n\nRestore: Creates a database by restoring a backup of a deleted database. sourceDatabaseId must be specified. If sourceDatabaseId is the database's original resource ID, then sourceDatabaseDeletionDate must be specified. Otherwise sourceDatabaseId must be the restorable dropped database resource ID and sourceDatabaseDeletionDate is ignored. restorePointInTime may also be specified to restore from an earlier point in time.\n\nRestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault. recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.\n\nCopy, NonReadableSecondary, OnlineSecondary and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.",
           "enum": [
             "Copy",
             "Default",
@@ -1186,20 +1684,50 @@
             "OnlineSecondary",
             "PointInTimeRestore",
             "Recovery",
-            "Restore"
+            "Restore",
+            "RestoreLongTermRetentionBackup"
           ],
           "x-ms-enum": {
-            "name": "createMode",
+            "name": "CreateMode",
             "modelAsString": true
-          }
+          },
+          "x-ms-mutability": [
+            "create"
+          ]
         },
         "sourceDatabaseId": {
           "type": "string",
-          "description": "Conditional. Specifies the resource ID of the source database. If createMode is not set to Default, then this value must be specified. The name of the source database must be the same. NOTE: Collation, Edition, and MaxSizeBytes must remain the same while the link is active. Values specified for these parameters will be ignored."
+          "description": "Conditional. If createMode is Copy, NonReadableSecondary, OnlineSecondary, PointInTimeRestore, Recovery, or Restore, then this value is required. Specifies the resource ID of the source database. If createMode is NonReadableSecondary or OnlineSecondary, the name of the source database must be the same as the new database being created.",
+          "x-ms-mutability": [
+            "create"
+          ]
+        },
+        "sourceDatabaseDeletionDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Conditional. If createMode is Restore and sourceDatabaseId is the deleted database's original resource id when it existed (as opposed to its current restorable dropped database id), then this value is required. Specifies the time that the database was deleted.",
+          "x-ms-mutability": [
+            "create"
+          ]
+        },
+        "restorePointInTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Conditional. If createMode is PointInTimeRestore, this value is required. If createMode is Restore, this value is optional. Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value.",
+          "x-ms-mutability": [
+            "create"
+          ]
+        },
+        "recoveryServicesRecoveryPointResourceId": {
+          "type": "string",
+          "description": "Conditional. If createMode is RestoreLongTermRetentionBackup, then this value is required. Specifies the resource ID of the recovery point to restore from.",
+          "x-ms-mutability": [
+            "create"
+          ]
         },
         "edition": {
           "type": "string",
-          "description": "The edition of the Azure SQL database. The DatabaseEditions enumeration contains all the valid editions.",
+          "description": "The edition of the database. The DatabaseEditions enumeration contains all the valid editions. If createMode is NonReadableSecondary or OnlineSecondary, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: \"Capabilities_ListByLocation.\"",
           "enum": [
             "Web",
             "Business",
@@ -1208,35 +1736,23 @@
             "Premium",
             "Free",
             "Stretch",
-            "DataWarehouse"
+            "DataWarehouse",
+            "System",
+            "System2"
           ],
           "x-ms-enum": {
-            "name": "DatabaseEditions",
+            "name": "DatabaseEdition",
             "modelAsString": true
           }
         },
         "maxSizeBytes": {
           "type": "string",
-          "description": "The max size of the Azure SQL database expressed in bytes. Note: Only the following sizes are supported (in addition to limitations being placed on each edition): { 100 MB | 500 MB |1 GB | 5 GB | 10 GB | 20 GB | 30 GB … 150 GB | 200 GB … 500 GB }"
+          "description": "The max size of the database expressed in bytes. If createMode is not Default, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: \"Capabilities_ListByLocation.\""
         },
         "requestedServiceObjectiveId": {
           "type": "string",
           "format": "uuid",
-          "enum": [
-            "dd6d99bb-f193-4ec1-86f2-43d3bccbc49c",
-            "f1173c43-91bd-4aaa-973c-54e79e15235b",
-            "1b1ebd4d-d903-4baa-97f9-4ea675f5e928",
-            "455330e1-00cd-488b-b5fa-177c226f28b7",
-            "789681b8-ca10-4eb0-bdf2-e0b050601b40",
-            "7203483a-c4fb-4304-9e9f-17c71c904f5d",
-            "a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0",
-            "a7c4c615-cfb1-464b-b252-925be0a19446"
-          ],
-          "description": "The configured Service Level Objective ID of the Azure SQL database. This is the Service Level Objective that is in the process of being applied to the Azure SQL database. Once successfully updated, it will match the value of currentServiceObjectiveId property.",
-          "x-ms-enum": {
-            "modelAsString": true,
-            "name": "ServiceObjectiveId"
-          }
+          "description": "The configured service level objective ID of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of currentServiceObjectiveId property. If requestedServiceObjectiveId and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveId overrides the value of requestedServiceObjectiveName. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: \"Capabilities_ListByLocation.\""
         },
         "requestedServiceObjectiveName": {
           "type": "string",
@@ -1248,13 +1764,20 @@
             "S3",
             "P1",
             "P2",
-            "P3"
+            "P3",
+            "P4",
+            "P6",
+            "P11",
+            "P15",
+            "System",
+            "System2",
+            "ElasticPool"
           ],
           "x-ms-enum": {
             "modelAsString": true,
             "name": "ServiceObjectiveName"
           },
-          "description": "The name of the configured Service Level Objective of the Azure SQL database. This is the Service Level Objective that is in the process of being applied to the Azure SQL database. Once successfully updated, it will match the value of serviceLevelObjective property."
+          "description": "The name of the configured service level objective of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of serviceLevelObjective property. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: \"Capabilities_ListByLocation.\""
         },
         "serviceLevelObjective": {
           "readOnly": true,
@@ -1267,22 +1790,29 @@
             "S3",
             "P1",
             "P2",
-            "P3"
+            "P3",
+            "P4",
+            "P6",
+            "P11",
+            "P15",
+            "System",
+            "System2",
+            "ElasticPool"
           ],
           "x-ms-enum": {
             "modelAsString": true,
             "name": "ServiceObjectiveName"
           },
-          "description": "The current Service Level Objective of the Azure SQL database."
+          "description": "The current service level objective of the database."
         },
         "status": {
           "readOnly": true,
           "type": "string",
-          "description": "The status of the Azure SQL database."
+          "description": "The status of the database."
         },
         "elasticPoolName": {
           "type": "string",
-          "description": "The name of the Azure SQL Elastic Pool the database is in."
+          "description": "The name of the elastic pool the database is in. If elasticPoolName and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveName is ignored. Not supported for DataWarehouse edition."
         },
         "defaultSecondaryLocation": {
           "readOnly": true,
@@ -1296,19 +1826,6 @@
             "$ref": "#/definitions/ServiceTierAdvisor"
           },
           "description": "The list of service tier advisors for this database. Expanded property"
-        },
-        "upgradeHint": {
-          "$ref": "#/definitions/UpgradeHint",
-          "readOnly": true,
-          "description": "The upgrade hint for this database."
-        },
-        "schemas": {
-          "readOnly": true,
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Schema"
-          },
-          "description": "The schemas from this database."
         },
         "transparentDataEncryption": {
           "readOnly": true,
@@ -1325,12 +1842,69 @@
             "$ref": "#/definitions/RecommendedIndex"
           },
           "description": "The recommended indices for this database."
+        },
+        "failoverGroupId": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource identifier of the failover group containing this database."
+        },
+        "readScale": {
+          "type": "string",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "description": "Conditional. If the database is a geo-secondary, readScale indicates whether read-only connections are allowed to this database or not. Not supported for DataWarehouse edition.",
+          "x-ms-enum": {
+            "name": "ReadScale"
+          }
+        },
+        "sampleName": {
+          "type": "string",
+          "enum": [
+            "AdventureWorksLT"
+          ],
+          "description": "Indicates the name of the sample schema to apply when creating this database. If createMode is not Default, this value is ignored. Not supported for DataWarehouse edition.",
+          "x-ms-enum": {
+            "modelAsString": true,
+            "name": "SampleName"
+          },
+          "x-ms-mutability": [
+            "create"
+          ]
         }
       },
-      "description": "Represents the properties of an Azure SQL Database."
+      "description": "Represents the properties of a database."
     },
     "Database": {
       "properties": {
+        "kind": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Kind of database.  This is metadata used for the Azure portal experience."
+        },
+        "properties": {
+          "$ref": "#/definitions/DatabaseProperties",
+          "description": "The properties representing the resource.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ],
+      "description": "Represents a database."
+    },
+    "DatabaseUpdate": {
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        },
         "properties": {
           "$ref": "#/definitions/DatabaseProperties",
           "description": "The properties representing the resource.",
@@ -1342,7 +1916,7 @@
           "$ref": "#/definitions/Resource"
         }
       ],
-      "description": "Represents an Azure SQL Database."
+      "description": "Represents a database update."
     },
     "DatabaseListResult": {
       "properties": {
@@ -1351,13 +1925,13 @@
           "items": {
             "$ref": "#/definitions/Database"
           },
-          "description": "The list of Azure SQL Databases housed in the server."
+          "description": "The list of databases housed in the server."
         }
       },
       "required": [
         "value"
       ],
-      "description": "Represents the response to a List Azure SQL Database request."
+      "description": "Represents the response to a list database request."
     },
     "ServiceTierAdvisorProperties": {
       "properties": {
@@ -1470,7 +2044,8 @@
           "readOnly": true,
           "type": "number",
           "format": "double",
-          "description": "Gets or sets confidence for service tier advisor."
+          "description": "Gets or sets confidence for service tier advisor.",
+          "x-nullable": false
         }
       },
       "description": "Represents the properties of a Service Tier Advisor."
@@ -1486,7 +2061,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SqlSubResource"
+          "$ref": "#/definitions/SubResource"
         }
       ],
       "description": "Represents a Service Tier Advisor."
@@ -1504,96 +2079,37 @@
             "S3",
             "P1",
             "P2",
-            "P3"
+            "P3",
+            "P4",
+            "P6",
+            "P11",
+            "P15",
+            "System",
+            "System2",
+            "ElasticPool"
           ],
           "x-ms-enum": {
             "modelAsString": true,
             "name": "ServiceObjectiveName"
-          }
+          },
+          "readOnly": true
         },
         "serviceLevelObjectiveId": {
           "type": "string",
           "format": "uuid",
           "description": "The serviceLevelObjectiveId for SLO usage metric.",
-          "enum": [
-            "dd6d99bb-f193-4ec1-86f2-43d3bccbc49c",
-            "f1173c43-91bd-4aaa-973c-54e79e15235b",
-            "1b1ebd4d-d903-4baa-97f9-4ea675f5e928",
-            "455330e1-00cd-488b-b5fa-177c226f28b7",
-            "789681b8-ca10-4eb0-bdf2-e0b050601b40",
-            "7203483a-c4fb-4304-9e9f-17c71c904f5d",
-            "a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0",
-            "a7c4c615-cfb1-464b-b252-925be0a19446"
-          ],
-          "x-ms-enum": {
-            "modelAsString": true,
-            "name": "ServiceObjectiveId"
-          }
+          "readOnly": true,
+          "x-nullable": false
         },
         "inRangeTimeRatio": {
           "type": "number",
           "format": "double",
-          "description": "Gets or sets inRangeTimeRatio for SLO usage metric."
+          "description": "Gets or sets inRangeTimeRatio for SLO usage metric.",
+          "readOnly": true,
+          "x-nullable": false
         }
       },
-      "description": "Represents a Slo Usage Metric."
-    },
-    "UpgradeHint": {
-      "properties": {
-        "targetServiceLevelObjective": {
-          "type": "string",
-          "description": "TargetServiceLevelObjective for upgrade hint."
-        },
-        "targetServiceLevelObjectiveId": {
-          "type": "string",
-          "format": "uuid",
-          "description": "TargetServiceLevelObjectiveId for upgrade hint."
-        }
-      },
-      "description": "Represents a Upgrade Hint."
-    },
-    "TableProperties": {
-      "properties": {
-        "tableType": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The type of Azure SQL Database table.",
-          "enum": [
-            "BaseTable",
-            "View"
-          ],
-          "x-ms-enum": {
-            "name": "TableType"
-          }
-        },
-        "columns": {
-          "readOnly": true,
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Column"
-          },
-          "description": "The columns from this table."
-        },
-        "recommendedIndexes": {
-          "readOnly": true,
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RecommendedIndex"
-          },
-          "description": "The recommended indices for this table."
-        }
-      },
-      "description": "Represents the properties of an Azure SQL Database table."
-    },
-    "ColumnProperties": {
-      "properties": {
-        "columnType": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The type of Azure SQL Database table column."
-        }
-      },
-      "description": "Represents the properties of an Azure SQL Database table column."
+      "description": "A Slo Usage Metric."
     },
     "OperationImpact": {
       "properties": {
@@ -1620,230 +2136,7 @@
           "description": "The relative impact to dimension (null if not applicable)"
         }
       },
-      "description": "Represents impact of an operation, both in absolute and relative terms."
-    },
-    "Column": {
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/ColumnProperties",
-          "description": "The properties representing the resource.",
-          "x-ms-client-flatten": true
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "description": "Represents an Azure SQL Database table column."
-    },
-    "Table": {
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/TableProperties",
-          "description": "The properties representing the resource.",
-          "x-ms-client-flatten": true
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "description": "Represents an Azure SQL Database table."
-    },
-    "SchemaProperties": {
-      "properties": {
-        "tables": {
-          "readOnly": true,
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Table"
-          },
-          "description": "The tables from this database."
-        }
-      },
-      "description": "Represents the properties of an Azure SQL Database schema."
-    },
-    "Schema": {
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/SchemaProperties",
-          "description": "The properties representing the resource.",
-          "x-ms-client-flatten": true
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "description": "Represents an Azure SQL Database schema."
-    },
-    "RestorePointProperties": {
-      "properties": {
-        "restorePointType": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The restore point type of the Azure SQL database restore point.",
-          "enum": [
-            "DISCRETE",
-            "CONTINUOUS"
-          ],
-          "x-ms-enum": {
-            "name": "RestorePointTypes"
-          }
-        },
-        "restorePointCreationDate": {
-          "readOnly": true,
-          "type": "string",
-          "format": "date-time",
-          "description": "Restore point creation time (ISO8601 format). Populated when restorePointType = CONTINUOUS. Null otherwise."
-        },
-        "earliestRestoreDate": {
-          "readOnly": true,
-          "type": "string",
-          "format": "date-time",
-          "description": "Earliest restore time (ISO8601 format). Populated when restorePointType = DISCRETE. Null otherwise."
-        }
-      },
-      "description": "Represents the properties of an Azure SQL Database restore point."
-    },
-    "RestorePoint": {
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/RestorePointProperties",
-          "description": "The properties representing the restore point.",
-          "x-ms-client-flatten": true
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "description": "Represents an Azure SQL Database restore point."
-    },
-    "RestorePointListResult": {
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RestorePoint"
-          },
-          "description": "The list of a given Azure SQL Database restore points."
-        }
-      },
-      "required": [
-        "value"
-      ],
-      "description": "Represents the response to a List Azure SQL Database restore points request."
-    },
-    "DatabaseMetric": {
-      "properties": {
-        "resourceName": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The name of the resource."
-        },
-        "displayName": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The metric display name."
-        },
-        "currentValue": {
-          "readOnly": true,
-          "type": "number",
-          "format": "double",
-          "description": "The current value of the metric."
-        },
-        "limit": {
-          "readOnly": true,
-          "type": "number",
-          "format": "double",
-          "description": "The current limit of the metric."
-        },
-        "unit": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The units of the metric."
-        },
-        "nextResetTime": {
-          "readOnly": true,
-          "type": "string",
-          "format": "date-time",
-          "description": "The next reset time for the metric (ISO8601 format)."
-        }
-      },
-      "description": "Represents Azure SQL Database metrics."
-    },
-    "DatabaseMetricListResult": {
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DatabaseMetric"
-          },
-          "description": "The list of Azure SQL Database metrics for the database."
-        }
-      },
-      "required": [
-        "value"
-      ],
-      "description": "Represents the response to a List Azure SQL Database metrics request."
-    },
-    "ServerMetric": {
-      "properties": {
-        "resourceName": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The name of the resource."
-        },
-        "displayName": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The metric display name."
-        },
-        "currentValue": {
-          "readOnly": true,
-          "type": "number",
-          "format": "double",
-          "description": "The current value of the metric."
-        },
-        "limit": {
-          "readOnly": true,
-          "type": "number",
-          "format": "double",
-          "description": "The current limit of the metric."
-        },
-        "unit": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The units of the metric."
-        },
-        "nextResetTime": {
-          "readOnly": true,
-          "type": "string",
-          "format": "date-time",
-          "description": "The next reset time for the metric (ISO8601 format)."
-        }
-      },
-      "description": "Represents Azure SQL server metrics."
-    },
-    "ServerMetricListResult": {
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ServerMetric"
-          },
-          "description": "The list of Azure SQL server metrics for the server."
-        }
-      },
-      "required": [
-        "value"
-      ],
-      "description": "Represents the response to a List Azure SQL server metrics request."
+      "description": "The impact of an operation, both in absolute and relative terms."
     },
     "ServiceTierAdvisorListResult": {
       "properties": {
@@ -1860,78 +2153,18 @@
       ],
       "description": "Represents the response to a list service tier advisor request."
     },
-    "ServiceObjectiveProperties": {
-      "properties": {
-        "serviceObjectiveName": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The name for the service objective."
-        },
-        "isDefault": {
-          "readOnly": true,
-          "type": "boolean",
-          "description": "Gets whether the service level objective is the default service objective."
-        },
-        "isSystem": {
-          "readOnly": true,
-          "type": "boolean",
-          "description": "Gets whether the service level objective is a system service objective."
-        },
-        "description": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The description for the service level objective."
-        },
-        "enabled": {
-          "readOnly": true,
-          "type": "boolean",
-          "description": "Gets whether the service level objective is enabled."
-        }
-      },
-      "description": "Represents the properties of an Azure SQL Database Service Objective."
-    },
-    "ServiceObjective": {
-      "properties": {
-        "properties": {
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/ServiceObjectiveProperties",
-          "description": "Represents the properties of the resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/SqlSubResource"
-        }
-      ],
-      "description": "Represents an Azure SQL Database Service Objective."
-    },
-    "ServiceObjectiveListResult": {
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ServiceObjective"
-          },
-          "description": "The list of Azure SQL Database Service Objectives."
-        }
-      },
-      "required": [
-        "value"
-      ],
-      "description": "Represents the response to a Get Azure SQL Database Service Objectives request."
-    },
     "TransparentDataEncryptionActivityProperties": {
       "properties": {
         "status": {
           "readOnly": true,
           "type": "string",
-          "description": "The status of the Azure SQL database.",
+          "description": "The status of the database.",
           "enum": [
             "Encrypting",
             "Decrypting"
           ],
           "x-ms-enum": {
-            "name": "TransparentDataEncryptionActivityStates",
+            "name": "TransparentDataEncryptionActivityStatus",
             "modelAsString": true
           }
         },
@@ -1939,10 +2172,10 @@
           "readOnly": true,
           "type": "number",
           "format": "float",
-          "description": "The percent complete of the transparent data encryption scan for a Azure SQL Database."
+          "description": "The percent complete of the transparent data encryption scan for a database."
         }
       },
-      "description": "Represents the properties of an Azure SQL Database Transparent Data Encryption Scan."
+      "description": "Represents the properties of a database transparent data encryption Scan."
     },
     "TransparentDataEncryptionActivity": {
       "properties": {
@@ -1954,10 +2187,10 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SqlSubResource"
+          "$ref": "#/definitions/SubResource"
         }
       ],
-      "description": "Represents an Azure SQL Database Transparent Data Encryption Scan."
+      "description": "Represents a database transparent data encryption Scan."
     },
     "TransparentDataEncryptionActivityListResult": {
       "properties": {
@@ -1966,50 +2199,15 @@
           "items": {
             "$ref": "#/definitions/TransparentDataEncryptionActivity"
           },
-          "description": "The list of Azure SQL Database Transparent Data Encryption Activities."
+          "description": "The list of database transparent data encryption activities."
         }
       },
       "required": [
         "value"
       ],
-      "description": "Represents the response to a List Azure SQL Database Transparent Data Encryption Activity request."
+      "description": "Represents the response to a list database transparent data encryption activity request."
     },
-    "Resource": {
-      "description": "Resource properties",
-      "properties": {
-        "name": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource name"
-        },
-        "id": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource ID"
-        },
-        "type": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource type"
-        },
-        "location": {
-          "type": "string",
-          "description": "Resource location"
-        },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Resource tags"
-        }
-      },
-      "required": [
-        "location"
-      ],
-      "x-ms-azure-resource": true
-    },
-    "SqlSubResource": {
+    "SubResource": {
       "description": "Subresource properties",
       "properties": {
         "name": {
@@ -2053,8 +2251,44 @@
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "The name of the Azure SQL server.",
+      "description": "The name of the server.",
+      "x-ms-parameter-location": "method"
+    },
+    "DatabaseExpandParameter": {
+      "name": "$expand",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "description": "A comma separated list of child objects to expand in the response. Possible properties: serviceTierAdvisors, transparentDataEncryption.",
+      "x-ms-parameter-location": "method"
+    },
+    "TransparentDataEncryptionNameParameter": {
+      "name": "transparentDataEncryptionName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "current"
+      ],
+      "description": "The name of the transparent data encryption configuration.",
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "TransparentDataEncryptionName"
+      },
       "x-ms-parameter-location": "method"
     }
-  }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "x-internal-operation-group-name": "Servers - Sql",
+  "x-internal-toc-name": "Elastic Pools"
 }

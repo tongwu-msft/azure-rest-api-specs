@@ -1,7 +1,7 @@
 ---
 title: "Create Indexer (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-04-27"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -47,7 +47,7 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 
  The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/ocumentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+ The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 
 ## Request  
  The body of the request contains an indexer definition, which specifies the data source and the target index for indexing, as well as optional indexing schedule and parameters.  
@@ -98,18 +98,14 @@ You can specify multiple field mappings:
 
 Both source and target field names are case-insensitive.
 
+To learn about scenarios where field mappings are useful, see [Search Indexer Field Mappings](https://docs.microsoft.com/azure/search/search-indexer-field-mappings).
+
 <a name="FieldMappingFunctions"></a>
 ***Field Mapping Functions***
 
-Field mappings can also be used to transform source field values using *mapping functions*.
+Field mappings can also be used to transform source field values using *field mapping functions*. For example, an arbitrary string value can be base64-encoded so it can be used to populate a document key field.
 
-Only one such function is currently supported: `jsonArrayToStringCollection`. It parses a field that contains a string formatted as a JSON array into a Collection(Edm.String) field in the target index. It is intended for use with Azure SQL indexer in particular, since SQL doesn't have a native collection data type. It can be used as follows:
-
-	"fieldMappings" : [ { "sourceFieldName" : "tags", "mappingFunction" : { "name" : "jsonArrayToStringCollection" } } ]
-
-For example, if the source field contains the string `["red", "white", "blue"]`, then the target field of type `Collection(Edm.String)` will be populated with the three values `"red"`, `"white"` and `"blue"`.
-
-Note that the `targetFieldName` property is optional; if left out, the `sourceFieldName` value is used. 
+To learn more about when and how to use field mapping functions, see [Field Mapping Functions](https://docs.microsoft.com/azure/search/search-indexer-field-mappings#field-mapping-functions).
 
 ### Request body examples  
  The following example creates an indexer that copies data from the table referenced by the `ordersds` data source to the `orders` index on a schedule that starts on Jan 1, 2015 UTC and runs hourly. Each indexer invocation will be successful if no more than 5 items fail to be indexed in each batch, and no more than 10 items fail to be indexed in total.  
@@ -121,14 +117,14 @@ Note that the `targetFieldName` property is optional; if left out, the `sourceFi
         "dataSourceName" : "ordersds",  
         "targetIndexName" : "orders",  
         "schedule" : { "interval" : "PT1H", "startTime" : "2015-01-01T00:00:00Z" },  
-        "parameters" : { "maxFailedItems" : 10, "maxFailedItemsPerBatch" : 5, "base64EncodeKeys": false }  
+        "parameters" : { "maxFailedItems" : 10, "maxFailedItemsPerBatch" : 5 }  
     }  
 ```  
 
 ## Response  
  201 Created for a successful request.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   

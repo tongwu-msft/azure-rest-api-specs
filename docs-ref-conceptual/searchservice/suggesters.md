@@ -61,7 +61,7 @@ translation.priority.mt:
     {  
     "name": "sg",  
     "searchMode": "analyzingInfixMatching",  
-    "sourceFields: ["hotelName", "category"]  
+    "sourceFields": ["hotelName", "category"]  
     }  
   ],  
   "scoringProfiles": [  
@@ -71,7 +71,7 @@ translation.priority.mt:
 
 ```  
 
-## See Also  
+## See also  
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
  [Update Index &#40;Azure Search Service REST API&#41;](update-index.md)   
  [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)   

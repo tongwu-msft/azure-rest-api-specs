@@ -1,7 +1,7 @@
 ---
 title: "Get Data Source (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-02-20"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -44,12 +44,15 @@ api-key: [admin key]
 
  The response is similar to examples in [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md).  
 
+> [!NOTE]  
+>  The connection string is not returned in the response for security purposes. 
+
 ```  
 {   
     "name" : "asqldatasource",  
     "description" : "a description",  
     "type" : "azuresql",  
-    "credentials" : { "connectionString" : "Server=tcp:....database.windows.net,1433;Database=...;User ID=...;Password=...;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;" },  
+    "credentials" : { "connectionString" : null },  
     "container" : { "name" : "sometable" },  
     "dataChangeDetectionPolicy" : {   
         "@odata.type" : "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy",  
@@ -65,7 +68,7 @@ api-key: [admin key]
 > [!NOTE]  
 >  Do not set the `Accept` request header to `application/json;odata.metadata=none` when calling this API as doing so will cause `@odata.type` attribute to be omitted from the response and you won't be able to differentiate between data change and data deletion detection policies of different types.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   

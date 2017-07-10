@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2017-01-19"
+ms.date: "2017-06-06"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -28,7 +28,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Search Documents (Azure Search Service REST API)
-  Queries in Azure Search are implemented using the .NET library or REST API. For an overview of querying documents and different methodologies available, see [Queries in Azure Search](https://azure.microsoft.com/documentation/articles/search-query-overview/).  
+  Queries in Azure Search are implemented using the .NET library or REST API. For an overview of querying documents and different methodologies available, see [Queries in Azure Search](https://azure.microsoft.com/documentation/articles/search-query-overview/). For architecture and overview, see [How full text search works in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
 
  In the REST API, a **Search Documents** operation is issued as a GET or POST request and specifies query parameters that give the criteria for selecting matching documents.  
 
@@ -58,7 +58,7 @@ api-key: [admin or query key]
  As a best practice when creating GET requests, remember to [URL-encode](https://msdn.microsoft.com/library/system.uri.escapedatastring.aspx) specific query parameters when calling the REST API directly. For **Search Documents** operations, this includes:  
 
 -   **$filter**  
-
+ 
 -   **facet**  
 
 -   **highlightPreTag**  
@@ -107,7 +107,7 @@ Azure Search uses *server-side paging* to prevent queries from retrieving too ma
 
 #### `$count=true | false`
 
-Optional, defaults to `false`. When calling via POST, this parameter is named `count` instead of `$count`. Specifies whether to fetch the total count of results. This is the count of all documents that match the \`search\` and \`$filter\` parameters, ignoring \`$top\` and \`$skip\`. Setting this value to \`true\` may have a performance impact. Note that the count returned is an approximation.
+Optional, defaults to `false`. When calling via POST, this parameter is named `count` instead of `$count`. Specifies whether to fetch the total count of results. This is the count of all documents that match the \`search\` and \`$filter\` parameters, ignoring \`$top\` and \`$skip\`. Setting this value to \`true\` may have a performance impact. Note that the count returned is an approximation. If you’d like to get only the count without any documents, you can use `$top=0`.
 
 #### `$orderby=[string] (optional)`
 
@@ -115,11 +115,11 @@ A list of comma-separated expressions to sort the results by. When calling via P
 
 #### `$select=[string] (optional)`
 
-A list of comma-separated fields to retrieve. When calling via POST, this parameter is named `select` instead of `$select`. If unspecified, all fields marked as retrievable in the schema are included. You can also explicitly request all fields by setting this parameter to `*`.
+A list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to \*, all fields marked as retrievable in the schema are included in the projection. When calling via POST, this parameter is named `select` instead of `$select`. 
 
 #### `facet=[string] (zero or more)`
 
-A field to facet by. Optionally, the string may contain parameters to customize the faceting, expressed as comma-separated `name:value` pairs. When calling via POST, this parameter is named `facets` instead of `$facet`.
+A field to facet by. Optionally, the string may contain parameters to customize the faceting, expressed as comma-separated `name:value` pairs. When calling via POST, this parameter is named `facets` instead of `facet`.
 
 Valid parameters are:
 
@@ -491,7 +491,7 @@ Status Code: 200 OK is returned for a successful response.
     }  
     ```  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   

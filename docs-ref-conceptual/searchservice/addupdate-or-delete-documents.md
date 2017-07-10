@@ -180,7 +180,7 @@ Successful indexing is indicated by the `status` property being set to true for 
 > [!NOTE]
 > When you upload `DateTimeOffset` values with time zone information to your index, Azure Search normalizes these values to UTC. For example, `2017-01-13T14:03:00-08:00` will be stored as `2017-01-13T22:03:00Z`. If you need to store time zone information, you will need to add an extra column to your index.
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)   
