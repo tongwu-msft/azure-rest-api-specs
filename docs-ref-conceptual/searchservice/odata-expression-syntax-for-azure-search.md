@@ -44,13 +44,17 @@ translation.priority.mt:
 
 -   `any` with no parameters. This tests whether a field of type `Collection(Edm.String)` contains any elements.  
 
--   `any` and `all` with limited lambda expression support. `any/all` are supported on fields of type `Collection(Edm.String)`. `any` can only be used with simple equality expressions, and `all` can only be used with simple inequality expressions. Simple expressions consist of a comparison between a single field and a literal value, e.g. `Title eq 'Magna Carta'`.  
+-   `any` and `all` with limited lambda expression support. `any/all` are supported on fields of type `Collection(Edm.String)`. `any` can only be used with simple equality expressions or with `search.in` function, and `all` can only be used with simple inequality expressions or with `not search.in`. Simple expressions consist of a comparison between a single field and a literal value, e.g. `Title eq 'Magna Carta'`.  
 
 -   Geospatial functions `geo.distance` and `geo.intersects`. The `geo.distance` function returns the distance in kilometers between two points, one being a field and one being a constant passed as part of the filter. The `geo.intersects` function returns true if a given point is within a given polygon, where the point is a field and the polygon is specified as a constant passed as part of the filter.  
 
     The polygon is a two-dimensional surface stored as a sequence of points defining a bounding ring (see the example below). The polygon needs to be closed, meaning the first and last point sets must be the same. [Points in a polygon must be in counterclockwise order](https://msdn.microsoft.com/library/azure/dn798938.aspx#Anchor_1).
 
     Note that `geo.distance` returns distance in kilometers in Azure Search. This differs from other services that support OData geospatial operations, which typically return distances in meters.  
+
+-   The `search.in` function returns all the documents that their field is part of the list of values passed as part of the function, separated by an optional characters array passed as part of the function as well. 
+
+    The default separator is a combination of both ',' and ' '. A null or an empty separators will result with an error. 
 
 > [!NOTE]  
 >  For the result of the `geo.distance` function only the `lt, le, gt, ge` operators are supported. Operators `eq` and `ne` cannot be used.  
@@ -160,6 +164,30 @@ $filter=geo.intersects(location, geography'POLYGON((-122.031577 47.578581, -122.
 $filter=description eq null  
 ```  
 
+Find all hotels with id equal to either '123', '456' or '789'):  
+
+```  
+$filter=search.in(id, '123, 456, 789')  
+```
+
+Find all hotels with id equal to either '123', '456' or '789' separated by '-' or ',' or combination of both:  
+
+```  
+$filter=search.in(id, '123-456,789', '-,')  
+```
+
+Find all hotels with the tag "wifi" or "restaurant":  
+
+```  
+$filter=tags/any(t: search.in(t, 'wifi, restaurant')  
+```
+
+Find all hotels without the tag "motel":  
+
+```  
+$filter=tags/all(t: not search.in(t, 'motel'))  
+```  
+
 ### Order-by examples
 
 Sort hotels ascending by base rate:
@@ -187,5 +215,5 @@ between two hotels with identical ratings, the closest one is listed first:
 $orderby=search.score() desc,rating desc,geo.distance(location, geography'POINT(-122.131577 47.678581)') asc
 ```
 
-## See also  
+## See Also  
  [Faceted navigation in Azure Search](https://azure.microsoft.com/documentation/articles/search-faceted-navigation/)  
