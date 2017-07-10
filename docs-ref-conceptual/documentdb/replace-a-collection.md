@@ -32,7 +32,7 @@ translation.priority.mt:
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|PUT|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls|Note that the {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection to be deleted.|  
+|PUT|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}|Note that the {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection to be replaced.|  
   
 ### Headers  
  See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
