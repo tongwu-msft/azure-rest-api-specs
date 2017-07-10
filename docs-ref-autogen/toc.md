@@ -1648,6 +1648,7 @@
 ## [Get the model view of a VM](../docs-ref-conceptual/virtualmachinescalesets/get-the-model-view-of-a-vm.md)
 ## [List all NICs in a set](../docs-ref-conceptual/virtualmachinescalesets/list-all-nics-in-a-set.md)
 ## [List all NICs of a VM](../docs-ref-conceptual/virtualmachinescalesets/list-all-nics-of-a-vm.md)
+## [List all public IPs of a VM](../docs-ref-conceptual/virtualmachinescalesets/list-all-public-ips-vm.md)
 ## [List all sets in a resource group](../docs-ref-conceptual/virtualmachinescalesets/list-all-sets-in-a-resource-group.md)
 ## [List all sets in a subscription](../docs-ref-conceptual/virtualmachinescalesets/list-all-sets-in-a-subscription.md)
 ## [List all VMs in a set](../docs-ref-conceptual/virtualmachinescalesets/list-all-vms-in-a-set.md)
