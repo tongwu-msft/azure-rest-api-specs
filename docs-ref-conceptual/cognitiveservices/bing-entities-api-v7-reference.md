@@ -19,9 +19,7 @@ ms.author: scottwhi
 > Preview release of the Entity Search API. All aspects of the API and documentation are subject to change. 
 
 
-The Entity Search API lets you send a search query to Bing and get back search results that include entities and places. Place results include restaurants, hotel, or other local businesses. For places, the query can specify the name of the local business or it can ask for a list (for example, restaurants near me).
-
-Entity results include persons, places, or things. Place in this context is tourist attractions, states, countries, etc. The API returns entities if Bing is confident that only one entity satisfies the request. For example, if the request specifies a movie, the response includes the entity if Bing is confident that only one movie satisfies the request. But if the request specifies the title of a movie franchise, the response will not include an entity because it's ambiguous as to which version you want. 
+The Entity Search API lets you send a search query to Bing and get back search results that include entities and places. Place results include restaurants, hotel, or other local businesses. For places, the query can specify the name of the local business or it can ask for a list (for example, restaurants near me). Entity results include persons, places, or things. Place in this context is tourist attractions, states, countries, etc.  
 
 
 
@@ -122,7 +120,7 @@ Defines an entity such as a person, place, or thing.
 |bingId|An ID that uniquely identifies this entity.|String  
 |contractualRules|A list of rules that you must adhere to if you display the entity. For example, the rules may govern attributing the entity's description.<br /><br /> The following contractual rules may apply.<br /><br /><ul><li>[LicenseAttribution](#licenseattribution)</li><li>[LinkAttribution](#linkattribution)</li><li>[MediaAttribution](#mediaattribution)</li><li>[TextAttribution](#textattribution)</li></ul><br /> Not all entities include rules. If the entity provides contractual rules, you must abide by them. For more information about using contractual rules, see [Attributing Data](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/search-the-web.md#data-attribution).|Object[]|  
 |description|A short description of the entity.|String|  
-|entityPresentationInfo|Additional information about the entity such as hints that you can use to determine the entity's type. For example, whether it's a person or movie.<br /><br />The `entityScenario` field is set to DominantEntity. Bing returns entities where only a single entity match is likely. For example, a book, movie, person, or attraction. The API will not return entities where there are multiple possible answers. For example, if the request uses the generic title of a movie franchise, the response will not include an Entities answer. However, the response will include the entity if the request specifies a specific title from the franchise.|[EntityPresentationInfo](#entitypresentationinfo)|  
+|entityPresentationInfo|Additional information about the entity such as hints that you can use to determine the entity's type. To determine the entity's type, use the `entityScenario` and `entityTypeHint` fields. For example, the fields help you determine whether the entity is a dominant or disambiguation entity and whether it's a person or movie. The entity is a dominant entity if Bing believes that only one entity satisfies the request. If multiple entities could satisfy the request, the entity is a disambiguation entity and the user needs to select the entity they're interested in. |[EntityPresentationInfo](#entitypresentationinfo)|  
 |image|An image of the entity.|[Image](#image)|  
 |name|The entity's name.|String|  
 |webSearchUrl|The URL that takes the user to the Bing search results page for this entity.|String|  
@@ -133,7 +131,7 @@ Defines an entity answer.
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|queryScenario|The supported query scenario. This field is set to DominantEntity. The API returns entities only if Bing can determine that only a single entity satisfies the request. For example, a book, movie, person, or attraction. The API will not return entities where there are multiple possible answers. For example, if the request uses the generic title of a movie franchise, the response will not include an Entities answer. However, the response will include the entity if the request specifies a specific title from the franchise.|String|  
+|queryScenario|The supported query scenario. This field is set to DominantEntity or DisambiguationItem. The field is set to DominantEntity if Bing determines that only a single entity satisfies the request. For example, a book, movie, person, or attraction. If multiple entities could satisfy the request, the field is set to DisambiguationItem. For example, if the request uses the generic title of a movie franchise, the entity's type would likely be DisambiguationItem. But, if the request specifies a specific title from the franchise, the entity's type would likely be DominantEntity.|String|  
 |value|A list of entities.|Entity[]|  
   
 
