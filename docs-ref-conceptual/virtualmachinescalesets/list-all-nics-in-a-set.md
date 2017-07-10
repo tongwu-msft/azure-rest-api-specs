@@ -1,7 +1,7 @@
 ---
 title: "List all NICs in a set"
 ms.custom: ""
-ms.date: "2017-02-07"
+ms.date: "2017-07-07"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "virtual-machines"
@@ -12,8 +12,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
 ms.assetid: 8e5e316b-b166-4e7a-ad2e-ef86826ca50d
 caps.latest.revision: 5
-ms.author: "davidmu"
-manager: "timlt"
+ms.author: "anavin"
+manager: "narayan"
 ---
 # List all NICs in a set
 Retrieves information about the instance view of all network interfaces in the specified virtual machine scale set.    
@@ -57,13 +57,15 @@ Status code: 200 (OK).
         "properties":  {     
           "provisioningState": "Succeeded",    
           "privateIPAddress": "10.0.0.8",    
-          "privateIPAllocationMethod": "Static",    
+          "privateIPAllocationMethod": "Dynamic", 
+          "publicIPAddress": {
+                "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Compute/virtualMachineScaleSets/myscaleset1/virtualMachines/0/networkInterfaces/mynic1/ipConfigurations/myipconfig1/publicIPAddresses/publicip1"
+              }   
           "subnet":  {    
             "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysub1"    
-          },    
-          "publicIPAddress":  {    
-            "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/publicIPAddresses/myip1"    
-          },    
+          }, 
+          "primary": true,
+          "privateIPAddressVersion": "IPv4",   
           "loadBalancerBackendAddressPools":  [  {    
             "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/loadBalancers/mylb1/backendAddressPools/pool1"    
           } ],    
@@ -72,7 +74,13 @@ Status code: 200 (OK).
           },    
           {    
             "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/loadBalancers/mylb1/inboundNatRules/powershell-for-myvm1"    
-          } ],    
+          } ], 
+          "dnsSettings": {
+          "dnsServers": [10.0.0.5, 10.0.0.6],
+          "appliedDnsServers": [10.0.0.5, 10.0.0.6]
+        },
+        "enableAcceleratedNetworking": false,
+        "enableIPForwarding": false,   
           "applicationGatewayBackendAddressPools":  [  {     
             "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/applicationGateways /appgateway1/backendAddressPools/pool1"     
           }  ]    
@@ -97,7 +105,8 @@ Status code: 200 (OK).
 |location|Specifies the location of the network interface configuration.|    
 |tags|Specifies the tags that are assigned to the network interface configuration.|    
 |provisioningState|Specifies the provisioning state of the network interface configuration.<br /><br /> Possible values are:<br /><br /> **Deleting**<br /><br /> **Failed**<br /><br /> **Succeeded**<br /><br /> **Updating**|    
-|resourceGuid|Specifies a unique identifier of the network interface instance.|    
+|resourceGuid|Specifies a unique identifier of the network interface instance.|
+|dnsSettings|Specifies the DNS settings applied on the NIC|  
 |[ipConfigurations](#ipConfigurations)|Specifies the IP configurations for the network interface configuration.|    
 |virtualMachine|Specifies the identifier of the virtual machine that is associated with the network interface configuration.|    
 |macAddress|Specifies the media access control (MAC) address of the network interface configuration.|    

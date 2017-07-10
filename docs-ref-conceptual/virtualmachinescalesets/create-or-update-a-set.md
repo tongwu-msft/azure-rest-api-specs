@@ -12,8 +12,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
 ms.assetid: fc8b7914-99e0-4975-b635-09c7726c79db
 caps.latest.revision: 16
-ms.author: "davidmu"
-manager: "timlt"
+ms.author: "anavin"
+manager: "narayan"
 robots: noindex
 ---
 
@@ -33,7 +33,7 @@ For information about getting started with Azure REST operations including reque
 | subscriptionId | The identifier of your subscription. |
 | resourceGroup | The resource group that will contain the scale set. |
 | vmScaleSet | The name of the scale set. |
-| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |
+| apiVersion | The version of the API to use. The current version is 2017-03-30. |
 
 The following example shows the request to create a new virtual machine scale set using managed disks:
 
@@ -132,17 +132,28 @@ The following example shows the request to create a new virtual machine scale se
           }
         }    
       },    
-      "networkProfile": {       
+      "networkProfile": {
         "networkInterfaceConfigurations": [ {    
-          "name": "nicconfig1",    
-          "properties": {    
-            "primary": true,    
+          "name": "nicconfig1",
+          "properties": {
+            "primary": true,
+            "enableAcceleratedNetworking": false,
+                  "dnsSettings": {
+                    "dnsServers": []
+                  },   
             "ipConfigurations": [ {    
               "name": "ipconfig1",    
-              "properties": {    
-                "subnet": {     
-                  "id": "/subscriptions/{subscription-id}/resourceGroups/myrg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"     
-                },    
+              "properties": {
+                "publicIPAddressConfiguration": {
+                          "name": "pub1",
+                          "properties": {
+                            "idleTimeoutInMinutes": 15
+                          }
+                        }, 
+                "subnet": {
+                  "id": "/subscriptions/{subscription-id}/resourceGroups/myrg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
+                },
+                "privateIPAddressVersion": "IPv4",
                 "loadBalancerBackendAddressPools": [ {     
                   "id": "/subscriptions/{subscription-id}/resourceGroups/myrg1/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/pool1"     
                 } ],    
