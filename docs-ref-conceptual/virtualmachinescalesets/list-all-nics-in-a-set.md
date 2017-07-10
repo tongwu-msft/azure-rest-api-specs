@@ -24,7 +24,7 @@ For information about getting started with Azure REST operations including reque
 
 |Method|Request URI|    
 |------------|-----------------|    
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}?api-version={apiVersion}`|    
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}/networkInterfaces?api-version={apiVersion}`|    
 
 | Parameter | Description |
 | --------- | ----------- |
@@ -87,7 +87,10 @@ Status code: 200 (OK).
         }     
       }  ],    
       "macAddress": "00-0D-3A-A0-AE-61",    
-      "enableIPForwarding": false,    
+      "enableIPForwarding": false,
+      "networkSecurityGroup": {
+          "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"
+        },  
       "primary": true,    
       "virtualMachine": {    
         "id": "/subscriptions/(sub-id}/resourceGroups/myrg1/providers/Microsoft.Compute/virtualMachines/myvmss1_0"    
@@ -109,7 +112,8 @@ Status code: 200 (OK).
 |dnsSettings|Specifies the DNS settings applied on the NIC|  
 |[ipConfigurations](#ipConfigurations)|Specifies the IP configurations for the network interface configuration.|    
 |virtualMachine|Specifies the identifier of the virtual machine that is associated with the network interface configuration.|    
-|macAddress|Specifies the media access control (MAC) address of the network interface configuration.|    
+|macAddress|Specifies the media access control (MAC) address of the network interface configuration.|
+|networkSecurityGroup| Specifies the associated security policy on the network interface.|    
     
 ###  <a name="ipConfigurations"></a> ipConfigurations    
     
