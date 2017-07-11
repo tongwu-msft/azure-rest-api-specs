@@ -44,7 +44,15 @@ translation.priority.mt:
 
 -   `any` with no parameters. This tests whether a field of type `Collection(Edm.String)` contains any elements.  
 
--   `any` and `all` with limited lambda expression support. `any/all` are supported on fields of type `Collection(Edm.String)`. `any` can only be used with simple equality expressions or with a `search.in` function. `all` can only be used with simple inequality expressions or with a `not search.in`. Simple expressions consist of a comparison between a single field and a literal value, e.g. `Title eq 'Magna Carta'`.  
+-   `any` and `all` with limited lambda expression support. 
+	
+	-	`any/all` are supported on fields of type `Collection(Edm.String)`. 
+	
+	-	`any` can only be used with simple equality expressions or with a `search.in` function. 
+	
+	-	`all` can only be used with simple inequality expressions or with a `not search.in`. 
+	
+	-	Simple expressions consist of a comparison between a single field and a literal value, e.g. `Title eq 'Magna Carta'`.  
 
 -   Geospatial functions `geo.distance` and `geo.intersects`. The `geo.distance` function returns the distance in kilometers between two points, one being a field and one being a constant passed as part of the filter. The `geo.intersects` function returns true if a given point is within a given polygon, where the point is a field and the polygon is specified as a constant passed as part of the filter.  
 
@@ -52,9 +60,9 @@ translation.priority.mt:
 
     Note that `geo.distance` returns distance in kilometers in Azure Search. This differs from other services that support OData geospatial operations, which typically return distances in meters.  
 
--   The search.in function tests whether a given string field is equal to one of a given list of values. It can also be used in any or all to compare a single value of a string collection field with a given list of values. Equality between the field and each value in the list is determined in a case-sensitive fashion, the same way as for the eq operator. Therefore an expression like search.in(myfield, 'a, b, c') is equivalent to myfield eq 'a' or myfield eq 'b' or myfield eq 'c', 
+-   The `search.in` function tests whether a given string field is equal to one of a given list of values. It can also be used in any or all to compare a single value of a string collection field with a given list of values. Equality between the field and each value in the list is determined in a case-sensitive fashion, the same way as for the eq operator. Therefore an expression like `search.in(myfield, 'a, b, c')` is equivalent to myfield eq 'a' or myfield eq 'b' or myfield eq 'c', 
     
-	except that search.in will yield much better performance. The first parameter to the search.in function is the field reference (or range variable in the case where search.in is used inside an any or all expression). The second parameter is a string containing the list of values, separated by spaces and/or commas. If you need to use separators other than spaces and commas because your values include those characters, you can specify an optional third parameter to search.in. This third parameter is a string 
+	except that `search.in` will yield much better performance. The first parameter to the `search.in` function is the field reference (or range variable in the case where `search.in` is used inside an any or all expression). The second parameter is a string containing the list of values, separated by spaces and/or commas. If you need to use separators other than spaces and commas because your values include those characters, you can specify an optional third parameter to `search.in`. This third parameter is a string 
 	
 	where each character of the string, or subset of this string are treated as a separator when parsing the list of values in the second parameter.
 
@@ -184,10 +192,10 @@ Find all hotels with the tag 'wifi' or 'pool':
 $filter=tags/any(t: search.in(t, 'wifi, pool')  
 ```
 
-Find all hotels without the tag 'motel' nor 'cabine':  
+Find all hotels without the tag 'motel' nor 'cabin':  
 
 ```  
-$filter=tags/all(t: not search.in(t, 'motel, cabine'))  
+$filter=tags/all(t: not search.in(t, 'motel, cabin'))  
 ```  
 
 ### Order-by examples
