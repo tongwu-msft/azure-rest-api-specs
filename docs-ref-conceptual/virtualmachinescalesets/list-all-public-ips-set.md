@@ -1,5 +1,5 @@
 ---
-title: "List all NICs of a VM"
+title: "List all Public IPs in a scale set"
 ms.custom: ""
 ms.date: "2017-07-07"
 ms.prod: "azure"
@@ -15,8 +15,8 @@ caps.latest.revision: 5
 ms.author: "anavin"
 manager: "narayan"
 ---
-# List all public IPs of a VM
-Retrieves information about public IPs that are used by a virtual machine in the specified virtual machine scale set.    
+# List all public IPs in a scale set
+Retrieves information about all public IPs that are used by each virtual machine in the specified virtual machine scale set.    
     
 ## Request    
  

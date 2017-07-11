@@ -31,7 +31,7 @@ Azure Virtual Machine Scale Sets REST APIs include:
 - [Get the model view of a VM](get-the-model-view-of-a-vm.md)
 - [List all NICs in a set](list-all-nics-in-a-set.md)
 - [List all NICs of a VM](list-all-nics-of-a-vm.md)
-- [List all public IPs of a VM](list-all-public-ips-vm.md)
+- [List all public IPs in a set](list-all-public-ips-set.md)
 - [List all sets in a resource group](list-all-sets-in-a-resource-group.md)
 - [List all sets in a subscription](list-all-sets-in-a-subscription.md)
 - [List all VMs in a set](list-all-vms-in-a-set.md)
