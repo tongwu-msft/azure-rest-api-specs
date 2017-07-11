@@ -12,8 +12,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
 ms.assetid: fefa114d-2e8a-4f94-8858-61f8d23b6f6d
 caps.latest.revision: 10
-ms.author: "davidmu"
-manager: "timlt"
+ms.author: "anavin"
+manager: "narayan"
 ---
 # List all sets in a resource group
 List all of the virtual machines scale sets in the specified resource group.    
@@ -30,7 +30,7 @@ For information about getting started with Azure REST operations including reque
 | --------- | ----------- |
 | subscriptionId | The identifier of your subscription. |
 | resourceGroup | The resource group that contains the scale sets. |
-| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. | 
+| apiVersion | The version of the API to use. The current version is 2017-03-30. | 
 
 ## Response    
 Status code: 200 (OK).    
@@ -132,15 +132,23 @@ Status code: 200 (OK).
           "networkInterfaceConfigurations": [ {    
             "name": "nicconfig1",    
             "properties": {    
-              "primary": true,    
+              "primary": true,
+              "enableAcceleratedNetworking": false,
+                  "networkSecurityGroup": {
+                    "id": "/subscriptions/{subscription-id}/resourceGroups/myrg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"
+                  },
+                  "dnsSettings": {
+                    "dnsServers": []
+                  },  
               "ipConfigurations": [ {    
                 "name": "ipconfig1",    
                 "properties": {    
                   "subnet": {     
                 "id": "/subscriptions/{subscription-id}/resourceGroups/myrg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"     
-                  },    
-                  "loadBalancerBackendAddressPools": [ {     
-                    "id": "/subscriptions/{subscription-id}/resourceGroups/myrg1/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/pool1"     
+                  },
+                  "privateIPAddressVersion": "IPv4",
+                  "loadBalancerBackendAddressPools": [ {
+                    "id": "/subscriptions/{subscription-id}/resourceGroups/myrg1/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/pool1"
                   } ]    
                 }    
               } ]    
