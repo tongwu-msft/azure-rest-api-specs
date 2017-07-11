@@ -1,7 +1,7 @@
 ---
 title: "List all sets in a subscription"
 ms.custom: ""
-ms.date: "2017-02-07"
+ms.date: "2017-07-07"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "virtual-machines"
@@ -10,11 +10,12 @@ ms.technology:
   - "cloud-infrastructure-solution"
 ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-ms.assetid: 63417c21-8635-486e-878e-4eda42bcc035
+ms.assetid: 474f2936-0939-46ab-a78e-57a93fd48d2c
 caps.latest.revision: 5
-ms.author: "anavin
+ms.author: "anavin"
 manager: "narayan"
 ---
+
 # List all sets in a subscription
 List all of the virtual machines scale sets in the specified subscription.    
     
