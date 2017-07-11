@@ -12,8 +12,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
 ms.assetid: 63417c21-8635-486e-878e-4eda42bcc035
 caps.latest.revision: 5
-ms.author: "davidmu"
-manager: "timlt"
+ms.author: "anavin
+manager: "narayan"
 ---
 # List all sets in a subscription
 List all of the virtual machines scale sets in the specified subscription.    
@@ -29,7 +29,7 @@ For information about getting started with Azure REST operations including reque
 | Parameter | Description |
 | --------- | ----------- |
 | subscriptionId | The identifier of your subscription. |
-| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |
+| apiVersion | The version of the API to use. The current version is 2017-03-30. |
 
 ## Response    
 
@@ -132,10 +132,23 @@ Status code: 200 (OK).
           "networkInterfaceConfigurations": [ {    
             "name": "nicconfig1",    
             "properties": {    
-              "primary": true,    
+              "primary": true,
+              "enableAcceleratedNetworking": false,
+                  "networkSecurityGroup": {
+                    "id": "/subscriptions/{subscription-id}}/resourceGroups/myrg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"
+                  },
+                  "dnsSettings": {
+                    "dnsServers": [10.0.0.5, 10.0.0.6]
+                  },
               "ipConfigurations": [ {    
                 "name": "ipconfig1",    
-                "properties": {    
+                "properties": {
+                  "publicIPAddressConfiguration": {
+                          "name": "pub1",
+                          "properties": {
+                            "idleTimeoutInMinutes": 15
+                          }
+                        },
                   "subnet": {     
                 "id": "/subscriptions/{subscription-id}/resourceGroups/myrg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"     
                   },    
@@ -313,13 +326,16 @@ Status code: 200 (OK).
 |------------------|-----------------|    
 |name|Specifies the name of the network interface configuration.|    
 |primary|Indicates whether network interfaces created from the network interface configuration will be the primary NIC of the VM.|    
+|enableAcceleratedNetworking|Specifies whether accelerated networking is enabled for the scale set.|
+|dnsSettings| Specifies the DNS settings of the scaleset.|
 |[ipConfigurations](#ipConfigurations)|Specifies the IP configurations of the network interface.|    
     
 ###  <a name="ipConfigurations"></a> ipConfigurations    
     
 |Element name|Description|    
 |------------------|-----------------|    
-|name|Specifies name of the IP configuration.|    
+|name|Specifies name of the IP configuration.|
+|publicIPAddressConfiguration| Specifies the public IP address associated with the scale set.|  
 |subnet|Specifies the identifier of the subnet.|    
 |loadBalancerBackendAddressPools|Specifies an array of references to backend address pools of load balancers. A scale set can reference backend address pools of one public and one internal load balancer.|    
 |loadBalancerInboundNatPools|Specifies an array of references to inbound Nat pools of the load balancers. A scale set can reference backend address pools of one public and one internal load balancer.|

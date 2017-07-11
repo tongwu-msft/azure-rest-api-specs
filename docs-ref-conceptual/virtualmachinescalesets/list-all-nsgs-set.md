@@ -15,8 +15,8 @@ caps.latest.revision: 10
 ms.author: "anavin"
 manager: "narayan"
 ---
-# List all VMs in a set
-Retrieves information about the instance view of all virtual machines in the specified virtual machine scale set.    
+# List all NSGs in a set
+Retrieves information about the instance view of all network security groups in the specified virtual machine scale set.    
     
 ## Request    
 
@@ -37,136 +37,164 @@ For information about getting started with Azure REST operations including reque
 Status code: 200 (OK).    
     
 ```    
-{    
-  "value": [ {    
-    "instanceId": "1",    
-    "properties": {    
-      "instanceView": {    
-        "platformUpgradeDomain": "5",    
-        "platformFaultDomain": "2",     
-        "statuses": [ {     
-          "code": "ProvisioningState/failed/VMAgentProvisioningFailure",     
-          "level": "Error",     
-          "displayStatus": "VM Agent provisioning failed"     
-        },     
-        {     
-          "code": "PowerState/Running",     
-          "level": "Info",     
-          "displayStatus": "VM Running"     
-        },    
-        {     
-          "code" : "OSState/Generalized",     
-          "message" : "Virtual Machine XYZ is Generalized",     
-          "level" : "Info",     
-          "displayStatus" : "VM Generalized"     
-        } ],     
-        "windowsConfiguration": {     
-          "rdpThumbPrint": "{rdp-thumbprint}"     
-        },     
-        "vmAgent": {     
-          "vmAgentVersion": "version-of-agent",     
-          "statuses": [ {     
-            "code": "ProvisioningState/succeeded",     
-            "message": "VM-agent-message",     
-            "level": "Info",     
-            "displayStatus": "Succeeded",     
-            "time": "status-report-time"     
-          } ],     
-          "extensionHandlers": [ {     
-            "type": "Microsoft.Compute.CustomScriptExtension",     
-            "typeHandlerVersion": "1.1",     
-            "status": {     
-              "code": "ProvisioningState/<handlerStatus>/<code>",     
-              "level": "Info",     
-              "displayStatus": "Ready",     
-              "message": "Handler enabled (name: Microsoft.Compute.CustomScriptExtension: 1.1) "     
-            }     
-          } ]     
-        },      
-        "disks": [ {     
-          "name": "osdisk",     
-          "statuses": [ {     
-            "code": "ProvisioningState/succeeded",     
-            "level": "Info",     
-            "displayStatus": "Provisioning succeeded",     
-            "time": "<time disk created>"     
-          } ]     
-        } ],     
-        "extensions": [ {     
-          "name": "mydomainjoinscript",     
-          "type": "Microsoft.Compute.CustomScriptExtension",    
-          "typeHandlerVersion": "1.1",     
-          "statuses": [ {     
-            "code": "ProvisioningState/failed/-1",     
-            "level": "Error",     
-            "displayStatus": "<operation> - <status>",     
-            "message": "Script exited with code -1",     
-            "time": "<configurationAppliedTime>"     
-          } ],     
-          "substatuses": [ {     
-            "code": "componentStatus/StdOut/succeeded",     
-            "level": "Info",     
-            "displayStatus": "Succeeded",     
-            "message": "Creating log file..."     
-          } ]     
-        } ]      
-      }    
-    }    
-  } ]    
-}    
+{
+  "value": [
+    {
+      "name": "nsg1",
+      "id": "/subscriptions/366db6b2-be71-49ce-84b3-84a26f93b59f/resourceGroups/VMSSnsgTest/providers/Microsoft.Network/networkSecurityGroups/nsg1",
+      "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "location": "southeastasia",
+      "properties": {
+        "provisioningState": "Succeeded",
+        "resourceGuid": "8edbd186-101f-448a-914f-9605f9e0bb04",
+        "securityRules": [
+          {
+            "name": "ssh",
+            "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/networkSecurityGroups/nsg1/securityRules/ssh",
+            "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Allow SSH",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 201,
+              "direction": "Inbound"
+            }
+          },
+        ],
+        "defaultSecurityRules": [
+          {
+            "name": "AllowVnetInBound",
+            "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/networkSecurityGroups/nsg1/defaultSecurityRules/AllowVnetInBound",
+            "etag": "W/\"00000000-0000-0000-0000-000000000000\",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Allow inbound traffic from all VMs in VNET",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "destinationAddressPrefix": "VirtualNetwork",
+              "access": "Allow",
+              "priority": 65000,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "AllowAzureLoadBalancerInBound",
+            "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/networkSecurityGroups/nsg1/defaultSecurityRules/AllowAzureLoadBalancerInBound",
+            "etag": "W/\"00000000-0000-0000-0000-000000000000\",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Allow inbound traffic from azure load balancer",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "AzureLoadBalancer",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 65001,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "DenyAllInBound",
+            "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/networkSecurityGroups/nsg1/defaultSecurityRules/DenyAllInBound",
+            "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Deny all inbound traffic",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "priority": 65500,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "AllowVnetOutBound",
+            "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/networkSecurityGroups/nsg1/defaultSecurityRules/AllowVnetOutBound",
+            "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Allow outbound traffic from all VMs to all VMs in VNET",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "destinationAddressPrefix": "VirtualNetwork",
+              "access": "Allow",
+              "priority": 65000,
+              "direction": "Outbound"
+            }
+          },
+          {
+            "name": "AllowInternetOutBound",
+            "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/networkSecurityGroups/nsg1/defaultSecurityRules/AllowInternetOutBound",
+            "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Allow outbound traffic from all VMs to Internet",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "priority": 65001,
+              "direction": "Outbound"
+            }
+          },
+          {
+            "name": "DenyAllOutBound",
+            "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/networkSecurityGroups/nsg1/defaultSecurityRules/DenyAllOutBound",
+            "etag": "W/\"00000000-0000-0000-0000-000000000000\\"",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Deny all outbound traffic",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "priority": 65500,
+              "direction": "Outbound"
+            }
+          }
+        ],
+        "networkInterfaces": [
+          {
+            "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/mynic1"
+          }
+        ]
+      }
+    }
+  ]
+}
     
 ```    
+|Element name|Description|  
+|------------------|-----------------|  
+|name|The name of the Network Security Group.|  
+|id|The identifying URL of the Network Security Group.|  
+|location|Specifies the supported Azure location of the Network Security Group. For more information, see List all of the available geo-locations.|  
+|tags|The tags and their values that are used by the Network Security Group.|  
+|etag|System generated meta-data enabling concurrency control.|  
+|provisioningState|Provisioning state of the Network Security Group.|  
+|[securityRules](#securityRules)|A collection of Network Security Rules within this Network Security Group.|  
+|networkInterfaces|A collection of references to Network Interface Cards that reference this Network Security Group.|      
+###  <a name="ecurityRules"></a> ecurityRules  
     
 |Element name|Description|    
-|------------------|-----------------|    
-|platformUpgradeDomain|Specifies the number of upgrade domains for the virtual machine instance.|    
-|platformFaultDomain|Specifies the number of fault domains for the virtual machine instance.|    
-|[statuses](#statuses)|Specifies the status of the virtual machine instance.|    
-|windowsConfiguration|Specifies the RDP thumbprint used to access the virtual machine instance.|    
-|[vmAgent](#vmAgent)|Specifies the status of the VM Agent installed on the virtual machine instance.|    
-|[disks](#disks)|Specifies the disks that are associated with the virtual machine instance.|    
-|[extensions](#extensions)|Specifies the status of the extensions installed on the virtual machine instance.|    
-    
-###  <a name="vmAgent"></a> vmAgent    
-    
-|Element name|Description|    
-|------------------|-----------------|    
-|vmAgentVersion|Specifies the version of the VM Agent installed on the virtual machine instance.|    
-|[statuses](#statuses)|Specifies the status of the VM Agent on the virtual machine instance.|    
-|extensionHandlers|Specifies the extension handler used by the VM Agent on the virtual machine instance.|    
-    
-###  <a name="disks"></a> disks    
-    
-|Element name|Description|    
-|------------------|-----------------|    
-|name|Specifies the name of the disk associated with the virtual machine instance.|    
-|[statuses](#statuses)|Specifies the status of the disk.|    
-    
-###  <a name="extensions"></a> extensions    
-    
-|Element name|Description|    
-|------------------|-----------------|    
-|name|Specifies the name of the extension installed on the virtual machine instance.|    
-|type|Specifies the type of the extension installed on the virtual machine instance.|    
-|typeHandlerVersion|Specifies the version of the handler.|    
-|[statuses](#statuses)|Specifies the status of the extension.|    
-|[substatuses](#substatuses)|Specifies the sub-status of the extension.|    
-    
-###  <a name="statuses"></a> statuses    
-    
-|Element name|Description|    
-|------------------|-----------------|    
-|code|Specifies the status code.|    
-|message|Specifies the status message.|    
-|level|Specifies the status level.|    
-|displayStatus|Specifies the status value to display.|    
-|time|Specifies the time the status was recorded.|    
-    
-###  <a name="substatuses"></a> substatuses    
-    
-|Element name|Description|    
-|------------------|-----------------|    
-|code|Specifies the sub-status code.|    
-|level|Specifies the sub-status level.|    
-|displayStatus|Specifies the sub-status value to display.|    
-|message|Specifies the sub-status message.|
+|------------------|-----------------|
+|name| Specifies the name of the Network Security Rule|    
+|defaultSecurityRules|A collection of Default Network Security Rules within this Network Security Group.|  

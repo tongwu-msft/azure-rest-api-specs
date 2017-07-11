@@ -15,5 +15,4 @@
 # [List available skus for VMs](list-available-skus-for-vms.md)
 # [Manage a VM](manage-a-vm.md)
 # [Manage all VMs in a set](manage-all-vms-in-a-set.md)
-
-
+# [List all NSGs in a set](list-all-nsgs-set.md)

@@ -31,7 +31,7 @@ For information about getting started with Azure REST operations including reque
 | subscriptionId | The identifier of your subscription. |
 | resourceGroup | The resource group that will contain the virtual machine. |
 | vmScaleSet | The name of the scale set. |
-| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |    
+| apiVersion | The version of the API to use. The current version is 2017-03-30. |    
     
 ## Response    
 
