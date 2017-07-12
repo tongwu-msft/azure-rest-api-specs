@@ -88,7 +88,7 @@ For information about getting started with Azure REST operations including reque
 |SourcePortRange|Source Port or Range.|  
 |DestinationPortRange|Destination Port or Range.|  
 |SourceAddressPrefix|CIDR, single source IP range or * to match any IP. Tags such as 'VirtualNetwork, 'AzureLoadBalancer' and 'Internet' can also be used.|  
-|DestinationAddressPrefix|CIDR, dingle destination IP range or * to match any IP. Tags such as 'VirtualNetwork, 'AzureLoadBalancer' and 'Internet' can also be used.|  
+|DestinationAddressPrefix|CIDR, single destination IP range or * to match any IP. Tags such as 'VirtualNetwork, 'AzureLoadBalancer' and 'Internet' can also be used.|  
 |Access|Specifies whether network traffic is allowed or denied.|  
 |Priority|Specifies the priority of the rule.|  
 |Direction|The direction specifies if rule will be evaluated on incoming or outgoing traffic.|
