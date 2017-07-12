@@ -2,6 +2,7 @@
 ## [Versioning Best Practices](versioning-best-practices.md)
 ## [Protocol Version Support for .NET Client Library Versions](protocol-version-support-for-.net-client-library-versions.md)
 ## [Azure Storage services versions 2015-12-11 and earlier](azure-storage-services-versions-2015-07-08-and-earlier.md)
+### [Version 2016-05-31](Version-2016-05-31.md)
 ### [Version 2015-12-11](version-2015-12-11.md)
 ### [Version 2015-07-08](version-2015-07-08.md)
 ### [Version 2015-04-05](version-2015-04-05.md)

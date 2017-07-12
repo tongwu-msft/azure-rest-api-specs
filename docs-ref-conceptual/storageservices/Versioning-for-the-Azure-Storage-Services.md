@@ -27,22 +27,19 @@ translation.priority.mt:
 # Versioning for the Azure Storage Services
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is 2016-05-31, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Azure Storage Services Versions 2015-12-11 and Earlier](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md).  
+ The current version of the Azure storage services is 2017-04-17, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Azure Storage Services Versions 2015-12-11 and Earlier](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md).  
   
-## Version 2016-05-31  
+## Version 2017-04-17
 
-Version 2016-05-31 includes these changes: 
+Version 2017-04-17 includes these changes: 
 
-* The maximum size of blocks has been increased to 100 MB. This means that the maximum size of a block blob is now 5,000,000 MB, or about 4.75 TB.
-* The public access level of a container is now returned from the [List Containers](List-Containers2.md) and [Get Container Properties](Get-Container-Properties.md) APIs. Previously this information could only be obtained by calling [Get Container ACL](Get-Container-ACL.md).
-* The [Put Message](Put-Message.md) API now returns information about the message that was just added, including the pop receipt. This enables the you to call [Update Message](Update-Message.md) and [Delete Message](Delete-Message2.md) on the newly enqueued message.
-* The [List Directories and Files](List-Directories-and-Files.md) API now accepts a new parameter that limits the listing to a specified prefix.
-* Several error messages have been clarified or made more specific.
-* All table APIs now accept and enforce the timeout query parameter.
-* The stored `Content-MD5` property is now returned when requesting a range of a blob or file. Previously this was only returned for full blob and file downloads.
-* A new [Incremental Copy Blob](Incremental-Copy-Blob.md) API is now available. This allows efficient copying and backup of page blob snapshots.
-* Using `If-None-Match: *` will now fail when reading a blob. Previously this header was ignored for blob reads.
-* During authentication, the canonicalized header list now includes headers with empty values. Previously these were omitted from the list.
+* A new [Set Blob Tier](Set-Blob-Tier.md) API is now available. Use this API to explicitly set a premium page blob (or disk) to a tier without having to resize. The blob will be provisioned and billed at the new tier. This is also the only way to use the tiers `P4` and `P6`. See [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features) for more information on premium tiers.
+* The [Create File](Create-File.md), [Create Directory](Create-Directory.md), [Put Range](Put-Range.md), [Set Directory Metadata](Set-Directory-Metadata.md), [Set File Metadata](Set-File-Metadata.md), and [Set File Properties](Set-File-Properties.md) operations now return the x-ms-request-server-encrypted response header. This header is set to true if the contents of the request have been successfully encrypted.
+* The [Get File](Get-File.md), [Get File Properties](Get-File-Properties.md), and [Get Directory Properties](Get-Directory-Properties.md) operations now return the x-ms-server-encrypted response header. This header is set to true if the file data and application metadata are completely encrypted. If the file is not encrypted, or if only parts of the file/application metadata are encrypted, this header is set to false.
+* The storage analytics logs corresponding to requests using version 2017-04-17 or later have a [more detailed `<request-status>`](Storage-Analytics-Log-Format.md) instead of `ClientOtherError`. The new codes are the same as the [error codes](Common-REST-API-Error-Codes.md) returned by the service.
+* Using `If-Match: *` to access an uncommitted blob will now fail.
+* If a request is throttled due to reaching the account-level Ingress, Egress, or IOPS limits, a new [user message](Common-REST-API-Error-Codes.md) is returned.
+* The [List Blobs](List-Blobs.md) API now returns the continuation token in the `Marker` XML element. Previously this was a blob name.
 
 ## Specifying Storage Service Versions in Requests  
 
@@ -59,7 +56,7 @@ How you specify the version of the storage services to use for a request relates
   
 ```  
 Request Headers:  
-x-ms-version: 2015-12-11  
+x-ms-version: 2017-04-17  
 ```  
   
  The following rules indicates how requests using Shared Key/Shared Key Lite are evaluated to determine the version to use in processing the request.  
