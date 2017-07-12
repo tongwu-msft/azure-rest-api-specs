@@ -48,9 +48,9 @@ translation.priority.mt:
 	
 	-	`any/all` are supported on fields of type `Collection(Edm.String)`. 
 	
-	-	`any` can only be used with simple equality expressions or with a `search.in` function. 
+	-	`any` can only be used with simple equality expressions or with a `search.in` function. Simple expressions consist of a comparison between a single field and a literal value, e.g. `Title eq 'Magna Carta'`.
 	
-	-	`all` can only be used with simple inequality expressions or with a `not search.in`. Simple expressions consist of a comparison between a single field and a literal value, e.g. `Title eq 'Magna Carta'`.  
+	-	`all` can only be used with simple inequality expressions or with a `not search.in`.   
 
 -   Geospatial functions `geo.distance` and `geo.intersects`. The `geo.distance` function returns the distance in kilometers between two points, one being a field and one being a constant passed as part of the filter. The `geo.intersects` function returns true if a given point is within a given polygon, where the point is a field and the polygon is specified as a constant passed as part of the filter.  
 
