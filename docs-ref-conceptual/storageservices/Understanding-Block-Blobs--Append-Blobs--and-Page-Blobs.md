@@ -62,5 +62,5 @@ The storage service offers three types of blobs, *block blobs*, *append blobs*, 
  Each block in an append blob can be a different size, up to a maximum of 4 MB, and an append blob can include up to 50,000 blocks. The maximum size of an append blob is therefore slightly more than 195 GB (4 MB X 50,000 blocks).  
   
 ## See Also  
- [How to Use the Blob Storage Service](azure/storage/storage-dotnet-how-to-use-blobs/)   
- [How to Use the Queue Storage Service](azure/storage/storage-dotnet-how-to-use-queues/)
+ [How to Use the Blob Storage Service](/azure/storage/storage-dotnet-how-to-use-blobs/)   
+ [How to Use the Queue Storage Service](/azure/storage/storage-dotnet-how-to-use-queues/)
