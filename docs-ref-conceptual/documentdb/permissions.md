@@ -57,7 +57,7 @@ The following example illustrates the JSON construct of a permission:
 |**id**|Required. This is a user settable property. It is the unique name that identifies the permission, i.e. no two permissions will share the same id within a user. The **id** must not exceed 255 characters.|  
 |**permissionMode**|Required. The access mode on the resource for the user: **All** or **Read**. **All** provides read, write, and delete access to a resource. **Read** restricts the user to read access on the resource.|  
 |**resource**|Required. The full addressable path of the resource associated with the permission. For example, dbs/ruJjAA==/colls/ruJjAM9UnAA=/.|  
-|**_rid**|This is a [system generated property](http://azure.microsoft.com/documentation/articles/documentdb-resources/#system-vs-user-defined-resources). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the permission resource.|  
+|**_rid**|This is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources#system-vs-user-defined-resources). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the permission resource.|  
 |**_ts**|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |**_self**|This is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|This is a system generated property that specifies the resource etag required for optimistic concurrency control.|  
