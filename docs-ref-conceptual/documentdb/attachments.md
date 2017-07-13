@@ -36,7 +36,7 @@ Developers can choose to have:
 * The attachment media/blob managed by Cosmos DB or  
 * Store it with an external blob service provider such as OneDrive, Dropbox, etc. and store the reference metadata for attachment in Cosmos DB.  
     
-The attachment resource is represented by attachments in the [Cosmos DB REST resource model](http://azure.microsoft.com/documentation/articles/documentdb-resources/). The attachment resource has a fixed schema. Regardless of where the raw media is stored, the following properties are required.  
+The attachment resource is represented by attachments in the [Cosmos DB REST resource model](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources). The attachment resource has a fixed schema. Regardless of where the raw media is stored, the following properties are required.  
   
 The following example illustrates the JSON construct of a document attachment.  
   

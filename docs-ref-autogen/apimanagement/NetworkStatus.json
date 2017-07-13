@@ -1,19 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
+    "version": "2017-03-01",
     "title": "ApiManagementClient",
-    "description": "Use these REST APIs for getting the network connectivity status of your Azure API Management deployment. When the API Management service is deployed inside a Virtual Network, it needs to have access to other Azure resources it depends on. This also gives details about the DNS Servers visible to Azure API Management deployment.",
-    "version": "2016-10-10"
+    "description": "Use these REST APIs for getting the network connectivity status of your Azure API Management deployment. When the API Management service is deployed inside a Virtual Network, it needs to have access to other Azure resources it depends on. This also gives details about the DNS Servers visible to Azure API Management deployment."
   },
   "host": "management.azure.com",
   "schemes": [
     "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
   ],
   "security": [
     {
@@ -39,39 +33,93 @@
         "tags": [
           "NetworkStatus"
         ],
-        "operationId": "NetworkStatus_GetByService",
+        "operationId": "NetworkStatus_ListByService",
         "description": "Gets the Connectivity Status to the external resources on which the Api Management service depends from inside the Cloud Service. This also returns the DNS Servers as visible to the CloudService.",
         "x-ms-examples": {
           "ApiManagementServiceGetNetworkStatus": {
             "parameters": {
               "serviceName": "apimService1",
               "resourceGroupName": "rg1",
-              "api-version": "2016-10-10",
-              "subscriptionId": "subid"
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "locationName": "East Asia"
             },
             "responses": {
               "200": {
-                "body": {
-                  "dnsServers": [
-                    "10.xx.3.87",
-                    "10.xx.5.29",
-                    "10.xx.32.105"
-                  ],
-                  "connectivityStatus": [
-                    {
-                      "name": "xxxxx.database.windows.net",
-                      "status": "success",
-                      "lastUpdated": "2017-03-20T08:47:20.7043553Z",
-                      "lastStatusChange": "2017-03-20T08:47:20.7981057Z"
-                    },
-                    {
-                      "name": "xxxxxxx.blob.core.windows.net",
-                      "status": "success",
-                      "lastUpdated": "2017-03-20T08:47:20.720918Z",
-                      "lastStatusChange": "2017-03-20T08:47:20.9075183Z"
+                "body": [
+                  {
+                    "location": "Central US",
+                    "networkStatus": {
+                      "dnsServers": [
+                        "10.20.37.126",
+                        "10.20.244.38"
+                      ],
+                      "connectivityStatus": [
+                        {
+                          "name": "ap********.blob.core.windows.net",
+                          "status": "success",
+                          "error": "",
+                          "lastUpdated": "2017-06-28T23:37:35.1518379Z",
+                          "lastStatusChange": "2017-06-28T23:17:34.9009011Z"
+                        },
+                        {
+                          "name": "ap********.file.core.windows.net",
+                          "status": "success",
+                          "error": "",
+                          "lastUpdated": "2017-06-28T23:37:35.9161347Z",
+                          "lastStatusChange": "2017-06-28T23:17:35.2579713Z"
+                        },
+                        {
+                          "name": "e*****.database.windows.net",
+                          "status": "success",
+                          "error": "",
+                          "lastUpdated": "2017-06-28T23:37:35.2130114Z",
+                          "lastStatusChange": "2017-06-28T23:17:35.0079651Z"
+                        },
+                        {
+                          "name": "Scm",
+                          "status": "success",
+                          "error": "",
+                          "lastUpdated": "2017-06-28T23:37:37.4401208Z",
+                          "lastStatusChange": "2017-06-28T23:27:36.8198739Z"
+                        }
+                      ]
                     }
-                  ]
-                }
+                  },
+                  {
+                    "location": "West US",
+                    "networkStatus": {
+                      "dnsServers": [
+                        "10.64.3.87",
+                        "10.64.5.29",
+                        "10.20.32.105"
+                      ],
+                      "connectivityStatus": [
+                        {
+                          "name": "ap********.file.core.windows.net",
+                          "status": "success",
+                          "error": "",
+                          "lastUpdated": "2017-06-28T23:37:07.1803004Z",
+                          "lastStatusChange": "2017-06-28T23:17:06.4831818Z"
+                        },
+                        {
+                          "name": "bb******.blob.core.windows.net",
+                          "status": "success",
+                          "error": "",
+                          "lastUpdated": "2017-06-28T23:37:05.9303015Z",
+                          "lastStatusChange": "2017-06-28T23:17:05.7332755Z"
+                        },
+                        {
+                          "name": "e******.database.windows.net",
+                          "status": "success",
+                          "error": "",
+                          "lastUpdated": "2017-06-28T23:37:07.1178113Z",
+                          "lastStatusChange": "2017-06-28T23:17:06.1237965Z"
+                        }
+                      ]
+                    }
+                  }
+                ]
               }
             }
           }
@@ -100,10 +148,113 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/locations/{locationName}/networkstatus": {
+      "get": {
+        "tags": [
+          "NetworkStatus"
+        ],
+        "operationId": "NetworkStatus_ListByLocation",
+        "description": "Gets the Connectivity Status to the external resources on which the Api Management service depends from inside the Cloud Service. This also returns the DNS Servers as visible to the CloudService.",
+        "x-ms-examples": {
+          "ApiManagementServiceGetNetworkStatusByLocation": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "locationName": "East Asia"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "dnsServers": [
+                    "10.20.32.69",
+                    "10.20.237.143"
+                  ],
+                  "connectivityStatus": [
+                    {
+                      "name": "apimgmtstxaleb7*******.blob.core.windows.net",
+                      "status": "success",
+                      "error": "",
+                      "lastUpdated": "2017-06-01T23:13:07.9054516Z",
+                      "lastStatusChange": "2017-04-13T19:39:53.5543347Z"
+                    },
+                    {
+                      "name": "apimgmtstxaleb7*******.file.core.windows.net",
+                      "status": "success",
+                      "error": "",
+                      "lastUpdated": "2017-06-01T23:13:08.1242042Z",
+                      "lastStatusChange": "2017-04-13T19:39:53.7262408Z"
+                    },
+                    {
+                      "name": "Scm",
+                      "status": "success",
+                      "error": "",
+                      "lastUpdated": "2017-06-01T23:08:22.9140197Z",
+                      "lastStatusChange": "2017-05-27T17:52:41.3592337Z"
+                    },
+                    {
+                      "name": "****seqi.database.windows.net",
+                      "status": "success",
+                      "error": "",
+                      "lastUpdated": "2017-06-01T23:13:08.0617078Z",
+                      "lastStatusChange": "2017-04-13T19:39:53.5543347Z"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/LocationNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Gets the Network status details.",
+            "schema": {
+              "$ref": "#/definitions/NetworkStatusContract"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     }
   },
@@ -135,7 +286,7 @@
         "lastUpdated": {
           "type": "string",
           "format": "date-time",
-          "description": "The date when the resource connectivity status was last updated. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+          "description": "The date when the resource connectivity status was last updated. This status should be updated every 15 minutes. If this status has not been updated, then it means that the service has lost network connectivity to the resource, from inside the Virtual Network.The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
         },
         "lastStatusChange": {
           "type": "string",
@@ -165,7 +316,7 @@
           "items": {
             "$ref": "#/definitions/ConnectivityStatusContract"
           },
-          "description": "Gets the list of Connectivity Status to the Resources."
+          "description": "Gets the list of Connectivity Status to the Resources on which the service depends upon."
         }
       },
       "required": [
@@ -191,7 +342,7 @@
       },
       "description": "Error Field contract."
     },
-    "ErrorBodyContract": {
+    "ErrorResponse": {
       "properties": {
         "code": {
           "type": "string",
@@ -213,6 +364,15 @@
     }
   },
   "parameters": {
+    "LocationNameParameter": {
+      "name": "locationName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Location in which the API Management service is deployed. This is one of the Azure Regions like West US, East US, South Central US.",
+      "minLength": 1,
+      "x-ms-parameter-location": "method"
+    },
     "ApiVersionParameter": {
       "name": "api-version",
       "in": "query",

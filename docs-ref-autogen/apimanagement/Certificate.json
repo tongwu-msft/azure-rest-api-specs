@@ -1,19 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
+    "version": "2017-03-01",
     "title": "ApiManagementClient",
-    "description": "Use these REST APIs for performing operations on Certificate entity in your Azure API Management deployment. Certificates can be used to setup mutual authentication with your Backend in API Management. For more information refer to [How to secure backend using Mutual Auth Certificate](https://docs.microsoft.com/en-us/azure/api-management/api-management-howto-mutual-certificates).",
-    "version": "2016-10-10"
+    "description": "Use these REST APIs for performing operations on Certificate entity in your Azure API Management deployment. Certificates can be used to setup mutual authentication with your Backend in API Management. For more information refer to [How to secure backend using Mutual Auth Certificate](https://docs.microsoft.com/en-us/azure/api-management/api-management-howto-mutual-certificates)."
   },
   "host": "management.azure.com",
   "schemes": [
     "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
   ],
   "security": [
     {
@@ -39,10 +33,36 @@
         "tags": [
           "Certificates"
         ],
-        "operationId": "Certificates_ListByService",
+        "operationId": "Certificate_ListByService",
         "description": "Lists a collection of all certificates in the specified service instance.",
-        "externalDocs": {
-          "url": "https://msdn.microsoft.com/en-us/library/azure/dn783483.aspx"
+        "x-ms-examples": {
+          "ApiManagementListCertificates": {
+            "parameters": {
+              "resourceGroupName": "rg1",
+              "serviceName": "apimService1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/kjoshiarmtemplateCert1",
+                      "type": "Microsoft.ApiManagement/service/certificates",
+                      "name": "templateCert1",
+                      "properties": {
+                        "subject": "CN=mutual-authcert",
+                        "thumbprint": "EBA************************48594A6",
+                        "expirationDate": "2017-04-23T17:03:41Z"
+                      }
+                    }
+                  ],
+                  "nextLink": ""
+                }
+              }
+            }
+          }
         },
         "parameters": [
           {
@@ -81,14 +101,20 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         },
-        "x-ms-odata": "#/definitions/CertificateContract"
+        "x-ms-odata": "#/definitions/CertificateContract",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}": {
@@ -96,8 +122,33 @@
         "tags": [
           "Certificates"
         ],
-        "operationId": "Certificates_Get",
+        "operationId": "Certificate_Get",
         "description": "Gets the details of the certificate specified by its identifier.",
+        "x-ms-examples": {
+          "ApiManagementGetCertificate": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "certificateId": "templateCert1"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/templateCert1",
+                  "type": "Microsoft.ApiManagement/service/certificates",
+                  "name": "templateCert1",
+                  "properties": {
+                    "subject": "CN=mutual-authcert",
+                    "thumbprint": "EBA**********************8594A6",
+                    "expirationDate": "2017-04-23T17:03:41Z"
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -131,20 +182,69 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       },
       "put": {
         "tags": [
           "Certificates"
         ],
-        "operationId": "Certificates_CreateOrUpdate",
+        "operationId": "Certificate_CreateOrUpdate",
         "description": "Creates or updates the certificate being used for authentication with the backend.",
         "externalDocs": {
           "description": "How to secure back-end services using client certificate authentication in Azure API Management",
           "url": "https://azure.microsoft.com/en-us/documentation/articles/api-management-howto-mutual-certificates/"
+        },
+        "x-ms-examples": {
+          "ApiManagementCreateCertificate": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "certificateId": "tempcert",
+              "parameters": {
+                "properties": {
+                  "data": "****************Base 64 Encoded Certificate *******************************",
+                  "password": "****Certificate Password******"
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/tempcert",
+                  "type": "Microsoft.ApiManagement/service/certificates",
+                  "name": "tempcert",
+                  "properties": {
+                    "subject": "CN=contoso.com",
+                    "thumbprint": "*******************3",
+                    "expirationDate": "2018-03-17T21:55:07+00:00"
+                  }
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/tempcert",
+                  "type": "Microsoft.ApiManagement/service/certificates",
+                  "name": "tempcert",
+                  "properties": {
+                    "subject": "CN=contoso.com",
+                    "thumbprint": "*******************3",
+                    "expirationDate": "2018-03-17T21:55:07+00:00"
+                  }
+                }
+              }
+            }
+          }
         },
         "parameters": [
           {
@@ -163,7 +263,7 @@
             "schema": {
               "$ref": "#/definitions/CertificateCreateOrUpdateParameters"
             },
-            "description": "Create parameters."
+            "description": "Create or Update parameters."
           },
           {
             "name": "If-Match",
@@ -181,25 +281,52 @@
         ],
         "responses": {
           "201": {
-            "description": "The new certificate was successfully added."
+            "description": "The new certificate was successfully added.",
+            "schema": {
+              "$ref": "#/definitions/CertificateContract"
+            }
           },
-          "204": {
-            "description": "The certificate details were successfully updated."
+          "200": {
+            "description": "The certificate details were successfully updated.",
+            "schema": {
+              "$ref": "#/definitions/CertificateContract"
+            }
           },
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       },
       "delete": {
         "tags": [
           "Certificates"
         ],
-        "operationId": "Certificates_Delete",
+        "operationId": "Certificate_Delete",
         "description": "Deletes specific certificate.",
+        "x-ms-examples": {
+          "ApiManagementDeleteCertificate": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "certificateId": "tempcert",
+              "If-Match": "*"
+            },
+            "responses": {
+              "204": {}
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -231,10 +358,16 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     }
   },
@@ -248,11 +381,6 @@
           },
           "description": "Page values."
         },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Total record count number across all pages."
-        },
         "nextLink": {
           "type": "string",
           "description": "Next page link if any."
@@ -262,11 +390,21 @@
     },
     "CertificateContract": {
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Certificate identifier path: /certificates/{certificateId}",
-          "readOnly": true
-        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/CertificateContractProperties",
+          "description": "Certificate properties details."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Certificate details."
+    },
+    "CertificateContractProperties": {
+      "properties": {
         "subject": {
           "type": "string",
           "description": "Subject attribute of the certificate."
@@ -286,9 +424,19 @@
         "thumbprint",
         "expirationDate"
       ],
-      "description": "Certificate details."
+      "description": "Properties of the Certificate contract."
     },
     "CertificateCreateOrUpdateParameters": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/CertificateCreateOrUpdateProperties",
+          "description": "Certificate create or update properties details."
+        }
+      },
+      "description": "Certificate create or update details."
+    },
+    "CertificateCreateOrUpdateProperties": {
       "properties": {
         "data": {
           "type": "string",
@@ -304,6 +452,54 @@
         "password"
       ],
       "description": "Parameters supplied to the CreateOrUpdate certificate operation."
+    },
+    "PolicyContractProperties": {
+      "properties": {
+        "policyContent": {
+          "type": "string",
+          "description": "Xml Encoded contents of the Policy."
+        }
+      },
+      "required": [
+        "policyContent"
+      ],
+      "description": "Policy contract Properties."
+    },
+    "PolicyContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PolicyContractProperties",
+          "description": "Properties of the Policy."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Policy Contract details."
+    },
+    "Resource": {
+      "description": "The Resource definition.",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "Resource name.",
+          "readOnly": true
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type for API Management resource."
+        }
+      }
     },
     "ErrorFieldContract": {
       "properties": {
@@ -322,7 +518,7 @@
       },
       "description": "Error Field contract."
     },
-    "ErrorBodyContract": {
+    "ErrorResponse": {
       "properties": {
         "code": {
           "type": "string",
@@ -409,5 +605,5 @@
       "x-ms-parameter-location": "method"
     }
   },
-  "x-internal-toc-name": "Certificates"
+  "x-internal-toc-name": "Certificate"
 }

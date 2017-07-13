@@ -1,19 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
+    "version": "2017-03-01",
     "title": "ApiManagementClient",
-    "description": "Use these REST APIs for performing operations on entities like API, Product, and Subscription associated with your Azure API Management deployment.",
-    "version": "2016-10-10"
+    "description": "Use these REST APIs for performing operations on entities like API, Product, and Subscription associated with your Azure API Management deployment."
   },
   "host": "management.azure.com",
   "schemes": [
     "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
   ],
   "security": [
     {
@@ -41,6 +35,31 @@
         ],
         "operationId": "Regions_ListByService",
         "description": "Lists all azure regions in which the service exists.",
+        "x-ms-examples": {
+          "ApiManagementListRegions": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "name": "West US",
+                      "isMasterRegion": true,
+                      "isDeleted": false
+                    }
+                  ],
+                  "count": 1,
+                  "nextLink": ""
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -64,8 +83,14 @@
           }
         },
         "x-ms-pageable": {
-          "nextLinkName": null
-        }
+          "nextLinkName": ""
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     }
   },
@@ -87,7 +112,7 @@
       },
       "description": "Error Field contract."
     },
-    "ErrorBodyContract": {
+    "ErrorResponse": {
       "properties": {
         "code": {
           "type": "string",
@@ -106,6 +131,49 @@
         }
       },
       "description": "Error Body contract."
+    },
+    "PolicyCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PolicyContract"
+          },
+          "description": "Policy Contract value."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "The response of the list policy operation."
+    },
+    "PolicyContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PolicyContractProperties",
+          "description": "Properties of the Policy."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Policy Contract details."
+    },
+    "PolicyContractProperties": {
+      "properties": {
+        "policyContent": {
+          "type": "string",
+          "description": "Xml Encoded contents of the Policy."
+        }
+      },
+      "required": [
+        "policyContent"
+      ],
+      "description": "Policy contract Properties."
     },
     "PolicySnippetsCollection": {
       "properties": {
@@ -137,20 +205,9 @@
           "readOnly": true
         },
         "scope": {
-          "type": "string",
-          "description": "Snippet scope.",
-          "enum": [
-            "Tenant",
-            "Product",
-            "Api",
-            "Operation",
-            "All"
-          ],
-          "readOnly": true,
-          "x-ms-enum": {
-            "name": "PolicyScopeContract",
-            "modelAsString": false
-          }
+          "type": "integer",
+          "description": "Binary OR value of the Snippet scope.",
+          "readOnly": true
         }
       },
       "description": "Policy snippet."
@@ -159,17 +216,18 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "Region name."
+          "description": "Region name.",
+          "readOnly": true
         },
         "isMasterRegion": {
-          "type": "boolean",
-          "description": "whether Region is the master region."
+          "description": "whether Region is the master region.",
+          "type": "boolean"
+        },
+        "isDeleted": {
+          "description": "whether Region is deleted.",
+          "type": "boolean"
         }
       },
-      "required": [
-        "name",
-        "isMasterRegion"
-      ],
       "description": "Region profile."
     },
     "RegionListResult": {
@@ -180,9 +238,39 @@
             "$ref": "#/definitions/RegionContract"
           },
           "description": "Lists of Regions."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total record count number across all pages."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
         }
       },
       "description": "Lists Regions operation response details."
+    },
+    "Resource": {
+      "description": "The Resource definition.",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "Resource name.",
+          "readOnly": true
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type for API Management resource."
+        }
+      }
     }
   },
   "parameters": {
@@ -237,6 +325,21 @@
       "format": "int32",
       "description": "Number of records to return.",
       "minimum": 1,
+      "x-ms-parameter-location": "method"
+    },
+    "PolicyIdParameter": {
+      "name": "policyId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "policy"
+      ],
+      "description": "The identifier of the Policy.",
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "PolicyIdName"
+      },
       "x-ms-parameter-location": "method"
     }
   },
