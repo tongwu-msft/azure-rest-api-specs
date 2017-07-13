@@ -28,32 +28,59 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis": {
       "get": {
         "tags": [
-          "ApiPolicy"
+          "Apis"
         ],
-        "operationId": "ApiPolicy_ListByApi",
-        "description": "Get the policy configuration at the API level.",
+        "operationId": "Api_ListByService",
+        "description": "Lists all APIs of the API Management service instance.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/en-us/azure/api-management/api-management-howto-create-apis"
+        },
         "x-ms-examples": {
-          "ApiManagementListApiPolicies": {
+          "ApiManagementListApis": {
             "parameters": {
               "serviceName": "apimService1",
               "resourceGroupName": "rg1",
               "api-version": "2017-03-01",
-              "subscriptionId": "subid",
-              "apiId": "5600b59475ff190048040001"
+              "subscriptionId": "subid"
             },
             "responses": {
               "200": {
                 "body": {
                   "value": [
                     {
-                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b59475ff190048040001/policies/policy",
-                      "type": "Microsoft.ApiManagement/service/apis/policies",
-                      "name": "policy",
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api",
+                      "type": "Microsoft.ApiManagement/service/apis",
+                      "name": "echo-api",
                       "properties": {
-                        "policyContent": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - Only the <forward-request> policy element can appear within the <backend> section element.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <quota-by-key calls=\"5\" bandwidth=\"2\" renewal-period=\"&#x9;P3Y6M4DT12H30M5S\" counter-key=\"ba\" />\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <log-to-eventhub logger-id=\"apimService1\" partition-key=\"@(context.Subscription.Id)\">\r\n@{\r\n\tRandom Random = new Random();\r\n\t\t\t\tconst string Chars = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \";                \r\n                return string.Join(\",\", DateTime.UtcNow, new string(\r\n                    Enumerable.Repeat(Chars, Random.Next(2150400))\r\n                              .Select(s =&gt; s[Random.Next(s.Length)])\r\n                              .ToArray()));\r\n          }                           \r\n                        </log-to-eventhub>\r\n    <base />\r\n  </outbound>\r\n</policies>"
+                        "displayName": "Echo API",
+                        "apiRevision": "1",
+                        "serviceUrl": "http://echoapi.cloudapp.net/api",
+                        "path": "echo",
+                        "protocols": [
+                          "https"
+                        ],
+                        "isCurrent": true,
+                        "isOnline": true
+                      }
+                    },
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/PetStoreTemplate2",
+                      "type": "Microsoft.ApiManagement/service/apis",
+                      "name": "PetStoreTemplate2",
+                      "properties": {
+                        "displayName": "Swagger Petstore",
+                        "apiRevision": "1",
+                        "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
+                        "serviceUrl": "http://petstore.swagger.io/v2",
+                        "path": "petstore2",
+                        "protocols": [
+                          "http"
+                        ],
+                        "isCurrent": true,
+                        "isOnline": true
                       }
                     }
                   ],
@@ -71,7 +98,17 @@
             "$ref": "#/parameters/ServiceNameParameter"
           },
           {
-            "$ref": "#/parameters/ApiIdParameter"
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "| Field       | Supported operators    | Supported functions               |\n|-------------|------------------------|-----------------------------------|\n| id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |\n| name        | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |\n| description | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |\n| serviceUrl  | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |\n| path        | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |"
+          },
+          {
+            "$ref": "#/parameters/TopQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/SkipQueryParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -82,15 +119,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Apis Policy Collection.",
+            "description": "Paged Result reponse of Apis.",
             "schema": {
-              "$ref": "#/definitions/PolicyCollection"
-            },
-            "headers": {
-              "ETag": {
-                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
-                "type": "string"
-              }
+              "$ref": "#/definitions/ApiCollection"
             }
           },
           "default": {
@@ -100,6 +131,10 @@
             }
           }
         },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-odata": "#/definitions/ApiContract",
         "produces": [
           "application/json"
         ],
@@ -108,31 +143,43 @@
         ]
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/{policyId}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}": {
       "get": {
         "tags": [
-          "ApiPolicy"
+          "Apis"
         ],
-        "operationId": "ApiPolicy_Get",
-        "description": "Get the policy configuration at the API level.",
+        "operationId": "Api_Get",
+        "description": "Gets the details of the API specified by its identifier.",
         "x-ms-examples": {
-          "ApiManagementGetApiPolicy": {
+          "ApiManagementGetApiContract": {
             "parameters": {
               "serviceName": "apimService1",
               "resourceGroupName": "rg1",
               "api-version": "2017-03-01",
               "subscriptionId": "subid",
-              "apiId": "5600b59475ff190048040001",
-              "policyId": "policy"
+              "apiId": "57d1f7558aa04f15146d9d8a"
             },
             "responses": {
               "200": {
                 "body": {
-                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b59475ff190048040001/policies/policy",
-                  "type": "Microsoft.ApiManagement/service/apis/policies",
-                  "name": "policy",
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a",
+                  "type": "Microsoft.ApiManagement/service/apis",
+                  "name": "57d1f7558aa04f15146d9d8a",
                   "properties": {
-                    "policyContent": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - Only the <forward-request> policy element can appear within the <backend> section element.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <quota-by-key calls=\"5\" bandwidth=\"2\" renewal-period=\"&#x9;P3Y6M4DT12H30M5S\" counter-key=\"ba\" />\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <log-to-eventhub logger-id=\"apimService1\" partition-key=\"@(context.Subscription.Id)\">\r\n@{\r\n\tRandom Random = new Random();\r\n\t\t\t\tconst string Chars = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \";                \r\n                return string.Join(\",\", DateTime.UtcNow, new string(\r\n                    Enumerable.Repeat(Chars, Random.Next(2150400))\r\n                              .Select(s =&gt; s[Random.Next(s.Length)])\r\n                              .ToArray()));\r\n          }                           \r\n                        </log-to-eventhub>\r\n    <base />\r\n  </outbound>\r\n</policies>"
+                    "displayName": "Service",
+                    "apiRevision": "1",
+                    "serviceUrl": "https://api.plexonline.com/DataSource/Service.asmx",
+                    "path": "schulte",
+                    "protocols": [
+                      "https"
+                    ],
+                    "subscriptionKeyParameterNames": {
+                      "header": "Ocp-Apim-Subscription-Key",
+                      "query": "subscription-key"
+                    },
+                    "type": "soap",
+                    "isCurrent": true,
+                    "isOnline": true
                   }
                 }
               }
@@ -150,9 +197,6 @@
             "$ref": "#/parameters/ApiIdParameter"
           },
           {
-            "$ref": "#/parameters/PolicyIdParameter"
-          },
-          {
             "$ref": "#/parameters/ApiVersionParameter"
           },
           {
@@ -161,9 +205,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Api Policy information.",
+            "description": "The response body contains the specified API entity.",
             "schema": {
-              "$ref": "#/definitions/PolicyContract"
+              "$ref": "#/definitions/ApiContract"
             },
             "headers": {
               "ETag": {
@@ -188,10 +232,229 @@
       },
       "put": {
         "tags": [
-          "ApiPolicy"
+          "Apis"
         ],
-        "operationId": "ApiPolicy_CreateOrUpdate",
-        "description": "Creates or updates policy configuration for the API.",
+        "operationId": "Api_CreateOrUpdate",
+        "description": "Creates new or updates existing specified API of the API Management service instance.",
+        "x-ms-examples": {
+          "ApiManagementCreateApiUsingSwaggerImport": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "apiId": "petstore",
+              "parameters": {
+                "properties": {
+                  "contentFormat": "swagger-link-json",
+                  "contentValue": "http://petstore.swagger.io/v2/swagger.json",
+                  "path": "petstore"
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstoreapi",
+                  "type": "Microsoft.ApiManagement/service/apis",
+                  "name": "petstoreapi",
+                  "properties": {
+                    "displayName": "Swagger Petstore",
+                    "apiRevision": "1",
+                    "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
+                    "serviceUrl": "http://petstore.swagger.io/v2",
+                    "path": "petstore",
+                    "protocols": [
+                      "http"
+                    ],
+                    "subscriptionKeyParameterNames": {
+                      "header": "Ocp-Apim-Subscription-Key",
+                      "query": "subscription-key"
+                    },
+                    "isCurrent": true
+                  }
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstoreapi",
+                  "type": "Microsoft.ApiManagement/service/apis",
+                  "name": "petstoreapi",
+                  "properties": {
+                    "displayName": "Swagger Petstore",
+                    "apiRevision": "1",
+                    "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
+                    "serviceUrl": "http://petstore.swagger.io/v2",
+                    "path": "petstore",
+                    "protocols": [
+                      "http"
+                    ],
+                    "subscriptionKeyParameterNames": {
+                      "header": "Ocp-Apim-Subscription-Key",
+                      "query": "subscription-key"
+                    },
+                    "isCurrent": true
+                  }
+                }
+              }
+            }
+          },
+          "ApiManagementCreateApiUsingWadlImport": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "apiId": "petstore",
+              "parameters": {
+                "properties": {
+                  "contentFormat": "wadl-link-json",
+                  "contentValue": "https://developer.cisco.com/media/wae-release-6-2-api-reference/wae-collector-rest-api/application.wadl",
+                  "path": "collector"
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/collectorwadl",
+                  "type": "Microsoft.ApiManagement/service/apis",
+                  "name": "collectorwadl",
+                  "properties": {
+                    "displayName": "http://localhost:8080/collector-northbound",
+                    "apiRevision": "1",
+                    "description": "",
+                    "serviceUrl": "http://localhost:8080/collector-northbound",
+                    "path": "collector",
+                    "protocols": [
+                      "https"
+                    ],
+                    "subscriptionKeyParameterNames": {
+                      "header": "Ocp-Apim-Subscription-Key",
+                      "query": "subscription-key"
+                    },
+                    "isCurrent": true
+                  }
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/collectorwadl",
+                  "type": "Microsoft.ApiManagement/service/apis",
+                  "name": "collectorwadl",
+                  "properties": {
+                    "displayName": "http://localhost:8080/collector-northbound",
+                    "apiRevision": "1",
+                    "description": "",
+                    "serviceUrl": "http://localhost:8080/collector-northbound",
+                    "path": "collector",
+                    "protocols": [
+                      "https"
+                    ],
+                    "subscriptionKeyParameterNames": {
+                      "header": "Ocp-Apim-Subscription-Key",
+                      "query": "subscription-key"
+                    },
+                    "isCurrent": true
+                  }
+                }
+              }
+            }
+          },
+          "ApiManagementCreateApi": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "apiId": "tempgroup",
+              "parameters": {
+                "properties": {
+                  "description": "apidescription5200",
+                  "authenticationSettings": {
+                    "oAuth2": {
+                      "authorizationServerId": "authorizationServerId2283",
+                      "scope": "oauth2scope2580"
+                    }
+                  },
+                  "subscriptionKeyParameterNames": {
+                    "header": "header4520",
+                    "query": "query3037"
+                  },
+                  "displayName": "apiname1463",
+                  "serviceUrl": "http://newechoapi.cloudapp.net/api",
+                  "path": "newapiPath",
+                  "protocols": [
+                    "https",
+                    "http"
+                  ]
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/apiid9419",
+                  "type": "Microsoft.ApiManagement/service/apis",
+                  "name": "apiid9419",
+                  "properties": {
+                    "displayName": "apiname1463",
+                    "apiRevision": "1",
+                    "description": "apidescription5200",
+                    "serviceUrl": "http://newechoapi.cloudapp.net/api",
+                    "path": "newapiPath",
+                    "protocols": [
+                      "http",
+                      "https"
+                    ],
+                    "authenticationSettings": {
+                      "oAuth2": {
+                        "authorizationServerId": "authorizationServerId2283",
+                        "scope": "oauth2scope2580"
+                      }
+                    },
+                    "subscriptionKeyParameterNames": {
+                      "header": "header4520",
+                      "query": "query3037"
+                    },
+                    "isCurrent": true,
+                    "isOnline": true
+                  }
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/apiid9419",
+                  "type": "Microsoft.ApiManagement/service/apis",
+                  "name": "apiid9419",
+                  "properties": {
+                    "displayName": "apiname1463",
+                    "apiRevision": "1",
+                    "description": "apidescription5200",
+                    "serviceUrl": "http://newechoapi.cloudapp.net/api",
+                    "path": "newapiPath",
+                    "protocols": [
+                      "http",
+                      "https"
+                    ],
+                    "authenticationSettings": {
+                      "oAuth2": {
+                        "authorizationServerId": "authorizationServerId2283",
+                        "scope": "oauth2scope2580"
+                      }
+                    },
+                    "subscriptionKeyParameterNames": {
+                      "header": "header4520",
+                      "query": "query3037"
+                    },
+                    "isCurrent": true,
+                    "isOnline": true
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -203,23 +466,20 @@
             "$ref": "#/parameters/ApiIdParameter"
           },
           {
-            "$ref": "#/parameters/PolicyIdParameter"
-          },
-          {
             "name": "parameters",
             "in": "body",
-            "schema": {
-              "$ref": "#/definitions/PolicyContract"
-            },
             "required": true,
-            "description": "The policy contents to apply."
+            "schema": {
+              "$ref": "#/definitions/ApiCreateOrUpdateParameter"
+            },
+            "description": "Create or update parameters."
           },
           {
             "name": "If-Match",
             "in": "header",
-            "required": true,
-            "description": "The entity state (Etag) version of the Api Policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
-            "type": "string"
+            "required": false,
+            "type": "string",
+            "description": "ETag of the Api Entity. For Create Api Etag should not be specified. For Update Etag should match the existing Entity or it can be * for unconditional update."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -230,16 +490,85 @@
         ],
         "responses": {
           "201": {
-            "description": "Api policy configuration was successfully created.",
+            "description": "API was successfully created.",
             "schema": {
-              "$ref": "#/definitions/PolicyContract"
+              "$ref": "#/definitions/ApiContract"
+            },
+            "headers": {
+              "ETag": {
+                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
+                "type": "string"
+              }
             }
           },
           "200": {
-            "description": "Api policy configuration of the tenant was successfully updated.",
+            "description": "API was successfully updated.",
             "schema": {
-              "$ref": "#/definitions/PolicyContract"
+              "$ref": "#/definitions/ApiContract"
+            },
+            "headers": {
+              "ETag": {
+                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
+                "type": "string"
+              }
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Apis"
+        ],
+        "operationId": "Api_Update",
+        "description": "Updates the specified API of the API Management service instance.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiIdParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApiUpdateContract"
+            },
+            "description": "API Update Contract parameters."
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "description": "ETag of the API entity. ETag should match the current entity state in the header response of the GET request or it should be * for unconditional update.",
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The API was successfully updated."
           },
           "default": {
             "description": "Error response describing why the operation failed.",
@@ -257,10 +586,10 @@
       },
       "delete": {
         "tags": [
-          "ApiPolicy"
+          "Apis"
         ],
-        "operationId": "ApiPolicy_Delete",
-        "description": "Deletes the policy configuration at the Api.",
+        "operationId": "Api_Delete",
+        "description": "Deletes the specified API of the API Management service instance.",
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -272,13 +601,10 @@
             "$ref": "#/parameters/ApiIdParameter"
           },
           {
-            "$ref": "#/parameters/PolicyIdParameter"
-          },
-          {
             "name": "If-Match",
             "in": "header",
             "required": true,
-            "description": "The entity state (Etag) version of the Api policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
+            "description": "ETag of the API Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.",
             "type": "string"
           },
           {
@@ -290,7 +616,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Successfully deleted the policy configuration at the API level."
+            "description": "The API was successfully deleted."
           },
           "default": {
             "description": "Error response describing why the operation failed.",
@@ -1130,5 +1456,5 @@
       "x-ms-parameter-location": "method"
     }
   },
-  "x-internal-toc-name": "Api Policy"
+  "x-internal-toc-name": "Api"
 }

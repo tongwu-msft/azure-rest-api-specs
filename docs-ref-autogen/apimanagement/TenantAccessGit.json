@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2016-10-10",
+    "version": "2017-03-01",
     "title": "ApiManagementClient",
     "description": "Use these REST APIs for performing operations on tenant entity associated with your Azure API Management deployment. Using this entity you can manage properties and configuration that apply to the entire API Management service instance."
   },
@@ -28,13 +28,34 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/access/git": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git": {
       "get": {
         "tags": [
           "TenantAccessGit"
         ],
         "operationId": "TenantAccessGit_Get",
         "description": "Gets the Git access configuration for the tenant.",
+        "x-ms-examples": {
+          "ApiManagementGetTenantAccess": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "accessName": "access"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "5600b59375ff190048030003",
+                  "primaryKey": "qr5nbjNoZkgtLojXgU+OA/ntYMgko3XPSVyt+ObwR1sqp2ZkM9tGhwxkeEz7bfAuPS5ss61b2S3ZrZmqa9v3Mw==",
+                  "secondaryKey": "2dCJv1CasJl286SZiKxyBFDiIYCUdbwM1YrFNDcFMXCjCKbFzomrGkv+exAbnV5E3DEk91VP4jbeJ2eV/qtejA==",
+                  "enabled": true
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -47,6 +68,9 @@
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/AccessParameter"
           }
         ],
         "responses": {
@@ -65,7 +89,7 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -77,13 +101,27 @@
         ]
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/access/git/regeneratePrimaryKey": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/regeneratePrimaryKey": {
       "post": {
         "tags": [
           "TenantAccessGit"
         ],
         "operationId": "TenantAccessGit_RegeneratePrimaryKey",
         "description": "Regenerate primary access key for GIT.",
+        "x-ms-examples": {
+          "ApiManagementTenantAccessRegenerateKey": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "accessName": "access"
+            },
+            "responses": {
+              "204": {}
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -96,6 +134,9 @@
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/AccessParameter"
           }
         ],
         "responses": {
@@ -105,7 +146,7 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -117,13 +158,27 @@
         ]
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/access/git/regenerateSecondaryKey": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/regenerateSecondaryKey": {
       "post": {
         "tags": [
           "TenantAccessGit"
         ],
         "operationId": "TenantAccessGit_RegenerateSecondaryKey",
         "description": "Regenerate secondary access key for GIT.",
+        "x-ms-examples": {
+          "ApiManagementTenantAccessRegenerateKey": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "accessName": "access"
+            },
+            "responses": {
+              "204": {}
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -136,6 +191,9 @@
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/AccessParameter"
           }
         ],
         "responses": {
@@ -145,7 +203,7 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -187,9 +245,6 @@
           "description": "Tenant access information of the API Management service."
         }
       },
-      "required": [
-        "enabled"
-      ],
       "description": "Tenant access information update parameters of the API Management service."
     },
     "DeployConfigurationParameters": {
@@ -224,7 +279,7 @@
             "Failed"
           ],
           "x-ms-enum": {
-            "name": "AsyncOperationState",
+            "name": "AsyncOperationStatus",
             "modelAsString": false
           }
         },
@@ -243,7 +298,8 @@
           "description": "Optional result info."
         },
         "error": {
-          "$ref": "#/definitions/ErrorBodyContract"
+          "$ref": "#/definitions/ErrorResponse",
+          "description": "Error Body Contract"
         }
       },
       "description": "Operation Result."
@@ -316,7 +372,7 @@
       },
       "description": "Error Field contract."
     },
-    "ErrorBodyContract": {
+    "ErrorResponse": {
       "properties": {
         "code": {
           "type": "string",
@@ -338,6 +394,36 @@
     }
   },
   "parameters": {
+    "AccessParameter": {
+      "name": "accessName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "access"
+      ],
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "AccessIdName"
+      },
+      "description": "The identifier of the Access configuration.",
+      "x-ms-parameter-location": "method"
+    },
+    "ConfigurationParameter": {
+      "name": "configurationName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "configuration"
+      ],
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "configurationIdName"
+      },
+      "description": "The identifier of the Git Configuraion Operation.",
+      "x-ms-parameter-location": "method"
+    },
     "SubscriptionIdParameter": {
       "name": "subscriptionId",
       "in": "path",

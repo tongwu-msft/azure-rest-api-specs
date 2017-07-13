@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2016-10-10",
+    "version": "2017-03-01",
     "title": "ApiManagementClient",
     "description": "Use these REST APIs for performing operations on logger entity Azure API Management deployment.The Logger entity in API Management represents an event sink that you can use to log API Management events. Currently the Logger entity supports logging API Management events to Azure EventHub."
   },
@@ -33,10 +33,56 @@
         "tags": [
           "Loggers"
         ],
-        "operationId": "Loggers_ListByService",
+        "operationId": "Logger_ListByService",
         "description": "Lists a collection of loggers in the specified service instance.",
         "externalDocs": {
-          "url": "https://msdn.microsoft.com/en-us/library/azure/mt592020.aspx"
+          "url": "https://docs.microsoft.com/en-us/azure/api-management/api-management-howto-log-event-hubs"
+        },
+        "x-ms-examples": {
+          "ApiManagementListLoggers": {
+            "parameters": {
+              "resourceGroupName": "rg1",
+              "serviceName": "apimService1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/buffered111",
+                      "type": "Microsoft.ApiManagement/service/loggers",
+                      "name": "buffered111",
+                      "properties": {
+                        "loggerType": "azureEventHub",
+                        "description": "Sample description",
+                        "credentials": {
+                          "connectionString": "Endpoint=sb://apimaccounts.servicebus.windows.net/;SharedAccessKeyName=Send;SharedAccessKey=*******************h=****"
+                        },
+                        "isBuffered": true
+                      }
+                    },
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId",
+                      "type": "Microsoft.ApiManagement/service/loggers",
+                      "name": "loggerId",
+                      "properties": {
+                        "loggerType": "azureEventHub",
+                        "description": "adding a new logger",
+                        "credentials": {
+                          "name": "hydraeventhub",
+                          "connectionString": "{{Logger-Credentials-59544ef2e4bbd50d9468c618}}"
+                        },
+                        "isBuffered": true
+                      }
+                    }
+                  ],
+                  "nextLink": ""
+                }
+              }
+            }
+          }
         },
         "parameters": [
           {
@@ -75,14 +121,14 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         },
-        "x-ms-odata": "#/definitions/LoggerResponse",
+        "x-ms-odata": "#/definitions/LoggerContract",
         "produces": [
           "application/json"
         ],
@@ -96,8 +142,37 @@
         "tags": [
           "Loggers"
         ],
-        "operationId": "Loggers_Get",
+        "operationId": "Logger_Get",
         "description": "Gets the details of the logger specified by its identifier.",
+        "x-ms-examples": {
+          "ApiManagementGetLogger": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "loggerid": "templateLogger"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/kloudapilogger1",
+                  "type": "Microsoft.ApiManagement/service/loggers",
+                  "name": "kloudapilogger1",
+                  "properties": {
+                    "loggerType": "azureEventHub",
+                    "description": "testeventhub3again",
+                    "credentials": {
+                      "name": "testeventhub4",
+                      "connectionString": "Endpoint=sb://eventhubapim.servicebus.windows.net/;SharedAccessKeyName=Sender;SharedAccessKey=************"
+                    },
+                    "isBuffered": true
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -119,7 +194,7 @@
           "200": {
             "description": "The response body contains the specified Logger entity.",
             "schema": {
-              "$ref": "#/definitions/LoggerResponse"
+              "$ref": "#/definitions/LoggerContract"
             },
             "headers": {
               "ETag": {
@@ -131,7 +206,7 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -146,8 +221,63 @@
         "tags": [
           "Loggers"
         ],
-        "operationId": "Loggers_CreateOrUpdate",
+        "operationId": "Logger_CreateOrUpdate",
         "description": "Creates or Updates a logger.",
+        "x-ms-examples": {
+          "ApiManagementCreateLogger": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "loggerid": "loggerId",
+              "parameters": {
+                "properties": {
+                  "loggerType": "azureEventHub",
+                  "description": "adding a new logger",
+                  "credentials": {
+                    "name": "hydraeventhub",
+                    "connectionString": "Endpoint=sb://hydraeventhub-ns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=********="
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId",
+                  "type": "Microsoft.ApiManagement/service/loggers",
+                  "name": "loggerId",
+                  "properties": {
+                    "loggerType": "azureEventHub",
+                    "description": "adding a new logger",
+                    "credentials": {
+                      "name": "hydraeventhub",
+                      "connectionString": "{{59544ef2e4bbd50d9468c617}}"
+                    },
+                    "isBuffered": true
+                  }
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId",
+                  "type": "Microsoft.ApiManagement/service/loggers",
+                  "name": "loggerId",
+                  "properties": {
+                    "loggerType": "azureEventHub",
+                    "description": "adding a new logger",
+                    "credentials": {
+                      "name": "hydraeventhub",
+                      "connectionString": "{{59544ef2e4bbd50d9468c617}}"
+                    },
+                    "isBuffered": true
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -163,7 +293,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/LoggerCreateParameters"
+              "$ref": "#/definitions/LoggerContract"
             },
             "description": "Create parameters."
           },
@@ -176,15 +306,21 @@
         ],
         "responses": {
           "201": {
-            "description": "Logger was successfully created."
+            "description": "Logger was successfully created.",
+            "schema": {
+              "$ref": "#/definitions/LoggerContract"
+            }
           },
-          "204": {
-            "description": "The existing logger was successfully updated."
+          "200": {
+            "description": "The existing logger was successfully updated.",
+            "schema": {
+              "$ref": "#/definitions/LoggerContract"
+            }
           },
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -199,7 +335,7 @@
         "tags": [
           "Loggers"
         ],
-        "operationId": "Loggers_Update",
+        "operationId": "Logger_Update",
         "description": "Updates an existing logger.",
         "parameters": [
           {
@@ -216,7 +352,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/LoggerUpdateParameters"
+              "$ref": "#/definitions/LoggerUpdateContract"
             },
             "description": "Update parameters."
           },
@@ -241,7 +377,7 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -256,8 +392,23 @@
         "tags": [
           "Loggers"
         ],
-        "operationId": "Loggers_Delete",
+        "operationId": "Logger_Delete",
         "description": "Deletes the specified logger.",
+        "x-ms-examples": {
+          "ApiManagementDeleteLogger": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "loggerid": "loggerId",
+              "If-Match": "*"
+            },
+            "responses": {
+              "204": {}
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -289,7 +440,7 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -308,7 +459,7 @@
         "value": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LoggerResponse"
+            "$ref": "#/definitions/LoggerContract"
           },
           "description": "Logger values."
         },
@@ -324,60 +475,31 @@
       },
       "description": "Paged Logger list representation."
     },
-    "LoggerCreateParameters": {
+    "LoggerContract": {
       "properties": {
-        "type": {
-          "type": "string",
-          "description": "Logger type.",
-          "enum": [
-            "AzureEventHub"
-          ],
-          "x-ms-enum": {
-            "name": "LoggerTypeContract",
-            "modelAsString": false
-          }
-        },
-        "description": {
-          "type": "string",
-          "description": "Logger description."
-        },
-        "credentials": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "The name and SendRule connection string of the event hub.",
-          "example": {
-            "name": "Event hub name. This is optional.",
-            "connectionString": "Endpoint=endpoint and key from Azure classic portal. This property in credentials is must."
-          }
-        },
-        "isBuffered": {
-          "type": "boolean",
-          "description": "Whether records are buffered in the logger before publishing. Default is assumed to be true."
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/LoggerContractProperties",
+          "description": "Logger entity contract properties."
         }
       },
-      "required": [
-        "type",
-        "credentials"
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
       ],
-      "description": "Parameters supplied to the Create Logger operation."
+      "description": "Logger details."
     },
-    "LoggerResponse": {
+    "LoggerContractProperties": {
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Uniquely identifies the logger within the current API Management service instance. The value is a valid relative URL in the format of /loggers/{loggerId} where {loggerId} is a logger identifier.",
-          "readOnly": true
-        },
-        "type": {
+        "loggerType": {
           "type": "string",
           "description": "Logger type.",
           "enum": [
-            "AzureEventHub"
+            "azureEventHub"
           ],
           "x-ms-enum": {
-            "name": "LoggerTypeContract",
+            "name": "LoggerType",
             "modelAsString": false
           }
         },
@@ -399,26 +521,35 @@
         },
         "isBuffered": {
           "type": "boolean",
-          "description": "Whether records are buffered in the logger before publishing. Default is assumed to be true.",
-          "default": true
+          "description": "Whether records are buffered in the logger before publishing. Default is assumed to be true."
         }
       },
       "required": [
-        "type",
+        "loggerType",
         "credentials"
       ],
       "description": "The Logger entity in API Management represents an event sink that you can use to log API Management events. Currently the Logger entity supports logging API Management events to Azure Event Hubs."
     },
+    "LoggerUpdateContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/LoggerUpdateParameters",
+          "description": "Logger entity update contract properties."
+        }
+      },
+      "description": "Logger update contract."
+    },
     "LoggerUpdateParameters": {
       "properties": {
-        "type": {
+        "loggerType": {
           "type": "string",
           "description": "Logger type.",
           "enum": [
-            "AzureEventHub"
+            "azureEventHub"
           ],
           "x-ms-enum": {
-            "name": "LoggerTypeContract",
+            "name": "LoggerType",
             "modelAsString": false
           }
         },
@@ -435,13 +566,58 @@
         },
         "isBuffered": {
           "type": "boolean",
-          "description": "whether records are buffered in the logger before publishing. Default is assumed to be true."
+          "description": "Whether records are buffered in the logger before publishing. Default is assumed to be true."
+        }
+      },
+      "description": "Parameters supplied to the Update Logger operation."
+    },
+    "PolicyContractProperties": {
+      "properties": {
+        "policyContent": {
+          "type": "string",
+          "description": "Xml Encoded contents of the Policy."
         }
       },
       "required": [
-        "type"
+        "policyContent"
       ],
-      "description": "Parameters supplied to the Update Logger operation."
+      "description": "Policy contract Properties."
+    },
+    "PolicyContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PolicyContractProperties",
+          "description": "Properties of the Policy."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Policy Contract details."
+    },
+    "Resource": {
+      "description": "The Resource definition.",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "Resource name.",
+          "readOnly": true
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type for API Management resource."
+        }
+      }
     },
     "ErrorFieldContract": {
       "properties": {
@@ -460,7 +636,7 @@
       },
       "description": "Error Field contract."
     },
-    "ErrorBodyContract": {
+    "ErrorResponse": {
       "properties": {
         "code": {
           "type": "string",
@@ -546,5 +722,5 @@
       "x-ms-parameter-location": "method"
     }
   },
-  "x-internal-toc-name": "Loggers"
+  "x-internal-toc-name": "Logger"
 }

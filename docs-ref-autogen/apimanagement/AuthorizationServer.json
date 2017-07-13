@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2016-10-10",
+    "version": "2017-03-01",
     "title": "ApiManagementClient",
     "description": "Use these REST APIs for managing OAuth2 servers configuration in your Azure API Management deployment. OAuth 2.0 can be used to authorize developer accounts for Azure API Management. For more information refer to [How to OAuth2](https://docs.microsoft.com/en-us/azure/api-management/api-management-howto-oauth2)."
   },
@@ -33,10 +33,85 @@
         "tags": [
           "AuthorizationServers"
         ],
-        "operationId": "AuthorizationServers_ListByService",
+        "operationId": "AuthorizationServer_ListByService",
         "description": "Lists a collection of authorization servers defined within a service instance.",
-        "externalDocs": {
-          "url": "https://msdn.microsoft.com/en-us/library/azure/dn879064.aspx"
+        "x-ms-examples": {
+          "ApiManagementListAuthorizationServers": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer",
+                      "type": "Microsoft.ApiManagement/service/authorizationServers",
+                      "name": "newauthServer",
+                      "properties": {
+                        "displayName": "test2",
+                        "description": "test server",
+                        "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+                        "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+                        "authorizationMethods": [
+                          "GET"
+                        ],
+                        "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+                        "supportState": true,
+                        "defaultScope": "read write",
+                        "grantTypes": [
+                          "authorizationCode",
+                          "implicit"
+                        ],
+                        "bearerTokenSendingMethods": [
+                          "authorizationHeader"
+                        ],
+                        "clientId": "1",
+                        "clientSecret": "2",
+                        "resourceOwnerUsername": "un",
+                        "resourceOwnerPassword": "pwd"
+                      }
+                    },
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer2",
+                      "type": "Microsoft.ApiManagement/service/authorizationServers",
+                      "name": "newauthServer2",
+                      "properties": {
+                        "displayName": "test3",
+                        "description": "test server",
+                        "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+                        "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+                        "authorizationMethods": [
+                          "GET"
+                        ],
+                        "clientAuthenticationMethod": [
+                          "Basic"
+                        ],
+                        "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+                        "supportState": true,
+                        "defaultScope": "read write",
+                        "grantTypes": [
+                          "authorizationCode",
+                          "implicit"
+                        ],
+                        "bearerTokenSendingMethods": [
+                          "authorizationHeader"
+                        ],
+                        "clientId": "1",
+                        "clientSecret": "2",
+                        "resourceOwnerUsername": "un",
+                        "resourceOwnerPassword": "pwd"
+                      }
+                    }
+                  ],
+                  "nextLink": ""
+                }
+              }
+            }
+          }
         },
         "parameters": [
           {
@@ -76,7 +151,7 @@
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         },
-        "x-ms-odata": "#/definitions/OAuth2AuthorizationServerContract",
+        "x-ms-odata": "#/definitions/AuthorizationServerContract",
         "produces": [
           "application/json"
         ],
@@ -90,8 +165,54 @@
         "tags": [
           "AuthorizationServers"
         ],
-        "operationId": "AuthorizationServers_Get",
+        "operationId": "AuthorizationServer_Get",
         "description": "Gets the details of the authorization server specified by its identifier.",
+        "x-ms-examples": {
+          "ApiManagementGetAuthorizationServer": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "authsid": "newauthServer2"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer2",
+                  "type": "Microsoft.ApiManagement/service/authorizationServers",
+                  "name": "newauthServer2",
+                  "properties": {
+                    "displayName": "test3",
+                    "description": "test server",
+                    "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+                    "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+                    "authorizationMethods": [
+                      "GET"
+                    ],
+                    "clientAuthenticationMethod": [
+                      "Basic"
+                    ],
+                    "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+                    "supportState": true,
+                    "defaultScope": "read write",
+                    "grantTypes": [
+                      "authorizationCode",
+                      "implicit"
+                    ],
+                    "bearerTokenSendingMethods": [
+                      "authorizationHeader"
+                    ],
+                    "clientId": "1",
+                    "clientSecret": "2",
+                    "resourceOwnerUsername": "un",
+                    "resourceOwnerPassword": "pwd"
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -113,7 +234,7 @@
           "200": {
             "description": "Gets the details of the specified authorization server.",
             "schema": {
-              "$ref": "#/definitions/OAuth2AuthorizationServerContract"
+              "$ref": "#/definitions/AuthorizationServerContract"
             },
             "headers": {
               "ETag": {
@@ -125,7 +246,7 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -140,8 +261,106 @@
         "tags": [
           "AuthorizationServers"
         ],
-        "operationId": "AuthorizationServers_CreateOrUpdate",
+        "operationId": "AuthorizationServer_CreateOrUpdate",
         "description": "Creates new authorization server or updates an existing authorization server.",
+        "x-ms-examples": {
+          "ApiManagementCreateAuthorizationServer": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "authsid": "newauthServer",
+              "parameters": {
+                "properties": {
+                  "displayName": "test2",
+                  "description": "test server",
+                  "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+                  "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+                  "authorizationMethods": [
+                    "GET"
+                  ],
+                  "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+                  "supportState": true,
+                  "defaultScope": "read write",
+                  "grantTypes": [
+                    "authorizationCode",
+                    "implicit"
+                  ],
+                  "bearerTokenSendingMethods": [
+                    "authorizationHeader"
+                  ],
+                  "clientId": "1",
+                  "clientSecret": "2",
+                  "resourceOwnerUsername": "un",
+                  "resourceOwnerPassword": "pwd"
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer",
+                  "type": "Microsoft.ApiManagement/service/authorizationServers",
+                  "name": "newauthServer",
+                  "properties": {
+                    "displayName": "test2",
+                    "description": "test server",
+                    "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+                    "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+                    "authorizationMethods": [
+                      "GET"
+                    ],
+                    "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+                    "supportState": true,
+                    "defaultScope": "read write",
+                    "grantTypes": [
+                      "authorizationCode",
+                      "implicit"
+                    ],
+                    "bearerTokenSendingMethods": [
+                      "authorizationHeader"
+                    ],
+                    "clientId": "1",
+                    "clientSecret": "2",
+                    "resourceOwnerUsername": "un",
+                    "resourceOwnerPassword": "pwd"
+                  }
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer",
+                  "type": "Microsoft.ApiManagement/service/authorizationServers",
+                  "name": "newauthServer",
+                  "properties": {
+                    "displayName": "test2",
+                    "description": "test server",
+                    "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+                    "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+                    "authorizationMethods": [
+                      "GET"
+                    ],
+                    "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+                    "supportState": true,
+                    "defaultScope": "read write",
+                    "grantTypes": [
+                      "authorizationCode",
+                      "implicit"
+                    ],
+                    "bearerTokenSendingMethods": [
+                      "authorizationHeader"
+                    ],
+                    "clientId": "1",
+                    "clientSecret": "2",
+                    "resourceOwnerUsername": "un",
+                    "resourceOwnerPassword": "pwd"
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -157,7 +376,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/OAuth2AuthorizationServerContract"
+              "$ref": "#/definitions/AuthorizationServerContract"
             },
             "description": "Create or update parameters."
           },
@@ -170,15 +389,21 @@
         ],
         "responses": {
           "201": {
-            "description": "Authorization server was successfully registered."
+            "description": "Authorization server was successfully registered.",
+            "schema": {
+              "$ref": "#/definitions/AuthorizationServerContract"
+            }
           },
-          "204": {
-            "description": "Authorization server is already registered."
+          "200": {
+            "description": "Authorization server is already registered.",
+            "schema": {
+              "$ref": "#/definitions/AuthorizationServerContract"
+            }
           },
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -193,7 +418,7 @@
         "tags": [
           "AuthorizationServers"
         ],
-        "operationId": "AuthorizationServers_Update",
+        "operationId": "AuthorizationServer_Update",
         "description": "Updates the details of the authorization server specified by its identifier.",
         "parameters": [
           {
@@ -210,7 +435,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/OAuth2AuthorizationServerUpdateContract"
+              "$ref": "#/definitions/AuthorizationServerUpdateContract"
             },
             "description": "OAuth2 Server settings Update parameters."
           },
@@ -235,7 +460,7 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -250,8 +475,23 @@
         "tags": [
           "AuthorizationServers"
         ],
-        "operationId": "AuthorizationServers_Delete",
+        "operationId": "AuthorizationServer_Delete",
         "description": "Deletes specific authorization server instance.",
+        "x-ms-examples": {
+          "ApiManagementDeleteAuthorizationServer": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "authsid": "newauthServer2",
+              "If-Match": "*"
+            },
+            "responses": {
+              "204": {}
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -283,7 +523,7 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -302,7 +542,7 @@
         "value": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/OAuth2AuthorizationServerContract"
+            "$ref": "#/definitions/AuthorizationServerContract"
           },
           "description": "Page values."
         },
@@ -318,22 +558,28 @@
       },
       "description": "Paged OAuth2 Authorization Servers list representation."
     },
-    "OAuth2AuthorizationServerContract": {
+    "AuthorizationServerContract": {
       "properties": {
-        "id": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Uniquely identifies the authorization server within the current API Management service instance. The value is a valid relative URL in the format of /authorizationServers/{authsid} where {authsid} is an authorization server identifier."
-        },
-        "name": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/AuthorizationServerContractProperties",
+          "description": "Properties of the External OAuth authorization server Contract."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "External OAuth authorization server settings."
+    },
+    "AuthorizationServerContractProperties": {
+      "properties": {
+        "displayName": {
           "type": "string",
           "description": "User-friendly authorization server name.",
           "minLength": 1,
           "maxLength": 50
-        },
-        "description": {
-          "type": "string",
-          "description": "Description of the authorization server. Can contain HTML formatting tags."
         },
         "clientRegistrationEndpoint": {
           "type": "string",
@@ -342,70 +588,6 @@
         "authorizationEndpoint": {
           "type": "string",
           "description": "OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2."
-        },
-        "authorizationMethods": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "HEAD",
-              "OPTIONS",
-              "TRACE",
-              "GET",
-              "POST",
-              "PUT",
-              "PATCH",
-              "DELETE"
-            ],
-            "x-ms-enum": {
-              "name": "MethodContract",
-              "modelAsString": false
-            }
-          },
-          "description": "HTTP verbs supported by the authorization endpoint. GET must be always present. POST is optional."
-        },
-        "clientAuthenticationMethod": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "Basic",
-              "Body"
-            ],
-            "x-ms-enum": {
-              "name": "ClientAuthenticationMethodContract",
-              "modelAsString": false
-            }
-          },
-          "description": "Method of authentication supported by the token endpoint of this authorization server. Possible values are Basic and/or Body. When Body is specified, client credentials and other parameters are passed within the request body in the application/x-www-form-urlencoded format."
-        },
-        "tokenBodyParameters": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/TokenBodyParameterContract"
-          },
-          "description": "Additional parameters required by the token endpoint of this authorization server represented as an array of JSON objects with name and value string properties, i.e. {\"name\" : \"name value\", \"value\": \"a value\"}."
-        },
-        "tokenEndpoint": {
-          "type": "string",
-          "description": "OAuth token endpoint. Contains absolute URI to entity being referenced.",
-          "externalDocs": {
-            "url": "http://tools.ietf.org/html/rfc6749#section-3.1"
-          }
-        },
-        "supportState": {
-          "type": "boolean",
-          "description": "If true, authorization server will include state parameter from the authorization request to its response. Client may use state parameter to raise protocol security.",
-          "externalDocs": {
-            "url": "http://tools.ietf.org/html/rfc6749#section-3.1"
-          }
-        },
-        "defaultScope": {
-          "type": "string",
-          "description": "Access token scope that is going to be requested by default. Can be overridden at the API level. Should be provided in the form of a string containing space-delimited values.",
-          "externalDocs": {
-            "url": "http://tools.ietf.org/html/rfc6749#section-3.3"
-          }
         },
         "grantTypes": {
           "type": "array",
@@ -418,7 +600,7 @@
               "clientCredentials"
             ],
             "x-ms-enum": {
-              "name": "GrantTypesContract",
+              "name": "GrantType",
               "modelAsString": false
             }
           },
@@ -427,61 +609,47 @@
             "url": "http://tools.ietf.org/html/rfc6749#section-4"
           }
         },
-        "bearerTokenSendingMethods": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "authorizationHeader",
-              "query"
-            ],
-            "x-ms-enum": {
-              "name": "BearerTokenSendingMethodsContract",
-              "modelAsString": false
-            }
-          },
-          "description": "Specifies the mechanism by which access token is passed to the API. ",
-          "externalDocs": {
-            "url": "http://tools.ietf.org/html/rfc6749#section-4"
-          }
-        },
         "clientId": {
           "type": "string",
           "description": "Client or app id registered with this authorization server."
-        },
-        "clientSecret": {
-          "type": "string",
-          "description": "Client or app secret registered with this authorization server."
-        },
-        "resourceOwnerUsername": {
-          "type": "string",
-          "description": "Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner username."
-        },
-        "resourceOwnerPassword": {
-          "type": "string",
-          "description": "Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner password."
         }
       },
+      "allOf": [
+        {
+          "$ref": "#/definitions/AuthorizationServerContractBaseProperties"
+        }
+      ],
       "required": [
-        "name",
+        "displayName",
         "clientRegistrationEndpoint",
         "authorizationEndpoint",
         "clientId",
         "grantTypes"
       ],
+      "description": "External OAuth authorization server settings Properties."
+    },
+    "AuthorizationServerUpdateContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/AuthorizationServerUpdateContractProperties",
+          "description": "Properties of the External OAuth authorization server update Contract."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
       "description": "External OAuth authorization server settings."
     },
-    "OAuth2AuthorizationServerUpdateContract": {
+    "AuthorizationServerUpdateContractProperties": {
       "properties": {
-        "name": {
+        "displayName": {
           "type": "string",
           "description": "User-friendly authorization server name.",
           "minLength": 1,
           "maxLength": 50
-        },
-        "description": {
-          "type": "string",
-          "description": "Description of the authorization server. Can contain HTML formatting tags."
         },
         "clientRegistrationEndpoint": {
           "type": "string",
@@ -490,6 +658,44 @@
         "authorizationEndpoint": {
           "type": "string",
           "description": "OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2."
+        },
+        "grantTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "authorizationCode",
+              "implicit",
+              "resourceOwnerPassword",
+              "clientCredentials"
+            ],
+            "x-ms-enum": {
+              "name": "GrantType",
+              "modelAsString": false
+            }
+          },
+          "description": "Form of an authorization grant, which the client uses to request the access token.",
+          "externalDocs": {
+            "url": "http://tools.ietf.org/html/rfc6749#section-4"
+          }
+        },
+        "clientId": {
+          "type": "string",
+          "description": "Client or app id registered with this authorization server."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/AuthorizationServerContractBaseProperties"
+        }
+      ],
+      "description": "External OAuth authorization server Update settings contract."
+    },
+    "AuthorizationServerContractBaseProperties": {
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Description of the authorization server. Can contain HTML formatting tags."
         },
         "authorizationMethods": {
           "type": "array",
@@ -506,7 +712,7 @@
               "DELETE"
             ],
             "x-ms-enum": {
-              "name": "MethodContract",
+              "name": "AuthorizationMethod",
               "modelAsString": false
             }
           },
@@ -521,7 +727,7 @@
               "Body"
             ],
             "x-ms-enum": {
-              "name": "ClientAuthenticationMethodContract",
+              "name": "ClientAuthenticationMethod",
               "modelAsString": false
             }
           },
@@ -555,26 +761,6 @@
             "url": "http://tools.ietf.org/html/rfc6749#section-3.3"
           }
         },
-        "grantTypes": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "authorizationCode",
-              "implicit",
-              "resourceOwnerPassword",
-              "clientCredentials"
-            ],
-            "x-ms-enum": {
-              "name": "GrantTypesContract",
-              "modelAsString": false
-            }
-          },
-          "description": "Form of an authorization grant, which the client uses to request the access token.",
-          "externalDocs": {
-            "url": "http://tools.ietf.org/html/rfc6749#section-4"
-          }
-        },
         "bearerTokenSendingMethods": {
           "type": "array",
           "items": {
@@ -584,7 +770,7 @@
               "query"
             ],
             "x-ms-enum": {
-              "name": "BearerTokenSendingMethodsContract",
+              "name": "BearerTokenSendingMethod",
               "modelAsString": false
             }
           },
@@ -592,10 +778,6 @@
           "externalDocs": {
             "url": "http://tools.ietf.org/html/rfc6749#section-4"
           }
-        },
-        "clientId": {
-          "type": "string",
-          "description": "Client or app id registered with this authorization server."
         },
         "clientSecret": {
           "type": "string",
@@ -629,6 +811,54 @@
       ],
       "description": "OAuth acquire token request body parameter (www-url-form-encoded)."
     },
+    "PolicyContractProperties": {
+      "properties": {
+        "policyContent": {
+          "type": "string",
+          "description": "Xml Encoded contents of the Policy."
+        }
+      },
+      "required": [
+        "policyContent"
+      ],
+      "description": "Policy contract Properties."
+    },
+    "PolicyContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PolicyContractProperties",
+          "description": "Properties of the Policy."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Policy Contract details."
+    },
+    "Resource": {
+      "description": "The Resource definition.",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "Resource name.",
+          "readOnly": true
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type for API Management resource."
+        }
+      }
+    },
     "ErrorFieldContract": {
       "properties": {
         "code": {
@@ -646,7 +876,7 @@
       },
       "description": "Error Field contract."
     },
-    "ErrorBodyContract": {
+    "ErrorResponse": {
       "properties": {
         "code": {
           "type": "string",
@@ -732,5 +962,5 @@
       "x-ms-parameter-location": "method"
     }
   },
-  "x-internal-toc-name": "Authorization Servers"
+  "x-internal-toc-name": "Authorization Server"
 }

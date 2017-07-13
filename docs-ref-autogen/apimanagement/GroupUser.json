@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2016-10-10",
+    "version": "2017-03-01",
     "title": "ApiManagementClient",
     "description": "Use these REST APIs for performing operations on Group entity in your Azure API Management deployment. Groups are used to manage the visibility of products to developers. Each API Management service instance comes with the following immutable system groups whose membership is automatically managed by API Management.  - **Administrators** - Azure subscription administrators are members of this group. - **Developers** - Authenticated developer portal users fall into this group. - **Guests** - Unauthenticated developer portal users are placed into this group. In addition to these system groups, administrators can create custom groups or [leverage external groups in associated Azure Active Directory tenants](https://docs.microsoft.com/en-us/azure/api-management/api-management-howto-aad#how-to-add-an-external-azure-active-directory-group). Custom and external groups can be used alongside system groups in giving developers visibility and access to API products. For example, you could create one custom group for developers affiliated with a specific partner organization and allow them access to the APIs from a product containing relevant APIs only. A user can be a member of more than one group."
   },
@@ -28,15 +28,51 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users": {
       "get": {
         "tags": [
-          "Groups"
+          "GroupUsers"
         ],
-        "operationId": "Groups_ListByService",
-        "description": "Lists a collection of groups defined within a service instance.",
-        "externalDocs": {
-          "url": "https://msdn.microsoft.com/en-us/library/azure/dn776329.aspx"
+        "operationId": "GroupUser_List",
+        "description": "Lists a collection of the members of the group, specified by its identifier.",
+        "x-ms-examples": {
+          "ApiManagementListGroupUsers": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "groupId": "57d2ef278aa04f0888cba3f3"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/kjoshiarmTemplateUser1",
+                      "type": "Microsoft.ApiManagement/service/groups/users",
+                      "name": "armTemplateUser1",
+                      "properties": {
+                        "firstName": "user1",
+                        "lastName": "lastname1",
+                        "email": "user1@live.com",
+                        "state": "active",
+                        "registrationDate": "2017-05-31T18:54:41.447Z",
+                        "note": "note for user 1",
+                        "identities": [
+                          {
+                            "provider": "Basic",
+                            "id": "user1@live.com"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "nextLink": ""
+                }
+              }
+            }
+          }
         },
         "parameters": [
           {
@@ -46,11 +82,14 @@
             "$ref": "#/parameters/ServiceNameParameter"
           },
           {
+            "$ref": "#/parameters/GroupIdParameter"
+          },
+          {
             "name": "$filter",
             "in": "query",
             "required": false,
             "type": "string",
-            "description": "| Field       | Supported operators    | Supported functions                         |\n|-------------|------------------------|---------------------------------------------|\n| id          | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| name        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| type        | eq, ne                 | N/A                                         |"
+            "description": "| Field            | Supported operators    | Supported functions               |\n|------------------|------------------------|-----------------------------------|\n| id               | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| firstName        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| lastName         | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| email            | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n| state            | eq                     | N/A                               |\n| registrationDate | ge, le, eq, ne, gt, lt | N/A                               |\n| note             | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |"
           },
           {
             "$ref": "#/parameters/TopQueryParameter"
@@ -67,16 +106,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Lists a collection of Group entities.",
+            "description": "Lists a collection of user entities associated with the group.",
             "schema": {
-              "$ref": "#/definitions/GroupCollection"
+              "$ref": "#/definitions/UserCollection"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         },
-        "x-ms-odata": "#/definitions/GroupContract",
+        "x-ms-odata": "./apimusers.json#/definitions/UserContract",
         "produces": [
           "application/json"
         ],
@@ -85,63 +130,59 @@
         ]
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}": {
-      "get": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{uid}": {
+      "put": {
         "tags": [
-          "Groups"
+          "GroupUsers"
         ],
-        "operationId": "Groups_Get",
-        "description": "Gets the details of the group specified by its identifier.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/GroupIdParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The response body contains the specified Group entity.",
-            "schema": {
-              "$ref": "#/definitions/GroupContract"
+        "operationId": "GroupUser_Create",
+        "description": "Adds a user to the specified group.",
+        "x-ms-examples": {
+          "ApiManagementCreateGroupUser": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "groupId": "tempgroup",
+              "uid": "59307d350af58404d8a26300"
             },
-            "headers": {
-              "ETag": {
-                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
-                "type": "string"
+            "responses": {
+              "201": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/59307d350af58404d8a26300",
+                  "type": "Microsoft.ApiManagement/service/groups/users",
+                  "name": "59307d350af58404d8a26300",
+                  "properties": {
+                    "firstName": "test",
+                    "lastName": "user",
+                    "email": "testuser1@live.com",
+                    "state": "active",
+                    "registrationDate": "2017-06-01T20:46:45.437Z",
+                    "groups": [],
+                    "identities": []
+                  }
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/59307d350af58404d8a26300",
+                  "type": "Microsoft.ApiManagement/service/groups/users",
+                  "name": "59307d350af58404d8a26300",
+                  "properties": {
+                    "firstName": "test",
+                    "lastName": "user",
+                    "email": "testuser1@live.com",
+                    "state": "active",
+                    "registrationDate": "2017-06-01T20:46:45.437Z",
+                    "groups": [],
+                    "identities": []
+                  }
+                }
               }
-            }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      },
-      "put": {
-        "tags": [
-          "Groups"
-        ],
-        "operationId": "Groups_CreateOrUpdate",
-        "description": "Creates or Updates a group.",
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -153,13 +194,7 @@
             "$ref": "#/parameters/GroupIdParameter"
           },
           {
-            "name": "parameters",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/GroupCreateParameters"
-            },
-            "description": "Create parameters."
+            "$ref": "#/parameters/UserIdParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -170,78 +205,21 @@
         ],
         "responses": {
           "201": {
-            "description": "Group was created succesfully."
-          },
-          "204": {
-            "description": "Group already exists."
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
+            "description": "The user was successfully added to the group.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/UserContract"
             }
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      },
-      "patch": {
-        "tags": [
-          "Groups"
-        ],
-        "operationId": "Groups_Update",
-        "description": "Updates the details of the group specified by its identifier.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
           },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/GroupIdParameter"
-          },
-          {
-            "name": "parameters",
-            "in": "body",
-            "required": true,
+          "200": {
+            "description": "The specified user is already a member of the specified group.",
             "schema": {
-              "$ref": "#/definitions/GroupUpdateParameters"
-            },
-            "description": "Update parameters."
-          },
-          {
-            "name": "If-Match",
-            "in": "header",
-            "required": true,
-            "description": "ETag of the Group Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.",
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The group details were successfully updated."
-          },
-          "405": {
-            "description": "The specified group cannot be updated because it is a built-in group.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/UserContract"
             }
           },
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -254,10 +232,26 @@
       },
       "delete": {
         "tags": [
-          "Groups"
+          "GroupUsers"
         ],
-        "operationId": "Groups_Delete",
-        "description": "Deletes specific group of the API Management service instance.",
+        "operationId": "GroupUser_Delete",
+        "description": "Remove existing user from existing group.",
+        "x-ms-examples": {
+          "ApiManagementDeleteGroupUser": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "groupId": "templategroup",
+              "uid": "59307d350af58404d8a26300",
+              "If-Match": "*"
+            },
+            "responses": {
+              "204": {}
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -269,11 +263,7 @@
             "$ref": "#/parameters/GroupIdParameter"
           },
           {
-            "name": "If-Match",
-            "in": "header",
-            "required": true,
-            "description": "ETag of the Group Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.",
-            "type": "string"
+            "$ref": "#/parameters/UserIdParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -284,18 +274,12 @@
         ],
         "responses": {
           "204": {
-            "description": "The group was successfully deleted."
-          },
-          "405": {
-            "description": "The specified group cannot be updated because it is a built-in group.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
-            }
+            "description": "The user was successfully removed from the group."
           },
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
@@ -318,11 +302,6 @@
           },
           "description": "Page values."
         },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Total record count number across all pages."
-        },
         "nextLink": {
           "type": "string",
           "description": "Next page link if any."
@@ -332,12 +311,22 @@
     },
     "GroupContract": {
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Uniquely identifies the group within the current API Management service instance. The value is a valid relative URL in the format of /groups/{groupid} where {groupid} is a group identifier.",
-          "readOnly": true
-        },
-        "name": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/GroupContractProperties",
+          "description": "Group entity contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Contract details."
+    },
+    "GroupContractProperties": {
+      "properties": {
+        "displayName": {
           "type": "string",
           "description": "Group name.",
           "maxLength": 300,
@@ -356,31 +345,39 @@
         "type": {
           "type": "string",
           "description": "Group type.",
-          "readOnly": true,
           "enum": [
-            "Custom",
-            "System",
-            "External"
+            "custom",
+            "system",
+            "external"
           ],
           "x-ms-enum": {
-            "name": "GroupTypeContract",
+            "name": "GroupType",
             "modelAsString": false
           }
         },
         "externalId": {
           "type": "string",
-          "description": "For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.",
-          "readOnly": true
+          "description": "For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null."
         }
       },
       "required": [
-        "name"
+        "displayName"
       ],
       "description": "Developer group."
     },
     "GroupCreateParameters": {
       "properties": {
-        "name": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/GroupCreateParametersProperties",
+          "description": "Properties supplied to Create Group operation."
+        }
+      },
+      "description": "Parameters supplied to the Create Group operation."
+    },
+    "GroupCreateParametersProperties": {
+      "properties": {
+        "displayName": {
           "type": "string",
           "description": "Group name.",
           "maxLength": 300,
@@ -394,12 +391,12 @@
           "type": "string",
           "description": "Group type.",
           "enum": [
-            "Custom",
-            "System",
-            "External"
+            "custom",
+            "system",
+            "external"
           ],
           "x-ms-enum": {
-            "name": "GroupTypeContract",
+            "name": "GroupType",
             "modelAsString": false
           }
         },
@@ -409,13 +406,23 @@
         }
       },
       "required": [
-        "name"
+        "displayName"
       ],
       "description": "Parameters supplied to the Create Group operation."
     },
     "GroupUpdateParameters": {
       "properties": {
-        "name": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/GroupUpdateParametersProperties",
+          "description": "Group entity update contract properties."
+        }
+      },
+      "description": "Parameters supplied to the Update Group operation."
+    },
+    "GroupUpdateParametersProperties": {
+      "properties": {
+        "displayName": {
           "type": "string",
           "description": "Group name.",
           "maxLength": 300,
@@ -429,12 +436,12 @@
           "type": "string",
           "description": "Group type.",
           "enum": [
-            "Custom",
-            "System",
-            "External"
+            "custom",
+            "system",
+            "external"
           ],
           "x-ms-enum": {
-            "name": "GroupTypeContract",
+            "name": "GroupType",
             "modelAsString": false
           }
         },
@@ -444,6 +451,54 @@
         }
       },
       "description": "Parameters supplied to the Update Group operation."
+    },
+    "PolicyContractProperties": {
+      "properties": {
+        "policyContent": {
+          "type": "string",
+          "description": "Xml Encoded contents of the Policy."
+        }
+      },
+      "required": [
+        "policyContent"
+      ],
+      "description": "Policy contract Properties."
+    },
+    "PolicyContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PolicyContractProperties",
+          "description": "Properties of the Policy."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Policy Contract details."
+    },
+    "Resource": {
+      "description": "The Resource definition.",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "Resource name.",
+          "readOnly": true
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type for API Management resource."
+        }
+      }
     },
     "ErrorFieldContract": {
       "properties": {
@@ -462,7 +517,7 @@
       },
       "description": "Error Field contract."
     },
-    "ErrorBodyContract": {
+    "ErrorResponse": {
       "properties": {
         "code": {
           "type": "string",
@@ -495,12 +550,77 @@
       },
       "description": "User identity details."
     },
-    "UserContract": {
+    "UserUpdateParametersProperties": {
       "properties": {
-        "id": {
+        "email": {
           "type": "string",
-          "description": "User identifier path."
+          "description": "Email address. Must not be empty and must be unique within the service instance.",
+          "minLength": 1,
+          "maxLength": 254
         },
+        "password": {
+          "type": "string",
+          "description": "User Password."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name.",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name.",
+          "minLength": 1,
+          "maxLength": 100
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/UserEntityBaseParameters"
+        }
+      ],
+      "description": "Parameters supplied to the Update User operation."
+    },
+    "UserCreateParameterProperties": {
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Email address. Must not be empty and must be unique within the service instance.",
+          "minLength": 1,
+          "maxLength": 254
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name.",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name.",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "password": {
+          "type": "string",
+          "description": "User Password. If no value is provided, a default password is generated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/UserEntityBaseParameters"
+        }
+      ],
+      "required": [
+        "email",
+        "firstName",
+        "lastName"
+      ],
+      "description": "Parameters supplied to the Create User operation."
+    },
+    "UserContractProperties": {
+      "properties": {
         "firstName": {
           "type": "string",
           "description": "First name."
@@ -513,26 +633,45 @@
           "type": "string",
           "description": "Email address."
         },
-        "state": {
-          "type": "string",
-          "description": "User state.",
-          "enum": [
-            "Active",
-            "Blocked"
-          ],
-          "x-ms-enum": {
-            "name": "UserStateContract",
-            "modelAsString": false
-          }
-        },
         "registrationDate": {
           "type": "string",
           "format": "date-time",
           "description": "Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
         },
+        "groups": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GroupContract"
+          },
+          "description": "Collection of groups user is part of."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/UserEntityBaseParameters"
+        }
+      ],
+      "description": "User profile."
+    },
+    "UserEntityBaseParameters": {
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.",
+          "enum": [
+            "active",
+            "blocked"
+          ],
+          "default": "active",
+          "x-ms-enum": {
+            "name": "UserState",
+            "modelAsString": false
+          }
+        },
         "note": {
           "type": "string",
-          "description": "Administrator's note about given user."
+          "description": "Optional note about a user set by the administrator."
         },
         "identities": {
           "readOnly": true,
@@ -543,7 +682,22 @@
           "description": "Collection of user identities."
         }
       },
-      "description": "User profile."
+      "description": "User Entity Base Parameters set."
+    },
+    "UserContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/UserContractProperties",
+          "description": "User entity contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "User details."
     },
     "UserCollection": {
       "properties": {
@@ -553,11 +707,6 @@
             "$ref": "#/definitions/UserContract"
           },
           "description": "Page values."
-        },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Total record count number across all pages."
         },
         "nextLink": {
           "type": "string",
@@ -644,5 +793,5 @@
       "x-ms-parameter-location": "method"
     }
   },
-  "x-internal-toc-name": "Groups"
+  "x-internal-toc-name": "Group User"
 }
