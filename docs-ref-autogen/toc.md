@@ -441,6 +441,7 @@
 ### [Operations](EventHub/Operations.json)
 # [Graph RBAC](../docs-ref-conceptual/graphrbac/index.md)
 ## [Applications](graphrbac/Applications.json)
+## [Domains](graphrbac/Domains.json)
 ## [Groups](graphrbac/Groups.json)
 ## [Objects](graphrbac/Objects.json)
 ## [Service Principals](graphrbac/ServicePrincipals.json)
