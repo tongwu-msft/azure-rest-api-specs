@@ -32,7 +32,7 @@ The Microsoft Azure storage services support multiple versions. To make a reques
   
  Additional supported versions are listed below.  
 
--   [Version 2016-05-31](Version-2016-05-31.md) 
+-   [Version 2016-05-31](version-2016-05-31.md) 
 
 -   [Version 2015-12-11](Version-2015-12-11.md) 
 

@@ -122,7 +122,7 @@ The `Set Blob Properties` operation sets system properties on the blob.
   
 -   A page blob's size is modified only if the request specifies a value for the `x-ms-content-length` header.  
 
--   To change a page blob's size in a premium storage account, the new size must not exeed the content length allowed by the existing tier. Call [Set Blob Tier](Set-Blob-Tier.md) before resizing the blob. For a list of tiers and allowed content length, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features).  
+-   To change a page blob's size in a premium storage account, the new size must not exeed the content length allowed by the existing tier. Call [Set Blob Tier](set-blob-tier.md) before resizing the blob. For a list of tiers and allowed content length, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features).  
   
 -   If a request sets only `x-ms-blob-sequence-number` and/or `x-ms-content-length`, and no other properties, then none of the blob's other properties are modified.  
   
