@@ -31,7 +31,7 @@ Azure Cosmos DB is a globally distributed multi-model database with support for 
 
 A user defined function (UDF) is a side effect free piece of application logic written in JavaScript. It allows developers to construct a query operator, thus extending the core of the Cosmos DB query language. Like stored procedures, UDFs live in the confines of a collection, thus confining the application logic to the collection.  
   
-The user defined function resource is represented by udfs in the [Cosmos DB resource model](https://azure.microsoft.com/en-us/documentation/articles/documentdb-resources/). There is a quota limit on the number of UDFs created in a collection. For more information on the limits and quotas, see [Cosmos DB limits](https://azure.microsoft.com/en-us/documentation/articles/documentdb-limits/).  
+The user defined function resource is represented by udfs in the [Cosmos DB resource model](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources). There is a quota limit on the number of UDFs created in a collection. For more information on the limits and quotas, see [Cosmos DB limits](https://azure.microsoft.com/en-us/documentation/articles/documentdb-limits/).  
   
 Similar to stored procedures, the UDFs resource has a fixed schema. The body property contains the application logic. The following example illustrates the JSON construct of a user defined function.  
   
