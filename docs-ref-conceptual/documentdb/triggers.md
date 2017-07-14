@@ -31,7 +31,7 @@ Azure Cosmos DB is a globally distributed multi-model database with support for 
 
 Triggers are pieces of application logic that can executed before (pre-triggers) and after (post-triggers) creation, deletion, and replacement of a document. Triggers are written in JavaScript. Both pre and post triggers do no take parameters. Like stored procedures, triggers live within the confines of a collection, thus confining the application logic to the collection.  
   
-The trigger resource is represented by triggers in the [Azure Cosmos DB resource model](https://azure.microsoft.com/en-us/documentation/articles/documentdb-resources/). There is a quota limit on the number of triggers created in a collection. For more information on the limits and quotas, see [Azure Cosmos DB limits](https://azure.microsoft.com/en-us/documentation/articles/documentdb-limits/).  
+The trigger resource is represented by triggers in the [Azure Cosmos DB resource model](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources). There is a quota limit on the number of triggers created in a collection. For more information on the limits and quotas, see [Azure Cosmos DB limits](https://azure.microsoft.com/en-us/documentation/articles/documentdb-limits/).  
   
 Similar to stored procedures, the triggers resource has a fixed schema. The body property contains the application logic. The following example illustrates the JSON construct of a trigger.  
   
