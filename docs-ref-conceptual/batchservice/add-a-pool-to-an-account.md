@@ -236,7 +236,7 @@ manager: "timlt"
 |Element name|Required|Type|Notes|
 |------------------|--------------|----------|-----------|
 |uid|Optional|Integer|The user ID of the user account.<br /><br />The uid and gid properties must be specified together or not at all. If these properties are not specified, the underlying operating system picks the uid.|
-|gidname|Optional|Integer|The group ID for the user account.<br /><br />"The uid and gid properties must be specified together or not at all. If these properties are not specified the underlying operating system picks the gid.|
+|gid|Optional|Integer|The group ID for the user account.<br /><br />"The uid and gid properties must be specified together or not at all. If these properties are not specified the underlying operating system picks the gid.|
 |sshPrivateKey|Optional|String|The SSH private key for the user account.<br /><br />The SSH private key is used to automatically configure password-less SSH between nodes in a Linux pool when the pool's enableInterNodeCommunication property is true. If not specified, password-less SSH is not configured between nodes.|
 
 ###  <a name="bk_meta"></a> metadata
