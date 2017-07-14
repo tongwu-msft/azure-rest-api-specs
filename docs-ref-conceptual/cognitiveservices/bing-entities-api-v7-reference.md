@@ -284,7 +284,6 @@ Defines a postal address.
 |addressRegion|The state or province code where the street address is located. This could be the two-letter code (for example, WA) or the full name (for example, Washington).|String|  
 |neighborhood|The neighborhood where the street address is located. For example, Westlake.|String|  
 |postalCode|The zip code or postal code where the street address is located. For example, 98052.|String|  
-|streetAddress|The street address. For example, 2100 Westlake Ave N.|String|  
 |text|The complete address. For example, 2100 Westlake Ave N, Bellevue, WA 98052.|String|  
   
   
