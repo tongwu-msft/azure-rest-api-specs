@@ -47,7 +47,7 @@ The following table lists the supported REST API versions by the Azure Cosmos DB
     
 
 ## Cosmos DB Resources  
-The following articles describe the supported REST APIs for each resource type. For general information about the resource model, see [Resource model](/azure/documentdb/documentdb-interactions-with-resources) and [Cosmos DB resource URIs](documentdb-resource-uri-syntax-for-rest.md). 
+The following articles describe the supported REST APIs for each resource type. For general information about the resource model, see [Resource model](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources) and [Cosmos DB resource URIs](documentdb-resource-uri-syntax-for-rest.md). 
   
 * [Databases](databases.md)  
 * [Collections](collections.md)  
