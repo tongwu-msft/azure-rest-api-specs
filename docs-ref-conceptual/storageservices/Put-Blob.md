@@ -91,8 +91,9 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
   
 |Request header|Description|  
 |--------------------|-----------------|  
-|`x-ms-blob-content-length: bytes`|Required for page blobs. This header specifies the maximum size for the page blob, up to 1 TB. The page blob size must be aligned to a 512-byte boundary.<br /><br /> If this header is specified for a block blob or an append blob, the Blob service returns status code 400 (Bad Request).|  
+|`x-ms-blob-content-length: bytes`|Required for page blobs. This header specifies the maximum size for the page blob, up to 8 TB. The page blob size must be aligned to a 512-byte boundary.<br /><br /> If this header is specified for a block blob or an append blob, the Blob service returns status code 400 (Bad Request).|  
 |`x-ms-blob-sequence-number: <num>`|Optional. Set for page blobs only. The sequence number is a user-controlled value that you can use to track requests. The value of the sequence number must be between 0 and 2<sup>^63</sup> - 1.The default value is 0.|  
+|`x-ms-access-tier`|Version 2017-04-17 and newer. For page blobs on a premium storage account only. Specifies the tier to be set on the blob. Check [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features) for a full list of supported tiers.|  
   
 ### Request Body  
  For a block blob, the request body contains the content of the blob.  
@@ -213,9 +214,9 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 
  The maximum size for a block blob created via `Put Blob` is 256 MB for version 2016-05-31 and later, and 64 MB for older versions. If your blob is larger than 256 MB for version 2016-05-31 and later, or 64 MB for older versions, you must upload it as a set of blocks. For more information, see the `Put Block` and `Put Block Listoperations`. It's not necessary to also call `Put Blob` if you upload the blob as a set of blocks.
 
- If you attempt to upload a block blob that is larger than 256 MB for version 2016-05-31 and later, and 64 MB for older versions, or a page blob larger than 1 TB, the service returns status code 413 (Request Entity Too Large). The Blob service also returns additional information about the error in the response, including the maximum blob size permitted in bytes.
+ If you attempt to upload a block blob that is larger than 256 MB for version 2016-05-31 and later, and 64 MB for older versions, or a page blob larger than 8 TB, the service returns status code 413 (Request Entity Too Large). The Blob service also returns additional information about the error in the response, including the maximum blob size permitted in bytes.
   
- To create a new page blob, first initialize the blob by calling `Put Blob` and specify its maximum size, up to 1 TB. When creating a page blob, do not include content in the request body. Once the blob has been created, call [Put Page](Put-Page.md) to add content to the blob or to modify it.  
+ To create a new page blob, first initialize the blob by calling `Put Blob` and specify its maximum size, up to 8 TB. When creating a page blob, do not include content in the request body. Once the blob has been created, call [Put Page](Put-Page.md) to add content to the blob or to modify it.  
   
  To create a new append blob, call `Put Blob` to create a blob with a content-length of zero bytes. Once the append blob is created, call [Append Block](Append-Block.md) to add content to the end of the blob.  
   
