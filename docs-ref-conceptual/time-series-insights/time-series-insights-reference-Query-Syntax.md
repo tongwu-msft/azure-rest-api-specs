@@ -71,8 +71,8 @@ Properties in the event schema are uniquely identified by name and type and the 
 
 JSON example:
 ```json
-"property": {
-    "name": "p1",
+{
+    "property": "p1",
     "type": "String"
 }
 ```
@@ -104,10 +104,8 @@ JSON example:
 ```json
 "eq": {
     "left": {
-        "property": {
-            "name": "p1",
-            "type": "String"
-        }
+        "property": "p1",
+        "type": "String"
     },
     "right": "abc"
 }
@@ -140,10 +138,8 @@ JSON example:
     {
 		"eq": {
 			"left": {
-				"property": {
-					"name": "p1",
-					"type": "String"
-				}
+				"property": "p1",
+				"type": "String"
 			},
 			"right": "abc"
 		}
@@ -152,10 +148,8 @@ JSON example:
 		"not": {
 			"lt": {
 				"left": {
-					"property": {
-						"name": "p1",
-						"type": "Double"
-					}
+					"property": "p1",
+					"type": "Double"
 				},
 				"right": 1.0
 			}
@@ -405,10 +399,8 @@ JSON example:
 "predicate": {
     "eq": {
         "left": {
-            "property": {
-                "name": "p1",
-                "type": "String"
-            }
+            "property": "p1",
+            "type": "String"
         },
         "right": "abc"
     }
