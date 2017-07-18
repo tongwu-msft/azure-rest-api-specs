@@ -336,6 +336,78 @@
           }
         }
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}/token": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users_GetSharedAccessToken",
+        "description": "Gets the Shared Access Authorization Token for the User.",
+        "x-ms-examples": {
+          "ApiManagementUsersGetToken": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2016-10-10",
+              "subscriptionId": "subid",
+              "uid": "57f2af53bb17172280f44057",
+              "parameters": {
+                "keyType": "primary",
+                "expiry": "2017-05-13T10:39:35Z"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": "57f2af53bb17172280f44057&201705131039&***************************/tJVExvjA=="
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/UserIdParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserTokenParameters"
+            },
+            "description": "Create Authorization Token parameters."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The response body contains the authorization token for the user.",
+            "schema": {
+              "x-ms-client-flatten": true,
+              "$ref": "#/definitions/UserTokenResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorBodyContract"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -493,6 +565,42 @@
         }
       },
       "description": "User identity details."
+    },
+    "UserTokenParameters": {
+      "properties": {
+        "keyType": {
+          "type": "string",
+          "description": "The Key to be used to generate token for user.",
+          "enum": [
+            "primary",
+            "secondary"
+          ],
+          "default": "primary",
+          "x-ms-enum": {
+            "name": "KeyTypeContract",
+            "modelAsString": false
+          }
+        },
+        "expiry": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The Expiry time of the Token. Maximum token expiry time is set to 30 days. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        }
+      },
+      "required": [
+        "keyType",
+        "expiry"
+      ],
+      "description": "Parameters supplied to the Get User Token operation."
+    },
+    "UserTokenResult": {
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "Shared Access Authorization token for the User."
+        }
+      },
+      "description": "Get User Token response details."
     },
     "UserUpdateParameters": {
       "properties": {

@@ -1,4 +1,4 @@
----
+﻿---
 title: "Upgrade the operating system of compute nodes in a pool | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -26,7 +26,7 @@ manager: "timlt"
 
  Replace {pool\-id} with the id of the pool that you want to upgrade.
 
-```
+```json
 {
     "targetOSVersion":"WA-GUEST-OS-2.28_201409-01"
 }
@@ -35,7 +35,7 @@ manager: "timlt"
 
 |Element name|Required|Type|Notes|
 |------------------|--------------|----------|-----------|
-|targetOSVersion|Yes|String|The Azure Guest OS version to be installed on the virtual machines in the pool.<br /><br /> For permitted values, see [Azure Guest OS Releases](https://azure.microsoft.com/en-us/documentation/articles/cloud-services-guestos-update-matrix/#releases)|
+|targetOSVersion|Yes|String|The Azure Guest OS version to be installed on the virtual machines in the pool.<br /><br /> For permitted values, see [Azure Guest OS Releases](https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases)|
 
 ## Response
  Status code: 202. For more information, see [Batch Status and Error Codes](../batchservice/batch-status-and-error-codes.md)

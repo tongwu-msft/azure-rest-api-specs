@@ -5,6 +5,7 @@ ms.service: container-registry
 author: dlepow
 ms.author: danlep
 ms.manager: timlt
+service_description: To be added
 ---
 
 

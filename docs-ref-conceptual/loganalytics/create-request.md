@@ -45,7 +45,7 @@ The format for the Authorization header is as follows:
 
 *WorkspaceID* is the unique identifer for the Log Analytics workspace, and *Signature* is a Hash-based Message Authentication Code (HMAC) constructed from the request and computed by using the SHA256 algorithm, and then encoded using Base64 encoding.
 
-### Constructing the signature sstring
+### Constructing the signature string
 To encode the Shared Key signature string, use the following format: 
 
 	StringToSign = VERB + "\n" +

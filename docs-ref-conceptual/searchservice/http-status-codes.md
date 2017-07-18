@@ -46,6 +46,6 @@ translation.priority.mt:
 |503 Service Unavailable|This error means that the system is under heavy load and your request can't be processed at this time. **Important:**  In this case, we highly recommend that your client code back off and wait before retrying. This will give the system some time to recover, increasing the chances that future requests will succeed. Rapidly retrying your requests will only prolong the situation.|  
 |504: Gateway Timeout|Azure Search listens on HTTPS port 443. If your search service URL contains HTTP instead of HTTPS, a 504 status code will be returned.|  
 
-## See Also  
+## See also  
 [Azure Search .NET SDK](https://go.microsoft.com/fwlink/?linkid=834796)
  [Azure Search Service REST](index.md)   

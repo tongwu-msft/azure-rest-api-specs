@@ -1,4 +1,4 @@
----
+﻿---
 title: "Terminate a job | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -28,7 +28,7 @@ manager: "timlt"
 
  You may optionally provide a reason:
 
-```
+```json
 {
   "terminateReason":"Did not need the job any longer."
 }

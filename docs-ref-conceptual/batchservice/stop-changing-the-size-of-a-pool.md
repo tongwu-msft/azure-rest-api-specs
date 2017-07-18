@@ -38,10 +38,10 @@ manager: "timlt"
   
  Example  
   
- At 1:00 pm, a user sends a request to create a pool of 100 compute nodes.  The Batch service creates the pool, marks the pool allocation state as resizing, and starts assigning nodes to the pool.  
+ At 1:00 pm, a user sends a request to create a pool of 100 dedicated compute nodes. The Batch service creates the pool, marks the pool allocation state as resizing, and starts assigning nodes to the pool.  
   
- At 1:05 pm, the Batch service has allocated 25 nodes to the pool.  The pool is still resizing, as Batch has not yet acquired all 100 requested nodes, and currentDedicated is 25.  
+ At 1:05 pm, the Batch service has allocated 25 nodes to the pool. The pool is still resizing, as Batch has not yet acquired all 100 requested nodes, and currentDedicated is 25.  
   
- At this point, the user stops the pool resize operation with the Stop Resize Pool API.  When the Batch service receives this request, it stops attempting to acquire more nodes for the pool, updates the pool’s resizeError to indicate that the user cancelled resizing, and changed the the pool’s allocation state to steady.  The pool’s currentDedicated remains at 25, and targetDedicated remains at 100.  
+ At this point, the user stops the pool resize operation with the Stop Resize Pool API. When the Batch service receives this request, it stops attempting to acquire more nodes for the pool, updates the pool’s resizeError to indicate that the user cancelled resizing, and changed the the pool’s allocation state to steady. The pool’s currentDedicated remains at 25, and targetDedicatedNodes remains at 100.  
   
   

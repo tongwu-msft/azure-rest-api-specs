@@ -14,7 +14,7 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# Autosuggest API v5 Reference
+# Autosuggest API v5 reference
 
 The Autosuggest API lets you send a partial search query term to Bing and get back a list of suggested queries that other users have searched on. In addition to including searches made by others, the list may include suggestions based on user intent.  
 
@@ -26,7 +26,9 @@ For information about the headers that you should include in the request, see [R
   
 For information about the query parameters that you should include in the request, see [Query Parameters](#query-parameters).  
   
-For information about the JSON objects that the response may include, see [Response Objects](#response-objects).  
+For information about the JSON objects that the response may include, see [Response Objects](#response-objects).
+
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-autosuggest/useanddisplayrequirements).
   
 ## Endpoint  
 
@@ -60,7 +62,7 @@ The following are the headers that a request and response may include.
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
   
-## Query Parameters  
+## Query parameters  
 
 The following are the query parameters that the request may include. The Required column indicates whether you must specify the parameter. You must URL encode the query parameter values.  
   
@@ -71,7 +73,7 @@ The following are the query parameters that the request may include. The Require
 |<a name="query" />q|The user's search query string.<br /><br /> The query string must not be empty. If empty or not specified, the list of suggestions in the response is empty.<br /><br /> The API does not support the [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). If the query string includes Bing operators, the operators are treated as part of the query string, not as an operator.|String|No|  
 |<a name="setlang" />setLang|The language to use for user interface strings. Specify the language using the ISO 639-1 2-letter language code. For example, the language code for English is EN. The default is EN (English).<br /><br /> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br /> This parameter and the [Accept-Language](#acceptlanguage) header are mutually exclusive&mdash;do not specify both.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
   
-## Response Objects  
+## Response objects  
 
 The following are the JSON objects that the response may include. If the request is successful, the top-level object in the response is the [Suggestions](#suggestions) object. If the request fails, the top-level object is [ErrorResponse](#errorresponse).  
   
@@ -147,10 +149,10 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
 |queryContext|The user's query string.|[QueryContext](#querycontext)|  
 |<a name="suggestions-suggestiongroups" />suggestionGroups|A list of suggested query strings grouped by type. For example, web search suggestions.|[SuggestionGroup](#suggestgroup)[]|  
   
-## Error Codes 
+## Error codes 
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes.md)]
 
-## Market Codes 
+## Market codes 
 
 [!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]

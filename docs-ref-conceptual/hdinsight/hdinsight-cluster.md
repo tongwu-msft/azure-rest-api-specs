@@ -12,9 +12,9 @@ Creates a cluster in the specified subscription.
   
  The following example shows the request body for creating a Linux based hadoop cluster. For examples of creating clusters in other ways, see the Examples section below.  
   
-```  
+```json
 {  
-    id":"/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.HDInsight/clusters/mycluster",  
+    "id":"/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.HDInsight/clusters/mycluster",  
   "name":"mycluster",   
   "type":"Microsoft.HDInsight/clusters",  
   
@@ -38,7 +38,7 @@ Creates a cluster in the specified subscription.
                     "fs.azure.account.key.storageaccount.blob.core.windows.net": storage-account-key"  
                 }  
             }  
-        },  
+        },
   
         "computeProfile": {  
             "roles": [  
@@ -215,9 +215,9 @@ Creates a cluster in the specified subscription.
   
  **Response body for a linux cluster creates using ssh key:**  
   
-```  
+```json
 {  
-    id":"/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.HDInsight/clusters/mycluster",  
+    "id":"/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.HDInsight/clusters/mycluster",  
   "name":"mycluster",   
   "type":"Microsoft.HDInsight/clusters",  
   
@@ -226,11 +226,11 @@ Creates a cluster in the specified subscription.
     "properties": {  
         "clusterVersion": "3.2",  
         "osType": "Linux",  
-		“provisioningState”: “InProgress”,  
-		“clusterState”: “Accepted”,  
-		“createdDate”: “2015-09-23”,  
-		“quotaInfo”: {  
-			“coresUsed”: 20  
+		"provisioningState": "InProgress",  
+		"clusterState": "Accepted",  
+		"createdDate": "2015-09-23",  
+		"quotaInfo": {  
+			"coresUsed": 20  
 }  
         "clusterDefinition": {  
             "kind": "hadoop"  
@@ -279,7 +279,7 @@ Creates a cluster in the specified subscription.
 |clusterState|String|Indicates the more detailed HDInsight cluster state while provisioning is in progress.|  
 |createdDate|Date|Datetime when the cluster create request was received|  
 |quotaInfo|Complex  Type|Specifies the coresUsed by the cluster|  
-|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed”|  
+|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed"|  
 |[connectivityEndpoints](#bk_conend)|Complex Type|Specifies the public endpoints for the cluster|  
   
 ####  <a name="bk_conend"></a> connectivityEndpoints  
@@ -304,7 +304,7 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
   
  The following example shows the request body for creating a Linux based, premium, domain-joined Hadoop cluster.  
   
-```  
+```json
 {
 	"id": "/subscriptions/{ subscription-id }/resourceGroups/myresourcegroup1/providers/Microsoft.HDInsight/ clusters/mycluster ", "
 	name "
@@ -458,7 +458,7 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|directoryType|Yes|String|Type of LDAP directory that is used. Currently “ActiveDirectory” is the only supported value.|  
+|directoryType|Yes|String|Type of LDAP directory that is used. Currently "ActiveDirectory" is the only supported value.|  
 |domain|Yes|String|Active Directory domain for the cluster|
 |organizationalUnitDN | Yes | String | Distinguished name of the organizational unit in the Active directory where user and computer accounts will be created |
 | ldapsUrls | Yes | Array of String | URLs of one or multiple LDAPS servers for the Active Directory |
@@ -525,9 +525,9 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
   
  **Response body for a linux cluster creates using ssh key:**  
   
-```  
+```json
 {  
-    id":"/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.HDInsight/clusters/mycluster",  
+    "id":"/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.HDInsight/clusters/mycluster",  
   "name":"mycluster",   
   "type":"Microsoft.HDInsight/clusters",  
   
@@ -536,11 +536,11 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
     "properties": {  
         "clusterVersion": "3.2",  
         "osType": "Linux",  
-		“provisioningState”: “InProgress”,  
-		“clusterState”: “Accepted”,  
-		“createdDate”: “2015-09-23”,  
-		“quotaInfo”: {  
-			“coresUsed”: 20  
+		"provisioningState": "InProgress",  
+		"clusterState": "Accepted",  
+		"createdDate": "2015-09-23",  
+		"quotaInfo": {  
+			"coresUsed": 20  
 }  
         "clusterDefinition": {  
             "kind": "hadoop"  
@@ -589,7 +589,7 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
 |clusterState|String|Indicates the more detailed HDInsight cluster state while provisioning is in progress.|  
 |createdDate|Date|Datetime when the cluster create request was received|  
 |quotaInfo|Complex  Type|Specifies the coresUsed by the cluster|  
-|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed”|  
+|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed"|  
 |[connectivityEndpoints](#bk_conend_premium)|Complex Type|Specifies the public endpoints for the cluster|  
   
 ####  <a name="bk_conend_premium"></a> connectivityEndpoints  
@@ -617,7 +617,7 @@ Azure Data Lake can be configured as the default filesystem for cluster versions
   
 The following example shows the request body for creating a Linux-based Hadoop cluster using Azure Data Lake Store as the default filesystem for the cluster.  
   
-```  
+```json
 {
 	"id": "/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.HDInsight/clusters/mycluster",
 	"name": "mycluster",
@@ -812,7 +812,7 @@ The following example shows the request body for creating a Linux-based Hadoop c
   
  **Response body for a linux cluster creates using ssh key:**  
   
-```  
+```json
 {
 	"id": "/subscriptions/{subscription ID}/resourceGroups/rg1/providers/Microsoft.HDInsightCurrent/clusters/mycluster",
 	"name": "mycluster",
@@ -871,7 +871,7 @@ The following example shows the request body for creating a Linux-based Hadoop c
 |clusterState|String|Indicates the more detailed HDInsight cluster state while provisioning is in progress.|  
 |createdDate|Date|Datetime when the cluster create request was received|  
 |quotaInfo|Complex  Type|Specifies the coresUsed by the cluster|  
-|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed”|  
+|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed"|  
 |[connectivityEndpoints](#bk_conend_adls)|Complex Type|Specifies the public endpoints for the cluster|  
   
 ####  <a name="bk_conend_adls"></a> connectivityEndpoints  
@@ -920,9 +920,9 @@ Gets the details/properties of the specified cluster.
   
  **Response body for linux cluster details**  
   
-```  
+```json
 {  
-    id":"/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.HDInsight/clusters/mycluster",  
+    "id":"/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.HDInsight/clusters/mycluster",  
   "name":"mycluster",   
   "type":"Microsoft.HDInsight/clusters",  
   
@@ -931,11 +931,11 @@ Gets the details/properties of the specified cluster.
     "properties": {  
         "clusterVersion": "3.2",  
         "osType": "Linux",  
-		“provisioningState”: “InProgress”,  
-		“clusterState”: “Accepted”,  
-		“createdDate”: “2015-09-23”,  
-		“quotaInfo”: {  
-			“coresUsed”: 20  
+		"provisioningState": "InProgress",  
+		"clusterState": "Accepted",  
+		"createdDate": "2015-09-23",  
+		"quotaInfo": {  
+			"coresUsed": 20  
 }  
         "clusterDefinition": {  
             "kind": "hadoop"  
@@ -1002,7 +1002,7 @@ Gets the details/properties of the specified cluster.
 |clusterState|String|Indicates the more detailed HDInsight cluster state while provisioning is in progress.|  
 |createdDate|Date|Datetime when the cluster create request was received|  
 |quotaInfo|Complex  Type|Specifies the coresUsed by the cluster|  
-|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed”|  
+|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed"|  
 |[connectivityEndpoints](#connectivityEndpoints)|Complex Type|Specifies the public endpoints for the cluster|  
   
 ####  <a name="connectivityEndpoints"></a> connectivityEndpoints  
@@ -1030,17 +1030,17 @@ Gets cluster configuration details.
   
  Example response:  
   
-```  
+```json
 "configurations":   
 {  
-   “gateway”: {  
-     “restAuthCredential.isEnabled”: true,  
+   "gateway": {  
+     "restAuthCredential.isEnabled": true,  
      "restAuthCredential.username": "user",  
      "restAuthCredential.password": "password here"     
    },  
   
    "core-site": {  
-	   “key1”: “value1”  
+	   "key1": "value1"  
    }  
 }  
   
@@ -1066,9 +1066,9 @@ Gets details about a single configuration type.
   
  Example response:  
   
-```  
-“gateway”: {  
-     “restAuthCredential.isEnabled”: true,  
+```json
+"gateway": {  
+     "restAuthCredential.isEnabled": true,  
      "restAuthCredential.username": "user",  
      "restAuthCredential.password": "password here"     
    }  
@@ -1093,9 +1093,9 @@ Lists all the clusters in the user’s subscription in the specified resource gr
   
  Response body is an array of cluster details. For more information, see [Get cluster properties](#get).  
   
-```  
+```json
 {  
-  “value”: [  
+  "value": [  
 		{ Cluster details }  
     ]  
 }  
@@ -1120,9 +1120,9 @@ Lists all the clusters in the user’s subscription.
   
  Response body is an array of cluster details.  
   
-```  
+```json
 {  
-  “value”: [  
+  "value": [  
 		{ Cluster details }  
     ]  
 }  
@@ -1141,7 +1141,7 @@ This operation allows users to enable/disable the HTTPS connectivity to the clus
   
  **To enable connectivity**  
   
-```  
+```json
 {  
    "restAuthCredential.isEnabled": true,  
    "restAuthCredential.username": "user",  
@@ -1152,7 +1152,7 @@ This operation allows users to enable/disable the HTTPS connectivity to the clus
   
  **To disable connectivity**  
   
-```  
+```json
 {  
    "restAuthCredential.isEnabled": false  
 }  
@@ -1186,7 +1186,7 @@ This operation allows a user to enable/disable RDP. It applies to Windows based 
   
  **To enable RDP**  
   
-```  
+```json
 {  
 	"osProfile": {  
         "windowsOperatingSystemProfile": {  
@@ -1202,7 +1202,7 @@ This operation allows a user to enable/disable RDP. It applies to Windows based 
   
  **To disable RDP**  
   
-```  
+```json
 {  
 	"osProfile": {  
         "windowsOperatingSystemProfile": {  
@@ -1252,7 +1252,7 @@ Execute Script action on a running cluster.
   
  **Request Body**  
   
-```  
+```json
 {  
   "scriptActions": [  
     {  
@@ -1304,7 +1304,7 @@ This operation returns all the persisted scripts actions of the specified cluste
   
  Example response:  
   
-```  
+```json
 {  
 "value":  
 [  
@@ -1363,7 +1363,7 @@ This operation returns latest scripts action execution of the specified cluster 
   
  Example response:  
   
-```  
+```json
 {  
   "scriptExecutionId":script-execution-id,  
   "name":"script-name",  
@@ -1435,7 +1435,7 @@ Resizes an existing HDInsight cluster.
   
  Following shows an example request to update tags for a cluster  
   
-```  
+```json
 {  
     "targetInstanceCount": 10  
 }  
@@ -1466,7 +1466,7 @@ Updates tags for a cluster.
   
  Following shows an example request to update tags for a cluster  
   
-```  
+```json
 {   
     "tags": {"department": "finance"}  
 }  

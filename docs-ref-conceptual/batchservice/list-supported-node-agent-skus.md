@@ -35,8 +35,7 @@ manager: "timlt"
 
  The following example is only a sample response and is not the full list of all supported node agent SKUs.
 
-```
-
+```json
 {
   "odata.metadata":"https://myaccount.myregion.batch.azure.com/$metadata#nodeagentskus",
   "value":[

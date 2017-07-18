@@ -35,7 +35,7 @@ Programmable interfaces are either GA or preview status. Status is indicated in 
 |GA | Generally Available, subject to Azure service level agreement (SLA). Used for production workloads. |
 |Preview | API for experimental features that could have implementation changes prior to graduating to GA status.|
 
-## See Also
+## See also
 [How to use Azure Search in .NET](https://azure.microsoft.com/ocumentation/articles/search-howto-dotnet-sdk/)
 
 [Upgrade Azure Search .NET libraries](https://azure.microsoft.com/documentation/articles/search-dotnet-sdk-migration/)

@@ -1,4 +1,4 @@
----
+﻿---
 title: "Update the properties of a pool | Microsoft Docs"
 ms.custom: ""
 ms.date: "2017-02-01"
@@ -28,7 +28,7 @@ manager: "timlt"
 
  The following example shows a request to change the pool’s start task without modifying any other pool settings:
 
-```
+```json
 {
   "startTask": {
     "commandLine":"myprogram.exe",
@@ -126,7 +126,7 @@ manager: "timlt"
 
  The following example shows all of the start task, certificate references collection, and metadata collection being updated:
 
-```
+```json
 {
   "startTask": {
     "commandLine":"myprogram.exe",

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "InsightsManagementClient",
+    "title": "MonitorManagementClient",
     "version": "2015-04-01"
   },
   "host": "management.azure.com",
@@ -14,6 +14,24 @@
   "produces": [
     "application/json"
   ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
   "paths": {
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/autoscalesettings": {
       "get": {
@@ -27,9 +45,6 @@
             "$ref": "#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "#/parameters/FilterParameter"
-          },
-          {
             "$ref": "#/parameters/ApiVersionParameter"
           },
           {
@@ -37,6 +52,12 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "description": "Successful request for a list of autoscale settings",
             "schema": {
@@ -201,7 +222,172 @@
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         },
-        "x-ms-odata": "#/definitions/AutoscaleSettingResource"
+        "x-ms-examples": {
+          "List autoscale settings": {
+            "parameters": {
+              "subscriptionId": "b67f7fec-69fc-4974-9099-a26bd6ffeda3",
+              "resourceGroupName": "TestingMetricsScaleSet",
+              "api-version": "2015-04-01"
+            },
+            "responses": {
+              "200": {
+                "headers": {},
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/microsoft.insights/autoscalesettings/MySetting",
+                      "name": "MySetting",
+                      "type": "Microsoft.Insights/autoscaleSettings",
+                      "location": "West US",
+                      "tags": {
+                        "$type": "Microsoft.WindowsAzure.Management.Common.Storage.CasePreservedDictionary, Microsoft.WindowsAzure.Management.Common.Storage"
+                      },
+                      "properties": {
+                        "profiles": [
+                          {
+                            "name": "adios",
+                            "capacity": {
+                              "minimum": "1",
+                              "maximum": "10",
+                              "default": "1"
+                            },
+                            "rules": [
+                              {
+                                "metricTrigger": {
+                                  "metricName": "Percentage CPU",
+                                  "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                                  "timeGrain": "PT1M",
+                                  "statistic": "Average",
+                                  "timeWindow": "PT5M",
+                                  "timeAggregation": "Average",
+                                  "operator": "GreaterThan",
+                                  "threshold": 10
+                                },
+                                "scaleAction": {
+                                  "direction": "Increase",
+                                  "type": "ChangeCount",
+                                  "value": "1",
+                                  "cooldown": "PT5M"
+                                }
+                              },
+                              {
+                                "metricTrigger": {
+                                  "metricName": "Percentage CPU",
+                                  "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                                  "timeGrain": "PT2M",
+                                  "statistic": "Average",
+                                  "timeWindow": "PT5M",
+                                  "timeAggregation": "Average",
+                                  "operator": "GreaterThan",
+                                  "threshold": 15
+                                },
+                                "scaleAction": {
+                                  "direction": "Decrease",
+                                  "type": "ChangeCount",
+                                  "value": "2",
+                                  "cooldown": "PT6M"
+                                }
+                              }
+                            ],
+                            "fixedDate": {
+                              "timeZone": "UTC",
+                              "start": "2015-03-05T14:00:00Z",
+                              "end": "2015-03-05T14:30:00Z"
+                            }
+                          },
+                          {
+                            "name": "saludos",
+                            "capacity": {
+                              "minimum": "1",
+                              "maximum": "10",
+                              "default": "1"
+                            },
+                            "rules": [
+                              {
+                                "metricTrigger": {
+                                  "metricName": "Percentage CPU",
+                                  "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                                  "timeGrain": "PT1M",
+                                  "statistic": "Average",
+                                  "timeWindow": "PT5M",
+                                  "timeAggregation": "Average",
+                                  "operator": "GreaterThan",
+                                  "threshold": 10
+                                },
+                                "scaleAction": {
+                                  "direction": "Increase",
+                                  "type": "ChangeCount",
+                                  "value": "1",
+                                  "cooldown": "PT5M"
+                                }
+                              },
+                              {
+                                "metricTrigger": {
+                                  "metricName": "Percentage CPU",
+                                  "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                                  "timeGrain": "PT2M",
+                                  "statistic": "Average",
+                                  "timeWindow": "PT5M",
+                                  "timeAggregation": "Average",
+                                  "operator": "GreaterThan",
+                                  "threshold": 15
+                                },
+                                "scaleAction": {
+                                  "direction": "Decrease",
+                                  "type": "ChangeCount",
+                                  "value": "2",
+                                  "cooldown": "PT6M"
+                                }
+                              }
+                            ],
+                            "recurrence": {
+                              "frequency": "Week",
+                              "schedule": {
+                                "timeZone": "UTC",
+                                "days": [
+                                  "1"
+                                ],
+                                "hours": [
+                                  5
+                                ],
+                                "minutes": [
+                                  15
+                                ]
+                              }
+                            }
+                          }
+                        ],
+                        "enabled": true,
+                        "name": "MySetting",
+                        "targetResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                        "notifications": [
+                          {
+                            "operation": "Scale",
+                            "email": {
+                              "sendToSubscriptionAdministrator": true,
+                              "sendToSubscriptionCoAdministrators": true,
+                              "customEmails": [
+                                "gu@ms.com",
+                                "ge@ns.net"
+                              ]
+                            },
+                            "webhooks": [
+                              {
+                                "serviceUri": "http://myservice.com",
+                                "properties": {}
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "nextLink": "https://management.azure.com/########-####-####-####-############$skiptoken=######"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/autoscalesettings/{autoscaleSettingName}": {
@@ -235,6 +421,12 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "description": "Successful request to create or update an autoscale setting",
             "schema": {
@@ -545,6 +737,459 @@
               }
             }
           }
+        },
+        "x-ms-examples": {
+          "Create or update an autoscale setting": {
+            "parameters": {
+              "subscriptionId": "b67f7fec-69fc-4974-9099-a26bd6ffeda3",
+              "resourceGroupName": "TestingMetricsScaleSet",
+              "autoscaleSettingName": "MySetting",
+              "api-version": "2015-04-01",
+              "parameters": {
+                "location": "West US",
+                "tags": {},
+                "properties": {
+                  "profiles": [
+                    {
+                      "name": "adios",
+                      "capacity": {
+                        "minimum": "1",
+                        "maximum": "10",
+                        "default": "1"
+                      },
+                      "rules": [
+                        {
+                          "metricTrigger": {
+                            "metricName": "Percentage CPU",
+                            "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                            "timeGrain": "PT1M",
+                            "statistic": "Average",
+                            "timeWindow": "PT5M",
+                            "timeAggregation": "Average",
+                            "operator": "GreaterThan",
+                            "threshold": 10
+                          },
+                          "scaleAction": {
+                            "direction": "Increase",
+                            "type": "ChangeCount",
+                            "value": "1",
+                            "cooldown": "PT5M"
+                          }
+                        },
+                        {
+                          "metricTrigger": {
+                            "metricName": "Percentage CPU",
+                            "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                            "timeGrain": "PT2M",
+                            "statistic": "Average",
+                            "timeWindow": "PT5M",
+                            "timeAggregation": "Average",
+                            "operator": "GreaterThan",
+                            "threshold": 15
+                          },
+                          "scaleAction": {
+                            "direction": "Decrease",
+                            "type": "ChangeCount",
+                            "value": "2",
+                            "cooldown": "PT6M"
+                          }
+                        }
+                      ],
+                      "fixedDate": {
+                        "timeZone": "UTC",
+                        "start": "2015-03-05T14:00:00Z",
+                        "end": "2015-03-05T14:30:00Z"
+                      }
+                    },
+                    {
+                      "name": "saludos",
+                      "capacity": {
+                        "minimum": "1",
+                        "maximum": "10",
+                        "default": "1"
+                      },
+                      "rules": [
+                        {
+                          "metricTrigger": {
+                            "metricName": "Percentage CPU",
+                            "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                            "timeGrain": "PT1M",
+                            "statistic": "Average",
+                            "timeWindow": "PT5M",
+                            "timeAggregation": "Average",
+                            "operator": "GreaterThan",
+                            "threshold": 10
+                          },
+                          "scaleAction": {
+                            "direction": "Increase",
+                            "type": "ChangeCount",
+                            "value": "1",
+                            "cooldown": "PT5M"
+                          }
+                        },
+                        {
+                          "metricTrigger": {
+                            "metricName": "Percentage CPU",
+                            "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                            "timeGrain": "PT2M",
+                            "statistic": "Average",
+                            "timeWindow": "PT5M",
+                            "timeAggregation": "Average",
+                            "operator": "GreaterThan",
+                            "threshold": 15
+                          },
+                          "scaleAction": {
+                            "direction": "Decrease",
+                            "type": "ChangeCount",
+                            "value": "2",
+                            "cooldown": "PT6M"
+                          }
+                        }
+                      ],
+                      "recurrence": {
+                        "frequency": "Week",
+                        "schedule": {
+                          "timeZone": "UTC",
+                          "days": [
+                            "1"
+                          ],
+                          "hours": [
+                            5
+                          ],
+                          "minutes": [
+                            15
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "enabled": true,
+                  "targetResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                  "notifications": [
+                    {
+                      "operation": "Scale",
+                      "email": {
+                        "sendToSubscriptionAdministrator": true,
+                        "sendToSubscriptionCoAdministrators": true,
+                        "customEmails": [
+                          "gu@ms.com",
+                          "ge@ns.net"
+                        ]
+                      },
+                      "webhooks": [
+                        {
+                          "serviceUri": "http://myservice.com",
+                          "properties": {}
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "headers": {},
+                "body": {
+                  "id": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/microsoft.insights/autoscalesettings/MySetting",
+                  "name": "MySetting",
+                  "type": "Microsoft.Insights/autoscaleSettings",
+                  "location": "West US",
+                  "tags": {
+                    "$type": "Microsoft.WindowsAzure.Management.Common.Storage.CasePreservedDictionary, Microsoft.WindowsAzure.Management.Common.Storage"
+                  },
+                  "properties": {
+                    "profiles": [
+                      {
+                        "name": "adios",
+                        "capacity": {
+                          "minimum": "1",
+                          "maximum": "10",
+                          "default": "1"
+                        },
+                        "rules": [
+                          {
+                            "metricTrigger": {
+                              "metricName": "Percentage CPU",
+                              "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                              "timeGrain": "PT1M",
+                              "statistic": "Average",
+                              "timeWindow": "PT5M",
+                              "timeAggregation": "Average",
+                              "operator": "GreaterThan",
+                              "threshold": 10
+                            },
+                            "scaleAction": {
+                              "direction": "Increase",
+                              "type": "ChangeCount",
+                              "value": "1",
+                              "cooldown": "PT5M"
+                            }
+                          },
+                          {
+                            "metricTrigger": {
+                              "metricName": "Percentage CPU",
+                              "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                              "timeGrain": "PT2M",
+                              "statistic": "Average",
+                              "timeWindow": "PT5M",
+                              "timeAggregation": "Average",
+                              "operator": "GreaterThan",
+                              "threshold": 15
+                            },
+                            "scaleAction": {
+                              "direction": "Decrease",
+                              "type": "ChangeCount",
+                              "value": "2",
+                              "cooldown": "PT6M"
+                            }
+                          }
+                        ],
+                        "fixedDate": {
+                          "timeZone": "UTC",
+                          "start": "2015-03-05T14:00:00Z",
+                          "end": "2015-03-05T14:30:00Z"
+                        }
+                      },
+                      {
+                        "name": "saludos",
+                        "capacity": {
+                          "minimum": "1",
+                          "maximum": "10",
+                          "default": "1"
+                        },
+                        "rules": [
+                          {
+                            "metricTrigger": {
+                              "metricName": "Percentage CPU",
+                              "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                              "timeGrain": "PT1M",
+                              "statistic": "Average",
+                              "timeWindow": "PT5M",
+                              "timeAggregation": "Average",
+                              "operator": "GreaterThan",
+                              "threshold": 10
+                            },
+                            "scaleAction": {
+                              "direction": "Increase",
+                              "type": "ChangeCount",
+                              "value": "1",
+                              "cooldown": "PT5M"
+                            }
+                          },
+                          {
+                            "metricTrigger": {
+                              "metricName": "Percentage CPU",
+                              "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                              "timeGrain": "PT2M",
+                              "statistic": "Average",
+                              "timeWindow": "PT5M",
+                              "timeAggregation": "Average",
+                              "operator": "GreaterThan",
+                              "threshold": 15
+                            },
+                            "scaleAction": {
+                              "direction": "Decrease",
+                              "type": "ChangeCount",
+                              "value": "2",
+                              "cooldown": "PT6M"
+                            }
+                          }
+                        ],
+                        "recurrence": {
+                          "frequency": "Week",
+                          "schedule": {
+                            "timeZone": "UTC",
+                            "days": [
+                              "1"
+                            ],
+                            "hours": [
+                              5
+                            ],
+                            "minutes": [
+                              15
+                            ]
+                          }
+                        }
+                      }
+                    ],
+                    "enabled": true,
+                    "name": "MySetting",
+                    "targetResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                    "notifications": [
+                      {
+                        "operation": "Scale",
+                        "email": {
+                          "sendToSubscriptionAdministrator": true,
+                          "sendToSubscriptionCoAdministrators": true,
+                          "customEmails": [
+                            "gu@ms.com",
+                            "ge@ns.net"
+                          ]
+                        },
+                        "webhooks": [
+                          {
+                            "serviceUri": "http://myservice.com",
+                            "properties": {}
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "201": {
+                "headers": {},
+                "body": {
+                  "id": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/microsoft.insights/autoscalesettings/MySetting",
+                  "name": "MySetting",
+                  "type": "Microsoft.Insights/autoscaleSettings",
+                  "location": "West US",
+                  "tags": {
+                    "$type": "Microsoft.WindowsAzure.Management.Common.Storage.CasePreservedDictionary, Microsoft.WindowsAzure.Management.Common.Storage"
+                  },
+                  "properties": {
+                    "profiles": [
+                      {
+                        "name": "adios",
+                        "capacity": {
+                          "minimum": "1",
+                          "maximum": "10",
+                          "default": "1"
+                        },
+                        "rules": [
+                          {
+                            "metricTrigger": {
+                              "metricName": "Percentage CPU",
+                              "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                              "timeGrain": "PT1M",
+                              "statistic": "Average",
+                              "timeWindow": "PT5M",
+                              "timeAggregation": "Average",
+                              "operator": "GreaterThan",
+                              "threshold": 10
+                            },
+                            "scaleAction": {
+                              "direction": "Increase",
+                              "type": "ChangeCount",
+                              "value": "1",
+                              "cooldown": "PT5M"
+                            }
+                          },
+                          {
+                            "metricTrigger": {
+                              "metricName": "Percentage CPU",
+                              "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                              "timeGrain": "PT2M",
+                              "statistic": "Average",
+                              "timeWindow": "PT5M",
+                              "timeAggregation": "Average",
+                              "operator": "GreaterThan",
+                              "threshold": 15
+                            },
+                            "scaleAction": {
+                              "direction": "Decrease",
+                              "type": "ChangeCount",
+                              "value": "2",
+                              "cooldown": "PT6M"
+                            }
+                          }
+                        ],
+                        "fixedDate": {
+                          "timeZone": "UTC",
+                          "start": "2015-03-05T14:00:00Z",
+                          "end": "2015-03-05T14:30:00Z"
+                        }
+                      },
+                      {
+                        "name": "saludos",
+                        "capacity": {
+                          "minimum": "1",
+                          "maximum": "10",
+                          "default": "1"
+                        },
+                        "rules": [
+                          {
+                            "metricTrigger": {
+                              "metricName": "Percentage CPU",
+                              "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                              "timeGrain": "PT1M",
+                              "statistic": "Average",
+                              "timeWindow": "PT5M",
+                              "timeAggregation": "Average",
+                              "operator": "GreaterThan",
+                              "threshold": 10
+                            },
+                            "scaleAction": {
+                              "direction": "Increase",
+                              "type": "ChangeCount",
+                              "value": "1",
+                              "cooldown": "PT5M"
+                            }
+                          },
+                          {
+                            "metricTrigger": {
+                              "metricName": "Percentage CPU",
+                              "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                              "timeGrain": "PT2M",
+                              "statistic": "Average",
+                              "timeWindow": "PT5M",
+                              "timeAggregation": "Average",
+                              "operator": "GreaterThan",
+                              "threshold": 15
+                            },
+                            "scaleAction": {
+                              "direction": "Decrease",
+                              "type": "ChangeCount",
+                              "value": "2",
+                              "cooldown": "PT6M"
+                            }
+                          }
+                        ],
+                        "recurrence": {
+                          "frequency": "Week",
+                          "schedule": {
+                            "timeZone": "UTC",
+                            "days": [
+                              "1"
+                            ],
+                            "hours": [
+                              5
+                            ],
+                            "minutes": [
+                              15
+                            ]
+                          }
+                        }
+                      }
+                    ],
+                    "enabled": true,
+                    "name": "MySetting",
+                    "targetResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                    "notifications": [
+                      {
+                        "operation": "Scale",
+                        "email": {
+                          "sendToSubscriptionAdministrator": true,
+                          "sendToSubscriptionCoAdministrators": true,
+                          "customEmails": [
+                            "gu@ms.com",
+                            "ge@ns.net"
+                          ]
+                        },
+                        "webhooks": [
+                          {
+                            "serviceUri": "http://myservice.com",
+                            "properties": {}
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
         }
       },
       "delete": {
@@ -568,11 +1213,37 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "description": "Successful request to delete an autoscale setting"
           },
           "204": {
             "description": "No content: Successful request to delete an autoscale setting, but the response is intentionally empty"
+          }
+        },
+        "x-ms-examples": {
+          "Delete an autoscale setting": {
+            "parameters": {
+              "subscriptionId": "b67f7fec-69fc-4974-9099-a26bd6ffeda3",
+              "resourceGroupName": "TestingMetricsScaleSet",
+              "autoscaleSettingName": "MySetting",
+              "api-version": "2015-04-01"
+            },
+            "responses": {
+              "200": {
+                "headers": {},
+                "body": null
+              },
+              "204": {
+                "headers": {},
+                "body": null
+              }
+            }
           }
         }
       },
@@ -597,6 +1268,12 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
           "200": {
             "description": "Successful request to get one autoscale setting",
             "schema": {
@@ -752,6 +1429,209 @@
               }
             }
           }
+        },
+        "x-ms-examples": {
+          "Get an autoscale setting": {
+            "parameters": {
+              "subscriptionId": "b67f7fec-69fc-4974-9099-a26bd6ffeda3",
+              "resourceGroupName": "TestingMetricsScaleSet",
+              "autoscaleSettingName": "MySetting",
+              "api-version": "2015-04-01"
+            },
+            "responses": {
+              "200": {
+                "headers": {},
+                "body": {
+                  "id": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/microsoft.insights/autoscalesettings/MySetting",
+                  "name": "MySetting",
+                  "type": "Microsoft.Insights/autoscaleSettings",
+                  "location": "West US",
+                  "tags": {
+                    "$type": "Microsoft.WindowsAzure.Management.Common.Storage.CasePreservedDictionary, Microsoft.WindowsAzure.Management.Common.Storage"
+                  },
+                  "properties": {
+                    "profiles": [
+                      {
+                        "name": "adios",
+                        "capacity": {
+                          "minimum": "1",
+                          "maximum": "10",
+                          "default": "1"
+                        },
+                        "rules": [
+                          {
+                            "metricTrigger": {
+                              "metricName": "Percentage CPU",
+                              "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                              "timeGrain": "PT1M",
+                              "statistic": "Average",
+                              "timeWindow": "PT5M",
+                              "timeAggregation": "Average",
+                              "operator": "GreaterThan",
+                              "threshold": 10
+                            },
+                            "scaleAction": {
+                              "direction": "Increase",
+                              "type": "ChangeCount",
+                              "value": "1",
+                              "cooldown": "PT5M"
+                            }
+                          },
+                          {
+                            "metricTrigger": {
+                              "metricName": "Percentage CPU",
+                              "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                              "timeGrain": "PT2M",
+                              "statistic": "Average",
+                              "timeWindow": "PT5M",
+                              "timeAggregation": "Average",
+                              "operator": "GreaterThan",
+                              "threshold": 15
+                            },
+                            "scaleAction": {
+                              "direction": "Decrease",
+                              "type": "ChangeCount",
+                              "value": "2",
+                              "cooldown": "PT6M"
+                            }
+                          }
+                        ],
+                        "fixedDate": {
+                          "timeZone": "UTC",
+                          "start": "2015-03-05T14:00:00Z",
+                          "end": "2015-03-05T14:30:00Z"
+                        }
+                      },
+                      {
+                        "name": "saludos",
+                        "capacity": {
+                          "minimum": "1",
+                          "maximum": "10",
+                          "default": "1"
+                        },
+                        "rules": [
+                          {
+                            "metricTrigger": {
+                              "metricName": "Percentage CPU",
+                              "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                              "timeGrain": "PT1M",
+                              "statistic": "Average",
+                              "timeWindow": "PT5M",
+                              "timeAggregation": "Average",
+                              "operator": "GreaterThan",
+                              "threshold": 10
+                            },
+                            "scaleAction": {
+                              "direction": "Increase",
+                              "type": "ChangeCount",
+                              "value": "1",
+                              "cooldown": "PT5M"
+                            }
+                          },
+                          {
+                            "metricTrigger": {
+                              "metricName": "Percentage CPU",
+                              "metricResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                              "timeGrain": "PT2M",
+                              "statistic": "Average",
+                              "timeWindow": "PT5M",
+                              "timeAggregation": "Average",
+                              "operator": "GreaterThan",
+                              "threshold": 15
+                            },
+                            "scaleAction": {
+                              "direction": "Decrease",
+                              "type": "ChangeCount",
+                              "value": "2",
+                              "cooldown": "PT6M"
+                            }
+                          }
+                        ],
+                        "recurrence": {
+                          "frequency": "Week",
+                          "schedule": {
+                            "timeZone": "UTC",
+                            "days": [
+                              "1"
+                            ],
+                            "hours": [
+                              5
+                            ],
+                            "minutes": [
+                              15
+                            ]
+                          }
+                        }
+                      }
+                    ],
+                    "enabled": true,
+                    "name": "MySetting",
+                    "targetResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+                    "notifications": [
+                      {
+                        "operation": "Scale",
+                        "email": {
+                          "sendToSubscriptionAdministrator": true,
+                          "sendToSubscriptionCoAdministrators": true,
+                          "customEmails": [
+                            "gu@ms.com",
+                            "ge@ns.net"
+                          ]
+                        },
+                        "webhooks": [
+                          {
+                            "serviceUri": "http://myservice.com",
+                            "properties": {}
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "Updates an existing AutoscaleSettingsResource. To update other fields use the CreateOrUpdate method.",
+        "operationId": "AutoscaleSettings_Update",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AutoscaleSettingNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "autoscaleSettingResource",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AutoscaleSettingResourcePatch"
+            },
+            "description": "Parameters supplied to the operation."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "200": {
+            "description": "An existing autoscale setting resource was successfully updated.",
+            "schema": {
+              "$ref": "#/definitions/AutoscaleSettingResource"
+            }
+          }
         }
       }
     }
@@ -766,6 +1646,7 @@
         },
         "name": {
           "type": "string",
+          "readOnly": true,
           "description": "Azure resource name"
         },
         "type": {
@@ -775,7 +1656,11 @@
         },
         "location": {
           "type": "string",
-          "description": "Resource location"
+          "description": "Resource location",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
         },
         "tags": {
           "additionalProperties": {
@@ -1151,8 +2036,7 @@
     },
     "AutoscaleSetting": {
       "required": [
-        "profiles",
-        "name"
+        "profiles"
       ],
       "properties": {
         "profiles": {
@@ -1204,6 +2088,21 @@
       },
       "description": "The autoscale setting resource."
     },
+    "AutoscaleSettingResourcePatch": {
+      "description": "The autoscale setting object for patch operations.",
+      "properties": {
+        "tags": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags"
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/AutoscaleSetting"
+        }
+      }
+    },
     "AutoscaleSettingResourceCollection": {
       "properties": {
         "value": {
@@ -1222,6 +2121,20 @@
         "value"
       ],
       "description": "Represents a collection of autoscale setting resources."
+    },
+    "ErrorResponse": {
+      "description": "Describes the format of Error response.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message indicating why the operation failed.",
+          "type": "string"
+        }
+      }
     }
   },
   "parameters": {
@@ -1245,14 +2158,6 @@
       "required": true,
       "type": "string",
       "description": "The name of the resource group.",
-      "x-ms-parameter-location": "method"
-    },
-    "FilterParameter": {
-      "name": "$filter",
-      "in": "query",
-      "required": false,
-      "type": "string",
-      "description": "The filter to apply on the operation. For more information please see https://msdn.microsoft.com/en-us/library/azure/dn931934.aspx",
       "x-ms-parameter-location": "method"
     },
     "AutoscaleSettingNameParameter": {

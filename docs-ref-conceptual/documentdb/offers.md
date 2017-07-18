@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-12-13"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -27,18 +27,13 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Offers
-  The DocumentDB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the operations that can be executed on a DocumentDB offer.  
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the Azure Cosmos DB API for Azure Cosmos DB. 
+
+The Azure Cosmos DB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the operations that can be executed on an Azure Cosmos DB offer. Each Azure Cosmos DB collection is provisioned with an associated performance level represented as an **Offer** resource in the REST model. Azure Cosmos DB supports offers representing both user-defined performance levels and pre-defined performance levels. Each offer has an associated request unit (RU) rate limit. This is the throughput that will be reserved for a collection based on its performance level, and is available for use by that collection exclusively.  
   
- Each DocumentDB collection is provisioned with an associated performance level represented as an **Offer** resource in the REST model. DocumentDB supports offers representing both user-defined performance levels and pre-defined performance levels. Each offer has an associated request unit (RU) rate limit. This is the throughput that will be reserved for a collection based on its performance level, and is available for use by that collection exclusively.  
+The offer resource is represented by offers in the Cosmos DB resource model. Here’s an example of the URI: https://mydbaccount.documents.azure.com/offers.  
   
-||Details|Throughput Limits|Storage Limits|Version|APIs|  
-|-|-------------|-----------------------|--------------------|-------------|----------|  
-|User-defined performance|Unlimited|Unlimited|V2|API 2015-12-16 and newer|  
-|Pre-defined performance|10 GB reserved storage.<br /><br /> S1 = 250 RU/s, S2 = 1000 RU/s, S3 = 2500 RU/s|2500 RU/s|10 GB|V1|Any|  
-  
-The offer resource is represented by offers in the DocumentDB resource model. Here’s an example of the URI: https://mydbaccount.documents.azure.com/offers.  
-  
- The following example illustrates the JSON construct of an offer with user-defined throughput (V2):  
+The following example illustrates the JSON construct of an offer with user-defined throughput (V2):  
   
 ```  
 {  
@@ -58,28 +53,10 @@ The offer resource is represented by offers in the DocumentDB resource model. He
   
 ```  
   
- The following example illustrates the JSON construct of an offer with pre-defined throughput (V1):  
-  
-```  
-{  
-  "offerVersion": "V1",  
-  "_rid": "4P74",  
-  "offerType": "S2",  
-  "resource": "dbs/LfcsAA==/colls/LfcsAIZufQw=/",  
-  "offerResourceId": "LfcsAIZufQw=",  
-  "id": "4P74",  
-  "_self": "offers/4P74/",  
-  "_etag": "\"00009700-0000-0000-0000-56fa9ac20000\"",  
-  "_ts": 1459264194  
-}  
-  
-```  
-  
 |Property|Description|  
 |--------------|-----------------|  
-|**offerVersion**|**Required**. This can be V1 for pre-defined throughput levels and V2 for user-defined throughput levels.|  
-|**offerType**|**Required**. This is a user settable property, which must be set to S1, S2, or S3 for pre-defined performance levels, and Invalid for user-defined performance levels.|  
-|**content**|**Required** for V2. Contains information about the offer – for V2 offers, this contains the throughput of the collection.|  
+|**offerVersion**|**Required**. `V2` is the current version for request unit based throughput.|  
+|**content**|**Required**. Contains information about the offer – for V2 offers, this contains the throughput of the collection.|  
 |**resource**|**Required**. When creating a new collection, this property is set to the self-link of the collection e.g. dbs/pLJdAA==/colls/pLJdAOlEdgA=/.|  
 |**offerResourceId**|**Required**. During creation of a collection, this property is automatically associated to the resource id, i.e. **_rid** of the collection.  In the example above, the **_rid** for the collection is  pLJdAOlEdgA=.|  
 |**id**|This is a system generated property. The **id** for the offer resource is automatically generated when it is created. It has the same value as the **_rid** for the offer.|  
@@ -92,23 +69,21 @@ The offer resource is represented by offers in the DocumentDB resource model. He
   
 |Property|Description|  
 |--------------|-----------------|  
-|**offerThroughput**|**Required**. The provisioned throughput in request units per second as a number. Must be in multiple of 100.<br /><br /> For partitioned collections (with a partition key in the definition), this can be between 10,100 and 250,000 request units per second or higher by request.<br /><br /> For single-partition collections (without a partition key in the definition), this can be between 400 and 10,000 request units per second.|  
+|**offerThroughput**|**Required**. The provisioned throughput in request units per second as a number. <br/> Must be in multiple of 100, starting at 2500.<br />For collections without a partition key, valid between 400-10000. <br/>|  
   
 ## Tasks  
  You can do the following with offers:  
   
 -   [Get an Offer](get-an-offer.md)  
-  
 -   [List Offers](list-offers.md)  
-  
 -   [Replace an Offer](replace-an-offer.md)  
-  
 -   [Querying Offers](querying-offers.md)  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
+ [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
  [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+ [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
  [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
+

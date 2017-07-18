@@ -6,7 +6,8 @@ ms.author: gwallace
 ms.date: 03/09/17
 ms.topic: reference
 ms.service: Azure
-ms.devlang: rest-api 
+ms.devlang: rest-api
+service_description: To be added
 ---
 
 # Azure Advisor REST API

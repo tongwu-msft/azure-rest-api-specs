@@ -5,6 +5,7 @@ ms.service: analysis-services
 author: mmacy
 ms.author: marsma
 ms.manager: timlt
+service_description: To be added
 ---
 
 # Azure Analysis Services REST API

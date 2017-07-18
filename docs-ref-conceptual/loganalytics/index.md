@@ -5,6 +5,7 @@ ms.service: LogAnalytics
 author: bwren
 ms.author: bwren
 ms.manager: carmon
+service_description: To be added
 ---
 
 # Log Analytics REST API Reference

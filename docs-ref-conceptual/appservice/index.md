@@ -5,6 +5,7 @@ ms.service: app-service
 author: cephalin
 ms.author: cephalin
 ms.manager: erikre
+service_description: To be added
 ---
 
 # Azure App Service

@@ -81,9 +81,9 @@ Azure API Management provides a REST API for performing operations on selected e
 ###  <a name="Authentication"></a> Authentication  
  Each request to the API Management REST API must be accompanied by an `Authorization` header containing a valid shared access token, as shown in the following example.  
   
-```  
+```
 Authorization: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T22:03:00.0000000Z&sn=ItH6scUyCazNKHULKA0Yv6T+Skk4bdVmLqcPPPdWoxl2n1+rVbhKlplFrqjkoUFRr0og4wjeDz4yfThC82OjfQ==  
-```  
+```
   
  This access token can be generated programmatically or from within the API Management publisher portal. For instructions on generating and retrieving the access token, see [To manually create an access token](../ApiManagementREST/Azure-API-Management-REST-API-Authentication.md#ManuallyCreateToken) and [To programmatically create an access token](../ApiManagementREST/Azure-API-Management-REST-API-Authentication.md#ProgrammaticallyCreateToken).  
   
@@ -111,7 +111,8 @@ Authorization: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T
   
 |Version|Description|  
 |-------------|-----------------|  
-|`2014-02-14-preview`|Initial public release of the API Management REST API.|  
+|`2017-03-01`|Added support for Service Fabric backend in the backend entity.|  
+|`2014-02-14-preview`|Initial public release of the API Management REST API.| 
   
 ## In this section  
   

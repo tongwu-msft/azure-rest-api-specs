@@ -1,4 +1,4 @@
----
+﻿---
 title: "Create or update an Azure virtual machine | Microsoft Docs"
 author: davidmu1
 ms.date: 2017-02-06
@@ -31,7 +31,7 @@ For information about getting started with Azure REST operations including reque
 
  The following example shows the request body for creating a virtual machine from a platform image. For examples of creating virtual machines in other ways, see the Examples section below.    
     
-```    
+```json
 {
   "name": "myvm1",
   "location": "westus",
@@ -405,7 +405,7 @@ Status code: 200 (OK). 404 (NotFound) if a resource does not exist.
     
 The following example shows the response body for a virtual machine that was created from a platform image. Responses from other create operations will include the elements shown in the following Examples section.    
     
-```    
+```json
 {      
   "id":"/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/virtualMachines/myvm1",    
   "name":"myvm1",     
@@ -492,7 +492,7 @@ The provisioningState element specifies the status of the virtual machine deploy
 
 ### Create a managed VM
 
-```
+```json
 "storageProfile": {
   "imageReference": {
     "publisher":"MicrosoftWindowsServerEssentials",    
@@ -514,7 +514,7 @@ The provisioningState element specifies the status of the virtual machine deploy
 
 This example shows how to create a VM from a virtual machine image. The key things to notice are the value fromImage for the createOption property and the imageReference.id property. The imageRefence.id value is the resource identifier of a virtual machine image in your subscription.
 
-```
+```json
 "storageProfile": {
   "imageReference": {
     "id": "/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/images/myImage"
@@ -529,7 +529,7 @@ This example shows how to create a VM from a virtual machine image. The key thin
 
 ### Create a VM from a virtual machine image with an attached managed disk
 
-```
+```json
 {
   "storageProfile": {
     "imageReference": {
@@ -562,7 +562,7 @@ This example shows how to create a VM from a virtual machine image. The key thin
 
 This example shows how to create a VM from a generalized/sysprepped VHD in Azure storage. The key things to notice are the value fromImage for the createOption property and image.uri and vhd.uri properties in the osDisk object. image.uri is the location of your image and vhd.uri is where the disk is copied to and the VM is booted from.
 
-```
+```json
 "osProfile": {
     "computerName": "contosoVM",
     "adminUsername": "contosouser",
@@ -604,7 +604,7 @@ This example shows how to create a VM from an existing disk. The key things to n
 
 In this case osProfile is not needed since all OS properties such as username/password as persisted in the VHD when it is not generalized.
 
-```
+```json
 "storageProfile": {
   "osDisk": {
     "name": "osdisk",
@@ -622,7 +622,7 @@ In this case osProfile is not needed since all OS properties such as username/pa
 
 The following example shows the additional plan element that is required when you use a marketplace image:
 
-```
+```json
 {
   "id": "/subscriptions/{subscription-id/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/virtualMachines/myvm1",
   "name": "myvm1",
@@ -644,7 +644,7 @@ The following example shows the additional plan element that is required when yo
 
 The following example shows the linuxConfiguation element that is required when you are creating a Linux virtual machine.
 
-```
+```json
 "osProfile": {
   "computerName": "virtualMachineName",
   "adminUsername": "username",
@@ -666,7 +666,7 @@ The following example shows the linuxConfiguation element that is required when 
 
 The following example shows the licenseType element that is used when the image or disk was licensed on-premises.
 
-```
+```json
 "properties": {  
    "licenseType": "Windows_Server",
    "availabilitySet": {  

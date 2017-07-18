@@ -4,7 +4,7 @@ ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "documentdb"
+ms.service: "cosmos-db"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -27,19 +27,17 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Documents
-  The DocumentDB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the REST operations used to manage DocumentDB documents.  
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the Azure Cosmos DB API for Azure Cosmos DB. The Azure Cosmos DB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the REST operations used to manage Azure Cosmos DB documents.  
   
- The document resource is represented by docs in the DocumentDB resource model. A document consists of user-defined content in JSON format. Aside from the required id property, users can define any arbitrary elements, structures, and hierarchies for the content. The id element is a unique string that is user-settable and must not exceed 255 characters. You can insert, replace, delete, read, enumerate and query arbitrary JSON documents in a collection.  
+The document resource is represented by `docs` in the Azure Cosmos DB resource model. A document consists of user-defined content in JSON format. Aside from the required id property, users can define any arbitrary elements, structures, and hierarchies for the content. The id element is a unique string that is user-settable and must not exceed 255 characters. You can insert, replace, delete, read, enumerate and query arbitrary JSON documents in a collection.  
   
- DocumentDB does not mandate any schema and does not require secondary indexes in order to support querying over documents in a collection. By default, documents are automatically and indexed in a consistent manner, thus making a document queryable as soon as it is created  
+Cosmos DB does not require any schema or secondary indexes in order to support querying over documents in a collection. By default, documents are automatically and indexed in a consistent manner, thus making a document queryable as soon as it is created.
   
--   Documents are stored within collections. For more information on collections, see [Collections](collections.md).  
-  
+-   Documents are stored within collections. For more information on collections, see [Collections](collections.md).   
 -   A document can contain one or more attachments. For more information on attachments, see [Attachments](attachments.md).  
-  
 -   User access to documents can be managed via permissions. For more information on permissions, see [Permissions](permissions.md).  
   
- This sample JSON document shows the entry for a volcano in a DocumentDB collection. The entry includes the volcano name, location information including geospatial data, and system defined elements such as _rid, _ts, _self, _etag, and _attachments.  
+This sample JSON document shows the entry for a volcano in a DocumentDB collection. The entry includes the volcano name, location information including geospatial data, and system defined elements such as _rid, _ts, _self, _etag, and _attachments.  
   
 ```  
 {  
@@ -67,8 +65,6 @@ translation.priority.mt:
   
 ```  
   
- If the collection is **partitioned**, i.e. includes a partitionKey configuration, then the primary key for documents within the collection is the compound value of partition key value and “id”. If the collection is not partitioned, then “id” alone acts as the primary and will be unique for all values within the collection. For example, if the partition key of the collection is the path “/department”, then the value of “id” must be unique for documents which have the same value of “department”, for e.g. “Marketing”.  
-  
 |Property|Description|  
 |--------------|-----------------|  
 |**id**|Required. This is a user settable property. It is the unique name that identifies the document, i.e. no two documents will share the same id within a database. The **id** must not exceed 255 characters.|  
@@ -93,10 +89,12 @@ translation.priority.mt:
   
 -   [Query Documents](query-documents.md)  
   
-## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+## See also  
+* [DocumentDB documentation](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
+* [Azure DocumentDB Reference Documentation](index.md)   
+* [Azure Cosmos DB SDKs](https://docs.microsoft.com/azure/documentdb/documentdb-sdk-dotnet)    
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+
   
   
+
