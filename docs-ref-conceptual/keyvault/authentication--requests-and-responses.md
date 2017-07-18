@@ -5,7 +5,7 @@ title: Authentication, requests and responses
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 07/03/2017
+ms.date: 07/18/2017
 ---
 # Authentication, requests, and responses
 Azure Key Vault supports JSON formatted requests and responses. Requests to the Azure Key Vault are directed to a valid Azure Key Vault URL using HTTPS with some URL parameters and JSON encoded request and response bodies.
@@ -78,7 +78,11 @@ This topic covers specifics for the Azure Key Vault service. For general informa
 ```  
 
 ## Authentication  
- All requests to Azure Key Vault MUST be authenticated. Azure Key Vault supports Azure Active Directory access tokens that may be obtained using OAuth2 [[RFC6749](http://tools.ietf.org/html/rfc6749)]. Access tokens must be sent to the service using the HTTP Authorization header:  
+ All requests to Azure Key Vault MUST be authenticated. Azure Key Vault supports Azure Active Directory access tokens that may be obtained using OAuth2 [[RFC6749](http://tools.ietf.org/html/rfc6749)]. 
+ 
+ For more information on registering your application and authenticating to use Azure Key Vault, see [Register your client application with Azure AD](https://docs.microsoft.com/rest/api/index#register-your-client-application-with-azure-ad).
+ 
+ Access tokens must be sent to the service using the HTTP Authorization header:  
 
 ```  
 PUT /keys/MYKEY?api-version=<api_version>  HTTP/1.1  
