@@ -33,7 +33,7 @@ The DocumentDB REST API supports basic CRUD operations on the resources under a 
   
 A collection maps to a container in Azure Cosmos DB. Therefore, it is a billable entity, where the cost is determined by the provisioned throughput expressed in request units per second. Collections can span one or more partitions/servers and scaled up and down in terms of throughput. Collections are automatically partitioned into one or more physical servers by Azure Cosmos DB. 
 
-Since a collection is a system resource, it has a fixed schema. A collection's URI path is represented by colls in the [resource model](http://azure.microsoft.com/documentation/articles/documentdb-resources/).  
+Since a collection is a system resource, it has a fixed schema. A collection's URI path is represented by colls in the [resource model](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources).  
   
 The following example illustrates the JSON definition of a collection:  
   

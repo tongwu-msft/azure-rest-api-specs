@@ -161,7 +161,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  The `Put Page` operation writes a range of pages to a page blob. This operation can only be called on an existing page blob. It cannot be called to create a new page blob, nor can it be called on a block blob. Calling `Put Page` with a blob name that does not currently exist returns the BlobNotFound error (HTTP status code 404 – Not Found).  
   
- To create a new page blob, call [Put Blob](Put-Blob.md) and specify the type of blob to create as a page blob. A page blob may be up to 1 TB in size.  
+ To create a new page blob, call [Put Blob](Put-Blob.md) and specify the type of blob to create as a page blob. A page blob may be up to 8 TB in size.  
   
  If the blob has an active lease, the client must specify a valid lease ID on the request in order to write a page.  
   

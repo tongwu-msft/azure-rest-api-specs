@@ -1,7 +1,7 @@
 ---
 title: "Get the model view of a set"
 ms.custom: ""
-ms.date: "2017-02-07"
+ms.date: "2017-07-07"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "virtual-machines"
@@ -12,8 +12,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
 ms.assetid: 976bc11f-3f95-43c5-a154-2bd0844565da
 caps.latest.revision: 10
-ms.author: "davidmu"
-manager: "timlt"
+ms.author: "narayan"
+manager: "anavin"
 ---
 # Get the model view of a set
 Retrieves information about the model  view of a virtual machine scale set.    
@@ -31,7 +31,7 @@ For information about getting started with Azure REST operations including reque
 | subscriptionId | The identifier of your subscription. |
 | resourceGroup | The resource group that contains the scale set. |
 | vmScaleSet | The name of the scale set. |
-| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |
+| apiVersion | The version of the API to use. The current version is 2017-03-30. |
 
 ## Response    
 
@@ -146,10 +146,23 @@ Status code: 200 (OK).
         "networkInterfaceConfigurations": [ {    
           "name": "nicconfig1",    
           "properties": {    
-            "primary": true,    
+            "primary": true,
+            "enableAcceleratedNetworking": false,
+              "networkSecurityGroup": {
+                "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"
+              },
+              "dnsSettings": {
+                "dnsServers": [10.0.0.5, 10.0.0.6]
+              },
             "ipConfigurations": [ {    
               "name": "ipconfig1",    
-              "properties": {    
+              "properties": {
+                "publicIPAddressConfiguration": {
+                      "name": "mypublicip1",
+                      "properties": {
+                        "idleTimeoutInMinutes": 15
+                      }
+                    },  
                 "subnet": {     
                   "id": "/subscriptions/{sub-id}/resourceGroups/myrg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"     
                 },    
@@ -342,14 +355,18 @@ Status code: 200 (OK).
 |Element name|Description|    
 |------------------|-----------------|    
 |name|Specifies the name of the network interface configuration.|    
-|primary|Indicates whether network interfaces created from the network interface configuration will be the primary NIC of the VM.|    
+|primary|Indicates whether network interfaces created from the network interface configuration will be the primary NIC of the VM.|
+|enableAcceleratedNetworking| Specifies if Accelerated Networking is enabled for the scale set.|
+|networkSecurityGroup| Specifies the NSG associated with the scale set.|    
+|dnsSettings| Specifies the DNS setting applied to the scaleset|
 |[ipConfigurations](#ipConfigurations)|Specifies the IP configurations of the network interface.|    
     
 ###  <a name="ipConfigurations"></a> ipConfigurations    
     
 |Element name|Description|    
 |------------------|-----------------|    
-|name|Specifies name of the IP configuration.|    
+|name|Specifies name of the IP configuration.|
+|publicIPAddressConfiguration| Specifies the public IP address associated to the scaleset.|
 |subnet|Specifies the identifier of the subnet.|    
 |loadBalancerBackendAddressPools|Specifies an array of references to backend address pools of load balancers. A scale set can reference backend address pools of one public and one internal load balancer.|    
 |loadBalancerInboundNatPools|Specifies an array of references to inbound Nat pools of the load balancers. A scale set can reference backend address pools of one public and one internal load balancer.|    

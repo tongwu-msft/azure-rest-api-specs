@@ -1,19 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
+    "version": "2017-03-01",
     "title": "ApiManagementClient",
-    "description": "Use these REST APIs for performing operations on User entity in Azure API Management deployment. The User entity in API Management represents the developers that call the APIs of the products to which they are subscribed.",
-    "version": "2016-10-10"
+    "description": "Use these REST APIs for performing operations on User entity in Azure API Management deployment. The User entity in API Management represents the developers that call the APIs of the products to which they are subscribed."
   },
   "host": "management.azure.com",
   "schemes": [
     "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
   ],
   "security": [
     {
@@ -39,8 +33,33 @@
         "tags": [
           "UserIdentities"
         ],
-        "operationId": "UserIdentities_ListByUsers",
+        "operationId": "UserIdentities_List",
         "description": "Lists all user identities.",
+        "x-ms-examples": {
+          "ApiManagementListUsersIdentities": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "uid": "57f2af53bb17172280f44057"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "provider": "Microsoft",
+                      "id": "086cf9********55ab"
+                    }
+                  ],
+                  "count": 1,
+                  "nextLink": ""
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -68,10 +87,16 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     }
   },
@@ -94,11 +119,6 @@
           },
           "description": "Page values."
         },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Total record count number across all pages."
-        },
         "nextLink": {
           "type": "string",
           "description": "Next page link if any."
@@ -108,10 +128,21 @@
     },
     "UserContract": {
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "User identifier path."
-        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/UserContractProperties",
+          "description": "User entity contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "User details."
+    },
+    "UserContractProperties": {
+      "properties": {
         "firstName": {
           "type": "string",
           "description": "First name."
@@ -124,49 +155,44 @@
           "type": "string",
           "description": "Email address."
         },
-        "state": {
-          "type": "string",
-          "description": "User state.",
-          "enum": [
-            "Active",
-            "Blocked"
-          ],
-          "x-ms-enum": {
-            "name": "UserStateContract",
-            "modelAsString": false
-          }
-        },
         "registrationDate": {
           "type": "string",
           "format": "date-time",
           "description": "Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
         },
-        "note": {
-          "type": "string",
-          "description": "Administrator's note about given user."
-        },
-        "identities": {
+        "groups": {
           "readOnly": true,
           "type": "array",
           "items": {
-            "$ref": "#/definitions/UserIdentityContract"
+            "$ref": "#/definitions/GroupContract"
           },
-          "description": "Collection of user identities."
+          "description": "Collection of groups user is part of."
         }
       },
+      "allOf": [
+        {
+          "$ref": "#/definitions/UserEntityBaseParameters"
+        }
+      ],
       "description": "User profile."
     },
     "UserCreateParameters": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/UserCreateParameterProperties",
+          "description": "User entity create contract properties."
+        }
+      },
+      "description": "User create details."
+    },
+    "UserCreateParameterProperties": {
       "properties": {
         "email": {
           "type": "string",
           "description": "Email address. Must not be empty and must be unique within the service instance.",
           "minLength": 1,
           "maxLength": 254
-        },
-        "password": {
-          "type": "string",
-          "description": "User Password."
         },
         "firstName": {
           "type": "string",
@@ -180,31 +206,52 @@
           "minLength": 1,
           "maxLength": 100
         },
+        "password": {
+          "type": "string",
+          "description": "User Password. If no value is provided, a default password is generated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/UserEntityBaseParameters"
+        }
+      ],
+      "required": [
+        "email",
+        "firstName",
+        "lastName"
+      ],
+      "description": "Parameters supplied to the Create User operation."
+    },
+    "UserEntityBaseParameters": {
+      "properties": {
         "state": {
           "type": "string",
           "description": "Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.",
           "enum": [
-            "Active",
-            "Blocked"
+            "active",
+            "blocked"
           ],
-          "default": "Active",
+          "default": "active",
           "x-ms-enum": {
-            "name": "UserStateContract",
+            "name": "UserState",
             "modelAsString": false
           }
         },
         "note": {
           "type": "string",
           "description": "Optional note about a user set by the administrator."
+        },
+        "identities": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserIdentityContract"
+          },
+          "description": "Collection of user identities."
         }
       },
-      "required": [
-        "email",
-        "password",
-        "firstName",
-        "lastName"
-      ],
-      "description": "Parameters supplied to the Create User operation."
+      "description": "User Entity Base Parameters set."
     },
     "UserIdentityCollection": {
       "properties": {
@@ -214,6 +261,15 @@
             "$ref": "#/definitions/UserIdentityContract"
           },
           "description": "User Identity values."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total record count number across all pages."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
         }
       },
       "description": "List of Users Identity list representation."
@@ -242,7 +298,7 @@
           ],
           "default": "primary",
           "x-ms-enum": {
-            "name": "KeyTypeContract",
+            "name": "KeyType",
             "modelAsString": false
           }
         },
@@ -269,13 +325,25 @@
     },
     "UserUpdateParameters": {
       "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/UserUpdateParametersProperties",
+          "description": "User entity update contract properties."
+        }
+      },
+      "description": "User update parameters."
+    },
+    "UserUpdateParametersProperties": {
+      "properties": {
         "email": {
           "type": "string",
-          "description": "Email address."
+          "description": "Email address. Must not be empty and must be unique within the service instance.",
+          "minLength": 1,
+          "maxLength": 254
         },
         "password": {
           "type": "string",
-          "description": "Password."
+          "description": "User Password."
         },
         "firstName": {
           "type": "string",
@@ -288,25 +356,118 @@
           "description": "Last name.",
           "minLength": 1,
           "maxLength": 100
-        },
-        "state": {
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/UserEntityBaseParameters"
+        }
+      ],
+      "description": "Parameters supplied to the Update User operation."
+    },
+    "PolicyContractProperties": {
+      "properties": {
+        "policyContent": {
           "type": "string",
-          "description": "Account state.",
+          "description": "Xml Encoded contents of the Policy."
+        }
+      },
+      "required": [
+        "policyContent"
+      ],
+      "description": "Policy contract Properties."
+    },
+    "PolicyContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PolicyContractProperties",
+          "description": "Properties of the Policy."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Policy Contract details."
+    },
+    "GroupContractProperties": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Group name.",
+          "maxLength": 300,
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "Group description. Can contain HTML formatting tags.",
+          "maxLength": 1000
+        },
+        "builtIn": {
+          "readOnly": true,
+          "type": "boolean",
+          "description": "true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false."
+        },
+        "type": {
+          "type": "string",
+          "description": "Group type.",
           "enum": [
-            "Active",
-            "Blocked"
+            "custom",
+            "system",
+            "external"
           ],
           "x-ms-enum": {
-            "name": "UserStateContract",
+            "name": "GroupType",
             "modelAsString": false
           }
         },
-        "note": {
+        "externalId": {
           "type": "string",
-          "description": "Note about user."
+          "description": "For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null."
         }
       },
-      "description": "Parameters supplied to the Update User operation."
+      "required": [
+        "displayName"
+      ],
+      "description": "Developer group."
+    },
+    "GroupContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/GroupContractProperties",
+          "description": "Group entity contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Contract details."
+    },
+    "Resource": {
+      "description": "The Resource definition.",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "Resource name.",
+          "readOnly": true
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type for API Management resource."
+        }
+      }
     },
     "ErrorFieldContract": {
       "properties": {
@@ -325,7 +486,7 @@
       },
       "description": "Error Field contract."
     },
-    "ErrorBodyContract": {
+    "ErrorResponse": {
       "properties": {
         "code": {
           "type": "string",
@@ -345,13 +506,8 @@
       },
       "description": "Error Body contract."
     },
-    "SubscriptionContract": {
+    "SubscriptionContractProperties": {
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Uniquely identifies the subscription within the current API Management service instance. The value is a valid relative URL in the format of /subscriptions/{sid} where {sid} is a subscription identifier.",
-          "readOnly": true
-        },
         "userId": {
           "type": "string",
           "description": "The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{uid} where {uid} is a user identifier."
@@ -360,7 +516,7 @@
           "type": "string",
           "description": "The product resource identifier of the subscribed product. The value is a valid relative URL in the format of /products/{productId} where {productId} is a product identifier."
         },
-        "name": {
+        "displayName": {
           "type": "string",
           "description": "The name of the subscription, or null if the subscription has no name.",
           "minLength": 0,
@@ -370,15 +526,15 @@
           "type": "string",
           "description": "Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.",
           "enum": [
-            "Suspended",
-            "Active",
-            "Expired",
-            "Submitted",
-            "Rejected",
-            "Cancelled"
+            "suspended",
+            "active",
+            "expired",
+            "submitted",
+            "rejected",
+            "cancelled"
           ],
           "x-ms-enum": {
-            "name": "SubscriptionStateContract",
+            "name": "SubscriptionState",
             "modelAsString": false
           }
         },
@@ -425,6 +581,28 @@
           "description": "Optional subscription comment added by an administrator."
         }
       },
+      "required": [
+        "userId",
+        "productId",
+        "state",
+        "primaryKey",
+        "secondaryKey"
+      ],
+      "description": "Subscription details."
+    },
+    "SubscriptionContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/SubscriptionContractProperties",
+          "description": "Subscription contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
       "description": "Subscription details."
     },
     "SubscriptionCollection": {
@@ -436,65 +614,12 @@
           },
           "description": "Page values."
         },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Total record count number across all pages."
-        },
         "nextLink": {
           "type": "string",
           "description": "Next page link if any."
         }
       },
       "description": "Paged Subscriptions list representation."
-    },
-    "GroupContract": {
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Uniquely identifies the group within the current API Management service instance. The value is a valid relative URL in the format of /groups/{groupid} where {groupid} is a group identifier.",
-          "readOnly": true
-        },
-        "name": {
-          "type": "string",
-          "description": "Group name.",
-          "maxLength": 300,
-          "minLength": 1
-        },
-        "description": {
-          "type": "string",
-          "description": "Group description. Can contain HTML formatting tags.",
-          "maxLength": 1000
-        },
-        "builtIn": {
-          "readOnly": true,
-          "type": "boolean",
-          "description": "true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false."
-        },
-        "type": {
-          "type": "string",
-          "description": "Group type.",
-          "readOnly": true,
-          "enum": [
-            "Custom",
-            "System",
-            "External"
-          ],
-          "x-ms-enum": {
-            "name": "GroupTypeContract",
-            "modelAsString": false
-          }
-        },
-        "externalId": {
-          "type": "string",
-          "description": "For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "name"
-      ],
-      "description": "Developer group."
     },
     "GroupCollection": {
       "properties": {
@@ -504,11 +629,6 @@
             "$ref": "#/definitions/GroupContract"
           },
           "description": "Page values."
-        },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Total record count number across all pages."
         },
         "nextLink": {
           "type": "string",
@@ -583,5 +703,6 @@
       "minimum": 1,
       "x-ms-parameter-location": "method"
     }
-  }
+  },
+  "x-internal-toc-name": "User Identities"
 }
