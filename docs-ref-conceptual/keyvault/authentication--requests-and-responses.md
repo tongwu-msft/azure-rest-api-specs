@@ -2,15 +2,16 @@
 ms.assetid: 4c321939-8a5b-42ca-83c4-2f5f647ca13e
 ms.service: key-vault
 title: Authentication, requests and responses
+description: Authenticate to AD for using Key Vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 07/03/2017
+ms.date: 07/18/2017
 ---
 # Authentication, requests, and responses
 Azure Key Vault supports JSON formatted requests and responses. Requests to the Azure Key Vault are directed to a valid Azure Key Vault URL using HTTPS with some URL parameters and JSON encoded request and response bodies.
 
-This topic covers specifics for the Azure Key Vault service. For general information on using Azure REST interfaces, see [Azure REST API Reference](https://docs.microsoft.com/rest/api/).
+This topic covers specifics for the Azure Key Vault service. For general information on using Azure REST interfaces, including authentication/authorization and how to acquire an access token, see [Azure REST API Reference](https://docs.microsoft.com/rest/api/).
 
 ## Request URL  
  Key management operations use HTTP DELETE, GET, PATCH, PUT and HTTP POST and cryptographic operations against existing key objects use HTTP POST. Clients that cannot support specific HTTP verbs may also use HTTP POST using the X-HTTP-REQUEST header to specify the intended verb; requests that do not normally require a body should include an empty body when using HTTP POST, for example when using POST instead of DELETE.  
@@ -78,7 +79,11 @@ This topic covers specifics for the Azure Key Vault service. For general informa
 ```  
 
 ## Authentication  
- All requests to Azure Key Vault MUST be authenticated. Azure Key Vault supports Azure Active Directory access tokens that may be obtained using OAuth2 [[RFC6749](http://tools.ietf.org/html/rfc6749)]. Access tokens must be sent to the service using the HTTP Authorization header:  
+ All requests to Azure Key Vault MUST be authenticated. Azure Key Vault supports Azure Active Directory access tokens that may be obtained using OAuth2 [[RFC6749](http://tools.ietf.org/html/rfc6749)]. 
+ 
+ For more information on registering your application and authenticating to use Azure Key Vault, see [Register your client application with Azure AD](https://docs.microsoft.com/rest/api/index#register-your-client-application-with-azure-ad).
+ 
+ Access tokens must be sent to the service using the HTTP Authorization header:  
 
 ```  
 PUT /keys/MYKEY?api-version=<api_version>  HTTP/1.1  
