@@ -24,8 +24,8 @@ For information on the `{filter-syntax}` parameter common to many Azure Monitor 
 | [Incidents](~/docs-ref-autogen/monitor/incidents.json)                                   | Gets a list of incidents associated to an alert rule. |
 | [Autoscale Settings](~/docs-ref-autogen/monitor/autoscalesettings.json)                  | Provides operations for managing autoscale settings.     |
 | [Activity Log Event Categories](~/docs-ref-autogen/monitor/eventcategories.json)         | Lists the types of Activity Log Entries. |
-| [Activity Log Events](~/docs-ref-autogen/monitor/events.json)                            | Lists Activity Log events.|
-| [Activity Log Tenant Events](~/docs-ref-autogen/monitor/tenantevents.json)               | Provides the list of tenant events.|
+| [Activity Log Events](~/docs-ref-autogen/monitor/activitylogs.json)                            | Lists Activity Log events.|
+| [Activity Log Tenant Events](~/docs-ref-autogen/monitor/tenantactivitylogs.json)               | Provides the list of tenant events.|
 | [Log Profiles](~/docs-ref-autogen/monitor/logprofiles.json)                              | Provides operations for managing log profiles.  |
 | [Metric Definitions](~/docs-ref-autogen/monitor/metricdefinitions.json)                  | Lists the metric definitions available for the resource. That is, what specific metrics are available |
 | [Metrics](~/docs-ref-autogen/monitor/metrics.json)                                       | Lists the metric values for a resource.   |
