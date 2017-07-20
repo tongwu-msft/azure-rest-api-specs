@@ -20,7 +20,7 @@ For information on the `{filter-syntax}` parameter common to many Azure Monitor 
 | Operation groups                                                                | Description  |
 |---------------------------------------------------------------------------------|-----------------------|
 | [Action Groups](~/docs-ref-autogen/monitor/actiongroups.json)                            | Operations you can you can take on Action Groups. Alerts can call Action Groups to send email or SMS notifications and call webhooks. |
-| [Activity Log Events](~/docs-ref-autogen/monitor/activitylogs.json)                      | Lists Activity Log events.|
+| [Activity Log](~/docs-ref-autogen/monitor/activitylogs.json)                      | Get a list of Activity Log events.|
 | [Activity Log Alerts](~/docs-ref-autogen/monitor/activitylogalerts.json)                 | Configure and list alerts based on Activity Log events.|
 | [Activity Log Tenant Events](~/docs-ref-autogen/monitor/tenantactivitylogs.json)         | Gets the Activity Logs for a specific tenant.|
 | [Activity Log Event Categories](~/docs-ref-autogen/monitor/eventcategories.json)         | Lists the types of Activity Log Entries. |
