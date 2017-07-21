@@ -89,6 +89,96 @@
           "application/json"
         ]
       }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/checkNameAvailability": {
+      "post": {
+        "operationId": "Location_CheckNameAvailability",
+        "description": "Checks whether the Batch account name is available in the specified region.",
+        "x-ms-examples": {
+          "LocationCheckNameAvailability_Available": {
+            "parameters": {
+              "api-version": "2017-05-01",
+              "subscriptionId": "subid",
+              "locationName": "japaneast",
+              "parameters": {
+                "name": "newaccountname",
+                "type": "Microsoft.Batch/batchAccounts"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "nameAvailable": true
+                }
+              }
+            }
+          },
+          "LocationCheckNameAvailability_AlreadyExists": {
+            "parameters": {
+              "api-version": "2017-05-01",
+              "subscriptionId": "subid",
+              "locationName": "japaneast",
+              "parameters": {
+                "name": "existingaccountname",
+                "type": "Microsoft.Batch/batchAccounts"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "nameAvailable": false,
+                  "reason": "AlreadyExists",
+                  "message": "An account named 'existingaccountname' is already in use."
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "locationName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The desired region for the name check."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CheckNameAvailabilityParameters"
+            },
+            "description": "Properties needed to check the availability of a name."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Returns details about whether a Batch account name is available.",
+            "schema": {
+              "$ref": "#/definitions/CheckNameAvailabilityResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
     }
   },
   "definitions": {
@@ -634,6 +724,58 @@
           "title": "The URL to get the next set of operation list results if there are any."
         }
       }
+    },
+    "CheckNameAvailabilityParameters": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name to check for availability"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Microsoft.Batch/batchAccounts"
+          ],
+          "x-ms-enum": {
+            "name": "Type",
+            "modelAsString": false
+          },
+          "description": "The resource type. Must be set to Microsoft.Batch/batchAccounts"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "description": "Parameters for a check name availability request."
+    },
+    "CheckNameAvailabilityResult": {
+      "properties": {
+        "nameAvailable": {
+          "readOnly": true,
+          "type": "boolean",
+          "description": "Gets a boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken or invalid and cannot be used."
+        },
+        "reason": {
+          "readOnly": true,
+          "type": "string",
+          "enum": [
+            "Invalid",
+            "AlreadyExists"
+          ],
+          "x-ms-enum": {
+            "name": "NameAvailabilityReason",
+            "modelAsString": false
+          },
+          "description": "Gets the reason that a Batch account name could not be used. The Reason element is only returned if NameAvailable is false."
+        },
+        "message": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Gets an error message explaining the Reason value in more detail."
+        }
+      },
+      "description": "The CheckNameAvailability operation response."
     }
   },
   "parameters": {

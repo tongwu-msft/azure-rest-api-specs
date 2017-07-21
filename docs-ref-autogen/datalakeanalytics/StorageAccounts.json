@@ -32,62 +32,32 @@
   },
   "paths": {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/StorageAccounts/{storageAccountName}": {
-      "get": {
+      "put": {
         "tags": [
           "StorageAccounts"
         ],
-        "operationId": "StorageAccounts_Get",
-        "description": "Gets the specified Azure Storage account linked to the given Data Lake Analytics account.",
-        "parameters": [
-          {
-            "name": "resourceGroupName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the Azure resource group that contains the Data Lake Analytics account."
-          },
-          {
-            "name": "accountName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the Data Lake Analytics account from which to retrieve Azure storage account details."
-          },
-          {
-            "name": "storageAccountName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the Azure Storage account for which to retrieve the details."
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully retrieved the specified Azure Storage account information.",
-            "schema": {
-              "$ref": "#/definitions/StorageAccountInfo"
+        "operationId": "StorageAccounts_Add",
+        "description": "Updates the specified Data Lake Analytics account to add an Azure Storage account.",
+        "x-ms-examples": {
+          "Adds an Azure Storage account": {
+            "parameters": {
+              "api-version": "2016-11-01",
+              "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+              "resourceGroupName": "contosorg",
+              "accountName": "contosoadla",
+              "storageAccountName": "test_storage",
+              "parameters": {
+                "properties": {
+                  "accessKey": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab346",
+                  "suffix": "test_suffix"
+                }
+              }
+            },
+            "responses": {
+              "200": {}
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      },
-      "delete": {
-        "tags": [
-          "StorageAccounts"
-        ],
-        "operationId": "StorageAccounts_Delete",
-        "description": "Updates the specified Data Lake Analytics account to remove an Azure Storage account.",
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -101,14 +71,23 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Data Lake Analytics account from which to remove the Azure Storage account."
+            "description": "The name of the Data Lake Analytics account to which to add the Azure Storage account."
           },
           {
             "name": "storageAccountName",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Azure Storage account to remove"
+            "description": "The name of the Azure Storage account to add"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddStorageAccountParameters"
+            },
+            "description": "The parameters containing the access key and optional suffix for the Azure Storage Account."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -119,7 +98,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully deleted the specified Azure Storage account information from the Azure Data Lake Analytics account."
+            "description": "Successfully added the specified Azure Storage account information to the specified Azure Data Lake Analytics account."
           }
         },
         "produces": [
@@ -135,6 +114,26 @@
         ],
         "operationId": "StorageAccounts_Update",
         "description": "Updates the Data Lake Analytics account to replace Azure Storage blob account details, such as the access key and/or suffix.",
+        "x-ms-examples": {
+          "Replaces Azure Storage blob account details": {
+            "parameters": {
+              "api-version": "2016-11-01",
+              "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+              "resourceGroupName": "contosorg",
+              "accountName": "contosoadla",
+              "storageAccountName": "test_storage",
+              "parameters": {
+                "properties": {
+                  "accessKey": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab346",
+                  "suffix": "test_suffix"
+                }
+              }
+            },
+            "responses": {
+              "200": {}
+            }
+          }
+        },
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -185,12 +184,26 @@
           "application/json"
         ]
       },
-      "put": {
+      "delete": {
         "tags": [
           "StorageAccounts"
         ],
-        "operationId": "StorageAccounts_Add",
-        "description": "Updates the specified Data Lake Analytics account to add an Azure Storage account.",
+        "operationId": "StorageAccounts_Delete",
+        "description": "Updates the specified Data Lake Analytics account to remove an Azure Storage account.",
+        "x-ms-examples": {
+          "Removes an Azure Storage account": {
+            "parameters": {
+              "api-version": "2016-11-01",
+              "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+              "resourceGroupName": "contosorg",
+              "accountName": "contosoadla",
+              "storageAccountName": "test_storage"
+            },
+            "responses": {
+              "200": {}
+            }
+          }
+        },
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -204,23 +217,14 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Data Lake Analytics account to which to add the Azure Storage account."
+            "description": "The name of the Data Lake Analytics account from which to remove the Azure Storage account."
           },
           {
             "name": "storageAccountName",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Azure Storage account to add"
-          },
-          {
-            "name": "parameters",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AddStorageAccountParameters"
-            },
-            "description": "The parameters containing the access key and optional suffix for the Azure Storage Account."
+            "description": "The name of the Azure Storage account to remove"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -231,7 +235,81 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully added the specified Azure Storage account information to the specified Azure Data Lake Analytics account."
+            "description": "Successfully deleted the specified Azure Storage account information from the Azure Data Lake Analytics account."
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "tags": [
+          "StorageAccounts"
+        ],
+        "operationId": "StorageAccounts_Get",
+        "description": "Gets the specified Azure Storage account linked to the given Data Lake Analytics account.",
+        "x-ms-examples": {
+          "Gets the specified Azure Storage account": {
+            "parameters": {
+              "api-version": "2016-11-01",
+              "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+              "resourceGroupName": "contosorg",
+              "accountName": "contosoadla",
+              "storageAccountName": "test_storage"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+                  "name": "test_storage",
+                  "type": "test_type",
+                  "properties": {
+                    "accessKey": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab346",
+                    "suffix": "test_suffix"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the Azure resource group that contains the Data Lake Analytics account."
+          },
+          {
+            "name": "accountName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the Data Lake Analytics account from which to retrieve Azure storage account details."
+          },
+          {
+            "name": "storageAccountName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the Azure Storage account for which to retrieve the details."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the specified Azure Storage account information.",
+            "schema": {
+              "$ref": "#/definitions/StorageAccountInfo"
+            }
           }
         },
         "produces": [
@@ -249,6 +327,30 @@
         ],
         "operationId": "StorageAccounts_GetStorageContainer",
         "description": "Gets the specified Azure Storage container associated with the given Data Lake Analytics and Azure Storage accounts.",
+        "x-ms-examples": {
+          "Gets the specified Azure Storage container": {
+            "parameters": {
+              "api-version": "2016-11-01",
+              "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+              "resourceGroupName": "contosorg",
+              "accountName": "contosoadla",
+              "storageAccountName": "test_storage",
+              "containerName": "test_container"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+                  "name": "test_storage",
+                  "type": "test_type",
+                  "properties": {
+                    "lastModifiedTime": "2017-04-14T20:21:56.6819037+00:00"
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -308,6 +410,34 @@
         ],
         "operationId": "StorageAccounts_ListStorageContainers",
         "description": "Lists the Azure Storage containers, if any, associated with the specified Data Lake Analytics and Azure Storage account combination. The response includes a link to the next page of results, if any.",
+        "x-ms-examples": {
+          "Lists the Azure Storage containers": {
+            "parameters": {
+              "api-version": "2016-11-01",
+              "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+              "resourceGroupName": "contosorg",
+              "accountName": "contosoadla",
+              "storageAccountName": "test_storage"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+                      "name": "test_storage",
+                      "type": "test_type",
+                      "properties": {
+                        "lastModifiedTime": "2017-04-14T20:21:56.6819037+00:00"
+                      }
+                    }
+                  ],
+                  "nextLink": "https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/jobPolicies?api-version=2016-11-01&%24skiptoken=<token>"
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -363,6 +493,30 @@
         ],
         "operationId": "StorageAccounts_ListSasTokens",
         "description": "Gets the SAS token associated with the specified Data Lake Analytics and Azure Storage account and container combination.",
+        "x-ms-examples": {
+          "Gets the SAS token": {
+            "parameters": {
+              "api-version": "2016-11-01",
+              "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+              "resourceGroupName": "contosorg",
+              "accountName": "contosoadla",
+              "storageAccountName": "test_storage",
+              "containerName": "test_container"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "accessToken": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab346"
+                    }
+                  ],
+                  "nextLink": "https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/jobPolicies?api-version=2016-11-01&%24skiptoken=<token>"
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -425,6 +579,40 @@
         ],
         "operationId": "StorageAccounts_ListByAccount",
         "description": "Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any.",
+        "x-ms-examples": {
+          "Gets the first page of Azure Storage accounts linked to the specified Data Lake Analytics account": {
+            "parameters": {
+              "api-version": "2016-11-01",
+              "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+              "resourceGroupName": "contosorg",
+              "accountName": "contosoadla",
+              "$filter": "test_filter",
+              "$top": 1,
+              "$skip": 1,
+              "$select": "test_select",
+              "$orderby": "test_orderby",
+              "$count": false
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+                      "name": "test_storage",
+                      "type": "test_type",
+                      "properties": {
+                        "accessKey": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab346",
+                        "suffix": "test_suffix"
+                      }
+                    }
+                  ],
+                  "nextLink": "https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/jobPolicies?api-version=2016-11-01&%24skiptoken=<token>"
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "name": "resourceGroupName",
@@ -575,15 +763,15 @@
     },
     "StorageContainer": {
       "properties": {
-        "name": {
-          "type": "string",
-          "readOnly": true,
-          "description": "the name of the blob container."
-        },
         "id": {
           "type": "string",
           "readOnly": true,
           "description": "the unique identifier of the blob container."
+        },
+        "name": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the name of the blob container."
         },
         "type": {
           "type": "string",
@@ -705,44 +893,16 @@
       "description": "Data Lake Account list information."
     },
     "DataLakeAnalyticsAccountProperties": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataLakeAnalyticsAccountPropertiesBasic"
+        }
+      ],
       "required": [
         "defaultDataLakeStoreAccount",
         "dataLakeStoreAccounts"
       ],
       "properties": {
-        "provisioningState": {
-          "readOnly": true,
-          "type": "string",
-          "description": "the provisioning status of the Data Lake Analytics account.",
-          "enum": [
-            "Failed",
-            "Creating",
-            "Running",
-            "Succeeded",
-            "Patching",
-            "Suspending",
-            "Resuming",
-            "Deleting",
-            "Deleted"
-          ],
-          "x-ms-enum": {
-            "name": "DataLakeAnalyticsAccountStatus",
-            "modelAsString": false
-          }
-        },
-        "state": {
-          "readOnly": true,
-          "type": "string",
-          "description": "the state of the Data Lake Analytics account.",
-          "enum": [
-            "Active",
-            "Suspended"
-          ],
-          "x-ms-enum": {
-            "name": "DataLakeAnalyticsAccountState",
-            "modelAsString": false
-          }
-        },
         "defaultDataLakeStoreAccount": {
           "type": "string",
           "description": "the default data lake storage account associated with this Data Lake Analytics account."
@@ -794,23 +954,6 @@
             "$ref": "#/definitions/StorageAccountInfo"
           },
           "description": "the list of Azure Blob storage accounts associated with this account."
-        },
-        "creationTime": {
-          "type": "string",
-          "readOnly": true,
-          "format": "date-time",
-          "description": "the account creation time."
-        },
-        "lastModifiedTime": {
-          "type": "string",
-          "readOnly": true,
-          "format": "date-time",
-          "description": "the account last modified time."
-        },
-        "endpoint": {
-          "type": "string",
-          "readOnly": true,
-          "description": "the full CName endpoint for this account."
         },
         "newTier": {
           "type": "string",
@@ -902,7 +1045,7 @@
           "description": "the list of compute policies to create in this account."
         }
       },
-      "description": "The account specific properties that are associated with an underlying Data Lake Analytics account."
+      "description": "The account specific properties that are associated with an underlying Data Lake Analytics account. Returned only when retrieving a specific account."
     },
     "UpdateDataLakeAnalyticsAccountProperties": {
       "properties": {
@@ -1187,6 +1330,85 @@
       },
       "description": "The parameters that can be used to update an existing Data Lake Analytics account."
     },
+    "DataLakeAnalyticsAccountBasic": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DataLakeAnalyticsAccountPropertiesBasic",
+          "description": "The properties defined by Data Lake Analytics all properties are specific to each resource provider.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "description": "A Data Lake Analytics account object, containing all information associated with the named Data Lake Analytics account."
+    },
+    "DataLakeAnalyticsAccountPropertiesBasic": {
+      "properties": {
+        "provisioningState": {
+          "readOnly": true,
+          "type": "string",
+          "description": "the provisioning status of the Data Lake Analytics account.",
+          "enum": [
+            "Failed",
+            "Creating",
+            "Running",
+            "Succeeded",
+            "Patching",
+            "Suspending",
+            "Resuming",
+            "Deleting",
+            "Deleted"
+          ],
+          "x-ms-enum": {
+            "name": "DataLakeAnalyticsAccountStatus",
+            "modelAsString": false
+          }
+        },
+        "state": {
+          "readOnly": true,
+          "type": "string",
+          "description": "the state of the Data Lake Analytics account.",
+          "enum": [
+            "Active",
+            "Suspended"
+          ],
+          "x-ms-enum": {
+            "name": "DataLakeAnalyticsAccountState",
+            "modelAsString": false
+          }
+        },
+        "creationTime": {
+          "type": "string",
+          "readOnly": true,
+          "format": "date-time",
+          "description": "the account creation time."
+        },
+        "lastModifiedTime": {
+          "type": "string",
+          "readOnly": true,
+          "format": "date-time",
+          "description": "the account last modified time."
+        },
+        "endpoint": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the full CName endpoint for this account."
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true,
+          "description": "The unique identifier associated with this Data Lake Analytics account."
+        }
+      },
+      "description": "The basic account specific properties that are associated with an underlying Data Lake Analytics account."
+    },
     "DataLakeAnalyticsAccount": {
       "allOf": [
         {
@@ -1210,7 +1432,7 @@
         "value": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/DataLakeAnalyticsAccount"
+            "$ref": "#/definitions/DataLakeAnalyticsAccountBasic"
           },
           "readOnly": true,
           "description": "the results of the list operation"
