@@ -1,7 +1,7 @@
 ---
 title: "Suggestions (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2017-06-07"
+ms.date: "2017-07-17"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -28,9 +28,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Suggestions (Azure Search Service REST API)
-  The **Suggestions** operation retrieves suggestions based on partial search input. It's typically used in search boxes to provide type-ahead suggestions as users are entering search terms. A code example demonstrating this feature can be found at [Azure Search Suggestions Demo](https://azsearchsuggestions.codeplex.com/) on Codeplex.  
+  The **Suggestions** operation occurs during query time to capture partial string inputs (3 character minimum) and return type-ahead suggestions as users are entering search terms. Azure Search looks for possible matches in specific fields identified in advance in a [**suggester**](suggesters.md) construct.   
 
- Suggestions requests aim at suggesting target documents, so the suggested text may be repeated if multiple candidate documents match the same search input. You can use `$select` to retrieve other document fields (including the document key) so that you can tell which document is the source for each suggestion.  
+ Suggestion requests aim at suggesting target documents, so the suggested text may be repeated if multiple candidate documents match the same search input. You can use `$select` to retrieve other document fields (including the document key) so that you can tell which document is the source for each suggestion.  
 
  A **Suggestions** operation is issued as a GET or POST request.  
 

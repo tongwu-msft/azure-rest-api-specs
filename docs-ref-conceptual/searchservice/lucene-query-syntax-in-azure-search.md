@@ -1,7 +1,7 @@
 ---
 title: "Lucene query syntax in Azure Search"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-07-21"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -85,6 +85,12 @@ For details about specifying query parameter, see [Search Documents &#40;Azure S
 
 ##  <a name="bkmk_proximity"></a> Proximity search  
  Proximity searches are used to find terms that are near each other in a document. Insert a tilde "~" symbol at the end of a phrase followed by the number of words that create the proximity boundary. For example, `"hotel airport"~5` will find the terms "hotel" and "airport" within 5 words of each other in a document.  
+
+ ## Tilde (~) evaluation in Lucene syntax
+
+In Lucene full syntax, The tilde (~) is used for both a phrase search and a single term search, and placement of the ~ determines which query is invoked. At the end of a single term, ~ invokes fuzzy search. After a phrase, ~ invokes proximity search. 
+
+Within a term, such as "business~analyst", the character is not evaluated as an operator. In this case, assuming the query is a term or phrase query, [full text search](search-lucene-query-architecture.md) with [lexical analysis](https://docs.microsoft.com/azure/search/search-lucene-query-architecture#stage-2-lexical-analysis) results in "business~analyst analyzed as two terms: business OR analyst. 
 
 ##  <a name="bkmk_termboost"></a> Term boosting  
  Term boosting refers to ranking a document higher if it contains the boosted term, relative to documents that do not contain the term. This differs from scoring profiles in that scoring profiles boost certain fields, rather than specific terms.  

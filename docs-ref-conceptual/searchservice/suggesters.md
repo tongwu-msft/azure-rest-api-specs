@@ -1,7 +1,7 @@
 ---
 title: "Suggesters"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-07-17"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -29,16 +29,17 @@ translation.priority.mt:
 ---
 # Suggesters
 
-  The suggestions feature in Azure Search is a type-ahead query capability, providing a list of potential search terms in response to partial string inputs entered into a search box. You've probably noticed query suggestions when using commercial web search engines: typing ".NET" in Bing produces a list of terms for ".NET 4.5", ".NET Framework 3.5", and so forth. Using the service REST API, implementing suggestions in a custom Azure Search application requires the following:  
-
--   Enable suggestions by adding a **suggester** construction in your index, giving the name, search mode, and a list of fields for which type-ahead is invoked. For example, if you specify "cityName" as a source field, typing a partial search string of "Sea" will result in "Seattle", "Seaside", and "Seatac" (all three are actual city names) offered up as query suggestions to the user.  
-
--   Invoke suggestions by calling the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md) in your application code. Typically partial search strings are sent to the service while the user is typing a search query, and this API returns a set of suggested phrases.  
-
- This article explains how to configure a **Suggester**. You should also review the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md) for details on how a **Suggester** is used.  
+The suggestions feature in Azure Search is a type-ahead query capability used to return a list of matching documents in response to partial string inputs entered into a search box. There is a design -time and query-time component to this feature. 
+  
+During index design, you construct a **suggester** to enable suggestions on specific fields. For example, enabling suggestions on a *cityName* field might produce "Seattle", "Seaside", and "Seatac" (all three are actual city names) in response to a partial search input of "Sea".  
+  
+When building the request, call the [Suggestions API](suggestions.md) in your application code. This request is separate from a [Search API](search-documents.md) request. In application code, you might bind a suggestions call to keyboard input, and a search call to a search button. Typically partial search strings are sent to the service while the user is typing a search query, and this API returns a set of suggested phrases.  
 
 ## Usage  
- **Suggesters** are created in the index and work best when used to suggest specific documents rather than loose terms or phrases. The best candidate fields are titles, names, and other relatively short phrases that can identify an item. Less effective are repetitive fields, such as categories and tags, or very long fields such as descriptions or comments fields.  
+
+ **Suggesters** are created in the index. The most flexible time to specify a suggester is during index development, prior to a production roll out.
+
+ **Suggesters** work best when used to suggest specific documents rather than loose terms or phrases. The best candidate fields are titles, names, and other relatively short phrases that can identify an item. Less effective are repetitive fields, such as categories and tags, or very long fields such as descriptions or comments fields.  
 
  As part of the index definition, you can add a single **suggester** to the **suggesters** collection. Properties that define a **suggester** include the following:  
 
