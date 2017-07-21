@@ -1382,7 +1382,7 @@
 ## [Recommended Elastic Pools](sql/RecommendedElasticPools.json)
 ## [Recoverable Databases](sql/RecoverableDatabases.json)
 ## [Restorable Dropped Databases](sql/RestorableDroppedDatabases.json)
-## [Server Azure A D Administrators](sql/ServerAzureADAdministrators.json)
+## [Server Azure AD Administrators](sql/ServerAzureADAdministrators.json)
 ## [Servers](sql/Servers.json)
 ## [Servers - Sql](sql/Servers - Sql.json)
 # [Storage Import-Export](../docs-ref-conceptual/storageimportexport/index.md)
