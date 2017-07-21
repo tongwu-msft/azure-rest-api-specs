@@ -33,11 +33,11 @@ The suggestions feature in Azure Search is a type-ahead query capability used to
   
 During index design, you construct a **suggester** to enable suggestions on specific fields. For example, enabling suggestions on a *cityName* field might produce "Seattle", "Seaside", and "Seatac" (all three are actual city names) in response to a partial search input of "Sea".  
   
-When building the request, call the [Suggestions API](suggestions.md) in your application code. This request is separate from a [Search API](search-documents.md) request. In application code, you might bind a suggestions call to keyboard input, and a search call to a search button. Typically partial search strings are sent to the service while the user is typing a search query, and this API returns a set of suggested phrases.  
+As a separate step, add a call to the [Suggestions API](suggestions.md) in your query logic. The suggestions request operates over fields specified in a **suggester**.  
 
 ## Usage  
 
- **Suggesters** are created in the index. The most flexible time to specify a suggester is during index development, prior to a production roll out.
+ **Suggesters** are typically created during index development, prior to a production roll out, to avoid rebuilding an index that is actively used.
 
  **Suggesters** work best when used to suggest specific documents rather than loose terms or phrases. The best candidate fields are titles, names, and other relatively short phrases that can identify an item. Less effective are repetitive fields, such as categories and tags, or very long fields such as descriptions or comments fields.  
 
