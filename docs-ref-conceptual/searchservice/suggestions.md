@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # Suggestions (Azure Search Service REST API)
 
-A **Suggestions** request is a "search-as-you-type" query consisting of a partial string input (three character minimum). It returns documents based on matching values found in suggester-aware fields. Azure Search looks for matching values in fields that are predefined in a [**Suggester**](suggesters.md). For example, if you enable suggestions on a *city* field, typing "sea" produces documents containing "Seattle", "Sea Tac", and "Seaside" (all actual city names) for that field.
+A **Suggestions** request is a "search-as-you-type" query consisting of a partial string input (three character minimum). It returns matching text found in suggester-aware fields. Azure Search looks for matching values in fields that are predefined in a [**Suggester**](suggesters.md). For example, if you enable suggestions on a *city* field, typing "sea" produces documents containing "Seattle", "Sea Tac", and "Seaside" (all actual city names) for that field.
 
 The results of this operation return a list of suggested text from matching documents, plus the document key.
 If matching text is identical across documents, the suggested text is repeated. To improve the structure of results, consider using the `$select` filter to return additional fields that provide more differentiation and context.  
