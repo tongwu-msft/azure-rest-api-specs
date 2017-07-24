@@ -29,14 +29,14 @@ translation.priority.mt:
 ---
 # Suggesters
 
-A **Suggester** is a construct supporting the search-as-you-type [Suggestions](suggestions.md) feature in Azure Search. Before you can call the Suggestions API, you must define which fields support the behavior.
+A **Suggester** is a construct supporting the "search-as-you-type" [Suggestions](suggestions.md) feature in Azure Search. Before you can call the Suggestions API, you must define a **suggester** to enable suggestions on specific fields.
 
 Although a **suggester** has several properties, it is primarily a collection of fields for which you are enabling the Suggestions API. For example, a travel app might want to enable typeahead search on destinations, cities, and attractions. As such, all three fields would go in the field collection.
 
 Requirements for construction include:
 
 + One **suggester** per index (one **suggester** allowed in the **suggesters** collection)  
-+ Index rebuild is required when adding fields that already exist. Although there is no index attribute explicitly applied to fields in the collection, Azure Search updates the field definition to be suggester-aware. As such, an index rebuild is required whenever a field is redefined. Conversely, a rebuild is not required when simultaneously creating the field and adding it to the `sourceFields` collection.
++ When updating an existing index, you can only add new fields to a suggester if both the new field and its inclusion in a suggester are part of the same update. All other changes to a suggester require a full rebuild of the index.
 
 ## Usage  
 

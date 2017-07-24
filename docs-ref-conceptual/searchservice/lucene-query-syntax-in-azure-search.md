@@ -88,7 +88,7 @@ For details about specifying query parameter, see [Search Documents &#40;Azure S
 
  ## Tilde (~) evaluation in Lucene syntax
 
-In Lucene full syntax, The tilde (~) is used for both a phrase search and a single term search, and placement of the ~ determines which query is invoked. At the end of a single term, ~ invokes fuzzy search. After a phrase, ~ invokes proximity search. 
+In Lucene full syntax, the tilde (~) is used for both a phrase search and a single term search, and placement of the ~ determines which query is invoked. At the end of a single term, ~ invokes fuzzy search. After a phrase, ~ invokes proximity search. 
 
 Within a term, such as "business~analyst", the character is not evaluated as an operator. In this case, assuming the query is a term or phrase query, [full text search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture) with [lexical analysis](https://docs.microsoft.com/azure/search/search-lucene-query-architecture#stage-2-lexical-analysis) results in "business~analyst analyzed as two terms: business OR analyst. 
 
