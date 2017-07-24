@@ -29,11 +29,13 @@ translation.priority.mt:
 ---
 # Suggestions (Azure Search Service REST API)
 
-The **Suggestions** operation is type of query request that captures partial string inputs (3 character minimum) and returns suggested documents as users enter search terms. Azure Search looks for possible matches in specific fields identified in advance in a [**suggester**](suggesters.md) construct.   
- 
-This request is separate from a [Search API](search-documents.md) request. In application code, you might bind a suggestions call to keyboard input, and a search call to a search button. Typically partial search strings are sent to the service while the user is typing a search query, and this API returns a set of suggested phrases.
+A **Suggestions** operation is a search-as-you-type query request that captures partial string inputs (3 character minimum) and returns documents based on matching values found in suggester-aware fields. Azure Search looks for matching values in fields that are specified in advance in a [**Suggesters**](suggesters.md) construct. For example, if you enable suggestions on a *city* field, typing "sea" produces documents containing "Seattle", "Sea Tac", and "Seaside" (all actual city names) for that field.
 
-Suggestion requests aim at suggesting target documents, so the suggested text may be repeated if multiple candidate documents match the same search input. You can use `$select` to retrieve other document fields (including the document key) so that you can tell which document is the source for each suggestion.  
+Results of this operation are documents containing a matching term. Suggestion requests aim at suggesting target documents, so the suggested text may be repeated if multiple candidate documents match the same search input. Terms are not analyzed. What you get back is based on a character-by-character match, with a uniform search score throughout. 
+
+To improve the structure of results, consider using the `$select` filter to control which fields are returned. By default, all fields that are marked as `retrievable` are returned. You can limit fields to just those that best indicate which document is the source for each suggestion, giving users sufficient context for choosing which one to click.  
+
+This request is separate from a [Search API](search-documents.md) request. In application code, you might bind a suggestions call to keyboard input, and a search call to a search button. 
 
  A **Suggestions** operation is issued as a GET or POST request.  
 

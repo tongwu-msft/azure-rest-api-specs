@@ -29,25 +29,28 @@ translation.priority.mt:
 ---
 # Suggesters
 
-The suggestions feature in Azure Search is a type-ahead query capability used to return a list of matching documents in response to partial string inputs entered into a search box. There is a design -time and query-time component to this feature. 
-  
-During index design, you construct a **suggester** to enable suggestions on specific fields. For example, enabling suggestions on a *cityName* field might produce "Seattle", "Seaside", and "Seatac" (all three are actual city names) in response to a partial search input of "Sea".  
-  
-As a separate step, add a call to the [Suggestions API](suggestions.md) in your query logic. The suggestions request operates over fields specified in a **suggester**.  
+A **Suggester** is a construct supporting the search-as-you-type [Suggestions](suggestions.md) feature in Azure Search. Before you can call the Suggestions API, you must define a **suggester** to enable suggestions on specific fields. 
+
+Although a **suggester** has several properties, it is primarily a collection of fields for which you are enabling the Suggestions API. For example, a travel app might want to enable typeahead search on destinations, cities, and attractions.
+
+Requirements for **suggester** construction include:
+
++ One **suggester** per index. As part of the index definition, you can add a single **suggester** to the **suggesters** collection. 
++ An index rebuild is required when you add fields that already exist. Although there is no index attribute explicitly applied to fields in the collection, Azure Search updates the field definition to be suggester-aware. As such, an index rebuild is required whenever a field is redefined. Conversely, a rebuild is not required when adding a field at the time the field is created.
 
 ## Usage  
 
- **Suggesters** are typically created during index development, prior to a production roll out, to avoid rebuilding an index that is actively used.
-
  **Suggesters** work best when used to suggest specific documents rather than loose terms or phrases. The best candidate fields are titles, names, and other relatively short phrases that can identify an item. Less effective are repetitive fields, such as categories and tags, or very long fields such as descriptions or comments fields.  
 
- As part of the index definition, you can add a single **suggester** to the **suggesters** collection. Properties that define a **suggester** include the following:  
+After a suggester is created, add the [Suggestions API](suggestions.md) in your query logic to invoke the feature.  
+
+Properties that define a **suggester** include the following:  
 
 |Property|Description|  
 |--------------|-----------------|  
 |`name`|The name of the **suggester**. You use the name of the **suggester** when calling the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md).|  
 |`searchMode`|The strategy used to search for candidate phrases. The only mode currently supported is `analyzingInfixMatching`, which performs flexible matching of phrases at the beginning or in the middle of sentences.|  
-|`sourceFields`|A list of one or more fields that are the source of the content for suggestions. Only fields of type `Edm.String` and `Collection(Edm.String)` may be sources for suggestions. Only fields that don't have a custom language analyzer set can be used.|  
+|`sourceFields`|A list of one or more fields that are the source of the content for suggestions. Only fields of type `Edm.String` and `Collection(Edm.String)` may be sources for suggestions. Only fields that don't have a custom language analyzer set can be used. |  
 
 ## Suggester example  
  A **suggester** is part of the index. Only one **suggester** can exist in the **suggesters** collection in the current version, alongside the **fields** collection and **scoringProfiles**.  
