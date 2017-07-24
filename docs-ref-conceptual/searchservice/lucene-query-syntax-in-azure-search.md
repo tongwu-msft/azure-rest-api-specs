@@ -86,11 +86,6 @@ For details about specifying query parameter, see [Search Documents &#40;Azure S
 ##  <a name="bkmk_proximity"></a> Proximity search  
  Proximity searches are used to find terms that are near each other in a document. Insert a tilde "~" symbol at the end of a phrase followed by the number of words that create the proximity boundary. For example, `"hotel airport"~5` will find the terms "hotel" and "airport" within 5 words of each other in a document.  
 
- ## Tilde (~) evaluation in Lucene syntax
-
-In Lucene full syntax, the tilde (~) is used for both a phrase search and a single term search, and placement of the ~ determines which query is invoked. At the end of a single term, ~ invokes fuzzy search. After a phrase, ~ invokes proximity search. 
-
-Within a term, such as "business~analyst", the character is not evaluated as an operator. In this case, assuming the query is a term or phrase query, [full text search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture) with [lexical analysis](https://docs.microsoft.com/azure/search/search-lucene-query-architecture#stage-2-lexical-analysis) results in "business~analyst analyzed as two terms: business OR analyst. 
 
 ##  <a name="bkmk_termboost"></a> Term boosting  
  Term boosting refers to ranking a document higher if it contains the boosted term, relative to documents that do not contain the term. This differs from scoring profiles in that scoring profiles boost certain fields, rather than specific terms.  
@@ -115,6 +110,16 @@ The following example helps illustrate the differences. Suppose that there's a s
 
 ##  <a name="bkmk_syntax"></a> Syntax fundamentals  
  The following syntax fundamentals apply to all queries that use the Lucene syntax.  
+
+### Operator evaluation in context
+
+Placement determines whether a symbol is interpreted as an operator or just another character in a string.
+
+For example, in Lucene full syntax, the tilde (~) is used for both fuzzy search and proximity search. When placed after a quoted phrase, ~ invokes proximity search. When placed at the end of a term, ~ invokes fuzzy search.
+
+Within a term, such as "business~analyst", the character is not evaluated as an operator. In this case, assuming the query is a term or phrase query, [full text search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture) with [lexical analysis](https://docs.microsoft.com/azure/search/search-lucene-query-architecture#stage-2-lexical-analysis) strips out the ~ and breaks the term "business~analyst in two: business OR analyst. 
+
+The example above is the tilde (~), but the same principle applies to every operator.
 
 ### Escaping special characters  
  As with simple syntax, you should escape special characters, by prefixing them with backslash (\\) characters. Special characters that need to be escaped include the following:  
