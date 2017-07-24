@@ -210,7 +210,7 @@ manager: "timlt"
 
 |Element name|Type|Notes|
 |------------------|--------------|----------|-----------|
-|userName|String|The name of the user identity under which the task is run.|
+|username|String|The name of the user identity under which the task is run.|
 |[autoUser](#autoUser)|Complex Type|The auto user under which the task is run.|
 
 ###  <a name="autoUser"></a> autoUser

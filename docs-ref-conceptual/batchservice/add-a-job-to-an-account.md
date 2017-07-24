@@ -322,8 +322,8 @@ The default is taskCompletion.|
 
 |Element name|Required|Type|Notes|
 |------------------|--------------|----------|-----------|
-|userName|No|String|The name of the user identity under which the task is run. The userName and autoUser properties are mutually exclusive; you must specify one but not both. |
-|[autoUser](#autoUser)|No|Complex Type|The auto user under which the task is run. The userName and autoUser properties are mutually exclusive; you must specify one but not both.|
+|username|No|String|The name of the user identity under which the task is run. The username and autoUser properties are mutually exclusive; you must specify one but not both. |
+|[autoUser](#autoUser)|No|Complex Type|The auto user under which the task is run. The username and autoUser properties are mutually exclusive; you must specify one but not both.|
 
 ###  <a name="autoUser"></a> autoUser
 
