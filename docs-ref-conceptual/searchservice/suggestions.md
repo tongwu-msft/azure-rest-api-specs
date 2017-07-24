@@ -123,7 +123,7 @@ api-key: [admin or query key]
     }  
 ```  
 
-## Response:  
+## Response 
  Status Code: "200 OK" is returned for a successful response.  
 
 ```  
