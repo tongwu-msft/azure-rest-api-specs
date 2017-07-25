@@ -28,25 +28,25 @@ Azure Database for MySQL provides a managed database service for app development
 
 | Operation group | Operation | Description |
 |---|---|---|
-| Server | [Create or Update](~/api-ref/mysql/Servers.json#Servers_CreateOrUpdate) | Creates a new server or updates an existing server. The update action will overwrite the existing server. |
-| Server | [Delete](~/api-ref/mysql/Servers.json#Servers_Delete) | Deletes a server. |
-| Server | [Get](~/api-ref/mysql/Servers.json#Servers_Get) | Gets information about a server. |
-| Server | [List](~/api-ref/mysql/Servers.json#Servers_List) | List all the servers in a given subscription. |
-| Server | [List by Resource Group](~/api-ref/mysql/Servers.json#Servers_ListByResourceGroup) | List all the servers in a given resource group. |
-| Server | [Update](~/api-ref/mysql/Servers.json#Servers_Update) | Updates an existing server.  |
-| Configurations | [Create or Update](~/api-ref/mysql/Configurations.json#Configurations_CreateOrUpdate) | Updates a configuration of a server. | 
-| Configurations | [Get](~/api-ref/mysql/Configurations.json#Configurations_Get) | Gets information about a configuration of server. | 
-| Configurations | [List](~/api-ref/mysql/Configurations.json#Configurations_ListByServer) | List all the configurations in a given server. | 
-| Databases | [Create or Update](~/api-ref/mysql/Databases.json#Databases_CreateOrUpdate)  | Create a new database or update an existing database. | 
-| Databases | [Delete](~/api-ref/mysql/Databases.json#Databases_Delete) | Deletes a database. |
-| Databases | [Get](~/api-ref/mysql/Databases.json#Databases_Get) | Gets information about a database. |
-| Databases | [List](~/api-ref/mysql/Databases.json#Databases_ListByServer) | List all the databases in a given server. |
-| Firewall Rules | [Create or Update](~/api-ref/mysql/FirewallRules.json#FirewallRules_CreateOrUpdate) | Creates a new firewall rule or updates an existing firewall rule. |
-| Firewall Rules | [Delete](~/api-ref/mysql/FirewallRules.json#FirewallRules_Delete) | Deletes a server firewall rule. |
-| Firewall Rules | [Get](~/api-ref/mysql/FirewallRules.json#FirewallRules_Get) | Gets information about a server firewall rule. |
-| Firewall Rules | [List](~/api-ref/mysql/FirewallRules.json#FirewallRules_ListByServer) | List all the firewall rules in a given server. |
-| Log Files | [List](~/api-ref/mysql/LogFiles.json#LogFiles_ListByServer) | List all the log files in a given server. |
-| Operations | [List](~/api-ref/mysql/Operations.json#Operations_List) | Lists all of the available REST API operations. |
+| Server | [Create or Update](~/docs-ref-autogen/mysql/Servers.json#Servers_CreateOrUpdate) | Creates a new server or updates an existing server. The update action will overwrite the existing server. |
+| Server | [Delete](~/docs-ref-autogen/mysql/Servers.json#Servers_Delete) | Deletes a server. |
+| Server | [Get](~/docs-ref-autogen/mysql/Servers.json#Servers_Get) | Gets information about a server. |
+| Server | [List](~/docs-ref-autogen/mysql/Servers.json#Servers_List) | List all the servers in a given subscription. |
+| Server | [List by Resource Group](~/docs-ref-autogen/mysql/Servers.json#Servers_ListByResourceGroup) | List all the servers in a given resource group. |
+| Server | [Update](~/docs-ref-autogen/mysql/Servers.json#Servers_Update) | Updates an existing server.  |
+| Configurations | [Create or Update](~/docs-ref-autogen/mysql/Configurations.json#Configurations_CreateOrUpdate) | Updates a configuration of a server. | 
+| Configurations | [Get](~/docs-ref-autogen/mysql/Configurations.json#Configurations_Get) | Gets information about a configuration of server. | 
+| Configurations | [List](~/docs-ref-autogen/mysql/Configurations.json#Configurations_ListByServer) | List all the configurations in a given server. | 
+| Databases | [Create or Update](~/docs-ref-autogen/mysql/Databases.json#Databases_CreateOrUpdate)  | Create a new database or update an existing database. | 
+| Databases | [Delete](~/docs-ref-autogen/mysql/Databases.json#Databases_Delete) | Deletes a database. |
+| Databases | [Get](~/docs-ref-autogen/mysql/Databases.json#Databases_Get) | Gets information about a database. |
+| Databases | [List](~/docs-ref-autogen/mysql/Databases.json#Databases_ListByServer) | List all the databases in a given server. |
+| Firewall Rules | [Create or Update](~/docs-ref-autogen/mysql/FirewallRules.json#FirewallRules_CreateOrUpdate) | Creates a new firewall rule or updates an existing firewall rule. |
+| Firewall Rules | [Delete](~/docs-ref-autogen/mysql/FirewallRules.json#FirewallRules_Delete) | Deletes a server firewall rule. |
+| Firewall Rules | [Get](~/docs-ref-autogen/mysql/FirewallRules.json#FirewallRules_Get) | Gets information about a server firewall rule. |
+| Firewall Rules | [List](~/docs-ref-autogen/mysql/FirewallRules.json#FirewallRules_ListByServer) | List all the firewall rules in a given server. |
+| Log Files | [List](~/docs-ref-autogen/mysql/LogFiles.json#LogFiles_ListByServer) | List all the log files in a given server. |
+| Operations | [List](~/docs-ref-autogen/mysql/Operations.json#Operations_List) | Lists all of the available REST API operations. |
 
 
 ## See also
