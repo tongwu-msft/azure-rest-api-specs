@@ -31,9 +31,9 @@ Azure Database for MySQL provides a managed database service for app development
 | [Server](~/docs-ref-autogen/mysql/Servers.json) | Creates, Updates, Delete, Get, or List servers. |
 | [Configurations](~/docs-ref-autogen/mysql/Configurations.json) | Update, Get, and List the configuration of a server. | 
 | [Databases](~/docs-ref-autogen/mysql/Databases.json)  | Create, Delete, Get, or List databases in the server. | 
-| [Firewall Rules](~/docs-ref-autogen/mysql/FirewallRules.json) | Creates, Delete, Get, or List the firewall rules in a server. |
-| [Log Files](~/docs-ref-autogen/mysql/LogFiles.json#LogFiles_ListByServer) | Lists the log files in a given server. |
-| [Operations](~/docs-ref-autogen/mysql/Operations.json#Operations_List) | Lists the available REST API operations. |
+| [Firewall Rules](~/docs-ref-autogen/mysql/FirewallRules.json) | Create, Delete, Get, or List the firewall rules in a server. |
+| [Log Files](~/docs-ref-autogen/mysql/LogFiles.json) | List the log files in a given server. |
+| [Operations](~/docs-ref-autogen/mysql/Operations.json) | List the available REST API operations. |
 
 
 ## See also
