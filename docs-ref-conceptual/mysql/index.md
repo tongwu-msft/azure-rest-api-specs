@@ -17,10 +17,10 @@ The Azure Database for MySQL REST API is available for you to create, delete, ma
 Azure Database for MySQL provides a managed database service for app development and deployment that allows you to stand up a MySQL database in minutes and scale on the fly - on the cloud you trust most.
 
  The following information is common to all tasks that you might do using these REST APIs:  
--   Replace {api-version} with `2017-04-30-preview`.
--   Replace {subscriptionId} with your subscription identifier in the URI. This value is a GUID unique to your subscription, such as 6B29FC40-CA47-1067-B31D-00DD010662DA.  Locate the subscription ID using the [Azure portal subsciptions blade](https://portal.azure.com/#blade/Microsoft_Azure_Billing/SubscriptionsBlade).
--   Replace {resourceGroupName} with the resource group. For more information, see [Using Resource groups to manage your Azure resources](http://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
--   Replace {serverName} with the name of your Azure Database for MySQL server. Use the short name, such as myserver4demo, not the fully qualified network name, such as myserver4demo.mysql.database.azure.com.
+-   Replace `{api-version}` with `2017-04-30-preview`.
+-   Replace `{subscriptionId}` with your subscription identifier in the URI. This value is a GUID unique to your subscription, such as 6B29FC40-CA47-1067-B31D-00DD010662DA.  Locate the subscription ID using the [Azure portal subsciptions blade](https://portal.azure.com/#blade/Microsoft_Azure_Billing/SubscriptionsBlade).
+-   Replace `{resourceGroupName}` with the resource group. For more information, see [Using Resource groups to manage your Azure resources](http://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
+-   Replace `{serverName}` with the name of your Azure Database for MySQL server. Use the short name, such as myserver4demo, not the fully qualified network name, such as myserver4demo.mysql.database.azure.com.
 -   Set the Content-Type header to **application/json**.  
 -   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/en-us/library/azure/dn790557.aspx). 
 
