@@ -437,12 +437,19 @@ The following example shows the request to create a new virtual machine scale se
     
 |Element name|Required|Type|Description|    
 |------------------|--------------|----------|-----------------|    
-|name|No|String|Specifies the disk name.|    
-|image|No|String|Specifies the blob uri for user image. A virtual machine scale set creates an os disk in the same container as the user image.<br /><br /> Updating the osDisk image causes the existing  disk to be deleted and a new one created with the new image. If the VM scale set is in Manual upgrade mode then the virtual machines are not updated until they have manualUpgrade  applied to them. See [Manage all VMs in a set](manage-all-vms-in-a-set.md) for more information.|    
+|name|Yes|String|Specifies the disk name.|    
+|[image](#image)|No|Complex Type|Specifies information about the unmanaged user image to base the scale set on.|    
 |vhdContainers|No|Collection|Specifies the container urls that are used to store operating system disks for the scale set. If not specified, they are implicitly created.|    
 |caching|No|String|Specifies the caching type of the disk.<br /><br /> Possible values are:<br /><br /> **None**<br /><br /> **ReadOnly**<br /><br /> **ReadWrite**. The default value is **None**.|    
 |osType|Yes|String|Specifies the type of operating system on the disk.<br /><br /> Possible values are:<br /><br /> **Windows**<br /><br /> **Linux**|    
-|createOption|No|String|Specifies how the virtual machine should be created. The only possible value is **FromImage**. which is used when you are using an image to create the virtual machine. If you are using a platform image, you will also use the imageReference element described below.|    
+|createOption|Yes|String|Specifies how the virtual machine should be created. The only possible value is **FromImage**. which is used when you are using an image to create the virtual machine. If you are using a platform image, you will also use the imageReference element described below.|  
+
+###  <a name="image"></a> image
+    
+|Element name|Required|Type|Description|    
+|------------------|--------------|----------|-----------------|    
+|uri|Yes|String|Specifies the blob uri for an unmanaged user image. A virtual machine scale set creates an os disk in the same container as the user image.<br /><br /> Updating the osDisk image causes the existing  disk to be deleted and a new one created with the new image. If the VM scale set is in Manual upgrade mode then the virtual machines are not updated until they have manualUpgrade  applied to them. See [Manage all VMs in a set](manage-all-vms-in-a-set.md) for more information.|    
+
 
 ###  <a name="datadisks"></a> dataDisks    
     
