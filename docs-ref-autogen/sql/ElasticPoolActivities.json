@@ -10,70 +10,52 @@
     "https"
   ],
   "paths": {
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/checkNameAvailability": {
-      "post": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/elasticPoolActivity": {
+      "get": {
         "tags": [
-          "Servers"
+          "ElasticPools"
         ],
-        "operationId": "Servers_CheckNameAvailability",
-        "description": "Determines whether a resource can be created with the specified name.",
+        "operationId": "ElasticPoolActivities_ListByElasticPool",
+        "description": "Returns elastic pool activities.",
         "x-ms-examples": {
-          "Check for a server name that is available": {
+          "List Elastic pool activity": {
             "parameters": {
               "subscriptionId": "00000000-1111-2222-3333-444444444444",
-              "api-version": "2014-04-01",
-              "parameters": {
-                "name": "server1",
-                "type": "Microsoft.Sql/servers"
-              }
+              "resourceGroupName": "sqlcrudtest-4291",
+              "serverName": "sqlcrudtest-6574",
+              "elasticPoolName": "8749",
+              "api-version": "2014-04-01"
             },
             "responses": {
               "200": {
                 "body": {
-                  "name": "server1",
-                  "available": true,
-                  "reason": null,
-                  "message": null
-                }
-              }
-            }
-          },
-          "Check for a server name that already exists": {
-            "parameters": {
-              "subscriptionId": "00000000-1111-2222-3333-444444444444",
-              "api-version": "2014-04-01",
-              "parameters": {
-                "name": "server1",
-                "type": "Microsoft.Sql/servers"
-              }
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "name": "server1",
-                  "available": false,
-                  "reason": "AlreadyExists",
-                  "message": "Specified server name is already used"
-                }
-              }
-            }
-          },
-          "Check for a server name that is invalid": {
-            "parameters": {
-              "subscriptionId": "00000000-1111-2222-3333-444444444444",
-              "api-version": "2014-04-01",
-              "parameters": {
-                "name": "SERVER1",
-                "type": "Microsoft.Sql/servers"
-              }
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "name": "SERVER1",
-                  "available": false,
-                  "reason": "Invalid",
-                  "message": "Specified server name contains unsupported characters or is too long. Server name must be no longer than 63 characters long, contain only lower-case characters or digits, cannot contain '.' or '_' characters and can't start or end with '-' character."
+                  "value": [
+                    {
+                      "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4291/providers/Microsoft.Sql/servers/sqlcrudtest-6574/elasticPools/8749/elasticPoolActivity/851f1672-f7f0-46f6-a262-ee9b51e18e97",
+                      "name": "851f1672-f7f0-46f6-a262-ee9b51e18e97",
+                      "type": "Microsoft.Sql/servers/elasticPools/elasticPoolActivity",
+                      "location": "Japan East",
+                      "properties": {
+                        "operationId": "851f1672-f7f0-46f6-a262-ee9b51e18e97",
+                        "serverName": "sqlcrudtest-6574",
+                        "elasticPoolName": "8749",
+                        "state": "COMPLETED",
+                        "operation": "CREATE",
+                        "errorCode": null,
+                        "errorMessage": null,
+                        "errorSeverity": null,
+                        "startTime": "2017-02-10T02:03:06.16Z",
+                        "endTime": "2017-02-10T02:03:23.263Z",
+                        "percentComplete": 100,
+                        "requestedElasticPoolName": null,
+                        "requestedDtuGuarantee": 100,
+                        "requestedDatabaseDtuCap": 5,
+                        "requestedDatabaseDtuGuarantee": 0,
+                        "requestedStorageLimitInGB": 9,
+                        "requestedStorageLimitInMB": 10000
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -87,22 +69,29 @@
             "$ref": "#/parameters/SubscriptionIdParameter"
           },
           {
-            "name": "parameters",
-            "in": "body",
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ServerNameParameter"
+          },
+          {
+            "name": "elasticPoolName",
+            "in": "path",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/CheckNameAvailabilityRequest"
-            },
-            "description": "The parameters to request for name availability."
+            "type": "string",
+            "description": "The name of the elastic pool for which to get the current activity."
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/CheckNameAvailabilityResponse"
+              "$ref": "#/definitions/ElasticPoolActivityListResult"
             }
           }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": null
         },
         "produces": [
           "application/json"
@@ -1584,5 +1573,5 @@
     }
   },
   "x-internal-operation-group-name": "Servers - Sql",
-  "x-internal-toc-name": "Servers - Sql"
+  "x-internal-toc-name": "Elastic Pool Activities"
 }
