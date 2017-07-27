@@ -1403,7 +1403,7 @@
 ## [Servers - Sql](sql/Servers - Sql.json)
 ## [Service Tier Advisors](sql/ServiceTierAdvisors.json)
 ## [Transparent Data Encryption Activities](sql/TransparentDataEncryptionActivities.json)
-## [Transparent Data Encryption Configurations](sql/TransparentDataEncryptionConfigurations.json)
+## [Transparent Data Encryptions](sql/TransparentDataEncryptions.json)
 # [Storage Import-Export](../docs-ref-conceptual/storageimportexport/index.md)
 ## [Get Location](storageimportexport/GetLocation.json)
 ## [Jobs](storageimportexport/Jobs.json)
