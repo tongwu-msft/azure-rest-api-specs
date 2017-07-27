@@ -28,7 +28,7 @@ Azure Database for PostgreSQL provides a managed database service for app develo
 
 | Operation group | Description |
 |---|---|
-| [Server](~/docs-ref-autogen/postgresql/Servers.json) | Creates, Updates, Delete, Get, or List servers. |
+| [Server](~/docs-ref-autogen/postgresql/Servers.json) | Create, Restore, Update, Delete, Get, or List servers. |
 | [Configurations](~/docs-ref-autogen/postgresql/Configurations.json) | Update, Get, and List the configuration of a server. | 
 | [Databases](~/docs-ref-autogen/postgresql/Databases.json)  | Create, Delete, Get, or List databases in the server. | 
 | [Firewall Rules](~/docs-ref-autogen/postgresql/FirewallRules.json) | Creates, Delete, Get, or List the firewall rules in a server. |
