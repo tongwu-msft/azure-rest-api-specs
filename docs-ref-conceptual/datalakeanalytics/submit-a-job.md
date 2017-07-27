@@ -1,7 +1,7 @@
 ---
 title: "Submit a job"
 ms.custom: ""
-ms.date: "2016-10-27"
+ms.date: "2017-07-27"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "data-lake-analytics"
@@ -19,7 +19,7 @@ manager: "jhubbard"
 Submit an Azure Data Lake Analytics job.  
   
 ## Request  
- See [Common parameters and headers](../AzureDataLakeStoreREST/job-management-apis.md#bk_common_adla) for headers and parameters that are used by the REST call.  
+ See [Common parameters and headers](https://docs.microsoft.com/rest/api/datalakeanalytics/job-management-apis) for headers and parameters that are used by the REST call.  
 
 
 |Method|Request URI|  
