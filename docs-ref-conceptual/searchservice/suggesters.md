@@ -33,10 +33,9 @@ A **Suggester** is a construct supporting the "search-as-you-type" [Suggestions]
 
 Although a **suggester** has several properties, it is primarily a collection of fields for which you are enabling the Suggestions API. For example, a travel app might want to enable typeahead search on destinations, cities, and attractions. As such, all three fields would go in the field collection.
 
-Requirements for construction include:
+You can have only one **suggester** resource for each index (specifically, one **suggester** in the **suggesters** collection).
 
-+ One **suggester** per index (one **suggester** allowed in the **suggesters** collection)  
-+ When updating an existing index, you can only add new fields to a suggester if both the new field and its inclusion in a suggester are part of the same update. All other changes to a suggester require a full rebuild of the index.
+You can create a **suggester** at any time, but the impact on your index varies based on the fields. New fields added to a suggester as part of the same update are the least impactful in that no index rebuild is required. Adding existing fields, however, changes the field definition, necessitating a full rebuild of the index.
 
 ## Usage  
 
