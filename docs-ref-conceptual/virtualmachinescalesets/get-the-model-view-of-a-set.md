@@ -24,7 +24,7 @@ For information about getting started with Azure REST operations including reque
     
 |Method|Request URI|    
 |------------|-----------------|    
-|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSet/{vmScaleSet}?api-version={apiVersion}`|    
+|GET|`https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/VirtualMachineScaleSets/{vmScaleSet}?api-version={apiVersion}`|    
     
 | Parameter | Description |
 | --------- | ----------- |
