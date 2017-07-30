@@ -56,7 +56,7 @@ type=master&ver=1.0&sig=5mDuQBYA0kb70WDJoTUzSBMTG3owkC0/cEN4fqa18/s=
   
 -   {hashsignature} denotes the hashed token signature.  
   
- The authorization string should be encoded before adding it to the REST request to ensure that it contains no invalid characters.  
+ The authorization string should be encoded before adding it to the REST request to ensure that it contains no invalid characters. Ensure that it's Base64 encoded using MIME RFC2045. Also, the master key used in the hashsignature should be decoded using MIME RFC2045 as it's Base64 encoded.  
   
 ##  <a name="constructkeytoken"></a> Constructing the hashed token signature for a master token  
  The hash signature for the master key token consists of the following ordered properties: **VERB**, **ResourceType**, **ResourceId** and **x-ms-date**.  
