@@ -8,7 +8,6 @@ ms.service: "batch"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
-ms.assetid: a10f9921-f8c0-4bc9-a6d9-a3f8d3b976a9
 caps.latest.revision: 6
 author: "tamram"
 ms.author: "tamram"
