@@ -1,7 +1,7 @@
 ---
-title: "List all VMs in a set"
+title: "List all VM instance views in a set"
 ms.custom: ""
-ms.date: "2017-02-07"
+ms.date: "2017-08-01"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "virtual-machines"
@@ -15,9 +15,9 @@ caps.latest.revision: 10
 ms.author: "davidmu"
 manager: "timlt"
 ---
-# List all VMs in a set
-Retrieves information about the instance view of all virtual machines in the specified virtual machine scale set.    
-    
+# List all VM instance views in a set
+Retrieves information about the instance views of all virtual machines in the specified virtual machine scale set.    
+
 ## Request    
 
 For information about getting started with Azure REST operations including request authentication, see [Azure REST API Reference](../../index.md).  
@@ -31,7 +31,7 @@ For information about getting started with Azure REST operations including reque
 | subscriptionId | The identifier of your subscription. |
 | resourceGroup | The resource group that contains the scale set. |
 | vmScaleSet | The name of the scale set. |
-| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |   
+| apiVersion | The version of the API to use. The current version is 2017-03-30. |   
     
 ## Response    
 Status code: 200 (OK).    
@@ -170,3 +170,6 @@ Status code: 200 (OK).
 |level|Specifies the sub-status level.|    
 |displayStatus|Specifies the sub-status value to display.|    
 |message|Specifies the sub-status message.|
+
+## Retrieving the model view
+To retrieve the model view of a scale set, remove "$expand=instanceView&$select=instanceView&" from the request URI.
