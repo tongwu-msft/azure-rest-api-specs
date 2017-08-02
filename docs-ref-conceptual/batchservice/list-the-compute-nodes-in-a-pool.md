@@ -15,7 +15,7 @@ ms.author: "tamram"
 manager: "timlt"
 ---
 # List the compute nodes in a pool
-  List the compute nodes that are associated with the specified pool.  
+  Lists the compute nodes that are associated with the specified pool.  
   
 ## Request  
  See [Common Parameters and Headers](../batchservice/common-parameters-and-headers.md) for headers and parameters that are used by all requests related to pools.  
