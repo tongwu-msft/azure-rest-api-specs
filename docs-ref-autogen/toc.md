@@ -172,6 +172,7 @@
 ### [Delete a task from a job](../docs-ref-conceptual/batchservice/delete-a-task-from-a-job.md)
 ### [Get information about a task](../docs-ref-conceptual/batchservice/get-information-about-a-task.md)
 ### [List the tasks associated with a job](../docs-ref-conceptual/batchservice/list-the-tasks-associated-with-a-job.md)
+### [Get the task counts for a job](../docs-ref-conceptual/batchservice/get-the-task-counts-for-a-job.md)
 ### [Terminate a task](../docs-ref-conceptual/batchservice/terminate-a-task.md)
 ### [Update the properties of a task](../docs-ref-conceptual/batchservice/update-the-properties-of-a-task.md)
 ### [List the subtasks of a task](../docs-ref-conceptual/batchservice/list-the-subtasks-of-a-task.md)
