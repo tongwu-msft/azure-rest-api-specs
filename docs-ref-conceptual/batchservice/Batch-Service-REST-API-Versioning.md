@@ -17,12 +17,30 @@ manager: "timlt"
 # Batch Service REST API Versioning
   Operations provided by the Batch service REST API may have multiple versions for backwards compatibility as the API evolves over time. You must specify which version of an operation you wish to use when it is called by providing the version with your REST call. If your application calls an older version of an operation, you can choose to continue calling the older version, or modify your code to call a newer version. If the version is not specified or an incorrect version is specified, then an error will be returned.
 
- To specify which version of an operation to use, specify the *api\-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY\-MM\-DD’ and Major is an integer and Minor is an integer.
+ To specify which version of an operation to use, specify the *api-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY-MM-DD’ and Major is an integer and Minor is an integer.
 
 ## Supported Versions
- The version of the Batch API described here is 2017-05-01.5.0. Using the latest version is recommended when possible.
+ The version of the Batch API described here is 2017-06-01.5.1. Using the latest version is recommended when possible.
 
- Earlier versions include '2017-01-01.4.0', '2016-07-01.3.1', '2016-02-01.3.0', '2015-12-01.2.1', '2015-11-01.2.1', '2015-06-01.2.0', '2015-03-01.1.1', and '2014-10-01.1.0'.
+ Earlier versions include:
+
+- [2017-05-01.5.0](#version-2017050150)
+- [2017-01-01.4.0](#version-2017010140)
+- [2016-07-01.3.1](#version-2016070131)
+- [2016-02-01.3.0](#version-2016020130)
+- [2015-12-01.2.1](#version-2015120122)
+- [2015-11-01.2.1](#version-2015110121)
+- 2015-06-01.2.0
+- 2015-03-01.1.1
+- 2014-10-01.1.0
+
+### Version 2017-06-01.5.1
+
+New features in version 2017-06-01.5.1 include:
+
+- Support for detailed aggregate task counts via the new [Get Task Counts](../batchservice/get-the-task-counts-for-a-job.md) operation.
+- Support for specifying inbound endpoints on pool compute nodes, via a new CloudPool.PoolEndpointConfiguration property. This allows specific ports on the node to be addressed externally.
+
 
 ### Version 2017-05-01.5.0
 
@@ -136,10 +154,10 @@ You can now request that application licenses be provisioned to your pool, via t
 
     If your Batch account is set up to provision pools in the user subscription, then using AAD authentication is required.  
 
-### Version 2016\-07\-01.3.1
- This version release extends all support from previous version, 2016\-02\-01.3.0. Additionally, it supports the following capabilities:
+### Version 2016-07-01.3.1
+ This version release extends all support from previous version, 2016-02-01.3.0. Additionally, it supports the following capabilities:
 
--   Capability to create a pool and an auto\-pool with Network configuration
+-   Capability to create a pool and an auto-pool with Network configuration
 
     -   A new property [networkConfiguration](../batchservice/add-a-pool-to-an-account.md#bk_netconf), has been added to both the pool and auto-pool resources. This property can be used to specify the pool's network configuration, such as the subnet in which the pool's compute nodes will be created.
 
@@ -158,12 +176,12 @@ You can now request that application licenses be provisioned to your pool, via t
 
     - A new operation [Reactivate a task](../batchservice/reactivate-a-task.md) has been added to reset a failed task's state to active. This allows failures to be retried, for example if the failure was transient or if you have been able to fix the cause of the failure, without recreating the task.  
 
-### Version 2016\-02\-01.3.0
- This version release extends all support from previous version, 2015\-12\-01.2.2. Additionally, it supports the following capabilities:
+### Version 2016-02-01.3.0
+ This version release extends all support from previous version, 2015-12-01.2.2. Additionally, it supports the following capabilities:
 
--   Capability to create a pool and an auto\-pool with IaaS VM configuration
+-   Capability to create a pool and an auto-pool with IaaS VM configuration
 
-    -   Existing properties 'osFamily', 'targetOSVersion' and 'currentOSVersion' are moved from top\-level properties of Pool and AutoPool resources and are moved inside a new property called 'cloudServiceConfiguration'.
+    -   Existing properties 'osFamily', 'targetOSVersion' and 'currentOSVersion' are moved from top-level properties of Pool and AutoPool resources and are moved inside a new property called 'cloudServiceConfiguration'.
 
     -   A new property 'virtualMachineConfiguration' is added to both the Pool and AutoPool resources. This property can be specified to configure a pool/auto pool with IaaS VMs.
 
@@ -181,7 +199,7 @@ You can now request that application licenses be provisioned to your pool, via t
 
     -   A new property 'fileMode' is added to the 'FileProperties' complex type. This property will be returned by the Batch service for Linux compute nodes as part of GetFileProperties or ListFileProperties APIs. Also, the existing property 'creationTime' under the 'FileProperties' complex type is changed to an optional property because this property will not be returned for Linux compute nodes.
 
-    -   The data type of the existing property 'visibility' inside the 'CertificateReference' complex type is modified from a string with comma\-separated values to a collection of strings. Also one of the existing values for visibility is renamed from "rdp" to "remoteuser".
+    -   The data type of the existing property 'visibility' inside the 'CertificateReference' complex type is modified from a string with comma-separated values to a collection of strings. Also one of the existing values for visibility is renamed from "rdp" to "remoteuser".
 
 -   The URLs of the following APIs are changed to replace "?" for the action name to "/":
 
@@ -225,14 +243,14 @@ You can now request that application licenses be provisioned to your pool, via t
 
     -   [Cancel the deletion of a certificate](../batchservice/cancel-the-deletion-of-a-certificate.md)
 
-### Version 2015\-12\-01.2.2
- This version release extends all support from previous version, 2015\-11\-01.2.1. Additionally, it supports the following capabilities:
+### Version 2015-12-01.2.2
+ This version release extends all support from previous version, 2015-11-01.2.1. Additionally, it supports the following capabilities:
 
 -   Applications can now be deployed to compute nodes using application packages instead of as resource files.
 
     -   New APIs are provided for clients to browse the list of available applications and versions, for example to display a selector in a user interface.
 
-    -   Pool\-related APIs are changed to allow a pool to specify application packages to be downloaded to all nodes in that pool.
+    -   Pool-related APIs are changed to allow a pool to specify application packages to be downloaded to all nodes in that pool.
 
 -   Tasks can now be made dependent on other tasks.  A dependent task will not start until all the tasks it depends on have completed successfully.
 
@@ -240,8 +258,8 @@ You can now request that application licenses be provisioned to your pool, via t
 
 -   The default pool resize timeout has changed to 15 minutes.
 
-### Version 2015\-11\-01.2.1
- This version release extends all support from previous version 2015\-06\-01.2.0. Additionally, it supports the following capabilities:
+### Version 2015-11-01.2.1
+ This version release extends all support from previous version 2015-06-01.2.0. Additionally, it supports the following capabilities:
 
 -   Capability to add and run multiinstance task \(eg MPI\)
 
