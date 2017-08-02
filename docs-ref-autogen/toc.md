@@ -1672,7 +1672,7 @@
 ## [List all public IPs in a set](../docs-ref-conceptual/virtualmachinescalesets/list-all-public-ips-set.md)
 ## [List all sets in a resource group](../docs-ref-conceptual/virtualmachinescalesets/list-all-sets-in-a-resource-group.md)
 ## [List all sets in a subscription](../docs-ref-conceptual/virtualmachinescalesets/list-all-sets-in-a-subscription.md)
-## [List all VMs in a set](../docs-ref-conceptual/virtualmachinescalesets/list-all-vms-in-a-set.md)
+## [List all VMs in a set](../docs-ref-conceptual/virtualmachinescalesets/list-all-vm-instance-views-in-a-set.md)
 ## [List available skus for VMs](../docs-ref-conceptual/virtualmachinescalesets/list-available-skus-for-vms.md)
 ## [Manage a VM](../docs-ref-conceptual/virtualmachinescalesets/manage-a-vm.md)
 ## [Manage all VMs in a set](../docs-ref-conceptual/virtualmachinescalesets/manage-all-vms-in-a-set.md)
