@@ -38,9 +38,8 @@ manager: "timlt"
 
 New features in version 2017-06-01.5.1 include:
 
-- Support for detailed aggregate task counts via the new [Get Task Counts](../batchservice/get-the-task-counts-for-a-job.md) operation.
-- Support for specifying inbound endpoints on pool compute nodes, via a new CloudPool.PoolEndpointConfiguration property. This allows specific ports on the node to be addressed externally.
-
+- Support for efficient task counts via the new [Get Task Counts](../batchservice/get-the-task-counts-for-a-job.md) operation. By calling the Get Task Counts operation, you can get a count of active, running, and completed tasks, and of tasks that have succeeded or failed. For more information, see [Count tasks for a job by state (Preview)](https://docs.microsoft.com/azure/batch/batch-get-task-counts).
+- Support for specifying inbound endpoints on pool compute nodes, via the new **poolEndpointConfiguration** property. By setting this property, you can address specific ports on the node externally.
 
 ### Version 2017-05-01.5.0
 
