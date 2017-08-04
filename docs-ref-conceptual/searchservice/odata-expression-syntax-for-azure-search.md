@@ -64,7 +64,7 @@ translation.priority.mt:
 	
 	This third parameter is a string where each character of the string, or subset of this string are treated as a separator when parsing the list of values in the second parameter.
 	
-	Currently `search.in` function is supported only in api-versions 2016-09-01-Preview & 2015-02-28-Preview.
+	Currently the `search.in` function is supported only in api-versions 2016-09-01-Preview and 2015-02-28-Preview.
 
 > [!NOTE]  
 >  For the result of the `geo.distance` function only the `lt, le, gt, ge` operators are supported. Operators `eq` and `ne` cannot be used.  
