@@ -289,16 +289,6 @@ You can now request that application licenses be provisioned to your pool, via t
 
     -   A new property ‘taskRootDirectory’ is added to ‘jobPreparationTaskExecutionInfo’ and ‘jobReleaseTaskExecutionInfo’ which can be obtained via List the status of the job preparation and job release tasks for a job API.
 
-=======
----
-ms.assetid: c85ea5cf-e1cb-4c95-8c47-581baf599c64
-ms.title: Batch REST API versioning | Microsoft Docs
-ms.service: batch
-author: tamram
-ms.author: tamram
-ms.manager: timlt
----
-
 # Batch REST API versioning
 
 Operations provided by the Batch service REST API may have multiple versions for backwards compatibility as the API evolves over time. You must specify which version of an operation you wish to use when it is called by providing the version with your REST call. If your application calls an older version of an operation, you can choose to continue calling the older version, or modify your code to call a newer version. If the version is not specified or an incorrect version is specified, then an error will be returned.
