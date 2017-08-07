@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2017-08-04"
+ms.date: "08/07/2017"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
