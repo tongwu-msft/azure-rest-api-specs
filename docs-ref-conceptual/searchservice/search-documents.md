@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2017-06-06"
+ms.date: "08/07/2017"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -107,7 +107,7 @@ Azure Search uses *server-side paging* to prevent queries from retrieving too ma
 
 #### `$count=true | false`
 
-Optional, defaults to `false`. When calling via POST, this parameter is named `count` instead of `$count`. Specifies whether to fetch the total count of results. This is the count of all documents that match the \`search\` and \`$filter\` parameters, ignoring \`$top\` and \`$skip\`. Setting this value to \`true\` may have a performance impact. Note that the count returned is an approximation. If you’d like to get only the count without any documents, you can use `$top=0`.
+Optional, defaults to `false`. When calling via POST, this parameter is named `count` instead of `$count`. Specifies whether to fetch the total count of results. This is the count of all documents that match the `search` and `$filter` parameters, ignoring `$top` and `$skip`. Setting this value to `true` may have a performance impact. Note that the count returned is an approximation. If you’d like to get only the count without any documents, you can use `$top=0`.
 
 #### `$orderby=[string] (optional)`
 

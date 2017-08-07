@@ -19,10 +19,18 @@ manager: "timlt"
 
  To specify which version of an operation to use, specify the *api-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY-MM-DD’ and Major is an integer and Minor is an integer.
 
-## Supported Versions
- The version of the Batch API described here is 2017-06-01.5.1. Using the latest version is recommended when possible.
+## Latest version: 2017-06-01.5.1
 
- Earlier versions include:
+The version of the Batch API described here is **2017-06-01.5.1**. Using the latest version is recommended when possible.
+
+New features in version 2017-06-01.5.1 include:
+
+- Support for efficient task counts via the new [Get Task Counts](../batchservice/get-the-task-counts-for-a-job.md) operation. By calling the Get Task Counts operation, you can get a count of active, running, and completed tasks, and of tasks that have succeeded or failed. For more information, see [Count tasks for a job by state (Preview)](https://docs.microsoft.com/azure/batch/batch-get-task-counts).
+- Support for specifying inbound endpoints on pool compute nodes, via the new **poolEndpointConfiguration** property. By setting this property, you can address specific ports on the node externally.
+
+## Previous Versions
+ 
+ Previous versions include:
 
 - [2017-05-01.5.0](#version-2017050150)
 - [2017-01-01.4.0](#version-2017010140)
@@ -34,12 +42,7 @@ manager: "timlt"
 - 2015-03-01.1.1
 - 2014-10-01.1.0
 
-### Version 2017-06-01.5.1
 
-New features in version 2017-06-01.5.1 include:
-
-- Support for efficient task counts via the new [Get Task Counts](../batchservice/get-the-task-counts-for-a-job.md) operation. By calling the Get Task Counts operation, you can get a count of active, running, and completed tasks, and of tasks that have succeeded or failed. For more information, see [Count tasks for a job by state (Preview)](https://docs.microsoft.com/azure/batch/batch-get-task-counts).
-- Support for specifying inbound endpoints on pool compute nodes, via the new **poolEndpointConfiguration** property. By setting this property, you can address specific ports on the node externally.
 
 ### Version 2017-05-01.5.0
 
