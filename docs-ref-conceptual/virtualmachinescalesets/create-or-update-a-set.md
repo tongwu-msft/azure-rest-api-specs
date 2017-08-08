@@ -12,8 +12,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
 ms.assetid: fc8b7914-99e0-4975-b635-09c7726c79db
 caps.latest.revision: 16
-ms.author: "anavin"
-manager: "narayan"
+ms.author: "negat"
+manager: "guybo"
 robots: noindex
 ---
 
