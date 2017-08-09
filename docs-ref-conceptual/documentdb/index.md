@@ -68,6 +68,7 @@ See [Access control using the DocumentDB API](access-control-on-documentdb-resou
 * [Supported operations](common-tasks-using-the-documentdb-rest-api.md)  
 
 The follow video gives a great introduction to Cosmos DB REST APIs. 
+
 [!VIDEO https://channel9.msdn.com/Shows/Azure-Friday/Using-REST-with-DocumentDB/player] 
 
 ## See Also  
