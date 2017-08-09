@@ -34,7 +34,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Recoverable Databases](~/docs-ref-autogen/sql/recoverabledatabases.json)|Get a recoverable database, or list all recoverable databases for a server.|
 |[Restorable Dropped Databases](~/docs-ref-autogen/sql/restorabledroppeddatabases.json)| Get a deleted database or list of databases that can be restored.|
 |[Restore Points](~/docs-ref-autogen/sql/restorepoints.json)|Get a list of database restore points.|
-|[Server Azure AD Administrators](~/docs-ref-autogen/sql/serverazureadministrators.json)| Create a new Server Active Directory Administrator or update an existing server Active Directory Administrator.
+|[Server Azure AD Administrators](~/docs-ref-autogen/sql/serverazureadadministrators.json)| Create a new Server Active Directory Administrator or update an existing server Active Directory Administrator.
 |[Check Server Name](~/docs-ref-autogen/sql/servers%20-%20sql.json)| Check if a server name is valid and available.|
 |[Service Tier Advisor](~/docs-ref-autogen/sql/servicetieradvisors.json)| Get service tier recommendations.|
 |[Transparent Data Encryption Activities](~/docs-ref-autogen/sql/transparentdataencryptionactivities.json)| Returns a database's transparent data encryption operation result.|
