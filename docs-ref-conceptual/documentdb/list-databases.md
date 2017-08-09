@@ -57,7 +57,7 @@ translation.priority.mt:
   
 |Property|Description|  
 |--------------|-----------------|  
-|**_rid**|This is a [system generated property](http://azure.microsoft.com/documentation/articles/documentdb-resources/#system-vs-user-defined-resources). The **_rid** value is empty for this operation.|  
+|**_rid**|This is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources#system-vs-user-defined-resources). The **_rid** value is empty for this operation.|  
 |**_count**|This property shows the number of databases returned as part of list operation.|  
 |**Databases**|This the array containing the databases returned as part of the list operation.<br />Properties of the database resource|  
 |**id**|The unique user generated name for the database.|  

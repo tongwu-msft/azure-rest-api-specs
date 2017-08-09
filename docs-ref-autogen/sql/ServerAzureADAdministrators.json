@@ -1,19 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
+    "version": "2014-04-01",
     "title": "Azure SQL Database API spec",
-    "description": "The Azure SQL Database management API provides a RESTful set of web services that interact with Azure SQL Database services to manage your external server administrators.",
-    "version": "2014-04-01"
+    "description": "The Azure SQL Database management API provides a RESTful set of web services that interact with Azure SQL Database services to manage your external server administrators."
   },
   "host": "management.azure.com",
   "schemes": [
     "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
   ],
   "paths": {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}": {
@@ -29,6 +23,7 @@
               "subscriptionId": "00000000-1111-2222-3333-444444444444",
               "resourceGroupName": "sqlcrudtest-4799",
               "serverName": "sqlcrudtest-6440",
+              "administratorName": "activeDirectory",
               "api-version": "2014-04-01",
               "properties": {
                 "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/administrators/activeDirectory",
@@ -109,7 +104,13 @@
             }
           }
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       },
       "delete": {
         "tags": [
@@ -123,6 +124,7 @@
               "subscriptionId": "00000000-1111-2222-3333-444444444444",
               "resourceGroupName": "sqlcrudtest-4799",
               "serverName": "sqlcrudtest-6440",
+              "administratorName": "activeDirectory",
               "api-version": "2014-04-01"
             },
             "responses": {
@@ -175,7 +177,13 @@
             }
           }
         },
-        "x-ms-long-running-operation": true
+        "x-ms-long-running-operation": true,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       },
       "get": {
         "tags": [
@@ -189,6 +197,7 @@
               "subscriptionId": "00000000-1111-2222-3333-444444444444",
               "resourceGroupName": "sqlcrudtest-4799",
               "serverName": "sqlcrudtest-6440",
+              "administratorName": "activeDirectory",
               "api-version": "2014-04-01"
             },
             "responses": {
@@ -219,6 +228,9 @@
           },
           {
             "$ref": "#/parameters/ServerNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AdministratorNameParameter"
           }
         ],
         "responses": {
@@ -228,7 +240,13 @@
               "$ref": "#/definitions/ServerAzureADAdministrator"
             }
           }
-        }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators": {
@@ -236,7 +254,7 @@
         "tags": [
           "ServerAdministrators"
         ],
-        "operationId": "ServerAzureADAdministrators_List",
+        "operationId": "ServerAzureADAdministrators_ListByServer",
         "description": "Returns a list of server Administrators.",
         "x-ms-examples": {
           "get a list of server administrators": {
@@ -290,11 +308,46 @@
         },
         "x-ms-pageable": {
           "nextLinkName": null
-        }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     }
   },
   "definitions": {
+    "Resource": {
+      "description": "ARM resource.",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "ProxyResource": {
+      "description": "ARM proxy resource.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ]
+    },
     "ServerAdministratorProperties": {
       "properties": {
         "administratorType": {
@@ -340,7 +393,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/SqlSubResource"
+          "$ref": "#/definitions/ProxyResource"
         }
       ],
       "description": "An server Active Directory Administrator."
@@ -356,21 +409,6 @@
         }
       },
       "description": "The response to a list Active Directory Administrators request."
-    },
-    "SqlSubResource": {
-      "description": "Subresource properties",
-      "properties": {
-        "name": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource name"
-        },
-        "id": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource Id"
-        }
-      }
     }
   },
   "parameters": {
@@ -437,5 +475,7 @@
         "user_impersonation": "impersonate your user account"
       }
     }
-  }
+  },
+  "x-internal-service-name": "SQL Databases",
+  "x-internal-toc-name": "Server Azure AD Administrators"
 }

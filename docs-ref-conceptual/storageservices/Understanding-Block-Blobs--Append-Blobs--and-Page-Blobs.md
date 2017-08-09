@@ -1,7 +1,7 @@
 ---
 title: "Understanding Block Blobs, Append Blobs, and Page Blobs"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 2017-07-14
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -10,7 +10,7 @@ ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: 2de10e66-46cd-4bbe-98ec-aba34bf22c4d
 caps.latest.revision: 38
-author: tamram
+author: robinsh
 manager: carolz
 translation.priority.mt: 
   - de-de
@@ -52,7 +52,7 @@ The storage service offers three types of blobs, *block blobs*, *append blobs*, 
  If you write a block for a blob that does not exist, a new block blob is created, with a length of zero bytes. This blob will appear in blob lists that include uncommitted blobs. If you don’t commit any block to this blob, it and its uncommitted blocks will be discarded one week after the last successful block upload. All uncommitted blocks are also discarded when a new blob of the same name is created using a single step (rather than the two-step block upload-then-commit process).  
   
 ## About Page Blobs  
- Page blobs are a collection of 512-byte pages optimized for random read and write operations. To create a page blob, you initialize the page blob and specify the maximum size the page blob will grow. To add or update the contents of a page blob, you write a page or pages by specifying an offset and a range that align to 512-byte page boundaries. A write to a page blob can overwrite just one page, some pages, or up to 4 MB of the page blob. Writes to page blobs happen in-place and are immediately committed to the blob. The maximum size for a page blob is 1 TB.  
+ Page blobs are a collection of 512-byte pages optimized for random read and write operations. To create a page blob, you initialize the page blob and specify the maximum size the page blob will grow. To add or update the contents of a page blob, you write a page or pages by specifying an offset and a range that align to 512-byte page boundaries. A write to a page blob can overwrite just one page, some pages, or up to 4 MB of the page blob. Writes to page blobs happen in-place and are immediately committed to the blob. The maximum size for a page blob is 8 TB.  
   
  With the introduction of new Premium Storage, Microsoft Azure now offers two types of durable storage: **Premium Storage** and **Standard Storage**. Premium Storage is specifically designed for Azure Virtual Machine workloads requiring consistent high performance and low latency. Premium Storage is currently available only for storing data on disks used by Azure Virtual Machines. These disks are backed by page blobs in Azure Storage. For detailed information, see [Premium Storage: High-Performance Storage for Azure Virtual Machine Workloads](http://go.microsoft.com/fwlink/?LinkId=521898). For information on the scalability targets for Premium Storage, see [Azure Storage Scalability and Performance Targets](/azure/storage/storage-scalability-targets).  
   
@@ -62,5 +62,5 @@ The storage service offers three types of blobs, *block blobs*, *append blobs*, 
  Each block in an append blob can be a different size, up to a maximum of 4 MB, and an append blob can include up to 50,000 blocks. The maximum size of an append blob is therefore slightly more than 195 GB (4 MB X 50,000 blocks).  
   
 ## See Also  
- [How to Use the Blob Storage Service](http://www.windowsazure.com/develop/net/how-to-guides/blob-storage/)   
- [How to Use the Queue Storage Service](http://www.windowsazure.com/develop/net/how-to-guides/queue-service/)
+ [How to Use the Blob Storage Service](/azure/storage/storage-dotnet-how-to-use-blobs/)   
+ [How to Use the Queue Storage Service](/azure/storage/storage-dotnet-how-to-use-queues/)

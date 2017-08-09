@@ -69,6 +69,9 @@ The error codes listed in the following table may be returned by an operation on
 |ResourceAlreadyExists|Conflict (409)|The specified resource already exists.|  
 |ResourceNotFound|Not Found (404)|The specified resource does not exist.|  
 |ServerBusy|Service Unavailable (503)|The server is currently unable to receive requests. Please retry your request.|  
+|ServerBusy|Service Unavailable (503)|Ingress is over the account limit.|
+|ServerBusy|Service Unavailable (503)|Egress is over the account limit.|
+|ServerBusy|Service Unavailable (503)|Operations per second is over the account limit.|
 |UnsupportedHeader|Bad Request (400)|One of the HTTP headers specified in the request is not supported.|  
 |UnsupportedXmlNode|Bad Request (400)|One of the XML nodes specified in the request body is not supported.|  
 |UnsupportedQueryParameter|Bad Request (400)|One of the query parameters specified in the request URI is not supported.|  

@@ -33,14 +33,17 @@ The error codes listed in the following table may be returned by an operation ag
 |BlobAlreadyExists|Conflict (409)|The specified blob already exists.|  
 |BlobNotFound|Not Found (404)|The specified blob does not exist.|  
 |BlobOverwritten|Conflict (409)|The blob has been recreated since the previous snapshot was taken.|  
+|BlobTierInadequateForContentLength|Conflict (409)|The specified blob tier size limit cannot be less than content length.|  
 |BlockCountExceedsLimit|Conflict (409)|The committed block count cannot exceed the maximum limit of 50,000 blocks.|  
 |BlockCountExceedsLimit|Conflict (409)|The uncommitted block count cannot exceed the maximum limit of 100,000 blocks.|
 |BlockListTooLong|Bad Request (400)|The block list may not contain more than 50,000 blocks.|
+|CannotChangeToLowerTier|Conflict (409)|A higher blob tier has already been explicitly set.|  
 |CannotVerifyCopySource|Internal Server Error (500)|Could not verify the copy source within the specified time. Examine the HTTP status code and message for more information about the failure.|  
 |ContainerAlreadyExists|Conflict (409)|The specified container already exists.|  
 |ContainerBeingDeleted|Conflict (409)|The specified container is being deleted.|  
 |ContainerDisabled|Conflict (409)|The specified container has been disabled by the administrator.|  
 |ContainerNotFound|Not Found (404)|The specified container does not exist.|  
+|ContentLengthLargerThanTierLimit|Conflict (409)|The blob's content length cannot exceed its tier limit.|  
 |CopyAcrossAccountsNotSupported|Bad Request (400)|The copy source account and destination account must be the same.|  
 |CopyIdMismatch|Conflict (409)|The specified copy ID did not match the copy ID for the pending copy operation.|  
 |FeatureVersionMismatch|Conflict (409)|The operation for AppendBlob requires at least version 2015-02-21.|  
@@ -50,6 +53,7 @@ The error codes listed in the following table may be returned by an operation ag
 |IncrementalCopySourceMustBeSnapshot|Conflict (409)|The source for incremental copy request must be a snapshot.|
 |InfiniteLeaseDurationRequired|Precondition Failed (412)|The lease ID matched, but the specified lease must be an infinite-duration lease.|  
 |InvalidBlobOrBlock|Bad Request (400)|The specified blob or block content is invalid.|  
+|InvalidBlobTier|Bad Request (400)|The specified blob tier is invalid.|  
 |InvalidBlobType|Conflict (409)|The blob type is invalid for this operation.|  
 |InvalidBlockId|Bad Request (400)|The specified block ID is invalid. The block ID must be Base64-encoded.|  
 |InvalidBlockList|Bad Request (400)|The specified block list is invalid.|  

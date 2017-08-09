@@ -58,7 +58,7 @@ The stored procedure resource has a fixed schema. The body property contains the
 |**_self**|This is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|This is a system generated property that specifies the resource etag required for optimistic concurrency control.|  
   
-Stored procedures can use the Cosmos DB JavaScript Server-side SDK to make database operations like create, read, update, delete and query documents, as well as read from the request body and write to the response body of the stored procedure. For more details, refer to the [Cosmos DB server-side SDK documentation](http://dl.windowsazure.com/documentDB/jsserverdocs/) and the server [Cosmos DB side programming tutorial](http://azure.microsoft.com/documentation/articles/documentdb-programming/).  
+Stored procedures can use the Cosmos DB JavaScript Server-side SDK to make database operations like create, read, update, delete and query documents, as well as read from the request body and write to the response body of the stored procedure. For more details, refer to the [Cosmos DB server-side SDK documentation](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-node) and the server [Cosmos DB side programming tutorial](http://azure.microsoft.com/documentation/articles/documentdb-programming/).  
 For example, here’s a stored procedure for “Hello World”:  
   
 ```  
