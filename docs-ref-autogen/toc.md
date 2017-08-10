@@ -1382,7 +1382,7 @@
 ## [Ports](servicemap/Ports.json)
 ## [Processes](servicemap/Processes.json)
 ## [Summaries](servicemap/Summaries.json)
-# [SQL Databases](../docs-ref-conceptual/sql/index.md)
+# [SQL Database](../docs-ref-conceptual/sql/index.md)
 ## [Capabilities](sql/Capabilities.json)
 ## [Database Blob Auditing Policies](sql/DatabaseBlobAuditingPolicies.json)
 ## [Database Threat Detection Policies](sql/DatabaseThreatDetectionPolicies.json)
