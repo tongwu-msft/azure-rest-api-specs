@@ -1,7 +1,7 @@
 ---
-title: "Addressing and Protocol"
+title: "Service Bus Namespace Access"
 ms.custom: ""
-ms.date: "05/15/2015"
+ms.date: "08/11/2017"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Addressing and Protocol
+# Service Bus Namespace Access
 A service namespace is a hierarchical namespace under which an entity can be created and mapped to any arbitrary depth of names at leaf node. It is considered the base address of all entities and features created under this namespace. In example address below, the bold section is considered the namespace address, which is used to set or get the full path of entities or features of these entities. All top level entities, such as `Queue` and `Topic` are addressed by this scheme.  
   
 ```  
@@ -36,17 +36,12 @@ https://{serviceNamespace}.servicebus.Windows.net/{path}
  You can specify `{path}` at any depth. For example, /test, /test/test2, or /test/test2/test3. Note that the maximum length of an entity name is 290 characters.  
   
 ## In This Section  
- [Topic Subscription](topic-subscription.md)  
- Describes the address of a topic subscription.  
-  
- [Rule](rule.md)  
- Describes the rule of a topic subscription.  
-  
+
  [Overview](overview.md)  
  Provides overview of the simplified REST API sets for managing entities.  
   
- [Send Message](send-message2.md)  
- Sends a new message.  
+ [Rule](rule.md)  
+ Describes the rule of a topic subscription.  
   
  [Get Entity](get-entity.md)  
  Retrieves a messaging entity.  
