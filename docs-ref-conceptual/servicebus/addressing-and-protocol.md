@@ -62,10 +62,8 @@ https://{serviceNamespace}.servicebus.Windows.net/{path}
  Updates messaging entities.  
   
 ## Related Sections  
- [REST vs. .NET Client Support](rest-vs.-.net-client-support.md)  
+ [REST vs. .NET Client Support](rest-dotnet-client-support.md)  
   
  [Message Headers and Properties](message-headers-and-properties.md)  
-  
- [Service Bus Management REST (classic)](service-bus-management-rest--classic-.md)  
   
  [Service Bus Runtime REST](service-bus-runtime-rest.md)
