@@ -31,6 +31,8 @@ service_description: To be added
 
 The Azure Cosmos DB REST API provides programmatic access to Azure Cosmos DB resources to create, query, and delete databases, document collections, and documents. To perform operations on Azure Cosmos DB resources, you send HTTPS requests with a supported method: `GET`, `POST`, `PUT`, or `DELETE` to an endpoint that targets a resource collection or a specific resource. This section contains information about working with resources by using the REST API. 
   
+The follow video gives a great introduction to Cosmos DB REST APIs. 
+
 > [!VIDEO https://channel9.msdn.com/Shows/Azure-Friday/Using-REST-with-DocumentDB/player] 
 
 ## Supported REST API Versions
@@ -68,9 +70,6 @@ See [Access control using the DocumentDB API](access-control-on-documentdb-resou
 * [Common request headers](common-documentdb-rest-request-headers.md)  
 * [Common response headers](common-documentdb-rest-response-headers.md)  
 * [Supported operations](common-tasks-using-the-documentdb-rest-api.md)  
-
-The follow video gives a great introduction to Cosmos DB REST APIs. 
-
 
 ## See Also  
 * [Azure Cosmos DB](/azure/cosmos-db/introduction) 
