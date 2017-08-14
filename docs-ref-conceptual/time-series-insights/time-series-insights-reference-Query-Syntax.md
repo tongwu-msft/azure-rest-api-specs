@@ -13,7 +13,7 @@ The language is subdivided into the following elements:
 Query API operates on data stored as individual **events** within an environment.
 Each event is a set of property name and value pairs.
 
-Event properties can be of one of the following primitive types: `Boolean`, `DateTime`, `Double`, `String`, or `TimeSpan`.
+Event properties can be of one of the following primitive types: `Boolean`, `DateTime`, `Double`, or `String`.
 Original event source formats may support a larger set of value types, in which case Time Series Insights ingress maps them to the closest primitive types.
 All primitive types are nullable.
 
@@ -456,7 +456,7 @@ JSON example:
     "to": {"dateTime":"2016-08-31T00:00:00.000Z"}
 }
 ```
-`from` and `to` properties in search span clause can be any valid expression of DateTime resulting type.
+`from` and `to` properties in search span clause should be valid expressions of DateTime resulted type. These expressions are evaluated prior to query execution, which means they should not contain any property references.
 
 **Predicate clause** is used to filter events satisfying the predicate. It should be resolved into boolean expression.
 
