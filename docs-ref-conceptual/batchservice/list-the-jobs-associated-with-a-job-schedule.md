@@ -238,7 +238,7 @@ The default is taskCompletion.|
 
 |Element name|Required|Type|Notes|
 |------------------|--------------|----------|-----------|
-|userName|No|String|The name of the user identity under which the task is run.|
+|username|No|String|The name of the user identity under which the task is run.|
 |[autoUser](#autoUser)|No|Complex Type|The auto user under which the task is run.|
 
 ###  <a name="autoUser"></a> autoUser
