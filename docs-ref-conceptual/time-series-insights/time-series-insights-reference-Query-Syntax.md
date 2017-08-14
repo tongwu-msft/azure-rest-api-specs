@@ -13,7 +13,7 @@ The language is subdivided into the following elements:
 Query API operates on data stored as individual **events** within an environment.
 Each event is a set of property name and value pairs.
 
-Event properties can be of one of the following primitive types: `Boolean`, `DateTime`, `Double`, `String` or `TimeSpan`.
+Event properties can be of one of the following primitive types: `Boolean`, `DateTime`, `Double`, `String`, or `TimeSpan`.
 Original event source formats may support a larger set of value types, in which case Time Series Insights ingress maps them to the closest primitive types.
 All primitive types are nullable.
 
@@ -36,7 +36,7 @@ Properties with the same name but different types might result from ingress type
 * If String value is a valid Double value, then it is stored both as Double and String.
 * If String value is a valid DateTime value, then it is stored as DateTime only.
 
-Time Series Insights has limited support for the following values within the Double type: `Double.NaN`, `Double.PositiveInfinity` and `Double.NegativeInfinity`.
+Time Series Insights has limited support for the following values within the Double type: `Double.NaN`, `Double.PositiveInfinity`, and `Double.NegativeInfinity`.
 These values are converted to `null` during ingress, but if query evaluation produces one of these values, the value is evaluated and serialized as a `String` in response.
 User can pass these values as strings for ingress, so in query expressions these values should be also passed as strings.
 Query API converts empty string literals to nulls in the output.
@@ -350,7 +350,7 @@ Here are examples given properties "p1" of type String and Double and properties
 
 ## Scalar Functions
 
-**UTC now** function returns DateTime value which contains current time in UTC format. It does not accept any arguments.
+**UTC now** function returns DateTime value, which contains current time in UTC format. It does not accept any arguments.
 
 JSON example:
 ```json
@@ -601,7 +601,7 @@ JSON example:
 
 An aggregation definition may include a nested aggregation, which allows specifying a multi-dimensional lattice.
 
-This JSON expression computes average temperature per sensor id, per minute:
+This JSON expression computes average temperature per sensor ID, per minute:
 
 JSON example:
 ```json
