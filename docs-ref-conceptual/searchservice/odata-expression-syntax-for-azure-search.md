@@ -189,7 +189,7 @@ $filter=search.in(name, 'Roach motel|Budget hotel', '|')
 Find all hotels with the tag 'wifi' or 'pool':  
 
 ```  
-$filter=tags/any(t: search.in(t, 'wifi, pool')  
+$filter=tags/any(t: search.in(t, 'wifi, pool'))  
 ```
 
 Find all hotels without the tag 'motel' nor 'cabin':  
