@@ -1,7 +1,7 @@
 ---
 title: "Access Control on Azure Cosmos DB Resources"
 ms.custom: ""
-ms.date: "2017-04-26"
+ms.date: "2017-08-15"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "cosmos-db"
@@ -84,18 +84,18 @@ StringToSign = Verb.toLowerCase() + "\n" + ResourceType.toLowerCase() + "\n" + R
   
 ```c#  
   
-string GenerateAuthToken(string verb, string resourceType, string resourceLink, string date, string key, string keyType, string tokenVersion)  
+string GenerateAuthToken(string verb, string resourceType, string resourceId, string date, string key, string keyType, string tokenVersion)  
 {  
     var hmacSha256 = new System.Security.Cryptography.HMACSHA256 { Key = Convert.FromBase64String(key) };  
     
     verb = verb ?? "";  
     resourceType = resourceType ?? "";
-    resourceLink = resourceLink ?? "";
+    resourceId = resourceId ?? "";
   
     string payLoad = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}\n{1}\n{2}\n{3}\n{4}\n",  
             verb.ToLowerInvariant(),  
             resourceType.ToLowerInvariant(),  
-            resourceLink,  
+            resourceId,  
             date.ToLowerInvariant(),  
             ""  
     );  
@@ -117,12 +117,12 @@ string GenerateAuthToken(string verb, string resourceType, string resourceLink, 
   
 var crypto = require("crypto");  
   
-function getAuthorizationTokenUsingMasterKey(verb, resourceType, resourceLink, date, masterKey) {  
+function getAuthorizationTokenUsingMasterKey(verb, resourceType, resourceId, date, masterKey) {  
     var key = new Buffer(masterKey, "base64");  
   
     var text = (verb || "").toLowerCase() + "\n" +   
                (resourceType || "").toLowerCase() + "\n" +   
-               (resourceLink || "") + "\n" +   
+               (resourceId || "") + "\n" +   
                date.toLowerCase() + "\n" +   
                "" + "\n";  
   
