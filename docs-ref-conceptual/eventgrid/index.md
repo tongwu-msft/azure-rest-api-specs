@@ -17,10 +17,10 @@ Azure Event Grid enables you to easily build applications with event-based archi
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| Event Subscriptions | Provides operations for indicating which events to route to an endpoint. |
-| Operations | Shows operations from the Event Grid resource provider. |
-| Topic Types | Returns information about topic and event types. |
-| Topics | Provides operations for working publisher topics. |
+| [Event Subscriptions](~/docs-ref-autogen/eventgrid/EventSubscriptions.json) | Provides operations for indicating which events to route to an endpoint. |
+| [Operations](~/docs-ref-autogen/eventgrid/Operations.json) | Shows operations from the Event Grid resource provider. |
+| [Topic Types](~/docs-ref-autogen/eventgrid/TopicTypes.json) | Returns information about topic and event types. |
+| [Topics](~/docs-ref-autogen/eventgrid/Topics.json) | Provides operations for working publisher topics. |
 
 ## See also
 
