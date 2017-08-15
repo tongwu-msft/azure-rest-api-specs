@@ -575,7 +575,7 @@ This example shows how to create a VM from a virtual machine image. The key thin
 
 "storageProfile": {
   "imageReference": {
-    "id": "/subscriptions/ccfebd33-45cd-4e22-9389-98982441aa5d/resourceGroups/myImages/providers/Microsoft.Compute/virtualMachineImages/WS2012",
+    "id": "/subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.Compute/images/userImage",
   },
   "osDisk": {
     "name": "myosdisk",
