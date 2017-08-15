@@ -1,7 +1,7 @@
 ---
 title: "Create a Document"
 ms.custom: ""
-ms.date: "2017/07-07"
+ms.date: "2017-07-07"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "cosmos-db"
@@ -49,7 +49,7 @@ The `Create Document` operation creates a new document in a collection.
   
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
-|**id**|Required|String|This is a user settable property. It is the unique name that identifies the document, i.e. no two documents should share the same **id**. The **id** must not exceed 255 characters.|  
+|**id**|Required|String|This is a user created property, it is not auto generated. It is the unique id that identifies the document, i.e. no two documents should share the same **id**. The **id** must not exceed 255 characters.|  
 |\<custom>|Required|JSON|Any user defined JSON.|  
   
 ```  
