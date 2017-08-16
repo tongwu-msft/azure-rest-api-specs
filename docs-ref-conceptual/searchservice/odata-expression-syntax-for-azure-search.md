@@ -1,7 +1,7 @@
 ---
 title: "OData Expression Syntax for Azure Search"
 ms.custom: ""
-ms.date: "2017-04-11"
+ms.date: "08/16/2017"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -38,7 +38,7 @@ translation.priority.mt:
 
 -   Comparison expressions (`eq, ne, gt, lt, ge, le`). String comparisons are case-sensitive.  
 
--   Constants of the supported EDM types (see [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for a list of supported types). Constants of collection types are not supported.  
+-   Constants of the supported [Entity Data Model](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model) (EDM) types (see [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for a list of supported types). Constants of collection types are not supported.  
 
 -   References to field names. Only `filterable` fields can be used in filter expressions.  
 
