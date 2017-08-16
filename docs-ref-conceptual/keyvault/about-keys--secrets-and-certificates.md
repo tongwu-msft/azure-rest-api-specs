@@ -5,7 +5,7 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 ms.manager: mbaldwin
-ms.date: 06/13/2017
+ms.date: 08/16/2017
 ---
 # About keys, secrets, and certificates
 Azure Key Vault enables users to store and use cryptographic keys within the Microsoft Azure environment. Key Vault supports multiple key types and algorithms, and enables the use of Hardware Security Modules (HSM) for high value keys. In addition, Key Vault allows users to securely store secrets. Secrets are limited size octet objects with no specific semantics. Key Vault also supports certificates, which are built on top of keys and secrets and add an automated renewal feature.
@@ -452,9 +452,8 @@ A Key Vault certificate object holds a configuration used to communicate with a 
 
 |**Provider Name**|**Locations**|
 |-------------------|---------------|
-|DigiCert|Supported in all key vault service locations in public cloud and US gov sovereign cloud|  
-|GlobalSign|Supported in all key vault service locations in public cloud and US gov sovereign cloud|  
-|WoSign|Supported in all key vault service locations in China sovereign cloud|  
+|DigiCert|Supported in all key vault service locations in public cloud and US gov sovereign cloud|
+|GlobalSign|Supported in all key vault service locations in public cloud and US gov sovereign cloud|
 
 Before a certificate issuer can be created in a Key Vault, following prerequisite steps 1 and 2 must be successfully accomplished.  
 
