@@ -35,4 +35,4 @@ For information on the `{filter-syntax}` parameter common to many Azure Monitor 
 
 ## See also
 
-- [Azure Monitor documentation](https://review.docs.microsoft.com/azure/monitoring-and-diagnostics/)
+- [Azure Monitor documentation](https://docs.microsoft.com/azure/monitoring-and-diagnostics/)
