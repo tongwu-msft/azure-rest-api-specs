@@ -59,9 +59,9 @@ manager: "timlt"
       "blobSource":"http://mystorage1.blob.core.windows.net/scripts/test.txt?st=2013-08-09T08%3a49%3a37.0000000Z&se=2013-08-10T08%3a49%3a37.0000000Z&sr=c&sp=d&si=YWJjZGTVMZw%3d%3d&sig= %2bSzBm0wi8xECuGkKw97wnkSZ%2f62sxU%2b6Hq6a7qojIVE%3d",
       "filePath":"test.txt"
     } ],
-    "authenticationTokenSettings" : [ {
-      "access":"job"
-    } ]    
+    "authenticationTokenSettings" : {
+      "access":["job"]
+    },
     "environmentSettings": [
     {
       "name":"myvariable",
@@ -210,7 +210,7 @@ manager: "timlt"
 
 |Element name|Type|Notes|
 |------------------|--------------|----------|-----------|
-|userName|String|The name of the user identity under which the task is run.|
+|username|String|The name of the user identity under which the task is run.|
 |[autoUser](#autoUser)|Complex Type|The auto user under which the task is run.|
 
 ###  <a name="autoUser"></a> autoUser

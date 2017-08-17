@@ -35,6 +35,8 @@ manager: "timlt"
 
 -   [List the tasks associated with a job](../batchservice/list-the-tasks-associated-with-a-job.md)
 
+-   [Get the task counts for a job](../batchservice/get-the-task-counts-for-a-job.md)
+
 -   [Reactivate a task](../batchservice/reactivate-a-task.md)
 
 -   [Terminate a task](../batchservice/terminate-a-task.md)

@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
+    "version": "2016-10-01",
     "title": "KeyVaultClient",
-    "description": "The key vault client performs cryptographic key operations and vault operations against the Key Vault service.",
-    "version": "2016-10-01"
+    "description": "The key vault client performs cryptographic key operations and vault operations against the Key Vault service."
   },
   "x-ms-parameterized-host": {
     "hostTemplate": "{vaultBaseUrl}",
@@ -20,12 +20,6 @@
       }
     ]
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
   "paths": {
     "/certificates/{certificate-name}/policy": {
       "patch": {
@@ -69,7 +63,13 @@
               "$ref": "#/definitions/KeyVaultError"
             }
           }
-        }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     }
   },
@@ -115,9 +115,10 @@
         },
         "kty": {
           "type": "string",
-          "description": "Supported JsonWebKey key types (kty) for Elliptic Curve, RSA, HSM, Octet. Kty is usually set to RSA",
+          "description": "JsonWebKey key type (kty).",
           "enum": [
             "EC",
+            "EC-HSM",
             "RSA",
             "RSA-HSM",
             "oct"
@@ -134,6 +135,20 @@
             "description": "Supported key operations."
           }
         },
+        "crv": {
+          "type": "string",
+          "description": "Elliptic curve name. For valid values, see JsonWebKeyECName.",
+          "enum": [
+            "P-256",
+            "P-384",
+            "P-521",
+            "SECP256K1"
+          ],
+          "x-ms-enum": {
+            "name": "JsonWebKeyECName",
+            "modelAsString": true
+          }
+        },
         "n": {
           "type": "string",
           "format": "base64url",
@@ -147,7 +162,7 @@
         "d": {
           "type": "string",
           "format": "base64url",
-          "description": "RSA private exponent."
+          "description": "RSA private exponent, or the D component of an EC private key."
         },
         "dp": {
           "x-ms-client-name": "DP",
@@ -176,6 +191,16 @@
           "type": "string",
           "format": "base64url",
           "description": "RSA secret prime, with p < q."
+        },
+        "x": {
+          "type": "string",
+          "format": "base64url",
+          "description": "X component of an EC public key."
+        },
+        "y": {
+          "type": "string",
+          "format": "base64url",
+          "description": "Y component of an EC public key."
         },
         "k": {
           "type": "string",
@@ -1042,15 +1067,31 @@
         "kty": {
           "type": "string",
           "minLength": 1,
-          "description": "The type of key to create. For valid key types, see JsonWebKeyType. Supported JsonWebKey key types (kty) for Elliptic Curve, RSA, HSM, Octet",
+          "description": "The type of key to create. For valid values, see JsonWebKeyType.",
           "enum": [
             "EC",
+            "EC-HSM",
             "RSA",
             "RSA-HSM",
             "oct"
           ],
           "x-ms-enum": {
             "name": "JsonWebKeyType",
+            "modelAsString": true
+          }
+        },
+        "crv": {
+          "x-ms-client-name": "curve",
+          "type": "string",
+          "description": "Elliptic curve name. For valid values, see JsonWebKeyECName.",
+          "enum": [
+            "P-256",
+            "P-384",
+            "P-521",
+            "SECP256K1"
+          ],
+          "x-ms-enum": {
+            "name": "JsonWebKeyECName",
             "modelAsString": true
           }
         },
@@ -1165,7 +1206,11 @@
             "RS256",
             "RS384",
             "RS512",
-            "RSNULL"
+            "RSNULL",
+            "ES256",
+            "ES384",
+            "ES512",
+            "ECDSA256"
           ],
           "x-ms-enum": {
             "name": "JsonWebKeySignatureAlgorithm",
@@ -1197,7 +1242,11 @@
             "RS256",
             "RS384",
             "RS512",
-            "RSNULL"
+            "RSNULL",
+            "ES256",
+            "ES384",
+            "ES512",
+            "ECDSA256"
           ],
           "x-ms-enum": {
             "name": "JsonWebKeySignatureAlgorithm",
@@ -2055,5 +2104,9 @@
       "type": "string",
       "description": "Client API version."
     }
-  }
+  },
+  "x-internal-service-name": "Key Vault",
+  "x-internal-toc-name": "Update Certificate Policy",
+  "x-internal-split-members": null,
+  "x-internal-split-type": null
 }

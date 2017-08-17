@@ -1,19 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
+    "version": "2017-03-01",
     "title": "ApiManagementClient",
-    "description": "Use these REST APIs for performing operations on tenant entity associated with your Azure API Management deployment. Using this entity you can manage properties and configuration that apply to the entire API Management service instance.",
-    "version": "2016-10-10"
+    "description": "Use these REST APIs for performing operations on tenant entity associated with your Azure API Management deployment. Using this entity you can manage properties and configuration that apply to the entire API Management service instance."
   },
   "host": "management.azure.com",
   "schemes": [
     "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
   ],
   "security": [
     {
@@ -33,119 +27,7 @@
       }
     }
   },
-  "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/access/git": {
-      "get": {
-        "tags": [
-          "TenantAccessGit"
-        ],
-        "operationId": "TenantAccessGit_Get",
-        "description": "Gets the Git access configuration for the tenant.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Git Access Information for the Service.",
-            "schema": {
-              "$ref": "#/definitions/AccessInformationContract"
-            },
-            "headers": {
-              "ETag": {
-                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
-                "type": "string"
-              }
-            }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
-            }
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/access/git/regeneratePrimaryKey": {
-      "post": {
-        "tags": [
-          "TenantAccessGit"
-        ],
-        "operationId": "TenantAccessGit_RegeneratePrimaryKey",
-        "description": "Regenerate primary access key for GIT.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The primary key was successfully regenerated."
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
-            }
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/access/git/regenerateSecondaryKey": {
-      "post": {
-        "tags": [
-          "TenantAccessGit"
-        ],
-        "operationId": "TenantAccessGit_RegenerateSecondaryKey",
-        "description": "Regenerate secondary access key for GIT.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The secondary key was successfully regenerated."
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
-            }
-          }
-        }
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "AccessInformationContract": {
       "properties": {
@@ -175,9 +57,6 @@
           "description": "Tenant access information of the API Management service."
         }
       },
-      "required": [
-        "enabled"
-      ],
       "description": "Tenant access information update parameters of the API Management service."
     },
     "DeployConfigurationParameters": {
@@ -212,7 +91,7 @@
             "Failed"
           ],
           "x-ms-enum": {
-            "name": "AsyncOperationState",
+            "name": "AsyncOperationStatus",
             "modelAsString": false
           }
         },
@@ -231,7 +110,8 @@
           "description": "Optional result info."
         },
         "error": {
-          "$ref": "#/definitions/ErrorBodyContract"
+          "$ref": "#/definitions/ErrorResponse",
+          "description": "Error Body Contract"
         }
       },
       "description": "Operation Result."
@@ -304,7 +184,7 @@
       },
       "description": "Error Field contract."
     },
-    "ErrorBodyContract": {
+    "ErrorResponse": {
       "properties": {
         "code": {
           "type": "string",
@@ -326,6 +206,36 @@
     }
   },
   "parameters": {
+    "AccessParameter": {
+      "name": "accessName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "access"
+      ],
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "AccessIdName"
+      },
+      "description": "The identifier of the Access configuration.",
+      "x-ms-parameter-location": "method"
+    },
+    "ConfigurationParameter": {
+      "name": "configurationName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "configuration"
+      ],
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "configurationIdName"
+      },
+      "description": "The identifier of the Git Configuration Operation.",
+      "x-ms-parameter-location": "method"
+    },
     "SubscriptionIdParameter": {
       "name": "subscriptionId",
       "in": "path",
@@ -359,5 +269,22 @@
       "description": "The name of the resource group.",
       "x-ms-parameter-location": "method"
     }
-  }
+  },
+  "x-internal-service-name": "API Management",
+  "x-internal-toc-name": "Tenant Access Git",
+  "x-internal-split-type": "OperationGroup",
+  "x-internal-split-members": [
+    {
+      "displayName": "Get",
+      "relativePath": "TenantAccessGit/Get"
+    },
+    {
+      "displayName": "Regenerate Primary Key",
+      "relativePath": "TenantAccessGit/RegeneratePrimaryKey"
+    },
+    {
+      "displayName": "Regenerate Secondary Key",
+      "relativePath": "TenantAccessGit/RegenerateSecondaryKey"
+    }
+  ]
 }

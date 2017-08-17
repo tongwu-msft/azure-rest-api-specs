@@ -1,7 +1,7 @@
 ---
 title: "Create a Document"
 ms.custom: ""
-ms.date: "2016-03-29"
+ms.date: "2017-07-07"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "cosmos-db"
@@ -49,8 +49,8 @@ The `Create Document` operation creates a new document in a collection.
   
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
-|**id**|Required|String|This is a user settable property. It is the unique name that identifies the document, i.e. no two documents should share the same **id**. The **id** must not exceed 255 characters.|  
-|\<custom>|Required|JSON|Any user defined JSON. For document size limit, see [Azure Cosmos DB Limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
+|**id**|Required|String|This is a user created property, it is not auto generated. It is the unique id that identifies the document, i.e. no two documents should share the same **id**. The **id** must not exceed 255 characters.|  
+|\<custom>|Required|JSON|Any user defined JSON.|  
   
 ```  
 {  
@@ -109,14 +109,14 @@ The `Create Document` operation creates a new document in a collection.
 |400 Bad Request|The JSON body is invalid.|  
 |403 Forbidden|The operation could not be completed because the storage limit of the partition has been reached.|  
 |409 Conflict|The id provided for the new document has been taken by an existing document.|  
-|413 Entity Too Large|The document size in the request exceeded the allowable document size. For more information about document size limits, see [Azure Cosmos DB Limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
+|413 Entity Too Large|The document size in the request exceeded the allowable document size.|  
   
 ### Body  
   
 |Property|Description|  
 |--------------|-----------------|  
 |**_rid**|This is a system generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
-|**_ts**|This is a [system generated property](http://azure.microsoft.com/documentation/articles/documentdb-resources/#system-vs-user-defined-resources). It specifies the last updated timestamp of the resource. The value is a timestamp.|  
+|**_ts**|This is a [system generated property](http://docs.microsoft.com/azure/cosmos-db/documentdb-resources#system-vs-user-defined-resources). It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |**_self**|This is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|This is a system generated property that specifies the resource **etag** required for optimistic concurrency control.|  
 |**_attachments**|This is a system generated property that specifies the addressable path for the attachments resource.|  

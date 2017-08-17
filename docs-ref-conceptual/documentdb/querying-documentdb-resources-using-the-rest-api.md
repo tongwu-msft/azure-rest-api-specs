@@ -95,7 +95,7 @@ The request body should be a valid JSON document containing the SQL query and pa
   
 |Property|Description|  
 |--------------|-----------------|  
-|query|**Required**. The SQL query string for the query. For more information see [DocumentDB API SQL Query Language](https://go.microsoft.com/fwlink/?linkid=834808).|  
+|query|**Required**. The SQL query string for the query. For more information see [Azure Cosmos DB DocumentDB API: SQL syntax reference](https://go.microsoft.com/fwlink/?linkid=834808).|  
 |parameters|**Required**. A JSON array of parameters specified as name value pairs. The parameter array can contain from zero to many parameters.Each parameter must have the following values:**name**: the name of the parameter. Parameter names must be valid string literals and begin with ‘@’.**value**: the value of the parameter. Can be any valid JSON value (string, number, object, array, Boolean or null).|  
   
 ## Request Example  

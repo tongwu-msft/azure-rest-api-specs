@@ -12,8 +12,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
 ms.assetid: fc8b7914-99e0-4975-b635-09c7726c79db
 caps.latest.revision: 16
-ms.author: "davidmu"
-manager: "timlt"
+ms.author: "negat"
+manager: "guybo"
 robots: noindex
 ---
 
@@ -33,7 +33,7 @@ For information about getting started with Azure REST operations including reque
 | subscriptionId | The identifier of your subscription. |
 | resourceGroup | The resource group that will contain the scale set. |
 | vmScaleSet | The name of the scale set. |
-| apiVersion | The version of the API to use. The current version is 2016-04-30-preview. |
+| apiVersion | The version of the API to use. The current version is 2017-03-30. |
 
 The following example shows the request to create a new virtual machine scale set using managed disks:
 
@@ -132,17 +132,31 @@ The following example shows the request to create a new virtual machine scale se
           }
         }    
       },    
-      "networkProfile": {       
+      "networkProfile": {
         "networkInterfaceConfigurations": [ {    
-          "name": "nicconfig1",    
-          "properties": {    
-            "primary": true,    
+          "name": "nicconfig1",
+          "properties": {
+            "primary": true,
+            "enableAcceleratedNetworking": false,
+            "networkSecurityGroup": {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myrg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"
+              },
+                  "dnsSettings": {
+                    "dnsServers": []
+                  },   
             "ipConfigurations": [ {    
               "name": "ipconfig1",    
-              "properties": {    
-                "subnet": {     
-                  "id": "/subscriptions/{subscription-id}/resourceGroups/myrg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"     
-                },    
+              "properties": {
+                "publicIPAddressConfiguration": {
+                          "name": "pub1",
+                          "properties": {
+                            "idleTimeoutInMinutes": 15
+                          }
+                        }, 
+                "subnet": {
+                  "id": "/subscriptions/{subscription-id}/resourceGroups/myrg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
+                },
+                "privateIPAddressVersion": "IPv4",
                 "loadBalancerBackendAddressPools": [ {     
                   "id": "/subscriptions/{subscription-id}/resourceGroups/myrg1/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/pool1"     
                 } ],    
@@ -423,12 +437,19 @@ The following example shows the request to create a new virtual machine scale se
     
 |Element name|Required|Type|Description|    
 |------------------|--------------|----------|-----------------|    
-|name|No|String|Specifies the disk name.|    
-|image|No|String|Specifies the blob uri for user image. A virtual machine scale set creates an os disk in the same container as the user image.<br /><br /> Updating the osDisk image causes the existing  disk to be deleted and a new one created with the new image. If the VM scale set is in Manual upgrade mode then the virtual machines are not updated until they have manualUpgrade  applied to them. See [Manage all VMs in a set](manage-all-vms-in-a-set.md) for more information.|    
+|name|Yes|String|Specifies the disk name.|    
+|[image](#image)|No|Complex Type|Specifies information about the unmanaged user image to base the scale set on.|    
 |vhdContainers|No|Collection|Specifies the container urls that are used to store operating system disks for the scale set. If not specified, they are implicitly created.|    
 |caching|No|String|Specifies the caching type of the disk.<br /><br /> Possible values are:<br /><br /> **None**<br /><br /> **ReadOnly**<br /><br /> **ReadWrite**. The default value is **None**.|    
 |osType|Yes|String|Specifies the type of operating system on the disk.<br /><br /> Possible values are:<br /><br /> **Windows**<br /><br /> **Linux**|    
-|createOption|No|String|Specifies how the virtual machine should be created. The only possible value is **FromImage**. which is used when you are using an image to create the virtual machine. If you are using a platform image, you will also use the imageReference element described below.|    
+|createOption|Yes|String|Specifies how the virtual machine should be created. The only possible value is **FromImage**. which is used when you are using an image to create the virtual machine. If you are using a platform image, you will also use the imageReference element described below.|  
+
+###  <a name="image"></a> image
+    
+|Element name|Required|Type|Description|    
+|------------------|--------------|----------|-----------------|    
+|uri|Yes|String|Specifies the blob uri for an unmanaged user image. A virtual machine scale set creates an os disk in the same container as the user image.<br /><br /> Updating the osDisk image causes the existing  disk to be deleted and a new one created with the new image. If the VM scale set is in Manual upgrade mode then the virtual machines are not updated until they have manualUpgrade  applied to them. See [Manage all VMs in a set](manage-all-vms-in-a-set.md) for more information.|    
+
 
 ###  <a name="datadisks"></a> dataDisks    
     

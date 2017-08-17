@@ -58,6 +58,7 @@
 ## [Delete a task from a job](delete-a-task-from-a-job.md)
 ## [Get information about a task](get-information-about-a-task.md)
 ## [List the tasks associated with a job](list-the-tasks-associated-with-a-job.md)
+## [Get the task counts for a job](get-the-task-counts-for-a-job.md)
 ## [Terminate a task](terminate-a-task.md)
 ## [Update the properties of a task](update-the-properties-of-a-task.md)
 ## [List the subtasks of a task](list-the-subtasks-of-a-task.md)

@@ -1,7 +1,7 @@
 ---
 title: "OData Expression Syntax for Azure Search"
 ms.custom: ""
-ms.date: "2017-04-11"
+ms.date: "08/16/2017"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -38,7 +38,7 @@ translation.priority.mt:
 
 -   Comparison expressions (`eq, ne, gt, lt, ge, le`). String comparisons are case-sensitive.  
 
--   Constants of the supported EDM types (see [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for a list of supported types). Constants of collection types are not supported.  
+-   Constants of the supported [Entity Data Model](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model) (EDM) types (see [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for a list of supported types). Constants of collection types are not supported.  
 
 -   References to field names. Only `filterable` fields can be used in filter expressions.  
 
@@ -64,7 +64,7 @@ translation.priority.mt:
 -   The `search.in` function tests whether a given string field is equal to one of a given list of values. It can also be used in any or all to compare a single value of a string collection field with a given list of values. Equality between the field and each value in the list is determined in a case-sensitive fashion, the same way as for the `eq` operator. Therefore an expression like `search.in(myfield, 'a, b, c')` is equivalent to `myfield eq 'a' or myfield eq 'b' or myfield eq 'c'`, except that `search.in` will yield much better performance. 
 
     The first parameter to the `search.in` function is the field reference (or range variable in the case where `search.in` is used inside an any or all expression). The second parameter is a string containing the list of values, separated by spaces and/or commas. If you need to use separators other than spaces and commas because your values include those characters, you can specify an optional third parameter to `search.in`. 
- 
+
     This third parameter is a string where each character of the string, or subset of this string is treated as a separator when parsing the list of values in the second parameter.
 
 > [!NOTE]  	
@@ -192,7 +192,7 @@ $filter=search.in(name, 'Roach motel|Budget hotel', '|')
 Find all hotels with the tag 'wifi' or 'pool':  
 
 ```  
-$filter=tags/any(t: search.in(t, 'wifi, pool')  
+$filter=tags/any(t: search.in(t, 'wifi, pool'))  
 ```
 
 Find all hotels without the tag 'motel' nor 'cabin':  

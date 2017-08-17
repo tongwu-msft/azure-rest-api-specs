@@ -69,7 +69,7 @@ Environment availability is cached, and the response time does not depend on the
 
 ## Get Environment Metadata API
 
-`GET https://<environmentFqdn>/metadata?api-version=2016-12-12`
+`POST https://<environmentFqdn>/metadata?api-version=2016-12-12`
 
 Returns environment metadata for a given search span. Metadata is returned as a set of property references.
 
@@ -80,8 +80,8 @@ Request Body:
 ```json
 {
     "searchSpan": {
-        "from": "2016-08-01T00:00:00.000Z",
-        "to": "2016-08-31T00:00:00.000Z"
+        "from": {"dateTime":"2016-08-01T00:00:00.000Z"},
+        "to": {"dateTime":"2016-08-31T00:00:00.000Z"}
     }
 }
 ```
