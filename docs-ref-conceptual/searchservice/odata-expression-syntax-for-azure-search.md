@@ -58,6 +58,9 @@ translation.priority.mt:
 
     Note that `geo.distance` returns distance in kilometers in Azure Search. This differs from other services that support OData geospatial operations, which typically return distances in meters.  
 
+> [!NOTE]  
+>  For the result of the `geo.distance` function only the `lt, le, gt, ge` operators are supported. Operators `eq` and `ne` cannot be used.  
+
 -   The `search.in` function tests whether a given string field is equal to one of a given list of values. It can also be used in any or all to compare a single value of a string collection field with a given list of values. Equality between the field and each value in the list is determined in a case-sensitive fashion, the same way as for the `eq` operator. Therefore an expression like `search.in(myfield, 'a, b, c')` is equivalent to `myfield eq 'a' or myfield eq 'b' or myfield eq 'c'`, except that `search.in` will yield much better performance. 
 
     The first parameter to the `search.in` function is the field reference (or range variable in the case where `search.in` is used inside an any or all expression). The second parameter is a string containing the list of values, separated by spaces and/or commas. If you need to use separators other than spaces and commas because your values include those characters, you can specify an optional third parameter to `search.in`. 
@@ -66,8 +69,26 @@ translation.priority.mt:
 	
 	Currently the `search.in` function is supported only in api-versions 2016-09-01-Preview and 2015-02-28-Preview.
 
-> [!NOTE]  
->  For the result of the `geo.distance` function only the `lt, le, gt, ge` operators are supported. Operators `eq` and `ne` cannot be used.  
+-   The `search.ismatch` allows to evaluate a search query as a part of a filter expression. The documents that don't match the query won't be returned in the result set. The following overloads of this function are available:
+    - search.ismatch(search)
+    - search.ismatch(search, searchFields)
+    - search.ismatch(search, searchFields, queryType, searchMode)
+
+    where: 
+  
+    - `search`: the search query (in either [simple](https://docs.microsoft.com/rest/api/searchservice/simple-query-syntax-in-azure-search) or [full](https://docs.microsoft.com/rest/api/searchservice/lucene-query-syntax-in-azure-search) query syntax). 
+    - `queryType`: "simple" or "full", defaults to "simple". Specifies what query language was used in the `search` parameter.
+    - `searchFields`: comma-separated list of searchable fields to search in. Defaults to all searchable fields in the index.    
+    - `searchMode`: "any" or "all", defaults to "any". Indicates whether any or all of the search terms must be matched in order to count the document as a match.
+
+    All of the above parameters are equivalent to the corresponding [search request parameters](https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents).
+
+-   The `search.ismatchscoring` serves the same filter function as `search.ismatch`. The difference is that the relevance score of documents matching the `search.ismatchscoring` query will contribute to the overall document score, while in case of `search.ismatch`, the document score won't be changed. The following overloads of this function are available with parameters idendical to those of `search.ismatch`:
+    - search.ismatchscoring(search)
+    - search.ismatchscoring(search, searchFields)
+    - search.ismatchscoring(search, searchFields, queryType, searchMode)
+
+  The `search.ismatch` and `search.ismatchscoring` functions are fully orthogonal with each other and the rest of the filter algebra. It means both functions can be used in the same filter expression. 
 
 ### Geospatial queries and polygons spanning the 180th meridian  
  For many geospatial query libraries formulating a query that includes the 180th meridian (near the dateline) is either off-limits or requires a workaround, such as splitting the polygon into two, one on either side of the meridian.  
@@ -223,6 +244,26 @@ between two hotels with identical ratings, the closest one is listed first:
 
 ```
 $orderby=search.score() desc,rating desc,geo.distance(location, geography'POINT(-122.131577 47.678581)') asc
+```
+
+```
+ismatchscoring(“blue”) and year eq 2007 or ismatchscoring(“red”) and year eq 2008 -> this is the class of filters that started this requirement
+```
+
+```
+ismatchscoring(“blue”) -> identical to search=blue
+```
+
+```
+ismatch(“blue”) -> filter on documents containing the term “blue”, no scoring
+```
+
+```
+ismatchscoring(“blue”) and year eq 2007
+```
+
+```
+ismatchscoring(“blue”) or year eq 2007 -> note that in this case there will be documents in the result that are there because they match the second clause of the disjunction; since we’re scoring documents in this filter, those that match disjunctive subexpressions only will come back with score=0 to make it clear they didn’t hit any of the scoring expressions. 
 ```
 
 ## See also  
