@@ -59,7 +59,7 @@ translation.priority.mt:
     Note that `geo.distance` returns distance in kilometers in Azure Search. This differs from other services that support OData geospatial operations, which typically return distances in meters.  
 
 > [!NOTE]  
->   When using geo.distance in a filter, you must compare the distance returned by the function with a constant using `lt`, `le`, `gt`, or `ge`. The operators eq and ne are not supported when comparing distances. For example, this is a correct usage of geo.distance: `$filter=geo.distance(location, geography'POINT(-122.131577 47.678581)') le 5`.  
+>  When using geo.distance in a filter, you must compare the distance returned by the function with a constant using `lt`, `le`, `gt`, or `ge`. The operators `eq` and `ne` are not supported when comparing distances. For example, this is a correct usage of geo.distance: `$filter=geo.distance(location, geography'POINT(-122.131577 47.678581)') le 5`.  
 
 -   The `search.in` function tests whether a given string field is equal to one of a given list of values. It can also be used in any or all to compare a single value of a string collection field with a given list of values. Equality between the field and each value in the list is determined in a case-sensitive fashion, the same way as for the `eq` operator. Therefore an expression like `search.in(myfield, 'a, b, c')` is equivalent to `myfield eq 'a' or myfield eq 'b' or myfield eq 'c'`, except that `search.in` will yield much better performance. 
 
