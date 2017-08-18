@@ -225,7 +225,7 @@ Find all documents with the word "waterfront". This filter query is identical to
 $filter=search.ismatchscoring('waterfront')
 ```
 
-Find all documents with the word "hostel" and rating grater or equal to 4, or documents with the word "motel" and rating equal to 5. Notice, this request could not be expressed without the `search.ismatchscoring` function.
+Find all documents with the word "hostel" and rating greater or equal to 4, or documents with the word "motel" and rating equal to 5. Notice, this request could not be expressed without the `search.ismatchscoring` function.
 
 ```
 $filter=search.ismatchscoring('hostel') and rating ge 4 or search.ismatchscoring('motel') and rating eq 5
