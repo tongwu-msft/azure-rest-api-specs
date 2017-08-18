@@ -5,7 +5,7 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 08/13/2017
+ms.date: 08/17/2017
 ---
 # Certificate creation methods
 
@@ -72,8 +72,8 @@ Certificate creation can be completed manually or using a “Self” issuer. Key
 
 |Provider|Certificate type|  
 |--------------|----------------------|  
-|DigiCert|Key Vault offers OV or EV SSL certificates with DigiCert.|  
-|GlobalCert|Key Vault offers OV or EV SSL certificates with GlobalSign|  
+|DigiCert|Key Vault offers OV or EV SSL certificates with DigiCert|
+|GlobalCert|Key Vault offers OV or EV SSL certificates with GlobalSign|
 
  For more information, including geographical availability of these issuer providers, see [Certificate Issuers](certificate-issuers.md).
 
