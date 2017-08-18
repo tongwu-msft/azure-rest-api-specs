@@ -81,9 +81,9 @@ translation.priority.mt:
     - `searchFields`: comma-separated list of searchable fields to search in. Defaults to all searchable fields in the index.    
     - `searchMode`: "any" or "all", defaults to "any". Indicates whether any or all of the search terms must be matched in order to count the document as a match.
 
-    All of the above parameters are equivalent to the corresponding [search request parameters](https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents).
+    All the above parameters are equivalent to the corresponding [search request parameters](https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents).
 
--   The `search.ismatchscoring` serves the same filter function as `search.ismatch`. The difference is that the relevance score of documents matching the `search.ismatchscoring` query will contribute to the overall document score, while in case of `search.ismatch`, the document score won't be changed. The following overloads of this function are available with parameters idendical to those of `search.ismatch`:
+-   The `search.ismatchscoring` serves the same filter function as `search.ismatch`. The difference is that the relevance score of documents matching the `search.ismatchscoring` query will contribute to the overall document score, while in case of `search.ismatch`, the document score won't be changed. The following overloads of this function are available with parameters identical to those of `search.ismatch`:
     - search.ismatchscoring(search)
     - search.ismatchscoring(search, searchFields)
     - search.ismatchscoring(search, searchFields, queryType, searchMode)
@@ -219,33 +219,6 @@ Find all hotels without the tag 'motel' nor 'cabin':
 $filter=tags/all(t: not search.in(t, 'motel, cabin'))  
 ```  
 
-### Order-by examples
-
-Sort hotels ascending by base rate:
-
-```
-$orderby=baseRate asc
-```
-
-Sort hotels descending by rating, then ascending by base rate (remember that ascending is the default):
-
-```
-$orderby=rating desc,baseRate
-```
-
-Sort hotels descending by rating, then ascending by distance from the given co-ordinates:
-
-```
-$orderby=rating desc,geo.distance(location, geography'POINT(-122.131577 47.678581)') asc
-```
-
-Sort hotels in descending order by search.score and rating, and then in ascending order by distance from the given coordinates so that
-between two hotels with identical ratings, the closest one is listed first:
-
-```
-$orderby=search.score() desc,rating desc,geo.distance(location, geography'POINT(-122.131577 47.678581)') asc
-```
-
 Find all documents with the word "waterfront". Identical to a [search request](https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents) with `search=waterfront`.
 
 ```
@@ -275,6 +248,33 @@ Find documents where the terms "hotel" and "airport" are within 5 words of each 
 
 ```
 $filter=search.ismatch('"hotel airport"~5', 'description', 'full', 'any') 
+```
+
+### Order-by examples
+
+Sort hotels ascending by base rate:
+
+```
+$orderby=baseRate asc
+```
+
+Sort hotels descending by rating, then ascending by base rate (remember that ascending is the default):
+
+```
+$orderby=rating desc,baseRate
+```
+
+Sort hotels descending by rating, then ascending by distance from the given co-ordinates:
+
+```
+$orderby=rating desc,geo.distance(location, geography'POINT(-122.131577 47.678581)') asc
+```
+
+Sort hotels in descending order by search.score and rating, and then in ascending order by distance from the given coordinates so that
+between two hotels with identical ratings, the closest one is listed first:
+
+```
+$orderby=search.score() desc,rating desc,geo.distance(location, geography'POINT(-122.131577 47.678581)') asc
 ```
 
 ## See also  
