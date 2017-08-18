@@ -246,24 +246,35 @@ between two hotels with identical ratings, the closest one is listed first:
 $orderby=search.score() desc,rating desc,geo.distance(location, geography'POINT(-122.131577 47.678581)') asc
 ```
 
-```
-ismatchscoring(“blue”) and year eq 2007 or ismatchscoring(“red”) and year eq 2008 -> this is the class of filters that started this requirement
-```
+Find all documents with the word "waterfront". Identical to a [search request](https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents) with `search=waterfront`.
 
 ```
-ismatchscoring(“blue”) -> identical to search=blue
+$filter=search.ismatchscoring('waterfront')
 ```
 
-```
-ismatch(“blue”) -> filter on documents containing the term “blue”, no scoring
-```
+Find all documents with the word "hostel" and rating grater or equal to 4, or documents with the word "motel" and rating grater or equal to 5. Notice, this request could not be expressed without the `search.ismatchscoring` function.
 
 ```
-ismatchscoring(“blue”) and year eq 2007
+$filter=search.ismatchscoring('hostel') and rating ge 4 or search.ismatchscoring('motel') and rating eq 5
 ```
 
+Find documents without the word "luxury".
+
 ```
-ismatchscoring(“blue”) or year eq 2007 -> note that in this case there will be documents in the result that are there because they match the second clause of the disjunction; since we’re scoring documents in this filter, those that match disjunctive subexpressions only will come back with score=0 to make it clear they didn’t hit any of the scoring expressions. 
+$filter=not search.ismatch('luxury') 
+```
+
+Find documents with the phrase "ocean view" or rating equal to 5. The `search.ismatchscoring` query will be executed only against the description and the hotelName fields.
+Note, documents that matched only the second clause of the disjunction will be returned too - hotels with rating equal to 5. To make it clear those documents didn’t match any of the scored parts of the expression, they will be returned with score equal to zero.
+
+```
+$filter=search.ismatchscoring('"ocean view"', 'description,hotelName') or rating eq 5
+```
+
+Find documents where the terms "hotel" and "airport" are within 5 words of each other in the description of the hotel. This query uses the [`full` Lucene query language](https://docs.microsoft.com/rest/api/searchservice/lucene-query-syntax-in-azure-search).
+
+```
+$filter=search.ismatch('"hotel airport"~5', 'description', 'full', 'any') 
 ```
 
 ## See also  
