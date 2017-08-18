@@ -70,23 +70,23 @@ translation.priority.mt:
 	Currently the `search.in` function is supported only in api-versions 2016-09-01-Preview and 2015-02-28-Preview.
 
 -   The `search.ismatch` allows to evaluate a search query as a part of a filter expression. The documents that don't match the query won't be returned in the result set. The following overloads of this function are available:
-    - search.ismatch(search)
-    - search.ismatch(search, searchFields)
-    - search.ismatch(search, searchFields, queryType, searchMode)
+    - `search.ismatch(search)`
+    - `search.ismatch(search, searchFields)`
+    - `search.ismatch(search, searchFields, queryType, searchMode)`
 
     where: 
   
     - `search`: the search query (in either [simple](https://docs.microsoft.com/rest/api/searchservice/simple-query-syntax-in-azure-search) or [full](https://docs.microsoft.com/rest/api/searchservice/lucene-query-syntax-in-azure-search) query syntax). 
     - `queryType`: "simple" or "full", defaults to "simple". Specifies what query language was used in the `search` parameter.
-    - `searchFields`: comma-separated list of searchable fields to search in. Defaults to all searchable fields in the index.    
+    - `searchFields`: comma-separated list of searchable fields to search in, defaults to all searchable fields in the index.    
     - `searchMode`: "any" or "all", defaults to "any". Indicates whether any or all of the search terms must be matched in order to count the document as a match.
 
-    All the above parameters are equivalent to the corresponding [search request parameters](https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents).
+    All the above parameters are equivalent to the corresponding [search request parameters](https://docs.microsoft.com/rest/api/searchservice/search-documents).
 
 -   The `search.ismatchscoring` serves the same filter function as `search.ismatch`. The difference is that the relevance score of documents matching the `search.ismatchscoring` query will contribute to the overall document score, while in case of `search.ismatch`, the document score won't be changed. The following overloads of this function are available with parameters identical to those of `search.ismatch`:
-    - search.ismatchscoring(search)
-    - search.ismatchscoring(search, searchFields)
-    - search.ismatchscoring(search, searchFields, queryType, searchMode)
+    - `search.ismatchscoring(search)`
+    - `search.ismatchscoring(search, searchFields)`
+    - `search.ismatchscoring(search, searchFields, queryType, searchMode)`
 
   The `search.ismatch` and `search.ismatchscoring` functions are fully orthogonal with each other and the rest of the filter algebra. It means both functions can be used in the same filter expression. 
 
@@ -225,7 +225,7 @@ Find all documents with the word "waterfront". This filter query is identical to
 $filter=search.ismatchscoring('waterfront')
 ```
 
-Find all documents with the word "hostel" and rating grater or equal to 4, or documents with the word "motel" and rating grater or equal to 5. Notice, this request could not be expressed without the `search.ismatchscoring` function.
+Find all documents with the word "hostel" and rating grater or equal to 4, or documents with the word "motel" and rating equal to 5. Notice, this request could not be expressed without the `search.ismatchscoring` function.
 
 ```
 $filter=search.ismatchscoring('hostel') and rating ge 4 or search.ismatchscoring('motel') and rating eq 5
