@@ -219,7 +219,7 @@ Find all hotels without the tag 'motel' nor 'cabin':
 $filter=tags/all(t: not search.in(t, 'motel, cabin'))  
 ```  
 
-Find all documents with the word "waterfront". Identical to a [search request](https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents) with `search=waterfront`.
+Find all documents with the word "waterfront". This filter query is identical to a [search request](https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents) with `search=waterfront`.
 
 ```
 $filter=search.ismatchscoring('waterfront')
@@ -237,14 +237,14 @@ Find documents without the word "luxury".
 $filter=not search.ismatch('luxury') 
 ```
 
-Find documents with the phrase "ocean view" or rating equal to 5. The `search.ismatchscoring` query will be executed only against the description and the hotelName fields.
+Find documents with the phrase "ocean view" or rating equal to 5. The `search.ismatchscoring` query will be executed only against fields hotelName and description.
 Note, documents that matched only the second clause of the disjunction will be returned too - hotels with rating equal to 5. To make it clear those documents didn’t match any of the scored parts of the expression, they will be returned with score equal to zero.
 
 ```
 $filter=search.ismatchscoring('"ocean view"', 'description,hotelName') or rating eq 5
 ```
 
-Find documents where the terms "hotel" and "airport" are within 5 words of each other in the description of the hotel. This query uses the [`full` Lucene query language](https://docs.microsoft.com/rest/api/searchservice/lucene-query-syntax-in-azure-search).
+Find documents where the terms "hotel" and "airport" are within 5 words from each other in the description of the hotel. This query uses the [`full` Lucene query language](https://docs.microsoft.com/rest/api/searchservice/lucene-query-syntax-in-azure-search).
 
 ```
 $filter=search.ismatch('"hotel airport"~5', 'description', 'full', 'any') 
