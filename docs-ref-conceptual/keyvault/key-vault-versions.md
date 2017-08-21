@@ -44,7 +44,7 @@ The following tasks were updated:
 - Update a key - added tags as optional information.
 - Update a secret - added tags as optional information.
 
-About Keys, Secrets, and Certificates - changed max size for secrets to 25K Bytes (was 10K Bytes).
+About Keys, Secrets, and Certificates - changed max size for secrets to 25 K Bytes (was 10K Bytes).
 
 ## 2014-12-08-preview
 
