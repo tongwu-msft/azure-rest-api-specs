@@ -5,16 +5,16 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 08/17/2017
+ms.date: 08/21/2017
 
 ---
 # Key Vault versions
 
-## Version 2015-06-01
+## Version 2015-06-01 - Certificate management
 
 Certificate management is added as a feature to the GA version 2015-06-01 on September 26, 2016.
 
-## Version 2015-06-01
+## Version 2015-06-01 - General availability
 
 General Availability version 2015-06-01, announced on June 24, 2015.
 
@@ -27,7 +27,7 @@ The following changes were made at this release:
 
 About Keys, Secrets, and Certificates - changed “RSA_OAEP” to “RSA-OAEP” for RSA Algorithms.
 
-## Version 2015-02-01-preview
+## Version 2015-02-01-preview 
 
 Second preview version 2015-02-01-preview, announced on April 20, 2015. For more information, see [REST API Update](http://blogs.technet.com/b/kv/archive/2015/04/20/empty-3.aspx) blog post.
 
