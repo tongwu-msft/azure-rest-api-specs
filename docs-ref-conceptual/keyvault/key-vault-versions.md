@@ -24,7 +24,6 @@ The following changes were made at this release:
 - Get information about a key - “use” field removed.
 - Import a key into a vault - “use” field removed.
 - Restore a key - “use” field removed.
-
 - Changed “RSA_OAEP” to “RSA-OAEP” for RSA Algorithms. See [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
 
 ## 2015-02-01-preview 
