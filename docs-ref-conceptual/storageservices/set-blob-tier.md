@@ -95,7 +95,8 @@ Setting the block blob's tier on a blob storage LRS accounts have the following 
   
 The list of supported tiers is not restricted by the request version, and new tiers may be added in the future. 
 
-Note: Tiers on blob storage accounts are currently in preview. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+> [!NOTE]
+>  Tiers on blob storage accounts are currently in preview. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
 
 ## See Also  
  [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
