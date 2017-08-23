@@ -238,6 +238,8 @@ Date: <date>
  Any attempt to modify or snapshot the destination blob during the copy will fail with **409 (Conflict) Copy Blob in Progress**.  
   
  If you call the `Abort Copy Blob` operation, you will see a `x-ms-copy-status:aborted` header and the destination blob will have intact metadata and a blob length of zero bytes. You can repeat the original call to `Copy Blob` to try the copy again.  
+
+ Tier is inherited for premium storage tiers only, for block blobs destination uses the default tier. Note that blob tiers for blob storage LRS accounts are currently in preview. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
   
  **Billing**  
   

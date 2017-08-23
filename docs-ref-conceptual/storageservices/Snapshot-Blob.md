@@ -173,9 +173,16 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
  When a base blob is copied using the [Copy Blob](Copy-Blob.md) operation, any snapshots of the base blob are not copied to the destination blob. When a destination blob is overwritten with a copy, any snapshots associated with the destination blob stay intact under its name.  
   
  You can copy a snapshot blob over its base blob to restore an earlier version of a blob. The snapshot remains, but the base blob is overwritten with a copy that can be both read and written.  
-  
+
 > [!NOTE]
->  Promoting a snapshot in this way does not incur an additional charge for storage resources, since blocks or pages are shared between the snapshot and the base blob.  
+
+>  - Promoting a snapshot in this way does not incur an additional charge for storage resources, since blocks or pages are shared between the snapshot and the base blob.  
+
+>  - Setting a blob tier is not allowed on a snapshot or on block blob that has snapshots.
+
+>  - If a block blob has tier set then creating a snapshot is not allowed.
+
+>  - Tiers on blob storage accounts are currently in preview. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
   
  **Snapshots in Premium Storage Accounts**  
   
