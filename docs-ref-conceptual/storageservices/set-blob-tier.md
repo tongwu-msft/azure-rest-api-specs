@@ -65,14 +65,13 @@ A successful operation returns status code 200 (OK) if the new tier takes effect
 For premium account page blob operation returns status code 200 (OK).
 For block blobs, below table describes the http status codes returned based on current tier and requested tier of the blob:
 
-|Current Tier|Target|Tier||  
+||Set to `Hot`|Set to `Cool`|Set to `Archive`|
 |----------------|----------------------|------------------|------------------|  
-||Hot|Cool|Archive|
-|Hot|200|200|200|
-|Cool|200|200|200|
-|Archive|202|202|200|
-|Rehydrate-Pending-To-Hot|202|409|409|
-|Rehydrate-Pending-To-Cool|409|202|409|
+|Blob in `Hot` Tier|200|200|200|
+|Blob in `Cool` Tier|200|200|200|
+|Blob in `Archive` Tier|202|202|200|
+|Blob in `Archive` tier rehydrating to `Hot`|202|409|409|
+|Blob in `Archive` tier rehydrating to `Cool`|409|202|409|
 
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).
 ### Response Headers
