@@ -51,17 +51,15 @@ For information about getting started with Azure REST operations including reque
         "publisher": "Publisher Name",
         "offer": "Publisher Offer",
         "sku": "Offer SKU",
-        "version": "Version for the image", // Can also specify "latest" to automatically get the latest image
-        "id": "/subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.Compute/images/userImage" // used when creating from Managed User Image
+        "version": "Version for the image" // Can also specify "latest" to automatically get the latest image
       },
       "osDisk": {
         "name": "myosdisk1",
         "vhd": {
-          "uri": "http://mystorage1.blob.core.windows.net/vhds/myosdisk1.vhd" // Only used for unmanaged disks
+          "uri": "http://mystorage1.blob.core.windows.net/vhds/myosdisk1.vhd"
         },
         "caching": "ReadOnly | ReadWrite", // Changing this value causes VM to reboot
         "createOption": "fromImage | attach",
-        "storageAccountType": "Premium_LRS" // Used to specify the type of disk when creating from a Managed Image
         "encryptionSettings": {
           "enabled": true,
           "diskEncryptionKey": {
@@ -111,15 +109,6 @@ For information about getting started with Azure REST operations including reque
             "uri": "http://mystorage.blob.core.windows.net/vhds/mydatadisk3.vhd"
           },
           "createOption": "fromImage"
-        },
-        ,
-        {
-          // sample of modifying data disk properties when created from a Managed Image
-          "name": "mydatadisk",
-          "diskSizeGB": "1",
-          "lun": 3,
-          "createOption": "fromImage",
-          "storageAccountType": "Premium_LRS"
         }
       ]
     },
@@ -567,41 +556,6 @@ This example shows how to create a VM from a virtual machine image. The key thin
     ]
   }
 }
-```
-
-### Create a VM from a Managed Image 
-
-```json
-
-"storageProfile": {
-  "imageReference": {
-    "id": "/subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.Compute/images/userImage",
-  },
-  "osDisk": {
-    "name": "myosdisk",
-    "caching": "ReadWrite",
-    "createOption": "fromImage",
-    "storageAccountType": "Premium_LRS" 
-    },
-  "dataDisks": [
-    {
-      "name": "mydatadisk1",
-      "diskSizeGB": "10",
-      "lun": 0,
-      "createOption": "fromImage",
-      "storageAccountType": "Premium_LRS"
-    },
-    {
-      "name": "mydatadisk2",
-      "diskSizeGB": "100",
-      "lun": 1,
-      "createOption": "fromImage",
-      "storageAccountType": "Standard_LRS"
-    }
-  ]
-},  
-
-
 ```
 
 ### Create a VM from a VHD in Azure storage
