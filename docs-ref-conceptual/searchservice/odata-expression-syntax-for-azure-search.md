@@ -59,7 +59,7 @@ translation.priority.mt:
     Note that `geo.distance` returns distance in kilometers in Azure Search. This differs from other services that support OData geospatial operations, which typically return distances in meters.  
 
 > [!NOTE]  
-> The geo.gistance function only supports inequality operators: `lt, le, gt, ge`. Operators `eq` and `ne` cannot be used.
+> The geo.distance function only supports comparison operators: `lt, le, gt, ge`. Operators `eq` and `ne` cannot be used.
 
 -   The `search.in` function tests whether a given string field is equal to one of a given list of values. It can also be used in any or all to compare a single value of a string collection field with a given list of values. Equality between the field and each value in the list is determined in a case-sensitive fashion, the same way as for the `eq` operator. Therefore an expression like `search.in(myfield, 'a, b, c')` is equivalent to `myfield eq 'a' or myfield eq 'b' or myfield eq 'c'`, except that `search.in` will yield much better performance. 
 
@@ -69,7 +69,7 @@ translation.priority.mt:
 	
 	Currently the `search.in` function is supported only in api-versions 2016-09-01-Preview and 2015-02-28-Preview.
 
--   The `search.ismatch` function allows to evaluate a search query as a part of a filter expression. The documents that match the search query will be returned in the result set. The following overloads of this function are available:
+-   The `search.ismatch` function evaluates search query as a part of a filter expression. The documents that match the search query will be returned in the result set. The following overloads of this function are available:
     - `search.ismatch(search)`
     - `search.ismatch(search, searchFields)`
     - `search.ismatch(search, searchFields, queryType, searchMode)`
@@ -83,7 +83,7 @@ translation.priority.mt:
 
     All the above parameters are equivalent to the corresponding [search request parameters](https://docs.microsoft.com/rest/api/searchservice/search-documents).
 
--   The `search.ismatchscoring` function, identically to the `search.ismatch` function, is a filter that reruns documents that matched the search query. The difference between them is that the relevance score of documents matching the `search.ismatchscoring` query will contribute to the overall document score, while in the case of `search.ismatch`, the document score won't be changed. The following overloads of this function are available with parameters identical to those of `search.ismatch`:
+-   The `search.ismatchscoring` function, like the `search.ismatch` function, returns true for documents that matched the search query passed as a parameter. The difference between them is that the relevance score of documents matching the `search.ismatchscoring` query will contribute to the overall document score, while in the case of `search.ismatch`, the document score won't be changed. The following overloads of this function are available with parameters identical to those of `search.ismatch`:
     - `search.ismatchscoring(search)`
     - `search.ismatchscoring(search, searchFields)`
     - `search.ismatchscoring(search, searchFields, queryType, searchMode)`
