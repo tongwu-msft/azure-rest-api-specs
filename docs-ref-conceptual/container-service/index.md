@@ -11,4 +11,4 @@ service_description: To be added
 
 # Azure Container Service REST API
 
-TBD...
+Azure Container Service optimizes the configuration of popular open-source tools and technologies specifically for Azure.
