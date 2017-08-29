@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Create or update a scale set"
 ms.date: "2017-02-07"
 ms.prod: "azure"
