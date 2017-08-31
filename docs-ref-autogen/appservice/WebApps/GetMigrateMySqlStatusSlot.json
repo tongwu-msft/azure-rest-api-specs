@@ -30,14 +30,14 @@
           {
             "name": "name",
             "in": "path",
-            "description": "Name of web app",
+            "description": "Name of web app.",
             "required": true,
             "type": "string"
           },
           {
             "name": "slot",
             "in": "path",
-            "description": "Name of the deployment slot",
+            "description": "Name of the deployment slot.",
             "required": true,
             "type": "string"
           },
@@ -637,6 +637,107 @@
         }
       }
     },
+    "ContinuousWebJob": {
+      "description": "Continuous Web Job Information.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "ContinuousWebJob resource specific properties",
+          "properties": {
+            "status": {
+              "description": "Job status.",
+              "enum": [
+                "Initializing",
+                "Starting",
+                "Running",
+                "PendingRestart",
+                "Stopped"
+              ],
+              "type": "string",
+              "x-ms-enum": {
+                "name": "ContinuousWebJobStatus",
+                "modelAsString": false
+              }
+            },
+            "detailedStatus": {
+              "description": "Detailed status.",
+              "type": "string"
+            },
+            "logUrl": {
+              "description": "Log URL.",
+              "type": "string"
+            },
+            "name": {
+              "description": "Job name. Used as job identifier in ARM resource URI.",
+              "type": "string",
+              "readOnly": true
+            },
+            "runCommand": {
+              "description": "Run command.",
+              "type": "string"
+            },
+            "url": {
+              "description": "Job URL.",
+              "type": "string"
+            },
+            "extraInfoUrl": {
+              "description": "Extra Info URL.",
+              "type": "string"
+            },
+            "jobType": {
+              "description": "Job type.",
+              "enum": [
+                "Continuous",
+                "Triggered"
+              ],
+              "type": "string",
+              "x-ms-enum": {
+                "name": "WebJobType",
+                "modelAsString": false
+              }
+            },
+            "error": {
+              "description": "Error information.",
+              "type": "string"
+            },
+            "usingSdk": {
+              "description": "Using SDK?",
+              "type": "boolean"
+            },
+            "settings": {
+              "description": "Job settings.",
+              "type": "object"
+            }
+          },
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ContinuousWebJobCollection": {
+      "description": "Collection of Kudu continuous web job information elements.",
+      "required": [
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Collection of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContinuousWebJob"
+          }
+        },
+        "nextLink": {
+          "description": "Link to next page of resources.",
+          "type": "string"
+        }
+      }
+    },
     "CorsSettings": {
       "description": "Cross-Origin Resource Sharing (CORS) settings for the app.",
       "type": "object",
@@ -1049,6 +1150,113 @@
         "enabled": {
           "description": "True if configuration is enabled, false if it is disabled and null if configuration is not set.",
           "type": "boolean"
+        }
+      }
+    },
+    "FunctionEnvelope": {
+      "description": "Web Job Information.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "FunctionEnvelope resource specific properties",
+          "properties": {
+            "name": {
+              "description": "Function name.",
+              "type": "string",
+              "readOnly": true
+            },
+            "functionAppId": {
+              "description": "Function App ID.",
+              "type": "string",
+              "readOnly": true
+            },
+            "scriptRootPathHref": {
+              "description": "Script root path URI.",
+              "type": "string"
+            },
+            "scriptHref": {
+              "description": "Script URI.",
+              "type": "string"
+            },
+            "configHref": {
+              "description": "Config URI.",
+              "type": "string"
+            },
+            "secretsFileHref": {
+              "description": "Secrets file URI.",
+              "type": "string"
+            },
+            "href": {
+              "description": "Function URI.",
+              "type": "string"
+            },
+            "config": {
+              "description": "Config information.",
+              "type": "object"
+            },
+            "files": {
+              "description": "File list.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "testData": {
+              "description": "Test data used when testing via the Azure Portal.",
+              "type": "string"
+            }
+          },
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "FunctionEnvelopeCollection": {
+      "description": "Collection of Kudu function information elements.",
+      "required": [
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Collection of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FunctionEnvelope"
+          }
+        },
+        "nextLink": {
+          "description": "Link to next page of resources.",
+          "type": "string"
+        }
+      }
+    },
+    "FunctionSecrets": {
+      "description": "Function secrets.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "FunctionSecrets resource specific properties",
+          "properties": {
+            "key": {
+              "description": "Secret key.",
+              "type": "string"
+            },
+            "triggerUrl": {
+              "description": "Trigger URL.",
+              "type": "string"
+            }
+          },
+          "x-ms-client-flatten": true
         }
       }
     },
@@ -1510,11 +1718,11 @@
           }
         },
         "skipAppData": {
-          "description": "Controls whether the MSDeploy operation skips the AppData directory. If set to true, the existing AppData directory on the destination will not be deleted and overwritten.",
+          "description": "Controls whether the MSDeploy operation skips the App_Data directory.\n If set to <code>true</code>, the existing App_Data directory on the destination\n will not be deleted, and any App_Data directory in the source will be ignored.\n Setting is <code>false</code> by default.",
           "type": "boolean"
         },
         "appOffline": {
-          "description": "Sets the AppOffline rule while the MSDeploy operation executes.",
+          "description": "Sets the AppOffline rule while the MSDeploy operation executes.\n Setting is <code>false</code> by default.",
           "type": "boolean"
         }
       }
@@ -1969,6 +2177,397 @@
         }
       }
     },
+    "ProcessInfo": {
+      "description": "Process Information.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "ProcessInfo resource specific properties",
+          "properties": {
+            "id": {
+              "format": "int32",
+              "description": "ARM Identifier for deployment.",
+              "type": "integer",
+              "x-ms-mutability": [
+                "create",
+                "read"
+              ]
+            },
+            "name": {
+              "description": "Deployment name.",
+              "type": "string"
+            },
+            "href": {
+              "description": "HRef URI.",
+              "type": "string"
+            },
+            "miniDump": {
+              "description": "Minidump URI.",
+              "type": "string"
+            },
+            "isProfileRunning": {
+              "description": "Is profile running?",
+              "type": "boolean"
+            },
+            "isIisProfileRunning": {
+              "description": "Is the IIS Profile running?",
+              "type": "boolean"
+            },
+            "iisProfileTimeoutInSeconds": {
+              "format": "double",
+              "description": "IIS Profile timeout (seconds).",
+              "type": "number"
+            },
+            "parent": {
+              "description": "Parent process.",
+              "type": "string"
+            },
+            "children": {
+              "description": "Child process list.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "threads": {
+              "description": "Thread list.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProcessThreadInfo"
+              }
+            },
+            "openFileHandles": {
+              "description": "List of open files.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "modules": {
+              "description": "List of modules.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProcessModuleInfo"
+              }
+            },
+            "fileName": {
+              "description": "File name of this process.",
+              "type": "string"
+            },
+            "commandLine": {
+              "description": "Command line.",
+              "type": "string"
+            },
+            "userName": {
+              "description": "User name.",
+              "type": "string"
+            },
+            "handleCount": {
+              "format": "int32",
+              "description": "Handle count.",
+              "type": "integer"
+            },
+            "moduleCount": {
+              "format": "int32",
+              "description": "Module count.",
+              "type": "integer"
+            },
+            "threadCount": {
+              "format": "int32",
+              "description": "Thread count.",
+              "type": "integer"
+            },
+            "startTime": {
+              "format": "date-time",
+              "description": "Start time.",
+              "type": "string"
+            },
+            "totalProcessorTime": {
+              "description": "Total CPU time.",
+              "type": "string"
+            },
+            "userProcessorTime": {
+              "description": "User CPU time.",
+              "type": "string"
+            },
+            "privilegedProcessorTime": {
+              "description": "Privileged CPU time.",
+              "type": "string"
+            },
+            "workingSet64": {
+              "format": "int64",
+              "description": "Working set.",
+              "type": "integer"
+            },
+            "peakWorkingSet64": {
+              "format": "int64",
+              "description": "Peak working set.",
+              "type": "integer"
+            },
+            "privateMemorySize64": {
+              "format": "int64",
+              "description": "Private memory size.",
+              "type": "integer"
+            },
+            "virtualMemorySize64": {
+              "format": "int64",
+              "description": "Virtual memory size.",
+              "type": "integer"
+            },
+            "peakVirtualMemorySize64": {
+              "format": "int64",
+              "description": "Peak virtual memory usage.",
+              "type": "integer"
+            },
+            "pagedSystemMemorySize64": {
+              "format": "int64",
+              "description": "Paged system memory.",
+              "type": "integer"
+            },
+            "nonpagedSystemMemorySize64": {
+              "format": "int64",
+              "description": "Non-paged system memory.",
+              "type": "integer"
+            },
+            "pagedMemorySize64": {
+              "format": "int64",
+              "description": "Paged memory.",
+              "type": "integer"
+            },
+            "peakPagedMemorySize64": {
+              "format": "int64",
+              "description": "Peak paged memory.",
+              "type": "integer"
+            },
+            "timeStamp": {
+              "format": "date-time",
+              "description": "Time stamp.",
+              "type": "string"
+            },
+            "environmentVariables": {
+              "description": "List of environment variables.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "isScmSite": {
+              "description": "Is this the SCM site?",
+              "type": "boolean"
+            },
+            "isWebJob": {
+              "description": "Is this a Web Job?",
+              "type": "boolean"
+            },
+            "description": {
+              "description": "Description of process.",
+              "type": "string"
+            }
+          },
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ProcessInfoCollection": {
+      "description": "Collection of Kudu process information elements.",
+      "required": [
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Collection of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProcessInfo"
+          }
+        },
+        "nextLink": {
+          "description": "Link to next page of resources.",
+          "type": "string"
+        }
+      }
+    },
+    "ProcessModuleInfo": {
+      "description": "Process Module Information.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "ProcessModuleInfo resource specific properties",
+          "properties": {
+            "baseAddress": {
+              "description": "Base address. Used as module identifier in ARM resource URI.",
+              "type": "string"
+            },
+            "fileName": {
+              "description": "File name.",
+              "type": "string"
+            },
+            "href": {
+              "description": "HRef URI.",
+              "type": "string"
+            },
+            "filePath": {
+              "description": "File path.",
+              "type": "string"
+            },
+            "moduleMemorySize": {
+              "format": "int32",
+              "description": "Module memory size.",
+              "type": "integer"
+            },
+            "fileVersion": {
+              "description": "File version.",
+              "type": "string"
+            },
+            "fileDescription": {
+              "description": "File description.",
+              "type": "string"
+            },
+            "product": {
+              "description": "Product name.",
+              "type": "string"
+            },
+            "productVersion": {
+              "description": "Product version.",
+              "type": "string"
+            },
+            "isDebug": {
+              "description": "Is debug?",
+              "type": "boolean"
+            },
+            "language": {
+              "description": "Module language (locale).",
+              "type": "string"
+            }
+          },
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ProcessModuleInfoCollection": {
+      "description": "Collection of Kudu thread information elements.",
+      "required": [
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Collection of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProcessModuleInfo"
+          }
+        },
+        "nextLink": {
+          "description": "Link to next page of resources.",
+          "type": "string"
+        }
+      }
+    },
+    "ProcessThreadInfo": {
+      "description": "Process Thread Information.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "ProcessThreadInfo resource specific properties",
+          "properties": {
+            "id": {
+              "format": "int32",
+              "description": "ARM Identifier for deployment.",
+              "type": "integer"
+            },
+            "href": {
+              "description": "HRef URI.",
+              "type": "string"
+            },
+            "process": {
+              "description": "Process URI.",
+              "type": "string"
+            },
+            "startAddress": {
+              "description": "Start address.",
+              "type": "string"
+            },
+            "currentPriority": {
+              "format": "int32",
+              "description": "Current thread priority.",
+              "type": "integer"
+            },
+            "priorityLevel": {
+              "description": "Thread priority level.",
+              "type": "string"
+            },
+            "basePriority": {
+              "format": "int32",
+              "description": "Base priority.",
+              "type": "integer"
+            },
+            "startTime": {
+              "format": "date-time",
+              "description": "Start time.",
+              "type": "string"
+            },
+            "totalProcessorTime": {
+              "description": "Total processor time.",
+              "type": "string"
+            },
+            "userProcessorTime": {
+              "description": "User processor time.",
+              "type": "string"
+            },
+            "priviledgedProcessorTime": {
+              "description": "Priviledged processor time.",
+              "type": "string"
+            },
+            "state": {
+              "description": "Thread state.",
+              "type": "string"
+            },
+            "waitReason": {
+              "description": "Wait reason.",
+              "type": "string"
+            }
+          },
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "ProcessThreadInfoCollection": {
+      "description": "Collection of Kudu thread information elements.",
+      "required": [
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Collection of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProcessThreadInfo"
+          }
+        },
+        "nextLink": {
+          "description": "Link to next page of resources.",
+          "type": "string"
+        }
+      }
+    },
     "ProxyOnlyResource": {
       "description": "Azure proxy only resource. This resource is not tracked by Azure Resource Manager.",
       "properties": {
@@ -2129,28 +2728,6 @@
         "name": {
           "description": "Name of the routing rule. The recommended name would be to point to the slot which will receive the traffic in the experiment.",
           "type": "string"
-        }
-      }
-    },
-    "RecoverResponse": {
-      "description": "Response for an app recovery request.",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ],
-      "properties": {
-        "properties": {
-          "description": "RecoverResponse resource specific properties",
-          "properties": {
-            "operationId": {
-              "description": "ID of the recovery operation. Can be used to check the status of the corresponding operation.",
-              "type": "string",
-              "readOnly": true
-            }
-          },
-          "x-ms-client-flatten": true
         }
       }
     },
@@ -2547,6 +3124,10 @@
               "default": false,
               "type": "boolean"
             },
+            "appServicePlan": {
+              "description": "Specify app service plan that will own restored site.",
+              "type": "string"
+            },
             "operationType": {
               "description": "Operation type.",
               "default": "Default",
@@ -2764,6 +3345,13 @@
             "cloningInfo": {
               "$ref": "#/definitions/CloningInfo",
               "description": "If specified during app creation, the app is cloned from a source app.",
+              "x-ms-mutability": [
+                "create"
+              ]
+            },
+            "snapshotInfo": {
+              "$ref": "#/definitions/SnapshotRecoveryRequest",
+              "description": "If specified during app creation, the app is created from a previous snapshot.",
               "x-ms-mutability": [
                 "create"
               ]
@@ -3302,6 +3890,137 @@
         }
       }
     },
+    "SiteExtensionInfo": {
+      "description": "Site Extension Information.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "SiteExtensionInfo resource specific properties",
+          "properties": {
+            "id": {
+              "description": "Site extension ID.",
+              "type": "string"
+            },
+            "title": {
+              "description": "Site extension title.",
+              "type": "string"
+            },
+            "type": {
+              "description": "Site extension type.",
+              "enum": [
+                "Gallery",
+                "WebRoot"
+              ],
+              "type": "string",
+              "x-ms-enum": {
+                "name": "SiteExtensionType",
+                "modelAsString": false
+              }
+            },
+            "summary": {
+              "description": "Summary description.",
+              "type": "string"
+            },
+            "description": {
+              "description": "Detailed description.",
+              "type": "string"
+            },
+            "version": {
+              "description": "Version information.",
+              "type": "string"
+            },
+            "extensionUrl": {
+              "description": "Extension URL.",
+              "type": "string"
+            },
+            "projectUrl": {
+              "description": "Project URL.",
+              "type": "string"
+            },
+            "iconUrl": {
+              "description": "Icon URL.",
+              "type": "string"
+            },
+            "licenseUrl": {
+              "description": "License URL.",
+              "type": "string"
+            },
+            "feedUrl": {
+              "description": "Feed URL.",
+              "type": "string"
+            },
+            "authors": {
+              "description": "List of authors.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "installationArgs": {
+              "description": "Installer command line parameters.",
+              "type": "string"
+            },
+            "publishedDateTime": {
+              "format": "date-time",
+              "description": "Published timestamp.",
+              "type": "string"
+            },
+            "downloadCount": {
+              "format": "int32",
+              "description": "Count of downloads.",
+              "type": "integer"
+            },
+            "localIsLatestVersion": {
+              "description": "<code>true</code> if the local version is the latest version; <code>false</code> otherwise.",
+              "type": "boolean"
+            },
+            "localPath": {
+              "description": "Local path.",
+              "type": "string"
+            },
+            "installedDateTime": {
+              "format": "date-time",
+              "description": "Installed timestamp.",
+              "type": "string"
+            },
+            "provisioningState": {
+              "description": "Provisioning state.",
+              "type": "string"
+            },
+            "comment": {
+              "description": "Site Extension comment.",
+              "type": "string"
+            }
+          },
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "SiteExtensionInfoCollection": {
+      "description": "Collection of Kudu site extension information elements.",
+      "required": [
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Collection of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SiteExtensionInfo"
+          }
+        },
+        "nextLink": {
+          "description": "Link to next page of resources.",
+          "type": "string"
+        }
+      }
+    },
     "SiteInstance": {
       "description": "Instance of an app.",
       "type": "object",
@@ -3651,7 +4370,6 @@
           "description": "Snapshot resource specific properties",
           "properties": {
             "time": {
-              "format": "date-time",
               "description": "The time the snapshot was taken.",
               "type": "string",
               "readOnly": true
@@ -3697,8 +4415,7 @@
           ],
           "properties": {
             "snapshotTime": {
-              "format": "date-time",
-              "description": "Point in time in which the app recovery should be attempted.",
+              "description": "Point in time in which the app recovery should be attempted, formatted as a DateTime string.",
               "type": "string"
             },
             "recoveryTarget": {
@@ -3706,11 +4423,15 @@
               "description": "Specifies the web app that snapshot contents will be written to."
             },
             "overwrite": {
-              "description": "<code>true</code> if the recovery operation can overwrite source app; otherwise, <code>false</code>.",
+              "description": "If <code>true</code> the recovery operation can overwrite source app; otherwise, <code>false</code>.",
               "type": "boolean"
             },
             "recoverConfiguration": {
-              "description": "Site configuration, in addition to content, will be reverted if this is true.",
+              "description": "If true, site configuration, in addition to content, will be reverted.",
+              "type": "boolean"
+            },
+            "ignoreConflictingHostNames": {
+              "description": "If true, custom hostname conflicts will be ignored when recovering to a target web app.\n This setting is only necessary when RecoverConfiguration is enabled.",
               "type": "boolean"
             }
           },
@@ -3851,6 +4572,217 @@
             "type": "string"
           },
           "x-ms-client-flatten": true
+        }
+      }
+    },
+    "TriggeredJobHistory": {
+      "description": "Triggered Web Job History. List of Triggered Web Job Run Information elements.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "TriggeredJobHistory resource specific properties",
+          "properties": {
+            "triggeredJobRuns": {
+              "description": "List of triggered web job runs.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TriggeredJobRun"
+              }
+            }
+          },
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "TriggeredJobHistoryCollection": {
+      "description": "Collection of Kudu continuous web job information elements.",
+      "required": [
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Collection of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TriggeredJobHistory"
+          }
+        },
+        "nextLink": {
+          "description": "Link to next page of resources.",
+          "type": "string"
+        }
+      }
+    },
+    "TriggeredJobRun": {
+      "description": "Triggered Web Job Run Information.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "TriggeredJobRun resource specific properties",
+          "properties": {
+            "id": {
+              "description": "Job ID.",
+              "type": "string",
+              "x-ms-mutability": [
+                "create",
+                "read"
+              ]
+            },
+            "name": {
+              "description": "Job name.",
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "description": "Job status.",
+              "enum": [
+                "Success",
+                "Failed",
+                "Error"
+              ],
+              "type": "string",
+              "x-ms-enum": {
+                "name": "TriggeredWebJobStatus",
+                "modelAsString": false
+              }
+            },
+            "startTime": {
+              "format": "date-time",
+              "description": "Start time.",
+              "type": "string"
+            },
+            "endTime": {
+              "format": "date-time",
+              "description": "End time.",
+              "type": "string"
+            },
+            "duration": {
+              "description": "Job duration.",
+              "type": "string"
+            },
+            "outputUrl": {
+              "description": "Output URL.",
+              "type": "string"
+            },
+            "errorUrl": {
+              "description": "Error URL.",
+              "type": "string"
+            },
+            "url": {
+              "description": "Job URL.",
+              "type": "string"
+            },
+            "jobName": {
+              "description": "Job name.",
+              "type": "string"
+            },
+            "trigger": {
+              "description": "Job trigger.",
+              "type": "string"
+            }
+          },
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "TriggeredWebJob": {
+      "description": "Triggered Web Job Information.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "TriggeredWebJob resource specific properties",
+          "properties": {
+            "latestRun": {
+              "$ref": "#/definitions/TriggeredJobRun",
+              "description": "Latest job run information."
+            },
+            "historyUrl": {
+              "description": "History URL.",
+              "type": "string"
+            },
+            "schedulerLogsUrl": {
+              "description": "Scheduler Logs URL.",
+              "type": "string"
+            },
+            "name": {
+              "description": "Job name. Used as job identifier in ARM resource URI.",
+              "type": "string",
+              "readOnly": true
+            },
+            "runCommand": {
+              "description": "Run command.",
+              "type": "string"
+            },
+            "url": {
+              "description": "Job URL.",
+              "type": "string"
+            },
+            "extraInfoUrl": {
+              "description": "Extra Info URL.",
+              "type": "string"
+            },
+            "jobType": {
+              "description": "Job type.",
+              "enum": [
+                "Continuous",
+                "Triggered"
+              ],
+              "type": "string",
+              "x-ms-enum": {
+                "name": "WebJobType",
+                "modelAsString": false
+              }
+            },
+            "error": {
+              "description": "Error information.",
+              "type": "string"
+            },
+            "usingSdk": {
+              "description": "Using SDK?",
+              "type": "boolean"
+            },
+            "settings": {
+              "description": "Job settings.",
+              "type": "object"
+            }
+          },
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "TriggeredWebJobCollection": {
+      "description": "Collection of Kudu continuous web job information elements.",
+      "required": [
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Collection of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TriggeredWebJob"
+          }
+        },
+        "nextLink": {
+          "description": "Link to next page of resources.",
+          "type": "string"
         }
       }
     },
@@ -4099,6 +5031,84 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/SiteInstance"
+          }
+        },
+        "nextLink": {
+          "description": "Link to next page of resources.",
+          "type": "string"
+        }
+      }
+    },
+    "WebJob": {
+      "description": "Web Job Information.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "WebJob resource specific properties",
+          "properties": {
+            "name": {
+              "description": "Job name. Used as job identifier in ARM resource URI.",
+              "type": "string",
+              "readOnly": true
+            },
+            "runCommand": {
+              "description": "Run command.",
+              "type": "string"
+            },
+            "url": {
+              "description": "Job URL.",
+              "type": "string"
+            },
+            "extraInfoUrl": {
+              "description": "Extra Info URL.",
+              "type": "string"
+            },
+            "jobType": {
+              "description": "Job type.",
+              "enum": [
+                "Continuous",
+                "Triggered"
+              ],
+              "type": "string",
+              "x-ms-enum": {
+                "name": "WebJobType",
+                "modelAsString": false
+              }
+            },
+            "error": {
+              "description": "Error information.",
+              "type": "string"
+            },
+            "usingSdk": {
+              "description": "Using SDK?",
+              "type": "boolean"
+            },
+            "settings": {
+              "description": "Job settings.",
+              "type": "object"
+            }
+          },
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "WebJobCollection": {
+      "description": "Collection of Kudu web job information elements.",
+      "required": [
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Collection of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WebJob"
           }
         },
         "nextLink": {
