@@ -302,8 +302,6 @@
 ### [List By Resource Group](appservice/Certificates/ListByResourceGroup.json)
 ### [Update](appservice/Certificates/Update.json)
 ## [Deleted Web Apps](appservice/DeletedWebApps.json)
-### [List](appservice/DeletedWebApps/List.json)
-### [List By Resource Group](appservice/DeletedWebApps/ListByResourceGroup.json)
 ## [Domains](appservice/Domains.json)
 ### [Check Availability](appservice/Domains/CheckAvailability.json)
 ### [Create Or Update](appservice/Domains/CreateOrUpdate.json)
