@@ -1,7 +1,7 @@
 ---
 title: "Custom analyzers in Azure Search | Microsoft docs"
 ms.custom: ""
-ms.date: "2017-03-16"
+ms.date: "2017-09-02"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -29,9 +29,8 @@ translation.priority.mt:
 ---
 # Custom analyzers in Azure Search
 
-> [!NOTE]
->  Analyzers are a specific component of search technology, which you can learn about in [How full text search works in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture). If you came to this page looking for log or traffic analysis, please see [Enabling and using Search Traffic Analytics](https://azure.microsoft.com/documentation/articles/search-traffic-analytics/) instead.  
-
+A *custom analyzer* is a specific component of search technology used to vary lexical analysis, exchanging default processing for custom processing. Examples include phonetics that find matches based on how a word sounds, or changing tokenization logic. You can learn more about the role of custom analyzers in [How full text search works in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
+  
 ## Overview
 
  The role of a [full-text search engine](https://docs.microsoft.com/azure/search/search-lucene-query-architecture), in simple terms, is to process and store documents in a way that enables efficient querying and retrieval. At a high level, it all comes down to extracting important words from documents, putting them in an index, and then using the index to find documents that match words of a given query. The process of extracting words from documents and search queries is called lexical analysis. Components that perform lexical analysis are called analyzers.
@@ -57,7 +56,7 @@ translation.priority.mt:
  This page provides a list of supported analyzers, tokenizers, token filters, and char filters. You will also find a description of changes to the index definition with a usage example. For more background about the underlying technology leveraged in the Azure Search implementation, see [Analysis package summary (Lucene)](http://lucene.apache.org/core/4_10_3/core/org/apache/lucene/analysis/package-summary.html).  
 
 ## Default analyzer  
- The default analyzer is the [Apache Lucene StandardAnalyzer (standard lucene)](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html).  
+ The default analyzer is the [Apache Lucene Standard Analyzer (standard lucene)](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html).  
 
  It's used automatically on every searchable field unless you explicitly override it with another analyzer within the field definition. Alternative analyzers can be a custom analyzer or a different predefined analyzer from the list of available [Analyzers](#Analyzer) below.
 
