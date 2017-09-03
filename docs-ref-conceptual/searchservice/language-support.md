@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
 ms.assetid: 8f35915a-2bfa-4f23-80c3-e3f54e9e4543
 caps.latest.revision: 28
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-manager: "jhubbard"
+author: "Yahnoosh"
+ms.author: "jlembicz"
+manager: "pablocas"
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -42,7 +42,7 @@ Azure Search supports a variety of languages. There are text analyzers for each 
   > [!Tip]
  > The [Search Analyzer Demo](http://alice.unearth.ai/) provides side-by-side comparison of results produced by the standard Lucene analyzer, Lucene's English language analyzer, and Microsoft's English natural language processor. For each search input you provide, results from each analyzer are displayed in adjacent panes.
 
- **How they compare**  
+## Comparing Lucene and Microsoft analyzers 
 
  The Lucene analyzer for English extends the standard analyzer. It removes possessives (trailing 's) from words, applies stemming as per Porter Stemming algorithm, and removes English stop words.  
 
@@ -50,7 +50,7 @@ Azure Search supports a variety of languages. There are text analyzers for each 
 
  Indexing with Microsoft analyzers is on average two to three times slower than their Lucene equivalents, depending on the language. Search performance should not be significantly affected for average size queries.  
 
- **Configuration**  
+## Configuration
 
  For each field in the index definition, you can set the analyzer property to an analyzer name that specifies which language and vendor. The same analyzer will be applied when indexing and searching for that field. For example, you can have separate fields for English, French, and Spanish hotel descriptions that exist side-by-side in the same index.  
 
