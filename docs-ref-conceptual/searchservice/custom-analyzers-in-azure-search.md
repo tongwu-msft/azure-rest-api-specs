@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # Custom analyzers in Azure Search
 
-A *custom analyzer* is a user-defined combination of one tokenizer and optional filters used in lexical analysis, exchanging default processing for custom processing. For example, you might want to add pre-processing logic to lexical analysis before text inputs are tokenized. 
+A *custom analyzer* is a user-defined combination of one tokenizer and optional filters used in lexical analysis, used to exchange default processing for custom processing. For example, a char filter can add pre-processing logic to lexical analysis before text inputs are tokenized. 
   
 ## Overview
 
@@ -56,7 +56,8 @@ A *custom analyzer* is a user-defined combination of one tokenizer and optional 
  This page provides a list of supported analyzers, tokenizers, token filters, and char filters. You will also find a description of changes to the index definition with a usage example. For more background about the underlying technology leveraged in the Azure Search implementation, see [Analysis package summary (Lucene)](http://lucene.apache.org/core/4_10_3/core/org/apache/lucene/analysis/package-summary.html).  
 
 ## Default analyzer  
- The default analyzer is the [Apache Lucene Standard Analyzer (standard lucene)](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html).  
+
+By default, searchable fields in Azure Search are analyzed with the [Apache Lucene Standard analyzer (standard lucene)](http://lucene.apache.org/core/4_9_0/analyzers-common/index.html) which breaks text into elements following the ["Unicode Text Segmentation"](http://unicode.org/reports/tr29/) rules. Additionally, the standard analyzer converts all characters to their lower case form. Both indexed documents and search terms go through the analysis during indexing and query processing.  
 
  It's used automatically on every searchable field unless you explicitly override it with another analyzer within the field definition. Alternative analyzers can be a custom analyzer or a different predefined analyzer from the list of available [Analyzers](#Analyzer) below.
 

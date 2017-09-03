@@ -25,11 +25,9 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Language analyzers (Azure Search Service REST API)
+# Language analyzers in Azure Search
 
-A *language analyzer* is a specific component of a [full-text search engine](https://docs.microsoft.com/azure/search/search-lucene-query-architecture) that performs lexical analysis using the linguistic rules of the target language. You can specify which analyzer to use on a field-by-field basis. 
-
-By default, searchable fields in Azure Search are analyzed with the [Apache Lucene Standard analyzer (standard lucene)](http://lucene.apache.org/core/4_9_0/analyzers-common/index.html) which breaks text into elements following the ["Unicode Text Segmentation"](http://unicode.org/reports/tr29/) rules. Additionally, the standard analyzer converts all characters to their lower case form. Both indexed documents and search terms go through the analysis during indexing and query processing.    
+A *language analyzer* is a specific component of a [full-text search engine](https://docs.microsoft.com/azure/search/search-lucene-query-architecture) that performs lexical analysis using the linguistic rules of the target language. Each field can have one analyzer. If your index has string translations, such as separate fields for English and Chinese text, you might specify language analyzers on each field.  
 
 Azure Search provides text analyzers that account for characteristics of various languages. You can choose from Lucene and Microsoft analyzers:
 
@@ -39,7 +37,7 @@ Azure Search provides text analyzers that account for characteristics of various
 
  Some developers might prefer the more familiar, simple, open-source solution of Lucene. Lucene language analyzers are faster, but the Microsoft analyzers have advanced capabilities, such as lemmatization, word decompounding (in languages like German, Danish, Dutch, Swedish, Norwegian, Estonian, Finish, Hungarian, Slovak) and entity recognition (URLs, emails, dates, numbers). If possible, you should run comparisons of both the Microsoft and Lucene analyzers to decide which one is a better fit.  
 
-## Compare analyzer types 
+## Compare language analyzer types 
 
  The Lucene analyzer for English extends the standard analyzer. It removes possessives (trailing 's) from words, applies stemming as per Porter Stemming algorithm, and removes English stop words.  
 
@@ -58,9 +56,6 @@ Azure Search provides text analyzers that account for characteristics of various
 Analyzer list  
 Below is the list of supported languages together with Lucene and Microsoft analyzer names.  
 See [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) for details on how to specify the language analyzer on a field in the index.  
-
-> [!IMPORTANT]  
->  Support for Microsoft's natural language processors via the REST API in Azure Search is now out of preview and in the generally available release. Additionally, both Lucene analyzers and Microsoft's natural language  processors are available in the Azure Search .NET library.  
 
 ## Analyzer List  
  Below is the list of supported languages together with Lucene and Microsoft analyzer names.  
