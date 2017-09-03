@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # Custom analyzers in Azure Search
 
-A *custom analyzer* is a specific component of search technology used to vary lexical analysis, exchanging default processing for custom processing. Examples include phonetics that find matches based on how a word sounds, or changing tokenization logic. You can learn more about the role of custom analyzers in [How full text search works in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
+A *custom analyzer* is a user-defined combination of one tokenizer and optional filters used in lexical analysis, exchanging default processing for custom processing. For example, you might want to add pre-processing logic to lexical analysis before text inputs are tokenized. 
   
 ## Overview
 
