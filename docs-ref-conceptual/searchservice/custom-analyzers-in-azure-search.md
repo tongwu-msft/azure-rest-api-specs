@@ -206,7 +206,9 @@ PUT https://[search service name].search.windows.net/indexes/[index name]?api-ve
 Note that this operation will take your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for very large indexes, but these effects are temporary and will eventually resolve on their own.
 
  <a name="ReferenceIndexAttributes"></a>
+
 ## Index Attribute Reference
+
 The tables below list the configuration properties for the analyzers, tokenizers, token filters and char filter section of an index definition. The structure of an analyzer, tokenizer, or filter in your index is composed of these attributes. For value assignment information, see the [Property Reference](#PropertyReference).
 
  ### Analyzers
@@ -266,11 +268,14 @@ You can have multiple token filters in a custom analyzer. Token filters run in t
 |Options|Must be [Token filters](#TokenFilters) of a given token filter type.|  
 
 <a name="PropertyReference"></a>  
+
 ## Property reference
 
 This section provides the valid values for attributes specified in the definition of a custom analyzer, tokenizer, char filter, or token filter in your index. Analyzers, tokenizers, and filters that are implemented using Apache Lucene have links to the Lucene API documentation.
 
-###  <a name="Analyzers"></a> Analyzers  
+<a name="AnalyzerTable"></a> 
+
+###  Predefined Analyzers Reference
 
 |**analyzer_name**|**analyzer_type**  <sup>1</sup>|**Description and Options**|  
 |-|-|-|  
@@ -285,7 +290,9 @@ This section provides the valid values for attributes specified in the definitio
  <sup>1</sup> Analyzer Types are always prefixed in code with "#Microsoft.Azure.Search" such that "PatternAnalyzer" would actually be specified as "#Microsoft.Azure.Search.PatternAnalyzer". We removed the prefix to reduce the width of the table, but please remember to include it in your code. Note that analyzer_type is only provided for analyzers that can be customized. If there are no options, as is the case with the keyword analyzer, there is no associated #Microsoft.Azure.Search type.
 
 
-###  <a name="CharFilter"></a> Char Filters  
+<a name="CharFilter"></a> 
+
+###  Char Filters Reference
 
 In the table below, the character filters that are implemented using Apache Lucene are linked to the Lucene API documentation.
 
@@ -297,7 +304,9 @@ In the table below, the character filters that are implemented using Apache Luce
 
  <sup>1</sup> Char Filter Types are always prefixed in code with "#Microsoft.Azure.Search" such that "MappingCharFilter" would actually be specified as "#Microsoft.Azure.Search.MappingCharFilter. We removed the prefix to reduce the width of the table, but please remember to include it in your code. Note that char_filter_type is only provided for filters that can be customized. If there are no options, as is the case with html_strip, there is no associated #Microsoft.Azure.Search type.
 
-###  <a name="Tokenizers"></a> Tokenizers  
+<a name="Tokenizers"></a> 
+
+###  Tokenizers Reference
 
 In the table below, the tokenizers that are implemented using Apache Lucene are linked to the Lucene API documentation.
 
@@ -319,7 +328,9 @@ In the table below, the tokenizers that are implemented using Apache Lucene are 
 
  <sup>1</sup> Tokenizer Types are always prefixed in code with "#Microsoft.Azure.Search" such that  "ClassicTokenizer" would actually be specified as "#Microsoft.Azure.Search.ClassicTokenizer". We removed the prefix to reduce the width of the table, but please remember to include it in your code. Note that tokenizer_type is only provided for tokenizers that can be customized. If there are no options, as is the case with the letter tokenizer, there is no associated #Microsoft.Azure.Search type.
 
-###  <a name="TokenFilters"></a> Token filters  
+<a name="TokenFilters"></a> 
+
+###  Token Filters Reference
 
 In the table below, the token filters that are implemented using Apache Lucene are linked to the Lucene API documentation.
 
