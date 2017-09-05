@@ -1684,7 +1684,7 @@
 #### [Create Job](iothub/JobApi/CreateJob.json)
 #### [Get Job](iothub/JobApi/GetJob.json)
 #### [Query Jobs](iothub/JobApi/QueryJobs.json)
-# [IoT Hub Device Provisioing Service](../docs-ref-conceptual/iot-dps/index.md)
+# [IoT Hub Device Provisioning Service](../docs-ref-conceptual/iot-dps/index.md)
 ## [Device Enrollment](iot-dps/DeviceEnrollment.json)
 ### [Bulk Operation](iot-dps/DeviceEnrollment/BulkOperation.json)
 ### [Create Or Update](iot-dps/DeviceEnrollment/CreateOrUpdate.json)
