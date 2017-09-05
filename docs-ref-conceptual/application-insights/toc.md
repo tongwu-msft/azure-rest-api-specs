@@ -1,0 +1,5 @@
+# [Data Access](https://dev.applicationinsights.io/)
+## [Authorization](https://dev.applicationinsights.io/documentation/Authorization)
+## [Metrics](https://dev.applicationinsights.io/documentation/Using-the-API/Metrics)
+## [Events](https://dev.applicationinsights.io/documentation/Using-the-API/Events)
+## [Query](https://dev.applicationinsights.io/documentation/Using-the-API/Query)
