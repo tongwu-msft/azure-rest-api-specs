@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # Custom analyzers in Azure Search
 
-A *custom analyzer* is a user-specified combination of tokenizer and optional filters used for customizing the process of analyzing text in the search engine. A custom analyzer lets you specify which components to use. This is helpful when existing analyzers do not provide sufficient pre-processing, tokenization, or post-processing. For example, you could create a custom analyzers with a *char filter* that removes HTML markup before text inputs are tokenized. 
+A *custom analyzer* is a user-specified combination of tokenizer and optional filters used for customizing the process of analyzing text in the search engine. For example, you could create a custom analyzer with a *char filter* to remove HTML markup before text inputs are tokenized. 
   
 ## Overview
 
