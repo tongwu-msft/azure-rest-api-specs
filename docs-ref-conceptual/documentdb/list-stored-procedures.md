@@ -1,5 +1,5 @@
 ---
-title: "List Stored Procedures"
+title: "List Stored Procedures - Azure Cosmos DB REST API"
 ms.custom: ""
 ms.date: "2016-02-25"
 ms.prod: "azure"
@@ -13,7 +13,6 @@ caps.latest.revision: 9
 author: "mimig1"
 ms.author: "mimig"
 manager: "jhubbard"
-robots: noindex,nofollow
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -36,7 +35,7 @@ translation.priority.mt:
 |GET|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/sprocs|Note that the {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. The {db-id} value is the user generated name/id of the database where the stored procedures reside, not the system generated id (rid). The {coll-id} value is the name of the collection where the stored procedures reside.|  
   
 ### Headers  
- See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
+ See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Azure Cosmos DB requests.  
   
 ### Body  
  None.  
@@ -44,7 +43,7 @@ translation.priority.mt:
 ## Response  
   
 ### Headers  
- See [Common Azure Cosmos DB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all Cosmos DB responses.  
+ See [Common Azure Cosmos DB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all Azure Cosmos DB responses.  
   
 ### Status codes  
  The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](https://msdn.microsoft.com/library/azure/dn783364.aspx).  
@@ -140,10 +139,10 @@ Content-Length: 421
 ```  
   
 ## See Also  
- [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
+* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
 

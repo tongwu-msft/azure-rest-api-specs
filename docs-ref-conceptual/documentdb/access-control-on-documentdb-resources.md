@@ -29,7 +29,7 @@ translation.priority.mt:
 Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. Access to resources in the DocumentDB API is governed by a master key token or a resource token. To access a resource, the selected token is included in the REST authorization header, as part of the authorization string.  
   
 ## Master key tokens  
-The master key token is the all access key token that allows users to have full control of Cosmos DB resources in a particular account. The master key is created during the creation of an account. There are two sets of master keys, the primary key and the secondary key. The administrator of the account can then exercise key rotation using the secondary key. In addition, the account administrator can also regenerate the keys as needed. For instructions on regenerating and rolling keys, see [How to manage an Azure Cosmos DB account](https://docs.microsoft.com/azure/documentdb/documentdb-manage-account/).  
+The master key token is the all access key token that allows users to have full control of Cosmos DB resources in a particular account. The master key is created during the creation of an account. There are two sets of master keys, the primary key and the secondary key. The administrator of the account can then exercise key rotation using the secondary key. In addition, the account administrator can also regenerate the keys as needed. For instructions on regenerating and rolling keys, see [How to manage an Azure Cosmos DB account](https://docs.microsoft.com/azure/cosmos-db/manage-account).  
   
 ## Resource tokens  
 Resource tokens are created when users in a database are set up with access permissions for precise access control on a resource, also known as a permission resource. A permission resource contains a hash resource token specifically constructed with the information regarding the resource path and access type a user has access to. The permission resource token is time bound and the validity period can be overridden. When a permission resource is acted upon on (POST, GET, PUT), a new resource token is generated. For information on permissions and resource tokens, see [Operations on Cosmos DB Permissions](permissions.md).  
@@ -164,10 +164,9 @@ Example Encoding:
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
-* [Azure Cosmos DB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
-* [Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
-* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) 
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
+* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
 
