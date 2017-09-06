@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Databases
-[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing database [resources](azure/cosmos-db/documentdb-resources) using the [DocumentDB API](/azure/cosmos-db/documentdb-introduction) via REST.  
+[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing database [resources](/azure/cosmos-db/documentdb-resources) using the [DocumentDB API](/azure/cosmos-db/documentdb-introduction) via REST.  
   
 Each Azure Cosmos DB account supports multiple independently named databases. A database is a logical namespace for collections, users, and permissions. The database resource is represented by **dbs** in the [Azure Cosmos DB resource model](/azure/cosmos-db/documentdb-resources/). Here’s an example of the URI: https://mydbaccount.documents.azure.com/dbs.
   

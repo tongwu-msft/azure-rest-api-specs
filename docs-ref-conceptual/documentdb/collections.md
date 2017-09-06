@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Collections
-[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing collection [resources](azure/cosmos-db/documentdb-resources) using the [DocumentDB API](/azure/cosmos-db/documentdb-introduction) via REST.  
+[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing collection [resources](/azure/cosmos-db/documentdb-resources) using the [DocumentDB API](/azure/cosmos-db/documentdb-introduction) via REST.  
 
 The REST API supports basic CRUD operations on the resources under a database account. A collection is a container of JSON documents and associated JavaScript application logic, i.e. stored procedures, triggers and user-defined functions. This topic outlines the REST operations used to manage document collections.  
   

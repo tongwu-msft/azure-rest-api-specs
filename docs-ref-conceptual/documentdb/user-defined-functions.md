@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # User Defined Functions
-[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for managing user defined function [resources](azure/cosmos-db/documentdb-resources) (udfs) using the [DocumentDB API](/azure/cosmos-db/documentdb-introduction) via REST.  
+[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for managing user defined function [resources](/azure/cosmos-db/documentdb-resources) (udfs) using the [DocumentDB API](/azure/cosmos-db/documentdb-introduction) via REST.  
 
 A user defined function (UDF) is a side effect free piece of application logic written in JavaScript. It allows developers to construct a query operator, thus extending the core of the Cosmos DB query language. Like stored procedures, UDFs live in the confines of a collection, thus confining the application logic to the collection.  
   

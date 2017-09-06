@@ -56,7 +56,7 @@ The `Create Database` operation creates a new database in the database account.
  See [Common Azure Cosmos DB REST response headers](common-documentdb-rest-response-headers.md) for headers that are returned by all Azure Cosmos DB responses.  
   
 ### Status codes  
- The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](https://msdn.microsoft.com/library/azure/dn783364.aspx).  
+ The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](http-status-codes-for-documentdb.md).  
   
 |HTTP status code|Description|  
 |----------------------|-----------------|  
