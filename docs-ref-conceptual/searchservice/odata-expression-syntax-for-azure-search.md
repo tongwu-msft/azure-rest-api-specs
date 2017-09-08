@@ -1,7 +1,7 @@
 ---
 title: "OData Expression Syntax for Azure Search"
 ms.custom: ""
-ms.date: "2017-04-11"
+ms.date: "08/16/2017"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -38,7 +38,7 @@ translation.priority.mt:
 
 -   Comparison expressions (`eq, ne, gt, lt, ge, le`). String comparisons are case-sensitive.  
 
--   Constants of the supported EDM types (see [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for a list of supported types). Constants of collection types are not supported.  
+-   Constants of the supported [Entity Data Model](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model) (EDM) types (see [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for a list of supported types). Constants of collection types are not supported.  
 
 -   References to field names. Only `filterable` fields can be used in filter expressions.  
 
@@ -59,15 +59,17 @@ translation.priority.mt:
     Note that `geo.distance` returns distance in kilometers in Azure Search. This differs from other services that support OData geospatial operations, which typically return distances in meters.  
 
 > [!NOTE]  
-> The geo.distance function only supports comparison operators: `lt, le, gt, ge`. Operators `eq` and `ne` cannot be used.
+>  When using geo.distance in a filter, you must compare the distance returned by the function with a constant using `lt`, `le`, `gt`, or `ge`. The operators `eq` and `ne` are not supported when comparing distances. For example, this is a correct usage of geo.distance: `$filter=geo.distance(location, geography'POINT(-122.131577 47.678581)') le 5`.  
 
 -   The `search.in` function tests whether a given string field is equal to one of a given list of values. It can also be used in any or all to compare a single value of a string collection field with a given list of values. Equality between the field and each value in the list is determined in a case-sensitive fashion, the same way as for the `eq` operator. Therefore an expression like `search.in(myfield, 'a, b, c')` is equivalent to `myfield eq 'a' or myfield eq 'b' or myfield eq 'c'`, except that `search.in` will yield much better performance. 
 
     The first parameter to the `search.in` function is the field reference (or range variable in the case where `search.in` is used inside an any or all expression). The second parameter is a string containing the list of values, separated by spaces and/or commas. If you need to use separators other than spaces and commas because your values include those characters, you can specify an optional third parameter to `search.in`. 
-	
-	This third parameter is a string where each character of the string, or subset of this string are treated as a separator when parsing the list of values in the second parameter.
-	
-	Currently the `search.in` function is supported only in api-versions 2016-09-01-Preview and 2015-02-28-Preview.
+
+    This third parameter is a string where each character of the string, or subset of this string is treated as a separator when parsing the list of values in the second parameter.
+
+> [!NOTE]  	
+>  Some scenarios require comparing a field against a large number of constant values. For example, implementing security trimming with filters might require comparing the document ID field against a list of IDs to which the requesting user is granted read access. In scenarios like this we highly recommend using the `search.in` function instead of a more complicated disjunction of equality expressions. For example, use `search.in(Id, '123, 456, ...')` instead of `Id eq 123 or Id eq 456 or ....`. 
+>  If you use `search.in`, you can expect sub-second response time when the second parameter contains a list of hundreds or thousands of values. Note that there is no explicit limit on the number of items you can pass to `search.in`, although you are still limited by the maximum request size. However, the latency will grow as the number of values grows.
 
 -   The `search.ismatch` function evaluates search query as a part of a filter expression. The documents that match the search query will be returned in the result set. The following overloads of this function are available:
     - `search.ismatch(search)`

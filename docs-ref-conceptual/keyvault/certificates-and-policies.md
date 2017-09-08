@@ -160,7 +160,7 @@ Elements of a policy's key.
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |name|String|Possible values are "Unknown", "Self" or {IssuerName}. Default value is "Unknown" which represents an out of band issuer. "Self" is for a self-signed issuance of x509 certificate.<br /><br /> IssuerName is name of the object created using an partner issuers provider created as /certificates/issuers/{issuerName}|  
-|cty|String|Certificate type that should be supplied to the issuer provider. This field is optional. The allowed values depend on the issuer provider. The following values are allowed with specified providers<br /><br /> DigiCert: OV-SSL, EV-SSL (defaults to OV-SSL if nothing is specified)<br /><br /> GlobalSign: OV-SSL, EV-SSL (defaults to OV-SSL if nothing is specified)<br /><br /> WoSign: OV-SSL, EV-SSL (defaults to value as configured on the WoSign portal)|  
+|cty|String|Certificate type that should be supplied to the issuer provider. This field is optional. The allowed values depend on the issuer provider. The following values are allowed with specified providers<br /><br /> DigiCert: OV-SSL, EV-SSL (defaults to OV-SSL if nothing is specified)<br /><br /> GlobalSign: OV-SSL, EV-SSL (defaults to OV-SSL if nothing is specified)|  
 
 #### Attributes
 
