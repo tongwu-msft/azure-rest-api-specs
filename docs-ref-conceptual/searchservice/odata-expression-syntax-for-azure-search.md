@@ -95,6 +95,8 @@ translation.priority.mt:
 
   The `search.ismatch` and `search.ismatchscoring` functions are fully orthogonal with each other and the rest of the filter algebra. This means both functions can be used in the same filter expression. 
 
+  Currently the `search.ismatch` and `search.ismatchscoring` functions are supported only in api-versions 2016-09-01-Preview and 2015-02-28-Preview.
+
 ### Geospatial queries and polygons spanning the 180th meridian  
  For many geospatial query libraries formulating a query that includes the 180th meridian (near the dateline) is either off-limits or requires a workaround, such as splitting the polygon into two, one on either side of the meridian.  
 
