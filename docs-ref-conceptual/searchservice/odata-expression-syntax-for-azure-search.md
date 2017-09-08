@@ -1,4 +1,4 @@
----
+﻿---
 title: "OData Expression Syntax for Azure Search"
 ms.custom: ""
 ms.date: "08/16/2017"
@@ -66,6 +66,8 @@ translation.priority.mt:
     The first parameter to the `search.in` function is the field reference (or range variable in the case where `search.in` is used inside an any or all expression). The second parameter is a string containing the list of values, separated by spaces and/or commas. If you need to use separators other than spaces and commas because your values include those characters, you can specify an optional third parameter to `search.in`. 
 
     This third parameter is a string where each character of the string, or subset of this string is treated as a separator when parsing the list of values in the second parameter.
+
+    Currently the `search.in` function is supported only in api-versions 2016-09-01-Preview and 2015-02-28-Preview.
 
 > [!NOTE]  	
 >  Some scenarios require comparing a field against a large number of constant values. For example, implementing security trimming with filters might require comparing the document ID field against a list of IDs to which the requesting user is granted read access. In scenarios like this we highly recommend using the `search.in` function instead of a more complicated disjunction of equality expressions. For example, use `search.in(Id, '123, 456, ...')` instead of `Id eq 123 or Id eq 456 or ....`. 
