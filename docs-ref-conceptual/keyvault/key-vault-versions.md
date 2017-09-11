@@ -5,10 +5,18 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
-ms.date: 08/21/2017
+ms.date: 09/11/2017
 
 ---
 # Key Vault versions
+
+## 2016-10-01 - Managed Storage Account Keys
+
+Summer 2017 - Storage Account Keys feature added easier integration with Azure Storage. See the overview topic for more information, [Managed Storage Account Keys overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-storage-keys).
+
+## 2015-10-01 - Soft-delete
+
+Summer 2017 - soft-delete feature added for improved data protection of your key vaults and key vault objects. See the overview topic for more information, [Soft-delete overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete).
 
 ## 2015-06-01 - Certificate management
 
