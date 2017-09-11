@@ -14,7 +14,7 @@ ms.date: 09/11/2017
 
 Summer 2017 - Storage Account Keys feature added easier integration with Azure Storage. See the overview topic for more information, [Managed Storage Account Keys overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-storage-keys).
 
-## 2015-10-01 - Soft-delete
+## 2016-10-01 - Soft-delete
 
 Summer 2017 - soft-delete feature added for improved data protection of your key vaults and key vault objects. See the overview topic for more information, [Soft-delete overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete).
 
