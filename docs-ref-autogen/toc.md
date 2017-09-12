@@ -2024,6 +2024,7 @@
 #### [Regenerate Key](media/MediaService/RegenerateKey.json)
 #### [Sync Storage Keys](media/MediaService/SyncStorageKeys.json)
 #### [Update](media/MediaService/Update.json)
+### [Operations](media/Operations.json)
 # [Monitor](../docs-ref-conceptual/monitor/index.md)
 ## [Filter Syntax](../docs-ref-conceptual/monitor/filter-syntax.md)
 ## Reference
