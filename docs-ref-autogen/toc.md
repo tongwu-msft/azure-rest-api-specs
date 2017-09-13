@@ -69,6 +69,7 @@
 #### [Create Or Update](apimanagement/ApiOperationPolicy/CreateOrUpdate.json)
 #### [Delete](apimanagement/ApiOperationPolicy/Delete.json)
 #### [Get](apimanagement/ApiOperationPolicy/Get.json)
+#### [List By Operation](apimanagement/ApiOperationPolicy/ListByOperation.json)
 ### [Api Policy](apimanagement/ApiPolicy.json)
 #### [Create Or Update](apimanagement/ApiPolicy/CreateOrUpdate.json)
 #### [Delete](apimanagement/ApiPolicy/Delete.json)
