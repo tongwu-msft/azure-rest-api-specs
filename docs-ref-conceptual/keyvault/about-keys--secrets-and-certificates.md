@@ -15,7 +15,6 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 **Key Vault general details**
 
 -   [Supporting standards](about-keys--secrets-and-certificates.md#BKMK_Standards)
--   [Cryptographic protection](about-keys--secrets-and-certificates.md#BKMK_Cryptographic)
 -   [Data types](about-keys--secrets-and-certificates.md#BKMK_DataTypes)  
 -   [Objects, identifiers and, versioning](about-keys--secrets-and-certificates.md#BKMK_ObjId)  
 
@@ -24,6 +23,7 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 -   [Keys and key types](about-keys--secrets-and-certificates.md#BKMK_KeyTypes)  
 -   [RSA algorithms](about-keys--secrets-and-certificates.md#BKMK_RSAAlgorithms)  
 -   [RSA-HSM algorithms](about-keys--secrets-and-certificates.md#BKMK_RSA-HSMAlgorithms)  
+-   [Cryptographic protection](about-keys--secrets-and-certificates.md#BKMK_Cryptographic)
 -   [Key operations](about-keys--secrets-and-certificates.md#BKMK_KeyOperations)  
 -   [Key attributes](about-keys--secrets-and-certificates.md#BKMK_KeyAttributes)  
 -   [Key tags](about-keys--secrets-and-certificates.md#BKMK_Keytags)  
@@ -58,10 +58,6 @@ The JavaScript Object Notation (JSON) and JavaScript Object Signing and Encrypti
 -   [JSON Web Encryption (JWE)](http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption)  
 -   [JSON Web Algorithms (JWA)](http://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms)  
 -   [JSON Web Signature (JWS)](http://tools.ietf.org/html/draft-ietf-jose-json-web-signature)  
-
-### <a name="BKMK_Cryptographic"></a> Cryptographic protection
-
-The cryptographic modules that Azure Key Vault uses, whether HSM or software, are FIPS validated. You don’t need to do anything special to run in FIPS mode. If you **create** or **import** keys as HSM-protected (kty=RSA-HSM), they are guaranteed to be processed inside HSMs validated to FIPS 140-2 Level 2 or higher. If you **create** or **import** keys as software-protected (kty=RSA) then they are processed inside cryptographic modules validated to FIPS 140-2 Level 1 or higher. For more information, see [Keys and key types](about-keys--secrets-and-certificates.md#BKMK_KeyTypes).
 
 ### <a name="BKMK_DataTypes"></a> Data types
 
@@ -130,7 +126,11 @@ The initial Azure Key Vault release supports RSA keys only; future releases may 
 -   **RSNULL** - See [RFC2437], a specialized use-case to enable certain TLS scenarios.  
 
 ###  <a name="BKMK_RSA-HSMAlgorithms"></a> RSA-HSM algorithms  
- The following algorithm identifiers are supported with RSA-HSM keys in Azure Key Vault.  
+The following algorithm identifiers are supported with RSA-HSM keys in Azure Key Vault.  
+
+### <a name="BKMK_Cryptographic"></a> Cryptographic protection
+
+The cryptographic modules that Azure Key Vault uses, whether HSM or software, are FIPS validated. You don’t need to do anything special to run in FIPS mode. If you **create** or **import** keys as HSM-protected (kty=RSA-HSM), they are guaranteed to be processed inside HSMs validated to FIPS 140-2 Level 2 or higher. If you **create** or **import** keys as software-protected (kty=RSA) then they are processed inside cryptographic modules validated to FIPS 140-2 Level 1 or higher. For more information, see [Keys and key types](about-keys--secrets-and-certificates.md#BKMK_KeyTypes).
 
 #### WRAP/UNWRAP, ENCRYPT/DECRYPT
 
