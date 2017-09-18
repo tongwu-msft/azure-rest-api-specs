@@ -48,7 +48,7 @@ For more general information about Azure Key Vault, see [What is Azure Key Vault
 
 ## Key Vault general details
 
-The following sections offer general information applicable across the implemenation of the Azure Key Vault service.
+The following sections offer general information applicable across the implementation of the Azure Key Vault service.
 
 ###  <a name="BKMK_Standards"></a> Supporting standards
 
@@ -82,7 +82,7 @@ Refer to the [JOSE specifications](#BKMK_Standards) for relevant data types for 
 
 Objects stored in Azure Key Vault retain versions whenever a new instance of an object is created, and each version has a unique identifier and URL. When an object is first created, it is given a unique version identifier and is marked as the current version of the object. Creation of a new instance with the same object name gives the new object a unique version identifier and causes it to become the current version.  
 
-Objects in Azure Key Vault can be addressed using the current identifier or a version specific identifier. For example, given a Key with the name “MasterKey”, performing operations with the current identifier causes the system to use the latest available version. Performing operations with the version specific identifier causes the system to use that specific version of the object.  
+Objects in Azure Key Vault can be addressed using the current identifier or a version-specific identifier. For example, given a Key with the name “MasterKey”, performing operations with the current identifier causes the system to use the latest available version. Performing operations with the version-specific identifier causes the system to use that specific version of the object.  
 
 Objects are uniquely identified within Azure Key Vault using a URL such that no two objects in the system, regardless of geo-location, have the same URL. The complete URL to an object is called the Object Identifier and consists of a prefix portion that identifies the Key Vault, the object type, a user provided Object Name, and an Object Version. The Object Name is case-insensitive and immutable. Identifiers that do not include the Object Version are referred to as Base Identifiers.  
 
@@ -110,7 +110,7 @@ Cryptographic keys in Azure Key Vault are represented as JSON Web Key [JWK] obje
 The initial Azure Key Vault release supports RSA keys only; future releases may support other key types such as symmetric and elliptic curve.  
 
 -   **RSA**: A 2048-bit RSA key. This is a "soft" key, which is processed in software by Key Vault but is stored encrypted at rest using a system key that is in an HSM. Clients may import an existing RSA key or request that Azure Key Vault generate one.  
--   **RSA-HSM**: An RSA key that is processed in an HSM. RSA-HSM keys are protected in one of the Azure Key Vault HSM Security Worlds (there is a Security World per geography to maintain isolation). Clients may import a RSA key, either in soft form or by exporting from a compatible HSM device, or request that Azure Key Vault generate one. This key type adds the T attribute to the JWK obtain to carry the HSM key material.  
+-   **RSA-HSM**: An RSA key that is processed in an HSM. RSA-HSM keys are protected in one of the Azure Key Vault HSM Security Worlds (there is a Security World per geography to maintain isolation). Clients may import an RSA key, either in soft form or by exporting from a compatible HSM device, or request that Azure Key Vault generate one. This key type adds the T attribute to the JWK obtain to carry the HSM key material.  
 
      For more information on geographical boundaries, see [Microsoft Azure Trust Center](http://azure.microsoft.com/en-us/support/trust-center/privacy/)  
 
@@ -258,7 +258,7 @@ For more information on data types see, [Data types](about-keys--secrets-and-cer
 
 ###  <a name="BKMK_SecretAccessControl"></a> Secret Access Control
 
-Access Control for secrets managed in Azure Key Vault is provided at the level of a Key Vault that acts as the container of those secrets. There is an access control policy for secrets that is distinct from the access control policy for keys in the same Key Vault. Users may create one or more vaults to hold secrets and are required to maintain scenario appropriate segmentation and management of secrets. Access controls for secrets is independent of access control for Keys.  
+Access Control for secrets managed in Azure Key Vault is provided at the level of a Key Vault that acts as the container of those secrets. There is an access control policy for secrets that is distinct from the access control policy for keys in the same Key Vault. Users may create one or more vaults to hold secrets and are required to maintain scenario appropriate segmentation and management of secrets. Access controls for secrets are independent of access control for Keys.  
 
 The following permissions can be used, on a per-principal basis, in the secrets access control entry on a vault, and closely mirror the operations allowed on a secret object:  
 
@@ -301,7 +301,7 @@ The identifier and version of certificates is similar to that of keys and secret
 
 When a Key Vault  certificate is created, it can be retrieved from the addressable secret with the private key in either PFX or PEM format if the policy used to create the certificate indicated that the key is exportable. If the policy used to create the Key Vault certificate indicated the key to be non-exportable, then the private key is not a part of the value when retrieved as a secret.  
 
-The addressable key becomes more relevant with non-exportable KV certificates. The addressable KV key’s operations are mapped from keyusage field of the KV certificate policy used to create the KV Certificate.  
+The addressable key becomes more relevant with non-exportable KV certificates. The addressable KV key’s operations are mapped from *keyusage* field of the KV certificate policy used to create the KV Certificate.  
 
 Two types of key are supported – *RSA* or *RSA HSM* with certificates. Exportable is only allowed with RSA, not supported by RSA HSM.  
 
@@ -379,8 +379,8 @@ A Key Vault certificate object holds a configuration used to communicate with a 
 
 |**Provider Name**|**Locations**|
 |-------------------|---------------|
-|DigiCert|Supported in all key vault service locations in public cloud and US gov sovereign cloud|
-|GlobalSign|Supported in all key vault service locations in public cloud and US gov sovereign cloud|
+|DigiCert|Supported in all key vault service locations in public cloud and Azure Government|
+|GlobalSign|Supported in all key vault service locations in public cloud and Azure Government|
 
 Before a certificate issuer can be created in a Key Vault, following prerequisite steps 1 and 2 must be successfully accomplished.  
 
@@ -420,7 +420,7 @@ If a certificate's policy is set to auto-renewal, then a notification is sent on
 -   *delete*: allows delete of a certificate, its policy and all of its versions  
 -   *create*: allows create of a Key Vault certificate.  
 -   *import*: allows import of certificate material into a Key Vault Certificate.  
--   *update*: allows updat* of a certificate.  
+-   *update*: allows update of a certificate.  
 -   *manageconnects*: allows management of Key Vault certificate contacts  
 -   *getissuers*: allows get of a certificate's issuers  
 -   *listissuers*: allows list of certificate's issuers  
