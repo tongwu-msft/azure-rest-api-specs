@@ -182,7 +182,7 @@ Creates a new input within a Stream Analytics job.
 |Element name|Required|Notes|  
 |------------------|--------------|-----------|  
 |**type**|Yes|This element is associated with the **datasource** element. It indicates the type of data source that incoming data will be read from. For Iot Hub, the value should be Microsoft.Devices/IotHubs.|  
-|**iotHubNamespace**|Yes|The name or the URI of the IoT Hub|  
+|**iotHubNamespace**|Yes|The name or the URI of the IoT Hub. Must be between 3 and 50 characters. Allowed characters are letters, numbers, and dash (-), but may not begin or end with dash.|  
 |**sharedAccessPolicyName**|Yes|The shared access policy name for the target Iot Hub with Service connect permission.|  
 |**sharedAccessPolicyKey**|Yes|The shared access policy key for the target Iot Hub.|  
 |**consumerGroupName**|No|Name of an Iot Hub consumer group by which to identify this input. If not specified, the input uses the Iot Hub’s default consumer group.|  
