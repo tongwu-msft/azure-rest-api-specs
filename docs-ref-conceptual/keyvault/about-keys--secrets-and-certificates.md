@@ -1,6 +1,7 @@
 ---
 ms.assetid: abd1b743-1d58-413f-afc1-d08ebf93828a
-title: About keys, secrets and, certificates | Microsoft Docs
+title: About keys, secrets and, certificates
+description: Overview of REST interface and KV developer details
 ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
