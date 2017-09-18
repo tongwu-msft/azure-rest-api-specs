@@ -131,7 +131,7 @@ The following algorithm identifiers are supported with RSA-HSM keys in Azure Key
 
 ### <a name="BKMK_Cryptographic"></a> Cryptographic protection
 
-The cryptographic modules that Azure Key Vault uses, whether HSM or software, are FIPS validated. You don’t need to do anything special to run in FIPS mode. If you **create** or **import** keys as HSM-protected (kty=RSA-HSM), they are guaranteed to be processed inside HSMs validated to FIPS 140-2 Level 2 or higher. If you **create** or **import** keys as software-protected (kty=RSA) then they are processed inside cryptographic modules validated to FIPS 140-2 Level 1 or higher. For more information, see [Keys and key types](about-keys--secrets-and-certificates.md#BKMK_KeyTypes).
+The cryptographic modules that Azure Key Vault uses, whether HSM or software, are FIPS validated. You don’t need to do anything special to run in FIPS mode. If you **create** or **import** keys as HSM-protected, they are guaranteed to be processed inside HSMs validated to FIPS 140-2 Level 2 or higher. If you **create** or **import** keys as software-protected then they are processed inside cryptographic modules validated to FIPS 140-2 Level 1 or higher. For more information, see [Keys and key types](about-keys--secrets-and-certificates.md#BKMK_KeyTypes).
 
 #### WRAP/UNWRAP, ENCRYPT/DECRYPT
 
