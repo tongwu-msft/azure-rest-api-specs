@@ -1,6 +1,7 @@
 ---
 ms.assetid: abd1b743-1d58-413f-afc1-d08ebf93828a
-title: About keys, secrets and, certificates | Microsoft Docs
+title: About keys, secrets and, certificates
+description: Overview of REST interface and KV developer details
 ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
@@ -130,7 +131,7 @@ The following algorithm identifiers are supported with RSA-HSM keys in Azure Key
 
 ### <a name="BKMK_Cryptographic"></a> Cryptographic protection
 
-The cryptographic modules that Azure Key Vault uses, whether HSM or software, are FIPS validated. You don’t need to do anything special to run in FIPS mode. If you **create** or **import** keys as HSM-protected (kty=RSA-HSM), they are guaranteed to be processed inside HSMs validated to FIPS 140-2 Level 2 or higher. If you **create** or **import** keys as software-protected (kty=RSA) then they are processed inside cryptographic modules validated to FIPS 140-2 Level 1 or higher. For more information, see [Keys and key types](about-keys--secrets-and-certificates.md#BKMK_KeyTypes).
+The cryptographic modules that Azure Key Vault uses, whether HSM or software, are FIPS validated. You don’t need to do anything special to run in FIPS mode. If you **create** or **import** keys as HSM-protected, they are guaranteed to be processed inside HSMs validated to FIPS 140-2 Level 2 or higher. If you **create** or **import** keys as software-protected then they are processed inside cryptographic modules validated to FIPS 140-2 Level 1 or higher. For more information, see [Keys and key types](about-keys--secrets-and-certificates.md#BKMK_KeyTypes).
 
 #### WRAP/UNWRAP, ENCRYPT/DECRYPT
 
@@ -179,7 +180,7 @@ For more information on JWK objects, see [JSON Web Key (JWK)](http://tools.ietf.
 
 In addition to the key material, the following attributes may be specified. In a JSON Request, the attributes keyword and braces, ‘{‘ ‘}’, are required even if there are no attributes specified.  
 
-- *enabled*: boolean, optional, default is **true**. Specifies whether the key is enabled and useable for cryptographic operations. The *enabled* attribute is used in conjunction with *nbf* and *exp*. When an operation occurs between *nbf* and *exp*, it will only be permitted if *enabled* is set to **true**. Operations outside the *nbf* / *exp* window are automatically disallowed, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_date-time-ctrld-ops).
+- *enabled*: boolean, optional, default is **true**. Specifies whether the key is enabled and useable for cryptographic operations. The *enabled* attribute is used in conjunction with *nbf* and *exp*. When an operation occurs between *nbf* and *exp*, it will only be permitted if *enabled* is set to **true**. Operations outside the *nbf* / *exp* window are automatically disallowed, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_key-date-time-ctrld-ops).
 - *nbf*: IntDate, optional, default is now. The *nbf* (not before) attribute identifies the time before which the key MUST NOT be used for cryptographic operations, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_key-date-time-ctrld-ops). The processing of the *nbf* attribute requires that the current date/time MUST be after or equal to the not-before date/time listed in the *nbf* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
 - *exp*: IntDate, optional, default is "forever". The *exp* (expiration time) attribute identifies the expiration time on or after which the key MUST NOT be used for cryptographic operation, except for certain operation types under [particular conditions](about-keys--secrets-and-certificates.md#BKMK_key-date-time-ctrld-ops). The processing of the *exp* attribute requires that the current date/time MUST be before the expiration date/time listed in the *exp* attribute. Azure Key Vault MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing an IntDate value.  
 

@@ -3320,6 +3320,8 @@
 ### [Regenerate Storage Account Keys](../docs-ref-conceptual/storagerp/SRP_Error_Codes_Regenerate_Storage_Account_Keys.md)
 ### [Update Storage Account](../docs-ref-conceptual/storagerp/SRP_Error_Codes_Update_Storage_Account.md)
 ## Reference
+### [Operations](storagerp/Operations.json)
+### [Skus](storagerp/Skus.json)
 ### [Storage Accounts](storagerp/StorageAccounts.json)
 #### [Check Name Availability](storagerp/StorageAccounts/CheckNameAvailability.json)
 #### [Create](storagerp/StorageAccounts/Create.json)
