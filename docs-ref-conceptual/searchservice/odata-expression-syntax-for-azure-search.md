@@ -63,11 +63,9 @@ translation.priority.mt:
 
 -   The `search.in` function tests whether a given string field is equal to one of a given list of values. It can also be used in any or all to compare a single value of a string collection field with a given list of values. Equality between the field and each value in the list is determined in a case-sensitive fashion, the same way as for the `eq` operator. Therefore an expression like `search.in(myfield, 'a, b, c')` is equivalent to `myfield eq 'a' or myfield eq 'b' or myfield eq 'c'`, except that `search.in` will yield much better performance. 
 
-    The first parameter to the `search.in` function is the field reference (or range variable in the case where `search.in` is used inside an any or all expression). The second parameter is a string containing the list of values, separated by spaces and/or commas. If you need to use separators other than spaces and commas because your values include those characters, you can specify an optional third parameter to `search.in`. 
+    The first parameter to the `search.in` function is the string field reference (or a range variable over a string collection field in the case where `search.in` is used inside an `any` or `all` expression). The second parameter is a string containing the list of values, separated by spaces and/or commas. If you need to use separators other than spaces and commas because your values include those characters, you can specify an optional third parameter to `search.in`. 
 
     This third parameter is a string where each character of the string, or subset of this string is treated as a separator when parsing the list of values in the second parameter.
-
-    Currently the `search.in` function is supported only in api-versions 2016-09-01-Preview and 2015-02-28-Preview.
 
 > [!NOTE]  	
 >  Some scenarios require comparing a field against a large number of constant values. For example, implementing security trimming with filters might require comparing the document ID field against a list of IDs to which the requesting user is granted read access. In scenarios like this we highly recommend using the `search.in` function instead of a more complicated disjunction of equality expressions. For example, use `search.in(Id, '123, 456, ...')` instead of `Id eq 123 or Id eq 456 or ....`. 
@@ -94,8 +92,6 @@ translation.priority.mt:
     - `search.ismatchscoring(search, searchFields, queryType, searchMode)`
 
   The `search.ismatch` and `search.ismatchscoring` functions are fully orthogonal with each other and the rest of the filter algebra. This means both functions can be used in the same filter expression. 
-
-  Currently the `search.ismatch` and `search.ismatchscoring` functions are supported only in api-versions 2016-09-01-Preview and 2015-02-28-Preview.
 
 ### Geospatial queries and polygons spanning the 180th meridian  
  For many geospatial query libraries formulating a query that includes the 180th meridian (near the dateline) is either off-limits or requires a workaround, such as splitting the polygon into two, one on either side of the meridian.  
