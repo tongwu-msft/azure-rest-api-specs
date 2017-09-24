@@ -213,7 +213,6 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
   {"name": "description_fr", "type": "Edm.String", "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.lucene"},
   {"name": "hotelName", "type": "Edm.String"},
   {"name": "category", "type": "Edm.String"},
-    {"name": "tags", "type": "Collection(Edm.String)"},
   {"name": "tags", "type": "Collection(Edm.String)", "analyzer": "tagsAnalyzer"},
   {"name": "parkingIncluded", "type": "Edm.Boolean"},
   {"name": "smokingAllowed", "type": "Edm.Boolean"},
@@ -233,7 +232,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
    "name": "tagsAnalyzer",
    "@odata.type": "#Microsoft.Azure.Search.CustomAnalyzer",
    "charFilters": [ "html_strip" ],
-   "tokenizer": "standard"
+   "tokenizer": "standard_v2"
   }
  ]
 }

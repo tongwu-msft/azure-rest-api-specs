@@ -36,7 +36,7 @@ Creates a new service namespace. Once created, this namespace’s resource manif
   
 3.  The name does not end with “-“, “-sb“, “-mgmt“, “-cache“, or “-appfabric“.  
   
-4.  The name is available via a call to provisioning; that is, no duplicate namespace names.  
+4.  The name is available via a call to provisioning i.e. the name must be unique across Azure to be successfully created.  
   
 5.  The name must start with a letter.  
   

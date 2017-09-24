@@ -1,0 +1,191 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-09-01",
+    "title": "ManagementLockClient",
+    "description": "Azure resources can be locked to prevent other users in your organization from deleting or modifying resources."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks": {
+      "get": {
+        "tags": [
+          "ManagementLocks"
+        ],
+        "operationId": "ManagementLocks_ListAtResourceGroupLevel",
+        "description": "Gets all the management locks for a resource group.",
+        "parameters": [
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the resource group containing the locks to get.",
+            "pattern": "^[-\\w\\._\\(\\)]+$",
+            "minLength": 1,
+            "maxLength": 90
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The filter to apply on the operation."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Returns an array of resource locks.",
+            "schema": {
+              "$ref": "#/definitions/ManagementLockListResult"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-odata": "#/definitions/ManagementLockObject",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "List At Resource Group Level"
+      }
+    }
+  },
+  "definitions": {
+    "ManagementLockOwner": {
+      "properties": {
+        "applicationId": {
+          "type": "string",
+          "description": "The application ID of the lock owner."
+        }
+      },
+      "description": "Lock owner properties."
+    },
+    "ManagementLockProperties": {
+      "properties": {
+        "level": {
+          "type": "string",
+          "description": "The level of the lock. Possible values are: NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users are able to read and modify the resources, but not delete. ReadOnly means authorized users can only read from a resource, but they can't modify or delete it.",
+          "enum": [
+            "NotSpecified",
+            "CanNotDelete",
+            "ReadOnly"
+          ],
+          "x-ms-enum": {
+            "name": "LockLevel",
+            "modelAsString": true
+          }
+        },
+        "notes": {
+          "type": "string",
+          "description": "Notes about the lock. Maximum of 512 characters."
+        },
+        "owners": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ManagementLockOwner"
+          },
+          "description": "The owners of the lock."
+        }
+      },
+      "required": [
+        "level"
+      ],
+      "description": "The lock properties."
+    },
+    "ManagementLockObject": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ManagementLockProperties",
+          "description": "The properties of the lock."
+        },
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource ID of the lock."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource type of the lock - Microsoft.Authorization/locks."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the lock."
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "description": "The lock information.",
+      "x-ms-azure-resource": true
+    },
+    "ManagementLockListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ManagementLockObject"
+          },
+          "description": "The list of locks."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to use for getting the next set of results."
+        }
+      },
+      "description": "The list of locks."
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The ID of the target subscription."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "The API version to use for the operation."
+    }
+  },
+  "x-internal-service-name": "Resource Management",
+  "x-internal-toc-name": "Management Locks",
+  "x-internal-split-type": "Operation"
+}

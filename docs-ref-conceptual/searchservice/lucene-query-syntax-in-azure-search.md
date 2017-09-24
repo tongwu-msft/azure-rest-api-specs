@@ -1,7 +1,7 @@
 ---
 title: "Lucene query syntax in Azure Search"
 ms.custom: ""
-ms.date: "2017-07-21"
+ms.date: "2017-09-15"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -117,7 +117,7 @@ Placement determines whether a symbol is interpreted as an operator or just anot
 
 For example, in Lucene full syntax, the tilde (~) is used for both fuzzy search and proximity search. When placed after a quoted phrase, ~ invokes proximity search. When placed at the end of a term, ~ invokes fuzzy search.
 
-Within a term, such as "business~analyst", the character is not evaluated as an operator. In this case, assuming the query is a term or phrase query, [full text search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture) with [lexical analysis](https://docs.microsoft.com/azure/search/search-lucene-query-architecture#stage-2-lexical-analysis) strips out the ~ and breaks the term "business~analyst in two: business OR analyst. 
+Within a term, such as "business~analyst", the character is not evaluated as an operator. In this case, assuming the query is a term or phrase query, [full text search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture) with [lexical analysis](https://docs.microsoft.com/azure/search/search-lucene-query-architecture#stage-2-lexical-analysis) strips out the ~ and breaks the term "business~analyst" in two: business OR analyst. 
 
 The example above is the tilde (~), but the same principle applies to every operator.
 

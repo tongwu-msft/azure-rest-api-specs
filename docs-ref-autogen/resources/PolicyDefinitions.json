@@ -27,177 +27,7 @@
       }
     }
   },
-  "paths": {
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policydefinitions/{policyDefinitionName}": {
-      "put": {
-        "tags": [
-          "PolicyDefinitions"
-        ],
-        "operationId": "PolicyDefinitions_CreateOrUpdate",
-        "description": "Creates or updates a policy definition.",
-        "parameters": [
-          {
-            "name": "policyDefinitionName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the policy definition to create."
-          },
-          {
-            "name": "parameters",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PolicyDefinition"
-            },
-            "description": "The policy definition properties."
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created - Returns information about the policy definition.",
-            "schema": {
-              "$ref": "#/definitions/PolicyDefinition"
-            }
-          }
-        },
-        "produces": [
-          "application/json",
-          "text/json"
-        ],
-        "consumes": [
-          "application/json",
-          "text/json"
-        ]
-      },
-      "delete": {
-        "tags": [
-          "PolicyDefinitions"
-        ],
-        "operationId": "PolicyDefinitions_Delete",
-        "description": "Deletes a policy definition.",
-        "parameters": [
-          {
-            "name": "policyDefinitionName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the policy definition to delete."
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "200": {
-            "description": "OK"
-          }
-        },
-        "produces": [
-          "application/json",
-          "text/json"
-        ],
-        "consumes": [
-          "application/json",
-          "text/json"
-        ]
-      },
-      "get": {
-        "tags": [
-          "PolicyDefinitions"
-        ],
-        "operationId": "PolicyDefinitions_Get",
-        "description": "Gets the policy definition.",
-        "parameters": [
-          {
-            "name": "policyDefinitionName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the policy definition to get."
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK - Returns information about the policy definition.",
-            "schema": {
-              "$ref": "#/definitions/PolicyDefinition"
-            }
-          }
-        },
-        "produces": [
-          "application/json",
-          "text/json"
-        ],
-        "consumes": [
-          "application/json",
-          "text/json"
-        ]
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policydefinitions": {
-      "get": {
-        "tags": [
-          "PolicyDefinitions"
-        ],
-        "operationId": "PolicyDefinitions_List",
-        "description": "Gets all the policy definitions for a subscription.",
-        "parameters": [
-          {
-            "name": "$filter",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "description": "The filter to apply on the operation."
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK - Returns ana array of policy definitions.",
-            "schema": {
-              "$ref": "#/definitions/PolicyDefinitionListResult"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-odata": "#/definitions/PolicyDefinition",
-        "produces": [
-          "application/json",
-          "text/json"
-        ],
-        "consumes": [
-          "application/json",
-          "text/json"
-        ]
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "PolicyDefinitionProperties": {
       "properties": {
@@ -214,6 +44,19 @@
             "modelAsString": true
           }
         },
+        "mode": {
+          "type": "string",
+          "description": "The policy definition mode. Possible values are NotSpecified, Indexed, and All.",
+          "enum": [
+            "NotSpecified",
+            "Indexed",
+            "All"
+          ],
+          "x-ms-enum": {
+            "name": "policyMode",
+            "modelAsString": true
+          }
+        },
         "displayName": {
           "type": "string",
           "description": "The display name of the policy definition."
@@ -225,6 +68,10 @@
         "policyRule": {
           "type": "object",
           "description": "The policy rule."
+        },
+        "metadata": {
+          "type": "object",
+          "description": "The policy definition metadata."
         },
         "parameters": {
           "type": "object",
@@ -241,12 +88,14 @@
           "description": "The policy definition properties."
         },
         "id": {
+          "readOnly": true,
           "type": "string",
           "description": "The ID of the policy definition."
         },
         "name": {
+          "readOnly": true,
           "type": "string",
-          "description": "The name of the policy definition. If you do not specify a value for name, the value is inferred from the name value in the request URI."
+          "description": "The name of the policy definition."
         }
       },
       "description": "The policy definition.",
@@ -267,70 +116,6 @@
         }
       },
       "description": "List of policy definitions."
-    },
-    "PolicyAssignmentProperties": {
-      "properties": {
-        "displayName": {
-          "type": "string",
-          "description": "The display name of the policy assignment."
-        },
-        "policyDefinitionId": {
-          "type": "string",
-          "description": "The ID of the policy definition."
-        },
-        "scope": {
-          "type": "string",
-          "description": "The scope for the policy assignment."
-        },
-        "parameters": {
-          "type": "object",
-          "description": "Required if a parameter is used in policy rule."
-        },
-        "description": {
-          "type": "string",
-          "description": "This message will be part of response in case of policy violation."
-        }
-      },
-      "description": "The policy assignment properties."
-    },
-    "PolicyAssignment": {
-      "properties": {
-        "properties": {
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/PolicyAssignmentProperties",
-          "description": "Properties for the policy assignment."
-        },
-        "id": {
-          "type": "string",
-          "description": "The ID of the policy assignment."
-        },
-        "type": {
-          "type": "string",
-          "description": "The type of the policy assignment."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the policy assignment."
-        }
-      },
-      "description": "The policy definition.",
-      "x-ms-azure-resource": true
-    },
-    "PolicyAssignmentListResult": {
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PolicyAssignment"
-          },
-          "description": "An array of policy assignments."
-        },
-        "nextLink": {
-          "type": "string",
-          "description": "The URL to use for getting the next set of results."
-        }
-      },
-      "description": "List of policy assignments."
     }
   },
   "parameters": {
@@ -349,5 +134,25 @@
       "description": "The API version to use for the operation."
     }
   },
-  "x-internal-toc-name": "Policy Definitions"
+  "x-internal-service-name": "Resource Management",
+  "x-internal-toc-name": "Policy Definitions",
+  "x-internal-split-members": [
+    {
+      "displayName": "Create Or Update",
+      "relativePath": "PolicyDefinitions/CreateOrUpdate"
+    },
+    {
+      "displayName": "Delete",
+      "relativePath": "PolicyDefinitions/Delete"
+    },
+    {
+      "displayName": "Get",
+      "relativePath": "PolicyDefinitions/Get"
+    },
+    {
+      "displayName": "List",
+      "relativePath": "PolicyDefinitions/List"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
 }
