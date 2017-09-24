@@ -43,6 +43,6 @@ The REST APIs fall into two main categories:
 
  [Service Fabric Resource Manager APIs](sfrp-index.md) allows you to create and manage Service Fabric cluster in Azure. A Service Fabric cluster is a network-connected set of virtual or physical machines into which your microservices are deployed and managed.  Once a cluster is created you can manage and deploy applications, services and containers in the cluster using Service Fabric Client APIs. 
 
-## [Service Fabric Client APIs (v5.6)](v5.6/sfclient-index.md)
+## [Service Fabric Client APIs (v5.6)](sfclient-v56-index.md)
 
-Once a cluster is created you can deploy and manage your applications, services, and containers using the [Service Fabric Client APIs (v5.6)](v5.6/sfclient-index.md). These APIs are provided by Service Fabric itself and are always available anywhere Service Fabric runs, whether that's in Azure, on-premises, or another cloud. This API is the primary way of interacting with your Service Fabric cluster to deploy, upgrade, delete, and query your applications and services. 
+Once a cluster is created you can deploy and manage your applications, services, and containers using the [Service Fabric Client APIs (v5.6)](sfclient-v56-index.md). These APIs are provided by Service Fabric itself and are always available anywhere Service Fabric runs, whether that's in Azure, on-premises, or another cloud. This API is the primary way of interacting with your Service Fabric cluster to deploy, upgrade, delete, and query your applications and services. 
