@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceTypeDescription"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -61,7 +61,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Name of the service type.
+Name of the service type as specified in the service manifest.
 
 ____
 ### PlacementConstraints

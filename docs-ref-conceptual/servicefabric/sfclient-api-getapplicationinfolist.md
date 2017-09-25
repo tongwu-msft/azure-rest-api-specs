@@ -1,6 +1,6 @@
 ---
 title: "Get Application Info List"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,18 +30,19 @@ translation.priority.mt:
 # Get Application Info List
 Gets the list of applications created in the Service Fabric cluster that match filters specified as the parameter.
 
-Gets the information about the applications that were created or in the process of being created in the Service Fabric cluster and match filters specified as the parameter. The response includes the name, type, status, parameters and other details about the application. If the applications do not fit in a page, one page of results is returned as well as a continuation token which can be used to get the next page.
+Gets the information about the applications that were created or in the process of being created in the Service Fabric cluster and match filters specified as the parameter. The response includes the name, type, status, parameters and other details about the application. If the applications do not fit in a page, one page of results is returned as well as a continuation token which can be used to get the next page. Filters ApplicationTypeName and ApplicationDefinitionKindFilter cannot be specified at the same time.
 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Applications?api-version=3.0&ApplicationTypeName={ApplicationTypeName}&ExcludeApplicationParameters={ExcludeApplicationParameters}&ContinuationToken={ContinuationToken}&timeout={timeout}` |
+| GET | `/Applications?api-version=6.0&ApplicationDefinitionKindFilter={ApplicationDefinitionKindFilter}&ApplicationTypeName={ApplicationTypeName}&ExcludeApplicationParameters={ExcludeApplicationParameters}&ContinuationToken={ContinuationToken}&timeout={timeout}` |
 
 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |
+| [ApplicationDefinitionKindFilter](#applicationdefinitionkindfilter) | integer | No | Query |
 | [ApplicationTypeName](#applicationtypename) | string | No | Query |
 | [ExcludeApplicationParameters](#excludeapplicationparameters) | boolean | No | Query |
 | [ContinuationToken](#continuationtoken) | string | No | Query |
@@ -51,9 +52,22 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
+
+____
+### ApplicationDefinitionKindFilter
+__Type__: integer <br/>
+__Required__: No<br/>
+__Default__: 0 <br/>
+<br/>
+Used to filter on ApplicationDefinitionKind for application query operations.
+- Default - Default value, which performs the same function as selecting "All". The value is 0.
+- All - Filter that matches input with any ApplicationDefinitionKind value. The value is 65535.
+- ServiceFabricApplicationDescription - Filter that matches input with ApplicationDefinitionKind value ServiceFabricApplicationDescription. The value is 1.
+- Compose - Filter that matches input with ApplicationDefinitionKind value Compose. The value is 2.
+
 
 ____
 ### ApplicationTypeName

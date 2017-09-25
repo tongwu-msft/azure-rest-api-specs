@@ -1,6 +1,6 @@
 ---
 title: "Get Application Manifest"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Gets the manifest describing an application type. The response contains the appl
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/ApplicationTypes/{applicationTypeName}/$/GetApplicationManifest?api-version=3.0&ApplicationTypeVersion={ApplicationTypeVersion}&timeout={timeout}` |
+| GET | `/ApplicationTypes/{applicationTypeName}/$/GetApplicationManifest?api-version=6.0&ApplicationTypeVersion={ApplicationTypeVersion}&timeout={timeout}` |
 
 
 ## Parameters
@@ -57,9 +57,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### ApplicationTypeVersion

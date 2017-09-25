@@ -1,6 +1,6 @@
 ---
 title: "Update Service"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Updates the specified service using the given update description.
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Services/{serviceId}/$/Update?api-version=3.0&timeout={timeout}` |
+| POST | `/Services/{serviceId}/$/Update?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
@@ -51,15 +51,15 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
+The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the service name is "fabric://myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
 
 ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### timeout
@@ -76,7 +76,7 @@ ____
 __Type__: [ServiceUpdateDescription](sfclient-model-serviceupdatedescription.md) <br/>
 __Required__: Yes<br/>
 <br/>
-The updated configuration for the service.
+The information necessary to update a service.
 
 ## Responses
 

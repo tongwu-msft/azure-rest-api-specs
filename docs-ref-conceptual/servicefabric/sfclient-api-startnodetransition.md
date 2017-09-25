@@ -1,6 +1,6 @@
 ---
 title: "Start Node Transition"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Start Node Transition
 Starts or stops a cluster node.
 
-Starts or stops a cluster node.  A cluster node is a process, not the OS instance itself.  To start a node, pass in "Start" for the NodeTransitionType parameter.      
+Starts or stops a cluster node.  A cluster node is a process, not the OS instance itself.  To start a node, pass in "Start" for the NodeTransitionType parameter.
 To stop a node, pass in "Stop" for the NodeTransitionType parameter.  This API starts the operation - when the API returns the node may not have finished transitioning yet.
 Call GetNodeTransitionProgress with the same OperationId to get the progress of the operation.
 
@@ -38,7 +38,7 @@ Call GetNodeTransitionProgress with the same OperationId to get the progress of 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Faults/Nodes/{nodeName}/$/StartTransition/?api-version=3.0&OperationId={OperationId}&NodeTransitionType={NodeTransitionType}&NodeInstanceId={NodeInstanceId}&StopDurationInSeconds={StopDurationInSeconds}&timeout={timeout}` |
+| POST | `/Faults/Nodes/{nodeName}/$/StartTransition/?api-version=6.0&OperationId={OperationId}&NodeTransitionType={NodeTransitionType}&NodeInstanceId={NodeInstanceId}&StopDurationInSeconds={StopDurationInSeconds}&timeout={timeout}` |
 
 
 ## Parameters
@@ -63,9 +63,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### OperationId
@@ -79,7 +79,7 @@ ____
 __Type__: string (enum) <br/>
 __Required__: Yes<br/>
 <br/>
-Indicates the type of transition to perform.  NodeTransitionType.Start will start a stopped node.  NodeTransitionType.Stop will stop a node that is up.      
+Indicates the type of transition to perform.  NodeTransitionType.Start will start a stopped node.  NodeTransitionType.Stop will stop a node that is up.
   - Invalid - Reserved.  Do not pass into API.
   - Start - Transition a stopped node to up.
   - Stop - Transition an up node to stopped.

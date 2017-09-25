@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceReplicaHealth"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,8 +40,9 @@ Contains the replica aggregated health state, the health events and the unhealth
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |
 | [HealthEvents](#healthevents) | array of [HealthEvent](sfclient-model-healthevent.md) | No |
 | [UnhealthyEvaluations](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
+| [HealthStatistics](#healthstatistics) | [HealthStatistics](sfclient-model-healthstatistics.md) | No |
 | [PartitionId](#partitionid) | string (uuid) | No |
-| [ReplicaId](#replicaid) | string (int64) | No |
+| [ReplicaId](#replicaid) | string | No |
 
 ____
 ### ServiceKind
@@ -60,13 +61,9 @@ The health evaluation of the entity reflects all events reported on the entity a
 The aggregation is done by applying the desired health policy.
 
 
-The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
-
-  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ok - Indicates the health state is okay. The value is 1.
-  - Warning - Indicates the health state is at a warning level. The value is 2.
-  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
-  - Unknown - Indicates an unknown health status. The value is 65535.
+The HealthState representing the aggregated health state of the entity computed by Health Manager.
+The health evaluation of the entity reflects all events reported on the entity and its children (if any).
+The aggregation is done by applying the desired health policy.
 
 
 
@@ -85,6 +82,13 @@ __Required__: No<br/>
 The unhealthy evaluations that show why the current aggregated health state was returned by Health Manager.
 
 ____
+### HealthStatistics
+__Type__: [HealthStatistics](sfclient-model-healthstatistics.md) <br/>
+__Required__: No<br/>
+<br/>
+Shows the health statistics for all children types of the queried entity.
+
+____
 ### PartitionId
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
@@ -93,7 +97,7 @@ Id of the partition to which this replica belongs.
 
 ____
 ### ReplicaId
-__Type__: string (int64) <br/>
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Id of the stateful service replica.
+Id of a stateful service replica. ReplicaId is used by Service Fabric to uniquely identify a replica of a partition. It is unique within a partition and does not change for the lifetime of the replica. If a replica gets dropped and another replica gets created on the same node for the same partition, it will get a different value for the id. Sometimes the id of a stateless service instance is also referred as a replica id.

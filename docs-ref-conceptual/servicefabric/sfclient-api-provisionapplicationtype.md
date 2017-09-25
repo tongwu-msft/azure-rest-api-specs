@@ -1,6 +1,6 @@
 ---
 title: "Provision Application Type"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Provisions or registers a Service Fabric application type with the cluster. This
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/ApplicationTypes/$/Provision?api-version=3.0&timeout={timeout}` |
+| POST | `/ApplicationTypes/$/Provision?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
@@ -49,9 +49,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### timeout
@@ -75,4 +75,5 @@ The relative path for the application package in the image store specified durin
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
 | 200 (OK) | A successful provision will return 200 status code.<br/> |  |
+| 409 (Conflict) | The application type with the provided name and version has already been provisioned.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |
