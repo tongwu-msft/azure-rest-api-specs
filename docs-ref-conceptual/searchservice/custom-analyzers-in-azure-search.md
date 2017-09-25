@@ -29,8 +29,8 @@ translation.priority.mt:
 ---
 # Custom analyzers in Azure Search
 
-A *custom analyzer* is a user-specified combination of tokenizer and optional filters used for customizing the process of analyzing text in the search engine. For example, you could create a custom analyzer with a *char filter* to remove HTML markup before text inputs are tokenized. 
-  
+A *custom analyzer* is a user-specified combination of tokenizer and optional filters used for customizing the process of analyzing text in the search engine. For example, you could create a custom analyzer with a *char filter* to remove HTML markup before text inputs are tokenized.
+
 ## Overview
 
  The role of a [full-text search engine](https://docs.microsoft.com/azure/search/search-lucene-query-architecture), in simple terms, is to process and store documents in a way that enables efficient querying and retrieval. At a high level, it all comes down to extracting important words from documents, putting them in an index, and then using the index to find documents that match words of a given query. The process of extracting words from documents and search queries is called lexical analysis. Components that perform lexical analysis are called analyzers.
@@ -232,7 +232,7 @@ For analyzers, index attributes vary depending on the whether you're using prede
 |Type|Must be "#Microsoft.Azure.Search.CustomAnalyzer".|  
 |CharFilters|All of the char filters are either one of predefined char filters listed in the [Char Filters](#CharFilter) table or any of the custom char filters defined in the index definition.|  
 |Tokenizer|Required. Must be one of predefined tokenizers listed in the [Tokenizers](#Tokenizers) table below or any of the custom tokenizers defined in the index definition.|  
-|TokenFilters|All of the token filters are either one of predefined token filters listed in the[Token filters](#TokenFilters) table or any of the custom token filters defined in the index definition.|  
+|TokenFilters|All of the token filters are either one of predefined token filters listed in the [Token filters](#TokenFilters) table or any of the custom token filters defined in the index definition.|  
 
  ### Char Filters
 
@@ -274,7 +274,7 @@ You can have multiple token filters in a custom analyzer. Token filters run in t
 
 This section provides the valid values for attributes specified in the definition of a custom analyzer, tokenizer, char filter, or token filter in your index. Analyzers, tokenizers, and filters that are implemented using Apache Lucene have links to the Lucene API documentation.
 
-<a name="AnalyzerTable"></a> 
+<a name="AnalyzerTable"></a>
 
 ###  Predefined Analyzers Reference
 
@@ -291,7 +291,7 @@ This section provides the valid values for attributes specified in the definitio
  <sup>1</sup> Analyzer Types are always prefixed in code with "#Microsoft.Azure.Search" such that "PatternAnalyzer" would actually be specified as "#Microsoft.Azure.Search.PatternAnalyzer". We removed the prefix to reduce the width of the table, but please remember to include it in your code. Note that analyzer_type is only provided for analyzers that can be customized. If there are no options, as is the case with the keyword analyzer, there is no associated #Microsoft.Azure.Search type.
 
 
-<a name="CharFilter"></a> 
+<a name="CharFilter"></a>
 
 ###  Char Filters Reference
 
@@ -305,7 +305,7 @@ In the table below, the character filters that are implemented using Apache Luce
 
  <sup>1</sup> Char Filter Types are always prefixed in code with "#Microsoft.Azure.Search" such that "MappingCharFilter" would actually be specified as "#Microsoft.Azure.Search.MappingCharFilter. We removed the prefix to reduce the width of the table, but please remember to include it in your code. Note that char_filter_type is only provided for filters that can be customized. If there are no options, as is the case with html_strip, there is no associated #Microsoft.Azure.Search type.
 
-<a name="Tokenizers"></a> 
+<a name="Tokenizers"></a>
 
 ###  Tokenizers Reference
 
@@ -329,7 +329,7 @@ In the table below, the tokenizers that are implemented using Apache Lucene are 
 
  <sup>1</sup> Tokenizer Types are always prefixed in code with "#Microsoft.Azure.Search" such that  "ClassicTokenizer" would actually be specified as "#Microsoft.Azure.Search.ClassicTokenizer". We removed the prefix to reduce the width of the table, but please remember to include it in your code. Note that tokenizer_type is only provided for tokenizers that can be customized. If there are no options, as is the case with the letter tokenizer, there is no associated #Microsoft.Azure.Search type.
 
-<a name="TokenFilters"></a> 
+<a name="TokenFilters"></a>
 
 ###  Token Filters Reference
 
@@ -377,7 +377,7 @@ In the table below, the token filters that are implemented using Apache Lucene a
 |[truncate](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/TruncateTokenFilter.html)|TruncateTokenFilter|Truncates the terms into a specific length.<br /><br /> **Options**<br /><br /> length (type: int) - Default: 300, maximum: 300. Required.|  
 |[unique](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/RemoveDuplicatesTokenFilter.html)|UniqueTokenFilter|Filters out tokens with same text as the previous token.<br /><br /> **Options**<br /><br /> onlyOnSamePosition (type: bool) - If set, removes duplicates only at the same position. The default is true.|  
 |[uppercase](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/UpperCaseFilter.html)|(type applies only when options are available)  |Normalizes token text to upper case. |  
-|[word_delimiter](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/WordDelimiterFilter.html)|WordDelimiterTokenFilter|Splits words into subwords and performs optional transformations on subword groups.<br /><br /> **Options**<br /><br /> generateWordParts (type: bool) - Causes parts of words to be generated, e.g. "AzureSearch" becomes "Azure" "Search". The default is true.<br /><br /> generateNumberParts (type: bool) - Xauses number subwords to be generated. The default is true.<br /><br /> catenateWords (type: bool) - Causes maximum runs of word parts to be catenated, e.g. "Azure-Search" becomes "AzureSearch". The default is false.<br /><br /> catenateNumbers (type: bool) - Causes maximum runs of number parts to be catenated, e.g. "1-2" becomes "12". The default is false.<br /><br /> catenateAll (type: bool) - Causes all subword parts to be catenated, e.g "Azure-Search-1" becomes "AzureSearch1". The default is false.<br /><br /> splitOnCaseChange (type: bool) - If true, splits words on caseChange, e.g. "AzureSearch"becomes "Azure" "Search". The default is true.<br /><br /> preserveOriginal - Causes original words to be preserved and added to the subword list. The default is false.<br /><br /> splitOnNumerics (type: bool) - If true, splits on numbers, e.g., "Azure1Search" becomes "Azure" "1" "Search". The default is true.<br /><br /> stemEnglishPossessive (type: bool) - Causes trailing "'s" to be removed for each subword. The default is true.<br /><br /> protectedWords (type: string array) - Tokens to protect from being delimited. The default is an empty list.|  
+|[word_delimiter](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/WordDelimiterFilter.html)|WordDelimiterTokenFilter|Splits words into subwords and performs optional transformations on subword groups.<br /><br /> **Options**<br /><br /> generateWordParts (type: bool) - Causes parts of words to be generated, e.g. "AzureSearch" becomes "Azure" "Search". The default is true.<br /><br /> generateNumberParts (type: bool) - Causes number subwords to be generated. The default is true.<br /><br /> catenateWords (type: bool) - Causes maximum runs of word parts to be catenated, e.g. "Azure-Search" becomes "AzureSearch". The default is false.<br /><br /> catenateNumbers (type: bool) - Causes maximum runs of number parts to be catenated, e.g. "1-2" becomes "12". The default is false.<br /><br /> catenateAll (type: bool) - Causes all subword parts to be catenated, e.g "Azure-Search-1" becomes "AzureSearch1". The default is false.<br /><br /> splitOnCaseChange (type: bool) - If true, splits words on caseChange, e.g. "AzureSearch"becomes "Azure" "Search". The default is true.<br /><br /> preserveOriginal - Causes original words to be preserved and added to the subword list. The default is false.<br /><br /> splitOnNumerics (type: bool) - If true, splits on numbers, e.g., "Azure1Search" becomes "Azure" "1" "Search". The default is true.<br /><br /> stemEnglishPossessive (type: bool) - Causes trailing "'s" to be removed for each subword. The default is true.<br /><br /> protectedWords (type: string array) - Tokens to protect from being delimited. The default is an empty list.|  
 
  <sup>1</sup> Token Filter Types are always prefixed in code with "#Microsoft.Azure.Search" such that  "ArabicNormalizationTokenFilter" would actually be specified as "#Microsoft.Azure.Search.ArabicNormalizationTokenFilter".  We removed the prefix to reduce the width of the table, but please remember to include it in your code.  
 
@@ -387,5 +387,5 @@ In the table below, the token filters that are implemented using Apache Lucene a
 
 ## See also  
  [Azure Search Service REST](index.md)   
- [Analyzers in Azure Search > Examples](https://docs.microsoft.com/azure/search/search-analyzers#examples)
- [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  
+ [Analyzers in Azure Search > Examples](https://docs.microsoft.com/azure/search/search-analyzers#examples)  
+ [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)
