@@ -1,6 +1,6 @@
 ---
 title: "Get Application Type Info List By Name"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Returns the information about the application types that are provisioned or in t
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/ApplicationTypes/{applicationTypeName}?api-version=4.0&ExcludeApplicationParameters={ExcludeApplicationParameters}&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
+| GET | `/ApplicationTypes/{applicationTypeName}?api-version=6.0&ExcludeApplicationParameters={ExcludeApplicationParameters}&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
 
 
 ## Parameters
@@ -59,9 +59,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 4.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "4.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### ExcludeApplicationParameters
@@ -102,5 +102,4 @@ The server timeout for performing the operation in seconds. This specifies the t
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
 | 200 (OK) | List of application types in the cluster.<br/> | [PagedApplicationTypeInfoList](sfclient-model-pagedapplicationtypeinfolist.md) |
-| 204 (NoContent) | An empty response is returned if there are no application types registered in the cluster matching the specified name and query parameters.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |

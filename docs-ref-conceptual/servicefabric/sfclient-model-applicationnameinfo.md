@@ -1,6 +1,6 @@
 ---
 title: "ApplicationNameInfo"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -42,7 +42,10 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The identity of the application. This is same as application name without the 'fabric:' URI scheme. This is used in the REST APIs to identify the application resource.
+The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource. 
+
+Starting in version 6.0, hierarchical names are delimited with the "~" character. For example, if the application name is "fabric://myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
+
 
 ____
 ### Name

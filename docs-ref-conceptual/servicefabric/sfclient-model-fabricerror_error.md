@@ -1,6 +1,6 @@
 ---
 title: "FabricError_Error"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -58,8 +58,8 @@ Defines the fabric error codes that be returned as part of the error object in r
     - "FABRIC_E_KEY_TOO_LARGE"
     - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
     - "FABRIC_E_INVALID_ATOMIC_GROUP"
-    - "FABRIC_E_VALUE_EMPTY" 
-  
+    - "FABRIC_E_VALUE_EMPTY"
+
   - Possible values of the error code for HTTP status code 404 (Not Found)
     - "FABRIC_E_NODE_NOT_FOUND"
     - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
@@ -81,7 +81,7 @@ Defines the fabric error codes that be returned as part of the error object in r
     - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
     - "FABRIC_E_KEY_NOT_FOUND"
     - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
-    
+
   - Possible values of the error code for HTTP status code 409 (Conflict)
     - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
     - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
@@ -104,10 +104,10 @@ Defines the fabric error codes that be returned as part of the error object in r
     - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
     - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
     - "FABRIC_E_INSTANCE_ID_MISMATCH"
-    
+
   - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
     - "FABRIC_E_VALUE_TOO_LARGE"
-    
+
   - Possible values of the error code for HTTP status code 500 (Internal Server Error)
     - "FABRIC_E_NODE_IS_UP"
 
@@ -119,12 +119,11 @@ Defines the fabric error codes that be returned as part of the error object in r
     - "FABRIC_E_SERVICE_OFFLINE"
     - "E_ABORT"
     - "FABRIC_E_VALUE_TOO_LARGE"
-      
+
   - Possible values of the error code for HTTP status code 504 (Gateway Timeout)
     - "FABRIC_E_COMMUNICATION_ERROR"
     - "FABRIC_E_OPERATION_NOT_COMPLETE"
     - "FABRIC_E_TIMEOUT"
-      
 
 
 ____

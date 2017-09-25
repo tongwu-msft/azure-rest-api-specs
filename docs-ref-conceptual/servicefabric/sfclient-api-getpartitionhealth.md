@@ -1,6 +1,6 @@
 ---
 title: "Get Partition Health"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -39,7 +39,7 @@ If you specify a partition that does not exist in the health store, this cmdlet 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Partitions/{partitionId}/$/GetHealth?api-version=3.0&EventsHealthStateFilter={EventsHealthStateFilter}&ReplicasHealthStateFilter={ReplicasHealthStateFilter}&timeout={timeout}` |
+| GET | `/Partitions/{partitionId}/$/GetHealth?api-version=6.0&EventsHealthStateFilter={EventsHealthStateFilter}&ReplicasHealthStateFilter={ReplicasHealthStateFilter}&ExcludeHealthStatistics={ExcludeHealthStatistics}&timeout={timeout}` |
 
 
 ## Parameters
@@ -49,6 +49,7 @@ If you specify a partition that does not exist in the health store, this cmdlet 
 | [api-version](#api-version) | string | Yes | Query |
 | [EventsHealthStateFilter](#eventshealthstatefilter) | integer | No | Query |
 | [ReplicasHealthStateFilter](#replicashealthstatefilter) | integer | No | Query |
+| [ExcludeHealthStatistics](#excludehealthstatistics) | boolean | No | Query |
 | [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
@@ -62,9 +63,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### EventsHealthStateFilter
@@ -76,13 +77,13 @@ Allows filtering the collection of HealthEvent objects returned based on health 
 The possible values for this parameter include integer value of one of the following health states.
 Only events that match the filter are returned. All events are used to evaluate the aggregated health state.
 If not specified, all entries are returned. The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) are returned.
-  
-- Default - Default value. Matches any HealthState. The value is zero. 
-- None - Filter that doesn’t match any HealthState value. Used in order to return no results on a given collection of states. The value is 1. 
-- Ok - Filter that matches input with HealthState value Ok. The value is 2. 
-- Warning - Filter that matches input with HealthState value Warning. The value is 4. 
-- Error - Filter that matches input with HealthState value Error. The value is 8. 
-- All - Filter that matches input with any HealthState value. The value is 65535. 
+
+- Default - Default value. Matches any HealthState. The value is zero.
+- None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+- Ok - Filter that matches input with HealthState value Ok. The value is 2.
+- Warning - Filter that matches input with HealthState value Warning. The value is 4.
+- Error - Filter that matches input with HealthState value Error. The value is 8.
+- All - Filter that matches input with any HealthState value. The value is 65535.
 
 
 ____
@@ -91,14 +92,24 @@ __Type__: integer <br/>
 __Required__: No<br/>
 __Default__: 0 <br/>
 <br/>
-Allows filtering the collection of ReplicaHealthState objects on the partition. The value can be obtained from members or bitwise operations on members of HealthStateFilter. Only replicas that match the filter will be returned. All replicas will be used to evaluate the aggregated health state. If not specified, all entries will be returned.The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) will be returned. The possible values for this parameter include integer value of one of the following health states.    
-  
-- Default - Default value. Matches any HealthState. The value is zero. 
-- None - Filter that doesn’t match any HealthState value. Used in order to return no results on a given collection of states. The value is 1. 
-- Ok - Filter that matches input with HealthState value Ok. The value is 2. 
-- Warning - Filter that matches input with HealthState value Warning. The value is 4. 
-- Error - Filter that matches input with HealthState value Error. The value is 8. 
-- All - Filter that matches input with any HealthState value. The value is 65535. 
+Allows filtering the collection of ReplicaHealthState objects on the partition. The value can be obtained from members or bitwise operations on members of HealthStateFilter. Only replicas that match the filter will be returned. All replicas will be used to evaluate the aggregated health state. If not specified, all entries will be returned.The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) will be returned. The possible values for this parameter include integer value of one of the following health states.
+
+- Default - Default value. Matches any HealthState. The value is zero.
+- None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+- Ok - Filter that matches input with HealthState value Ok. The value is 2.
+- Warning - Filter that matches input with HealthState value Warning. The value is 4.
+- Error - Filter that matches input with HealthState value Error. The value is 8.
+- All - Filter that matches input with any HealthState value. The value is 65535.
+
+
+____
+### ExcludeHealthStatistics
+__Type__: boolean <br/>
+__Required__: No<br/>
+__Default__: false <br/>
+<br/>
+Indicates whether the health statistics should be returned as part of the query result. False by default.
+The statistics show the number of children entities in health state Ok, Warning, and Error.
 
 
 ____

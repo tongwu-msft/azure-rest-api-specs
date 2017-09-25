@@ -1,6 +1,6 @@
 ---
 title: "Get Application Type Info List"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,13 +35,14 @@ Returns the information about the application types that are provisioned or in t
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/ApplicationTypes?api-version=4.0&ExcludeApplicationParameters={ExcludeApplicationParameters}&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
+| GET | `/ApplicationTypes?api-version=6.0&ApplicationTypeDefinitionKindFilter={ApplicationTypeDefinitionKindFilter}&ExcludeApplicationParameters={ExcludeApplicationParameters}&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
 
 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [api-version](#api-version) | string | Yes | Query |
+| [ApplicationTypeDefinitionKindFilter](#applicationtypedefinitionkindfilter) | integer | No | Query |
 | [ExcludeApplicationParameters](#excludeapplicationparameters) | boolean | No | Query |
 | [ContinuationToken](#continuationtoken) | string | No | Query |
 | [MaxResults](#maxresults) | integer (int64) | No | Query |
@@ -51,9 +52,22 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 4.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "4.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
+
+____
+### ApplicationTypeDefinitionKindFilter
+__Type__: integer <br/>
+__Required__: No<br/>
+__Default__: 0 <br/>
+<br/>
+Used to filter on ApplicationTypeDefinitionKind for application type query operations.
+- Default - Default value, which performs the same function as selecting "All". The value is 0.
+- All - Filter that matches input with any ApplicationTypeDefinitionKind value. The value is 65535.
+- ServiceFabricApplicationPackage - Filter that matches input with ApplicationTypeDefinitionKind value ServiceFabricApplicationPackage. The value is 1.
+- Compose - Filter that matches input with ApplicationTypeDefinitionKind value Compose. The value is 2.
+
 
 ____
 ### ExcludeApplicationParameters
@@ -94,7 +108,6 @@ The server timeout for performing the operation in seconds. This specifies the t
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
 | 200 (OK) | List of application types in the cluster.<br/> | [PagedApplicationTypeInfoList](sfclient-model-pagedapplicationtypeinfolist.md) |
-| 204 (NoContent) | An empty response is returned if there are no application types registered in the cluster matching the provided query parameters.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |
 
 ## Examples
@@ -105,7 +118,7 @@ This example shows how to get information about application types that are provi
 
 #### Request
 ```
-GET http://localhost:19080/ApplicationTypes?api-version=4.0&MaxResults=5
+GET http://localhost:19080/ApplicationTypes?api-version=6.0&MaxResults=5
 ```
 
 #### 200 Response
@@ -192,7 +205,7 @@ This example shows how to page through the information about application types t
 
 #### Request
 ```
-GET http://localhost:19080/ApplicationTypes?api-version=4.0&ContinuationToken=PersistentQueueApp+2.0&MaxResults=5
+GET http://localhost:19080/ApplicationTypes?api-version=6.0&ContinuationToken=PersistentQueueApp+2.0&MaxResults=5
 ```
 
 #### 200 Response
@@ -242,7 +255,7 @@ This example shows how to exclude application parameter in the result when getti
 
 #### Request
 ```
-GET http://localhost:19080/ApplicationTypes?api-version=4.0&ExcludeApplicationParameters=true
+GET http://localhost:19080/ApplicationTypes?api-version=6.0&ExcludeApplicationParameters=true
 ```
 
 #### 200 Response

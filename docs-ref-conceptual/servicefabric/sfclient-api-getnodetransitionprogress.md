@@ -1,6 +1,6 @@
 ---
 title: "Get Node Transition Progress"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,7 +36,7 @@ Gets the progress of an operation started with StartNodeTransition using the pro
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Faults/Nodes/{nodeName}/$/GetTransitionProgress?api-version=3.0&OperationId={OperationId}&timeout={timeout}` |
+| GET | `/Faults/Nodes/{nodeName}/$/GetTransitionProgress?api-version=6.0&OperationId={OperationId}&timeout={timeout}` |
 
 
 ## Parameters
@@ -58,9 +58,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### OperationId
@@ -94,7 +94,7 @@ This shows an example of possible output when GetTransitionProgress has reached 
 
 #### Request
 ```
-GET http://localhost:19080/Faults/Nodes/N0060/$/GetTransitionProgress?api-version=3.0&OperationId=a9c24269-88e9-4812-b4ad-a0bf2b724ad4
+GET http://localhost:19080/Faults/Nodes/N0060/$/GetTransitionProgress?api-version=6.0&OperationId=a9c24269-88e9-4812-b4ad-a0bf2b724ad4
 ```
 
 #### 200 Response
@@ -119,7 +119,7 @@ This shows an example of output when GetTransitionProgress has a State of Runnin
 
 #### Request
 ```
-GET http://localhost:19080/Faults/Nodes/N0060/$/GetTransitionProgress?api-version=3.0&OperationId=ed903556-acf1-489c-9f33-b484c31f9087
+GET http://localhost:19080/Faults/Nodes/N0060/$/GetTransitionProgress?api-version=6.0&OperationId=ed903556-acf1-489c-9f33-b484c31f9087
 ```
 
 #### 200 Response
