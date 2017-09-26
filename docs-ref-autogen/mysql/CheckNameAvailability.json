@@ -28,49 +28,34 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/servers/{serverName}/firewallRules": {
-      "get": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/checkNameAvailability": {
+      "post": {
         "tags": [
-          "FirewallRules"
+          "CheckNameAvailability"
         ],
-        "operationId": "FirewallRules_ListByServer",
+        "operationId": "CheckNameAvailability_Execute",
         "x-ms-examples": {
-          "FirewallRuleList": {
+          "NameAvailability": {
             "parameters": {
-              "serverName": "testserver",
-              "resourceGroupName": "TestGroup",
               "api-version": "2017-04-30-preview",
-              "subscriptionId": "ffffffff-ffff-ffff-ffff-ffffffffffff"
+              "subscriptionId": "ffffffff-ffff-ffff-ffff-ffffffffffff",
+              "nameAvailabilityRequest": {
+                "name": "name1",
+                "type": "Microsoft.DBforMySQL"
+              }
             },
             "responses": {
               "200": {
                 "body": {
-                  "value": [
-                    {
-                      "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/firewallRules/rule1",
-                      "name": "rule1",
-                      "type": "Microsoft.DBforMySQL/servers/firewallRules",
-                      "properties": {
-                        "startIpAddress": "0.0.0.0",
-                        "endIpAddress": "255.255.255.255"
-                      }
-                    },
-                    {
-                      "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/firewallRules/rule2",
-                      "name": "rule2",
-                      "type": "Microsoft.DBforMySQL/servers/firewallRules",
-                      "properties": {
-                        "startIpAddress": "1.0.0.0",
-                        "endIpAddress": "255.0.0.0"
-                      }
-                    }
-                  ]
+                  "nameAvailable": true,
+                  "message": "",
+                  "reason": ""
                 }
               }
             }
           }
         },
-        "description": "List all the firewall rules in a given server.",
+        "description": "Check the availability of name for resource",
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -79,30 +64,29 @@
             "$ref": "#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "#/parameters/ResourceGroupParameter"
-          },
-          {
-            "$ref": "#/parameters/ServerNameParameter"
+            "name": "nameAvailabilityRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NameAvailabilityRequest"
+            },
+            "description": "The required parameters for checking if resource name is available."
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/FirewallRuleListResult"
+              "$ref": "#/definitions/NameAvailability"
             }
           }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": null
         },
         "produces": [
           "application/json"
         ],
         "consumes": [
           "application/json"
-        ],
-        "x-internal-toc-name": "List By Server"
+        ]
       }
     }
   },
@@ -871,6 +855,5 @@
     }
   },
   "x-internal-service-name": "MySQL",
-  "x-internal-toc-name": "Firewall Rules",
-  "x-internal-split-type": "Operation"
+  "x-internal-toc-name": "Check Name Availability"
 }
