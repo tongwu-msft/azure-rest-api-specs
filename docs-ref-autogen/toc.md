@@ -864,6 +864,7 @@
 ## [Common parameters and headers](../docs-ref-conceptual/batchservice/common-parameters-and-headers.md)
 ## [Specifying conditional headers](../docs-ref-conceptual/batchservice/specifying-conditional-headers.md)
 ## [Batch Service REST API versioning](../docs-ref-conceptual/batchservice/batch-service-rest-api-versioning.md)
+## [OData filters in the Batch service](../docs-ref-conceptual/batchservice/odata-filters-in-batch.md)
 ## Reference
 ### [Account](batchservice/Account.json)
 ### [Application](batchservice/Application.json)
