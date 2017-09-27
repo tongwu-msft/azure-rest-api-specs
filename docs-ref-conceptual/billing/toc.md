@@ -1,6 +1,0 @@
-# Enterprise
-## [Get balance summary](get-balance-summary.md)
-## [Get usage detail](get-usage-detail.md)
-## [Get marketplace store charge](get-marketplace-storecharge.md)
-## [Get price sheet](get-pricesheet.md)
-## [Get billing periods](get-billing-periods.md)
