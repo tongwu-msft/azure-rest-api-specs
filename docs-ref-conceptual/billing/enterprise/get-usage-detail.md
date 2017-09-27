@@ -25,7 +25,7 @@ The Usage Detail API offers a daily breakdown of consumed quantities and estimat
 
 
 ##Request 
-Common header properties that need to be added are specified [here](billing-enterprise-api.md). If a billing period is not specified, then data for the current billing period is returned. Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd. The maximum supported time range is 36 months.  
+Common header properties that need to be added are specified [here](https://docs.microsoft.comazure/billing/billing-enterprise-api). If a billing period is not specified, then data for the current billing period is returned. Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd. The maximum supported time range is 36 months.  
 
 |Method | Request URI|
 |-|-|
@@ -119,7 +119,7 @@ Common header properties that need to be added are specified [here](billing-ente
 |serviceInfo1| string| Internal Azure Service Metadata. |
 |serviceInfo2| string| For example, an image type for a virtual machine and ISP name for ExpressRoute. |
 |additionalInfo| string| Service-specific metadata. For example, an image type for a virtual machine. |
-|tags| string| Customer added tags. For more information, see [Organize your Azure resources with tags](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-using-tags). |
+|tags| string| Customer added tags. For more information, see [Organize your Azure resources with tags](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags). |
 |storeServiceIdentifier| string| This columns is not used. Present for backward compatibility. |
 |departmentName| string| Name of the department. |
 |costCenter| string| The cost center that the usage is associated with. |
@@ -128,10 +128,10 @@ Common header properties that need to be added are specified [here](billing-ente
 <br/>
 ## See also
 
-* [Billing Periods API](billing-enterprise-api-billing-periods.md)
+* [Billing Periods API](get-billing-periods.md)
 
-* [Balance and Summary API](billing-enterprise-api-balance-summary.md)
+* [Balance and Summary API](get-balance-summary.md)
 
-* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md) 
+* [Marketplace Store Charge API](get-marketplace-storecharge.md) 
 
-* [Price Sheet API](billing-enterprise-api-pricesheet.md)
+* [Price Sheet API](get-pricesheet.md)
