@@ -3,7 +3,7 @@ title: Azure Billing Enterprise APIs - Balance and Summary| Microsoft Docs
 description: Learn about Azure Billing Usage and RateCard APIs, which are used to provide insights into Azure resource consumption and trends.
 services: ''
 documentationcenter: ''
-author: aedwin
+author: anandedwin
 manager: aedwin
 editor: ''
 tags: billing
@@ -94,10 +94,10 @@ Common header properties that need to be added are specified [here](https://docs
 <br/>
 ## See also
 
-* [Billing Periods API](get-billing-periods.md)
+* [Billing Periods API](billing-enterprise-api-billing-periods.md)
 
-* [Usage Detail API](get-usage-detail.md) 
+* [Usage Detail API](billing-enterprise-api-usage-detail.md) 
 
-* [Marketplace Store Charge API](get-marketplace-storecharge.md) 
+* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md) 
 
-* [Price Sheet API](get-pricesheet.md)
+* [Price Sheet API](billing-enterprise-api-pricesheet.md)

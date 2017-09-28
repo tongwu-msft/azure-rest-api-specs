@@ -3,7 +3,7 @@ title: Azure Billing Enterprise APIs - Marketplace Charges| Microsoft Docs
 description: Learn about the Reporting APIs that enable Enterprise Azure customers to pull consumption data programmatically.
 services: ''
 documentationcenter: ''
-author: aedwin
+author: anandedwin
 manager: aedwin
 editor: ''
 tags: billing
@@ -100,10 +100,10 @@ Common header properties that need to be added are specified [here](https://docs
 <br/>
 ## See also
 
-* [Billing Periods API](get-billing-periods.md)
+* [Billing Periods API](billing-enterprise-api-billing-periods.md)
 
-* [Usage Detail API](get-usage-detail.md) 
+* [Usage Detail API](billing-enterprise-api-usage-detail.md) 
 
-* [Balance and Summary API](get-balance-summary.md)
+* [Balance and Summary API](billing-enterprise-api-balance-summary.md)
 
-* [Price Sheet API](get-pricesheet.md)
+* [Price Sheet API](billing-enterprise-api-pricesheet.md)
