@@ -1,6 +1,6 @@
 ---
 title: "Put"
-ms.date: "2017-09-27"
+ms.date: "2017-09-28"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -33,7 +33,7 @@ Creates or updates an application resource with the specified name.
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| PUT | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}?api-version=2016-09-01` |
+| PUT | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}?api-version=2017-07-01-preview` |
 
 
 ## Parameters
@@ -78,9 +78,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 2016-09-01 <br/>
+__Default__: 2017-07-01-preview <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "2016-09-01".
+The version of the API. This is a required parameter and it's value must be "2017-07-01-preview".
 
 ____
 ### parameters

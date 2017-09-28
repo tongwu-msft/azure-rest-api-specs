@@ -1,6 +1,6 @@
 ---
 title: "Delete"
-ms.date: "2017-09-27"
+ms.date: "2017-09-28"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,7 @@ Delete cluster resource
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| DELETE | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}?api-version=2016-09-01` |
+| DELETE | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}?api-version=2017-07-01-preview` |
 
 
 ## Parameters
@@ -70,9 +70,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 2016-09-01 <br/>
+__Default__: 2017-07-01-preview <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "2016-09-01".
+The version of the API. This is a required parameter and it's value must be "2017-07-01-preview".
 
 ## Responses
 

@@ -1,6 +1,6 @@
 ---
 title: "ApplicationUpgradePolicy"
-ms.date: "2017-09-27"
+ms.date: "2017-09-28"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
