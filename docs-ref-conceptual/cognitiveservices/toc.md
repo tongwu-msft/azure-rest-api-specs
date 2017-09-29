@@ -1,6 +1,8 @@
 # Bing Autosuggest API
 ## [Bing Autosuggest API v5](bing-autosuggest-api-v5-reference.md)
 ## [Bing Autosuggest API v7 Preview](bing-autosuggest-api-v7-reference.md)
+# Bing Custom Search API
+## [Bing Custom Search API v7](bing-custom-search-api-v7-reference.md)
 # Bing Entities Search API
 ## [Bing Entities Search API v7 Preview](bing-entities-api-v7-reference.md)
 # Bing Image Search API

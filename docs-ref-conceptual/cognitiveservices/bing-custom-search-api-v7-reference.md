@@ -37,7 +37,7 @@ The request must use the HTTPS protocol.
 > [!NOTE]
 > The maximum URL length is 2,048 characters. To ensure that your URL length does not exceed the limit, the maximum length of your query parameters should be less than 1,500 characters. If the URL exceeds 2,048 characters, the server returns 404 Not found.  
   
-<a name="headers">  
+<a name="headers"></a>
 ## Headers  
 
 The following are the headers that a request and response may include.  
@@ -58,7 +58,7 @@ The following are the headers that a request and response may include.
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
   
-<a name="queryparameters" />  
+<a name="queryparameters"></a>  
 ## Query parameters  
 
 The following is the list of query parameters that you may specify. See the Required column for required parameters. The query parameter values must be URL encoded.  
