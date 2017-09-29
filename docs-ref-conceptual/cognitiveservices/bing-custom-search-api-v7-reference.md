@@ -67,11 +67,11 @@ The following is the list of query parameters that you may specify. See the Requ
 |----------|-----------|----------|--------------|  
 |<a name="cc" />cc|A 2-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
 |<a name="count" />count|The number of search results to return in the response. The default is 10 and the maximum value that you may specify is 50. The actual number delivered may be less than requested.<br /><br /> Use this parameter along with the `offset` parameter to page results. For more information, see [Paging Webpages](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/paging-webpages).<br /><br /> For example, if your user interface presents 10 search results per page, you would set `count` to 10 and `offset` to 0 to get the first page of results. For each subsequent page, you would increment `offset` by 10 (for example, 0, 10, 20). It is possible for multiple pages to include some overlap in results.|UnsignedShort|No|  
+|<a name="customconfig" />customConfig|Unique identifier that identifies your custom search instance.<br /><br />**Note:** If you do not add this parameter your endpoint will return Bing results from the entire Bing index.  The results will not be limited to your defined custom search instance.|Unit32|Yes
 |<a name="mkt" />mkt|The market where the results come from. Typically, `mkt` is the country where the user is making the request from. However, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form \<language code\>-\<country code\>. For example, en-US. The string is case insensitive. For a list of possible market values, see [Market Codes](#market-codes).<br /><br /> **NOTE:** If known, you are encouraged to always specify the market. Specifying the market helps Bing route the request and return an appropriate and optimal response. If you specify a market that is not listed in [Market Codes](#market-codes), Bing uses a best fit market code based on an internal mapping that is subject to change.<br /><br /> This parameter and the [cc](#cc) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
 |<a name="offset" />offset|The zero-based offset that indicates the number of search results to skip before returning results. The default is 0. The offset should be less than ([totalEstimatedMatches](#totalmatches) - `count`).<br /><br /> Use this parameter along with the `count` parameter to page results. For example, if your user interface presents 10 search results per page, you would set `count` to 10 and `offset` to 0 to get the first page of results. For each subsequent page, you would increment `offset` by 10 (for example, 0, 10, 20). It is possible for multiple pages to include some overlap in results.|Unsigned Short|No|  
 |<a name="query" />q|The user's search query string. The query string must not be empty.<br /><br /> **NOTE:** The query string must not contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). Including them may adversely affect the custom search experience. |String|Yes|  
-|<a name="responsefilter" />responseFilter|A comma-delimited list of answers to include in the response. If you do not specify this parameter, the response includes all search answers that there's relevant data for.<br /><br /> The following are the possible filter values.<br /><ul><li>SpellSuggestions</li><li>Webpages</li></ul>**NOTE:** You should specify this parameter if you want the response to contain only webpages (for example, responseFilter=webpages).|String|No|  
-|<a name="safesearch" />safeSearch|A filter used to filter webpages for adult content. The following are the possible filter values.<br /><ul><li>Off&mdash;Return webpages with adult text, images, or videos.<br /><br/></li><li>Moderate&mdash;Return webpages with adult text, but not adult images or videos.<br /><br/></li><li>Strict&mdash;Do not return webpages with adult text, images, or videos.</li></ul><br /> The default is Moderate.<br /><br /> **NOTE:** If the request comes from a market that Bing's adult policy requires that `safeSearch` is set to Strict, Bing ignores the `safeSearch` value and uses Strict.<br/><br/>**NOTE:** Your query should not include the `site:` query operator, but if you do, there is the chance that the response may contain adult content regardless of what the `safeSearch` query parameter is set to. |String|No|  
+|<a name="safesearch" />safeSearch|A filter used to filter webpages for adult content. The following are the possible filter values.<br /><ul><li>Off&mdash;Return webpages with adult text, images, or videos.<br /><br/></li><li>Moderate&mdash;Return webpages with adult text, but not adult images or videos.<br /><br/></li><li>Strict&mdash;Do not return webpages with adult text, images, or videos.</li></ul><br /> The default is Moderate.<br /><br /> **NOTE:** If the request comes from a market that Bing's adult policy requires that `safeSearch` is set to Strict, Bing ignores the `safeSearch` value and uses Strict.<br/><br/>|String|No|  
 |<a name="setlang" />setLang|The language to use for user interface strings. Specify the language using the ISO 639-1 2-letter language code. For example, the language code for English is EN. The default is EN (English).<br /><br /> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br /> This parameter and the [Accept-Language](#acceptlanguage) header are mutually exclusive&mdash;do not specify both.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
 |<a name="textdecorations" />textDecorations|A Boolean value that determines whether display strings should contain decoration markers such as hit highlighting characters. If **true**, the strings may include markers; otherwise, **false**. The default is **false**.<br /><br /> To specify whether to use Unicode characters or HTML tags as the markers, see the [textFormat](#textformat) query parameter.<br /><br /> For information about hit highlighting, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/hit-highlighting).|Boolean|No|  
 |<a name="textformat" />textFormat|The type of markers to use for text decorations (see the `textDecorations` query parameter).<br /><br /> The following are the possible values.<br /><ul><li>Raw&mdash;Use Unicode characters to mark content that needs special formatting. The Unicode characters are in the range E000 through E019. For example, Bing uses E000 and E001 to mark the beginning and end of query terms for hit highlighting.<br /><br/></li><li>HTML&mdash;Use HTML tags to mark content that needs special formatting. For example, use \<b> tags to highlight query terms in display strings.</li></ul><br /> The default is Raw.<br /><br />For a list of markers, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/hit-highlighting).<br /><br /> If `textFormat` is set to HTML, and display strings contain escapable HTML characters such as <, >, and &, Bing escapes the characters (for example, \< is escaped to \&lt;).<br /><br />For information about processing strings with the embedded Unicode characters, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/hit-highlighting).|String|No|  
@@ -85,12 +85,10 @@ The following are the JSON response objects that the response may include. If th
 |Object|Description|  
 |------------|-----------------|  
 |[Error](#error)|Defines an error that occurred.|  
-|[ErrorResponse](#errorresponse)|The top-level object that the response includes when the request fails.|  
+|[ErrorResponse](#errorresponse)|The top-level object that the response includes when the request fails.|
 |[Query](#query_obj)|Defines a query string.|  
 |[QueryContext](#querycontext)|Defines the query context that Bing used for the request, if the specified query string contains a spelling error.|  
-|[SearchResponse](#searchresponse)|The top-level object that the response includes when the request succeeds.|  
-|[SpellSuggestions](#spellsuggestions)|Defines a suggested query string that likely represents the user's intent.|  
-|[WebAnswer](#webanswer)|Defines a list of relevant webpage links.|  
+|[SearchResponse](#searchresponse)|The top-level object that the response includes when the request succeeds.|
 |[Webpage](#webpage)|Defines a webpage that is relevant to the query.|  
   
   
@@ -124,7 +122,16 @@ Defines a webpage's metadata.
 |----------|-----------|----------|  
 |content|The metadata.|String|  
 |name|The name of the metadata.|String|  
-  
+
+<a name="opengraphimage"></a>
+### OpenGraphImage
+Defines the location and dimensions of an image relevent to a webpage.
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|contentUrl|The image location.|String|
+|width|The width of the image. <br />Provided by the source, may be zero (0).| UInt32
+|height|The height of the image. <br />Provided by the source, may be zero (0).|UInt32
+
 <a name="query_obj"></a>   
 ### Query  
 Defines a search query.  
@@ -192,8 +199,19 @@ Defines a webpage that is relevant to the query.
 |<a name="datelastcrawled" />dateLastCrawled|The last time that Bing crawled the webpage. The date is in the form, YYYY-MM-DDTHH:MM:SS. For example, 2015-04-13T05:23:39.|String|  
 |<a name="deeplinks" />deepLinks|An array of [Webpage](#webpage) objects. Each object contains a link to related content within the website that contains this webpage.<br /><br /> The `Webpage` object in this context includes only the `name`, `url`, and `snippet` fields.|[Webpage](#webpage)[]|  
 |<a name="displayurl" />displayUrl|The display URL of the webpage. The URL is meant for display purposes only and is not well formed.|String|  
+|<a name="webpageid">id|An identifier.|String
 |<a name="name" />name|The name of the webpage.<br /><br /> Use this name along with `url` to create a hyperlink that when clicked takes the user to the webpage.<br /><br />The name may contain special characters that highlight the search term found in the name. The name contains the highlighting characters only if the query enabled hit highlighting (see the [textDecorations](#textdecorations) query parameter). For details about hit highlighting, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/hit-highlighting).|String|  
 |<a name="searchtags" />searchTags|A list of search tags that the webpage owner specified on the webpage. The API returns only indexed search tags.<br /><br /> The `name` field of the `MetaTag` object contains the indexed search tag. Search tags begin with search.* (for example, search.assetId). The `content` field contains the tag's value.|[MetaTag](#metatag)[]|  
 |snippet|A snippet of text from the webpage that describes its contents.|String|  
-|<a name="url" />url|The URL to the webpage.<br /><br /> Use this URL along with `name` to create a hyperlink that when clicked takes the user to the webpage.|String|  
+|<a name="url" />url|The URL to the webpage.<br /><br /> Use this URL along with `name` to create a hyperlink that when clicked takes the user to the webpage.|String|
+|<a name="openGraphImage" />openGraphImage|URL for an image that the page owner chose to represent the page content.<br /><br />Included only if available.|[OpenGraphImage](#opengraphimage)
 
+
+
+## Error codes 
+
+[!INCLUDE [bing-error-codes](./includes/bing-error-codes-v7.md)]
+
+## Market codes 
+
+[!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]
