@@ -175,7 +175,7 @@ Host: management.azure.com
 And you might send an HTTPS PUT request method for an Azure Resource Manager provider, by using request header *and* body fields similar to the following example:
 
 ```
-PUT /subscriptions/03f09293-ce69-483a-a092-d06ea46dfb8c/resourcegroups/ExampleResourceGroup?api-version=2016-02-01  HTTP/1.1
+PUT /subscriptions/.../resourcegroups/ExampleResourceGroup?api-version=2016-02-01  HTTP/1.1
 Authorization: Bearer <bearer-token>
 Content-Length: 29
 Content-Type: application/json
@@ -205,8 +205,8 @@ And you should receive a response body that contains a list of Azure subscriptio
 {
     "value":[
         {
-        "id":"/subscriptions/04f09293-ce69-583a-a091-z06ea46dfb8c",
-        "subscriptionId":"04f09293-ce69-583a-a091-z06ea46dfb8c",
+        "id":"/subscriptions/...",
+        "subscriptionId":"...",
         "displayName":"My Azure Subscription",
         "state":"Enabled",
         "subscriptionPolicies":{
@@ -229,7 +229,7 @@ Content-Type: application/json;
 And you should receive a response body that confirms the content of your newly added resource group encoded in JSON format, similar to:
 ```json
 {
-    "id":"/subscriptions/03f09293-ce69-483a-a092-d06ea46dfb8c/resourceGroups/ExampleResourceGroup",
+    "id":"/subscriptions/.../resourceGroups/ExampleResourceGroup",
     "name":"ExampleResourceGroup",
     "location":"westus",
     "properties":
