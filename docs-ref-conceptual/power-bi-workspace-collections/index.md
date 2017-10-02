@@ -1,6 +1,5 @@
 ---
-ms.assetid: fc1dc7e7-cfd0-4951-bfd4-b0d4c717b804
-ms.title: Azure Power BI Embedded REST API reference
+ms.title: Azure Power BI Workspace Collections REST API reference
 ms.service: power-bi-embedded
 author: steved0x
 ms.author: sdanie
@@ -8,9 +7,9 @@ ms.manager: douge
 service_description: To be added
 ---
 
-# Azure Power BI Embedded REST API reference
+# Azure Power BI Workspace Collections REST API reference
 
-The Azure Power BI Embedded REST API provides the following operation groups you can use to programmatically develop applications that integrate Power BI Reports into your applications.
+The Azure Power BI Workspace Collections REST API provides the following operation groups you can use to programmatically develop applications that integrate Power BI Reports into your applications.
 
 
 
@@ -25,5 +24,5 @@ The Azure Power BI Embedded REST API provides the following operation groups you
 
 ## See also
 
-- [Azure Power BI Embedded documentation](https://docs.microsoft.com/azure/power-bi-embedded/)
-- [Power BI Embedded REST API on MSDN](https://msdn.microsoft.com/library/azure/mt712303.aspx)
+- [Azure Power BI Workspace Collections documentation](https://docs.microsoft.com/azure/power-bi-workspace-collections/)
+
