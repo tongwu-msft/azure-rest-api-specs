@@ -22,7 +22,6 @@ ms.author: aedwin
 
 The Usage Detail API offers a daily breakdown of consumed quantities and estimated charges by an Enrollment. The result also includes information on instances, meters, and departments. The API can be queried by Billing period or by a specified start and end date. 
 
-## Request 
 Common header properties that need to be added are specified [here](https://docs.microsoft.comazure/billing/billing-enterprise-api). Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd.  
 
 ## CSV Format (currently in preview)
@@ -44,7 +43,7 @@ This is a two-step process that requires you to submit your request first for a 
 |POST|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetails/submit?billingPeriod={billingPeriod}
 |POST|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetails/submit?startTime=2017-04-01&endTime=2017-04-10|
 
-### Response of Asynchronous (polling) submit call
+#### Response of Asynchronous (polling) submit call
 
 	{
 		"id": "string",
@@ -58,7 +57,7 @@ This is a two-step process that requires you to submit your request first for a 
 	}
 
 
-**Asynchronous call Response property definitions**
+##### Asynchronous call Response property definitions
 
 |Property Name| Type| Description
 |-|-|-|
@@ -75,6 +74,7 @@ The reportUrl is the URL that can be used for further polling calls (GET operati
 
 ## JSON Format 
 The API listed below provide data in JSON format. If a billing period is not specified, then data for the current billing period is returned. The maximum supported time range is 36 months. 
+
 |Method | Request URI|
 |-|-|
 |GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetails 
@@ -85,7 +85,7 @@ The API listed below provide data in JSON format. If a billing period is not spe
 > To use the preview version of API, replace v2 with v1 in the above URL.
 >
 
-## Response
+### Response
 
 > Due to the potentially large volume of data the result set is paged. The nextLink property, if present, specifies the link for the next page of data. If the link is empty, it denotes that is the last page. 
 
@@ -132,7 +132,7 @@ The API listed below provide data in JSON format. If a billing period is not spe
 	}
 
 
-**Response property definitions**
+## Usage detail field definitions
 
 |Property Name| Type| Description
 |-|-|-|
