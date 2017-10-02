@@ -14,19 +14,70 @@ ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 04/25/2017
+ms.date: 010/02/2017
 ms.author: aedwin
 
 ---
 # Reporting APIs for Enterprise customers - Usage Details
 
-The Usage Detail API offers a daily breakdown of consumed quantities and estimated charges by an Enrollment. The result also includes information on instances, meters and departments. The API can be queried by Billing period or by a specified start and end date. 
+The Usage Detail API offers a daily breakdown of consumed quantities and estimated charges by an Enrollment. The result also includes information on instances, meters, and departments. The API can be queried by Billing period or by a specified start and end date. 
 ## Consumption APIs
 
 
 ##Request 
-Common header properties that need to be added are specified [here](https://docs.microsoft.comazure/billing/billing-enterprise-api). If a billing period is not specified, then data for the current billing period is returned. Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd. The maximum supported time range is 36 months.  
+Common header properties that need to be added are specified [here](https://docs.microsoft.comazure/billing/billing-enterprise-api). Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd.  
 
+##CSV Format (currently in preview)
+The API listed below provide data in csv format.
+
+##Synchronous call (non-polling)
+We return data in csv format as a response of the rest API call. The API performance is dependent on the amount of usage data returned by your call. Even though the API supports custom date ranges we recommend that you restrict it based on the volume of usage data you have for that period.  We allow maximum of one month support.
+
+|Method | Download Request URI|
+|-|-|
+|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetails/download?billingPeriod={billingPeriod}
+|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetails/download?startTime=2017-01-01&endTime=2017-01-10|
+
+##Asynchronous call (polling based)
+This is a two-step process that requires you to submit your request first for a specific time range and then poll to get a shared access key based URL for an Azure Blob location which has csv data. The maximum supported time rang here is 36 months. We recommend this API for larger datasets
+
+|Method | Submit Request URI|
+|-|-|
+|POST|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetails/submit?billingPeriod={billingPeriod}
+|POST|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetails/submit?startTime=2017-04-01&endTime=2017-04-10|
+
+##Response of Asynchronous (polling) submit call
+<br/>
+
+	{
+		"id": "string",
+		"enrollmentNumber":"string",
+		"requestedOn":"2017-08-29T06:56:29.1290704Z",
+		"status":1,
+		"blobPath":"",
+		"reportUrl":"string",
+		"startDate":"2017-06-01T00:00:00",
+		"endDate":"2017-06-30T00:00:00"
+	}
+
+<br/>
+**Asynchronous call Response property definitions**
+|Property Name| Type| Description
+|-|-|-|
+|id| string| The unique Id for this request. |
+|enrollmentNumber| string| The Enrollment number the request was made for.|
+|requestedOn| string| The date time that request was made on. |
+|status| int| Indicates the status of the request. Queued = 1, InProgress = 2, Completed = 3, Failed = 4, NoDataFound = 5, ReadyToDownload=6, TimedOut = 7. |
+|blobPath| string| The shared access key URL to the csv blob. |
+|reportUrl| string| The URL that can be used to poll for the status of submit request. |
+|startDate| string| Corresponds to the beginning of the time range used while making the submit call. |
+|endDate| string| Corresponds to the end of the time range used while making the submit call.|
+
+The reportUrl is the URL that can be used for further polling calls (GET operation). When the status field in the response of polling request comes back as 3, the request is completed, and we have the blobPath field in response populated with a URL pointing to the csv data. The blob is be available for 1 hour from the date present in requestedOn field of response. Status 4, 5 and 7 are failure status where the API call has hit an error condition. For all other status, the polling call should be repeated. 
+<br/>
+
+##JSON Format (currently in GA)
+The API listed below provide data in JSON format. If a billing period is not specified, then data for the current billing period is returned. The maximum supported time range is 36 months. 
 |Method | Request URI|
 |-|-|
 |GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetails 
@@ -120,7 +171,7 @@ Common header properties that need to be added are specified [here](https://docs
 |serviceInfo2| string| For example, an image type for a virtual machine and ISP name for ExpressRoute. |
 |additionalInfo| string| Service-specific metadata. For example, an image type for a virtual machine. |
 |tags| string| Customer added tags. For more information, see [Organize your Azure resources with tags](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags). |
-|storeServiceIdentifier| string| This columns is not used. Present for backward compatibility. |
+|storeServiceIdentifier| string| This column is not used. Present for backward compatibility. |
 |departmentName| string| Name of the department. |
 |costCenter| string| The cost center that the usage is associated with. |
 |unitOfMeasure| string| Identifies the unit that the service is charged in. Example: GB, hours, 10,000 s. |
