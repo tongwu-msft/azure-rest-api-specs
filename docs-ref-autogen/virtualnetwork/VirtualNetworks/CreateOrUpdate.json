@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-08-01",
+    "version": "2017-09-01",
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
   },
@@ -84,7 +84,7 @@
         "x-ms-examples": {
           "Create virtual network": {
             "parameters": {
-              "api-version": "2017-08-01",
+              "api-version": "2017-09-01",
               "subscriptionId": "subid",
               "resourceGroupName": "rg1",
               "virtualNetworkName": "test-vnet",
@@ -140,7 +140,7 @@
           },
           "Create virtual network with subnet": {
             "parameters": {
-              "api-version": "2017-08-01",
+              "api-version": "2017-09-01",
               "subscriptionId": "subid",
               "resourceGroupName": "rg1",
               "virtualNetworkName": "test-vnet",
@@ -219,11 +219,11 @@
               }
             }
           },
-          "Create virtual network with peering": {
+          "Create virtual network with service endpoints": {
             "parameters": {
-              "api-version": "2017-08-01",
+              "api-version": "2017-09-01",
               "subscriptionId": "subid",
-              "resourceGroupName": "peerTest",
+              "resourceGroupName": "vnetTest",
               "virtualNetworkName": "vnet1",
               "parameters": {
                 "properties": {
@@ -232,17 +232,16 @@
                       "10.0.0.0/16"
                     ]
                   },
-                  "virtualNetworkPeerings": [
+                  "subnets": [
                     {
-                      "name": "peer",
+                      "name": "test-1",
                       "properties": {
-                        "allowVirtualNetworkAccess": true,
-                        "allowForwardedTraffic": true,
-                        "allowGatewayTransit": false,
-                        "useRemoteGateways": false,
-                        "remoteVirtualNetwork": {
-                          "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
-                        }
+                        "addressPrefix": "10.0.0.0/16",
+                        "serviceEndpoints": [
+                          {
+                            "service": "Microsoft.Storage"
+                          }
+                        ]
                       }
                     }
                   ]
@@ -253,7 +252,7 @@
               "200": {
                 "body": {
                   "name": "vnet1",
-                  "id": "/subscriptions/subid/resourceGroups/test-evg/providers/Microsoft.Network/virtualNetworks/vnet1",
+                  "id": "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1",
                   "type": "Microsoft.Network/virtualNetworks",
                   "location": "westus",
                   "properties": {
@@ -263,31 +262,36 @@
                         "10.0.0.0/16"
                       ]
                     },
-                    "subnets": [],
-                    "virtualNetworkPeerings": [
+                    "subnets": [
                       {
-                        "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer",
-                        "name": "peer",
+                        "name": "test-1",
+                        "id": "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/test-1",
                         "properties": {
-                          "allowVirtualNetworkAccess": true,
-                          "allowForwardedTraffic": true,
-                          "allowGatewayTransit": false,
-                          "useRemoteGateways": false,
-                          "remoteVirtualNetwork": {
-                            "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
-                          },
-                          "peeringState": "Initiated",
+                          "addressPrefix": "10.0.0.0/16",
+                          "ipConfigurations": [],
+                          "resourceNavigationLinks": [],
+                          "serviceEndpoints": [
+                            {
+                              "provisioningState": "Succeeded",
+                              "service": "Microsoft.Storage",
+                              "locations": [
+                                "eastus2(stage)",
+                                "usnorth(stage)"
+                              ]
+                            }
+                          ],
                           "provisioningState": "Succeeded"
                         }
                       }
-                    ]
+                    ],
+                    "virtualNetworkPeerings": []
                   }
                 }
               },
               "201": {
                 "body": {
                   "name": "vnet1",
-                  "id": "/subscriptions/subid/resourceGroups/test-evg/providers/Microsoft.Network/virtualNetworks/vnet1",
+                  "id": "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1",
                   "type": "Microsoft.Network/virtualNetworks",
                   "location": "westus",
                   "properties": {
@@ -297,24 +301,29 @@
                         "10.0.0.0/16"
                       ]
                     },
-                    "subnets": [],
-                    "virtualNetworkPeerings": [
+                    "subnets": [
                       {
-                        "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer",
-                        "name": "peer",
+                        "name": "test-1",
+                        "id": "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/test-1",
                         "properties": {
-                          "allowVirtualNetworkAccess": true,
-                          "allowForwardedTraffic": true,
-                          "allowGatewayTransit": false,
-                          "useRemoteGateways": false,
-                          "remoteVirtualNetwork": {
-                            "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
-                          },
-                          "peeringState": "Initiated",
+                          "addressPrefix": "10.0.0.0/16",
+                          "ipConfigurations": [],
+                          "resourceNavigationLinks": [],
+                          "serviceEndpoints": [
+                            {
+                              "provisioningState": "Succeeded",
+                              "service": "Microsoft.Storage",
+                              "locations": [
+                                "eastus2(stage)",
+                                "usnorth(stage)"
+                              ]
+                            }
+                          ],
                           "provisioningState": "Succeeded"
                         }
                       }
-                    ]
+                    ],
+                    "virtualNetworkPeerings": []
                   }
                 }
               }
@@ -462,7 +471,7 @@
         },
         "remoteVirtualNetwork": {
           "$ref": "#/definitions/SubResource",
-          "description": "The reference of the remote virtual network."
+          "description": "The reference of the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering)."
         },
         "peeringState": {
           "type": "string",
@@ -602,6 +611,14 @@
         "provisioningState": {
           "type": "string",
           "description": "The provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+        },
+        "enableDdosProtection": {
+          "type": "boolean",
+          "description": "Indicates if DDoS protection is enabled for all the protected resources in a Virtual Network."
+        },
+        "enableVmProtection": {
+          "type": "boolean",
+          "description": "Indicates if Vm protection is enabled for all the subnets in a Virtual Network."
         }
       },
       "description": "Properties of the virtual network.",
