@@ -1016,9 +1016,6 @@
 ## Bing Autosuggest API
 ### [Bing Autosuggest API v5](../docs-ref-conceptual/cognitiveservices/bing-autosuggest-api-v5-reference.md)
 ### [Bing Autosuggest API v7 Preview](../docs-ref-conceptual/cognitiveservices/bing-autosuggest-api-v7-reference.md)
-## Bing Custom Search API
-### [Bing Custom Search API v5](../docs-ref-conceptual/cognitiveservices/bing-custom-search-api-v5-reference.md)
-### [Bing Custom Search API v7](../docs-ref-conceptual/cognitiveservices/bing-custom-search-api-v7-reference.md)
 ## Bing Entities Search API
 ### [Bing Entities Search API v7 Preview](../docs-ref-conceptual/cognitiveservices/bing-entities-api-v7-reference.md)
 ## Bing Image Search API
@@ -2620,9 +2617,13 @@
 ### [List For Resource Group](resources/PolicyAssignments/ListForResourceGroup.json)
 ## [Policy Definitions](resources/PolicyDefinitions.json)
 ### [Create Or Update](resources/PolicyDefinitions/CreateOrUpdate.json)
+### [Create Or Update At Management Group](resources/PolicyDefinitions/CreateOrUpdateAtManagementGroup.json)
 ### [Delete](resources/PolicyDefinitions/Delete.json)
+### [Delete At Management Group](resources/PolicyDefinitions/DeleteAtManagementGroup.json)
 ### [Get](resources/PolicyDefinitions/Get.json)
+### [Get At Management Group](resources/PolicyDefinitions/GetAtManagementGroup.json)
 ### [List](resources/PolicyDefinitions/List.json)
+### [List By Management Group](resources/PolicyDefinitions/ListByManagementGroup.json)
 ## [Providers](resources/Providers.json)
 ### [Get](resources/Providers/Get.json)
 ### [List](resources/Providers/List.json)
