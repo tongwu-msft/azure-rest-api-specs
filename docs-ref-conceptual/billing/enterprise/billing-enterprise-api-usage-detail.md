@@ -132,7 +132,7 @@ The API listed below provide data in JSON format. If a billing period is not spe
 	}
 
 
-## Usage detail field definitions
+## Usage details field definitions
 
 |Property Name| Type| Description
 |-|-|-|
