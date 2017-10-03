@@ -62,7 +62,7 @@ api-key: [admin or query key]
 -   **search**  
 
 -   **$filter**  
- 
+
 -   **facet**  
 
 -   **highlightPreTag**  
@@ -117,7 +117,7 @@ A list of comma-separated expressions to sort the results by. When calling via P
 
 #### `$select=[string] (optional)`
 
-A list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to \*, all fields marked as retrievable in the schema are included in the projection. When calling via POST, this parameter is named `select` instead of `$select`. 
+A list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to \*, all fields marked as retrievable in the schema are included in the projection. When calling via POST, this parameter is named `select` instead of `$select`.
 
 #### `facet=[string] (zero or more)`
 
@@ -144,9 +144,9 @@ Interval facets on date time are computed based on the UTC time if `timeoffset` 
 A structured search expression in standard OData syntax. When calling via POST, this parameter is named `filter` instead of `$filter`. See [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md) for details on the subset of the OData expression grammar that Azure Search supports.
 
 
-#### `highlight=[string] optional)`
+#### `highlight=[string] (optional)`
 
-A set of comma-separated field names used for hit highlights. Only `searchable` fields can be used for hit highlighting. Azure Search returns only up to 5 highlights per field. This limit is not configurable.
+A set of comma-separated field names used for hit highlights. Only `searchable` fields can be used for hit highlighting. By default, Azure Search returns up to 5 highlights per field. The limit is configurable per field by appending `-<max # of highlights>` following the field name. For example, `highlight=title-3,description-10` returns up to 3 highlighted hits from the title field and up to 10 hits from the description field. `<max # of highlights>` must be an integer between 1 and 1000 inclusive.
 
 #### `highlightPreTag=[string] (optional)`
 

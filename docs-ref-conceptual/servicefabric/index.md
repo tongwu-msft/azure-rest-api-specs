@@ -45,4 +45,12 @@ The REST APIs fall into two main categories:
 
 ## [Service Fabric Client APIs](sfclient-index.md)
 
-Once a cluster is created you can deploy and manage your applications, services, and containers using the [Service Fabric Client APIs](sfclient-index.md). These APIs are provided by Service Fabric itself and are always available anywhere Service Fabric runs, whether that's in Azure, on-premises, or another cloud. This API is the primary way of interacting with your Service Fabric cluster to deploy, upgrade, delete, and query your applications and services. 
+Once a cluster is created you can deploy and manage your applications, services, and containers using the [Service Fabric Client APIs](sfclient-index.md). These APIs are provided by Service Fabric itself and are always available anywhere Service Fabric runs, whether that's in Azure, on-premises, or another cloud. This APIs is the primary way of interacting with your Service Fabric cluster to deploy, upgrade, delete, and query your applications and services. 
+
+This is a current version of the Service Fabric Client APIs. These APIs work with Service Fabric runtime version 6.0 and above.
+
+## [Service Fabric Client APIs (v5.6)](sfclient-v56-index.md)
+
+Once a cluster is created you can deploy and manage your applications, services, and containers using the [Service Fabric Client APIs (v5.6)](sfclient-v56-index.md). These APIs are provided by Service Fabric itself and are always available anywhere Service Fabric runs, whether that's in Azure, on-premises, or another cloud. This API is the primary way of interacting with your Service Fabric cluster to deploy, upgrade, delete, and query your applications and services. 
+
+This is a previous version of the Service Fabric Client APIs. These API work with Service Fabric runtime version 5.6 and 5.7. 

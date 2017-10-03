@@ -1,6 +1,6 @@
 ---
 title: "ChaosParameters"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -50,10 +50,7 @@ __Type__: string <br/>
 __Required__: No<br/>
 __Default__: 4294967295 <br/>
 <br/>
-Total time (in seconds) for which Chaos will run before automatically stopping. The maximum allowed value is 4,294,967,295 (System.UInt32.MaxValue). 
-Depending on other time settings, the actual running time of Chaos can be larger than the TimeToRunInSeconds. 
-To be conservative, we should expect Chaos to automatically stop after 
-(MaxClusterStabilizationTimeoutInSeconds + MaxConcurrentFaults * WaitTimeBetweenFaultsInSeconds + WaitTimeBetweenIterationsInSeconds) seconds.
+Total time (in seconds) for which Chaos will run before automatically stopping. The maximum allowed value is 4,294,967,295 (System.UInt32.MaxValue).
 
 
 ____
@@ -64,7 +61,7 @@ __Default__: 60 <br/>
 __InclusiveMaximum__: 4294967295 <br/>
 __InclusiveMinimum__: 0 <br/>
 <br/>
-The maximum amount of time to wait for all cluster entities to become stable and healthy. Chaos executes in iterations and at the start of each iteration it validates the health of cluster entities. 
+The maximum amount of time to wait for all cluster entities to become stable and healthy. Chaos executes in iterations and at the start of each iteration it validates the health of cluster entities.
 During validation if a cluster entity is not stable and healthy within MaxClusterStabilizationTimeoutInSeconds, Chaos generates a validation failed event.
 
 
@@ -130,6 +127,6 @@ __Type__: [ChaosContext](sfclient-model-chaoscontext.md) <br/>
 __Required__: No<br/>
 <br/>
 Describes a map, which is a collection of (string, string) type key-value pairs. The map can be used to record information about
-the Chaos run. There cannot be more than 100 such pairs and each string (key or value) can be at most 4095 characters long. 
-This map is set by the starter of the Chaos run to optionally store the context about the specific run. 
+the Chaos run. There cannot be more than 100 such pairs and each string (key or value) can be at most 4095 characters long.
+This map is set by the starter of the Chaos run to optionally store the context about the specific run.
 

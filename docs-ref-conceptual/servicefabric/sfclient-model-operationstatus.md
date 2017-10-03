@@ -1,6 +1,6 @@
 ---
 title: "OperationStatus"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -54,7 +54,7 @@ __Required__: No<br/>
 - Running - The operation is in progress.
 - RollingBack -  The operation is rolling back internal system state because it encountered a fatal error or was cancelled by the user.  "RollingBack"
    does not refer to user state.  For example, if CancelOperation is called on a command of type PartitionDataLoss,
-   a state of "RollingBack" does not mean service data is being restored (assuming the command has progressed far enough to cause data loss).  
+   a state of "RollingBack" does not mean service data is being restored (assuming the command has progressed far enough to cause data loss).
    It means the system is rolling back/cleaning up internal system state associated with the command.
 - Completed - The operation has completed successfully and is no longer running.
 - Faulted - The operation has failed and is no longer running.

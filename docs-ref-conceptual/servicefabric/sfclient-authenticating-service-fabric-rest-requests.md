@@ -44,7 +44,7 @@ A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a
 3.  Encryption of messages (REST requests and responses).  
   
 > [!NOTE]
->  Clients with user access only have permission for read requests (for example, `https://localhost:19007/Nodes?api-version=1.0`). Clients with admin access have permission for read requests and write requests (write request example, `https://localhost:19007/Nodes/<NodeName>/$/Deactivate`).  
+>  Clients with user access only have permission for read requests (for example, `https://localhost:19007/Nodes?api-version=6.0`). Clients with admin access have permission for read requests and write requests (write request example, `https://localhost:19007/Nodes/<NodeName>/$/Deactivate?api-version=6.0`).  
   
 ### Cluster Manifest Changes  
  This section assumes that you already have a cluster manifest configured to use X.509 certificates. To learn more please read [Secure a Cluster Using X.509 Certificates](/azure/service-fabric/service-fabric-cluster-security).  
@@ -112,7 +112,7 @@ A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a
 1.  Call a REST API without any additional HTTP headers:  
   
     ```  
-    GET http://localhost:19007/Nodes?api-version=1.0 HTTP/1.1  
+    GET http://localhost:19007/Nodes?api-version=6.0 HTTP/1.1  
     User-Agent: Fiddler  
     Host: localhost:19007  
   
@@ -136,7 +136,7 @@ A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a
 4.  Token returned by the AD should be used in the Authorization Header with the format of "Negotiate \<token>"  
   
     ```  
-    GET http://localhost:19007/Nodes?api-version=1.0 HTTP/1.1  
+    GET http://localhost:19007/Nodes?api-version=6.0 HTTP/1.1  
     User-Agent: Fiddler  
     Host: localhost:19007  
     Authorization: Negotiate YH8GBisG<…>CSqGSIb3EgECAgYKKwYBBAGCNwICHqI/BD1OVE<…>RNT05E  

@@ -1,5 +1,5 @@
 ---
-title: "Query Documents"
+title: "Query Documents - Azure Cosmos DB REST API"
 ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
@@ -51,7 +51,7 @@ translation.priority.mt:
   
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
-|**query**|Required|String|Contains the SQL query text. For grammar, see [SQL Grammar](https://azure.microsoft.com/documentation/articles/documentdb-sql-query/).|  
+|**query**|Required|String|Contains the SQL query text. For grammar, see [SQL Grammar](/azure/cosmos-db/documentdb-sql-query).|  
 |**parameters**|Required|Array|An array of parameter values for the query.|  
   
 ```  
@@ -261,10 +261,10 @@ Date: Tue, 29 Mar 2016 02:28:30 GMT
 ```  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
+* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
 

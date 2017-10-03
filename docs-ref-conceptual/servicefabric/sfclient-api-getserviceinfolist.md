@@ -1,6 +1,6 @@
 ---
 title: "Get Service Info List"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Returns the information about all services belonging to the application specifie
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Applications/{applicationId}/$/GetServices?ServiceTypeName={ServiceTypeName}&api-version=3.0&ContinuationToken={ContinuationToken}&timeout={timeout}` |
+| GET | `/Applications/{applicationId}/$/GetServices?ServiceTypeName={ServiceTypeName}&api-version=6.0&ContinuationToken={ContinuationToken}&timeout={timeout}` |
 
 
 ## Parameters
@@ -52,7 +52,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
+The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the application name is "fabric://myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
 
 ____
 ### ServiceTypeName
@@ -65,9 +65,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### ContinuationToken

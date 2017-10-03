@@ -1,6 +1,6 @@
 ---
 title: "Cancel Operation"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,16 +40,16 @@ If force is false, then the specified user-induced operation will be gracefully 
 may be left behind.  Specifying force as true should be used with care.  Calling this API with force set to true is not allowed until this API has already
 been called on the same test command with force set to false first, or unless the test command already has an OperationState of OperationState.RollingBack.
 Clarification: OperationState.RollingBack means that the system will/is be cleaning up internal system state caused by executing the command.  It will not restore data if the
-test command was to cause data loss.  For example, if you call StartDataLoss then call this API, the system will only clean up internal state from running the command.  
+test command was to cause data loss.  For example, if you call StartDataLoss then call this API, the system will only clean up internal state from running the command.
 It will not restore the target partition's data, if the command progressed far enough to cause data loss.
 
-Important note:  if this API is invoked with force==true, internal state may be left behind. 
+Important note:  if this API is invoked with force==true, internal state may be left behind.
 
 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Faults/$/Cancel?api-version=3.0&OperationId={OperationId}&Force={Force}&timeout={timeout}` |
+| POST | `/Faults/$/Cancel?api-version=6.0&OperationId={OperationId}&Force={Force}&timeout={timeout}` |
 
 
 ## Parameters
@@ -64,9 +64,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### OperationId

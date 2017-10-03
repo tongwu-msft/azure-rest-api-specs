@@ -1,6 +1,6 @@
 ---
 title: "NodeUpgradeProgressInfo"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,7 +43,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The friendly name of the node
+The name of a Service Fabric node.
 
 ____
 ### UpgradePhase

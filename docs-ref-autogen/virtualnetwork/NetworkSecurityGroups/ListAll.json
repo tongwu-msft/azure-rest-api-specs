@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-08-01",
+    "version": "2017-09-01",
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
   },
@@ -54,7 +54,7 @@
         "x-ms-examples": {
           "List all network security groups": {
             "parameters": {
-              "api-version": "2017-08-01",
+              "api-version": "2017-09-01",
               "subscriptionId": "subid"
             },
             "responses": {
@@ -337,6 +337,13 @@
           },
           "description": "The CIDR or source IP ranges."
         },
+        "sourceApplicationSecurityGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApplicationSecurityGroup"
+          },
+          "description": "The application security group specified as source."
+        },
         "destinationAddressPrefix": {
           "type": "string",
           "description": "The destination address prefix. CIDR or destination IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used."
@@ -347,6 +354,13 @@
             "type": "string"
           },
           "description": "The destination address prefixes. CIDR or destination IP ranges."
+        },
+        "destinationApplicationSecurityGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApplicationSecurityGroup"
+          },
+          "description": "The application security group specified as destination."
         },
         "sourcePortRanges": {
           "type": "array",
@@ -584,6 +598,41 @@
         }
       },
       "x-ms-azure-resource": true
+    },
+    "ApplicationSecurityGroupPropertiesFormat": {
+      "properties": {
+        "resourceGuid": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
+        }
+      },
+      "description": "Application security group properties."
+    },
+    "ApplicationSecurityGroup": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ApplicationSecurityGroupPropertiesFormat",
+          "description": "Properties of the application security group."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "An application security group in a resource group."
     }
   },
   "parameters": {

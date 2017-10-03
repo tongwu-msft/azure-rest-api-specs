@@ -1,6 +1,6 @@
 ---
 title: "ApplicationTypeApplicationsHealthEvaluation"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -75,7 +75,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Name of the application type.
+The application type name as defined in the application manifest.
 
 ____
 ### MaxPercentUnhealthyApplications

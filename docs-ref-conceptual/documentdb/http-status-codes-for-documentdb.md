@@ -49,10 +49,9 @@ This topic provides the HTTP status codes returned by the REST operations.
 |**503 Service Unavailable**|The operation could not be completed because the service was unavailable. This could happen due to network connectivity or service availability issues. It is safe to retry the operation. If the issue persists, please contact support.|  
   
 ## See Also  
-* [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/en-us/azure/documentdb/documentdb-introduction)   
-* [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
-* [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
+* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
 
   

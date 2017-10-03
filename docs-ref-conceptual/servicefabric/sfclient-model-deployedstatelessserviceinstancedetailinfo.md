@@ -1,6 +1,6 @@
 ---
 title: "DeployedStatelessServiceInstanceDetailInfo"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # DeployedStatelessServiceInstanceDetailInfo
 
-Information about a stateless instance running in a code package.
+Information about a stateless instance running in a code package. Please note that DeployedServiceReplicaQueryResult will contain duplicate data like ServiceKind, ServiceName, PartitionId and InstanceId.
 
 ## Properties
 | Name | Type | Required |
@@ -41,6 +41,7 @@ Information about a stateless instance running in a code package.
 | [CurrentServiceOperationStartTimeUtc](#currentserviceoperationstarttimeutc) | string (date-time) | No |
 | [ReportedLoad](#reportedload) | array of [LoadMetricReportInfo](sfclient-model-loadmetricreportinfo.md) | No |
 | [InstanceId](#instanceid) | string | No |
+| [DeployedServiceReplicaQueryResult](#deployedservicereplicaqueryresult) | [DeployedStatelessServiceInstanceInfo](sfclient-model-deployedstatelessserviceinstanceinfo.md) | No |
 
 ____
 ### ServiceKind
@@ -96,4 +97,11 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Id of the stateless service instance.
+Id of a stateless service instance. InstanceId is used by Service Fabric to uniquely identify an instance of a partition of a stateless service. It is unique within a partition and does not change for the lifetime of the instance. If the instance is failedover on the same or different node, it will get a different value for the InstanceId.
+
+____
+### DeployedServiceReplicaQueryResult
+__Type__: [DeployedStatelessServiceInstanceInfo](sfclient-model-deployedstatelessserviceinstanceinfo.md) <br/>
+__Required__: No<br/>
+<br/>
+Information about a stateless service instance deployed on a node.

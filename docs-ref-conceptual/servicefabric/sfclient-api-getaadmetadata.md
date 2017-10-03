@@ -1,6 +1,6 @@
 ---
 title: "Get Aad Metadata"
-ms.date: "2017-05-09"
+ms.date: "2017-09-24"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,7 +37,7 @@ This API is not supposed to be called separately. It provides information needed
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/$/GetAadMetadata?api-version=1.0&timeout={timeout}` |
+| GET | `/$/GetAadMetadata?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
@@ -50,9 +50,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 1.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "1.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### timeout
