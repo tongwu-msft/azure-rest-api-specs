@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # Custom analyzers in Azure Search
 
-A *custom analyzer* is a user-specified combination of tokenizer and optional filters used for customizing the process of analyzing text in the search engine. For example, you could create a custom analyzer with a *char filter* to remove HTML markup before text inputs are tokenized. 
+A *custom analyzer* is a user-specified combination of tokenizer and optional filters used for customizing text processing in the search engine. For example, you could create a custom analyzer with a *char filter* to remove HTML markup before text inputs are tokenized. 
   
 ## Overview
 
@@ -72,7 +72,7 @@ By default, searchable fields in Azure Search are analyzed with the [Apache Luce
 
  The `tokenizer_name` is the name of a tokenizer, `token_filter_name_1`  and `token_filter_name_2` are the names of token filters, and `char_filter_name_1` and `char_filter_name_2` are the names of char filters (see the [Tokenizers](#Tokenizers), [Token filters](#TokenFilters) and [Char filters](#CharFilters) tables for valid values).
 
-The analyzer definition is a part of the larger index. See [Create Index preview API](https://docs.microsoft.com/rest/api/searchservice/create-index) for information about the rest of the index.
+The analyzer definition is a part of the larger index. See [Create Index API](https://docs.microsoft.com/rest/api/searchservice/create-index) for information about the rest of the index.
 
 ```  
 "analyzers":(optional)[  
@@ -232,7 +232,7 @@ For analyzers, index attributes vary depending on the whether you're using prede
 |Type|Must be "#Microsoft.Azure.Search.CustomAnalyzer".|  
 |CharFilters|All of the char filters are either one of predefined char filters listed in the [Char Filters](#CharFilter) table or any of the custom char filters defined in the index definition.|  
 |Tokenizer|Required. Must be one of predefined tokenizers listed in the [Tokenizers](#Tokenizers) table below or any of the custom tokenizers defined in the index definition.|  
-|TokenFilters|All of the token filters are either one of predefined token filters listed in the[Token filters](#TokenFilters) table or any of the custom token filters defined in the index definition.|  
+|TokenFilters|All of the token filters are either one of predefined token filters listed in the [Token filters](#TokenFilters) table or any of the custom token filters defined in the index definition.|  
 
  ### Char Filters
 
@@ -382,10 +382,10 @@ In the table below, the token filters that are implemented using Apache Lucene a
  <sup>1</sup> Token Filter Types are always prefixed in code with "#Microsoft.Azure.Search" such that  "ArabicNormalizationTokenFilter" would actually be specified as "#Microsoft.Azure.Search.ArabicNormalizationTokenFilter".  We removed the prefix to reduce the width of the table, but please remember to include it in your code.  
 
 > [!NOTE]
-> It's required that you configure you custom analyzer not to produce tokens longer than 300 characters. Indexing will fail for documents with such tokens. To trim them or ignore them use the **TruncateTokenFilter** and the **LengthTokenFilter** respectively.
+> It's required that you configure your custom analyzer to not produce tokens longer than 300 characters. Indexing will fail for documents with such tokens. To trim them or ignore them, use the **TruncateTokenFilter** and the **LengthTokenFilter** respectively.
 
 
 ## See also  
  [Azure Search Service REST](index.md)   
- [Analyzers in Azure Search > Examples](https://docs.microsoft.com/azure/search/search-analyzers#examples)
+ [Analyzers in Azure Search > Examples](https://docs.microsoft.com/azure/search/search-analyzers#examples)    
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  
