@@ -23,7 +23,7 @@ ms.author: aedwin
 The Price Sheet API provides the applicable rate for each Meter for the given Enrollment and Billing Period.
 
 ##Request
-Common header properties that need to be added are specified [here](https://docs.microsoft.comazure/billing/billing-enterprise-api). If a billing period is not specified, then data for the current billing period is returned.
+Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). If a billing period is not specified, then data for the current billing period is returned.
 
 |Method | Request URI|
 |-|-|
