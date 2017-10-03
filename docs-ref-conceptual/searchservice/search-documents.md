@@ -55,7 +55,11 @@ api-key: [admin or query key]
 
  The request URI specifies which index to query, for all documents that match the query parameters. Parameters are specified on the query string in the case of GET requests, and in the request body in the case of POST requests.  
 
+### URL-encoding recommendations
+
  As a best practice when creating GET requests, remember to [URL-encode](https://msdn.microsoft.com/library/system.uri.escapedatastring.aspx) specific query parameters when calling the REST API directly. For **Search Documents** operations, this includes:  
+
+-   **search**  
 
 -   **$filter**  
 
@@ -65,11 +69,9 @@ api-key: [admin or query key]
 
 -   **highlightPostTag**  
 
--   **search**  
+URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the **?**), requests will break.  
 
- URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the **?**), requests will break.  
-
- Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Search Documents** using POST, or when using the [Azure Search .NET client library](https://msdn.microsoft.com/library/azure/dn951165.aspx), which handles URL encoding for you.  
+Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Search Documents** using POST, or when using the [Azure Search .NET client library](https://msdn.microsoft.com/library/azure/dn951165.aspx), which handles URL encoding for you.  
 
 ### Query Parameters  
 A query accepts several parameters that provide query criteria and also specify search behavior. You provide these parameters in the URL query string when calling via GET, and as JSON properties in the request body when calling via POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted as applicable below.  
@@ -115,7 +117,7 @@ A list of comma-separated expressions to sort the results by. When calling via P
 
 #### `$select=[string] (optional)`
 
-A list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to \*, all fields marked as retrievable in the schema are included in the projection. When calling via POST, this parameter is named `select` instead of `$select`.
+A list of comma-separated fields to include in the result set. Only fields marked as retrievable can be included in this clause. If unspecified or set to \*, all fields marked as retrievable in the schema are included in the projection. When calling via POST, this parameter is named `select` instead of `$select`.
 
 #### `facet=[string] (zero or more)`
 

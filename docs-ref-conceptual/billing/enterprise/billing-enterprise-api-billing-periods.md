@@ -24,7 +24,7 @@ The Billing Periods API returns a list of billing periods that have consumption 
 
 
 ##Request 
-Common header properties that need to be added are specified [here](https://docs.microsoft.comazure/billing/billing-enterprise-api). 
+Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). 
 
 |Method | Request URI|
 |-|-|
