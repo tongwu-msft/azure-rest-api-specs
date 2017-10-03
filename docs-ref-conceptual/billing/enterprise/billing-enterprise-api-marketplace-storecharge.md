@@ -23,7 +23,7 @@ ms.author: aedwin
 The Marketplace Store Charge API returns the usage-based marketplace charges breakdown by day for the specified Billing Period or start and end dates (one time fees are not included).
 
 ##Request 
-Common header properties that need to be added are specified [here](https://docs.microsoft.comazure/billing/billing-enterprise-api). If a billing period is not specified, then data for the current billing period is returned. Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd, the maximum supported time range is 36 months.  
+Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). If a billing period is not specified, then data for the current billing period is returned. Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd, the maximum supported time range is 36 months.  
 
 |Method | Request URI|
 |-|-|

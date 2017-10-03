@@ -22,7 +22,7 @@ ms.author: aedwin
 
 The Usage Detail API offers a daily breakdown of consumed quantities and estimated charges by an Enrollment. The result also includes information on instances, meters, and departments. The API can be queried by Billing period or by a specified start and end date. 
 
-Common header properties that need to be added are specified [here](https://docs.microsoft.comazure/billing/billing-enterprise-api). Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd.  
+Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd.  
 
 ## CSV Format (currently in preview)
 The API listed below provides data in csv format.
