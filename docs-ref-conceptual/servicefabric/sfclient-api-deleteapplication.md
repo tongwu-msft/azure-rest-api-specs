@@ -1,6 +1,6 @@
 ---
 title: "Delete Application"
-ms.date: "2017-09-24"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -83,5 +83,4 @@ The server timeout for performing the operation in seconds. This specifies the t
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
 | 200 (OK) | A successful operation will return 200 status code.<br/> |  |
-| 404 (NotFound) | The application provided doesn't exist in the cluster.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |

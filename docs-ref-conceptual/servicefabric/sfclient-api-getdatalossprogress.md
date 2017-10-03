@@ -1,6 +1,6 @@
 ---
 title: "Get Data Loss Progress"
-ms.date: "2017-09-24"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

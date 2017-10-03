@@ -1,6 +1,6 @@
 ---
 title: "Service Fabric Client REST API Reference"
-ms.date: "2017-09-24"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,7 +37,7 @@ Service Fabric Client APIs allows deploying and managing microservices based app
 
 
 > [!IMPORTANT]
->  These APIs work with Service Fabric clusters running runtime version 6.0 and above.
+>  These APIs work with Service Fabric clusters running runtime version 6.0.0.1 and above.
 >
 
 All task operations conform to the HTTP/1.1 protocol specification. All task operations return standard HTTP status codes and may also return additional [Status and Error Codes](sfclient-status-and-error-codes.md) in the response body. See [Service Fabric Names and JSON Serialization](sfclient-service-fabric-names-and-json-serialization.md) for special considerations when serializing and de-serializing names and identities of various entities such as nodes, applications, services, partitions and replicas in the Service Fabric cluster, to and from request and response. You must make sure that requests and responses are secure. For more information, see [Authenticating Service Fabric REST Requests](sfclient-authenticating-service-fabric-rest-requests.md). 
@@ -303,6 +303,21 @@ Following is a list of Service Fabric Client REST APIs.
 | [Cancel Operation](sfclient-api-canceloperation.md) | Cancels a user-induced fault operation.<br/> |
 
 ----
+## [Property Management APIs](sfclient-index-property-management.md)
+
+| Name | Description |
+| --- | --- |
+| [Create Name](sfclient-api-createname.md) | Creates a Service Fabric name.<br/> |
+| [Get Name Exists Info](sfclient-api-getnameexistsinfo.md) | Returns whether the Service Fabric name exists.<br/> |
+| [Delete Name](sfclient-api-deletename.md) | Deletes a Service Fabric name.<br/> |
+| [Get Sub Name Info List](sfclient-api-getsubnameinfolist.md) | Enumerates all the Service Fabric names under a given name.<br/> |
+| [Get Property Info List](sfclient-api-getpropertyinfolist.md) | Gets information on all Service Fabric properties under a given name.<br/> |
+| [Put Property](sfclient-api-putproperty.md) | Creates or updates a Service Fabric property.<br/> |
+| [Get Property Info](sfclient-api-getpropertyinfo.md) | Gets the specified Service Fabric property.<br/> |
+| [Delete Property](sfclient-api-deleteproperty.md) | Deletes the specified Service Fabric property.<br/> |
+| [Submit Property Batch](sfclient-api-submitpropertybatch.md) | Submits a property batch.<br/> |
+
+----
 ## [Models](sfclient-index-models.md)
 
 | Name | Description |
@@ -335,12 +350,16 @@ Following is a list of Service Fabric Client REST APIs.
 | [ApplicationUpgradeDescription](sfclient-model-applicationupgradedescription.md) | Describes the parameters for an application upgrade. Please note that upgrade description replaces the existing application description. This means that if the parameters are not specified, the existing parameters on the applications will be overwritten with the empty parameters list. This would results in application using the default value of the parameters from the application manifest. If you do not want to change any existing parameter values, please get the application parameters first using the GetApplicationInfo query and then supply those values as Parameters in this ApplicationUpgradeDescription.<br/> |
 | [ApplicationUpgradeProgressInfo](sfclient-model-applicationupgradeprogressinfo.md) | Describes the parameters for an application upgrade.<br/> |
 | [ApplicationUpgradeUpdateDescription](sfclient-model-applicationupgradeupdatedescription.md) | Describes the parameters for updating an ongoing application upgrade.<br/> |
+| [BinaryPropertyValue](sfclient-model-binarypropertyvalue.md) | Describes a Service Fabric property value of type Binary.<br/> |
 | [ChaosContext](sfclient-model-chaoscontext.md) | Describes a map, which is a collection of (string, string) type key-value pairs. The map can be used to record information about<br/>the Chaos run. There cannot be more than 100 such pairs and each string (key or value) can be at most 4095 characters long.<br/>This map is set by the starter of the Chaos run to optionally store the context about the specific run.<br/> |
 | [ChaosContextMapItem](sfclient-model-chaoscontextmapitem.md) | Describes an item in the ChaosContextMap in ChaosParameters.<br/> |
 | [ChaosEvent](sfclient-model-chaosevent.md) | Represents an event generated during a Chaos run.<br/> |
 | [ChaosEventWrapper](sfclient-model-chaoseventwrapper.md) | Wrapper object for Chaos event.<br/> |
 | [ChaosParameters](sfclient-model-chaosparameters.md) | Defines all the parameters to configure a Chaos run.<br/> |
 | [ChaosReport](sfclient-model-chaosreport.md) | Contains detailed Chaos report.<br/> |
+| [CheckExistsPropertyBatchOperation](sfclient-model-checkexistspropertybatchoperation.md) | Represents a PropertyBatchOperation that compares the Boolean existence of a property with the Exists argument.  The PropertyBatchOperation operation fails if the property's existence is not equal to the Exists argument.  The CheckExistsPropertyBatchOperation is generally used as a precondition for the write operations in the batch.  Note that if one PropertyBatchOperation in a PropertyBatch fails,  the entire batch fails and cannot be committed in a transactional manner.<br/> |
+| [CheckSequencePropertyBatchOperation](sfclient-model-checksequencepropertybatchoperation.md) | Compares the Sequence Number of a property with the SequenceNumber argument.  A property's sequence number can be thought of as that property's version.  Every time the property is modified, its sequence number is increased.  The sequence number can be found in a property's metadata.  The comparison fails if the sequence numbers are not equal.  CheckSequencePropertyBatchOperation is generally used as a precondition for the write operations in the batch.  Note that if one PropertyBatchOperation in a PropertyBatch fails,  the entire batch fails and cannot be committed in a transactional manner.<br/> |
+| [CheckValuePropertyBatchOperation](sfclient-model-checkvaluepropertybatchoperation.md) | Represents a PropertyBatchOperation that compares the value of the property with the expected value.  The CheckValuePropertyBatchOperation is generally used as a precondition for the write operations in the batch.  Note that if one PropertyBatchOperation in a PropertyBatch fails,  the entire batch fails and cannot be committed in a transactional manner.<br/> |
 | [ClusterConfiguration](sfclient-model-clusterconfiguration.md) | Information about the standalone cluster configuration.<br/> |
 | [ClusterConfigurationUpgradeDescription](sfclient-model-clusterconfigurationupgradedescription.md) | Describes the parameters for a standalone cluster configuration upgrade.<br/> |
 | [ClusterConfigurationUpgradeStatusInfo](sfclient-model-clusterconfigurationupgradestatusinfo.md) | Information about a standalone cluster configuration upgrade status.<br/> |
@@ -361,6 +380,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [CreateComposeDeploymentDescription](sfclient-model-createcomposedeploymentdescription.md) | Defines description for creating a Service Fabric compose deployment.<br/> |
 | [CurrentUpgradeDomainProgressInfo](sfclient-model-currentupgradedomainprogressinfo.md) | Information about the current in-progress upgrade domain.<br/> |
 | [DeactivationIntentDescription](sfclient-model-deactivationintentdescription.md) | Describes the intent or reason for deactivating the node.<br/> |
+| [DeletePropertyBatchOperation](sfclient-model-deletepropertybatchoperation.md) | Represents a PropertyBatchOperation that deletes a specified property if it exists.  Note that if one PropertyBatchOperation in a PropertyBatch fails,  the entire batch fails and cannot be committed in a transactional manner.<br/> |
 | [DeltaNodesCheckHealthEvaluation](sfclient-model-deltanodescheckhealthevaluation.md) | Represents health evaluation for delta nodes, containing health evaluations for each unhealthy node that impacted current aggregated health state.<br/>Can be returned during cluster upgrade when the aggregated health state of the cluster is Warning or Error.<br/> |
 | [DeployedApplicationHealth](sfclient-model-deployedapplicationhealth.md) | Information about the health of an application deployed on a Service Fabric node.<br/> |
 | [DeployedApplicationHealthEvaluation](sfclient-model-deployedapplicationhealthevaluation.md) | Represents health evaluation for a deployed application, containing information about the data and the algorithm used by the health store to evaluate health.<br/> |
@@ -387,6 +407,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [DeployedStatelessServiceInstanceDetailInfo](sfclient-model-deployedstatelessserviceinstancedetailinfo.md) | Information about a stateless instance running in a code package. Please note that DeployedServiceReplicaQueryResult will contain duplicate data like ServiceKind, ServiceName, PartitionId and InstanceId.<br/> |
 | [DeployedStatelessServiceInstanceInfo](sfclient-model-deployedstatelessserviceinstanceinfo.md) | Information about a stateless service instance deployed on a node.<br/> |
 | [DeployServicePackageToNodeDescription](sfclient-model-deployservicepackagetonodedescription.md) | Defines description for downloading packages associated with a service manifest to image cache on a Service Fabric node.<br/> |
+| [DoublePropertyValue](sfclient-model-doublepropertyvalue.md) | Describes a Service Fabric property value of type Double.<br/> |
 | [EnsureAvailabilitySafetyCheck](sfclient-model-ensureavailabilitysafetycheck.md) | Safety check that waits to ensure the availability of the partition. It waits until there are replicas available such that bringing down this replica will not cause availability loss for the partition.<br/> |
 | [EnsurePartitionQurumSafetyCheck](sfclient-model-ensurepartitionqurumsafetycheck.md) | Safety check that ensures that a quorum of replicas are not lost for a partition.<br/> |
 | [EntityHealth](sfclient-model-entityhealth.md) | Health information common to all entities in the cluster. It contains the aggregated health state, health events and unhealthy evaluation.<br/> |
@@ -401,11 +422,14 @@ Following is a list of Service Fabric Client REST APIs.
 | [FabricConfigVersionInfo](sfclient-model-fabricconfigversioninfo.md) | Information about a Service Fabric config version.<br/> |
 | [FabricError](sfclient-model-fabricerror.md) | The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.<br/> |
 | [FabricError_Error](sfclient-model-fabricerror_error.md) | Error object containing error code and error message.<br/> |
+| [FailedPropertyBatchInfo](sfclient-model-failedpropertybatchinfo.md) | Derived from PropertyBatchInfo. Represents the property batch failing. Contains information about the specific batch failure.<br/> |
 | [FailedUpgradeDomainProgressObject](sfclient-model-failedupgradedomainprogressobject.md) | The detailed upgrade progress for nodes in the current upgrade domain at the point of failure.<br/> |
 | [FailureUpgradeDomainProgressInfo](sfclient-model-failureupgradedomainprogressinfo.md) | Information about the upgrade domain progress at the time of upgrade failure.<br/> |
 | [FileInfo](sfclient-model-fileinfo.md) | Information about a image store file.<br/> |
 | [FileVersion](sfclient-model-fileversion.md) | Information about the version of image store file.<br/> |
 | [FolderInfo](sfclient-model-folderinfo.md) | Information about a image store folder. It inclues how many files this folder contains and its image store relative path.<br/> |
+| [GetPropertyBatchOperation](sfclient-model-getpropertybatchoperation.md) | Represents a PropertyBatchOperation that gets the specified property if it exists.  Note that if one PropertyBatchOperation in a PropertyBatch fails,  the entire batch fails and cannot be committed in a transactional manner.<br/> |
+| [GuidPropertyValue](sfclient-model-guidpropertyvalue.md) | Describes a Service Fabric property value of type Guid.<br/> |
 | [HealthEvaluation](sfclient-model-healthevaluation.md) | Represents a health evaluation which describes the data and the algorithm used by health manager to evaluate the health of an entity.<br/> |
 | [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | Wrapper object for health evaluation.<br/> |
 | [HealthEvent](sfclient-model-healthevent.md) | Represents health information reported on a health entity, such as cluster, application or node, with additional metadata added by the Health Manager.<br/> |
@@ -414,6 +438,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [HealthStatistics](sfclient-model-healthstatistics.md) | The health statistics of an entity, returned as part of the health query result when the query description is configured to include statistics.<br/>The statistics include health state counts for all children types of the current entity.<br/>For example, for cluster, the health statistics include health state counts for nodes, applications, services, partitions, replicas, deployed applications and deployed service packages.<br/>For partition, the health statistics include health counts for replicas.<br/> |
 | [ImageStoreContent](sfclient-model-imagestorecontent.md) | Information about the image store content.<br/> |
 | [ImageStoreCopyDescription](sfclient-model-imagestorecopydescription.md) | Information about how to copy image store content from one image store relative path to another image store relative path.<br/> |
+| [Int64PropertyValue](sfclient-model-int64propertyvalue.md) | Describes a Service Fabric property value of type Int64.<br/> |
 | [Int64RangePartitionInformation](sfclient-model-int64rangepartitioninformation.md) | Describes the partition information for the integer range that is based on partition schemes.<br/> |
 | [InvokeDataLossResult](sfclient-model-invokedatalossresult.md) | Represents information about an operation in a terminal state (Completed or Faulted).<br/> |
 | [InvokeQuorumLossResult](sfclient-model-invokequorumlossresult.md) | Represents information about an operation in a terminal state (Completed or Faulted).<br/> |
@@ -421,6 +446,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [LoadMetricReport](sfclient-model-loadmetricreport.md) | Represents the load metric report which contains the time metric was reported, its name and value.<br/> |
 | [LoadMetricReportInfo](sfclient-model-loadmetricreportinfo.md) | Information about load reported by replica.<br/> |
 | [MonitoringPolicyDescription](sfclient-model-monitoringpolicydescription.md) | Describes the parameters for monitoring an upgrade in Monitored mode.<br/> |
+| [NameDescription](sfclient-model-namedescription.md) | Describes a Service Fabric name.<br/> |
 | [NamedPartitionInformation](sfclient-model-namedpartitioninformation.md) | Describes the partition information for the name as a string that is based on partition schemes.<br/> |
 | [NamedPartitionSchemeDescription](sfclient-model-namedpartitionschemedescription.md) | Describes the named partition scheme of the service.<br/> |
 | [NodeDeactivationInfo](sfclient-model-nodedeactivationinfo.md) | Information about the node deactivation. This information is valid for a node that is undergoing deactivation or has already been deactivated.<br/> |
@@ -450,9 +476,11 @@ Following is a list of Service Fabric Client REST APIs.
 | [PagedApplicationTypeInfoList](sfclient-model-pagedapplicationtypeinfolist.md) | The list of application types that are provisioned or being provisioned in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedComposeDeploymentStatusInfoList](sfclient-model-pagedcomposedeploymentstatusinfolist.md) | The list of compose deployments in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedNodeInfoList](sfclient-model-pagednodeinfolist.md) | The list of nodes in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
+| [PagedPropertyInfoList](sfclient-model-pagedpropertyinfolist.md) | The paged list of Service Fabric properties under a given name. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedReplicaInfoList](sfclient-model-pagedreplicainfolist.md) | The list of replicas in the cluster for a given partition. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedServiceInfoList](sfclient-model-pagedserviceinfolist.md) | The list of services in the cluster for an application. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedServicePartitionInfoList](sfclient-model-pagedservicepartitioninfolist.md) | The list of partition in the cluster for a service. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
+| [PagedSubNameInfoList](sfclient-model-pagedsubnameinfolist.md) | A paged list of Service Fabric names. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PartitionDataLossProgress](sfclient-model-partitiondatalossprogress.md) | Information about a partition data loss user-induced operation.<br/> |
 | [PartitionHealth](sfclient-model-partitionhealth.md) | Information about the health of a Service Fabric partition.<br/> |
 | [PartitionHealthEvaluation](sfclient-model-partitionhealthevaluation.md) | Represents health evaluation for a partition, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.<br/> |
@@ -467,7 +495,15 @@ Following is a list of Service Fabric Client REST APIs.
 | [PartitionSchemeDescription](sfclient-model-partitionschemedescription.md) | Describes how the service is partitioned.<br/> |
 | [PartitionsHealthEvaluation](sfclient-model-partitionshealthevaluation.md) | Represents health evaluation for the partitions of a service, containing health evaluations for each unhealthy partition that impacts current aggregated health state. Can be returned when evaluating service health and the aggregated health state is either Error or Warning.<br/> |
 | [PrimaryReplicatorStatus](sfclient-model-primaryreplicatorstatus.md) |  |
+| [PropertyBatchDescriptionList](sfclient-model-propertybatchdescriptionlist.md) | Describes a list of property batch operations to be executed. Either all or none of the operations will be committed.<br/> |
+| [PropertyBatchInfo](sfclient-model-propertybatchinfo.md) | Information about the results of a property batch.<br/> |
+| [PropertyBatchOperation](sfclient-model-propertybatchoperation.md) | Represents the base type for property operations that can be put into a batch and submitted.<br/> |
+| [PropertyDescription](sfclient-model-propertydescription.md) | Description of a Service Fabric property.<br/> |
+| [PropertyInfo](sfclient-model-propertyinfo.md) | Information about a Service Fabric property.<br/> |
+| [PropertyMetadata](sfclient-model-propertymetadata.md) | The metadata associated with a property, including the property's name.<br/> |
+| [PropertyValue](sfclient-model-propertyvalue.md) | Describes a Service Fabric property value.<br/> |
 | [ProvisionFabricDescription](sfclient-model-provisionfabricdescription.md) | Describes the parameters for provisioning a cluster.<br/> |
+| [PutPropertyBatchOperation](sfclient-model-putpropertybatchoperation.md) | Puts the specified property under the specified name.  Note that if one PropertyBatchOperation in a PropertyBatch fails,  the entire batch fails and cannot be committed in a transactional manner.<br/> |
 | [ReconfigurationInformation](sfclient-model-reconfigurationinformation.md) | Information about current reconfiguration like phase, type, previous configuration role of replica and reconfiguration start date time.<br/> |
 | [RegistryCredential](sfclient-model-registrycredential.md) | Credential information to connect to container registry.<br/> |
 | [RemoteReplicatorAcknowledgementDetail](sfclient-model-remotereplicatoracknowledgementdetail.md) | Provides various statistics of the acknowledgements that are being received from the remote replicator.<br/> |
@@ -555,6 +591,8 @@ Following is a list of Service Fabric Client REST APIs.
 | [StatelessServiceTypeDescription](sfclient-model-statelessservicetypedescription.md) | Describes a stateless service type defined in the service manifest of a provisioned application type.<br/> |
 | [StatelessServiceUpdateDescription](sfclient-model-statelessserviceupdatedescription.md) | Describes an update for a stateless service.<br/> |
 | [StoppedChaosEvent](sfclient-model-stoppedchaosevent.md) | Describes a Chaos event that gets generated when Chaos stops because either the user issued a stop or the time to run was up.<br/> |
+| [StringPropertyValue](sfclient-model-stringpropertyvalue.md) | Describes a Service Fabric property value of type String.<br/> |
+| [SuccessfulPropertyBatchInfo](sfclient-model-successfulpropertybatchinfo.md) | Derived from PropertyBatchInfo. Represents the property batch succeeding. Contains the results of any "Get" operations in the batch.<br/> |
 | [SystemApplicationHealthEvaluation](sfclient-model-systemapplicationhealthevaluation.md) | Represents health evaluation for the fabric:/System application, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state of the cluster is either Error or Warning.<br/> |
 | [TestErrorChaosEvent](sfclient-model-testerrorchaosevent.md) | Describes a Chaos event that gets generated when an unexpected event occurs in the Chaos engine.<br/>For example, due to the cluster snapshot being inconsistent, while faulting a faultable entity, Chaos found that the entity was alreay faulted -- which would be an unexpected event.<br/> |
 | [UniformInt64RangePartitionSchemeDescription](sfclient-model-uniformint64rangepartitionschemedescription.md) | Describes a partitioning scheme where an integer range is allocated evenly across a number of partitions.<br/> |
