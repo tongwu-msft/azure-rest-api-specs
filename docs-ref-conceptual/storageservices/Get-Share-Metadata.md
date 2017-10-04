@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Get Share Metadata
-The `Get Share Metadata` operation returns all user-defined metadata for the share.  
+The `Get Share Metadata` operation returns all user-defined metadata for the share or share snapshot.  
   
 ## Request  
  The `Get Share Metadata` request is constructed as follows. HTTPS is recommended.  
@@ -33,6 +33,7 @@ The `Get Share Metadata` operation returns all user-defined metadata for the sha
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share&comp=metadata`|HTTP/1.1|  
+|`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share&comp=metadata&snapshot=<DateTime>`|HTTP/1.1|  
   
  Replace the path components shown in the request URI with your own, as follows:  
   
@@ -48,6 +49,7 @@ The `Get Share Metadata` operation returns all user-defined metadata for the sha
   
 |Parameter|Description|  
 |---------------|-----------------|  
+|`snapshot`|Optional. Version 2017-04-17 and newer. The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query to retrieve the metadata|
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ## Request Headers  

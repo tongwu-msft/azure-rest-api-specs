@@ -33,7 +33,8 @@ The `Get Directory Properties` operation returns all system properties for the s
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare/myparentdirectorypath/mydirectory?restype=directory`|HTTP/1.1|  
-  
+|`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare/ myparentdirectorypath/mydirectory?restype=directory&sharesnapshot=<DateTime>`|HTTP/1.1|
+
  Replace the path components shown in the request URI with your own, as follows:  
   
 |Path Component|Description|  
@@ -50,6 +51,7 @@ The `Get Directory Properties` operation returns all system properties for the s
   
 |Parameter|Description|  
 |---------------|-----------------|  
+|`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query for the directory properties |
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request Headers  

@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Get Share Properties
-The `Get Share Properties` request returns all user-defined metadata and system properties for the specified share. The data returned does not include the share's list of files.  
+The `Get Share Properties` request returns all user-defined metadata and system properties for the specified share or share snapshot. The data returned does not include the share's list of files.  
   
 ## Request  
  The `Get Share Properties` request may be constructed as follows. HTTPS is recommended.  
@@ -33,6 +33,7 @@ The `Get Share Properties` request returns all user-defined metadata and system 
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share`|HTTP/1.1|  
+|`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share&snapshot=<DateTime>`|HTTP/1.1|  
   
  Replace the path components shown in the request URI with your own, as follows:  
   
@@ -48,6 +49,7 @@ The `Get Share Properties` request returns all user-defined metadata and system 
   
 |Parameter|Description|  
 |---------------|-----------------|  
+|`snapshot`|Optional. Version 2017-04-17 and newer. The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query to retrieve the properties|
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ## Request Headers  

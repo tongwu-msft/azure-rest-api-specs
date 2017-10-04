@@ -106,5 +106,7 @@ x-ms-share-quota: 55
   
  If you set share quota to be smaller than the size of the data on the share, the operation will succeed. However, you will not be able to add more data to the share until the amount of the data on the share is reduced below the quota. You can reduce the amount of data by either deleting or compressing files.  
   
+ `Set Share Properties` is not supported for a share snapshot. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue).
+
 ## See Also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

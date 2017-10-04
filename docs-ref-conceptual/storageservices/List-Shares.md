@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # List Shares
-The `List Shares` operation returns a list of the shares under the specified account.  
+The `List Shares` operation returns a list of the shares and share snapshots under the specified account.  
   
 ##  <a name="Request"></a> Request  
  The `List Shares` request may be constructed as follows. HTTPS is recommended.  
@@ -50,7 +50,7 @@ The `List Shares` operation returns a list of the shares under the specified acc
 |`prefix`|Optional. Filters the results to return only shares whose name begins with the specified prefix.|  
 |`marker`|Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of shares to return. If the request does not specify `maxresults`, or specifies a value greater than 5,000, the server will return up to 5,000 items. If the parameter is set to a value less than or equal to zero, the server will return status code 400 (Bad Request).|  
-|`include=metadata`|Optional. Include this parameter to return the metadata of the share as part of the response body.<br /><br /> All metadata names must adhere to the naming conventions for [C# identifiers](http://msdn.microsoft.com/library/aa664670\(VS.71\).aspx).|  
+|`include=metadata,snapshots`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Version 2017-04-17 and newer. Specifies that share snapshots should be included in the enumeration. Share Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that share metadata should be returned in the response.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").<br /><br /> All metadata names must adhere to the naming conventions for [C# identifiers](http://msdn.microsoft.com/library/aa664670\(VS.71\).aspx).|  
 |`timeout`|Optional. The timeout parameter is expressed in seconds.  For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request Headers  
@@ -98,6 +98,7 @@ The `List Shares` operation returns a list of the shares under the specified acc
   <Shares>  
     <Share>  
       <Name>share-name</Name>  
+      <Snapshot>Date-Time Value</Snapshot>
       <Properties>  
         <Last-Modified>date/time-value</Last-Modified>  
         <Etag>etag</Etag>  
@@ -117,6 +118,8 @@ The `List Shares` operation returns a list of the shares under the specified acc
  The `Prefix`, `Marker`, and `MaxResults` elements are only present if they were specified on the URI. The `NextMarker` element has a value only if the list results are not complete.  
   
  The `Metadata` element is present only if the `include=metadata` parameter was specified on the URI. Within the `Metadata` element, the value of each name-value pair is listed within an element corresponding to the pair's name.  
+
+ The `Snapshots` are included in the response only if the`include=snapshots` parameter was specified with the include parameter on the request URI.
   
 ### Sample Response  
  See the [Sample Request and Response](#samplerequestandresponse) section later in this topic.  
@@ -137,13 +140,13 @@ The `List Shares` operation returns a list of the shares under the specified acc
  The following sample URI requests the list of shares for an account, setting the maximum results to return for the initial operation to 3.  
   
 ```  
-GET https://myaccount.file.core.windows.net/?comp=list&maxresults=3 HTTP/1.1  
+GET https://myaccount.file.core.windows.net/?comp=list&maxresults=3&include=snapshots HTTP/1.1  
 ```  
   
  The request is sent with these headers:  
   
 ```  
-x-ms-version: 2015-02-21  
+x-ms-version: 2017-04-17  
 x-ms-date: <date>  
 Authorization: SharedKey myaccount:CY1OP3O3jGFpYFbTCBimLn0Xov0vt0khH/D5Gy0fXvg=  
 ```  
@@ -155,7 +158,7 @@ HTTP/1.1 200 OK
 Transfer-Encoding: chunked  
 Content-Type: application/xml  
 Date: <date>  
-x-ms-version: 2015-02-21  
+x-ms-version: 2017-04-17  
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 ```  
   
@@ -181,6 +184,15 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
     <Etag>0x8CACB9BD7C1EEEC</Etag>  
    </Properties>  
   </Share>  
+  <Share>
+   <Name>textfiles</Name>
+   <Snapshot>2017-05-12T20:52:22.0000000Z</Snapshot>
+   <Properties>
+     <Last-Modified><date></Last-Modified>
+     <Etag>0x8D3F2E1A9D14700</Etag>
+     <Quota>30</Quota>
+   </Properties>
+  </Share>
   <Share>  
    <Name>textfiles</Name>  
    <Properties>  
@@ -188,7 +200,7 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
     <Etag>0x8CACB9BD7BACAC3</Etag>  
     <Quota>30</Quota>  
    </Properties>  
-  </Share>  
+  </Share>
  </Shares>  
  <NextMarker>video</NextMarker>  
 </EnumerationResults>  
