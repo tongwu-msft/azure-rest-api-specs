@@ -31,7 +31,7 @@ translation.priority.mt:
 
 [Service Fabric](http://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
 
-A Service Fabric cluster is a network-connected set of virtual or physical machines into which your microservices are deployed and managed. [Service Fabric Resource Manager APIs](sfrp-index.md) allows you to create and manage Service Fabric cluster in Azure. Once a cluster is created you can manage and deploy microservices based applications and containers in the cluster using [Service Fabric Client APIs](sfclient-v56-index.md).
+A Service Fabric cluster is a network-connected set of virtual or physical machines into which your microservices are deployed and managed. [Service Fabric Resource Manager APIs](sfrp-index.md) allows you to create and manage Service Fabric cluster in Azure. Once a cluster is created you can manage and deploy microservices based applications and containers in the cluster using [Service Fabric Client APIs](sfclient-index.md).
 
 Following is a list of Service Fabric Resource Manager REST APIs.
 

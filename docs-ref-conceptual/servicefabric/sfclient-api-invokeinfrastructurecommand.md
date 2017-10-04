@@ -1,6 +1,6 @@
 ---
 title: "Invoke Infrastructure Command"
-ms.date: "2017-09-24"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -90,5 +90,5 @@ The server timeout for performing the operation in seconds. This specifies the t
 
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
-| 200 (OK) | The response from the infrastructure service. The response format is a JSON stream.<br/>The contents of the response depend on which command was issued.<br/> | file |
+| 200 (OK) | The response from the infrastructure service. The response format is a JSON stream.<br/>The contents of the response depend on which command was issued.<br/> | string (binary) |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |

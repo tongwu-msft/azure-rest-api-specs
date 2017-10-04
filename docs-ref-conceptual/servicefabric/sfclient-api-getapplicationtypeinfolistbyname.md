@@ -1,6 +1,6 @@
 ---
 title: "Get Application Type Info List By Name"
-ms.date: "2017-09-24"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Returns the information about the application types that are provisioned or in t
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/ApplicationTypes/{applicationTypeName}?api-version=6.0&ExcludeApplicationParameters={ExcludeApplicationParameters}&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
+| GET | `/ApplicationTypes/{applicationTypeName}?api-version=6.0&ApplicationTypeVersion={ApplicationTypeVersion}&ExcludeApplicationParameters={ExcludeApplicationParameters}&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
 
 
 ## Parameters
@@ -43,6 +43,7 @@ Returns the information about the application types that are provisioned or in t
 | --- | --- | --- | --- |
 | [applicationTypeName](#applicationtypename) | string | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
+| [ApplicationTypeVersion](#applicationtypeversion) | string | No | Query |
 | [ExcludeApplicationParameters](#excludeapplicationparameters) | boolean | No | Query |
 | [ContinuationToken](#continuationtoken) | string | No | Query |
 | [MaxResults](#maxresults) | integer (int64) | No | Query |
@@ -62,6 +63,13 @@ __Required__: Yes<br/>
 __Default__: 6.0 <br/>
 <br/>
 The version of the API. This is a required parameter and it's value must be "6.0".
+
+____
+### ApplicationTypeVersion
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+The version of the application type.
 
 ____
 ### ExcludeApplicationParameters
