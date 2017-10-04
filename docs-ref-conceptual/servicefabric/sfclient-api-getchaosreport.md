@@ -1,6 +1,6 @@
 ---
 title: "Get Chaos Report"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,7 +38,7 @@ When there are more than 100 Chaos events, the Chaos report is returned in segme
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Tools/Chaos/$/Report?api-version=3.0&ContinuationToken={ContinuationToken}&StartTimeUtc={StartTimeUtc}&EndTimeUtc={EndTimeUtc}&timeout={timeout}` |
+| GET | `/Tools/Chaos/$/Report?api-version=6.0&ContinuationToken={ContinuationToken}&StartTimeUtc={StartTimeUtc}&EndTimeUtc={EndTimeUtc}&timeout={timeout}` |
 
 
 ## Parameters
@@ -54,9 +54,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### ContinuationToken
@@ -104,7 +104,7 @@ This example shows how to get Chaos report in a single response message without 
 
 #### Request
 ```
-GET http://localhost:19080/Tools/Chaos/$/Report?api-version=3.0&StartTimeUtc=0&EndTimeUtc=3155378975999999999
+GET http://localhost:19080/Tools/Chaos/$/Report?api-version=6.0&StartTimeUtc=0&EndTimeUtc=3155378975999999999
 ```
 
 #### 200 Response

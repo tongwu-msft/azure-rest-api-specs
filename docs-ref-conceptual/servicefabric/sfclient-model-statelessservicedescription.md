@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceDescription"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -62,21 +62,21 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The application name.
+The name of the application, including the 'fabric:' URI scheme.
 
 ____
 ### ServiceName
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The service name.
+The full name of the service with 'fabric:' URI scheme.
 
 ____
 ### ServiceTypeName
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The service type name.
+Name of the service type as specified in the service manifest.
 
 ____
 ### InitializationData
@@ -127,13 +127,7 @@ __Required__: No<br/>
 <br/>
 The move cost for the service.
 
-Specifies the move cost for the service. Possible values are the following.
-
-  - Zero - Zero move cost. This value is zero.
-  - Low - Specifies the move cost of the service as Low. The value is 1.
-  - Medium - Specifies the move cost of the service as Medium. The value is 2.
-  - High - Specifies the move cost of the service as High. The value is 3.
-
+The move cost for the service.
 
 
 ____
@@ -150,11 +144,7 @@ __Required__: No<br/>
 <br/>
 The activation mode of service package to be used for a service.
 
-The activation mode of service package to be used for a Service Fabric service. This is specified at the time of creating the Service. Possible values are following.
-
-  - SharedProcess - This is the default activation mode. With this activation mode, replicas or instances from different partition(s) of service, on a given node, will share same activation of service package on a node. The value is zero.
-  - ExclusiveProcess - With this activation mode, each replica or instance of service, on a given node, will have its own dedicated activation of service package on a node. The value is 1.
-
+The activation mode of service package to be used for a service.
 
 
 ____

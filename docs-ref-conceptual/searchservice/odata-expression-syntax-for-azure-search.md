@@ -1,7 +1,7 @@
----
+﻿---
 title: "OData Expression Syntax for Azure Search"
 ms.custom: ""
-ms.date: "2017-04-11"
+ms.date: "08/16/2017"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -38,7 +38,7 @@ translation.priority.mt:
 
 -   Comparison expressions (`eq, ne, gt, lt, ge, le`). String comparisons are case-sensitive.  
 
--   Constants of the supported EDM types (see [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for a list of supported types). Constants of collection types are not supported.  
+-   Constants of the supported [Entity Data Model](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model) (EDM) types (see [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for a list of supported types). Constants of collection types are not supported.  
 
 -   References to field names. Only `filterable` fields can be used in filter expressions.  
 
@@ -58,16 +58,40 @@ translation.priority.mt:
 
     Note that `geo.distance` returns distance in kilometers in Azure Search. This differs from other services that support OData geospatial operations, which typically return distances in meters.  
 
+> [!NOTE]  
+>  When using geo.distance in a filter, you must compare the distance returned by the function with a constant using `lt`, `le`, `gt`, or `ge`. The operators `eq` and `ne` are not supported when comparing distances. For example, this is a correct usage of geo.distance: `$filter=geo.distance(location, geography'POINT(-122.131577 47.678581)') le 5`.  
+
 -   The `search.in` function tests whether a given string field is equal to one of a given list of values. It can also be used in any or all to compare a single value of a string collection field with a given list of values. Equality between the field and each value in the list is determined in a case-sensitive fashion, the same way as for the `eq` operator. Therefore an expression like `search.in(myfield, 'a, b, c')` is equivalent to `myfield eq 'a' or myfield eq 'b' or myfield eq 'c'`, except that `search.in` will yield much better performance. 
 
-    The first parameter to the `search.in` function is the field reference (or range variable in the case where `search.in` is used inside an any or all expression). The second parameter is a string containing the list of values, separated by spaces and/or commas. If you need to use separators other than spaces and commas because your values include those characters, you can specify an optional third parameter to `search.in`. 
-	
-	This third parameter is a string where each character of the string, or subset of this string are treated as a separator when parsing the list of values in the second parameter.
-	
-	Currently the `search.in` function is supported only in api-versions 2016-09-01-Preview and 2015-02-28-Preview.
+    The first parameter to the `search.in` function is the string field reference (or a range variable over a string collection field in the case where `search.in` is used inside an `any` or `all` expression). The second parameter is a string containing the list of values, separated by spaces and/or commas. If you need to use separators other than spaces and commas because your values include those characters, you can specify an optional third parameter to `search.in`. 
 
-> [!NOTE]  
->  For the result of the `geo.distance` function only the `lt, le, gt, ge` operators are supported. Operators `eq` and `ne` cannot be used.  
+    This third parameter is a string where each character of the string, or subset of this string is treated as a separator when parsing the list of values in the second parameter.
+
+> [!NOTE]  	
+>  Some scenarios require comparing a field against a large number of constant values. For example, implementing security trimming with filters might require comparing the document ID field against a list of IDs to which the requesting user is granted read access. In scenarios like this we highly recommend using the `search.in` function instead of a more complicated disjunction of equality expressions. For example, use `search.in(Id, '123, 456, ...')` instead of `Id eq 123 or Id eq 456 or ....`. 
+
+>  If you use `search.in`, you can expect sub-second response time when the second parameter contains a list of hundreds or thousands of values. Note that there is no explicit limit on the number of items you can pass to `search.in`, although you are still limited by the maximum request size. However, the latency will grow as the number of values grows.
+
+-   The `search.ismatch` function evaluates search query as a part of a filter expression. The documents that match the search query will be returned in the result set. The following overloads of this function are available:
+    - `search.ismatch(search)`
+    - `search.ismatch(search, searchFields)`
+    - `search.ismatch(search, searchFields, queryType, searchMode)`
+
+    where: 
+  
+    - `search`: the search query (in either [simple](https://docs.microsoft.com/rest/api/searchservice/simple-query-syntax-in-azure-search) or [full](https://docs.microsoft.com/rest/api/searchservice/lucene-query-syntax-in-azure-search) query syntax). 
+    - `queryType`: "simple" or "full", defaults to "simple". Specifies what query language was used in the `search` parameter.
+    - `searchFields`: comma-separated list of searchable fields to search in, defaults to all searchable fields in the index.    
+    - `searchMode`: "any" or "all", defaults to "any". Indicates whether any or all of the search terms must be matched in order to count the document as a match.
+
+    All the above parameters are equivalent to the corresponding [search request parameters](https://docs.microsoft.com/rest/api/searchservice/search-documents).
+
+-   The `search.ismatchscoring` function, like the `search.ismatch` function, returns true for documents that matched the search query passed as a parameter. The difference between them is that the relevance score of documents matching the `search.ismatchscoring` query will contribute to the overall document score, while in the case of `search.ismatch`, the document score won't be changed. The following overloads of this function are available with parameters identical to those of `search.ismatch`:
+    - `search.ismatchscoring(search)`
+    - `search.ismatchscoring(search, searchFields)`
+    - `search.ismatchscoring(search, searchFields, queryType, searchMode)`
+
+  The `search.ismatch` and `search.ismatchscoring` functions are fully orthogonal with each other and the rest of the filter algebra. This means both functions can be used in the same filter expression. 
 
 ### Geospatial queries and polygons spanning the 180th meridian  
  For many geospatial query libraries formulating a query that includes the 180th meridian (near the dateline) is either off-limits or requires a workaround, such as splitting the polygon into two, one on either side of the meridian.  
@@ -197,6 +221,37 @@ Find all hotels without the tag 'motel' nor 'cabin':
 ```  
 $filter=tags/all(t: not search.in(t, 'motel, cabin'))  
 ```  
+
+Find documents with the word "waterfront". This filter query is identical to a [search request](https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents) with `search=waterfront`.
+
+```
+$filter=search.ismatchscoring('waterfront')
+```
+
+Find documents with the word "hostel" and rating greater or equal to 4, or documents with the word "motel" and rating equal to 5. Note, this request could not be expressed without the `search.ismatchscoring` function.
+
+```
+$filter=search.ismatchscoring('hostel') and rating ge 4 or search.ismatchscoring('motel') and rating eq 5
+```
+
+Find documents without the word "luxury".
+
+```
+$filter=not search.ismatch('luxury') 
+```
+
+Find documents with the phrase "ocean view" or rating equal to 5. The `search.ismatchscoring` query will be executed only against fields `hotelName` and `description`.
+Note, documents that matched only the second clause of the disjunction will be returned too - hotels with rating equal to 5. To make it clear those documents didn’t match any of the scored parts of the expression, they will be returned with score equal to zero.
+
+```
+$filter=search.ismatchscoring('"ocean view"', 'description,hotelName') or rating eq 5
+```
+
+Find documents where the terms "hotel" and "airport" are within 5 words from each other in the description of the hotel, and where smoking is not allowed. This query uses the [`full` Lucene query language](https://docs.microsoft.com/rest/api/searchservice/lucene-query-syntax-in-azure-search).
+
+```
+$filter=search.ismatch('"hotel airport"~5', 'description', 'full', 'any') and not smokingAllowed 
+```
 
 ### Order-by examples
 

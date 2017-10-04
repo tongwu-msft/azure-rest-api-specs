@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceUpdateDescription"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -63,7 +63,7 @@ Flags indicating whether other properties are set. Each of the associated proper
 This property can be a combination of those flags obtained using bitwise 'OR' operator.
 For example, if the provided value is 6 then the flags for ReplicaRestartWaitDuration (2) and QuorumLossWaitDuration (4) are set.
 
-- None - Does not indicate any other properties are set. The value is zero. 
+- None - Does not indicate any other properties are set. The value is zero.
 - TargetReplicaSetSize/InstanceCount - Indicates whether the TargetReplicaSetSize property (for Stateful services) or the InstanceCount property (for Stateless services) is set. The value is 1.
 - ReplicaRestartWaitDuration - Indicates the ReplicaRestartWaitDuration property is set. The value is  2.
 - QuorumLossWaitDuration - Indicates the QuorumLossWaitDuration property is set. The value is 4.
@@ -111,13 +111,7 @@ __Required__: No<br/>
 <br/>
 The move cost for the service.
 
-Specifies the move cost for the service. Possible values are the following.
-
-  - Zero - Zero move cost. This value is zero.
-  - Low - Specifies the move cost of the service as Low. The value is 1.
-  - Medium - Specifies the move cost of the service as Medium. The value is 2.
-  - High - Specifies the move cost of the service as High. The value is 3.
-
+The move cost for the service.
 
 
 ____
