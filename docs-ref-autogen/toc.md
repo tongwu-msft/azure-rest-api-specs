@@ -4095,6 +4095,7 @@
 #### [Preflight File Request](../docs-ref-conceptual/storageservices/preflight-file-request.md)
 ### [Operations on Shares (File Service)](../docs-ref-conceptual/storageservices/operations-on-shares--file-service-.md)
 #### [Create Share](../docs-ref-conceptual/storageservices/create-share.md)
+#### [Snapshot Share](../docs-ref-conceptual/storageservices/snapshot-share.md)
 #### [Get Share Properties](../docs-ref-conceptual/storageservices/get-share-properties.md)
 #### [Set Share Properties](../docs-ref-conceptual/storageservices/set-share-properties.md)
 #### [Get Share Metadata](../docs-ref-conceptual/storageservices/get-share-metadata.md)
