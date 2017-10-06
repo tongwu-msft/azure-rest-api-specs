@@ -90,7 +90,7 @@ The `Get Share Stats` request retrieves statistics related to the share.
  Only the account owner may call this operation.  
   
 ## Remarks  
- None.  
+ Statistics for a share snapshot cannot be retrieved. If an attempt is made to retrieve share snapshot statistics, then the service returns status code 400 (InvalidQueryParameterValue).  
   
 ## See Also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

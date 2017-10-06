@@ -138,6 +138,7 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
  If the share or parent directory does not exist, then the operation fails with status code 412 (Precondition Failed).  
   
  Note that the file properties `cache-control`, `content-type`, `content-md5`, `content-encoding` and `content-language` are discrete from the file system properties available to SMB clients. SMB clients are not able to read, write or modify these property values.  
-  
+
+`Create File` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
 ## See Also  
  [Operations on Files](Operations-on-Files.md)

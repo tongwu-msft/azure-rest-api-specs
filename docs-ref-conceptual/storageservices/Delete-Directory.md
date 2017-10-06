@@ -117,6 +117,8 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
  Attempting to delete directories that are not empty will fail with status code 409 (DirectoryNotEmpty).  
   
  Once a client has received status code 202 (Accepted), then the directory has been removed from the system and is eligible to be recreated. Subsequent calls to [Get Directory Properties](Get-Directory-Properties.md) will result in 404 (Not Found).  
-  
+
+ `Delete Directory` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+ 
 ## See Also  
  [Operations on Directories](Operations-on-Directories.md)

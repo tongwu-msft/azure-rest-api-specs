@@ -85,3 +85,6 @@ The `Set Directory Metadata` operation updates user defined metadata for the spe
   
 ### Response Body  
  None.
+
+ ## Remarks
+ `Set Directory Metadata` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
