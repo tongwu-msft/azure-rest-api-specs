@@ -33,7 +33,7 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`HEAD`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
-  
+|`HEAD`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sharesnapshot=<DateTime>`|HTTP/1.1|  
  Replace the path components shown in the request URI with your own, as follows:  
   
 |Path Component|Description|  
@@ -50,6 +50,7 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
   
 |Parameter|Description|  
 |---------------|-----------------|  
+|`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query for the file properties.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md)|  
   
 ### Request Headers  

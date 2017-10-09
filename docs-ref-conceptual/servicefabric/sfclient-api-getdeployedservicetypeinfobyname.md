@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Service Type Info By Name"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,12 +30,12 @@ translation.priority.mt:
 # Get Deployed Service Type Info By Name
 Gets the information about a specified service type of the application deployed on a node in a Service Fabric cluster.
 
-Gets the information about a specified service type of the application deployed on a node in a Service Fabric cluster. The response includes the name of the service type, its registration status, the code package that registered it and activation id of the service package.
+Gets the list containing the information about a specific service type from the applications deployed on a node in a Service Fabric cluster. The response includes the name of the service type, its registration status, the code package that registered it and activation id of the service package. Each entry represents one activation of a service type, differentiated by the activation id.
 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServiceTypes/{serviceTypeName}?api-version=3.0&ServiceManifestName={ServiceManifestName}&timeout={timeout}` |
+| GET | `/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServiceTypes/{serviceTypeName}?api-version=6.0&ServiceManifestName={ServiceManifestName}&timeout={timeout}` |
 
 
 ## Parameters
@@ -60,7 +60,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
+The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the application name is "fabric://myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
 
 ____
 ### serviceTypeName
@@ -73,9 +73,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### ServiceManifestName
@@ -98,6 +98,6 @@ The server timeout for performing the operation in seconds. This specifies the t
 
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
-| 200 (OK) | Information about service types of an application deployed on a node.<br/> | [DeployedServiceTypeInfo](sfclient-model-deployedservicetypeinfo.md) |
+| 200 (OK) | Information about service types of an application deployed on a node.<br/> | array of [DeployedServiceTypeInfo](sfclient-model-deployedservicetypeinfo.md) |
 | 204 (NoContent) | An empty response is returned if the specified service type of the application is not deployed on the node.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |

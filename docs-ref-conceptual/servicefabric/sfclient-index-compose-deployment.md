@@ -1,6 +1,6 @@
 ---
 title: "Compose Deployment"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,21 +27,14 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-
-
 # Compose Deployment APIs
-
-
-
-> [!IMPORTANT]
->
->  These APIs work with Service Fabric clusters running preview runtime version of 255.255.57--.255 and above.
->
 
 | Name | Description |
 | --- | --- |
-| [Create Compose Application](sfclient-api-createcomposeapplication.md) | Creates a Service Fabric compose application.<br/> |
-| [Get Compose Application Status](sfclient-api-getcomposeapplicationstatus.md) | Gets information about a Service Fabric compose application.<br/> |
-| [Get Compose Application Status List](sfclient-api-getcomposeapplicationstatuslist.md) | Gets the list of compose applications created in the Service Fabric cluster.<br/> |
-| [Remove Compose Application](sfclient-api-removecomposeapplication.md) | Deletes an existing Service Fabric compose application from cluster.<br/> |
+| [Create Compose Deployment](sfclient-api-createcomposedeployment.md) | Creates a Service Fabric compose deployment.<br/> |
+| [Get Compose Deployment Status](sfclient-api-getcomposedeploymentstatus.md) | Gets information about a Service Fabric compose deployment.<br/> |
+| [Get Compose Deployment Status List](sfclient-api-getcomposedeploymentstatuslist.md) | Gets the list of compose deployments created in the Service Fabric cluster.<br/> |
+| [Get Compose Deployment Upgrade Progress](sfclient-api-getcomposedeploymentupgradeprogress.md) | Gets details for the latest upgrade performed on this Service Fabric compose deployment.<br/> |
+| [Remove Compose Deployment](sfclient-api-removecomposedeployment.md) | Deletes an existing Service Fabric compose deployment from cluster.<br/> |
+| [Start Compose Deployment Upgrade](sfclient-api-startcomposedeploymentupgrade.md) | Starts upgrading a compose deployment in the Service Fabric cluster.<br/> |
 

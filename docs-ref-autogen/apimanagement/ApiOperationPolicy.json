@@ -27,34 +27,30 @@
       }
     }
   },
-  "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/policies/{policyId}": {
+  "paths": {},
+  "x-ms-paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?export=true": {
       "get": {
         "tags": [
-          "ApiOperationPolicies"
+          "Apis"
         ],
-        "operationId": "ApiOperationPolicy_Get",
-        "description": "Get the policy configuration at the API Operation level.",
+        "operationId": "ApiExport_Get",
+        "description": "Gets the details of the API specified by its identifier in the format specified to the Storage Blob with SAS Key valid for 5 minutes.",
         "x-ms-examples": {
-          "ApiManagementGetApiOperationPolicy": {
+          "ApiManagementGetApiExportInOpenApi2dot0": {
             "parameters": {
               "serviceName": "apimService1",
               "resourceGroupName": "rg1",
               "api-version": "2017-03-01",
               "subscriptionId": "subid",
-              "apiId": "5600b539c53f5b0062040001",
-              "operationId": "5600b53ac53f5b0062080006",
-              "policyId": "policy"
+              "apiId": "echo-api",
+              "Accept": "application/vnd.swagger.link+json",
+              "export": "true"
             },
             "responses": {
               "200": {
                 "body": {
-                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b539c53f5b0062040001/operations/5600b53ac53f5b0062080006/policies/policy",
-                  "type": "Microsoft.ApiManagement/service/apis/operations/policies",
-                  "name": "policy",
-                  "properties": {
-                    "policyContent": "<policies>\r\n  <inbound>\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n    <set-header name=\"X-My-Sample\" exists-action=\"override\">\r\n      <value>This is a sample</value>\r\n      <!-- for multiple headers with the same name add additional value elements -->\r\n    </set-header>\r\n    <jsonp callback-parameter-name=\"ProcessResponse\" />\r\n  </outbound>\r\n</policies>"
-                  }
+                  "link": "https://apimgmtstaobxxxxxxx.blob.core.windows.net/api-export/Echo API.json?sv=2015-07-08&sr=b&sig=xxxxxxxxxx%3D&se=2017-09-08T21:54:08Z&sp=r"
                 }
               }
             }
@@ -71,10 +67,51 @@
             "$ref": "#/parameters/ApiIdParameter"
           },
           {
-            "$ref": "#/parameters/OperationIdParameter"
+            "name": "Accept",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "application/vnd.swagger.link+json",
+              "application/vnd.sun.wadl.link+json",
+              "application/vnd.ms.wsdl.link+xml"
+            ],
+            "x-ms-enum": {
+              "name": "ExportFormat",
+              "modelAsString": false,
+              "values": [
+                {
+                  "value": "application/vnd.swagger.link+json",
+                  "description": "Export the Api Definition in OpenApi Specification 2.0 format to the Storage Blob.",
+                  "name": "OpenApi2"
+                },
+                {
+                  "value": "application/vnd.ms.wsdl.link+xml",
+                  "description": "Export the Api Definition in WSDL Schema to Storage Blob.",
+                  "name": "Wsdl"
+                },
+                {
+                  "value": "application/vnd.sun.wadl.link+json",
+                  "description": "Export the Api Definition in WADL Schema to Storage Blob.",
+                  "name": "Wadl"
+                }
+              ]
+            },
+            "description": "Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5 minutes."
           },
           {
-            "$ref": "#/parameters/PolicyIdParameter"
+            "name": "export",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "true"
+            ],
+            "x-ms-enum": {
+              "modelAsString": true,
+              "name": "ExportApi"
+            },
+            "description": "Query parameter required to export the API details."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -85,159 +122,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Api Operation Policy information.",
+            "description": "The response contains a stream with a full set of API metadata and includes API entity with an embedded array of operation entities.",
             "schema": {
-              "$ref": "#/definitions/PolicyContract"
-            },
-            "headers": {
-              "ETag": {
-                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
-                "type": "string"
-              }
+              "$ref": "#/definitions/ApiExportResult"
             }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      },
-      "put": {
-        "tags": [
-          "ApiOperationPolicies"
-        ],
-        "operationId": "ApiOperationPolicy_CreateOrUpdate",
-        "description": "Creates or updates policy configuration for the API Operation level.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiIdParameter"
-          },
-          {
-            "$ref": "#/parameters/OperationIdParameter"
-          },
-          {
-            "$ref": "#/parameters/PolicyIdParameter"
-          },
-          {
-            "name": "parameters",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/PolicyContract"
-            },
-            "required": true,
-            "description": "The policy contents to apply."
-          },
-          {
-            "name": "If-Match",
-            "in": "header",
-            "required": true,
-            "description": "The entity state (Etag) version of the Api Operation policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Api Operation policy configuration was successfully created.",
-            "schema": {
-              "$ref": "#/definitions/PolicyContract"
-            }
-          },
-          "200": {
-            "description": "Api Operation policy configuration of the tenant was successfully updated.",
-            "schema": {
-              "$ref": "#/definitions/PolicyContract"
-            }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      },
-      "delete": {
-        "tags": [
-          "ApiOperationPolicies"
-        ],
-        "operationId": "ApiOperationPolicy_Delete",
-        "description": "Deletes the policy configuration at the Api Operation.",
-        "x-ms-examples": {
-          "ApiManagementDeleteOperationPolicy": {
-            "parameters": {
-              "serviceName": "apimService1",
-              "resourceGroupName": "rg1",
-              "api-version": "2017-03-01",
-              "subscriptionId": "subid",
-              "apiId": "testapi",
-              "operationId": "testoperation",
-              "policyId": "policy",
-              "If-Match": "*"
-            },
-            "responses": {
-              "204": {}
-            }
-          }
-        },
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiIdParameter"
-          },
-          {
-            "$ref": "#/parameters/OperationIdParameter"
-          },
-          {
-            "name": "If-Match",
-            "in": "header",
-            "required": true,
-            "description": "The entity state (Etag) version of the Api Operation Policy to delete. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/PolicyIdParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Successfully deleted the policy configuration at the API Operation level."
           },
           "default": {
             "description": "Error response describing why the operation failed.",
@@ -256,6 +144,15 @@
     }
   },
   "definitions": {
+    "ApiExportResult": {
+      "properties": {
+        "link": {
+          "type": "string",
+          "description": "Link to the Storage Blob containing the result of the export operation. The Blob Uri is only valid for 5 minutes."
+        }
+      },
+      "description": "API Export result Blob Uri."
+    },
     "ApiCollection": {
       "properties": {
         "value": {
@@ -1022,21 +919,6 @@
       "type": "string",
       "description": "Version of the API to be used with the client request."
     },
-    "PolicyIdParameter": {
-      "name": "policyId",
-      "in": "path",
-      "required": true,
-      "type": "string",
-      "enum": [
-        "policy"
-      ],
-      "description": "The identifier of the Policy.",
-      "x-ms-enum": {
-        "modelAsString": true,
-        "name": "PolicyIdName"
-      },
-      "x-ms-parameter-location": "method"
-    },
     "ServiceNameParameter": {
       "name": "serviceName",
       "in": "path",
@@ -1054,6 +936,21 @@
       "required": true,
       "type": "string",
       "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    },
+    "PolicyIdParameter": {
+      "name": "policyId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "policy"
+      ],
+      "description": "The identifier of the Policy.",
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "PolicyIdName"
+      },
       "x-ms-parameter-location": "method"
     },
     "SkipQueryParameter": {
@@ -1077,5 +974,25 @@
       "x-ms-parameter-location": "method"
     }
   },
-  "x-internal-toc-name": "Api Operation Policy"
+  "x-internal-service-name": "API Management",
+  "x-internal-toc-name": "Api Operation Policy",
+  "x-internal-split-members": [
+    {
+      "displayName": "Create Or Update",
+      "relativePath": "ApiOperationPolicy/CreateOrUpdate"
+    },
+    {
+      "displayName": "Delete",
+      "relativePath": "ApiOperationPolicy/Delete"
+    },
+    {
+      "displayName": "Get",
+      "relativePath": "ApiOperationPolicy/Get"
+    },
+    {
+      "displayName": "List By Operation",
+      "relativePath": "ApiOperationPolicy/ListByOperation"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
 }

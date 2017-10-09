@@ -8,7 +8,7 @@ ms.topic: reference
 ms.service: mysql-database
 ms.devlang: rest-api
 service_description: Azure Database for MySQL
-ms.date: 07/25/2017
+ms.date: 07/31/2017
 ---
 
 # Azure Database for MySQL REST API
@@ -16,7 +16,8 @@ The Azure Database for MySQL REST API is available for you to create, delete, ma
 
 Azure Database for MySQL provides a managed database service for app development and deployment that allows you to stand up a MySQL database in minutes and scale on the fly - on the cloud you trust most.
 
- The following information is common to all tasks that you might do using these REST APIs:  
+The following information is common to all tasks that you might do using these REST APIs:  
+-   Use the URI `https://management.azure.com/`
 -   Replace `{api-version}` with `2017-04-30-preview`.
 -   Replace `{subscriptionId}` with your subscription identifier in the URI. This value is a GUID unique to your subscription, such as 6B29FC40-CA47-1067-B31D-00DD010662DA.  Locate the subscription ID using the [Azure portal subsciptions blade](https://portal.azure.com/#blade/Microsoft_Azure_Billing/SubscriptionsBlade).
 -   Replace `{resourceGroupName}` with the resource group. For more information, see [Using Resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
@@ -28,7 +29,7 @@ Azure Database for MySQL provides a managed database service for app development
 
 | Operation group | Description |
 |---|---|
-| [Server](~/docs-ref-autogen/mysql/Servers.json) | Creates, Updates, Delete, Get, or List servers. |
+| [Server](~/docs-ref-autogen/mysql/Servers.json) | Create, Restore, Update, Delete, Get, or List servers. |
 | [Configurations](~/docs-ref-autogen/mysql/Configurations.json) | Update, Get, and List the configuration of a server. | 
 | [Databases](~/docs-ref-autogen/mysql/Databases.json)  | Create, Delete, Get, or List databases in the server. | 
 | [Firewall Rules](~/docs-ref-autogen/mysql/FirewallRules.json) | Create, Delete, Get, or List the firewall rules in a server. |

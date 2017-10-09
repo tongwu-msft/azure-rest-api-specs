@@ -92,6 +92,9 @@ The error codes listed in the following table may be returned by an operation ag
 |TargetConditionNotMet|Precondition Failed (412)|The target condition specified using HTTP conditional header(s) is not met.|  
 |UnauthorizedBlobOverwrite|Forbidden (403)|This request is not authorized to perform blob overwrites.|
 |UnsupportedHeader|Bad Request (400)|One of the headers specified in the request is not supported.|  
+|BlobBeingRehydrated|Conflict (409)|This operation is not permitted because the blob is being rehydrated.|  
+|BlobArchived|Conflict (409)|This operation is not permitted on an archived blob.|  
+|BlobNotArchived|Conflict (409)|This blob is currently not in the archived state.|  
 
 ## See Also  
  [Common REST API Error Codes](Common-REST-API-Error-Codes.md)   

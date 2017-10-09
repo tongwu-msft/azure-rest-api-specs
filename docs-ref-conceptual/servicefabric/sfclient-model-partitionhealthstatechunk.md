@@ -1,6 +1,6 @@
 ---
 title: "PartitionHealthStateChunk"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -58,12 +58,12 @@ ____
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>
-The ID of the partition.
+The Id of the partition.
 
 ____
 ### ReplicaHealthStateChunks
 __Type__: [ReplicaHealthStateChunkList](sfclient-model-replicahealthstatechunklist.md) <br/>
 __Required__: No<br/>
 <br/>
-The list of replica health state chunks belonging to the partition that respect the filters in the cluster health chunk query description.
+The list of replica health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
 
