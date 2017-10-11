@@ -28,13 +28,41 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/{policyId}": {
-      "put": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas": {
+      "get": {
         "tags": [
-          "ApiPolicy"
+          "ApiSchema"
         ],
-        "operationId": "ApiPolicy_CreateOrUpdate",
-        "description": "Creates or updates policy configuration for the API.",
+        "operationId": "ApiSchema_ListByApi",
+        "description": "Get the schema configuration at the API level.",
+        "x-ms-examples": {
+          "ApiManagementListApiSchemas": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "apiId": "59d5b28d1f7fab116c282650"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d5b28d1f7fab116c282650/schemas/59d5b28e1f7fab116402044e",
+                      "type": "Microsoft.ApiManagement/service/apis/schemas",
+                      "name": "59d5b28e1f7fab116402044e",
+                      "properties": {
+                        "contentType": "application/vnd.ms-azure-apim.swagger.definitions+json"
+                      }
+                    }
+                  ],
+                  "nextLink": ""
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -46,25 +74,6 @@
             "$ref": "#/parameters/ApiIdParameter"
           },
           {
-            "$ref": "#/parameters/PolicyIdParameter"
-          },
-          {
-            "name": "parameters",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/PolicyContract"
-            },
-            "required": true,
-            "description": "The policy contents to apply."
-          },
-          {
-            "name": "If-Match",
-            "in": "header",
-            "required": true,
-            "description": "The entity state (Etag) version of the Api Policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
-            "type": "string"
-          },
-          {
             "$ref": "#/parameters/ApiVersionParameter"
           },
           {
@@ -72,16 +81,16 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Api policy configuration was successfully created.",
-            "schema": {
-              "$ref": "#/definitions/PolicyContract"
-            }
-          },
           "200": {
-            "description": "Api policy configuration of the tenant was successfully updated.",
+            "description": "Apis Schema Collection.",
             "schema": {
-              "$ref": "#/definitions/PolicyContract"
+              "$ref": "#/definitions/SchemaCollection"
+            },
+            "headers": {
+              "ETag": {
+                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
+                "type": "string"
+              }
             }
           },
           "default": {
@@ -91,13 +100,16 @@
             }
           }
         },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
         "produces": [
           "application/json"
         ],
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "Create Or Update"
+        "x-internal-toc-name": "List By Api"
       }
     }
   },
@@ -1116,6 +1128,6 @@
     }
   },
   "x-internal-service-name": "API Management",
-  "x-internal-toc-name": "Api Policy",
+  "x-internal-toc-name": "Api Schema",
   "x-internal-split-type": "Operation"
 }
