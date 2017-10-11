@@ -31,39 +31,30 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/firewallRules/{firewallRuleName}": {
-      "put": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DataLakeAnalytics/locations/{location}/checkNameAvailability": {
+      "post": {
         "tags": [
-          "FirewallRules"
+          "Account"
         ],
-        "operationId": "FirewallRules_CreateOrUpdate",
-        "description": "Creates or updates the specified firewall rule. During update, the firewall rule with the specified name will be replaced with this new firewall rule.",
+        "operationId": "Account_CheckNameAvailability",
+        "description": "Checks whether the specified account name is available or taken.",
         "x-ms-examples": {
-          "Creates or updates the specified firewall rule": {
+          "Checks whether the specified account name is available or taken": {
             "parameters": {
               "api-version": "2016-11-01",
               "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
-              "resourceGroupName": "contosorg",
-              "accountName": "contosoadla",
-              "firewallRuleName": "test_rule",
+              "location": "EastUS2",
               "parameters": {
-                "name": "test_rule",
-                "properties": {
-                  "startIpAddress": "1.1.1.1",
-                  "endIpAddress": "2.2.2.2"
-                }
+                "name": "contosoadla",
+                "type": "Microsoft.DataLakeAnalytics/accounts"
               }
             },
             "responses": {
               "200": {
                 "body": {
-                  "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
-                  "name": "test_rule",
-                  "type": "test_type",
-                  "properties": {
-                    "startIpAddress": "1.1.1.1",
-                    "endIpAddress": "2.2.2.2"
-                  }
+                  "nameAvailable": false,
+                  "reason": "AlreadyExists",
+                  "message": "An account named 'abc' already exists."
                 }
               }
             }
@@ -71,34 +62,20 @@
         },
         "parameters": [
           {
-            "name": "resourceGroupName",
+            "name": "location",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Azure resource group that contains the Data Lake Analytics account."
-          },
-          {
-            "name": "accountName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the Data Lake Analytics account to add or replace the firewall rule."
-          },
-          {
-            "name": "firewallRuleName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the firewall rule to create or update."
+            "description": "The Resource location without whitespace."
           },
           {
             "name": "parameters",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/FirewallRule"
+              "$ref": "#/definitions/CheckNameAvailabilityParameters"
             },
-            "description": "Parameters supplied to create or update the firewall rule."
+            "description": "Parameters supplied to check the Data Lake Analytics account name availability."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -109,9 +86,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully created or updated the specified firewall rule",
+            "description": "Successfully retrieved the Data Lake Analytics account name availability information.",
             "schema": {
-              "$ref": "#/definitions/FirewallRule"
+              "$ref": "#/definitions/NameAvailabilityInformation"
             }
           }
         },
@@ -121,7 +98,7 @@
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "Create Or Update"
+        "x-internal-toc-name": "Check Name Availability"
       }
     }
   },
@@ -1195,6 +1172,6 @@
     }
   },
   "x-internal-service-name": "Data Lake Analytics",
-  "x-internal-toc-name": "Firewall Rules",
+  "x-internal-toc-name": "Account",
   "x-internal-split-type": "Operation"
 }
