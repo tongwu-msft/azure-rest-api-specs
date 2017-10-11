@@ -1344,6 +1344,7 @@
 ### [Cancel a job](../docs-ref-conceptual/datalakeanalytics/cancel-a-job1.md)
 ## Reference
 ### [Account](datalakeanalytics/Account.json)
+#### [Check Name Availability](datalakeanalytics/Account/CheckNameAvailability.json)
 #### [Create](datalakeanalytics/Account/Create.json)
 #### [Delete](datalakeanalytics/Account/Delete.json)
 #### [Get](datalakeanalytics/Account/Get.json)
@@ -1367,6 +1368,8 @@
 #### [Get](datalakeanalytics/FirewallRules/Get.json)
 #### [List By Account](datalakeanalytics/FirewallRules/ListByAccount.json)
 #### [Update](datalakeanalytics/FirewallRules/Update.json)
+### [Locations](datalakeanalytics/Locations.json)
+### [Operations](datalakeanalytics/Operations.json)
 ### [Storage Accounts](datalakeanalytics/StorageAccounts.json)
 #### [Add](datalakeanalytics/StorageAccounts/Add.json)
 #### [Delete](datalakeanalytics/StorageAccounts/Delete.json)
@@ -1380,6 +1383,7 @@
 ## [WebHDFS Support](../docs-ref-conceptual/datalakestore/webhdfs-filesystem-apis.md)
 ## Reference
 ### [Account](datalakestore/Account.json)
+#### [Check Name Availability](datalakestore/Account/CheckNameAvailability.json)
 #### [Create](datalakestore/Account/Create.json)
 #### [Delete](datalakestore/Account/Delete.json)
 #### [Enable Key Vault](datalakestore/Account/EnableKeyVault.json)
@@ -1393,6 +1397,8 @@
 #### [Get](datalakestore/FirewallRules/Get.json)
 #### [List By Account](datalakestore/FirewallRules/ListByAccount.json)
 #### [Update](datalakestore/FirewallRules/Update.json)
+### [Locations](datalakestore/Locations.json)
+### [Operations](datalakestore/Operations.json)
 ### [Trusted Id Providers](datalakestore/TrustedIdProviders.json)
 #### [Create Or Update](datalakestore/TrustedIdProviders/CreateOrUpdate.json)
 #### [Delete](datalakestore/TrustedIdProviders/Delete.json)

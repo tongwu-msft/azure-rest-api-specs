@@ -31,40 +31,41 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/enableKeyVault": {
-      "post": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DataLakeStore/locations/{location}/capability": {
+      "get": {
         "tags": [
-          "Account"
+          "Locations"
         ],
-        "operationId": "Account_EnableKeyVault",
-        "description": "Attempts to enable a user managed Key Vault for encryption of the specified Data Lake Store account.",
+        "operationId": "Locations_GetCapability",
+        "description": "Gets subscription-level properties and limits for Data Lake Store specified by Resource location.",
         "x-ms-examples": {
-          "Attempts to enable a user managed Key Vault for encryption of the specified Data Lake Store account": {
+          "Gets subscription-level properties and limits for Data Lake Store specified by Resource location": {
             "parameters": {
               "api-version": "2016-11-01",
               "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
-              "resourceGroupName": "contosorg",
-              "accountName": "contosoadla"
+              "location": "EastUS2"
             },
             "responses": {
-              "200": {}
+              "200": {
+                "body": {
+                  "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+                  "state": "Registered",
+                  "maxAccountCount": 150,
+                  "accountCount": 100,
+                  "migrationState": false
+                }
+              },
+              "404": {}
             }
           }
         },
         "parameters": [
           {
-            "name": "resourceGroupName",
+            "name": "location",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The name of the Azure resource group that contains the Data Lake Store account."
-          },
-          {
-            "name": "accountName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the Data Lake Store account to attempt to enable the Key Vault for."
+            "description": "The Resource location without whitespace."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -75,7 +76,13 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully enabled the user-managed Key Vault settings used for encrypting this Data Lake Store account."
+            "description": "Successfully retrieved the subscription-level properties and limits for Data Lake Store specified by Resource location.",
+            "schema": {
+              "$ref": "#/definitions/CapabilityInformation"
+            }
+          },
+          "404": {
+            "description": "Subscription not found."
           }
         },
         "produces": [
@@ -83,8 +90,7 @@
         ],
         "consumes": [
           "application/json"
-        ],
-        "x-internal-toc-name": "Enable Key Vault"
+        ]
       }
     }
   },
@@ -900,6 +906,5 @@
     }
   },
   "x-internal-service-name": "Data Lake Store",
-  "x-internal-toc-name": "Account",
-  "x-internal-split-type": "Operation"
+  "x-internal-toc-name": "Locations"
 }
