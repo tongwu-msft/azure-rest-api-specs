@@ -19,19 +19,31 @@ manager: "timlt"
 
  To specify which version of an operation to use, specify the *api-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY-MM-DD’ and Major is an integer and Minor is an integer.
 
-## Latest version: 2017-06-01.5.1
 
-The version of the Batch API described here is **2017-06-01.5.1**. Using the latest version is recommended when possible.
 
-New features in version 2017-06-01.5.1 include:
+## Latest version: 2017-09-01.6.0
 
-- Support for efficient task counts via the new [Get Task Counts](../batchservice/get-the-task-counts-for-a-job.md) operation. By calling the Get Task Counts operation, you can get a count of active, running, and completed tasks, and of tasks that have succeeded or failed. For more information, see [Count tasks for a job by state (Preview)](https://docs.microsoft.com/azure/batch/batch-get-task-counts).
-- Support for specifying inbound endpoints on pool compute nodes, via the new **poolEndpointConfiguration** property. By setting this property, you can address specific ports on the node externally.
+- Azure Hybrid Use Benefit: You can now create Batch Windows VM pools specifying that Azure Hybrid Use Benefit licensing be used. When this licensing is used, a discount is applied to the VM price. Use the new **LicenseType** property on [VirtualMachineConfiguration][1].
+
+- Pool VM data disks: You can attach one or more empty data disks to VM pools by using the new data disk configuration that is part of the virtual machine configuration Use the **DataDisks** property on [VirtualMachineConfiguration][1].
+
+- (**Breaking change**) Custom images are now created and deployed using ARM image resources instead of blob VHD files. Batch now uses managed disks to create the pool VMs and therefore uses an **Image** resource. There is now no limit to the number of VMs in a pool created using a custom image; also, multiple copies of the VHD blob for large pools are no longer required. Custom image pools are therefore much easier to create and scale. For more information, see [Use a custom image to create a pool of virtual machines](https://docs.microsoft.com/en-us/azure/batch/batch-custom-images).
+
+  - The new **VirtualMachineImageId** property on [ImageReference][2] contains the reference to the ARM Image, and **OSDisk.ImageUris** no longer exists.
+
+  - Because of this change, [ImageReference][2] is now a required property of [VirtualMachineConfiguration][1].
+
+- (**Breaking change**) Multi-instance tasks (created using [MultiInstanceSettings](https://docs.microsoft.com/en-us/rest/api/batchservice/task/add#definitions_multiinstancesettings)) must now specify **CoordinationCommandLine**, and **NumberOfInstances** is now optional and defaults to 1.
+
+- Added support for tasks run using Docker containers. To run a task using a Docker container, you must specify a **ContainerConfiguration** on the [VirtualMachineConfiguration][1] for a pool, and then add [TaskContainerSettings](https://docs.microsoft.com/en-us/rest/api/batchservice/task/add#definitions_taskcontainersettings) on the **Task**.
+
+
 
 ## Previous Versions
  
  Previous versions include:
 
+- [2017-06-01.5.1](#version-2017060151)
 - [2017-05-01.5.0](#version-2017050150)
 - [2017-01-01.4.0](#version-2017010140)
 - [2016-07-01.3.1](#version-2016070131)
@@ -42,6 +54,15 @@ New features in version 2017-06-01.5.1 include:
 - 2015-03-01.1.1
 - 2014-10-01.1.0
 
+
+### Version 2017-06-01.5.1
+
+The version of the Batch API described here is **2017-06-01.5.1**. Using the latest version is recommended when possible.
+
+New features in version 2017-06-01.5.1 include:
+
+- Support for efficient task counts via the new [Get Task Counts](../batchservice/get-the-task-counts-for-a-job.md) operation. By calling the Get Task Counts operation, you can get a count of active, running, and completed tasks, and of tasks that have succeeded or failed. For more information, see [Count tasks for a job by state (Preview)](https://docs.microsoft.com/azure/batch/batch-get-task-counts).
+- Support for specifying inbound endpoints on pool compute nodes, via the new **poolEndpointConfiguration** property. By setting this property, you can address specific ports on the node externally.
 
 
 ### Version 2017-05-01.5.0
@@ -292,3 +313,7 @@ You can now request that application licenses be provisioned to your pool, via t
 
     -   A new property ‘taskRootDirectory’ is added to ‘jobPreparationTaskExecutionInfo’ and ‘jobReleaseTaskExecutionInfo’ which can be obtained via List the status of the job preparation and job release tasks for a job API.
 
+
+<!--Reference links in article-->
+[1]: https://docs.microsoft.com/en-us/rest/api/batchservice/Pool/Add#definitions_virtualmachineconfiguration
+[2]: https://docs.microsoft.com/en-us/rest/api/batchservice/Pool/Add#definitions_imagereference
