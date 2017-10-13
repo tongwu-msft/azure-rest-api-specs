@@ -40,7 +40,7 @@ Retrieves a messaging entity.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specifies a WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to **WRAP access_token=”{swt}”**.|  
+|Authorization|Specifies a Shared Access Signature (SAS) token with "Manage" rights. See [Service Bus authentication with Shared Access Signatures](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas) for details.|  
   
 ### Request Body  
  None.  
@@ -66,7 +66,7 @@ Retrieves a messaging entity.
 |**Content-type**|Content-Type: application/atom+xml; type=entry|  
   
 ### Response Body  
- Upon success, a validated Atom entry is returned. For example:  
+ Upon success, a valid Atom entry is returned. For example:  
   
 ```xml  
 <?xml version="1.0" encoding="utf-8" ?>  
@@ -80,3 +80,5 @@ Retrieves a messaging entity.
   </content>  
 </entry>  
 ```
+
+For the content of the {description} element, see [Overview](overview.md).

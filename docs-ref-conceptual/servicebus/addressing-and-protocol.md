@@ -40,9 +40,6 @@ https://{serviceNamespace}.servicebus.Windows.net/{path}
  [Overview](overview.md)  
  Provides overview of the simplified REST API sets for managing entities.  
   
- [Rule](rule.md)  
- Describes the rule of a topic subscription.  
-  
  [Get Entity](get-entity.md)  
  Retrieves a messaging entity.  
   
@@ -55,11 +52,8 @@ https://{serviceNamespace}.servicebus.Windows.net/{path}
  [Enumeration](enumeration.md)  
  List all messaging entities of certain kind in a flat view.  
   
- [Query Strings](query-strings.md)  
- Performs query string operations for passing data to web applications.  
-  
- [Update Entity](update-entity.md)  
- Updates messaging entities.  
+ [Create and update Entity](update-entity.md)  
+ Creates and updates messaging entities.  
   
 ## Related Sections  
  [REST vs. .NET Client Support](rest-dotnet-client-support.md)  
