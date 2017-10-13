@@ -173,7 +173,7 @@ Defines a list of relevant webpage links.
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|<a name="totalestimatedmatches" />totalEstimatedMatches|The estimated number of webpages that are relevant to the query. Use this number along with the [count](#count) and [offset](#offset) query parameters to page through the results. For information, see [Paging Results](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search-search/paging-results).|Long|  
+|<a name="totalestimatedmatches" />totalEstimatedMatches|The estimated number of webpages that are relevant to the query. Use this number along with the [count](#count) and [offset](#offset) query parameters to page through the results. For information, see [Paging Results](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/page-webpages).|Long|  
 |<a name="webanswer-value" />value|A list of webpages that are relevant to the query.|[WebPage](#webpage)[]|  
 |<a name="webanswer-websearchurl" />webSearchUrl|The URL to the Bing website that contains the search results for the user's query. The results include content that is not limited to your custom view of the web, and may include other types of content such as images and videos. |String|  
   
