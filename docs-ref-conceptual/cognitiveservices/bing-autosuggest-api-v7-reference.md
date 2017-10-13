@@ -13,10 +13,7 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# Autosuggest API v7 Preview reference
-
-> [!NOTE]
-> Preview release of the Autosuggest API. All aspects of the API and documentation are subject to change. 
+# Autosuggest API v7 reference
 
 The Autosuggest API lets you send a partial search query term to Bing and get back a list of suggested queries that other users have searched on. In addition to including searches made by others, the list may include suggestions based on user intent.  
 
