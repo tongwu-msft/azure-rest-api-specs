@@ -1044,25 +1044,27 @@
 ### [Update](cdn/Profiles/Update.json)
 # [Cognitive Services](../docs-ref-conceptual/cognitiveservices/index.md)
 ## Bing Autosuggest API
+### [Bing Autosuggest API v7](../docs-ref-conceptual/cognitiveservices/bing-autosuggest-api-v7-reference.md)
 ### [Bing Autosuggest API v5](../docs-ref-conceptual/cognitiveservices/bing-autosuggest-api-v5-reference.md)
-### [Bing Autosuggest API v7 Preview](../docs-ref-conceptual/cognitiveservices/bing-autosuggest-api-v7-reference.md)
+## Bing Custom Search API
+### [Bing Custom Search API v7](../docs-ref-conceptual/cognitiveservices/bing-custom-search-api-v7-reference.md)
 ## Bing Entities Search API
-### [Bing Entities Search API v7 Preview](../docs-ref-conceptual/cognitiveservices/bing-entities-api-v7-reference.md)
+### [Bing Entities Search API v7](../docs-ref-conceptual/cognitiveservices/bing-entities-api-v7-reference.md)
 ## Bing Image Search API
+### [Bing Image Search API v7](../docs-ref-conceptual/cognitiveservices/bing-images-api-v7-reference.md)
 ### [Bing Image Search API v5](../docs-ref-conceptual/cognitiveservices/bing-images-api-v5-reference.md)
-### [Bing Image Search API v7 Preview](../docs-ref-conceptual/cognitiveservices/bing-images-api-v7-reference.md)
 ## Bing News Search API
+### [Bing News Search API v7](../docs-ref-conceptual/cognitiveservices/bing-news-api-v7-reference.md)
 ### [Bing News Search API v5](../docs-ref-conceptual/cognitiveservices/bing-news-api-v5-reference.md)
-### [Bing News Search API v7 Preview](../docs-ref-conceptual/cognitiveservices/bing-news-api-v7-reference.md)
 ## Bing Spell Check API
+### [Bing Spell Check API v7](../docs-ref-conceptual/cognitiveservices/bing-spell-check-api-v7-reference.md)
 ### [Bing Spell Check API v5](../docs-ref-conceptual/cognitiveservices/bing-spell-check-api-v5-reference.md)
-### [Bing Spell Check API v7 Preview](../docs-ref-conceptual/cognitiveservices/bing-spell-check-api-v7-reference.md)
 ## Bing Video Search API
+### [Bing Video Search API v7](../docs-ref-conceptual/cognitiveservices/bing-video-api-v7-reference.md)
 ### [Bing Video Search API v5](../docs-ref-conceptual/cognitiveservices/bing-video-api-v5-reference.md)
-### [Bing Video Search API v7 Preview](../docs-ref-conceptual/cognitiveservices/bing-video-api-v7-reference.md)
 ## Bing Web Search API
+### [Bing Web Search API v7](../docs-ref-conceptual/cognitiveservices/bing-web-api-v7-reference.md)
 ### [Bing Web Search API v5](../docs-ref-conceptual/cognitiveservices/bing-web-api-v5-reference.md)
-### [Bing Web Search API v7 Preview](../docs-ref-conceptual/cognitiveservices/bing-web-api-v7-reference.md)
 ## Reference
 ### [Cognitive Services Accounts](cognitiveservices/CognitiveServicesAccounts.json)
 #### [Create](cognitiveservices/CognitiveServicesAccounts/Create.json)
