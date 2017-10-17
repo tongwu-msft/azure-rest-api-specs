@@ -26,14 +26,17 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Service Bus Namespace Access
-A service namespace is a hierarchical namespace under which an entity can be created and mapped to any arbitrary depth of names at leaf node. It is considered the base address of all entities and features created under this namespace. In example address below, the bold section is considered the namespace address, which is used to set or get the full path of entities or features of these entities. All top level entities, such as `Queue` and `Topic` are addressed by this scheme.  
-  
+
+A service namespace is a hierarchical graph in which entities can be created. The example below shows an exemplary namespace address. The host-name portion reflects the unique name
+of the namespace in DNS based on teh unique name chosen at creation time. The path section identifies the entity. All top-level Service Bus entities, such as `Queue` and `Topic` are addressed by this scheme.  
+
 ```  
-  
-https://{serviceNamespace}.servicebus.Windows.net/{path}  
+https://{serviceNamespace}.servicebus.windows.net/{path}  
 ```  
-  
- You can specify `{path}` at any depth. For example, /test, /test/test2, or /test/test2/test3. Note that the maximum length of an entity name is 290 characters.  
+The `*.servicebus.windows.net` suffix applies to all namespaces created in the public Azure cloud. Special environments use different suffixes. The separately operated German Azure cloud uses `*.servicebus.cloudapi.de`, for instance. 
+
+The `{path}` is a segmented expression with the forward-slash ('/') as the segment separator for example, /test, /test/test2, or /test/test2/test3. Multiple entities can share the same 
+prefix segments, allowing formation of hierarchies. The maximum length of an entity name is 290 characters.  
   
 ## In This Section  
 
@@ -52,7 +55,7 @@ https://{serviceNamespace}.servicebus.Windows.net/{path}
  [Enumeration](enumeration.md)  
  List all messaging entities of certain kind in a flat view.  
   
- [Create and update Entity](update-entity.md)  
+ [Create and Update Entity](update-entity.md)  
  Creates and updates messaging entities.  
   
 ## Related Sections  

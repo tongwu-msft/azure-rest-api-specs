@@ -33,7 +33,7 @@ Retrieves a messaging entity.
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://{serviceNamespace}.servicebus.Windows.net[:{port}]/{path}|HTTP/1.1|  
+|GET|https://{serviceNamespace}.servicebus.windows.net[:{port}]/{path}|HTTP/1.1|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  
