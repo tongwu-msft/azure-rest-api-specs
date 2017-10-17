@@ -75,7 +75,7 @@ A queue, for instance, is described with a ```QueueDescription``` element. The X
 </entry>  
 ```
 
-See [Overview](overview.md) for more details on entities and how they relate to paths.
+See the [Overview](overview.md) for more details on entities and how they relate to paths.
   
 ## Response  
  The response includes an HTTP status code and a set of response headers.  
