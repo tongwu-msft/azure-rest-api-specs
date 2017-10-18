@@ -37,3 +37,35 @@ The simplified REST API sets for managing entities are as follows:
 -   “DELETE” against any occupied node is a delete operation.  
   
 -   “DELETE” against any unoccupied node is ignored and returns success.
+
+## Entity Descriptions 
+
+A queue is described with a ```QueueDescription``` element. The detail schema for the 
+element can be directly inferred from the [QueueDescription](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.queuedescription) .NET Framework class. The XML payload for creating or updating a queue therefore may take the following form, whereby all omitted properties assume their default values:
+
+```xml  
+<?xml version="1.0" encoding="utf-8" ?>  
+<entry xmlns="http://www.w3.org/2005/Atom">  
+  <content type="application/xml">  
+    <QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+       <LockDuration>T1M</LockDuration>
+    </QueueDescription>
+  </content>  
+</entry>  
+```
+
+Topics are described with  ```<TopicDescription>``` element. The detail schema for the 
+element can be directly inferred from the [TopicDescription](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.topicdescription) .NET Framework class.
+
+Subscriptions are described with the ```<SubscriptionDescription>``` element. The detail schema for the 
+element can be directly inferred from the [SubscriptionDescription](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.subscriptiondescription) .NET Framework class. 
+
+Subscriptions are subordinates of Topics and must therefore be created 
+within the "subscriptions" collection of an existing topic. If the entity path of the topic is ```https://{serviceNamespace}.servicebus.windows.net/{topic-name}```, the correct path for creating a new subscription is ```https://{serviceNamespace}.servicebus.windows.net/{topic-name}/subscriptions/{subscription-name}```. Subscription names can't have multiple segments. 
+
+
+Rules are described with the ```<RuleDescription>``` element. The detail schema for the 
+element can be directly inferred from the [RuleDescription](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.ruledescription) .NET Framework class. 
+
+Rules are subordinates of topic subscriptions and must therefore be created 
+within the "rules" collection of an existing topic subscription. If the entity path of the topic subscription is ```https://{serviceNamespace}.servicebus.windows.net/{topic-name}/subscriptions/{subscription-name}```, the correct path for creating a new rule is ```https://{serviceNamespace}.servicebus.windows.net/{topic-name}/subscriptions/{subscription-name}/rules/{rule-name}```. Subscription names can't have multiple segments. 

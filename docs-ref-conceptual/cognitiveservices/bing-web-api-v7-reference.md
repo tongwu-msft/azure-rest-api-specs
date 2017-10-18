@@ -13,12 +13,9 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# Web Search API v7 Preview reference
+# Web Search API v7 reference
 
-> [!NOTE]
-> Preview release of the Web Search API. All aspects of the API and documentation are subject to change. 
-
-The Web Search API lets you send a search query to Bing and get back search results that include links to webpages, images, and more. This section provides technical details about the webpages, related searches, and ranking results in addition to the query parameters that affect the search results. For examples that show how to make requests, see [Searching the web](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/search-the-web) 
+The Web Search API lets you send a search query to Bing and get back search results that include links to webpages, images, and more. This section provides technical details about the webpages, related searches, and ranking results in addition to the query parameters that affect the search results. For examples that show how to make requests, see [Search the web](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/search-the-web). 
   
 For information about headers that requests should include, see [Request Headers](#headers).  
   
@@ -76,7 +73,7 @@ The following are the query parameters that the request may include. The Require
 |<a name="offset" />offset|The zero-based offset that indicates the number of search results to skip before returning results. The default is 0. The offset should be less than ([totalEstimatedMatches](#totalmatches) - `count`).<br /><br /> Use this parameter along with the `count` parameter to page results. For example, if your user interface displays 10 search results per page, set `count` to 10 and `offset` to 0 to get the first page of results. For each subsequent page, increment `offset` by 10 (for example, 0, 10, 20). it is possible for multiple pages to include some overlap in results.|Unsigned Short|No|  
 |<a name="promote" />promote|A comma-delimited list of answers that you want the response to include regardless of their ranking. For example, if you set [answerCount](#answercount)) to two (2) so Bing returns the top two ranked answers, but you also want the response to include news, you'd set `promote` to news. If the top ranked answers are webpages, images, videos, and relatedSearches, the response includes webpages and images because news is not a ranked answer. But if you set `promote` to video, Bing would promote the video answer into the response and return webpages, images, and videos.<br /><br /> The answers that you want to promote do not count against the `answerCount` limit. For example, if the ranked answers are news, images, and videos, and you set `answerCount` to 1 and `promote` to news, the response contains news and images. Or, if the ranked answers are videos, images, and news, the response contains videos and news.<br /><br /> The following are the possible values.<br /><ul><li>Computation</li><li>Images</li><li>News</li><li>RelatedSearches</li><li>SpellSuggestions</li><li>TimeZone</li><li>Videos</li><li>Webpages</li></ul><br />**NOTE:** Use only if you specify [answerCount](#answercount).|String|No 
 |<a name="query" />q|The user's search query term. The term may not be empty.<br /><br /> The term may contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). For example, to limit results to a specific domain, use the [site:](http://msdn.microsoft.com/library/ff795613.aspx) operator.|String|Yes|  
-|<a name="responsefilter" />responseFilter|A comma-delimited list of answers to include in the response. If you do not specify this parameter, the response includes all search answers for which there's relevant data.<br /><br /> The following are the possible filter values.<br /><ul><li>Computation</li><li>Images</li><li>News</li><li>RelatedSearches</li><li>SpellSuggestions</li><li>TimeZone</li><li>Videos</li><li>Webpages</li></ul><br /> Although you may use this filter to get a single answer, you should instead use the answer-specific endpoint in order to get richer results. For example, to receive only images, send the request to one of the [Image Search API](./bing-images-api-v7-reference.md) endpoints.<br /><br /> The RelatedSearches and SpellSuggestions answers do not support a separate endpoint like the Image Search API does (only the Web Search API returns them).<br /><br /> To include answers that would otherwise be excluded because of ranking, see the [promote](#promote) query parameter.|String|No|  
+|<a name="responsefilter" />responseFilter|A comma-delimited list of answers to include in the response. If you do not specify this parameter, the response includes all search answers for which there's relevant data.<br /><br /> The following are the possible filter values.<br /><ul><li>Computation</li><li>Entities</li><li>Images</li><li>News</li><li>RelatedSearches</li><li>SpellSuggestions</li><li>TimeZone</li><li>Translation</li><li>Videos</li><li>Webpages</li></ul><br /> Although you may use this filter to get a single answer, you should instead use the answer-specific endpoint in order to get richer results. For example, to receive only images, send the request to one of the [Image Search API](./bing-images-api-v7-reference.md) endpoints.<br /><br /> The RelatedSearches and SpellSuggestions answers do not support a separate endpoint like the Image Search API does (only the Web Search API returns them).<br /><br /> To include answers that would otherwise be excluded because of ranking, see the [promote](#promote) query parameter.|String|No|  
 |<a name="safesearch" />safeSearch|A filter used to filter webpages for adult content. The following are the possible filter values.<br /><ul><li>Off&mdash;Return webpages with adult text, images, or videos.<br /><br/></li><li>Moderate&mdash;Return webpages with adult text, but not adult images or videos.<br /><br/></li><li>Strict&mdash;Do not return webpages with adult text, images, or videos.</li></ul><br /> The default is Moderate.<br /><br /> **NOTE:** If the request comes from a market that Bing's adult policy requires that `safeSearch` is set to Strict, Bing ignores the `safeSearch` value and uses Strict.<br/><br/>**NOTE:** If you use the `site:` query operator, there is the chance that the response may contain adult content regardless of what the `safeSearch` query parameter is set to. Use `site:` only if you are aware of the content on the site and your scenario supports the possibility of adult content. |String|No|  
 |<a name="setlang" />setLang|The language to use for user interface strings. Specify the language using the ISO 639-1 2-letter language code. For example, the language code for English is EN. The default is EN (English).<br /><br /> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br /> This parameter and the [Accept-Language](#acceptlanguage) header are mutually exclusive&mdash;do not specify both.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
 |<a name="textdecorations" />textDecorations|A Boolean value that determines whether display strings should contain decoration markers such as hit highlighting characters. If **true**, the strings may include markers. The default is **false**.<br /><br /> To specify whether to use Unicode characters or HTML tags as the markers, see the [textFormat](#textformat) query parameter.<br /><br /> For information about hit highlighting, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/hit-highlighting).|Boolean|No|  
@@ -90,10 +87,16 @@ This list contains JSON objects that are specific to web answers. For details ab
   
 |Object|Description|  
 |------------|-----------------|  
-|[Computation](#computation)|Defines an expression and its answer.|  
+|[Attribution](#attribution)|Defines the publisher that the content is attributed to.|
+|[Computation](#computation)|Defines an expression and its answer.|
+|[Conversation](#conversatoin)|Defines the speech text for an answer.|
+|[Entity](#entity)|Defines an entity such as a person, place, or thing.|  
 |[Error](#error)|Defines an error that occurred.|  
 |[ErrorResponse](#errorresponse)|The top-level object that the response includes when the request fails.|  
 |[Identifiable](#identifiable)|Defines a resource ID.|  
+|[LicenseAttribution](#licenseattribution)|Defines a contractual rule for license attribution.| 
+|[LinkAttribution](#linkattribution)|Defines a contractual rule for link attribution.|
+|[MediaAttribution](#mediaattribution)|Defines a contractual rule for media attribution.|
 |[Query](#query_obj)|Defines a query string.|  
 |[QueryContext](#querycontext)|Defines the query context that Bing used for the request, if the specified query string contains a spelling error.|  
 |[RankingGroup](#rankinggroup)|Defines a search results group, such as mainline.|  
@@ -101,12 +104,65 @@ This list contains JSON objects that are specific to web answers. For details ab
 |[RankingResponse](#rankingresponse)|Defines where on the search results page content should be placed and in what order.|  
 |[RelatedSearchAnswer](#relatedsearchanswer)|Defines a list of related queries made by others.|  
 |[SearchResponse](#searchresponse)|The top-level object that the response includes when the request succeeds.|  
-|[SpellSuggestions](#spellsuggestions)|Defines a suggested query string that likely represents the user's intent.|  
+|[SpellSuggestions](#spellsuggestions)|Defines a suggested query string that likely represents the user's intent.| 
+|[TextAttribution](#textattribution)|Defines a contractual rule for plain text attribution.|   
 |[TimeZone](#timezone)|Defines the date and time of one or more geographic locations.|  
-|[TimeZoneInformation](#timezoneinfo)|Defines the time zone information about a geographical location.|  
+|[TimeZoneInformation](#timezoneinfo)|Defines the time zone information about a geographical location.|
+|[Translation](#translation)|Defines the translation of text from one language to another.|
 |[WebAnswer](#webanswer)|Defines a list of relevant webpage links.|  
 |[Webpage](#webpage)|Defines a webpage that is relevant to the query.|  
+
+<a name="attribution"></a>   
+### Attribution  
+Defines the publisher that the content is attributed to.  
   
+The attribution may be in the form of copyright message, formatted notice, or license.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|<a name="copyrightmessage" />copyrightMessage|The copyright message.|String|  
+|<a name="formattednotice" />formattedNotice|A list of components that you use to create the attribution notice. The list may include one or more of the following objects:<br /><br />&nbsp;&nbsp;* [Item](#item)<br />&nbsp;&nbsp;& [Link](#link)<br /><br /> To create the notice, concatenate each element of the list into a string, remembering to include spaces between each element.|Object[]|  
+|<a name="isoptional" />isOptional|A Boolean value that determines whether you must attribute the content to the provider. If **true**, attributing the content is optional; otherwise, if **false** (or if this field is not present), you must attribute the content to the provider.|Boolean|  
+|<a name="license" />license|The license under which the content may be used.|[License](#license)|  
+|<a name="licensenotice" />licenseNotice|The display text to use for the license in the user interface.|String|  
+|provider|The publisher that the content is attributed to. The object includes a URL to the content on the publisher's website.|[Organization](#organization)|  
+|providerDisplayName|The provider's name that you use to attribute the content to. If this field is not present, use the name included in the `Organization` object (see the `provider` field).|String|  
+|<a name="seemoreurl" />seeMoreUrl|The URL to the data on the publisher's website.<br /><br /> Use this URL along with the text in the  `seeMoreDisplayUrl` field to create a hyperlink that when clicked takes the user to the data on the publisher's website.|String|  
+|seeMoreDisplayUrl|The display text to use with the URL in the `seeMoreUrl` field to create a hyperlink.|String|    
+
+<a name="entity"></a>  
+### Entity  
+Defines an entity such as a person, place, or thing.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|
+|bingId|An ID that uniquely identifies this entity.|String  
+|contractualRules|A list of rules that you must adhere to if you display the entity. For example, the rules may govern attributing the entity's description.<br /><br /> The following contractual rules may apply.<br /><br /><ul><li>[LicenseAttribution](#licenseattribution)</li><li>[LinkAttribution](#linkattribution)</li><li>[MediaAttribution](#mediaattribution)</li><li>[TextAttribution](#textattribution)</li></ul><br /> Not all entities include rules. If the entity provides contractual rules, you must abide by them. For more information about using contractual rules, see [Attributing Data](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/search-the-web#data-attribution).|Object[]|  
+|description|A short description of the entity.|String|  
+|entityPresentationInfo|Additional information about the entity such as hints that you can use to determine the entity's type. To determine the entity's type, use the `entityScenario` and `entityTypeHint` fields. For example, the fields help you determine whether the entity is a dominant or disambiguation entity and whether it's a person or movie. The entity is a dominant entity if Bing believes that only one entity satisfies the request. If multiple entities could satisfy the request, the entity is a disambiguation entity and the user needs to select the entity they're interested in. |[EntityPresentationInfo](#entitypresentationinfo)|  
+|image|An image of the entity.|[Image](#image)|  
+|name|The entity's name.|String|  
+|webSearchUrl|The URL that takes the user to the Bing search results page for this entity.|String|  
+  
+<a name="entityanswer"></a>  
+### EntityAnswer  
+Defines an entity answer.
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|queryScenario|The supported query scenario. This field is set to DominantEntity or DisambiguationItem. The field is set to DominantEntity if Bing determines that only a single entity satisfies the request. For example, a book, movie, person, or attraction. If multiple entities could satisfy the request, the field is set to DisambiguationItem. For example, if the request uses the generic title of a movie franchise, the entity's type would likely be DisambiguationItem. But, if the request specifies a specific title from the franchise, the entity's type would likely be DominantEntity.|String|  
+|value|A list of entities.|Entity[]|    
+
+<a name="entitypresentationinfo"></a>
+### EntityPresentationInfo  
+Defines additional information about an entity such as type hints. 
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|entityScenario|The supported scenario. |String|  
+|entityTypeDisplayHint|A display version of the entity hint. For example, if  `entityTypeHints` is Artist, this field may be set to *American Singer*.|String|  
+|entityTypeHint|A list of hints that indicate the entity's type. The list could contain a single hint such as Movie or a list of hints such as Place, LocalBusiness, Restaurant. Each successive hint in the array narrows the entity's type.<br /><br /> For a list of possible types, see [Entity Types](#entity-types). If the object does not include this field, Generic is assumed.|String[]|  
+
 <a name="computation"></a>   
 ### Computation  
 Defines an expression and its answer.  
@@ -115,6 +171,16 @@ Defines an expression and its answer.
 |-------------|-----------------|----------|  
 |<a name="computation-expression" />expression|The math or conversion expression.<br /><br /> If the query contains a request to convert units of measure (for example, meters to feet), this field contains the *from* units and `value` contains the *to* units.<br /><br /> If the query contains a mathematical expression such as 2+2, this field contains the expression and `value` contains the answer.<br /><br /> Note that mathematical expressions may be normalized. For example, if the query was sqrt(4^2+8^2), the normalized expression may be sqrt((4^2)+(8^2)).<br /><br /> If the user's query is a math question and the [textDecorations](#textdecorations) query parameter is set to **true**, the expression string may include formatting markers. For example, if the user's query is *log(2)*, the normalized expression includes the subscript markers. For more information, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/hit-highlighting).|String|  
 |<a name="computation-value" />value|The expression's answer.|String|  
+
+<a name="conversation"></a>   
+### Conversation  
+Defines the synthetic speech text of an answer.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|diplayText|An introduction to the answer's spoken text. For example, for the Weather answer, the introduction may be, "Here's the current weather."|String|  
+|spokenSSML|A [Speech Synthesis Markup Language](https://www.w3.org/TR/speech-synthesis/) string that contains the synthetic speech that your synthesis-capable application can use to verbalize the answer to the user.|String|  
+|spokenText|The speech text from `spokenSSML'. For example, "Right now, it's cloudy and 61 in Kent, and today's forecast shows partly sunny skies with a high of 66 and a low of 54."|String|  
   
 <a name="error"></a>   
 ### Error  
@@ -145,7 +211,58 @@ Defines the identity of a resource.
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |id|An identifier.|String|  
+
+<a name="image"></a>
+### Image  
+Defines an image.  
   
+> [!NOTE]
+> Because the URL format and parameters are subject to change without notice, all image URLs should be used as-is; you should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resizing and Cropping Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/resize-and-crop-thumbnails).  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|height|The height of the source image, in pixels.|Unsigned Short|  
+|hostPageUrl|The URL of the webpage that includes the image.<br /><br /> This URL and `contentUrl` may be the same URL.|String|  
+|name|An optional text string that contains random information about the image.|String|  
+|provider|The source of the image. The array will contain a single item.<br /><br /> You must attribute the image to the provider. For example, you may display the provider's name as the cursor hovers over the image or make the image a click-through link to the provider's website where the image is found.|[Organization](#organization)[]|  
+|thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/resize-and-crop-thumbnails).|String|  
+|width|The width of the source image, in pixels.|Unsigned Short|  
+
+<a name="licenseattribution"></a> 
+### LicenseAttribution  
+Defines a contractual rule for license attribution.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|_type|A type hint, which is set to LicenseAttribution.|String|  
+|license|The license under which the content may be used.|[License](#license)|  
+|licenseNotice|The license to display next to the targeted field. For example, "Text under CC-BY-SA license".<br /><br /> Use the license's name and URL in the `license` field to create a hyperlink to the website that describes the details of the license. Then, replace the license name in the `licenseNotice` string (for example, CC-BY-SA) with the hyperlink you just created.|String|  
+|mustBeCloseToContent|A Boolean value that determines whether the contents of the rule must be placed in close proximity to the field that the rule applies to. If **true**, the contents must be placed in close proximity. If **false**, or this field does not exist, the contents may be placed at the caller's discretion.|Boolean|  
+|targetPropertyName|The name of the field that the rule applies to.|String|  
+  
+<a name="linkattribution"></a>
+### LinkAttribution  
+Defines a contractual rule for link attribution.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|_type|A type hint, which is set to LinkAttribution.|String|  
+|mustBeCloseToContent|A Boolean value that determines whether the contents of the rule must be placed in close proximity to the field that the rule applies to. If **true**, the contents must be placed in close proximity. If **false**, or this field does not exist, the contents may be placed at the caller's discretion.|Boolean|  
+|targetPropertyName|The name of the field that the rule applies to.<br /><br /> If a target is not specified, the attribution applies to the entity as a whole and should be displayed immediately following the entity presentation. If there are multiple text and link attribution rules that do not specify a target, you should concatenate them and display them using a "Data from: " label. For example, “Data from <provider name1\> &#124; <provider name2\>".|String|  
+|text|The attribution text.|String|  
+|url|The URL to the provider's website. Use `text` and URL to create of hyperlink.|String| 
+
+<a name="mediaattribution"></a>  
+### MediaAttribution  
+Defines a contractual rule for media attribution.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|_type|A type hint, which is set to MediaAttribution.|String|  
+|mustBeCloseToContent|A Boolean value that determines whether the contents of the rule must be placed in close proximity to the field that the rule applies to. If **true**, the contents must be placed in close proximity. If **false**, or this field does not exist, the contents may be placed at the caller's discretion.|Boolean|  
+|targetPropertyName|The name of the field that the rule applies to.|String|  
+|url|The URL that you use to create of hyperlink of the media content. For example, if the target is an image, you would use the URL to make the image clickable.|String|  
+
 <a name="metatag"></a>   
 ### MetaTag  
 Defines a webpage's metadata.  
@@ -154,7 +271,18 @@ Defines a webpage's metadata.
 |----------|-----------|----------|  
 |content|The metadata.|String|  
 |name|The name of the metadata.|String|  
+
+<a name="organization"></a>
+### Organization  
+Defines a publisher.  
   
+Note that a publisher may provide their name or their website or both.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|name|The publisher's name.|String|  
+|url|The URL to the publisher's website.<br /><br /> Note that the publisher may not provide a website.|String|    
+
 <a name="query_obj"></a>   
 ### Query  
 Defines a search query.  
@@ -234,6 +362,7 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
 |<a name="searchresponse-computation" />computation|The answer to a math expression or units conversion expression.|[Computation](#computation)|  
+|<a name="searchresponse-entities" />entities|A list of entities that are relevant to the search query.|[EntityAnswer](#entityanswer)|  
 |<a name="searchresponse-images" />images|A list of images that are relevant to the search query.|[Images](assetId:///d46fcc3e-dc6f-4131-8a63-d74b0911bddf#images)|  
 |<a name="searchresponse-news" />news|A list of news articles that are relevant to the search query.|[News](assetId:///3f21b448-e4d5-4bc6-b407-6e645c2e05b8#news)|  
 |<a name="searchresponse-querycontext" />queryContext|The query string that Bing used for the request.<br /><br /> The response includes the context only if the query string contains a spelling mistake or has adult intent.|[QueryContext](#querycontext)|  
@@ -241,6 +370,7 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
 |<a name="searchresponse-relatedsearches" />relatedSearches|A list of related queries made by others.|[RelatedSearchAnswer](#relatedsearchanswer)|  
 |<a name="searchresponse-spellsuggestions" />spellSuggestions|The query string that likely represents the user's intent.|[SpellSuggestions](#spellsuggestions)|  
 |<a name="searchresponse-timezone" />timeZone|The date and time of one or more geographic locations.|[TimeZone](#timezone)|  
+|<a name="searchresponse-translation" />translation|The translation of text from one language to another.|[Translation](#translation)|  
 |<a name="searchresponse-videos" />videos|A list of videos that are relevant to the search query.|[Videos](assetId:///1fdb10b1-50c2-4c40-9b78-efebfa0f4b0e#videos)|  
 |<a name="search-response-webpages" />webPages|A list of webpages that are relevant to the search query.|[WebAnswer](#webanswer)|  
   
@@ -254,7 +384,16 @@ The search results include this response if Bing determines that the user may ha
 |----------|-----------|----------|  
 |id|An ID that uniquely identifies the spelling suggestion answer.<br /><br /> You use this field when you use the [ranking response](#rankingresponse) to display the spelling suggestions. For more information about how to use the ID, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/ranking-results).|String|  
 |<a name="spell-value" />value|A list of suggested query strings that may represent the user's intention.<br /><br /> The list contains only one `Query` object.|[Query](#query_obj)[]|  
+
+<a name="textattribution"></a>  
+### TextAttribution  
+Defines a contractual rule for plain text attribution.  
   
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|_type|A type hint, which is set to TextAttribution.|String|  
+|text|The attribution text.<br /><br /> Text attribution applies to the entity as a whole and should be displayed immediately following the entity presentation. If there are multiple text or link attribution rules that do not specify a target, you should concatenate them and display them using a "Data from: " label.|String|    
+
 <a name="timezone"></a>   
 ### TimeZone  
 Defines the data and time of one or more geographic locations.  
@@ -273,7 +412,22 @@ Defines a date and time for a geographical location.
 |<a name="tzinfo-location" />location|The name of the geographical location.<br /><br /> For example, County; City; City, State; City, State, Country; or Time Zone.|String|  
 |<a name="tzinfo-time" />time|The data and time specified in the form, YYYY-MM-DDThh;mm:ss.ssssssZ.|String|  
 |<a name="tzinfo-utcoffset" />utcOffset|The offset from UTC. For example, UTC-7.|String|  
+
+<a name="translation"></a>   
+### Translation  
+Defines the translation of text from one language to another.  
   
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|attributions|A list of publishers that provided the information.<br /><br /> You must display the names of all publishers in the list as the source of the translation, and use the URL to create a link to their website. You may add a single line of providers after the displayed translation or you may put each publisher on their own line.<br /><br /> **NOTE:** If the answer includes `contractualRules`, you must apply them instead of applying attributions from this field.|[Attribution](#attribution)[]|  
+|contractualRules|A list of rules that you must adhere to if you display the answer. The following contractual rules may apply.<br /><br /><ul><li>[LinkAttribution](#linkattribution)</li></ul><br />|Object[]|  
+|conversation|The synthetic speech text that your synthesis-capable application can use to verbalize the answer to the user. To include this field, you must set the [conversation](#conversation) query parameter to **true**.|[Conversation](#conversation-obj)|  
+|id|An ID that uniquely identifies this object.<br /><br /> Note that this ID is not used to rank the results.|String|
+|inLanguage|The two-letter code of the language the text is being translated from. For example, "en" for English.|String
+|originalText|The text from the user's query string to be translated. For example, if the user's query is, "translate bathroom to spanish", this field is set to "bathroom."|String
+|translatedLanguageName|The two-letter code of the language the text was translated to. For example, "es" for Spanish.|String
+|translatedText|The translated text in the specified language. The user's query specifies the language to translate the text to.|String  
+
 <a name="webanswer"></a>   
 ### WebAnswer  
 Defines a list of relevant webpage links.  
@@ -303,6 +457,75 @@ Defines a webpage that is relevant to the query.
 |snippet|A snippet of text from the webpage that describes its contents.|String|  
 |<a name="url" />url|The URL to the webpage.<br /><br /> Use this URL along with `name` to create a hyperlink that when clicked takes the user to the webpage.|String|  
   
+<a name="entitytypes"></a>
+## Entity Types  
+This section contains the possible entity hints. The hints are grouped by category of entities.  
+  
+The following are the base entity types.  
+  
+-   Generic  
+-   Person  
+-   Place  
+-   Media  
+-   Organization  
+  
+The following are the entity hints that fall under the Place base type.  
+  
+-   Attraction  
+-   City  
+-   Continent  
+-   Country  
+-   Hotel  
+-   House  
+-   LocalBusiness  
+-   Locality  
+-   MinorRegion  
+-   Neighborhood  
+-   Other  
+-   PointOfInterest  
+-   PostalCode  
+-   RadioStation  
+-   Region  
+-   Restaurant  
+-   State  
+-   StreetAddress  
+-   SubRegion  
+-   TouristAttraction  
+-   Travel  
+  
+The following are the entity hints that fall under the Media base type.  
+  
+-   Book  
+-   Movie  
+-   TelevisionSeason  
+-   TelevisionShow  
+-   VideoGame  
+  
+  
+The following are the event-related entity hints.  
+  
+-   Event  
+  
+The following are the profession-related entity hints.  
+  
+-   Actor  
+-   Artist  
+-   Attorney  
+  
+The following are the education-related entity hints.  
+  
+-   CollegeOrUniversity  
+-   School  
+-   Speciality  
+  
+The following are unrelated entity hints.  
+  
+-   Animal  
+-   Car  
+-   Drug  
+-   Food  
+-   Product  
+-   SportsTeam  
 
 ## Error codes 
 

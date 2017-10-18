@@ -160,6 +160,7 @@
 ### [Preflight File Request](preflight-file-request.md)
 ## [Operations on Shares (File Service)](operations-on-shares--file-service-.md)
 ### [Create Share](create-share.md)
+### [Snapshot Share](snapshot-share.md)
 ### [Get Share Properties](get-share-properties.md)
 ### [Set Share Properties](set-share-properties.md)
 ### [Get Share Metadata](get-share-metadata.md)

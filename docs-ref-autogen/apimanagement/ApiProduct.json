@@ -27,104 +27,7 @@
       }
     }
   },
-  "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/products": {
-      "get": {
-        "tags": [
-          "ApiProduct"
-        ],
-        "operationId": "ApiProduct_ListByApis",
-        "description": "Lists all Products, which the API is part of.",
-        "x-ms-examples": {
-          "ApiManagementGetProductsForApi": {
-            "parameters": {
-              "serviceName": "apimService1",
-              "resourceGroupName": "rg1",
-              "api-version": "2017-03-01",
-              "subscriptionId": "subid",
-              "apiId": "57d2ef278aa04f0888cba3f3"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "value": [
-                    {
-                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b539c53f5b0062060002",
-                      "type": "Microsoft.ApiManagement/service/apis/products",
-                      "name": "5600b539c53f5b0062060002",
-                      "properties": {
-                        "displayName": "Unlimited",
-                        "description": "Subscribers have completely unlimited access to the API. Administrator approval is required.",
-                        "subscriptionRequired": true,
-                        "approvalRequired": true,
-                        "subscriptionsLimit": 1,
-                        "state": "published"
-                      }
-                    }
-                  ],
-                  "nextLink": ""
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiIdParameter"
-          },
-          {
-            "name": "$filter",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "description": "| Field | Supported operators    | Supported functions                         |\n|-------|------------------------|---------------------------------------------|\n| name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |"
-          },
-          {
-            "$ref": "#/parameters/TopQueryParameter"
-          },
-          {
-            "$ref": "#/parameters/SkipQueryParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The operation returns a collection of products which have the Api entity.",
-            "schema": {
-              "$ref": "#/definitions/ProductCollection"
-            }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-odata": "./apimproducts.json#/definitions/ProductContract",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      }
-    }
-  },
+  "paths": {},
   "x-ms-paths": {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?export=true": {
       "get": {
@@ -771,11 +674,68 @@
         }
       }
     },
+    "SchemaCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SchemaContract"
+          },
+          "description": "Api Schema Contract value."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "The response of the list schema operation."
+    },
+    "SchemaContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/SchemaContractProperties",
+          "description": "Properties of the Schema."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Schema Contract details."
+    },
+    "SchemaContractProperties": {
+      "properties": {
+        "contentType": {
+          "type": "string",
+          "description": "Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml)."
+        },
+        "document": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/SchemaDocumentProperties",
+          "description": "Properties of the Schema Document."
+        }
+      },
+      "required": [
+        "contentType"
+      ],
+      "description": "Schema contract Properties."
+    },
+    "SchemaDocumentProperties": {
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "Json escaped string defining the document representing the Schema."
+        }
+      },
+      "description": "Schema Document Properties."
+    },
     "PolicyContractProperties": {
       "properties": {
         "policyContent": {
           "type": "string",
-          "description": "Xml Encoded contents of the Policy."
+          "description": "Json escaped Xml Encoded contents of the Policy."
         }
       },
       "required": [
@@ -1002,6 +962,17 @@
       "pattern": "^[^*#&+:<>?]+$",
       "x-ms-parameter-location": "method"
     },
+    "SchemaIdParameter": {
+      "name": "schemaId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Schema identifier within an API. Must be unique in the current API Management service instance.",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[^*#&+:<>?]+$",
+      "x-ms-parameter-location": "method"
+    },
     "SubscriptionIdParameter": {
       "name": "subscriptionId",
       "in": "path",
@@ -1072,5 +1043,12 @@
     }
   },
   "x-internal-service-name": "API Management",
-  "x-internal-toc-name": "Api Product"
+  "x-internal-toc-name": "Api Product",
+  "x-internal-split-members": [
+    {
+      "displayName": "List By Apis",
+      "relativePath": "ApiProduct/ListByApis"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
 }
