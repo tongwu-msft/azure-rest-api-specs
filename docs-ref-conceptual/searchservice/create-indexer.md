@@ -28,7 +28,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Indexer (Azure Search Service REST API)
-  You can create a new indexer within an Azure Search service using an HTTP POST request.  
+  You can create a new indexer within an Azure Search service using an HTTP POST request. For data-platform-specific guidance on creating indexers, start with [Indexers overview](https://docs.microsoft.com/azure/search/search-indexer-overview), which includes the complete list of [related articles](https://docs.microsoft.com/azure/search/search-indexer-overview#next-steps).
 
 ```  
 POST https://[service name].search.windows.net/indexers?api-version=[api-version]  
