@@ -61,6 +61,8 @@
 #### [List By Resource Group](apimanagement/ApiManagementService/ListByResourceGroup.json)
 #### [Restore](apimanagement/ApiManagementService/Restore.json)
 #### [Update](apimanagement/ApiManagementService/Update.json)
+#### [Update Hostname](apimanagement/ApiManagementService/UpdateHostname.json)
+#### [Upload Certificate](apimanagement/ApiManagementService/UploadCertificate.json)
 ### [Api Operation](apimanagement/ApiOperation.json)
 #### [Create Or Update](apimanagement/ApiOperation/CreateOrUpdate.json)
 #### [Delete](apimanagement/ApiOperation/Delete.json)
