@@ -113,7 +113,7 @@ StringToSign = VERB + "\n" +
  The following example shows a signature string for a [Get Blob](Get-Blob.md) operation. Note that where there is no header value, the new-line character only is specified.  
   
 ```  
-GET\n\n\n\n\n\n\n\n\n\n\n\nx-ms-date:Sun, 11 Oct 2009 21:49:13 GMT\nx-ms-version:2009-09-19\n/myaccount/ mycontainer\ncomp:metadata\nrestype:container\ntimeout:20  
+GET\n\n\n\n\n\n\n\n\n\n\n\nx-ms-date:Sun, 11 Oct 2009 21:49:13 GMT\nx-ms-version:2009-09-19\n/myaccount/mycontainer\ncomp:metadata\nrestype:container\ntimeout:20  
 ```  
   
  Breaking this down line-by-line shows each portion of the same string:  
