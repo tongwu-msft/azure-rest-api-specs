@@ -28,7 +28,7 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policydefinitions/{policyDefinitionName}": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}": {
       "get": {
         "tags": [
           "PolicyDefinitions"
@@ -86,6 +86,19 @@
             "modelAsString": true
           }
         },
+        "mode": {
+          "type": "string",
+          "description": "The policy definition mode. Possible values are NotSpecified, Indexed, and All.",
+          "enum": [
+            "NotSpecified",
+            "Indexed",
+            "All"
+          ],
+          "x-ms-enum": {
+            "name": "policyMode",
+            "modelAsString": true
+          }
+        },
         "displayName": {
           "type": "string",
           "description": "The display name of the policy definition."
@@ -97,6 +110,10 @@
         "policyRule": {
           "type": "object",
           "description": "The policy rule."
+        },
+        "metadata": {
+          "type": "object",
+          "description": "The policy definition metadata."
         },
         "parameters": {
           "type": "object",
@@ -113,12 +130,14 @@
           "description": "The policy definition properties."
         },
         "id": {
+          "readOnly": true,
           "type": "string",
           "description": "The ID of the policy definition."
         },
         "name": {
+          "readOnly": true,
           "type": "string",
-          "description": "The name of the policy definition. If you do not specify a value for name, the value is inferred from the name value in the request URI."
+          "description": "The name of the policy definition."
         }
       },
       "description": "The policy definition.",
@@ -139,70 +158,6 @@
         }
       },
       "description": "List of policy definitions."
-    },
-    "PolicyAssignmentProperties": {
-      "properties": {
-        "displayName": {
-          "type": "string",
-          "description": "The display name of the policy assignment."
-        },
-        "policyDefinitionId": {
-          "type": "string",
-          "description": "The ID of the policy definition."
-        },
-        "scope": {
-          "type": "string",
-          "description": "The scope for the policy assignment."
-        },
-        "parameters": {
-          "type": "object",
-          "description": "Required if a parameter is used in policy rule."
-        },
-        "description": {
-          "type": "string",
-          "description": "This message will be part of response in case of policy violation."
-        }
-      },
-      "description": "The policy assignment properties."
-    },
-    "PolicyAssignment": {
-      "properties": {
-        "properties": {
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/PolicyAssignmentProperties",
-          "description": "Properties for the policy assignment."
-        },
-        "id": {
-          "type": "string",
-          "description": "The ID of the policy assignment."
-        },
-        "type": {
-          "type": "string",
-          "description": "The type of the policy assignment."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the policy assignment."
-        }
-      },
-      "description": "The policy definition.",
-      "x-ms-azure-resource": true
-    },
-    "PolicyAssignmentListResult": {
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PolicyAssignment"
-          },
-          "description": "An array of policy assignments."
-        },
-        "nextLink": {
-          "type": "string",
-          "description": "The URL to use for getting the next set of results."
-        }
-      },
-      "description": "List of policy assignments."
     }
   },
   "parameters": {
@@ -212,6 +167,14 @@
       "required": true,
       "type": "string",
       "description": "The ID of the target subscription."
+    },
+    "ManagementGroupIdParameter": {
+      "name": "managementGroupId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The ID of the management group.",
+      "x-ms-parameter-location": "method"
     },
     "ApiVersionParameter": {
       "name": "api-version",

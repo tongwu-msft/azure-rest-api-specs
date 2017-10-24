@@ -1,6 +1,6 @@
 ---
 title: "Invoke Infrastructure Query"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,7 +43,7 @@ This API supports the Service Fabric platform; it is not meant to be used direct
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/$/InvokeInfrastructureQuery?api-version=3.0&Command={Command}&ServiceId={ServiceId}&timeout={timeout}` |
+| GET | `/$/InvokeInfrastructureQuery?api-version=6.0&Command={Command}&ServiceId={ServiceId}&timeout={timeout}` |
 
 
 ## Parameters
@@ -58,9 +58,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### Command
@@ -90,5 +90,5 @@ The server timeout for performing the operation in seconds. This specifies the t
 
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
-| 200 (OK) | The response from the infrastructure service.<br/>The response format is a JSON stream.<br/>The contents of the response depend on which command was issued.<br/> | file |
+| 200 (OK) | The response from the infrastructure service. The response format is a JSON stream.<br/>The contents of the response depend on which command was issued.<br/> | string (binary) |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |

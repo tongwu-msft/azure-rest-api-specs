@@ -13,10 +13,7 @@ ms.date: 06/21/2016
 ms.author: scottwhi
 ---
 
-# Spell Check API v7 Preview reference
-
-> [!NOTE]
-> Preview release of the Spell Check API. All aspects of the API and documentation are subject to change. 
+# Spell Check API v7 reference
 
 The Spell Check API lets you check a text string for spelling and grammar errors. This section provides technical details about the query parameters and headers that you use to request spell checking, and the JSON response objects that contain the results. For examples that show how to make requests, see [Spell check a text string](https://docs.microsoft.com/azure/cognitive-services/bing-spell-check/proof-text).  
   

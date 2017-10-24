@@ -1,6 +1,6 @@
 ---
 title: "Report Service Health"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,7 +40,7 @@ To see whether the report was applied in the health store, run GetServiceHealth 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Services/{serviceId}/$/ReportHealth?api-version=3.0&timeout={timeout}` |
+| POST | `/Services/{serviceId}/$/ReportHealth?api-version=6.0&Immediate={Immediate}&timeout={timeout}` |
 
 
 ## Parameters
@@ -48,6 +48,7 @@ To see whether the report was applied in the health store, run GetServiceHealth 
 | --- | --- | --- | --- |
 | [serviceId](#serviceid) | string | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
+| [Immediate](#immediate) | boolean | No | Query |
 | [timeout](#timeout) | integer (int64) | No | Query |
 | [HealthInformation](#healthinformation) | [HealthInformation](sfclient-model-healthinformation.md) | Yes | Body |
 
@@ -56,15 +57,31 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
+The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the service name is "fabric://myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
 
 ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
+
+____
+### Immediate
+__Type__: boolean <br/>
+__Required__: No<br/>
+__Default__: false <br/>
+<br/>
+A flag which indicates whether the report should be sent immediately.
+A health report is sent to a Service Fabric gateway Application, which forwards to the health store.
+If Immediate is set to true, the report is sent immediately from Http Gateway to the health store, regardless of the fabric client settings that the Http Gateway Application is using.
+This is useful for critical reports that should be sent as soon as possible.
+Depending on timing and other conditions, sending the report may still fail, for example if the Http Gateway is closed or the message doesn't reach the Gateway.
+If Immediate is set to false, the report is sent based on the health client settings from the Http Gateway. Therefore, it will be batched according to the HealthReportSendInterval configuration.
+This is the recommended setting because it allows the health client to optimize health reporting messages to health store as well as health report processing.
+By default, reports are not sent immediately.
+
 
 ____
 ### timeout

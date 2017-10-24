@@ -1,6 +1,6 @@
 ---
 title: "DeployedApplicationHealthState"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -64,4 +64,4 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Full name of the application.
+The name of the application, including the 'fabric:' URI scheme.

@@ -17,12 +17,6 @@
         "summary": "Get properties of a multi-role pool.",
         "description": "Get properties of a multi-role pool.",
         "operationId": "AppServiceEnvironments_GetMultiRolePool",
-        "produces": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml"
-        ],
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -49,6 +43,12 @@
             }
           }
         },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
         "x-internal-toc-name": "Get Multi Role Pool"
       }
     }
@@ -300,7 +300,7 @@
           "type": "boolean"
         },
         "dynamicCacheEnabled": {
-          "description": "True/false indicating whether the App Service Environment is suspended. The environment can be suspended e.g. when the management endpoint is no longer available\n (most likely because NSG blocked the incoming traffic).",
+          "description": "True/false indicating whether the App Service Environment is suspended. The environment can be suspended e.g. when the management endpoint is no longer available\n(most likely because NSG blocked the incoming traffic).",
           "type": "boolean"
         },
         "clusterSettings": {
@@ -308,6 +308,13 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/NameValuePair"
+          }
+        },
+        "userWhitelistedIpRanges": {
+          "description": "User added ip ranges to whitelist on ASE db",
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         }
       }
@@ -323,12 +330,28 @@
           "description": "Collection of resources.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/AppServiceEnvironment"
+            "$ref": "#/definitions/AppServiceEnvironmentResource"
           }
         },
         "nextLink": {
           "description": "Link to next page of resources.",
           "type": "string"
+        }
+      }
+    },
+    "AppServiceEnvironmentPatchResource": {
+      "description": "ARM resource for a app service enviroment.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AppServiceEnvironment",
+          "description": "Core resource properties",
+          "x-ms-client-flatten": true
         }
       }
     },
@@ -343,6 +366,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/AppServiceEnvironment",
+          "description": "Core resource properties",
           "x-ms-client-flatten": true
         }
       }
@@ -374,7 +398,8 @@
               "description": "App Service plan status.",
               "enum": [
                 "Ready",
-                "Pending"
+                "Pending",
+                "Creating"
               ],
               "type": "string",
               "readOnly": true,
@@ -412,7 +437,7 @@
               "readOnly": true
             },
             "perSiteScaling": {
-              "description": "If <code>true</code>, apps assigned to this App Service plan can be scaled independently.\n If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.",
+              "description": "If <code>true</code>, apps assigned to this App Service plan can be scaled independently.\nIf <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.",
               "default": false,
               "type": "boolean"
             },
@@ -421,6 +446,15 @@
               "description": "Number of apps assigned to this App Service plan.",
               "type": "integer",
               "readOnly": true
+            },
+            "isSpot": {
+              "description": "If <code>true</code>, this App Service Plan owns spot instances.",
+              "type": "boolean"
+            },
+            "spotExpirationTime": {
+              "format": "date-time",
+              "description": "The time when the server farm expires. Valid only if it is a spot server farm.",
+              "type": "string"
             },
             "resourceGroup": {
               "description": "Resource group of the App Service plan.",
@@ -512,13 +546,13 @@
           "description": "Custom action to be taken."
         },
         "minProcessExecutionTime": {
-          "description": "Minimum time the process must execute\n before taking the action",
+          "description": "Minimum time the process must execute\nbefore taking the action",
           "type": "string"
         }
       }
     },
     "AutoHealCustomAction": {
-      "description": "Custom action to be executed\n when an auto heal rule is triggered.",
+      "description": "Custom action to be executed\nwhen an auto heal rule is triggered.",
       "type": "object",
       "properties": {
         "exe": {
@@ -597,8 +631,10 @@
       "type": "object",
       "properties": {
         "correlationId": {
-          "description": "Correlation ID of cloning operation. This ID ties multiple cloning operations\n together to use the same snapshot.",
-          "type": "string"
+          "format": "uuid",
+          "description": "Correlation ID of cloning operation. This ID ties multiple cloning operations\ntogether to use the same snapshot.",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
         },
         "overwrite": {
           "description": "<code>true</code> to overwrite destination app; otherwise, <code>false</code>.",
@@ -613,7 +649,7 @@
           "type": "boolean"
         },
         "sourceWebAppId": {
-          "description": "ARM resource ID of the source app. App resource ID is of the form \n /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName} for production slots and \n /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName} for other slots.",
+          "description": "ARM resource ID of the source app. App resource ID is of the form \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName} for production slots and \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName} for other slots.",
           "type": "string"
         },
         "hostingEnvironment": {
@@ -621,7 +657,7 @@
           "type": "string"
         },
         "appSettingsOverrides": {
-          "description": "Application setting overrides for cloned app. If specified, these settings override the settings cloned \n from source app. Otherwise, application settings from source app are retained.",
+          "description": "Application setting overrides for cloned app. If specified, these settings override the settings cloned \nfrom source app. Otherwise, application settings from source app are retained.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
@@ -632,7 +668,7 @@
           "type": "boolean"
         },
         "trafficManagerProfileId": {
-          "description": "ARM resource ID of the Traffic Manager profile to use, if it exists. Traffic Manager resource ID is of the form \n /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{profileName}.",
+          "description": "ARM resource ID of the Traffic Manager profile to use, if it exists. Traffic Manager resource ID is of the form \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{profileName}.",
           "type": "string"
         },
         "trafficManagerProfileName": {
@@ -685,7 +721,7 @@
       "type": "object",
       "properties": {
         "allowedOrigins": {
-          "description": "Gets or sets the list of origins that should be allowed to make cross-origin\n calls (for example: http://example.com:12345). Use \"*\" to allow all.",
+          "description": "Gets or sets the list of origins that should be allowed to make cross-origin\ncalls (for example: http://example.com:12345). Use \"*\" to allow all.",
           "type": "array",
           "items": {
             "type": "string"
@@ -792,7 +828,7 @@
       }
     },
     "HandlerMapping": {
-      "description": "The IIS handler mappings used to define which handler processes HTTP requests with certain extension. \n For example, it is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension.",
+      "description": "The IIS handler mappings used to define which handler processes HTTP requests with certain extension. \nFor example, it is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension.",
       "type": "object",
       "properties": {
         "extension": {
@@ -918,6 +954,32 @@
         "localizedValue": {
           "description": "Localized name.",
           "type": "string"
+        }
+      }
+    },
+    "ManagedServiceIdentity": {
+      "description": "Managed service identity.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Type of managed service identity.",
+          "enum": [
+            "SystemAssigned"
+          ],
+          "x-ms-enum": {
+            "name": "ManagedServiceIdentityType",
+            "modelAsString": true
+          }
+        },
+        "tenantId": {
+          "description": "Tenant of managed service identity.",
+          "type": "string",
+          "readOnly": true
+        },
+        "principalId": {
+          "description": "Principal Id of managed service identity.",
+          "type": "string",
+          "readOnly": true
         }
       }
     },
@@ -1075,8 +1137,10 @@
           "type": "string"
         },
         "geoMasterOperationId": {
+          "format": "uuid",
           "description": "Applicable only for stamp operation ids.",
-          "type": "string"
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
         }
       }
     },
@@ -1129,7 +1193,7 @@
               "type": "string"
             },
             "tagsRequiringAuth": {
-              "description": "Gets or sets a JSON string containing a list of tags that require user authentication to be used in the push registration endpoint.\n Tags can consist of alphanumeric characters and the following:\n '_', '@', '#', '.', ':', '-'. \n Validation should be performed at the PushRequestHandler.",
+              "description": "Gets or sets a JSON string containing a list of tags that require user authentication to be used in the push registration endpoint.\nTags can consist of alphanumeric characters and the following:\n'_', '@', '#', '.', ':', '-'. \nValidation should be performed at the PushRequestHandler.",
               "type": "string"
             },
             "dynamicTagsJson": {
@@ -1156,7 +1220,7 @@
         },
         "changeStep": {
           "format": "double",
-          "description": "In auto ramp up scenario this is the step to to add/remove from <code>ReroutePercentage</code> until it reaches \n <code>MinReroutePercentage</code> or <code>MaxReroutePercentage</code>. Site metrics are checked every N minutes specificed in <code>ChangeIntervalInMinutes</code>.\n Custom decision algorithm can be provided in TiPCallback site extension which URL can be specified in <code>ChangeDecisionCallbackUrl</code>.",
+          "description": "In auto ramp up scenario this is the step to to add/remove from <code>ReroutePercentage</code> until it reaches \n<code>MinReroutePercentage</code> or <code>MaxReroutePercentage</code>. Site metrics are checked every N minutes specificed in <code>ChangeIntervalInMinutes</code>.\nCustom decision algorithm can be provided in TiPCallback site extension which URL can be specified in <code>ChangeDecisionCallbackUrl</code>.",
           "type": "number"
         },
         "changeIntervalInMinutes": {
@@ -1175,7 +1239,7 @@
           "type": "number"
         },
         "changeDecisionCallbackUrl": {
-          "description": "Custom decision algorithm can be provided in TiPCallback site extension which URL can be specified. See TiPCallback site extension for the scaffold and contracts.\n https://www.siteextensions.net/packages/TiPCallback/",
+          "description": "Custom decision algorithm can be provided in TiPCallback site extension which URL can be specified. See TiPCallback site extension for the scaffold and contracts.\nhttps://www.siteextensions.net/packages/TiPCallback/",
           "type": "string"
         },
         "name": {
@@ -1538,7 +1602,7 @@
               "type": "boolean"
             },
             "enabledHostNames": {
-              "description": "Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise,\n the app is not served on those hostnames.",
+              "description": "Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise,\nthe app is not served on those hostnames.",
               "type": "array",
               "items": {
                 "type": "string"
@@ -1597,11 +1661,6 @@
               },
               "readOnly": true
             },
-            "premiumAppDeployed": {
-              "description": "Indicates whether app is deployed as a premium app.",
-              "type": "boolean",
-              "readOnly": true
-            },
             "scmSiteAlsoStopped": {
               "description": "<code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>.",
               "default": false,
@@ -1620,23 +1679,6 @@
                 "read"
               ]
             },
-            "microService": {
-              "description": "Micro services like apps, logic apps.",
-              "default": "WebSites",
-              "type": "string",
-              "x-ms-mutability": [
-                "create",
-                "read"
-              ]
-            },
-            "gatewaySiteName": {
-              "description": "Name of gateway app associated with the app.",
-              "type": "string",
-              "x-ms-mutability": [
-                "create",
-                "read"
-              ]
-            },
             "clientAffinityEnabled": {
               "description": "<code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity cookies, which route client requests in the same session to the same instance. Default is <code>true</code>.",
               "type": "boolean"
@@ -1650,7 +1692,12 @@
               "type": "boolean"
             },
             "outboundIpAddresses": {
-              "description": "List of IP addresses that the app uses for outbound connections (e.g. database access). Read-only.",
+              "description": "List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from tenants that site can be hosted with current settings. Read-only.",
+              "type": "string",
+              "readOnly": true
+            },
+            "possibleOutboundIpAddresses": {
+              "description": "List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants. Read-only.",
               "type": "string",
               "readOnly": true
             },
@@ -1672,7 +1719,7 @@
             },
             "maxNumberOfWorkers": {
               "format": "int32",
-              "description": "Maximum number of workers.\n This only applies to Functions container.",
+              "description": "Maximum number of workers.\nThis only applies to Functions container.",
               "type": "integer",
               "readOnly": true
             },
@@ -1709,9 +1756,16 @@
               "$ref": "#/definitions/SlotSwapStatus",
               "description": "Status of the last deployment slot swap operation.",
               "readOnly": true
+            },
+            "httpsOnly": {
+              "description": "HttpsOnly: configures a web site to accept only https requests. Issues redirect for\nhttp requests",
+              "type": "boolean"
             }
           },
           "x-ms-client-flatten": true
+        },
+        "identity": {
+          "$ref": "#/definitions/ManagedServiceIdentity"
         }
       }
     },
@@ -2183,7 +2237,7 @@
               "type": "boolean"
             },
             "ignoreConflictingHostNames": {
-              "description": "If true, custom hostname conflicts will be ignored when recovering to a target web app.\n This setting is only necessary when RecoverConfiguration is enabled.",
+              "description": "If true, custom hostname conflicts will be ignored when recovering to a target web app.\nThis setting is only necessary when RecoverConfiguration is enabled.",
               "type": "boolean"
             }
           },
@@ -2200,7 +2254,7 @@
           "type": "string"
         },
         "id": {
-          "description": "ARM resource ID of the target app. \n /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName} for production slots and \n /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName} for other slots.",
+          "description": "ARM resource ID of the target app. \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName} for production slots and \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName} for other slots.",
           "type": "string"
         }
       }
@@ -2246,7 +2300,10 @@
             "Default",
             "Small",
             "Medium",
-            "Large"
+            "Large",
+            "D1",
+            "D2",
+            "D3"
           ],
           "type": "string",
           "x-ms-enum": {
@@ -2256,11 +2313,11 @@
         },
         "workerSizeId": {
           "format": "int32",
-          "description": "Size ID of machines: \n 0 - Small\n 1 - Medium\n 2 - Large",
+          "description": "Size ID of machines: \n0 - Small\n1 - Medium\n2 - Large",
           "type": "integer"
         },
         "excludeFromCapacityAllocation": {
-          "description": "If <code>true</code>, it includes basic apps.\n Basic apps are not used for capacity allocation.",
+          "description": "If <code>true</code>, it includes basic apps.\nBasic apps are not used for capacity allocation.",
           "type": "boolean"
         },
         "isApplicableForAllComputeModes": {
@@ -2596,6 +2653,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/WorkerPool",
+          "description": "Core resource properties",
           "x-ms-client-flatten": true
         },
         "sku": {
@@ -2617,11 +2675,11 @@
       "in": "path",
       "description": "Name of the resource group to which the resource belongs.",
       "required": true,
-      "x-ms-parameter-location": "method",
       "type": "string",
       "maxLength": 90,
       "minLength": 1,
-      "pattern": "^[-\\w\\._\\(\\)]+[^\\.]$"
+      "pattern": "^[-\\w\\._\\(\\)]+[^\\.]$",
+      "x-ms-parameter-location": "method"
     },
     "apiVersionParameter": {
       "name": "api-version",

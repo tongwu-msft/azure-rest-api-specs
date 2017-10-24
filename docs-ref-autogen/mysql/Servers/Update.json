@@ -3,7 +3,7 @@
   "info": {
     "version": "2017-04-30-preview",
     "title": "MySQLManagementClient",
-    "description": "The Microsoft Azure management API provides create, read, update, and delete functionality for Azure MySQL resources including servers, databases, firewall rules, log files and configurations."
+    "description": "The Microsoft Azure management API provides create, read, update, and delete functionality for Azure MySQL resources including servers, databases, firewall rules, VNET rules, log files and configurations."
   },
   "host": "management.azure.com",
   "schemes": [
@@ -500,6 +500,74 @@
       },
       "description": "A list of firewall rules."
     },
+    "VirtualNetworkRuleProperties": {
+      "description": "Properties of a virtual network rule.",
+      "required": [
+        "virtualNetworkSubnetId"
+      ],
+      "type": "object",
+      "properties": {
+        "virtualNetworkSubnetId": {
+          "description": "The ARM resource id of the virtual network subnet.",
+          "type": "string"
+        },
+        "ignoreMissingVnetServiceEndpoint": {
+          "description": "Create firewall rule before the virtual network has vnet service endpoint enabled.",
+          "type": "boolean"
+        },
+        "state": {
+          "description": "Virtual Network Rule State",
+          "enum": [
+            "Initializing",
+            "InProgress",
+            "Ready",
+            "Deleting",
+            "Unknown"
+          ],
+          "type": "string",
+          "readOnly": true,
+          "x-ms-enum": {
+            "name": "VirtualNetworkRuleState",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "VirtualNetworkRule": {
+      "description": "A virtual network rule.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/VirtualNetworkRuleProperties",
+          "description": "Resource properties.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "VirtualNetworkRuleListResult": {
+      "description": "A list of virtual network rules.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Array of results.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VirtualNetworkRule"
+          },
+          "readOnly": true
+        },
+        "nextLink": {
+          "description": "Link to retrieve next page of results.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
     "DatabaseProperties": {
       "properties": {
         "charset": {
@@ -737,6 +805,92 @@
         }
       },
       "description": "A list of log files."
+    },
+    "PerformanceTierServiceLevelObjectives": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID for the service level objective."
+        },
+        "edition": {
+          "type": "string",
+          "description": "Edition of the performance tier."
+        },
+        "dtu": {
+          "type": "integer",
+          "description": "Database throughput unit associated with the service level objective"
+        },
+        "storageMB": {
+          "type": "integer",
+          "description": "Maximum storage in MB associated with the service level objective"
+        }
+      },
+      "description": "Service level objectives for performance tier."
+    },
+    "PerformanceTierProperties": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID of the performance tier."
+        },
+        "backupRetentionDays": {
+          "type": "integer",
+          "description": "Backup retention in days for the performance tier edition"
+        },
+        "serviceLevelObjectives": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PerformanceTierServiceLevelObjectives"
+          },
+          "description": "Service level objectives associated with the performance tier"
+        }
+      },
+      "description": "Performance tier properties"
+    },
+    "PerformanceTierListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PerformanceTierProperties"
+          },
+          "description": "The list of performance tiers"
+        }
+      },
+      "description": "A list of performance tiers."
+    },
+    "NameAvailabilityRequest": {
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Resource name to verify."
+        },
+        "type": {
+          "type": "string",
+          "description": "Resource type used for verification."
+        }
+      },
+      "description": "Request from client to check resource name availability."
+    },
+    "NameAvailability": {
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Error Message."
+        },
+        "nameAvailable": {
+          "type": "boolean",
+          "description": "Indicates whether the resource name is available."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Reason for name being unavailable."
+        }
+      },
+      "description": "Represents a resource name availability."
     }
   },
   "parameters": {
@@ -778,6 +932,14 @@
       "description": "The name of the server firewall rule.",
       "x-ms-parameter-location": "method"
     },
+    "virtualNetworkRuleNameParameter": {
+      "name": "virtualNetworkRuleName",
+      "in": "path",
+      "description": "The name of the virtual network rule.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
     "DatabaseNameParameter": {
       "name": "databaseName",
       "in": "path",
@@ -792,6 +954,14 @@
       "required": true,
       "type": "string",
       "description": "The name of the server configuration.",
+      "x-ms-parameter-location": "method"
+    },
+    "LocationNameParameter": {
+      "name": "locationName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the location.",
       "x-ms-parameter-location": "method"
     }
   },

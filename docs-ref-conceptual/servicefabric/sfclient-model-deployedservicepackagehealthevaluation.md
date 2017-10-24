@@ -1,6 +1,6 @@
 ---
 title: "DeployedServicePackageHealthEvaluation"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -75,21 +75,21 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Name of the node.
+The name of a Service Fabric node.
 
 ____
 ### ApplicationName
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Full name of the application.
+The name of the application, including the 'fabric:' URI scheme.
 
 ____
 ### ServiceManifestName
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Name of the service manifest.
+The name of the service manifest.
 
 ____
 ### UnhealthyEvaluations

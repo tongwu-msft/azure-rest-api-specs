@@ -1,6 +1,6 @@
 ---
 title: "Start Partition Restart"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -31,16 +31,16 @@ translation.priority.mt:
 This API will restart some or all replicas or instances of the specified partition.
 
 This API is useful for testing failover.
-      
-If used to target a stateless service partition, RestartPartitionMode must be AllReplicasOrInstances. 
 
-Call the GetPartitionRestartProgress API using the same OperationId to get the progress.     
+If used to target a stateless service partition, RestartPartitionMode must be AllReplicasOrInstances.
+
+Call the GetPartitionRestartProgress API using the same OperationId to get the progress.
 
 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartRestart?api-version=3.0&OperationId={OperationId}&RestartPartitionMode={RestartPartitionMode}&timeout={timeout}` |
+| POST | `/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartRestart?api-version=6.0&OperationId={OperationId}&RestartPartitionMode={RestartPartitionMode}&timeout={timeout}` |
 
 
 ## Parameters
@@ -58,7 +58,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
+The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the service name is "fabric://myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
 
 ____
 ### partitionId
@@ -71,9 +71,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### OperationId
@@ -89,7 +89,7 @@ __Required__: Yes<br/>
 <br/>
 - Invalid - Reserved.  Do not pass into API.
 - AllReplicasOrInstances - All replicas or instances in the partition are restarted at once.
-- OnlyActiveSecondaries - Only the secondary replicas are restarted. 
+- OnlyActiveSecondaries - Only the secondary replicas are restarted.
 . Possible values include: 'Invalid', 'AllReplicasOrInstances', 'OnlyActiveSecondaries'
 
 ____

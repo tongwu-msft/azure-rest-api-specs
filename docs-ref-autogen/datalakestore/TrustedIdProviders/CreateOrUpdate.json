@@ -135,7 +135,7 @@
           "description": "the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol."
         }
       },
-      "description": "Data Lake Analytics firewall rule properties information"
+      "description": "Data Lake Store firewall rule properties information"
     },
     "UpdateFirewallRuleParameters": {
       "properties": {
@@ -145,7 +145,7 @@
           "x-ms-client-flatten": true
         }
       },
-      "description": "Data Lake Analytics firewall rule update parameters"
+      "description": "Data Lake Store firewall rule update parameters"
     },
     "FirewallRuleProperties": {
       "required": [
@@ -622,7 +622,9 @@
             "Suspending",
             "Resuming",
             "Deleting",
-            "Deleted"
+            "Deleted",
+            "Undeleting",
+            "Canceled"
           ],
           "x-ms-enum": {
             "name": "DataLakeStoreAccountStatus",
@@ -685,6 +687,161 @@
         }
       },
       "description": "Data Lake Store account list information response."
+    },
+    "NameAvailabilityInformation": {
+      "properties": {
+        "nameAvailable": {
+          "type": "boolean",
+          "readOnly": true,
+          "description": "the Boolean value of true or false to indicate whether the Data Lake Store account name is available or not."
+        },
+        "reason": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the reason why the Data Lake Store account name is not available, if nameAvailable is false."
+        },
+        "message": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the message describing why the Data Lake Store account name is not available, if nameAvailable is false."
+        }
+      },
+      "description": "Data Lake Store account name availability result information"
+    },
+    "CheckNameAvailabilityParameters": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "the Data Lake Store name to check availability for."
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Microsoft.DataLakeStore/accounts"
+          ],
+          "description": "the Resource type. Note: This should not be set by the user, as the constant value is Microsoft.DataLakeStore/accounts"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "description": "Data Lake Store account name availability check parameters"
+    },
+    "CapabilityInformation": {
+      "properties": {
+        "subscriptionId": {
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true,
+          "description": "the subscription credentials that uniquely identifies the subscription."
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "Registered",
+            "Suspended",
+            "Deleted",
+            "Unregistered",
+            "Warned"
+          ],
+          "x-ms-enum": {
+            "name": "SubscriptionState",
+            "modelAsString": true
+          },
+          "readOnly": true,
+          "description": "the subscription state."
+        },
+        "maxAccountCount": {
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true,
+          "description": "the maximum supported number of accounts under this subscription."
+        },
+        "accountCount": {
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true,
+          "description": "the current number of accounts under this subscription."
+        },
+        "migrationState": {
+          "type": "boolean",
+          "readOnly": true,
+          "description": "the Boolean value of true or false to indicate the maintenance state."
+        }
+      },
+      "description": "Subscription-level properties and limits for Data Lake Store"
+    },
+    "OperationDisplay": {
+      "properties": {
+        "provider": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the Resource provider of the operation."
+        },
+        "resource": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the Resource type of the operation."
+        },
+        "operation": {
+          "type": "string",
+          "readOnly": true,
+          "description": "a friendly name of the operation."
+        },
+        "description": {
+          "type": "string",
+          "readOnly": true,
+          "description": "a friendly description of the operation."
+        }
+      },
+      "description": "The display information for a particular operation"
+    },
+    "Operation": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the name of the operation."
+        },
+        "display": {
+          "$ref": "#/definitions/OperationDisplay",
+          "description": "the display information for the operation."
+        },
+        "origin": {
+          "type": "string",
+          "enum": [
+            "user",
+            "system",
+            "user,system"
+          ],
+          "x-ms-enum": {
+            "name": "OperationOrigin",
+            "modelAsString": true
+          },
+          "readOnly": true,
+          "description": "the intended executor of the operation."
+        }
+      },
+      "description": "An available operation for Data Lake Store"
+    },
+    "OperationListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Operation"
+          },
+          "readOnly": true,
+          "description": "the results of the list operation."
+        },
+        "nextLink": {
+          "type": "string",
+          "readOnly": true,
+          "description": "the link (url) to the next page of results."
+        }
+      },
+      "description": "The list of available operations for Data Lake Store"
     },
     "ErrorDetails": {
       "properties": {

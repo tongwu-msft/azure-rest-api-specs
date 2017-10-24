@@ -50,6 +50,12 @@
             "description": "Certificate does not exist."
           }
         },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
         "x-internal-toc-name": "Delete Certificate"
       }
     }
@@ -315,6 +321,206 @@
         }
       }
     },
+    "AppServiceCertificateOrderPatchResource": {
+      "description": "ARM resource for a certificate order that is purchased through Azure.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "AppServiceCertificateOrderPatchResource resource specific properties",
+          "required": [
+            "productType"
+          ],
+          "properties": {
+            "certificates": {
+              "description": "State of the Key Vault secret.",
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/AppServiceCertificate"
+              }
+            },
+            "distinguishedName": {
+              "description": "Certificate distinguished name.",
+              "type": "string",
+              "x-ms-mutability": [
+                "create",
+                "read"
+              ]
+            },
+            "domainVerificationToken": {
+              "description": "Domain verification token.",
+              "type": "string",
+              "readOnly": true
+            },
+            "validityInYears": {
+              "format": "int32",
+              "description": "Duration in years (must be between 1 and 3).",
+              "default": 1,
+              "maximum": 3,
+              "minimum": 1,
+              "type": "integer",
+              "x-ms-mutability": [
+                "create",
+                "read"
+              ]
+            },
+            "keySize": {
+              "format": "int32",
+              "description": "Certificate key size.",
+              "default": 2048,
+              "type": "integer",
+              "x-ms-mutability": [
+                "create",
+                "read"
+              ]
+            },
+            "productType": {
+              "description": "Certificate product type.",
+              "enum": [
+                "StandardDomainValidatedSsl",
+                "StandardDomainValidatedWildCardSsl"
+              ],
+              "type": "string",
+              "x-ms-enum": {
+                "name": "CertificateProductType",
+                "modelAsString": false
+              },
+              "x-ms-mutability": [
+                "create",
+                "read"
+              ]
+            },
+            "autoRenew": {
+              "description": "<code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>.",
+              "default": true,
+              "type": "boolean"
+            },
+            "provisioningState": {
+              "description": "Status of certificate order.",
+              "enum": [
+                "Succeeded",
+                "Failed",
+                "Canceled",
+                "InProgress",
+                "Deleting"
+              ],
+              "type": "string",
+              "readOnly": true,
+              "x-ms-enum": {
+                "name": "ProvisioningState",
+                "modelAsString": false
+              }
+            },
+            "status": {
+              "description": "Current order status.",
+              "enum": [
+                "Pendingissuance",
+                "Issued",
+                "Revoked",
+                "Canceled",
+                "Denied",
+                "Pendingrevocation",
+                "PendingRekey",
+                "Unused",
+                "Expired",
+                "NotSubmitted"
+              ],
+              "type": "string",
+              "readOnly": true,
+              "x-ms-enum": {
+                "name": "CertificateOrderStatus",
+                "modelAsString": false
+              }
+            },
+            "signedCertificate": {
+              "$ref": "#/definitions/CertificateDetails",
+              "description": "Signed certificate.",
+              "readOnly": true
+            },
+            "csr": {
+              "description": "Last CSR that was created for this order.",
+              "type": "string",
+              "x-ms-mutability": [
+                "create",
+                "read"
+              ]
+            },
+            "intermediate": {
+              "$ref": "#/definitions/CertificateDetails",
+              "description": "Intermediate certificate.",
+              "readOnly": true
+            },
+            "root": {
+              "$ref": "#/definitions/CertificateDetails",
+              "description": "Root certificate.",
+              "readOnly": true
+            },
+            "serialNumber": {
+              "description": "Current serial number of the certificate.",
+              "type": "string",
+              "readOnly": true
+            },
+            "lastCertificateIssuanceTime": {
+              "format": "date-time",
+              "description": "Certificate last issuance time.",
+              "type": "string",
+              "readOnly": true
+            },
+            "expirationTime": {
+              "format": "date-time",
+              "description": "Certificate expiration time.",
+              "type": "string",
+              "readOnly": true
+            },
+            "isPrivateKeyExternal": {
+              "description": "<code>true</code> if private key is external; otherwise, <code>false</code>.",
+              "type": "boolean",
+              "readOnly": true
+            },
+            "appServiceCertificateNotRenewableReasons": {
+              "description": "Reasons why App Service Certificate is not renewable at the current moment.",
+              "type": "array",
+              "items": {
+                "enum": [
+                  "RegistrationStatusNotSupportedForRenewal",
+                  "ExpirationNotInRenewalTimeRange",
+                  "SubscriptionNotActive"
+                ],
+                "type": "string"
+              },
+              "readOnly": true
+            },
+            "nextAutoRenewalTimeStamp": {
+              "format": "date-time",
+              "description": "Time stamp when the certificate would be auto renewed next",
+              "type": "string",
+              "readOnly": true
+            }
+          },
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "AppServiceCertificatePatchResource": {
+      "description": "Key Vault container ARM resource for a certificate that is purchased through Azure.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyOnlyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AppServiceCertificate",
+          "description": "Core resource properties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
     "AppServiceCertificateResource": {
       "description": "Key Vault container ARM resource for a certificate that is purchased through Azure.",
       "type": "object",
@@ -326,6 +532,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/AppServiceCertificate",
+          "description": "Core resource properties",
           "x-ms-client-flatten": true
         }
       }
@@ -336,44 +543,44 @@
       "properties": {
         "version": {
           "format": "int32",
-          "description": "Version.",
+          "description": "Certificate Version.",
           "type": "integer",
           "readOnly": true
         },
         "serialNumber": {
-          "description": "Serial Number.",
+          "description": "Certificate Serial Number.",
           "type": "string",
           "readOnly": true
         },
         "thumbprint": {
-          "description": "Thumbprint.",
+          "description": "Certificate Thumbprint.",
           "type": "string",
           "readOnly": true
         },
         "subject": {
-          "description": "Subject.",
+          "description": "Certificate Subject.",
           "type": "string",
           "readOnly": true
         },
         "notBefore": {
           "format": "date-time",
-          "description": "Valid from.",
+          "description": "Date Certificate is valid from.",
           "type": "string",
           "readOnly": true
         },
         "notAfter": {
           "format": "date-time",
-          "description": "Valid to.",
+          "description": "Date Certificate is valid to.",
           "type": "string",
           "readOnly": true
         },
         "signatureAlgorithm": {
-          "description": "Signature algorithm.",
+          "description": "Certificate Signature algorithm.",
           "type": "string",
           "readOnly": true
         },
         "issuer": {
-          "description": "Issuer.",
+          "description": "Certificate Issuer.",
           "type": "string",
           "readOnly": true
         },
@@ -614,11 +821,11 @@
       "type": "object",
       "properties": {
         "lightTheme": {
-          "description": "Theme",
+          "description": "If <code>true</code> use the light color theme for site seal; otherwise, use the default color theme.",
           "type": "boolean"
         },
         "locale": {
-          "description": "Locale",
+          "description": "Locale of site seal.",
           "type": "string"
         }
       }
@@ -637,11 +844,11 @@
       "in": "path",
       "description": "Name of the resource group to which the resource belongs.",
       "required": true,
-      "x-ms-parameter-location": "method",
       "type": "string",
       "maxLength": 90,
       "minLength": 1,
-      "pattern": "^[-\\w\\._\\(\\)]+[^\\.]$"
+      "pattern": "^[-\\w\\._\\(\\)]+[^\\.]$",
+      "x-ms-parameter-location": "method"
     },
     "apiVersionParameter": {
       "name": "api-version",

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-08-01",
+    "version": "2017-09-01",
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
   },
@@ -92,7 +92,7 @@
           "InboundNatRuleCreate": {
             "parameters": {
               "resourceGroupName": "testrg",
-              "api-version": "2017-08-01",
+              "api-version": "2017-09-01",
               "subscriptionId": "subid",
               "loadBalancerName": "lb1",
               "inboundNatRuleName": "natRule1.1",
@@ -262,6 +262,13 @@
         "etag": {
           "type": "string",
           "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "zones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of availability zones denoting the IP allocated for the resource needs to come from."
         }
       },
       "allOf": [
@@ -345,16 +352,7 @@
           "description": "The reference of the load balancer probe used by the load balancing rule."
         },
         "protocol": {
-          "type": "string",
-          "description": "The transport protocol for the external endpoint. Possible values are 'Udp' or 'Tcp'",
-          "enum": [
-            "Udp",
-            "Tcp"
-          ],
-          "x-ms-enum": {
-            "name": "TransportProtocol",
-            "modelAsString": false
-          }
+          "$ref": "#/definitions/TransportProtocol"
         },
         "loadDistribution": {
           "type": "string",
@@ -372,12 +370,12 @@
         "frontendPort": {
           "type": "integer",
           "format": "int32",
-          "description": "The port for the external endpoint. Port numbers for each Rule must be unique within the Load Balancer. Acceptable values are between 1 and 65534."
+          "description": "The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables \"Any Port\""
         },
         "backendPort": {
           "type": "integer",
           "format": "int32",
-          "description": "The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535. "
+          "description": "The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables \"Any Port\""
         },
         "idleTimeoutInMinutes": {
           "type": "integer",
@@ -522,21 +520,12 @@
           "description": "A reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backend IP."
         },
         "protocol": {
-          "type": "string",
-          "description": "The transport protocol for the endpoint. Possible values are: 'Udp' or 'Tcp'",
-          "enum": [
-            "Udp",
-            "Tcp"
-          ],
-          "x-ms-enum": {
-            "name": "TransportProtocol",
-            "modelAsString": false
-          }
+          "$ref": "#/definitions/TransportProtocol"
         },
         "frontendPort": {
           "type": "integer",
           "format": "int32",
-          "description": "The port for the external endpoint. Port numbers for each Rule must be unique within the Load Balancer. Acceptable values range from 1 to 65534."
+          "description": "The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values range from 1 to 65534."
         },
         "backendPort": {
           "type": "integer",
@@ -598,16 +587,7 @@
           "description": "A reference to frontend IP addresses."
         },
         "protocol": {
-          "type": "string",
-          "description": "The transport protocol for the endpoint. Possible values are: 'Udp' or 'Tcp'.",
-          "enum": [
-            "Udp",
-            "Tcp"
-          ],
-          "x-ms-enum": {
-            "name": "TransportProtocol",
-            "modelAsString": false
-          }
+          "$ref": "#/definitions/TransportProtocol"
         },
         "frontendPortRangeStart": {
           "type": "integer",
@@ -902,6 +882,19 @@
       },
       "description": "Response for ListProbe API service call."
     },
+    "TransportProtocol": {
+      "type": "string",
+      "description": "The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'",
+      "enum": [
+        "Udp",
+        "Tcp",
+        "All"
+      ],
+      "x-ms-enum": {
+        "name": "TransportProtocol",
+        "modelAsString": false
+      }
+    },
     "Resource": {
       "properties": {
         "id": {
@@ -1053,6 +1046,13 @@
         "publicIPAddress": {
           "$ref": "#/definitions/SubResource",
           "description": "Public IP address bound to the IP configuration."
+        },
+        "applicationSecurityGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubResource"
+          },
+          "description": "Application security groups in which the IP configuration is included."
         },
         "provisioningState": {
           "type": "string",

@@ -20,90 +20,7 @@
       }
     ]
   },
-  "paths": {
-    "/storage/{storage-account-name}/sas/{sas-definition-name}": {
-      "get": {
-        "tags": [
-          "Storage"
-        ],
-        "operationId": "GetSasDefinition",
-        "description": "Gets information about a SAS definition for the specified storage account.",
-        "parameters": [
-          {
-            "name": "storage-account-name",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "pattern": "^[0-9a-zA-Z]+$",
-            "description": "The name of the storage account."
-          },
-          {
-            "name": "sas-definition-name",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "pattern": "^[0-9a-zA-Z]+$",
-            "description": "The name of the SAS definition."
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The retrieved SAS definition.",
-            "schema": {
-              "$ref": "#/definitions/SasDefinitionBundle"
-            }
-          },
-          "default": {
-            "description": "Key Vault error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/KeyVaultError"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Get Storage Sas Definition": {
-            "parameters": {
-              "storage-account-name": "getsas01",
-              "sas-definition-name": "getStrgSasDef01",
-              "api-version": "2016-10-01"
-            },
-            "responses": {
-              "200": {
-                "headers": {},
-                "body": {
-                  "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/getsas01/sas/getStrgSasDef01",
-                  "sid": "https://storage-sdk-test.vault-int.azure-int.net/secrets/getsas01-getStrgSasDef01",
-                  "parameters": {
-                    "sasType": "account",
-                    "signedProtocols": "https",
-                    "signedServices": "bq",
-                    "signedResourceTypes": "sco",
-                    "signedPermissions": "rw",
-                    "signedVersion": "2016-05-31",
-                    "validityPeriod": "PT10H"
-                  },
-                  "attributes": {
-                    "enabled": true,
-                    "created": 1490738438,
-                    "updated": 1490738438
-                  }
-                }
-              }
-            }
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "Attributes": {
       "properties": {
@@ -146,9 +63,10 @@
         },
         "kty": {
           "type": "string",
-          "description": "Supported JsonWebKey key types (kty) for Elliptic Curve, RSA, HSM, Octet. Kty is usually set to RSA",
+          "description": "JsonWebKey key type (kty).",
           "enum": [
             "EC",
+            "EC-HSM",
             "RSA",
             "RSA-HSM",
             "oct"
@@ -178,7 +96,7 @@
         "d": {
           "type": "string",
           "format": "base64url",
-          "description": "RSA private exponent."
+          "description": "RSA private exponent, or the D component of an EC private key."
         },
         "dp": {
           "x-ms-client-name": "DP",
@@ -218,6 +136,30 @@
           "type": "string",
           "format": "base64url",
           "description": "HSM Token, used with 'Bring Your Own Key'."
+        },
+        "crv": {
+          "type": "string",
+          "description": "Elliptic curve name. For valid values, see JsonWebKeyCurveName.",
+          "enum": [
+            "P-256",
+            "P-384",
+            "P-521",
+            "SECP256K1"
+          ],
+          "x-ms-enum": {
+            "name": "JsonWebKeyCurveName",
+            "modelAsString": true
+          }
+        },
+        "x": {
+          "type": "string",
+          "format": "base64url",
+          "description": "X component of an EC public key."
+        },
+        "y": {
+          "type": "string",
+          "format": "base64url",
+          "description": "Y component of an EC public key."
         }
       },
       "description": "As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18"
@@ -1073,9 +1015,10 @@
         "kty": {
           "type": "string",
           "minLength": 1,
-          "description": "The type of key to create. For valid key types, see JsonWebKeyType. Supported JsonWebKey key types (kty) for Elliptic Curve, RSA, HSM, Octet",
+          "description": "The type of key to create. For valid values, see JsonWebKeyType.",
           "enum": [
             "EC",
+            "EC-HSM",
             "RSA",
             "RSA-HSM",
             "oct"
@@ -1119,6 +1062,21 @@
             "type": "string"
           },
           "description": "Application specific metadata in the form of key-value pairs."
+        },
+        "crv": {
+          "x-ms-client-name": "curve",
+          "type": "string",
+          "description": "Elliptic curve name. For valid values, see JsonWebKeyCurveName.",
+          "enum": [
+            "P-256",
+            "P-384",
+            "P-521",
+            "SECP256K1"
+          ],
+          "x-ms-enum": {
+            "name": "JsonWebKeyCurveName",
+            "modelAsString": true
+          }
         }
       },
       "description": "The key create parameters.",
@@ -1196,7 +1154,11 @@
             "RS256",
             "RS384",
             "RS512",
-            "RSNULL"
+            "RSNULL",
+            "ES256",
+            "ES384",
+            "ES512",
+            "ECDSA256"
           ],
           "x-ms-enum": {
             "name": "JsonWebKeySignatureAlgorithm",
@@ -1228,7 +1190,11 @@
             "RS256",
             "RS384",
             "RS512",
-            "RSNULL"
+            "RSNULL",
+            "ES256",
+            "ES384",
+            "ES512",
+            "ECDSA256"
           ],
           "x-ms-enum": {
             "name": "JsonWebKeySignatureAlgorithm",
@@ -2088,5 +2054,12 @@
     }
   },
   "x-internal-service-name": "Key Vault",
-  "x-internal-toc-name": "Get Sas Definition"
+  "x-internal-toc-name": "Get Sas Definition",
+  "x-internal-split-members": [
+    {
+      "displayName": "Get Sas Definition",
+      "relativePath": "GetSasDefinition/GetSasDefinition"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
 }

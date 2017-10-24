@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-08-01",
+    "version": "2017-09-01",
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
   },
@@ -1009,6 +1009,224 @@
         "type": "string"
       }
     },
+    "AzureReachabilityReportParameters": {
+      "properties": {
+        "providerLocation": {
+          "$ref": "#/definitions/AzureReachabilityReportLocation"
+        },
+        "providers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of Internet service providers."
+        },
+        "azureLocations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional Azure regions to scope the query to."
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The start time for the Azure reachability report."
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end time for the Azure reachability report."
+        }
+      },
+      "required": [
+        "providerLocation",
+        "startTime",
+        "endTime"
+      ],
+      "description": "Geographic and time constraints for Azure reachability report."
+    },
+    "AzureReachabilityReportLocation": {
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "The name of the country."
+        },
+        "state": {
+          "type": "string",
+          "description": "The name of the state."
+        },
+        "city": {
+          "type": "string",
+          "description": "The name of the city or town."
+        }
+      },
+      "required": [
+        "country"
+      ],
+      "description": "Parameters that define a geographic location."
+    },
+    "AzureReachabilityReport": {
+      "properties": {
+        "aggregationLevel": {
+          "type": "string",
+          "description": "The aggregation level of Azure reachability report. Can be Country, State or City."
+        },
+        "providerLocation": {
+          "$ref": "#/definitions/AzureReachabilityReportLocation"
+        },
+        "reachabilityReport": {
+          "type": "array",
+          "description": "List of Azure reachability report items.",
+          "items": {
+            "$ref": "#/definitions/AzureReachabilityReportItem"
+          }
+        }
+      },
+      "required": [
+        "aggregationLevel",
+        "providerLocation",
+        "reachabilityReport"
+      ],
+      "description": "Azure reachability report details."
+    },
+    "AzureReachabilityReportItem": {
+      "properties": {
+        "provider": {
+          "type": "string",
+          "description": "The Internet service provider."
+        },
+        "azureLocation": {
+          "type": "string",
+          "description": "The Azure region."
+        },
+        "latencies": {
+          "type": "array",
+          "description": "List of latency details for each of the time series.",
+          "items": {
+            "$ref": "#/definitions/AzureReachabilityReportLatencyInfo"
+          }
+        }
+      },
+      "description": "Azure reachability report details for a given provider location."
+    },
+    "AzureReachabilityReportLatencyInfo": {
+      "properties": {
+        "timeStamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time stamp."
+        },
+        "score": {
+          "type": "integer",
+          "description": "The relative latency score between 1 and 100, higher values indicating a faster connection.",
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "description": "Details on latency for a time series."
+    },
+    "AvailableProvidersListParameters": {
+      "properties": {
+        "azureLocations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of Azure regions."
+        },
+        "country": {
+          "type": "string",
+          "description": "The country for available providers list."
+        },
+        "state": {
+          "type": "string",
+          "description": "The state for available providers list."
+        },
+        "city": {
+          "type": "string",
+          "description": "The city or town for available providers list."
+        }
+      },
+      "description": "Constraints that determine the list of available Internet service providers."
+    },
+    "AvailableProvidersList": {
+      "properties": {
+        "countries": {
+          "type": "array",
+          "description": "List of available countries.",
+          "items": {
+            "$ref": "#/definitions/AvailableProvidersListCountry"
+          }
+        }
+      },
+      "required": [
+        "countries"
+      ],
+      "description": "List of available countries with details."
+    },
+    "AvailableProvidersListCountry": {
+      "properties": {
+        "countryName": {
+          "type": "string",
+          "description": "The country name."
+        },
+        "providers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of Internet service providers."
+        },
+        "states": {
+          "type": "array",
+          "description": "List of available states in the country.",
+          "items": {
+            "$ref": "#/definitions/AvailableProvidersListState"
+          }
+        }
+      },
+      "description": "Country details."
+    },
+    "AvailableProvidersListState": {
+      "properties": {
+        "stateName": {
+          "type": "string",
+          "description": "The state name."
+        },
+        "providers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of Internet service providers."
+        },
+        "cities": {
+          "type": "array",
+          "description": "List of available cities or towns in the state.",
+          "items": {
+            "$ref": "#/definitions/AvailableProvidersListCity"
+          }
+        }
+      },
+      "description": "State details."
+    },
+    "AvailableProvidersListCity": {
+      "properties": {
+        "cityName": {
+          "type": "string",
+          "description": "The city or town name."
+        },
+        "providers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of Internet service providers."
+        }
+      },
+      "description": "City or town details."
+    },
     "SubResourceReadOnly": {
       "properties": {
         "id": {
@@ -1018,6 +1236,76 @@
         }
       },
       "x-ms-azure-resource": true
+    },
+    "Resource": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource ID.",
+          "readOnly": true
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource name."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type."
+        },
+        "location": {
+          "type": "string",
+          "description": "Resource location."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "description": "Common resource representation.",
+      "x-ms-azure-resource": true,
+      "required": [
+        "location"
+      ]
+    },
+    "ApplicationSecurityGroupPropertiesFormat": {
+      "properties": {
+        "resourceGuid": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups."
+        },
+        "provisioningState": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
+        }
+      },
+      "description": "Application security group properties."
+    },
+    "ApplicationSecurityGroup": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ApplicationSecurityGroupPropertiesFormat",
+          "description": "Properties of the application security group."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "An application security group in a resource group."
     },
     "SecurityRulePropertiesFormat": {
       "properties": {
@@ -1057,6 +1345,13 @@
           },
           "description": "The CIDR or source IP ranges."
         },
+        "sourceApplicationSecurityGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApplicationSecurityGroup"
+          },
+          "description": "The application security group specified as source."
+        },
         "destinationAddressPrefix": {
           "type": "string",
           "description": "The destination address prefix. CIDR or destination IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used."
@@ -1067,6 +1362,13 @@
             "type": "string"
           },
           "description": "The destination address prefixes. CIDR or destination IP ranges."
+        },
+        "destinationApplicationSecurityGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApplicationSecurityGroup"
+          },
+          "description": "The application security group specified as destination."
         },
         "sourcePortRanges": {
           "type": "array",
@@ -1261,41 +1563,6 @@
         }
       },
       "description": "Effective network security rules."
-    },
-    "Resource": {
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Resource ID.",
-          "readOnly": true
-        },
-        "name": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource name."
-        },
-        "type": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource type."
-        },
-        "location": {
-          "type": "string",
-          "description": "Resource location."
-        },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Resource tags."
-        }
-      },
-      "description": "Common resource representation.",
-      "x-ms-azure-resource": true,
-      "required": [
-        "location"
-      ]
     }
   },
   "parameters": {

@@ -35,6 +35,27 @@
         "externalDocs": {
           "url": "https://aka.ms/media-manage"
         },
+        "x-ms-examples": {
+          "MediaServiceListKeys": {
+            "parameters": {
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "resourceGroupName": "contosoresources",
+              "mediaServiceName": "contosmedia",
+              "api-version": "2015-10-01"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "primaryAuthEndpoint": "https://wamsprodglobal001acs.accesscontrol.windows.net/",
+                  "secondaryAuthEndpoint": "https://wamsprodglobal002acs.accesscontrol.windows.net/",
+                  "primaryKey": "<primary key value>",
+                  "secondaryKey": "<secondary key value>",
+                  "scope": "urn:windowsazuremediaservices"
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/subscriptionIdParameter"
@@ -133,7 +154,7 @@
         "name": {
           "description": "The name of the resource. A name must be globally unique.",
           "type": "string",
-          "pattern": "^[a-z0-9]",
+          "pattern": "^[a-z0-9]{3,24}$",
           "minLength": 3,
           "maxLength": 24
         },
@@ -156,29 +177,12 @@
     },
     "CheckNameAvailabilityOutput": {
       "description": "The response body for CheckNameAvailability API.",
-      "example": {
-        "value": [
-          {
-            "NameAvailable": true
-          },
-          {
-            "NameAvailable": false,
-            "Reason": "AlreadyExists",
-            "Message": "Already in use by another Media Service instance. Please try again with a name that is not likely to be in use."
-          },
-          {
-            "NameAvailable": false,
-            "Reason": "Invalid",
-            "Message": "The media service name should be between 3 and 24 characters and may contain only lowercase letters and numbers."
-          }
-        ]
-      },
       "properties": {
-        "NameAvailable": {
+        "nameAvailable": {
           "description": "Specifies if the name is available.",
           "type": "boolean"
         },
-        "Reason": {
+        "reason": {
           "description": "Specifies the reason if the name is not available.",
           "type": "string",
           "enum": [
@@ -191,7 +195,7 @@
             "modelAsString": false
           }
         },
-        "Message": {
+        "message": {
           "description": "Specifies the detailed reason if the name is not available.",
           "type": "string"
         }
@@ -204,7 +208,7 @@
         "properties": {
           "storageAccounts": [
             {
-              "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-media/providers/Microsoft.Storage/storageAccounts/contosomedia",
+              "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Storage/storageAccounts/contosomedia",
               "isPrimary": true
             }
           ]
@@ -212,6 +216,7 @@
       },
       "properties": {
         "properties": {
+          "description": "The additional properties of a Media Service resource.",
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/MediaServiceProperties"
         }
@@ -226,6 +231,7 @@
       "description": "The collection of Media Service resources.",
       "properties": {
         "value": {
+          "description": "The collection of Media Service resources.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/MediaService"
@@ -355,7 +361,7 @@
     "StorageAccount": {
       "description": "The properties of a storage account associated with this resource.",
       "example": {
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-media/providers/Microsoft.Storage/storageAccounts/contosomedia",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Storage/storageAccounts/contosomedia",
         "isPrimary": true
       },
       "required": [
@@ -376,7 +382,7 @@
     "SyncStorageKeysInput": {
       "description": "The request  body for a SyncStorageKeys API.",
       "example": {
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-media/providers/Microsoft.Storage/storageAccounts/contosomedia"
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Storage/storageAccounts/contosomedia"
       },
       "required": [
         "id"
@@ -385,6 +391,55 @@
         "id": {
           "description": "The id of the storage account resource.",
           "type": "string"
+        }
+      }
+    },
+    "OperationListResult": {
+      "description": "Result of the request to list Media Services operations.",
+      "properties": {
+        "value": {
+          "description": "List of Media Services operations supported by the Microsoft.Media resource provider.",
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Operation"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of operation list results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "Operation": {
+      "description": "A Media Services REST API operation",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Operation name: {provider}/{resource}/{operation}",
+          "type": "string",
+          "readOnly": true
+        },
+        "display": {
+          "description": "The object that represents the operation.",
+          "properties": {
+            "provider": {
+              "description": "Service provider: Microsoft.Media",
+              "type": "string",
+              "readOnly": true
+            },
+            "resource": {
+              "description": "Resource on which the operation is performed: Invoice, etc.",
+              "type": "string",
+              "readOnly": true
+            },
+            "operation": {
+              "description": "Operation type: Read, write, delete, etc.",
+              "type": "string",
+              "readOnly": true
+            }
+          }
         }
       }
     }
@@ -411,14 +466,14 @@
       "in": "path",
       "required": true,
       "type": "string",
-      "pattern": "^[a-z0-9]",
+      "pattern": "^[a-z0-9]{3,24}$",
       "minLength": 3,
       "maxLength": 24,
       "x-ms-parameter-location": "method"
     },
     "apiVersionParameter": {
       "name": "api-version",
-      "description": "Version of the API to be used with the client request. Current version is 2015-10-01",
+      "description": "Version of the API to be used with the client request. The current version is 2015-10-01.",
       "in": "query",
       "required": true,
       "type": "string"

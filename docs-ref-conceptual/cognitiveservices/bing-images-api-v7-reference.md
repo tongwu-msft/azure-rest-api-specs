@@ -13,10 +13,7 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# Image Search API v7 Preview reference
-
-> [!NOTE]
-> Preview release of the Image API. All aspects of the API and documentation are subject to change. 
+# Image Search API v7 reference
 
 The Image Search API lets you send a search query to Bing and get back a list of relevant images. This section provides technical details about the query parameters and headers that you use to request images and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/search-the-web).  
 
