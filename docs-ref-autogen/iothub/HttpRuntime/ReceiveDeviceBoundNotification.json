@@ -1,0 +1,131 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2016-11-14",
+    "title": "Device Messaging API",
+    "description": "Use these APIs from a device to send device-to-cloud messages to an IoT hub, receive cloud-to-device messages from an IoT hub, and to upload files from a device. All task operations conform to the HTTP/1.1 protocol specification. Each API call must include the api-version query parameter. In addition, either an X.509 client certificate or an authorization header containing a Shared Access Signature token with the appropriate permissions must be presented."
+  },
+  "host": "<fully-qualified IoT hub domain name>",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/devices/{id}/messages/deviceBound": {
+      "get": {
+        "tags": [
+          "GET"
+        ],
+        "description": "This method is used to retrieve a cloud-to-device message.",
+        "summary": "This method is used to retrieve a cloud-to-device message. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging for more information.",
+        "operationId": "HttpRuntime_ReceiveDeviceBoundNotification",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/api-version"
+          },
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The body can be any octet-stream. Note that the size of the whole message (body plus properties) must be less than 256 Kb.",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "204": {
+            "description": "NoContent. Sent if device message queue is empty."
+          }
+        },
+        "x-internal-toc-name": "Receive Device Bound Notification"
+      }
+    }
+  },
+  "definitions": {
+    "FileUploadRequest": {
+      "description": "Contains a request from a device to upload a file.",
+      "type": "object",
+      "properties": {
+        "blobName": {
+          "type": "string",
+          "description": "This follows the format: <deviceId>/<filename>."
+        }
+      },
+      "required": [
+        "blobName"
+      ]
+    },
+    "FileUploadResponse": {
+      "description": "Contains the response to a device request to upload a file.",
+      "type": "object",
+      "properties": {
+        "correlationId": {
+          "type": "string",
+          "description": "Unique id for this file upload request/response."
+        },
+        "hostName": {
+          "type": "string",
+          "description": " Host name of blob account."
+        },
+        "containerName": {
+          "type": "string",
+          "description": "Name of the storage container."
+        },
+        "blobName": {
+          "type": "string",
+          "description": "Name of the blob."
+        },
+        "sasToken": {
+          "type": "string",
+          "description": "SAS Token to read+write to blob."
+        }
+      },
+      "required": []
+    },
+    "FileUploadCompletionStatus": {
+      "description": "Contains the file upload completion status including correlationId and status fields.",
+      "type": "object",
+      "properties": {
+        "correlationId": {
+          "type": "string",
+          "description": "This follows the format: <expiryTime>_<guid>_<filename> where <expiryTime> is UTC time in 'yyyyMMddHHmm' format."
+        },
+        "isSuccess": {
+          "type": "boolean"
+        },
+        "statusCode": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "statusDescription": {
+          "type": "string",
+          "maxLength": 65536
+        }
+      },
+      "required": [
+        "correlationId"
+      ]
+    }
+  },
+  "parameters": {
+    "api-version": {
+      "name": "api-version",
+      "in": "query",
+      "description": "The version of the API.",
+      "required": true,
+      "type": "string",
+      "default": "2016-11-14"
+    }
+  },
+  "x-internal-service-name": "IoT Hub",
+  "x-internal-toc-name": "Http Runtime",
+  "x-internal-split-type": "Operation"
+}
