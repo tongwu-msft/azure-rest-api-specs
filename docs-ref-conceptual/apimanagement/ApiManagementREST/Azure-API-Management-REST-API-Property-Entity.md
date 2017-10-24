@@ -27,9 +27,9 @@ translation.priority.mt:
 # Azure API Management REST API Property Entity
 API Management policies are a powerful capability of the system that allow the publisher to change the behavior of the API through configuration. Policies are a collection of statements that are executed sequentially on the request or response of an API. Policy statements can be constructed using literal text values, policy expressions, and properties.   Each API Management service instance has a properties collection of key/value pairs that are global to the service instance. These properties can be used to manage constant string values across all API configuration and policies.  
   
- This topic describes how to manage properties using the API Management REST API. For more information about working with properties in the publisher portal, see [How to use properties in Azure API Management policies](http://azure.microsoft.com/documentation/articles/api-management-howto-properties/).  
+ This topic describes how to manage properties using the API Management REST API. For more information about working with properties in the publisher portal, see [How to use properties in Azure API Management policies](https://azure.microsoft.com/documentation/articles/api-management-howto-properties/).  
   
- For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](http://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
+ For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   
 ## In this topic  
   

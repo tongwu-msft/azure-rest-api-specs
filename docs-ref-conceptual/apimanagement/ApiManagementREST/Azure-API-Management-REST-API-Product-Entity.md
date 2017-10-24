@@ -29,7 +29,7 @@ The Product entity represents a product in API Management. Products include one 
   
  This topic describes how to manage products using the API Management REST API. For more information about working with products in the publisher portal, see [How create and publish a product in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=404274) and [How create and configure advanced product settings in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=404275).  
   
- For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](http://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
+ For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   
 ## In this topic  
   
