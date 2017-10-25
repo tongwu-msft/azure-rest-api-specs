@@ -222,7 +222,7 @@ Request Message:
                     "take": 100
                 }
             },
-            "aggregates": [{
+            "aggregate": {
                 "dimension": {
                     "dateHistogram": {
                         "input": {
@@ -242,8 +242,9 @@ Request Message:
                     },
                     {
                         "count": {}
-                    }]
-                }]
+                    }
+                ]
+            }
         }]
     }
 }
