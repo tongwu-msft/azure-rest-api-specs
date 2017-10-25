@@ -192,24 +192,64 @@
       ]
     },
     "SecureString": {
+      "x-ms-discriminator-value": "SecureString",
       "description": "Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.",
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SecretBase"
+        }
+      ],
       "properties": {
-        "type": {
-          "type": "string",
-          "description": "SecureString type.",
-          "enum": [
-            "SecureString"
-          ]
-        },
         "value": {
           "type": "string",
           "description": "Value of secure string."
         }
       },
       "required": [
-        "type",
         "value"
+      ]
+    },
+    "AzureKeyVaultSecretReference": {
+      "x-ms-discriminator-value": "AzureKeyVaultSecret",
+      "description": "Azure Key Vault secret reference.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SecretBase"
+        }
+      ],
+      "properties": {
+        "store": {
+          "description": "The Azure Key Vault linked service reference.",
+          "$ref": "#/definitions/LinkedServiceReference"
+        },
+        "secretName": {
+          "type": "object",
+          "description": "The name of the secret in Azure Key Vault. Type: string (or Expression with resultType string)."
+        },
+        "secretVersion": {
+          "type": "object",
+          "description": "The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string)."
+        }
+      },
+      "required": [
+        "store",
+        "secretName"
+      ]
+    },
+    "SecretBase": {
+      "description": "The base definition of a secret type.",
+      "discriminator": "type",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of the secret."
+        }
+      },
+      "required": [
+        "type"
       ]
     },
     "FactoryListResponse": {
@@ -1985,11 +2025,11 @@
         },
         "password": {
           "description": "The password for Basic authentication of the Salesforce source.",
-          "$ref": "#/definitions/SecureString"
+          "$ref": "#/definitions/SecretBase"
         },
         "securityToken": {
           "description": "The security token is required to remotely access Salesforce source.",
-          "$ref": "#/definitions/SecureString"
+          "$ref": "#/definitions/SecretBase"
         },
         "encryptedCredential": {
           "type": "object",
@@ -2938,48 +2978,6 @@
       },
       "required": [
         "typeProperties"
-      ]
-    },
-    "AzureKeyVaultSecretReference": {
-      "description": "Azure Key Vault Secret properties.",
-      "x-ms-discriminator-value": "AzureKeyVaultSecret",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/AzureKeyVaultReference"
-        }
-      ],
-      "properties": {
-        "secretName": {
-          "type": "object",
-          "description": "The name of secret in Azure Key Vault. Type: string (or Expression with resultType string)."
-        },
-        "secretVersion": {
-          "type": "object",
-          "description": "The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string)."
-        }
-      },
-      "required": [
-        "secretName"
-      ]
-    },
-    "AzureKeyVaultReference": {
-      "type": "object",
-      "description": "A reference to an object in Azure Key Vault.",
-      "discriminator": "type",
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "The type of the Azure Key Vault object to reference."
-        },
-        "store": {
-          "description": "The Azure Key Vault LinkedService.",
-          "$ref": "#/definitions/LinkedServiceReference"
-        }
-      },
-      "required": [
-        "type",
-        "store"
       ]
     },
     "DynamicsLinkedServiceTypeProperties": {
