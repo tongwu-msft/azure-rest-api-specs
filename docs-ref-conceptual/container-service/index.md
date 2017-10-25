@@ -6,7 +6,6 @@ ms.date: 10/24/2017
 ms.topic: reference
 ms.service: container-service
 ms.devlang: rest-api
-service_description: To be added
 ---
 
 # Azure Container Service REST API reference

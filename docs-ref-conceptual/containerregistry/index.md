@@ -4,8 +4,8 @@ ms.title: Azure Container Registry REST API reference
 ms.service: container-registry
 author: mmacy
 ms.author: marsma
+ms.date: 10/24/2017
 ms.manager: timlt
-service_description: To be added
 ---
 
 # Azure Container Registry REST API reference
