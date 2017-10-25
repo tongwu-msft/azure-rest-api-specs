@@ -74,7 +74,7 @@
 ## [List available skus for VMs](virtualmachinescalesets/list-available-skus-for-vms.md)
 ## [Manage a VM](virtualmachinescalesets/manage-a-vm.md)
 ## [Manage all VMs in a set](virtualmachinescalesets/manage-all-vms-in-a-set.md)
-# Cloud Services (classic)
+# [Cloud Services (classic)](cloudservices/index.md)
 ## [Add Extension](cloudservices/rest-add-extension.md)
 ## [Change Deployment Configuration](cloudservices/rest-change-deployment-configuration.md)
 ## [Check Cloud Service Name Availability](cloudservices/rest-check-cloud-service-name-availability.md)
