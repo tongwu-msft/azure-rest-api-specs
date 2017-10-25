@@ -1,5 +1,5 @@
 ---
-title: "Common tasks using the DocumentDB REST API"
+title: "Common tasks - Azure Cosmos DB REST API"
 ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
@@ -13,7 +13,6 @@ caps.latest.revision: 7
 author: "mimig1"
 ms.author: "mimig"
 manager: "jhubbard"
-robots: noindex,nofollow
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,7 +33,7 @@ translation.priority.mt:
 * [Create a Database](create-a-database.md)  
 * [List Databases](list-databases.md)  
 * [Get a Database](get-a-database.md)  
-* [Delete a Database](delete-a-database1.md)
+* [Delete a Database](delete-a-database.md)
 * [Query Databases](querying-documentdb-resources-using-the-rest-api.md)  
   
 ## Documents  
@@ -114,10 +113,9 @@ translation.priority.mt:
 
 
 ## See Also  
-* [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/en-us/azure/documentdb/documentdb-introduction)   
-* [Azure Cosmos DB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
-* [Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
+* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   

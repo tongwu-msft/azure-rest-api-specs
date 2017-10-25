@@ -9,249 +9,7 @@
   "schemes": [
     "https"
   ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
-  "paths": {
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations": {
-      "post": {
-        "tags": [
-          "GenerateRecommendations"
-        ],
-        "description": "Initiates the recommendation generation or computation process for a subscription. This operation is asynchronous. The generated recommendations are stored in a cache in the Advisor service.",
-        "operationId": "Recommendations_Generate",
-        "parameters": [
-          {
-            "$ref": "#/parameters/subscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/apiVersionParameter"
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Accepted. Recommendation generation has been accepted.",
-            "headers": {
-              "Location": {
-                "description": "The URL where the status of the asynchronous operation can be checked.",
-                "type": "string"
-              },
-              "Retry-After": {
-                "description": "The amount of delay to use while the status of the operation is checked. The value is expressed in seconds.",
-                "type": "string"
-              }
-            }
-          }
-        },
-        "deprecated": false,
-        "x-ms-examples": {
-          "GenerateRecommendations": {
-            "parameters": {
-              "subscriptionId": "subscriptionId",
-              "api-version": "2017-03-31"
-            },
-            "responses": {
-              "202": {
-                "headers": {
-                  "Location": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Microsoft.Advisor/generateRecommendations/recGUID?api-version=2017-03-31",
-                  "Retry-After": "60"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations/{operationId}": {
-      "get": {
-        "tags": [
-          "GenerateRecommendations"
-        ],
-        "description": "Retrieves the status of the recommendation computation or generation process. Invoke this API after calling the generation recommendation. The URI of this API is returned in the Location field of the response header.",
-        "operationId": "Recommendations_GetGenerateStatus",
-        "parameters": [
-          {
-            "$ref": "#/parameters/subscriptionIdParameter"
-          },
-          {
-            "name": "operationId",
-            "in": "path",
-            "description": "The operation ID, which can be found from the Location field in the generate recommendation response header.",
-            "required": true,
-            "type": "string",
-            "format": "uuid"
-          },
-          {
-            "$ref": "#/parameters/apiVersionParameter"
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Accepted. Recommendation generation is in progress."
-          },
-          "204": {
-            "description": "NoContent. Recommendation generation has been completed."
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations": {
-      "get": {
-        "tags": [
-          "GetRecommendations"
-        ],
-        "description": "Obtains cached recommendations for a subscription. The recommendations are generated or computed by invoking generateRecommendations.",
-        "operationId": "Recommendations_List",
-        "parameters": [
-          {
-            "$ref": "#/parameters/subscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/apiVersionParameter"
-          },
-          {
-            "name": "$filter",
-            "in": "query",
-            "description": "The filter to apply to the recommendations.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "$top",
-            "in": "query",
-            "description": "The number of recommendations per page if a paged version of this API is being used.",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "$skipToken",
-            "in": "query",
-            "description": "The page-continuation token to use with a paged version of this API.",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK. Successfully obtained cached recommendations.",
-            "schema": {
-              "$ref": "#/definitions/ResourceRecommendationBaseListResult"
-            }
-          }
-        },
-        "deprecated": false,
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-examples": {
-          "ListRecommendations": {
-            "parameters": {
-              "subscriptionId": "subscriptionId",
-              "$top": 10,
-              "api-version": "2017-03-31"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "nextLink": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/recommendations?api-version=2017-03-31&$top=10&$skiptoken=skiptoken",
-                  "value": [
-                    {
-                      "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recGUID",
-                      "name": "recGUID",
-                      "properties": {
-                        "category": "HighAvailability",
-                        "impact": "Medium",
-                        "impactedField": "Microsoft.Compute/availabilitySets",
-                        "impactedValue": "armavset",
-                        "lastUpdated": "2017-02-24T22:24:43.3216408Z",
-                        "risk": "Warning",
-                        "shortDescription": {
-                          "problem": "This availability set is not configured for fault tolerance",
-                          "solution": "To ensure high availability add one or more virtual machines to this availability set"
-                        }
-                      },
-                      "type": "Microsoft.Advisor/recommendations"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}": {
-      "get": {
-        "tags": [
-          "GetRecommendations"
-        ],
-        "description": "Obtains details of a cached recommendation.",
-        "operationId": "Recommendations_Get",
-        "parameters": [
-          {
-            "name": "resourceUri",
-            "in": "path",
-            "description": "The fully qualified Azure Resource Manager identifier of the resource to which the recommendation applies.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "recommendationId",
-            "in": "path",
-            "description": "The recommendation ID.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/apiVersionParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK. Successfully got recommendation detail.",
-            "schema": {
-              "$ref": "#/definitions/ResourceRecommendationBase"
-            }
-          }
-        },
-        "deprecated": false,
-        "x-ms-examples": {
-          "GetRecommendationDetail": {
-            "parameters": {
-              "resourceUri": "resourceUri",
-              "recommendationId": "recommendationId",
-              "api-version": "2017-03-31"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId",
-                  "name": "recommendationId",
-                  "properties": {
-                    "category": "HighAvailability",
-                    "impact": "Medium",
-                    "impactedField": "Microsoft.Compute/availabilitySets",
-                    "impactedValue": "armavset",
-                    "lastUpdated": "2017-02-24T22:24:43.3216408Z",
-                    "risk": "Warning",
-                    "shortDescription": {
-                      "problem": "This availability set is not configured for fault tolerance",
-                      "solution": "To ensure high availability add one or more virtual machines to this availability set"
-                    }
-                  },
-                  "type": "Microsoft.Advisor/recommendations"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "ResourceRecommendationBaseListResult": {
       "description": "The list of Advisor recommendations.",
@@ -520,5 +278,26 @@
         "user_impersonation"
       ]
     }
-  ]
+  ],
+  "x-internal-service-name": "Advisor",
+  "x-internal-toc-name": "Recommendations",
+  "x-internal-split-members": [
+    {
+      "displayName": "Generate",
+      "relativePath": "Recommendations/Generate"
+    },
+    {
+      "displayName": "Get",
+      "relativePath": "Recommendations/Get"
+    },
+    {
+      "displayName": "Get Generate Status",
+      "relativePath": "Recommendations/GetGenerateStatus"
+    },
+    {
+      "displayName": "List",
+      "relativePath": "Recommendations/List"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
 }

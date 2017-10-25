@@ -179,7 +179,7 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
 
  To create the service, see [Create an Azure Search service](http://azure.microsoft.com/documentation/articles/search-create-service-portal/). followed by [How to build a .NET application with Azure Search](http://azure.microsoft.com/documentation/articles/search-howto-dotnet-sdk/).  
 
-## See Also  
+## See also  
  [Azure Search: tutorials, video demos, and samples](http://azure.microsoft.com/documentation/articles/search-video-demo-tutorial-list/)     
  [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
  [Create an Azure Search service](http://azure.microsoft.com/documentation/articles/search-create-service-portal/)   

@@ -1,6 +1,6 @@
 ---
 title: "ReplicatorQueueStatus"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -31,7 +31,7 @@ translation.priority.mt:
 
 Provides various statistics of the queue used in the service fabric replicator.
 Contains information about the service fabric replicator like the replication/copy queue utilization, last acknowledgement received timestamp, etc.
-Depending on the role of the replicator, the properties in this type imply different meanings. 
+Depending on the role of the replicator, the properties in this type imply different meanings.
 
 
 ## Properties

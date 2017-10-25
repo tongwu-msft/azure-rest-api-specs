@@ -1,7 +1,7 @@
 ---
 title: "Get Index (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-06-23"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -55,12 +55,12 @@ api-key: [admin key]
  None.  
 
 ## Response  
- Status Code: "200 OK" is returned for a successful response. See the example JSON in [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) for an example of the response payload.  
+ Status Code: "200 OK" is returned for a successful response. See the example request JSON in [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) for an example of the response payload. The Get Index response body and the Create Index response and response bodies are all of the same format.  
 
 > [!NOTE]  
 >  You can use a diagnostic tool such as Fiddler to view the response payload. See [How to use Fiddler to evaluate and test Azure Search REST APIs](https://azure.microsoft.com/documentation/articles/search-fiddler/).  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)

@@ -4,6 +4,7 @@ This document describes query request format for query API. Query requests must 
 
 The language is subdivided into the following elements:
 - Scalar expressions, which produce scalar values.
+- Scalar functions, which produce scalar values.
 - Aggregate expressions, used to partition collections of events and compute measures over the partitions.
 - Clauses, which form constituent components of input JSON query and also can be a part of expressions.
 
@@ -12,7 +13,7 @@ The language is subdivided into the following elements:
 Query API operates on data stored as individual **events** within an environment.
 Each event is a set of property name and value pairs.
 
-Event properties can be of one of the following primitive types: `Boolean`, `DateTime`, `Double` or `String`.
+Event properties can be of one of the following primitive types: `Boolean`, `DateTime`, `Double`, or `String`.
 Original event source formats may support a larger set of value types, in which case Time Series Insights ingress maps them to the closest primitive types.
 All primitive types are nullable.
 
@@ -35,7 +36,7 @@ Properties with the same name but different types might result from ingress type
 * If String value is a valid Double value, then it is stored both as Double and String.
 * If String value is a valid DateTime value, then it is stored as DateTime only.
 
-Time Series Insights has limited support for the following values within the Double type: `Double.NaN`, `Double.PositiveInfinity` and `Double.NegativeInfinity`.
+Time Series Insights has limited support for the following values within the Double type: `Double.NaN`, `Double.PositiveInfinity`, and `Double.NegativeInfinity`.
 These values are converted to `null` during ingress, but if query evaluation produces one of these values, the value is evaluated and serialized as a `String` in response.
 User can pass these values as strings for ingress, so in query expressions these values should be also passed as strings.
 Query API converts empty string literals to nulls in the output.
@@ -54,6 +55,7 @@ Schema contains the name of the event source and ordered set of properties for t
 | DateTime | Nested object with single "dateTime" property in ISO 8601 format `yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK`. | `{"dateTime":"2016-08-01T00:00:00.000Z"}`|  |
 | Double | JSON number cast to Double range. | `1.23e45`, `123`| Overflow of Double results in error. |
 | String | JSON String | `"abc"`|  |
+| TimeSpan | Nested object with single "timeSpan" property in ISO 8601 format P[n]Y[n]M[n]DT[n]H[n]M[n]S. | `{"timeSpan":"P1Y2M3DT4M5.67S"}`|  |
 
 Null literal is typed in JSON and is represented as a nested object with type property.
 
@@ -63,6 +65,7 @@ JSON example:
 {"double": null}
 {"bool": null}
 {"dateTime": null}
+{"timeSpan": null}
 ```
 
 **Property reference expression** is used to access values of non-built-in properties of an event.
@@ -71,8 +74,8 @@ Properties in the event schema are uniquely identified by name and type and the 
 
 JSON example:
 ```json
-"property": {
-    "name": "p1",
+{
+    "property": "p1",
     "type": "String"
 }
 ```
@@ -104,10 +107,8 @@ JSON example:
 ```json
 "eq": {
     "left": {
-        "property": {
-            "name": "p1",
-            "type": "String"
-        }
+        "property": "p1",
+        "type": "String"
     },
     "right": "abc"
 }
@@ -120,6 +121,7 @@ The following table shows supported types of arguments for each of the compariso
 | DateTime | `eq`, `in`, `lt`, `lte`, `gt`, `gte` |
 | Double | `eq`, `in`, `lt`, `lte`, `gt`, `gte` |
 | String | `eq`, `in`, `phrase` |
+| TimeSpan | `eq`, `in`, `lt`, `lte`, `gt`, `gte` |
 
 Null literal can only be used in the following expressions: `eq`, `in`.
 The `eq` operation results in `true` if both sides are null values and `false` otherwise.
@@ -140,10 +142,8 @@ JSON example:
     {
 		"eq": {
 			"left": {
-				"property": {
-					"name": "p1",
-					"type": "String"
-				}
+				"property": "p1",
+				"type": "String"
 			},
 			"right": "abc"
 		}
@@ -152,10 +152,8 @@ JSON example:
 		"not": {
 			"lt": {
 				"left": {
-					"property": {
-						"name": "p1",
-						"type": "Double"
-					}
+					"property": "p1",
+					"type": "Double"
 				},
 				"right": 1.0
 			}
@@ -163,6 +161,43 @@ JSON example:
 	}
 ]
 ```
+
+Time Series Insights supports the following **arithmetic expressions**:
+
+| Property Name in JSON | Description |
+|-|-|
+| `"add"` | Addition. |
+| `"sub"` | Subtraction. |
+| `"mult"` | Multiplication. |
+| `"div"` | Division. |
+
+All arithmetic expressions take left and right arguments of primitive types and return a value representing result of the operation.
+All types implicitly cast only to themselves and explicit casts are not supported.
+
+JSON example:
+```json
+"add": {
+    "left": {
+        "property": "p1",
+        "type": "Double"
+    },
+    "right": 1.0
+}
+```
+
+The following table shows supported types of arguments for each of the comparison expressions:
+| Operation | Left type | Right type | Result type |
+|-|-|-|-|
+| `add` | Double | Double | Double |
+| `add` | TimeSpan | TimeSpan | TimeSpan |
+| `add` | DateTime | TimeSpan | DateTime |
+| `add` | TimeSpan | DateTime | DateTime |
+| `sub` | Double | Double | Double |
+| `sub` | TimeSpan | TimeSpan | TimeSpan |
+| `sub` | DateTime | DateTime | TimeSpan |
+| `sub` | DateTime | TimeSpan | DateTime |
+| `mul` | Double | Double | Double |
+| `div` | Double | Double | Double |
 
 **Boolean predicate string expression** contains boolean predicate represented as a human-readable expression called Predicate String.
 
@@ -189,27 +224,35 @@ Expression in predicate string is evaluated into JSON boolean expression. It sho
 ```bnf
 parse: orPredicate EOF | EOF;
 
-orPredicate: andPredicate ('OR' andPredicate)*;
-andPredicate: notPredicate ('AND' notPredicate)*;
-notPredicate: ('NOT')* predicate;
+orPredicate: andPredicate (Or andPredicate)*;
+andPredicate: notPredicate (And notPredicate)*;
+notPredicate: (Not)* predicate;
 
-predicate: parenExpression | propertyPredicate | hasPredicate | inPredicate;
+predicate: parenPredicate | comparisonPredicateExtended | hasPredicate | inPredicate;
 
-parenExpression: '(' orPredicate ')';
+parenPredicate: OpenParen orPredicate CloseParen;
 
-propertyPredicate: (ComparisonOp literal) | (unaryPredicate ComparisonOp unaryPredicate);
+parenExpression: OpenParen additiveExpression CloseParen;
 
-hasPredicate: (identifier? 'HAS')? StringLiteral;
+comparisonPredicateExtended: (ComparisonOp literal) | comparisonPredicate;
 
-inPredicate: identifier? 'IN (' literal (',' literal)* ')';
+comparisonPredicate: additiveExpression ComparisonOp additiveExpression;
 
-unaryPredicate: identifier | literal;
+additiveExpression: multiplicativeExpression ((Plus | Minus) multiplicativeExpression)*;
 
-literal: StringLiteral | NumericLiteral | BooleanLiteral | DateTimeLiteral | NullLiteral;
+multiplicativeExpression: unaryExpression (MultiplicativeOp unaryExpression)*;
 
-identifier: (BuiltinIdentifier | QuotedOrUnquotedIdentifier) (Sep QuotedOrUnquotedIdentifier)?;
+functionCallExpression: identifier OpenParen CloseParen;
 
-ComparisonOp: '=' | '!=' | '<>' | '>' | '>=' | '<' | '<=';
+unaryExpression: identifier | literal | functionCallExpression | parenPredicate | parenExpression;
+
+hasPredicate: (identifier? Has)? StringLiteral;
+
+inPredicate: identifier? In OpenParen literal (Comma literal)* CloseParen;
+
+literal: StringLiteral | ((Minus)? NumericLiteral) | BooleanLiteral | DateTimeLiteral | TimeSpanLiteral | NullLiteral;
+
+identifier: BuiltinIdentifier | (QuotedOrUnquotedIdentifier (Sep QuotedOrUnquotedIdentifier)?);
 ```
 
 The same set of Time Series Insights types is supported for predicate string.
@@ -222,17 +265,24 @@ Supported literals:
 | DateTime | dt'2016-10-08T03:22:55.3031599Z' |
 | Double   | 1.23, 1 |
 | String   | 'abc' |
+| TimeSpan | ts'P1Y2M3DT4M5.67S' |
 |  | NULL |
 
 Supported operand types:
 | Operation | Supported Types | Notes |
 |--|--|--|--|
-| <, >, <=, >= | Double, DateTime | |
-| =, !=, <> | String, Bool, Double, DateTime, NULL | <> is equivalent for != |
-| IN | String, Bool, Double, DateTime, NULL | All operands should be of the same type or be NULL constant. Multiple NULLs are equivalent to a single NULL. |
+| <, >, <=, >= | Double, DateTime, TimeSpan | |
+| =, !=, <> | String, Bool, Double, DateTime, TimeSpan, NULL | <> is equivalent for != |
+| +, -, *, / | Double, DateTime, TimeSpan | |
+| IN | String, Bool, Double, DateTime, TimeSpan, NULL | All operands should be of the same type or be NULL constant. Multiple NULLs are equivalent to a single NULL. |
 | HAS | String | Only constant string literals are allowed at right-hand side. Empty string and NULL are not allowed. |
 
-Right-hand side constant literal of `HAS` operator is parsed to Bool, Double, or DateTime value. For each successfully parsed value, predicate with `=` operator is created. These predicates and the original `HAS` predicate are joined into an `OR` predicate.
+Supported scalar functions:
+| Function name | Return value | Arguments | Example | Notes |
+|--|--|--|--|--|
+| utcNow | DateTime | None | utcNow() | Returns current time in UTC format. Function name is case-sensitive. |
+
+Right-hand side constant literal of `HAS` operator is parsed to Bool, Double, DateTime or TimeSpan value. For each successfully parsed value, predicate with `=` operator is created. These predicates and the original `HAS` predicate are joined into an `OR` predicate.
 For example, predicate string `p1 HAS '1.0'` is equivalent to `p1.String HAS '1.0' OR p1.Double = 1.0` if "p1" properties with String and Double types exist.
 
 For comparison predicates (`<`, `>`, `<=`, `>=`, `=`, `!=`) and `IN` predicate, operand can be `NULL` or have a single type.
@@ -297,6 +347,15 @@ Here are examples given properties "p1" of type String and Double and properties
     | HAS 'true' | p1.String HAS 'true' OR p2.String HAS 'true' | No property with type Bool. |
 
 4. If operator is omitted together with property name, the `HAS` operation is assumed.
+
+## Scalar Functions
+
+**UTC now** function returns DateTime value, which contains current time in UTC format. It does not accept any arguments.
+
+JSON example:
+```json
+"utcNow": {}
+```
 
 ## Aggregate Expressions
 
@@ -393,10 +452,11 @@ Supported dimension and measure expressions depending on property type:
 JSON example:
 ```json
 "searchSpan": {
-    "from": "2016-08-01T00:00:00.000Z",
-    "to": "2016-08-31T00:00:00.000Z"
+    "from": {"dateTime":"2016-08-01T00:00:00.000Z"},
+    "to": {"dateTime":"2016-08-31T00:00:00.000Z"}
 }
 ```
+`from` and `to` properties in search span clause should be valid expressions of DateTime resulted type. These expressions are evaluated prior to query execution, which means they should not contain any property references.
 
 **Predicate clause** is used to filter events satisfying the predicate. It should be resolved into boolean expression.
 
@@ -405,10 +465,8 @@ JSON example:
 "predicate": {
     "eq": {
         "left": {
-            "property": {
-                "name": "p1",
-                "type": "String"
-            }
+            "property": "p1",
+            "type": "String"
         },
         "right": "abc"
     }
@@ -543,7 +601,7 @@ JSON example:
 
 An aggregation definition may include a nested aggregation, which allows specifying a multi-dimensional lattice.
 
-This JSON expression computes average temperature per sensor id, per minute:
+This JSON expression computes average temperature per sensor ID, per minute:
 
 JSON example:
 ```json

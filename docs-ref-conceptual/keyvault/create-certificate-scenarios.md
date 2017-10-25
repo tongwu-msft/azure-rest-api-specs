@@ -36,7 +36,7 @@ The following examples require an object named "mydigicert" to already be availa
 
 ### Request  
 
-```  
+```json
 {  
   "policy": {  
     "x509_props": {  
@@ -222,7 +222,7 @@ Note that deleting a pending object may or may not cancel the x509 certificate r
 
 ### Request  
 
-```  
+```json
 {  
   "policy": {  
     "x509_props": {  
@@ -261,8 +261,7 @@ StatusCode: 409, ReasonPhrase: 'Conflict'
 
 ### Request  
 
-```  
-{  
+```json
 {  
   "x5c": [  "MIICxTCCAbi………………………trimmed for brevitiy……………………………………………EPAQj8="  
   ]  
@@ -272,7 +271,7 @@ StatusCode: 409, ReasonPhrase: 'Conflict'
 
 ### Response  
 
-```  
+```json
 StatusCode: 403, ReasonPhrase: 'Forbidden'  
 {  
   "error":  
@@ -298,7 +297,7 @@ StatusCode: 403, ReasonPhrase: 'Forbidden'
 
  PATCH `“https://mykeyvault.vault.azure.net/certificates/mycert1/pending?api-version={api-version}"`  
 
-```  
+```json
 {  
   "cancellation_requested": true  
 }  
@@ -362,7 +361,7 @@ StatusCode: 200, ReasonPhrase: 'OK'
 
 ### Request  
 
-```  
+```json
 {  
   "policy": {  
     "x509_props": {  
@@ -402,8 +401,7 @@ Location: “https://mykeyvault.vault.azure.net/certificates/mycert1/pending?api
 
 ### Request  
 
-```  
-{  
+```json
 {  
   "x5c": [  "MIICxTCCAbi………………………trimmed for brevitiy……………………………………………EPAQj8="  
   ]  

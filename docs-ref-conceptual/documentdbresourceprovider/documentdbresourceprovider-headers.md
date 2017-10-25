@@ -1,17 +1,17 @@
 ---
 ms.assetid: 4267b12c-2539-4d76-bc23-9f04c942554b
-ms.title: Azure DocumentDB Resource Provider REST API Headers
+ms.title: "Azure Cosmos DB: Resource Provider REST Headers for DocumentDB API"
 ms.prod: azure
-ms.service: documentdb
+ms.service: cosmos-db
 author: mimig1
 ms.author: mimig
 ms.manager: jhubbard
 
 ---
 
-# Common headers for the Azure DocumentDB Resource Provider REST API
+# Azure Cosmos DB: Common headers for the REST Resource Provider
 
-The following are the common request and response headers for the DocumentDB Resource Provider REST API.
+The following are the common request and response headers for the Resource Provider REST API.
 
 ## Request headers
 
@@ -33,6 +33,6 @@ The following are the common request and response headers for the DocumentDB Res
 
 ## See Also
 
-- [Azure DocumentDB](https://azure.microsoft.com/services/documentdb/)
-- [Azure DocumentDB REST API](/rest/api/documentdb)
-- [Azure DocumentDB Resource Provider REST API](/rest/api/documentdbresourceprovider)
+- [Azure Cosmos DB](https://azure.microsoft.com/services/cosmos-db/)
+- [Azure Cosmos DB REST API](/rest/api/documentdb)
+- [Azure Cosmos DB: REST Resource Provider for the DocumentDB API](/rest/api/documentdbresourceprovider)

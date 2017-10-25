@@ -93,5 +93,6 @@ The `Delete File` operation immediately removes the file from the storage accoun
   
  `Delete File` will fail with status code 409 (Conflict) and error code `SharingViolation` if the file is open on an SMB client.  
   
+ `Delete File` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
 ## See Also  
  [Operations on Files](Operations-on-Files.md)

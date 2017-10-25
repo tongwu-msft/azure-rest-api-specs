@@ -107,5 +107,6 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
   
  Calling `Set Share Metadata` updates the `ETag` and the `Last-Modified-Time` properties for the share.  
   
+ `Set Share Metadata` is not supported for a share snapshot. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue). You can set metadata for a share snapshot at the time that it is created, as part of the Snapshot Share operation.
 ## See Also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

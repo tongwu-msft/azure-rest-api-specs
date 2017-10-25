@@ -69,7 +69,7 @@ Environment availability is cached, and the response time does not depend on the
 
 ## Get Environment Metadata API
 
-`GET https://<environmentFqdn>/metadata?api-version=2016-12-12`
+`POST https://<environmentFqdn>/metadata?api-version=2016-12-12`
 
 Returns environment metadata for a given search span. Metadata is returned as a set of property references.
 
@@ -80,8 +80,8 @@ Request Body:
 ```json
 {
     "searchSpan": {
-        "from": "2016-08-01T00:00:00.000Z",
-        "to": "2016-08-31T00:00:00.000Z"
+        "from": {"dateTime":"2016-08-01T00:00:00.000Z"},
+        "to": {"dateTime":"2016-08-31T00:00:00.000Z"}
     }
 }
 ```
@@ -318,7 +318,7 @@ The following limits are applied during query execution to fairly utilize resour
 | All | Max request size | 32 KB | S1, S2 |  |
 | Get Availability, Get Metadata, Get Events, Get Aggregates | Max number of concurrent requests per environment | 10 | S1, S2 |  |
 | Get Events, Get Aggregates | Max response size | 16 MB | S1, S2 |  |
-| Get Events, Get Aggregates | Max number of property references in predicate, including predicate string expressions | 50 | S1, S2 |  |
+| Get Events, Get Aggregates | Max number of unique property references in predicate, including predicate string expressions | 50 | S1, S2 |  |
 | Get Events, Get Aggregates | Max full-text search terms with no property reference in predicate string | 2 | S1, S2 | Example: `HAS 'abc'`, `'abc'` |
 | Get Events | Max number of events in response | 10,000 | S1, S2 |  |
 | Get Aggregates | Max number of dimensions | 5 | S1, S2 |  |

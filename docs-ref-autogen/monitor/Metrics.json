@@ -1,19 +1,31 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "InsightsClient",
-    "version": "2016-09-01"
+    "version": "2017-05-01-preview",
+    "title": "MonitorClient"
   },
   "host": "management.azure.com",
   "schemes": [
     "https"
   ],
-  "consumes": [
-    "application/json"
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
   ],
-  "produces": [
-    "application/json"
-  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
   "paths": {
     "/{resourceUri}/providers/microsoft.insights/metrics": {
       "get": {
@@ -21,83 +33,270 @@
           "Metrics"
         ],
         "operationId": "Metrics_List",
-        "description": "**Lists the metric values for a resource**.<br>The **$filter** is used to reduce the set of metric data returned. Some common properties for this expression will be: name.value, aggregationType, startTime, endTime, timeGrain. The filter expression uses these properties with comparison operators (eg. eq, gt, lt) and multiple expressions can be combined with parentheses and 'and/or' operators.<br>Some example filter expressions are:<br>- $filter=(name.value eq 'RunsSucceeded') and aggregationType eq 'Total' and startTime eq 2016-02-20 and endTime eq 2016-02-21 and timeGrain eq duration'PT1M',<br>- $filter=(name.value eq 'RunsSucceeded') and (aggregationType eq 'Total' or aggregationType eq 'Average') and startTime eq 2016-02-20 and endTime eq 2016-02-21 and timeGrain eq duration'PT1H',<br>- $filter=(name.value eq 'ActionsCompleted' or name.value eq 'RunsSucceeded') and (aggregationType eq 'Total' or aggregationType eq 'Average') and startTime eq 2016-02-20 and endTime eq 2016-02-21 and timeGrain eq duration'PT1M'.<br><br> >**NOTE**: When a metrics query comes in with multiple metrics, but with no aggregation types defined, the service will pick the Primary aggregation type of the first metrics to be used as the default aggregation type for all the metrics.",
+        "description": "**Lists the metric values for a resource**.",
         "parameters": [
           {
             "$ref": "#/parameters/ResourceUriParameter"
           },
           {
-            "$ref": "#/parameters/FilterParameter"
+            "$ref": "#/parameters/TimespanParameter"
+          },
+          {
+            "$ref": "#/parameters/IntervalParameter"
+          },
+          {
+            "$ref": "#/parameters/MetricParameter"
+          },
+          {
+            "$ref": "#/parameters/AggregationsParameter"
+          },
+          {
+            "$ref": "#/parameters/TopParameter"
+          },
+          {
+            "$ref": "#/parameters/OrderByParameter"
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "type": "string",
+            "description": "The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**.",
+            "required": false
+          },
+          {
+            "$ref": "#/parameters/ResultTypeParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
-          "200": {
-            "description": "Successful request to get the list of metric values",
+          "default": {
+            "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/MetricCollection"
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "200": {
+            "description": "Successful request to get the list of metric values.",
+            "schema": {
+              "$ref": "#/definitions/Response"
             },
             "examples": {
               "application/json": {
+                "cost": 0,
+                "timespan": "2017-08-10T21:44:34Z/2017-08-10T22:44:34Z",
+                "interval": "PT1M",
                 "value": [
                   {
-                    "data": [
-                      {
-                        "timeStamp": "2016-11-23T19:14:00Z",
-                        "total": 1
-                      },
-                      {
-                        "timeStamp": "2016-11-23T19:15:00Z"
-                      },
-                      {
-                        "timeStamp": "2016-11-23T19:16:00Z"
-                      },
-                      {
-                        "timeStamp": "2016-11-23T19:17:00Z"
-                      },
-                      {
-                        "timeStamp": "2016-11-23T19:18:00Z"
-                      },
-                      {
-                        "timeStamp": "2016-11-23T19:19:00Z",
-                        "total": 1
-                      },
-                      {
-                        "timeStamp": "2016-11-23T19:20:00Z"
-                      },
-                      {
-                        "timeStamp": "2016-11-23T19:21:00Z"
-                      },
-                      {
-                        "timeStamp": "2016-11-23T19:22:00Z"
-                      },
-                      {
-                        "timeStamp": "2016-11-23T19:23:00Z"
-                      },
-                      {
-                        "timeStamp": "2016-11-23T19:24:00Z",
-                        "total": 1
-                      }
-                    ],
-                    "id": "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/andy0802australia/providers/Microsoft.Logic/workflows/andy0803australia/providers/Microsoft.Insights/metrics/RunsStarted",
-                    "name": {
-                      "value": "RunsStarted",
-                      "localizedValue": "Runs Started"
-                    },
+                    "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/Microsoft.Insights/metrics/CpuTime",
                     "type": "Microsoft.Insights/metrics",
-                    "unit": "Count"
+                    "name": {
+                      "value": "CpuTime",
+                      "localizedValue": "CPU Time"
+                    },
+                    "unit": "Seconds",
+                    "timeseries": [
+                      {
+                        "metadatavalues": [],
+                        "data": [
+                          {
+                            "timeStamp": "2017-08-10T21:44:00Z",
+                            "total": 0
+                          },
+                          {
+                            "timeStamp": "2017-08-10T21:45:00Z",
+                            "total": 0
+                          },
+                          {
+                            "timeStamp": "2017-08-10T21:46:00Z",
+                            "total": 0
+                          },
+                          {
+                            "timeStamp": "2017-08-10T21:47:00Z",
+                            "total": 0
+                          },
+                          {
+                            "timeStamp": "2017-08-10T21:48:00Z",
+                            "total": 0
+                          },
+                          {
+                            "timeStamp": "2017-08-10T21:49:00Z",
+                            "total": 0
+                          },
+                          {
+                            "timeStamp": "2017-08-10T21:50:00Z",
+                            "total": 0
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
             }
           }
         },
-        "x-ms-pageable": {
-          "nextLinkName": null
+        "x-ms-odata": "#/definitions/MetadataValue",
+        "x-ms-examples": {
+          "Get Metric for data": {
+            "parameters": {
+              "resourceUri": "subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default",
+              "timespan": "2017-04-14T02:20:00Z/2017-04-14T04:20:00Z",
+              "metric": "BlobCapacity",
+              "$filter": "BlobType eq '*'",
+              "top": "3",
+              "orderby": "Average asc",
+              "aggregation": "Average,count",
+              "interval": "PT1M",
+              "api-version": "2017-05-01-preview"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "cost": 0,
+                  "timespan": "2017-04-14T02:20:00Z/2017-04-14T04:20:00Z",
+                  "interval": "PT1M",
+                  "value": [
+                    {
+                      "id": "/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics/BlobCapacity",
+                      "type": "Microsoft.Insights/metrics",
+                      "name": {
+                        "value": "BlobCapacity",
+                        "localizedValue": "Blob Capacity"
+                      },
+                      "unit": "Bytes",
+                      "timeseries": [
+                        {
+                          "metadatavalues": [
+                            {
+                              "name": {
+                                "value": "blobtype",
+                                "localizedValue": "blobtype"
+                              },
+                              "value": "PageBlob"
+                            }
+                          ],
+                          "data": [
+                            {
+                              "timeStamp": "2017-04-14T02:20:00Z",
+                              "count": 0
+                            },
+                            {
+                              "timeStamp": "2017-04-14T02:21:00Z",
+                              "count": 0
+                            },
+                            {
+                              "timeStamp": "2017-04-14T02:22:00Z",
+                              "count": 0
+                            },
+                            {
+                              "timeStamp": "2017-04-14T02:23:00Z",
+                              "count": 1,
+                              "average": 0
+                            }
+                          ]
+                        },
+                        {
+                          "metadatavalues": [
+                            {
+                              "name": {
+                                "value": "blobtype",
+                                "localizedValue": "blobtype"
+                              },
+                              "value": "BlockBlob"
+                            }
+                          ],
+                          "data": [
+                            {
+                              "timeStamp": "2017-04-14T02:20:00Z",
+                              "count": 0
+                            },
+                            {
+                              "timeStamp": "2017-04-14T02:21:00Z",
+                              "count": 0
+                            },
+                            {
+                              "timeStamp": "2017-04-14T02:22:00Z",
+                              "count": 0
+                            },
+                            {
+                              "timeStamp": "2017-04-14T02:23:00Z",
+                              "count": 1,
+                              "average": 245
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "Get Metric for metadata": {
+            "parameters": {
+              "timespan": "2017-04-14T02:20:00Z/2017-04-14T04:20:00Z",
+              "metric": "BlobCapacity",
+              "$filter": "BlobType eq '*'",
+              "top": "3",
+              "orderby": "Average asc",
+              "aggregation": "Average,count",
+              "interval": "PT1M",
+              "resulttype": "metadata",
+              "resourceUri": "subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default",
+              "api-version": "2017-05-01-preview"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "timespan": "2017-04-14T02:20:00Z/2017-04-14T04:20:00Z",
+                  "value": [
+                    {
+                      "id": "/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics/BlobCapacity",
+                      "type": "Microsoft.Insights/metrics",
+                      "name": {
+                        "value": "BlobCapacity",
+                        "localizedValue": "Blob Capacity"
+                      },
+                      "unit": "Bytes",
+                      "timeseries": [
+                        {
+                          "metadatavalues": [
+                            {
+                              "name": {
+                                "value": "blobtype",
+                                "localizedValue": "blobtype"
+                              },
+                              "value": "BlockBlob"
+                            }
+                          ]
+                        },
+                        {
+                          "metadatavalues": [
+                            {
+                              "name": {
+                                "value": "blobtype",
+                                "localizedValue": "blobtype"
+                              },
+                              "value": "PageBlob"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
         },
-        "x-ms-odata": "#/definitions/Metric"
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     }
   },
@@ -128,7 +327,9 @@
         "CountPerSecond",
         "BytesPerSecond",
         "Percent",
-        "MilliSeconds"
+        "MilliSeconds",
+        "ByteSeconds",
+        "Unspecified"
       ],
       "x-ms-enum": {
         "name": "Unit",
@@ -173,16 +374,71 @@
       },
       "description": "Represents a metric value."
     },
-    "Metric": {
+    "MetadataValue": {
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/LocalizableString",
+          "description": "the name of the metadata."
+        },
+        "value": {
+          "type": "string",
+          "description": "the value of the metadata."
+        }
+      },
+      "description": "Represents a metric metadata value."
+    },
+    "ErrorResponse": {
+      "description": "Describes the format of Error response.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message indicating why the operation failed.",
+          "type": "string"
+        }
+      }
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "cost": {
+          "type": "number",
+          "format": "int32",
+          "minimum": 0,
+          "description": "The integer value representing the cost of the query, for data case."
+        },
+        "timespan": {
+          "type": "string",
+          "description": "The timespan for which the data was retrieved. Its value consists of two datatimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested."
+        },
+        "interval": {
+          "type": "string",
+          "format": "duration",
+          "description": "The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made."
+        },
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Metric"
+          },
+          "description": "the value of the collection."
+        }
+      },
       "required": [
-        "name",
-        "unit",
-        "data"
+        "timespan",
+        "value"
       ],
+      "description": "The response to a metrics query."
+    },
+    "Metric": {
+      "type": "object",
       "properties": {
         "id": {
           "type": "string",
-          "description": "the id, resourceId, of the metric."
+          "description": "the metric Id."
         },
         "type": {
           "type": "string",
@@ -196,48 +452,45 @@
           "$ref": "#/definitions/Unit",
           "description": "the unit of the metric."
         },
+        "timeseries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TimeSeriesElement"
+          },
+          "description": "the time series returned when a data query is performed."
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "name",
+        "unit",
+        "timeseries"
+      ],
+      "description": "The result data of a query."
+    },
+    "TimeSeriesElement": {
+      "type": "object",
+      "properties": {
+        "metadatavalues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MetadataValue"
+          },
+          "description": "the metadata values returned if $filter was specified in the call."
+        },
         "data": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/MetricValue"
           },
-          "description": "Array of data points representing the metric values."
+          "description": "An array of data points representing the metric values.  This is only returned if a result type of data is specified."
         }
       },
-      "description": "A set of metric values in a time range."
-    },
-    "MetricCollection": {
-      "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Metric"
-          },
-          "description": "the value of the collection."
-        }
-      },
-      "required": [
-        "value"
-      ],
-      "description": "The collection of metric value sets."
+      "description": "A time series result type. The discriminator value is always TimeSeries in this case."
     }
   },
   "parameters": {
-    "ApiVersionParameter": {
-      "name": "api-version",
-      "in": "query",
-      "required": true,
-      "type": "string",
-      "description": "Client Api Version."
-    },
-    "FilterParameter": {
-      "name": "$filter",
-      "in": "query",
-      "type": "string",
-      "description": "Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details.",
-      "x-ms-parameter-location": "method",
-      "required": false
-    },
     "ResourceUriParameter": {
       "name": "resourceUri",
       "in": "path",
@@ -246,6 +499,81 @@
       "description": "The identifier of the resource.",
       "x-ms-parameter-location": "method",
       "x-ms-skip-url-encoding": true
+    },
+    "TimespanParameter": {
+      "name": "timespan",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "description": "The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'.",
+      "x-ms-parameter-location": "method"
+    },
+    "IntervalParameter": {
+      "name": "interval",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "format": "duration",
+      "description": "The interval (i.e. timegrain) of the query.",
+      "x-ms-parameter-location": "method"
+    },
+    "MetricParameter": {
+      "name": "metric",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "description": "The name of the metric to retrieve.",
+      "x-ms-parameter-location": "method"
+    },
+    "AggregationsParameter": {
+      "name": "aggregation",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "description": "The list of aggregation types (comma separated) to retrieve.",
+      "x-ms-parameter-location": "method"
+    },
+    "TopParameter": {
+      "name": "$top",
+      "in": "query",
+      "required": false,
+      "type": "number",
+      "format": "int32",
+      "description": "The maximum number of records to retrieve.\nValid only if $filter is specified.\nDefaults to 10.",
+      "x-ms-parameter-location": "method"
+    },
+    "OrderByParameter": {
+      "name": "$orderby",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "description": "The aggregation to use for sorting results and the direction of the sort.\nOnly one order can be specified.\nExamples: sum asc.",
+      "x-ms-parameter-location": "method"
+    },
+    "ResultTypeParameter": {
+      "name": "resultType",
+      "in": "query",
+      "type": "string",
+      "enum": [
+        "Data",
+        "Metadata"
+      ],
+      "x-ms-enum": {
+        "name": "ResultType",
+        "modelAsString": false
+      },
+      "description": "Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details.",
+      "x-ms-parameter-location": "method",
+      "required": false
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Client Api Version."
     }
-  }
+  },
+  "x-internal-service-name": "Monitor",
+  "x-internal-toc-name": "Metrics"
 }

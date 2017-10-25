@@ -1,6 +1,6 @@
 ---
 title: "ServiceHealthStateChunk"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -58,12 +58,13 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the service.
+The name of the service whose health state chunk is provided in this object.
 
 ____
 ### PartitionHealthStateChunks
 __Type__: [PartitionHealthStateChunkList](sfclient-model-partitionhealthstatechunklist.md) <br/>
 __Required__: No<br/>
 <br/>
-The list of partition health state chunks belonging to the service that respect the filters in the cluster health chunk query description.
+The list of partition health state chunks that respect the input filters in the chunk query description.
+Returned by get cluster health state chunks query as part of the parent application hierarchy.
 

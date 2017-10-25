@@ -64,6 +64,9 @@ Microsoft Azure Storage provides REST operations for working with blobs in the B
  [Delete Blob](Delete-Blob.md)  
  Marks the specified blob for deletion.  
   
+ [Set Blob Tier](set-blob-tier.md)  
+ Sets the tier of a blob.  
+  
 ### Operations on Block Blobs  
  [Put Block](Put-Block.md)  
  Creates a new block to be committed as part of a block blob.  

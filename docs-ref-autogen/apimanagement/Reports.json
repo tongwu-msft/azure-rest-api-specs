@@ -1,19 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
+    "version": "2017-03-01",
     "title": "ApiManagementClient",
-    "description": "Use these REST APIs to get the analytics reports associated with your Azure API Management deployment.",
-    "version": "2016-10-10"
+    "description": "Use these REST APIs to get the analytics reports associated with your Azure API Management deployment."
   },
   "host": "management.azure.com",
   "schemes": [
     "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
   ],
   "security": [
     {
@@ -33,84 +27,7 @@
       }
     }
   },
-  "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/{aggregation}": {
-      "get": {
-        "tags": [
-          "Reports"
-        ],
-        "operationId": "Reports_ListByService",
-        "description": "Lists report records.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "name": "aggregation",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "Report aggregation.",
-            "enum": [
-              "byApi",
-              "byGeo",
-              "byOperation",
-              "byProduct",
-              "bySubscription",
-              "byTime",
-              "byUser"
-            ],
-            "x-ms-enum": {
-              "name": "ReportsAggregation",
-              "modelAsString": false
-            }
-          },
-          {
-            "name": "$filter",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "description": "The filter to apply on the operation."
-          },
-          {
-            "$ref": "#/parameters/TopQueryParameter"
-          },
-          {
-            "$ref": "#/parameters/SkipQueryParameter"
-          },
-          {
-            "name": "interval",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "duration",
-            "description": "By time interval. This value is only applicable to ByTime aggregation. Interval must be multiple of 15 minutes and may not be zero. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, secconds))"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Lists a collection of Report record.",
-            "schema": {
-              "$ref": "#/definitions/ReportCollection"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
-        "x-ms-odata": "#/definitions/ReportRecordContract"
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "ReportCollection": {
       "properties": {
@@ -145,9 +62,8 @@
           "description": "Start of aggregation period. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
         },
         "interval": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Length of agregation period."
+          "type": "string",
+          "description": "Length of agregation period.  Interval must be multiple of 15 minutes and may not be zero. The value should be in ISO 8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations)."
         },
         "country": {
           "type": "string",
@@ -259,6 +175,108 @@
         }
       },
       "description": "Report data."
+    },
+    "RequestReportCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RequestReportRecordContract"
+          },
+          "description": "Page values."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total record count number across all pages."
+        }
+      },
+      "description": "Paged Report records list representation."
+    },
+    "RequestReportRecordContract": {
+      "properties": {
+        "apiId": {
+          "type": "string",
+          "description": "API identifier path. /apis/{apiId}"
+        },
+        "operationId": {
+          "type": "string",
+          "description": "Operation identifier path. /apis/{apiId}/operations/{operationId}"
+        },
+        "productId": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Product identifier path. /products/{productId}"
+        },
+        "userId": {
+          "readOnly": true,
+          "type": "string",
+          "description": "User identifier path. /users/{userId}"
+        },
+        "method": {
+          "type": "string",
+          "description": "The HTTP method associated with this request.."
+        },
+        "url": {
+          "type": "string",
+          "description": "The full URL associated with this request."
+        },
+        "ipAddress": {
+          "type": "string",
+          "description": "The client IP address associated with this request."
+        },
+        "backendResponseCode": {
+          "type": "string",
+          "description": "The HTTP status code received by the gateway as a result of forwarding this request to the backend."
+        },
+        "responseCode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The HTTP status code returned by the gateway."
+        },
+        "responseSize": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The size of the response returned by the gateway."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when this request was received by the gateway in ISO 8601 format."
+        },
+        "cache": {
+          "type": "string",
+          "description": "Specifies if response cache was involved in generating the response. If the value is none, the cache was not used. If the value is hit, cached response was returned. If the value is miss, the cache was used but lookup resulted in a miss and request was fullfilled by the backend."
+        },
+        "apiTime": {
+          "type": "number",
+          "format": "double",
+          "description": "The total time it took to process this request."
+        },
+        "serviceTime": {
+          "type": "number",
+          "format": "double",
+          "description": "he time it took to forward this request to the backend and get the response back."
+        },
+        "apiRegion": {
+          "type": "string",
+          "description": "Azure region where the gateway that processed this request is located."
+        },
+        "subscriptionId": {
+          "type": "string",
+          "description": "Subscription identifier path. /subscriptions/{subscriptionId}"
+        },
+        "requestId": {
+          "type": "string",
+          "description": "Request Identifier."
+        },
+        "requestSize": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The size of this request.."
+        }
+      },
+      "description": "Request Report data."
     }
   },
   "parameters": {
@@ -315,5 +333,42 @@
       "description": "The name of the resource group.",
       "x-ms-parameter-location": "method"
     }
-  }
+  },
+  "x-internal-service-name": "API Management",
+  "x-internal-toc-name": "Reports",
+  "x-internal-split-members": [
+    {
+      "displayName": "List By Api",
+      "relativePath": "Reports/ListByApi"
+    },
+    {
+      "displayName": "List By Geo",
+      "relativePath": "Reports/ListByGeo"
+    },
+    {
+      "displayName": "List By Operation",
+      "relativePath": "Reports/ListByOperation"
+    },
+    {
+      "displayName": "List By Product",
+      "relativePath": "Reports/ListByProduct"
+    },
+    {
+      "displayName": "List By Request",
+      "relativePath": "Reports/ListByRequest"
+    },
+    {
+      "displayName": "List By Subscription",
+      "relativePath": "Reports/ListBySubscription"
+    },
+    {
+      "displayName": "List By Time",
+      "relativePath": "Reports/ListByTime"
+    },
+    {
+      "displayName": "List By User",
+      "relativePath": "Reports/ListByUser"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
 }

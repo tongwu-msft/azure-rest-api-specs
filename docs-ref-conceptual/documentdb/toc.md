@@ -10,7 +10,7 @@
 ## [Create a Database](create-a-database.md)
 ## [List Databases](list-databases.md)
 ## [Get a Database](get-a-database.md)
-## [Delete a Database1](delete-a-database1.md)
+## [Delete a Database](delete-a-database.md)
 # [Collections](collections.md)
 ## [Create a Collection](create-a-collection.md)
 ## [List Collections](list-collections.md)

@@ -1,6 +1,6 @@
 ---
 title: "NodeInfo"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -50,13 +50,15 @@ Information about a node in Service Fabric cluster.
 | [NodeDeactivationInfo](#nodedeactivationinfo) | [NodeDeactivationInfo](sfclient-model-nodedeactivationinfo.md) | No |
 | [IsStopped](#isstopped) | boolean | No |
 | [NodeDownTimeInSeconds](#nodedowntimeinseconds) | string | No |
+| [NodeUpAt](#nodeupat) | string (date-time) | No |
+| [NodeDownAt](#nodedownat) | string (date-time) | No |
 
 ____
 ### Name
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the node.
+The name of a Service Fabric node.
 
 ____
 ### IpAddressOrFQDN
@@ -179,3 +181,17 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Time in seconds since the node has been in NodeStatus Down. Value zero indicates node is not NodeStatus Down.
+
+____
+### NodeUpAt
+__Type__: string (date-time) <br/>
+__Required__: No<br/>
+<br/>
+Date time in UTC when the node came up. If the node has never been up then this value will be zero date time.
+
+____
+### NodeDownAt
+__Type__: string (date-time) <br/>
+__Required__: No<br/>
+<br/>
+Date time in UTC when the node went down. If node has never been down then this value will be zero date time.

@@ -67,7 +67,7 @@ translation.priority.mt:
 |GeoJSON point objects|Edm.GeographyPoint<br /><br /> GeoJSON points are JSON objects in the following format: {"type" : "Point", "coordinates": [long], [lat] }|  
 |JSON objects|N/A<br /><br /> Not supported; Azure Search currently supports only primitive types and string collections|  
 
-## See Also  
+## See also  
  [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   
  [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
  [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   

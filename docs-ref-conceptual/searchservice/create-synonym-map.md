@@ -82,7 +82,7 @@ api-key: [admin key]
 
  The syntax of the request payload is as follows. A sample request is provided further on in this topic.  
 
-```  
+```json
 {   
     "name" : "Required for POST, optional for PUT. The name of the synonym map",  
     "format" : "Required. Only Apache Solr format ('solr') is currently supported.",
@@ -117,7 +117,7 @@ api-key: [admin key]
 
 ### Request Body Examples  
 
-```  
+```json
 {   
     "name" : "synonymmap1",  
     "format" : "solr",  
@@ -130,7 +130,7 @@ api-key: [admin key]
 ## Response  
  For a successful request: 201 Created.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Synonym map operations &#40;Azure Search Service REST API&#41;](synonym-map-operations.md)   

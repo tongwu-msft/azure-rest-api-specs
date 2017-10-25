@@ -125,6 +125,8 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
  For version 2015-12-11 and above, `List Blobs` returns the `ServerEncrypted` element. This element is set to `true` if the blob and application metadata are completely encrypted, and `false` otherwise.  
 
  For version 2016-05-31 and above, `List Blobs` returns the `IncrementalCopy` element for incremental copy blobs and snapshots with the value set to `true`.
+ 
+ For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features). For blob storage LRS accounts, valid values are `Hot`/`Cool`/`Archive`. Tiers on standard blob accounts are currently in preview. For detailed information about standard blob LRS account block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -148,6 +150,7 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
         <Cache-Control />  
         <x-ms-blob-sequence-number>sequence-number</x-ms-blob-sequence-number>  
         <BlobType>BlockBlob|PageBlob|AppendBlob</BlobType>  
+        <AccessTier>tier</AccessTier>  
         <LeaseStatus>locked|unlocked</LeaseStatus>  
         <LeaseState>available | leased | expired | breaking | broken</LeaseState>  
         <LeaseDuration>infinite | fixed</LeaseDuration>  

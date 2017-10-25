@@ -150,7 +150,7 @@ Note that this operation will put your index offline for at least a few seconds,
 
  By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
  [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   

@@ -1,5 +1,5 @@
 ---
-title: "Triggers"
+title: "Triggers - Azure Cosmos DB REST API"
 ms.custom: ""
 ms.date: "2016-02-12"
 ms.prod: "azure"
@@ -13,7 +13,6 @@ caps.latest.revision: 6
 author: "mimig1"
 ms.author: "mimig"
 manager: "jhubbard"
-robots: noindex,nofollow
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -27,11 +26,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Triggers
-Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for managing trigger [resources](/azure/cosmos-db/documentdb-resources) using the [DocumentDB API](/azure/cosmos-db/documentdb-introduction) via REST.  
 
 Triggers are pieces of application logic that can executed before (pre-triggers) and after (post-triggers) creation, deletion, and replacement of a document. Triggers are written in JavaScript. Both pre and post triggers do no take parameters. Like stored procedures, triggers live within the confines of a collection, thus confining the application logic to the collection.  
-  
-The trigger resource is represented by triggers in the [Azure Cosmos DB resource model](https://azure.microsoft.com/en-us/documentation/articles/documentdb-resources/). There is a quota limit on the number of triggers created in a collection. For more information on the limits and quotas, see [Azure Cosmos DB limits](https://azure.microsoft.com/en-us/documentation/articles/documentdb-limits/).  
   
 Similar to stored procedures, the triggers resource has a fixed schema. The body property contains the application logic. The following example illustrates the JSON construct of a trigger.  
   
@@ -95,14 +92,12 @@ You can do the following with triggers:
 -   [List Triggers](list-triggers.md)  
 -   [Delete a Trigger](delete-a-trigger.md)  
   
-For information on how UDFs work including invoking a trigger, see [Azure Cosmos DB programming: Stored procedures, triggers, and UDFs](https://azure.microsoft.com/en-us/documentation/articles/documentdb-programming/).  
+For information on how UDFs work including invoking a trigger, see [Azure Cosmos DB programming: Stored procedures, triggers, and UDFs](/azure/cosmos-db/documentdb-programming/).  
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
-* [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
-* [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
-* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) 
-  
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
+* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
 
