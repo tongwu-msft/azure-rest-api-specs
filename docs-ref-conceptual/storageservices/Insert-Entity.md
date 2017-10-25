@@ -254,6 +254,8 @@ The `Insert Entity` operation inserts a new entity into a table.
  Both the `PartitionKey` and `RowKey` values must be string values; each key value may be up to 64 KB in size. If you are using an integer value for the key value, you should convert the integer to a fixed-width string, because they are canonically sorted. For example, you should convert the value `1` to `0000001` to ensure proper sorting.  
   
  To explicitly type a property, specify the appropriate OData data type by setting the `m:type` attribute within the property definition in the Atom feed. For more information about typing properties, see [Inserting and Updating Entities](Inserting-and-Updating-Entities.md).  
+
+ The Table service does not persist `null` values for properties. Specifying a property with a `null` value is equivalent to omitting that property in the request.  
   
  For information about performing batch insert operations, see [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
   
