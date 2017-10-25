@@ -1,14 +1,22 @@
 ---
-title: Azure Container Service REST API | Microsoft Docs
-author: 
-ms.author: 
-ms.date: 08/28/2017
+title: Azure Container Service REST API reference
+author: mmacy
+ms.author: marsma
+ms.date: 10/24/2017
 ms.topic: reference
-ms.service: Azure
+ms.service: container-service
 ms.devlang: rest-api
-service_description: To be added
 ---
 
-# Azure Container Service REST API
+# Azure Container Service REST API reference
 
-Azure Container Service optimizes the configuration of popular open-source tools and technologies specifically for Azure.
+Azure Container Service (AKS) manages your hosted Kubernetes environment, making it quick and easy to deploy and manage containerized applications without container orchestration expertise. Use the [Managed Clusters](~/docs-ref-autogen/container-service/managedclusters.json) operations to work with AKS deployments.
+
+Azure Container Service (ACS) is a container hosting environment with support for multiple orchestrators, including Kubernetes, Swarm, and DC/OS. Use the [Container Services](~/docs-ref-autogen/container-service/containerservices.json) operations to work ACS deployments.
+
+## REST operation groups
+
+| Operation group | Description |
+|-----------------|-------------|
+| [Managed Clusters](~/docs-ref-autogen/container-service/managedclusters.json) (Preview) | Provision, upgrade, and scale Kubernetes deployments in AKS. |
+| [Container Services](~/docs-ref-autogen/container-service/containerservices.json) | Create and manage Kubernetes, Swarm, and DC/OS deployments in ACS. |
