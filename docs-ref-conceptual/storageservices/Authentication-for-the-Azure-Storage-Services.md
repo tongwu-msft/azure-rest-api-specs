@@ -1,4 +1,4 @@
----
+﻿---
 title: "Authentication for the Azure Storage Services"
 ms.custom: na
 ms.date: 2016-12-13
@@ -258,9 +258,11 @@ Authorization: SharedKeyLite testaccount1:uay+rilMVayH/SVI8X+a3fL8k/NxCnIePdyZSk
     > [!NOTE]
     >  [Lexicographical ordering](http://en.wikipedia.org/wiki/Lexicographical_order) may not always coincide with conventional alphabetical ordering.  
   
-4.  Unfold the string by replacing any breaking white space with a single space.  
+4.  Replace any linear whitespace in the header value with a single space.  
   
-5.  Trim any white space around the colon in the header.  
+ Linear white space includes carriage return/line feed (CRLF), spaces, and tabs. See [RFC 2616, section 4.2](https://tools.ietf.org/html/rfc2616#section-4.2) for details. Do not replace any whitespace inside a quoted string.  
+  
+5.  Trim any whitespace around the colon in the header.  
   
 6.  Finally, append a new-line character to each canonicalized header in the resulting list. Construct the `CanonicalizedHeaders` string by concatenating all headers in this list into a single string.  
   
