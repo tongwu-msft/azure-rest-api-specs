@@ -19,5 +19,5 @@ Azure Container Service (ACS) is a container hosting environment with support fo
 
 | Operation group | Description |
 |-----------------|-------------|
-| [Managed Clusters](~/docs-ref-autogen/container-service/managedclusters.json) | Provision, upgrade, and scale Kubernetes deployments in AKS. |
+| [Managed Clusters](~/docs-ref-autogen/container-service/managedclusters.json) (Preview) | Provision, upgrade, and scale Kubernetes deployments in AKS. |
 | [Container Services](~/docs-ref-autogen/container-service/containerservices.json) | Create and manage Kubernetes, Swarm, and DC/OS deployments in ACS. |
