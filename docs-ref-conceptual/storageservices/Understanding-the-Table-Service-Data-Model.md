@@ -141,6 +141,8 @@ https://myaccount.table.core.windows.net
   
  By default a property is created as type `String`, unless you specify a different type. To explicitly type a property, specify its data type by using the appropriate OData data type for an [Insert Entity](Insert-Entity.md) or [Update Entity](Update-Entity2.md) operation. For more information, see [Inserting and Updating Entities](Inserting-and-Updating-Entities.md).  
   
+ The Table service does not persist `null` values for properties. When querying entities, the above property types are all non-nullable. When writing entities, the above property types are all nullable, and any property with a `null` value is handled as if the payload did not contain that property.  
+  
  For examples that show how to filter on the various property types in a query request URI, see [Querying Tables and Entities](Querying-Tables-and-Entities.md).  
   
 ## See Also  

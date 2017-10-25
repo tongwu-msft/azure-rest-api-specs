@@ -1,4 +1,4 @@
----
+﻿---
 title: "Payload Format for Table Service Operations"
 ms.custom: na
 ms.date: 2016-06-29
@@ -110,7 +110,10 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
 |`Edm.Int32`|No|Numeric (Doesn't contain decimal point)|  
 |`Edm.Int64`|Yes|String|  
 |`Edm.String`|No|String|  
-  
+|n/a|No|Null|  
+ 
+ The Table service does not persist `null` values for properties. When writing an entity, a `null` value may be specified with or without an odata.type annotation, and any property with a `null` value is handled as if the request did not contain that property. `Null` property values are never returned when querying entities.  
+ 
  The following JSON entity provides an example for each of the eight different property types:  
   
 ```  

@@ -1196,7 +1196,7 @@
 ### [List available skus for VMs](../docs-ref-conceptual/compute/virtualmachinescalesets/list-available-skus-for-vms.md)
 ### [Manage a VM](../docs-ref-conceptual/compute/virtualmachinescalesets/manage-a-vm.md)
 ### [Manage all VMs in a set](../docs-ref-conceptual/compute/virtualmachinescalesets/manage-all-vms-in-a-set.md)
-## Cloud Services (classic)
+## [Cloud Services (classic)](../docs-ref-conceptual/compute/cloudservices/index.md)
 ### [Add Extension](../docs-ref-conceptual/compute/cloudservices/rest-add-extension.md)
 ### [Change Deployment Configuration](../docs-ref-conceptual/compute/cloudservices/rest-change-deployment-configuration.md)
 ### [Check Cloud Service Name Availability](../docs-ref-conceptual/compute/cloudservices/rest-check-cloud-service-name-availability.md)
