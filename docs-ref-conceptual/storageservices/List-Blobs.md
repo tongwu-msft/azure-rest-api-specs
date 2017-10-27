@@ -126,7 +126,7 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
 
  For version 2016-05-31 and above, `List Blobs` returns the `IncrementalCopy` element for incremental copy blobs and snapshots with the value set to `true`.
  
- For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features). For blob storage LRS accounts, valid values are `Hot`/`Cool`/`Archive`. Tiers on standard blob accounts are currently in preview. For detailed information about standard blob LRS account block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+ For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features). For blob storage LRS accounts, valid values are `Hot`/`Cool`/`Archive`. If the blob is in rehydrate pending state then `ArchiveStatus` element is returned with one of the valid values `rehydrate-pending-to-hot`/`rehydrate-pending-to-cool`. Tiers on standard blob accounts are currently in preview. For detailed information about standard blob LRS account block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
