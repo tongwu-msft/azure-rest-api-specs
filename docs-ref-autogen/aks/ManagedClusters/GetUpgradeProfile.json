@@ -28,14 +28,14 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/upgradeProfiles/default": {
       "get": {
         "tags": [
           "ManagedClusters"
         ],
-        "operationId": "ManagedClusters_ListByResourceGroup",
-        "summary": "Lists managed clusters in the specified subscription and resource group.",
-        "description": "Lists managed clusters in the specified subscription and resource group. The operation returns properties of each managed cluster.",
+        "operationId": "ManagedClusters_GetUpgradeProfile",
+        "summary": "Gets upgrade profile for a managed cluster.",
+        "description": "Gets the details of the upgrade profile for a managed cluster with a specified resource group and name.",
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -49,81 +49,57 @@
             "required": true,
             "type": "string",
             "description": "The name of the resource group."
+          },
+          {
+            "name": "resourceName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The name of the managed cluster resource."
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ManagedClusterListResult"
+              "$ref": "#/definitions/ManagedClusterUpgradeProfile"
             }
           }
         },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
         "x-ms-examples": {
-          "Get Managed Clusters by Resource Group": {
+          "Get Upgrade Profile for Managed Cluster": {
             "parameters": {
               "api-version": "2017-08-31",
               "subscriptionId": "subid1",
-              "resourceGroupName": "rg1"
+              "resourceGroupName": "rg1",
+              "resourceName": "clustername1"
             },
             "responses": {
               "200": {
                 "body": {
-                  "value": [
-                    {
-                      "id": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters",
-                      "location": "location1",
-                      "name": "mycluster1",
-                      "properties": {
-                        "accessProfiles": {
-                          "clusterAdmin": {
-                            "kubeConfig": "kubeConfig1"
-                          },
-                          "clusterUser": {
-                            "kubeConfig": "kubeConfig2"
-                          }
-                        },
-                        "agentPoolProfiles": [
-                          {
-                            "count": 1,
-                            "dnsPrefix": "agentpool1dnsPrefix",
-                            "fqdn": "agentpool1fqdn",
-                            "name": "agentpool1",
-                            "osType": "Linux",
-                            "ports": [
-                              1
-                            ],
-                            "storageProfile": "ManagedDisks",
-                            "vmSize": "Standard_D2_v2"
-                          }
-                        ],
-                        "dnsPrefix": "dnsprefix1",
-                        "fqdn": "dnsprefix1-123456.abc.location1.azmk8s.io",
+                  "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/upgradeprofiles/default",
+                  "name": "default",
+                  "properties": {
+                    "agentPoolProfiles": [
+                      {
                         "kubernetesVersion": "1.7.7",
-                        "linuxProfile": {
-                          "adminUsername": "azureuser",
-                          "ssh": {
-                            "publicKeys": [
-                              {
-                                "keyData": "keydata"
-                              }
-                            ]
-                          }
-                        },
-                        "provisioningState": "Succeeded",
-                        "servicePrincipalProfile": {
-                          "clientId": "clientid",
-                          "keyVaultSecretRef": null,
-                          "secret": "secret"
-                        }
-                      },
-                      "tags": "managed-cluster",
-                      "type": "Microsoft.ContainerService/ManagedClusters"
+                        "name": "agent",
+                        "osType": "Linux",
+                        "upgrades": [
+                          "1.8.1"
+                        ]
+                      }
+                    ],
+                    "controlPlaneProfile": {
+                      "kubernetesVersion": "1.7.7",
+                      "name": "master",
+                      "osType": "Linux",
+                      "upgrades": [
+                        "1.8.1"
+                      ]
                     }
-                  ]
+                  },
+                  "type": "Microsoft.ContainerService/managedClusters/upgradeprofiles"
                 }
               }
             }
@@ -135,7 +111,7 @@
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "List By Resource Group"
+        "x-internal-toc-name": "Get Upgrade Profile"
       }
     }
   },
@@ -815,7 +791,7 @@
       "description": "Client Api Version."
     }
   },
-  "x-internal-service-name": "Container Service",
+  "x-internal-service-name": "AKS",
   "x-internal-toc-name": "Managed Clusters",
   "x-internal-split-type": "Operation"
 }
