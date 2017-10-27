@@ -2872,6 +2872,42 @@
         "typeProperties"
       ]
     },
+    "AzureMySqlLinkedServiceTypeProperties": {
+      "description": "Azure MySQL database linked service properties.",
+      "properties": {
+        "connectionString": {
+          "description": "The connection string.",
+          "$ref": "#/definitions/SecureString"
+        },
+        "encryptedCredential": {
+          "type": "object",
+          "description": "The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string)."
+        }
+      },
+      "required": [
+        "connectionString"
+      ]
+    },
+    "AzureMySqlLinkedService": {
+      "x-ms-discriminator-value": "AzureMySql",
+      "description": "Azure MySQL database linked service.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/LinkedService"
+        }
+      ],
+      "properties": {
+        "typeProperties": {
+          "description": "Azure MySQL database linked service properties.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/AzureMySqlLinkedServiceTypeProperties"
+        }
+      },
+      "required": [
+        "typeProperties"
+      ]
+    },
     "OracleLinkedServiceTypeProperties": {
       "description": "Oracle database linked service properties.",
       "properties": {
@@ -3839,6 +3875,35 @@
           "description": "Relational table dataset properties.",
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/RelationalTableDatasetTypeProperties"
+        }
+      },
+      "required": [
+        "typeProperties"
+      ]
+    },
+    "AzureMySqlTableDatasetTypeProperties": {
+      "description": "Azure MySQL database dataset properties.",
+      "properties": {
+        "tableName": {
+          "type": "object",
+          "description": "The Azure MySQL database table name. Type: string (or Expression with resultType string)."
+        }
+      }
+    },
+    "AzureMySqlTableDataset": {
+      "x-ms-discriminator-value": "AzureMySqlTable",
+      "description": "The Azure MySQL database dataset.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Dataset"
+        }
+      ],
+      "properties": {
+        "typeProperties": {
+          "description": "Azure MySQL database dataset properties.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/AzureMySqlTableDatasetTypeProperties"
         }
       },
       "required": [
@@ -5113,6 +5178,21 @@
         }
       }
     },
+    "AzureMySqlSource": {
+      "description": "A copy activity Azure MySQL source.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CopySource"
+        }
+      ],
+      "properties": {
+        "query": {
+          "type": "object",
+          "description": "Database query. Type: string (or Expression with resultType string)."
+        }
+      }
+    },
     "DistcpSettings": {
       "description": "Distcp settings.",
       "type": "object",
@@ -5136,7 +5216,7 @@
       ]
     },
     "HdfsSource": {
-      "description": "A copy activity source for HDFS source.",
+      "description": "A copy activity HDFS source.",
       "type": "object",
       "allOf": [
         {
