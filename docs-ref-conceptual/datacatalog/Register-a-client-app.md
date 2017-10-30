@@ -44,7 +44,7 @@ To learn how to authenticate a client app using an Azure AD **Client ID**, see [
 ### Register a client app  
   
 Here's how to register a client app:  
-1. Review the [Microsoft Azure Service Agreement & Terms](http://azure.microsoft.com/en-us/support/legal).  
+1. Review the [Microsoft Azure Service Agreement & Terms](https://azure.microsoft.com/en-us/support/legal).  
 2. Sign into your Microsoft Azure subscription at https://manage.windowsazure.com using your AAD user name.  
 3. In the left service panel, choose **ACTIVE DIRECTORY**.  
 4. Click the active directory that you belong to.  

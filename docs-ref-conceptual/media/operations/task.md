@@ -72,7 +72,7 @@ A Task is an individual operation of work on an Asset and is defined in a Job.
 |`TaskNotificationSubscriptions`<br /><br /> Required.|[TaskNotificationSubscription](../operations/tasknotificationsubscription.md) entity set|Defines the notification endpoint task state changes. Also,  indicates whether to include task progress for which to be notified.|  
   
 ##  <a name="create_a_task"></a> Create a Task  
- Tasks are created by creating a Job. For an example, see [How to encode an asset using Media Encoder Standard](http://azure.microsoft.com/documentation/articles/media-services-dotnet-encode-with-media-encoder-standard/).  
+ Tasks are created by creating a Job. For an example, see [How to encode an asset using Media Encoder Standard](https://azure.microsoft.com/documentation/articles/media-services-dotnet-encode-with-media-encoder-standard/).  
   
 ##  <a name="list_tasks"></a> List Tasks  
  Tasks are retrieved using a GET HTTP request.  

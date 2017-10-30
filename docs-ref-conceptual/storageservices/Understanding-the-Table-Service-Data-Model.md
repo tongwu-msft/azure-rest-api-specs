@@ -146,5 +146,5 @@ https://myaccount.table.core.windows.net
  For examples that show how to filter on the various property types in a query request URI, see [Querying Tables and Entities](Querying-Tables-and-Entities.md).  
   
 ## See Also  
- [Get Started with Table Storage](http://azure.microsoft.com/documentation/articles/storage-dotnet-how-to-use-tables/)   
+ [Get Started with Table Storage](https://azure.microsoft.com/documentation/articles/storage-dotnet-how-to-use-tables/)   
  [Table Service Concepts](Table-Service-Concepts.md)
