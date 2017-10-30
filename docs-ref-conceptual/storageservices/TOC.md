@@ -48,7 +48,7 @@
 ### [Using Blob Service Operations with Azure Premium Storage](using-blob-service-operations-with-azure-premium-storage.md)
 ## [Operations on the Account (Blob Service)](operations-on-the-account--blob-service-.md)
 ### [List Containers](list-containers2.md)
-#### [Set Blob Service Properties](set-blob-service-properties.md)
+### [Set Blob Service Properties](set-blob-service-properties.md)
 ### [Get Blob Service Properties](get-blob-service-properties.md)
 ### [Preflight Blob Request](preflight-blob-request.md)
 ### [Get Blob Service Stats](get-blob-service-stats.md)

@@ -3,7 +3,7 @@
   "info": {
     "version": "2017-04-30-preview",
     "title": "MySQLManagementClient",
-    "description": "The Microsoft Azure management API provides create, read, update, and delete functionality for Azure MySQL resources including servers, databases, firewall rules, log files and configurations."
+    "description": "The Microsoft Azure management API provides create, read, update, and delete functionality for Azure MySQL resources including servers, databases, firewall rules, VNET rules, log files and configurations."
   },
   "host": "management.azure.com",
   "schemes": [
@@ -27,69 +27,7 @@
       }
     }
   },
-  "paths": {
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/checkNameAvailability": {
-      "post": {
-        "tags": [
-          "CheckNameAvailability"
-        ],
-        "operationId": "CheckNameAvailability_Execute",
-        "x-ms-examples": {
-          "NameAvailability": {
-            "parameters": {
-              "api-version": "2017-04-30-preview",
-              "subscriptionId": "ffffffff-ffff-ffff-ffff-ffffffffffff",
-              "nameAvailabilityRequest": {
-                "name": "name1",
-                "type": "Microsoft.DBforMySQL"
-              }
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "nameAvailable": true,
-                  "message": "",
-                  "reason": ""
-                }
-              }
-            }
-          }
-        },
-        "description": "Check the availability of name for resource",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "name": "nameAvailabilityRequest",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/NameAvailabilityRequest"
-            },
-            "description": "The required parameters for checking if resource name is available."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/NameAvailability"
-            }
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "ServerVersion": {
       "type": "string",
@@ -468,6 +406,74 @@
       },
       "description": "A list of firewall rules."
     },
+    "VirtualNetworkRuleProperties": {
+      "description": "Properties of a virtual network rule.",
+      "required": [
+        "virtualNetworkSubnetId"
+      ],
+      "type": "object",
+      "properties": {
+        "virtualNetworkSubnetId": {
+          "description": "The ARM resource id of the virtual network subnet.",
+          "type": "string"
+        },
+        "ignoreMissingVnetServiceEndpoint": {
+          "description": "Create firewall rule before the virtual network has vnet service endpoint enabled.",
+          "type": "boolean"
+        },
+        "state": {
+          "description": "Virtual Network Rule State",
+          "enum": [
+            "Initializing",
+            "InProgress",
+            "Ready",
+            "Deleting",
+            "Unknown"
+          ],
+          "type": "string",
+          "readOnly": true,
+          "x-ms-enum": {
+            "name": "VirtualNetworkRuleState",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "VirtualNetworkRule": {
+      "description": "A virtual network rule.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/VirtualNetworkRuleProperties",
+          "description": "Resource properties.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "VirtualNetworkRuleListResult": {
+      "description": "A list of virtual network rules.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Array of results.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VirtualNetworkRule"
+          },
+          "readOnly": true
+        },
+        "nextLink": {
+          "description": "Link to retrieve next page of results.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
     "DatabaseProperties": {
       "properties": {
         "charset": {
@@ -760,6 +766,9 @@
       "description": "A list of performance tiers."
     },
     "NameAvailabilityRequest": {
+      "required": [
+        "name"
+      ],
       "properties": {
         "name": {
           "type": "string",
@@ -829,6 +838,14 @@
       "description": "The name of the server firewall rule.",
       "x-ms-parameter-location": "method"
     },
+    "virtualNetworkRuleNameParameter": {
+      "name": "virtualNetworkRuleName",
+      "in": "path",
+      "description": "The name of the virtual network rule.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
     "DatabaseNameParameter": {
       "name": "databaseName",
       "in": "path",
@@ -855,5 +872,12 @@
     }
   },
   "x-internal-service-name": "MySQL",
-  "x-internal-toc-name": "Check Name Availability"
+  "x-internal-toc-name": "Check Name Availability",
+  "x-internal-split-members": [
+    {
+      "displayName": "Execute",
+      "relativePath": "CheckNameAvailability/Execute"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
 }

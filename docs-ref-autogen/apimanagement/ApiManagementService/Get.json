@@ -60,6 +60,7 @@
                     "targetProvisioningState": "",
                     "createdAtUtc": "2017-06-28T23:01:33.0667959Z",
                     "gatewayUrl": "https://apimService1.azure-api.net",
+                    "gatewayRegionalUrl": "https://apimService1-centralus-01.regional.azure-api.net",
                     "portalUrl": "https://apimService1.portal.azure-api.net",
                     "managementApiUrl": "https://apimService1.management.azure-api.net",
                     "scmUrl": "https://apimService1.scm.azure-api.net",
@@ -110,7 +111,8 @@
                         },
                         "staticIps": [
                           "40.78.99.244"
-                        ]
+                        ],
+                        "gatewayRegionalUrl": "https://apimService1-westus-01.regional.azure-api.net"
                       }
                     ],
                     "virtualNetworkType": "None"
@@ -300,6 +302,11 @@
         "virtualNetworkConfiguration": {
           "$ref": "#/definitions/VirtualNetworkConfiguration",
           "description": "Virtual network configuration for the location."
+        },
+        "gatewayRegionalUrl": {
+          "type": "string",
+          "description": "Gateway URL of the API Management service in the Region.",
+          "readOnly": true
         }
       },
       "required": [
@@ -405,6 +412,11 @@
         "gatewayUrl": {
           "type": "string",
           "description": "Gateway URL of the API Management service.",
+          "readOnly": true
+        },
+        "gatewayRegionalUrl": {
+          "type": "string",
+          "description": "Gateway URL of the API Management service in the Default Region.",
           "readOnly": true
         },
         "portalUrl": {
@@ -674,6 +686,99 @@
         }
       },
       "description": "Parameter supplied to the Apply Network configuration operation."
+    },
+    "ApiManagementServiceUploadCertificateParameters": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Hostname type.",
+          "enum": [
+            "Proxy",
+            "Portal",
+            "Management",
+            "Scm"
+          ],
+          "x-ms-enum": {
+            "name": "HostnameType",
+            "modelAsString": false
+          }
+        },
+        "certificate": {
+          "type": "string",
+          "description": "Base64 Encoded certificate."
+        },
+        "certificate_password": {
+          "type": "string",
+          "description": "Certificate password."
+        }
+      },
+      "required": [
+        "type",
+        "certificate",
+        "certificate_password"
+      ],
+      "description": "Parameters supplied to the Upload SSL certificate for an API Management service operation."
+    },
+    "HostnameConfigurationOld": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Hostname type.",
+          "enum": [
+            "Proxy",
+            "Portal",
+            "Management",
+            "Scm"
+          ],
+          "x-ms-enum": {
+            "name": "HostnameType",
+            "modelAsString": false
+          }
+        },
+        "hostname": {
+          "type": "string",
+          "description": "Hostname to configure."
+        },
+        "certificate": {
+          "$ref": "#/definitions/CertificateInformation",
+          "description": "Certificate information."
+        }
+      },
+      "required": [
+        "type",
+        "hostname",
+        "certificate"
+      ],
+      "description": "Custom hostname configuration."
+    },
+    "ApiManagementServiceUpdateHostnameParameters": {
+      "properties": {
+        "update": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HostnameConfigurationOld"
+          },
+          "description": "Hostnames to create or update."
+        },
+        "delete": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "Proxy",
+              "Portal",
+              "Management",
+              "Scm"
+            ],
+            "x-ms-enum": {
+              "name": "HostnameType",
+              "modelAsString": false
+            }
+          },
+          "description": "Hostnames types to delete."
+        }
+      },
+      "description": "Parameters supplied to the UpdateHostname operation."
     },
     "Operation": {
       "description": "REST API operation",

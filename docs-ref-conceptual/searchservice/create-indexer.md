@@ -28,7 +28,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Indexer (Azure Search Service REST API)
-  You can create a new indexer within an Azure Search service using an HTTP POST request.  
+  You can create a new indexer within an Azure Search service using an HTTP POST request. For data-platform-specific guidance on creating indexers, start with [Indexers overview](https://docs.microsoft.com/azure/search/search-indexer-overview), which includes the complete list of [related articles](https://docs.microsoft.com/azure/search/search-indexer-overview#next-steps).
 
 ```  
 POST https://[service name].search.windows.net/indexers?api-version=[api-version]  
@@ -47,7 +47,7 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 
  The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+ The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 
 ## Request  
  The body of the request contains an indexer definition, which specifies the data source and the target index for indexing, as well as optional indexing schedule and parameters.  

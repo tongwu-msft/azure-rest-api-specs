@@ -36,7 +36,7 @@ translation.priority.mt:
   
 2.  You cannot update a SAS URL Locator after it has been created; however, other Locator types, such as origin locators, can be updated with new StartTime values.  
   
-3.  SAS locators' URLs will change every time  storage keys of the associated storage account get updated. For more information, see [How To: Update Media Services after Rolling Storage Access Keys](http://azure.microsoft.com/documentation/articles/media-services-roll-storage-access-keys/)  
+3.  SAS locators' URLs will change every time  storage keys of the associated storage account get updated. For more information, see [How To: Update Media Services after Rolling Storage Access Keys](https://azure.microsoft.com/documentation/articles/media-services-roll-storage-access-keys/)  
   
 4.  There may be a 30-40 second delay after a Locator is created to when it is available for use. This issue applies to both SAS URL and OnDemandOrigin locators.  
   
@@ -88,7 +88,7 @@ translation.priority.mt:
 |POST|https://media.windows.net/API/Locators|HTTP/1.1|  
   
 > [!NOTE]
->  SAS locators' URLs will change every time  storage keys of the associated storage account get updated. For more information, see [How To: Update Media Services after Rolling Storage Access Keys](http://azure.microsoft.com/documentation/articles/media-services-roll-storage-access-keys/)  
+>  SAS locators' URLs will change every time  storage keys of the associated storage account get updated. For more information, see [How To: Update Media Services after Rolling Storage Access Keys](https://azure.microsoft.com/documentation/articles/media-services-roll-storage-access-keys/)  
   
 ### Sample Request  
   

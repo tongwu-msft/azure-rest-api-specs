@@ -3,7 +3,7 @@
   "info": {
     "version": "2017-04-30-preview",
     "title": "MySQLManagementClient",
-    "description": "The Microsoft Azure management API provides create, read, update, and delete functionality for Azure MySQL resources including servers, databases, firewall rules, log files and configurations."
+    "description": "The Microsoft Azure management API provides create, read, update, and delete functionality for Azure MySQL resources including servers, databases, firewall rules, VNET rules, log files and configurations."
   },
   "host": "management.azure.com",
   "schemes": [
@@ -27,106 +27,7 @@
       }
     }
   },
-  "paths": {
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/performanceTiers": {
-      "get": {
-        "tags": [
-          "PerformanceTiers"
-        ],
-        "operationId": "PerformanceTiers_List",
-        "x-ms-examples": {
-          "PerformanceTiersList": {
-            "parameters": {
-              "api-version": "2017-04-30-preview",
-              "subscriptionId": "ffffffff-ffff-ffff-ffff-ffffffffffff"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "value": [
-                    {
-                      "id": "Basic",
-                      "backupRetentionDays": 7,
-                      "serviceLevelObjectives": [
-                        {
-                          "edition": "Basic",
-                          "dtu": 50,
-                          "storageMB": 51200,
-                          "id": "MYSQLB50"
-                        },
-                        {
-                          "edition": "Basic",
-                          "dtu": 100,
-                          "storageMB": 51200,
-                          "id": "MYSQLB100"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "Standard",
-                      "backupRetentionDays": 35,
-                      "serviceLevelObjectives": [
-                        {
-                          "edition": "Standard",
-                          "dtu": 100,
-                          "storageMB": 128000,
-                          "id": "MYSQLS100"
-                        },
-                        {
-                          "edition": "Standard",
-                          "dtu": 200,
-                          "storageMB": 128000,
-                          "id": "MYSQLS200"
-                        },
-                        {
-                          "edition": "Standard",
-                          "dtu": 400,
-                          "storageMB": 128000,
-                          "id": "MYSQLS400"
-                        },
-                        {
-                          "edition": "Standard",
-                          "dtu": 800,
-                          "storageMB": 128000,
-                          "id": "MYSQLS800"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "description": "List all the performance tiers in a given subscription.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/PerformanceTierListResult"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": null
-        },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "ServerVersion": {
       "type": "string",
@@ -505,6 +406,74 @@
       },
       "description": "A list of firewall rules."
     },
+    "VirtualNetworkRuleProperties": {
+      "description": "Properties of a virtual network rule.",
+      "required": [
+        "virtualNetworkSubnetId"
+      ],
+      "type": "object",
+      "properties": {
+        "virtualNetworkSubnetId": {
+          "description": "The ARM resource id of the virtual network subnet.",
+          "type": "string"
+        },
+        "ignoreMissingVnetServiceEndpoint": {
+          "description": "Create firewall rule before the virtual network has vnet service endpoint enabled.",
+          "type": "boolean"
+        },
+        "state": {
+          "description": "Virtual Network Rule State",
+          "enum": [
+            "Initializing",
+            "InProgress",
+            "Ready",
+            "Deleting",
+            "Unknown"
+          ],
+          "type": "string",
+          "readOnly": true,
+          "x-ms-enum": {
+            "name": "VirtualNetworkRuleState",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "VirtualNetworkRule": {
+      "description": "A virtual network rule.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/VirtualNetworkRuleProperties",
+          "description": "Resource properties.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "VirtualNetworkRuleListResult": {
+      "description": "A list of virtual network rules.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Array of results.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VirtualNetworkRule"
+          },
+          "readOnly": true
+        },
+        "nextLink": {
+          "description": "Link to retrieve next page of results.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
     "DatabaseProperties": {
       "properties": {
         "charset": {
@@ -797,6 +766,9 @@
       "description": "A list of performance tiers."
     },
     "NameAvailabilityRequest": {
+      "required": [
+        "name"
+      ],
       "properties": {
         "name": {
           "type": "string",
@@ -866,6 +838,14 @@
       "description": "The name of the server firewall rule.",
       "x-ms-parameter-location": "method"
     },
+    "virtualNetworkRuleNameParameter": {
+      "name": "virtualNetworkRuleName",
+      "in": "path",
+      "description": "The name of the virtual network rule.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
     "DatabaseNameParameter": {
       "name": "databaseName",
       "in": "path",
@@ -892,5 +872,12 @@
     }
   },
   "x-internal-service-name": "MySQL",
-  "x-internal-toc-name": "Performance Tiers"
+  "x-internal-toc-name": "Performance Tiers",
+  "x-internal-split-members": [
+    {
+      "displayName": "List",
+      "relativePath": "PerformanceTiers/List"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
 }

@@ -26,7 +26,7 @@ The following information is common to all tasks that you might do related to Da
 
 * Replace `{api-version}` with **2016-11-01**.
 * Replace `{subscription-id}` in the URI with your Azure subscription identifier.
-* Replace `{resource-group-name}` with the resource group. For more information, see [Using Resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
+* Replace `{resource-group-name}` with the resource group. For more information, see [Using Resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
 Replace `{account-name}` in the URI with your Data Lake Store account name.
 * Set the **Content-Type** header to **application/json**.
 Set the **Authorization** header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).
