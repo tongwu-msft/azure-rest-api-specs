@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceInstanceInfo"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -83,7 +83,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the node.
+The name of a Service Fabric node.
 
 ____
 ### Address
@@ -104,4 +104,4 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Id of the stateless service instance.
+Id of a stateless service instance. InstanceId is used by Service Fabric to uniquely identify an instance of a partition of a stateless service. It is unique within a partition and does not change for the lifetime of the instance. If the instance is failedover on the same or different node, it will get a different value for the InstanceId.

@@ -1,19 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
+    "version": "2017-03-01",
     "title": "ApiManagementClient",
-    "description": "Use these REST APIs for performing operations on API entity and their Operations associated with your Azure API Management deployment.",
-    "version": "2016-10-10"
+    "description": "Use these REST APIs for performing operations on API entity and their Operations associated with your Azure API Management deployment."
   },
   "host": "management.azure.com",
   "schemes": [
     "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
   ],
   "security": [
     {
@@ -33,151 +27,7 @@
       }
     }
   },
-  "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policy": {
-      "get": {
-        "tags": [
-          "ApiPolicy"
-        ],
-        "operationId": "ApiPolicy_Get",
-        "description": "Get the policy configuration at the API level.",
-        "produces": [
-          "application/vnd.ms-azure-apim.policy+xml"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiIdParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Api Policy information.",
-            "schema": {
-              "type": "file"
-            },
-            "headers": {
-              "ETag": {
-                "description": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests.",
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "ApiPolicy"
-        ],
-        "operationId": "ApiPolicy_CreateOrUpdate",
-        "description": "Creates or updates policy configuration for the API.",
-        "consumes": [
-          "application/vnd.ms-azure-apim.policy+xml"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiIdParameter"
-          },
-          {
-            "name": "parameters",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "format": "file"
-            },
-            "required": true,
-            "description": "The policy contents to apply."
-          },
-          {
-            "name": "If-Match",
-            "in": "header",
-            "required": true,
-            "description": "The entity state (Etag) version of the Api Policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Api policy configuration was successfully created."
-          },
-          "204": {
-            "description": "Api policy configuration of the tenant was successfully updated."
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "ApiPolicy"
-        ],
-        "operationId": "ApiPolicy_Delete",
-        "description": "Deletes the policy configuration at the Api.",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiIdParameter"
-          },
-          {
-            "name": "If-Match",
-            "in": "header",
-            "required": true,
-            "description": "The entity state (Etag) version of the Api policy to update. A value of \"*\" can be used for If-Match to unconditionally apply the operation.",
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Successfully deleted the policy configuration at the API level."
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
-            }
-          }
-        }
-      }
-    }
-  },
+  "paths": {},
   "x-ms-paths": {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?export=true": {
       "get": {
@@ -185,7 +35,27 @@
           "Apis"
         ],
         "operationId": "ApiExport_Get",
-        "description": "Gets the details of the API specified by its identifier.",
+        "description": "Gets the details of the API specified by its identifier in the format specified to the Storage Blob with SAS Key valid for 5 minutes.",
+        "x-ms-examples": {
+          "ApiManagementGetApiExportInOpenApi2dot0": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "apiId": "echo-api",
+              "Accept": "application/vnd.swagger.link+json",
+              "export": "true"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "link": "https://apimgmtstaobxxxxxxx.blob.core.windows.net/api-export/Echo API.json?sv=2015-07-08&sr=b&sig=xxxxxxxxxx%3D&se=2017-09-08T21:54:08Z&sp=r"
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -195,6 +65,53 @@
           },
           {
             "$ref": "#/parameters/ApiIdParameter"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "application/vnd.swagger.link+json",
+              "application/vnd.sun.wadl.link+json",
+              "application/vnd.ms.wsdl.link+xml"
+            ],
+            "x-ms-enum": {
+              "name": "ExportFormat",
+              "modelAsString": false,
+              "values": [
+                {
+                  "value": "application/vnd.swagger.link+json",
+                  "description": "Export the Api Definition in OpenApi Specification 2.0 format to the Storage Blob.",
+                  "name": "OpenApi2"
+                },
+                {
+                  "value": "application/vnd.ms.wsdl.link+xml",
+                  "description": "Export the Api Definition in WSDL Schema to Storage Blob.",
+                  "name": "Wsdl"
+                },
+                {
+                  "value": "application/vnd.sun.wadl.link+json",
+                  "description": "Export the Api Definition in WADL Schema to Storage Blob.",
+                  "name": "Wadl"
+                }
+              ]
+            },
+            "description": "Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5 minutes."
+          },
+          {
+            "name": "export",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "true"
+            ],
+            "x-ms-enum": {
+              "modelAsString": true,
+              "name": "ExportApi"
+            },
+            "description": "Query parameter required to export the API details."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -213,14 +130,29 @@
           "default": {
             "description": "Error response describing why the operation failed.",
             "schema": {
-              "$ref": "#/definitions/ErrorBodyContract"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     }
   },
   "definitions": {
+    "ApiExportResult": {
+      "properties": {
+        "link": {
+          "type": "string",
+          "description": "Link to the Storage Blob containing the result of the export operation. The Blob Uri is only valid for 5 minutes."
+        }
+      },
+      "description": "API Export result Blob Uri."
+    },
     "ApiCollection": {
       "properties": {
         "value": {
@@ -229,11 +161,6 @@
             "$ref": "#/definitions/ApiContract"
           },
           "description": "Page values."
-        },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Total record count number across all pages."
         },
         "nextLink": {
           "type": "string",
@@ -244,12 +171,62 @@
     },
     "ApiContract": {
       "properties": {
-        "id": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ApiContractProperties",
+          "description": "Api entity contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "API details."
+    },
+    "ApiCreateOrUpdateParameter": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ApiCreateOrUpdateProperties",
+          "description": "Api entity create of update properties."
+        }
+      },
+      "description": "API Create or Update Parameters."
+    },
+    "ApiCreateOrUpdateProperties": {
+      "properties": {
+        "contentValue": {
           "type": "string",
-          "description": "API identifier path: /apis/{apiId}",
-          "readOnly": true
+          "description": "Content value when Importing an API."
         },
-        "name": {
+        "contentFormat": {
+          "type": "string",
+          "description": "Format of the Content in which the API is getting imported.",
+          "enum": [
+            "wadl-xml",
+            "wadl-link-json",
+            "swagger-json",
+            "swagger-link-json",
+            "wsdl",
+            "wsdl-link"
+          ],
+          "x-ms-enum": {
+            "name": "ContentFormat",
+            "modelAsString": false
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ApiContractProperties"
+        }
+      ],
+      "description": "Api Create or Update Properties."
+    },
+    "ApiContractProperties": {
+      "properties": {
+        "displayName": {
           "type": "string",
           "description": "API name.",
           "minLength": 1,
@@ -272,11 +249,11 @@
           "items": {
             "type": "string",
             "enum": [
-              "Http",
-              "Https"
+              "http",
+              "https"
             ],
             "x-ms-enum": {
-              "name": "ApiProtocolContract",
+              "name": "Protocol",
               "modelAsString": false
             }
           },
@@ -289,12 +266,62 @@
         }
       ],
       "required": [
-        "name",
-        "serviceUrl",
-        "path",
-        "protocols"
+        "path"
       ],
-      "description": "API details."
+      "description": "Api Entity Properties"
+    },
+    "ApiUpdateContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ApiContractUpdateProperties",
+          "description": "Properties of the API entity that can be updated."
+        }
+      },
+      "description": "API update contract details."
+    },
+    "ApiContractUpdateProperties": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "API name.",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "serviceUrl": {
+          "type": "string",
+          "description": "Absolute URL of the backend service implementing this API.",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "path": {
+          "type": "string",
+          "description": "Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.",
+          "minLength": 0,
+          "maxLength": 400
+        },
+        "protocols": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "http",
+              "https"
+            ],
+            "x-ms-enum": {
+              "name": "Protocol",
+              "modelAsString": false
+            }
+          },
+          "description": "Describes on which protocols the operations in this API can be invoked."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ApiEntityBaseContract"
+        }
+      ],
+      "description": "API update contract properties."
     },
     "ApiEntityBaseContract": {
       "properties": {
@@ -314,97 +341,37 @@
           "type": "string",
           "description": "Type of API.",
           "enum": [
-            "Http",
-            "Soap"
+            "http",
+            "soap"
           ],
+          "x-ms-client-name": "ApiType",
           "x-ms-enum": {
-            "name": "ApiTypeContract",
-            "modelAsString": false
+            "name": "ApiType",
+            "modelAsString": true
           }
+        },
+        "apiRevision": {
+          "type": "string",
+          "description": "Describes the Revision of the Api. If no value is provided, default revision 1 is created",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "isCurrent": {
+          "type": "boolean",
+          "description": "Indicates if API revision is current api revision."
+        },
+        "isOnline": {
+          "type": "boolean",
+          "description": "Indicates if API revision is accessible via the gateway."
         }
       },
       "description": "API base contract details."
     },
-    "ApiExportResult": {
-      "properties": {
-        "content": {
-          "type": "string",
-          "format": "byte",
-          "description": "Response content bytes."
-        },
-        "statusCode": {
-          "type": "string",
-          "enum": [
-            "Continue",
-            "OK",
-            "Created",
-            "Accepted",
-            "NotFound",
-            "Conflict"
-          ],
-          "x-ms-enum": {
-            "name": "HttpStatusCode",
-            "modelAsString": false
-          }
-        },
-        "requestId": {
-          "type": "string"
-        }
-      },
-      "description": "The response model for the export API output operation."
-    },
-    "ApiUpdateContract": {
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "API identifier path: /apis/{apiId}",
-          "readOnly": true
-        },
-        "name": {
-          "type": "string",
-          "description": "API name.",
-          "minLength": 1,
-          "maxLength": 300
-        },
-        "serviceUrl": {
-          "type": "string",
-          "description": "Absolute URL of the backend service implementing this API.",
-          "minLength": 1,
-          "maxLength": 2000
-        },
-        "path": {
-          "type": "string",
-          "description": "Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.",
-          "minLength": 0,
-          "maxLength": 400
-        },
-        "protocols": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "Http",
-              "Https"
-            ],
-            "x-ms-enum": {
-              "name": "ApiProtocolContract",
-              "modelAsString": false
-            }
-          },
-          "description": "Describes on which protocols the operations in this API can be invoked."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/ApiEntityBaseContract"
-        }
-      ],
-      "description": "API Update Contract details."
-    },
     "AuthenticationSettingsContract": {
       "properties": {
         "oAuth2": {
-          "$ref": "#/definitions/OAuth2AuthenticationSettingsContract"
+          "$ref": "#/definitions/OAuth2AuthenticationSettingsContract",
+          "description": "OAuth2 Authentication settings"
         }
       },
       "description": "API Authentication Settings."
@@ -431,11 +398,6 @@
           },
           "description": "Page values."
         },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Total record count number across all pages."
-        },
         "nextLink": {
           "type": "string",
           "description": "Next page link if any."
@@ -445,12 +407,22 @@
     },
     "OperationContract": {
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Uniquely identifies the operation within the current API Management service instance. The value is a valid relative URL in the format of /apis/{aid}/operations/{id} where {aid} is an API identifier and {id} is an operation identifier.",
-          "readOnly": true
-        },
-        "name": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/OperationContractProperties",
+          "description": "Properties of the Operation Contract."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Api Operation details."
+    },
+    "OperationContractProperties": {
+      "properties": {
+        "displayName": {
           "type": "string",
           "description": "Operation Name.",
           "minLength": 1,
@@ -477,48 +449,15 @@
         }
       ],
       "required": [
-        "name",
+        "displayName",
         "method",
         "urlTemplate"
       ],
-      "description": "Api Operation details."
+      "description": "Operation Contract Properties"
     },
-    "OperationEntityBaseContract": {
+    "OperationUpdateContractProperties": {
       "properties": {
-        "templateParameters": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ParameterContract"
-          },
-          "description": "Collection of URL template parameters."
-        },
-        "description": {
-          "type": "string",
-          "description": "Description of the operation. May include HTML formatting tags.",
-          "maxLength": 1000
-        },
-        "request": {
-          "$ref": "#/definitions/RequestContract",
-          "description": "An entity containing request details."
-        },
-        "responses": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ResultContract"
-          },
-          "description": "Array of Operation responses."
-        }
-      },
-      "description": "Api Operation Entity Base Contract details."
-    },
-    "OperationUpdateContract": {
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Uniquely identifies the operation within the current API Management service instance. The value is a valid relative URL in the format of /apis/{aid}/operations/{id} where {aid} is an API identifier and {id} is an operation identifier.",
-          "readOnly": true
-        },
-        "name": {
+        "displayName": {
           "type": "string",
           "description": "Operation Name.",
           "minLength": 1,
@@ -544,6 +483,48 @@
           "$ref": "#/definitions/OperationEntityBaseContract"
         }
       ],
+      "description": "Operation Update Contract Properties."
+    },
+    "OperationEntityBaseContract": {
+      "properties": {
+        "templateParameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterContract"
+          },
+          "description": "Collection of URL template parameters."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the operation. May include HTML formatting tags.",
+          "maxLength": 1000
+        },
+        "request": {
+          "$ref": "#/definitions/RequestContract",
+          "description": "An entity containing request details."
+        },
+        "responses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResponseContract"
+          },
+          "description": "Array of Operation responses."
+        },
+        "policies": {
+          "type": "string",
+          "description": "Operation Policies"
+        }
+      },
+      "description": "Api Operation Entity Base Contract details."
+    },
+    "OperationUpdateContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/OperationUpdateContractProperties",
+          "description": "Properties of the API Operation entity that can be updated."
+        }
+      },
       "description": "Api Operation Update Contract details."
     },
     "ParameterContract": {
@@ -591,6 +572,21 @@
         "sample": {
           "type": "string",
           "description": "An example of the representation."
+        },
+        "schemaId": {
+          "type": "string",
+          "description": "Schema identifier. Applicable only if 'contentType' value is neither 'application/x-www-form-urlencoded' nor 'multipart/form-data'."
+        },
+        "typeName": {
+          "type": "string",
+          "description": "Type name defined by the schema. Applicable only if 'contentType' value is neither 'application/x-www-form-urlencoded' nor 'multipart/form-data'."
+        },
+        "formParameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterContract"
+          },
+          "description": "Collection of form parameters. Required if 'contentType' value is either 'application/x-www-form-urlencoded' or 'multipart/form-data'.."
         }
       },
       "required": [
@@ -628,14 +624,12 @@
       },
       "description": "Operation request details."
     },
-    "ResultContract": {
+    "ResponseContract": {
       "properties": {
         "statusCode": {
           "type": "integer",
           "format": "int32",
-          "description": "Operation response HTTP status code.",
-          "minimum": 100,
-          "maximum": 599
+          "description": "Operation response HTTP status code."
         },
         "description": {
           "type": "string",
@@ -647,6 +641,13 @@
             "$ref": "#/definitions/RepresentationContract"
           },
           "description": "Collection of operation response representations."
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterContract"
+          },
+          "description": "Collection of operation response headers."
         }
       },
       "required": [
@@ -673,6 +674,54 @@
         }
       }
     },
+    "PolicyContractProperties": {
+      "properties": {
+        "policyContent": {
+          "type": "string",
+          "description": "Xml Encoded contents of the Policy."
+        }
+      },
+      "required": [
+        "policyContent"
+      ],
+      "description": "Policy contract Properties."
+    },
+    "PolicyContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PolicyContractProperties",
+          "description": "Properties of the Policy."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Policy Contract details."
+    },
+    "Resource": {
+      "description": "The Resource definition.",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "Resource name.",
+          "readOnly": true
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type for API Management resource."
+        }
+      }
+    },
     "ErrorFieldContract": {
       "properties": {
         "code": {
@@ -690,7 +739,7 @@
       },
       "description": "Error Field contract."
     },
-    "ErrorBodyContract": {
+    "ErrorResponse": {
       "properties": {
         "code": {
           "type": "string",
@@ -710,19 +759,59 @@
       },
       "description": "Error Body contract."
     },
-    "ProductContract": {
+    "PolicyCollection": {
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Uniquely identifies the product within the current API Management service instance. The value is a valid relative URL in the format of /products/{productId} where {productId} is a product identifier.",
-          "readOnly": true
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PolicyContract"
+          },
+          "description": "Policy Contract value."
         },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "The response of the list policy operation."
+    },
+    "ProductUpdateProperties": {
+      "properties": {
         "name": {
+          "type": "string",
+          "description": "Product name.",
+          "maxLength": 300,
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProductEntityBaseParameters"
+        }
+      ],
+      "description": "Parameters supplied to the Update Product operation."
+    },
+    "ProductContractProperties": {
+      "properties": {
+        "displayName": {
           "type": "string",
           "description": "Product name.",
           "minLength": 1,
           "maxLength": 300
-        },
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProductEntityBaseParameters"
+        }
+      ],
+      "required": [
+        "displayName"
+      ],
+      "description": "Product profile."
+    },
+    "ProductEntityBaseParameters": {
+      "properties": {
         "description": {
           "type": "string",
           "description": "Product description. May include HTML formatting tags.",
@@ -734,13 +823,12 @@
           "description": "Product terms of use. Developers trying to subscribe to the product will be presented and required to accept these terms before they can complete the subscription process."
         },
         "subscriptionRequired": {
-          "type": "boolean",
           "description": "Whether a product subscription is required for accessing APIs included in this product. If true, the product is referred to as \"protected\" and a valid subscription key is required for a request to an API included in the product to succeed. If false, the product is referred to as \"open\" and requests to an API included in the product can be made without a subscription key. If property is omitted when creating a new product it's value is assumed to be true.",
-          "default": true
+          "type": "boolean"
         },
         "approvalRequired": {
-          "type": "boolean",
-          "description": "whether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can any of the product’s APIs. Can be present only if subscriptionRequired property is present and has a value of false."
+          "description": "whether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can any of the product’s APIs. Can be present only if subscriptionRequired property is present and has a value of false.",
+          "type": "boolean"
         },
         "subscriptionsLimit": {
           "type": "integer",
@@ -749,22 +837,33 @@
         },
         "state": {
           "type": "string",
-          "description": "whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is NotPublished.",
+          "description": "whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished.",
           "enum": [
-            "NotPublished",
-            "Published"
+            "notPublished",
+            "published"
           ],
-          "default": "NotPublished",
           "x-ms-enum": {
-            "name": "ProductStateContract",
+            "name": "ProductState",
             "modelAsString": false
           }
         }
       },
-      "required": [
-        "name"
+      "description": "Product Entity Base Parameters"
+    },
+    "ProductContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ProductContractProperties",
+          "description": "Product entity contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
       ],
-      "description": "Product profile."
+      "description": "Product details."
     },
     "ProductCollection": {
       "properties": {
@@ -774,11 +873,6 @@
             "$ref": "#/definitions/ProductContract"
           },
           "description": "Page values."
-        },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Total record count number across all pages."
         },
         "nextLink": {
           "type": "string",
@@ -844,6 +938,21 @@
       "description": "The name of the resource group.",
       "x-ms-parameter-location": "method"
     },
+    "PolicyIdParameter": {
+      "name": "policyId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "policy"
+      ],
+      "description": "The identifier of the Policy.",
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "PolicyIdName"
+      },
+      "x-ms-parameter-location": "method"
+    },
     "SkipQueryParameter": {
       "name": "$skip",
       "in": "query",
@@ -864,5 +973,26 @@
       "minimum": 1,
       "x-ms-parameter-location": "method"
     }
-  }
+  },
+  "x-internal-service-name": "API Management",
+  "x-internal-toc-name": "Api Policy",
+  "x-internal-split-members": [
+    {
+      "displayName": "Create Or Update",
+      "relativePath": "ApiPolicy/CreateOrUpdate"
+    },
+    {
+      "displayName": "Delete",
+      "relativePath": "ApiPolicy/Delete"
+    },
+    {
+      "displayName": "Get",
+      "relativePath": "ApiPolicy/Get"
+    },
+    {
+      "displayName": "List By Api",
+      "relativePath": "ApiPolicy/ListByApi"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
 }

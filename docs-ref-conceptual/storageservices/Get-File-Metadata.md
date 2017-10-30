@@ -33,6 +33,7 @@ The `Get File Metadata` operation returns all user-defined metadata for the spec
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`GET`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?comp=metadata`|HTTP/1.1|  
+|`GET`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?comp=metadata&sharesnapshot=<DateTime>`|HTTP/1.1|  
   
  Replace the path components shown in the request URI with your own, as follows:  
   
@@ -50,6 +51,7 @@ The `Get File Metadata` operation returns all user-defined metadata for the spec
   
 |Parameter|Description|  
 |---------------|-----------------|  
+|`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query for the file metadata. |  
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ## Request Headers  

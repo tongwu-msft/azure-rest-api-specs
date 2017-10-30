@@ -1,6 +1,6 @@
 ---
 title: "DeployedStatelessServiceInstanceInfo"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -39,10 +39,11 @@ Information about a stateless service instance deployed on a node.
 | [ServiceTypeName](#servicetypename) | string | No |
 | [ServiceManifestName](#servicemanifestname) | string | No |
 | [CodePackageName](#codepackagename) | string | No |
-| [PartitionID](#partitionid) | string (uuid) | No |
+| [PartitionId](#partitionid) | string (uuid) | No |
 | [ReplicaStatus](#replicastatus) | string (enum) | No |
 | [Address](#address) | string | No |
 | [ServicePackageActivationId](#servicepackageactivationid) | string | No |
+| [HostProcessId](#hostprocessid) | string (int64) | No |
 | [InstanceId](#instanceid) | string | No |
 
 ____
@@ -57,7 +58,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Full hierarchical name of the service in URI format starting with `fabric:`.
+The full name of the service with 'fabric:' URI scheme.
 
 ____
 ### ServiceTypeName
@@ -81,7 +82,7 @@ __Required__: No<br/>
 The name of the code package that hosts this replica.
 
 ____
-### PartitionID
+### PartitionId
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>
@@ -120,8 +121,15 @@ is always an empty string.
 
 
 ____
+### HostProcessId
+__Type__: string (int64) <br/>
+__Required__: No<br/>
+<br/>
+Host process id of the process that is hosting the replica. This will be zero if the replica is down. In hyper-v containers this host process id will be from different kernel.
+
+____
 ### InstanceId
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Id of the stateless service instance.
+Id of a stateless service instance. InstanceId is used by Service Fabric to uniquely identify an instance of a partition of a stateless service. It is unique within a partition and does not change for the lifetime of the instance. If the instance is failedover on the same or different node, it will get a different value for the InstanceId.

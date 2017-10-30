@@ -1,23 +1,16 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "StorageManagement",
-    "description": "The Azure Storage Management API.",
-    "version": "2016-12-01",
+    "version": "2017-06-01",
     "x-ms-code-generation-settings": {
       "name": "StorageManagementClient"
-    }
+    },
+    "title": "StorageManagement",
+    "description": "The Azure Storage Management API."
   },
   "host": "management.azure.com",
   "schemes": [
     "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json",
-    "text/json"
   ],
   "paths": {
     "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/usages": {
@@ -27,6 +20,31 @@
         ],
         "operationId": "Usage_List",
         "description": "Gets the current usage count and the limit for the resources under the subscription.",
+        "x-ms-examples": {
+          "UsageList": {
+            "parameters": {
+              "subscriptionId": "27de630f-e1ee-42de-8849-90def4986454",
+              "api-version": "2017-06-01"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "unit": "Count",
+                      "currentValue": 51,
+                      "limit": 250,
+                      "name": {
+                        "value": "StorageAccounts",
+                        "localizedValue": "Storage Accounts"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -45,21 +63,161 @@
         },
         "x-ms-pageable": {
           "nextLinkName": null
-        }
+        },
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     }
   },
   "definitions": {
+    "OperationListResult": {
+      "description": "Result of the request to list Storage operations. It contains a list of operations and a URL link to get the next set of results.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Operation"
+          },
+          "description": "List of Storage operations supported by the Storage resource provider."
+        }
+      }
+    },
+    "Operation": {
+      "description": "Storage REST API operation definition.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Operation name: {provider}/{resource}/{operation}",
+          "type": "string"
+        },
+        "display": {
+          "description": "Display metadata associated with the operation.",
+          "properties": {
+            "provider": {
+              "description": "Service provider: Microsoft Storage.",
+              "type": "string"
+            },
+            "resource": {
+              "description": "Resource on which the operation is performed etc.",
+              "type": "string"
+            },
+            "operation": {
+              "description": "Type of operation: get, read, delete, etc.",
+              "type": "string"
+            }
+          }
+        },
+        "origin": {
+          "type": "string",
+          "description": "The origin of operations."
+        },
+        "properties": {
+          "description": "Properties of operation, include metric specifications.",
+          "x-ms-client-flatten": true,
+          "x-ms-client-name": "OperationProperties",
+          "$ref": "#/definitions/OperationProperties"
+        }
+      }
+    },
+    "OperationProperties": {
+      "description": "Properties of operation, include metric specifications.",
+      "properties": {
+        "serviceSpecification": {
+          "$ref": "#/definitions/ServiceSpecification",
+          "description": "One property of operation, include metric specifications."
+        }
+      }
+    },
+    "ServiceSpecification": {
+      "description": "One property of operation, include metric specifications.",
+      "properties": {
+        "metricSpecifications": {
+          "description": "Metric specifications of operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MetricSpecification"
+          }
+        }
+      }
+    },
+    "MetricSpecification": {
+      "description": "Metric specification of operation.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of metric specification."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of metric specification."
+        },
+        "displayDescription": {
+          "type": "string",
+          "description": "Display description of metric specification."
+        },
+        "unit": {
+          "type": "string",
+          "description": "Unit could be Bytes or Count."
+        },
+        "dimensions": {
+          "description": "Dimensions of blobs, including blob type and access tier.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Dimension"
+          }
+        },
+        "aggregationType": {
+          "type": "string",
+          "description": "Aggregation type could be Average."
+        },
+        "fillGapWithZero": {
+          "type": "boolean",
+          "description": "The property to decide fill gap with zero or not."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category this metric specification belong to, could be Capacity."
+        },
+        "resourceIdDimensionNameOverride": {
+          "type": "string",
+          "description": "Account Resource Id."
+        }
+      }
+    },
+    "Dimension": {
+      "description": "Dimension of blobs, possiblly be blob type or access tier.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Display name of dimension."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of dimension."
+        }
+      }
+    },
     "StorageAccountCheckNameAvailabilityParameters": {
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "The storage account name."
         },
         "type": {
           "type": "string",
           "enum": [
             "Microsoft.Storage/storageAccounts"
-          ]
+          ],
+          "x-ms-enum": {
+            "name": "Type",
+            "modelAsString": false
+          },
+          "description": "The type of resource, Microsoft.Storage/storageAccounts"
         }
       },
       "required": [
@@ -67,6 +225,64 @@
         "type"
       ],
       "description": "The parameters used to check the availabity of the storage account name."
+    },
+    "SKUCapability": {
+      "properties": {
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The name of capability, The capability information in the specified sku, including file encryption, network acls, change notification, etc."
+        },
+        "value": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A string value to indicate states of given capability. Possibly 'true' or 'false'."
+        }
+      },
+      "description": "The capability information in the specified sku, including file encryption, network acls, change notification, etc."
+    },
+    "Restriction": {
+      "properties": {
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The type of restrictions. As of now only possible value for this is location."
+        },
+        "values": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted."
+        },
+        "reasonCode": {
+          "type": "string",
+          "enum": [
+            "QuotaId",
+            "NotAvailableForSubscription"
+          ],
+          "x-ms-enum": {
+            "name": "ReasonCode",
+            "modelAsString": true
+          },
+          "description": "The reason for the restriction. As of now this can be “QuotaId” or “NotAvailableForSubscription”. Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The “NotAvailableForSubscription” is related to capacity at DC."
+        }
+      },
+      "description": "The restriction because of which SKU cannot be used."
+    },
+    "StorageSkuListResult": {
+      "properties": {
+        "value": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Sku"
+          },
+          "description": "Get the list result of storage SKUs and their properties."
+        }
+      },
+      "description": "The response from the List Storage SKUs operation."
     },
     "CheckNameAvailabilityResult": {
       "properties": {
@@ -125,6 +341,47 @@
             "name": "SkuTier",
             "modelAsString": false
           }
+        },
+        "resourceType": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The type of the resource, usually it is 'storageAccounts'."
+        },
+        "kind": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Indicates the type of storage account.",
+          "enum": [
+            "Storage",
+            "BlobStorage"
+          ],
+          "x-ms-enum": {
+            "name": "Kind",
+            "modelAsString": false
+          }
+        },
+        "locations": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The set of locations that the SKU is available. This will be supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.)."
+        },
+        "capabilities": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SKUCapability"
+          },
+          "description": "The capability information in the specified sku, including file encryption, network acls, change notification, etc."
+        },
+        "restrictions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Restriction"
+          },
+          "description": "The restrictions because of which SKU cannot be used. This is empty if there are no restrictions."
         }
       },
       "required": [
@@ -186,6 +443,26 @@
       },
       "description": "A list of services that support encryption."
     },
+    "KeyVaultProperties": {
+      "description": "Properties of key vault.",
+      "properties": {
+        "keyname": {
+          "type": "string",
+          "description": "The name of KeyVault key.",
+          "x-ms-client-name": "KeyName"
+        },
+        "keyversion": {
+          "type": "string",
+          "description": "The version of KeyVault key.",
+          "x-ms-client-name": "KeyVersion"
+        },
+        "keyvaulturi": {
+          "type": "string",
+          "description": "The Uri of KeyVault.",
+          "x-ms-client-name": "KeyVaultUri"
+        }
+      }
+    },
     "Encryption": {
       "properties": {
         "services": {
@@ -194,16 +471,145 @@
         },
         "keySource": {
           "type": "string",
-          "description": "The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage",
+          "description": "The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage, Microsoft.Keyvault",
           "enum": [
-            "Microsoft.Storage"
-          ]
+            "Microsoft.Storage",
+            "Microsoft.Keyvault"
+          ],
+          "x-ms-enum": {
+            "name": "KeySource",
+            "modelAsString": true
+          },
+          "default": "Microsoft.Storage"
+        },
+        "keyvaultproperties": {
+          "$ref": "#/definitions/KeyVaultProperties",
+          "x-ms-client-name": "KeyVaultProperties",
+          "description": "Properties provided by key vault."
         }
       },
       "required": [
         "keySource"
       ],
       "description": "The encryption settings on the storage account."
+    },
+    "VirtualNetworkRule": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "x-ms-client-name": "VirtualNetworkResourceId",
+          "description": "Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}."
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "Allow"
+          ],
+          "x-ms-enum": {
+            "name": "Action",
+            "modelAsString": false
+          },
+          "default": "Allow",
+          "description": "The action of virtual network rule."
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "provisioning",
+            "deprovisioning",
+            "succeeded",
+            "failed",
+            "networkSourceDeleted"
+          ],
+          "x-ms-enum": {
+            "name": "State",
+            "modelAsString": false
+          },
+          "description": "Gets the state of virtual network rule."
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "description": "Virtual Network rule."
+    },
+    "IPRule": {
+      "properties": {
+        "value": {
+          "type": "string",
+          "x-ms-client-name": "IPAddressOrRange",
+          "description": "Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed."
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "Allow"
+          ],
+          "x-ms-enum": {
+            "name": "Action",
+            "modelAsString": false
+          },
+          "default": "Allow",
+          "description": "The action of IP ACL rule."
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "description": "IP rule with specific IP or IP range in CIDR format."
+    },
+    "NetworkRuleSet": {
+      "properties": {
+        "bypass": {
+          "type": "string",
+          "enum": [
+            "None",
+            "Logging",
+            "Metrics",
+            "AzureServices"
+          ],
+          "x-ms-enum": {
+            "name": "Bypass",
+            "modelAsString": true
+          },
+          "x-ms-client-name": "Bypass",
+          "default": "AzureServices",
+          "description": "Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of Logging|Metrics|AzureServices (For example, \"Logging, Metrics\"), or None to bypass none of those traffics."
+        },
+        "virtualNetworkRules": {
+          "type": "array",
+          "items": {
+            "description": "Virtual Network rule.",
+            "$ref": "#/definitions/VirtualNetworkRule"
+          },
+          "description": "Sets the virtual network rules"
+        },
+        "ipRules": {
+          "type": "array",
+          "items": {
+            "description": "IP rule with specific IP or IP range in CIDR format.",
+            "$ref": "#/definitions/IPRule"
+          },
+          "description": "Sets the IP ACL rules"
+        },
+        "defaultAction": {
+          "type": "string",
+          "enum": [
+            "Allow",
+            "Deny"
+          ],
+          "x-ms-enum": {
+            "name": "DefaultAction",
+            "modelAsString": false
+          },
+          "default": "Allow",
+          "description": "Specifies the default action of allow or deny when no other rules match."
+        }
+      },
+      "required": [
+        "defaultAction"
+      ],
+      "description": "Network rule set"
     },
     "StorageAccountPropertiesCreateParameters": {
       "properties": {
@@ -214,6 +620,11 @@
         "encryption": {
           "$ref": "#/definitions/Encryption",
           "description": "Provides the encryption settings on the account. If left unspecified the account encryption settings will remain the same. The default setting is unencrypted."
+        },
+        "networkAcls": {
+          "$ref": "#/definitions/NetworkRuleSet",
+          "x-ms-client-name": "NetworkRuleSet",
+          "description": "Network rule set"
         },
         "accessTier": {
           "type": "string",
@@ -235,6 +646,35 @@
         }
       },
       "description": "The parameters used to create the storage account."
+    },
+    "Identity": {
+      "properties": {
+        "principalId": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The principal ID of resource identity."
+        },
+        "tenantId": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The tenant ID of resource."
+        },
+        "type": {
+          "type": "string",
+          "description": "The identity type.",
+          "enum": [
+            "SystemAssigned"
+          ],
+          "x-ms-enum": {
+            "name": "IdentityType",
+            "modelAsString": false
+          }
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "description": "Identity for the resource."
     },
     "StorageAccountCreateParameters": {
       "properties": {
@@ -265,9 +705,14 @@
           },
           "description": "Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key with a length no greater than 128 characters and a value with a length no greater than 256 characters."
         },
+        "identity": {
+          "$ref": "#/definitions/Identity",
+          "description": "The identity of the resource."
+        },
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/StorageAccountPropertiesCreateParameters"
+          "$ref": "#/definitions/StorageAccountPropertiesCreateParameters",
+          "description": "The parameters used to create the storage account."
         }
       },
       "required": [
@@ -404,6 +849,12 @@
           "default": false,
           "x-ms-client-name": "EnableHttpsTrafficOnly",
           "description": "Allows https traffic only to storage service if sets to true."
+        },
+        "networkAcls": {
+          "$ref": "#/definitions/NetworkRuleSet",
+          "x-ms-client-name": "NetworkRuleSet",
+          "description": "Network rule set",
+          "readOnly": true
         }
       },
       "description": "Properties of the storage account."
@@ -428,9 +879,14 @@
             "modelAsString": false
           }
         },
+        "identity": {
+          "$ref": "#/definitions/Identity",
+          "description": "The identity of the resource."
+        },
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/StorageAccountProperties"
+          "$ref": "#/definitions/StorageAccountProperties",
+          "description": "Properties of the storage account."
         }
       },
       "allOf": [
@@ -497,7 +953,8 @@
     "StorageAccountRegenerateKeyParameters": {
       "properties": {
         "keyName": {
-          "type": "string"
+          "type": "string",
+          "description": "The name of storage keys that want to be regenerated, possible vaules are key1, key2."
         }
       },
       "required": [
@@ -532,6 +989,11 @@
           "default": false,
           "x-ms-client-name": "EnableHttpsTrafficOnly",
           "description": "Allows https traffic only to storage service if sets to true."
+        },
+        "networkAcls": {
+          "description": "Network rule set",
+          "x-ms-client-name": "NetworkRuleSet",
+          "$ref": "#/definitions/NetworkRuleSet"
         }
       },
       "description": "The parameters used when updating a storage account."
@@ -549,9 +1011,14 @@
           },
           "description": "Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters."
         },
+        "identity": {
+          "$ref": "#/definitions/Identity",
+          "description": "The identity of the resource."
+        },
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/StorageAccountPropertiesUpdateParameters"
+          "$ref": "#/definitions/StorageAccountPropertiesUpdateParameters",
+          "description": "The parameters used when updating a storage account."
         }
       },
       "description": "The parameters that can be provided when updating the storage account properties."
@@ -664,6 +1131,10 @@
             "t",
             "f"
           ],
+          "x-ms-enum": {
+            "name": "Services",
+            "modelAsString": true
+          },
           "x-ms-client-name": "Services",
           "description": "The signed services accessible with the account SAS. Possible values include: Blob (b), Queue (q), Table (t), File (f)."
         },
@@ -674,6 +1145,10 @@
             "c",
             "o"
           ],
+          "x-ms-enum": {
+            "name": "SignedResourceTypes",
+            "modelAsString": true
+          },
           "x-ms-client-name": "ResourceTypes",
           "description": "The signed resource types that are accessible with the account SAS. Service (s): Access to service-level APIs; Container (c): Access to container-level APIs; Object (o): Access to object-level APIs for blobs, queue messages, table entities, and files."
         },
@@ -689,6 +1164,10 @@
             "u",
             "p"
           ],
+          "x-ms-enum": {
+            "name": "Permissions",
+            "modelAsString": true
+          },
           "x-ms-client-name": "Permissions",
           "description": "The signed permissions for the account SAS. Possible values include: Read (r), Write (w), Delete (d), List (l), Add (a), Create (c), Update (u) and Process (p)."
         },
@@ -759,6 +1238,10 @@
             "f",
             "s"
           ],
+          "x-ms-enum": {
+            "name": "signedResource",
+            "modelAsString": true
+          },
           "x-ms-client-name": "Resource",
           "description": "The signed services accessible with the service SAS. Possible values include: Blob (b), Container (c), File (f), Share (s)."
         },
@@ -774,6 +1257,10 @@
             "u",
             "p"
           ],
+          "x-ms-enum": {
+            "name": "Permissions",
+            "modelAsString": true
+          },
           "x-ms-client-name": "Permissions",
           "description": "The signed permissions for the service SAS. Possible values include: Read (r), Write (w), Delete (d), List (l), Add (a), Create (c), Update (u) and Process (p)."
         },
@@ -906,5 +1393,25 @@
       "maxLength": 90,
       "x-ms-parameter-location": "method"
     }
-  }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "x-internal-service-name": "Storage Resource Provider",
+  "x-internal-toc-name": "Usage"
 }

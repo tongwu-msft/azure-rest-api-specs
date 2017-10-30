@@ -1,6 +1,6 @@
 ---
 title: "DeployedServiceTypeInfo"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -45,7 +45,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the service type defined in the service manifest.
+Name of the service type as specified in the service manifest.
 
 ____
 ### ServiceManifestName

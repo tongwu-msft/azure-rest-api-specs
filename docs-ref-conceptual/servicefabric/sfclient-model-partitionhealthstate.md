@@ -1,6 +1,6 @@
 ---
 title: "PartitionHealthState"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -56,4 +56,4 @@ ____
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>
-The ID of the partition.
+Id of the partition whose health state is described by this object.

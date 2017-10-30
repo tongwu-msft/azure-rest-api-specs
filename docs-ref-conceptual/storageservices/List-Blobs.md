@@ -52,7 +52,7 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
 |`delimiter`|Optional. When the request includes this parameter, the operation returns a `BlobPrefix` element in the response body that acts as a placeholder for all blobs whose names begin with the same substring up to the appearance of the delimiter character. The delimiter may be a single character or a string.|  
 |`marker`|Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of blobs to return, including all `BlobPrefix` elements. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
-|`include={snapshots,metadata,uncommittedblobs,copy}`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Specifies that snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that blob metadata be returned in the response.<br />-   `uncommittedblobs`: Specifies that blobs for which blocks have been uploaded, but which have not been committed using [Put Block List](Put-Block-List.md), be included in the response.<br />-   `copy`: Version 2012-02-12 and newer. Specifies that metadata related to any current or previous `Copy Blob` operation should be included in the response.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").|  
+|`include={snapshots,metadata,uncommittedblobs,copy,deleted}`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Specifies that snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that blob metadata be returned in the response.<br />-   `uncommittedblobs`: Specifies that blobs for which blocks have been uploaded, but which have not been committed using [Put Block List](Put-Block-List.md), be included in the response.<br />-   `copy`: Version 2012-02-12 and newer. Specifies that metadata related to any current or previous `Copy Blob` operation should be included in the response.<br />-`deleted`: Version 2017-07-29 and newer. Specifies that soft deleted blobs should be included in the response.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -125,6 +125,10 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
  For version 2015-12-11 and above, `List Blobs` returns the `ServerEncrypted` element. This element is set to `true` if the blob and application metadata are completely encrypted, and `false` otherwise.  
 
  For version 2016-05-31 and above, `List Blobs` returns the `IncrementalCopy` element for incremental copy blobs and snapshots with the value set to `true`.
+ 
+ For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features). For blob storage LRS accounts, valid values are `Hot`/`Cool`/`Archive`. Tiers on standard blob accounts are currently in preview. For detailed information about standard blob LRS account block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+
+ `Deleted`, `DeletedTime` and `RemainingRetentionDays` appear only in version 2017-07-29 and later, when this operation includes the `include={deleted}` parameter. These elements do not appear if this blob was not deleted. These elements appear for blob or snapshot that are deleted with `DELETE` operation when soft delete feature was enabled. `Deleted` element is set to true for blobs and snapshots that are soft deleted. `Deleted-Time` corresponds to time when the blob was deleted. `RemainingRetentionDays` indicates number of days after which soft deleted blob will be permanently deleted by blob service. 
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -135,8 +139,9 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
   <Delimiter>string-value</Delimiter>  
   <Blobs>  
     <Blob>  
-      <Name>blob-name</name>  
-      <Snapshot>date-time-value</Snapshot>  
+      <Name>blob-name</name>    
+      <Deleted>true</Deleted>
+      <Snapshot>date-time-value</Snapshot>
       <Properties>  
         <Last-Modified>date-time-value</Last-Modified>  
         <Etag>etag</Etag>  
@@ -148,6 +153,7 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
         <Cache-Control />  
         <x-ms-blob-sequence-number>sequence-number</x-ms-blob-sequence-number>  
         <BlobType>BlockBlob|PageBlob|AppendBlob</BlobType>  
+        <AccessTier>tier</AccessTier>  
         <LeaseStatus>locked|unlocked</LeaseStatus>  
         <LeaseState>available | leased | expired | breaking | broken</LeaseState>  
         <LeaseDuration>infinite | fixed</LeaseDuration>  
@@ -158,7 +164,9 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
         <CopyCompletionTime>datetime</CopyCompletionTime>  
         <CopyStatusDescription>error string</CopyStatusDescription>  
         <ServerEncrypted>true</ServerEncrypted> 
-        <IncrementalCopy>true</IncrementalCopy> 
+        <IncrementalCopy>true</IncrementalCopy>
+        <DeletedTime>datetime</DeletedTime>
+        <RemainingRetentionDays>no-of-days</RemainingRetentionDays>
       </Properties>  
       <Metadata>     
         <Name>value</Name>  
@@ -234,6 +242,13 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
 -   `Cache-Control`  
   
 -   `Metadata`  
+
+ **Deleted Blobs in the Response**  
+  
+ Deleted blobs are listed in the response only if the `include=deleted` parameter was specified on the the URI. Deleted blobs listed in the response do not include the **Lease** elements as deleted blobs cannot have active leases.
+
+ Deleted snapshots are included in list response if `include=deleted,snapshot` was specified on the URI.
+
   
  **Returning Result Sets Using a Marker Value**  
   

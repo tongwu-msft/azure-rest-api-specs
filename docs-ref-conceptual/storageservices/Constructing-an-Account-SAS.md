@@ -182,7 +182,7 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Get Table Service Properties|Table (t)|Service (s)|Read (r)|  
 |Set Table Service Properties|Table (t)|Service (s)|Write (w)|  
 |Get Table Service Stats|Table (t)|Service (s)|Read (r)|  
-|Query Tables|Table (t)|Container (c)|List (l)|  
+|Query Tables|Table (t)|Service (s)|List (l)|  
 |Create Table|Table (t)|Container (c)|Create (c) or Write (w)|  
 |Delete  Table|Table (t)|Container (c)|Delete (d)|  
 |Query Entities|Table (t)|Object (o)|Read (r)|  
@@ -205,6 +205,7 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Set File Service Properties|File (f)|Service (s)|Write (w)|  
 |Get Share Stats|File (f)|Container (c)|Read (r)|  
 |Create Share|File (f)|Container (c)|Create (c) or Write (w)|  
+|Snapshot Share|File (f)|Container (c)|Create (c) or Write (w)|  
 |Get Share Properties|File (f)|Container (c)|Read (r)|  
 |Set Share Properties|File (f)|Container (c)|Write (w)|  
 |Get Share Metadata|File (f)|Container (c)|Read (r)|  

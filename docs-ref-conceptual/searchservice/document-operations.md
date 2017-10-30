@@ -66,7 +66,7 @@ translation.priority.mt:
 
      You can retrieve a document by its ID, which can be useful when you know exactly which document should be returned in the search results list.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   

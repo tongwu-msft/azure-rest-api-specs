@@ -1,5 +1,5 @@
 ---
-title: "List Databases"
+title: "List Databases - Azure Cosmos DB REST API"
 ms.custom: ""
 ms.date: "2016-02-25"
 ms.prod: "azure"
@@ -13,7 +13,6 @@ caps.latest.revision: 8
 author: "mimig1"
 ms.author: "mimig"
 manager: "jhubbard"
-robots: noindex,nofollow
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -57,7 +56,7 @@ translation.priority.mt:
   
 |Property|Description|  
 |--------------|-----------------|  
-|**_rid**|This is a [system generated property](http://azure.microsoft.com/documentation/articles/documentdb-resources/#system-vs-user-defined-resources). The **_rid** value is empty for this operation.|  
+|**_rid**|This is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources#system-vs-user-defined-resources). The **_rid** value is empty for this operation.|  
 |**_count**|This property shows the number of databases returned as part of list operation.|  
 |**Databases**|This the array containing the databases returned as part of the list operation.<br />Properties of the database resource|  
 |**id**|The unique user generated name for the database.|  
@@ -175,10 +174,10 @@ Content-Length: 533
 ```  
   
 ## See Also  
- [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
+* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
 

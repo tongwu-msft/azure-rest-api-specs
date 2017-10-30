@@ -1,7 +1,7 @@
 ---
 title: "Lucene query syntax in Azure Search"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-09-15"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -28,7 +28,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Lucene query syntax in Azure Search
-  You can write queries against Azure Search based on the rich [Lucene Query Parser](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html) syntax. Much of the syntax is implemented intact in Azure Search, with the exception of *range searches* which are constructed in Azure Search through `$filter` expressions. See [Lucene query syntax examples for building queries in Azure Search](https://azure.microsoft.com/documentation/articles/search-query-lucene-examples/) for examples of how the syntax is used.  
+  You can write queries against Azure Search based on the rich [Lucene Query Parser](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html) syntax. Much of the syntax is [implemented intact in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture), with the exception of *range searches* which are constructed in Azure Search through `$filter` expressions. See [Lucene query syntax examples for building queries in Azure Search](https://azure.microsoft.com/documentation/articles/search-query-lucene-examples/) for examples of how the syntax is used.  
 
 > [!NOTE]  
 >  Azure Search also supports [Simple Query Syntax](simple-query-syntax-in-azure-search.md), a simple and robust query language that can be used for straightforward keyword search.  
@@ -86,6 +86,7 @@ For details about specifying query parameter, see [Search Documents &#40;Azure S
 ##  <a name="bkmk_proximity"></a> Proximity search  
  Proximity searches are used to find terms that are near each other in a document. Insert a tilde "~" symbol at the end of a phrase followed by the number of words that create the proximity boundary. For example, `"hotel airport"~5` will find the terms "hotel" and "airport" within 5 words of each other in a document.  
 
+
 ##  <a name="bkmk_termboost"></a> Term boosting  
  Term boosting refers to ranking a document higher if it contains the boosted term, relative to documents that do not contain the term. This differs from scoring profiles in that scoring profiles boost certain fields, rather than specific terms.  
 
@@ -105,16 +106,33 @@ The following example helps illustrate the differences. Suppose that there's a s
 
 > [!NOTE]  
 >  You cannot use a * or ? symbol as the first character of a search.  
->  No text analysis is performed on wildcard search queries. At query time, wildcard query terms are compared against analyzed terms in the search index and expanded. 
+>  No text analysis is performed on wildcard search queries. At query time, wildcard query terms are compared against analyzed terms in the search index and expanded.
 
 ##  <a name="bkmk_syntax"></a> Syntax fundamentals  
  The following syntax fundamentals apply to all queries that use the Lucene syntax.  
 
-### Escaping special characters  
- As with simple syntax, you should escape special characters, by prefixing them with backslash (\\) characters. Special characters that need to be escaped include the following:  
+### Operator evaluation in context
+
+Placement determines whether a symbol is interpreted as an operator or just another character in a string.
+
+For example, in Lucene full syntax, the tilde (~) is used for both fuzzy search and proximity search. When placed after a quoted phrase, ~ invokes proximity search. When placed at the end of a term, ~ invokes fuzzy search.
+
+Within a term, such as "business~analyst", the character is not evaluated as an operator. In this case, assuming the query is a term or phrase query, [full text search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture) with [lexical analysis](https://docs.microsoft.com/azure/search/search-lucene-query-architecture#stage-2-lexical-analysis) strips out the ~ and breaks the term "business~analyst" in two: business OR analyst.
+
+The example above is the tilde (~), but the same principle applies to every operator.
+
+### Escaping special characters
+
+ Special characters must be escaped to be used as part of the search text. You can escape them by prefixing them with backslash (\\). Special characters that need to be escaped include the following:  
 `+ - && || ! ( ) { } [ ] ^ " ~ * ? : \ /`  
 
- For example, to escape a wildcard character, use \\*.  
+ For example, to escape a wildcard character, use \\*.
+
+### Encoding unsafe and reserved characters in URLs
+
+ Please ensure all unsafe and reserved characters are encoded in a URL. For example, '#' is an unsafe character because it is a fragement/anchor identifier in a URL. The character must be encoded to `%23` if used in a URL. '&' and '=' are examples of reserved characters as they delimit parameters and specify values in Azure Search. Please see [RFC1738: Uniform Resource Locators (URL)](https://www.ietf.org/rfc/rfc1738.txt) for more details.
+
+ Unsafe characters are ``" ` < > # % { } | \ ^ ~ [ ] ``. Reserved characters are `; / ? : @ = + &`.
 
 ### Precedence operators: grouping and field grouping  
  You can use parentheses to create subqueries, including operators within the parenthetical statement. For example, `motel+(wifi||luxury)` will search for documents containing the "motel" term and either "wifi" or "luxury" (or both).
@@ -127,16 +145,16 @@ Field grouping is similar but scopes the grouping to a single field. For example
 ##  <a name="bkmk_boolean"></a> Boolean operators  
  Always specify text boolean operators (AND, OR, NOT) in all caps.  
 
-#### OR operator `||`
+#### OR operator `OR` or `||`
 
 The OR operator is a vertical bar or pipe character. For example: `wifi || luxury` will search for documents containing either "wifi" or "luxury" or both. Because OR is the default conjunction operator, you could also leave it out, such that `wifi luxury` is the equivalent of  `wifi || luxuery`.
 
-#### AND operator `&&` or `+`
+#### AND operator `AND`, `&&` or `+`
 
 The AND operator is an ampersand or a plus sign. For example: `wifi && luxury` will search for documents containing both "wifi" and "luxury". The plus character (+) is used for required terms. For example, `+wifi +luxury` stipulates that both terms must appear somewhere in the field of a single document.
 
 
-#### NOT operator `!` or `-`
+#### NOT operator `NOT`, `!` or `-`
 
 The NOT operator is an exclamation point or the minus sign. For example: `wifi !luxury` will search for documents that have the "wifi" term and/or do not have "luxury". The `searchMode` option controls whether a term with the NOT operator is ANDed or ORed with the other terms in the query in the absence of a + or || operator. Recall that `searchMode` can be set to either `any`(default) or `all`.
 
@@ -148,7 +166,7 @@ Using `searchMode=all` increases the precision of queries by including fewer res
  There is a limit to the size of queries that you can send to Azure Search. Specifically, you can have at most 1024 clauses (expressions separated by AND, OR, and so on). There is also a limit of approximately 32 KB on the size of any individual term in a query. If your application generates search queries programmatically, we recommend designing it in such a way that it does not generate queries of unbounded size.  
 
 ##  <a name="bkmk_searchscoreforwildcardandregexqueries"></a> Search score for wildcard and regex queries
- Azure Search uses frequency-based scoring ([TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)) for text queries. However, for wildcard and regex queries where scope of terms can potentially be broad, the frequency factor is ignored to prevent the ranking from biasing towards matches from rarer terms. All matches are treated equally for wildcard and regex searches. 
+ Azure Search uses frequency-based scoring ([TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)) for text queries. However, for wildcard and regex queries where scope of terms can potentially be broad, the frequency factor is ignored to prevent the ranking from biasing towards matches from rarer terms. All matches are treated equally for wildcard and regex searches.
 
 ##  <a name="bkmk_example"></a> Example  
  Find documents in the index using the Lucene query syntax.  
@@ -170,8 +188,7 @@ POST /indexes/hotels/docs/search?api-version=2015-02-28
 }  
 ```  
 
-## See Also  
+## See also  
 [Search Documents](search-documents.md)
  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
  [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md)   
-  

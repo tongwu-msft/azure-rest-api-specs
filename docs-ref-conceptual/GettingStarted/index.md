@@ -140,7 +140,7 @@ As mentioned earlier, the request message body is optional, depending on the spe
 
 The request body is separated from the header by an empty line, should be formatted per the `Content-Type` header field. An example of an "application/json" formatted body would appear as follows: 
 
-```
+```json
 {
   "<name>": "<value>"
 }
@@ -188,7 +188,7 @@ Content-Type: application/json;
 ```
 
 and a response body, containing the list of Azure subscriptions and their individual properties encoded in JSON format, similar to:
-```
+```json
 {
     "value":[
         {
@@ -214,7 +214,7 @@ Content-Type: application/json;
 ```
 
 and a response body, confirming the content of our newly added resource group encoded in JSON format, similar to:
-```
+```json
 {
     "id":"/subscriptions/03f09293-ce69-483a-a092-d06ea46dfb8c/resourceGroups/ExampleResourceGroup",
     "name":"ExampleResourceGroup",

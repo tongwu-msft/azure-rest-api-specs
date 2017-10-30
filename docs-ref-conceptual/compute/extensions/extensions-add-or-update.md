@@ -28,7 +28,7 @@ For information about getting started with Azure REST operations including reque
 | extension | The name of the extension to add or update. |
 | apiVersion | The version of the API to use. The current version is 2016-04-30-preview. | 
 
-```    
+```json
 {  
   "location": "westus",
   "properties": {
@@ -71,7 +71,7 @@ Status code: If the validation is complete, the operation returns 202 (OK). If s
 
 **Custom Script Public Storage** 
 
-```    
+```json
 { 
   "location": "westus",
   "properties": {
@@ -89,7 +89,7 @@ Status code: If the validation is complete, the operation returns 202 (OK). If s
     
 **Custom Script Azure Storage** 
 
-```    
+```json
 { 
   "location": "westus",
   "properties": {
@@ -112,7 +112,8 @@ Status code: If the validation is complete, the operation returns 202 (OK). If s
 ### Example responses
 
 **Custom Script Public Storage**
-```    
+
+```json
 {
   "properties": {
     "publisher": "Microsoft.OSTCExtensions",
@@ -130,7 +131,7 @@ Status code: If the validation is complete, the operation returns 202 (OK). If s
 ```
 
 **Custom Script Azure Storage**
-```    
+```json
 {
   "properties": {
     "publisher": "Microsoft.OSTCExtensions",

@@ -1,4 +1,4 @@
-The following are the possible HTTP status codes that a request may return.  
+﻿The following are the possible HTTP status codes that a request may return.  
   
 |Status Code|Description|  
 |-----------------|-----------------|  
@@ -12,7 +12,7 @@ The following are the possible HTTP status codes that a request may return.
 If the request fails, the body of the response will contain an `ErrorResponse` object. The response object will include an error code and description of the error. If the error is related to a parameter, the `parameter` field will identify the parameter that is the issue. And if the error is related to a parameter value, the `value` field will identify the value that is not valid.
 
 
-```
+```json
 {
   "_type": "ErrorResponse", 
   "errors": [
