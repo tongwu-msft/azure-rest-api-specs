@@ -4298,7 +4298,7 @@
 #### [Using Blob Service Operations with Azure Premium Storage](../docs-ref-conceptual/storageservices/using-blob-service-operations-with-azure-premium-storage.md)
 ### [Operations on the Account (Blob Service)](../docs-ref-conceptual/storageservices/operations-on-the-account--blob-service-.md)
 #### [List Containers](../docs-ref-conceptual/storageservices/list-containers2.md)
-##### [Set Blob Service Properties](../docs-ref-conceptual/storageservices/set-blob-service-properties.md)
+#### [Set Blob Service Properties](../docs-ref-conceptual/storageservices/set-blob-service-properties.md)
 #### [Get Blob Service Properties](../docs-ref-conceptual/storageservices/get-blob-service-properties.md)
 #### [Preflight Blob Request](../docs-ref-conceptual/storageservices/preflight-blob-request.md)
 #### [Get Blob Service Stats](../docs-ref-conceptual/storageservices/get-blob-service-stats.md)

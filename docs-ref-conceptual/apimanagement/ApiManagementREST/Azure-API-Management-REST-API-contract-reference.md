@@ -73,7 +73,7 @@ This topic describes the entity and type representations for common items in Azu
   
 -   [Policy](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#Policy)  
   
- For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](http://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
+ For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   
 ##  <a name="API"></a> API  
  The `API` entity has the following properties.  

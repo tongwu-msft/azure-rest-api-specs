@@ -40,7 +40,7 @@ Azure Storage Analytics performs logging and provides metrics data for a storage
   
  Storage Analytics has a 20TB limit on the amount of stored data that is independent of the total limit for your storage account. For more information on billing and data retention policies, see [Storage Analytics and Billing](Storage-Analytics-and-Billing.md). For more information on storage account limits, see [Azure Storage Scalability and Performance Targets](/azure/storage/storage-scalability-targets).  
   
- For an in-depth guide on using Storage Analytics and other tools to identify, diagnose, and troubleshoot Azure Storage-related issues, see [Monitor, diagnose, and troubleshoot Microsoft Azure Storage](http://azure.microsoft.com/documentation/articles/storage-monitoring-diagnosing-troubleshooting/).  
+ For an in-depth guide on using Storage Analytics and other tools to identify, diagnose, and troubleshoot Azure Storage-related issues, see [Monitor, diagnose, and troubleshoot Microsoft Azure Storage](https://azure.microsoft.com/documentation/articles/storage-monitoring-diagnosing-troubleshooting/).  
   
 ## In This Section  
  [Using Storage Analytics](Using-Storage-Analytics.md)  

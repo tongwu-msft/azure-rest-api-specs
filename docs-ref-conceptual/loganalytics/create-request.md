@@ -100,4 +100,4 @@ There are some constraints around the data posted to the Log Analytics Data coll
 - Recommended maximum number of fields for a given type is 50. This is a practical limit from a usability and search experience perspective.
 
 ## See also
-- [Log Analytics HTTP Data Collector API](http://azure.microsoft.com/documentation/articles/log-analytics-data-collector-api/)
+- [Log Analytics HTTP Data Collector API](https://azure.microsoft.com/documentation/articles/log-analytics-data-collector-api/)
