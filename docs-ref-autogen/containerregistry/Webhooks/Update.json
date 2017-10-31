@@ -9,79 +9,128 @@
     "https"
   ],
   "paths": {
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/registries": {
-      "get": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}": {
+      "patch": {
         "tags": [
-          "Registries"
+          "Webhooks"
         ],
-        "description": "Lists all the container registries under the specified subscription.",
-        "operationId": "Registries_List",
+        "description": "Updates a webhook with the specified parameters.",
+        "operationId": "Webhooks_Update",
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/RegistryNameParameter"
+          },
+          {
+            "$ref": "#/parameters/WebhookNameParameter"
+          },
+          {
+            "name": "webhookUpdateParameters",
+            "in": "body",
+            "description": "The parameters for updating a webhook.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WebhookUpdateParameters"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "The request was successful; the request was well-formed and received properly.",
             "schema": {
-              "$ref": "#/definitions/RegistryListResult"
+              "$ref": "#/definitions/Webhook"
+            }
+          },
+          "201": {
+            "description": "The request was successful; the operation will complete asynchronously.",
+            "schema": {
+              "$ref": "#/definitions/Webhook"
             }
           }
         },
         "x-ms-examples": {
-          "RegistryList": {
+          "WebhookUpdate": {
             "parameters": {
               "api-version": "2017-10-01",
-              "subscriptionId": "00000000-0000-0000-0000-000000000000"
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "resourceGroupName": "myResourceGroup",
+              "registryName": "myRegistry",
+              "webhookName": "myWebhook",
+              "webhookUpdateParameters": {
+                "tags": {
+                  "key": "value"
+                },
+                "properties": {
+                  "serviceUri": "http://myservice.com",
+                  "customHeaders": {
+                    "Authorization": "Basic 000000000000000000000000000000000000000000000000000"
+                  },
+                  "status": "enabled",
+                  "scope": "myRepository",
+                  "actions": [
+                    "push"
+                  ]
+                }
+              }
             },
             "responses": {
               "200": {
                 "body": {
-                  "value": [
-                    {
-                      "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry",
-                      "name": "myRegistry",
-                      "type": "Microsoft.ContainerRegistry/registries",
-                      "location": "westus",
-                      "tags": {
-                        "key": "value"
-                      },
-                      "sku": {
-                        "name": "Standard",
-                        "tier": "Standard"
-                      },
-                      "properties": {
-                        "loginServer": "myregistry.azurecr.io",
-                        "creationDate": "2017-03-01T23:14:37.0707808Z",
-                        "provisioningState": "Succeeded",
-                        "status": {
-                          "displayStatus": "Ready",
-                          "message": "The registry is ready.",
-                          "timestamp": "2017-03-01T23:15:37.0707808Z"
-                        },
-                        "adminUserEnabled": true
-                      }
-                    }
-                  ]
+                  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/webhooks/myWebhook",
+                  "name": "myWebhook",
+                  "type": "Microsoft.ContainerRegistry/registries/webhooks",
+                  "location": "westus",
+                  "tags": {
+                    "key": "value"
+                  },
+                  "properties": {
+                    "status": "enabled",
+                    "scope": "myRepository",
+                    "actions": [
+                      "push"
+                    ],
+                    "provisioningState": "Succeeded"
+                  }
+                }
+              },
+              "201": {
+                "body": {
+                  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/webhooks/myWebhook",
+                  "name": "myWebhook",
+                  "type": "Microsoft.ContainerRegistry/registries/webhooks",
+                  "location": "westus",
+                  "tags": {
+                    "key": "value"
+                  },
+                  "properties": {
+                    "status": "enabled",
+                    "scope": "myRepository",
+                    "actions": [
+                      "push"
+                    ],
+                    "provisioningState": "Updating"
+                  }
                 }
               }
             }
           }
         },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
+        "x-ms-long-running-operation": true,
         "produces": [
           "application/json"
         ],
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "List"
+        "x-internal-toc-name": "Update"
       }
     }
   },
@@ -1115,6 +1164,6 @@
     }
   ],
   "x-internal-service-name": "Container Registry",
-  "x-internal-toc-name": "Registries",
+  "x-internal-toc-name": "Webhooks",
   "x-internal-split-type": "Operation"
 }
