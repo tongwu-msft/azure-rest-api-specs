@@ -160,6 +160,70 @@
               }
             }
           },
+          "ApiManagementCreateApiUsingWsdlImport": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "apiId": "soapApi",
+              "parameters": {
+                "properties": {
+                  "contentFormat": "wsdl-link",
+                  "contentValue": "http://www.webservicex.net/CurrencyConvertor.asmx?WSDL",
+                  "path": "currency",
+                  "wsdlSelector": {
+                    "wsdlServiceName": "CurrencyConvertor",
+                    "wsdlEndpointName": "CurrencyConvertorSoap"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/soapApi",
+                  "type": "Microsoft.ApiManagement/service/apis",
+                  "name": "soapApi",
+                  "properties": {
+                    "displayName": "CurrencyConvertor",
+                    "apiRevision": "1",
+                    "serviceUrl": "http://www.webservicex.net",
+                    "path": "currency",
+                    "protocols": [
+                      "https"
+                    ],
+                    "subscriptionKeyParameterNames": {
+                      "header": "Ocp-Apim-Subscription-Key",
+                      "query": "subscription-key"
+                    },
+                    "isCurrent": true
+                  }
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/soapApi",
+                  "type": "Microsoft.ApiManagement/service/apis",
+                  "name": "soapApi",
+                  "properties": {
+                    "displayName": "CurrencyConvertor",
+                    "apiRevision": "1",
+                    "serviceUrl": "http://www.webservicex.net",
+                    "path": "currency",
+                    "protocols": [
+                      "https"
+                    ],
+                    "subscriptionKeyParameterNames": {
+                      "header": "Ocp-Apim-Subscription-Key",
+                      "query": "subscription-key"
+                    },
+                    "isCurrent": true
+                  }
+                }
+              }
+            }
+          },
           "ApiManagementCreateApi": {
             "parameters": {
               "serviceName": "apimService1",
@@ -329,121 +393,6 @@
       }
     }
   },
-  "x-ms-paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?export=true": {
-      "get": {
-        "tags": [
-          "Apis"
-        ],
-        "operationId": "ApiExport_Get",
-        "description": "Gets the details of the API specified by its identifier in the format specified to the Storage Blob with SAS Key valid for 5 minutes.",
-        "x-ms-examples": {
-          "ApiManagementGetApiExportInOpenApi2dot0": {
-            "parameters": {
-              "serviceName": "apimService1",
-              "resourceGroupName": "rg1",
-              "api-version": "2017-03-01",
-              "subscriptionId": "subid",
-              "apiId": "echo-api",
-              "Accept": "application/vnd.swagger.link+json",
-              "export": "true"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "link": "https://apimgmtstaobxxxxxxx.blob.core.windows.net/api-export/Echo API.json?sv=2015-07-08&sr=b&sig=xxxxxxxxxx%3D&se=2017-09-08T21:54:08Z&sp=r"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ServiceNameParameter"
-          },
-          {
-            "$ref": "#/parameters/ApiIdParameter"
-          },
-          {
-            "name": "Accept",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "application/vnd.swagger.link+json",
-              "application/vnd.sun.wadl.link+json",
-              "application/vnd.ms.wsdl.link+xml"
-            ],
-            "x-ms-enum": {
-              "name": "ExportFormat",
-              "modelAsString": false,
-              "values": [
-                {
-                  "value": "application/vnd.swagger.link+json",
-                  "description": "Export the Api Definition in OpenApi Specification 2.0 format to the Storage Blob.",
-                  "name": "OpenApi2"
-                },
-                {
-                  "value": "application/vnd.ms.wsdl.link+xml",
-                  "description": "Export the Api Definition in WSDL Schema to Storage Blob.",
-                  "name": "Wsdl"
-                },
-                {
-                  "value": "application/vnd.sun.wadl.link+json",
-                  "description": "Export the Api Definition in WADL Schema to Storage Blob.",
-                  "name": "Wadl"
-                }
-              ]
-            },
-            "description": "Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5 minutes."
-          },
-          {
-            "name": "export",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "true"
-            ],
-            "x-ms-enum": {
-              "modelAsString": true,
-              "name": "ExportApi"
-            },
-            "description": "Query parameter required to export the API details."
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/SubscriptionIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The response contains a stream with a full set of API metadata and includes API entity with an embedded array of operation entities.",
-            "schema": {
-              "$ref": "#/definitions/ApiExportResult"
-            }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      }
-    }
-  },
   "definitions": {
     "ApiExportResult": {
       "properties": {
@@ -515,6 +464,20 @@
           "x-ms-enum": {
             "name": "ContentFormat",
             "modelAsString": false
+          }
+        },
+        "wsdlSelector": {
+          "type": "object",
+          "description": "Criteria to limit import of WSDL to a subset of the document.",
+          "properties": {
+            "wsdlServiceName": {
+              "type": "string",
+              "description": "Name of service to import from WSDL"
+            },
+            "wsdlEndpointName": {
+              "type": "string",
+              "description": "Name of endpoint(port) to import from WSDL"
+            }
           }
         }
       },
@@ -1135,7 +1098,7 @@
     },
     "ProductUpdateProperties": {
       "properties": {
-        "name": {
+        "displayName": {
           "type": "string",
           "description": "Product name.",
           "maxLength": 300,

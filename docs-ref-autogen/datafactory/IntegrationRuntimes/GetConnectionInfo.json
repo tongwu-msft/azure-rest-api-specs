@@ -185,24 +185,64 @@
       ]
     },
     "SecureString": {
+      "x-ms-discriminator-value": "SecureString",
       "description": "Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.",
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SecretBase"
+        }
+      ],
       "properties": {
-        "type": {
-          "type": "string",
-          "description": "SecureString type.",
-          "enum": [
-            "SecureString"
-          ]
-        },
         "value": {
           "type": "string",
           "description": "Value of secure string."
         }
       },
       "required": [
-        "type",
         "value"
+      ]
+    },
+    "AzureKeyVaultSecretReference": {
+      "x-ms-discriminator-value": "AzureKeyVaultSecret",
+      "description": "Azure Key Vault secret reference.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SecretBase"
+        }
+      ],
+      "properties": {
+        "store": {
+          "description": "The Azure Key Vault linked service reference.",
+          "$ref": "#/definitions/LinkedServiceReference"
+        },
+        "secretName": {
+          "type": "object",
+          "description": "The name of the secret in Azure Key Vault. Type: string (or Expression with resultType string)."
+        },
+        "secretVersion": {
+          "type": "object",
+          "description": "The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string)."
+        }
+      },
+      "required": [
+        "store",
+        "secretName"
+      ]
+    },
+    "SecretBase": {
+      "description": "The base definition of a secret type.",
+      "discriminator": "type",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of the secret."
+        }
+      },
+      "required": [
+        "type"
       ]
     },
     "FactoryListResponse": {
@@ -1974,15 +2014,15 @@
         },
         "username": {
           "type": "object",
-          "description": "The username for Basic authentication of the Salesforce source. Type: string (or Expression with resultType string)."
+          "description": "The username for Basic authentication of the Salesforce instance. Type: string (or Expression with resultType string)."
         },
         "password": {
-          "description": "The password for Basic authentication of the Salesforce source.",
-          "$ref": "#/definitions/SecureString"
+          "description": "The password for Basic authentication of the Salesforce instance.",
+          "$ref": "#/definitions/SecretBase"
         },
         "securityToken": {
-          "description": "The security token is required to remotely access Salesforce source.",
-          "$ref": "#/definitions/SecureString"
+          "description": "The security token is required to remotely access Salesforce instance.",
+          "$ref": "#/definitions/SecretBase"
         },
         "encryptedCredential": {
           "type": "object",
@@ -2801,6 +2841,42 @@
         "typeProperties"
       ]
     },
+    "AzureMySqlLinkedServiceTypeProperties": {
+      "description": "Azure MySQL database linked service properties.",
+      "properties": {
+        "connectionString": {
+          "description": "The connection string.",
+          "$ref": "#/definitions/SecureString"
+        },
+        "encryptedCredential": {
+          "type": "object",
+          "description": "The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string)."
+        }
+      },
+      "required": [
+        "connectionString"
+      ]
+    },
+    "AzureMySqlLinkedService": {
+      "x-ms-discriminator-value": "AzureMySql",
+      "description": "Azure MySQL database linked service.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/LinkedService"
+        }
+      ],
+      "properties": {
+        "typeProperties": {
+          "description": "Azure MySQL database linked service properties.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/AzureMySqlLinkedServiceTypeProperties"
+        }
+      },
+      "required": [
+        "typeProperties"
+      ]
+    },
     "OracleLinkedServiceTypeProperties": {
       "description": "Oracle database linked service properties.",
       "properties": {
@@ -2931,48 +3007,6 @@
       },
       "required": [
         "typeProperties"
-      ]
-    },
-    "AzureKeyVaultSecretReference": {
-      "description": "Azure Key Vault Secret properties.",
-      "x-ms-discriminator-value": "AzureKeyVaultSecret",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/AzureKeyVaultReference"
-        }
-      ],
-      "properties": {
-        "secretName": {
-          "type": "object",
-          "description": "The name of secret in Azure Key Vault. Type: string (or Expression with resultType string)."
-        },
-        "secretVersion": {
-          "type": "object",
-          "description": "The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string)."
-        }
-      },
-      "required": [
-        "secretName"
-      ]
-    },
-    "AzureKeyVaultReference": {
-      "type": "object",
-      "description": "A reference to an object in Azure Key Vault.",
-      "discriminator": "type",
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "The type of the Azure Key Vault object to reference."
-        },
-        "store": {
-          "description": "The Azure Key Vault LinkedService.",
-          "$ref": "#/definitions/LinkedServiceReference"
-        }
-      },
-      "required": [
-        "type",
-        "store"
       ]
     },
     "DynamicsLinkedServiceTypeProperties": {
@@ -3476,7 +3510,15 @@
         },
         "encodingName": {
           "type": "object",
-          "description": "The code page name of the preferred encoding. If not provided, the default value is 'utf-8', unless the byte order mark (BOM) denotes another Unicode encoding. The full list of supported values can be found in the 'Name' column of the table of encodings in the following reference: https://msdn.microsoft.com/library/system.text.encoding.aspx#Anchor_5. Type: string (or Expression with resultType string)."
+          "description": "The code page name of the preferred encoding. If not provided, the default value is 'utf-8', unless the byte order mark (BOM) denotes another Unicode encoding. The full list of supported values can be found in the 'Name' column of the table of encodings in the following reference: https://go.microsoft.com/fwlink/?linkid=861078. Type: string (or Expression with resultType string)."
+        },
+        "jsonNodeReference": {
+          "type": "object",
+          "description": "The JSONPath of the JSON array element to be flattened. Example: \"$.ArrayPath\". Type: string (or Expression with resultType string)."
+        },
+        "jsonPathDefinition": {
+          "type": "object",
+          "description": "The JSONPath definition for each column mapping with a customized column name to extract data from JSON file. For fields under root object, start with \"$\"; for fields inside the array chosen by jsonNodeReference property, start from the array element. Example: {\"Column1\": \"$.Column1Path\", \"Column2\": \"Column2PathInArray\"}. Type: object (or Expression with resultType object)."
         }
       }
     },
@@ -3750,6 +3792,35 @@
         "typeProperties"
       ]
     },
+    "SalesforceObjectDatasetTypeProperties": {
+      "description": "Salesforce object dataset properties.",
+      "properties": {
+        "objectApiName": {
+          "type": "object",
+          "description": "The Salesforce object API name. Type: string (or Expression with resultType string)."
+        }
+      }
+    },
+    "SalesforceObjectDataset": {
+      "x-ms-discriminator-value": "SalesforceObject",
+      "description": "The Salesforce object dataset.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Dataset"
+        }
+      ],
+      "properties": {
+        "typeProperties": {
+          "description": "Salesforce object dataset properties.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/SalesforceObjectDatasetTypeProperties"
+        }
+      },
+      "required": [
+        "typeProperties"
+      ]
+    },
     "RelationalTableDatasetTypeProperties": {
       "description": "Relational table dataset properties.",
       "properties": {
@@ -3773,6 +3844,35 @@
           "description": "Relational table dataset properties.",
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/RelationalTableDatasetTypeProperties"
+        }
+      },
+      "required": [
+        "typeProperties"
+      ]
+    },
+    "AzureMySqlTableDatasetTypeProperties": {
+      "description": "Azure MySQL database dataset properties.",
+      "properties": {
+        "tableName": {
+          "type": "object",
+          "description": "The Azure MySQL database table name. Type: string (or Expression with resultType string)."
+        }
+      }
+    },
+    "AzureMySqlTableDataset": {
+      "x-ms-discriminator-value": "AzureMySqlTable",
+      "description": "The Azure MySQL database dataset.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Dataset"
+        }
+      ],
+      "properties": {
+        "typeProperties": {
+          "description": "Azure MySQL database dataset properties.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/AzureMySqlTableDatasetTypeProperties"
         }
       },
       "required": [
@@ -5047,6 +5147,21 @@
         }
       }
     },
+    "AzureMySqlSource": {
+      "description": "A copy activity Azure MySQL source.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CopySource"
+        }
+      ],
+      "properties": {
+        "query": {
+          "type": "object",
+          "description": "Database query. Type: string (or Expression with resultType string)."
+        }
+      }
+    },
     "DistcpSettings": {
       "description": "Distcp settings.",
       "type": "object",
@@ -5070,7 +5185,7 @@
       ]
     },
     "HdfsSource": {
-      "description": "A copy activity source for HDFS source.",
+      "description": "A copy activity HDFS source.",
       "type": "object",
       "allOf": [
         {
@@ -5182,6 +5297,21 @@
           "additionalProperties": {
             "$ref": "#/definitions/StoredProcedureParameter"
           }
+        }
+      }
+    },
+    "SalesforceSource": {
+      "description": "A copy activity Salesforce source.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CopySource"
+        }
+      ],
+      "properties": {
+        "query": {
+          "type": "object",
+          "description": "Database query. Type: string (or Expression with resultType string)."
         }
       }
     },
@@ -5885,6 +6015,37 @@
       "required": [
         "type"
       ]
+    },
+    "SalesforceSink": {
+      "description": "A copy activity Salesforce sink.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CopySink"
+        }
+      ],
+      "properties": {
+        "writeBehavior": {
+          "description": "The write behavior for the operation. Default is Insert.",
+          "type": "string",
+          "enum": [
+            "Insert",
+            "Upsert"
+          ],
+          "x-ms-enum": {
+            "name": "SalesforceSinkWriteBehavior",
+            "modelAsString": true
+          }
+        },
+        "externalIdFieldName": {
+          "type": "object",
+          "description": "The name of the external ID field for upsert operation. Default value is 'Id' column. Type: string (or Expression with resultType string)."
+        },
+        "ignoreNullValues": {
+          "type": "object",
+          "description": "The flag indicating whether or not to ignore null values from input dataset (except key fields) during write operation. Default value is false. If set it to true, it means ADF will leave the data in the destination object unchanged when doing upsert/update operation and insert defined default value when doing insert operation, versus ADF will update the data in the destination object to NULL when doing upsert/update operation and insert NULL value when doing insert operation. Type: boolean (or Expression with resultType boolean)."
+        }
+      }
     },
     "DynamicsSink": {
       "description": "A copy activity Dynamics sink.",

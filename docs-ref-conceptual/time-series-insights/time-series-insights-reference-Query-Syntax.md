@@ -1,44 +1,46 @@
 # Azure Time Series Insights Query Syntax
 
-This document describes query request format for query API. Query requests must be in JSON format. The request JSON payload should be created using JSON-based domain-specific strongly typed query language.
+Azure Time Series Insights is a fully managed analytics, storage, and visualization service that makes it simple to explore and analyze billions of IoT events simultaneously. It gives you a global view of your data, letting you quickly validate your IoT solution and avoid costly downtime to mission-critical devices by helping you discover hidden trends, spot anomalies, and conduct root-cause analyses in near real-time.  Time Series Insights provides a REST API used with Azure Resource Manager to provision and manage Time Series Insights resources in your Azure subscription. If you are building an application that needs to store or query time series data, you can develop with Time Series Insights REST APIs, in addition to programmatically managing Azure resources with Azure Resource Manager.
+
+This document describes the request format for Time Series Insights REST query API. Query requests must be in JSON format. The request JSON payload should be created using our JSON format guidelines found below. 
 
 The language is subdivided into the following elements:
+
 - Scalar expressions, which produce scalar values.
 - Scalar functions, which produce scalar values.
 - Aggregate expressions, used to partition collections of events and compute measures over the partitions.
 - Clauses, which form constituent components of input JSON query and also can be a part of expressions.
 
+## Getting Started
+
+To get started, see [Azure Time Series Insights Query API](https://docs.microsoft.com/en-us/rest/api/time-series-insights/time-series-insights-reference-queryapi) and [Create the request ](https://docs.microsoft.com/en-us/rest/api/#create-the-request). These topics step you through the REST API request/response pair, how to register your client application with Azure Active Directory to secure REST requests, and how to create and send REST requests and handle responses.
+
 ## Data Model
 
-Query API operates on data stored as individual **events** within an environment.
-Each event is a set of property name and value pairs.
+The Time Series Insights query API operates on data stored as individual **events** within an environment. Each event is a set of property name and value pairs.
 
 Event properties can be of one of the following primitive types: `Boolean`, `DateTime`, `Double`, or `String`.
 Original event source formats may support a larger set of value types, in which case Time Series Insights ingress maps them to the closest primitive types.
 All primitive types are nullable.
 
 All events have the following built-in properties with predefined name and type:
+
 | Property name | Property type | Definition |
 |-|-|-|
 | $ts | DateTime | Event timestamp |
 | $esn | String | Event source name |
 
-By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp.
-However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp.
+By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp. However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp.
 
-Event source name is the display name of the event source from which Time Series Insights has received the event.
-It is associated with a particular event at the ingress time of the event and stays unchanged for the life-time of the event.
-When the name is changed in the event source configuration, already processed events carry the old name and new events carry the new name.
+Event source name is the display name of the event source from which Time Series Insights has received the event. It is associated with a particular event at the ingress time of the event and stays unchanged for the lifetime of the event. When the name is changed in the event source configuration, already processed events carry the old name, and new events carry the new name.
 
-Custom event properties are uniquely identified and referenced in query expressions by name and type.
-An event can have more than one property with the same name and different types.
-Properties with the same name but different types might result from ingress type splitting. An event property value of string type can be stored as a property with a different type in the following cases:
+Custom event properties are uniquely identified and referenced in query expressions by name and type. An event can have more than one property with the same name and different types. Properties with the same name but different types might result from ingress type splitting. An event property value of string type can be stored as a property with a different type in the following cases:
 * If String value is a valid Double value, then it is stored both as Double and String.
 * If String value is a valid DateTime value, then it is stored as DateTime only.
 
 Time Series Insights has limited support for the following values within the Double type: `Double.NaN`, `Double.PositiveInfinity`, and `Double.NegativeInfinity`.
 These values are converted to `null` during ingress, but if query evaluation produces one of these values, the value is evaluated and serialized as a `String` in response.
-User can pass these values as strings for ingress, so in query expressions these values should be also passed as strings.
+You can pass these values as strings for ingress, so in query expressions these values should be also passed as strings.
 Query API converts empty string literals to nulls in the output.
 
 **Event schema** describes properties of an event.
@@ -68,7 +70,7 @@ JSON example:
 {"timeSpan": null}
 ```
 
-**Property reference expression** is used to access values of non-built-in properties of an event.
+A **Property reference expression** is used to access values of non-built-in properties of an event.
 Result type of a property reference expression is the primitive type of the property.
 Properties in the event schema are uniquely identified by name and type and the reference expression requires both to be specified.
 
@@ -80,7 +82,7 @@ JSON example:
 }
 ```
 
-**Built-in Property reference expression** is used to access built-in properties of an event.
+A **Built-in Property reference expression** is used to access built-in properties of an event.
 Result type of a built-in property reference expression is the primitive type of the property.
 Built-in properties are referenced by name only; therefore, no type is needed in the reference expression.
 
@@ -100,7 +102,7 @@ Time Series Insights supports the following **boolean comparison expressions**:
 | `"gt"` | greater than |
 | `"gte"` | greater than or equal |
 
-All comparison expressions take left and right arguments of primitive types and return a Boolean value representing result of the comparison.
+All comparison expressions take left and right arguments of primitive types and return a Boolean value representing the result of the comparison.
 All types implicitly cast only to themselves and explicit casts are not supported, therefore types of left and right arguments should match.
 
 JSON example:
@@ -219,7 +221,7 @@ JSON example:
 
 ### Predicate String
 
-Expression in predicate string is evaluated into JSON boolean expression. It should comply with the following grammar (simplified):
+The expression in the predicate string is evaluated into a JSON boolean expression. It should comply with the following grammar (simplified):
 
 ```bnf
 parse: orPredicate EOF | EOF;
