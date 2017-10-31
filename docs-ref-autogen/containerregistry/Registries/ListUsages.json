@@ -9,62 +9,58 @@
     "https"
   ],
   "paths": {
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/registries": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listUsages": {
       "get": {
         "tags": [
           "Registries"
         ],
-        "description": "Lists all the container registries under the specified subscription.",
-        "operationId": "Registries_List",
+        "description": "Gets the quota usages for the specified container registry.",
+        "operationId": "Registries_ListUsages",
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/RegistryNameParameter"
           }
         ],
         "responses": {
           "200": {
-            "description": "The request was successful; the request was well-formed and received properly.",
+            "description": "The request was successful; the registry usages retrieved and returned successfully.",
             "schema": {
-              "$ref": "#/definitions/RegistryListResult"
+              "$ref": "#/definitions/RegistryUsageListResult"
             }
           }
         },
         "x-ms-examples": {
-          "RegistryList": {
+          "RegistryListUsages": {
             "parameters": {
               "api-version": "2017-10-01",
-              "subscriptionId": "00000000-0000-0000-0000-000000000000"
+              "subscriptionId": "00000000-0000-0000-0000-000000000000",
+              "resourceGroupName": "myResourceGroup",
+              "registryName": "myRegistry"
             },
             "responses": {
               "200": {
                 "body": {
                   "value": [
                     {
-                      "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry",
-                      "name": "myRegistry",
-                      "type": "Microsoft.ContainerRegistry/registries",
-                      "location": "westus",
-                      "tags": {
-                        "key": "value"
-                      },
-                      "sku": {
-                        "name": "Standard",
-                        "tier": "Standard"
-                      },
-                      "properties": {
-                        "loginServer": "myregistry.azurecr.io",
-                        "creationDate": "2017-03-01T23:14:37.0707808Z",
-                        "provisioningState": "Succeeded",
-                        "status": {
-                          "displayStatus": "Ready",
-                          "message": "The registry is ready.",
-                          "timestamp": "2017-03-01T23:15:37.0707808Z"
-                        },
-                        "adminUserEnabled": true
-                      }
+                      "name": "Size",
+                      "limit": 107374182400,
+                      "currentValue": 12345678,
+                      "unit": "Bytes"
+                    },
+                    {
+                      "name": "Webhooks",
+                      "limit": 10,
+                      "currentValue": 2,
+                      "unit": "Count"
                     }
                   ]
                 }
@@ -72,16 +68,13 @@
             }
           }
         },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
         "produces": [
           "application/json"
         ],
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "List"
+        "x-internal-toc-name": "List Usages"
       }
     }
   },
