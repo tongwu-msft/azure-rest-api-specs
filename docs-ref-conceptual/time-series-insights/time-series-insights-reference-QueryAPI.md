@@ -151,7 +151,7 @@ Response Message:
 ```json
 {
     "headers" : {
-        "x-ms-request-id" : "fa15156a-..."
+        "x-ms-request-id" : "71A53528-DE6F-41EA-81F6-B53EE297391E"
     },
     "content" : {
         "events" : [{
