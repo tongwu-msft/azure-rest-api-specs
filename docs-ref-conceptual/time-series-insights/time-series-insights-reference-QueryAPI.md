@@ -17,32 +17,70 @@ ms.workload: big-data
 ms.date: 11/03/2017
 ms.author: venkatja
 ---
-# Azure Time Series Insights Query API
+# Azure Time Series Insights query API
 
 Azure Time Series Insights is a fully managed analytics, storage, and visualization service that makes it simple to explore and analyze billions of IoT events simultaneously.  It gives you a global view of your data, letting you quickly validate your IoT solution and avoid costly downtime to mission-critical devices by helping you discover hidden trends, spot anomalies, and conduct root-cause analyses in near real-time.  Time Series Insights provides a REST API used with Azure Resource Manager to provision and manage Time Series Insights resources in your Azure subscription. If you are building an application that needs to store or query time series data, you can develop with Time Series Insights REST APIs, in addition, to programmatically managing Azure resources with ARM.
 
-This document describes various Representational State Transfer (REST) query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which allow querying TSI’s environments. 
+This document describes various Representational State Transfer (REST) query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which allow querying Time Series Insights environments. 
 
 Before reading this document, you should understand the Time Series Insights input format. For more information, see [Azure Time Series Insights Query Syntax](https://docs.microsoft.com/rest/api/time-series-insights/time-series-insights-reference-query-syntax).
+
+## Components of a REST API request/response
+
+Time Series Insights uses the HTTPS protocol for Get Environments, Get Availability, Get Metadata API.
+
+Time Series Insights uses secure WebSockets protocol (WSS) for Get Aggregates, Get Events, and Describe API.
+
+A REST API request/response pair can be separated into the following components:
+
+- HTTP **method**: Time Series Insights query APIs support GET and POST methods. GET is used for requests that do not require method body and for WebSocket requests.
+
+- The **request URI**, which consists of `{URI-scheme} :// {URI-host} / {resource-path} ? {query-string}`. 
+  - `{URI scheme}` indicates the protocol used to transmit the request. Time Series Insights API uses HTTPS and WSS (secure WebSockets) depending on API.
+  - URI host: 
+    - `api.timeseries.azure.com` for Get Environments API
+    - \<environmentFqdn> for per-environment APIs. You can obtain this domain name from the response of the Get Environments API, Azure portal, or Azure Resource Manager. For example, `00000000-0000-0000-0000-000000000000.env.timeseries.azure.com`
+  - Resource path: For example environments can be used to query the list of Time Series Insights environments available for user.
+  - Query string: Required parameter is api-version. For example, `api-version=2016-12-12`
+
+- HTTP **request header** fields: For example, an Authorization header that provides a bearer token containing client authorization information for the request. For WebSocket requests, Authorization header and other headers are sent in the message under the headers container. See examples in the APIs below.
+
+- HTTP **request message body**: optional for GET requests, and required for POST requests. Only JSON-encoded body is supported.
+
+- HTTP **response message header** fields:
+  - An HTTP status code: 200 for successful requests, or 4xx or 5xx for errors. See Errors section for more information.
+  - Optional additional header fields, as required to support the request's response, such as a Content-type response header.
+
+- HTTP **response message body**: JSON encoded response data.
+ 
+Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API
+](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
 
 ## Common Headers and Parameters
 
-For authentication and authorization, valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
+Required URL query string parameters:
+- `api-version=2016-12-12` – currently only supported API version.
+
+Required request headers:
+
+- `Authorization` for authentication and authorization, valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
 Optional request headers:
+- `Content-type` - if specified, only `application/json` is supported.
 - `x-ms-client-request-id` - a client request ID. Service records this value. Allows the service to trace operation across services.
 - `x-ms-client-session-id` - a client session ID. Service records this value. Allows the service to trace a group of related operations across services.
 - `x-ms-client-application-name` - name of the application that generated this request. Service records this value.
 
 Response headers:
-- `x-ms-request-id` - server generated request ID. Can be used to contact Microsoft to investigate a particular request.
+- `Content-type` - only `application/json` is supported.
+- `x-ms-request-id` - server-generated request ID. Can be used to contact Microsoft to investigate a request.
 
 ## Get Environments API
 
 `GET https://api.timeseries.azure.com/environments?api-version=2016-12-12`
 
-Returns the list of available environments.
+The Get Environments API returns the list of environments that the caller is authorized to access.
 
 Request Body: None
 
@@ -65,8 +103,7 @@ Here, `environmentFqdn` is unique fully qualified domain name for environment us
 
 `GET https://<environmentFqdn>/availability?api-version=2016-12-12`
 
-Returns the distribution of event count over the event timestamp `$ts`.
-This API can be used to provide landing experience of navigating to the environment.
+The get Environments Availability API returns the distribution of event count over the event timestamp `$ts`. This API can be used to provide landing experience of navigating to the environment.
 
 Request Body: None
 
@@ -85,14 +122,13 @@ Response Body:
 }
 ```
 
-Empty object is returned for environments with no events.
-Environment availability is cached, and the response time does not depend on the number of events in an environment.
+An empty object is returned for environments with no events. Environment availability is cached, and the response time does not depend on the number of events in an environment.
 
 ## Get Environment Metadata API
 
 `GET https://<environmentFqdn>/metadata?api-version=2016-12-12`
 
-Returns environment metadata for a given search span. Metadata is returned as a set of property references.
+The Get Environments Metadata API returns environment metadata for a given search span. Metadata is returned as a set of property references.
 
 Input payload structure:
 * Search span clause (mandatory).
@@ -124,19 +160,16 @@ Response Body:
 ```
 
 Time Series Insights internally caches and approximates metadata and may return more properties that are present in the exact events in the search span.
-Empty `properties` array is returned when environment is empty or there are no events in a given search span.
+An empty `properties` array is returned when the environment is empty or there are no events in a search span.
 Built-in properties are not returned in the list of properties.
 
 ## Get Environment Events API
 
 `GET wss://<environmentFqdn>/events?api-version=<apiVersion>`
 
-Returns list of raw events matching the search span and predicate.
+The Get Environment Events API returns a list of raw events matching the search span and predicate.
 
-This API uses Web Sockets to do streaming and return partial results.
-It always returns additional events, i.e. new message is additive to the previous one.
-New message contains new events that were not in the previous message.
-Previous message should be kept and accumulated with the new message.
+This API uses Web Sockets to do streaming and return partial results. It always returns additional events, i.e. new message is additive to the previous one. New message contains new events that were not in the previous message. The previous message should be kept and accumulated with the new message.
 
 Input payload structure:
 * Search span clause (mandatory).
@@ -204,13 +237,14 @@ Response Message:
 Events can be sorted and limited to the top.
 Sorting is supported on all property types. Sorting relies on comparison operators defined for *boolean expressions*.
 
-> NOTE: Nested sorting (sort by two or more properties) is currently not supported.
+> [!NOTE]
+> Nested sorting (sort by two or more properties) is currently not supported.
 
 ## Get Environment Aggregates API
 
 `GET wss://<environmentFqdn>/aggregates?api-version=<apiVersion>`
 
-Groups events by given property with optionally measuring values of other properties.
+The Get Environment Aggregates API groups events by given property with optionally measuring values of other properties.
 
 This API use Web Sockets to do streaming and return partial results.
 It always returns a replacement (snapshot) of all the values.
@@ -325,7 +359,7 @@ Response Messages:
 }
 ```
 
-For numeric histogram bucket boundaries are aligned to one of 10^n, 2x10^n or 5x10^n values.
+For numeric histogram, bucket boundaries are aligned to one of 10^n, 2x10^n or 5x10^n values.
 
 If no measure expressions are specified and the list of events is empty, the response will be empty.
 If measures are present, the response contains a single record with `null` dimension value, 0 value for count and `null` value for other kinds of measures.
@@ -349,14 +383,14 @@ The following limits are applied during query execution to fairly utilize resour
 ## Reporting Unresolved Properties
 
 Property references can be specified for predicate, dimension, and measure expressions.
-If property with specific name and type does not exist for a given search span an attempt is made to resolve a property over a global time span.
+If a property with a specific name and type does not exist for a given search span, an attempt is made to resolve a property over a global time span.
 An error or warning might be emitted depending on the success of resolution:
-* If property exists in the environment over a global time span, it is resolved appropriately and a warning is emitted to notify that the value of this property is `null` for a given search span.
-* If property does not exist in the environment, an error is emitted and query execution fails.
+* If a property exists in the environment over a global time span, it is resolved appropriately and a warning is emitted to notify that the value of this property is `null` for a given search span.
+* If a property does not exist in the environment, an error is emitted and query execution fails.
 
 ## Error Responses
 
-If query execution fails, the JSON response payload contains error response with the following structure:
+If query execution fails, the JSON response payload contains an error response with the following structure:
 ```json
 {
     "error" : {
@@ -393,7 +427,7 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 
 ## Warnings
 
-Query API response may contain a list of warnings as a sibling of `"content"` entry.
+A query API response may contain a list of warnings as a sibling of `"content"` entry.
 Currently warnings are generated if property is not found for a given search span but is found in an environment for global time span.
 
 Each warning object may contain the following fields:
@@ -437,3 +471,11 @@ Example of warnings for predicate, predicate string within predicate, dimension,
     }
 ]
 ```
+## More information
+
+For more information about application registration and the Azure Active Directory programming model, see [Azure Active Directory for developers](https://docs.microsoft.com/azure/active-directory/develop/active-directory-developers-guide).
+
+For information about testing HTTP requests/responses, see:
+
+- [Fiddler](https://www.telerik.com/fiddler), which is a free web debugging proxy that can intercept your REST requests, making it easy to diagnose the HTTP request/ response messages.
+- [JWT Decoder](http://jwt.calebb.net/) and [JWT.io](https://jwt.io/), which make it quick and easy to dump the claims in your bearer token so you can validate their contents.
