@@ -1,8 +1,29 @@
+---
+title: Azure Time Series Insights query API | Microsoft Docs
+description: This topic describes the Azure Time Series Insights query API
+keywords:
+services: time-series-insights
+documentationcenter:
+author: venkatgct
+manager: almineev
+editor: cgronlun
+
+ms.assetid:
+ms.service: time-series-insights
+ms.devlang: na
+ms.topic: data-acesss-api
+ms.tgt_pltfrm: na
+ms.workload: big-data
+ms.date: 11/03/2017
+ms.author: venkatja
+---
 # Azure Time Series Insights Query API
 
-This document describes various query APIs.
+Azure Time Series Insights is a fully managed analytics, storage, and visualization service that makes it simple to explore and analyze billions of IoT events simultaneously.  It gives you a global view of your data, letting you quickly validate your IoT solution and avoid costly downtime to mission-critical devices by helping you discover hidden trends, spot anomalies, and conduct root-cause analyses in near real-time.  Time Series Insights provides a REST API used with Azure Resource Manager to provision and manage Time Series Insights resources in your Azure subscription. If you are building an application that needs to store or query time series data, you can develop with Time Series Insights REST APIs, in addition, to programmatically managing Azure resources with ARM.
 
-For the details of input format, see [Query Syntax](time-series-insights-reference-Query-Syntax.md).
+This document describes various Representational State Transfer (REST) query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which allow querying TSI’s environments. 
+
+Before reading this document, you should understand the Time Series Insights input format. For more information, see [Azure Time Series Insights Query Syntax](https://docs.microsoft.com/rest/api/time-series-insights/time-series-insights-reference-query-syntax).
 
 
 ## Common Headers and Parameters
