@@ -20,7 +20,7 @@ ms.author: venkatja
 
 # Azure Time Series Insights reference data API
 
-Reference data is data such as manufacturer or location data – static information that contextualizes data. In most cases, this data can look like noise when ingested directly. Because it’s static, each data packet contains identical information.  This isn’t always useful to see in your environment, nor does it always make sense to send as it increases payloads. The useful data is the key-value pair of the device ID and value (usually what is being sensed – like temperature, pressure, vibration, and so on.) and the timestamp. 
+Reference data is data such as manufacturer or location data – static information that contextualizes data. In most cases, this data can look like noise when ingested directly. Because it’s static, each data packet contains identical information.  This isn’t always useful to see in your environment, nor does it always make sense to send as it increases payloads. The useful data is the key-value pair of the device ID and value (usually what is being sensed – like temperature, pressure, vibration, and so on) and the timestamp. 
 
  Time Series Insights is a great place to manage reference data.  It can hold up to two reference data sets that are joined with telemetry at ingress so when your data is visualized and queried in Time Series Insights, you see the contextualized data, not all the noise.
 
