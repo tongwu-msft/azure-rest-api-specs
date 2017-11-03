@@ -20,11 +20,15 @@ ms.author: venkatja
 
 # Azure Time Series Insights reference data API
 
+Reference data is data such as manufacturer or location data – static information that contextualizes data. In most cases, this data can look like noise when ingested directly. Because it’s static, each data packet contains identical information.  This isn’t always useful to see in your environment, nor does it always make sense to send as it increases payloads. The useful data is the key-value pair of the device ID and value (usually what is being sensed – like temperature, pressure, vibration, and so on.) and the timestamp. 
+
+ Time Series Insights is a great place to manage reference data.  It can hold up to two reference data sets that are joined with telemetry at ingress so when your data is visualized and queried in Time Series Insights, you see the contextualized data, not all the noise.
+
 This document describes the reference data API used to manage items within a reference data set. It assumes that the reference data set has already been created.
 
 ## Common headers and parameters
 
-For authentication and authorization, valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
+For authentication and authorization, a valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
 Optional request headers:
 - `x-ms-client-request-id` - a client request ID. Service records this value. Allows the service to trace operation across services.
@@ -32,11 +36,11 @@ Optional request headers:
 - `x-ms-client-application-name` - name of the application that generated this request. Service records this value.
 
 Response headers:
-- `x-ms-request-id` - server generated request ID. Can be used to contact Microsoft to investigate a particular request.
+- `x-ms-request-id` - server-generated request ID. Can be used to contact Microsoft to investigate a request.
 
 ## API overview
 
-The reference data management API is a batch API. All operations against this API are http POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. The operation names are the following:
+The reference data management API is a batch API. All operations against this API are HTTP POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. The operation names are the following:
 
 * [put](time-series-insights-reference-reference-data-api.md#put-reference-data-items)
 * [patch](time-series-insights-reference-reference-data-api.md#patch-reference-data-items)
@@ -44,9 +48,9 @@ The reference data management API is a batch API. All operations against this AP
 * [delete](time-series-insights-reference-reference-data-api.md#delete-reference-data-items)
 * [get](time-series-insights-reference-reference-data-api.md#get-reference-data-items)
 
-The property value is an array of reference data items over which the operation has to be applied.
+The property value is an array of reference data items over which the operation must be applied.
 
-Each item is processed individually and an error with one piece of data does not affect the storing of good data. If your request has 100 items and 1 item has an error, then 99 items are written and 1 is rejected.
+Each item is processed individually and an error with one piece of data does not affect the storing of good data. If your request has 100 items and one item has an error, then 99 items are written and one is rejected.
 
 ## Put reference data items
 
@@ -86,8 +90,8 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### *Put* operation validations
 
-1. Each item in $.put can specify its own list of non-key properties (“color”, “maxSpeed”, “location”, etc.).
-2. For any two item sets X and Y, non-key properties in [X].put[i] and [Y].put[j] must not intersect. Consider the following two posts:
+- Each item in $.put can specify its own list of non-key properties (“color”, “maxSpeed”, “location”, etc.).
+- For any two item sets X and Y, non-key properties in [X].put[i] and [Y].put[j] must not intersect. Consider the following two posts:
 
 `POST https://<environmentFqdn>/referencedatasets/deviceInfo/$batch?api-version=2016-12-12`
 
@@ -114,16 +118,16 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 }
 ```
 
-The second post for set *manufacturerInfo* is not allowed since “color” is already defined in the first post for set *deviceInfo*.
+The second post for set *manufacturerInfo* is not allowed because “color” is already defined in the first post for set *deviceInfo*.
 
-3. All key property values in $.put[i] should be of json primitive type and should be parsable to type defined during reference data set creation.
-4. All non-key property values in $.put[i] can be of any JSON type. At the root, if it is an object, it is flattened to individual properties. If it is an array, it is serialized and indexed as Json string.
-5. $.put[i] should contain all properties specified as key properties in the reference data set.
-6. $.put[i] should contain at least one non-key property.
-7. Values of key properties in $.put[i] cannot be null.
-8. Case-sensitive persistence: When persisted, the value of the key whose type is *String* has the same casing as the input event stream. Keys are expected to be immutable.
-9. Any validation failure results in a response code of 400 with the appropriate error information.
-10. The response for individual items is either JSON null (for success) or error information JSON object.
+- All key property values in $.put[i] should be of json primitive type and should be parsable to type defined during reference data set creation.
+- All non-key property values in $.put[i] can be of any JSON type. At the root, if it is an object, it is flattened to individual properties. If it is an array, it is serialized and indexed as JSON string.
+- $.put[i] should contain all properties specified as key properties in the reference data set.
+- $.put[i] should contain at least one non-key property.
+- Values of key properties in $.put[i] cannot be null.
+- Case-sensitive persistence: When persisted, the value of the key whose type is *String* has the same casing as the input event stream. Keys are expected to be immutable.
+- Any validation failure results in a response code of 400 with the appropriate error information.
+- The response for individual items is either JSON null (for success) or error information JSON object.
 
 ## Patch reference data items
 
@@ -201,8 +205,8 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### *Delete properties* operation validations
 
-1. Same as [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
-2. If a property specified in $.deleteProperties[i].properties does not exist, it is a no-op for that property.
+- Same as [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
+- If a property specified in $.deleteProperties[i].properties does not exist, it is a no-op for that property.
 
 ## Delete reference data items
 
@@ -235,8 +239,8 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### *Delete* operation request validations
 
-1. Values in delete.[i] follow same key properties restrictions mentioned in [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
-2. If item not found, a response code of 404 is returned.
+- Values in delete.[i] follow same key properties restrictions mentioned in [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
+- If item not found, a response code of 404 is returned.
 
 ## Get reference data items
 
@@ -283,8 +287,8 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### *Get* operation validations
 
-1. Values in get.[i] follow same key properties restrictions mentioned in [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
-2. If item not found, return error response 404 against that item.
+- Values in get.[i] follow same key properties restrictions mentioned in [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
+- If item not found, return error response 404 against that item.
 
 ## Common error response example
 
@@ -349,15 +353,15 @@ When the two events in the event hub message are processed by the Time Series In
 
 ### Reference data join rules
 
-1. Key name comparison during join is case-sensitive
-2. Key value comparison during join case-sensitive for string properties.
+- Key name comparison during join is case-sensitive.
+- Key value comparison during join is case-sensitive for string properties.
 
 ### Handling multiple reference data sets join semantics
 
 For an environment with more than one reference data set, three constraints are enforced during join. These constraints help avoid considering hierarchy and ordering during join by the Time Series Insights ingress engine.
 
-1. Each item in a reference data set, can specify its own list of non-key properties.
-2. For any two reference data sets A and B, non-key properties must not intersect.
-3. Reference data sets are only joined directly to events, never to other referenced data sets (and then to events). To join reference data item with an event, all key properties used in the reference data item must be present in the event. Also, the key properties should not come from the non-key properties joined to an event through some other reference data item.
+- Each item in a reference data set, can specify its own list of non-key properties.
+- For any two reference data sets A and B, non-key properties must not intersect.
+- Reference data sets are only joined directly to events, never to other referenced data sets (and then to events). To join reference data item with an event, all key properties used in the reference data item must be present in the event. Also, the key properties should not come from the non-key properties joined to an event through some other reference data item.
 
 Given these three constraints, the join engine can apply the join in any order for a given event. Hierarchy and ordering are not considered.
