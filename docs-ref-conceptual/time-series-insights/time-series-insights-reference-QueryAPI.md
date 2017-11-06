@@ -205,7 +205,7 @@ Response Message:
 ```json
 {
     "headers" : {
-        "x-ms-request-id" : "71A53528-DE6F-41EA-81F6-B53EE297391E"
+        "x-ms-request-id" : "fa15156a-..."
     },
     "content" : {
         "events" : [{
@@ -232,6 +232,7 @@ Response Message:
     },
     "percentCompleted" : 100.0
 }
+
 ```
 
 Events can be sorted and limited to the top.
@@ -309,54 +310,57 @@ Response Messages:
 ```json
 {
     "headers" : {
-        "x-ms-request-id" : "71A53528-DE6F-41EA-81F6-B53EE297391E"
+        "x-ms-request-id" : "fa15156a-..."
     },
-    "content" : [{
-        "dimension": ["temp"],
-        "aggregate": {
-            "dimension": [
-                "2015-12-01T00:00:00", "2015-12-01T00:01:00", "2015-12-01T00:02:00"
-            ],
-            "measures": [
-                [
-                    [81.3, 13.0],
-                    [91.3, 14.0],
-                    [101.3, 15.0]
+    "content" : {
+        "aggregates": {
+            "dimension": ["temp"],
+            "aggregates": [{
+                "dimension": [
+                    "2015-12...", "2015-12...", "2015-12..."
+                ],
+                "measures": [
+                    [
+                        [81.3, 13],
+                        [91.3, 14],
+                        [101.3, 15]
+                    ]
                 ]
-            ]
+            }]
         }
-    }],
+    },
     "percentCompleted" : 10.0
 }
+
 ```
 
 ```json
 {
-    ""headers"" : {
-        ""x-ms-request-id"" : ""71A53528-DE6F-41EA-81F6-B53EE297391E""
-    },
-    "content" : [{
-        "dimension": ["co2", "temp"],
-        "aggregate": {
-            "dimension": [
-                "2015-12-01T00:00:00", "2015-12-01T00:01:00", "2015-12-01T00:02:00"
-            ],
-            "measures": [
-                [
-                    [456.7, 10.0],
-                    [235.6, 11.0],
-                    [678.2, 12.0]
+    "content" : {
+        "aggregates": {
+            "dimension": ["co2", "temp"],
+            "aggregates": [{
+                "dimension": [
+                    "2015-12...", "2015-12...", "2015-12..."
                 ],
-                [
-                    [81.3, 13.0],
-                    [91.3, 14.0],
-                    [101.3, 15.0]
+                "measures": [
+                    [
+                        [456.7, 10],
+                        [235.6, 11],
+                        [678.2, 12]
+                    ],
+                    [
+                        [81.3, 13],
+                        [91.3, 14],
+                        [101.3, 15]
+                    ]
                 ]
-            ]
+            }]
         }
-    }],
+    },
     "percentCompleted" : 100.0
 }
+
 ```
 
 For numeric histogram, bucket boundaries are aligned to one of 10^n, 2x10^n or 5x10^n values.
