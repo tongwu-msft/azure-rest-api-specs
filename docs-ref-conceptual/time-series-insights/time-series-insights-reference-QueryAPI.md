@@ -19,9 +19,9 @@ ms.author: venkatja
 ---
 # Azure Time Series Insights query API
 
-Azure Time Series Insights is a fully managed analytics, storage, and visualization service that makes it simple to explore and analyze billions of IoT events simultaneously.  It gives you a global view of your data, letting you quickly validate your IoT solution and avoid costly downtime to mission-critical devices by helping you discover hidden trends, spot anomalies, and conduct root-cause analyses in near real-time.  Time Series Insights provides a REST API used with Azure Resource Manager to provision and manage Time Series Insights resources in your Azure subscription. If you are building an application that needs to store or query time series data, you can develop with Time Series Insights REST APIs, in addition, to programmatically managing Azure resources with Azure Resource Manager.
+Azure Time Series Insights is a fully managed analytics, storage, and visualization service that makes it simple to explore and analyze billions of IoT events simultaneously.  It gives you a global view of your data, letting you quickly validate your IoT solution and avoid costly downtime to mission-critical devices by helping you discover hidden trends, spot anomalies, and conduct root-cause analyses in near real-time.  Time Series Insights provides a Representational State Transfer (REST) API used with Azure Resource Manager to provision and manage Time Series Insights resources in your Azure subscription. If you are building an application that needs to store or query time series data, you can develop with Time Series Insights REST APIs, in addition, to programmatically managing Azure resources with Azure Resource Manager.
 
-This document describes various Representational State Transfer (REST) query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which allow querying Time Series Insights environments. 
+This document describes various REST query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Time Series Insights environments. 
 
 Before reading this document, you should understand the Time Series Insights input format. For more information, see [Azure Time Series Insights Query Syntax](https://docs.microsoft.com/rest/api/time-series-insights/time-series-insights-reference-query-syntax).
 
@@ -205,7 +205,7 @@ Response Message:
 ```json
 {
     "headers" : {
-        "x-ms-request-id" : "71A53528-DE6F-41EA-81F6-B53EE297391E"
+        "x-ms-request-id" : "fa15156a-..."
     },
     "content" : {
         "events" : [{
@@ -232,6 +232,7 @@ Response Message:
     },
     "percentCompleted" : 100.0
 }
+
 ```
 
 Events can be sorted and limited to the top.
@@ -309,54 +310,57 @@ Response Messages:
 ```json
 {
     "headers" : {
-        "x-ms-request-id" : "71A53528-DE6F-41EA-81F6-B53EE297391E"
+        "x-ms-request-id" : "fa15156a-..."
     },
-    "content" : [{
-        "dimension": ["temp"],
-        "aggregate": {
-            "dimension": [
-                "2015-12-01T00:00:00", "2015-12-01T00:01:00", "2015-12-01T00:02:00"
-            ],
-            "measures": [
-                [
-                    [81.3, 13.0],
-                    [91.3, 14.0],
-                    [101.3, 15.0]
+    "content" : {
+        "aggregates": {
+            "dimension": ["temp"],
+            "aggregates": [{
+                "dimension": [
+                    "2015-12...", "2015-12...", "2015-12..."
+                ],
+                "measures": [
+                    [
+                        [81.3, 13],
+                        [91.3, 14],
+                        [101.3, 15]
+                    ]
                 ]
-            ]
+            }]
         }
-    }],
+    },
     "percentCompleted" : 10.0
 }
+
 ```
 
 ```json
 {
-    ""headers"" : {
-        ""x-ms-request-id"" : ""71A53528-DE6F-41EA-81F6-B53EE297391E""
-    },
-    "content" : [{
-        "dimension": ["co2", "temp"],
-        "aggregate": {
-            "dimension": [
-                "2015-12-01T00:00:00", "2015-12-01T00:01:00", "2015-12-01T00:02:00"
-            ],
-            "measures": [
-                [
-                    [456.7, 10.0],
-                    [235.6, 11.0],
-                    [678.2, 12.0]
+    "content" : {
+        "aggregates": {
+            "dimension": ["co2", "temp"],
+            "aggregates": [{
+                "dimension": [
+                    "2015-12...", "2015-12...", "2015-12..."
                 ],
-                [
-                    [81.3, 13.0],
-                    [91.3, 14.0],
-                    [101.3, 15.0]
+                "measures": [
+                    [
+                        [456.7, 10],
+                        [235.6, 11],
+                        [678.2, 12]
+                    ],
+                    [
+                        [81.3, 13],
+                        [91.3, 14],
+                        [101.3, 15]
+                    ]
                 ]
-            ]
+            }]
         }
-    }],
+    },
     "percentCompleted" : 100.0
 }
+
 ```
 
 For numeric histogram, bucket boundaries are aligned to one of 10^n, 2x10^n or 5x10^n values.
