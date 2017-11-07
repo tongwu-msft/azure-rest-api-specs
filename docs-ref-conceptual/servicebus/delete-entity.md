@@ -33,14 +33,14 @@ Deletes a messaging entity.
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://{serviceNamespace}.servicebus.Windows.net[:{port}]/{path}|HTTP/1.1|  
+|DELETE|https://{serviceNamespace}.servicebus.windows.net/{path}|HTTP/1.1|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specifies a WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to **WRAP access_token=”{swt}”**.|  
+|Authorization|Specifies a Shared Access Signature (SAS) token with "Manage" rights. See [Service Bus authentication with Shared Access Signatures](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas) for details.|  
   
 ### Request Body  
  None.  
@@ -59,7 +59,7 @@ Deletes a messaging entity.
  For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the headers shown below. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response Header|Description|  
 |---------------------|-----------------|  

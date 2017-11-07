@@ -205,6 +205,7 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Set File Service Properties|File (f)|Service (s)|Write (w)|  
 |Get Share Stats|File (f)|Container (c)|Read (r)|  
 |Create Share|File (f)|Container (c)|Create (c) or Write (w)|  
+|Snapshot Share|File (f)|Container (c)|Create (c) or Write (w)|  
 |Get Share Properties|File (f)|Container (c)|Read (r)|  
 |Set Share Properties|File (f)|Container (c)|Write (w)|  
 |Get Share Metadata|File (f)|Container (c)|Read (r)|  

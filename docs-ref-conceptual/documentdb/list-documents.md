@@ -1,5 +1,5 @@
 ---
-title: "List Documents"
+title: "List Documents - Azure Cosmos DB REST API"
 ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
@@ -13,7 +13,6 @@ caps.latest.revision: 10
 author: "mimig1"
 ms.author: "mimig"
 manager: "jhubbard"
-robots: noindex,nofollow
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -86,7 +85,7 @@ translation.priority.mt:
 |--------------|-----------------|  
 |`id`|This is the unique name that identifies the document, i.e. no two documents can share the same `id`. The `id` must not exceed 255 characters.|  
 |\<custom>|Any user-defined JSON.|  
-|`_rid`|This is a [system generated property](http://azure.microsoft.com/documentation/articles/documentdb-resources/#system-vs-user-defined-resources). The resource ID (`_rid`) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
+|`_rid`|This is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources#system-vs-user-defined-resources). The resource ID (`_rid`) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
 |`_ts`|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |`_self`|This is a system generated property. It is the unique addressable URI for the resource.|  
 |`_etag`|This is a system generated property that specifies the resource `etag` required for optimistic concurrency control.|  
@@ -260,10 +259,10 @@ Date: Tue, 29 Mar 2016 02:03:07 GMT
 ```  
   
 ## See Also  
- [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
+* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
 

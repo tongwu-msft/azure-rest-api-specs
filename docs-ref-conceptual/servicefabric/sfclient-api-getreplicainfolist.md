@@ -1,6 +1,6 @@
 ---
 title: "Get Replica Info List"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ The GetReplicas endpoint returns information about the replicas of the specified
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Partitions/{partitionId}/$/GetReplicas?api-version=3.0&ContinuationToken={ContinuationToken}&timeout={timeout}` |
+| GET | `/Partitions/{partitionId}/$/GetReplicas?api-version=6.0&ContinuationToken={ContinuationToken}&timeout={timeout}` |
 
 
 ## Parameters
@@ -57,9 +57,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### ContinuationToken

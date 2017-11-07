@@ -13,17 +13,13 @@ ms.date: 07/06/2017
 ms.author: scottwhi
 ---
 
-# Bing Entity Search API v7 Preview reference
-
-> [!NOTE]
-> Preview release of the Entity Search API. All aspects of the API and documentation are subject to change. 
-
+# Bing Entity Search API v7 reference
 
 The Entity Search API lets you send a search query to Bing and get back search results that include entities and places. Place results include restaurants, hotel, or other local businesses. For places, the query can specify the name of the local business or it can ask for a list (for example, restaurants near me). Entity results include persons, places, or things. Place in this context is tourist attractions, states, countries, etc.  
 
 
 
-This section provides technical details about the response objects, and the query parameters and headers that affect the search results. For examples that show how to make requests, see [Searching the web](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/search-the-web) 
+This section provides technical details about the response objects, and the query parameters and headers that affect the search results. For examples that show how to make requests, see [Search the web for entities and places](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/search-the-web). 
   
 For information about headers that requests should include, see [Headers](#headers).  
   
@@ -76,7 +72,7 @@ The request may include the following query parameters. See the Required column 
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
 |<a name="cc" />cc|A 2-character country code of the country where the results come from.<br /><br /> **NOTE:** This API supports only the United States market. If you specify this query parameter, it must be set to *us*.<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds from the languages list, and combine that language with the country code that you specify to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request, or it may use an aggregated or default market for the results instead of a specified one.<br /><br /> You should use this query parameter and the `Accept-Language` query parameter only if you specify multiple languages; otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
-|<a name="mkt" />mkt|The market where the results come from. <br /><br /> **NOTE:** This API supports only the English (United States) market. If you specify this query parameter, it must be set to en-us.<br /><br /> **NOTE:** You are strongly encouraged to always specify the market, if known. Specifying the market helps Bing route the request and return an appropriate and optimal response.<br /><br /> This parameter and the [cc](#cc) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
+|<a name="mkt" />mkt|The market where the results come from. <br /><br /> **NOTE:** This API supports only the English (United States) market. If you specify this query parameter, it must be set to en-us.<br /><br /> **NOTE:** You are strongly encouraged to always specify the market, if known. Specifying the market helps Bing route the request and return an appropriate and optimal response.<br /><br /> This parameter and the [cc](#cc) query parameter are mutually exclusive&mdash;do not specify both.|String|Yes|  
 |<a name="query" />q|The user's search term.|String|Yes|  
 |<a name="responsefilter" />responseFilter|A comma-delimited list of answers to include in the response. If you do not specify this parameter, the response includes all search answers for which there's relevant data.<br /><br /> The following are the possible filter values.<br /><br /><ul><li>Entities</li><li>Places</li></ul>|String|No|  
 |<a name="responseformat" />responseFormat|The media type to use for the response. The following are the possible case-insensitive values.<br /><ul><li>JSON</li><li>JSONLD</li></ul><br /> The default is JSON. For information about the JSON objects that the response contains, see [Response Objects](#response-objects).<br /><br />  If you specify JsonLd, the response body includes JSON-LD objects that contain the search results. For information about the JSON-LD, see [JSON-LD](http://json-ld.org/).|String|No|  
@@ -118,7 +114,7 @@ Defines an entity such as a person, place, or thing.
 |Name|Value|Type|  
 |----------|-----------|----------|
 |bingId|An ID that uniquely identifies this entity.|String  
-|contractualRules|A list of rules that you must adhere to if you display the entity. For example, the rules may govern attributing the entity's description.<br /><br /> The following contractual rules may apply.<br /><br /><ul><li>[LicenseAttribution](#licenseattribution)</li><li>[LinkAttribution](#linkattribution)</li><li>[MediaAttribution](#mediaattribution)</li><li>[TextAttribution](#textattribution)</li></ul><br /> Not all entities include rules. If the entity provides contractual rules, you must abide by them. For more information about using contractual rules, see [Attributing Data](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/search-the-web.md#data-attribution).|Object[]|  
+|contractualRules|A list of rules that you must adhere to if you display the entity. For example, the rules may govern attributing the entity's description.<br /><br /> The following contractual rules may apply.<br /><br /><ul><li>[LicenseAttribution](#licenseattribution)</li><li>[LinkAttribution](#linkattribution)</li><li>[MediaAttribution](#mediaattribution)</li><li>[TextAttribution](#textattribution)</li></ul><br /> Not all entities include rules. If the entity provides contractual rules, you must abide by them. For more information about using contractual rules, see [Attributing Data](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/search-the-web#data-attribution).|Object[]|  
 |description|A short description of the entity.|String|  
 |entityPresentationInfo|Additional information about the entity such as hints that you can use to determine the entity's type. To determine the entity's type, use the `entityScenario` and `entityTypeHint` fields. For example, the fields help you determine whether the entity is a dominant or disambiguation entity and whether it's a person or movie. The entity is a dominant entity if Bing believes that only one entity satisfies the request. If multiple entities could satisfy the request, the entity is a disambiguation entity and the user needs to select the entity they're interested in. |[EntityPresentationInfo](#entitypresentationinfo)|  
 |image|An image of the entity.|[Image](#image)|  
@@ -284,7 +280,6 @@ Defines a postal address.
 |addressRegion|The state or province code where the street address is located. This could be the two-letter code (for example, WA) or the full name (for example, Washington).|String|  
 |neighborhood|The neighborhood where the street address is located. For example, Westlake.|String|  
 |postalCode|The zip code or postal code where the street address is located. For example, 98052.|String|  
-|streetAddress|The street address. For example, 2100 Westlake Ave N.|String|  
 |text|The complete address. For example, 2100 Westlake Ave N, Bellevue, WA 98052.|String|  
   
   

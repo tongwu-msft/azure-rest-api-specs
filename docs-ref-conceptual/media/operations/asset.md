@@ -69,7 +69,7 @@ The `Asset` entity contains digital files (including video, audio, images, thumb
 > [!IMPORTANT]
 >  When working with the Media Services REST API, the following considerations apply:  
 >   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://azure.microsoft.com/documentation/articles/media-services-rest-how-to-use/).  
+>  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](https://azure.microsoft.com/documentation/articles/media-services-rest-how-to-use/).  
 > -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
 >   
 >      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  

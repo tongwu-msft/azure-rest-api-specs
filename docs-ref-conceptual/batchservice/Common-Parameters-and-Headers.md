@@ -1,7 +1,7 @@
 ---
 title: "Common Parameters and Headers | Microsoft Docs"
 ms.custom: ""
-ms.date: "2017-02-01"
+ms.date: "2017-09-05"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
@@ -17,11 +17,6 @@ manager: "timlt"
 # Common Parameters and Headers
   The following information is common to all operations that you might do related to Batch resources:  
   
--   Replace {api-version} with the api-version in the URI.  
-  
--   Replace {account-name} with the name of your Batch account in the URI.  
-  
--   Specify the *ocp-date* value as a request header or a URI parameter. A date must be specified according to [Representation of Date/Time Values](#BKMK_DateTime).  
   
 -   Specify the optional *$select* value as a list of properties to return for a resource.  
   
@@ -43,8 +38,7 @@ manager: "timlt"
   
 -   Set the *Authorization* header to a string that contains the authentication scheme, the account name, and the authentication signature. For more information, see [Authenticate Requests to the Azure Batch Service](../batchservice/authenticate-requests-to-the-azure-batch-service.md).  
   
--   Set the optional *client-request-id* header to a GUID that can be used to identify the request and its related response. You can also set the optional *return-client-request-id* to **true** or **false** depending on whether you want the identifier to be included in the response. The default value is **false**.  
-  
+
 ##  <a name="BKMK_DateTime"></a> Representation of Date/Time Values  
   
 ### Specifying Date/Time values in HTTP headers  

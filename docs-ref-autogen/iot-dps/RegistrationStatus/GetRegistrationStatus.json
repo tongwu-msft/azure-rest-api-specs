@@ -1,0 +1,438 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2017-08-31-preview",
+    "title": "DeviceProvisioningService_ServiceRuntimeClient",
+    "description": "API for service operations with the Azure IotHub Device Provisioning Service"
+  },
+  "host": "contoso.azure-devices-provisioning.net",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/registrations/{id}": {
+      "get": {
+        "tags": [
+          "GET"
+        ],
+        "summary": "Gets the device registration status.",
+        "operationId": "RegistrationStatus_GetRegistrationStatus",
+        "consumes": [],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Registration ID.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/DeviceRegistrationStatus"
+            }
+          }
+        },
+        "x-internal-toc-name": "Get Registration Status"
+      }
+    }
+  },
+  "definitions": {
+    "Enrollment": {
+      "description": "The device enrollment record.",
+      "required": [
+        "registrationId",
+        "attestation"
+      ],
+      "type": "object",
+      "properties": {
+        "registrationId": {
+          "type": "string"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "registrationStatus": {
+          "$ref": "#/definitions/DeviceRegistrationStatus"
+        },
+        "attestation": {
+          "$ref": "#/definitions/AttestationMechanism"
+        },
+        "iotHubHostName": {
+          "type": "string"
+        },
+        "initialTwinState": {
+          "$ref": "#/definitions/TwinState"
+        },
+        "etag": {
+          "type": "string"
+        },
+        "generationId": {
+          "type": "string"
+        },
+        "provisioningStatus": {
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "type": "string"
+        },
+        "createdDateTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "lastUpdatedDateTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "DeviceRegistrationStatus": {
+      "description": "Device registration status.",
+      "required": [
+        "registrationId",
+        "status"
+      ],
+      "type": "object",
+      "properties": {
+        "registrationId": {
+          "type": "string"
+        },
+        "createdDateTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "assignedHub": {
+          "type": "string"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "unassigned",
+            "assigning",
+            "assigned",
+            "failed",
+            "disabled"
+          ],
+          "type": "string"
+        },
+        "generationId": {
+          "type": "string"
+        },
+        "lastUpdatedDateTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "errorCode": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "errorMessage": {
+          "type": "string"
+        },
+        "etag": {
+          "type": "string"
+        }
+      }
+    },
+    "AttestationMechanism": {
+      "description": "Device attestation method.",
+      "required": [
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "none",
+            "tpm",
+            "x509"
+          ],
+          "type": "string"
+        },
+        "tpm": {
+          "$ref": "#/definitions/TpmAttestation"
+        },
+        "x509": {
+          "$ref": "#/definitions/X509Attestation"
+        }
+      }
+    },
+    "TwinState": {
+      "description": "Device twin state.",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "$ref": "#/definitions/TwinCollection",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "desiredProperties": {
+          "$ref": "#/definitions/TwinCollection",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "TpmAttestation": {
+      "description": "Attestation via TPM.",
+      "required": [
+        "endorsementKey"
+      ],
+      "type": "object",
+      "properties": {
+        "endorsementKey": {
+          "type": "string"
+        },
+        "storageRootKey": {
+          "type": "string"
+        }
+      }
+    },
+    "X509Attestation": {
+      "description": "Attestation via X509.",
+      "type": "object",
+      "properties": {
+        "clientCertificates": {
+          "$ref": "#/definitions/X509Certificates"
+        },
+        "signingCertificates": {
+          "$ref": "#/definitions/X509Certificates"
+        }
+      }
+    },
+    "X509Certificates": {
+      "description": "Primary and secondary certificates",
+      "type": "object",
+      "properties": {
+        "primary": {
+          "$ref": "#/definitions/X509CertificateWithInfo"
+        },
+        "secondary": {
+          "$ref": "#/definitions/X509CertificateWithInfo"
+        }
+      }
+    },
+    "X509CertificateWithInfo": {
+      "description": "Certificate and Certificate info",
+      "type": "object",
+      "properties": {
+        "certificate": {
+          "type": "string"
+        },
+        "info": {
+          "$ref": "#/definitions/X509CertificateInfo"
+        }
+      }
+    },
+    "X509CertificateInfo": {
+      "description": "X509 certificate info.",
+      "required": [
+        "subjectName",
+        "sha1Thumbprint",
+        "sha256Thumbprint",
+        "issuerName",
+        "notBeforeUtc",
+        "notAfterUtc",
+        "serialNumber",
+        "version"
+      ],
+      "type": "object",
+      "properties": {
+        "subjectName": {
+          "type": "string"
+        },
+        "sha1Thumbprint": {
+          "type": "string"
+        },
+        "sha256Thumbprint": {
+          "type": "string"
+        },
+        "issuerName": {
+          "type": "string"
+        },
+        "notBeforeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "notAfterUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "EnrollmentGroup": {
+      "description": "The device enrollment record.",
+      "required": [
+        "enrollmentGroupId",
+        "attestation"
+      ],
+      "type": "object",
+      "properties": {
+        "enrollmentGroupId": {
+          "type": "string"
+        },
+        "attestation": {
+          "$ref": "#/definitions/AttestationMechanism"
+        },
+        "iotHubHostName": {
+          "type": "string"
+        },
+        "initialTwinState": {
+          "$ref": "#/definitions/TwinState"
+        },
+        "etag": {
+          "type": "string"
+        },
+        "generationId": {
+          "type": "string"
+        },
+        "provisioningStatus": {
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "type": "string"
+        },
+        "createdDateTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "lastUpdatedDateTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "BulkOperation": {
+      "description": "Bulk operation",
+      "required": [
+        "mode"
+      ],
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "create",
+            "update",
+            "updateIfMatchETag",
+            "delete"
+          ],
+          "type": "string"
+        },
+        "enrollments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Enrollment"
+          }
+        }
+      }
+    },
+    "BulkOperationResult": {
+      "description": "Bulk operation result",
+      "required": [
+        "isSuccessful"
+      ],
+      "type": "object",
+      "properties": {
+        "isSuccessful": {
+          "type": "boolean"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeviceRegistrationOperationError"
+          }
+        }
+      }
+    },
+    "DeviceRegistrationOperationError": {
+      "description": "Device registration operation error",
+      "required": [
+        "registrationId",
+        "errorCode",
+        "errorStatus"
+      ],
+      "type": "object",
+      "properties": {
+        "registrationId": {
+          "type": "string"
+        },
+        "errorCode": {
+          "type": "string"
+        },
+        "errorStatus": {
+          "type": "string"
+        }
+      }
+    },
+    "QuerySpecification": {
+      "description": "A Json query request",
+      "required": [
+        "query"
+      ],
+      "type": "object",
+      "properties": {
+        "query": {
+          "description": "The query.",
+          "type": "string"
+        }
+      }
+    },
+    "TwinCollection": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "metadata": {
+          "$ref": "#/definitions/Metadata"
+        }
+      },
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "Metadata": {
+      "type": "object",
+      "properties": {
+        "lastUpdated": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "lastUpdatedVersion": {
+          "format": "int64",
+          "description": "This SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata.",
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {},
+  "x-internal-service-name": "IoT Hub Device Provisioning Service",
+  "x-internal-toc-name": "Registration Status",
+  "x-internal-split-type": "Operation"
+}

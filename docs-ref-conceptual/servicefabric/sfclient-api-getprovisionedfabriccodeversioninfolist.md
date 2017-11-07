@@ -1,6 +1,6 @@
 ---
 title: "Get Provisioned Fabric Code Version Info List"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Gets a list of information about fabric code versions that are provisioned in th
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/$/GetProvisionedCodeVersions?api-version=3.0&CodeVersion={CodeVersion}&timeout={timeout}` |
+| GET | `/$/GetProvisionedCodeVersions?api-version=6.0&CodeVersion={CodeVersion}&timeout={timeout}` |
 
 
 ## Parameters
@@ -49,9 +49,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### CodeVersion

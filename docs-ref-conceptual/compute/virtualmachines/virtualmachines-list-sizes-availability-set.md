@@ -88,7 +88,7 @@ Status code: If successful, the operation returns 200 (OK); otherwise 502 (Bad G
 | Element name | Description |    
 |--------------|-------------|    
 | name | Specifies the name of the virtual machine size. |    
-| numberOfCores | Specifies the number of available CPU cores. |    
+| numberOfCores | Specifies the number of available vCPUs. |
 | osDiskSizeInMB | Specifies the size in MB of the operating system disk. |    
 | resourceDiskSizeInMB | Specifies the size in MB of the temporary or resource disk. |    
 | memoryInMB | Specifies the available RAM in MB. |    

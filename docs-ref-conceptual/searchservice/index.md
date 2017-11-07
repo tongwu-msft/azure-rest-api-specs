@@ -33,11 +33,11 @@ Azure Search is a fully managed cloud search service that provides a rich search
 Version 2016-09-01 is the second generally available release of the Azure Search Service REST API. New features in this API version include:
 
   - [Custom analyzers](https://aka.ms/customanalyzers), which allow you to take control over the process of converting text into indexable and searchable terms.
-  - [Azure Blob Storage](http://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-blob-storage/) and [Azure Table Storage](http://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-tables/) indexers, which allow you to easily import data from Azure storage into Azure Search on a schedule or on-demand.
-  - [Field mappings](http://azure.microsoft.com/documentation/articles/search-indexer-field-mappings/), which allow you to customize how indexers import data into Azure Search.
+  - [Azure Blob Storage](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-blob-storage/) and [Azure Table Storage](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-tables/) indexers, which allow you to easily import data from Azure storage into Azure Search on a schedule or on-demand.
+  - [Field mappings](https://azure.microsoft.com/documentation/articles/search-indexer-field-mappings/), which allow you to customize how indexers import data into Azure Search.
   - ETags, which allow you to update the definitions of indexes, indexers, and data sources in a concurrency-safe manner.
 
-For details on how to upgrade to version 2016-09-01 from the previous GA version, see [Upgrading to the Azure Search Service REST API version 2016-09-01](http://azure.microsoft.com/documentation/articles/search-api-migration/).
+For details on how to upgrade to version 2016-09-01 from the previous GA version, see [Upgrading to the Azure Search Service REST API version 2016-09-01](https://azure.microsoft.com/documentation/articles/search-api-migration/).
 
 ## Overview
 
@@ -177,12 +177,12 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
     ```  
 
 
- To create the service, see [Create an Azure Search service](http://azure.microsoft.com/documentation/articles/search-create-service-portal/). followed by [How to build a .NET application with Azure Search](http://azure.microsoft.com/documentation/articles/search-howto-dotnet-sdk/).  
+ To create the service, see [Create an Azure Search service](https://azure.microsoft.com/documentation/articles/search-create-service-portal/). followed by [How to build a .NET application with Azure Search](https://azure.microsoft.com/documentation/articles/search-howto-dotnet-sdk/).  
 
 ## See also  
- [Azure Search: tutorials, video demos, and samples](http://azure.microsoft.com/documentation/articles/search-video-demo-tutorial-list/)     
+ [Azure Search: tutorials, video demos, and samples](https://azure.microsoft.com/documentation/articles/search-video-demo-tutorial-list/)     
  [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
- [Create an Azure Search service](http://azure.microsoft.com/documentation/articles/search-create-service-portal/)   
+ [Create an Azure Search service](https://azure.microsoft.com/documentation/articles/search-create-service-portal/)   
  [Pricing Details](http://go.microsoft.com/fwlink/?LinkId=509792)   
  [Manage your search service on Microsoft Azure](http://go.microsoft.com/fwlink/?LinkId=509793)   
  [Naming rules &#40;Azure Search&#41;](naming-rules.md)   

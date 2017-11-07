@@ -33,14 +33,18 @@ The **Discovery** operation navigates hierarchical namespaces, while **Enumerati
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://{serviceNamespace}.servicebus.Windows.net[:{port}]/$Resources/{resourceCollection}<br /><br /> or<br /><br /> https://{serviceNamespace}.servicebus.Windows.net[:{port}]/{path}/Subscriptions<br /><br /> or<br /><br /> https://{serviceNamespace}.servicebus.Windows.net[:{port}]/{path}/Subscriptions/{subscription-name}/rules|HTTP/1.1|  
+|GET|https://{serviceNamespace}.servicebus.windows.net/$Resources/{resourceCollection}<br /><br /> or<br /><br /> https://{serviceNamespace}.servicebus.windows.net/{path}/Subscriptions<br /><br /> or<br /><br /> https://{serviceNamespace}.servicebus.windows.net/{path}/Subscriptions/{subscription-name}/rules|HTTP/1.1|  
+
+### Query parameters $skip and $top  
+Enumeration supports paging. You can retrieve a range of entities under your service namespace. The query parameter $skip indicates how many entries the request shall skip
+when returning an enumeration and $top how many entries shall be returned.
   
 ### Request Headers  
  The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specifies a WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to **WRAP access_token=”{swt}”**.|  
+|Authorization|Specifies a Shared Access Signature (SAS) token with "Manage" rights. See [Service Bus authentication with Shared Access Signatures](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas) for details.|  
   
 ### Request Body  
  None.  
@@ -79,8 +83,10 @@ The **Discovery** operation navigates hierarchical namespaces, while **Enumerati
     <updated>{lastUpdatedTime}</updated>  
     <link rel='self'>https://{serviceNamespace}.servicebus.Windows.net/{path}</link>  
     <content type='application/xml'>  
-      ...  
+      {description}
     </content>  
   </entry>  
 </feed>  
 ```
+
+For the possible content of the {description} element, see [Overview](overview.md).

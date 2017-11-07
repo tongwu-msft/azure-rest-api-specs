@@ -1,19 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
+    "version": "2017-03-01",
     "title": "ApiManagementClient",
-    "description": "Use these REST APIs to manage Azure API Management deployment.",
-    "version": "2016-10-10"
+    "description": "Use these REST APIs to manage Azure API Management deployment."
   },
   "host": "management.azure.com",
   "schemes": [
     "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
   ],
   "security": [
     {
@@ -33,33 +27,7 @@
       }
     }
   },
-  "paths": {
-    "/providers/Microsoft.ApiManagement/operations": {
-      "get": {
-        "tags": [
-          "ApiManagementOperations"
-        ],
-        "description": "Lists all of the available REST API operations of the Microsoft.ApiManagement provider.",
-        "operationId": "ApiManagementOperations_List",
-        "parameters": [
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success. The response describes the list of operations.",
-            "schema": {
-              "$ref": "#/definitions/OperationListResult"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "CertificateInformation": {
       "properties": {
@@ -84,6 +52,35 @@
       ],
       "description": "SSL certificate information."
     },
+    "CertificateConfiguration": {
+      "properties": {
+        "encodedCertificate": {
+          "type": "string",
+          "description": "Base64 Encoded certificate."
+        },
+        "certificatePassword": {
+          "type": "string",
+          "description": "Certificate Password."
+        },
+        "storeName": {
+          "description": "The local certificate store location. Only Root and CertificateAuthority are valid locations.",
+          "type": "string",
+          "enum": [
+            "CertificateAuthority",
+            "Root"
+          ]
+        },
+        "certificate": {
+          "$ref": "#/definitions/CertificateInformation",
+          "description": "Certificate information.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "storeName"
+      ],
+      "description": "Certificate configuration which consist of non-trusted intermediates and root certificates."
+    },
     "HostnameConfiguration": {
       "properties": {
         "type": {
@@ -100,19 +97,37 @@
             "modelAsString": false
           }
         },
-        "hostname": {
+        "hostName": {
           "type": "string",
-          "description": "Hostname."
+          "description": "Hostname to configure on the Api Management service."
+        },
+        "encodedCertificate": {
+          "type": "string",
+          "description": "Base64 Encoded certificate."
+        },
+        "certificatePassword": {
+          "type": "string",
+          "description": "Certificate Password."
+        },
+        "defaultSslBinding": {
+          "type": "boolean",
+          "description": "Specify true to setup the certificate associated with this Hostname as the Default SSL Certificate. If a client does not send the SNI header, then this will be the certificate that will be challenged. The property is useful if a service has multiple custom hostname enabled and it needs to decide on the default ssl certificate. The setting only applied to Proxy Hostname Type.",
+          "default": false
+        },
+        "negotiateClientCertificate": {
+          "type": "boolean",
+          "description": "Specify true to always negotiate client certificate on the hostname. Default Value is false.",
+          "default": false
         },
         "certificate": {
           "$ref": "#/definitions/CertificateInformation",
-          "description": "Certificate information."
+          "description": "Certificate information.",
+          "readOnly": true
         }
       },
       "required": [
         "type",
-        "hostname",
-        "certificate"
+        "hostName"
       ],
       "description": "Custom hostname configuration."
     },
@@ -132,41 +147,21 @@
           "type": "string",
           "pattern": "^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$",
           "description": "The full resource ID of a subnet in a virtual network to deploy the API Management service in."
-        },
-        "location": {
-          "type": "string",
-          "description": "The location of the virtual network."
         }
       },
       "description": "Configuration of a virtual network to which API Management service is deployed."
     },
-    "AdditionalRegion": {
+    "AdditionalLocation": {
       "properties": {
         "location": {
           "type": "string",
           "description": "The location name of the additional region among Azure Data center regions."
         },
-        "skuType": {
-          "type": "string",
-          "description": "The SKU type in the location.",
-          "enum": [
-            "Developer",
-            "Standard",
-            "Premium"
-          ],
-          "x-ms-enum": {
-            "name": "SkuType",
-            "modelAsString": false
-          }
+        "sku": {
+          "$ref": "#/definitions/ApiManagementServiceSkuProperties",
+          "description": "SKU properties of the API Management service."
         },
-        "skuUnitCount": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The SKU Unit count at the location. The maximum SKU Unit count depends on the SkuType. Maximum allowed for Developer SKU is 1, for Standard SKU is 4, and for Premium SKU is 10, at a location.",
-          "default": 1,
-          "maximum": 10
-        },
-        "staticIPs": {
+        "staticIps": {
           "type": "array",
           "items": {
             "type": "string"
@@ -174,73 +169,21 @@
           "readOnly": true,
           "description": "Static IP addresses of the location's virtual machines."
         },
-        "vpnconfiguration": {
+        "virtualNetworkConfiguration": {
           "$ref": "#/definitions/VirtualNetworkConfiguration",
           "description": "Virtual network configuration for the location."
+        },
+        "gatewayRegionalUrl": {
+          "type": "string",
+          "description": "Gateway URL of the API Management service in the Region.",
+          "readOnly": true
         }
       },
       "required": [
         "location",
-        "skuType"
+        "sku"
       ],
       "description": "Description of an additional API Management resource location."
-    },
-    "ApiManagementServiceManageDeploymentsParameters": {
-      "properties": {
-        "location": {
-          "type": "string",
-          "description": "Location of the API Management service Azure data center."
-        },
-        "skuType": {
-          "type": "string",
-          "description": "SKU type of the API Management service.",
-          "enum": [
-            "Developer",
-            "Standard",
-            "Premium"
-          ],
-          "x-ms-enum": {
-            "name": "SkuType",
-            "modelAsString": false
-          }
-        },
-        "skuUnitCount": {
-          "type": "integer",
-          "format": "int32",
-          "description": "SKU Unit count of the API Management service. Default value is 1.",
-          "default": 1
-        },
-        "additionalLocations": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AdditionalRegion"
-          },
-          "description": "Additional data center locations for the API Management service."
-        },
-        "vpnConfiguration": {
-          "$ref": "#/definitions/VirtualNetworkConfiguration",
-          "description": "Virtual network configuration."
-        },
-        "vpnType": {
-          "type": "string",
-          "description": "The type of VPN in which API Managemet service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that the API Management service deployment is set up inside a Virtual Network having an Intranet Facing Endpoint only. When vpnConfiguration is specified, vpnType must be specified.",
-          "default": "None",
-          "enum": [
-            "None",
-            "External",
-            "Internal"
-          ],
-          "x-ms-enum": {
-            "name": "VirtualNetworkType",
-            "modelAsString": false
-          }
-        }
-      },
-      "required": [
-        "location",
-        "skuType"
-      ],
-      "description": "Parameters supplied to the ManageDeployments operation."
     },
     "ApiManagementServiceBackupRestoreParameters": {
       "properties": {
@@ -278,7 +221,47 @@
         },
         "publisherName": {
           "type": "string",
-          "description": "Publisher name."
+          "description": "Publisher name.",
+          "maxLength": 100
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ApiManagementServiceBaseProperties"
+        }
+      ],
+      "required": [
+        "publisherEmail",
+        "publisherName"
+      ],
+      "description": "Properties of an API Management service resource description."
+    },
+    "ApiManagementServiceUpdateProperties": {
+      "properties": {
+        "publisherEmail": {
+          "type": "string",
+          "description": "Publisher email.",
+          "maxLength": 100
+        },
+        "publisherName": {
+          "type": "string",
+          "description": "Publisher name.",
+          "maxLength": 100
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ApiManagementServiceBaseProperties"
+        }
+      ],
+      "description": "Properties of an API Management service resource description."
+    },
+    "ApiManagementServiceBaseProperties": {
+      "properties": {
+        "notificationSenderEmail": {
+          "type": "string",
+          "description": "Email address from which the notification will be sent.",
+          "maxLength": 100
         },
         "provisioningState": {
           "type": "string",
@@ -296,9 +279,14 @@
           "description": "Creation UTC date of the API Management service.The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.",
           "readOnly": true
         },
-        "runtimeUrl": {
+        "gatewayUrl": {
           "type": "string",
-          "description": "Proxy endpoint URL of the API Management service.",
+          "description": "Gateway URL of the API Management service.",
+          "readOnly": true
+        },
+        "gatewayRegionalUrl": {
+          "type": "string",
+          "description": "Gateway URL of the API Management service in the Default Region.",
           "readOnly": true
         },
         "portalUrl": {
@@ -316,10 +304,6 @@
           "description": "SCM endpoint URL of the API Management service.",
           "readOnly": true
         },
-        "addresserEmail": {
-          "type": "string",
-          "description": "Addresser email."
-        },
         "hostnameConfigurations": {
           "type": "array",
           "items": {
@@ -327,7 +311,7 @@
           },
           "description": "Custom hostname configuration of the API Management service."
         },
-        "staticIPs": {
+        "staticIps": {
           "type": "array",
           "items": {
             "type": "string"
@@ -335,14 +319,14 @@
           "readOnly": true,
           "description": "Static IP addresses of the API Management service virtual machines. Available only for Standard and Premium SKU."
         },
-        "vpnconfiguration": {
+        "virtualNetworkConfiguration": {
           "$ref": "#/definitions/VirtualNetworkConfiguration",
           "description": "Virtual network configuration of the API Management service."
         },
         "additionalLocations": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/AdditionalRegion"
+            "$ref": "#/definitions/AdditionalLocation"
           },
           "description": "Additional datacenter locations of the API Management service."
         },
@@ -351,9 +335,16 @@
           "additionalProperties": {
             "type": "string"
           },
-          "description": "Custom properties of the API Management service, like disabling TLS 1.0."
+          "description": "Custom properties of the API Management service. Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2). Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable just TLS 1.1 and setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable TLS 1.0 on an API Management service."
         },
-        "vpnType": {
+        "certificates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CertificateConfiguration"
+          },
+          "description": "List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10."
+        },
+        "virtualNetworkType": {
           "type": "string",
           "description": "The type of VPN in which API Managemet service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.",
           "default": "None",
@@ -368,11 +359,7 @@
           }
         }
       },
-      "required": [
-        "publisherEmail",
-        "publisherName"
-      ],
-      "description": "Properties of an API Management service resource description."
+      "description": "Base Properties of an API Management service resource description."
     },
     "ApiManagementServiceSkuProperties": {
       "properties": {
@@ -415,6 +402,14 @@
           "$ref": "#/definitions/ApiManagementServiceSkuProperties",
           "description": "SKU properties of the API Management service."
         },
+        "location": {
+          "type": "string",
+          "description": "Resource location.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
         "etag": {
           "type": "string",
           "description": "ETag of the resource.",
@@ -423,16 +418,17 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ApimResource"
         }
       ],
       "required": [
+        "location",
         "sku",
         "properties"
       ],
       "description": "A single API Management service resource in List or Get response."
     },
-    "Resource": {
+    "ApimResource": {
       "description": "The Resource definition.",
       "properties": {
         "id": {
@@ -443,24 +439,13 @@
         "name": {
           "type": "string",
           "description": "Resource name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "readOnly": true
         },
         "type": {
           "readOnly": true,
           "type": "string",
           "description": "Resource type for API Management resource is set to Microsoft.ApiManagement."
         },
-        "location": {
-          "type": "string",
-          "description": "Resource location.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
         "tags": {
           "type": "object",
           "additionalProperties": {
@@ -469,31 +454,31 @@
           "description": "Resource tags."
         }
       },
-      "required": [
-        "location"
-      ],
       "x-ms-azure-resource": true
     },
     "ApiManagementServiceUpdateParameters": {
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/ApiManagementServiceProperties",
+          "$ref": "#/definitions/ApiManagementServiceUpdateProperties",
           "description": "Properties of the API Management service."
         },
         "sku": {
           "$ref": "#/definitions/ApiManagementServiceSkuProperties",
           "description": "SKU properties of the API Management service."
         },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Resource tags."
+        "etag": {
+          "type": "string",
+          "description": "ETag of the resource.",
+          "readOnly": true
         }
       },
-      "description": "Parameters supplied to the Update API Management service operation."
+      "allOf": [
+        {
+          "$ref": "#/definitions/ApimResource"
+        }
+      ],
+      "description": "Parameter supplied to Update Api Management Service."
     },
     "ApiManagementServiceListResult": {
       "properties": {
@@ -516,9 +501,9 @@
     },
     "ApiManagementServiceGetSsoTokenResult": {
       "properties": {
-        "redirect_uri": {
+        "redirectUri": {
           "type": "string",
-          "description": "Redirect URL containing the SSO token."
+          "description": "Redirect URL to the Publisher Portal containing the SSO token."
         }
       },
       "description": "The response of the GetSsoToken operation."
@@ -539,11 +524,13 @@
       "properties": {
         "nameAvailable": {
           "type": "boolean",
-          "description": "True if the name is available and can be used to create a new API Management service; otherwise false."
+          "description": "True if the name is available and can be used to create a new API Management service; otherwise false.",
+          "readOnly": true
         },
         "message": {
           "type": "string",
-          "description": "If reason == invalid, provide the user with the reason why the given name is invalid, and provide the resource naming requirements so that the user can select a valid name. If reason == AlreadyExists, explain that <resourceName> is already in use, and direct them to select a different name."
+          "description": "If reason == invalid, provide the user with the reason why the given name is invalid, and provide the resource naming requirements so that the user can select a valid name. If reason == AlreadyExists, explain that <resourceName> is already in use, and direct them to select a different name.",
+          "readOnly": true
         },
         "reason": {
           "type": "string",
@@ -559,10 +546,16 @@
           }
         }
       },
-      "required": [
-        "nameAvailable"
-      ],
       "description": "Response of the CheckNameAvailability operation."
+    },
+    "ApiManagementServiceApplyNetworkConfigurationParameters": {
+      "properties": {
+        "location": {
+          "type": "string",
+          "description": "Location of the Api Management service to update for a multi-region service. For a service deployed in a single region, this parameter is not required."
+        }
+      },
+      "description": "Parameter supplied to the Apply Network configuration operation."
     },
     "ApiManagementServiceUploadCertificateParameters": {
       "properties": {
@@ -596,12 +589,44 @@
       ],
       "description": "Parameters supplied to the Upload SSL certificate for an API Management service operation."
     },
+    "HostnameConfigurationOld": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Hostname type.",
+          "enum": [
+            "Proxy",
+            "Portal",
+            "Management",
+            "Scm"
+          ],
+          "x-ms-enum": {
+            "name": "HostnameType",
+            "modelAsString": false
+          }
+        },
+        "hostname": {
+          "type": "string",
+          "description": "Hostname to configure."
+        },
+        "certificate": {
+          "$ref": "#/definitions/CertificateInformation",
+          "description": "Certificate information."
+        }
+      },
+      "required": [
+        "type",
+        "hostname",
+        "certificate"
+      ],
+      "description": "Custom hostname configuration."
+    },
     "ApiManagementServiceUpdateHostnameParameters": {
       "properties": {
         "update": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/HostnameConfiguration"
+            "$ref": "#/definitions/HostnameConfigurationOld"
           },
           "description": "Hostnames to create or update."
         },
@@ -624,19 +649,6 @@
         }
       },
       "description": "Parameters supplied to the UpdateHostname operation."
-    },
-    "ErrorResponse": {
-      "properties": {
-        "code": {
-          "description": "Error code.",
-          "type": "string"
-        },
-        "message": {
-          "description": "Error message indicating why the operation failed.",
-          "type": "string"
-        }
-      },
-      "description": "Error Response."
     },
     "Operation": {
       "description": "REST API operation",
@@ -721,5 +733,13 @@
       "x-ms-parameter-location": "method"
     }
   },
-  "x-internal-toc-name": "Api Management Operations"
+  "x-internal-service-name": "API Management",
+  "x-internal-toc-name": "Api Management Operations",
+  "x-internal-split-members": [
+    {
+      "displayName": "List",
+      "relativePath": "ApiManagementOperations/List"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
 }

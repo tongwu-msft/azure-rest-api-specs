@@ -101,7 +101,7 @@ Creates a new input within a Stream Analytics job.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that you are stopping.  
   
@@ -160,11 +160,10 @@ Creates a new input within a Stream Analytics job.
 |**accountName**|Yes|This element is associated with the **storageAccounts** element. It indicates the name of the Storage account.|  
 |**accountKey**|Yes|This element is associated with the **storageAccounts** element. It indicates the key for the Storage account. This property is not returned on **GET** requests.|  
 |**container**|Yes|This element is associated with the **storageAccounts** element. It indicates the name of the container, within the associated Storage account, in which the input data is stored.|  
-|**pathPattern**|No|This element is associated with the **storageAccounts** element. It represents a pattern against which blob names will be matched to determine whether or not they should be included as input to the job. Characters are tokenized 1:1, except for the following:<br /><br /> -   {date}<br />-   {time}<br />-   {partitionCount}<br /><br /> Example: “/segment1/{date}/segment2/{time}” **Note:**  The character "*" is not an allowed value for pathprefix. Only valid [Azure blob characters](../Topic/Naming%20and%20Referencing%20Containers,%20Blobs,%20and%20Metadata.md) are allowed.|  
+|**pathPattern**|Yes|This element is associated with the **storageAccounts** element. It represents a pattern against which blob names will be matched to determine whether or not they should be included as input to the job. Characters are tokenized 1:1, except for the following:<br /><br /> -   {date}<br />-   {time}<br />-   {partitionCount}<br /><br /> Example: “/segment1/{date}/segment2/{time}” **Note:**  The character "*" is not an allowed value for pathprefix. Only valid [Azure blob name characters](../storageservices/naming-and-referencing-containers--blobs--and-metadata.md) are allowed.|  
 |**dateFormat**|No|This element is associated with the **storageAccounts** element. It is present only when {date} is used in **pathPattern**. The value is an ISO-8601 format string. Wherever {date} appears in **pathPattern**, the value of this property is used as the date format instead.<br /><br /> Example: With **dateFormat** = “yyyy/MM/dd” and **pathPattern** = “/segment1/{date}/segment2”, the resulting pattern would match a prefix like “/segment1/2014/09/25/segment2/…”|  
 |**timeFormat**|No|This element is associated with the **storageAccounts** element. It is present only when {time} is present in **pathPattern**. The value is an ISO-8601 format string. Wherever {time} appears in **pathPattern**, the value of this property is used as the time format instead.<br /><br /> Example: With **timeFormat** = “HH:mm” and **pathPattern** = “/segment1/{time}/segment2”, the resulting pattern would match a prefix like  “/segment1/23:10/segment2/…”|  
 |**sourcePartitionCount**|No|This element is associated with the **storageAccounts** element. It is present only when {partition} is present in **pathPattern**. The value of this property is an integer >=1. Wherever {partition} appears in **pathPattern**, a number between 0 and the value of this field -1 will be used.|  
-|**blobName**|No|This element is associated with the **datasource** element and is required for inputs of type Reference Data. This property is not used for inputs of type Stream Data. It indicates the name of the single blob that holds the reference data for this input.|  
   
  **Data Source – Event Hub**  
   
@@ -182,7 +181,7 @@ Creates a new input within a Stream Analytics job.
 |Element name|Required|Notes|  
 |------------------|--------------|-----------|  
 |**type**|Yes|This element is associated with the **datasource** element. It indicates the type of data source that incoming data will be read from. For Iot Hub, the value should be Microsoft.Devices/IotHubs.|  
-|**iotHubNamespace**|Yes|The name or the URI of the IoT Hub|  
+|**iotHubNamespace**|Yes|The name or the URI of the IoT Hub. Must be between 3 and 50 characters. Allowed characters are letters, numbers, and dash (-), but may not begin or end with dash.|  
 |**sharedAccessPolicyName**|Yes|The shared access policy name for the target Iot Hub with Service connect permission.|  
 |**sharedAccessPolicyKey**|Yes|The shared access policy key for the target Iot Hub.|  
 |**consumerGroupName**|No|Name of an Iot Hub consumer group by which to identify this input. If not specified, the input uses the Iot Hub’s default consumer group.|  
@@ -235,7 +234,7 @@ Deletes an input from a Stream Analytics job in Microsoft Azure.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that you are stopping.  
   
@@ -262,7 +261,7 @@ Gets information about a specific input.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that your input will be associated with.  
   
@@ -321,7 +320,7 @@ Lists all of the inputs that are defined in a Stream Analytics job.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job.  
   
@@ -386,7 +385,7 @@ Updates the properties that are assigned to an input.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that you are updating.  
   
@@ -413,9 +412,7 @@ Updates the properties that are assigned to an input.
 ```  
   
  Any one or more of the input properties may be specified in the request body, setting/replacing any existing value for each property specified.  
-  
- For more information about input properties, see [Create Input &#40;Azure Stream Analytics&#41;](Create-Input--Azure-Stream-Analytics-.md).  
-  
+ 
 ### Response  
  Status code: 201  
   

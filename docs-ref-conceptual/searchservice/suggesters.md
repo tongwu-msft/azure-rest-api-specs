@@ -1,7 +1,7 @@
 ---
 title: "Suggesters"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2017-07-17"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -29,24 +29,27 @@ translation.priority.mt:
 ---
 # Suggesters
 
-  The suggestions feature in Azure Search is a type-ahead query capability, providing a list of potential search terms in response to partial string inputs entered into a search box. You've probably noticed query suggestions when using commercial web search engines: typing ".NET" in Bing produces a list of terms for ".NET 4.5", ".NET Framework 3.5", and so forth. Using the service REST API, implementing suggestions in a custom Azure Search application requires the following:  
+A **Suggester** is a construct supporting the "search-as-you-type" [Suggestions](suggestions.md) feature in Azure Search. Before you can call the Suggestions API, you must define a **suggester** to enable suggestions on specific fields.
 
--   Enable suggestions by adding a **suggester** construction in your index, giving the name, search mode, and a list of fields for which type-ahead is invoked. For example, if you specify "cityName" as a source field, typing a partial search string of "Sea" will result in "Seattle", "Seaside", and "Seatac" (all three are actual city names) offered up as query suggestions to the user.  
+Although a **suggester** has several properties, it is primarily a collection of fields for which you are enabling the Suggestions API. For example, a travel app might want to enable typeahead search on destinations, cities, and attractions. As such, all three fields would go in the field collection.
 
--   Invoke suggestions by calling the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md) in your application code. Typically partial search strings are sent to the service while the user is typing a search query, and this API returns a set of suggested phrases.  
+You can have only one **suggester** resource for each index (specifically, one **suggester** in the **suggesters** collection).
 
- This article explains how to configure a **Suggester**. You should also review the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md) for details on how a **Suggester** is used.  
+You can create a **suggester** at any time, but the impact on your index varies based on the fields. New fields added to a suggester as part of the same update are the least impactful in that no index rebuild is required. Adding existing fields, however, changes the field definition, necessitating a full rebuild of the index.
 
 ## Usage  
- **Suggesters** are created in the index and work best when used to suggest specific documents rather than loose terms or phrases. The best candidate fields are titles, names, and other relatively short phrases that can identify an item. Less effective are repetitive fields, such as categories and tags, or very long fields such as descriptions or comments fields.  
 
- As part of the index definition, you can add a single **suggester** to the **suggesters** collection. Properties that define a **suggester** include the following:  
+ **Suggesters** work best when used to suggest specific documents rather than loose terms or phrases. The best candidate fields are titles, names, and other relatively short phrases that can identify an item. Less effective are repetitive fields, such as categories and tags, or very long fields such as descriptions or comments fields.  
+
+After a suggester is created, add the [Suggestions API](suggestions.md) in your query logic to invoke the feature.  
+
+Properties that define a **suggester** include the following:  
 
 |Property|Description|  
 |--------------|-----------------|  
 |`name`|The name of the **suggester**. You use the name of the **suggester** when calling the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md).|  
 |`searchMode`|The strategy used to search for candidate phrases. The only mode currently supported is `analyzingInfixMatching`, which performs flexible matching of phrases at the beginning or in the middle of sentences.|  
-|`sourceFields`|A list of one or more fields that are the source of the content for suggestions. Only fields of type `Edm.String` and `Collection(Edm.String)` may be sources for suggestions. Only fields that don't have a custom language analyzer set can be used.|  
+|`sourceFields`|A list of one or more fields that are the source of the content for suggestions. Only fields of type `Edm.String` and `Collection(Edm.String)` may be sources for suggestions. Only fields that don't have a custom language analyzer set can be used. |  
 
 ## Suggester example  
  A **suggester** is part of the index. Only one **suggester** can exist in the **suggesters** collection in the current version, alongside the **fields** collection and **scoringProfiles**.  

@@ -33,7 +33,8 @@ The `List Directories and Files` operation returns a list of files or directorie
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`GET`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath?restype=directory&comp=list`|HTTP/1.1|  
-  
+|`GET`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath?restype=directory&sharesnapshot=<DateTime>&comp=list`|HTTP/1.1|  
+
  Replace the path components shown in the request URI with your own, as follows:  
   
 |Path Component|Description|  
@@ -50,6 +51,7 @@ The `List Directories and Files` operation returns a list of files or directorie
 |Parameter|Description|  
 |---------------|-----------------|  
 |`prefix`|Optional. Version 2016-05-31 and newer. Filters the results to return only files and directories whose name begins with the specified prefix.|
+|`sharesnapshot`|Optional. Version 2017-04-17 and newer. The share snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query for the list of files and directories.|
 |`marker`|Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of files and/or directories to return. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
@@ -87,11 +89,11 @@ The `List Directories and Files` operation returns a list of files or directorie
 ### Response Body  
  The format of the XML response is as follows.  
   
- Note that the `Marker` and `MaxResults` elements are present only if they were specified on the request URI. The `NextMarker` element has a value only if the list results are not complete.  
+ Note that the `Marker`, `ShareSnapshot` and `MaxResults` elements are present only if they were specified on the request URI. The `NextMarker` element has a value only if the list results are not complete.  
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
-<EnumerationResults ServiceEndpoint="https://myaccount.file.core.windows.net/” ShareName="myshare" DirectoryPath="directory-path">  
+<EnumerationResults ServiceEndpoint="https://myaccount.file.core.windows.net/” ShareName="myshare" ShareSnapshot="date-time" DirectoryPath="directory-path">  
   <Marker>string-value</Marker>  
   <MaxResults>int-value</MaxResults>
   <Prefix>prefix-value</Prefix>  

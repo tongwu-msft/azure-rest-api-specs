@@ -43,6 +43,9 @@ The error codes listed in the following table may be returned by an operation ag
 |ShareDisabled|Forbidden (403)|The specified share is disabled by the administrator.|  
 |ShareNotFound|Not Found (404)|The specified share does not exist.|  
 |SharingViolation|Conflict (409)|The specified resource may be in use by an SMB client.|  
-  
+|ShareSnapshotInProgress|Conflict (409)|Another Share Snapshot operation is in progress.|
+|ShareSnapshotCountExceeded|Conflict (409)|The total number of snapshots for the share is over the limit.|
+|ShareSnapshotOperationNotSupported|Bad Request (400)|The operation is not supported on a share snapshot.|
+|ShareHasSnapshots|Conflict (409)|The share has snapshots and the operation requires no snapshots.|
 ## See Also  
  [Status and Error Codes](Status-and-Error-Codes2.md)

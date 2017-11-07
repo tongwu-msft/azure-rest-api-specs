@@ -1,6 +1,6 @@
 ---
 title: "Start Quorum Loss"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,7 +40,7 @@ This can only be called on stateful persisted (HasPersistedState==true) services
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartQuorumLoss?api-version=3.0&OperationId={OperationId}&QuorumLossMode={QuorumLossMode}&QuorumLossDuration={QuorumLossDuration}&timeout={timeout}` |
+| POST | `/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartQuorumLoss?api-version=6.0&OperationId={OperationId}&QuorumLossMode={QuorumLossMode}&QuorumLossDuration={QuorumLossDuration}&timeout={timeout}` |
 
 
 ## Parameters
@@ -59,7 +59,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
+The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the service name is "fabric://myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
 
 ____
 ### partitionId
@@ -72,9 +72,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### OperationId
@@ -91,7 +91,7 @@ __Required__: Yes<br/>
 This enum is passed to the StartQuorumLoss API to indicate what type of quorum loss to induce.
   - Invalid - Reserved.  Do not pass into API.
   - QuorumReplicas - Partial Quorum loss mode : Minimum number of replicas for a partition will be down that will cause a quorum loss.
-  - AllReplicas- Full Quorum loss mode : All replicas for a partition will be down that will cause a quorum loss. 
+  - AllReplicas- Full Quorum loss mode : All replicas for a partition will be down that will cause a quorum loss.
 . Possible values include: 'Invalid', 'QuorumReplicas', 'AllReplicas'
 
 ____

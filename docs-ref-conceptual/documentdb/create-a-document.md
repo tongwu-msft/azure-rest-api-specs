@@ -1,7 +1,7 @@
 ---
-title: "Create a Document"
+title: "Create a Document - Azure Cosmos DB REST API"
 ms.custom: ""
-ms.date: "2017/07-07"
+ms.date: "2017-07-07"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "cosmos-db"
@@ -13,7 +13,6 @@ caps.latest.revision: 9
 author: "mimig1"
 ms.author: "mimig"
 manager: "jhubbard"
-robots: noindex,nofollow
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -49,7 +48,7 @@ The `Create Document` operation creates a new document in a collection.
   
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
-|**id**|Required|String|This is a user settable property. It is the unique name that identifies the document, i.e. no two documents should share the same **id**. The **id** must not exceed 255 characters.|  
+|**id**|Required|String|This is a user created property, it is not auto generated. It is the unique id that identifies the document, i.e. no two documents should share the same **id**. The **id** must not exceed 255 characters.|  
 |\<custom>|Required|JSON|Any user defined JSON.|  
   
 ```  
@@ -116,7 +115,7 @@ The `Create Document` operation creates a new document in a collection.
 |Property|Description|  
 |--------------|-----------------|  
 |**_rid**|This is a system generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
-|**_ts**|This is a [system generated property](http://azure.microsoft.com/documentation/articles/documentdb-resources/#system-vs-user-defined-resources). It specifies the last updated timestamp of the resource. The value is a timestamp.|  
+|**_ts**|This is a [system generated property](http://docs.microsoft.com/azure/cosmos-db/documentdb-resources#system-vs-user-defined-resources). It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |**_self**|This is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|This is a system generated property that specifies the resource **etag** required for optimistic concurrency control.|  
 |**_attachments**|This is a system generated property that specifies the addressable path for the attachments resource.|  
@@ -283,10 +282,10 @@ Date: Tue, 29 Mar 2016 02:28:30 GMT
 ```  
   
 ## See Also  
- [DocumentDB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [DocumentDB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
+* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
 
