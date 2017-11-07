@@ -1,4 +1,4 @@
-Time Series Insights enables you to query and view the data in your Time Series Insights environments three ways. You can query with the Time Series Insights explorer, create a query on behalf of an environment to be deployed (using a custom URL)[https://docs.microsoft.com/azure/time-series-insights/time-series-parameteried-urls], or you can create a custom application using Time Series Insights Query API to achieve scenarios such as:
+Time Series Insights enables you to query and view the data in your Time Series Insights environments three ways. You can query with the Time Series Insights explorer, create a query on behalf of an environment to be deployed [using a custom URL](https://docs.microsoft.com/azure/time-series-insights/time-series-parameteried-urls), or you can create a custom application using Time Series Insights Query API to achieve scenarios such as:
 
 - Leverage Time Series Insights scalable platform for ad-hoc analysis on the fly
 - Time series interval chunking
