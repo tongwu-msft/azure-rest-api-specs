@@ -112,11 +112,11 @@ Requests made via anonymous access are handled differently depending on the type
  
 #### For general-purpose storage accounts
 
-If an anonymous request to a general-purpose storage account does not specify the `x-ms-version` header, and the default version for the service has not been set using [Set Blob Service Properties](../fileservices/Set-Blob-Service-Properties.md), then the service uses the earliest possible version to process the request. However, if the container was made public with a [Set Container ACL](../fileservices/Set-Container-ACL.md) operation performed using version 2009-09-19 or newer, then the request is processed using version 2009-09-19.
+If an anonymous request to a general-purpose storage account does not specify the `x-ms-version` header, and the default version for the service has not been set using [Set Blob Service Properties](Set-Blob-Service-Properties.md), then the service uses the earliest possible version to process the request. However, if the container was made public with a [Set Container ACL](Set-Container-ACL.md) operation performed using version 2009-09-19 or newer, then the request is processed using version 2009-09-19.
 
 #### For Blob storage accounts
 
-If an anonymous request to a Blob storage account does not specify the `x-ms-version` header, and the default version for the service has not been set using [Set Blob Service Properties](../fileservices/Set-Blob-Service-Properties.md), then the service uses the earliest possible version to process the request. For a Blob storage account, the earliest possible version is 2014-02-14.
+If an anonymous request to a Blob storage account does not specify the `x-ms-version` header, and the default version for the service has not been set using [Set Blob Service Properties](Set-Blob-Service-Properties.md), then the service uses the earliest possible version to process the request. For a Blob storage account, the earliest possible version is 2014-02-14.
   
 ## See Also  
  [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)   
