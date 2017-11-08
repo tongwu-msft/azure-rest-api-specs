@@ -1,4 +1,11 @@
-To query and view the data in the environments, customers use [Time Series Insights Portal](http://insights.timeseries.azure.com) or create custom applications using [Query API](time-series-insights-reference-QueryAPI.md).
+Time Series Insights enables you to query and view the data in your Time Series Insights environments three ways. You can query with the Time Series Insights explorer, create a query on behalf of an environment to be deployed [using a custom URL](https://docs.microsoft.com/azure/time-series-insights/time-series-parameteried-urls), or you can create a custom application using Time Series Insights Query API to achieve scenarios such as:
 
-Query operations are described in [Query API](time-series-insights-reference-QueryAPI.md).
-Supported query constructs and input format are described in [Query Syntax](time-series-insights-reference-Query-Syntax.md).
+- Leverage Time Series Insights scalable platform for ad-hoc analysis on the fly
+- Time series interval chunking
+- Low latency time series data storage
+- Leverage best-in-class Azure security and identity management
+- Perform repeated operations with reliability and ease
+
+For information about how to use the Time Series Insights Query API for custom applications, see [Azure Time Series Insights query API](https://docs.microsoft.com/rest/api/time-series-insights/time-series-insights-reference-queryapi). 
+
+For information about supported query constructs and input formats, see [Azure Time Series Insights Query Syntax](https://docs.microsoft.com/en-us/rest/api/time-series-insights/time-series-insights-reference-query-syntax).
