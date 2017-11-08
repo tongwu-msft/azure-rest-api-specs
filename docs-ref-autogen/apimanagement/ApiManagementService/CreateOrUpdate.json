@@ -323,6 +323,92 @@
                 }
               }
             }
+          },
+          "ApiManagementCreateServiceHavingMsi": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2017-03-01",
+              "subscriptionId": "subid",
+              "parameters": {
+                "location": "Japan East",
+                "properties": {
+                  "publisherEmail": "admin@contoso.com",
+                  "publisherName": "Contoso"
+                },
+                "sku": {
+                  "name": "Developer"
+                },
+                "identity": {
+                  "type": "SystemAssigned"
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "headers": {
+                  "location": "https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2017-03-01"
+                },
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+                  "name": "apimService1",
+                  "type": "Microsoft.ApiManagement/service",
+                  "location": "Japan East",
+                  "etag": "AAAAAAC268k=",
+                  "properties": {
+                    "publisherEmail": "admin@contoso.com",
+                    "publisherName": "Contoso",
+                    "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
+                    "provisioningState": "Created",
+                    "targetProvisioningState": "Activating",
+                    "createdAtUtc": "2017-10-27T23:41:41.7231779Z"
+                  },
+                  "sku": {
+                    "name": "Developer",
+                    "capacity": 1
+                  },
+                  "identity": {
+                    "type": "SystemAssigned",
+                    "principalId": "f4b0f1c2-xxxx-43db-xxxx-ccd99e1afd22",
+                    "tenantId": "72f988bf-xxxx-41af-xxxx-2d7cd011db47"
+                  }
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+                  "name": "apimService1",
+                  "type": "Microsoft.ApiManagement/service",
+                  "tags": {},
+                  "location": "Japan East",
+                  "etag": "AAAAAAC268s=",
+                  "properties": {
+                    "publisherEmail": "admin@live.com",
+                    "publisherName": "Contoso",
+                    "provisioningState": "Succeeded",
+                    "targetProvisioningState": "",
+                    "createdAtUtc": "2017-10-28T01:52:02.4307221Z",
+                    "gatewayUrl": "https://apimService1.azure-api.net",
+                    "portalUrl": "https://apimService1.portal.azure-api.net",
+                    "managementApiUrl": "https://apimService1.management.azure-api.net",
+                    "scmUrl": "https://apimService1.scm.azure-api.net",
+                    "staticIps": [
+                      "xx.xx.250.222"
+                    ],
+                    "virtualNetworkType": "None"
+                  },
+                  "sku": {
+                    "name": "Developer",
+                    "capacity": 1
+                  },
+                  "identity": {
+                    "type": "SystemAssigned",
+                    "principalId": "f4b0f1c2-xxxx-43db-xxxx-ccd99e1afd22",
+                    "tenantId": "72f988bf-xxxx-41af-xxxx-2d7cd011db47"
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -445,6 +531,10 @@
         "hostName": {
           "type": "string",
           "description": "Hostname to configure on the Api Management service."
+        },
+        "keyVaultId": {
+          "type": "string",
+          "description": "Url to the KeyVault Secret containing the Ssl Certificate. If absolute Url containing version is provided, auto-update of ssl certificate will not work. This requires Api Management service to be configured with MSI."
         },
         "encodedCertificate": {
           "type": "string",
@@ -747,6 +837,10 @@
           "$ref": "#/definitions/ApiManagementServiceSkuProperties",
           "description": "SKU properties of the API Management service."
         },
+        "identity": {
+          "$ref": "#/definitions/ApiManagementServiceIdentity",
+          "description": "Managed service identity of the Api Management service."
+        },
         "location": {
           "type": "string",
           "description": "Resource location.",
@@ -811,6 +905,10 @@
         "sku": {
           "$ref": "#/definitions/ApiManagementServiceSkuProperties",
           "description": "SKU properties of the API Management service."
+        },
+        "identity": {
+          "$ref": "#/definitions/ApiManagementServiceIdentity",
+          "description": "Managed service identity of the Api Management service."
         },
         "etag": {
           "type": "string",
@@ -933,6 +1031,37 @@
         "certificate_password"
       ],
       "description": "Parameters supplied to the Upload SSL certificate for an API Management service operation."
+    },
+    "ApiManagementServiceIdentity": {
+      "description": "Identity properties of the Api Management service resource.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The identity type. Currently the only supported type is 'SystemAssigned'.",
+          "enum": [
+            "SystemAssigned"
+          ],
+          "x-ms-enum": {
+            "name": "ApimIdentityType",
+            "modelAsString": false
+          }
+        },
+        "principalId": {
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true,
+          "description": "The principal id of the identity."
+        },
+        "tenantId": {
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true,
+          "description": "The client tenant id of the identity."
+        }
+      },
+      "required": [
+        "type"
+      ]
     },
     "HostnameConfigurationOld": {
       "properties": {
