@@ -248,7 +248,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 Get the entire reference data identified by the key property values specified in each $.get[i].
 
-Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response messagea are shown in the following sections:
+Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message are shown in the following sections:
 
 ### *Get* operation request message example
 
