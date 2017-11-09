@@ -10,7 +10,7 @@ manager: rossort
 ---
 # Network Gateway REST API
 
-eway is a type of virtual network gateway that sends encrypted traffic across a public connection. For a more detailed overview, see the [Azure VPN Gateway product page](https://azure.microsoft.com/services/vpn-gateway). 
+Network Gateway is a type of virtual network gateway that sends encrypted traffic across a public connection. For a more detailed overview, see the [Azure VPN Gateway product page](https://azure.microsoft.com/services/vpn-gateway). 
 
 ## REST Operation Groups 
 
