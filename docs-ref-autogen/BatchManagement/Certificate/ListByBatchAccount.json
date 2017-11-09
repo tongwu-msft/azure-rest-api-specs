@@ -30,13 +30,85 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates": {
       "get": {
         "tags": [
-          "Application"
+          "Certificate"
         ],
-        "operationId": "Application_Get",
-        "description": "Gets information about the specified application.",
+        "operationId": "Certificate_ListByBatchAccount",
+        "description": "Lists all of the certificates in the specified account.",
+        "x-ms-examples": {
+          "ListCertificates": {
+            "parameters": {
+              "subscriptionId": "subid",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "accountName": "sampleacct",
+              "api-version": "2017-09-01",
+              "maxResults": "1"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+                      "name": "SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+                      "type": "Microsoft.Batch/batchAccounts/certificates",
+                      "etag": "W/\"0x8D4EDD5118668F7\"",
+                      "properties": {
+                        "thumbprintAlgorithm": "SHA1",
+                        "thumbprint": "0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+                        "provisioningState": "Succeeded",
+                        "provisioningStateTransitionTime": "2017-07-21T01:47:38.4420202Z",
+                        "format": "Pfx",
+                        "publicData": "MIICrjCCAZagAwI..."
+                      }
+                    }
+                  ],
+                  "nextLink": "https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates?api-version=2017-06-01&$skiptoken=NPK%3D28%3A2857p428pug%2022F53A7734C947B8NRK%3D45%3Asha1-c23dc7f22edc793856a7506fe66397ccb4a33b46SM%3D5%3AFalse"
+                }
+              }
+            }
+          },
+          "ListCertificates - Filter and Select": {
+            "parameters": {
+              "subscriptionId": "subid",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "accountName": "sampleacct",
+              "api-version": "2017-09-01",
+              "$filter": "properties/provisioningStateTransitionTime gt '2017-05-01' or properties/provisioningState eq 'Failed'",
+              "$select": "properties/format,properties/provisioningState"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+                      "name": "SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+                      "type": "Microsoft.Batch/batchAccounts/certificates",
+                      "etag": "W/\"0x8D4EDD5118668F7\"",
+                      "properties": {
+                        "provisioningState": "Failed",
+                        "format": "Pfx"
+                      }
+                    },
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates/SHA1-AEB228FFB0BF67A793D61DCE263EBD16949F15A1",
+                      "name": "SHA1-AEB228FFB0BF67A793D61DCE263EBD16949F15A1",
+                      "type": "Microsoft.Batch/batchAccounts/certificates",
+                      "etag": "W/\"0x8D4EDD5118572E0\"",
+                      "properties": {
+                        "provisioningState": "Failed",
+                        "format": "Cer"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -45,11 +117,26 @@
             "$ref": "#/parameters/AccountNameParameter"
           },
           {
-            "name": "applicationId",
-            "in": "path",
-            "required": true,
+            "name": "maxresults",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "description": "The maximum number of items to return in the response."
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "required": false,
             "type": "string",
-            "description": "The ID of the application."
+            "description": "Comma separated list of properties that should be returned. e.g. \"properties/provisioningState\". Only top level properties under properties/ are valid for selection."
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "OData filter expression. Valid properties for filtering are \"properties/provisioningState\", \"properties/provisioningStateTransitionTime\", \"name\"."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -60,9 +147,9 @@
         ],
         "responses": {
           "200": {
-            "description": "The operation was successful. The response contains the application entity.",
+            "description": "The operation was successful. The response contains a list of certificates associated with the account.",
             "schema": {
-              "$ref": "#/definitions/Application"
+              "$ref": "#/definitions/ListCertificatesResult"
             }
           },
           "default": {
@@ -72,13 +159,16 @@
             }
           }
         },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
         "produces": [
           "application/json"
         ],
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "Get"
+        "x-internal-toc-name": "List By Batch Account"
       }
     }
   },
@@ -1934,6 +2024,6 @@
     }
   },
   "x-internal-service-name": "Batch Management",
-  "x-internal-toc-name": "Application",
+  "x-internal-toc-name": "Certificate",
   "x-internal-split-type": "Operation"
 }
