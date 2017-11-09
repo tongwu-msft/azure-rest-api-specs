@@ -30,13 +30,48 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}": {
-      "get": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}/cancelDelete": {
+      "post": {
         "tags": [
-          "Application"
+          "Certificate"
         ],
-        "operationId": "Application_Get",
-        "description": "Gets information about the specified application.",
+        "operationId": "Certificate_CancelDeletion",
+        "summary": "Cancels a failed deletion of a certificate from the specified account.",
+        "description": "If you try to delete a certificate that is being used by a pool or compute node, the status of the certificate changes to deleteFailed. If you decide that you want to continue using the certificate, you can use this operation to set the status of the certificate back to active. If you intend to delete the certificate, you do not need to run this operation after the deletion failed. You must make sure that the certificate is not being used by any resources, and then you can try again to delete the certificate.",
+        "x-ms-examples": {
+          "CertificateCancelDeletion": {
+            "parameters": {
+              "accountName": "sampleacct",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "api-version": "2017-09-01",
+              "subscriptionId": "subid",
+              "certificateName": "SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E"
+            },
+            "responses": {
+              "200": {
+                "headers": {
+                  "ETag": "W/\"0x8D4EDD513C3EDBB\""
+                },
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+                  "name": "SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+                  "type": "Microsoft.Batch/batchAccounts/certificates",
+                  "etag": "W/\"0x8D4EDD513C3EDBB\"",
+                  "properties": {
+                    "thumbprintAlgorithm": "SHA1",
+                    "thumbprint": "0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+                    "provisioningState": "Succeeded",
+                    "provisioningStateTransitionTime": "2017-07-21T01:47:38.4420202Z",
+                    "previousProvisioningState": "Failed",
+                    "previousProvisioningStateTransitionTime": "2017-07-21T00:22:54.3299195Z",
+                    "format": "Pfx",
+                    "publicData": "MIICrjCCAZagAwI..."
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -45,11 +80,7 @@
             "$ref": "#/parameters/AccountNameParameter"
           },
           {
-            "name": "applicationId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The ID of the application."
+            "$ref": "#/parameters/CertificateNameParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -60,9 +91,15 @@
         ],
         "responses": {
           "200": {
-            "description": "The operation was successful. The response contains the application entity.",
+            "description": "The operation was successful. The response contains the certificate entity.",
             "schema": {
-              "$ref": "#/definitions/Application"
+              "$ref": "#/definitions/Certificate"
+            },
+            "headers": {
+              "ETag": {
+                "description": "The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers.",
+                "type": "string"
+              }
             }
           },
           "default": {
@@ -78,7 +115,7 @@
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "Get"
+        "x-internal-toc-name": "Cancel Deletion"
       }
     }
   },
@@ -1934,6 +1971,6 @@
     }
   },
   "x-internal-service-name": "Batch Management",
-  "x-internal-toc-name": "Application",
+  "x-internal-toc-name": "Certificate",
   "x-internal-split-type": "Operation"
 }

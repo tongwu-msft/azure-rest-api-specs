@@ -30,13 +30,214 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools": {
       "get": {
         "tags": [
-          "Application"
+          "Pool"
         ],
-        "operationId": "Application_Get",
-        "description": "Gets information about the specified application.",
+        "operationId": "Pool_ListByBatchAccount",
+        "description": "Lists all of the pools in the specified account.",
+        "x-ms-examples": {
+          "ListPool": {
+            "parameters": {
+              "subscriptionId": "subid",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "accountName": "sampleacct",
+              "poolName": "testpool",
+              "api-version": "2017-09-01"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool",
+                      "name": "testpool",
+                      "type": "Microsoft.Batch/batchAccounts/pools",
+                      "etag": "W/\"0x8D4EDFEBFADF4AB\"",
+                      "properties": {
+                        "lastModified": "2017-08-28T10:22:55.9407275Z",
+                        "creationTime": "2017-08-28T10:22:55.9407275Z",
+                        "provisioningState": "Succeeded",
+                        "provisioningStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
+                        "allocationState": "Steady",
+                        "allocationStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
+                        "vmSize": "STANDARD_D4",
+                        "interNodeCommunication": "Enabled",
+                        "maxTasksPerNode": 13,
+                        "taskSchedulingPolicy": {
+                          "nodeFillType": "Pack"
+                        },
+                        "deploymentConfiguration": {
+                          "cloudServiceConfiguration": {
+                            "osFamily": "4",
+                            "targetOSVersion": "WA-GUEST-OS-4.45_201708-01"
+                          }
+                        },
+                        "scaleSettings": {
+                          "fixedScale": {
+                            "targetDedicatedNodes": 6,
+                            "targetLowPriorityNodes": 28,
+                            "resizeTimeout": "PT8M"
+                          }
+                        },
+                        "networkConfiguration": {
+                          "subnetId": "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
+                          "endpointConfiguration": {
+                            "inboundNatPools": [
+                              {
+                                "name": "testnat",
+                                "protocol": "TCP",
+                                "backendPort": 12001,
+                                "frontendPortRangeStart": 15000,
+                                "frontendPortRangeEnd": 15100,
+                                "networkSecurityGroupRules": [
+                                  {
+                                    "access": "Allow",
+                                    "sourceAddressPrefix": "192.100.12.45",
+                                    "priority": 150
+                                  },
+                                  {
+                                    "access": "Deny",
+                                    "sourceAddressPrefix": "*",
+                                    "priority": 3500
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "metadata": [
+                          {
+                            "name": "metadata-1",
+                            "value": "value-1"
+                          },
+                          {
+                            "name": "metadata-2",
+                            "value": "value-2"
+                          }
+                        ],
+                        "startTask": {
+                          "commandLine": "cmd /c SET",
+                          "resourceFiles": [
+                            {
+                              "blobSource": "https://testaccount.blob.core.windows.net/example-blob-file",
+                              "filePath": "c:\\temp\\gohere",
+                              "fileMode": "777"
+                            }
+                          ],
+                          "environmentSettings": [
+                            {
+                              "name": "MYSET",
+                              "value": "1234"
+                            }
+                          ],
+                          "userIdentity": {
+                            "autoUser": {
+                              "scope": "Pool",
+                              "elevationLevel": "Admin"
+                            }
+                          },
+                          "maxTaskRetryCount": 6,
+                          "waitForSuccess": true
+                        },
+                        "userAccounts": [
+                          {
+                            "name": "username1",
+                            "elevationLevel": "Admin",
+                            "linuxUserConfiguration": {
+                              "uid": 1234,
+                              "gid": 4567
+                            }
+                          }
+                        ],
+                        "applicationPackages": [
+                          {
+                            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_1234",
+                            "version": "asdf"
+                          }
+                        ],
+                        "certificates": [
+                          {
+                            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/certificates/SHA1-1234567",
+                            "storeLocation": "LocalMachine",
+                            "storeName": "MY",
+                            "visibility": [
+                              "RemoteUser"
+                            ]
+                          }
+                        ],
+                        "applicationLicenses": [
+                          "app-license0",
+                          "app-license1"
+                        ],
+                        "currentDedicatedNodes": 0,
+                        "currentLowPriorityNodes": 0,
+                        "resizeOperationStatus": {
+                          "startTime": "2017-08-28T10:22:55.9407275Z",
+                          "targetDedicatedNodes": 6,
+                          "targetLowPriorityNodes": 28,
+                          "nodeDeallocationOption": "TaskCompletion",
+                          "resizeTimeout": "PT8M",
+                          "errors": [
+                            {
+                              "code": "AllocationTimedout",
+                              "message": "Desired number of dedicated nodes could not be allocated as the resize timeout was reached"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "ListPoolWithFilter": {
+            "parameters": {
+              "subscriptionId": "subid",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "accountName": "sampleacct",
+              "poolName": "testpool",
+              "api-version": "2017-09-01",
+              "$filter": "startswith(name, 'po') or (properties/allocationState eq 'Steady' and properties/provisioningStateTransitionTime lt datetime'2017-02-02')",
+              "$select": "properties/allocationState,properties/provisioningStateTransitionTime,properties/currentDedicatedNodes,properties/currentLowPriorityNodes",
+              "maxResults": "50"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool",
+                      "name": "testpool",
+                      "type": "Microsoft.Batch/batchAccounts/pools",
+                      "etag": "W/\"0x8D4EDFEBFADF4AB\"",
+                      "properties": {
+                        "provisioningStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
+                        "allocationState": "Steady",
+                        "currentDedicatedNodes": 0,
+                        "currentLowPriorityNodes": 2
+                      }
+                    },
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/pooltest",
+                      "name": "pooltest",
+                      "type": "Microsoft.Batch/batchAccounts/pools",
+                      "etag": "W/\"0x8D4EDFEBFADF4AB\"",
+                      "properties": {
+                        "provisioningStateTransitionTime": "2017-08-26T10:22:55.9407275Z",
+                        "allocationState": "Resizing",
+                        "currentDedicatedNodes": 4,
+                        "currentLowPriorityNodes": 0
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -45,11 +246,26 @@
             "$ref": "#/parameters/AccountNameParameter"
           },
           {
-            "name": "applicationId",
-            "in": "path",
-            "required": true,
+            "name": "maxresults",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "description": "The maximum number of items to return in the response."
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "required": false,
             "type": "string",
-            "description": "The ID of the application."
+            "description": "Comma separated list of properties that should be returned. e.g. \"properties/provisioningState\". Only top level properties under properties/ are valid for selection."
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "OData filter expression. Valid properties for filtering are:\n\n name\n properties/allocationState\n properties/allocationStateTransitionTime\n properties/creationTime\n properties/provisioningState\n properties/provisioningStateTransitionTime\n properties/lastModified\n properties/vmSize\n properties/interNodeCommunication\n properties/scaleSettings/autoScale\n properties/scaleSettings/fixedScale"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -60,9 +276,9 @@
         ],
         "responses": {
           "200": {
-            "description": "The operation was successful. The response contains the application entity.",
+            "description": "The operation was successful. The response contains a list of certificates associated with the account.",
             "schema": {
-              "$ref": "#/definitions/Application"
+              "$ref": "#/definitions/ListPoolsResult"
             }
           },
           "default": {
@@ -72,13 +288,16 @@
             }
           }
         },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
         "produces": [
           "application/json"
         ],
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "Get"
+        "x-internal-toc-name": "List By Batch Account"
       }
     }
   },
@@ -1934,6 +2153,6 @@
     }
   },
   "x-internal-service-name": "Batch Management",
-  "x-internal-toc-name": "Application",
+  "x-internal-toc-name": "Pool",
   "x-internal-split-type": "Operation"
 }

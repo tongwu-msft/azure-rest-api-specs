@@ -30,13 +30,78 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}": {
-      "get": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/stopResize": {
+      "post": {
         "tags": [
-          "Application"
+          "Pool"
         ],
-        "operationId": "Application_Get",
-        "description": "Gets information about the specified application.",
+        "operationId": "Pool_StopResize",
+        "summary": "Stops an ongoing resize operation on the pool.",
+        "description": "This does not restore the pool to its previous state before the resize operation: it only stops any further changes being made, and the pool maintains its current state. After stopping, the pool stabilizes at the number of nodes it was at when the stop operation was done. During the stop operation, the pool allocation state changes first to stopping and then to steady. A resize operation need not be an explicit resize pool request; this API can also be used to halt the initial sizing of the pool when it is created.",
+        "x-ms-examples": {
+          "StopPoolResize": {
+            "parameters": {
+              "subscriptionId": "subid",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "accountName": "sampleacct",
+              "poolName": "testpool",
+              "api-version": "2017-09-01"
+            },
+            "responses": {
+              "200": {
+                "headers": {
+                  "ETag": "W/\"0x8D4EDFEBFADF4AB\""
+                },
+                "body": {
+                  "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool",
+                  "name": "testpool",
+                  "type": "Microsoft.Batch/batchAccounts/pools",
+                  "etag": "W/\"0x8D4EDFEBFADF4AB\"",
+                  "properties": {
+                    "lastModified": "2017-08-28T10:22:55.9407275Z",
+                    "creationTime": "2017-08-28T10:22:55.9407275Z",
+                    "provisioningState": "Succeeded",
+                    "provisioningStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
+                    "allocationState": "Steady",
+                    "allocationStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
+                    "vmSize": "STANDARD_D4",
+                    "interNodeCommunication": "Disabled",
+                    "maxTasksPerNode": 1,
+                    "taskSchedulingPolicy": {
+                      "nodeFillType": "Spread"
+                    },
+                    "deploymentConfiguration": {
+                      "virtualMachineConfiguration": {
+                        "imageReference": {
+                          "publisher": "Canonical",
+                          "offer": "UbuntuServer",
+                          "sku": "14.04.5-LTS",
+                          "version": "latest"
+                        },
+                        "nodeAgentSkuId": "batch.node.ubuntu 14.04"
+                      }
+                    },
+                    "scaleSettings": {
+                      "fixedScale": {
+                        "targetDedicatedNodes": 3,
+                        "targetLowPriorityNodes": 0,
+                        "resizeTimeout": "PT15M"
+                      }
+                    },
+                    "resizeOperationStatus": {
+                      "startTime": "2017-08-28T10:22:55.9407275Z",
+                      "targetDedicatedNodes": 1,
+                      "nodeDeallocationOption": "Requeue",
+                      "resizeTimeout": "PT10M"
+                    },
+                    "currentDedicatedNodes": 0,
+                    "currentLowPriorityNodes": 0
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -45,11 +110,7 @@
             "$ref": "#/parameters/AccountNameParameter"
           },
           {
-            "name": "applicationId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The ID of the application."
+            "$ref": "#/parameters/PoolNameParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -60,9 +121,15 @@
         ],
         "responses": {
           "200": {
-            "description": "The operation was successful. The response contains the application entity.",
+            "description": "The operation was successful. The response contains the pool entity.",
             "schema": {
-              "$ref": "#/definitions/Application"
+              "$ref": "#/definitions/Pool"
+            },
+            "headers": {
+              "ETag": {
+                "description": "The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers.",
+                "type": "string"
+              }
             }
           },
           "default": {
@@ -78,7 +145,7 @@
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "Get"
+        "x-internal-toc-name": "Stop Resize"
       }
     }
   },
@@ -1934,6 +2001,6 @@
     }
   },
   "x-internal-service-name": "Batch Management",
-  "x-internal-toc-name": "Application",
+  "x-internal-toc-name": "Pool",
   "x-internal-split-type": "Operation"
 }

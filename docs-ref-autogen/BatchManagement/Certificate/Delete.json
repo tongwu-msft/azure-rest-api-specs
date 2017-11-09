@@ -30,13 +30,34 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}": {
-      "get": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}": {
+      "delete": {
         "tags": [
-          "Application"
+          "Certificate"
         ],
-        "operationId": "Application_Get",
-        "description": "Gets information about the specified application.",
+        "operationId": "Certificate_Delete",
+        "description": "Deletes the specified certificate.",
+        "x-ms-examples": {
+          "CertificateDelete": {
+            "parameters": {
+              "subscriptionId": "subid",
+              "resourceGroupName": "default-azurebatch-japaneast",
+              "accountName": "sampleacct",
+              "certificateName": "SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+              "api-version": "2017-09-01"
+            },
+            "responses": {
+              "200": {},
+              "202": {
+                "headers": {
+                  "Retry-After": "15",
+                  "Location": "https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificateOperationResults/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E-8D4EDFF164A11C9?api-version=2017-05-01"
+                }
+              },
+              "204": {}
+            }
+          }
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
@@ -45,11 +66,7 @@
             "$ref": "#/parameters/AccountNameParameter"
           },
           {
-            "name": "applicationId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The ID of the application."
+            "$ref": "#/parameters/CertificateNameParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -60,9 +77,23 @@
         ],
         "responses": {
           "200": {
-            "description": "The operation was successful. The response contains the application entity.",
-            "schema": {
-              "$ref": "#/definitions/Application"
+            "description": "The operation was successful."
+          },
+          "204": {
+            "description": "The operation was successful."
+          },
+          "202": {
+            "description": "The operation will be completed asynchronously.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the resource used to check the status of the asynchronous operation.",
+                "type": "string"
+              },
+              "Retry-After": {
+                "description": "Suggested delay to check the status of the asynchronous operation. The value is an integer that represents the seconds.",
+                "type": "integer",
+                "format": "int32"
+              }
             }
           },
           "default": {
@@ -72,13 +103,14 @@
             }
           }
         },
+        "x-ms-long-running-operation": true,
         "produces": [
           "application/json"
         ],
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "Get"
+        "x-internal-toc-name": "Delete"
       }
     }
   },
@@ -1934,6 +1966,6 @@
     }
   },
   "x-internal-service-name": "Batch Management",
-  "x-internal-toc-name": "Application",
+  "x-internal-toc-name": "Certificate",
   "x-internal-split-type": "Operation"
 }
