@@ -1,7 +1,7 @@
 ---
 title: "Common headers and parameters"
 ms.custom: na
-ms.date: 2017-05-15
+ms.date: 2017-11-09
 ms.prod: azure
 ms.reviewer: na
 ms.service: data-catalog
