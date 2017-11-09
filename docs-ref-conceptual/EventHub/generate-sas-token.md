@@ -17,7 +17,7 @@ manager: "timlt"
 # Generate SAS token
 This section shows how to programmatically generate a SAS token for using the Event Hubs REST APIs.  
 
-### NodeJS
+## NodeJS
 ```js
 function createSharedAccessToken(uri, saName, saKey) { 
     if (!uri || !saName || !saKey) { 
@@ -35,7 +35,7 @@ function createSharedAccessToken(uri, saName, saKey) {
 }
 ``` 
 
-### Java
+## Java
 ```java
 private static String GetSASToken(String resourceUri, String keyName, String key)
   {
@@ -83,7 +83,7 @@ public static String getHMAC256(String key, String input) {
 }
 ```
 
-### PHP
+## PHP
 ```php
 function generateSasToken($uri, $sasKeyName, $sasKeyValue) 
 { 
@@ -101,7 +101,7 @@ function generateSasToken($uri, $sasKeyName, $sasKeyValue)
 }
 ```
 
-### C&#35;
+## C&#35;
 ```csharp
 private static string createToken(string resourceUri, string keyName, string key)
 {
@@ -116,7 +116,7 @@ private static string createToken(string resourceUri, string keyName, string key
 }
 ```
 
-### Python
+## Python
 
 ```python
 import time
