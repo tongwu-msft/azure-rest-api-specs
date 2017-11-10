@@ -26,7 +26,7 @@ The Batch Management REST API provides operations for working with the Batch ser
 | [Batch Account](~/docs-ref-autogen/batchmanagement/batchaccount.json)  | Provides operations for working with Batch accounts. |
 | [Certificate](~/docs-ref-autogen/batchmanagement/certificate.json)  | Provides operations for working with certificates in your Batch account. |
 | [Location](~/docs-ref-autogen/batchmanagement/location.json) | Gets information about Batch account name availabilty and quotas in an Azure region. |
-| [Operations](~/docs-ref-autogen/batchmanagement/operation.json) | Lists available operations for the Microsoft.Batch provider. |
+| [Operations](~/docs-ref-autogen/batchmanagement/operations.json) | Lists available operations for the Microsoft.Batch provider. |
 | [Pool](~/docs-ref-autogen/batchmanagement/pool.json) | Provides operations for working with pools in your Batch account. |
 
 ## See also
