@@ -1,6 +1,6 @@
 ---
-title: Azure Time Series Insights query API | Microsoft Docs
-description: This topic describes the Azure Time Series Insights query API
+title: Azure Time Series Insights Query API | Microsoft Docs
+description: This topic describes the Azure Time Series Insights Query API
 keywords:
 services: time-series-insights
 documentationcenter:
@@ -17,19 +17,17 @@ ms.workload: big-data
 ms.date: 11/03/2017
 ms.author: venkatja
 ---
-# Azure Time Series Insights query API
-
-Azure Time Series Insights is a fully managed analytics, storage, and visualization service that makes it simple to explore and analyze billions of IoT events simultaneously.  It gives you a global view of your data, letting you quickly validate your IoT solution and avoid costly downtime to mission-critical devices by helping you discover hidden trends, spot anomalies, and conduct root-cause analyses in near real-time.  Time Series Insights provides a Representational State Transfer (REST) API used with Azure Resource Manager to provision and manage Time Series Insights resources in your Azure subscription. If you are building an application that needs to store or query time series data, you can develop with Time Series Insights REST APIs, in addition, to programmatically managing Azure resources with Azure Resource Manager.
+# Azure Time Series Insights Query API
 
 This document describes various REST query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Time Series Insights environments. 
 
-Before reading this document, you should understand the Time Series Insights input format. For more information, see [Azure Time Series Insights Query Syntax](https://docs.microsoft.com/rest/api/time-series-insights/time-series-insights-reference-query-syntax).
+To better understand the API calls described in this document, see [Azure Time Series Insights Query Syntax](https://docs.microsoft.com/rest/api/time-series-insights/time-series-insights-reference-query-syntax).
 
 ## Components of a REST API request/response
 
 Time Series Insights uses the HTTPS protocol for Get Environments, Get Availability, Get Metadata API.
 
-Time Series Insights uses secure WebSockets protocol (WSS) for Get Aggregates, Get Events, and Describe API.
+Time Series Insights uses secure WebSockets protocol (WSS) for Get Aggregates and Get Events.
 
 A REST API request/response pair can be separated into the following components:
 
@@ -91,10 +89,13 @@ Response Body:
         {
             "displayName":"Sensors",
             "environmentFqdn": "00000000-0000-0000-0000-000000000000.env.timeseries.azure.com",
-            "environmentId":"00000000-0000-0000-0000-000000000000"
+            "environmentId":"00000000-0000-0000-0000-000000000000",
+	     "resourceId":
+"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/RdxProdAssetsEastUs/providers/Microsoft.TimeSeriesInsights/environments/Sensors"
         }
     ]
 }
+
 ```
 
 Here, `environmentFqdn` is unique fully qualified domain name for environment used in per-environment query API requests.
@@ -303,7 +304,7 @@ Request Message:
             }
         }]
     }
-}
+
 ```
 
 Response Messages:
@@ -312,54 +313,52 @@ Response Messages:
     "headers" : {
         "x-ms-request-id" : "fa15156a-..."
     },
-    "content" : {
-        "aggregates": {
-            "dimension": ["temp"],
-            "aggregates": [{
-                "dimension": [
-                    "2015-12...", "2015-12...", "2015-12..."
-                ],
-                "measures": [
-                    [
-                        [81.3, 13],
-                        [91.3, 14],
-                        [101.3, 15]
-                    ]
+    "content" : [{
+        "dimension": ["temp"],
+        "aggregate": {
+            "dimension": [
+                "2015-12-01T00:00:00", "2015-12-01T00:01:00", "2015-12-01T00:02:00"
+            ],
+            "measures": [
+                [
+                    [81.3, 13.0],
+                    [91.3, 14.0],
+                    [101.3, 15.0]
                 ]
-            }]
+            ]
         }
-    },
+    }],
     "percentCompleted" : 10.0
 }
+
 
 ```
 
 ```json
 {
-    "content" : {
-        "aggregates": {
-            "dimension": ["co2", "temp"],
-            "aggregates": [{
-                "dimension": [
-                    "2015-12...", "2015-12...", "2015-12..."
+    "content" : [{
+        "dimension": ["co2", "temp"],
+        "aggregate": {
+            "dimension": [
+                "2015-12-01T00:00:00", "2015-12-01T00:01:00", "2015-12-01T00:02:00"
+            ],
+            "measures": [
+                [
+                    [456.7, 10.0],
+                    [235.6, 11.0],
+                    [678.2, 12.0]
                 ],
-                "measures": [
-                    [
-                        [456.7, 10],
-                        [235.6, 11],
-                        [678.2, 12]
-                    ],
-                    [
-                        [81.3, 13],
-                        [91.3, 14],
-                        [101.3, 15]
-                    ]
+                [
+                    [81.3, 13.0],
+                    [91.3, 14.0],
+                    [101.3, 15.0]
                 ]
-            }]
+            ]
         }
-    },
+    }],
     "percentCompleted" : 100.0
 }
+
 
 ```
 
