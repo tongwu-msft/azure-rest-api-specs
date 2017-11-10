@@ -128,7 +128,7 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
 |Add|a|Add a block to an append blob.|  
 |Create|c|Write a new blob, snapshot a blob, or copy a blob to a new blob.|  
 |Write|w|Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation.|  
-|Delete|d|Delete the blob.|  
+|Delete|d|Delete the blob. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a blob. See [Lease Blob](Lease-Blob.md) for more information.|  
   
  **Permissions for a container**  
   
@@ -138,7 +138,7 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
 |Add|a|Add a block to any append blob in the container.|  
 |Create|c|Write a new blob to the container, snapshot any blob in the container, or copy a blob to a new blob in the container.|  
 |Write|w|For any blob in the container, create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. **Note:**  You cannot grant permissions to read or write container properties or metadata, nor to lease a container, with a service SAS. Use an account SAS instead.|  
-|Delete|d|Delete any blob in the container. **Note:**  You cannot grant permissions to delete a container with a service SAS. Use an account SAS instead.|  
+|Delete|d|Delete any blob in the container. **Note:**  You cannot grant permissions to delete a container with a service SAS. Use an account SAS instead. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a container. See [Lease Container](Lease-Container.md) for more information.|  
 |List|l|List blobs in the container.|  
   
  **Permissions for a file**  
