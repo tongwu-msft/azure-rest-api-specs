@@ -20,9 +20,11 @@ ms.author: venkatja
 
 # Azure Time Series Insights reference data API
 
+
 This document describes the reference data API used to manage items within a reference data set. It assumes that the reference data set has already been created.
 
 Reference data is data such as manufacturer or location data that changes less often, and contextualizes telemetry data. Because it is relatively static, each data packet contains identical information. Reference data is usually not originated on devices, and even if it was, it does not make sense to send it over the wire because of it relatively static nature. Reference data is managed outside of the device itself.  
+
 
 
 
@@ -120,7 +122,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 The second post for set *manufacturerInfo* is not allowed because “color” is already defined in the first post for set *deviceInfo*.
 
-- All key property values in $.put[i] should be of json primitive type and should be parsable to type defined during reference data set creation.
+- All key property values in $.put[i] should be of JSON primitive type and should be parsable to type defined during reference data set creation.
 - All non-key property values in $.put[i] can be of any JSON type. At the root, if it is an object, it is flattened to individual properties. If it is an array, it is serialized and indexed as JSON string.
 - $.put[i] should contain all properties specified as key properties in the reference data set.
 - $.put[i] should contain at least one non-key property.
@@ -135,7 +137,7 @@ The second post for set *manufacturerInfo* is not allowed because “color” is
 
 Updates / inserts specific properties for the reference data item $.patch[i].
 
-Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
+Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message are shown in the following sections:
 
 ### *Patch* operation request message example
 
@@ -167,7 +169,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 ### *Patch* operation request validations
 
 1. Same as [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
-2. If item does not exist, a new item is created.
+2. If the item does not exist, a new item is created.
 
 ## Delete properties in reference data items
 
@@ -175,7 +177,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 Delete the specified properties from the reference data item $.deleteproperties[i].
 
-Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
+Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message are shown in the following sections:
 
 ### *Delete properties* operation request message example
 
@@ -214,7 +216,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 Deletes the entire reference data identified by the key property values specified in each $.delete[i].
 
-Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
+Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message are shown in the following sections:
 
 ### *Delete* operation request message example
 
@@ -248,7 +250,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 Get the entire reference data identified by the key property values specified in each $.get[i].
 
-Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
+Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message are shown in the following sections:
 
 ### *Get* operation request message example
 
