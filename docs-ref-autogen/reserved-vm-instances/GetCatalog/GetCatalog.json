@@ -21,71 +21,114 @@
     }
   },
   "paths": {
-    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/catalogs": {
       "get": {
-        "summary": "Get `Reservation` details.",
-        "description": "Get specific `Reservation` details.",
-        "operationId": "Reservation_Get",
+        "summary": "Get the regions and skus that are available for RI purchase for the specified Azure subscription.",
+        "operationId": "GetCatalog",
         "x-ms-examples": {
-          "GetReservation": {
+          "Catalog": {
             "parameters": {
               "api-version": "2017-11-01",
-              "reservationOrderId": "276e7ae4-84d0-4da6-ab4b-d6b94f3557da",
-              "reservationId": "6ef59113-3482-40da-8d79-787f823e34bc"
+              "subscriptionId": "23bc208b-083f-4901-ae85-4f98c0c3b4b6 "
             },
             "responses": {
               "200": {
-                "body": {
-                  "sku": {
-                    "name": "Standard_DS1_v2"
-                  },
-                  "id": "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/6ef59113-3482-40da-8d79-787f823e34bc",
-                  "type": "Microsoft.Capacity/reservationOrders/reservations",
-                  "name": "276e7ae4-84d0-4da6-ab4b-d6b94f3557da/6ef59113-3482-40da-8d79-787f823e34bc",
-                  "etag": 2,
-                  "location": "eastus",
-                  "properties": {
-                    "appliedScopes": [
-                      "/subscriptions/98df3792-7962-4f18-8be2-d5576f122de3"
+                "body": [
+                  {
+                    "resourceType": "virtualMachines",
+                    "name": "Standard_DS4_v2",
+                    "tier": "Standard",
+                    "size": "DS4_v2",
+                    "terms": [
+                      "P1Y",
+                      "P3Y"
                     ],
-                    "appliedScopeType": "Single",
-                    "quantity": 3,
-                    "provisioningState": "Succeeded",
-                    "expiryDate": "2018-09-22",
-                    "displayName": "cabri_test",
-                    "effectiveDateTime": "2017-09-22T22:46:32.7632798Z",
-                    "lastUpdatedDateTime": "2017-09-22T22:46:32.7632798Z",
-                    "mergeProperties": {
-                      "mergeSources": [
-                        "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/00238563-7312-4c20-a134-8c030bf938a7",
-                        "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/e0e4b4f5-77ea-4984-9ee4-6bf9850ee6de"
-                      ]
-                    }
+                    "locations": [
+                      "eastus"
+                    ],
+                    "restrictions": []
+                  },
+                  {
+                    "resourceType": "virtualMachines",
+                    "name": "Standard_D14_v2_Promo",
+                    "tier": "Standard",
+                    "size": "D14_v2_Promo",
+                    "terms": [
+                      "P1Y",
+                      "P3Y"
+                    ],
+                    "locations": [
+                      "CanadaCentral"
+                    ],
+                    "restrictions": [
+                      {
+                        "type": "Term",
+                        "values": [
+                          "P1Y"
+                        ],
+                        "reasonCode": "NotAvailableForSubscription"
+                      },
+                      {
+                        "type": "Term",
+                        "values": [
+                          "P3Y"
+                        ],
+                        "reasonCode": "NotAvailableForSubscription"
+                      }
+                    ]
+                  },
+                  {
+                    "resourceType": "virtualMachines",
+                    "name": "Standard_DS2_v2",
+                    "tier": "Standard",
+                    "size": "DS2_v2",
+                    "terms": [
+                      "P1Y",
+                      "P3Y"
+                    ],
+                    "locations": [
+                      "eastus"
+                    ],
+                    "restrictions": []
+                  },
+                  {
+                    "resourceType": "virtualMachines",
+                    "name": "Standard_DS1_v2",
+                    "tier": "Standard",
+                    "size": "DS1_v2",
+                    "terms": [
+                      "P1Y",
+                      "P3Y"
+                    ],
+                    "locations": [
+                      "eastus"
+                    ],
+                    "restrictions": []
                   }
-                }
+                ]
               }
             }
           }
         },
         "parameters": [
           {
-            "$ref": "#/parameters/ReservationIdParameter"
-          },
-          {
-            "$ref": "#/parameters/ReservationOrderIdParameter"
-          },
-          {
             "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
           }
         ],
         "tags": [
-          "Reservation"
+          "Catalog"
         ],
         "responses": {
           "200": {
-            "description": "Get `Reservation` details.",
+            "description": "List of available resources",
             "schema": {
-              "$ref": "#/definitions/ReservationResponse"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Catalog"
+              }
             }
           },
           "default": {
@@ -101,7 +144,7 @@
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "Get"
+        "x-internal-toc-name": "Get Catalog"
       }
     }
   },
@@ -830,7 +873,7 @@
       "description": "Order Id of the reservation\n"
     }
   },
-  "x-internal-service-name": "Compute",
-  "x-internal-toc-name": "Reservation",
+  "x-internal-service-name": "Reserved VM Instances",
+  "x-internal-toc-name": "Get Catalog",
   "x-internal-split-type": "Operation"
 }
