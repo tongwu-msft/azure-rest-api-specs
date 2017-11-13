@@ -362,7 +362,7 @@ When the two events in the event hub message are processed by the Time Series In
 
 For an environment with more than one reference data set, three constraints are enforced during join. 
 
-- Each item in a reference data set, can specify its own list of non-key properties.
+- Each item in a reference data set can specify its own list of non-key properties.
 - For any two reference data sets A and B, non-key properties must not intersect.
 - Reference data sets are only joined directly to events, never to other referenced data sets (and then to events). To join reference data item with an event, all key properties used in the reference data item must be present in the event. Also, the key properties should not come from the non-key properties joined to an event through some other reference data item.
 
