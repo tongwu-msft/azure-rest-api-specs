@@ -2037,6 +2037,50 @@
         "typeProperties"
       ]
     },
+    "SapCloudForCustomerLinkedServiceTypeProperties": {
+      "description": "SAP Cloud for Customer linked service properties.",
+      "properties": {
+        "url": {
+          "type": "object",
+          "description": "The URL of SAP Cloud for Customer OData API. For example, '[https://[tenantname].crm.ondemand.com/sap/c4c/odata/v1]'. Type: string (or Expression with resultType string)."
+        },
+        "username": {
+          "type": "object",
+          "description": "The username for Basic authentication. Type: string (or Expression with resultType string)."
+        },
+        "password": {
+          "description": "The password for Basic authentication.",
+          "$ref": "#/definitions/SecureString"
+        },
+        "encryptedCredential": {
+          "type": "object",
+          "description": "The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Either encryptedCredential or username/password must be provided. Type: string (or Expression with resultType string)."
+        }
+      },
+      "required": [
+        "url"
+      ]
+    },
+    "SapCloudForCustomerLinkedService": {
+      "x-ms-discriminator-value": "SapCloudForCustomer",
+      "description": "Linked service for SAP Cloud for Customer.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/LinkedService"
+        }
+      ],
+      "properties": {
+        "typeProperties": {
+          "description": "SAP Cloud for Customer linked service properties.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/SapCloudForCustomerLinkedServiceTypeProperties"
+        }
+      },
+      "required": [
+        "typeProperties"
+      ]
+    },
     "SalesforceLinkedServiceTypeProperties": {
       "description": "Salesforce linked service properties.",
       "properties": {
@@ -3086,14 +3130,17 @@
         },
         "password": {
           "description": "Password to access the Dynamics instance.",
-          "$ref": "#/definitions/AzureKeyVaultSecretReference"
+          "$ref": "#/definitions/SecretBase"
+        },
+        "encryptedCredential": {
+          "type": "object",
+          "description": "The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string)."
         }
       },
       "required": [
         "deploymentType",
         "authenticationType",
-        "username",
-        "password"
+        "username"
       ]
     },
     "DynamicsLinkedService": {
@@ -3818,6 +3865,38 @@
           "description": "On-premises SQL Server dataset properties.",
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/SqlServerTableDatasetTypeProperties"
+        }
+      },
+      "required": [
+        "typeProperties"
+      ]
+    },
+    "SapCloudForCustomerResourceDatasetTypeProperties": {
+      "description": "Sap Cloud For Customer OData resource dataset properties.",
+      "properties": {
+        "path": {
+          "type": "object",
+          "description": "The path of the SAP Cloud for Customer OData entity. Type: string (or Expression with resultType string)."
+        }
+      },
+      "required": [
+        "path"
+      ]
+    },
+    "SapCloudForCustomerResourceDataset": {
+      "x-ms-discriminator-value": "SapCloudForCustomerResource",
+      "description": "The path of the SAP Cloud for Customer OData entity.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Dataset"
+        }
+      ],
+      "properties": {
+        "typeProperties": {
+          "description": "SAP Cloud For Customer OData resource dataset properties.",
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/SapCloudForCustomerResourceDatasetTypeProperties"
         }
       },
       "required": [
@@ -5332,6 +5411,21 @@
         }
       }
     },
+    "SapCloudForCustomerSource": {
+      "description": "A copy activity source for SAP Cloud for Customer source.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CopySource"
+        }
+      ],
+      "properties": {
+        "query": {
+          "type": "object",
+          "description": "SAP Cloud for Customer OData query. For example, \"$top=1\". Type: string (or Expression with resultType string)."
+        }
+      }
+    },
     "SalesforceSource": {
       "description": "A copy activity Salesforce source.",
       "type": "object",
@@ -6369,6 +6463,29 @@
         }
       ],
       "properties": {}
+    },
+    "SapCloudForCustomerSink": {
+      "description": "A copy activity SAP Cloud for Customer sink.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CopySink"
+        }
+      ],
+      "properties": {
+        "writeBehavior": {
+          "description": "The write behavior for the operation. Default is 'Insert'.",
+          "type": "string",
+          "enum": [
+            "Insert",
+            "Update"
+          ],
+          "x-ms-enum": {
+            "name": "SapCloudForCustomerSinkWriteBehavior",
+            "modelAsString": true
+          }
+        }
+      }
     },
     "CopySink": {
       "discriminator": "type",
