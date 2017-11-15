@@ -1,7 +1,5 @@
 # Azure Time Series Insights Query Syntax
 
-Azure Time Series Insights is a fully managed analytics, storage, and visualization service that makes it simple to explore and analyze billions of IoT events simultaneously. It gives you a global view of your data, letting you quickly validate your IoT solution and avoid costly downtime to mission-critical devices by helping you discover hidden trends, spot anomalies, and conduct root-cause analyses in near real-time.  Time Series Insights provides a REST API used with Azure Resource Manager to provision and manage Time Series Insights resources in your Azure subscription. If you are building an application that needs to store or query time series data, you can develop with Time Series Insights REST APIs, in addition to programmatically managing Azure resources with Azure Resource Manager.
-
 This document describes the request format for Time Series Insights REST query API. Query requests must be in JSON format. The request JSON payload should be created using our JSON format guidelines found below. 
 
 The language is subdivided into the following elements:
@@ -13,7 +11,7 @@ The language is subdivided into the following elements:
 
 ## Getting Started
 
-To get started, see [Azure Time Series Insights Query API](https://docs.microsoft.com/en-us/rest/api/time-series-insights/time-series-insights-reference-queryapi) and [Create the request ](https://docs.microsoft.com/en-us/rest/api/#create-the-request). These topics step you through the REST API request/response pair, how to register your client application with Azure Active Directory to secure REST requests, and how to create and send REST requests and handle responses.
+To get started, see [Azure Time Series Insights Query API](https://docs.microsoft.com/en-us/rest/api/time-series-insights/time-series-insights-reference-queryapi) and [Create the request ](https://docs.microsoft.com/en-us/rest/api/#create-the-request) section from the Azure REST API reference. These topics step you through the REST API request/response pair, how to register your client application with Azure Active Directory to secure REST requests, and how to create and send REST requests, handle responses, and parse query results.
 
 ## Data Model
 
@@ -30,7 +28,7 @@ All events have the following built-in properties with predefined name and type:
 | $ts | DateTime | Event timestamp |
 | $esn | String | Event source name |
 
-By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp. However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp.
+By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp. However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp. For more information, see [Create a Time Series Insights event source](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-add-event-source).
 
 Event source name is the display name of the event source from which Time Series Insights has received the event. It is associated with a particular event at the ingress time of the event and stays unchanged for the lifetime of the event. When the name is changed in the event source configuration, already processed events carry the old name, and new events carry the new name.
 
@@ -368,7 +366,14 @@ Dimension expression types:
 |-|-|-|
 | `"uniqueValues"` | Dimension values in the result are exact values of a given property. |  |
 | `"dateHistogram"` | Dimension values in the result are ranges of time of a given property. | Date histogram of timestamp may result in 10 1-hour ranges for a 10-hour search span. |
-| `"numericalHistogram"` | Dimension values in the result are ranges of values in a given property. | Numerical histogram of temperature may result in 10 degrees ranges returned. |
+| `"numericHistogram"` | Dimension values in the result are ranges of values in a given property. | Numeric histogram of temperature may result in 10 degrees ranges returned. |
+
+Time Series Insights restricts the maximum cardinality (max lattice size) of an input aggregate query to 150,000 cells.  To calculate the cardinality of an aggregate query, you multiply the size of all dimensions in the query together.  As long as the product is less than 150,000 the query is accepted for execution, otherwise, the query is rejected.  
+
+The maximum size of a dimension produced by `uniqueValues` and `numericHistogram`s the size of the dimension is specified using the `take` clause.  In `dateHistogram`, the size is calculated by the dividing the search span by the size of the dateHistorgram interval, which is specified using the break clause. 
+
+For example, an aggregate query has the search pan set from 2017-11-15T16:00:00.000Z to 2017-11-15T19:00:00.000Z = 3hours.  If the query includes `dateHistogram` with the interval (`break` clause), set to 1 minute (dimension 1) and `uniqueValues` over property XYZ, then the `dateHistogram` dimension size is 3x60=180, which means `uniqueValues` can take up to 150,000/180 = 833 items total.  
+
 
 **Unique values expression** is used to group a set of events by values of the specified event property.
 
@@ -478,7 +483,7 @@ Filtering of events means running a predicate represented by a boolean expressio
 Execution of an expression on an event returns `true` if event must be included in further operation or `false` if event must be omitted from further processing.
 In addition to predicate expression, events are always filtered by search span.
 
-**Limit top clause** is used to get a given number of values in a given order.
+**Limit top clause** is used to get a given number of values in either ascending or descending order.  The number of values is limited as per the count specified.
 
 JSON example:
 ```json
@@ -493,22 +498,23 @@ JSON example:
 "count": 10
 ```
 
-**Limit take clause** is used to get a given number of values fast in any order.
+**Limit take clause** is used as a quick way to get a set of values not in any particular order. The number of values returned are limited by the input specified.
 
 JSON example:
 ```json
 "take": 10
 ```
 
-**Limit sample clause** is used to get a statistically representative given number of values.
+**Limit sample clause** is used to get a statistically representative sample from a set of values. The number of values returned are limited by the input specified.
 
 JSON example:
 ```json
 "sample": 10
 ```
 
-**Breaks clause** is used in histogram expressions to specify how a range analyzed should be divided.
-* For date histogram one should specify a size of datetime interval, and interval boundaries unless a histogram is based on built-in Timestamp property where boundaries are determined based on search span.
+**Breaks clause** is used in histogram expressions to specify how a range should be divided.
+* For date histogram one should specify the size of datetime interval, and interval boundaries unless a histogram is based on built-in Timestamp property where boundaries are determined based on search span.
+  - Interval boundaries are optional and can be used. For example, "where boundaries are determined based on search span if interval boundaries are omitted".
 * For numeric histogram one should specify number of breaks. Interval boundaries are determined based on minimum and maximum values of a property.
 
 JSON example:

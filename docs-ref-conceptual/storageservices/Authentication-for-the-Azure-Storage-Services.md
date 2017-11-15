@@ -260,7 +260,7 @@ Authorization: SharedKeyLite testaccount1:uay+rilMVayH/SVI8X+a3fL8k/NxCnIePdyZSk
   
 4.  Replace any linear whitespace in the header value with a single space.  
   
- Linear white space includes carriage return/line feed (CRLF), spaces, and tabs. See [RFC 2616, section 4.2](https://tools.ietf.org/html/rfc2616#section-4.2) for details. Do not replace any whitespace inside a quoted string.  
+ Linear whitespace includes carriage return/line feed (CRLF), spaces, and tabs. See [RFC 2616, section 4.2](https://tools.ietf.org/html/rfc2616#section-4.2) for details. Do not replace any whitespace inside a quoted string.  
   
 5.  Trim any whitespace around the colon in the header.  
   
