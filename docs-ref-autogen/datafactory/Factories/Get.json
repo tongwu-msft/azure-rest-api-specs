@@ -3449,6 +3449,22 @@
         "modelAsString": true
       }
     },
+    "DatasetZipDeflateCompression": {
+      "x-ms-discriminator-value": "ZipDeflate",
+      "description": "The ZipDeflate compression method used on a dataset.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DatasetCompression"
+        }
+      ],
+      "properties": {
+        "level": {
+          "description": "The ZipDeflate compression level.",
+          "$ref": "#/definitions/CompressionLevel"
+        }
+      }
+    },
     "DatasetDeflateCompression": {
       "x-ms-discriminator-value": "Deflate",
       "description": "The Deflate compression method used on a dataset.",
@@ -3645,54 +3661,6 @@
         "type"
       ]
     },
-    "DatasetDateTimePartitionValue": {
-      "x-ms-discriminator-value": "DateTime",
-      "description": "The date/time value of a partition.",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/DatasetPartitionValue"
-        }
-      ],
-      "properties": {
-        "date": {
-          "type": "object",
-          "description": "Name of variable containing date. Type: string (or Expression with resultType string)."
-        },
-        "format": {
-          "type": "object",
-          "description": "Format string for the Date value. Type: string (or Expression with resultType string)."
-        }
-      }
-    },
-    "DatasetPartitionValue": {
-      "discriminator": "type",
-      "description": "The value of a partition.",
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "Type of partition value."
-        }
-      },
-      "required": [
-        "type"
-      ]
-    },
-    "DatasetPartition": {
-      "description": "The partition definition.",
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "object",
-          "description": "Name of the partition. Type: string (or Expression with resultType string)."
-        },
-        "value": {
-          "description": "Value of the partition.",
-          "$ref": "#/definitions/DatasetPartitionValue"
-        }
-      }
-    },
     "HttpDatasetTypeProperties": {
       "description": "Properties specific to this dataset type.",
       "properties": {
@@ -3711,10 +3679,6 @@
         "additionalHeaders": {
           "type": "object",
           "description": "The headers for the HTTP Request. e.g. request-header-name-1:request-header-value-1\r\n...\r\nrequest-header-name-n:request-header-value-n Type: string (or Expression with resultType string)."
-        },
-        "partitionedBy": {
-          "description": "The HTTP method for the HTTP request.",
-          "$ref": "#/definitions/DatasetPartition"
         },
         "format": {
           "description": "The format of files.",
@@ -4121,13 +4085,6 @@
         "compression": {
           "description": "The data compression method used for the item(s) in the Azure Data Lake Store.",
           "$ref": "#/definitions/DatasetCompression"
-        },
-        "partitionedBy": {
-          "description": "Specify a dynamic path and filename for time series data.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DatasetPartition"
-          }
         }
       },
       "required": [
@@ -6056,11 +6013,11 @@
       "properties": {
         "linkedServiceName": {
           "type": "object",
-          "description": "Name of the Azure Storage or Storage SAS linked service used for redirecting incompatible row. Must be specified if redirectIncompatibleRowSettings is specified. Type: string (or Expression with resultType string)."
+          "description": "Name of the Azure Storage, Storage SAS, or Azure Data Lake Store linked service used for redirecting incompatible row. Must be specified if redirectIncompatibleRowSettings is specified. Type: string (or Expression with resultType string)."
         },
         "path": {
           "type": "object",
-          "description": "The path to storage for storing the redirect incompatible row data Type: string (or Expression with resultType string)."
+          "description": "The path for storing the redirect incompatible row data. Type: string (or Expression with resultType string)."
         }
       },
       "required": [
