@@ -1,5 +1,5 @@
 ---
-title: Location Based Services REST API | Microsoft Docs
+title: Location Based Services Management API | Microsoft Docs
 ms.date: 10/31/2017
 ms.service: location-based-services
 ms.topic: reference
@@ -9,4 +9,4 @@ ms.author: dkshir
 manager: timlt
 ---
 
-# Location Based Services REST API
+# Location Based Services Management API
