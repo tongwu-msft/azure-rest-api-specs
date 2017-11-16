@@ -44,57 +44,61 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
 
  A sample response body looks like this:  
 
-```  
-{  
-        "status":"running",  
-        "lastResult": {  
-            "status":"success",  
-            "errorMessage":null,  
-            "startTime":"2014-11-26T03:37:18.853Z",  
-            "endTime":"2014-11-26T03:37:19.012Z",  
-            "errors":[],  
-	    "warnings":[],
-            "itemsProcessed":11,  
-            "itemsFailed":0,  
-            "initialTrackingState":null,  
-            "finalTrackingState":null  
-         },  
-        "executionHistory":[
-         {  
-            "status":"success",  
-            "errorMessage":null,  
-            "startTime":"2014-11-26T03:37:18.853Z",  
-            "endTime":"2014-11-26T03:37:19.012Z",  
-            "errors":[], 
-	    "warnings":[],
-            "itemsProcessed":11,  
-            "itemsFailed":0,  
-            "initialTrackingState":null,  
-            "finalTrackingState":null  
-         },   
-         {  
-            "status":"transientFailure",  
-            "errorMessage":null,  
-            "startTime":"2014-11-26T03:28:10.125Z",  
-            "endTime":"2014-11-26T03:28:12.007Z",  
-            "errors":[
-	     {
-                 "key":  "",
-                 "status":  false,
-                 "errorMessage":  "Document key cannot be missing or empty.",
-                 "statusCode":  400
-             }],  
-	    "warnings":[
-	     {
-                 "key":  "document id",
-                 "message":  "A warning doesn't stop indexing, and is intended to inform you of certain interesting situations, like when a blob indexer truncates the amount of text extracted from a blob."
-             }],
-            "itemsProcessed":1,  
-            "itemsFailed":1,  
-            "initialTrackingState":null,  
-            "finalTrackingState":null  
-        }]  
-```  
+```
+{
+    "status" : "running",
+    "lastResult" : {
+        "status" : "success",
+        "errorMessage" : null,
+        "startTime" : "2014-11-26T03:37:18.853Z",
+        "endTime" : "2014-11-26T03:37:19.012Z",
+        "errors" : [],
+        "warnings" : [],
+        "itemsProcessed" : 11,
+        "itemsFailed" : 0,
+        "initialTrackingState" : null,
+        "finalTrackingState" : null
+    },
+    "executionHistory" : [
+        {
+            "status" : "success",
+            "errorMessage" : null,
+            "startTime" : "2014-11-26T03:37:18.853Z",
+            "endTime" : "2014-11-26T03:37:19.012Z",
+            "errors" : [],
+            "warnings" : [],
+            "itemsProcessed" : 11,
+            "itemsFailed" : 0,
+            "initialTrackingState" : null,
+            "finalTrackingState" : null
+        },
+        {
+            "status" : "transientFailure",
+            "errorMessage" : null,
+            "startTime" : "2014-11-26T03:28:10.125Z",
+            "endTime" : "2014-11-26T03:28:12.007Z",
+            "errors" : [
+	        {
+                    "key" : "",
+                    "status" : false,
+                    "errorMessage" : "Document key cannot be missing or empty.",
+                    "statusCode" : 400
+                }
+            ],
+            "warnings" : [
+	        {
+                    "key" : "document id",
+                    "message" : "A warning doesn't stop indexing, and is intended to inform you of certain interesting situations, like when a blob indexer truncates the amount of text extracted from a blob."
+                }
+            ],
+            "itemsProcessed" : 1,
+            "itemsFailed" : 1,
+            "initialTrackingState" : null,
+            "finalTrackingState" : null
+        }
+    ]
+}
+```
 
 ### Indexer status  
  Indexer status can be one of the following values:  
