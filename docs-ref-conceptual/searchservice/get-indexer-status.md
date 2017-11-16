@@ -78,7 +78,7 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
             "startTime" : "2014-11-26T03:28:10.125Z",
             "endTime" : "2014-11-26T03:28:12.007Z",
             "errors" : [
-	        {
+                {
                     "key" : "",
                     "status" : false,
                     "errorMessage" : "Document key cannot be missing or empty.",
@@ -86,7 +86,7 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
                 }
             ],
             "warnings" : [
-	        {
+                {
                     "key" : "document id",
                     "message" : "A warning doesn't stop indexing, and is intended to inform you of certain interesting situations, like when a blob indexer truncates the amount of text extracted from a blob."
                 }
