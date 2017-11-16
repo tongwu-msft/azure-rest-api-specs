@@ -31,56 +31,42 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LocationBasedServices/accounts": {
-      "get": {
-        "description": "Get all Location Based Services Accounts in a Resource Group",
-        "operationId": "Accounts_ListByResourceGroup",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LocationBasedServices/accounts/{accountName}": {
+      "patch": {
+        "description": "Updates a Location Based Services Account. Only a subset of the parameters may be updated after creation, such as Sku and Tags.",
+        "operationId": "Accounts_Update",
         "x-ms-examples": {
-          "ListAccountsByResourceGroup": {
+          "UpdateAccount": {
             "parameters": {
               "api-version": "2017-01-01-preview",
               "subscriptionId": "21a9967a-e8a9-4656-a70b-96ff1c4d05a0",
-              "resourceGroupName": "myResourceGroup"
+              "resourceGroupName": "myResourceGroup",
+              "accountName": "myLBSAccount",
+              "LocationBasedServicesAccountUpdateParameters": {
+                "tags": {
+                  "specialTag": "true"
+                }
+              }
             },
             "responses": {
               "200": {
                 "body": {
-                  "value": [
-                    {
-                      "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount2",
-                      "name": "myLBSAccount2",
-                      "type": "Microsoft.LocationBasedServices/accounts",
-                      "location": "global",
-                      "tags": {
-                        "test": "true"
-                      },
-                      "sku": {
-                        "name": "S0",
-                        "tier": "Standard"
-                      }
-                    },
-                    {
-                      "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount",
-                      "name": "myLBSAccount",
-                      "type": "Microsoft.LocationBasedServices/accounts",
-                      "location": "global",
-                      "tags": {
-                        "test": "true"
-                      },
-                      "sku": {
-                        "name": "S0",
-                        "tier": "Standard"
-                      }
-                    }
-                  ]
+                  "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount",
+                  "name": "myLBSAccount",
+                  "type": "Microsoft.LocationBasedServices/accounts",
+                  "location": "global",
+                  "tags": {
+                    "specialTag": "true"
+                  },
+                  "sku": {
+                    "name": "S0",
+                    "tier": "Standard"
+                  }
                 }
-              }
+              },
+              "404": {}
             }
           }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": null,
-          "itemName": "value"
         },
         "parameters": [
           {
@@ -91,14 +77,29 @@
           },
           {
             "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AccountNameParameter"
+          },
+          {
+            "name": "LocationBasedServicesAccountUpdateParameters",
+            "in": "body",
+            "description": "The updated parameters for the Location Based Services Account.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LocationBasedServicesAccountUpdateParameters"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "The request was successful.",
+            "description": "The Account was successfully updated.",
             "schema": {
-              "$ref": "#/definitions/LocationBasedServicesAccounts"
+              "$ref": "#/definitions/LocationBasedServicesAccount"
             }
+          },
+          "404": {
+            "description": "The specified Account was not found. Nothing was updated."
           },
           "default": {
             "description": "An unexpected error occurred.",
@@ -113,7 +114,7 @@
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "List By Resource Group"
+        "x-internal-toc-name": "Update"
       }
     }
   },
@@ -435,7 +436,7 @@
       }
     }
   },
-  "x-internal-service-name": "Location Based Services - Portal Management",
+  "x-internal-service-name": "Location Based Services Management API",
   "x-internal-toc-name": "Accounts",
   "x-internal-split-type": "Operation"
 }

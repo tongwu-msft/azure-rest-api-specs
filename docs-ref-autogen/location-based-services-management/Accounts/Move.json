@@ -31,58 +31,26 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LocationBasedServices/accounts/{accountName}": {
-      "put": {
-        "description": "Create or update a Location Based Services Account. A Location Based Services Account holds the keys which allow access to the Location Based Services REST APIs.",
-        "operationId": "Accounts_CreateOrUpdate",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/moveResources": {
+      "post": {
+        "description": "Moves Location Based Services Accounts from one ResourceGroup (or Subscription) to another",
+        "operationId": "Accounts_Move",
         "x-ms-examples": {
-          "CreateAccount": {
+          "MoveAccounts": {
             "parameters": {
               "api-version": "2017-01-01-preview",
               "subscriptionId": "21a9967a-e8a9-4656-a70b-96ff1c4d05a0",
               "resourceGroupName": "myResourceGroup",
-              "accountName": "myLBSAccount",
-              "LocationBasedServicesAccountCreateParameters": {
-                "location": "global",
-                "sku": {
-                  "name": "S0"
-                },
-                "tags": {
-                  "test": "true"
-                }
+              "moveRequest": {
+                "targetResourceGroup": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup2",
+                "resourceIds": [
+                  "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount",
+                  "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount2"
+                ]
               }
             },
             "responses": {
-              "200": {
-                "body": {
-                  "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount",
-                  "name": "myLBSAccount",
-                  "type": "Microsoft.LocationBasedServices/accounts",
-                  "location": "global",
-                  "tags": {
-                    "test": "true"
-                  },
-                  "sku": {
-                    "name": "S0",
-                    "tier": "Standard"
-                  }
-                }
-              },
-              "201": {
-                "body": {
-                  "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount",
-                  "name": "myLBSAccount",
-                  "type": "Microsoft.LocationBasedServices/accounts",
-                  "location": "global",
-                  "tags": {
-                    "test": "true"
-                  },
-                  "sku": {
-                    "name": "S0",
-                    "tier": "Standard"
-                  }
-                }
-              }
+              "200": {}
             }
           }
         },
@@ -94,33 +62,25 @@
             "$ref": "#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
+            "name": "resourceGroupName",
+            "in": "path",
+            "description": "The name of the resource group that contains Location Based Services Account to move.",
+            "required": true,
+            "type": "string"
           },
           {
-            "$ref": "#/parameters/AccountNameParameter"
-          },
-          {
-            "name": "LocationBasedServicesAccountCreateParameters",
+            "name": "moveRequest",
             "in": "body",
-            "description": "The new or updated parameters for the Location Based Services Account.",
+            "description": "The details of the Location Based Services Account move.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/LocationBasedServicesAccountCreateParameters"
+              "$ref": "#/definitions/LocationBasedServicesAccountsMoveRequest"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "The Account was successfully updated.",
-            "schema": {
-              "$ref": "#/definitions/LocationBasedServicesAccount"
-            }
-          },
-          "201": {
-            "description": "The Account was successfully created.",
-            "schema": {
-              "$ref": "#/definitions/LocationBasedServicesAccount"
-            }
+            "description": "The Accounts were successfully moved."
           },
           "default": {
             "description": "An unexpected error occurred.",
@@ -135,7 +95,7 @@
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "Create Or Update"
+        "x-internal-toc-name": "Move"
       }
     }
   },
@@ -457,7 +417,7 @@
       }
     }
   },
-  "x-internal-service-name": "Location Based Services - Portal Management",
+  "x-internal-service-name": "Location Based Services Management API",
   "x-internal-toc-name": "Accounts",
   "x-internal-split-type": "Operation"
 }
