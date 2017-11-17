@@ -1261,6 +1261,8 @@
 ### [List By Resource Group](container-instances/ContainerGroups/ListByResourceGroup.json)
 ## [Container Logs](container-instances/ContainerLogs.json)
 ### [List](container-instances/ContainerLogs/List.json)
+## [Operations](container-instances/Operations.json)
+### [List](container-instances/Operations/List.json)
 # [Container Registry](../docs-ref-conceptual/containerregistry/index.md)
 ## [Operations](containerregistry/Operations.json)
 ### [List](containerregistry/Operations/List.json)
