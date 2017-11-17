@@ -1,3 +1,4 @@
+---
 title: Azure Reserved Virtual Machine Instances REST API | Microsoft Docs
 author: tfitzmac
 ms.author: tomfitz
