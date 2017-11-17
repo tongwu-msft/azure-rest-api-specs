@@ -54,25 +54,25 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 
  The syntax for structuring the request payload is as follows. A sample request is provided further on in this topic.  
 
-```  
-    {   
-        "name" : "Required for POST, optional for PUT. The name of the indexer",  
-        "description" : "Optional. Anything you want, or null",  
-        "dataSourceName" : "Required. The name of an existing data source",  
-        "targetIndexName" : "Required. The name of an existing index",  
-        "schedule" : { Optional. See Indexing Schedule below. },  
-        "parameters" : { Optional. See Indexing Parameters below. },  
-        "fieldMappings" : { Optional. See Field Mappings below. },
-        "disabled" : Optional boolean value indicating whether the indexer is disabled. False by default.
-    }  
-```  
+```
+{   
+    "name" : "Required for POST, optional for PUT. The name of the indexer",  
+    "description" : "Optional. Anything you want, or null",  
+    "dataSourceName" : "Required. The name of an existing data source",  
+    "targetIndexName" : "Required. The name of an existing index",  
+    "schedule" : { Optional. See Indexing Schedule below. },  
+    "parameters" : { Optional. See Indexing Parameters below. },  
+    "fieldMappings" : { Optional. See Field Mappings below. },
+    "disabled" : Optional boolean value indicating whether the indexer is disabled. False by default.
+}  
+```
 
 ### Indexer schedule  
  An indexer can optionally specify a schedule. If a schedule is present, the indexer will run periodically as per schedule. The scheduler is built-in; you cannot use an external scheduler. **Schedule** has the following attributes:  
 
 -   **interval**: Required. A duration value that specifies an interval or period for indexer runs. The smallest allowed interval is 5 minutes; the longest is one day. It must be formatted as an XSD "dayTimeDuration" value (a restricted subset of an [ISO 8601 duration](http://www.w3.org/TR/xmlschema11-2/#dayTimeDuration) value). The pattern for this is: `"P[nD][T[nH][nM]]".` Examples:  `PT15M` for every 15 minutes, `PT2H` for every 2 hours.  
 
--   **startTime**: Required. A UTC datetime when the indexer should start running.  
+-   **startTime**: Optional. A UTC datetime when the indexer should start running.  
 
 ### Indexer parameters  
  An indexer can optionally specify several parameters that affect its behavior. All of the parameters are optional.  
@@ -87,14 +87,18 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 
 You can use field mappings to map a field name in the data source to a different field name in the target index. For example, consider a source table with a field `_id`. Azure Search doesn't allow a field name starting with an underscore, so the field must be renamed. This can be done using the `fieldMappings` property of the indexer as follows:
 
-	"fieldMappings" : [ { "sourceFieldName" : "_id", "targetFieldName" : "id" } ]
+```
+"fieldMappings" : [ { "sourceFieldName" : "_id", "targetFieldName" : "id" } ]
+```
 
 You can specify multiple field mappings:
 
-	"fieldMappings" : [
-		{ "sourceFieldName" : "_id", "targetFieldName" : "id" },
-        { "sourceFieldName" : "_timestamp", "targetFieldName" : "timestamp" },
-	 ]
+```
+"fieldMappings" : [
+    { "sourceFieldName" : "_id", "targetFieldName" : "id" },
+    { "sourceFieldName" : "_timestamp", "targetFieldName" : "timestamp" }
+]
+```
 
 Both source and target field names are case-insensitive.
 
@@ -110,16 +114,16 @@ To learn more about when and how to use field mapping functions, see [Field Mapp
 ### Request body examples  
  The following example creates an indexer that copies data from the table referenced by the `ordersds` data source to the `orders` index on a schedule that starts on Jan 1, 2015 UTC and runs hourly. Each indexer invocation will be successful if no more than 5 items fail to be indexed in each batch, and no more than 10 items fail to be indexed in total.  
 
-```  
-    {  
-        "name" : "myindexer",  
-        "description" : "a cool indexer",  
-        "dataSourceName" : "ordersds",  
-        "targetIndexName" : "orders",  
-        "schedule" : { "interval" : "PT1H", "startTime" : "2015-01-01T00:00:00Z" },  
-        "parameters" : { "maxFailedItems" : 10, "maxFailedItemsPerBatch" : 5 }  
-    }  
-```  
+```
+{
+    "name" : "myindexer",  
+    "description" : "a cool indexer",  
+    "dataSourceName" : "ordersds",  
+    "targetIndexName" : "orders",  
+    "schedule" : { "interval" : "PT1H", "startTime" : "2015-01-01T00:00:00Z" },  
+    "parameters" : { "maxFailedItems" : 10, "maxFailedItemsPerBatch" : 5 }  
+}
+```
 
 ## Response  
  201 Created for a successful request.  
