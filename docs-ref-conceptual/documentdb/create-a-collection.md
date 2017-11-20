@@ -1,7 +1,7 @@
 ---
 title: "Create a Collection - Azure Cosmos DB REST API"
 ms.custom: ""
-ms.date: "2016-03-29"
+ms.date: "2016-11-20"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "cosmos-db"
@@ -130,7 +130,7 @@ The `Create Collection` operation creates a new collection in a database.
   
 |Property|Description|  
 |--------------|-----------------|  
-|**path**|An array of paths using which data within the collection can be partitioned. Paths must not contain a wildcard or a trailing slash. For example, the JSON property “AccountNumber” is specified as “/AccountNumber”. The array must contain only a single value.|  
+|**paths**|An array of paths using which data within the collection can be partitioned. Paths must not contain a wildcard or a trailing slash. For example, the JSON property “AccountNumber” is specified as “/AccountNumber”. The array must contain only a single value.|  
 |**kind**|The algorithm used for partitioning. Only Hash is supported.|  
   
 ```  
