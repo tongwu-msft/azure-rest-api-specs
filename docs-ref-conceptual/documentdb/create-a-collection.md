@@ -1,7 +1,7 @@
 ---
 title: "Create a Collection - Azure Cosmos DB REST API"
 ms.custom: ""
-ms.date: "2016-11-20"
+ms.date: "11-20-2017"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "cosmos-db"
