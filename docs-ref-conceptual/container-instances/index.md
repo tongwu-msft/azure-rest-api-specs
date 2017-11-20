@@ -1,10 +1,10 @@
 ---
-title: Azure Container Instances REST API reference | Microsoft Docs
+title: Azure Container Instances REST API reference
 author: mmacy
 ms.author: marsma
-ms.date: 09/12/2017
-ms.topic:
-ms.service: Azure
+ms.date: 11/20/2017
+ms.topic: reference
+ms.service: container-instances
 ms.devlang: rest-api
 ---
 
@@ -19,10 +19,13 @@ The Container Instances REST API provides operations for working with the follow
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
 |[Container Groups](~/docs-ref-autogen/container-instances/containergroups.json)| Create, read, update, and delete [container groups](/azure/container-instances/container-instances-container-groups), the top-level resource in Azure Container Instances. |
-|[Container Logs](~/docs-ref-autogen/container-instances/containerlogs.json)| Retrieve container logs. |
+|[Container Logs](~/docs-ref-autogen/container-instances/containerlogs.json)| Get container instance logs. |
+|[Operations](~/docs-ref-autogen/container-instances/operations.json)| Get information about Azure Container Instances REST API operations. |
 
 ## See also
 
 [Azure Container Registry](/azure/container-registry/) - Store and manage container images across all types of Azure deployments.
 
-[Azure Container Service](/azure/container-service/) - Scale and orchestrate containers using Kubernetes, DC/OS or Docker Swarm.
+[Azure Container Service (AKS)](/azure/aks/) - Easily deploy and manage containerized applications in a hosted Kubernetes environment.
+
+[Azure Container Service (ACS)](/azure/container-service/) - Scale and orchestrate containers using Kubernetes, DC/OS, or Docker Swarm.
