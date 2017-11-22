@@ -5,7 +5,7 @@ ms.prod: azure
 ms.service: consumption
 ms.topic: reference
 ms.assetid: 
-author: vikurpad
+author: vkurpad
 manager: rapahelc
 ---
 # Usage Details REST API  
