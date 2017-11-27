@@ -4,7 +4,7 @@ description: This topic describes the Azure Time Series Insights query syntax
 keywords:
 services: time-series-insights
 documentationcenter:
-author: venkatja
+author: MarkMcGeeAtAquent
 manager: almineev
 editor: cgronlun
 
@@ -15,7 +15,7 @@ ms.topic: data-acesss-api
 ms.tgt_pltfrm: na
 ms.workload: big-data
 ms.date: 11/27/2017
-ms.author: venkatja
+ms.author: MarkMcGeeAtAquent
 ---
 # Azure Time Series Insights query syntax
 
