@@ -15,7 +15,7 @@ ms.topic: data-acesss-api
 ms.tgt_pltfrm: na
 ms.workload: big-data
 ms.date: 11/27/2017
-ms.author: MarkMcGeeAtAquent
+ms.author: v-mamcge
 ---
 # Azure Time Series Insights query syntax
 
