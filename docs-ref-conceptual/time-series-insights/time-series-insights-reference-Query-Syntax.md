@@ -1,4 +1,23 @@
-# Azure Time Series Insights Query Syntax
+---
+title: Azure Time Series Insights query syntax | Microsoft Docs
+description: This topic describes the Azure Time Series Insights query syntax
+keywords:
+services: time-series-insights
+documentationcenter:
+author: venkatja
+manager: almineev
+editor: cgronlun
+
+ms.assetid:
+ms.service: time-series-insights
+ms.devlang: na
+ms.topic: data-acesss-api
+ms.tgt_pltfrm: na
+ms.workload: big-data
+ms.date: 11/27/2017
+ms.author: venkatja
+---
+# Azure Time Series Insights query syntax
 
 This document describes the request format for Time Series Insights REST query API. Query requests must be in JSON format. The request JSON payload should be created using our JSON format guidelines found below. 
 
@@ -11,7 +30,7 @@ The language is subdivided into the following elements:
 
 ## Getting Started
 
-To get started, see [Azure Time Series Insights Query API](https://docs.microsoft.com/en-us/rest/api/time-series-insights/time-series-insights-reference-queryapi) and [Create the request ](https://docs.microsoft.com/en-us/rest/api/#create-the-request) section from the Azure REST API reference. These topics step you through the REST API request/response pair, how to register your client application with Azure Active Directory to secure REST requests, and how to create and send REST requests, handle responses, and parse query results.
+To get started, see [Azure Time Series Insights query API](time-series-insights-reference-QueryAPI.md) and [Create the request ](https://docs.microsoft.com/en-us/rest/api/#create-the-request) section from the Azure REST API reference. These topics step you through the REST API request/response pair, how to register your client application with Azure Active Directory to secure REST requests, and how to create and send REST requests, handle responses, and parse query results.
 
 ## Data Model
 
