@@ -118,120 +118,29 @@
     }
   },
   "paths": {
-    "/route/directions/{format}": {
+    "/map/static/{format}": {
       "get": {
-        "description": "Returns routing directions between 2 coordinates",
-        "operationId": "Search_GetRouteDirections",
+        "description": "Returns a raster map tile",
+        "operationId": "Render_GetMapStaticTile",
         "x-ms-examples": {
-          "GetRouteDirections": {
+          "GetMapStaticTile": {
             "parameters": {
-              "format": "json",
               "api-version": "1.0",
-              "query": "52.50931,13.42936:52.50274,13.43872"
+              "format": "png",
+              "service": "WMS",
+              "version": "1.1.1",
+              "request": "GetMap",
+              "bbox": "1.355233,42.982261,24.980233,56.526017",
+              "srs": "EPSG:4326",
+              "width": "1024",
+              "height": "768",
+              "layers": "basic",
+              "styles": "1"
             },
             "responses": {
               "200": {
-                "body": {
-                  "formatVersion": "0.0.12",
-                  "copyright": "Copyright 2017 TomTom International BV. All rights reserved. This navigation data is the proprietary copyright of TomTom International BV and may be used only in accordance with the terms of a fully executed license agreement entered into between TomTom International BV, or an authorised reseller and yourself. If you have not entered into such a license agreement you are not authorised to use this data in any manner and should immediately return it to TomTom International BV.",
-                  "privacy": "TomTom keeps information that tells us how and when you use our services. This includes information about the device you are using and the information we receive while you use the service, such as locations, routes, destinations and search queries. TomTom is unable to identify you based on the information it collects, and will not try to. TomTom uses the information for technical diagnostics, to detect fraud and abuse, to create usage reports, and to improve its services. The information is kept only for these purposes and for a limited period of time, after which it is destroyed. TomTom applies security methods based on industry standards to protect the information against unauthorised access. TomTom will not give anyone else access to the information or use it for any other purpose, unless explicitly and lawfully ordered to do so following due legal process. You can find out more at http://tomtom.com/privacy. You can contact TomTom by going to http://tomtom.com/support.",
-                  "routes": [
-                    {
-                      "summary": {
-                        "lengthInMeters": 1147,
-                        "travelTimeInSeconds": 162,
-                        "trafficDelayInSeconds": 0,
-                        "departureTime": "2017-09-07T16:56:58+00:00",
-                        "arrivalTime": "2017-09-07T16:59:40+00:00"
-                      },
-                      "legs": [
-                        {
-                          "summary": {
-                            "lengthInMeters": 1147,
-                            "travelTimeInSeconds": 162,
-                            "trafficDelayInSeconds": 0,
-                            "departureTime": "2017-09-07T16:56:58+00:00",
-                            "arrivalTime": "2017-09-07T16:59:40+00:00"
-                          },
-                          "points": [
-                            {
-                              "latitude": 52.50931,
-                              "longitude": 13.42937
-                            },
-                            {
-                              "latitude": 52.50904,
-                              "longitude": 13.42912
-                            },
-                            {
-                              "latitude": 52.50894,
-                              "longitude": 13.42904
-                            },
-                            {
-                              "latitude": 52.50867,
-                              "longitude": 13.42879
-                            },
-                            {
-                              "latitude": 52.5084,
-                              "longitude": 13.42857
-                            },
-                            {
-                              "latitude": 52.50791,
-                              "longitude": 13.42824
-                            },
-                            {
-                              "latitude": 52.50757,
-                              "longitude": 13.42772
-                            },
-                            {
-                              "latitude": 52.50735,
-                              "longitude": 13.42823
-                            },
-                            {
-                              "latitude": 52.5073,
-                              "longitude": 13.42836
-                            },
-                            {
-                              "latitude": 52.50573,
-                              "longitude": 13.43194
-                            },
-                            {
-                              "latitude": 52.50512,
-                              "longitude": 13.43336
-                            },
-                            {
-                              "latitude": 52.50464,
-                              "longitude": 13.43451
-                            },
-                            {
-                              "latitude": 52.5045,
-                              "longitude": 13.43481
-                            },
-                            {
-                              "latitude": 52.50443,
-                              "longitude": 13.43498
-                            },
-                            {
-                              "latitude": 52.50343,
-                              "longitude": 13.43737
-                            },
-                            {
-                              "latitude": 52.50274,
-                              "longitude": 13.43872
-                            }
-                          ]
-                        }
-                      ],
-                      "sections": [
-                        {
-                          "startPointIndex": 0,
-                          "endPointIndex": 15,
-                          "sectionType": "TRAVEL_MODE",
-                          "travelMode": "car"
-                        }
-                      ]
-                    }
-                  ]
-                }
+                "headers": {},
+                "body": {}
               },
               "400": {
                 "headers": {},
@@ -273,96 +182,81 @@
         },
         "parameters": [
           {
-            "$ref": "#/parameters/format"
-          },
-          {
             "$ref": "#/parameters/api-version"
           },
           {
-            "$ref": "#/parameters/query"
+            "$ref": "#/parameters/format"
           },
           {
-            "name": "maxAlternatives",
+            "name": "service",
             "in": "query",
-            "description": "Number of desired alternative routes to be calculated",
+            "description": "Service type",
             "required": false,
             "type": "string"
           },
           {
-            "name": "alternativeType",
+            "name": "version",
             "in": "query",
-            "description": "Controls the optimality, with respect to the given planning criteria",
-            "required": false,
+            "description": "WMS service version",
+            "required": true,
+            "default": "1.1.1",
             "type": "string"
           },
           {
-            "name": "minDeviationDistance",
+            "name": "request",
             "in": "query",
-            "description": "All alternative routes returned will follow the reference route from the origin point of the calculateRoute request for at least this number of meters",
-            "required": false,
+            "description": "Request type",
+            "required": true,
+            "default": "GetMap",
             "type": "string"
           },
           {
-            "name": "minDeviationTime",
+            "name": "srs",
             "in": "query",
-            "description": "All alternative routes returned will follow the reference route from the origin point of the calculateRoute request for at least this number of seconds",
-            "required": false,
+            "description": "Projection used in describing the bbox",
+            "required": true,
+            "default": "EPSG:4326",
+            "enum": [
+              "EPSG:4326",
+              "EPSG:3857"
+            ],
             "type": "string"
           },
           {
-            "name": "instructionsType",
+            "name": "bbox",
             "in": "query",
-            "description": "If specified, guidance instructions will be returned (if available).",
-            "required": false,
+            "description": "Bounding box in the projection stated in srs.  In the stucture of 'minLon, minLat, maxLon, maxLat'",
+            "required": true,
             "type": "string"
           },
           {
-            "name": "language",
+            "name": "height",
             "in": "query",
-            "description": "The language parameter determines the language of the guidance messages",
-            "required": false,
+            "description": "Height of the resulting image, in pixels.  Maximum value is 2048.",
+            "required": true,
             "type": "string"
           },
           {
-            "name": "computeBestOrder",
+            "name": "width",
             "in": "query",
-            "description": "Re-order the route waypoints to reduce the route length. Yields best results when used in conjunction with routeType shortest",
-            "required": false,
+            "description": "Width of the resulting image, in pixels.   Maximum value is 2048.",
+            "required": true,
             "type": "string"
           },
           {
-            "name": "routeRepresentation",
+            "name": "layers",
             "in": "query",
-            "description": "Specifies the representation of the set of routes provided as response",
-            "required": false,
+            "description": "Map layer requested",
+            "required": true,
+            "default": "basic",
             "type": "string"
           },
           {
-            "name": "computeTravelTimeFor",
+            "name": "styles",
             "in": "query",
-            "description": "Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "vehicleHeading",
-            "in": "query",
-            "description": "The directional heading of the vehicle in degrees starting at true North and continuing in clockwise direction",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "report",
-            "in": "query",
-            "description": "Specifies which data should be reported for diagnosis purposes",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "sectionType",
-            "in": "query",
-            "description": "Specifies which of the section types is reported in the route response",
-            "required": false,
+            "description": "Map style to be returned",
+            "required": true,
+            "default": "1",
             "type": "string"
           }
         ],
@@ -370,7 +264,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/routedirections200"
+              "$ref": "#/definitions/mapstatic200"
             }
           },
           "400": {
@@ -394,7 +288,7 @@
           "application/xml"
         ],
         "consumes": [],
-        "x-internal-toc-name": "Get Route Directions"
+        "x-internal-toc-name": "Get Map Static Tile"
       }
     }
   },
@@ -2139,6 +2033,6 @@
     }
   },
   "x-internal-service-name": "Location Based Services Functional API",
-  "x-internal-toc-name": "Search",
+  "x-internal-toc-name": "Render",
   "x-internal-split-type": "Operation"
 }
