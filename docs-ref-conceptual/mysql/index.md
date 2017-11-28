@@ -8,7 +8,7 @@ ms.topic: reference
 ms.service: mysql-database
 ms.devlang: rest-api
 service_description: Azure Database for MySQL
-ms.date: 07/31/2017
+ms.date: 11/27/2017
 ---
 
 # Azure Database for MySQL REST API
@@ -38,8 +38,8 @@ The following information is common to all tasks that you might do using these R
 
 
 ## See also
-- For an overview of the service, see [Azure Database for MySQL Overview](/azure/mysql/overview.md)
-- [Create an Azure Database for MySQL server using Azure portal](/azure/mysql/quickstart-create-mysql-server-database-using-azure-portal.md)
-- [Create an Azure Database for MySQL server using Azure CLI](/azure/mysql/quickstart-create-mysql-server-database-using-azure-cli.md)
+- For an overview of the service, see [Azure Database for MySQL Overview](/azure/mysql/overview)
+- [Create an Azure Database for MySQL server using Azure portal](/azure/mysql/quickstart-create-mysql-server-database-using-azure-portal)
+- [Create an Azure Database for MySQL server using Azure CLI](/azure/mysql/quickstart-create-mysql-server-database-using-azure-cli)
 - [Azure CLI Samples](/azure/mysql/sample-scripts-azure-cli) for Azure Database for MySQL
-- For information about connecting to the service, see [Connection libraries for Azure Database for MySQL](/azure/mysql/concepts-connection-libraries.md).
+- For information about connecting to the service, see [Connection libraries for Azure Database for MySQL](/azure/mysql/concepts-connection-libraries).
