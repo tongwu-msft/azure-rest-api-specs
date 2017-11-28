@@ -20,3 +20,10 @@ The Azure Consumption APIs give you programmatic access to cost and usage data f
 |-----------------|-------------|
 | [Usage Details](usagedetails.md) | Provides operations to get usage infomration on subscription. |
 
+## See also
+
+For more information about using this API in one of the language-specific SDKs, please visit the following
+
+[Azure Consumption Python SDK](https://docs.microsoft.com/en-us/python/api/overview/azure/consumption?view=azure-python)
+
+[Azure Consumption CLI](https://docs.microsoft.com/en-us/cli/azure/consumption?view=azure-cli-latest)
