@@ -43,8 +43,27 @@
               "ifMatch": null,
               "integrationRuntime": {
                 "properties": {
-                  "type": "SelfHosted",
-                  "description": "A selfhosted integration runtime"
+                  "type": "Managed",
+                  "typeProperties": {
+                    "computeProperties": {
+                      "location": "West US",
+                      "nodeSize": "Standard_D1_v2",
+                      "numberOfNodes": 1,
+                      "maxParallelExecutionsPerNode": 1
+                    },
+                    "ssisProperties": {
+                      "catalogInfo": {
+                        "catalogServerEndpoint": "yandongtestsvr.database.windows.net",
+                        "catalogAdminUserName": "yanzhang",
+                        "catalogAdminPassword": {
+                          "type": "SecureString",
+                          "value": "Passw0rd1"
+                        },
+                        "catalogPricingTier": "S1"
+                      }
+                    }
+                  },
+                  "description": "A managed reserved integration runtime"
                 }
               },
               "api-version": "2017-09-01-preview"
@@ -52,56 +71,38 @@
             "responses": {
               "200": {
                 "headers": {
-                  "Date": "Wed, 13 Sep 2017 17:33:57 GMT",
-                  "x-ms-request-id": "00343f86-8554-407b-973d-cd2aa88a97bd",
-                  "X-Content-Type-Options": "nosniff",
-                  "x-ms-ratelimit-remaining-subscription-writes": "1196",
-                  "x-ms-correlation-request-id": "c12bfd3b-3ad8-4bc8-a8be-aa92193df946"
+                  "Date": "Tue, 28 Nov 2017 07:05:28 GMT",
+                  "x-ms-request-id": "ef607971-0494-480e-82e7-73df0c671d9e",
+                  "X-Content-Type-Options": "nosniff"
                 },
                 "body": {
                   "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationruntimes/exampleIntegrationRuntime",
                   "name": "exampleIntegrationRuntime",
                   "properties": {
-                    "type": "SelfHosted",
-                    "description": "A selfhosted integration runtime"
+                    "type": "Managed",
+                    "typeProperties": {
+                      "computeProperties": {
+                        "location": "West US",
+                        "nodeSize": "Standard_D1_v2",
+                        "numberOfNodes": 1,
+                        "maxParallelExecutionsPerNode": 1
+                      },
+                      "ssisProperties": {
+                        "catalogInfo": {
+                          "catalogServerEndpoint": "yandongtestsvr.database.windows.net",
+                          "catalogAdminUserName": "yanzhang",
+                          "catalogAdminPassword": {
+                            "type": "SecureString",
+                            "value": "**********"
+                          },
+                          "catalogPricingTier": "S1"
+                        }
+                      }
+                    },
+                    "description": "A managed reserved integration runtime",
+                    "state": "Initial"
                   },
-                  "etag": "2803f7a6-0000-0000-0000-59b96c050000"
-                }
-              }
-            }
-          },
-          "IntegrationRuntimes_Update": {
-            "parameters": {
-              "subscriptionId": "12345678-1234-1234-12345678abc",
-              "resourceGroupName": "exampleResourceGroup",
-              "factoryName": "exampleFactoryName",
-              "integrationRuntimeName": "exampleIntegrationRuntime",
-              "ifMatch": null,
-              "integrationRuntime": {
-                "properties": {
-                  "type": "SelfHosted",
-                  "description": "Update description"
-                }
-              },
-              "api-version": "2017-09-01-preview"
-            },
-            "responses": {
-              "200": {
-                "headers": {
-                  "Date": "Wed, 13 Sep 2017 17:55:50 GMT",
-                  "x-ms-request-id": "3ec5982c-3567-4dce-a721-bd50d9fa6591",
-                  "X-Content-Type-Options": "nosniff",
-                  "x-ms-ratelimit-remaining-subscription-writes": "1191",
-                  "x-ms-correlation-request-id": "3a0c819a-37d7-48f7-b609-3ca53f7214cc"
-                },
-                "body": {
-                  "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationruntimes/exampleIntegrationRuntime",
-                  "name": "exampleIntegrationRuntime",
-                  "properties": {
-                    "type": "SelfHosted",
-                    "description": "Update description"
-                  },
-                  "etag": "28031ba7-0000-0000-0000-59b971260000"
+                  "etag": "0100333d-0000-0000-0000-5a1d0ab80000"
                 }
               }
             }
@@ -425,6 +426,31 @@
         "nextLink": {
           "description": "The link to the next page of results, if any remaining results exist.",
           "type": "string"
+        }
+      }
+    },
+    "UpdateIntegrationRuntimeRequest": {
+      "description": "Update integration runtime request.",
+      "type": "object",
+      "properties": {
+        "autoUpdate": {
+          "description": "Enables or disables the auto-update feature of the self-hosted integration runtime. See https://go.microsoft.com/fwlink/?linkid=854189.",
+          "$ref": "#/definitions/IntegrationRuntimeAutoUpdate"
+        },
+        "updateDelayOffset": {
+          "description": "The time offset (in hours) in the day, e.g., PT03H is 3 hours. The integration runtime auto update will happen on that time.",
+          "type": "string"
+        }
+      }
+    },
+    "UpdateIntegrationRuntimeNodeRequest": {
+      "description": "Update integration runtime node request.",
+      "type": "object",
+      "properties": {
+        "concurrentJobsLimit": {
+          "description": "The number of concurrent jobs permitted to run on the integration runtime node. Values between 1 and maxConcurrentJobs(inclusive) are allowed.",
+          "type": "integer",
+          "minimum": 1
         }
       }
     },
@@ -9370,6 +9396,19 @@
         }
       }
     },
+    "IntegrationRuntimeAutoUpdate": {
+      "description": "The state of integration runtime auto update.",
+      "type": "string",
+      "readOnly": true,
+      "enum": [
+        "On",
+        "Off"
+      ],
+      "x-ms-enum": {
+        "name": "IntegrationRuntimeAutoUpdate",
+        "modelAsString": true
+      }
+    },
     "IntegrationRuntimeState": {
       "description": "The state of integration runtime.",
       "type": "string",
@@ -9387,6 +9426,18 @@
       ],
       "x-ms-enum": {
         "name": "IntegrationRuntimeState",
+        "modelAsString": true
+      }
+    },
+    "IntegrationRuntimeType": {
+      "description": "The type of integration runtime.",
+      "type": "string",
+      "enum": [
+        "Managed",
+        "SelfHosted"
+      ],
+      "x-ms-enum": {
+        "name": "IntegrationRuntimeType",
         "modelAsString": true
       }
     },
@@ -9595,15 +9646,12 @@
         },
         "autoUpdate": {
           "description": "Whether Self-hosted integration runtime auto update has been turned on.",
+          "$ref": "#/definitions/IntegrationRuntimeAutoUpdate",
+          "readOnly": true
+        },
+        "versionStatus": {
+          "description": "Status of the integration runtime version.",
           "type": "string",
-          "enum": [
-            "On",
-            "Off"
-          ],
-          "x-ms-enum": {
-            "name": "IntegrationRuntimeAutoUpdate",
-            "modelAsString": true
-          },
           "readOnly": true
         }
       }
@@ -9659,6 +9707,11 @@
             "type": "string",
             "description": "Error message parameters."
           },
+          "readOnly": true
+        },
+        "activityId": {
+          "description": "The activity id for the operation request.",
+          "type": "string",
           "readOnly": true
         }
       },
@@ -9794,7 +9847,7 @@
       "properties": {
         "type": {
           "description": "Type of integration runtime.",
-          "type": "string"
+          "$ref": "#/definitions/IntegrationRuntimeType"
         },
         "state": {
           "description": "The state of integration runtime.",
@@ -9826,7 +9879,9 @@
         },
         "catalogAdminUserName": {
           "description": "The administrator user name of catalog database.",
-          "type": "string"
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
         },
         "catalogAdminPassword": {
           "description": "The password of the administrator user account of the catalog database.",
@@ -9959,7 +10014,7 @@
       "properties": {
         "type": {
           "description": "Type of integration runtime.",
-          "type": "string"
+          "$ref": "#/definitions/IntegrationRuntimeType"
         },
         "description": {
           "description": "Integration runtime description.",
@@ -9972,6 +10027,17 @@
       "required": [
         "type"
       ]
+    },
+    "IntegrationRuntimeNodeIpAddress": {
+      "type": "object",
+      "description": "The IP address of self-hosted integration runtime node.",
+      "properties": {
+        "ipAddress": {
+          "description": "The IP address of self-hosted integration runtime node.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
     },
     "IntegrationRuntimeNodeMonitoringData": {
       "description": "Monitoring data for integration runtime node.",
@@ -10220,6 +10286,20 @@
       "in": "path",
       "required": true,
       "type": "string",
+      "pattern": "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
+      "minLength": 3,
+      "maxLength": 63,
+      "x-ms-parameter-location": "method"
+    },
+    "nodeName": {
+      "name": "nodeName",
+      "description": "The integration runtime node name.",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "^[a-z0-9A-Z][a-z0-9A-Z_-]{0,149}$",
+      "minLength": 1,
+      "maxLength": 150,
       "x-ms-parameter-location": "method"
     },
     "api-version": {
