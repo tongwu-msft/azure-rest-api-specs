@@ -32,7 +32,7 @@
   "parameters": {
     "api-version": {
       "name": "api-version",
-      "description": "Version of the API",
+      "description": "Version number of Azure LBS API.  Current version is 1.0",
       "type": "string",
       "in": "query",
       "required": true,
@@ -41,7 +41,7 @@
     },
     "format": {
       "name": "format",
-      "description": "Format of the response",
+      "description": "Desired format of the response",
       "type": "string",
       "in": "path",
       "required": true,
@@ -53,18 +53,10 @@
       ],
       "x-ms-parameter-location": "method"
     },
-    "subscription-key": {
-      "name": "subscription-key",
-      "description": "Azure LBS subscription key",
-      "type": "string",
-      "in": "query",
-      "required": true,
-      "x-ms-parameter-location": "method"
-    },
     "zoom": {
       "name": "zoom",
       "in": "query",
-      "description": "Zoom level for tile",
+      "description": "Zoom level for desired tile.  0 to 18 for raster tiles, 0 through 20 for vector tiles",
       "required": true,
       "default": "6",
       "type": "string"
@@ -72,7 +64,7 @@
     "x": {
       "name": "x",
       "in": "query",
-      "description": "X value for tile",
+      "description": "X index for the desired tile, based on Spherical Mercator projection coordinate system (EPSG:3857) ",
       "required": true,
       "default": "10",
       "type": "string"
@@ -80,7 +72,7 @@
     "y": {
       "name": "y",
       "in": "query",
-      "description": "Y value for tile",
+      "description": "Y index for the desired tile, based on Spherical Mercator projection coordinate system (EPSG:3857)",
       "required": true,
       "default": "22",
       "type": "string"
@@ -88,7 +80,7 @@
     "query": {
       "name": "query",
       "in": "query",
-      "description": "The query applicable string/coordinates",
+      "description": "The applicable query string and/or coordinates",
       "required": true,
       "type": "string"
     }
@@ -383,106 +375,103 @@
             "$ref": "#/parameters/api-version"
           },
           {
-            "$ref": "#/parameters/subscription-key"
-          },
-          {
             "$ref": "#/parameters/query"
           },
           {
             "name": "typeahead",
             "in": "query",
-            "description": "If the typeahead flag is set, the query will be interpreted as a partial input and the search will enter�predictive�mode",
+            "description": "true or false.  If the typeahead flag is set, the query will be interpreted as a partial input and the search will enter�predictive�mode",
             "required": false,
             "type": "string"
           },
           {
             "name": "limit",
             "in": "query",
-            "description": "Maximum number of responses that will be returned",
+            "description": "Maximum number of responses that will be returned.  Max value is 100",
             "required": false,
             "type": "string"
           },
           {
             "name": "ofs",
             "in": "query",
-            "description": "Starting offset of the returned results within the full result set",
+            "description": "Starting offset of the returned results within the full result set.  Max value is 1900",
             "required": false,
             "type": "string"
           },
           {
             "name": "countrySet",
             "in": "query",
-            "description": "Comma separated string of country codes",
+            "description": "Comma separated string of country codes, e.g. FR, ES. This will limit the search to the specified countries",
             "required": false,
             "type": "string"
           },
           {
             "name": "lat",
             "in": "query",
-            "description": "Latitude where results should be biased",
+            "description": "Latitude where results should be biased.  E.g. 37.337",
             "required": false,
             "type": "string"
           },
           {
             "name": "lon",
             "in": "query",
-            "description": "Longitude where results should be biased",
+            "description": "Longitude where results should be biased.  E.g. -121.89",
             "required": false,
             "type": "string"
           },
           {
             "name": "radius",
             "in": "query",
-            "description": "If radius�and�position are set, the results will be constrained to the defined area",
+            "description": "The radius in meters to for the results to be constrained to the defined area",
             "required": false,
             "type": "string"
           },
           {
             "name": "topLeft",
             "in": "query",
-            "description": "Top left position of the bounding box",
+            "description": "Top left position of the bounding box.  E.g. 37.553,-122.453",
             "required": false,
             "type": "string"
           },
           {
             "name": "btmRight",
             "in": "query",
-            "description": "Bottom right position of the bounding box",
+            "description": "Bottom right position of the bounding box. E.g. 37.553,-122.453",
             "required": false,
             "type": "string"
           },
           {
             "name": "language",
             "in": "query",
-            "description": "Language in which search results should be returned",
+            "description": "Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used",
             "required": false,
             "type": "string"
           },
           {
             "name": "extendedPostalCodesFor",
             "in": "query",
-            "description": "Indexes for which extended postal codes should be included in the results",
+            "description": "Indexes for which extended postal codes should be included in the results. Available indexes are: Addr = Address ranges, Geo = Geographies, PAD = Point Addresses, POI = Points of Interest, Str = Streets, XStr = Cross Streets (intersections)",
             "required": false,
             "type": "string"
           },
           {
             "name": "minFuzzyLevel",
             "in": "query",
-            "description": "Minimum fuzzyness level to be used",
+            "description": "Minimum fuzzyness level to be used.  E.g. 1 - 4",
             "required": false,
             "type": "string"
           },
           {
             "name": "maxFuzzyLevel",
             "in": "query",
-            "description": "Maximum fuzzyness level to be used",
+            "description": "Maximum fuzzyness level to be used E.g. 2 - 4",
             "required": false,
             "type": "string"
           },
           {
             "name": "idxSet",
             "in": "query",
-            "description": "A comma separated list of indexes which should be utilized for the search",
+            "description": "A comma separated list of indexes which should be utilized for the search. Item order does not matter. Available indexes are: Addr = Address range interpolation, Geo = Geographies, PAD = Point Addresses, POI = Points of interest, Str = Streets, Xstr = Cross Streets (intersections)",
             "required": false,
             "type": "string"
           }
