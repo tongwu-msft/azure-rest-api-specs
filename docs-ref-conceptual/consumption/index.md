@@ -39,4 +39,6 @@ For more information about using this API in one of the language-specific SDKs, 
 
 [Azure Consumption .NET SDK](/dotnet/api/overview/azure/consumption/management?view=azure-dotnet)
 
-[Azure COnsumption NodeJS SDK](/javascript/api/overview/azure/consumption?view=azure-node-2.2.0)
+[Azure Consumption NodeJS SDK](/javascript/api/overview/azure/consumption?view=azure-node-2.2.0)
+
+[Azure Consumption Ruby SDK](https://rubygems.org/gems/azure_mgmt_consumption)
