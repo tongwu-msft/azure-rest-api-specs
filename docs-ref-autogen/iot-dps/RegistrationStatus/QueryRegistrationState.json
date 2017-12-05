@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-08-31-preview",
+    "version": "2017-11-15",
     "title": "DeviceProvisioningService_ServiceRuntimeClient",
     "description": "API for service operations with the Azure IotHub Device Provisioning Service"
   },
@@ -11,13 +11,13 @@
     "https"
   ],
   "paths": {
-    "/registrations/{id}": {
-      "get": {
+    "/registrations/{id}/query": {
+      "post": {
         "tags": [
-          "GET"
+          "POST"
         ],
-        "summary": "Gets the device registration status.",
-        "operationId": "RegistrationStatus_GetRegistrationStatus",
+        "summary": "Gets the registration state of devices in this enrollmentGroup.",
+        "operationId": "RegistrationStatus_QueryRegistrationState",
         "consumes": [],
         "produces": [
           "application/json"
@@ -26,7 +26,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Registration ID.",
+            "description": "Enrollment group ID.",
             "required": true,
             "type": "string"
           }
@@ -35,16 +35,19 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/DeviceRegistrationStatus"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DeviceRegistrationState"
+              }
             }
           }
         },
-        "x-internal-toc-name": "Get Registration Status"
+        "x-internal-toc-name": "Query Registration State"
       }
     }
   },
   "definitions": {
-    "Enrollment": {
+    "IndividualEnrollment": {
       "description": "The device enrollment record.",
       "required": [
         "registrationId",
@@ -53,30 +56,35 @@
       "type": "object",
       "properties": {
         "registrationId": {
+          "description": "Registration ID.",
           "type": "string"
         },
         "deviceId": {
+          "description": "Desired IoT Hub device ID (optional).",
           "type": "string"
         },
-        "registrationStatus": {
-          "$ref": "#/definitions/DeviceRegistrationStatus"
+        "registrationState": {
+          "$ref": "#/definitions/DeviceRegistrationState",
+          "description": "Current registration status."
         },
         "attestation": {
-          "$ref": "#/definitions/AttestationMechanism"
+          "$ref": "#/definitions/AttestationMechanism",
+          "description": "Attestation method used by the device."
         },
         "iotHubHostName": {
+          "description": "The Iot Hub host name.",
           "type": "string"
         },
-        "initialTwinState": {
-          "$ref": "#/definitions/TwinState"
+        "initialTwin": {
+          "$ref": "#/definitions/InitialTwin",
+          "description": "Initial device twin."
         },
         "etag": {
-          "type": "string"
-        },
-        "generationId": {
+          "description": "The entity tag associated with the resource.",
           "type": "string"
         },
         "provisioningStatus": {
+          "description": "The provisioning status.",
           "enum": [
             "enabled",
             "disabled"
@@ -85,16 +93,18 @@
         },
         "createdDateTimeUtc": {
           "format": "date-time",
+          "description": "The DateTime this resource was created.",
           "type": "string"
         },
         "lastUpdatedDateTimeUtc": {
           "format": "date-time",
+          "description": "The DateTime this resource was last updated.",
           "type": "string"
         }
       }
     },
-    "DeviceRegistrationStatus": {
-      "description": "Device registration status.",
+    "DeviceRegistrationState": {
+      "description": "Device registration state.",
       "required": [
         "registrationId",
         "status"
@@ -102,19 +112,24 @@
       "type": "object",
       "properties": {
         "registrationId": {
+          "description": "Registration ID.",
           "type": "string"
         },
         "createdDateTimeUtc": {
           "format": "date-time",
+          "description": "Registration create date time (in UTC).",
           "type": "string"
         },
         "assignedHub": {
+          "description": "Assigned Azure IoT Hub.",
           "type": "string"
         },
         "deviceId": {
+          "description": "Device ID.",
           "type": "string"
         },
         "status": {
+          "description": "Enrollment status.",
           "enum": [
             "unassigned",
             "assigning",
@@ -124,21 +139,22 @@
           ],
           "type": "string"
         },
-        "generationId": {
+        "errorCode": {
+          "format": "int32",
+          "description": "Error code.",
+          "type": "integer"
+        },
+        "errorMessage": {
+          "description": "Error message.",
           "type": "string"
         },
         "lastUpdatedDateTimeUtc": {
           "format": "date-time",
-          "type": "string"
-        },
-        "errorCode": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "errorMessage": {
+          "description": "Last updated date time (in UTC).",
           "type": "string"
         },
         "etag": {
+          "description": "The entity tag associated with the resource.",
           "type": "string"
         }
       }
@@ -166,23 +182,17 @@
         }
       }
     },
-    "TwinState": {
-      "description": "Device twin state.",
+    "InitialTwin": {
+      "description": "Initial device twin. Contains a subset of the properties of Twin.",
       "type": "object",
       "properties": {
         "tags": {
           "$ref": "#/definitions/TwinCollection",
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "description": "Twin tags."
         },
-        "desiredProperties": {
-          "$ref": "#/definitions/TwinCollection",
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+        "properties": {
+          "$ref": "#/definitions/InitialTwinProperties",
+          "description": "Twin desired properties."
         }
       }
     },
@@ -210,6 +220,18 @@
         },
         "signingCertificates": {
           "$ref": "#/definitions/X509Certificates"
+        },
+        "caReferences": {
+          "$ref": "#/definitions/X509CAReferences"
+        }
+      }
+    },
+    "InitialTwinProperties": {
+      "type": "object",
+      "properties": {
+        "desired": {
+          "$ref": "#/definitions/TwinCollection",
+          "description": "Gets and sets the InitialTwin desired properties."
         }
       }
     },
@@ -222,6 +244,18 @@
         },
         "secondary": {
           "$ref": "#/definitions/X509CertificateWithInfo"
+        }
+      }
+    },
+    "X509CAReferences": {
+      "description": "Primary and secondary CA references.",
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string"
+        },
+        "secondary": {
+          "type": "string"
         }
       }
     },
@@ -281,7 +315,7 @@
       }
     },
     "EnrollmentGroup": {
-      "description": "The device enrollment record.",
+      "description": "Enrollment group record.",
       "required": [
         "enrollmentGroupId",
         "attestation"
@@ -289,24 +323,27 @@
       "type": "object",
       "properties": {
         "enrollmentGroupId": {
+          "description": "Enrollment Group ID.",
           "type": "string"
         },
         "attestation": {
-          "$ref": "#/definitions/AttestationMechanism"
+          "$ref": "#/definitions/AttestationMechanism",
+          "description": "Attestation method used by the device."
         },
         "iotHubHostName": {
+          "description": "The Iot Hub host name.",
           "type": "string"
         },
-        "initialTwinState": {
-          "$ref": "#/definitions/TwinState"
+        "initialTwin": {
+          "$ref": "#/definitions/InitialTwin",
+          "description": "Initial device twin."
         },
         "etag": {
-          "type": "string"
-        },
-        "generationId": {
+          "description": "The entity tag associated with the resource.",
           "type": "string"
         },
         "provisioningStatus": {
+          "description": "The provisioning status.",
           "enum": [
             "enabled",
             "disabled"
@@ -315,22 +352,26 @@
         },
         "createdDateTimeUtc": {
           "format": "date-time",
+          "description": "The DateTime this resource was created.",
           "type": "string"
         },
         "lastUpdatedDateTimeUtc": {
           "format": "date-time",
+          "description": "The DateTime this resource was last updated.",
           "type": "string"
         }
       }
     },
-    "BulkOperation": {
+    "BulkEnrollmentOperation": {
       "description": "Bulk operation",
       "required": [
-        "mode"
+        "mode",
+        "enrollments"
       ],
       "type": "object",
       "properties": {
         "mode": {
+          "description": "Operation mode",
           "enum": [
             "create",
             "update",
@@ -340,33 +381,36 @@
           "type": "string"
         },
         "enrollments": {
+          "description": "Enrollment items",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Enrollment"
+            "$ref": "#/definitions/IndividualEnrollment"
           }
         }
       }
     },
-    "BulkOperationResult": {
-      "description": "Bulk operation result",
+    "BulkEnrollmentOperationResult": {
+      "description": "Bulk enrollment operation result",
       "required": [
         "isSuccessful"
       ],
       "type": "object",
       "properties": {
         "isSuccessful": {
+          "description": "Indicates if the operation was successful in its entirety",
           "type": "boolean"
         },
         "errors": {
+          "description": "Registration errors",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/DeviceRegistrationOperationError"
+            "$ref": "#/definitions/BulkEnrollmentOperationError"
           }
         }
       }
     },
-    "DeviceRegistrationOperationError": {
-      "description": "Device registration operation error",
+    "BulkEnrollmentOperationError": {
+      "description": "Bulk enrollment operation error",
       "required": [
         "registrationId",
         "errorCode",
@@ -375,12 +419,16 @@
       "type": "object",
       "properties": {
         "registrationId": {
+          "description": "Device registration id.",
           "type": "string"
         },
         "errorCode": {
-          "type": "string"
+          "format": "int32",
+          "description": "Error code",
+          "type": "integer"
         },
         "errorStatus": {
+          "description": "Error status",
           "type": "string"
         }
       }
