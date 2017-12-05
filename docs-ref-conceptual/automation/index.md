@@ -1,4 +1,4 @@
- ---
+---
 ms.assetid: b7c27eda-bd1b-4b77-88dc-e6cb5e25453f
 title: Automation REST API | Microsoft Docs
 author: mgoedtel
