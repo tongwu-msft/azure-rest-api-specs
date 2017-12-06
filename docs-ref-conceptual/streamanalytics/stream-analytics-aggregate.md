@@ -12,21 +12,22 @@ The **Create Function** request is specified as follows.
 
 For headers and parameters that are used by all requests related to Stream Analytics jobs, see  [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see  [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).
 
+
 | Method | Request URI |
 | --- | --- |
 | **PUT** | https://&lt;endpoint&gt;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{aggregateName}?api-version={api-version} |
 
 **Parameters**
 
-Replace {subscription-id} with your subscription ID.
+* Replace {subscription-id} with your subscription ID.
 
-Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see  [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
+* Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see  [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
 
-Replace {job-name} with the name that you want to assign to the Stream Analytics job that you are creating. The job name is case insensitive and must be unique among all inputs in the job, containing only numbers, letters, and hyphens. It must be 3 to 63 characters long.
+* Replace {job-name} with the name that you want to assign to the Stream Analytics job that you are creating. The job name is case insensitive and must be unique among all inputs in the job, containing only numbers, letters, and hyphens. It must be 3 to 63 characters long.
 
-Replace {aggregateName} with the name of the user-defined aggregate.
+* Replace {aggregateName} with the name of the user-defined aggregate.
 
-Replace {api-version} with 2015-10-01 in the URI.
+* Replace {api-version} with 2015-10-01 in the URI.
 
 **Request Headers**
 
@@ -37,26 +38,17 @@ Common request headers only.
 **JSON**
 
 ```json
+{  
+  "properties": {  
+    "type": "<aggregate type>",  
+    "properties": {  
+      .  
+      . "aggregate type-specific properties"  
+      .  
+    }  
+  }  
+}  
 
-{
-
-  &quot;properties&quot;: {
-
-    &quot;type&quot;: &lt;aggregate type&gt;,
-
-    &quot;properties&quot;: {
-
-      .
-
-      . aggregate type-specific properties
-
-      .
-
-    }
-
-  }
-
-}
 ```
 
 | Property | Required | Description |
@@ -83,68 +75,40 @@ Properties for Aggregate function type:
 ### Example payload to create an Azure Stream Analytics JavaScript aggregate.
 
 ```json
-
 {
-
-  &quot;properties&quot;: {
-
-    &quot;type&quot;: &quot;Aggregate&quot;,  //Aggregate type.
-
-    &quot;properties&quot;: {
-
-      &quot;inputs&quot;: [ // accumulate input parameter(s).
-
+  "properties": {
+    "type": "Aggregate",  //Aggregate type.
+    "properties": {
+      "inputs": [ // accumulate input parameter(s).
         {
-
-          &quot;dataType&quot;: &quot;any&quot;, // Input data type
-
+          "dataType": "any", // Input data type
         }
-
       ],
-
-      &quot;output&quot;: { // Output
-
-        &quot;dataType&quot;: &quot;any&quot; // Output data type
-
+      "output": { // Output
+        "dataType": "any" // Output data type
       },
-
-      &quot;binding&quot;: {
-
-        &quot;type&quot;: &quot;Microsoft.StreamAnalytics/JavascriptUdf&quot;,
-
-        &quot;properties&quot;: { // Aggregate definition
-
-          &quot;script&quot;: &quot;function main() {
-
+      "binding": {
+        "type": "Microsoft.StreamAnalytics/JavascriptUdf",
+        "properties": { // Aggregate definition
+          "script": "function main() {
                           this.init = function () {
-
                               this.state = 0;
-
                           }
 
                           this.accumulate = function (value, timestamp) {
-
                               this.state += value;
-
                           }
 
                           this.computeResult = function () {
-
                               return this.state;
-
                           }
-
-                     }&quot;
-
+                     }"
         }
-
       }
-
     }
-
   }
-
 }
+
 ```
 
 Binding properties for Microsoft.StreamAnalytics/JavascriptUdf.
@@ -170,26 +134,17 @@ Common response headers only
 **Response Body**
 
 ```json
+{  
+  "properties": {  
+    "type": "{aggregate type}",  
+    "properties": {  
+      .  
+      . "aggregate type-specific properties"  
+      .  
+    }  
+  }  
+}  
 
-{
-
-  &quot;properties&quot;: {
-
-    &quot;type&quot;: {aggregate type},
-
-    &quot;properties&quot;: {
-
-      .
-
-      . aggregate type-specific properties
-
-      .
-
-    }
-
-  }
-
-}
 ```
 
 ## Delete
@@ -210,15 +165,15 @@ Request
 
 **Parameters**
 
-Replace {subscription-id} with your subscription ID.
+* Replace {subscription-id} with your subscription ID.
 
-Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see  [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
+* Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see  [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
 
-Replace {job-name} with the name that you want to assign to the Stream Analytics job that you are creating. The job name is case insensitive and must be unique among all inputs in the job, containing only numbers, letters, and hyphens. It must be 3 to 63 characters long.
+* Replace {job-name} with the name that you want to assign to the Stream Analytics job that you are creating. The job name is case insensitive and must be unique among all inputs in the job, containing only numbers, letters, and hyphens. It must be 3 to 63 characters long.
 
-Replace {aggregateName} with the name of the user-defined aggregate.
+* Replace {aggregateName} with the name of the user-defined aggregate.
 
-Replace {api-version} with 2015-10-01 in the URI.
+* Replace {api-version} with 2015-10-01 in the URI.
 
 **Request Headers**
 
@@ -252,15 +207,15 @@ For headers and parameters that are used by all requests related to Stream Analy
 | --- | --- |
 | **GET** | https://&lt;endpoint&gt;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{aggregateName}?api-version={api-version} |
 
-Replace {subscription-id} with your subscription ID.
+* Replace {subscription-id} with your subscription ID.
 
-Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see  [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
+* Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see  [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
 
-Replace {job-name} with the name of the Stream Analytics job that you want information about.
+* Replace {job-name} with the name of the Stream Analytics job that you want information about.
 
-Replace aggregateName with the name of the user-defined aggregate.
+* Replace aggregateName with the name of the user-defined aggregate.
 
-Replace {api-version} with 2015-10-01 in the URI.
+* Replace {api-version} with 2015-10-01 in the URI.
 
 ### Response
 
@@ -270,31 +225,20 @@ Status code: 200
 
 ```json
 
-{
+{  
+  "id": "/subscriptions/{id}/resourceGroups/{group}/providers/microsoft.streamAnalytics/streamingjobs/filterSample/functions/{aggregateName}",  
+  "name": "{aggregateName}",  
+  "type": "Microsoft.StreamAnalytics/streamingjobs/functions",  
+  "properties": {  
+    "type": "{aggregateType}",  
+    "properties": {  
+      .  
+      . "aggregate type-specific properties"  
+      .  
+    }  
+  }  
+}  
 
-  &quot;id&quot;: &quot;/subscriptions/{id}/resourceGroups/{group}/providers/microsoft.streamAnalytics/streamingjobs/filterSample/functions/{aggregateName}&quot;,
-
-  &quot;name&quot;: {aggregateName},
-
-  &quot;type&quot;: &quot;Microsoft.StreamAnalytics/streamingjobs/functions&quot;,
-
-  &quot;properties&quot;: {
-
-    &quot;type&quot;: {aggregateType},
-
-    &quot;properties&quot;: {
-
-      .
-
-      . aggregate type-specific properties
-
-      .
-
-    }
-
-  }
-
-}
 ```
 
 ## List
@@ -311,13 +255,13 @@ For headers and parameters that are used by all requests related to Stream Analy
 | --- | --- |
 | **GET** | [https://managment.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs/{job-name}/functions&amp;api-version={api-version}](https://managment.azure.com/subscriptions/%7bsubscription-id%7d/resourceGroups/%7bresource-group-name%7d/providers/Microsoft.StreamAnalytics/streamingjobs/%7bjob-name%7d/functions&amp;api-version=%7bapi-version%7d) |
 
-Replace {subscription-id} with your subscription ID.
+* Replace {subscription-id} with your subscription ID.
 
-Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see  [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
+* Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see  [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
 
-Replace {job-name} with the name of the Stream Analytics job.
+* Replace {job-name} with the name of the Stream Analytics job.
 
-Replace {api-version} with 2015-10-01-preview in the URI.
+* Replace {api-version} with 2015-10-01-preview in the URI.
 
 ### Response
 
@@ -328,32 +272,21 @@ Status code: 200
 The following example shows a response from a List Functions request for a Stream Analytics job with one Azure Machine Learning Function.
 
 ```json
+{  
+  "id": "/subscriptions/{id}/resourceGroups/{group}/providers/microsoft.streamAnalytics/streamingjobs/filterSample/functions/{aggregateName}",  
+  "name": "{aggregateName}",  
+  "type": "Microsoft.StreamAnalytics/streamingjobs/functions",  
+  "properties": {  
+    "type": "{aggregateType}",  
+    "properties": {  
+      .  
+      . "aggregate type-specific properties"  
+      .  
+    }  
+  }  
+}   
 
-{
 
-  &quot;id&quot;: &quot;/subscriptions/{id}/resourceGroups/{group}/providers/microsoft.streamAnalytics/streamingjobs/filterSample/functions/{aggregateName}&quot;,
-
-  &quot;name&quot;: {aggregateName},
-
-  &quot;type&quot;: &quot;Microsoft.StreamAnalytics/streamingjobs/functions&quot;,
-
-  &quot;properties&quot;: {
-
-    &quot;type&quot;: {aggregateType},
-
-    &quot;properties&quot;: {
-
-      .
-
-      . aggregate type-specific properties
-
-      .
-
-    }
-
-  }
-
-}
 ```
 
 ## Test
@@ -376,15 +309,15 @@ Request
 
 **Parameters**
 
-Replace {subscription-id} with your subscription ID.
+* Replace {subscription-id} with your subscription ID.
 
-Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see  [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
+* Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see  [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
 
-Replace {job-name} with the name that you want to assign to the Stream Analytics job that you are creating. The job name is case insensitive and must be unique among all inputs in the job, containing only numbers, letters, and hyphens. It must be 3 to 63 characters long.
+* Replace {job-name} with the name that you want to assign to the Stream Analytics job that you are creating. The job name is case insensitive and must be unique among all inputs in the job, containing only numbers, letters, and hyphens. It must be 3 to 63 characters long.
 
-Replace {aggregateName} with the name of the user-defined aggregate.
+* Replace {aggregateName} with the name of the user-defined aggregate.
 
-Replace {api-version} with 2015-10-01 in the URI.
+* Replace {api-version} with 2015-10-01 in the URI.
 
 **Request Headers**
 
@@ -429,15 +362,15 @@ For headers and parameters that are used by all requests related to Stream Analy
 
 **Parameters**
 
-Replace {subscription-id} with your subscription ID.
+* Replace {subscription-id} with your subscription ID.
 
-Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see  [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
+* Replace {resource-group-name} with the name of the resource group that this job belongs to. For more information about creating resource groups, see  [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
 
-Replace {job-name} with the name that you want to assign to the Stream Analytics job that you are creating. The job name is case insensitive and must be unique among all inputs in the job, containing only numbers, letters, and hyphens. It must be 3 to 63 characters long.
+* Replace {job-name} with the name that you want to assign to the Stream Analytics job that you are creating. The job name is case insensitive and must be unique among all inputs in the job, containing only numbers, letters, and hyphens. It must be 3 to 63 characters long.
 
-Replace {aggregateName} with the name of the user-defined aggregate.
+* Replace {aggregateName} with the name of the user-defined aggregate.
 
-Replace {api-version} with 2015-10-01 in the URI.
+* Replace {api-version} with 2015-10-01 in the URI.
 
 **Request Headers**
 
@@ -450,26 +383,18 @@ One or more properties used in the Create Function may be specified in the reque
 **JSON**
 
 ```json
+{  
+  "properties": {  
+    "type": "{aggregate type}",  
+    "properties": {  
+      .  
+      . "aggregate type-specific properties"  
+      .  
+    }  
+  }  
+}  
 
-{
 
-  &quot;properties&quot;: {
-
-    &quot;type&quot;: {aggregate type},
-
-    &quot;properties&quot;: {
-
-      .
-
-      . aggregate type-specific properties
-
-      .
-
-    }
-
-  }
-
-}
 ```
 
 | Property | Required | Description |
@@ -502,26 +427,18 @@ Common response headers only
 **Response Body**
 
 ```json
+{  
+  "properties": {  
+    "type": "{aggregate type}",  
+    "properties": {  
+      .  
+      . "aggregate type-specific properties"  
+      .  
+    }  
+  }  
+}  
 
-{
 
-  &quot;properties&quot;: {
-
-    &quot;type&quot;: {aggregate type},
-
-    &quot;properties&quot;: {
-
-      .
-
-      . aggregate type-specific properties
-
-      .
-
-    }
-
-  }
-
-}
 ```
 
 > [!NOTE]  
