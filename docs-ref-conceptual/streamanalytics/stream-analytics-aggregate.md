@@ -53,7 +53,7 @@ Common request headers only.
 
 | Property | Required | Description |
 | --- | --- | --- |
-| **type** | Yes | The aggregate type value is &quot;Aggregate&quot;. |
+| **type** | Yes | The aggregate type value is "Aggregate". |
 | **properties** | Yes | Collection of aggregate type-specific properties. May be empty. |
 
 Properties for Aggregate function type:
@@ -121,11 +121,11 @@ Binding properties for Microsoft.StreamAnalytics/JavascriptUdf.
 
 **Status code:**
 
-- 201 (Created) or 200 (OK) if request completed successfully
-- 404 (NotFound) if top-level resources are not found (subscription, resource group, or job).
-- 409 (Conflict) if job is in a state where updating functions is not allowed
-- 412 (Precondition Failed) if failed condition specified by If-Match header.
-- 400 (Bad Request) if request body fails validation.
+* 201 (Created) or 200 (OK) if request completed successfully
+* 404 (NotFound) if top-level resources are not found (subscription, resource group, or job).
+* 409 (Conflict) if job is in a state where updating functions is not allowed
+* 412 (Precondition Failed) if failed condition specified by If-Match header.
+* 400 (Bad Request) if request body fails validation.
 
 **Response Headers**
 
@@ -331,10 +331,10 @@ Any one or more of the input type-specific properties used in PUT may be specifi
 
 **Status Code:**
 
-- 202 (Accepted) if the request was accepted to complete asynchronously.
-- 404 (NotFound) if top-level resources are not found (subscription, resource group, job).
-- 400 (Bad Request) if Test Function is called with an empty request body or a non-existing source.
-- 5xx if the service is unable to run the test due to service or communication issues.
+* 202 (Accepted) if the request was accepted to complete asynchronously.
+* 404 (NotFound) if top-level resources are not found (subscription, resource group, job).
+* 400 (Bad Request) if Test Function is called with an empty request body or a non-existing source.
+* 5xx if the service is unable to run the test due to service or communication issues.
 
 **Response Headers**
 
@@ -399,7 +399,7 @@ One or more properties used in the Create Function may be specified in the reque
 
 | Property | Required | Description |
 | --- | --- | --- |
-| **type** | Yes\* | The aggregate type string &quot;Aggregate&quot;. |
+| **type** | Yes\* | The aggregate type string "Aggregate". |
 | **properties** | Yes | Collection of function type-specific properties to change. May be empty. |
 
 **\** \*Using PATCH to change the function type is not permitted. Since changing the function type likely would specify a whole new set of function type-specific properties. PUT rather than PATCH should be used to replace the complete entity.
@@ -415,10 +415,10 @@ Aggregate type, Binding type, and key properties describing the binding should a
 
 **Status code:**
 
-- 200 (OK) if request completed successfully (or resource does not exist)
-- 409 (Conflict) if job is in a state where updating functions is not allowed
-- 412 (Precondition Failed) if failed condition specified by If-Match header.
-- 400 (Bad Request) if request body fails validation.
+* 200 (OK) if request completed successfully (or resource does not exist)
+* 409 (Conflict) if job is in a state where updating functions is not allowed
+* 412 (Precondition Failed) if failed condition specified by If-Match header.
+* 400 (Bad Request) if request body fails validation.
 
 **Response Headers**
 
