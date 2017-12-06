@@ -36,7 +36,7 @@ Common request headers only.
 
 **JSON**
 
-JSON
+```json
 
 {
 
@@ -57,6 +57,7 @@ JSON
   }
 
 }
+```
 
 | Property | Required | Description |
 | --- | --- | --- |
@@ -76,13 +77,12 @@ Properties for Aggregate function type:
 | Binding.Type | Type of the binding. |
 | Binding.Properties | Properties for the binding. Values are dependent on the type of binding. |
 
-Note
-
-Create Function validates if the binding and input columns specified matches, if it doesn&#39;t it would return an error. This validation is triggered only if either input or output is specified.
+> [!NOTE]  
+> Create Function validates if the binding and input columns specified matches, if it doesn't it would return an error. This validation is triggered only if either input or output is specified.
 
 ### Example payload to create an Azure Stream Analytics JavaScript aggregate.
 
-JSON
+```json
 
 {
 
@@ -145,6 +145,7 @@ JSON
   }
 
 }
+```
 
 Binding properties for Microsoft.StreamAnalytics/JavascriptUdf.
 
@@ -168,7 +169,7 @@ Common response headers only
 
 **Response Body**
 
-JSON
+```json
 
 {
 
@@ -189,6 +190,7 @@ JSON
   }
 
 }
+```
 
 ## Delete
 
@@ -266,7 +268,7 @@ Status code: 200
 
 **JSON**
 
-JSON
+```json
 
 {
 
@@ -293,6 +295,7 @@ JSON
   }
 
 }
+```
 
 ## List
 
@@ -324,7 +327,7 @@ Status code: 200
 
 The following example shows a response from a List Functions request for a Stream Analytics job with one Azure Machine Learning Function.
 
-JSON
+```json
 
 {
 
@@ -351,6 +354,7 @@ JSON
   }
 
 }
+```
 
 ## Test
 
@@ -445,7 +449,7 @@ One or more properties used in the Create Function may be specified in the reque
 
 **JSON**
 
-JSONCopy
+```json
 
 {
 
@@ -466,6 +470,7 @@ JSONCopy
   }
 
 }
+```
 
 | Property | Required | Description |
 | --- | --- | --- |
@@ -474,9 +479,8 @@ JSONCopy
 
 **\** \*Using PATCH to change the function type is not permitted. Since changing the function type likely would specify a whole new set of function type-specific properties. PUT rather than PATCH should be used to replace the complete entity.
 
-Note
-
-Update Function validates if the binding and input columns specified matches, if it doesn&#39;t it would return an error. This validation is triggered only if either input or output is specified.
+> [!NOTE]  
+> Update Function validates if the binding and input columns specified matches, if it doesn't it would return an error. This validation is triggered only if either input or output is specified.
 
 ## Examples
 
@@ -497,7 +501,7 @@ Common response headers only
 
 **Response Body**
 
-JSON
+```json
 
 {
 
@@ -518,7 +522,7 @@ JSON
   }
 
 }
+```
 
-Note
-
-The apiKey secret is not returned in the PATCH response.
+> [!NOTE]  
+> The apiKey secret is not returned in the PATCH response.
