@@ -245,6 +245,8 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  If an existing blob with an active lease is overwritten by a `Put Blob` operation, the lease persists on the updated blob, until it expires or is released.  
   
  A `Put Blob` operation is permitted 10 minutes per MB to complete. If the operation is taking longer than 10 minutes per MB on average, the operation will timeout.  
+ 
+ Overwriting an archived blob will fail and overwriting a `hot`/`cool` blob will inherit the tier from the old blob.
   
 ## See Also  
  [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
