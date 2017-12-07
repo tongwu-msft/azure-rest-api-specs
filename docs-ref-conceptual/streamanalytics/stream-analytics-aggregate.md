@@ -56,6 +56,7 @@ Common request headers only.
 | **type** | Yes | The aggregate type value is "Aggregate". |
 | **properties** | Yes | Collection of aggregate type-specific properties. May be empty. |
 
+
 Properties for Aggregate function type:
 
 | Property | Description |
@@ -157,6 +158,7 @@ The  **Delete Function**  request is specified as follows.
 
 For headers and parameters that are used by all requests related to Stream Analytics jobs, see  [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure the request that is made to the management service is secure. For more information, see  [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).
 
+
 Request
 
 | Method | Request URI |
@@ -202,6 +204,7 @@ Gets information about a specific user-defined aggregate.
 ### Request
 
 For headers and parameters that are used by all requests related to Stream Analytics jobs, see  [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see  [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).
+
 
 | Method | Request URI |
 | --- | --- |
@@ -251,9 +254,10 @@ The  **List Functions**  request is specified as follows.
 
 For headers and parameters that are used by all requests related to Stream Analytics jobs, see  [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see  [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).
 
+
 | Method | Request URI |
 | --- | --- |
-| **GET** | [https://managment.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs/{job-name}/functions&amp;api-version={api-version}](https://managment.azure.com/subscriptions/%7bsubscription-id%7d/resourceGroups/%7bresource-group-name%7d/providers/Microsoft.StreamAnalytics/streamingjobs/%7bjob-name%7d/functions&amp;api-version=%7bapi-version%7d) |
+| **GET** | https://managment.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs/{job-name}/functions&amp;api-version={api-version}|
 
 * Replace {subscription-id} with your subscription ID.
 
@@ -300,6 +304,7 @@ Testing is asynchronous. When the operation is complete, the entity returned in 
 The  **Test Function**  request is specified as follows.
 
 For headers and parameters that are used by all requests related to Stream Analytics jobs, see  [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see  [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).
+
 
 Request
 
@@ -354,6 +359,7 @@ The  **Update Function**  request is specified as follows.
 
 For headers and parameters that are used by all requests related to Stream Analytics jobs, see  [Common parameters and headers](http://msdn.microsoft.com/library/azure/8d088ecc-26eb-42e9-8acc-fe929ed33563). Make sure that the request that is made to the management service is secure. For more information, see  [Authenticating Azure Resource Manager requests](http://msdn.microsoft.com/library/azure/dn790557.aspx).
 
+
 **Request**
 
 | Method | Request URI |
@@ -402,7 +408,7 @@ One or more properties used in the Create Function may be specified in the reque
 | **type** | Yes\* | The aggregate type string "Aggregate". |
 | **properties** | Yes | Collection of function type-specific properties to change. May be empty. |
 
-**\** \*Using PATCH to change the function type is not permitted. Since changing the function type likely would specify a whole new set of function type-specific properties. PUT rather than PATCH should be used to replace the complete entity.
+\*Using PATCH to change the function type is not permitted. Since changing the function type likely would specify a whole new set of function type-specific properties. PUT rather than PATCH should be used to replace the complete entity.
 
 > [!NOTE]  
 > Update Function validates if the binding and input columns specified matches, if it doesn't it would return an error. This validation is triggered only if either input or output is specified.
