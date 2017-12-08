@@ -356,7 +356,7 @@ Updates the properties that are assigned to an output.
   
  Any one or more of the input properties may be specified in the request body, setting/replacing any existing value for each property specified.  
   
- For more information about input properties, see [Create Input &#40;Azure Stream Analytics&#41;](Create-Input--Azure-Stream-Analytics-.md).  
+ For more information about input properties, see [Create Input &#40;Azure Stream Analytics&#41;](stream-analytics-input.md#create).  
   
 ### Response  
  Status code: 201  
