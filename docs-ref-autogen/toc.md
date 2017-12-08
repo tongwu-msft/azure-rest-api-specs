@@ -4697,6 +4697,7 @@
 ### [List Metric Definition](storsimple/Volumes/ListMetricDefinition.json)
 ### [List Metrics](storsimple/Volumes/ListMetrics.json)
 # [Stream Analytics](../docs-ref-conceptual/streamanalytics/index.md)
+## [Aggregate](../docs-ref-conceptual/streamanalytics/stream-analytics-aggregate.md)
 ## [Definition](../docs-ref-conceptual/streamanalytics/stream-analytics-definition.md)
 ## [Function](../docs-ref-conceptual/streamanalytics/stream-analytics-function.md)
 ## [Input](../docs-ref-conceptual/streamanalytics/stream-analytics-input.md)
