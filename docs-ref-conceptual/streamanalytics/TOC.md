@@ -1,3 +1,4 @@
+# [Aggregate](stream-analytics-aggregate.md)
 # [Definition](stream-analytics-definition.md)
 # [Function](stream-analytics-function.md)
 # [Input](stream-analytics-input.md)
