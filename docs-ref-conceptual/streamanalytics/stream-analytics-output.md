@@ -1,3 +1,12 @@
+---
+ms.assetid: 
+ms.title: Output | Microsoft Docs
+ms.service: stream-analytics
+author: SnehaGunda
+ms.author: sngun
+ms.manager: kfile
+---
+
 # Output
 
 ## Create

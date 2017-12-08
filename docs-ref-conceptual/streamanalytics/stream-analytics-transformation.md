@@ -1,3 +1,12 @@
+---
+ms.assetid: 
+ms.title: Transformation | Microsoft Docs
+ms.service: stream-analytics
+author: SnehaGunda
+ms.author: sngun
+ms.manager: kfile
+---
+
 # Transformation
 
 ## Create

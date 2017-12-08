@@ -1,3 +1,12 @@
+---
+ms.assetid: 
+ms.title: Aggregate | Microsoft Docs
+ms.service: stream-analytics
+author: SnehaGunda
+ms.author: sngun
+ms.manager: kfile
+---
+
 # Aggregate
 
 A (User-Defined) Aggregate provides an extensible way for a Streaming Job to transform aggregation data to output data using a facility that is not described by the Aggregation query.
