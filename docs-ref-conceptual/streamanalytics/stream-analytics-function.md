@@ -1,4 +1,13 @@
-﻿# Function
+﻿---
+ms.assetid: 
+ms.title: Function | Microsoft Docs
+ms.service: stream-analytics
+author: SnehaGunda
+ms.author: sngun
+ms.manager: kfile
+---
+
+# Function
 
   A (User-Defined) Function provides an extensible way for a Streaming Job to transform input data to output data using a facility that is not described by the Transformation query.
 

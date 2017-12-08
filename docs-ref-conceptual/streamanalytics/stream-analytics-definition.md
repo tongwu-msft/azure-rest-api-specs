@@ -1,3 +1,12 @@
+---
+ms.assetid: 
+ms.title: Definition | Microsoft Docs
+ms.service: stream-analytics
+author: SnehaGunda
+ms.author: sngun
+ms.manager: kfile
+---
+
 # Definition
 
 ## Retrieve Default Definition (Azure Stream Analytics)
