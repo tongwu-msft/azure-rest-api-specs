@@ -3081,6 +3081,8 @@
 ### [List](resources/Resources/List.json)
 ### [List By Resource Group](resources/Resources/ListByResourceGroup.json)
 ### [Move Resources](resources/Resources/MoveResources.json)
+### [Update](resources/Resources/Update.json)
+### [Update By Id](resources/Resources/UpdateById.json)
 ### [Validate Move Resources](resources/Resources/ValidateMoveResources.json)
 ## [Subscriptions](resources/Subscriptions.json)
 ### [Get](resources/Subscriptions/Get.json)
