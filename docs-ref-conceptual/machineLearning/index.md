@@ -1,29 +1,29 @@
 ---
 ms.assetid: 
-ms.title: Machine Learning API Web Service
+ms.title: Machine Learning Studio API Web Service
 ms.prod: 
 ms.service: machine-learning
-author: vDonGlover
+author: garyericson
 ms.author: garye
 ms.manager: jhubbard
 service_description: To be added
 ---
 
-# Azure Machine Learning Management REST APIs
+# Azure Machine Learning Studio Management REST APIs
 
 <!--
-Microsoft Azure Machine Learning enables you to build and test a predictive analytics solution, and then deploy it as an Azure web service. 
-For an overview of the process, see [Azure Machine Learning Web Services: Deployment and consumption](/azure/machine-learning/machine-learning-deploy-consume-web-service-guide).
+Microsoft Azure Machine Learning Studio enables you to build and test a predictive analytics solution, and then deploy it as an Azure web service. 
+For an overview of the process, see [Azure Machine Learning Studio Web Services: Deployment and consumption](/azure/machine-learning/studio/deploy-consume-web-service-guide).
 
-The following Microsoft Azure Machine Learning REST APIs enable you to create and manage Azure Resource Manager based web services, as well as Machine Learning commitment plans and associations.
+The following Microsoft Azure Machine Learning Studio REST APIs enable you to create and manage Azure Resource Manager based web services, as well as Machine Learning Studio commitment plans and associations.
 -->
 
-The following Azure Machine Learning REST APIs enable you to create and manage:
+The following Azure Machine Learning Studio REST APIs enable you to create and manage:
 
-- **Machine Learning commitment plans and associations**
+- **Machine Learning Studio commitment plans and associations**
 
-- **Azure Resource Manager based web services** - Azure Machine Learning enables you to build and test a predictive analytics solution, and then deploy it as an Azure web service. 
-For an overview of the process, see [Azure Machine Learning Web Services: Deployment and consumption](/azure/machine-learning/machine-learning-deploy-consume-web-service-guide).
+- **Azure Resource Manager based web services** - Azure Machine Learning Studio enables you to build and test a predictive analytics solution, and then deploy it as an Azure web service. 
+For an overview of the process, see [Azure Machine Learning Studio Web Services: Deployment and consumption](/azure/machine-learning/studio/deploy-consume-web-service-guide).
 
 
 <!--
@@ -43,7 +43,7 @@ For information common to all these APIs, see [Common parameters and headers](co
 
 The following information is common to tasks related to these APIs:
 
-- The host URI for Machine Learning REST APIs is **https://management.azure.com/**
+- The host URI for Machine Learning Studio REST APIs is **https://management.azure.com/**
 - Replace {subscription-id} with your subscription identifier in the URI
 - Replace {resource-group-name} with the resource group name
 - Set the Content-Type header to **application/json**
@@ -51,7 +51,7 @@ The following information is common to tasks related to these APIs:
   for more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx)
 
 ## Commitment plan tasks
-You can do the following tasks with the REST APIs for Azure Machine Learning commitment plans:
+You can do the following tasks with the REST APIs for Azure Machine Learning Studio commitment plans:
 
 ### Commitment associations
 - [Get a commitment association](~/docs-ref-autogen/machinelearning/commitmentassociations.json#CommitmentAssociations_Get)
@@ -70,7 +70,7 @@ You can do the following tasks with the REST APIs for Azure Machine Learning com
 - [Get the usage history of a commitment plan](~/docs-ref-autogen/machinelearning/usagehistory.json)
 
 ## Web services tasks
-You can do the following tasks with the REST APIs for Azure Machine Learning web services:
+You can do the following tasks with the REST APIs for Azure Machine Learning Studio web services:
 
 - [Create or update a web Service](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_CreateOrUpdate)
 - [Get information about a web service](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_Get)
@@ -84,5 +84,5 @@ You can do the following tasks with the REST APIs for Azure Machine Learning web
 ## See Also
 
 - [Manage a web service using PowerShell cmdlets](/powershell/resourcemanager/azurerm.machinelearning/v0.11.0/azurerm.machinelearning)
-- [Manage a web service using the Azure Machine Learning Web Services portal](/azure/machine-learning/machine-learning-manage-new-webservice)
-- [Overview of deploying and consuming Azure Machine Learning web services](/azure/machine-learning/machine-learning-deploy-consume-web-service-guide)
+- [Manage a web service using the Azure Machine Learning Studio Web Services portal](/azure/machine-learning/studio/manage-new-webservice)
+- [Overview of deploying and consuming Azure Machine Learning Studio web services](/azure/machine-learning/studio/deploy-consume-web-service-guide)
