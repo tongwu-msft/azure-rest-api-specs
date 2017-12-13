@@ -54,7 +54,8 @@ The following information is common to tasks related to these APIs:
 You can do the following tasks with the REST APIs for Azure Machine Learning Studio commitment plans:
 
 ### Commitment associations
-- [Get a commitment association](~/docs-ref-autogen/machinelearning/commitmentassociations.json#CommitmentAssociations_Get)
+<!-- - [Get a commitment association](~/docs-ref-autogen/machinelearning/commitmentassociations.json#CommitmentAssociations_Get) -->
+- [Get a commitment association](~/docs-ref-autogen/machinelearning/commitmentassociations.json/get)
 - [Change the parent of a commitment association](~/docs-ref-autogen/machinelearning/commitmentassociations.json#CommitmentAssociations_Move)
 - [Get all commitment associations for a parent plan](~/docs-ref-autogen/machinelearning/commitmentassociations.json#CommitmentAssociations_List)
 
