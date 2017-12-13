@@ -11,13 +11,6 @@ service_description: To be added
 
 # Azure Machine Learning Studio Management REST APIs
 
-<!--
-Microsoft Azure Machine Learning Studio enables you to build and test a predictive analytics solution, and then deploy it as an Azure web service. 
-For an overview of the process, see [Azure Machine Learning Studio Web Services: Deployment and consumption](/azure/machine-learning/studio/deploy-consume-web-service-guide).
-
-The following Microsoft Azure Machine Learning Studio REST APIs enable you to create and manage Azure Resource Manager based web services, as well as Machine Learning Studio commitment plans and associations.
--->
-
 The following Azure Machine Learning Studio REST APIs enable you to create and manage:
 
 - **Machine Learning Studio commitment plans and associations**
@@ -25,10 +18,6 @@ The following Azure Machine Learning Studio REST APIs enable you to create and m
 - **Azure Resource Manager based web services** - Azure Machine Learning Studio enables you to build and test a predictive analytics solution, and then deploy it as an Azure web service. 
 For an overview of the process, see [Azure Machine Learning Studio Web Services: Deployment and consumption](/azure/machine-learning/studio/deploy-consume-web-service-guide).
 
-
-<!--
-For information common to all these APIs, see [Common parameters and headers](common-parameters-headers.md)
--->
 
 ## REST Operation Groups
 
@@ -54,38 +43,31 @@ The following information is common to tasks related to these APIs:
 You can do the following tasks with the REST APIs for Azure Machine Learning Studio commitment plans:
 
 ### Commitment associations
-- [Get a commitment association](~/docs-ref-autogen/machinelearning/commitmentassociations.json#CommitmentAssociations_Get)
-- [Get a commitment association](~/docs-ref-autogen/machinelearning/commitmentassociations.json/Get)
-- [Get a commitment association](~/docs-ref-autogen/machinelearning/commitmentassociations/Get)
-- [Get a commitment association](docs-ref-autogen/machinelearning/commitmentassociations.json#CommitmentAssociations_Get)
-- [Get a commitment association](docs-ref-autogen/machinelearning/commitmentassociations/get)
-- [Get a commitment association](docs-ref-autogen/machinelearning/commitmentassociations/get.json)
-- [Get a commitment association](commitmentassociations/get)
 - [Get a commitment association](/rest/api/machinelearning/CommitmentAssociations/Get)
-- [Change the parent of a commitment association](~/docs-ref-autogen/machinelearning/commitmentassociations.json#CommitmentAssociations_Move)
-- [Get all commitment associations for a parent plan](~/docs-ref-autogen/machinelearning/commitmentassociations.json#CommitmentAssociations_List)
+- [Change the parent of a commitment association](/rest/api/machinelearning/CommitmentAssociations/Move)
+- [Get all commitment associations for a parent plan](/rest/api/machinelearning/CommitmentAssociations/List)
 
 ### Commitment plans
-- [Create or update a commitment plan](~/docs-ref-autogen/machinelearning/commitmentplans.json#CommitmentPlans_CreateOrUpdate)
-- [Get information about a commitment plan](~/docs-ref-autogen/machinelearning/commitmentplans.json#CommitmentPlans_Get)
-- [Modify a commitment plan](~/docs-ref-autogen/machinelearning/commitmentplans.json#CommitmentPlans_Patch)
-- [Delete a commitment plan](~/docs-ref-autogen/machinelearning/commitmentplans.json#CommitmentPlans_Remove)
-- [Get all commitment plans in a resource group](~/docs-ref-autogen/machinelearning/commitmentplans.json#CommitmentPlans_ListInResourceGroup)
-- [Get all commitment plans in a subscription](~/docs-ref-autogen/machinelearning/commitmentplans.json#CommitmentPlans_List)
+- [Create or update a commitment plan](/rest/api/machinelearning/CommitmentPlans/CreateOrUpdate)
+- [Get information about a commitment plan](/rest/api/machinelearning/CommitmentPlans/Get)
+- [Modify a commitment plan](/rest/api/machinelearning/CommitmentPlans/Patch)
+- [Delete a commitment plan](/rest/api/machinelearning/CommitmentPlans/Remove)
+- [Get all commitment plans in a resource group](/rest/api/machinelearning/CommitmentPlans/ListInResourceGroup)
+- [Get all commitment plans in a subscription](/rest/api/machinelearning/CommitmentPlans/List)
 
 ### Commitment plans usage history
-- [Get the usage history of a commitment plan](~/docs-ref-autogen/machinelearning/usagehistory.json)
+- [Get the usage history of a commitment plan](/rest/api/machinelearning/usagehistory.json)
 
 ## Web services tasks
 You can do the following tasks with the REST APIs for Azure Machine Learning Studio web services:
 
-- [Create or update a web Service](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_CreateOrUpdate)
-- [Get information about a web service](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_Get)
-- [Get access keys for a web service](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_ListKeys)
-- [Modify a web service](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_Patch)
-- [Delete a web service](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_Remove)
-- [Get all web services in a resource group](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_ListByResourceGroup)
-- [Get all web services in a subscription](~/docs-ref-autogen/machinelearning/webservices.json#WebServices_List)
+- [Create or update a web Service](/rest/api/machinelearning/WebServices/CreateOrUpdate)
+- [Get information about a web service](/rest/api/machinelearning/WebServices/Get)
+- [Get access keys for a web service](/rest/api/machinelearning/WebServices/ListKeys)
+- [Modify a web service](/rest/api/machinelearning/WebServices/Patch)
+- [Delete a web service](/rest/api/machinelearning/WebServices/Remove)
+- [Get all web services in a resource group](/rest/api/machinelearning/WebServices/ListByResourceGroup)
+- [Get all web services in a subscription](/rest/api/machinelearning/WebServices/List)
 
 
 ## See Also
