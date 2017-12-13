@@ -56,6 +56,9 @@ You can do the following tasks with the REST APIs for Azure Machine Learning Stu
 ### Commitment associations
 - [Get a commitment association](~/docs-ref-autogen/machinelearning/commitmentassociations.json#CommitmentAssociations_Get)
 - [Get a commitment association](~/docs-ref-autogen/machinelearning/commitmentassociations.json/Get)
+- [Get a commitment association](~/docs-ref-autogen/machinelearning/commitmentassociations/Get)
+- [Get a commitment association](docs-ref-autogen/machinelearning/commitmentassociations/get)
+- [Get a commitment association](docs-ref-autogen/machinelearning/commitmentassociations/get.json)
 - [Change the parent of a commitment association](~/docs-ref-autogen/machinelearning/commitmentassociations.json#CommitmentAssociations_Move)
 - [Get all commitment associations for a parent plan](~/docs-ref-autogen/machinelearning/commitmentassociations.json#CommitmentAssociations_List)
 
