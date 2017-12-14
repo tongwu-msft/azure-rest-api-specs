@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2017-09-01",
+    "version": "2017-10-01",
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service."
   },
@@ -74,6 +74,47 @@
             }
           }
         },
+        "x-ms-examples": {
+          "Get Topology": {
+            "parameters": {
+              "api-version": "2017-10-01",
+              "subscriptionId": "subid",
+              "resourceGroupName": "rg1",
+              "networkWatcherName": "nw1",
+              "parameters": {
+                "targetResourceGroupName": "rg2"
+              }
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "id": "ce592f46-8164-4bf2-ad36-b8e4acf6fb68",
+                  "createdDateTime": "2017-08-02T19:31:55.9461781Z",
+                  "lastModified": "2017-05-27T00:00:13.2005337Z",
+                  "resources": [
+                    {
+                      "name": "MultiTierApp0",
+                      "id": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/MultiTierApp0",
+                      "location": "westus",
+                      "associations": [
+                        {
+                          "name": "appNic0",
+                          "resourceId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/networkInterfaces/appNic0",
+                          "associationType": "Contains"
+                        },
+                        {
+                          "name": "appNic10",
+                          "resourceId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/networkInterfaces/appNic10",
+                          "associationType": "Contains"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
         "produces": [
           "application/json",
           "text/json"
@@ -137,13 +178,18 @@
       "description": "List of network watcher resources."
     },
     "TopologyParameters": {
-      "required": [
-        "targetResourceGroupName"
-      ],
       "properties": {
         "targetResourceGroupName": {
           "type": "string",
           "description": "The name of the target resource group to perform topology on."
+        },
+        "targetVirtualNetwork": {
+          "$ref": "#/definitions/SubResource",
+          "description": "The reference of the Virtual Network resource."
+        },
+        "targetSubnet": {
+          "$ref": "#/definitions/SubResource",
+          "description": "The reference of the Subnet resource."
         }
       },
       "description": "Parameters that define the representation of topology."
@@ -1325,10 +1371,7 @@
         }
       },
       "description": "Common resource representation.",
-      "x-ms-azure-resource": true,
-      "required": [
-        "location"
-      ]
+      "x-ms-azure-resource": true
     },
     "ApplicationSecurityGroupPropertiesFormat": {
       "properties": {
@@ -1478,17 +1521,12 @@
           "description": "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
         }
       },
-      "description": "Security rule resource.",
       "required": [
         "protocol",
-        "sourceAddressPrefix",
-        "destinationAddressPrefix",
         "access",
-        "direction",
-        "sourcePortRange",
-        "destinationPortRange",
-        "priority"
-      ]
+        "direction"
+      ],
+      "description": "Security rule resource."
     },
     "SecurityRule": {
       "properties": {
@@ -1621,6 +1659,28 @@
         }
       },
       "description": "Effective network security rules."
+    },
+    "SubResource": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource ID."
+        }
+      },
+      "description": "Reference to another subresource.",
+      "x-ms-azure-resource": true
+    },
+    "TagsObject": {
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "description": "Tags object for patch operations."
     }
   },
   "parameters": {
