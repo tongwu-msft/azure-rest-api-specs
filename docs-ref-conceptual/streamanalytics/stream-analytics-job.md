@@ -43,7 +43,7 @@ Creates a new Stream Analytics job in Microsoft Azure. For more information abou
       },  
       "eventsOutOfOrderPolicy":"drop",  
       "eventsOutOfOrderMaxDelayInSeconds":10,  
-      "compatibilityLevel": "1.1",
+      "compatibilityLevel": 1.1,
       "inputs":[    
          {    
             "name":"MyEventHubSource",  
@@ -160,7 +160,7 @@ Creates a new Stream Analytics job in Microsoft Azure. For more information abou
       "eventsOutOfOrderMaxDelayInSeconds":10,  
       "eventsLateArrivalMaxDelayInSeconds":-1,  
       "createdDate":"2014-10-10T03:36:13.95",  
-      "compatibilityLevel": "1.1",
+      "compatibilityLevel": 1.1,
       "inputs":[    
          {    
             "id":"/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Default-SA-CentralUS/providers/Microsoft.StreamAnalytics/streamingjobs/myStreamingSample/inputs/MyBlobSource",  
@@ -349,7 +349,7 @@ Gets information about a specific Stream Analytics job.
       "eventsOutOfOrderMaxDelayInSeconds":10,  
       "eventsLateArrivalMaxDelayInSeconds":-1,  
       "dataLocale":"en-US",  
-      "compatibilityLevel": "1.1",
+      "compatibilityLevel": 1.1,
       "createdDate":"2014-10-10T03:36:13.95",  
       "inputs":[    
          {    
@@ -488,7 +488,7 @@ Lists all of the Stream Analytics jobs that are defined in a resource group.
          "id":"/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Default-SA-CentralUS/providers/Microsoft.StreamAnalytics/streamingjobs/myStreamingSample",  
          "name":"myStreamingSample",  
          "type":"Microsoft.StreamAnalytics/streamingjobs",  
-         "compatibilityLevel": "1.1",
+         "compatibilityLevel": 1.1,
          "location":"Central US",  
          "properties":{    
             "sku":{    
@@ -563,7 +563,7 @@ Lists all of the Stream Analytics jobs that are defined in a subscription.
             "jobState":"Created",  
             "eventsLateArrivalMaxDelayInSeconds":-1,  
             "createdDate":"2014-10-08T23:03:59.737",  
-            "compatibilityLevel": "1.1",
+            "compatibilityLevel": 1.1,
             "etag":"6a7bdc17-1c24-403a-aa60-076274ef7f2f"  
          }  
       },  
@@ -726,7 +726,8 @@ ult-SA-CentralUS/providers/Microsoft.StreamAnalytics/streamingjobs/myStreamingSa
     "lastOutputEventTime": "2014-07-05T03:00Z",   
     "outputStartMode": "CustomTime",  
     "eventsLateArrivalMaxDelayInSeconds":-1,  
-    "createdDate": "2014-10-10T03:16:50.567"  
+    "createdDate": "2014-10-10T03:16:50.567",
+    "compatibilityLevel": 1.1
   }  
 }  
   
