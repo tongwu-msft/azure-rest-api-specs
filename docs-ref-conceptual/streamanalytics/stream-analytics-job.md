@@ -43,6 +43,7 @@ Creates a new Stream Analytics job in Microsoft Azure. For more information abou
       },  
       "eventsOutOfOrderPolicy":"drop",  
       "eventsOutOfOrderMaxDelayInSeconds":10,  
+      "compatibilityLevel": 1.1,
       "inputs":[    
          {    
             "name":"MyEventHubSource",  
@@ -128,6 +129,7 @@ Creates a new Stream Analytics job in Microsoft Azure. For more information abou
 |**sku**|Yes|This element specifies the SKU being purchased for this Stream Analytics job. For the preview release, the value of the name property in **sku** must be Standard.|  
 |**eventsOutOfOrderPolicy**|No|Events that arrive within the time window specified for **eventsOutOfOrderMaxDelayInSeconds** will be reordered automatically. Events that arrive outside the delay window will be dropped or adjusted based on the value selected. Values supported: Adjust, Drop.|  
 |**eventsOutOfOrderMaxDelayInSeconds**|No|This element specifies the time window (in seconds) within which events should be automatically reordered. The delay specified will directly affect the job latency.|  
+|**compatibilityLevel**| No| Compatibility level controls the runtime behavior of a stream analytics job. Each new compatibility level corresponds to a major change in the Stream Analytics service. Currently there are two compatibility levels: 1.0 and 1.1  |
 |**outputStartMode**|No|This property should only be utilized when it is desired that the job be started immediately upon creation.<br /><br /> Value may be JobStartTime, CustomTime, or LastOutputEventTime to indicate whether the starting point of the output event stream should either start whenever the job is started, start at a custom user time stamp specified via the **outputStartTime** property, or start from the last event output time. The **outputStartMode** property can be set to LastOutputEventTime only when **GetStreamingJobResponse** from the **GetStreamingJob** request has LastOutputEventTime set, meaning there was at least one output event generated from the streaming job previously.<br /><br /> **Note:** If this property is specified the job will automatically start when the service creates it. Therefore a full job definition (at a minimum the required job properties and fully specified inputs, outputs, and transformation) needs to be specified in the PUT request.|  
 |**outputStartTime**|No|Value is either an ISO-8601 formatted time stamp that indicates the starting point of the output event stream, or null to indicate that the output event stream will start whenever the streaming job is started. This property *must* have a value if **outputStartMode** is set to CustomTime. <br /><br />If a non-null value is specified, the job will begin streaming data from the input source (data stream) from that time to ensure it produces the correct output.  It is also possible the job will need to begin streaming data at a point in time preceding the value given for **outputStartTime**, (if your query requires it).  For example, if your job query is computing some aggregate within an hourly time window and you specify an **outputStartTime** of ‘2016-05-18 12:00’, then the job will begin at streaming the data that corresponds to an 11:00 AM timestamp. <br /><br />**Note**: If you specify a custom time which is before 'when last stopped', the job will reprocess data it has already processed. Depending on your query, this could result in duplicates in your output stream(s).<br /><br />**Additionally**, when starting a job with a custom time, Stream Analytics will compare the value you give for **outputStartTime** against either (a) the datetime field specified in your query’s **TIMESTAMP BY** clause; or (b) the default timestamp field for a given input source type, e.g. **‘EventEnqueuedUtcTime’** for IoT Hub and Event Hub sources.|  
 |**dataLocale**|No|This element identifies the specific country/region associated with the data processed by a streaming job. The value determines the formats used with dates and other types.<br /><br /> For example, with a **dataLocale** value of fr-FR, the date “10/11/2015” is interpreted as Tuesday, November 10, 2015.<br /><br /> The value is an Internet Engineering Task Force (IETF) language tag that names a [specific culture](https://msdn.microsoft.com/library/system.globalization.cultureinfo.createspecificculture(v=vs.110).aspx) supported by Microsoft .NET. The default value is en-US.|  
@@ -158,6 +160,7 @@ Creates a new Stream Analytics job in Microsoft Azure. For more information abou
       "eventsOutOfOrderMaxDelayInSeconds":10,  
       "eventsLateArrivalMaxDelayInSeconds":-1,  
       "createdDate":"2014-10-10T03:36:13.95",  
+      "compatibilityLevel": 1.1,
       "inputs":[    
          {    
             "id":"/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Default-SA-CentralUS/providers/Microsoft.StreamAnalytics/streamingjobs/myStreamingSample/inputs/MyBlobSource",  
@@ -263,6 +266,7 @@ Creates a new Stream Analytics job in Microsoft Azure. For more information abou
 |**eventsOutOfOrderMaxDelayInSeconds**|Value in seconds|  
 |**eventsLateArrivalMaxDelayInSeconds**|Value in seconds|  
 |**createdDate**|The value is an ISO-8601 formatted Coordinated Universal Time (UTC) time stamp that indicates when the streaming job was created.|  
+|**compatibilityLevel**| Compatibility level controls the runtime behavior of a stream analytics job. Each new compatibility level corresponds to a major change in the Stream Analytics service. Currently there are two compatibility levels: 1.0 and 1.1  |
 |**Inputs**|A list of one or more inputs.|  
 |**Transformation**|Returns the value of the current transformation component of the stream job.|  
 |**Outputs**|A list of one or more outputs.|  
@@ -344,7 +348,8 @@ Gets information about a specific Stream Analytics job.
       "eventsOutOfOrderPolicy":"Drop",  
       "eventsOutOfOrderMaxDelayInSeconds":10,  
       "eventsLateArrivalMaxDelayInSeconds":-1,  
-      "dataLocale":"en-US",,  
+      "dataLocale":"en-US",  
+      "compatibilityLevel": 1.1,
       "createdDate":"2014-10-10T03:36:13.95",  
       "inputs":[    
          {    
@@ -483,6 +488,7 @@ Lists all of the Stream Analytics jobs that are defined in a resource group.
          "id":"/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Default-SA-CentralUS/providers/Microsoft.StreamAnalytics/streamingjobs/myStreamingSample",  
          "name":"myStreamingSample",  
          "type":"Microsoft.StreamAnalytics/streamingjobs",  
+         "compatibilityLevel": 1.1,
          "location":"Central US",  
          "properties":{    
             "sku":{    
@@ -557,6 +563,7 @@ Lists all of the Stream Analytics jobs that are defined in a subscription.
             "jobState":"Created",  
             "eventsLateArrivalMaxDelayInSeconds":-1,  
             "createdDate":"2014-10-08T23:03:59.737",  
+            "compatibilityLevel": 1.1,
             "etag":"6a7bdc17-1c24-403a-aa60-076274ef7f2f"  
          }  
       },  
@@ -581,7 +588,7 @@ Lists all of the Stream Analytics jobs that are defined in a subscription.
 ```  
   
   
-# Start
+## Start
 Deploys and starts a Stream Analytics job in Microsoft Azure.  
   
 ### Request  
@@ -688,6 +695,7 @@ Updates the properties that are assigned to a Stream Analytics job.
 |**eventsOutOfOrderPolicy**|No|Events that arrive within the time window specified for **eventsOutOfOrderMaxDelayInSeconds** will be reordered automatically. Events that arrive outside the delay window will be dropped or adjusted based on the value selected. Values supported: Adjust, Drop.|  
 |**eventsOutOfOrderMaxDelayInSeconds**|No|This element specifies the time window (in seconds) within which events should be automatically reordered. The delay specified will directly affect the job latency.|  
 |**dataLocale**|No|This element identifies the specific country/region associated with the data processed by a streaming job. The value determines the formats used with dates and other types.<br /><br /> For example, with a **dataLocale** value of fr-FR, the date “10/11/2015” is interpreted as Tuesday, November 10, 2015.<br /><br /> The value is an Internet Engineering Task Force (IETF) language tag that names a [specific culture](https://msdn.microsoft.com/library/system.globalization.cultureinfo.createspecificculture(v=vs.110).aspx) supported by Microsoft .NET. The default value is en-US.|  
+|**compatibilityLevel**| No| Compatibility level controls the runtime behavior of a stream analytics job. Each new compatibility level corresponds to a major change in the Stream Analytics service. Currently there are two compatibility levels: 1.0 and 1.1  |
   
 ### Response  
  Status code: 201  
@@ -718,7 +726,8 @@ ult-SA-CentralUS/providers/Microsoft.StreamAnalytics/streamingjobs/myStreamingSa
     "lastOutputEventTime": "2014-07-05T03:00Z",   
     "outputStartMode": "CustomTime",  
     "eventsLateArrivalMaxDelayInSeconds":-1,  
-    "createdDate": "2014-10-10T03:16:50.567"  
+    "createdDate": "2014-10-10T03:16:50.567",
+    "compatibilityLevel": 1.1
   }  
 }  
   

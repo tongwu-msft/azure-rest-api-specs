@@ -67,7 +67,7 @@ POST https://your-namespace.servicebus.windows.net/your-event-hub/messages?timeo
 Authorization: SharedAccessSignature sr=your-namespace.servicebus.windows.net&sig=tYu8qdH563Pc96Lky0SFs5PhbGnljF7mLYQwCZmk9M0%3d&se=1403736877&skn=RootManageSharedAccessKey  
 Content-Type: application/atom+xml;type=entry;charset=utf-8  
 Host: your-namespace.servicebus.windows.net  
-BrokerProperties: {"CorrelationId","32119834-65f3-48c1-b366-619df2e4c400"}  
+BrokerProperties: {"CorrelationId":"32119834-65f3-48c1-b366-619df2e4c400"}  
   
 { "DeviceId":"dev-01", "Temperature":"37.0" }  
   
