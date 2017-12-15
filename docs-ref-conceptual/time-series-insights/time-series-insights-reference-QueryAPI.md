@@ -168,7 +168,7 @@ Built-in properties are not returned in the list of properties.
 
 ## Get Environment Events API
 
-`POST https://<environmentFqdn>/events?api-version=<apiVersion>&timeout=<timeout>`
+`POST https://<environmentFqdn>/events?api-version=<apiVersion>`
 
 The Get Environment Events API returns a list of raw events matching the search span and predicate.
 
@@ -308,7 +308,7 @@ Sorting is supported on all property types. Sorting relies on comparison operato
 
 ## Get Environment Aggregates API
 
-`POST https://<environmentFqdn>/aggregates?api-version=<apiVersion>&timeout=<timeout>`
+`POST https://<environmentFqdn>/aggregates?api-version=<apiVersion>`
 
 The Get Environment Aggregates API groups events by given property with optionally measuring values of other properties.
 
