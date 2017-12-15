@@ -44,13 +44,8 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
  For more information on Live Streaming and managing channels, see [Delivering Live Streaming with Azure Media Services](https://azure.microsoft.com/en-us/documentation/articles/media-services-live-streaming-workflow/).  
   
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
  This topic gives an overview of the `Channel` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
 -   [Create Channels](#create_channels)  
@@ -234,10 +229,7 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -251,7 +243,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -399,11 +391,8 @@ Authorization: Bearer <token value>
 |POST|https://media.windows.net/api/Channels(‘*channelid*’)/Start|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -417,7 +406,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -434,10 +423,7 @@ Authorization: Bearer <token value>
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -451,7 +437,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -467,11 +453,8 @@ Authorization: Bearer <token value>
 |GET|Get all Channels:<br /><br /> https://media.windows.net/api/Channels<br /><br /> Get a specified Channel.<br /><br /> https://media.windows.net/api/Channels('*channelid*')|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -485,7 +468,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -502,10 +485,7 @@ Authorization: Bearer <token value>
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -519,7 +499,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -536,10 +516,7 @@ Authorization: Bearer <token value>
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -553,7 +530,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -589,10 +566,7 @@ Authorization: Bearer <token value>
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -606,7 +580,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -638,10 +612,7 @@ Authorization: Bearer <token value>
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -655,7 +626,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -686,10 +657,7 @@ Authorization: Bearer <token value>
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -703,7 +671,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -734,10 +702,7 @@ Authorization: Bearer <token value>
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -751,7 +716,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -767,11 +732,8 @@ Authorization: Bearer <token value>
 |DELETE|https://media.windows.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -785,7 +747,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   

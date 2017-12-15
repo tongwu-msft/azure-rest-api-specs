@@ -34,15 +34,10 @@ The endpoint to which the notifications about the job state are sent.
 >  Azure queue notification may have some delay.  
   
  This topic gives an overview of the `NotificationEndPoint` entity and also demonstrates how to execute various operations with the Media Services REST API.  
-  
+
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
 ##  <a name="job_entity_properties"></a> NotificationEndPoint Entity Properties  
   
 |Property|Type|Description|  
@@ -58,10 +53,7 @@ The endpoint to which the notifications about the job state are sent.
 |ProtectionKeyType|Edm.Int32|The protection key type.|  
   
 ##  <a name="Create_NotificationEndPoint "></a> Create a NotificationEndPoint  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
+
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  NotificationEndPoint can be creating using HTTP POST request.  
@@ -105,10 +97,7 @@ Date: Sun, 21 Apr 2013 21:44:17 GMT
 ```  
   
 ##  <a name="Update_NotificationEndPoint "></a> Update a NotificationEndPoint  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
+
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  NotificationEndPoint can be updated using HTTP POST request.  
@@ -148,9 +137,6 @@ Date: Sun, 21 Apr 2013 21:56:16 GMT
   
 ##  <a name="Get_NotificationEndPoint "></a> Get a NotificationEndPoint  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  The following request gets a specified notification point. To get all the notification points call `NotificationEndPoints` without a parameter: `GET https://media.windows.net/api/NotificationEndPoints`.  
@@ -185,9 +171,6 @@ Date: Fri, 02 Aug 2013 06:25:33 GMT
 ```  
   
 ##  <a name="Delete_NotificationEndPoint "></a> Delete a NotificationEndPoint  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   

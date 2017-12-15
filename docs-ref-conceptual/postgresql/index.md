@@ -8,7 +8,7 @@ ms.topic: reference
 ms.service: postgresql-database
 ms.devlang: rest-api
 service_description: Azure Database for PostgreSQL
-ms.date: 07/25/2017
+ms.date: 11/27/2017
 ---
 
 # Azure Database for PostgreSQL REST API
@@ -37,8 +37,8 @@ Azure Database for PostgreSQL provides a managed database service for app develo
 
 
 ## See also
-- For an overview of the service, see [Azure Database for PostgreSQL Overview](/azure/postgresql/overview.md)
-- [Create an Azure Database for PostgreSQL server using Azure portal](/azure/postgresql/quickstart-create-server-database-portal.md)
-- [Create an Azure Database for PostgreSQL server using Azure CLI](/azure/postgresql/quickstart-create-server-database-azure-cli.md)
+- For an overview of the service, see [Azure Database for PostgreSQL Overview](/azure/postgresql/overview)
+- [Create an Azure Database for PostgreSQL server using Azure portal](/azure/postgresql/quickstart-create-server-database-portal)
+- [Create an Azure Database for PostgreSQL server using Azure CLI](/azure/postgresql/quickstart-create-server-database-azure-cli)
 - [Azure CLI Samples](/azure/postgresql/sample-scripts-azure-cli) for Azure Database for PostgreSQL
-- For information about connecting to the service, see [Connection libraries for Azure Database for PostgreSQL](/azure/postgresql/concepts-connection-libraries.md).
+- For information about connecting to the service, see [Connection libraries for Azure Database for PostgreSQL](/azure/postgresql/concepts-connection-libraries).

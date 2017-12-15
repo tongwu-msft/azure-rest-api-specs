@@ -43,13 +43,9 @@ A job is an entity that contains metadata about a set of tasks. Each task perfor
 -   [Delete a Job](../operations/job.md#delete_job)  
   
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-> -   When using JSON and specifying to use the __metadata keyword in the request (for example, to references a linked object) you MUST set the Accept header to JSON Verbose format (Accept: application/json;odata=verbose). Odata does not understand the \__metadata property in the request, unless you set it to verbose.  
+> - When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+ 
+> - When using JSON and specifying to use the __metadata keyword in the request (for example, to references a linked object) you MUST set the Accept header to JSON Verbose format (Accept: application/json;odata=verbose). Odata does not understand the \__metadata property in the request, unless you set it to verbose.  
   
 ##  <a name="job_entity_properties"></a> Job Entity Properties  
   
@@ -77,9 +73,6 @@ A job is an entity that contains metadata about a set of tasks. Each task perfor
 |------------|-----------------|------------------|  
 |POST|https://media.windows.net/API/Jobs|HTTP/1.1|  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
  The following code shows how to create a request using Media Services version 2.0. Remember that when using JSON and specifying to use the __metadata keyword in the request (for example, to references a linked object) you MUST set the Accept header to JSON Verbose format (Accept: application/json;odata=verbose). Odata does not understand the \__metadata property in the request, unless you set it to verbose.  
   
 ```  
@@ -105,9 +98,7 @@ Expect: 100-continue
 |------------|-----------------|------------------|  
 |POST|https://media.windows.net/API/$batch|HTTP/1.1|  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
+
  The following example code creates an encoding `Job` with notification subscriptions for the job. Note that the `JobNotificationSubscriptions` property was added in Media Services version 2.5. Remember that when using JSON and specifying to use the __metadata keyword in the request (for example, to references a linked object) you MUST set the Accept header to JSON Verbose format (Accept: application/json;odata=verbose). Odata does not understand the \__metadata property in the request, unless you set it to verbose.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
@@ -299,9 +290,6 @@ Location: https://media.windows.net/api/Tasks('nb%3Atid%3AUUID%3A94d3c509-24c2-4
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
@@ -327,9 +315,6 @@ Host: media.windows.net
 |DELETE|https://media.windows.net/API/Jobs('*jobid*')|HTTP/1.1|  
   
 ## Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   

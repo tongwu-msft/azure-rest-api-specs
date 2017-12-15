@@ -222,6 +222,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
  `Put Block List` applies only to block blobs. Calling `Put Block List` on a page blob results in status code 400 (Bad Request).  
   
+ Calling `Put Block List` on an archived blob will return an error and on `Hot`/`Cool` blob does not change the blob tier.
 ## See Also  
  [Understanding Block Blobs, Append Blobs, and Page Blobs](Understanding-Block-Blobs--Append-Blobs--and-Page-Blobs.md)   
  [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
