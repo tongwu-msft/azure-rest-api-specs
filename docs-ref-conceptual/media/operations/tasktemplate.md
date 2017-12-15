@@ -28,7 +28,7 @@ translation.priority.mt:
 # TaskTemplate
 TaskTemplates provide reusable settings for tasks that run within a JobTemplate definition.  
   
- This topic gives an overview of the `TaskTemplate` entity and also demonstrates how to execute various operations with the Media Services REST API.  
+ This article gives an overview of the `TaskTemplate` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
 -   [TaskTemplate Entity Properties](../operations/tasktemplate.md#task_template_entity_properties)  
   
@@ -37,18 +37,13 @@ TaskTemplates provide reusable settings for tasks that run within a JobTemplate 
 -   [List TaskTemplates](../operations/tasktemplate.md#list_tasktemplates)  
   
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
 ##  <a name="task_template_entity_properties"></a> TaskTemplate Entity Properties  
   
 |Property|Type|Description|  
 |--------------|----------|-----------------|  
-|Id<br /><br /> Read-only. Set by Media Services at creation time.|Edm.String|User defined unique identifier of the following format, "nb:ttid:UUID:\<INSERT NEW GUID STRING>".|  
+|Id<br /><br /> Read-only. Set by Media Services at creation time.|Edm.String|User-defined unique identifier of the following format, "nb:ttid:UUID:\<INSERT NEW GUID STRING>."|  
 |Configuration<br /><br /> Optional.|Edm.String|Preset that defines processing actions, such as encoding, protection, and so on, that the TaskTemplate will perform. Maximum length is 100000.|  
 |Created<br /><br /> Read-only. Set by Media Services at creation time.|Edm.DateTime|This value is set by Media Services at creation time.|  
 |Description<br /><br /> Optional.|Edm.String|The description of the TaskTemplate. Maximum length is 4000.|  
@@ -59,8 +54,8 @@ TaskTemplates provide reusable settings for tasks that run within a JobTemplate 
 |NumberofOutputAssets<br /><br /> Required.|Edm.Int32|Number of output Assets the TaskTemplate must create if they are not already specified, or use if they are specified.|  
 |Options<br /><br /> Optional.|Edm.Int32|An enumeration value that describes the encryption options that a TaskTemplate can be created with. Valid values are:<br /><br /> -   None = 0<br />-   ProtectedConfiguration = 1|  
 |EncryptionKeyId<br /><br /> Optional.|Edm.String|The encrypted Key Id.|  
-|EncryptionScheme<br /><br /> Optional.|Edm.String|The EncryptionScheme used with the configuration file. The valid value is "ConfigurationEncryption".|  
-|EncryptionVersion<br /><br /> Optional.|Edm.String|The version of configuration encryption to use. The currently supported version is "1.0".|  
+|EncryptionScheme<br /><br /> Optional.|Edm.String|The EncryptionScheme used with the configuration file. The valid value is "ConfigurationEncryption."|  
+|EncryptionVersion<br /><br /> Optional.|Edm.String|The version of configuration encryption to use. The currently supported version is "1.0."|  
 |InitializationVector<br /><br /> Optional.|Edm.String|The InitializationVector of the configuration file.|  
   
 ##  <a name="create_a_tasktemplate"></a> Create a TaskTemplate  
@@ -78,10 +73,7 @@ TaskTemplates provide reusable settings for tasks that run within a JobTemplate 
 |GET|https://media.windows.net/API/JobTemplates('*jobtemplateid*')/TaskTemplates|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
+
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
