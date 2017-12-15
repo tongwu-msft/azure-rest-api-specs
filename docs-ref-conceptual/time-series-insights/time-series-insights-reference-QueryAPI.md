@@ -38,7 +38,7 @@ A REST API request/response pair can be separated into the following components:
   - URI host: 
     - `api.timeseries.azure.com` for Get Environments API
     - \<environmentFqdn> for per-environment APIs. You can obtain this domain name from the response of the Get Environments API, Azure portal, or Azure Resource Manager. For example, `00000000-0000-0000-0000-000000000000.env.timeseries.azure.com`
-  - Resource path: For example environments can be used to query the list of Time Series Insights environments available for user.
+  - Resource path: For example, environments can be used to query the list of Time Series Insights environments available for user.
   - Query string: Required parameter is api-version. For example, `api-version=2016-12-12`
 
 - HTTP **request header** fields: For example, an Authorization header that provides a bearer token containing client authorization information for the request. For WebSocket requests, Authorization header and other headers are sent in the message under the headers container. See examples in the APIs below.
@@ -46,13 +46,12 @@ A REST API request/response pair can be separated into the following components:
 - HTTP **request message body**: optional for GET requests, and required for POST requests. Only JSON-encoded body is supported.
 
 - HTTP **response message header** fields:
-  - An HTTP status code: 200 for successful requests, or 4xx or 5xx for errors. See Errors section for more information.
+  - An HTTP status code: 200 for successful requests, or 4xx or 5xx for errors. For more information, see Errors section.
   - Optional additional header fields, as required to support the request's response, such as a Content-type response header.
 
 - HTTP **response message body**: JSON encoded response data.
  
-Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API
-](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-authentication-and-authorization).
+Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
 
 ## Common Headers and Parameters
@@ -65,7 +64,7 @@ Required request headers:
 - `Authorization` for authentication and authorization, valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
 Optional URL query string parameters:
-- `timeout=<timeout>` – server-side timeout for the request execution. Applicable only for Get Environment Events and Get Environment Aggregates API. Timeout value should be in ISO 8601 duration format, e.g. "PT20S" and should be in the range 1-30s. Default value is 30s.
+- `timeout=<timeout>` – server-side timeout for the request execution. Applicable only for Get Environment Events and Get Environment Aggregates API. Timeout value should be in ISO 8601 duration format, for example "PT20S" and should be in the range 1-30s. Default value is 30s.
 
 Optional request headers:
 - `Content-type` - if specified, only `application/json` is supported.
@@ -236,7 +235,7 @@ Sorting is supported on all property types. Sorting relies on comparison operato
 
 The Get Environment Events API returns a list of raw events matching the search span and predicate.
 
-This API uses Web Sockets to do streaming and return partial results. It always returns additional events, i.e. new message is additive to the previous one. New message contains new events that were not in the previous message. The previous message should be kept and accumulated with the new message.
+This API uses Web Sockets to do streaming and return partial results. It always returns additional events, that is, new message is additive to the previous one. New message contains new events that were not in the previous message. The previous message should be kept and accumulated with the new message.
 
 Input payload structure:
 * Search span clause (mandatory).
