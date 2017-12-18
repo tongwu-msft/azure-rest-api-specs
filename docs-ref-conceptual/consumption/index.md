@@ -28,6 +28,8 @@ MS-AZR-0144P (DreamSpark)
 | Operation Group | Description |
 |-----------------|-------------|
 | [Usage Details](usagedetails.md) | Provides operations to get usage information on subscription. |
+  [Reservation Details](reservationsdetails.md) | Provides operations to get reservation detailed usage for Pay as you go and Enterprise Subscriptions. |
+  [Reservation Summaries](reservationssummaries.md) | Provides operations to get reservation summary usage for Pay as you go and Enterprise Subscriptions. |
 
 ## See also
 
