@@ -38,7 +38,7 @@ A REST API request/response pair can be separated into the following components:
   - URI host: 
     - `api.timeseries.azure.com` for Get Environments API
     - \<environmentFqdn> for per-environment APIs. You can obtain this domain name from the response of the Get Environments API, Azure portal, or Azure Resource Manager. For example, `00000000-0000-0000-0000-000000000000.env.timeseries.azure.com`
-  - Resource path: For example environments can be used to query the list of Time Series Insights environments available for user.
+  - Resource path: For example, environments can be used to query the list of Time Series Insights environments available for user.
   - Query string: Required parameter is api-version. For example, `api-version=2016-12-12`
 
 - HTTP **request header** fields: For example, an Authorization header that provides a bearer token containing client authorization information for the request. For WebSocket requests, Authorization header and other headers are sent in the message under the headers container. See examples in the APIs below.
@@ -46,13 +46,12 @@ A REST API request/response pair can be separated into the following components:
 - HTTP **request message body**: optional for GET requests, and required for POST requests. Only JSON-encoded body is supported.
 
 - HTTP **response message header** fields:
-  - An HTTP status code: 200 for successful requests, or 4xx or 5xx for errors. See Errors section for more information.
+  - An HTTP status code: 200 for successful requests, or 4xx or 5xx for errors. For more information, see Errors section.
   - Optional additional header fields, as required to support the request's response, such as a Content-type response header.
 
 - HTTP **response message body**: JSON encoded response data.
  
-Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API
-](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-authentication-and-authorization).
+Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
 
 ## Common Headers and Parameters
@@ -63,6 +62,9 @@ Required URL query string parameters:
 Required request headers:
 
 - `Authorization` for authentication and authorization, valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
+
+Optional URL query string parameters:
+- `timeout=<timeout>` – server-side timeout for the request execution. Applicable only for Get Environment Events and Get Environment Aggregates API. Timeout value should be in ISO 8601 duration format, for example "PT20S" and should be in the range 1-30s. Default value is 30s.
 
 Optional request headers:
 - `Content-type` - if specified, only `application/json` is supported.
@@ -166,11 +168,74 @@ Built-in properties are not returned in the list of properties.
 
 ## Get Environment Events API
 
+`POST https://<environmentFqdn>/events?api-version=<apiVersion>`
+
+The Get Environment Events API returns a list of raw events matching the search span and predicate.
+
+Input payload structure:
+* Search span clause (mandatory).
+* Predicate clause (optional).
+* Limit clause (mandatory).
+
+Payload examples (`predicate` and `searchSpan` are omitted for clarity):
+
+Request Body:
+```json
+{
+    "searchSpan" : {...},
+    "predicate" : {...},
+    "top" : {
+        "sort" : [{
+            "input" : {
+                "builtInProperty" : "$ts"
+            },
+            "order" : "Asc"
+        }],
+        "count" : 1000
+    }
+}
+```
+
+Response Body:
+```json
+{
+    "events" : [{
+            "schema" : {
+                "rid" : 0,
+                "$esn" : "buildingsensors",
+                "properties" : [{
+                        "name" : "sensorId",
+                        "type" : "String"
+                    }, {
+                        "name" : "sensorValue",
+                        "type" : "String"
+                    }
+                ]
+            },
+            "$ts" : "2016-08-30T23:20:00Z",
+            "values" : ["IndoorTemperatureSensor", 72.123]
+        }, {
+            "schemaRid" : 0,
+            "$ts" : "2016-08-30T23:21:00Z",
+            "values" : ["IndoorTemperatureSensor", 72.345]
+        }
+    ]
+}
+```
+
+Events can be sorted and limited to the top.
+Sorting is supported on all property types. Sorting relies on comparison operators defined for *boolean expressions*.
+
+> [!NOTE]
+> Nested sorting (sort by two or more properties) is currently not supported.
+
+## Get Environment Events Streamed API
+
 `GET wss://<environmentFqdn>/events?api-version=<apiVersion>`
 
 The Get Environment Events API returns a list of raw events matching the search span and predicate.
 
-This API uses Web Sockets to do streaming and return partial results. It always returns additional events, i.e. new message is additive to the previous one. New message contains new events that were not in the previous message. The previous message should be kept and accumulated with the new message.
+This API uses Web Sockets to do streaming and return partial results. It always returns additional events, that is, new message is additive to the previous one. New message contains new events that were not in the previous message. The previous message should be kept and accumulated with the new message.
 
 Input payload structure:
 * Search span clause (mandatory).
@@ -233,7 +298,6 @@ Response Message:
     },
     "percentCompleted" : 100.0
 }
-
 ```
 
 Events can be sorted and limited to the top.
@@ -243,6 +307,92 @@ Sorting is supported on all property types. Sorting relies on comparison operato
 > Nested sorting (sort by two or more properties) is currently not supported.
 
 ## Get Environment Aggregates API
+
+`POST https://<environmentFqdn>/aggregates?api-version=<apiVersion>`
+
+The Get Environment Aggregates API groups events by given property with optionally measuring values of other properties.
+
+Input payload structure:
+* Search span clause (mandatory).
+* Predicate clause (optional).
+* Aggregates clause (mandatory).
+
+Payload examples (`predicate` and `searchSpan` are omitted for clarity):
+
+Request Body:
+```json
+{
+    "searchSpan": {...},
+    "predicate": {...},
+    "aggregates": [{
+        "dimension": {
+            "uniqueValues": {
+                "input": {
+                    "property": "sensorId",
+                    "type": "String"
+                },
+                "take": 100
+            }
+        },
+        "aggregate": {
+            "dimension": {
+                "dateHistogram": {
+                    "input": {
+                        "builtInProperty": "$ts"
+                    },
+                    "breaks": { "size": "1m" }
+                }
+            },
+            "measures": [
+                {
+                    "min": {
+                        "input": {
+                            "property": "sensorValue",
+                            "type": "Double"
+                        }
+                    }
+                },
+                {
+                    "count": {}
+                }
+            ]
+        }
+    }]
+}
+```
+
+Response Body:
+```json
+{
+    "aggregates": [{
+        "dimension": ["co2", "temp"],
+        "aggregate": {
+            "dimension": [
+                "2015-12-01T00:00:00", "2015-12-01T00:01:00", "2015-12-01T00:02:00"
+            ],
+            "measures": [
+                [
+                    [456.7, 10.0],
+                    [235.6, 11.0],
+                    [678.2, 12.0]
+                ],
+                [
+                    [81.3, 13.0],
+                    [91.3, 14.0],
+                    [101.3, 15.0]
+                ]
+            ]
+        }
+    }]
+}
+```
+
+For numeric histogram, bucket boundaries are aligned to one of 10^n, 2x10^n or 5x10^n values.
+
+If no measure expressions are specified and the list of events is empty, the response will be empty.
+If measures are present, the response contains a single record with `null` dimension value, 0 value for count and `null` value for other kinds of measures.
+
+## Get Environment Aggregates Streamed API
 
 `GET wss://<environmentFqdn>/aggregates?api-version=<apiVersion>`
 
@@ -304,7 +454,7 @@ Request Message:
             }
         }]
     }
-
+}
 ```
 
 Response Messages:
@@ -330,8 +480,6 @@ Response Messages:
     }],
     "percentCompleted" : 10.0
 }
-
-
 ```
 
 ```json
@@ -358,8 +506,6 @@ Response Messages:
     }],
     "percentCompleted" : 100.0
 }
-
-
 ```
 
 For numeric histogram, bucket boundaries are aligned to one of 10^n, 2x10^n or 5x10^n values.
