@@ -37,121 +37,58 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/budgets": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/budgets/{name}": {
       "get": {
         "tags": [
           "Budgets-Preview"
         ],
-        "operationId": "Budgets_List",
-        "description": "Lists all budgets for a subscription.",
+        "operationId": "Budgets_Get",
+        "description": "Gets the budget for a subscription by budget name.",
         "externalDocs": {
           "url": "https://docs.microsoft.com/en-us/rest/api/consumption/"
         },
         "x-ms-examples": {
-          "BudgetsList": {
+          "Budget": {
             "parameters": {
               "api-version": "2017-12-30-preview",
-              "subscriptionId": "{subscription-id}"
+              "subscriptionId": "{subscription-id}",
+              "name": "TestBudget"
             },
             "responses": {
               "200": {
                 "body": {
-                  "value": [
-                    {
-                      "id": "subscriptions/{subscription-id}/providers/Microsoft.Consumption/budgets/TestBudget",
-                      "name": "TestBudget",
-                      "type": "Microsoft.Consumption/budgets",
-                      "eTag": "\"1d34d012214157f\"",
-                      "properties": {
-                        "category": "Cost",
-                        "amount": 100.65,
-                        "timeGrain": "Monthly",
-                        "timePeriod": {
-                          "startDate": "2017-10-01T00:00:00Z",
-                          "endDate": "2018-10-31T00:00:00Z"
-                        },
-                        "currentSpend": {
-                          "amount": 80.89,
-                          "unit": "USD"
-                        },
-                        "notifications": {
-                          "Actual_GreaterThan_80_Percent": {
-                            "enabled": true,
-                            "operator": "GreaterThan",
-                            "threshold": 80,
-                            "contactEmails": [
-                              "johndoe@contoso.com",
-                              "janesmith@contoso.com"
-                            ],
-                            "contactRoles": [
-                              "Contributor",
-                              "Reader"
-                            ]
-                          },
-                          "Actual_GreaterThanOrEqualTo_90_Percent": {
-                            "enabled": true,
-                            "operator": "GreaterThanOrEqualTo",
-                            "threshold": 90,
-                            "contactEmails": [
-                              "johndoe@contoso.com",
-                              "janesmith@contoso.com"
-                            ],
-                            "contactRoles": [
-                              "Contributor",
-                              "Reader"
-                            ]
-                          }
-                        }
-                      }
+                  "id": "subscriptions/{subscription-id}/providers/Microsoft.Consumption/budgets/TestBudget",
+                  "name": "TestBudget",
+                  "type": "Microsoft.Consumption/budgets",
+                  "eTag": "\"1d34d012214157f\"",
+                  "properties": {
+                    "category": "Cost",
+                    "amount": 100.65,
+                    "timeGrain": "Monthly",
+                    "timePeriod": {
+                      "startDate": "2017-10-01T00:00:00Z",
+                      "endDate": "2018-10-31T00:00:00Z"
                     },
-                    {
-                      "id": "subscriptions/{subscription-id}/providers/Microsoft.Consumption/budgets/TestBudget",
-                      "name": "TestBudget",
-                      "type": "Microsoft.Consumption/budgets",
-                      "eTag": "\"1d34d012214157f\"",
-                      "properties": {
-                        "category": "Cost",
-                        "amount": 600.65,
-                        "timeGrain": "Monthly",
-                        "timePeriod": {
-                          "startDate": "2017-10-01T00:00:00Z",
-                          "endDate": "2018-10-31T00:00:00Z"
-                        },
-                        "currentSpend": {
-                          "amount": 120.89,
-                          "unit": "USD"
-                        },
-                        "notifications": {
-                          "Actual_GreaterThan_40_Percent": {
-                            "enabled": true,
-                            "operator": "GreaterThan",
-                            "threshold": 40,
-                            "contactEmails": [
-                              "johndoe@contoso.com",
-                              "janesmith@contoso.com"
-                            ],
-                            "contactRoles": [
-                              "Contributor",
-                              "Reader"
-                            ]
-                          },
-                          "Actual_GreaterThanOrEqualTo_60_Percent": {
-                            "enabled": true,
-                            "operator": "GreaterThanOrEqualTo",
-                            "threshold": 60,
-                            "contactEmails": [
-                              "johndoe@contoso.com",
-                              "janesmith@contoso.com"
-                            ],
-                            "contactRoles": [
-                              "Contributor",
-                              "Reader"
-                            ]
-                          }
-                        }
+                    "currentSpend": {
+                      "amount": 80.89,
+                      "unit": "USD"
+                    },
+                    "notifications": {
+                      "Actual_GreaterThan_80_Percent": {
+                        "enabled": true,
+                        "operator": "GreaterThan",
+                        "threshold": 80,
+                        "contactEmails": [
+                          "johndoe@contoso.com",
+                          "janesmith@contoso.com"
+                        ],
+                        "contactRoles": [
+                          "Contributor",
+                          "Reader"
+                        ]
                       }
                     }
-                  ]
+                  }
                 }
               }
             }
@@ -163,13 +100,16 @@
           },
           {
             "$ref": "#/parameters/subscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/budgetNameParameter"
           }
         ],
         "responses": {
           "200": {
             "description": "OK. The request has succeeded.",
             "schema": {
-              "$ref": "#/definitions/BudgetsListResult"
+              "$ref": "#/definitions/Budget"
             }
           },
           "default": {
@@ -179,16 +119,13 @@
             }
           }
         },
-        "x-ms-pageable": {
-          "nextLinkName": null
-        },
         "produces": [
           "application/json"
         ],
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "List"
+        "x-internal-toc-name": "Get"
       }
     }
   },
@@ -487,6 +424,7 @@
     }
   },
   "x-internal-service-name": "Consumption",
-  "x-internal-toc-name": "Budgets",
+  "x-internal-operation-group-name": "Budgets-Preview",
+  "x-internal-toc-name": "Budgets-Preview",
   "x-internal-split-type": "Operation"
 }
