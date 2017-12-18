@@ -6,9 +6,9 @@ ms.author: guyinacube
 ms.manager: kfile
 service_description:
 ---
-# Power BI Embedded REST API reference
+# Power BI Embedded Azure Resource Manager REST API reference
 
-The Power BI Embedded Azure Resource Manager REST API provides a RESTful set of web services that enables you to create, retrieve, update, and delete Power BI dedicated capacities.
+This API provides a RESTful set of web services that enables you to create, retrieve, update, and delete Power BI dedicated capacities.
 
 ## REST operation groups
 
