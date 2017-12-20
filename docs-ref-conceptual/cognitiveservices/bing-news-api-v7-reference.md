@@ -310,4 +310,136 @@ The following are the possible news categories that you may set the [category](#
 
 ## Market codes 
 
-[!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]
+For the `/news/search` endpointhe following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change.  
+  
+For a list of country codes that you may specify in the `cc` query parameter, see [Country Codes](#countrycodes).  
+  
+|Country/Region|Language|Market Code|  
+|---------------------|--------------|-----------------| 
+|Denmark|Danish|da-DK|
+|Austria|German|de-AT| 
+|Switzerland|German|de-CH|
+|Germany|German|de-DE|
+|Australia|English|en-AU|
+|Canada|English|en-CA|
+|United Kingdom|English|en-GB|
+|Indonesia|English|en-ID|
+|Ireland|English|en-IE|
+|India|English|en-IN|
+|Malaysia|English|en-MY|
+|New Zealand|English|en-NZ|
+|Republic of the Philippines|English|en-PH|
+|Singapore|English|en-SG|
+|United States|English|en-US|
+|English|general|en-WW|
+|English|genearl|en-XA|
+|South Africa|English|en-ZA|
+|Argentina|Spanish|es-AR|
+|Chile|Spanish|es-CL|
+|Spain|Spanish|es-ES|
+|Mexico|Spanish|es-MX|
+|United States|Spanish|es-US| 
+|Spanish|general|es-XL|
+|Finland|Finnish|fi-FI|  
+|France|French|fr-BE|
+|Canada|French|fr-CA| 
+|Switzerland|French|fr-CH|
+|France|French|fr-FR|  
+|Italy|Italian|it-IT| 
+|Hong Kong SAR|Traditional Chinese|zh-HK|  
+|Taiwan|Traditional Chinese|zh-TW|
+|Japan|Japanese|ja-JP|  
+|Korea|Korean|ko-KR|  
+|Netherlands|Dutch|nl-NL|  
+|People's republic of China|Chinese|zh-CN|  
+|Poland|Polish|pl-PL|  
+||Portuguese|pl-PT|
+|Portuguese|Brazil|pt-BR|
+|Russia|Russian|ru-RU|  
+|Sweden|Swedish|sv-SE|  
+|Turkey|Turkish|tr-TR|  
+
+For the `/news` endpointhe following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change.  
+  
+For a list of country codes that you may specify in the `cc` query parameter, see [Country Codes](#countrycodes).  
+  
+|Country/Region|Language|Market Code|  
+|---------------------|--------------|-----------------| 
+|Denmark|Danish|da-DK|
+|Germany|German|de-DE|
+|Australia|English|en-AU|
+|United Kingdom|English|en-GB|
+|United States|English|en-US|
+|English|general|en-WW|
+|Chile|Spanish|es-CL|
+|Mexico|Spanish|es-MX|
+|United States|Spanish|es-US| 
+|Finland|Finnish|fi-FI|  
+|Canada|French|fr-CA|
+|France|French|fr-FR|  
+|Italy|Italian|it-IT| 
+|Portuguese|Brazil|pt-BR|
+|People's republic of China|Chinese|zh-CN|
+
+
+For the `/news/trendingtopics` endpointhe following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change.  
+  
+For a list of country codes that you may specify in the `cc` query parameter, see [Country Codes](#countrycodes).  
+  
+|Country/Region|Language|Market Code|  
+|---------------------|--------------|-----------------| 
+|Germany|German|de-DE|
+|Australia|English|en-AU|
+|United Kingdom|English|en-GB|
+|United States|English|en-US|
+|Canada|English|en-CA|
+|India|English|en-IN|
+|France|French|fr-FR|
+|Canada|French|fr-CA|
+|Portuguese|Brazil|pt-BR|
+|People's republic of China|Chinese|zh-CN|
+
+
+<a name="countrycodes"></a>   
+### Country Codes  
+
+The following are the country codes that you may specify in the `cc` query parameter. The list is subject to change.  
+  
+|Country/Region|Country Code|  
+|---------------------|------------------|  
+|Argentina|AR|  
+|Australia|AU|  
+|Austria|AT|  
+|Belgium|BE|  
+|Brazil|BR|  
+|Canada|CA|  
+|Chile|CL|  
+|Denmark|DK|  
+|Finland|FI|  
+|France|FR|  
+|Germany|DE|  
+|Hong Kong SAR|HK|  
+|India|IN|  
+|Indonesia|ID|  
+|Italy|IT|  
+|Japan|JP|  
+|Korea|KR|  
+|Malaysia|MY|  
+|Mexico|MX|  
+|Netherlands|NL|  
+|New Zealand|NZ|  
+|Norway|NO|  
+|People's Republic of China|CN|  
+|Poland|PL|  
+|Portugal|PT|  
+|Republic of the Philippines|PH|  
+|Russia|RU|  
+|Saudi Arabia|SA|  
+|South Africa|ZA|  
+|Spain|ES|  
+|Sweden|SE|  
+|Switzerland|CH|  
+|Taiwan|TW|  
+|Turkey|TR|  
+|United Kingdom|GB|  
+|United States|US|
