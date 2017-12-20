@@ -61,22 +61,26 @@
             }
           }
         },
-        "operationId": "softwareUpdateConfigurations_Delete",
+        "operationId": "SoftwareUpdateConfigurations_Delete",
         "parameters": [
           {
-            "$ref": "#/parameters/subscriptionId"
+            "$ref": "#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "#/parameters/resourceGroupName"
+            "$ref": "#/parameters/ResourceGroupNameParameter"
           },
           {
             "$ref": "#/parameters/automationAccountName"
           },
           {
-            "$ref": "#/parameters/softwareUpdateConfigurationName"
+            "name": "softwareUpdateConfigurationName",
+            "description": "The name of the software update configuration to be created.",
+            "type": "string",
+            "required": true,
+            "in": "path"
           },
           {
-            "$ref": "#/parameters/apiVersion"
+            "$ref": "#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/clientRequestId"
@@ -369,16 +373,13 @@
       "properties": {
         "includedPackageClassifications": {
           "description": "Update classifications included in the software update configuration.",
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "Unclassified",
-              "Critical",
-              "Security",
-              "Other"
-            ]
-          },
+          "type": "string",
+          "enum": [
+            "Unclassified",
+            "Critical",
+            "Security",
+            "Other"
+          ],
           "x-ms-enum": {
             "name": "LinuxUpdateClasses",
             "modelAsString": true
@@ -398,24 +399,22 @@
       "description": "Windows specific update configuration.",
       "properties": {
         "includedUpdateClassifications": {
-          "description": "Update classification included in the software update configuration.",
-          "items": {
-            "type": "string",
-            "enum": [
-              "Unclassified",
-              "Critical",
-              "Security",
-              "UpdateRollup",
-              "FeaturePack",
-              "ServicePack",
-              "Definition",
-              "Tools",
-              "Updates"
-            ],
-            "x-ms-enum": {
-              "name": "WindowsUpdateClasses",
-              "modelAsString": true
-            }
+          "description": "Update classification included in the software update configuration. A comma separated string with required values",
+          "type": "string",
+          "enum": [
+            "Unclassified",
+            "Critical",
+            "Security",
+            "UpdateRollup",
+            "FeaturePack",
+            "ServicePack",
+            "Definition",
+            "Tools",
+            "Updates"
+          ],
+          "x-ms-enum": {
+            "name": "WindowsUpdateClasses",
+            "modelAsString": true
           }
         },
         "excludedKbNumbers": {
@@ -442,7 +441,6 @@
     "updateConfiguration": {
       "type": "object",
       "description": "Update specifc properties of the software update configuration.",
-      "discriminator": "operatingSystem",
       "properties": {
         "operatingSystem": {
           "description": "operating system of target machines",
@@ -526,7 +524,8 @@
         }
       },
       "required": [
-        "updateConfiguration"
+        "updateConfiguration",
+        "scheduleInfo"
       ]
     },
     "softwareUpdateConfiguration": {
@@ -568,45 +567,37 @@
       "required": false,
       "in": "header"
     },
-    "apiVersion": {
+    "ApiVersionParameter": {
       "name": "api-version",
-      "description": "The API version.",
-      "type": "string",
+      "in": "query",
       "required": true,
-      "in": "query"
+      "type": "string",
+      "description": "Client Api Version."
     },
     "automationAccountName": {
       "name": "automationAccountName",
       "description": "The name of the automation account.",
       "type": "string",
       "required": true,
-      "in": "path",
-      "format": "uuid"
+      "in": "path"
     },
-    "resourceGroupName": {
+    "ResourceGroupNameParameter": {
       "name": "resourceGroupName",
-      "description": "The name of the resource group within user's subscription.",
-      "type": "string",
-      "required": true,
-      "in": "path"
-    },
-    "subscriptionId": {
-      "name": "subscriptionId",
-      "description": "subscription id for tenant issuing the request.",
-      "type": "string",
-      "required": true,
       "in": "path",
-      "format": "uuid"
-    },
-    "softwareUpdateConfigurationName": {
-      "name": "softwareUpdateConfigurationName",
-      "description": "The name of the software update configuration to be created.",
-      "type": "string",
       "required": true,
-      "in": "path"
+      "type": "string",
+      "pattern": "^[-\\w\\._]+$",
+      "description": "The resource group name."
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
     }
   },
   "x-internal-service-name": "Automation",
-  "x-internal-toc-name": "software Update Configurations",
+  "x-internal-toc-name": "Software Update Configurations",
   "x-internal-split-type": "Operation"
 }
