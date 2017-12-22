@@ -16,6 +16,6 @@ Network Watcher is the resource that exposes networking diagnostic APIs in Azure
 
 |Operation Group|Description|
 |---|---|
-|[Network Watchers](~/docs-ref-autogen/network-watcher/networkwatchers.json) |Provides the ability to manage Network Watchers.|
-|[Packet Captures](~/docs-ref-autogen/network-watcher/packetcaptures.json)   |Provides the ability to capture network traffic on a virtual machine.| 
+|[Network Watchers](~/docs-ref-autogen/network-watcher/networkwatchers.yml) |Provides the ability to manage Network Watchers.|
+|[Packet Captures](~/docs-ref-autogen/network-watcher/packetcaptures.yml)   |Provides the ability to capture network traffic on a virtual machine.| 
 

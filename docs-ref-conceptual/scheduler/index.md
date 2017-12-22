@@ -17,5 +17,5 @@ REST APIs for the Azure Scheduler Service. These APIs allow you to create, manag
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Jobs](~/docs-ref-autogen/scheduler/jobs.json) | Provides operations for creating and updating scheduled jobs.            |
-| [Jobs Collection](~/docs-ref-autogen/scheduler/jobcollections.json)           | Provides operations for creating and managing collections of scheduled jobs.      |
+| [Jobs](~/docs-ref-autogen/scheduler/jobs.yml) | Provides operations for creating and updating scheduled jobs.            |
+| [Jobs Collection](~/docs-ref-autogen/scheduler/jobcollections.yml)           | Provides operations for creating and managing collections of scheduled jobs.      |

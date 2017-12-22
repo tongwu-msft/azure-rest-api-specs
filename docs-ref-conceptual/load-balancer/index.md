@@ -17,4 +17,4 @@ Load balancer allows fine-grained configuration of how incoming traffic is distr
 
 |Operation Group|Description|
 |---|---|
-|[Load Balancers](~/docs-ref-autogen/load-balancer/loadbalancers.json) |Provides operations for managing Load Balancers.|
+|[Load Balancers](~/docs-ref-autogen/load-balancer/loadbalancers.yml) |Provides operations for managing Load Balancers.|

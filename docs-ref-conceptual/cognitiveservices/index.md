@@ -16,7 +16,7 @@ Azure Cognitive Services enables natural and contextual interaction with tools t
 
 | Operation group                                                         | Description                                                   |
 |-------------------------------------------------------------------------|---------------------------------------------------------------|
-| [Cognitive Services Accounts](~/docs-ref-autogen/cognitiveservices/cognitiveservicesaccounts.json) | Provides operations for managing Cognitive Services accounts. |
+| [Cognitive Services Accounts](~/docs-ref-autogen/cognitiveservices/cognitiveservicesaccounts.yml) | Provides operations for managing Cognitive Services accounts. |
 
 ## See also
 

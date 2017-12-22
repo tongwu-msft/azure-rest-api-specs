@@ -40,7 +40,7 @@ Sends a batch of messages to a Service Bus queue or topic.
 |Request Header|Description|  
 |--------------------|-----------------|  
 |Authorization|Specifies one of the following:<br /><br /> -   A WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to **WRAP access_token=”{swt}”**.<br />-   A SAS token.|  
-|Content-Type|Set to **application/vnd.microsoft.servicebus.json**.|  
+|Content-Type|Set to **application/vnd.microsoft.servicebus.yml**.|  
 |x-ms-retrypolicy|(Optional) Set to `NoRetry` to disable automatic retry on send operations in the case of transient errors.|  
   
 ### Request Body  
@@ -74,7 +74,7 @@ Sends a batch of messages to a Service Bus queue or topic.
 ```  
 POST https://your-namespace.servicebus.windows.net/HttpClientSampleQueue/messages?timeout=60 HTTP/1.1  
 Authorization: SharedAccessSignature sr=your-namespace&sig=Fg8yUyR4MOmXfHfj55f5hY4jGb8x2Yc%2b3%2fULKZYxKZk%3d&se=1404256819&skn=RootManageSharedAccessKey  
-Content-Type: application/vnd.microsoft.servicebus.json  
+Content-Type: application/vnd.microsoft.servicebus.yml  
 Host: your-namespace.servicebus.windows.net  
 Content-Length: 18  
 Expect: 100-continue  

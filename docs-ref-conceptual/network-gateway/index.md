@@ -16,6 +16,6 @@ Network Gateway is a type of virtual network gateway that sends encrypted traffi
 
 |Operation Group|Description|
 |---|---|
-|[Connections](~/docs-ref-autogen/network-gateway/virtualnetworkgatewayconnections.json)  |Provides operations for managing connections|
-|[Local Network Gateways](~/docs-ref-autogen/network-gateway/localnetworkgateways.json) | Provides operations for managing local network gateways|
-|[Virtual Network Gateways](~/docs-ref-autogen/network-gateway/virtualnetworkgateways.json) |Provides operations for managing virtual network gateways|
+|[Connections](~/docs-ref-autogen/network-gateway/virtualnetworkgatewayconnections.yml)  |Provides operations for managing connections|
+|[Local Network Gateways](~/docs-ref-autogen/network-gateway/localnetworkgateways.yml) | Provides operations for managing local network gateways|
+|[Virtual Network Gateways](~/docs-ref-autogen/network-gateway/virtualnetworkgateways.yml) |Provides operations for managing virtual network gateways|
