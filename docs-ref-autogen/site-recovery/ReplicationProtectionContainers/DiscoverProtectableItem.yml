@@ -1,0 +1,195 @@
+### YamlMime:RESTOperation
+summary: Adds a protectable item to the replication protection container. The operation to a add a protectable item to a protection container(Add physical server.)
+service: Recovery Services - Site Recovery
+apiVersion: 2016-08-10
+groupName: Replication Protection Containers
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/discoverProtectableItem?api-version=2016-08-10
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+  name: resourceName
+- in: path
+  isRequired: true
+  description: The name of the fabric.
+  types:
+  - uid: string
+  name: fabricName
+- in: path
+  isRequired: true
+  description: The name of the protection container.
+  types:
+  - uid: string
+  name: protectionContainerName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: ProtectionContainer
+  name: 200 OK
+- description: Accepted
+  name: 202 Accepted
+requestBody:
+- parameters:
+  - in: body
+    description: The properties of a discover protectable item request.
+    types:
+    - uid: DiscoverProtectableItemRequestProperties
+    name: properties
+requestHeader: []
+definitions:
+- name: DiscoverProtectableItemRequestProperties
+  description: The properties of a discover protectable item request.
+  kind: object
+  properties:
+  - description: The friendly name of the physical machine.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The IP address of the physical machine to be discovered.
+    types:
+    - uid: string
+    name: ipAddress
+  - description: The OS type on the physical machine.
+    types:
+    - uid: string
+    name: osType
+- name: ProtectionContainer
+  description: The Protection Container details.
+  kind: object
+  properties:
+  - description: The custom data.
+    types:
+    - uid: ProtectionContainerProperties
+    name: properties
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource Type
+    types:
+    - uid: string
+    name: type
+  - description: Resource Location
+    types:
+    - uid: string
+    name: location
+- name: DiscoverProtectableItemRequest
+  description: Request to add a physical machine as a protectable item in a container.
+  kind: object
+  properties:
+  - description: The properties of a discover protectable item request.
+    types:
+    - uid: DiscoverProtectableItemRequestProperties
+    name: properties
+- name: ProtectionContainerProperties
+  description: The custom data.
+  kind: object
+  properties:
+  - description: Fabric friendly name.
+    types:
+    - uid: string
+    name: fabricFriendlyName
+  - description: The name.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The fabric type.
+    types:
+    - uid: string
+    name: fabricType
+  - description: Number of protected PEs
+    types:
+    - uid: integer
+    name: protectedItemCount
+  - description: The pairing status of this cloud.
+    types:
+    - uid: string
+    name: pairingStatus
+  - description: The role of this cloud.
+    types:
+    - uid: string
+    name: role
+  - description: Fabric specific details.
+    types:
+    - uid: ProtectionContainerFabricSpecificDetails
+    name: fabricSpecificDetails
+- name: ProtectionContainerFabricSpecificDetails
+  description: Fabric specific details.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Gets the class type. Overriden in derived classes.
+    types:
+    - uid: string
+    name: instanceType
+examples:
+- request:
+    uri: POST https://management.azure.com/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/MadhaviVRG/providers/Microsoft.RecoveryServices/vaults/MadhaviVault/replicationFabrics/V2A-W2K12-660/replicationProtectionContainers/cloud_7328549c-5c37-4459-a3c2-e35f9ef6893c/discoverProtectableItem?api-version=2016-08-10
+    body: >-
+      {
+        "properties": {
+          "friendlyName": "Test",
+          "ipAddress": "10.150.2.3",
+          "osType": "Windows"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/MadhaviVRG/providers/Microsoft.RecoveryServices/vaults/MadhaviVault/replicationFabrics/239f778f368e34f78216d81f030725cdf2033174b47879b9f2eeede06fdd9c4d/replicationProtectionContainers/cloud_7328549c-5c37-4459-a3c2-e35f9ef6893c",
+        "name": "cloud_7328549c-5c37-4459-a3c2-e35f9ef6893c",
+        "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers",
+        "properties": {
+          "fabricFriendlyName": "V2A-W2K12-660",
+          "friendlyName": "V2A-W2K12-660",
+          "fabricType": "VMware",
+          "protectedItemCount": 2,
+          "pairingStatus": "Paired",
+          "role": "Primary"
+        }
+      }
+  - statusCode: "202"
+  name: Adds a protectable item to the replication protection container.
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account.
+    name: user_impersonation
+name: Discover Protectable Item
+uid: management.azure.com.recoveryservices-siterecovery.replicationprotectioncontainers.discoverprotectableitem

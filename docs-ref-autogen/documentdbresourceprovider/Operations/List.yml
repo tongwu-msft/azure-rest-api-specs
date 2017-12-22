@@ -1,0 +1,100 @@
+### YamlMime:RESTOperation
+summary: Lists all of the available Cosmos DB Resource Provider operations.
+service: Cosmos DB Resource Provider
+apiVersion: 2015-04-08
+groupName: Operations
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.DocumentDB/operations?api-version=2015-04-08
+uriParameters:
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2015-04-08.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: OperationListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: OperationListResult
+  description: Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - description: REST API operation
+    types:
+    - isArray: true
+      uid: Operation
+    name: value
+  - description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+    name: nextLink
+- name: Operation
+  description: REST API operation
+  kind: object
+  properties:
+  - description: 'Operation name: {provider}/{resource}/{operation}'
+    types:
+    - uid: string
+    name: name
+  - description: The object that represents the operation.
+    types:
+    - uid: Display
+    name: display
+- name: Display
+  description: The object that represents the operation.
+  kind: object
+  properties:
+  - description: 'Service provider: Microsoft.ResourceProvider'
+    types:
+    - uid: string
+    name: Provider
+  - description: 'Resource on which the operation is performed: Profile, endpoint, etc.'
+    types:
+    - uid: string
+    name: Resource
+  - description: 'Operation type: Read, write, delete, etc.'
+    types:
+    - uid: string
+    name: Operation
+  - description: Description of operation
+    types:
+    - uid: string
+    name: Description
+examples:
+- request:
+    uri: GET https://management.azure.com/providers/Microsoft.DocumentDB/operations?api-version=2015-04-08
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "operationName",
+            "display": {
+              "Provider": "providerName",
+              "Resource": "resourceName",
+              "Operation": "operationName",
+              "Description": "description"
+            }
+          }
+        ]
+      }
+  name: CosmosDBOperationsList
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: Impersonate your user account
+    name: user_impersonation
+name: List
+uid: management.azure.com.cosmosdbresourceprovider.operations.list

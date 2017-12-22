@@ -1,0 +1,195 @@
+### YamlMime:RESTOperation
+summary: Gets a list of integration account certificates.
+service: Logic Apps
+apiVersion: 2016-06-01
+groupName: Certificates
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates?api-version=2016-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates?api-version=2016-06-01&$top={$top}
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription id.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The integration account name.
+  types:
+  - uid: string
+  name: integrationAccountName
+- in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+  name: api-version
+- in: query
+  description: The number of items to be included in the result.
+  types:
+  - uid: integer
+  format: int32
+  name: $top
+responses:
+- description: OK
+  types:
+  - uid: IntegrationAccountCertificateListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: IntegrationAccountCertificateListResult
+  description: The list of integration account certificates.
+  kind: object
+  properties:
+  - description: The integration account certificate.
+    types:
+    - isArray: true
+      uid: IntegrationAccountCertificate
+    name: value
+  - description: The URL to get the next set of results.
+    types:
+    - uid: string
+    name: nextLink
+- name: IntegrationAccountCertificate
+  description: The list of integration account certificates.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The created time.
+    types:
+    - uid: string
+    name: properties.createdTime
+  - isReadyOnly: true
+    description: The changed time.
+    types:
+    - uid: string
+    name: properties.changedTime
+  - description: The metadata.
+    types:
+    - uid: Metadata
+    name: properties.metadata
+  - description: The key details in the key vault.
+    types:
+    - uid: KeyVaultKeyReference
+    name: properties.key
+  - description: The public certificate.
+    types:
+    - uid: string
+    name: properties.publicCertificate
+  - isReadyOnly: true
+    description: The resource id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Gets the resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Gets the resource type.
+    types:
+    - uid: string
+    name: type
+  - description: The resource location.
+    types:
+    - uid: string
+    name: location
+  - description: The resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: Metadata
+  description: The metadata.
+  kind: object
+  properties: []
+- name: KeyVaultKeyReference
+  description: The key details in the key vault.
+  kind: object
+  properties:
+  - description: The key vault reference.
+    types:
+    - uid: KeyVault
+    name: keyVault
+  - description: The private key name in key vault.
+    types:
+    - uid: string
+    name: keyName
+  - description: The private key version in key vault.
+    types:
+    - uid: string
+    name: keyVersion
+- name: KeyVault
+  description: The key vault reference.
+  kind: object
+  properties:
+  - description: The resource id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+    name: type
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/certificates?api-version=2016-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "key": {
+                "keyVault": {
+                  "name": "AzureSdkTestKeyVault",
+                  "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testResourceGroup/providers/microsoft.keyvault/vaults/<keyVaultName>",
+                  "type": "Microsoft.KeyVault/vaults"
+                },
+                "keyName": "<keyName>",
+                "keyVersion": "87d9764197604449b9b8eb7bd8710868"
+              },
+              "publicCertificate": "<publicCertificate>",
+              "createdTime": "2017-03-06T20:33:09.7022471Z",
+              "changedTime": "2017-03-06T20:33:09.7032076Z"
+            },
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/certificates/<integrationAccountCertificateName>",
+            "name": "<IntegrationAccountCertificateName>",
+            "type": "Microsoft.Logic/integrationAccounts/certificates"
+          }
+        ]
+      }
+  name: Get certificates by integrationAccount name
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Integration Accounts
+uid: management.azure.com.logicapps.certificates.listbyintegrationaccounts

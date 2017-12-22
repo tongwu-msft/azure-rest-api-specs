@@ -1,0 +1,384 @@
+### YamlMime:RESTOperation
+summary: Creates or updates a security rule in the specified network security group.
+service: Virtual Networks
+apiVersion: 2017-10-01
+groupName: Security Rules
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}?api-version=2017-10-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the network security group.
+  types:
+  - uid: string
+  name: networkSecurityGroupName
+- in: path
+  isRequired: true
+  description: The name of the security rule.
+  types:
+  - uid: string
+  name: securityRuleName
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Update successful. The operation returns the resulting SecurityRule resource.
+  types:
+  - uid: SecurityRule
+  name: 200 OK
+- description: Create successful. The operation returns the resulting SecurityRule resource.
+  types:
+  - uid: SecurityRule
+  name: 201 Created
+requestBody:
+- parameters:
+  - in: body
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+    name: name
+  - in: body
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - in: body
+    description: A description for this rule. Restricted to 140 chars.
+    types:
+    - uid: string
+    name: properties.description
+  - in: body
+    isRequired: true
+    description: Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.
+    types:
+    - uid: SecurityRuleProtocol
+    name: properties.protocol
+  - in: body
+    description: The source port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
+    types:
+    - uid: string
+    name: properties.sourcePortRange
+  - in: body
+    description: The destination port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
+    types:
+    - uid: string
+    name: properties.destinationPortRange
+  - in: body
+    description: "The CIDR or source IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
+    types:
+    - uid: string
+    name: properties.sourceAddressPrefix
+  - in: body
+    description: The CIDR or source IP ranges.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.sourceAddressPrefixes
+  - in: body
+    description: An application security group in a resource group.
+    types:
+    - isArray: true
+      uid: ApplicationSecurityGroup
+    name: properties.sourceApplicationSecurityGroups
+  - in: body
+    description: The destination address prefix. CIDR or destination IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
+    types:
+    - uid: string
+    name: properties.destinationAddressPrefix
+  - in: body
+    description: The destination address prefixes. CIDR or destination IP ranges.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.destinationAddressPrefixes
+  - in: body
+    description: An application security group in a resource group.
+    types:
+    - isArray: true
+      uid: ApplicationSecurityGroup
+    name: properties.destinationApplicationSecurityGroups
+  - in: body
+    description: The source port.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.sourcePortRanges
+  - in: body
+    description: The destination port.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.destinationPortRanges
+  - in: body
+    isRequired: true
+    description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+    types:
+    - uid: SecurityRuleAccess
+    name: properties.access
+  - in: body
+    description: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
+    types:
+    - uid: integer
+    name: properties.priority
+  - in: body
+    isRequired: true
+    description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'."
+    types:
+    - uid: SecurityRuleDirection
+    name: properties.direction
+  - in: body
+    description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+    name: properties.provisioningState
+requestHeader: []
+definitions:
+- name: ApplicationSecurityGroup
+  description: The application security group specified as source.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - isReadyOnly: true
+    description: The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+    types:
+    - uid: string
+    name: properties.resourceGuid
+  - isReadyOnly: true
+    description: "The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: SecurityRule
+  description: Network security rule.
+  kind: object
+  properties:
+  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+    name: name
+  - description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - description: A description for this rule. Restricted to 140 chars.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.
+    types:
+    - uid: SecurityRuleProtocol
+    name: properties.protocol
+  - description: The source port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
+    types:
+    - uid: string
+    name: properties.sourcePortRange
+  - description: The destination port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
+    types:
+    - uid: string
+    name: properties.destinationPortRange
+  - description: "The CIDR or source IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
+    types:
+    - uid: string
+    name: properties.sourceAddressPrefix
+  - description: The CIDR or source IP ranges.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.sourceAddressPrefixes
+  - description: An application security group in a resource group.
+    types:
+    - isArray: true
+      uid: ApplicationSecurityGroup
+    name: properties.sourceApplicationSecurityGroups
+  - description: The destination address prefix. CIDR or destination IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
+    types:
+    - uid: string
+    name: properties.destinationAddressPrefix
+  - description: The destination address prefixes. CIDR or destination IP ranges.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.destinationAddressPrefixes
+  - description: An application security group in a resource group.
+    types:
+    - isArray: true
+      uid: ApplicationSecurityGroup
+    name: properties.destinationApplicationSecurityGroups
+  - description: The source port.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.sourcePortRanges
+  - description: The destination port.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.destinationPortRanges
+  - description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+    types:
+    - uid: SecurityRuleAccess
+    name: properties.access
+  - description: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
+    types:
+    - uid: integer
+    name: properties.priority
+  - description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'."
+    types:
+    - uid: SecurityRuleDirection
+    name: properties.direction
+  - description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+- name: SecurityRuleProtocol
+  description: Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Tcp
+  - types:
+    - uid: string
+    name: Udp
+  - types:
+    - uid: string
+    name: '*'
+- name: SecurityRuleAccess
+  description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Allow
+  - types:
+    - uid: string
+    name: Deny
+- name: SecurityRuleDirection
+  description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Inbound
+  - types:
+    - uid: string
+    name: Outbound
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg/securityRules/rule1?api-version=2017-10-01
+    body: >-
+      {
+        "properties": {
+          "protocol": "*",
+          "sourceAddressPrefix": "10.0.0.0/8",
+          "destinationAddressPrefix": "11.0.0.0/8",
+          "access": "Deny",
+          "destinationPortRange": "8080",
+          "sourcePortRange": "*",
+          "priority": 100,
+          "direction": "Outbound"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "rule1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg/securityRules/rule1",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "protocol": "*",
+          "sourcePortRange": "*",
+          "destinationPortRange": "8080",
+          "sourceAddressPrefix": "10.0.0.0/8",
+          "destinationAddressPrefix": "11.0.0.0/8",
+          "access": "Deny",
+          "priority": 100,
+          "direction": "Outbound"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "rule1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg/securityRules/rule1",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "protocol": "*",
+          "sourcePortRange": "*",
+          "destinationPortRange": "8080",
+          "sourceAddressPrefix": "10.0.0.0/8",
+          "destinationAddressPrefix": "11.0.0.0/8",
+          "access": "Deny",
+          "priority": 100,
+          "direction": "Outbound"
+        }
+      }
+  name: Create security rule
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update
+uid: management.azure.com.virtualnetworks.securityrules.createorupdate

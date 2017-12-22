@@ -1,0 +1,161 @@
+### YamlMime:RESTOperation
+summary: Gets a server.
+service: SQL Database
+apiVersion: 2015-05-01-preview
+groupName: Servers API
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}?api-version=2015-05-01-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+  name: serverName
+- in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Successfully retrieved the specified server.
+  types:
+  - uid: Server
+  name: 200 OK
+- description: >-
+    *** Error Responses: ***
+
+     * 404 ResourceNotFound - The requested resource was not found.
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: Server
+  description: Array of results.
+  kind: object
+  properties:
+  - description: The Azure Active Directory identity of the server.
+    types:
+    - uid: ResourceIdentity
+    name: identity
+  - isReadyOnly: true
+    description: Kind of sql server. This is metadata used for the Azure portal experience.
+    types:
+    - uid: string
+    name: kind
+  - description: Administrator username for the server. Once created it cannot be changed.
+    types:
+    - uid: string
+    name: properties.administratorLogin
+  - description: The administrator login password (required for server creation).
+    types:
+    - uid: string
+    name: properties.administratorLoginPassword
+  - description: The version of the server.
+    types:
+    - uid: string
+    name: properties.version
+  - isReadyOnly: true
+    description: The state of the server.
+    types:
+    - uid: string
+    name: properties.state
+  - isReadyOnly: true
+    description: The fully qualified domain name of the server.
+    types:
+    - uid: string
+    name: properties.fullyQualifiedDomainName
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: ResourceIdentity
+  description: The Azure Active Directory identity of the server.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The Azure Active Directory principal id.
+    types:
+    - uid: string
+    name: principalId
+  - description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    types:
+    - uid: IdentityType
+    name: type
+  - isReadyOnly: true
+    description: The Azure Active Directory tenant id.
+    types:
+    - uid: string
+    name: tenantId
+- name: IdentityType
+  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SystemAssigned
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
+        "name": "sqlcrudtest-4645",
+        "type": "Microsoft.Sql/servers",
+        "location": "japaneast",
+        "kind": "v12.0",
+        "properties": {
+          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "version": "12.0",
+          "state": "Ready"
+        }
+      }
+  name: Get server
+security: []
+name: Get
+uid: management.azure.com.sqldatabase.serversapi.get

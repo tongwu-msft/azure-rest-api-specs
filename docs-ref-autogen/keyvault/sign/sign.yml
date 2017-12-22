@@ -1,0 +1,155 @@
+### YamlMime:RESTOperation
+summary: Creates a signature from a digest using the specified key. The SIGN operation is applicable to asymmetric and symmetric keys stored in Azure Key Vault since this operation uses the private portion of the key.
+service: Key Vault
+apiVersion: 2016-10-01
+groupName: sign
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{vaultBaseUrl}/keys/{key-name}/{key-version}/sign?api-version=2016-10-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+  name: vaultBaseUrl
+- in: path
+  isRequired: true
+  description: The name of the key.
+  types:
+  - uid: string
+  name: key-name
+- in: path
+  isRequired: true
+  description: The version of the key.
+  types:
+  - uid: string
+  name: key-version
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The signature value.
+  types:
+  - uid: KeyOperationResult
+  name: 200 OK
+- description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+    types:
+    - uid: JsonWebKeySignatureAlgorithm
+    name: alg
+  - in: body
+    isRequired: true
+    description: ''
+    types:
+    - uid: string
+    name: value
+requestHeader: []
+definitions:
+- name: KeyOperationResult
+  description: The key operation result.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Key identifier
+    types:
+    - uid: string
+    name: kid
+  - isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+    name: value
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
+- name: KeySignParameters
+  description: The key operations parameters.
+  kind: object
+  properties:
+  - description: The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+    types:
+    - uid: JsonWebKeySignatureAlgorithm
+    name: alg
+  - description: ''
+    types:
+    - uid: string
+    name: value
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - description: ''
+    types:
+    - {}
+    name: innererror
+- name: JsonWebKeySignatureAlgorithm
+  description: The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: PS256
+  - types:
+    - uid: string
+    name: PS384
+  - types:
+    - uid: string
+    name: PS512
+  - types:
+    - uid: string
+    name: RS256
+  - types:
+    - uid: string
+    name: RS384
+  - types:
+    - uid: string
+    name: RS512
+  - types:
+    - uid: string
+    name: RSNULL
+  - types:
+    - uid: string
+    name: ES256
+  - types:
+    - uid: string
+    name: ES384
+  - types:
+    - uid: string
+    name: ES512
+  - types:
+    - uid: string
+    name: ECDSA256
+examples: []
+security: []
+name: sign
+uid: keyvault.sign.sign

@@ -1,0 +1,1170 @@
+### YamlMime:RESTOperation
+summary: Gets all web, mobile, and API apps in the specified resource group.
+service: App Service
+apiVersion: 2016-08-01
+groupName: Web Apps
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites?api-version=2016-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites?includeSlots={includeSlots}&api-version=2016-08-01
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+  name: resourceGroupName
+- in: query
+  description: Specify <strong>true</strong> to include deployment slots in results. The default is false, which only gives you the production slot of all apps.
+  types:
+  - uid: boolean
+  name: includeSlots
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: WebAppCollection
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: WebAppCollection
+  description: Collection of App Service apps.
+  kind: object
+  properties:
+  - description: A web app, a mobile app backend, or an API app.
+    types:
+    - isArray: true
+      uid: Site
+    name: value
+  - description: Link to next page of resources.
+    types:
+    - uid: string
+    name: nextLink
+- name: Site
+  description: A web app, a mobile app backend, or an API app.
+  kind: object
+  properties:
+  - description: Managed service identity.
+    types:
+    - uid: ManagedServiceIdentity
+    name: identity
+  - isReadyOnly: true
+    description: Current state of the app.
+    types:
+    - uid: string
+    name: properties.state
+  - isReadyOnly: true
+    description: Hostnames associated with the app.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.hostNames
+  - isReadyOnly: true
+    description: Name of the repository site.
+    types:
+    - uid: string
+    name: properties.repositorySiteName
+  - isReadyOnly: true
+    description: State indicating whether the app has exceeded its quota usage. Read-only.
+    types:
+    - uid: UsageState
+    name: properties.usageState
+  - description: <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline).
+    types:
+    - uid: boolean
+    name: properties.enabled
+  - isReadyOnly: true
+    description: >-
+      Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise,
+
+      the app is not served on those hostnames.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.enabledHostNames
+  - isReadyOnly: true
+    description: Management information availability state for the app.
+    types:
+    - uid: SiteAvailabilityState
+    name: properties.availabilityState
+  - description: SSL-enabled hostname.
+    types:
+    - isArray: true
+      uid: HostNameSslState
+    name: properties.hostNameSslStates
+  - description: 'Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".'
+    types:
+    - uid: string
+    name: properties.serverFarmId
+  - description: <code>true</code> if reserved; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.reserved
+  - isReadyOnly: true
+    description: Last time the app was modified, in UTC. Read-only.
+    types:
+    - uid: string
+    name: properties.lastModifiedTimeUtc
+  - description: Configuration of the app.
+    types:
+    - uid: SiteConfig
+    name: properties.siteConfig
+  - isReadyOnly: true
+    description: Azure Traffic Manager hostnames associated with the app. Read-only.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.trafficManagerHostNames
+  - description: <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.scmSiteAlsoStopped
+  - isReadyOnly: true
+    description: Specifies which deployment slot this app will swap into. Read-only.
+    types:
+    - uid: string
+    name: properties.targetSwapSlot
+  - description: App Service Environment to use for the app.
+    types:
+    - uid: HostingEnvironmentProfile
+    name: properties.hostingEnvironmentProfile
+  - description: <code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity cookies, which route client requests in the same session to the same instance. Default is <code>true</code>.
+    types:
+    - uid: boolean
+    name: properties.clientAffinityEnabled
+  - description: <code>true</code> to enable client certificate authentication (TLS mutual authentication); otherwise, <code>false</code>. Default is <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.clientCertEnabled
+  - description: >-
+      <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>.
+       If <code>true</code>, the app is only accessible via API management process.
+    types:
+    - uid: boolean
+    name: properties.hostNamesDisabled
+  - isReadyOnly: true
+    description: List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from tenants that site can be hosted with current settings. Read-only.
+    types:
+    - uid: string
+    name: properties.outboundIpAddresses
+  - isReadyOnly: true
+    description: List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants. Read-only.
+    types:
+    - uid: string
+    name: properties.possibleOutboundIpAddresses
+  - description: Size of the function container.
+    types:
+    - uid: integer
+    name: properties.containerSize
+  - description: Maximum allowed daily memory-time quota (applicable on dynamic apps only).
+    types:
+    - uid: integer
+    name: properties.dailyMemoryTimeQuota
+  - isReadyOnly: true
+    description: App suspended till in case memory-time quota is exceeded.
+    types:
+    - uid: string
+    name: properties.suspendedTill
+  - isReadyOnly: true
+    description: >-
+      Maximum number of workers.
+
+      This only applies to Functions container.
+    types:
+    - uid: integer
+    name: properties.maxNumberOfWorkers
+  - description: If specified during app creation, the app is cloned from a source app.
+    types:
+    - uid: CloningInfo
+    name: properties.cloningInfo
+  - description: If specified during app creation, the app is created from a previous snapshot.
+    types:
+    - uid: SnapshotRecoveryRequest
+    name: properties.snapshotInfo
+  - isReadyOnly: true
+    description: Name of the resource group the app belongs to. Read-only.
+    types:
+    - uid: string
+    name: properties.resourceGroup
+  - isReadyOnly: true
+    description: <code>true</code> if the app is a default container; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.isDefaultContainer
+  - isReadyOnly: true
+    description: Default hostname of the app. Read-only.
+    types:
+    - uid: string
+    name: properties.defaultHostName
+  - isReadyOnly: true
+    description: Status of the last deployment slot swap operation.
+    types:
+    - uid: SlotSwapStatus
+    name: properties.slotSwapStatus
+  - description: >-
+      HttpsOnly: configures a web site to accept only https requests. Issues redirect for
+
+      http requests
+    types:
+    - uid: boolean
+    name: properties.httpsOnly
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - description: Resource Location.
+    types:
+    - uid: string
+    name: location
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: ManagedServiceIdentity
+  description: Managed service identity.
+  kind: object
+  properties:
+  - description: Type of managed service identity.
+    types:
+    - uid: ManagedServiceIdentityType
+    name: type
+  - isReadyOnly: true
+    description: Tenant of managed service identity.
+    types:
+    - uid: string
+    name: tenantId
+  - isReadyOnly: true
+    description: Principal Id of managed service identity.
+    types:
+    - uid: string
+    name: principalId
+- name: UsageState
+  description: State indicating whether the app has exceeded its quota usage. Read-only.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Normal
+  - types:
+    - uid: string
+    name: Exceeded
+- name: SiteAvailabilityState
+  description: Management information availability state for the app.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Normal
+  - types:
+    - uid: string
+    name: Limited
+  - types:
+    - uid: string
+    name: DisasterRecoveryMode
+- name: HostNameSslState
+  description: Hostname SSL states are used to manage the SSL bindings for app's hostnames.
+  kind: object
+  properties:
+  - description: Hostname.
+    types:
+    - uid: string
+    name: name
+  - description: SSL type.
+    types:
+    - uid: SslState
+    name: sslState
+  - description: Virtual IP address assigned to the hostname if IP based SSL is enabled.
+    types:
+    - uid: string
+    name: virtualIP
+  - description: SSL certificate thumbprint.
+    types:
+    - uid: string
+    name: thumbprint
+  - description: Set to <code>true</code> to update existing hostname.
+    types:
+    - uid: boolean
+    name: toUpdate
+  - description: Indicates whether the hostname is a standard or repository hostname.
+    types:
+    - uid: HostType
+    name: hostType
+- name: SiteConfig
+  description: Configuration of the app.
+  kind: object
+  properties:
+  - description: Number of workers.
+    types:
+    - uid: integer
+    name: numberOfWorkers
+  - description: Default documents.
+    types:
+    - isArray: true
+      uid: string
+    name: defaultDocuments
+  - description: .NET Framework version.
+    types:
+    - uid: string
+    name: netFrameworkVersion
+  - description: Version of PHP.
+    types:
+    - uid: string
+    name: phpVersion
+  - description: Version of Python.
+    types:
+    - uid: string
+    name: pythonVersion
+  - description: Version of Node.js.
+    types:
+    - uid: string
+    name: nodeVersion
+  - description: Linux App Framework and version
+    types:
+    - uid: string
+    name: linuxFxVersion
+  - description: <code>true</code> if request tracing is enabled; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: requestTracingEnabled
+  - description: Request tracing expiration time.
+    types:
+    - uid: string
+    name: requestTracingExpirationTime
+  - description: <code>true</code> if remote debugging is enabled; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: remoteDebuggingEnabled
+  - description: Remote debugging version.
+    types:
+    - uid: string
+    name: remoteDebuggingVersion
+  - description: <code>true</code> if HTTP logging is enabled; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: httpLoggingEnabled
+  - description: HTTP logs directory size limit.
+    types:
+    - uid: integer
+    name: logsDirectorySizeLimit
+  - description: <code>true</code> if detailed error logging is enabled; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: detailedErrorLoggingEnabled
+  - description: Publishing user name.
+    types:
+    - uid: string
+    name: publishingUsername
+  - description: Name value pair.
+    types:
+    - isArray: true
+      uid: NameValuePair
+    name: appSettings
+  - description: Database connection string information.
+    types:
+    - isArray: true
+      uid: ConnStringInfo
+    name: connectionStrings
+  - isReadyOnly: true
+    description: Site MachineKey.
+    types:
+    - uid: SiteMachineKey
+    name: machineKey
+  - description: "The IIS handler mappings used to define which handler processes HTTP requests with certain extension. \nFor example, it is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension."
+    types:
+    - isArray: true
+      uid: HandlerMapping
+    name: handlerMappings
+  - description: Document root.
+    types:
+    - uid: string
+    name: documentRoot
+  - description: SCM type.
+    types:
+    - uid: ScmType
+    name: scmType
+  - description: <code>true</code> to use 32-bit worker process; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: use32BitWorkerProcess
+  - description: <code>true</code> if WebSocket is enabled; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: webSocketsEnabled
+  - description: <code>true</code> if Always On is enabled; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: alwaysOn
+  - description: Java version.
+    types:
+    - uid: string
+    name: javaVersion
+  - description: Java container.
+    types:
+    - uid: string
+    name: javaContainer
+  - description: Java container version.
+    types:
+    - uid: string
+    name: javaContainerVersion
+  - description: App command line to launch.
+    types:
+    - uid: string
+    name: appCommandLine
+  - description: Managed pipeline mode.
+    types:
+    - uid: ManagedPipelineMode
+    name: managedPipelineMode
+  - description: Virtual application in an app.
+    types:
+    - isArray: true
+      uid: VirtualApplication
+    name: virtualApplications
+  - description: Site load balancing.
+    types:
+    - uid: SiteLoadBalancing
+    name: loadBalancing
+  - description: This is work around for polymophic types.
+    types:
+    - uid: Experiments
+    name: experiments
+  - description: Site limits.
+    types:
+    - uid: SiteLimits
+    name: limits
+  - description: <code>true</code> if Auto Heal is enabled; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: autoHealEnabled
+  - description: Auto Heal rules.
+    types:
+    - uid: AutoHealRules
+    name: autoHealRules
+  - description: Tracing options.
+    types:
+    - uid: string
+    name: tracingOptions
+  - description: Virtual Network name.
+    types:
+    - uid: string
+    name: vnetName
+  - description: Cross-Origin Resource Sharing (CORS) settings.
+    types:
+    - uid: CorsSettings
+    name: cors
+  - description: Push endpoint settings.
+    types:
+    - uid: PushSettings
+    name: push
+  - description: Information about the formal API definition for the app.
+    types:
+    - uid: ApiDefinitionInfo
+    name: apiDefinition
+  - description: Auto-swap slot name.
+    types:
+    - uid: string
+    name: autoSwapSlotName
+  - description: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: localMySqlEnabled
+  - description: IP security restriction on an app.
+    types:
+    - isArray: true
+      uid: IpSecurityRestriction
+    name: ipSecurityRestrictions
+- name: HostingEnvironmentProfile
+  description: App Service Environment to use for the app.
+  kind: object
+  properties:
+  - description: Resource ID of the App Service Environment.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Name of the App Service Environment.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type of the App Service Environment.
+    types:
+    - uid: string
+    name: type
+- name: CloningInfo
+  description: If specified during app creation, the app is cloned from a source app.
+  kind: object
+  properties:
+  - description: >-
+      Correlation ID of cloning operation. This ID ties multiple cloning operations
+
+      together to use the same snapshot.
+    types:
+    - uid: string
+    name: correlationId
+  - description: <code>true</code> to overwrite destination app; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: overwrite
+  - description: <code>true</code> to clone custom hostnames from source app; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: cloneCustomHostNames
+  - description: <code>true</code> to clone source control from source app; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: cloneSourceControl
+  - description: "ARM resource ID of the source app. App resource ID is of the form \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName} for production slots and \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName} for other slots."
+    types:
+    - uid: string
+    name: sourceWebAppId
+  - description: App Service Environment.
+    types:
+    - uid: string
+    name: hostingEnvironment
+  - description: "Application setting overrides for cloned app. If specified, these settings override the settings cloned \nfrom source app. Otherwise, application settings from source app are retained."
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: appSettingsOverrides
+  - description: <code>true</code> to configure load balancing for source and destination app.
+    types:
+    - uid: boolean
+    name: configureLoadBalancing
+  - description: "ARM resource ID of the Traffic Manager profile to use, if it exists. Traffic Manager resource ID is of the form \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{profileName}."
+    types:
+    - uid: string
+    name: trafficManagerProfileId
+  - description: Name of Traffic Manager profile to create. This is only needed if Traffic Manager profile does not already exist.
+    types:
+    - uid: string
+    name: trafficManagerProfileName
+  - description: <code>true</code> if quotas should be ignored; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: ignoreQuotas
+- name: SnapshotRecoveryRequest
+  description: If specified during app creation, the app is created from a previous snapshot.
+  kind: object
+  properties:
+  - description: Point in time in which the app recovery should be attempted, formatted as a DateTime string.
+    types:
+    - uid: string
+    name: properties.snapshotTime
+  - description: Specifies the web app that snapshot contents will be written to.
+    types:
+    - uid: SnapshotRecoveryTarget
+    name: properties.recoveryTarget
+  - description: If <code>true</code> the recovery operation can overwrite source app; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.overwrite
+  - description: If true, site configuration, in addition to content, will be reverted.
+    types:
+    - uid: boolean
+    name: properties.recoverConfiguration
+  - description: >-
+      If true, custom hostname conflicts will be ignored when recovering to a target web app.
+
+      This setting is only necessary when RecoverConfiguration is enabled.
+    types:
+    - uid: boolean
+    name: properties.ignoreConflictingHostNames
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: SlotSwapStatus
+  description: Status of the last deployment slot swap operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The time the last successful slot swap completed.
+    types:
+    - uid: string
+    name: timestampUtc
+  - isReadyOnly: true
+    description: The source slot of the last swap operation.
+    types:
+    - uid: string
+    name: sourceSlotName
+  - isReadyOnly: true
+    description: The destination slot of the last swap operation.
+    types:
+    - uid: string
+    name: destinationSlotName
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SystemAssigned
+- name: SslState
+  description: SSL type
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: SniEnabled
+  - types:
+    - uid: string
+    name: IpBasedEnabled
+- name: HostType
+  description: Indicates whether the hostname is a standard or repository hostname.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Repository
+- name: NameValuePair
+  description: Application settings.
+  kind: object
+  properties:
+  - description: Pair name.
+    types:
+    - uid: string
+    name: name
+  - description: Pair value.
+    types:
+    - uid: string
+    name: value
+- name: ConnStringInfo
+  description: Connection strings.
+  kind: object
+  properties:
+  - description: Name of connection string.
+    types:
+    - uid: string
+    name: name
+  - description: Connection string value.
+    types:
+    - uid: string
+    name: connectionString
+  - description: Type of database.
+    types:
+    - uid: ConnectionStringType
+    name: type
+- name: SiteMachineKey
+  description: Site MachineKey.
+  kind: object
+  properties:
+  - description: MachineKey validation.
+    types:
+    - uid: string
+    name: validation
+  - description: Validation key.
+    types:
+    - uid: string
+    name: validationKey
+  - description: Algorithm used for decryption.
+    types:
+    - uid: string
+    name: decryption
+  - description: Decryption key.
+    types:
+    - uid: string
+    name: decryptionKey
+- name: HandlerMapping
+  description: Handler mappings.
+  kind: object
+  properties:
+  - description: Requests with this extension will be handled using the specified FastCGI application.
+    types:
+    - uid: string
+    name: extension
+  - description: The absolute path to the FastCGI application.
+    types:
+    - uid: string
+    name: scriptProcessor
+  - description: Command-line arguments to be passed to the script processor.
+    types:
+    - uid: string
+    name: arguments
+- name: ScmType
+  description: SCM type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: Dropbox
+  - types:
+    - uid: string
+    name: Tfs
+  - types:
+    - uid: string
+    name: LocalGit
+  - types:
+    - uid: string
+    name: GitHub
+  - types:
+    - uid: string
+    name: CodePlexGit
+  - types:
+    - uid: string
+    name: CodePlexHg
+  - types:
+    - uid: string
+    name: BitbucketGit
+  - types:
+    - uid: string
+    name: BitbucketHg
+  - types:
+    - uid: string
+    name: ExternalGit
+  - types:
+    - uid: string
+    name: ExternalHg
+  - types:
+    - uid: string
+    name: OneDrive
+  - types:
+    - uid: string
+    name: VSO
+- name: ManagedPipelineMode
+  description: Managed pipeline mode.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Integrated
+  - types:
+    - uid: string
+    name: Classic
+- name: VirtualApplication
+  description: Virtual applications.
+  kind: object
+  properties:
+  - description: Virtual path.
+    types:
+    - uid: string
+    name: virtualPath
+  - description: Physical path.
+    types:
+    - uid: string
+    name: physicalPath
+  - description: <code>true</code> if preloading is enabled; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: preloadEnabled
+  - description: Directory for virtual application.
+    types:
+    - isArray: true
+      uid: VirtualDirectory
+    name: virtualDirectories
+- name: SiteLoadBalancing
+  description: Site load balancing.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: WeightedRoundRobin
+  - types:
+    - uid: string
+    name: LeastRequests
+  - types:
+    - uid: string
+    name: LeastResponseTime
+  - types:
+    - uid: string
+    name: WeightedTotalTraffic
+  - types:
+    - uid: string
+    name: RequestHash
+- name: Experiments
+  description: This is work around for polymophic types.
+  kind: object
+  properties:
+  - description: Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change routing % based on performance.
+    types:
+    - isArray: true
+      uid: RampUpRule
+    name: rampUpRules
+- name: SiteLimits
+  description: Site limits.
+  kind: object
+  properties:
+  - description: Maximum allowed CPU usage percentage.
+    types:
+    - uid: number
+    name: maxPercentageCpu
+  - description: Maximum allowed memory usage in MB.
+    types:
+    - uid: integer
+    name: maxMemoryInMb
+  - description: Maximum allowed disk size usage in MB.
+    types:
+    - uid: integer
+    name: maxDiskSizeInMb
+- name: AutoHealRules
+  description: Auto Heal rules.
+  kind: object
+  properties:
+  - description: Conditions that describe when to execute the auto-heal actions.
+    types:
+    - uid: AutoHealTriggers
+    name: triggers
+  - description: Actions to be executed when a rule is triggered.
+    types:
+    - uid: AutoHealActions
+    name: actions
+- name: CorsSettings
+  description: Cross-Origin Resource Sharing (CORS) settings.
+  kind: object
+  properties:
+  - description: >-
+      Gets or sets the list of origins that should be allowed to make cross-origin
+
+      calls (for example: http://example.com:12345). Use "*" to allow all.
+    types:
+    - isArray: true
+      uid: string
+    name: allowedOrigins
+- name: PushSettings
+  description: Push endpoint settings.
+  kind: object
+  properties:
+  - description: Gets or sets a flag indicating whether the Push endpoint is enabled.
+    types:
+    - uid: boolean
+    name: properties.isPushEnabled
+  - description: Gets or sets a JSON string containing a list of tags that are whitelisted for use by the push registration endpoint.
+    types:
+    - uid: string
+    name: properties.tagWhitelistJson
+  - description: "Gets or sets a JSON string containing a list of tags that require user authentication to be used in the push registration endpoint.\nTags can consist of alphanumeric characters and the following:\n'_', '@', '#', '.', ':', '-'. \nValidation should be performed at the PushRequestHandler."
+    types:
+    - uid: string
+    name: properties.tagsRequiringAuth
+  - description: Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in the push registration endpoint.
+    types:
+    - uid: string
+    name: properties.dynamicTagsJson
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: ApiDefinitionInfo
+  description: Information about the formal API definition for the app.
+  kind: object
+  properties:
+  - description: The URL of the API definition.
+    types:
+    - uid: string
+    name: url
+- name: IpSecurityRestriction
+  description: IP security restrictions.
+  kind: object
+  properties:
+  - description: IP address the security restriction is valid for.
+    types:
+    - uid: string
+    name: ipAddress
+  - description: Subnet mask for the range of IP addresses the restriction is valid for.
+    types:
+    - uid: string
+    name: subnetMask
+- name: SnapshotRecoveryTarget
+  description: Specifies the web app that snapshot contents will be written to.
+  kind: object
+  properties:
+  - description: Geographical location of the target web app, e.g. SouthEastAsia, SouthCentralUS
+    types:
+    - uid: string
+    name: location
+  - description: "ARM resource ID of the target app. \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName} for production slots and \n/subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName} for other slots."
+    types:
+    - uid: string
+    name: id
+- name: ConnectionStringType
+  description: Type of database.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: MySql
+  - types:
+    - uid: string
+    name: SQLServer
+  - types:
+    - uid: string
+    name: SQLAzure
+  - types:
+    - uid: string
+    name: Custom
+  - types:
+    - uid: string
+    name: NotificationHub
+  - types:
+    - uid: string
+    name: ServiceBus
+  - types:
+    - uid: string
+    name: EventHub
+  - types:
+    - uid: string
+    name: ApiHub
+  - types:
+    - uid: string
+    name: DocDb
+  - types:
+    - uid: string
+    name: RedisCache
+  - types:
+    - uid: string
+    name: PostgreSQL
+- name: VirtualDirectory
+  description: Virtual directories for virtual application.
+  kind: object
+  properties:
+  - description: Path to virtual application.
+    types:
+    - uid: string
+    name: virtualPath
+  - description: Physical path.
+    types:
+    - uid: string
+    name: physicalPath
+- name: RampUpRule
+  description: List of ramp-up rules.
+  kind: object
+  properties:
+  - description: Hostname of a slot to which the traffic will be redirected if decided to. E.g. myapp-stage.azurewebsites.net.
+    types:
+    - uid: string
+    name: actionHostName
+  - description: Percentage of the traffic which will be redirected to <code>ActionHostName</code>.
+    types:
+    - uid: number
+    name: reroutePercentage
+  - description: "In auto ramp up scenario this is the step to to add/remove from <code>ReroutePercentage</code> until it reaches \n<code>MinReroutePercentage</code> or <code>MaxReroutePercentage</code>. Site metrics are checked every N minutes specificed in <code>ChangeIntervalInMinutes</code>.\nCustom decision algorithm can be provided in TiPCallback site extension which URL can be specified in <code>ChangeDecisionCallbackUrl</code>."
+    types:
+    - uid: number
+    name: changeStep
+  - description: Specifies interval in mimuntes to reevaluate ReroutePercentage.
+    types:
+    - uid: integer
+    name: changeIntervalInMinutes
+  - description: Specifies lower boundary above which ReroutePercentage will stay.
+    types:
+    - uid: number
+    name: minReroutePercentage
+  - description: Specifies upper boundary below which ReroutePercentage will stay.
+    types:
+    - uid: number
+    name: maxReroutePercentage
+  - description: >-
+      Custom decision algorithm can be provided in TiPCallback site extension which URL can be specified. See TiPCallback site extension for the scaffold and contracts.
+
+      https://www.siteextensions.net/packages/TiPCallback/
+    types:
+    - uid: string
+    name: changeDecisionCallbackUrl
+  - description: Name of the routing rule. The recommended name would be to point to the slot which will receive the traffic in the experiment.
+    types:
+    - uid: string
+    name: name
+- name: AutoHealTriggers
+  description: Conditions that describe when to execute the auto-heal actions.
+  kind: object
+  properties:
+  - description: A rule based on total requests.
+    types:
+    - uid: RequestsBasedTrigger
+    name: requests
+  - description: A rule based on private bytes.
+    types:
+    - uid: integer
+    name: privateBytesInKB
+  - description: Trigger based on status code.
+    types:
+    - isArray: true
+      uid: StatusCodesBasedTrigger
+    name: statusCodes
+  - description: A rule based on request execution time.
+    types:
+    - uid: SlowRequestsBasedTrigger
+    name: slowRequests
+- name: AutoHealActions
+  description: Actions to be executed when a rule is triggered.
+  kind: object
+  properties:
+  - description: Predefined action to be taken.
+    types:
+    - uid: AutoHealActionType
+    name: actionType
+  - description: Custom action to be taken.
+    types:
+    - uid: AutoHealCustomAction
+    name: customAction
+  - description: >-
+      Minimum time the process must execute
+
+      before taking the action
+    types:
+    - uid: string
+    name: minProcessExecutionTime
+- name: RequestsBasedTrigger
+  description: A rule based on total requests.
+  kind: object
+  properties:
+  - description: Request Count.
+    types:
+    - uid: integer
+    name: count
+  - description: Time interval.
+    types:
+    - uid: string
+    name: timeInterval
+- name: StatusCodesBasedTrigger
+  description: A rule based on status codes.
+  kind: object
+  properties:
+  - description: HTTP status code.
+    types:
+    - uid: integer
+    name: status
+  - description: Request Sub Status.
+    types:
+    - uid: integer
+    name: subStatus
+  - description: Win32 error code.
+    types:
+    - uid: integer
+    name: win32Status
+  - description: Request Count.
+    types:
+    - uid: integer
+    name: count
+  - description: Time interval.
+    types:
+    - uid: string
+    name: timeInterval
+- name: SlowRequestsBasedTrigger
+  description: A rule based on request execution time.
+  kind: object
+  properties:
+  - description: Time taken.
+    types:
+    - uid: string
+    name: timeTaken
+  - description: Request Count.
+    types:
+    - uid: integer
+    name: count
+  - description: Time interval.
+    types:
+    - uid: string
+    name: timeInterval
+- name: AutoHealActionType
+  description: Predefined action to be taken.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Recycle
+  - types:
+    - uid: string
+    name: LogEvent
+  - types:
+    - uid: string
+    name: CustomAction
+- name: AutoHealCustomAction
+  description: Custom action to be taken.
+  kind: object
+  properties:
+  - description: Executable to be run.
+    types:
+    - uid: string
+    name: exe
+  - description: Parameters for the executable.
+    types:
+    - uid: string
+    name: parameters
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Resource Group
+uid: management.azure.com.appservice.webapps.listbyresourcegroup

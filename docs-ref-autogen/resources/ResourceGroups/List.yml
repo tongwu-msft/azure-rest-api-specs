@@ -1,0 +1,111 @@
+### YamlMime:RESTOperation
+summary: Gets all the resource groups for a subscription.
+service: Resource Management
+apiVersion: 2017-05-10
+groupName: Resource Groups
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups?api-version=2017-05-10
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups?$filter={$filter}&$top={$top}&api-version=2017-05-10
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: query
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  description: The number of results to return. If null is passed, returns all resource groups.
+  types:
+  - uid: integer
+  format: int32
+  name: $top
+- in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK - Returns an array of resource groups.
+  types:
+  - uid: ResourceGroupListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: ResourceGroupListResult
+  description: List of resource groups.
+  kind: object
+  properties:
+  - description: Resource group information.
+    types:
+    - isArray: true
+      uid: ResourceGroup
+    name: value
+  - isReadyOnly: true
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+    name: nextLink
+- name: ResourceGroup
+  description: Resource group information.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The ID of the resource group.
+    types:
+    - uid: string
+    name: id
+  - description: The name of the resource group.
+    types:
+    - uid: string
+    name: name
+  - description: The resource group properties.
+    types:
+    - uid: ResourceGroupProperties
+    name: properties
+  - description: The location of the resource group. It cannot be changed after the resource group has been created. It muct be one of the supported Azure locations.
+    types:
+    - uid: string
+    name: location
+  - description: The ID of the resource that manages this resource group.
+    types:
+    - uid: string
+    name: managedBy
+  - description: The tags attached to the resource group.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: ResourceGroupProperties
+  description: The resource group properties.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: 'The provisioning state. '
+    types:
+    - uid: string
+    name: provisioningState
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List
+uid: management.azure.com.resourcemanagement.resourcegroups.list

@@ -1,0 +1,80 @@
+### YamlMime:RESTOperation
+summary: Add a member to a group.
+service: Graph RBAC
+apiVersion: "1.6"
+groupName: Groups
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://graph.windows.net/{tenantID}/groups/{groupObjectId}/$links/members?api-version=1.6
+uriParameters:
+- in: path
+  isRequired: true
+  description: The tenant ID.
+  types:
+  - uid: string
+  name: tenantID
+- in: path
+  isRequired: true
+  description: The object ID of the group to which to add the member.
+  types:
+  - uid: string
+  name: groupObjectId
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: No Content. Indicates success. No response body is returned.
+  name: 204 No Content
+- description: Error response describing why the operation failed.
+  types:
+  - uid: GraphError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: A member object URL, such as "https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd", where "0b1f9851-1bf0-433f-aec3-cb9272f093dc" is the tenantId and "f260bbc4-c254-447b-94cf-293b5ec434dd" is the objectId of the member (user, application, servicePrincipal, group) to be added.
+    types:
+    - uid: string
+    name: url
+requestHeader: []
+definitions:
+- name: GraphError
+  description: Active Directory error information.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: odata.error.code
+  - description: Error message value.
+    types:
+    - uid: string
+    name: odata.error.message.value
+- name: GroupAddMemberParameters
+  description: Request parameters for adding a member to a group.
+  kind: object
+  properties:
+  - description: A member object URL, such as "https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd", where "0b1f9851-1bf0-433f-aec3-cb9272f093dc" is the tenantId and "f260bbc4-c254-447b-94cf-293b5ec434dd" is the objectId of the member (user, application, servicePrincipal, group) to be added.
+    types:
+    - uid: string
+    name: url
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Add Member
+uid: graph.windows.net.graphrbac.groups.addmember

@@ -1,0 +1,177 @@
+### YamlMime:RESTOperation
+summary: Updates the specific Email Template.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Email Template
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}?api-version=2017-03-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: path
+  isRequired: true
+  description: Email Template Name Identifier.
+  types:
+  - uid: string
+  name: templateName
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Email Template was successfully updated.
+  name: 204 No Content
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: Subject of the Template.
+    types:
+    - uid: string
+    name: properties.subject
+  - in: body
+    description: Title of the Template.
+    types:
+    - uid: string
+    name: properties.title
+  - in: body
+    description: Description of the Email Template.
+    types:
+    - uid: string
+    name: properties.description
+  - in: body
+    description: Email Template Body. This should be a valid XDocument
+    types:
+    - uid: string
+    name: properties.body
+  - in: body
+    description: Email Template Parameter contract.
+    types:
+    - isArray: true
+      uid: EmailTemplateParametersContractProperties
+    name: properties.parameters
+requestHeader: []
+definitions:
+- name: EmailTemplateParametersContractProperties
+  description: Email Template Parameter values.
+  kind: object
+  properties:
+  - description: Template parameter name.
+    types:
+    - uid: string
+    name: name
+  - description: Template parameter title.
+    types:
+    - uid: string
+    name: title
+  - description: Template parameter description.
+    types:
+    - uid: string
+    name: description
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: Error Field contract.
+    types:
+    - isArray: true
+      uid: ErrorFieldContract
+    name: details
+- name: EmailTemplateUpdateParameters
+  description: Email Template update Parameters.
+  kind: object
+  properties:
+  - description: Subject of the Template.
+    types:
+    - uid: string
+    name: properties.subject
+  - description: Title of the Template.
+    types:
+    - uid: string
+    name: properties.title
+  - description: Description of the Email Template.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Email Template Body. This should be a valid XDocument
+    types:
+    - uid: string
+    name: properties.body
+  - description: Email Template Parameter contract.
+    types:
+    - isArray: true
+      uid: EmailTemplateParametersContractProperties
+    name: properties.parameters
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - description: Property level error code.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+    name: message
+  - description: Property name.
+    types:
+    - uid: string
+    name: target
+examples:
+- request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/templates/applicationApprovedNotificationMessage?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "subject": "Your application $AppName is published in the gallery",
+          "body": "<!DOCTYPE html >\r\n<html>\r\n  <head />\r\n  <body>\r\n    <p style=\"font-size:12pt;font-family:'Segoe UI'\">Dear $DevFirstName $DevLastName,</p>\r\n    <p style=\"font-size:12pt;font-family:'Segoe UI'\">\r\n          We are happy to let you know that your request to publish the $AppName application in the gallery has been approved. Your application has been published and can be viewed <a href=\"http://$DevPortalUrl/Applications/Details/$AppId\">here</a>.\r\n        </p>\r\n    <p style=\"font-size:12pt;font-family:'Segoe UI'\">Best,</p>\r\n    <p style=\"font-size:12pt;font-family:'Segoe UI'\">The $OrganizationName API Team</p>\r\n  </body>\r\n</html>"
+        }
+      }
+  responses:
+  - statusCode: "204"
+  name: ApiManagementUpdateEmailTemplate
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Update
+uid: management.azure.com.apimanagement.emailtemplate.update

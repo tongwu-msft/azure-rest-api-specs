@@ -1,0 +1,138 @@
+### YamlMime:RESTOperation
+summary: Create or update a redis cache firewall rule
+service: Redis Cache
+apiVersion: 2016-04-01
+groupName: Redis Firewall Rule
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{cacheName}/firewallRules/{ruleName}?api-version=2016-04-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the Redis cache.
+  types:
+  - uid: string
+  name: cacheName
+- in: path
+  isRequired: true
+  description: The name of the firewall rule.
+  types:
+  - uid: string
+  name: ruleName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Resource was successfully updated
+  types:
+  - uid: RedisFirewallRule
+  name: 200 OK
+- description: Resource was successfully created
+  types:
+  - uid: RedisFirewallRule
+  name: 201 Created
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: lowest IP address included in the range
+    types:
+    - uid: string
+    name: properties.startIP
+  - in: body
+    isRequired: true
+    description: highest IP address included in the range
+    types:
+    - uid: string
+    name: properties.endIP
+requestHeader: []
+definitions:
+- name: RedisFirewallRule
+  description: A firewall rule on a redis cache has a name, and describes a contiguous range of IP addresses permitted to connect
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: resource ID (of the firewall rule)
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: name of the firewall rule
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: type (of the firewall rule resource = 'Microsoft.Cache/redis/firewallRule')
+    types:
+    - uid: string
+    name: type
+  - description: lowest IP address included in the range
+    types:
+    - uid: string
+    name: properties.startIP
+  - description: highest IP address included in the range
+    types:
+    - uid: string
+    name: properties.endIP
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1?api-version=2016-04-01
+    body: >-
+      {
+        "properties": {
+          "startIP": "192.168.1.1",
+          "endIP": "192.168.1.4"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1",
+        "name": "cache1/rule1",
+        "type": "Microsoft.Cache/Redis/firewallRules",
+        "properties": {
+          "startIP": "192.168.1.1",
+          "endIP": "192.168.1.4"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1",
+        "name": "cache1/rule1",
+        "type": "Microsoft.Cache/Redis/firewallRules",
+        "properties": {
+          "startIP": "192.168.1.1",
+          "endIP": "192.168.1.4"
+        }
+      }
+  name: RedisCacheFirewallRuleCreate
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update
+uid: management.azure.com.rediscache.redisfirewallrule.createorupdate

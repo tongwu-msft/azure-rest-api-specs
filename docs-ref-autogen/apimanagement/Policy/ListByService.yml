@@ -1,0 +1,117 @@
+### YamlMime:RESTOperation
+summary: Lists all the Global Policy definitions of the Api Management service.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Policy
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies?api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies?scope={scope}&api-version=2017-03-01
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: query
+  description: Policy scope.
+  types:
+  - uid: string
+  name: scope
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Returns an array of Policy Contracts.
+  types:
+  - uid: PolicyCollection
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: PolicyCollection
+  description: The response of the list policy operation.
+  kind: object
+  properties:
+  - description: Policy Contract details.
+    types:
+    - isArray: true
+      uid: PolicyContract
+    name: value
+  - description: Next page link if any.
+    types:
+    - uid: string
+    name: nextLink
+- name: PolicyContract
+  description: Policy Contract value.
+  kind: object
+  properties:
+  - description: Json escaped Xml Encoded contents of the Policy.
+    types:
+    - uid: string
+    name: properties.policyContent
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies/policy",
+            "type": "Microsoft.ApiManagement/service/policies",
+            "name": "policy",
+            "properties": {
+              "policyContent": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - Only the <forward-request> policy element can appear within the <backend> section element.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n-->\r\n<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+  name: ApiManagementListPolicies
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Service
+uid: management.azure.com.apimanagement.policy.listbyservice

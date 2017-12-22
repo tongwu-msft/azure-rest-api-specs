@@ -1,0 +1,145 @@
+### YamlMime:RESTOperation
+summary: List the functions for a web site, or a deployment slot.
+service: App Service
+apiVersion: 2016-08-01
+groupName: Web Apps
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions?api-version=2016-08-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Site name.
+  types:
+  - uid: string
+  name: name
+- in: path
+  isRequired: true
+  description: Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+  types:
+  - uid: string
+  name: slot
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Function information returned.
+  types:
+  - uid: FunctionEnvelopeCollection
+  name: 200 OK
+- description: Function with an ID of {functionName} is not running.
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: FunctionEnvelopeCollection
+  description: Collection of Kudu function information elements.
+  kind: object
+  properties:
+  - description: Web Job Information.
+    types:
+    - isArray: true
+      uid: FunctionEnvelope
+    name: value
+  - description: Link to next page of resources.
+    types:
+    - uid: string
+    name: nextLink
+- name: FunctionEnvelope
+  description: Web Job Information.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Function name.
+    types:
+    - uid: string
+    name: properties.name
+  - isReadyOnly: true
+    description: Function App ID.
+    types:
+    - uid: string
+    name: properties.functionAppId
+  - description: Script root path URI.
+    types:
+    - uid: string
+    name: properties.scriptRootPathHref
+  - description: Script URI.
+    types:
+    - uid: string
+    name: properties.scriptHref
+  - description: Config URI.
+    types:
+    - uid: string
+    name: properties.configHref
+  - description: Secrets file URI.
+    types:
+    - uid: string
+    name: properties.secretsFileHref
+  - description: Function URI.
+    types:
+    - uid: string
+    name: properties.href
+  - description: Config information.
+    types:
+    - uid: object
+    name: properties.config
+  - description: File list.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: properties.files
+  - description: Test data used when testing via the Azure Portal.
+    types:
+    - uid: string
+    name: properties.testData
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List Instance Functions Slot
+uid: management.azure.com.appservice.webapps.listinstancefunctionsslot

@@ -19,22 +19,22 @@ Following are a list of the tasks with each certificates and certificate policie
 
  The Azure Key Vault REST API supports the following operations on certificates.  
 
--   [Create a certificate ](../../docs-ref-autogen/keyvault/CreateCertificate.json)
--   [Import a certificate](../../docs-ref-autogen/keyvault/ImportCertificate.json)  
--   [List versions of a certificate](../../docs-ref-autogen/keyvault/GetCertificateVersions.json)  
--   [List certificates](../../docs-ref-autogen/keyvault/GetCertificates.json)  
--   [Get a certificate](../../docs-ref-autogen/keyvault/GetCertificate.json)  
--   [Delete a certificate](../../docs-ref-autogen/keyvault/DeleteCertificate.json)  
--   [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.json)  
--   [Merge a certificate](../../docs-ref-autogen/keyvault/MergeCertificate.json)
+-   [Create a certificate ](../../docs-ref-autogen/keyvault/CreateCertificate.yml)
+-   [Import a certificate](../../docs-ref-autogen/keyvault/ImportCertificate.yml)  
+-   [List versions of a certificate](../../docs-ref-autogen/keyvault/GetCertificateVersions.yml)  
+-   [List certificates](../../docs-ref-autogen/keyvault/GetCertificates.yml)  
+-   [Get a certificate](../../docs-ref-autogen/keyvault/GetCertificate.yml)  
+-   [Delete a certificate](../../docs-ref-autogen/keyvault/DeleteCertificate.yml)  
+-   [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.yml)  
+-   [Merge a certificate](../../docs-ref-autogen/keyvault/MergeCertificate.yml)
 
 ### Certificate management operations
 
 These REST operations are for the management of certificate operations associated with a Key Vault certificate.
 
--   [Delete certificate operation](../../docs-ref-autogen/keyvault/DeleteCertificateOperation.json)
--   [Get certificate operation](../../docs-ref-autogen/keyvault/GetCertificateOperation.json)
--   [Update certificate operation](../../docs-ref-autogen/keyvault/UpdateCertificateOperation.json)
+-   [Delete certificate operation](../../docs-ref-autogen/keyvault/DeleteCertificateOperation.yml)
+-   [Get certificate operation](../../docs-ref-autogen/keyvault/GetCertificateOperation.yml)
+-   [Update certificate operation](../../docs-ref-autogen/keyvault/UpdateCertificateOperation.yml)
 
 For usage detail and examples, see [Monitor and manage certificate creation](https://docs.microsoft.com/rest/api/keyvault/create-certificate-scenarios).
 
@@ -42,17 +42,17 @@ For usage detail and examples, see [Monitor and manage certificate creation](htt
 
  The following operations are available on a certificate policy:  
 
--   [Get a certificate policy](../../docs-ref-autogen/keyvault/GetCertificatePolicy.json)  
--   [Update a certificate policy](../../docs-ref-autogen/keyvault/UpdateCertificatePolicy.json)
+-   [Get a certificate policy](../../docs-ref-autogen/keyvault/GetCertificatePolicy.yml)  
+-   [Update a certificate policy](../../docs-ref-autogen/keyvault/UpdateCertificatePolicy.yml)
 
 ### Soft-delete operations
 
 The soft-delete feature supports these operations for deleted certificates:
 
-- [Get deleted certificate](../../docs-ref-autogen/keyvault/GetDeletedCertificate.json)
-- [Get deleted certificates](../../docs-ref-autogen/keyvault/GetDeletedCertificates.json)
-- [Purge deleted certificate](../../docs-ref-autogen/keyvault/PurgeDeletedCertificate.json)
-- [Recover deleted certificate](../../docs-ref-autogen/keyvault/RecoverDeletedCertificate.json)
+- [Get deleted certificate](../../docs-ref-autogen/keyvault/GetDeletedCertificate.yml)
+- [Get deleted certificates](../../docs-ref-autogen/keyvault/GetDeletedCertificates.yml)
+- [Purge deleted certificate](../../docs-ref-autogen/keyvault/PurgeDeletedCertificate.yml)
+- [Recover deleted certificate](../../docs-ref-autogen/keyvault/RecoverDeletedCertificate.yml)
 
 For more information on Key Vault's soft-delete feature, see [Azure Key Vault soft-delete feature overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete).
 

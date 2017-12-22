@@ -1,0 +1,227 @@
+### YamlMime:RESTOperation
+summary: Changes the number of compute nodes that are assigned to a pool. You can only resize a pool when its allocation state is steady. If the pool is already resizing, the request fails with status code 409. When you resize a pool, the pool's allocation state changes from steady to resizing. You cannot resize pools which are configured for automatic scaling. If you try to do this, the Batch service returns an error 409. If you resize a pool downwards, the Batch service chooses which nodes to remove. To remove specific nodes, use the pool remove nodes API instead.
+service: Batch Service
+apiVersion: 2017-09-01.6.0
+groupName: Pool
+consumes:
+- application/json; odata=minimalmetadata
+produces:
+- application/json
+paths:
+- content: POST https://batch.core.windows.net/pools/{poolId}/resize?api-version=2017-09-01.6.0
+- content: POST https://batch.core.windows.net/pools/{poolId}/resize?timeout={timeout}&api-version=2017-09-01.6.0
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The ID of the pool to resize.
+  types:
+  - uid: string
+  name: poolId
+- in: query
+  description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
+  types:
+  - uid: integer
+  format: int32
+  name: timeout
+- in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- headers:
+  - value: string
+    name: client-request-id
+  - value: string
+    name: request-id
+  - value: string
+    name: ETag
+  - value: string
+    name: Last-Modified
+  - value: string
+    name: DataServiceId
+  description: The request to the Batch service was successful.
+  name: 202 Accepted
+- description: The error from the Batch service.
+  types:
+  - uid: BatchError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: The desired number of dedicated compute nodes in the pool.
+    types:
+    - uid: integer
+    name: targetDedicatedNodes
+  - in: body
+    description: The desired number of low-priority compute nodes in the pool.
+    types:
+    - uid: integer
+    name: targetLowPriorityNodes
+  - in: body
+    description: >-
+      The timeout for allocation of compute nodes to the pool or removal of compute nodes from the pool.
+
+      The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
+    types:
+    - uid: string
+    name: resizeTimeout
+  - in: body
+    description: >-
+      Determines what to do with a node and its running task(s) if the pool size is decreasing.
+
+      The default value is requeue.
+    types:
+    - uid: ComputeNodeDeallocationOption
+    name: nodeDeallocationOption
+requestHeader:
+- in: header
+  description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+  types:
+  - uid: string
+  format: uuid
+  name: client-request-id
+- in: header
+  description: Whether the server should return the client-request-id in the response.
+  types:
+  - uid: boolean
+  name: return-client-request-id
+- in: header
+  description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+  name: ocp-date
+- in: header
+  description: An ETag value associated with the version of the resource known to the client. The operation will be performed only if the resource's current ETag on the service exactly matches the value specified by the client.
+  types:
+  - uid: string
+  name: If-Match
+- in: header
+  description: An ETag value associated with the version of the resource known to the client. The operation will be performed only if the resource's current ETag on the service does not match the value specified by the client.
+  types:
+  - uid: string
+  name: If-None-Match
+- in: header
+  description: A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has been modified since the specified time.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+  name: If-Modified-Since
+- in: header
+  description: A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has not been modified since the specified time.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+  name: If-Unmodified-Since
+definitions:
+- name: BatchError
+  description: The error encountered while attempting to add the task.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+    name: message
+  - description: An item of additional information included in an Azure Batch error response.
+    types:
+    - isArray: true
+      uid: BatchErrorDetail
+    name: values
+- name: PoolResizeParameter
+  description: Options for changing the size of a pool.
+  kind: object
+  properties:
+  - description: The desired number of dedicated compute nodes in the pool.
+    types:
+    - uid: integer
+    name: targetDedicatedNodes
+  - description: The desired number of low-priority compute nodes in the pool.
+    types:
+    - uid: integer
+    name: targetLowPriorityNodes
+  - description: >-
+      The timeout for allocation of compute nodes to the pool or removal of compute nodes from the pool.
+
+      The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
+    types:
+    - uid: string
+    name: resizeTimeout
+  - description: >-
+      Determines what to do with a node and its running task(s) if the pool size is decreasing.
+
+      The default value is requeue.
+    types:
+    - uid: ComputeNodeDeallocationOption
+    name: nodeDeallocationOption
+- name: ErrorMessage
+  description: A message describing the error, intended to be suitable for display in a user interface.
+  kind: object
+  properties:
+  - description: The language code of the error message
+    types:
+    - uid: string
+    name: lang
+  - description: The text of the message.
+    types:
+    - uid: string
+    name: value
+- name: BatchErrorDetail
+  description: A collection of key-value pairs containing additional details about the error.
+  kind: object
+  properties:
+  - description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+    name: key
+  - description: The additional information included with the error response.
+    types:
+    - uid: string
+    name: value
+- name: ComputeNodeDeallocationOption
+  description: >-
+    Determines what to do with a node and its running task(s) if the pool size is decreasing.
+
+    The default value is requeue.
+  kind: enum
+  properties:
+  - description: Terminate running task processes and requeue the tasks. The tasks will run again when a node is available. Remove nodes as soon as tasks have been terminated.
+    types:
+    - uid: string
+    name: requeue
+  - description: Terminate running tasks. The tasks will be completed with failureInfo indicating that they were terminated, and will not run again. Remove nodes as soon as tasks have been terminated.
+    types:
+    - uid: string
+    name: terminate
+  - description: Allow currently running tasks to complete. Schedule no new tasks while waiting. Remove nodes when all tasks have completed.
+    types:
+    - uid: string
+    name: taskcompletion
+  - description: Allow currently running tasks to complete, then wait for all task data retention periods to expire. Schedule no new tasks while waiting. Remove nodes when all task retention periods have expired.
+    types:
+    - uid: string
+    name: retaineddata
+examples:
+- request:
+    uri: POST https://batch.core.windows.net/pools/resizePool/resize?api-version=2017-09-01.6.0
+    body: >-
+      {
+        "targetDedicatedNodes": 1,
+        "targetLowPriorityNodes": 0
+      }
+    headers:
+    - value: 00000000-0000-0000-0000-000000000000
+      name: client-request-id
+  responses:
+  - statusCode: "202"
+    body: "\"\""
+  name: Pool resize
+security: []
+name: Resize
+uid: batch.core.windows.net.batchservice.pool.resize

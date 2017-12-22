@@ -1,0 +1,128 @@
+### YamlMime:RESTOperation
+summary: Creates or updates the specified firewall rule. During update, the firewall rule with the specified name will be replaced with this new firewall rule.
+service: Data Lake Analytics
+apiVersion: 2016-11-01
+groupName: Firewall Rules
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/firewallRules/{firewallRuleName}?api-version=2016-11-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the Azure resource group that contains the Data Lake Analytics account.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the Data Lake Analytics account to add or replace the firewall rule.
+  types:
+  - uid: string
+  name: accountName
+- in: path
+  isRequired: true
+  description: The name of the firewall rule to create or update.
+  types:
+  - uid: string
+  name: firewallRuleName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Successfully created or updated the specified firewall rule
+  types:
+  - uid: FirewallRule
+  name: 200 OK
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+    types:
+    - uid: string
+    name: properties.startIpAddress
+  - in: body
+    isRequired: true
+    description: the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+    types:
+    - uid: string
+    name: properties.endIpAddress
+  - in: body
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+requestHeader: []
+definitions:
+- name: FirewallRule
+  description: The list of firewall rules associated with this Data Lake Analytics account.
+  kind: object
+  properties:
+  - description: the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+    types:
+    - uid: string
+    name: properties.startIpAddress
+  - description: the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+    types:
+    - uid: string
+    name: properties.endIpAddress
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/firewallRules/test_rule?api-version=2016-11-01
+    body: >-
+      {
+        "name": "test_rule",
+        "properties": {
+          "startIpAddress": "1.1.1.1",
+          "endIpAddress": "2.2.2.2"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "name": "test_rule",
+        "type": "test_type",
+        "properties": {
+          "startIpAddress": "1.1.1.1",
+          "endIpAddress": "2.2.2.2"
+        }
+      }
+  name: Creates or updates the specified firewall rule
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update
+uid: management.azure.com.datalakeanalytics.firewallrules.createorupdate

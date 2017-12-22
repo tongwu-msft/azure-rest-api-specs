@@ -1,0 +1,103 @@
+### YamlMime:RESTOperation
+summary: Shows whether an app can be cloned to another resource group or subscription.
+service: App Service
+apiVersion: 2016-08-01
+groupName: Web Apps
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/iscloneable?api-version=2016-08-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Name of the app.
+  types:
+  - uid: string
+  name: name
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK.
+  types:
+  - uid: SiteCloneability
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: SiteCloneability
+  description: Represents whether or not an app is cloneable.
+  kind: object
+  properties:
+  - description: Name of app.
+    types:
+    - uid: CloneAbilityResult
+    name: result
+  - description: An app cloneability criterion.
+    types:
+    - isArray: true
+      uid: SiteCloneabilityCriterion
+    name: blockingFeatures
+  - description: An app cloneability criterion.
+    types:
+    - isArray: true
+      uid: SiteCloneabilityCriterion
+    name: unsupportedFeatures
+  - description: An app cloneability criterion.
+    types:
+    - isArray: true
+      uid: SiteCloneabilityCriterion
+    name: blockingCharacteristics
+- name: CloneAbilityResult
+  description: Name of app.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Cloneable
+  - types:
+    - uid: string
+    name: PartiallyCloneable
+  - types:
+    - uid: string
+    name: NotCloneable
+- name: SiteCloneabilityCriterion
+  description: List of features enabled on app that prevent cloning.
+  kind: object
+  properties:
+  - description: Name of criterion.
+    types:
+    - uid: string
+    name: name
+  - description: Description of criterion.
+    types:
+    - uid: string
+    name: description
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Is Cloneable
+uid: management.azure.com.appservice.webapps.iscloneable

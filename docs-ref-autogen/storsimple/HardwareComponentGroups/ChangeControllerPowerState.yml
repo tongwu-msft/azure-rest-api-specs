@@ -1,0 +1,210 @@
+### YamlMime:RESTOperation
+summary: Changes the power state of the controller.
+service: StorSimple
+apiVersion: 2017-06-01
+groupName: Hardware Component Groups
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/hardwareComponentGroups/{hardwareComponentGroupName}/changeControllerPowerState?api-version=2017-06-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription id
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The resource group name
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The manager name
+  types:
+  - uid: string
+  name: managerName
+- in: path
+  isRequired: true
+  description: The device name
+  types:
+  - uid: string
+  name: deviceName
+- in: path
+  isRequired: true
+  description: The hardware component group name.
+  types:
+  - uid: string
+  name: hardwareComponentGroupName
+- in: query
+  isRequired: true
+  description: The api version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Accepted the request to change power state of the controller.
+  name: 202 Accepted
+- description: Successfully changed the power state of the controller.
+  name: 204 No Content
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The power state that the request is expecting for the controller of the device.
+    types:
+    - uid: ControllerPowerStateAction
+    name: properties.action
+  - in: body
+    isRequired: true
+    description: The active controller that the request is expecting on the device.
+    types:
+    - uid: ControllerId
+    name: properties.activeController
+  - in: body
+    isRequired: true
+    description: The controller 0's status that the request is expecting on the device.
+    types:
+    - uid: ControllerStatus
+    name: properties.controller0State
+  - in: body
+    isRequired: true
+    description: The controller 1's status that the request is expecting on the device.
+    types:
+    - uid: ControllerStatus
+    name: properties.controller1State
+  - in: body
+    description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+    name: kind
+requestHeader: []
+definitions:
+- name: ControllerPowerStateChangeRequest
+  description: The controller power state change request.
+  kind: object
+  properties:
+  - description: The power state that the request is expecting for the controller of the device.
+    types:
+    - uid: ControllerPowerStateAction
+    name: properties.action
+  - description: The active controller that the request is expecting on the device.
+    types:
+    - uid: ControllerId
+    name: properties.activeController
+  - description: The controller 0's status that the request is expecting on the device.
+    types:
+    - uid: ControllerStatus
+    name: properties.controller0State
+  - description: The controller 1's status that the request is expecting on the device.
+    types:
+    - uid: ControllerStatus
+    name: properties.controller1State
+  - isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the object.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+    name: type
+  - description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+    name: kind
+- name: ControllerPowerStateAction
+  description: The power state that the request is expecting for the controller of the device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Start
+  - types:
+    - uid: string
+    name: Restart
+  - types:
+    - uid: string
+    name: Shutdown
+- name: ControllerId
+  description: The active controller that the request is expecting on the device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: Controller0
+  - types:
+    - uid: string
+    name: Controller1
+- name: ControllerStatus
+  description: The controller 0's status that the request is expecting on the device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotPresent
+  - types:
+    - uid: string
+    name: PoweredOff
+  - types:
+    - uid: string
+    name: Ok
+  - types:
+    - uid: string
+    name: Recovering
+  - types:
+    - uid: string
+    name: Warning
+  - types:
+    - uid: string
+    name: Failure
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Series8000
+examples:
+- request:
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/hardwareComponentGroups/Controller0Components/changeControllerPowerState?api-version=2017-06-01
+    body: >-
+      {
+        "properties": {
+          "action": "Start",
+          "activeController": "Controller0",
+          "controller0State": "Ok",
+          "controller1State": "NotPresent"
+        }
+      }
+  responses:
+  - statusCode: "202"
+    body: "\"\""
+  - statusCode: "204"
+  name: HardwareComponentGroupsChangeControllerPowerState
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Change Controller Power State
+uid: management.azure.com.storsimple.hardwarecomponentgroups.changecontrollerpowerstate

@@ -1,0 +1,92 @@
+### YamlMime:RESTOperation
+summary: Checks whether a private IP address is available for use.
+service: Virtual Networks
+apiVersion: 2017-10-01
+groupName: Virtual Networks
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/CheckIPAddressAvailability?api-version=2017-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/CheckIPAddressAvailability?ipAddress={ipAddress}&api-version=2017-10-01
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the virtual network.
+  types:
+  - uid: string
+  name: virtualNetworkName
+- in: query
+  description: The private IP address to be verified.
+  types:
+  - uid: string
+  name: ipAddress
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Private IP address availability and list of other free addresses if the requested one is not available.
+  types:
+  - uid: IPAddressAvailabilityResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: IPAddressAvailabilityResult
+  description: Response for CheckIPAddressAvailability API service call
+  kind: object
+  properties:
+  - description: Private IP address availability.
+    types:
+    - uid: boolean
+    name: available
+  - description: Contains other available private IP addresses if the asked for address is taken.
+    types:
+    - isArray: true
+      uid: string
+    name: availableIPAddresses
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/CheckIPAddressAvailability?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "available": false,
+        "availableIPAddresses": [
+          "10.0.1.5",
+          "10.0.1.6",
+          "10.0.1.7",
+          "10.0.1.8",
+          "10.0.1.9"
+        ]
+      }
+  name: Check IP address availability
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Check IP Address Availability
+uid: management.azure.com.virtualnetworks.virtualnetworks.checkipaddressavailability

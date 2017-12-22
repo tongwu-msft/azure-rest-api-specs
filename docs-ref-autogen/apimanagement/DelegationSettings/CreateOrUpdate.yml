@@ -1,0 +1,183 @@
+### YamlMime:RESTOperation
+summary: Create or Update Delegation settings.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Delegation Settings
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation?api-version=2017-03-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Delegation settings was successfully updated.
+  types:
+  - uid: PortalDelegationSettings
+  name: 204 No Content
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: A delegation Url.
+    types:
+    - uid: string
+    name: properties.url
+  - in: body
+    description: A base64-encoded validation key to validate, that a request is coming from Azure API Management.
+    types:
+    - uid: string
+    name: properties.validationKey
+  - in: body
+    description: Subscriptions delegation settings.
+    types:
+    - uid: SubscriptionsDelegationSettingsProperties
+    name: properties.subscriptions
+  - in: body
+    description: User registration delegation settings.
+    types:
+    - uid: RegistrationDelegationSettingsProperties
+    name: properties.userRegistration
+requestHeader: []
+definitions:
+- name: SubscriptionsDelegationSettingsProperties
+  description: Subscriptions delegation settings.
+  kind: object
+  properties:
+  - description: Enable or disable delegation for subscriptions.
+    types:
+    - uid: boolean
+    name: enabled
+- name: RegistrationDelegationSettingsProperties
+  description: User registration delegation settings.
+  kind: object
+  properties:
+  - description: Enable or disable delegation for user registration.
+    types:
+    - uid: boolean
+    name: enabled
+- name: PortalDelegationSettings
+  description: Delegation settings for a developer portal.
+  kind: object
+  properties:
+  - description: A delegation Url.
+    types:
+    - uid: string
+    name: properties.url
+  - description: A base64-encoded validation key to validate, that a request is coming from Azure API Management.
+    types:
+    - uid: string
+    name: properties.validationKey
+  - description: Subscriptions delegation settings.
+    types:
+    - uid: SubscriptionsDelegationSettingsProperties
+    name: properties.subscriptions
+  - description: User registration delegation settings.
+    types:
+    - uid: RegistrationDelegationSettingsProperties
+    name: properties.userRegistration
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: Error Field contract.
+    types:
+    - isArray: true
+      uid: ErrorFieldContract
+    name: details
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - description: Property level error code.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+    name: message
+  - description: Property name.
+    types:
+    - uid: string
+    name: target
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/portalsettings/delegation?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "url": "http://contoso.com/delegation",
+          "validationKey": "nVF7aKIvr9mV/RM5lOD0sYoi8ThXTRHQP7o66hvUmjCDkPKR3qxPu/otJcNciz2aQdqPuzJH3ECG4TU2yZjQ7Q==",
+          "subscriptions": {
+            "enabled": true
+          },
+          "userRegistration": {
+            "enabled": true
+          }
+        }
+      }
+  responses:
+  - statusCode: "204"
+  name: ApiManagementPortalSettingsUpdateDelegation
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update
+uid: management.azure.com.apimanagement.delegationsettings.createorupdate

@@ -1,0 +1,172 @@
+### YamlMime:RESTOperation
+summary: Updates the details of the group specified by its identifier.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Group
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}?api-version=2017-03-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: path
+  isRequired: true
+  description: Group identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+  name: groupId
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The group details were successfully updated.
+  name: 204 No Content
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: Group name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - in: body
+    description: Group description.
+    types:
+    - uid: string
+    name: properties.description
+  - in: body
+    description: Group type.
+    types:
+    - uid: GroupType
+    name: properties.type
+  - in: body
+    description: Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    types:
+    - uid: string
+    name: properties.externalId
+requestHeader:
+- in: header
+  isRequired: true
+  description: ETag of the Group Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
+  types:
+  - uid: string
+  name: If-Match
+definitions:
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: Error Field contract.
+    types:
+    - isArray: true
+      uid: ErrorFieldContract
+    name: details
+- name: GroupUpdateParameters
+  description: Parameters supplied to the Update Group operation.
+  kind: object
+  properties:
+  - description: Group name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: Group description.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Group type.
+    types:
+    - uid: GroupType
+    name: properties.type
+  - description: Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    types:
+    - uid: string
+    name: properties.externalId
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - description: Property level error code.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+    name: message
+  - description: Property name.
+    types:
+    - uid: string
+    name: target
+- name: GroupType
+  description: Group type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: custom
+  - types:
+    - uid: string
+    name: system
+  - types:
+    - uid: string
+    name: external
+examples:
+- request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/tempgroup?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "displayName": "temp group"
+        }
+      }
+    headers:
+    - value: '*'
+      name: If-Match
+  responses:
+  - statusCode: "204"
+  name: ApiManagementUpdateGroup
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Update
+uid: management.azure.com.apimanagement.group.update

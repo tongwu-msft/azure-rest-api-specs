@@ -1,0 +1,95 @@
+### YamlMime:RESTOperation
+summary: Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled.
+service: Monitor
+apiVersion: 2017-04-01
+groupName: Action Groups
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}/subscribe?api-version=2017-04-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The Azure subscription Id.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the action group.
+  types:
+  - uid: string
+  name: actionGroupName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The receiver was successfully enabled.
+  name: 200 OK
+- description: The receiver is already enabled in the action group.
+  name: Other Status Codes
+- description: 'An error occurred and the receiver could not be enabled, e.g.: 404: The action group was not found or no matching receiver was found in the action group.'
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The name of the receiver to resubscribe.
+    types:
+    - uid: string
+    name: receiverName
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: EnableRequest
+  description: Describes a receiver that should be resubscribed.
+  kind: object
+  properties:
+  - description: The name of the receiver to resubscribe.
+    types:
+    - uid: string
+    name: receiverName
+examples:
+- request:
+    uri: POST https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups/SampleActionGroup/subscribe?api-version=2017-04-01
+    body: >-
+      {
+        "receiverName": "John Doe's mobile"
+      }
+  responses:
+  - statusCode: "200"
+  name: Enable the receiver
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Enable Receiver
+uid: management.azure.com.monitor.actiongroups.enablereceiver

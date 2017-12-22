@@ -1,0 +1,134 @@
+### YamlMime:RESTOperation
+summary: Updates the specified compute policy.
+service: Data Lake Analytics
+apiVersion: 2016-11-01
+groupName: Compute Policies
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/computePolicies/{computePolicyName}?api-version=2016-11-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the Azure resource group that contains the Data Lake Analytics account.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the Data Lake Analytics account to which to update the compute policy.
+  types:
+  - uid: string
+  name: accountName
+- in: path
+  isRequired: true
+  description: The name of the compute policy to update.
+  types:
+  - uid: string
+  name: computePolicyName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Successfully updated the specified compute policy
+  types:
+  - uid: ComputePolicy
+  name: 200 OK
+requestBody:
+- parameters:
+  - in: body
+    description: The maximum degree of parallelism per job this user can use to submit jobs.
+    types:
+    - uid: integer
+    name: properties.maxDegreeOfParallelismPerJob
+  - in: body
+    description: The minimum priority per job this user can use to submit jobs.
+    types:
+    - uid: integer
+    name: properties.minPriorityPerJob
+requestHeader: []
+definitions:
+- name: ComputePolicy
+  description: the list of existing compute policies to update in this account.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The name of the compute policy
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The AAD object identifier for the entity to create a policy for.
+    types:
+    - uid: string
+    name: properties.objectId
+  - isReadyOnly: true
+    description: The type of AAD object the object identifier refers to.
+    types:
+    - uid: AADObjectType
+    name: properties.objectType
+  - description: The maximum degree of parallelism per job this user can use to submit jobs.
+    types:
+    - uid: integer
+    name: properties.maxDegreeOfParallelismPerJob
+  - description: The minimum priority per job this user can use to submit jobs.
+    types:
+    - uid: integer
+    name: properties.minPriorityPerJob
+- name: AADObjectType
+  description: The type of AAD object the object identifier refers to.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: User
+  - types:
+    - uid: string
+    name: Group
+  - types:
+    - uid: string
+    name: ServicePrincipal
+examples:
+- request:
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/computePolicies/test_policy?api-version=2016-11-01
+    body: >-
+      {
+        "properties": {
+          "maxDegreeOfParallelismPerJob": 11,
+          "minPriorityPerJob": 31
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "test_policy",
+        "properties": {
+          "objectId": "776b9091-8916-4638-87f7-9c989a38da98",
+          "objectType": "User",
+          "maxDegreeOfParallelismPerJob": 11,
+          "minPriorityPerJob": 31
+        }
+      }
+  name: Updates the specified compute policy
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Update
+uid: management.azure.com.datalakeanalytics.computepolicies.update

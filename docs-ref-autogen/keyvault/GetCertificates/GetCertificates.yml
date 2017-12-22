@@ -1,0 +1,175 @@
+### YamlMime:RESTOperation
+summary: List certificates in a specified key vault The GetCertificates operation returns the set of certificates resources in the specified key vault.
+service: Key Vault
+apiVersion: 2016-10-01
+groupName: Get Certificates
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{vaultBaseUrl}/certificates?api-version=2016-10-01
+- content: GET https://{vaultBaseUrl}/certificates?maxresults={maxresults}&api-version=2016-10-01
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+  name: vaultBaseUrl
+- in: query
+  description: Maximum number of results to return in a page. If not specified the service will return up to 25 results.
+  types:
+  - uid: integer
+  format: int32
+  name: maxresults
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: A response message containing a list of certificates along with a link to the next page of certificates.
+  types:
+  - uid: CertificateListResult
+  name: 200 OK
+- description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: CertificateListResult
+  description: The certificate list result.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The certificate item containing certificate metadata.
+    types:
+    - isArray: true
+      uid: DeletedCertificateItem
+    typesTitle: CertificateItem[]
+    name: value
+  - isReadyOnly: true
+    description: The URL to get the next set of certificates.
+    types:
+    - uid: string
+    name: nextLink
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - description: ''
+    types:
+    - {}
+    name: innererror
+- name: DeletedCertificateItem
+  description: The deleted certificate item containing metadata about the deleted certificate.
+  kind: object
+  properties:
+  - description: The url of the recovery object, used to identify and recover the deleted certificate.
+    types:
+    - uid: string
+    name: recoveryId
+  - isReadyOnly: true
+    description: The time when the certificate is scheduled to be purged, in UTC
+    types:
+    - uid: integer
+    name: scheduledPurgeDate
+  - isReadyOnly: true
+    description: The time when the certificate was deleted, in UTC
+    types:
+    - uid: integer
+    name: deletedDate
+  - description: Certificate identifier.
+    types:
+    - uid: string
+    name: id
+  - description: The certificate management attributes.
+    types:
+    - uid: CertificateAttributes
+    name: attributes
+  - description: Application specific metadata in the form of key-value pairs.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: Thumbprint of the certificate.
+    types:
+    - uid: string
+    name: x5t
+- name: CertificateAttributes
+  description: The certificate management attributes.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
+    types:
+    - uid: DeletionRecoveryLevel
+    name: recoveryLevel
+  - description: Determines whether the object is enabled.
+    types:
+    - uid: boolean
+    name: enabled
+  - description: Not before date in UTC.
+    types:
+    - uid: integer
+    name: nbf
+  - description: Expiry date in UTC.
+    types:
+    - uid: integer
+    name: exp
+  - isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+    name: created
+  - isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+    name: updated
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Purgeable
+  - types:
+    - uid: string
+    name: Recoverable+Purgeable
+  - types:
+    - uid: string
+    name: Recoverable
+  - types:
+    - uid: string
+    name: Recoverable+ProtectedSubscription
+examples: []
+security: []
+name: Get Certificates
+uid: keyvault.getcertificates.getcertificates

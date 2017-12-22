@@ -1,0 +1,122 @@
+### YamlMime:RESTOperation
+summary: Gets all firewall rules in the specified redis cache.
+service: Redis Cache
+apiVersion: 2016-04-01
+groupName: Firewall Rules
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{cacheName}/firewallRules?api-version=2016-04-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the Redis cache.
+  types:
+  - uid: string
+  name: cacheName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Successfully got the current rules
+  types:
+  - uid: RedisFirewallRuleListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: RedisFirewallRuleListResult
+  description: The response of list firewall rules Redis operation.
+  kind: object
+  properties:
+  - description: A firewall rule on a redis cache has a name, and describes a contiguous range of IP addresses permitted to connect
+    types:
+    - isArray: true
+      uid: RedisFirewallRule
+    name: value
+  - description: Link for next set of locations.
+    types:
+    - uid: string
+    name: nextLink
+- name: RedisFirewallRule
+  description: A firewall rule on a redis cache has a name, and describes a contiguous range of IP addresses permitted to connect
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: resource ID (of the firewall rule)
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: name of the firewall rule
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: type (of the firewall rule resource = 'Microsoft.Cache/redis/firewallRule')
+    types:
+    - uid: string
+    name: type
+  - description: lowest IP address included in the range
+    types:
+    - uid: string
+    name: properties.startIP
+  - description: highest IP address included in the range
+    types:
+    - uid: string
+    name: properties.endIP
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules?api-version=2016-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule1",
+            "name": "rule1",
+            "type": "Microsoft.Cache/Redis/firewallRules",
+            "properties": {
+              "startIP": "192.168.1.1",
+              "endIP": "192.168.1.4"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/firewallRules/rule2",
+            "name": "rule2",
+            "type": "Microsoft.Cache/Redis/firewallRules",
+            "properties": {
+              "startIP": "192.169.1.0",
+              "endIP": "192.169.1.255"
+            }
+          }
+        ]
+      }
+  name: RedisCacheFirewallRulesList
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List
+uid: management.azure.com.rediscache.firewallrules.list

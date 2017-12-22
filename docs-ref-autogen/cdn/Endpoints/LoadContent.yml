@@ -1,0 +1,93 @@
+### YamlMime:RESTOperation
+summary: Pre-loads a content to CDN. Available for Verizon Profiles.
+service: CDN
+apiVersion: 2016-10-02
+groupName: Endpoints
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/load?api-version=2016-10-02
+uriParameters:
+- in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Name of the CDN profile which is unique within the resource group.
+  types:
+  - uid: string
+  name: profileName
+- in: path
+  isRequired: true
+  description: Name of the endpoint under the profile which is unique globally.
+  types:
+  - uid: string
+  name: endpointName
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2016-10-02.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Accepted and the operation will complete asynchronously.
+  name: 202 Accepted
+- description: CDN error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The path to the content to be loaded. Path should be a relative file URL of the origin.
+    types:
+    - isArray: true
+      uid: string
+    name: contentPaths
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: LoadParameters
+  description: Parameters required for content load.
+  kind: object
+  properties:
+  - description: The path to the content to be loaded. Path should be a relative file URL of the origin.
+    types:
+    - isArray: true
+      uid: string
+    name: contentPaths
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Load Content
+uid: management.azure.com.cdn.endpoints.loadcontent

@@ -1,0 +1,109 @@
+### YamlMime:RESTOperation
+summary: Lists all policy snippets.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Policy Snippets
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policySnippets?api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policySnippets?scope={scope}&api-version=2017-03-01
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: query
+  description: Policy scope.
+  types:
+  - uid: string
+  name: scope
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Returns an array of Policy Contracts.
+  types:
+  - uid: PolicySnippetsCollection
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: PolicySnippetsCollection
+  description: The response of the list policy snippets operation.
+  kind: object
+  properties:
+  - description: Policy snippet.
+    types:
+    - isArray: true
+      uid: PolicySnippetContract
+    name: value
+- name: PolicySnippetContract
+  description: Policy snippet value.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Snippet name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Snippet content.
+    types:
+    - uid: string
+    name: content
+  - isReadyOnly: true
+    description: Snippet toolTip.
+    types:
+    - uid: string
+    name: toolTip
+  - isReadyOnly: true
+    description: Binary OR value of the Snippet scope.
+    types:
+    - uid: integer
+    name: scope
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policySnippets?scope=Api&api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "name": "Authenticate with Basic",
+          "content": "<authentication-basic username=\"username\" password=\"password\" />",
+          "toolTip": "Authenticate with the backend service using Basic authentication. Use in the inbound section at API scope.",
+          "scope": 268435471
+        }
+      ]
+  name: ApiManagementListPolicySnippets
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Service
+uid: management.azure.com.apimanagement.policysnippets.listbyservice

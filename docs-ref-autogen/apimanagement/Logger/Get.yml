@@ -1,0 +1,169 @@
+### YamlMime:RESTOperation
+summary: Gets the details of the logger specified by its identifier.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Logger
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerid}?api-version=2017-03-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: path
+  isRequired: true
+  description: Logger identifier. Must be unique in the API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+  name: loggerid
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- headers:
+  - value: string
+    name: ETag
+  description: The response body contains the specified Logger entity.
+  types:
+  - uid: LoggerContract
+  name: 200 OK
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: LoggerContract
+  description: Logger values.
+  kind: object
+  properties:
+  - description: Logger type.
+    types:
+    - uid: LoggerType
+    name: properties.loggerType
+  - description: Logger description.
+    types:
+    - uid: string
+    name: properties.description
+  - description: The name and SendRule connection string of the event hub.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: properties.credentials
+  - description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
+    types:
+    - uid: boolean
+    name: properties.isBuffered
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: Error Field contract.
+    types:
+    - isArray: true
+      uid: ErrorFieldContract
+    name: details
+- name: LoggerType
+  description: Logger type.
+  kind: enum
+  properties:
+  - description: Azure Event Hub as log destination.
+    types:
+    - uid: string
+    name: azureEventHub
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - description: Property level error code.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+    name: message
+  - description: Property name.
+    types:
+    - uid: string
+    name: target
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/templateLogger?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/kloudapilogger1",
+        "type": "Microsoft.ApiManagement/service/loggers",
+        "name": "kloudapilogger1",
+        "properties": {
+          "loggerType": "azureEventHub",
+          "description": "testeventhub3again",
+          "credentials": {
+            "name": "testeventhub4",
+            "connectionString": "Endpoint=sb://eventhubapim.servicebus.windows.net/;SharedAccessKeyName=Sender;SharedAccessKey=************"
+          },
+          "isBuffered": true
+        }
+      }
+  name: ApiManagementGetLogger
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get
+uid: management.azure.com.apimanagement.logger.get

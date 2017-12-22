@@ -1,0 +1,181 @@
+### YamlMime:RESTOperation
+summary: Gets all the storage account credentials in a manager.
+service: StorSimple
+apiVersion: 2017-06-01
+groupName: Storage Account Credentials
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageAccountCredentials?api-version=2017-06-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription id
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The resource group name
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The manager name
+  types:
+  - uid: string
+  name: managerName
+- in: query
+  isRequired: true
+  description: The api version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The collection of storage account credentials.
+  types:
+  - uid: StorageAccountCredentialList
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: StorageAccountCredentialList
+  description: The collection of storage account credential entities.
+  kind: object
+  properties:
+  - description: The storage account credential.
+    types:
+    - isArray: true
+      uid: StorageAccountCredential
+    name: value
+- name: StorageAccountCredential
+  description: The storage account credential.
+  kind: object
+  properties:
+  - description: The storage endpoint
+    types:
+    - uid: string
+    name: properties.endPoint
+  - description: Signifies whether SSL needs to be enabled or not.
+    types:
+    - uid: SslStatus
+    name: properties.sslStatus
+  - description: The details of the storage account password.
+    types:
+    - uid: AsymmetricEncryptedSecret
+    name: properties.accessKey
+  - isReadyOnly: true
+    description: The count of volumes using this storage account credential.
+    types:
+    - uid: integer
+    name: properties.volumesCount
+  - isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the object.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+    name: type
+  - description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+    name: kind
+- name: SslStatus
+  description: Signifies whether SSL needs to be enabled or not.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
+- name: AsymmetricEncryptedSecret
+  description: Represent the secrets intended for encryption with asymmetric key pair.
+  kind: object
+  properties:
+  - description: The value of the secret.
+    types:
+    - uid: string
+    name: value
+  - description: Thumbprint certificate that was used to encrypt "Value". If the value in unencrypted, it will be null.
+    types:
+    - uid: string
+    name: encryptionCertThumbprint
+  - description: The algorithm used to encrypt "Value".
+    types:
+    - uid: EncryptionAlgorithm
+    name: encryptionAlgorithm
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Series8000
+- name: EncryptionAlgorithm
+  description: The algorithm used to encrypt "Value".
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: AES256
+  - types:
+    - uid: string
+    name: RSAES_PKCS1_v_1_5
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/storageAccountCredentials?api-version=2017-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "endPoint": "blob.core.windows.net",
+              "sslStatus": "Enabled",
+              "volumesCount": 0
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/storageAccountCredentials/SACForTest2",
+            "name": "SACForTest2",
+            "type": "Microsoft.StorSimple/managers/storageAccountCredentials",
+            "kind": "Series8000"
+          },
+          {
+            "properties": {
+              "endPoint": "blob.core.windows.net",
+              "sslStatus": "Enabled",
+              "volumesCount": 5
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/storageAccountCredentials/safortestrecording",
+            "name": "safortestrecording",
+            "type": "Microsoft.StorSimple/managers/storageAccountCredentials",
+            "kind": "Series8000"
+          }
+        ]
+      }
+  name: StorageAccountCredentialsListByManager
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Manager
+uid: management.azure.com.storsimple.storageaccountcredentials.listbymanager

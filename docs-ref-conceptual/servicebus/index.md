@@ -29,10 +29,10 @@ The Service Bus REST API provides operations for working with the following reso
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
-| [Namespaces](~/docs-ref-autogen/servicebus/Namespaces.json)          | Provides operations for managing Service Bus namespaces. |
-| [Queues](~/docs-ref-autogen/servicebus/Queues.json)  | Operations for managing Service Bus queues. |
-| [Subscriptions](~/docs-ref-autogen/servicebus/Subscriptions.json)  | Operations for managing Service Bus topic subscriptions. |
-| [Topics](~/docs-ref-autogen/servicebus/Topics.json)  | Operations for managing Service Bus topics. |
+| [Namespaces](~/docs-ref-autogen/servicebus/Namespaces.yml)          | Provides operations for managing Service Bus namespaces. |
+| [Queues](~/docs-ref-autogen/servicebus/Queues.yml)  | Operations for managing Service Bus queues. |
+| [Subscriptions](~/docs-ref-autogen/servicebus/Subscriptions.yml)  | Operations for managing Service Bus topic subscriptions. |
+| [Topics](~/docs-ref-autogen/servicebus/Topics.yml)  | Operations for managing Service Bus topics. |
 
 ### Service Bus service
 

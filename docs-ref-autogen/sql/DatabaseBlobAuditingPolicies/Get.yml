@@ -1,0 +1,161 @@
+### YamlMime:RESTOperation
+summary: Gets a database's blob auditing policy.
+service: SQL Database
+apiVersion: 2015-05-01-preview
+groupName: Database Blob Auditing Policies
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/{blobAuditingPolicyName}?api-version=2015-05-01-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+  name: serverName
+- in: path
+  isRequired: true
+  description: The name of the database for which the blob audit policy is defined.
+  types:
+  - uid: string
+  name: databaseName
+- in: path
+  isRequired: true
+  description: The name of the blob auditing policy.
+  types:
+  - uid: string
+  name: blobAuditingPolicyName
+- in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Successfully retrieved the database blob auditing policy.
+  types:
+  - uid: DatabaseBlobAuditingPolicy
+  name: 200 OK
+- description: >-
+    *** Error Responses: ***
+
+     * 400 BlobAuditingIsNotSupportedOnResourceType - Blob Auditing is currently not supported for this resource type.
+
+     * 400 InvalidDatabaseBlobAuditingPolicyCreateRequest - The create database blob auditing policy request does not exist or has no properties object.
+
+     * 400 InvalidBlobAuditActionsAndGroups - Invalid audit actions or action groups.
+
+     * 400 DataSecurityInvalidUserSuppliedParameter - An invalid parameter value was provided by the client.
+
+     * 404 SourceDatabaseNotFound - The source database does not exist.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 500 DatabaseIsUnavailable - Loading failed. Please try again later.
+
+     * 500 GetBlobAuditingPolicyFailed - Failed to get Auditing settings
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: DatabaseBlobAuditingPolicy
+  description: A database blob auditing policy.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Resource kind.
+    types:
+    - uid: string
+    name: kind
+  - description: Specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required.
+    types:
+    - uid: BlobAuditingPolicyState
+    name: properties.state
+  - description: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint is required.
+    types:
+    - uid: string
+    name: properties.storageEndpoint
+  - description: Specifies the identifier key of the auditing storage account. If state is Enabled, storageAccountAccessKey is required.
+    types:
+    - uid: string
+    name: properties.storageAccountAccessKey
+  - description: Specifies the number of days to keep in the audit logs.
+    types:
+    - uid: integer
+    name: properties.retentionDays
+  - description: Specifies the Actions and Actions-Groups to audit.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.auditActionsAndGroups
+  - description: Specifies the blob storage subscription Id.
+    types:
+    - uid: string
+    name: properties.storageAccountSubscriptionId
+  - description: Specifies whether storageAccountAccessKey value is the storage’s secondary key.
+    types:
+    - uid: boolean
+    name: properties.isStorageSecondaryKeyInUse
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: BlobAuditingPolicyState
+  description: Specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-6852/providers/Microsoft.Sql/servers/blobauditingtest-2080/databases/testdb/auditingSettings/default?api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-6852/providers/Microsoft.Sql/servers/blobauditingtest-2080/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/servers/databases/auditingSettings",
+        "kind": "V12",
+        "properties": {
+          "state": "Disabled",
+          "storageEndpoint": "",
+          "retentionDays": 0,
+          "auditActionsAndGroups": [],
+          "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000",
+          "isStorageSecondaryKeyInUse": false
+        }
+      }
+  name: Get a database's blob auditing policy
+security: []
+name: Get
+uid: management.azure.com.sqldatabase.databaseblobauditingpolicies.get

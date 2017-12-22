@@ -1,0 +1,309 @@
+### YamlMime:RESTOperation
+summary: Get all the deployments for a resource group.
+service: Resource Management
+apiVersion: 2017-05-10
+groupName: Deployments
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/?api-version=2017-05-10
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/?$filter={$filter}&$top={$top}&api-version=2017-05-10
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group with the deployments to get. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+  name: resourceGroupName
+- in: query
+  description: The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  description: The number of results to get. If null is passed, returns all deployments.
+  types:
+  - uid: integer
+  format: int32
+  name: $top
+- in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK - Returns an array of deployments.
+  types:
+  - uid: DeploymentListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: DeploymentListResult
+  description: List of deployments.
+  kind: object
+  properties:
+  - description: Deployment information.
+    types:
+    - isArray: true
+      uid: DeploymentExtended
+    name: value
+  - isReadyOnly: true
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+    name: nextLink
+- name: DeploymentExtended
+  description: Deployment information.
+  kind: object
+  properties:
+  - description: The ID of the deployment.
+    types:
+    - uid: string
+    name: id
+  - description: The name of the deployment.
+    types:
+    - uid: string
+    name: name
+  - description: Deployment properties.
+    types:
+    - uid: DeploymentPropertiesExtended
+    name: properties
+- name: DeploymentPropertiesExtended
+  description: Deployment properties with additional details.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The state of the provisioning.
+    types:
+    - uid: string
+    name: provisioningState
+  - isReadyOnly: true
+    description: The correlation ID of the deployment.
+    types:
+    - uid: string
+    name: correlationId
+  - isReadyOnly: true
+    description: The timestamp of the template deployment.
+    types:
+    - uid: string
+    name: timestamp
+  - description: Key/value pairs that represent deploymentoutput.
+    types:
+    - uid: object
+    name: outputs
+  - description: Resource provider information.
+    types:
+    - isArray: true
+      uid: Provider
+    name: providers
+  - description: Deployment dependency information.
+    types:
+    - isArray: true
+      uid: Dependency
+    name: dependencies
+  - description: The template content. Use only one of Template or TemplateLink.
+    types:
+    - uid: object
+    name: template
+  - description: The URI referencing the template. Use only one of Template or TemplateLink.
+    types:
+    - uid: TemplateLink
+    name: templateLink
+  - description: Deployment parameters. Use only one of Parameters or ParametersLink.
+    types:
+    - uid: object
+    name: parameters
+  - description: The URI referencing the parameters. Use only one of Parameters or ParametersLink.
+    types:
+    - uid: ParametersLink
+    name: parametersLink
+  - description: The deployment mode. Possible values are Incremental and Complete.
+    types:
+    - uid: DeploymentMode
+    name: mode
+  - description: The debug setting of the deployment.
+    types:
+    - uid: DebugSetting
+    name: debugSetting
+- name: Provider
+  description: Resource provider information.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The provider ID.
+    types:
+    - uid: string
+    name: id
+  - description: The namespace of the resource provider.
+    types:
+    - uid: string
+    name: namespace
+  - isReadyOnly: true
+    description: The registration state of the provider.
+    types:
+    - uid: string
+    name: registrationState
+  - isReadyOnly: true
+    description: Resource type managed by the resource provider.
+    types:
+    - isArray: true
+      uid: ProviderResourceType
+    name: resourceTypes
+- name: Dependency
+  description: Deployment dependency information.
+  kind: object
+  properties:
+  - description: Deployment dependency information.
+    types:
+    - isArray: true
+      uid: BasicDependency
+    name: dependsOn
+  - description: The ID of the dependency.
+    types:
+    - uid: string
+    name: id
+  - description: The dependency resource type.
+    types:
+    - uid: string
+    name: resourceType
+  - description: The dependency resource name.
+    types:
+    - uid: string
+    name: resourceName
+- name: TemplateLink
+  description: Entity representing the reference to the template.
+  kind: object
+  properties:
+  - description: The URI of the template to deploy.
+    types:
+    - uid: string
+    name: uri
+  - description: If included, must match the ContentVersion in the template.
+    types:
+    - uid: string
+    name: contentVersion
+- name: ParametersLink
+  description: Entity representing the reference to the deployment paramaters.
+  kind: object
+  properties:
+  - description: The URI of the parameters file.
+    types:
+    - uid: string
+    name: uri
+  - description: If included, must match the ContentVersion in the template.
+    types:
+    - uid: string
+    name: contentVersion
+- name: DeploymentMode
+  description: The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Incremental
+  - types:
+    - uid: string
+    name: Complete
+- name: DebugSetting
+  description: The debug setting of the deployment.
+  kind: object
+  properties:
+  - description: Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information you are passing in during deployment. By logging information about the request or response, you could potentially expose sensitive data that is retrieved through the deployment operations.
+    types:
+    - uid: string
+    name: detailLevel
+- name: ProviderResourceType
+  description: Resource type managed by the resource provider.
+  kind: object
+  properties:
+  - description: The resource type.
+    types:
+    - uid: string
+    name: resourceType
+  - description: The collection of locations where this resource type can be created.
+    types:
+    - isArray: true
+      uid: string
+    name: locations
+  - description: 'The alias type. '
+    types:
+    - isArray: true
+      uid: AliasType
+    name: aliases
+  - description: The API version.
+    types:
+    - isArray: true
+      uid: string
+    name: apiVersions
+  - description: The properties.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: properties
+- name: BasicDependency
+  description: Deployment dependency information.
+  kind: object
+  properties:
+  - description: The ID of the dependency.
+    types:
+    - uid: string
+    name: id
+  - description: The dependency resource type.
+    types:
+    - uid: string
+    name: resourceType
+  - description: The dependency resource name.
+    types:
+    - uid: string
+    name: resourceName
+- name: AliasType
+  description: 'The alias type. '
+  kind: object
+  properties:
+  - description: The alias name.
+    types:
+    - uid: string
+    name: name
+  - description: 'The type of the paths for alias. '
+    types:
+    - isArray: true
+      uid: AliasPathType
+    name: paths
+- name: AliasPathType
+  description: 'The type of the paths for alias. '
+  kind: object
+  properties:
+  - description: The path of an alias.
+    types:
+    - uid: string
+    name: path
+  - description: The API versions.
+    types:
+    - isArray: true
+      uid: string
+    name: apiVersions
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Resource Group
+uid: management.azure.com.resourcemanagement.deployments.listbyresourcegroup

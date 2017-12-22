@@ -1,0 +1,341 @@
+### YamlMime:RESTOperation
+summary: Updates the current state of the specified Dedicated capacity.
+service: Power BI Embedded
+apiVersion: 2017-10-01
+groupName: Capacities
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}?api-version=2017-10-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the Azure Resource group of which a given Analysis Services server is part. This name must be at least 1 character in length, and no more than 90.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the Dedicated capacity. It must be at least 3 characters in length, and no more than 63.
+  types:
+  - uid: string
+  pattern: ^[a-z][a-z0-9]*$
+  name: dedicatedCapacityName
+- in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: DedicatedCapacity
+  name: 200 OK
+- description: Accepted
+  types:
+  - uid: DedicatedCapacity
+  name: 202 Accepted
+requestBody:
+- parameters:
+  - in: body
+    description: The SKU of the Dedicated capacity resource.
+    types:
+    - uid: ResourceSku
+    name: sku
+  - in: body
+    description: Key-value pairs of additional provisioning properties.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - in: body
+    description: A collection of Dedicated capacity administrators
+    types:
+    - uid: DedicatedCapacityServerAdministrators
+    name: properties.capacityAdministrators
+  - in: body
+    description: The container URI of backup blob.
+    types:
+    - uid: string
+    name: properties.backupBlobContainerUri
+requestHeader: []
+definitions:
+- name: ResourceSku
+  description: The SKU of the PowerBI Dedicated resource.
+  kind: object
+  properties:
+  - description: Name of the SKU level.
+    types:
+    - uid: string
+    name: name
+  - description: The name of the Azure pricing tier to which the SKU applies.
+    types:
+    - uid: SkuTier
+    name: tier
+- name: DedicatedCapacityServerAdministrators
+  description: A collection of Dedicated capacity administrators
+  kind: object
+  properties:
+  - description: 'The UPN of the user. For example: johnsmith@contoso.com.'
+    types:
+    - isArray: true
+      uid: string
+    name: members
+- name: DedicatedCapacity
+  description: Represents an instance of a Dedicated Capacity resource.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The current state of PowerBI Dedicated resource. The state is to indicate more states outside of resource provisioning.
+    types:
+    - uid: State
+    name: properties.state
+  - isReadyOnly: true
+    description: The current deployment state of PowerBI Dedicatedresource. The provisioningState is to indicate states for resource provisioning.
+    types:
+    - uid: ProvisioningState
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: An identifier that represents the PowerBI Dedicated resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the PowerBI Dedicated resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the PowerBI Dedicated resource.
+    types:
+    - uid: string
+    name: type
+  - description: Location of the PowerBI Dedicated resource.
+    types:
+    - uid: string
+    name: location
+  - description: The SKU of the PowerBI Dedicated resource.
+    types:
+    - uid: ResourceSku
+    name: sku
+  - description: Key-value pairs of additional resource provisioning properties.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: A collection of Dedicated capacity administrators
+    types:
+    - uid: DedicatedCapacityServerAdministrators
+    name: properties.capacityAdministrators
+  - description: The container URI of backup blob.
+    types:
+    - uid: string
+    name: properties.backupBlobContainerUri
+- name: DedicatedCapacityUpdateParameters
+  description: Provision request specification
+  kind: object
+  properties:
+  - description: The SKU of the Dedicated capacity resource.
+    types:
+    - uid: ResourceSku
+    name: sku
+  - description: Key-value pairs of additional provisioning properties.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: A collection of Dedicated capacity administrators
+    types:
+    - uid: DedicatedCapacityServerAdministrators
+    name: properties.capacityAdministrators
+  - description: The container URI of backup blob.
+    types:
+    - uid: string
+    name: properties.backupBlobContainerUri
+- name: SkuTier
+  description: The name of the Azure pricing tier to which the SKU applies.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: PBIE_Azure
+- name: State
+  description: The current state of PowerBI Dedicated resource. The state is to indicate more states outside of resource provisioning.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Paused
+  - types:
+    - uid: string
+    name: Suspended
+  - types:
+    - uid: string
+    name: Provisioning
+  - types:
+    - uid: string
+    name: Updating
+  - types:
+    - uid: string
+    name: Suspending
+  - types:
+    - uid: string
+    name: Pausing
+  - types:
+    - uid: string
+    name: Resuming
+  - types:
+    - uid: string
+    name: Preparing
+  - types:
+    - uid: string
+    name: Scaling
+- name: ProvisioningState
+  description: The current deployment state of PowerBI Dedicatedresource. The provisioningState is to indicate states for resource provisioning.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Paused
+  - types:
+    - uid: string
+    name: Suspended
+  - types:
+    - uid: string
+    name: Provisioning
+  - types:
+    - uid: string
+    name: Updating
+  - types:
+    - uid: string
+    name: Suspending
+  - types:
+    - uid: string
+    name: Pausing
+  - types:
+    - uid: string
+    name: Resuming
+  - types:
+    - uid: string
+    name: Preparing
+  - types:
+    - uid: string
+    name: Scaling
+examples:
+- request:
+    uri: PATCH https://management.azure.com/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.PowerBIDedicated/capacities/azsdktest?api-version=2017-10-01
+    body: >-
+      {
+        "sku": {
+          "name": "A1",
+          "tier": "PBIE_Azure"
+        },
+        "tags": {
+          "testKey": "testValue"
+        },
+        "properties": {
+          "capacityAdministrators": {
+            "members": [
+              "azsdktest@microsoft.com",
+              "azsdktest2@microsoft.com"
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.PowerBIDedicated/capacities/azsdktest",
+        "location": "West US",
+        "name": "azsdktest",
+        "properties": {
+          "capacityAdministrators": {
+            "members": [
+              "azsdktest@microsoft.com",
+              "azsdktest2@microsoft.com"
+            ]
+          },
+          "provisioningState": "Provisioning",
+          "state": "Provisioning"
+        },
+        "sku": {
+          "name": "A1",
+          "tier": "PBIE_Azure"
+        },
+        "tags": {
+          "testKey": "testValue"
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "id": "/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.PowerBIDedicated/capacities/azsdktest",
+        "location": "West US",
+        "name": "azsdktest",
+        "properties": {
+          "capacityAdministrators": {
+            "members": [
+              "azsdktest@microsoft.com",
+              "azsdktest2@microsoft.com"
+            ]
+          },
+          "provisioningState": "Provisioning",
+          "state": "Provisioning"
+        },
+        "sku": {
+          "name": "A1",
+          "tier": "PBIE_Azure"
+        },
+        "tags": {
+          "testKey": "testValue"
+        }
+      }
+  name: Update capacity parameters
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Update
+uid: management.azure.com.powerbiembedded.capacities.update

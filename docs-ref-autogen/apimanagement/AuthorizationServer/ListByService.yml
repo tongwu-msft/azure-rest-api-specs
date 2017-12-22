@@ -1,0 +1,268 @@
+### YamlMime:RESTOperation
+summary: Lists a collection of authorization servers defined within a service instance.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Authorization Server
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers?api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: query
+  description: >-
+    | Field | Supported operators    | Supported functions                         |
+
+    |-------|------------------------|---------------------------------------------|
+
+    | id    | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+
+    | name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  description: Number of records to return.
+  types:
+  - uid: integer
+  format: int32
+  name: $top
+- in: query
+  description: Number of records to skip.
+  types:
+  - uid: integer
+  format: int32
+  name: $skip
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: A Collection of the Authorization Server entities for the specified API Management service instance.
+  types:
+  - uid: AuthorizationServerCollection
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: AuthorizationServerCollection
+  description: Paged OAuth2 Authorization Servers list representation.
+  kind: object
+  properties:
+  - description: External OAuth authorization server settings.
+    types:
+    - isArray: true
+      uid: AuthorizationServerContract
+    name: value
+  - description: Total record count number across all pages.
+    types:
+    - uid: integer
+    name: count
+  - description: Next page link if any.
+    types:
+    - uid: string
+    name: nextLink
+- name: AuthorizationServerContract
+  description: Page values.
+  kind: object
+  properties:
+  - description: User-friendly authorization server name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: Optional reference to a page where client or app registration for this authorization server is performed. Contains absolute URL to entity being referenced.
+    types:
+    - uid: string
+    name: properties.clientRegistrationEndpoint
+  - description: OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2.
+    types:
+    - uid: string
+    name: properties.authorizationEndpoint
+  - description: Form of an authorization grant, which the client uses to request the access token.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.grantTypes
+  - description: Client or app id registered with this authorization server.
+    types:
+    - uid: string
+    name: properties.clientId
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
+  - description: Description of the authorization server. Can contain HTML formatting tags.
+    types:
+    - uid: string
+    name: properties.description
+  - description: HTTP verbs supported by the authorization endpoint. GET must be always present. POST is optional.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.authorizationMethods
+  - description: Method of authentication supported by the token endpoint of this authorization server. Possible values are Basic and/or Body. When Body is specified, client credentials and other parameters are passed within the request body in the application/x-www-form-urlencoded format.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.clientAuthenticationMethod
+  - description: OAuth acquire token request body parameter (www-url-form-encoded).
+    types:
+    - isArray: true
+      uid: TokenBodyParameterContract
+    name: properties.tokenBodyParameters
+  - description: OAuth token endpoint. Contains absolute URI to entity being referenced.
+    types:
+    - uid: string
+    name: properties.tokenEndpoint
+  - description: If true, authorization server will include state parameter from the authorization request to its response. Client may use state parameter to raise protocol security.
+    types:
+    - uid: boolean
+    name: properties.supportState
+  - description: Access token scope that is going to be requested by default. Can be overridden at the API level. Should be provided in the form of a string containing space-delimited values.
+    types:
+    - uid: string
+    name: properties.defaultScope
+  - description: 'Specifies the mechanism by which access token is passed to the API. '
+    types:
+    - isArray: true
+      uid: string
+    name: properties.bearerTokenSendingMethods
+  - description: Client or app secret registered with this authorization server.
+    types:
+    - uid: string
+    name: properties.clientSecret
+  - description: Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner username.
+    types:
+    - uid: string
+    name: properties.resourceOwnerUsername
+  - description: Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner password.
+    types:
+    - uid: string
+    name: properties.resourceOwnerPassword
+- name: TokenBodyParameterContract
+  description: 'Additional parameters required by the token endpoint of this authorization server represented as an array of JSON objects with name and value string properties, i.e. {"name" : "name value", "value": "a value"}.'
+  kind: object
+  properties:
+  - description: body parameter name.
+    types:
+    - uid: string
+    name: name
+  - description: body parameter value.
+    types:
+    - uid: string
+    name: value
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer",
+            "type": "Microsoft.ApiManagement/service/authorizationServers",
+            "name": "newauthServer",
+            "properties": {
+              "displayName": "test2",
+              "description": "test server",
+              "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+              "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+              "authorizationMethods": [
+                "GET"
+              ],
+              "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+              "supportState": true,
+              "defaultScope": "read write",
+              "grantTypes": [
+                "authorizationCode",
+                "implicit"
+              ],
+              "bearerTokenSendingMethods": [
+                "authorizationHeader"
+              ],
+              "clientId": "1",
+              "clientSecret": "2",
+              "resourceOwnerUsername": "un",
+              "resourceOwnerPassword": "pwd"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer2",
+            "type": "Microsoft.ApiManagement/service/authorizationServers",
+            "name": "newauthServer2",
+            "properties": {
+              "displayName": "test3",
+              "description": "test server",
+              "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+              "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+              "authorizationMethods": [
+                "GET"
+              ],
+              "clientAuthenticationMethod": [
+                "Basic"
+              ],
+              "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+              "supportState": true,
+              "defaultScope": "read write",
+              "grantTypes": [
+                "authorizationCode",
+                "implicit"
+              ],
+              "bearerTokenSendingMethods": [
+                "authorizationHeader"
+              ],
+              "clientId": "1",
+              "clientSecret": "2",
+              "resourceOwnerUsername": "un",
+              "resourceOwnerPassword": "pwd"
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+  name: ApiManagementListAuthorizationServers
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Service
+uid: management.azure.com.apimanagement.authorizationserver.listbyservice

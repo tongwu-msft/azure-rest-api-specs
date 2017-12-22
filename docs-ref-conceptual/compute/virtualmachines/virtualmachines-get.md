@@ -121,7 +121,7 @@ Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not F
 | vmId | Specifies the VM unique ID, which is a 128-bits identifier that is encoded and stored in all Azure IaaS VMs SMBIOS and can be read using platform BIOS commands. |  
 | name | Specifies the name of the virtual machine. |    
 | type | Specifies the type of compute resource. |    
-| location | Specifies the supported Azure location where the resource exists. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations). |    
+| location | Specifies the supported Azure location where the resource exists. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.yml#Subscriptions_ListLocations). |    
 | tags | Specifies an identifier for the virtual machine. |    
 | licenseType | Specifies that the image or disk that is being used was licensed on-premises. This element is only used for images that contain the Windows Server operating system.<br><br> Possible values are: <br><br> Windows_Client <br><br> Windows_Server |    
 | availabilitySet | Specifies the name of a collection of virtual machines. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. |    

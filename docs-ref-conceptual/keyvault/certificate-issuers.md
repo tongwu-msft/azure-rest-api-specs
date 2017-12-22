@@ -14,11 +14,11 @@ A certificate issuer is an entity represented in Azure Key Vault (KV) as a Certi
 
 You can do the following with certificate issuers in a key vault:
 
-- [Set a certificate issuer](../../docs-ref-autogen/keyvault/SetCertificateIssuer.json)
-- [Get a certificate issuer](../../docs-ref-autogen/keyvault/GetCertificateIssuer.json)
-- [Update a certificate issuer](../../docs-ref-autogen/keyvault/UpdateCertificateIssuer.json)
-- [Delete a certificate issuer](../../docs-ref-autogen/keyvault/DeleteCertificateIssuer.json)
-- [Get certificate issuers](../../docs-ref-autogen/keyvault/GetCertificateIssuers.json)
+- [Set a certificate issuer](../../docs-ref-autogen/keyvault/SetCertificateIssuer.yml)
+- [Get a certificate issuer](../../docs-ref-autogen/keyvault/GetCertificateIssuer.yml)
+- [Update a certificate issuer](../../docs-ref-autogen/keyvault/UpdateCertificateIssuer.yml)
+- [Delete a certificate issuer](../../docs-ref-autogen/keyvault/DeleteCertificateIssuer.yml)
+- [Get certificate issuers](../../docs-ref-autogen/keyvault/GetCertificateIssuers.yml)
 
 ## See Also
 [Common parameters and headers](common-parameters-and-headers.md)

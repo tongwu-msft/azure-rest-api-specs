@@ -1,0 +1,237 @@
+### YamlMime:RESTOperation
+summary: Updates the backup configuration of an app.
+service: App Service
+apiVersion: 2016-08-01
+groupName: Web Apps
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/backup?api-version=2016-08-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Name of the app.
+  types:
+  - uid: string
+  name: name
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: BackupRequest
+  name: 200 OK
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: Name of the backup.
+    types:
+    - uid: string
+    name: properties.name
+  - in: body
+    description: True if the backup schedule is enabled (must be included in that case), false if the backup schedule should be disabled.
+    types:
+    - uid: boolean
+    name: properties.enabled
+  - in: body
+    isRequired: true
+    description: SAS URL to the container.
+    types:
+    - uid: string
+    name: properties.storageAccountUrl
+  - in: body
+    description: Schedule for the backup if it is executed periodically.
+    types:
+    - uid: BackupSchedule
+    name: properties.backupSchedule
+  - in: body
+    description: Database backup settings.
+    types:
+    - isArray: true
+      uid: DatabaseBackupSetting
+    name: properties.databases
+  - in: body
+    description: Type of the backup.
+    types:
+    - uid: BackupRestoreOperationType
+    name: properties.type
+  - in: body
+    description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+requestHeader: []
+definitions:
+- name: BackupSchedule
+  description: Schedule for the backup if it is executed periodically.
+  kind: object
+  properties:
+  - description: How often the backup should be executed (e.g. for weekly backup, this should be set to 7 and FrequencyUnit should be set to Day)
+    types:
+    - uid: integer
+    name: frequencyInterval
+  - description: The unit of time for how often the backup should be executed (e.g. for weekly backup, this should be set to Day and FrequencyInterval should be set to 7)
+    types:
+    - uid: FrequencyUnit
+    name: frequencyUnit
+  - description: True if the retention policy should always keep at least one backup in the storage account, regardless how old it is; false otherwise.
+    types:
+    - uid: boolean
+    name: keepAtLeastOneBackup
+  - description: After how many days backups should be deleted.
+    types:
+    - uid: integer
+    name: retentionPeriodInDays
+  - description: When the schedule should start working.
+    types:
+    - uid: string
+    name: startTime
+  - isReadyOnly: true
+    description: Last time when this schedule was triggered.
+    types:
+    - uid: string
+    name: lastExecutionTime
+- name: DatabaseBackupSetting
+  description: List of databases included in the backup.
+  kind: object
+  properties:
+  - description: Database type (e.g. SqlAzure / MySql).
+    types:
+    - uid: DatabaseType
+    name: databaseType
+  - description: ''
+    types:
+    - uid: string
+    name: name
+  - description: >-
+      Contains a connection string name that is linked to the SiteConfig.ConnectionStrings.
+
+      This is used during restore with overwrite connection strings options.
+    types:
+    - uid: string
+    name: connectionStringName
+  - description: Contains a connection string to a database which is being backed up or restored. If the restore should happen to a new database, the database name inside is the new one.
+    types:
+    - uid: string
+    name: connectionString
+- name: BackupRequest
+  description: Description of a backup which will be performed.
+  kind: object
+  properties:
+  - description: Name of the backup.
+    types:
+    - uid: string
+    name: properties.name
+  - description: True if the backup schedule is enabled (must be included in that case), false if the backup schedule should be disabled.
+    types:
+    - uid: boolean
+    name: properties.enabled
+  - description: SAS URL to the container.
+    types:
+    - uid: string
+    name: properties.storageAccountUrl
+  - description: Schedule for the backup if it is executed periodically.
+    types:
+    - uid: BackupSchedule
+    name: properties.backupSchedule
+  - description: Database backup settings.
+    types:
+    - isArray: true
+      uid: DatabaseBackupSetting
+    name: properties.databases
+  - description: Type of the backup.
+    types:
+    - uid: BackupRestoreOperationType
+    name: properties.type
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: FrequencyUnit
+  description: The unit of time for how often the backup should be executed (e.g. for weekly backup, this should be set to Day and FrequencyInterval should be set to 7)
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Day
+  - types:
+    - uid: string
+    name: Hour
+- name: DatabaseType
+  description: Database type (e.g. SqlAzure / MySql).
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SqlAzure
+  - types:
+    - uid: string
+    name: MySql
+  - types:
+    - uid: string
+    name: LocalMySql
+  - types:
+    - uid: string
+    name: PostgreSql
+- name: BackupRestoreOperationType
+  description: Type of the backup.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: Clone
+  - types:
+    - uid: string
+    name: Relocation
+  - types:
+    - uid: string
+    name: Snapshot
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Update Backup Configuration
+uid: management.azure.com.appservice.webapps.updatebackupconfiguration

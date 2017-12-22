@@ -1,0 +1,153 @@
+### YamlMime:RESTOperation
+summary: List all certificates associated with a certificate order.
+service: App Service
+apiVersion: 2015-08-01
+groupName: App Service Certificate Orders
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates?api-version=2015-08-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Name of the certificate order.
+  types:
+  - uid: string
+  name: certificateOrderName
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: AppServiceCertificateCollection
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: AppServiceCertificateCollection
+  description: Collection of certitificateorder certificates.
+  kind: object
+  properties:
+  - description: Key Vault container ARM resource for a certificate that is purchased through Azure.
+    types:
+    - isArray: true
+      uid: AppServiceCertificateResource
+    name: value
+  - description: Link to next page of resources.
+    types:
+    - uid: string
+    name: nextLink
+- name: AppServiceCertificateResource
+  description: Collection of resources.
+  kind: object
+  properties:
+  - description: Key Vault resource Id.
+    types:
+    - uid: string
+    name: properties.keyVaultId
+  - description: Key Vault secret name.
+    types:
+    - uid: string
+    name: properties.keyVaultSecretName
+  - isReadyOnly: true
+    description: Status of the Key Vault secret.
+    types:
+    - uid: KeyVaultSecretStatus
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - description: Resource Location.
+    types:
+    - uid: string
+    name: location
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: KeyVaultSecretStatus
+  description: Status of the Key Vault secret.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Initialized
+  - types:
+    - uid: string
+    name: WaitingOnCertificateOrder
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: CertificateOrderFailed
+  - types:
+    - uid: string
+    name: OperationNotPermittedOnKeyVault
+  - types:
+    - uid: string
+    name: AzureServiceUnauthorizedToAccessKeyVault
+  - types:
+    - uid: string
+    name: KeyVaultDoesNotExist
+  - types:
+    - uid: string
+    name: KeyVaultSecretDoesNotExist
+  - types:
+    - uid: string
+    name: UnknownError
+  - types:
+    - uid: string
+    name: ExternalPrivateKey
+  - types:
+    - uid: string
+    name: Unknown
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List Certificates
+uid: management.azure.com.appservice.appservicecertificateorders.listcertificates

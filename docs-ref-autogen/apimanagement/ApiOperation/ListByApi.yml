@@ -1,0 +1,355 @@
+### YamlMime:RESTOperation
+summary: Lists a collection of the operations for the specified API.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Api Operation
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations?api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: path
+  isRequired: true
+  description: API identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+  name: apiId
+- in: query
+  description: >-
+    | Field       | Supported operators    | Supported functions               |
+
+    |-------------|------------------------|-----------------------------------|
+
+    | name        | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
+
+    | method      | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
+
+    | description | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
+
+    | urlTemplate | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  description: Number of records to return.
+  types:
+  - uid: integer
+  format: int32
+  name: $top
+- in: query
+  description: Number of records to skip.
+  types:
+  - uid: integer
+  format: int32
+  name: $skip
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: A collection of operation summary entities at the API level.
+  types:
+  - uid: OperationCollection
+  name: 200 OK
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: OperationCollection
+  description: Paged Operation list representation.
+  kind: object
+  properties:
+  - description: Api Operation details.
+    types:
+    - isArray: true
+      uid: OperationContract
+    name: value
+  - description: Next page link if any.
+    types:
+    - uid: string
+    name: nextLink
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: Error Field contract.
+    types:
+    - isArray: true
+      uid: ErrorFieldContract
+    name: details
+- name: OperationContract
+  description: Page values.
+  kind: object
+  properties:
+  - description: Operation Name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.
+    types:
+    - uid: string
+    name: properties.method
+  - description: 'Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}'
+    types:
+    - uid: string
+    name: properties.urlTemplate
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
+  - description: Operation parameters details.
+    types:
+    - isArray: true
+      uid: ParameterContract
+    name: properties.templateParameters
+  - description: Description of the operation. May include HTML formatting tags.
+    types:
+    - uid: string
+    name: properties.description
+  - description: An entity containing request details.
+    types:
+    - uid: RequestContract
+    name: properties.request
+  - description: Operation response details.
+    types:
+    - isArray: true
+      uid: ResponseContract
+    name: properties.responses
+  - description: Operation Policies
+    types:
+    - uid: string
+    name: properties.policies
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - description: Property level error code.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+    name: message
+  - description: Property name.
+    types:
+    - uid: string
+    name: target
+- name: ParameterContract
+  description: Collection of URL template parameters.
+  kind: object
+  properties:
+  - description: Parameter name.
+    types:
+    - uid: string
+    name: name
+  - description: Parameter description.
+    types:
+    - uid: string
+    name: description
+  - description: Parameter type.
+    types:
+    - uid: string
+    name: type
+  - description: Default parameter value.
+    types:
+    - uid: string
+    name: defaultValue
+  - description: whether parameter is required or not.
+    types:
+    - uid: boolean
+    name: required
+  - description: Parameter values.
+    types:
+    - isArray: true
+      uid: string
+    name: values
+- name: RequestContract
+  description: An entity containing request details.
+  kind: object
+  properties:
+  - description: Operation request description.
+    types:
+    - uid: string
+    name: description
+  - description: Operation parameters details.
+    types:
+    - isArray: true
+      uid: ParameterContract
+    name: queryParameters
+  - description: Operation parameters details.
+    types:
+    - isArray: true
+      uid: ParameterContract
+    name: headers
+  - description: Operation request/response representation details.
+    types:
+    - isArray: true
+      uid: RepresentationContract
+    name: representations
+- name: ResponseContract
+  description: Array of Operation responses.
+  kind: object
+  properties:
+  - description: Operation response HTTP status code.
+    types:
+    - uid: integer
+    name: statusCode
+  - description: Operation response description.
+    types:
+    - uid: string
+    name: description
+  - description: Operation request/response representation details.
+    types:
+    - isArray: true
+      uid: RepresentationContract
+    name: representations
+  - description: Operation parameters details.
+    types:
+    - isArray: true
+      uid: ParameterContract
+    name: headers
+- name: RepresentationContract
+  description: Collection of operation request representations.
+  kind: object
+  properties:
+  - description: Specifies a registered or custom content type for this representation, e.g. application/xml.
+    types:
+    - uid: string
+    name: contentType
+  - description: An example of the representation.
+    types:
+    - uid: string
+    name: sample
+  - description: Schema identifier. Applicable only if 'contentType' value is neither 'application/x-www-form-urlencoded' nor 'multipart/form-data'.
+    types:
+    - uid: string
+    name: schemaId
+  - description: Type name defined by the schema. Applicable only if 'contentType' value is neither 'application/x-www-form-urlencoded' nor 'multipart/form-data'.
+    types:
+    - uid: string
+    name: typeName
+  - description: Operation parameters details.
+    types:
+    - isArray: true
+      uid: ParameterContract
+    name: formParameters
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d2ef278aa04f0888cba3f3/operations?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d2ef278aa04f0888cba3f3/operations/57d2ef278aa04f0ad01d6cdc",
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "name": "57d2ef278aa04f0ad01d6cdc",
+            "properties": {
+              "displayName": "CancelOrder",
+              "method": "POST",
+              "urlTemplate": "/?soapAction=http://tempuri.org/IFazioService/CancelOrder"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d2ef278aa04f0888cba3f3/operations/57d2ef278aa04f0ad01d6cda",
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "name": "57d2ef278aa04f0ad01d6cda",
+            "properties": {
+              "displayName": "GetMostRecentOrder",
+              "method": "POST",
+              "urlTemplate": "/?soapAction=http://tempuri.org/IFazioService/GetMostRecentOrder"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d2ef278aa04f0888cba3f3/operations/57d2ef278aa04f0ad01d6cd9",
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "name": "57d2ef278aa04f0ad01d6cd9",
+            "properties": {
+              "displayName": "GetOpenOrders",
+              "method": "POST",
+              "urlTemplate": "/?soapAction=http://tempuri.org/IFazioService/GetOpenOrders"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d2ef278aa04f0888cba3f3/operations/57d2ef278aa04f0ad01d6cdb",
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "name": "57d2ef278aa04f0ad01d6cdb",
+            "properties": {
+              "displayName": "GetOrder",
+              "method": "POST",
+              "urlTemplate": "/?soapAction=http://tempuri.org/IFazioService/GetOrder"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d2ef278aa04f0888cba3f3/operations/57d2ef278aa04f0ad01d6cd8",
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "name": "57d2ef278aa04f0ad01d6cd8",
+            "properties": {
+              "displayName": "submitOrder",
+              "method": "POST",
+              "urlTemplate": "/?soapAction=http://tempuri.org/IFazioService/submitOrder"
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+  name: ApiManagementListApiOperations
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Api
+uid: management.azure.com.apimanagement.apioperation.listbyapi

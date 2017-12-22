@@ -1,0 +1,197 @@
+### YamlMime:RESTOperation
+summary: Returns the Security properties of the specified device name.
+service: StorSimple
+apiVersion: 2017-06-01
+groupName: Device Settings
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/securitySettings/default?api-version=2017-06-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription id
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The resource group name
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The manager name
+  types:
+  - uid: string
+  name: managerName
+- in: path
+  isRequired: true
+  description: The device name
+  types:
+  - uid: string
+  name: deviceName
+- in: query
+  isRequired: true
+  description: The api version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Device Security settings.
+  types:
+  - uid: SecuritySettings
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: SecuritySettings
+  description: The security settings of a device.
+  kind: object
+  properties:
+  - description: The settings for remote management of a device.
+    types:
+    - uid: RemoteManagementSettings
+    name: properties.remoteManagementSettings
+  - description: The Challenge-Handshake Authentication Protocol (CHAP) settings.
+    types:
+    - uid: ChapSettings
+    name: properties.chapSettings
+  - isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the object.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+    name: type
+  - description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+    name: kind
+- name: RemoteManagementSettings
+  description: The settings for remote management of a device.
+  kind: object
+  properties:
+  - description: The remote management mode.
+    types:
+    - uid: RemoteManagementModeConfiguration
+    name: remoteManagementMode
+  - description: The remote management certificates.
+    types:
+    - uid: string
+    name: remoteManagementCertificate
+- name: ChapSettings
+  description: The Challenge-Handshake Authentication Protocol (CHAP) settings.
+  kind: object
+  properties:
+  - description: The CHAP initiator user.
+    types:
+    - uid: string
+    name: initiatorUser
+  - description: The CHAP initiator secret.
+    types:
+    - uid: AsymmetricEncryptedSecret
+    name: initiatorSecret
+  - description: The CHAP target user.
+    types:
+    - uid: string
+    name: targetUser
+  - description: The target secret.
+    types:
+    - uid: AsymmetricEncryptedSecret
+    name: targetSecret
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Series8000
+- name: RemoteManagementModeConfiguration
+  description: The remote management mode.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: HttpsEnabled
+  - types:
+    - uid: string
+    name: HttpsAndHttpEnabled
+- name: AsymmetricEncryptedSecret
+  description: Represent the secrets intended for encryption with asymmetric key pair.
+  kind: object
+  properties:
+  - description: The value of the secret.
+    types:
+    - uid: string
+    name: value
+  - description: Thumbprint certificate that was used to encrypt "Value". If the value in unencrypted, it will be null.
+    types:
+    - uid: string
+    name: encryptionCertThumbprint
+  - description: The algorithm used to encrypt "Value".
+    types:
+    - uid: EncryptionAlgorithm
+    name: encryptionAlgorithm
+- name: EncryptionAlgorithm
+  description: The algorithm used to encrypt "Value".
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: AES256
+  - types:
+    - uid: string
+    name: RSAES_PKCS1_v_1_5
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/securitySettings/default?api-version=2017-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "remoteManagementSettings": {
+            "remoteManagementMode": "HttpsAndHttpEnabled",
+            "remoteManagementCertificate": "-----BEGIN CERTIFICATE-----\r\nMIIDfjCCAmagAwIBAgIQR9UA510Lj4FPZGVXI0oyQDANBgkqhkiG9w0BAQUFADBWMSAwHgYDVQQL\r\nDBdIY3NSZW1vdGVNYW5hZ2VtZW50Q2VydDEeMBwGA1UECgwVTWljcm9zb2Z0IENvcnBvcmF0aW9u\r\nMRIwEAYDVQQDDAkxMjM0NTY3ODkwIBcNMTcwNjA3MTExMDUzWhgPMjExNjA2MDcxMTEwNTNaMFYx\r\nIDAeBgNVBAsMF0hjc1JlbW90ZU1hbmFnZW1lbnRDZXJ0MR4wHAYDVQQKDBVNaWNyb3NvZnQgQ29y\r\ncG9yYXRpb24xEjAQBgNVBAMMCTEyMzQ1Njc4OTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC\r\nggEBAMp25cGMmEJdwur4y2Qgs9AKimTYGHdL5R9o2rcf+rGpgLC2wMY4qWsz3Ub4EWDwgT26rCiX\r\nv/24FK3xGB0OLxzTC3EbBJ7g7uCkapAKp/cFcmr+uBZiBhXe3hNnkeP8H2IfXNRSKa54XUMSqoFi\r\naavSBstS8FMuDMKopIVe6o4j+oDZBJGbb4a2anxuSyBM3cNhFTaOCLnfKynREC4sbbBL6enaFs0i\r\nRdIobT1FDSb2sLSUz4ONa3ZN7Os25UFvj1OcWeDjT1vJKcjx+u5owILvifRGoGbPETtCjwJ306+7\r\nihl+0GQ7teD2+O1h/Q7qdBm3gQAX9ZTsQAoiRYyJ14UCAwEAAaNGMEQwEwYDVR0lBAwwCgYIKwYB\r\nBQUHAwEwHQYDVR0OBBYEFJNK6cTqsGCcZkjP1q0LF53B2+G1MA4GA1UdDwEB/wQEAwIFIDANBgkq\r\nhkiG9w0BAQUFAAOCAQEAl+2ApGz9hpt6+sND+Q3TGczBqh2BSprgK//KwPdWthSLnxPf7f06MITN\r\ng1sTxFlbrFb46Y0UPN5YKTMb7wxRd+Nqrz6l7X4kp6IR+2sMX1ydkWyJ6HZrosc96fkFvFUt9B+J\r\n25gb9YVRotNUeborkznDFW6VeeS0kxJVps5r3fcuhz2vOPW1q/U0UWNV+LnrzRT+7MauUTYyLe0q\r\nuobmnD8NC2HhZcJ04xYhCKOJQ/NNJyaURwGJ2TZSYwS0HOnQViZp/SipjhyOOwwB6h0W62ElOovN\r\nAxVgTBEQjbG0jsMOm079hLUKuIBYmH4HJDmF3QKml0er1NcXeieATPLOWQ==\r\n-----END CERTIFICATE-----\r\n"
+          },
+          "chapSettings": {
+            "initiatorUser": "test-initiator-user",
+            "targetUser": "test-target-user"
+          }
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/securitySettings/default",
+        "name": "default",
+        "type": "Microsoft.StorSimple/managers/devices/securitySettings",
+        "kind": "Series8000"
+      }
+  name: DeviceSettingsGetSecuritySettings
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get Security Settings
+uid: management.azure.com.storsimple.devicesettings.getsecuritysettings

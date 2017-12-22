@@ -1,0 +1,163 @@
+### YamlMime:RESTOperation
+summary: Get a recommendation rule for an app.
+service: App Service
+apiVersion: 2016-03-01
+groupName: Recommendations
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}?api-version=2016-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}?updateSeen={updateSeen}&api-version=2016-03-01
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Name of the app.
+  types:
+  - uid: string
+  name: siteName
+- in: path
+  isRequired: true
+  description: Name of the recommendation.
+  types:
+  - uid: string
+  name: name
+- in: query
+  description: Specify <code>true</code> to update the last-seen timestamp of the recommendation object.
+  types:
+  - uid: boolean
+  name: updateSeen
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: RecommendationRule
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: RecommendationRule
+  description: Represents a recommendation rule that the recommendation engine can perform.
+  kind: object
+  properties:
+  - description: Unique name of the rule.
+    types:
+    - uid: string
+    name: name
+  - description: UI friendly name of the rule.
+    types:
+    - uid: string
+    name: displayName
+  - description: Localized name of the rule (Good for UI).
+    types:
+    - uid: string
+    name: message
+  - description: >-
+      Recommendation ID of an associated recommendation object tied to the rule, if exists.
+
+      If such an object doesn't exist, it is set to null.
+    types:
+    - uid: string
+    name: recommendationId
+  - description: Localized detailed description of the rule.
+    types:
+    - uid: string
+    name: description
+  - description: Name of action that is recommended by this rule in string.
+    types:
+    - uid: string
+    name: actionName
+  - description: Level of impact indicating how critical this rule is.
+    types:
+    - uid: NotificationLevel
+    name: level
+  - description: List of available channels that this rule applies.
+    types:
+    - uid: Channels
+    name: channels
+  - description: An array of category tags that the rule contains.
+    types:
+    - isArray: true
+      uid: string
+    name: tags
+  - description: True if this is associated with a dynamically added rule
+    types:
+    - uid: boolean
+    name: isDynamic
+  - description: Extension name of the portal if exists. Applicable to dynamic rule only.
+    types:
+    - uid: string
+    name: extensionName
+  - description: Deep link to a blade on the portal. Applicable to dynamic rule only.
+    types:
+    - uid: string
+    name: bladeName
+  - description: Forward link to an external document associated with the rule. Applicable to dynamic rule only.
+    types:
+    - uid: string
+    name: forwardLink
+- name: NotificationLevel
+  description: Level indicating how critical this recommendation can impact.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Critical
+  - types:
+    - uid: string
+    name: Warning
+  - types:
+    - uid: string
+    name: Information
+  - types:
+    - uid: string
+    name: NonUrgentSuggestion
+- name: Channels
+  description: List of channels that this recommendation can apply.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Notification
+  - types:
+    - uid: string
+    name: Api
+  - types:
+    - uid: string
+    name: Email
+  - types:
+    - uid: string
+    name: Webhook
+  - types:
+    - uid: string
+    name: All
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get Rule Details By Web App
+uid: management.azure.com.appservice.recommendations.getruledetailsbywebapp

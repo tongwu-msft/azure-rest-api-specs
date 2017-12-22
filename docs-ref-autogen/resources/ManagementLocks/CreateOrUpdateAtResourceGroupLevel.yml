@@ -1,0 +1,135 @@
+### YamlMime:RESTOperation
+summary: Creates or updates a management lock at the resource group level. When you apply a lock at a parent scope, all child resources inherit the same lock. To create management locks, you must have access to Microsoft.Authorization/* or Microsoft.Authorization/locks/* actions. Of the built-in roles, only Owner and User Access Administrator are granted those actions.
+service: Resource Management
+apiVersion: 2016-09-01
+groupName: Management Locks
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks/{lockName}?api-version=2016-09-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group to lock.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The lock name. The lock name can be a maximum of 260 characters. It cannot contain <, > %, &, :, \, ?, /, or any control characters.
+  types:
+  - uid: string
+  name: lockName
+- in: query
+  isRequired: true
+  description: The API version to use for the operation.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK - Returns information about the lock.
+  types:
+  - uid: ManagementLockObject
+  name: 200 OK
+- description: Created - Returns information about the lock.
+  types:
+  - uid: ManagementLockObject
+  name: 201 Created
+requestBody:
+- parameters:
+  - in: body
+    description: The name of the lock.
+    types:
+    - uid: string
+    name: name
+  - in: body
+    isRequired: true
+    description: "The level of the lock. Possible values are: NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users are able to read and modify the resources, but not delete. ReadOnly means authorized users can only read from a resource, but they can't modify or delete it."
+    types:
+    - uid: LockLevel
+    name: properties.level
+  - in: body
+    description: Notes about the lock. Maximum of 512 characters.
+    types:
+    - uid: string
+    name: properties.notes
+  - in: body
+    description: Lock owner properties.
+    types:
+    - isArray: true
+      uid: ManagementLockOwner
+    name: properties.owners
+requestHeader: []
+definitions:
+- name: ManagementLockOwner
+  description: Lock owner properties.
+  kind: object
+  properties:
+  - description: The application ID of the lock owner.
+    types:
+    - uid: string
+    name: applicationId
+- name: ManagementLockObject
+  description: The lock information.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The resource ID of the lock.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The resource type of the lock - Microsoft.Authorization/locks.
+    types:
+    - uid: string
+    name: type
+  - description: The name of the lock.
+    types:
+    - uid: string
+    name: name
+  - description: "The level of the lock. Possible values are: NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users are able to read and modify the resources, but not delete. ReadOnly means authorized users can only read from a resource, but they can't modify or delete it."
+    types:
+    - uid: LockLevel
+    name: properties.level
+  - description: Notes about the lock. Maximum of 512 characters.
+    types:
+    - uid: string
+    name: properties.notes
+  - description: Lock owner properties.
+    types:
+    - isArray: true
+      uid: ManagementLockOwner
+    name: properties.owners
+- name: LockLevel
+  description: "The level of the lock. Possible values are: NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users are able to read and modify the resources, but not delete. ReadOnly means authorized users can only read from a resource, but they can't modify or delete it."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: CanNotDelete
+  - types:
+    - uid: string
+    name: ReadOnly
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update At Resource Group Level
+uid: management.azure.com.resourcemanagement.managementlocks.createorupdateatresourcegrouplevel

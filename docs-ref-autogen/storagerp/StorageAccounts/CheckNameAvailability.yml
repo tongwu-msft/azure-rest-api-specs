@@ -1,0 +1,119 @@
+### YamlMime:RESTOperation
+summary: Checks that the storage account name is valid and is not already in use.
+service: Storage Resource Provider
+apiVersion: 2017-06-01
+groupName: Storage Accounts
+consumes:
+- application/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Storage/checkNameAvailability?api-version=2017-06-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK -- Operation to check the storage account name availability was successful.
+  types:
+  - uid: CheckNameAvailabilityResult
+  name: 200 OK
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The storage account name.
+    types:
+    - uid: string
+    name: name
+  - in: body
+    isRequired: true
+    description: The type of resource, Microsoft.Storage/storageAccounts
+    types:
+    - uid: Type
+    name: type
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityResult
+  description: The CheckNameAvailability operation response.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Gets a boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken or is invalid and cannot be used.
+    types:
+    - uid: boolean
+    name: nameAvailable
+  - isReadyOnly: true
+    description: Gets the reason that a storage account name could not be used. The Reason element is only returned if NameAvailable is false.
+    types:
+    - uid: Reason
+    name: reason
+  - isReadyOnly: true
+    description: Gets an error message explaining the Reason value in more detail.
+    types:
+    - uid: string
+    name: message
+- name: StorageAccountCheckNameAvailabilityParameters
+  description: The parameters used to check the availabity of the storage account name.
+  kind: object
+  properties:
+  - description: The storage account name.
+    types:
+    - uid: string
+    name: name
+  - description: The type of resource, Microsoft.Storage/storageAccounts
+    types:
+    - uid: Type
+    name: type
+- name: Reason
+  description: Gets the reason that a storage account name could not be used. The Reason element is only returned if NameAvailable is false.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: AccountNameInvalid
+  - types:
+    - uid: string
+    name: AlreadyExists
+- name: Type
+  description: The type of resource, Microsoft.Storage/storageAccounts
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Microsoft.Storage/storageAccounts
+examples:
+- request:
+    uri: POST https://management.azure.com/subscriptions/27de630f-e1ee-42de-8849-90def4986454/providers/Microsoft.Storage/checkNameAvailability?api-version=2017-06-01
+    body: >-
+      {
+        "name": "sto3363",
+        "type": "Microsoft.Storage/storageAccounts"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": true
+      }
+  name: StorageAccountCheckNameAvailability
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Check Name Availability
+uid: management.azure.com.storageresourceprovider.storageaccounts.checknameavailability

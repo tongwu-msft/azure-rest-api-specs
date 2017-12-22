@@ -1,0 +1,141 @@
+### YamlMime:RESTOperation
+summary: Creates or updates an authorization rule for a WCF relay.
+service: Relay
+apiVersion: 2017-04-01
+groupName: WCF Relays
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}?api-version=2017-04-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The namespace name
+  types:
+  - uid: string
+  name: namespaceName
+- in: path
+  isRequired: true
+  description: The relay name.
+  types:
+  - uid: string
+  name: relayName
+- in: path
+  isRequired: true
+  description: The authorization rule name.
+  types:
+  - uid: string
+  name: authorizationRuleName
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: WCF relay authorization rule created.
+  types:
+  - uid: AuthorizationRule
+  name: 200 OK
+- description: Relay error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The rights associated with the rule.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.rights
+requestHeader: []
+definitions:
+- name: AuthorizationRule
+  description: Result of the list authorization rules operation.
+  kind: object
+  properties:
+  - description: The rights associated with the rule.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.rights
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: ErrorResponse
+  description: Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01/wcfRelays/sdk-Relay-wcf-01/authorizationRules/sdk-RelayAuthRules-01?api-version=2017-04-01
+    body: >-
+      {
+        "properties": {
+          "rights": [
+            "Listen",
+            "Send"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01/WcfRelays/sdk-Relay-Wcf-01/AuthorizationRules/sdk-RelayAuthRules-01",
+        "name": "sdk-RelayAuthRules-01",
+        "type": "Microsoft.Relay/Namespaces/WcfRelay/AuthorizationRules",
+        "properties": {
+          "rights": [
+            "Listen",
+            "Send"
+          ]
+        }
+      }
+  name: RelayAuthorizationRuleCreate
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update Authorization Rule
+uid: management.azure.com.relay.wcfrelays.createorupdateauthorizationrule

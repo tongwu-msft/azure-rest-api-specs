@@ -1,0 +1,205 @@
+### YamlMime:RESTOperation
+summary: Retrieve all Azure ML commitment plans in a subscription.
+service: Machine Learning
+apiVersion: 2016-05-01-preview
+groupName: Commitment Plans
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearning/commitmentPlans?api-version=2016-05-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearning/commitmentPlans?$skipToken={$skipToken}&api-version=2016-05-01-preview
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: query
+  description: Continuation token for pagination.
+  types:
+  - uid: string
+  name: $skipToken
+- in: query
+  isRequired: true
+  description: The version of the Microsoft.MachineLearning resource provider API to use.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: CommitmentPlanListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: CommitmentPlanListResult
+  description: A page of commitment plan resources.
+  kind: object
+  properties:
+  - description: A URI to retrieve the next page of results.
+    types:
+    - uid: string
+    name: nextLink
+  - description: An Azure ML commitment plan resource.
+    types:
+    - isArray: true
+      uid: CommitmentPlan
+    name: value
+- name: CommitmentPlan
+  description: An Azure ML commitment plan resource.
+  kind: object
+  properties:
+  - description: An entity tag used to enforce optimistic concurrency.
+    types:
+    - uid: string
+    name: etag
+  - isReadyOnly: true
+    description: The commitment plan properties.
+    types:
+    - uid: CommitmentPlanProperties
+    name: properties
+  - description: The commitment plan SKU.
+    types:
+    - uid: ResourceSku
+    name: sku
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: User-defined tags for the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: CommitmentPlanProperties
+  description: The commitment plan properties.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Indicates whether usage beyond the commitment plan's included quantities will be charged.
+    types:
+    - uid: boolean
+    name: chargeForOverage
+  - isReadyOnly: true
+    description: Indicates whether the commitment plan will incur a charge.
+    types:
+    - uid: boolean
+    name: chargeForPlan
+  - isReadyOnly: true
+    description: The date at which this commitment plan was created, in ISO 8601 format.
+    types:
+    - uid: string
+    name: creationDate
+  - isReadyOnly: true
+    description: The included resource quantities this plan gives you.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: PlanQuantity
+      uid: object
+    name: includedQuantities
+  - isReadyOnly: true
+    description: The maximum number of commitment associations that can be children of this commitment plan.
+    types:
+    - uid: integer
+    name: maxAssociationLimit
+  - isReadyOnly: true
+    description: The maximum scale-out capacity for this commitment plan.
+    types:
+    - uid: integer
+    name: maxCapacityLimit
+  - isReadyOnly: true
+    description: The minimum scale-out capacity for this commitment plan.
+    types:
+    - uid: integer
+    name: minCapacityLimit
+  - isReadyOnly: true
+    description: The Azure meter which will be used to charge for this commitment plan.
+    types:
+    - uid: string
+    name: planMeter
+  - isReadyOnly: true
+    description: The frequency at which this commitment plan's included quantities are refilled.
+    types:
+    - uid: integer
+    name: refillFrequencyInDays
+  - isReadyOnly: true
+    description: Indicates whether this commitment plan will be moved into a suspended state if usage goes beyond the commitment plan's included quantities.
+    types:
+    - uid: boolean
+    name: suspendPlanOnOverage
+- name: ResourceSku
+  description: The SKU of a resource.
+  kind: object
+  properties:
+  - description: The scale-out capacity of the resource. 1 is 1x, 2 is 2x, etc. This impacts the quantities and cost of any commitment plan resource.
+    types:
+    - uid: integer
+    name: capacity
+  - description: The SKU name. Along with tier, uniquely identifies the SKU.
+    types:
+    - uid: string
+    name: name
+  - description: The SKU tier. Along with name, uniquely identifies the SKU.
+    types:
+    - uid: string
+    name: tier
+- name: IncludedQuantities
+  description: The included resource quantities this plan gives you.
+  kind: object
+  properties:
+  - description: Represents the quantity a commitment plan provides of a metered resource.
+    types:
+    - uid: PlanQuantity
+    name: ''
+- name: PlanQuantity
+  description: Represents the quantity a commitment plan provides of a metered resource.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The quantity added to the commitment plan at an interval specified by its allowance frequency.
+    types:
+    - uid: number
+    name: allowance
+  - isReadyOnly: true
+    description: The quantity available to the plan the last time usage was calculated.
+    types:
+    - uid: number
+    name: amount
+  - isReadyOnly: true
+    description: The Azure meter for usage against included quantities.
+    types:
+    - uid: string
+    name: includedQuantityMeter
+  - isReadyOnly: true
+    description: The Azure meter for usage which exceeds included quantities.
+    types:
+    - uid: string
+    name: overageMeter
+examples: []
+security: []
+name: List
+uid: management.azure.com.machinelearning.commitmentplans.list

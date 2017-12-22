@@ -1,0 +1,280 @@
+### YamlMime:RESTOperation
+summary: Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
+service: Event Hubs
+apiVersion: 2017-04-01
+groupName: Namespaces
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}?api-version=2017-04-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group within the azure subscription.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The Namespace name
+  types:
+  - uid: string
+  name: namespaceName
+- in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Namespace create request accepted.
+  types:
+  - uid: EHNamespace
+  name: 201 Created
+- description: Namespace successfuly created.
+  types:
+  - uid: EHNamespace
+  name: 200 OK
+- description: Namespace create or update request accepted.
+  name: 202 Accepted
+- description: Eventhub error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: Properties of sku resource
+    types:
+    - uid: Sku
+    name: sku
+  - in: body
+    description: Value that indicates whether AutoInflate is enabled for eventhub namespace.
+    types:
+    - uid: boolean
+    name: properties.isAutoInflateEnabled
+  - in: body
+    description: Upper limit of throughput units when AutoInflate is enabled, vaule should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true)
+    types:
+    - uid: integer
+    name: properties.maximumThroughputUnits
+  - in: body
+    description: Resource location
+    types:
+    - uid: string
+    name: location
+  - in: body
+    description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+requestHeader: []
+definitions:
+- name: Sku
+  description: Properties of sku resource
+  kind: object
+  properties:
+  - description: Name of this SKU.
+    types:
+    - uid: SkuName
+    name: name
+  - description: The billing tier of this particular SKU.
+    types:
+    - uid: SkuTier
+    name: tier
+  - description: The Event Hubs throughput units, vaule should be 0 to 20 throughput units.
+    types:
+    - uid: integer
+    name: capacity
+- name: EHNamespace
+  description: Result of the List Namespace operation
+  kind: object
+  properties:
+  - description: Properties of sku resource
+    types:
+    - uid: Sku
+    name: sku
+  - isReadyOnly: true
+    description: Provisioning state of the Namespace.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: The time the Namespace was created.
+    types:
+    - uid: string
+    name: properties.createdAt
+  - isReadyOnly: true
+    description: The time the Namespace was updated.
+    types:
+    - uid: string
+    name: properties.updatedAt
+  - isReadyOnly: true
+    description: Endpoint you can use to perform Service Bus operations.
+    types:
+    - uid: string
+    name: properties.serviceBusEndpoint
+  - isReadyOnly: true
+    description: Identifier for Azure Insights metrics.
+    types:
+    - uid: string
+    name: properties.metricId
+  - description: Value that indicates whether AutoInflate is enabled for eventhub namespace.
+    types:
+    - uid: boolean
+    name: properties.isAutoInflateEnabled
+  - description: Upper limit of throughput units when AutoInflate is enabled, vaule should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true)
+    types:
+    - uid: integer
+    name: properties.maximumThroughputUnits
+  - description: Resource location
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+- name: ErrorResponse
+  description: Error reponse indicates EventHub service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: SkuName
+  description: Name of this SKU.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+- name: SkuTier
+  description: The billing tier of this particular SKU.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-5849?api-version=2017-04-01
+    body: >-
+      {
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard"
+        },
+        "location": "South Central US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard",
+          "capacity": 1
+        },
+        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-5849",
+        "name": "sdk-Namespace-5849",
+        "type": "Microsoft.EventHub/Namespaces",
+        "location": "South Central US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "isAutoInflateEnabled": false,
+          "maximumThroughputUnits": 0,
+          "provisioningState": "Created",
+          "metricId": "5f750a97-50d9-4e36-8081-c9ee4c0210d4:sdk-namespace-5849",
+          "createdAt": "2017-05-24T23:23:27.877Z",
+          "updatedAt": "2017-05-24T23:23:27.877Z",
+          "serviceBusEndpoint": "https://sdk-Namespace-5849.servicebus.windows-int.net:443/"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard",
+          "capacity": 1
+        },
+        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-5849",
+        "name": "sdk-Namespace-5849",
+        "type": "Microsoft.EventHub/Namespaces",
+        "location": "South Central US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "isAutoInflateEnabled": false,
+          "maximumThroughputUnits": 0,
+          "provisioningState": "Created",
+          "metricId": "5f750a97-50d9-4e36-8081-c9ee4c0210d4:sdk-namespace-5849",
+          "createdAt": "2017-05-24T23:23:27.877Z",
+          "updatedAt": "2017-05-24T23:23:27.877Z",
+          "serviceBusEndpoint": "https://sdk-Namespace-5849.servicebus.windows-int.net:443/"
+        }
+      }
+  - statusCode: "202"
+  name: NamespaceCreate
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update
+uid: management.azure.com.eventhubs.namespaces.createorupdate

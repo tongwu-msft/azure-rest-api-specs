@@ -1,0 +1,162 @@
+### YamlMime:RESTOperation
+summary: Gets the workspaces in a subscription.
+service: Log Analytics
+apiVersion: 2015-11-01-preview
+groupName: Workspaces
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/workspaces?api-version=2015-11-01-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK response definition.
+  types:
+  - uid: WorkspaceListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: WorkspaceListResult
+  description: The list workspaces operation response.
+  kind: object
+  properties:
+  - description: The top level Workspace resource container.
+    types:
+    - isArray: true
+      uid: Workspace
+    name: value
+- name: Workspace
+  description: The top level Workspace resource container.
+  kind: object
+  properties:
+  - description: The ETag of the workspace.
+    types:
+    - uid: string
+    name: eTag
+  - description: The provisioning state of the workspace.
+    types:
+    - uid: EntityStatus
+    name: properties.provisioningState
+  - description: The source of the workspace.  Source defines where the workspace was created. 'Azure' implies it was created in Azure.  'External' implies it was created via the Operational Insights Portal. This value is set on the service side and read-only on the client side.
+    types:
+    - uid: string
+    name: properties.source
+  - description: The ID associated with the workspace.  Setting this value at creation time allows the workspace being created to be linked to an existing workspace.
+    types:
+    - uid: string
+    name: properties.customerId
+  - description: The URL of the Operational Insights portal for this workspace.  This value is set on the service side and read-only on the client side.
+    types:
+    - uid: string
+    name: properties.portalUrl
+  - description: The SKU of the workspace.
+    types:
+    - uid: Sku
+    name: properties.sku
+  - description: 'The workspace data retention in days. -1 means Unlimited retention for the Unlimited Sku. 730 days is the maximum allowed for all other Skus. '
+    types:
+    - uid: integer
+    name: properties.retentionInDays
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+  - description: Resource location
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: EntityStatus
+  description: The provisioning state of the workspace.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Canceled
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: ProvisioningAccount
+- name: Sku
+  description: The SKU (tier) of a workspace.
+  kind: object
+  properties:
+  - description: The name of the SKU.
+    types:
+    - uid: SkuNameEnum
+    name: name
+- name: SkuNameEnum
+  description: The name of the SKU.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Free
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
+  - types:
+    - uid: string
+    name: Unlimited
+  - types:
+    - uid: string
+    name: PerNode
+  - types:
+    - uid: string
+    name: Standalone
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List
+uid: management.azure.com.loganalytics.workspaces.list

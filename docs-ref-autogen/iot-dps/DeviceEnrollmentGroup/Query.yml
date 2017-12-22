@@ -1,0 +1,258 @@
+### YamlMime:RESTOperation
+summary: Query the device enrollment groups.
+service: IoT Hub Device Provisioning Service
+apiVersion: 2017-11-15
+groupName: Device Enrollment Group
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://contoso.azure-devices-provisioning.net/enrollmentGroups/query?api-version=2017-11-15
+uriParameters:
+- in: query
+  isRequired: true
+  description: 'The API version to use for the request. Supported versions include: 2017-11-15'
+  types:
+  - uid: string
+  name: api-version
+responses:
+- headers:
+  - value: string
+    name: x-ms-continuation
+  - value: integer
+    name: x-ms-max-item-count
+  - value: string
+    name: x-ms-item-type
+  description: Success
+  types:
+  - isArray: true
+    uid: EnrollmentGroup
+  name: 200 OK
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The query.
+    types:
+    - uid: string
+    name: query
+requestHeader: []
+definitions:
+- name: EnrollmentGroup
+  description: Enrollment group record.
+  kind: object
+  properties:
+  - description: Enrollment Group ID.
+    types:
+    - uid: string
+    name: enrollmentGroupId
+  - description: Attestation method used by the device.
+    types:
+    - uid: AttestationMechanism
+    name: attestation
+  - description: The Iot Hub host name.
+    types:
+    - uid: string
+    name: iotHubHostName
+  - description: Initial device twin.
+    types:
+    - uid: InitialTwin
+    name: initialTwin
+  - description: The entity tag associated with the resource.
+    types:
+    - uid: string
+    name: etag
+  - description: The provisioning status.
+    types:
+    - uid: enabled
+    - uid: disabled
+    typesTitle: enum
+    name: provisioningStatus
+  - description: The DateTime this resource was created.
+    types:
+    - uid: string
+    name: createdDateTimeUtc
+  - description: The DateTime this resource was last updated.
+    types:
+    - uid: string
+    name: lastUpdatedDateTimeUtc
+- name: QuerySpecification
+  description: A Json query request
+  kind: object
+  properties:
+  - description: The query.
+    types:
+    - uid: string
+    name: query
+- name: AttestationMechanism
+  description: Attestation method used by the device.
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: none
+    - uid: tpm
+    - uid: x509
+    typesTitle: enum
+    name: type
+  - description: Attestation via TPM.
+    types:
+    - uid: TpmAttestation
+    name: tpm
+  - description: Attestation via X509.
+    types:
+    - uid: X509Attestation
+    name: x509
+- name: InitialTwin
+  description: Initial device twin.
+  kind: object
+  properties:
+  - description: Twin tags.
+    types:
+    - uid: TwinCollection
+    name: tags
+  - description: Twin desired properties.
+    types:
+    - uid: InitialTwinProperties
+    name: properties
+- name: TpmAttestation
+  description: Attestation via TPM.
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: string
+    name: endorsementKey
+  - description: ''
+    types:
+    - uid: string
+    name: storageRootKey
+- name: X509Attestation
+  description: Attestation via X509.
+  kind: object
+  properties:
+  - description: Primary and secondary certificates
+    types:
+    - uid: X509Certificates
+    name: clientCertificates
+  - description: Primary and secondary certificates
+    types:
+    - uid: X509Certificates
+    name: signingCertificates
+  - description: Primary and secondary CA references.
+    types:
+    - uid: X509CAReferences
+    name: caReferences
+- name: TwinCollection
+  description: Twin tags.
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: integer
+    name: version
+  - description: ''
+    types:
+    - uid: integer
+    name: count
+  - description: ''
+    types:
+    - uid: Metadata
+    name: metadata
+- name: InitialTwinProperties
+  description: Twin desired properties.
+  kind: object
+  properties:
+  - description: Gets and sets the InitialTwin desired properties.
+    types:
+    - uid: TwinCollection
+    name: desired
+- name: X509Certificates
+  description: Primary and secondary certificates
+  kind: object
+  properties:
+  - description: Certificate and Certificate info
+    types:
+    - uid: X509CertificateWithInfo
+    name: primary
+  - description: Certificate and Certificate info
+    types:
+    - uid: X509CertificateWithInfo
+    name: secondary
+- name: X509CAReferences
+  description: Primary and secondary CA references.
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: string
+    name: primary
+  - description: ''
+    types:
+    - uid: string
+    name: secondary
+- name: Metadata
+  description: ''
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: string
+    name: lastUpdated
+  - description: This SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata.
+    types:
+    - uid: integer
+    name: lastUpdatedVersion
+- name: X509CertificateWithInfo
+  description: Certificate and Certificate info
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: string
+    name: certificate
+  - description: X509 certificate info.
+    types:
+    - uid: X509CertificateInfo
+    name: info
+- name: X509CertificateInfo
+  description: X509 certificate info.
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: string
+    name: subjectName
+  - description: ''
+    types:
+    - uid: string
+    name: sha1Thumbprint
+  - description: ''
+    types:
+    - uid: string
+    name: sha256Thumbprint
+  - description: ''
+    types:
+    - uid: string
+    name: issuerName
+  - description: ''
+    types:
+    - uid: string
+    name: notBeforeUtc
+  - description: ''
+    types:
+    - uid: string
+    name: notAfterUtc
+  - description: ''
+    types:
+    - uid: string
+    name: serialNumber
+  - description: ''
+    types:
+    - uid: integer
+    name: version
+examples: []
+security: []
+name: Query
+uid: contoso.azure-devices-provisioning.net.iothubdeviceprovisioningservice.deviceenrollmentgroup.query

@@ -1,0 +1,112 @@
+### YamlMime:RESTOperation
+summary: Gets list of groups for the current tenant.
+service: Graph RBAC
+apiVersion: "1.6"
+groupName: Groups
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://graph.windows.net/{tenantID}/groups?api-version=1.6
+- content: GET https://graph.windows.net/{tenantID}/groups?$filter={$filter}&api-version=1.6
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The tenant ID.
+  types:
+  - uid: string
+  name: tenantID
+- in: query
+  description: The filter to apply to the operation.
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK. The operation was successful.
+  types:
+  - uid: GroupListResult
+  name: 200 OK
+- description: Error response describing why the operation failed.
+  types:
+  - uid: GraphError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: GroupListResult
+  description: Server response for Get tenant groups API call
+  kind: object
+  properties:
+  - description: Active Directory group information.
+    types:
+    - isArray: true
+      uid: ADGroup
+    name: value
+  - description: The URL to get the next set of results.
+    types:
+    - uid: string
+    name: odata.nextLink
+- name: GraphError
+  description: Active Directory error information.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: odata.error.code
+  - description: Error message value.
+    types:
+    - uid: string
+    name: odata.error.message.value
+- name: ADGroup
+  description: Active Directory group information.
+  kind: object
+  properties:
+  - description: The display name of the group.
+    types:
+    - uid: string
+    name: displayName
+  - description: Whether the group is security-enable.
+    types:
+    - uid: boolean
+    name: securityEnabled
+  - description: The primary email address of the group.
+    types:
+    - uid: string
+    name: mail
+  - isReadyOnly: true
+    description: The object ID.
+    types:
+    - uid: string
+    name: objectId
+  - isReadyOnly: true
+    description: The object type.
+    types:
+    - uid: Group
+    typesTitle: string
+    name: objectType
+  - isReadyOnly: true
+    description: The time at which the directory object was deleted.
+    types:
+    - uid: string
+    name: deletionTimestamp
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List
+uid: graph.windows.net.graphrbac.groups.list

@@ -1,0 +1,285 @@
+### YamlMime:RESTOperation
+summary: Gets all network security groups applied to a network interface.
+service: Virtual Networks
+apiVersion: 2017-10-01
+groupName: Network Interfaces
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveNetworkSecurityGroups?api-version=2017-10-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the network interface.
+  types:
+  - uid: string
+  name: networkInterfaceName
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Request successful. The operation returns a list of NetworkSecurityGroup resources.
+  types:
+  - uid: EffectiveNetworkSecurityGroupListResult
+  name: 200 OK
+- description: Accepted and the operation will complete asynchronously.
+  name: 202 Accepted
+requestHeader: []
+definitions:
+- name: EffectiveNetworkSecurityGroupListResult
+  description: Response for list effective network security groups API service call.
+  kind: object
+  properties:
+  - description: Effective network security group.
+    types:
+    - isArray: true
+      uid: EffectiveNetworkSecurityGroup
+    name: value
+  - isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+    name: nextLink
+- name: EffectiveNetworkSecurityGroup
+  description: Effective network security group.
+  kind: object
+  properties:
+  - description: The ID of network security group that is applied.
+    types:
+    - uid: SubResource
+    name: networkSecurityGroup
+  - description: Associated resources.
+    types:
+    - uid: EffectiveNetworkSecurityGroupAssociation
+    name: association
+  - description: Effective network security rules.
+    types:
+    - isArray: true
+      uid: EffectiveNetworkSecurityRule
+    name: effectiveSecurityRules
+  - description: Mapping of tags to list of IP Addresses included within the tag.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+      uid: object
+    name: tagMap
+- name: SubResource
+  description: The reference of ApplicationGatewayBackendAddressPool resource.
+  kind: object
+  properties:
+  - description: Resource ID.
+    types:
+    - uid: string
+    name: id
+- name: EffectiveNetworkSecurityGroupAssociation
+  description: Associated resources.
+  kind: object
+  properties:
+  - description: The ID of the subnet if assigned.
+    types:
+    - uid: SubResource
+    name: subnet
+  - description: The ID of the network interface if assigned.
+    types:
+    - uid: SubResource
+    name: networkInterface
+- name: EffectiveNetworkSecurityRule
+  description: A collection of effective security rules.
+  kind: object
+  properties:
+  - description: The name of the security rule specified by the user (if created by the user).
+    types:
+    - uid: string
+    name: name
+  - description: "The network protocol this rule applies to. Possible values are: 'Tcp', 'Udp', and 'All'."
+    types:
+    - uid: EffectiveSecurityRuleProtocol
+    name: protocol
+  - description: The source port or range.
+    types:
+    - uid: string
+    name: sourcePortRange
+  - description: The destination port or range.
+    types:
+    - uid: string
+    name: destinationPortRange
+  - description: The source port ranges. Expected values include a single integer between 0 and 65535, a range using '-' as seperator (e.g. 100-400), or an asterix (*)
+    types:
+    - isArray: true
+      uid: string
+    name: sourcePortRanges
+  - description: The destination port ranges. Expected values include a single integer between 0 and 65535, a range using '-' as seperator (e.g. 100-400), or an asterix (*)
+    types:
+    - isArray: true
+      uid: string
+    name: destinationPortRanges
+  - description: The source address prefix.
+    types:
+    - uid: string
+    name: sourceAddressPrefix
+  - description: The destination address prefix.
+    types:
+    - uid: string
+    name: destinationAddressPrefix
+  - description: The source address prefixes. Expected values include CIDR IP ranges, Default Tags (VirtualNetwork, AureLoadBalancer, Internet), System Tags, and the asterix (*).
+    types:
+    - isArray: true
+      uid: string
+    name: sourceAddressPrefixes
+  - description: The destination address prefixes. Expected values include CIDR IP ranges, Default Tags (VirtualNetwork, AureLoadBalancer, Internet), System Tags, and the asterix (*).
+    types:
+    - isArray: true
+      uid: string
+    name: destinationAddressPrefixes
+  - description: The expanded source address prefix.
+    types:
+    - isArray: true
+      uid: string
+    name: expandedSourceAddressPrefix
+  - description: Expanded destination address prefix.
+    types:
+    - isArray: true
+      uid: string
+    name: expandedDestinationAddressPrefix
+  - description: "Whether network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+    types:
+    - uid: SecurityRuleAccess
+    name: access
+  - description: The priority of the rule.
+    types:
+    - uid: integer
+    name: priority
+  - description: "The direction of the rule. Possible values are: 'Inbound and Outbound'."
+    types:
+    - uid: SecurityRuleDirection
+    name: direction
+- name: EffectiveSecurityRuleProtocol
+  description: "The network protocol this rule applies to. Possible values are: 'Tcp', 'Udp', and 'All'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Tcp
+  - types:
+    - uid: string
+    name: Udp
+  - types:
+    - uid: string
+    name: All
+- name: SecurityRuleAccess
+  description: "Whether network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Allow
+  - types:
+    - uid: string
+    name: Deny
+- name: SecurityRuleDirection
+  description: "The direction of the rule. Possible values are: 'Inbound and Outbound'."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Inbound
+  - types:
+    - uid: string
+    name: Outbound
+examples:
+- request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1/effectiveNetworkSecurityGroups?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "networkSecurityGroup": {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/test-nsg"
+            },
+            "association": {
+              "subnet": {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default"
+              },
+              "networkInterface": {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1"
+              }
+            },
+            "effectiveSecurityRules": [
+              {
+                "name": "securityRules/rule1",
+                "protocol": "Tcp",
+                "sourcePortRange": "456-456",
+                "destinationPortRange": "6579-6579",
+                "sourceAddressPrefix": "0.0.0.0/32",
+                "destinationAddressPrefix": "0.0.0.0/32",
+                "access": "Allow",
+                "priority": 234,
+                "direction": "Inbound"
+              },
+              {
+                "name": "securityRules/default-allow-rdp",
+                "protocol": "Tcp",
+                "sourcePortRange": "0-65535",
+                "destinationPortRange": "3389-3389",
+                "sourceAddressPrefix": "1.1.1.1/32",
+                "destinationAddressPrefix": "0.0.0.0/0",
+                "access": "Allow",
+                "priority": 1000,
+                "direction": "Inbound"
+              },
+              {
+                "name": "defaultSecurityRules/AllowInternetOutBound",
+                "protocol": "All",
+                "sourcePortRange": "0-65535",
+                "destinationPortRange": "0-65535",
+                "sourceAddressPrefix": "0.0.0.0/0",
+                "destinationAddressPrefix": "Internet",
+                "expandedDestinationAddressPrefix": [
+                  "32.0.0.0/3",
+                  "4.0.0.0/6",
+                  "2.0.0.0/7",
+                  "1.0.0.0/8"
+                ],
+                "access": "Allow",
+                "priority": 65001,
+                "direction": "Outbound"
+              }
+            ]
+          }
+        ]
+      }
+  - statusCode: "202"
+  name: List network interface effective network security groups
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List Effective Network Security Groups
+uid: management.azure.com.virtualnetworks.networkinterfaces.listeffectivenetworksecuritygroups

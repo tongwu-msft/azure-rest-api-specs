@@ -1,0 +1,199 @@
+### YamlMime:RESTOperation
+summary: Lists the available invoices for a subscription in reverse chronological order beginning with the most recent invoice. In preview, invoices are available via this API only for invoice periods which end December 1, 2016 or later
+service: Billing
+apiVersion: 2017-02-27-preview
+groupName: Invoices
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/invoices?api-version=2017-02-27-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/invoices?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&api-version=2017-02-27-preview
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: query
+  description: May be used to expand the downloadUrl property within a list of invoices. This enables download links to be generated for multiple invoices at once. By default, downloadURLs are not included when listing invoices.
+  types:
+  - uid: string
+  name: $expand
+- in: query
+  description: May be used to filter invoices by invoicePeriodEndDate. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  description: Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
+  types:
+  - uid: string
+  name: $skiptoken
+- in: query
+  description: May be used to limit the number of results to the most recent N invoices.
+  types:
+  - uid: integer
+  name: $top
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2017-02-27-preview.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK. The request has succeeded.
+  types:
+  - uid: InvoicesListResult
+  name: 200 OK
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: InvoicesListResult
+  description: Result of the request to list invoices. It contains a list of available invoices in reverse chronological order.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: An invoice resource can be used download a PDF version of an invoice.
+    types:
+    - isArray: true
+      uid: Invoice
+    name: value
+  - isReadyOnly: true
+    description: the link (url) to the next page of results.
+    types:
+    - uid: string
+    name: nextLink
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: The details of the error.
+    types:
+    - uid: ErrorDetails
+    name: error
+- name: Invoice
+  description: An invoice resource can be used download a PDF version of an invoice.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The start of the date range covered by the invoice.
+    types:
+    - uid: string
+    name: properties.invoicePeriodStartDate
+  - isReadyOnly: true
+    description: The end of the date range covered by the invoice.
+    types:
+    - uid: string
+    name: properties.invoicePeriodEndDate
+  - description: A secure link to download the PDF version of an invoice. The link will cease to work after its expiry time is reached.
+    types:
+    - uid: DownloadUrl
+    name: properties.downloadUrl
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+  - isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+    name: target
+- name: DownloadUrl
+  description: A secure URL that can be used to download a PDF invoice until the URL expires.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The time in UTC at which this download URL will expire.
+    types:
+    - uid: string
+    name: expiryTime
+  - isReadyOnly: true
+    description: The URL to the PDF file.
+    types:
+    - uid: string
+    name: url
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Billing/invoices?api-version=2017-02-27-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/Microsoft.Billing/invoices/invoice-2017-02-05-123456789",
+            "name": "invoice-2017-02-05-123456789",
+            "type": "Microsoft.Billing/invoices",
+            "properties": {
+              "invoicePeriodStartDate": "2017-01-01",
+              "invoicePeriodEndDate": "2017-02-01"
+            }
+          }
+        ]
+      }
+  name: InvoicesList
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Billing/invoices?$expand=downloadUrl&$filter=invoicePeriodStartDate le 2017-02-01&$top=1&api-version=2017-02-27-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/Microsoft.Billing/invoices/invoice-2017-02-05-123456789",
+            "name": "invoice-2017-02-05-123456789",
+            "type": "Microsoft.Billing/invoices",
+            "properties": {
+              "invoicePeriodStartDate": "2017-01-01",
+              "invoicePeriodEndDate": "2017-02-01",
+              "downloadUrl": {
+                "expiryTime": "2017-02-13T20:46:30Z",
+                "url": "https://microsoft.com"
+              }
+            }
+          }
+        ]
+      }
+  name: InvoicesExpand
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List
+uid: management.azure.com.billing.invoices.list

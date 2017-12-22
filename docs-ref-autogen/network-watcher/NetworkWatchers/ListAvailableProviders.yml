@@ -1,0 +1,225 @@
+### YamlMime:RESTOperation
+summary: Lists all available internet service providers for a specified Azure region.
+service: Network Watcher
+apiVersion: 2017-10-01
+groupName: Network Watchers
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/availableProvidersList?api-version=2017-10-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the network watcher resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the network watcher resource.
+  types:
+  - uid: string
+  name: networkWatcherName
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Successful request for list of available providers.
+  types:
+  - uid: AvailableProvidersList
+  name: 200 OK
+- description: Accepted and the operation will complete asynchronously.
+  types:
+  - uid: AvailableProvidersList
+  name: 202 Accepted
+requestBody:
+- parameters:
+  - in: body
+    description: A list of Azure regions.
+    types:
+    - isArray: true
+      uid: string
+    name: azureLocations
+  - in: body
+    description: The country for available providers list.
+    types:
+    - uid: string
+    name: country
+  - in: body
+    description: The state for available providers list.
+    types:
+    - uid: string
+    name: state
+  - in: body
+    description: The city or town for available providers list.
+    types:
+    - uid: string
+    name: city
+requestHeader: []
+definitions:
+- name: AvailableProvidersList
+  description: List of available countries with details.
+  kind: object
+  properties:
+  - description: Country details.
+    types:
+    - isArray: true
+      uid: AvailableProvidersListCountry
+    name: countries
+- name: AvailableProvidersListParameters
+  description: Constraints that determine the list of available Internet service providers.
+  kind: object
+  properties:
+  - description: A list of Azure regions.
+    types:
+    - isArray: true
+      uid: string
+    name: azureLocations
+  - description: The country for available providers list.
+    types:
+    - uid: string
+    name: country
+  - description: The state for available providers list.
+    types:
+    - uid: string
+    name: state
+  - description: The city or town for available providers list.
+    types:
+    - uid: string
+    name: city
+- name: AvailableProvidersListCountry
+  description: List of available countries.
+  kind: object
+  properties:
+  - description: The country name.
+    types:
+    - uid: string
+    name: countryName
+  - description: A list of Internet service providers.
+    types:
+    - isArray: true
+      uid: string
+    name: providers
+  - description: State details.
+    types:
+    - isArray: true
+      uid: AvailableProvidersListState
+    name: states
+- name: AvailableProvidersListState
+  description: List of available states in the country.
+  kind: object
+  properties:
+  - description: The state name.
+    types:
+    - uid: string
+    name: stateName
+  - description: A list of Internet service providers.
+    types:
+    - isArray: true
+      uid: string
+    name: providers
+  - description: City or town details.
+    types:
+    - isArray: true
+      uid: AvailableProvidersListCity
+    name: cities
+- name: AvailableProvidersListCity
+  description: List of available cities or towns in the state.
+  kind: object
+  properties:
+  - description: The city or town name.
+    types:
+    - uid: string
+    name: cityName
+  - description: A list of Internet service providers.
+    types:
+    - isArray: true
+      uid: string
+    name: providers
+examples:
+- request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/availableProvidersList?api-version=2017-10-01
+    body: >-
+      {
+        "azureLocations": [
+          "West US"
+        ],
+        "country": "United States",
+        "state": "washington",
+        "city": "seattle"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "countries": [
+          {
+            "countryName": "United States",
+            "states": [
+              {
+                "stateName": "washington",
+                "cities": [
+                  {
+                    "cityName": "seattle",
+                    "providers": [
+                      "Comcast Cable Communications, Inc. - ASN 7922",
+                      "Comcast Cable Communications, LLC - ASN 7922",
+                      "Level 3 Communications, Inc. (GBLX) - ASN 3549",
+                      "Qwest Communications Company, LLC - ASN 209"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "countries": [
+          {
+            "countryName": "United States",
+            "states": [
+              {
+                "stateName": "washington",
+                "cities": [
+                  {
+                    "cityName": "seattle",
+                    "providers": [
+                      "Comcast Cable Communications, Inc. - ASN 7922",
+                      "Comcast Cable Communications, LLC - ASN 7922",
+                      "Level 3 Communications, Inc. (GBLX) - ASN 3549",
+                      "Qwest Communications Company, LLC - ASN 209"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+  name: Get Azure Reachability Report
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List Available Providers
+uid: management.azure.com.networkwatcher.networkwatchers.listavailableproviders

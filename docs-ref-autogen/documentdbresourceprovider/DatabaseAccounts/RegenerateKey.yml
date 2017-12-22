@@ -1,0 +1,97 @@
+### YamlMime:RESTOperation
+summary: Regenerates an access key for the specified Azure Cosmos DB database account.
+service: Cosmos DB Resource Provider
+apiVersion: 2015-04-08
+groupName: Database Accounts
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/regenerateKey?api-version=2015-04-08
+uriParameters:
+- in: path
+  isRequired: true
+  description: Azure subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of an Azure resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Cosmos DB database account name.
+  types:
+  - uid: string
+  name: accountName
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2015-04-08.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  name: 200 OK
+- description: Accepted. The regenerate key operation will complete asynchronously.
+  name: 202 Accepted
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The access key to regenerate.
+    types:
+    - uid: KeyKind
+    name: keyKind
+requestHeader: []
+definitions:
+- name: DatabaseAccountRegenerateKeyParameters
+  description: Parameters to regenerate the keys within the database account.
+  kind: object
+  properties:
+  - description: The access key to regenerate.
+    types:
+    - uid: KeyKind
+    name: keyKind
+- name: KeyKind
+  description: The access key to regenerate.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: primary
+  - types:
+    - uid: string
+    name: secondary
+  - types:
+    - uid: string
+    name: primaryReadonly
+  - types:
+    - uid: string
+    name: secondaryReadonly
+examples:
+- request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/regenerateKey?api-version=2015-04-08
+    body: >-
+      {
+        "keyKind": "primary"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+  name: CosmosDBDatabaseAccountRegenerateKey
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: Impersonate your user account
+    name: user_impersonation
+name: Regenerate Key
+uid: management.azure.com.cosmosdbresourceprovider.databaseaccounts.regeneratekey

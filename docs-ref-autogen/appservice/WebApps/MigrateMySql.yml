@@ -1,0 +1,201 @@
+### YamlMime:RESTOperation
+summary: Migrates a local (in-app) MySql database to a remote MySql database.
+service: App Service
+apiVersion: 2016-08-01
+groupName: Web Apps
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/migratemysql?api-version=2016-08-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Name of web app.
+  types:
+  - uid: string
+  name: name
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: Operation
+  name: 200 OK
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: Connection string to the remote MySQL database.
+    types:
+    - uid: string
+    name: properties.connectionString
+  - in: body
+    isRequired: true
+    description: The type of migration operation to be done
+    types:
+    - uid: MySqlMigrationType
+    name: properties.migrationType
+  - in: body
+    description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+requestHeader: []
+definitions:
+- name: Operation
+  description: An operation on a resource.
+  kind: object
+  properties:
+  - description: Operation ID.
+    types:
+    - uid: string
+    name: id
+  - description: Operation name.
+    types:
+    - uid: string
+    name: name
+  - description: The current status of the operation.
+    types:
+    - uid: OperationStatus
+    name: status
+  - description: Body of the error response returned from the API.
+    types:
+    - isArray: true
+      uid: ErrorEntity
+    name: errors
+  - description: Time when operation has started.
+    types:
+    - uid: string
+    name: createdTime
+  - description: Time when operation has been updated.
+    types:
+    - uid: string
+    name: modifiedTime
+  - description: Time when operation will expire.
+    types:
+    - uid: string
+    name: expirationTime
+  - description: Applicable only for stamp operation ids.
+    types:
+    - uid: string
+    name: geoMasterOperationId
+- name: MigrateMySqlRequest
+  description: MySQL migration request.
+  kind: object
+  properties:
+  - description: Connection string to the remote MySQL database.
+    types:
+    - uid: string
+    name: properties.connectionString
+  - description: The type of migration operation to be done
+    types:
+    - uid: MySqlMigrationType
+    name: properties.migrationType
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: OperationStatus
+  description: Status of the migration task.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: InProgress
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: TimedOut
+  - types:
+    - uid: string
+    name: Created
+- name: ErrorEntity
+  description: Raw failure information if DNS verification fails.
+  kind: object
+  properties:
+  - description: Type of error.
+    types:
+    - uid: string
+    name: extendedCode
+  - description: Message template.
+    types:
+    - uid: string
+    name: messageTemplate
+  - description: Parameters for the template.
+    types:
+    - isArray: true
+      uid: string
+    name: parameters
+  - description: Inner errors.
+    types:
+    - isArray: true
+      uid: ErrorEntity
+    name: innerErrors
+  - description: Basic error code.
+    types:
+    - uid: string
+    name: code
+  - description: Any details of the error.
+    types:
+    - uid: string
+    name: message
+- name: MySqlMigrationType
+  description: The type of migration operation to be done
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: LocalToRemote
+  - types:
+    - uid: string
+    name: RemoteToLocal
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Migrate My Sql
+uid: management.azure.com.appservice.webapps.migratemysql

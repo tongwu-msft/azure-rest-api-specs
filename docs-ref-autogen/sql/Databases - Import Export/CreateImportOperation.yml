@@ -1,0 +1,387 @@
+### YamlMime:RESTOperation
+summary: Creates an import operation that imports a bacpac into an existing database. The existing database must be empty.
+service: SQL Database
+apiVersion: 2014-04-01
+groupName: Databases - Import Export
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}?api-version=2014-04-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+  name: serverName
+- in: path
+  isRequired: true
+  description: The name of the database to import into
+  types:
+  - uid: string
+  name: databaseName
+- in: path
+  isRequired: true
+  description: The name of the operation to perform
+  types:
+  - uid: string
+  name: extensionName
+- in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: ImportExportResponse
+  name: 201 Created
+- description: Accepted
+  name: 202 Accepted
+requestBody:
+- parameters:
+  - in: body
+    description: The name of the extension.
+    types:
+    - uid: string
+    name: name
+  - in: body
+    description: The type of the extension.
+    types:
+    - uid: string
+    name: type
+  - in: body
+    isRequired: true
+    description: The type of import operation being performed. This is always Import.
+    types:
+    - uid: ImportOperationMode
+    name: properties.operationMode
+  - in: body
+    isRequired: true
+    description: The type of the storage key to use.
+    types:
+    - uid: StorageKeyType
+    name: properties.storageKeyType
+  - in: body
+    isRequired: true
+    description: The storage key to use.  If storage key type is SharedAccessKey, it must be preceded with a "?."
+    types:
+    - uid: string
+    name: properties.storageKey
+  - in: body
+    isRequired: true
+    description: The storage uri to use.
+    types:
+    - uid: string
+    name: properties.storageUri
+  - in: body
+    isRequired: true
+    description: The name of the SQL administrator.
+    types:
+    - uid: string
+    name: properties.administratorLogin
+  - in: body
+    isRequired: true
+    description: The password of the SQL administrator.
+    types:
+    - uid: string
+    name: properties.administratorLoginPassword
+  - in: body
+    description: The authentication type.
+    types:
+    - uid: AuthenticationType
+    name: properties.authenticationType
+requestHeader: []
+definitions:
+- name: ImportExportResponse
+  description: Response for Import/Export Get operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The request type of the operation.
+    types:
+    - uid: string
+    name: properties.requestType
+  - isReadyOnly: true
+    description: The request type of the operation.
+    types:
+    - uid: string
+    name: properties.requestId
+  - isReadyOnly: true
+    description: The name of the server.
+    types:
+    - uid: string
+    name: properties.serverName
+  - isReadyOnly: true
+    description: The name of the database.
+    types:
+    - uid: string
+    name: properties.databaseName
+  - isReadyOnly: true
+    description: The status message returned from the server.
+    types:
+    - uid: string
+    name: properties.status
+  - isReadyOnly: true
+    description: The operation status last modified time.
+    types:
+    - uid: string
+    name: properties.lastModifiedTime
+  - isReadyOnly: true
+    description: The operation queued time.
+    types:
+    - uid: string
+    name: properties.queuedTime
+  - isReadyOnly: true
+    description: The blob uri.
+    types:
+    - uid: string
+    name: properties.blobUri
+  - isReadyOnly: true
+    description: The error message returned from the server.
+    types:
+    - uid: string
+    name: properties.errorMessage
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: ImportExtensionRequest
+  description: Import database parameters.
+  kind: object
+  properties:
+  - description: The name of the extension.
+    types:
+    - uid: string
+    name: name
+  - description: The type of the extension.
+    types:
+    - uid: string
+    name: type
+  - description: The type of import operation being performed. This is always Import.
+    types:
+    - uid: ImportOperationMode
+    name: properties.operationMode
+  - description: The type of the storage key to use.
+    types:
+    - uid: StorageKeyType
+    name: properties.storageKeyType
+  - description: The storage key to use.  If storage key type is SharedAccessKey, it must be preceded with a "?."
+    types:
+    - uid: string
+    name: properties.storageKey
+  - description: The storage uri to use.
+    types:
+    - uid: string
+    name: properties.storageUri
+  - description: The name of the SQL administrator.
+    types:
+    - uid: string
+    name: properties.administratorLogin
+  - description: The password of the SQL administrator.
+    types:
+    - uid: string
+    name: properties.administratorLoginPassword
+  - description: The authentication type.
+    types:
+    - uid: AuthenticationType
+    name: properties.authenticationType
+- name: ImportOperationMode
+  description: The type of import operation being performed. This is always Import.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Import
+- name: StorageKeyType
+  description: The type of the storage key to use.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: StorageAccessKey
+  - types:
+    - uid: string
+    name: SharedAccessKey
+- name: AuthenticationType
+  description: The authentication type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SQL
+  - types:
+    - uid: string
+    name: ADPassword
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/databases/testdb/extensions/import?api-version=2014-04-01
+    body: >-
+      {
+        "name": "Import",
+        "type": "Microsoft.Sql/servers/databases/extensions",
+        "properties": {
+          "operationMode": "Import",
+          "storageKeyType": "StorageAccessKey",
+          "storageKey": "sdlfkjdsf+sdlfkjsdlkfsjdfLDKFJSDLKFDFKLjsdfksjdflsdkfD2342309432849328479324/3RSD==",
+          "storageUri": "https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac",
+          "administratorLogin": "dummyLogin",
+          "administratorLoginPassword": "Un53cuRE!",
+          "authenticationType": "SQL"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/importExportOperationResult/f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+        "name": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+        "type": "Microsoft.Sql/servers/importExportOperationResults",
+        "properties": {
+          "requestId": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+          "requestType": "Import",
+          "queuedTime": "3/1/2017 12:14:25 AM",
+          "lastModifiedTime": "3/1/2017 12:16:33 AM",
+          "blobUri": "https://test.blob.core.windows.net/bacpacs/test.bacpac",
+          "serverName": "test",
+          "databaseName": "testdb",
+          "status": "Completed",
+          "errorMessage": null
+        }
+      }
+  - statusCode: "202"
+  name: Import bacpac into an existing database Max with storage key
+- request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/databases/testdb/extensions/import?api-version=2014-04-01
+    body: >-
+      {
+        "properties": {
+          "operationMode": "Import",
+          "storageKeyType": "StorageAccessKey",
+          "storageKey": "sdlfkjdsf+sdlfkjsdlkfsjdfLDKFJSDLKFDFKLjsdfksjdflsdkfD2342309432849328479324/3RSD==",
+          "storageUri": "https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac",
+          "administratorLogin": "dummyLogin",
+          "administratorLoginPassword": "Un53cuRE!"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/importExportOperationResult/f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+        "name": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+        "type": "Microsoft.Sql/servers/importExportOperationResults",
+        "properties": {
+          "requestId": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+          "requestType": "Import",
+          "queuedTime": "3/1/2017 12:14:25 AM",
+          "lastModifiedTime": "3/1/2017 12:16:33 AM",
+          "blobUri": "https://test.blob.core.windows.net/bacpacs/test.bacpac",
+          "serverName": "test",
+          "databaseName": "testdb",
+          "status": "Completed",
+          "errorMessage": null
+        }
+      }
+  - statusCode: "202"
+  name: Import bacpac into an existing database Min with storage key
+- request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/databases/testdb/extensions/import?api-version=2014-04-01
+    body: >-
+      {
+        "name": "Import",
+        "type": "Microsoft.Sql/servers/databases/extensions",
+        "properties": {
+          "operationMode": "Import",
+          "storageKeyType": "SharedAccessKey",
+          "storageKey": "?sr=b&sp=rw&se=2018-01-01T00%3A00%3A00Z&sig=sdfsdfklsdjflSLIFJLSIEJFLKSDJFDd/%2wdfskdjf3%3D&sv=2015-07-08",
+          "storageUri": "https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac",
+          "administratorLogin": "dummyLogin",
+          "administratorLoginPassword": "Un53cuRE!",
+          "authenticationType": "SQL"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/importExportOperationResult/f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+        "name": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+        "type": "Microsoft.Sql/servers/importExportOperationResults",
+        "properties": {
+          "requestId": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+          "requestType": "Import",
+          "queuedTime": "3/1/2017 12:14:25 AM",
+          "lastModifiedTime": "3/1/2017 12:16:33 AM",
+          "blobUri": "https://test.blob.core.windows.net/bacpacs/test.bacpac",
+          "serverName": "test",
+          "databaseName": "testdb",
+          "status": "Completed",
+          "errorMessage": null
+        }
+      }
+  - statusCode: "202"
+  name: Import bacpac into an existing database Max with SAS key
+- request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/databases/testdb/extensions/import?api-version=2014-04-01
+    body: >-
+      {
+        "properties": {
+          "operationMode": "Import",
+          "storageKeyType": "SharedAccessKey",
+          "storageKey": "?sr=b&sp=rw&se=2018-01-01T00%3A00%3A00Z&sig=sdfsdfklsdjflSLIFJLSIEJFLKSDJFDd/%2wdfskdjf3%3D&sv=2015-07-08",
+          "storageUri": "https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac",
+          "administratorLogin": "dummyLogin",
+          "administratorLoginPassword": "Un53cuRE!"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/importExportOperationResult/f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+        "name": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+        "type": "Microsoft.Sql/servers/importExportOperationResults",
+        "properties": {
+          "requestId": "f01d7bfe-7162-44e7-9350-f1c85ce83e4c",
+          "requestType": "Import",
+          "queuedTime": "3/1/2017 12:14:25 AM",
+          "lastModifiedTime": "3/1/2017 12:16:33 AM",
+          "blobUri": "https://test.blob.core.windows.net/bacpacs/test.bacpac",
+          "serverName": "test",
+          "databaseName": "testdb",
+          "status": "Completed",
+          "errorMessage": null
+        }
+      }
+  - statusCode: "202"
+  name: Import bacpac into an existing database Min with SAS key
+security: []
+name: Create Import Operation
+uid: management.azure.com.sqldatabase.databases-importexport.createimportoperation

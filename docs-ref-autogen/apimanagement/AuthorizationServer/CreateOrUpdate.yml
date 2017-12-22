@@ -1,0 +1,385 @@
+### YamlMime:RESTOperation
+summary: Creates new authorization server or updates an existing authorization server.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Authorization Server
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}?api-version=2017-03-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: path
+  isRequired: true
+  description: Identifier of the authorization server.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+  name: authsid
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Authorization server was successfully registered.
+  types:
+  - uid: AuthorizationServerContract
+  name: 201 Created
+- description: Authorization server is already registered.
+  types:
+  - uid: AuthorizationServerContract
+  name: 200 OK
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: User-friendly authorization server name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - in: body
+    isRequired: true
+    description: Optional reference to a page where client or app registration for this authorization server is performed. Contains absolute URL to entity being referenced.
+    types:
+    - uid: string
+    name: properties.clientRegistrationEndpoint
+  - in: body
+    isRequired: true
+    description: OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2.
+    types:
+    - uid: string
+    name: properties.authorizationEndpoint
+  - in: body
+    isRequired: true
+    description: Form of an authorization grant, which the client uses to request the access token.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.grantTypes
+  - in: body
+    isRequired: true
+    description: Client or app id registered with this authorization server.
+    types:
+    - uid: string
+    name: properties.clientId
+  - in: body
+    description: Description of the authorization server. Can contain HTML formatting tags.
+    types:
+    - uid: string
+    name: properties.description
+  - in: body
+    description: HTTP verbs supported by the authorization endpoint. GET must be always present. POST is optional.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.authorizationMethods
+  - in: body
+    description: Method of authentication supported by the token endpoint of this authorization server. Possible values are Basic and/or Body. When Body is specified, client credentials and other parameters are passed within the request body in the application/x-www-form-urlencoded format.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.clientAuthenticationMethod
+  - in: body
+    description: OAuth acquire token request body parameter (www-url-form-encoded).
+    types:
+    - isArray: true
+      uid: TokenBodyParameterContract
+    name: properties.tokenBodyParameters
+  - in: body
+    description: OAuth token endpoint. Contains absolute URI to entity being referenced.
+    types:
+    - uid: string
+    name: properties.tokenEndpoint
+  - in: body
+    description: If true, authorization server will include state parameter from the authorization request to its response. Client may use state parameter to raise protocol security.
+    types:
+    - uid: boolean
+    name: properties.supportState
+  - in: body
+    description: Access token scope that is going to be requested by default. Can be overridden at the API level. Should be provided in the form of a string containing space-delimited values.
+    types:
+    - uid: string
+    name: properties.defaultScope
+  - in: body
+    description: 'Specifies the mechanism by which access token is passed to the API. '
+    types:
+    - isArray: true
+      uid: string
+    name: properties.bearerTokenSendingMethods
+  - in: body
+    description: Client or app secret registered with this authorization server.
+    types:
+    - uid: string
+    name: properties.clientSecret
+  - in: body
+    description: Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner username.
+    types:
+    - uid: string
+    name: properties.resourceOwnerUsername
+  - in: body
+    description: Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner password.
+    types:
+    - uid: string
+    name: properties.resourceOwnerPassword
+requestHeader: []
+definitions:
+- name: TokenBodyParameterContract
+  description: 'Additional parameters required by the token endpoint of this authorization server represented as an array of JSON objects with name and value string properties, i.e. {"name" : "name value", "value": "a value"}.'
+  kind: object
+  properties:
+  - description: body parameter name.
+    types:
+    - uid: string
+    name: name
+  - description: body parameter value.
+    types:
+    - uid: string
+    name: value
+- name: AuthorizationServerContract
+  description: Page values.
+  kind: object
+  properties:
+  - description: User-friendly authorization server name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: Optional reference to a page where client or app registration for this authorization server is performed. Contains absolute URL to entity being referenced.
+    types:
+    - uid: string
+    name: properties.clientRegistrationEndpoint
+  - description: OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2.
+    types:
+    - uid: string
+    name: properties.authorizationEndpoint
+  - description: Form of an authorization grant, which the client uses to request the access token.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.grantTypes
+  - description: Client or app id registered with this authorization server.
+    types:
+    - uid: string
+    name: properties.clientId
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
+  - description: Description of the authorization server. Can contain HTML formatting tags.
+    types:
+    - uid: string
+    name: properties.description
+  - description: HTTP verbs supported by the authorization endpoint. GET must be always present. POST is optional.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.authorizationMethods
+  - description: Method of authentication supported by the token endpoint of this authorization server. Possible values are Basic and/or Body. When Body is specified, client credentials and other parameters are passed within the request body in the application/x-www-form-urlencoded format.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.clientAuthenticationMethod
+  - description: OAuth acquire token request body parameter (www-url-form-encoded).
+    types:
+    - isArray: true
+      uid: TokenBodyParameterContract
+    name: properties.tokenBodyParameters
+  - description: OAuth token endpoint. Contains absolute URI to entity being referenced.
+    types:
+    - uid: string
+    name: properties.tokenEndpoint
+  - description: If true, authorization server will include state parameter from the authorization request to its response. Client may use state parameter to raise protocol security.
+    types:
+    - uid: boolean
+    name: properties.supportState
+  - description: Access token scope that is going to be requested by default. Can be overridden at the API level. Should be provided in the form of a string containing space-delimited values.
+    types:
+    - uid: string
+    name: properties.defaultScope
+  - description: 'Specifies the mechanism by which access token is passed to the API. '
+    types:
+    - isArray: true
+      uid: string
+    name: properties.bearerTokenSendingMethods
+  - description: Client or app secret registered with this authorization server.
+    types:
+    - uid: string
+    name: properties.clientSecret
+  - description: Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner username.
+    types:
+    - uid: string
+    name: properties.resourceOwnerUsername
+  - description: Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner password.
+    types:
+    - uid: string
+    name: properties.resourceOwnerPassword
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: Error Field contract.
+    types:
+    - isArray: true
+      uid: ErrorFieldContract
+    name: details
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - description: Property level error code.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+    name: message
+  - description: Property name.
+    types:
+    - uid: string
+    name: target
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "displayName": "test2",
+          "description": "test server",
+          "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+          "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+          "authorizationMethods": [
+            "GET"
+          ],
+          "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+          "supportState": true,
+          "defaultScope": "read write",
+          "grantTypes": [
+            "authorizationCode",
+            "implicit"
+          ],
+          "bearerTokenSendingMethods": [
+            "authorizationHeader"
+          ],
+          "clientId": "1",
+          "clientSecret": "2",
+          "resourceOwnerUsername": "un",
+          "resourceOwnerPassword": "pwd"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer",
+        "type": "Microsoft.ApiManagement/service/authorizationServers",
+        "name": "newauthServer",
+        "properties": {
+          "displayName": "test2",
+          "description": "test server",
+          "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+          "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+          "authorizationMethods": [
+            "GET"
+          ],
+          "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+          "supportState": true,
+          "defaultScope": "read write",
+          "grantTypes": [
+            "authorizationCode",
+            "implicit"
+          ],
+          "bearerTokenSendingMethods": [
+            "authorizationHeader"
+          ],
+          "clientId": "1",
+          "clientSecret": "2",
+          "resourceOwnerUsername": "un",
+          "resourceOwnerPassword": "pwd"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer",
+        "type": "Microsoft.ApiManagement/service/authorizationServers",
+        "name": "newauthServer",
+        "properties": {
+          "displayName": "test2",
+          "description": "test server",
+          "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+          "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+          "authorizationMethods": [
+            "GET"
+          ],
+          "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+          "supportState": true,
+          "defaultScope": "read write",
+          "grantTypes": [
+            "authorizationCode",
+            "implicit"
+          ],
+          "bearerTokenSendingMethods": [
+            "authorizationHeader"
+          ],
+          "clientId": "1",
+          "clientSecret": "2",
+          "resourceOwnerUsername": "un",
+          "resourceOwnerPassword": "pwd"
+        }
+      }
+  name: ApiManagementCreateAuthorizationServer
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update
+uid: management.azure.com.apimanagement.authorizationserver.createorupdate

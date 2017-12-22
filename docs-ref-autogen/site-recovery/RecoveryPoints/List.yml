@@ -1,0 +1,236 @@
+### YamlMime:RESTOperation
+summary: Lists the recovery points, or backup copies, for the specified backup item.
+service: Recovery Services - Backup
+apiVersion: 2016-06-01
+groupName: Recovery Points
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints?api-version=2016-06-01
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints?api-version=2016-06-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group associated with the Recovery Services vault.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the Recovery Services vault.
+  types:
+  - uid: string
+  name: vaultName
+- in: path
+  isRequired: true
+  description: The fabric name associated with the backup item.
+  types:
+  - uid: string
+  name: fabricName
+- in: path
+  isRequired: true
+  description: The container name associated with the backup item.
+  types:
+  - uid: string
+  name: containerName
+- in: path
+  isRequired: true
+  description: The name of backup item used in this GET operation.
+  types:
+  - uid: string
+  name: protectedItemName
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+- in: query
+  description: startDate eq {yyyy-mm-dd hh:mm:ss PM} and endDate { yyyy-mm-dd hh:mm:ss PM}.
+  types:
+  - uid: string
+  name: $filter
+responses:
+- description: OK.
+  types:
+  - uid: RecoveryPointResourceList
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: RecoveryPointResourceList
+  description: The list of RecoveryPoint resources.
+  kind: object
+  properties:
+  - description: The base class for backup copies. Workload-specific backup copies are derived from this class.
+    types:
+    - isArray: true
+      uid: RecoveryPointResource
+    name: value
+  - description: The URI to GET the next page of resources. Call ListNext() gets the next page of resources.
+    types:
+    - uid: string
+    name: nextLink
+- name: RecoveryPointResource
+  description: The list of resources.
+  kind: object
+  properties:
+  - description: The base class for backup copies. Workload-specific backup copies are derived from this class.
+    types:
+    - uid: IaasVMRecoveryPoint
+    - uid: GenericRecoveryPoint
+    typesTitle: RecoveryPoint
+    name: properties
+  - description: Resource ID represents the complete path to the resource.
+    types:
+    - uid: string
+    name: id
+  - description: Resource name associated with the resource.
+    types:
+    - uid: string
+    name: name
+  - description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+    name: type
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: Optional ETag.
+    types:
+    - uid: string
+    name: eTag
+- name: IaasVMRecoveryPoint
+  description: Azure VM (also known as IaaS VM) workload-specific backup copy.
+  kind: object
+  properties:
+  - description: Type of the backup copy.
+    types:
+    - uid: string
+    name: recoveryPointType
+  - description: The date and time when the backup copy was created.
+    types:
+    - uid: string
+    name: recoveryPointTime
+  - description: Additional information associated with this backup copy.
+    types:
+    - uid: string
+    name: recoveryPointAdditionalInfo
+  - description: The storage type for the VM whose backup copy was created.
+    types:
+    - uid: string
+    name: sourceVMStorageType
+  - description: Identifies whether the VM was encrypted when the backup copy is created.
+    types:
+    - uid: boolean
+    name: isSourceVMEncrypted
+  - description: Required details for recovering an encrypted VM. Applicable only when IsSourceVMEncrypted is true.
+    types:
+    - uid: KeyAndSecretDetails
+    name: keyAndSecret
+  - description: Answer to the question - Is the session to recover items from this backup copy still active.
+    types:
+    - uid: boolean
+    name: isInstantILRSessionActive
+  - description: This property is used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: IaasVMRecoveryPoint
+    typesTitle: string
+    name: objectType
+- name: GenericRecoveryPoint
+  description: Generic backup copy.
+  kind: object
+  properties:
+  - description: Friendly name of the backup copy.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: Type of the backup copy.
+    types:
+    - uid: string
+    name: recoveryPointType
+  - description: The time when this backup copy was created.
+    types:
+    - uid: string
+    name: recoveryPointTime
+  - description: Additional information associated with this backup copy.
+    types:
+    - uid: string
+    name: recoveryPointAdditionalInfo
+  - description: This property is used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: GenericRecoveryPoint
+    typesTitle: string
+    name: objectType
+- name: KeyAndSecretDetails
+  description: Required details for recovering an encrypted VM. Applicable only when IsSourceVMEncrypted is true.
+  kind: object
+  properties:
+  - description: The Key Encryption Key (KEK) is the encryption key for the Bitlocker Encryption Key (BEK).
+    types:
+    - uid: KEKDetails
+    name: kekDetails
+  - description: BEK is Bitlocker Encrpytion Key.
+    types:
+    - uid: BEKDetails
+    name: bekDetails
+- name: KEKDetails
+  description: The Key Encryption Key (KEK) is the encryption key for the Bitlocker Encryption Key (BEK).
+  kind: object
+  properties:
+  - description: Key refers to the Key Encryption Key (KEK). The KEK is the Key to unlock the Secret.
+    types:
+    - uid: string
+    name: keyUrl
+  - description: Key Vault ID identifies where the KEK is stored.
+    types:
+    - uid: string
+    name: keyVaultId
+  - description: Key Backup Data refers to Key Encryption Key (KEK) data.
+    types:
+    - uid: string
+    name: keyBackupData
+- name: BEKDetails
+  description: BEK is Bitlocker Encrpytion Key.
+  kind: object
+  properties:
+  - description: Secret refers to Bitlocker Encryption Key (BEK). The Secret can be unlocked by the key (or KEK).
+    types:
+    - uid: string
+    name: secretUrl
+  - description: ID of the Key Vault where this Secret is stored.
+    types:
+    - uid: string
+    name: secretVaultId
+  - description: Bitlocker Encryption Key (BEK) data.
+    types:
+    - uid: string
+    name: secretData
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account.
+    name: user_impersonation
+name: List
+uid: management.azure.com.recoveryservices-backup.recoverypoints.list

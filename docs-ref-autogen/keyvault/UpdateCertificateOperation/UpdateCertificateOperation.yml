@@ -1,0 +1,141 @@
+### YamlMime:RESTOperation
+summary: 'Updates a certificate operation. Authorization: requires the certificates/update permission.'
+service: Key Vault
+apiVersion: 2016-10-01
+groupName: Update Certificate Operation
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://{vaultBaseUrl}/certificates/{certificate-name}/pending?api-version=2016-10-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+  name: vaultBaseUrl
+- in: path
+  isRequired: true
+  description: The name of the certificate.
+  types:
+  - uid: string
+  name: certificate-name
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: A message containing the certificate operation response.
+  types:
+  - uid: CertificateOperation
+  name: 200 OK
+- description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: Indicates if cancellation was requested on the certificate operation.
+    types:
+    - uid: boolean
+    name: cancellation_requested
+requestHeader: []
+definitions:
+- name: CertificateOperation
+  description: A certificate operation is returned in case of asynchronous requests.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The certificate id.
+    types:
+    - uid: string
+    name: id
+  - description: Parameters for the issuer of the X509 component of a certificate.
+    types:
+    - uid: IssuerParameters
+    name: issuer
+  - description: The certificate signing request (CSR) that is being used in the certificate operation.
+    types:
+    - uid: string
+    name: csr
+  - description: Indicates if cancellation was requested on the certificate operation.
+    types:
+    - uid: boolean
+    name: cancellation_requested
+  - description: Status of the certificate operation.
+    types:
+    - uid: string
+    name: status
+  - description: The status details of the certificate operation.
+    types:
+    - uid: string
+    name: status_details
+  - description: Error encountered, if any, during the certificate operation.
+    types:
+    - uid: Error
+    name: error
+  - description: Location which contains the result of the certificate operation.
+    types:
+    - uid: string
+    name: target
+  - description: Identifier for the certificate operation.
+    types:
+    - uid: string
+    name: request_id
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
+- name: CertificateOperationUpdateParameter
+  description: The certificate operation update parameters.
+  kind: object
+  properties:
+  - description: Indicates if cancellation was requested on the certificate operation.
+    types:
+    - uid: boolean
+    name: cancellation_requested
+- name: IssuerParameters
+  description: Parameters for the issuer of the X509 component of a certificate.
+  kind: object
+  properties:
+  - description: Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
+    types:
+    - uid: string
+    name: name
+  - description: Type of certificate to be requested from the issuer provider.
+    types:
+    - uid: string
+    name: cty
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - description: ''
+    types:
+    - {}
+    name: innererror
+examples: []
+security: []
+name: Update Certificate Operation
+uid: keyvault.updatecertificateoperation.updatecertificateoperation

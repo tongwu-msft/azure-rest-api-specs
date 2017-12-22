@@ -1,0 +1,132 @@
+### YamlMime:RESTOperation
+summary: Returns a database's transparent data encryption operation result.
+service: SQL Database
+apiVersion: 2014-04-01
+groupName: Transparent Data Encryption Activities
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{transparentDataEncryptionName}/operationResults?api-version=2014-04-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+  name: serverName
+- in: path
+  isRequired: true
+  description: The name of the database for which the transparent data encryption applies.
+  types:
+  - uid: string
+  name: databaseName
+- in: path
+  isRequired: true
+  description: The name of the transparent data encryption configuration.
+  types:
+  - uid: string
+  name: transparentDataEncryptionName
+- in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: TransparentDataEncryptionActivityListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: TransparentDataEncryptionActivityListResult
+  description: Represents the response to a list database transparent data encryption activity request.
+  kind: object
+  properties:
+  - description: Represents a database transparent data encryption Scan.
+    types:
+    - isArray: true
+      uid: TransparentDataEncryptionActivity
+    name: value
+- name: TransparentDataEncryptionActivity
+  description: Represents a database transparent data encryption Scan.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - isReadyOnly: true
+    description: The status of the database.
+    types:
+    - uid: TransparentDataEncryptionActivityStatus
+    name: properties.status
+  - isReadyOnly: true
+    description: The percent complete of the transparent data encryption scan for a database.
+    types:
+    - uid: number
+    name: properties.percentComplete
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: TransparentDataEncryptionActivityStatus
+  description: The status of the database.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Encrypting
+  - types:
+    - uid: string
+    name: Decrypting
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Sql/servers/sqlcrudtest-2080/databases/sqlcrudtest-9187/transparentDataEncryption/current/operationResults?api-version=2014-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "status": "Encrypting",
+              "percentComplete": 100
+            },
+            "name": "current",
+            "location": "West US",
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Sql/servers/sqlcrudtest-2080/databases/sqlcrudtest-9187/transparentDataEncryption/current/operationResults/current",
+            "type": "Microsoft.Sql/servers/databases/transparentDataEncryption/operationResults"
+          }
+        ]
+      }
+  name: List a database's transparent data encryption activities
+security: []
+name: List By Configuration
+uid: management.azure.com.sqldatabase.transparentdataencryptionactivities.listbyconfiguration

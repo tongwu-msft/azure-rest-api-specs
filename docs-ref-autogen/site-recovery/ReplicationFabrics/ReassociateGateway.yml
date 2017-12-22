@@ -1,0 +1,699 @@
+### YamlMime:RESTOperation
+summary: Perform failover of the process server. The operation to move replications from a process server to another process server.
+service: Recovery Services - Site Recovery
+apiVersion: 2016-08-10
+groupName: Replication Fabrics
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/reassociateGateway?api-version=2016-08-10
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+  name: resourceName
+- in: path
+  isRequired: true
+  description: The name of the fabric containing the process server.
+  types:
+  - uid: string
+  name: fabricName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: Fabric
+  name: 200 OK
+- description: Accepted
+  name: 202 Accepted
+requestBody:
+- parameters:
+  - in: body
+    description: The properties of the PS Failover request.
+    types:
+    - uid: FailoverProcessServerRequestProperties
+    name: properties
+requestHeader: []
+definitions:
+- name: FailoverProcessServerRequestProperties
+  description: The properties of the PS Failover request.
+  kind: object
+  properties:
+  - description: The container identifier.
+    types:
+    - uid: string
+    name: containerName
+  - description: The source process server.
+    types:
+    - uid: string
+    name: sourceProcessServerId
+  - description: The new process server.
+    types:
+    - uid: string
+    name: targetProcessServerId
+  - description: The VMS to migrate.
+    types:
+    - isArray: true
+      uid: string
+    name: vmsToMigrate
+  - description: A value for failover type. It can be systemlevel/serverlevel
+    types:
+    - uid: string
+    name: updateType
+- name: Fabric
+  description: The fabric details.
+  kind: object
+  properties:
+  - description: Fabric related data.
+    types:
+    - uid: FabricProperties
+    name: properties
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource Type
+    types:
+    - uid: string
+    name: type
+  - description: Resource Location
+    types:
+    - uid: string
+    name: location
+- name: FailoverProcessServerRequest
+  description: Request to failover a process server.
+  kind: object
+  properties:
+  - description: The properties of the PS Failover request.
+    types:
+    - uid: FailoverProcessServerRequestProperties
+    name: properties
+- name: FabricProperties
+  description: Fabric related data.
+  kind: object
+  properties:
+  - description: Friendly name of the fabric.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: Encryption details for the fabric.
+    types:
+    - uid: EncryptionDetails
+    name: encryptionDetails
+  - description: Rollover encryption details for the fabric.
+    types:
+    - uid: EncryptionDetails
+    name: rolloverEncryptionDetails
+  - description: Dra Registration Id.
+    types:
+    - uid: string
+    name: internalIdentifier
+  - description: BCDR state of the fabric.
+    types:
+    - uid: string
+    name: bcdrState
+  - description: Fabric specific settings.
+    types:
+    - uid: AzureFabricSpecificDetails
+    - uid: VmmDetails
+    - uid: HyperVSiteDetails
+    - uid: VMwareDetails
+    - uid: VMwareV2FabricSpecificDetails
+    typesTitle: FabricSpecificDetails
+    name: customDetails
+  - description: Health Error
+    types:
+    - isArray: true
+      uid: HealthError
+    name: healthErrorDetails
+  - description: Health of fabric.
+    types:
+    - uid: string
+    name: health
+- name: EncryptionDetails
+  description: Encryption details for the fabric.
+  kind: object
+  properties:
+  - description: The key encryption key state for the Vmm.
+    types:
+    - uid: string
+    name: kekState
+  - description: The key encryption key certificate thumbprint.
+    types:
+    - uid: string
+    name: kekCertThumbprint
+  - description: The key encryption key certificate expiry date.
+    types:
+    - uid: string
+    name: kekCertExpiryDate
+- name: HealthError
+  description: The list of errors / warnings capturing details associated with the issue(s).
+  kind: object
+  properties:
+  - description: Source of error.
+    types:
+    - uid: string
+    name: errorSource
+  - description: Type of error.
+    types:
+    - uid: string
+    name: errorType
+  - description: Level of error.
+    types:
+    - uid: string
+    name: errorLevel
+  - description: Error code.
+    types:
+    - uid: string
+    name: errorCode
+  - description: Error message.
+    types:
+    - uid: string
+    name: errorMessage
+  - description: Possible causes of error.
+    types:
+    - uid: string
+    name: possibleCauses
+  - description: Recommended action to resolve error.
+    types:
+    - uid: string
+    name: recommendedAction
+  - description: Error creation time (UTC)
+    types:
+    - uid: string
+    name: creationTimeUtc
+  - description: DRA error message.
+    types:
+    - uid: string
+    name: recoveryProviderErrorMessage
+  - description: ID of the entity.
+    types:
+    - uid: string
+    name: entityId
+  - description: The child health errors.
+    types:
+    - isArray: true
+      uid: HealthError
+    name: childErrors
+- name: AzureFabricSpecificDetails
+  description: Azure Fabric Specific Details.
+  kind: object
+  properties:
+  - description: The Location for the Azure fabric.
+    types:
+    - uid: string
+    name: location
+  - description: The container Ids for the Azure fabric.
+    types:
+    - isArray: true
+      uid: string
+    name: containerIds
+  - isReadyOnly: true
+    description: Gets the class type. Overriden in derived classes.
+    types:
+    - uid: Azure
+    typesTitle: string
+    name: instanceType
+- name: VmmDetails
+  description: VMM fabric specific details.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Gets the class type. Overriden in derived classes.
+    types:
+    - uid: VMM
+    typesTitle: string
+    name: instanceType
+- name: HyperVSiteDetails
+  description: HyperVSite fabric specific details.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Gets the class type. Overriden in derived classes.
+    types:
+    - uid: HyperVSite
+    typesTitle: string
+    name: instanceType
+- name: VMwareDetails
+  description: Store the fabric details specific to the VMware fabric.
+  kind: object
+  properties:
+  - description: Details of the Process Server.
+    types:
+    - isArray: true
+      uid: ProcessServer
+    name: processServers
+  - description: Details of a Master Target Server.
+    types:
+    - isArray: true
+      uid: MasterTargetServer
+    name: masterTargetServers
+  - description: CS Accounts Details.
+    types:
+    - isArray: true
+      uid: RunAsAccount
+    name: runAsAccounts
+  - description: The number of replication pairs configured in this CS.
+    types:
+    - uid: string
+    name: replicationPairCount
+  - description: The number of process servers.
+    types:
+    - uid: string
+    name: processServerCount
+  - description: The number of source and target servers configured to talk to this CS.
+    types:
+    - uid: string
+    name: agentCount
+  - description: The number of protected servers.
+    types:
+    - uid: string
+    name: protectedServers
+  - description: The percentage of the system load.
+    types:
+    - uid: string
+    name: systemLoad
+  - description: The system load status.
+    types:
+    - uid: string
+    name: systemLoadStatus
+  - description: The percentage of the CPU load.
+    types:
+    - uid: string
+    name: cpuLoad
+  - description: The CPU load status.
+    types:
+    - uid: string
+    name: cpuLoadStatus
+  - description: The total memory.
+    types:
+    - uid: integer
+    name: totalMemoryInBytes
+  - description: The available memory.
+    types:
+    - uid: integer
+    name: availableMemoryInBytes
+  - description: The memory usage status.
+    types:
+    - uid: string
+    name: memoryUsageStatus
+  - description: The total space.
+    types:
+    - uid: integer
+    name: totalSpaceInBytes
+  - description: The available space.
+    types:
+    - uid: integer
+    name: availableSpaceInBytes
+  - description: The space usage status.
+    types:
+    - uid: string
+    name: spaceUsageStatus
+  - description: The web load.
+    types:
+    - uid: string
+    name: webLoad
+  - description: The web load status.
+    types:
+    - uid: string
+    name: webLoadStatus
+  - description: The database server load.
+    types:
+    - uid: string
+    name: databaseServerLoad
+  - description: The database server load status.
+    types:
+    - uid: string
+    name: databaseServerLoadStatus
+  - description: The CS service status.
+    types:
+    - uid: string
+    name: csServiceStatus
+  - description: The IP address.
+    types:
+    - uid: string
+    name: ipAddress
+  - description: The agent Version.
+    types:
+    - uid: string
+    name: agentVersion
+  - description: The host name.
+    types:
+    - uid: string
+    name: hostName
+  - description: The last heartbeat received from CS server.
+    types:
+    - uid: string
+    name: lastHeartbeat
+  - description: Version status
+    types:
+    - uid: string
+    name: versionStatus
+  - description: CS SSL cert expiry date.
+    types:
+    - uid: string
+    name: sslCertExpiryDate
+  - description: CS SSL cert expiry date.
+    types:
+    - uid: integer
+    name: sslCertExpiryRemainingDays
+  - description: PS template version.
+    types:
+    - uid: string
+    name: psTemplateVersion
+  - isReadyOnly: true
+    description: Gets the class type. Overriden in derived classes.
+    types:
+    - uid: VMware
+    typesTitle: string
+    name: instanceType
+- name: VMwareV2FabricSpecificDetails
+  description: VMwareV2 fabric Specific Details.
+  kind: object
+  properties:
+  - description: The endpoint for making requests to the SRS Service.
+    types:
+    - uid: string
+    name: srsServiceEndpoint
+  - description: The endpoint for making requests to the RCM Service.
+    types:
+    - uid: string
+    name: rcmServiceEndpoint
+  - isReadyOnly: true
+    description: Gets the class type. Overriden in derived classes.
+    types:
+    - uid: VMwareV2
+    typesTitle: string
+    name: instanceType
+- name: ProcessServer
+  description: The list of Process Servers associated with the fabric.
+  kind: object
+  properties:
+  - description: The Process Server's friendly name.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The Process Server Id.
+    types:
+    - uid: string
+    name: id
+  - description: The IP address of the server.
+    types:
+    - uid: string
+    name: ipAddress
+  - description: The OS type of the server.
+    types:
+    - uid: string
+    name: osType
+  - description: The version of the scout component on the server.
+    types:
+    - uid: string
+    name: agentVersion
+  - description: The last heartbeat received from the server.
+    types:
+    - uid: string
+    name: lastHeartbeat
+  - description: Version status
+    types:
+    - uid: string
+    name: versionStatus
+  - description: The Mobility Service update details.
+    types:
+    - isArray: true
+      uid: MobilityServiceUpdate
+    name: mobilityServiceUpdates
+  - description: The agent generated Id.
+    types:
+    - uid: string
+    name: hostId
+  - description: The servers configured with this PS.
+    types:
+    - uid: string
+    name: machineCount
+  - description: The number of replication pairs configured in this PS.
+    types:
+    - uid: string
+    name: replicationPairCount
+  - description: The percentage of the system load.
+    types:
+    - uid: string
+    name: systemLoad
+  - description: The system load status.
+    types:
+    - uid: string
+    name: systemLoadStatus
+  - description: The percentage of the CPU load.
+    types:
+    - uid: string
+    name: cpuLoad
+  - description: The CPU load status.
+    types:
+    - uid: string
+    name: cpuLoadStatus
+  - description: The total memory.
+    types:
+    - uid: integer
+    name: totalMemoryInBytes
+  - description: The available memory.
+    types:
+    - uid: integer
+    name: availableMemoryInBytes
+  - description: The memory usage status.
+    types:
+    - uid: string
+    name: memoryUsageStatus
+  - description: The total space.
+    types:
+    - uid: integer
+    name: totalSpaceInBytes
+  - description: The available space.
+    types:
+    - uid: integer
+    name: availableSpaceInBytes
+  - description: The space usage status.
+    types:
+    - uid: string
+    name: spaceUsageStatus
+  - description: The PS service status.
+    types:
+    - uid: string
+    name: psServiceStatus
+  - description: The PS SSL cert expiry date.
+    types:
+    - uid: string
+    name: sslCertExpiryDate
+  - description: CS SSL cert expiry date.
+    types:
+    - uid: integer
+    name: sslCertExpiryRemainingDays
+  - description: 'OS Version of the process server. Note: This will get populated if user has CS version greater than 9.12.0.0.'
+    types:
+    - uid: string
+    name: osVersion
+- name: MasterTargetServer
+  description: The list of Master Target servers associated with the fabric.
+  kind: object
+  properties:
+  - description: The server Id.
+    types:
+    - uid: string
+    name: id
+  - description: The IP address of the server.
+    types:
+    - uid: string
+    name: ipAddress
+  - description: The server name.
+    types:
+    - uid: string
+    name: name
+  - description: The OS type of the server.
+    types:
+    - uid: string
+    name: osType
+  - description: The version of the scout component on the server.
+    types:
+    - uid: string
+    name: agentVersion
+  - description: The last heartbeat received from the server.
+    types:
+    - uid: string
+    name: lastHeartbeat
+  - description: Version status
+    types:
+    - uid: string
+    name: versionStatus
+  - description: The retention details of the MT.
+    types:
+    - isArray: true
+      uid: RetentionVolume
+    name: retentionVolumes
+  - description: The datastore details of the MT.
+    types:
+    - isArray: true
+      uid: DataStore
+    name: dataStores
+  - description: Health Error
+    types:
+    - isArray: true
+      uid: HealthError
+    name: validationErrors
+  - description: Disk count of the master target.
+    types:
+    - uid: integer
+    name: diskCount
+  - description: OS Version of the master target.
+    types:
+    - uid: string
+    name: osVersion
+- name: RunAsAccount
+  description: The list of run as accounts created on the server.
+  kind: object
+  properties:
+  - description: The CS RunAs account Id.
+    types:
+    - uid: string
+    name: accountId
+  - description: The CS RunAs account name.
+    types:
+    - uid: string
+    name: accountName
+- name: MobilityServiceUpdate
+  description: The list of the mobility service updates available on the Process Server.
+  kind: object
+  properties:
+  - description: The version of the latest update.
+    types:
+    - uid: string
+    name: version
+  - description: The reboot status of the update - whether it is required or not.
+    types:
+    - uid: string
+    name: rebootStatus
+  - description: The OS type.
+    types:
+    - uid: string
+    name: osType
+- name: RetentionVolume
+  description: The retention volumes of Master target Server.
+  kind: object
+  properties:
+  - description: The volume name.
+    types:
+    - uid: string
+    name: volumeName
+  - description: The volume capacity.
+    types:
+    - uid: integer
+    name: capacityInBytes
+  - description: The free space available in this volume.
+    types:
+    - uid: integer
+    name: freeSpaceInBytes
+  - description: The threshold percentage.
+    types:
+    - uid: integer
+    name: thresholdPercentage
+- name: DataStore
+  description: The list of data stores in the fabric.
+  kind: object
+  properties:
+  - description: The symbolic name of data store.
+    types:
+    - uid: string
+    name: symbolicName
+  - description: The uuid of data store.
+    types:
+    - uid: string
+    name: uuid
+  - description: The capacity of data store in GBs.
+    types:
+    - uid: string
+    name: capacity
+  - description: The free space of data store in GBs.
+    types:
+    - uid: string
+    name: freeSpace
+  - description: The type of data store.
+    types:
+    - uid: string
+    name: type
+examples:
+- request:
+    uri: POST https://management.azure.com/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/MadhaviVRG/providers/Microsoft.RecoveryServices/vaults/MadhaviVault/replicationFabrics/GRACE-V2A-1/reassociateGateway?api-version=2016-08-10
+    body: >-
+      {
+        "properties": {
+          "containerName": "cloud_1f3c15af-2256-4568-9e06-e1ef4f728f75",
+          "sourceProcessServerId": "AFA0EC54-1894-4E44-9CAB02DB8854B117",
+          "targetProcessServerId": "5D3ED340-85AE-C646-B338641E015DA405",
+          "vmsToMigrate": [
+            "Vm1",
+            "Vm2"
+          ],
+          "updateType": "ServerLevel"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "bc15edf300344660d9c2965f5d9225593d99734f6580613c997033abc3512a56",
+        "type": "Microsoft.RecoveryServices/vaults/replicationFabrics",
+        "id": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/MadhaviVRG/providers/Microsoft.RecoveryServices/vaults/MadhaviVault/replicationFabrics/bc15edf300344660d9c2965f5d9225593d99734f6580613c997033abc3512a56",
+        "properties": {
+          "friendlyName": "GRACE-V2A-1",
+          "encryptionDetails": {
+            "kekState": "None"
+          },
+          "rolloverEncryptionDetails": {
+            "kekState": "None"
+          },
+          "internalIdentifier": "1f3c15af-2256-4568-9e06-e1ef4f728f75",
+          "bcdrState": "Valid",
+          "customDetails": {
+            "instanceType": "VMware"
+          },
+          "healthErrorDetails": [],
+          "health": "Normal"
+        }
+      }
+  - statusCode: "202"
+  name: Perform failover of the process server.
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account.
+    name: user_impersonation
+name: Reassociate Gateway
+uid: management.azure.com.recoveryservices-siterecovery.replicationfabrics.reassociategateway

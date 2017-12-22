@@ -1,0 +1,250 @@
+### YamlMime:RESTOperation
+summary: Gets a database's automatic tuning.
+service: SQL Database
+apiVersion: 2015-05-01-preview
+groupName: Database Automatic Tuning
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/automaticTuning/current?api-version=2015-05-01-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+  name: serverName
+- in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+  name: databaseName
+- in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Successfully retrieved database automatic tuning properties.
+  types:
+  - uid: DatabaseAutomaticTuning
+  name: 200 OK
+- description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - The requested database was not found
+
+     * 404 SubscriptionDoesNotHaveElasticPool - The requested elastic pool was not found
+
+     * 404 OperationIdNotFound - The operation with Id does not exist.
+
+     * 405 NotSupported - This functionality is not supported.
+
+     * 409 Conflict - Request could not be processed because of conflict in the request.
+
+     * 409 OperationCancelled - The operation has been cancelled by user.
+
+     * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
+
+     * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
+
+     * 503 ServiceTemporarilyUnavailable - Feature temporarily unavailable.
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: DatabaseAutomaticTuning
+  description: Database-level Automatic Tuning.
+  kind: object
+  properties:
+  - description: Automatic tuning desired state.
+    types:
+    - uid: AutomaticTuningMode
+    name: properties.desiredState
+  - isReadyOnly: true
+    description: Automatic tuning actual state.
+    types:
+    - uid: AutomaticTuningMode
+    name: properties.actualState
+  - description: Automatic tuning options definition.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AutomaticTuningOptions
+      uid: object
+    name: properties.options
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: AutomaticTuningMode
+  description: Automatic tuning desired state.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Inherit
+  - types:
+    - uid: string
+    name: Custom
+  - types:
+    - uid: string
+    name: Auto
+  - types:
+    - uid: string
+    name: Unspecified
+- name: Options
+  description: Automatic tuning options definition.
+  kind: object
+  properties:
+  - description: Automatic tuning properties for individual advisors.
+    types:
+    - uid: AutomaticTuningOptions
+    name: ''
+- name: AutomaticTuningOptions
+  description: Automatic tuning properties for individual advisors.
+  kind: object
+  properties:
+  - description: Automatic tuning option desired state.
+    types:
+    - uid: AutomaticTuningOptionModeDesired
+    name: desiredState
+  - isReadyOnly: true
+    description: Automatic tuning option actual state.
+    types:
+    - uid: AutomaticTuningOptionModeActual
+    name: actualState
+  - isReadyOnly: true
+    description: Reason code if desired and actual state are different.
+    types:
+    - uid: integer
+    name: reasonCode
+  - isReadyOnly: true
+    description: Reason description if desired and actual state are different.
+    types:
+    - uid: AutomaticTuningDisabledReason
+    name: reasonDesc
+- name: AutomaticTuningOptionModeDesired
+  description: Automatic tuning option desired state.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Off
+  - types:
+    - uid: string
+    name: On
+  - types:
+    - uid: string
+    name: Default
+- name: AutomaticTuningOptionModeActual
+  description: Automatic tuning option actual state.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Off
+  - types:
+    - uid: string
+    name: On
+- name: AutomaticTuningDisabledReason
+  description: Reason description if desired and actual state are different.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: AutoConfigured
+  - types:
+    - uid: string
+    name: InheritedFromServer
+  - types:
+    - uid: string
+    name: QueryStoreOff
+  - types:
+    - uid: string
+    name: QueryStoreReadOnly
+  - types:
+    - uid: string
+    name: NotSupported
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/c3aa9078-0000-0000-0000-e36f151182d7/resourceGroups/default-sql-onebox/providers/Microsoft.Sql/servers/testsvr11/databases/db1/automaticTuning/current?api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/c3aa9078-0000-0000-0000-e36f151182d7/resourceGroups/default-sql-onebox/providers/Microsoft.Sql/servers/testsvr11/databases/db1/automaticTuning/current",
+        "name": "current",
+        "type": "Microsoft.Sql/servers/databases/automaticTuning",
+        "properties": {
+          "desiredState": "Auto",
+          "actualState": "Auto",
+          "options": {
+            "forceLastGoodPlan": {
+              "desiredState": "Default",
+              "actualState": "On",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            },
+            "createIndex": {
+              "desiredState": "Default",
+              "actualState": "On",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            },
+            "dropIndex": {
+              "desiredState": "Default",
+              "actualState": "Off",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            },
+            "maintainIndex": {
+              "desiredState": "Default",
+              "actualState": "Off",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            }
+          }
+        }
+      }
+  name: Get a database's automatic tuning settings
+security: []
+name: Get
+uid: management.azure.com.sqldatabase.databaseautomatictuning.get

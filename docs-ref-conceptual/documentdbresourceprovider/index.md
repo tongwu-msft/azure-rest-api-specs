@@ -22,7 +22,7 @@ All Azure Resource Manager REST calls require a valid authorization token in the
 
 | Operation Group | Description |
 |-----------------|-------------|
-|[Database Accounts](~/docs-ref-autogen/documentdbresourceprovider/databaseaccounts.json)| Provides operations to manage Azure Cosmos DB accounts, including key management, and failover region priority changes for geo-distributed accounts. |
+|[Database Accounts](~/docs-ref-autogen/documentdbresourceprovider/databaseaccounts.yml)| Provides operations to manage Azure Cosmos DB accounts, including key management, and failover region priority changes for geo-distributed accounts. |
 
 
 ## See Also

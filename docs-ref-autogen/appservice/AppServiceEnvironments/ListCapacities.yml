@@ -1,0 +1,153 @@
+### YamlMime:RESTOperation
+summary: Get the used, available, and total worker capacity an App Service Environment.
+service: App Service
+apiVersion: 2016-09-01
+groupName: App Service Environments
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/capacities/compute?api-version=2016-09-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Name of the App Service Environment.
+  types:
+  - uid: string
+  name: name
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: StampCapacityCollection
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: StampCapacityCollection
+  description: Collection of stamp capacities.
+  kind: object
+  properties:
+  - description: Stamp capacity information.
+    types:
+    - isArray: true
+      uid: StampCapacity
+    name: value
+  - description: Link to next page of resources.
+    types:
+    - uid: string
+    name: nextLink
+- name: StampCapacity
+  description: Current total, used, and available worker capacities.
+  kind: object
+  properties:
+  - description: Name of the stamp.
+    types:
+    - uid: string
+    name: name
+  - description: Available capacity (# of machines, bytes of storage etc...).
+    types:
+    - uid: integer
+    name: availableCapacity
+  - description: Total capacity (# of machines, bytes of storage etc...).
+    types:
+    - uid: integer
+    name: totalCapacity
+  - description: Name of the unit.
+    types:
+    - uid: string
+    name: unit
+  - description: Shared/dedicated workers.
+    types:
+    - uid: ComputeModeOptions
+    name: computeMode
+  - description: Size of the machines.
+    types:
+    - uid: WorkerSizeOptions
+    name: workerSize
+  - description: "Size ID of machines: \n0 - Small\n1 - Medium\n2 - Large"
+    types:
+    - uid: integer
+    name: workerSizeId
+  - description: >-
+      If <code>true</code>, it includes basic apps.
+
+      Basic apps are not used for capacity allocation.
+    types:
+    - uid: boolean
+    name: excludeFromCapacityAllocation
+  - description: <code>true</code> if capacity is applicable for all apps; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: isApplicableForAllComputeModes
+  - description: Shared or Dedicated.
+    types:
+    - uid: string
+    name: siteMode
+- name: ComputeModeOptions
+  description: Shared or dedicated app hosting.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Shared
+  - types:
+    - uid: string
+    name: Dedicated
+  - types:
+    - uid: string
+    name: Dynamic
+- name: WorkerSizeOptions
+  description: Size of the machines.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Default
+  - types:
+    - uid: string
+    name: Small
+  - types:
+    - uid: string
+    name: Medium
+  - types:
+    - uid: string
+    name: Large
+  - types:
+    - uid: string
+    name: D1
+  - types:
+    - uid: string
+    name: D2
+  - types:
+    - uid: string
+    name: D3
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List Capacities
+uid: management.azure.com.appservice.appserviceenvironments.listcapacities

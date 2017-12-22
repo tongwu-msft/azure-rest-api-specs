@@ -1,0 +1,141 @@
+### YamlMime:RESTOperation
+summary: Creates a new firewall rule or updates an existing firewall rule.
+service: PostgreSQL
+apiVersion: 2017-04-30-preview
+groupName: Firewall Rules
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/firewallRules/{firewallRuleName}?api-version=2017-04-30-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+  name: serverName
+- in: path
+  isRequired: true
+  description: The name of the server firewall rule.
+  types:
+  - uid: string
+  name: firewallRuleName
+- in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: FirewallRule
+  name: 200 OK
+- description: Created
+  types:
+  - uid: FirewallRule
+  name: 201 Created
+- description: Accepted
+  name: 202 Accepted
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The start IP address of the server firewall rule. Must be IPv4 format.
+    types:
+    - uid: string
+    name: properties.startIpAddress
+  - in: body
+    isRequired: true
+    description: The end IP address of the server firewall rule. Must be IPv4 format.
+    types:
+    - uid: string
+    name: properties.endIpAddress
+requestHeader: []
+definitions:
+- name: FirewallRule
+  description: Represents a server firewall rule.
+  kind: object
+  properties:
+  - description: The start IP address of the server firewall rule. Must be IPv4 format.
+    types:
+    - uid: string
+    name: properties.startIpAddress
+  - description: The end IP address of the server firewall rule. Must be IPv4 format.
+    types:
+    - uid: string
+    name: properties.endIpAddress
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforPostgreSQL/servers/testserver/firewallRules/rule1?api-version=2017-04-30-preview
+    body: >-
+      {
+        "properties": {
+          "startIpAddress": "0.0.0.0",
+          "endIpAddress": "255.255.255.255"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforPostgreSQL/servers/testserver/firewallRules/rule1",
+        "name": "rule1",
+        "type": "Microsoft.DBforPostgreSQL/servers/firewallRules",
+        "properties": {
+          "startIpAddress": "0.0.0.0",
+          "endIpAddress": "255.255.255.255"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforPostgreSQL/servers/testserver/firewallRules/rule1",
+        "name": "rule1",
+        "type": "Microsoft.DBforPostgreSQL/servers/firewallRules",
+        "properties": {
+          "startIpAddress": "0.0.0.0",
+          "endIpAddress": "255.255.255.255"
+        }
+      }
+  - statusCode: "202"
+  name: FirewallRuleCreate
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update
+uid: management.azure.com.postgresql.firewallrules.createorupdate

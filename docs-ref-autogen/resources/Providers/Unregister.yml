@@ -1,0 +1,129 @@
+### YamlMime:RESTOperation
+summary: Unregisters a subscription from a resource provider.
+service: Resource Management
+apiVersion: 2017-05-10
+groupName: Providers
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/unregister?api-version=2017-05-10
+uriParameters:
+- in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The namespace of the resource provider to unregister.
+  types:
+  - uid: string
+  name: resourceProviderNamespace
+- in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK - Returns informatin about the resource provider.
+  types:
+  - uid: Provider
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: Provider
+  description: Resource provider information.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The provider ID.
+    types:
+    - uid: string
+    name: id
+  - description: The namespace of the resource provider.
+    types:
+    - uid: string
+    name: namespace
+  - isReadyOnly: true
+    description: The registration state of the provider.
+    types:
+    - uid: string
+    name: registrationState
+  - isReadyOnly: true
+    description: Resource type managed by the resource provider.
+    types:
+    - isArray: true
+      uid: ProviderResourceType
+    name: resourceTypes
+- name: ProviderResourceType
+  description: Resource type managed by the resource provider.
+  kind: object
+  properties:
+  - description: The resource type.
+    types:
+    - uid: string
+    name: resourceType
+  - description: The collection of locations where this resource type can be created.
+    types:
+    - isArray: true
+      uid: string
+    name: locations
+  - description: 'The alias type. '
+    types:
+    - isArray: true
+      uid: AliasType
+    name: aliases
+  - description: The API version.
+    types:
+    - isArray: true
+      uid: string
+    name: apiVersions
+  - description: The properties.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: properties
+- name: AliasType
+  description: 'The alias type. '
+  kind: object
+  properties:
+  - description: The alias name.
+    types:
+    - uid: string
+    name: name
+  - description: 'The type of the paths for alias. '
+    types:
+    - isArray: true
+      uid: AliasPathType
+    name: paths
+- name: AliasPathType
+  description: 'The type of the paths for alias. '
+  kind: object
+  properties:
+  - description: The path of an alias.
+    types:
+    - uid: string
+    name: path
+  - description: The API versions.
+    types:
+    - isArray: true
+      uid: string
+    name: apiVersions
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Unregister
+uid: management.azure.com.resourcemanagement.providers.unregister

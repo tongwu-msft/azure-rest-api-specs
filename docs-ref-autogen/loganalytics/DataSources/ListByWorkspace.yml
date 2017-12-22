@@ -1,0 +1,173 @@
+### YamlMime:RESTOperation
+summary: Gets the first page of data source instances in a workspace with the link to the next page.
+service: Log Analytics
+apiVersion: 2015-11-01-preview
+groupName: Data Sources
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources?$filter={$filter}&api-version=2015-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources?$filter={$filter}&$skiptoken={$skiptoken}&api-version=2015-11-01-preview
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group to get. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The workspace that contains the data sources.
+  types:
+  - uid: string
+  name: workspaceName
+- in: query
+  isRequired: true
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  description: Starting point of the collection of data source instances.
+  types:
+  - uid: string
+  name: $skiptoken
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK response definition.
+  types:
+  - uid: DataSourceListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: DataSourceListResult
+  description: The list data source by workspace operation response.
+  kind: object
+  properties:
+  - description: Datasources under OMS Workspace.
+    types:
+    - isArray: true
+      uid: DataSource
+    name: value
+  - description: The link (url) to the next page of datasources.
+    types:
+    - uid: string
+    name: nextLink
+- name: DataSource
+  description: Datasources under OMS Workspace.
+  kind: object
+  properties:
+  - description: The data source properties in raw json format, each kind of data source have it's own schema.
+    types:
+    - uid: Object
+    name: properties
+  - description: The ETag of the data source.
+    types:
+    - uid: string
+    name: eTag
+  - description: The kind of the DataSource.
+    types:
+    - uid: DataSourceKind
+    name: kind
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: Object
+  description: The data source properties in raw json format, each kind of data source have it's own schema.
+  kind: object
+  properties: []
+- name: DataSourceKind
+  description: The kind of the DataSource.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: AzureActivityLog
+  - types:
+    - uid: string
+    name: ChangeTrackingPath
+  - types:
+    - uid: string
+    name: ChangeTrackingDefaultPath
+  - types:
+    - uid: string
+    name: ChangeTrackingDefaultRegistry
+  - types:
+    - uid: string
+    name: ChangeTrackingCustomRegistry
+  - types:
+    - uid: string
+    name: CustomLog
+  - types:
+    - uid: string
+    name: CustomLogCollection
+  - types:
+    - uid: string
+    name: GenericDataSource
+  - types:
+    - uid: string
+    name: IISLogs
+  - types:
+    - uid: string
+    name: LinuxPerformanceObject
+  - types:
+    - uid: string
+    name: LinuxPerformanceCollection
+  - types:
+    - uid: string
+    name: LinuxSyslog
+  - types:
+    - uid: string
+    name: LinuxSyslogCollection
+  - types:
+    - uid: string
+    name: WindowsEvent
+  - types:
+    - uid: string
+    name: WindowsPerformanceCounter
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Workspace
+uid: management.azure.com.loganalytics.datasources.listbyworkspace

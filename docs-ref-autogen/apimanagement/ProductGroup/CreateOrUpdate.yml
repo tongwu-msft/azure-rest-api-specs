@@ -1,0 +1,193 @@
+### YamlMime:RESTOperation
+summary: Adds the association between the specified developer group with the specified product.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Product Group
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups/{groupId}?api-version=2017-03-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: path
+  isRequired: true
+  description: Product identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+  name: productId
+- in: path
+  isRequired: true
+  description: Group identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+  name: groupId
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The group was successfully associated with the product.
+  types:
+  - uid: GroupContract
+  name: 201 Created
+- description: The specified group is already associated with the product.
+  types:
+  - uid: GroupContract
+  name: 200 OK
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: GroupContract
+  description: Contract details.
+  kind: object
+  properties:
+  - description: Group name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: Group description. Can contain HTML formatting tags.
+    types:
+    - uid: string
+    name: properties.description
+  - isReadyOnly: true
+    description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
+    types:
+    - uid: boolean
+    name: properties.builtIn
+  - description: Group type.
+    types:
+    - uid: GroupType
+    name: properties.type
+  - description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    types:
+    - uid: string
+    name: properties.externalId
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: Error Field contract.
+    types:
+    - isArray: true
+      uid: ErrorFieldContract
+    name: details
+- name: GroupType
+  description: Group type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: custom
+  - types:
+    - uid: string
+    name: system
+  - types:
+    - uid: string
+    name: external
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - description: Property level error code.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+    name: message
+  - description: Property name.
+    types:
+    - uid: string
+    name: target
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/testproduct/groups/templateGroup?api-version=2017-03-01
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/templateGroup",
+        "type": "Microsoft.ApiManagement/service/products/groups",
+        "name": "templateGroup",
+        "properties": {
+          "displayName": "Template Group",
+          "description": "group created via Template",
+          "builtIn": false,
+          "type": "custom"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/templateGroup",
+        "type": "Microsoft.ApiManagement/service/products/groups",
+        "name": "templateGroup",
+        "properties": {
+          "displayName": "Template Group",
+          "description": "group created via Template",
+          "builtIn": false,
+          "type": "custom"
+        }
+      }
+  name: ApiManagementCreateProductGroup
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update
+uid: management.azure.com.apimanagement.productgroup.createorupdate

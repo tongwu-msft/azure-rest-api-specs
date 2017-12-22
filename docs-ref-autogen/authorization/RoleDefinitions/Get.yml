@@ -1,0 +1,140 @@
+### YamlMime:RESTOperation
+summary: Get role definition by name (GUID).
+service: Authorization
+apiVersion: 2015-07-01
+groupName: Role Definitions
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}?api-version=2015-07-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The scope of the role definition.
+  types:
+  - uid: string
+  name: scope
+- in: path
+  isRequired: true
+  description: The ID of the role definition.
+  types:
+  - uid: string
+  name: roleDefinitionId
+- in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK - Returns information about the role definition.
+  types:
+  - uid: RoleDefinition
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: RoleDefinition
+  description: Role definition.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The role definition ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The role definition name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The role definition type.
+    types:
+    - uid: string
+    name: type
+  - description: Role definition properties.
+    types:
+    - uid: RoleDefinitionProperties
+    name: properties
+- name: RoleDefinitionProperties
+  description: Role definition properties.
+  kind: object
+  properties:
+  - description: The role name.
+    types:
+    - uid: string
+    name: roleName
+  - description: The role definition description.
+    types:
+    - uid: string
+    name: description
+  - description: The role type.
+    types:
+    - uid: string
+    name: type
+  - description: Role definition permissions.
+    types:
+    - isArray: true
+      uid: Permission
+    name: permissions
+  - description: Role definition assignable scopes.
+    types:
+    - isArray: true
+      uid: string
+    name: assignableScopes
+- name: Permission
+  description: Role definition permissions.
+  kind: object
+  properties:
+  - description: Allowed actions.
+    types:
+    - isArray: true
+      uid: string
+    name: actions
+  - description: Denied actions.
+    types:
+    - isArray: true
+      uid: string
+    name: notActions
+examples:
+- request:
+    uri: GET https://management.azure.com/scope/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId?api-version=2015-07-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "roleName": "Role name",
+          "type": "roletype",
+          "description": "Role description",
+          "assignableScopes": [
+            "/subscriptions/subId"
+          ],
+          "permissions": [
+            {
+              "actions": [
+                "action"
+              ],
+              "notActions": []
+            }
+          ]
+        },
+        "id": "/subscriptions/subID/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId",
+        "type": "Microsoft.Authorization/roleDefinitions",
+        "name": "roleDefinitionId"
+      }
+  name: GetConfigurations
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get
+uid: management.azure.com.authorization.roledefinitions.get

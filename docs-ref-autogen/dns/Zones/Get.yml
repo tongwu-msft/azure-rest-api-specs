@@ -1,0 +1,157 @@
+### YamlMime:RESTOperation
+summary: Gets a DNS zone. Retrieves the zone properties, but not the record sets within the zone.
+service: DNS
+apiVersion: 2017-09-01
+groupName: Zones
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}?api-version=2017-09-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the DNS zone (without a terminating dot).
+  types:
+  - uid: string
+  name: zoneName
+- in: query
+  isRequired: true
+  description: Specifies the API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Success.
+  types:
+  - uid: Zone
+  name: 200 OK
+- description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: Zone
+  description: Describes a DNS zone.
+  kind: object
+  properties:
+  - description: The etag of the zone.
+    types:
+    - uid: string
+    name: etag
+  - isReadyOnly: true
+    description: The maximum number of record sets that can be created in this DNS zone.  This is a read-only property and any attempt to set this value will be ignored.
+    types:
+    - uid: integer
+    name: properties.maxNumberOfRecordSets
+  - isReadyOnly: true
+    description: The current number of record sets in this DNS zone.  This is a read-only property and any attempt to set this value will be ignored.
+    types:
+    - uid: integer
+    name: properties.numberOfRecordSets
+  - isReadyOnly: true
+    description: The name servers for this DNS zone. This is a read-only property and any attempt to set this value will be ignored.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.nameServers
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: CloudError
+  description: An error message
+  kind: object
+  properties:
+  - description: The error message body
+    types:
+    - uid: CloudErrorBody
+    name: error
+- name: CloudErrorBody
+  description: The error message body
+  kind: object
+  properties:
+  - description: The error code
+    types:
+    - uid: string
+    name: code
+  - description: A description of what caused the error
+    types:
+    - uid: string
+    name: message
+  - description: The target resource of the error message
+    types:
+    - uid: string
+    name: target
+  - description: Extra error information
+    types:
+    - isArray: true
+      uid: CloudErrorBody
+    name: details
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1?api-version=2017-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1",
+        "etag": "00000000-0000-0000-0000-000000000000",
+        "location": "global",
+        "name": "zone1",
+        "type": "Microsoft.Network/dnsZones",
+        "properties": {
+          "maxNumberOfRecordSets": 5000,
+          "numberOfRecordSets": 2,
+          "nameServers": [
+            "ns1-01.azure-dns.com",
+            "ns2-01.azure-dns.net",
+            "ns3-01.azure-dns.org",
+            "ns4-01.azure-dns.info"
+          ]
+        },
+        "tags": {
+          "key1": "value1"
+        }
+      }
+  name: Get zone
+security: []
+name: Get
+uid: management.azure.com.dns.zones.get

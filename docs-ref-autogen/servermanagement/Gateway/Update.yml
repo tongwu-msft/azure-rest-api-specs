@@ -1,0 +1,310 @@
+### YamlMime:RESTOperation
+summary: Updates a gateway belonging to a resource group.
+service: Server Management
+apiVersion: 2016-07-01-preview
+groupName: Gateway
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServerManagement/gateways/{gatewayName}?api-version=2016-07-01-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The resource group name uniquely identifies the resource group within the user subscriptionId.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9]+'
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The gateway name (256 characters maximum).
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$
+  name: gatewayName
+- in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Update completed successfully.
+  types:
+  - uid: GatewayResource
+  name: 200 OK
+- description: 'Accepted: The location header contains the URL where the status of the long running operation can be checked.'
+  name: 202 Accepted
+- description: Default Response. It will be deserialized as per the error definition specified in the schema, and an exception will be thrown.
+  types:
+  - uid: Error
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: Location of the resource.
+    types:
+    - uid: string
+    name: location
+  - in: body
+    description: Resource tags.
+    types:
+    - uid: object
+    name: tags
+  - in: body
+    description: The upgradeMode property gives the flexibility to gateway to auto upgrade itself. If properties value not specified, then we assume upgradeMode = Automatic.
+    types:
+    - uid: upgradeMode
+    name: properties.upgradeMode
+requestHeader: []
+definitions:
+- name: GatewayResource
+  description: Data model for an arm gateway resource.
+  kind: object
+  properties:
+  - description: UTC date and time when gateway was first added to management service.
+    types:
+    - uid: string
+    name: properties.created
+  - description: UTC date and time when node was last updated.
+    types:
+    - uid: string
+    name: properties.updated
+  - description: The upgradeMode property gives the flexibility to gateway to auto upgrade itself. If properties value not specified, then we assume upgradeMode = Automatic.
+    types:
+    - uid: upgradeMode
+    name: properties.upgradeMode
+  - description: Latest available MSI version.
+    types:
+    - uid: string
+    name: properties.desiredVersion
+  - description: Expanded gateway status information.
+    types:
+    - isArray: true
+      uid: GatewayStatus
+    name: properties.instances
+  - description: Number of active messages.
+    types:
+    - uid: integer
+    name: properties.activeMessageCount
+  - description: Last published MSI version.
+    types:
+    - uid: string
+    name: properties.latestPublishedMsiVersion
+  - description: The date/time of the last published gateway.
+    types:
+    - uid: string
+    name: properties.publishedTimeUtc
+  - isReadyOnly: true
+    description: Installer download uri.
+    types:
+    - uid: string
+    name: properties.installerDownload
+  - isReadyOnly: true
+    description: Minimum gateway version.
+    types:
+    - uid: string
+    name: properties.minimumVersion
+  - isReadyOnly: true
+    description: Resource Manager Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Manager Resource Type.
+    types:
+    - uid: string
+    name: type
+  - isReadyOnly: true
+    description: Resource Manager Resource Name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource Manager Resource Location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource Manager Resource Tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: ''
+    types:
+    - uid: string
+    name: etag
+- name: Error
+  description: Error message.
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: integer
+    name: code
+  - description: ''
+    types:
+    - uid: string
+    name: message
+  - description: ''
+    types:
+    - uid: string
+    name: fields
+- name: GatewayParameters
+  description: Collection of parameters for operations on a gateway resource.
+  kind: object
+  properties:
+  - description: Location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - uid: object
+    name: tags
+  - description: The upgradeMode property gives the flexibility to gateway to auto upgrade itself. If properties value not specified, then we assume upgradeMode = Automatic.
+    types:
+    - uid: upgradeMode
+    name: properties.upgradeMode
+- name: upgradeMode
+  description: The upgradeMode property gives the flexibility to gateway to auto upgrade itself. If properties value not specified, then we assume upgradeMode = Automatic.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Manual
+  - types:
+    - uid: string
+    name: Automatic
+- name: GatewayStatus
+  description: Names of the nodes in the gateway.
+  kind: object
+  properties:
+  - description: The available memory on the gateway host machine in megabytes.
+    types:
+    - uid: number
+    name: availableMemoryMByte
+  - description: The CPU utilization of the gateway process (numeric value between 0 and 100).
+    types:
+    - uid: number
+    name: gatewayCpuUtilizationPercent
+  - description: CPU Utilization of the whole system.
+    types:
+    - uid: number
+    name: totalCpuUtilizationPercent
+  - description: The version of the gateway that is installed on the system.
+    types:
+    - uid: string
+    name: gatewayVersion
+  - description: The Plaintext description of the OS on the gateway.
+    types:
+    - uid: string
+    name: friendlyOsName
+  - description: The date the gateway was installed.
+    types:
+    - uid: string
+    name: installedDate
+  - description: Number of logical processors in the gateway system.
+    types:
+    - uid: integer
+    name: logicalProcessorCount
+  - description: The computer name of the gateway system.
+    types:
+    - uid: string
+    name: name
+  - description: The gateway resource ID.
+    types:
+    - uid: string
+    name: gatewayId
+  - description: The working set size of the gateway process in megabytes.
+    types:
+    - uid: number
+    name: gatewayWorkingSetMByte
+  - description: UTC date and time when gateway status was last updated.
+    types:
+    - uid: string
+    name: statusUpdated
+  - description: The group policy error.
+    types:
+    - uid: string
+    name: groupPolicyError
+  - description: Status of the allowGatewayGroupPolicy setting.
+    types:
+    - uid: boolean
+    name: allowGatewayGroupPolicyStatus
+  - description: Status of the requireMfaGroupPolicy setting.
+    types:
+    - uid: boolean
+    name: requireMfaGroupPolicyStatus
+  - description: Thumbprint of the encryption certificate.
+    types:
+    - uid: string
+    name: encryptionCertificateThumbprint
+  - description: Secondary thumbprint of the encryption certificate.
+    types:
+    - uid: string
+    name: secondaryEncryptionCertificateThumbprint
+  - description: The encryption certificate key.
+    types:
+    - uid: EncryptionJwkResource
+    name: encryptionJwk
+  - description: The secondary encryption certificate key.
+    types:
+    - uid: EncryptionJwkResource
+    name: secondaryEncryptionJwk
+  - description: Active message count.
+    types:
+    - uid: integer
+    name: activeMessageCount
+  - description: Latest published version of the gateway install MSI.
+    types:
+    - uid: string
+    name: latestPublishedMsiVersion
+  - description: Gateway install MSI published time.
+    types:
+    - uid: string
+    name: publishedTimeUtc
+- name: EncryptionJwkResource
+  description: The encryption certificate key.
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: string
+    name: kty
+  - description: ''
+    types:
+    - uid: string
+    name: alg
+  - description: ''
+    types:
+    - uid: string
+    name: e
+  - description: ''
+    types:
+    - uid: string
+    name: n
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Update
+uid: management.azure.com.servermanagement.gateway.update

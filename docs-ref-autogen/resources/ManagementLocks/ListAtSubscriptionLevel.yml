@@ -1,0 +1,114 @@
+### YamlMime:RESTOperation
+summary: Gets all the management locks for a subscription.
+service: Resource Management
+apiVersion: 2016-09-01
+groupName: Management Locks
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/locks?api-version=2016-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/locks?$filter={$filter}&api-version=2016-09-01
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: query
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  isRequired: true
+  description: The API version to use for the operation.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK - Returns an array of resource locks.
+  types:
+  - uid: ManagementLockListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: ManagementLockListResult
+  description: The list of locks.
+  kind: object
+  properties:
+  - description: The lock information.
+    types:
+    - isArray: true
+      uid: ManagementLockObject
+    name: value
+  - description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+    name: nextLink
+- name: ManagementLockObject
+  description: The lock information.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The resource ID of the lock.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The resource type of the lock - Microsoft.Authorization/locks.
+    types:
+    - uid: string
+    name: type
+  - description: The name of the lock.
+    types:
+    - uid: string
+    name: name
+  - description: "The level of the lock. Possible values are: NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users are able to read and modify the resources, but not delete. ReadOnly means authorized users can only read from a resource, but they can't modify or delete it."
+    types:
+    - uid: LockLevel
+    name: properties.level
+  - description: Notes about the lock. Maximum of 512 characters.
+    types:
+    - uid: string
+    name: properties.notes
+  - description: Lock owner properties.
+    types:
+    - isArray: true
+      uid: ManagementLockOwner
+    name: properties.owners
+- name: LockLevel
+  description: "The level of the lock. Possible values are: NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users are able to read and modify the resources, but not delete. ReadOnly means authorized users can only read from a resource, but they can't modify or delete it."
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: CanNotDelete
+  - types:
+    - uid: string
+    name: ReadOnly
+- name: ManagementLockOwner
+  description: Lock owner properties.
+  kind: object
+  properties:
+  - description: The application ID of the lock owner.
+    types:
+    - uid: string
+    name: applicationId
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List At Subscription Level
+uid: management.azure.com.resourcemanagement.managementlocks.listatsubscriptionlevel

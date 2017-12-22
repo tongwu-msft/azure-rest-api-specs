@@ -1,0 +1,404 @@
+### YamlMime:RESTOperation
+summary: Validate information for a certificate order.
+service: App Service
+apiVersion: 2015-08-01
+groupName: App Service Certificate Orders
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.CertificateRegistration/validateCertificateRegistrationInformation?api-version=2015-08-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: No Content
+  name: 204 No Content
+requestBody:
+- parameters:
+  - in: body
+    description: State of the Key Vault secret.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AppServiceCertificate
+      uid: object
+    name: properties.certificates
+  - in: body
+    description: Certificate distinguished name.
+    types:
+    - uid: string
+    name: properties.distinguishedName
+  - in: body
+    description: Duration in years (must be between 1 and 3).
+    types:
+    - uid: integer
+    name: properties.validityInYears
+  - in: body
+    description: Certificate key size.
+    types:
+    - uid: integer
+    name: properties.keySize
+  - in: body
+    isRequired: true
+    description: Certificate product type.
+    types:
+    - uid: CertificateProductType
+    name: properties.productType
+  - in: body
+    description: <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.autoRenew
+  - in: body
+    description: Last CSR that was created for this order.
+    types:
+    - uid: string
+    name: properties.csr
+  - in: body
+    description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - in: body
+    isRequired: true
+    description: Resource Location.
+    types:
+    - uid: string
+    name: location
+  - in: body
+    description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+requestHeader: []
+definitions:
+- name: Certificates
+  description: State of the Key Vault secret.
+  kind: object
+  properties:
+  - description: Key Vault container for a certificate that is purchased through Azure.
+    types:
+    - uid: AppServiceCertificate
+    name: ''
+- name: CertificateDetails
+  description: Signed certificate.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Certificate Version.
+    types:
+    - uid: integer
+    name: version
+  - isReadyOnly: true
+    description: Certificate Serial Number.
+    types:
+    - uid: string
+    name: serialNumber
+  - isReadyOnly: true
+    description: Certificate Thumbprint.
+    types:
+    - uid: string
+    name: thumbprint
+  - isReadyOnly: true
+    description: Certificate Subject.
+    types:
+    - uid: string
+    name: subject
+  - isReadyOnly: true
+    description: Date Certificate is valid from.
+    types:
+    - uid: string
+    name: notBefore
+  - isReadyOnly: true
+    description: Date Certificate is valid to.
+    types:
+    - uid: string
+    name: notAfter
+  - isReadyOnly: true
+    description: Certificate Signature algorithm.
+    types:
+    - uid: string
+    name: signatureAlgorithm
+  - isReadyOnly: true
+    description: Certificate Issuer.
+    types:
+    - uid: string
+    name: issuer
+  - isReadyOnly: true
+    description: Raw certificate data.
+    types:
+    - uid: string
+    name: rawData
+- name: AppServiceCertificateOrder
+  description: SSL certificate purchase order.
+  kind: object
+  properties:
+  - description: State of the Key Vault secret.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AppServiceCertificate
+      uid: object
+    name: properties.certificates
+  - description: Certificate distinguished name.
+    types:
+    - uid: string
+    name: properties.distinguishedName
+  - isReadyOnly: true
+    description: Domain verification token.
+    types:
+    - uid: string
+    name: properties.domainVerificationToken
+  - description: Duration in years (must be between 1 and 3).
+    types:
+    - uid: integer
+    name: properties.validityInYears
+  - description: Certificate key size.
+    types:
+    - uid: integer
+    name: properties.keySize
+  - description: Certificate product type.
+    types:
+    - uid: CertificateProductType
+    name: properties.productType
+  - description: <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.autoRenew
+  - isReadyOnly: true
+    description: Status of certificate order.
+    types:
+    - uid: ProvisioningState
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Current order status.
+    types:
+    - uid: CertificateOrderStatus
+    name: properties.status
+  - isReadyOnly: true
+    description: Signed certificate.
+    types:
+    - uid: CertificateDetails
+    name: properties.signedCertificate
+  - description: Last CSR that was created for this order.
+    types:
+    - uid: string
+    name: properties.csr
+  - isReadyOnly: true
+    description: Intermediate certificate.
+    types:
+    - uid: CertificateDetails
+    name: properties.intermediate
+  - isReadyOnly: true
+    description: Root certificate.
+    types:
+    - uid: CertificateDetails
+    name: properties.root
+  - isReadyOnly: true
+    description: Current serial number of the certificate.
+    types:
+    - uid: string
+    name: properties.serialNumber
+  - isReadyOnly: true
+    description: Certificate last issuance time.
+    types:
+    - uid: string
+    name: properties.lastCertificateIssuanceTime
+  - isReadyOnly: true
+    description: Certificate expiration time.
+    types:
+    - uid: string
+    name: properties.expirationTime
+  - isReadyOnly: true
+    description: <code>true</code> if private key is external; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.isPrivateKeyExternal
+  - isReadyOnly: true
+    description: Reasons why App Service Certificate is not renewable at the current moment.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.appServiceCertificateNotRenewableReasons
+  - isReadyOnly: true
+    description: Time stamp when the certificate would be auto renewed next
+    types:
+    - uid: string
+    name: properties.nextAutoRenewalTimeStamp
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - description: Resource Location.
+    types:
+    - uid: string
+    name: location
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: AppServiceCertificate
+  description: Key Vault container for a certificate that is purchased through Azure.
+  kind: object
+  properties:
+  - description: Key Vault resource Id.
+    types:
+    - uid: string
+    name: keyVaultId
+  - description: Key Vault secret name.
+    types:
+    - uid: string
+    name: keyVaultSecretName
+  - isReadyOnly: true
+    description: Status of the Key Vault secret.
+    types:
+    - uid: KeyVaultSecretStatus
+    name: provisioningState
+- name: CertificateProductType
+  description: Certificate product type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: StandardDomainValidatedSsl
+  - types:
+    - uid: string
+    name: StandardDomainValidatedWildCardSsl
+- name: ProvisioningState
+  description: Status of certificate order.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Canceled
+  - types:
+    - uid: string
+    name: InProgress
+  - types:
+    - uid: string
+    name: Deleting
+- name: CertificateOrderStatus
+  description: Current order status.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Pendingissuance
+  - types:
+    - uid: string
+    name: Issued
+  - types:
+    - uid: string
+    name: Revoked
+  - types:
+    - uid: string
+    name: Canceled
+  - types:
+    - uid: string
+    name: Denied
+  - types:
+    - uid: string
+    name: Pendingrevocation
+  - types:
+    - uid: string
+    name: PendingRekey
+  - types:
+    - uid: string
+    name: Unused
+  - types:
+    - uid: string
+    name: Expired
+  - types:
+    - uid: string
+    name: NotSubmitted
+- name: KeyVaultSecretStatus
+  description: Status of the Key Vault secret.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Initialized
+  - types:
+    - uid: string
+    name: WaitingOnCertificateOrder
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: CertificateOrderFailed
+  - types:
+    - uid: string
+    name: OperationNotPermittedOnKeyVault
+  - types:
+    - uid: string
+    name: AzureServiceUnauthorizedToAccessKeyVault
+  - types:
+    - uid: string
+    name: KeyVaultDoesNotExist
+  - types:
+    - uid: string
+    name: KeyVaultSecretDoesNotExist
+  - types:
+    - uid: string
+    name: UnknownError
+  - types:
+    - uid: string
+    name: ExternalPrivateKey
+  - types:
+    - uid: string
+    name: Unknown
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Validate Purchase Information
+uid: management.azure.com.appservice.appservicecertificateorders.validatepurchaseinformation

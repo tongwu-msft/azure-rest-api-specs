@@ -1,0 +1,166 @@
+### YamlMime:RESTOperation
+summary: Gets the default Geographic Hierarchy used by the Geographic traffic routing method.
+service: Traffic Manager
+apiVersion: 2017-05-01
+groupName: Geographic Hierarchies
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Network/trafficManagerGeographicHierarchies/default?api-version=2017-05-01
+uriParameters:
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The default Geographic Hierarchy.
+  types:
+  - uid: TrafficManagerGeographicHierarchy
+  name: 200 OK
+- description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: TrafficManagerGeographicHierarchy
+  description: Class representing the Geographic hierarchy used with the Geographic traffic routing method.
+  kind: object
+  properties:
+  - description: The region at the root of the hierarchy from all the regions in the hierarchy can be retrieved.
+    types:
+    - uid: Region
+    name: properties.geographicHierarchy
+  - isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Network/trafficmanagerProfiles.
+    types:
+    - uid: string
+    name: type
+- name: CloudError
+  description: An error returned by the Azure Resource Manager
+  kind: object
+  properties:
+  - description: The content of the error.
+    types:
+    - uid: CloudErrorBody
+    name: error
+- name: Region
+  description: Class representing a region in the Geographic hierarchy used with the Geographic traffic routing method.
+  kind: object
+  properties:
+  - description: The code of the region
+    types:
+    - uid: string
+    name: code
+  - description: The name of the region
+    types:
+    - uid: string
+    name: name
+  - description: Class representing a region in the Geographic hierarchy used with the Geographic traffic routing method.
+    types:
+    - isArray: true
+      uid: Region
+    name: regions
+- name: CloudErrorBody
+  description: The content of the error.
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message
+    types:
+    - uid: string
+    name: message
+  - description: Error target
+    types:
+    - uid: string
+    name: target
+  - description: Error details
+    types:
+    - isArray: true
+      uid: CloudErrorBody
+    name: details
+examples:
+- request:
+    uri: GET https://management.azure.com/providers/Microsoft.Network/trafficManagerGeographicHierarchies/default?api-version=2017-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Network/trafficManagerGeographicHierarchies/default",
+        "name": "default",
+        "type": "Microsoft.Network/trafficManagerGeographicHierarchies",
+        "properties": {
+          "geographicHierarchy": {
+            "code": "WORLD",
+            "name": "World",
+            "regions": [
+              {
+                "code": "GEO-ME",
+                "name": "Middle East",
+                "regions": [
+                  {
+                    "code": "AE",
+                    "name": "United Arab Emirates",
+                    "regions": []
+                  }
+                ]
+              },
+              {
+                "code": "GEO-AP",
+                "name": "Australia / Pacific",
+                "regions": [
+                  {
+                    "code": "AU",
+                    "name": "Australia",
+                    "regions": [
+                      {
+                        "code": "AU-ACT",
+                        "name": "Australian Capital Territory",
+                        "regions": []
+                      },
+                      {
+                        "code": "AU-NSW",
+                        "name": "New South Wales",
+                        "regions": []
+                      }
+                    ]
+                  },
+                  {
+                    "code": "CK",
+                    "name": "Cook Islands",
+                    "regions": []
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+  name: GeographicHierarchy-GET-default
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get Default
+uid: management.azure.com.trafficmanager.geographichierarchies.getdefault

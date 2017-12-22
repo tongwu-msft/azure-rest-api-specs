@@ -1,0 +1,134 @@
+### YamlMime:RESTOperation
+summary: Lists applications by filter parameters.
+service: Graph RBAC
+apiVersion: "1.6"
+groupName: Applications
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://graph.windows.net/{tenantID}/applications?api-version=1.6
+- content: GET https://graph.windows.net/{tenantID}/applications?$filter={$filter}&api-version=1.6
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The tenant ID.
+  types:
+  - uid: string
+  name: tenantID
+- in: query
+  description: The filters to apply to the operation.
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK. The operation was successful.
+  types:
+  - uid: ApplicationListResult
+  name: 200 OK
+- description: Error response describing why the operation failed.
+  types:
+  - uid: GraphError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: ApplicationListResult
+  description: Application list operation result.
+  kind: object
+  properties:
+  - description: Active Directory application information.
+    types:
+    - isArray: true
+      uid: Application
+    name: value
+  - description: The URL to get the next set of results.
+    types:
+    - uid: string
+    name: odata.nextLink
+- name: GraphError
+  description: Active Directory error information.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: odata.error.code
+  - description: Error message value.
+    types:
+    - uid: string
+    name: odata.error.message.value
+- name: Application
+  description: Active Directory application information.
+  kind: object
+  properties:
+  - description: The application ID.
+    types:
+    - uid: string
+    name: appId
+  - description: The application permissions.
+    types:
+    - isArray: true
+      uid: string
+    name: appPermissions
+  - description: Whether the application is be available to other tenants.
+    types:
+    - uid: boolean
+    name: availableToOtherTenants
+  - description: The display name of the application.
+    types:
+    - uid: string
+    name: displayName
+  - description: A collection of URIs for the application.
+    types:
+    - isArray: true
+      uid: string
+    name: identifierUris
+  - description: A collection of reply URLs for the application.
+    types:
+    - isArray: true
+      uid: string
+    name: replyUrls
+  - description: The home page of the application.
+    types:
+    - uid: string
+    name: homepage
+  - description: Whether to allow implicit grant flow for OAuth2
+    types:
+    - uid: boolean
+    name: oauth2AllowImplicitFlow
+  - isReadyOnly: true
+    description: The object ID.
+    types:
+    - uid: string
+    name: objectId
+  - isReadyOnly: true
+    description: The object type.
+    types:
+    - uid: string
+    name: objectType
+  - isReadyOnly: true
+    description: The time at which the directory object was deleted.
+    types:
+    - uid: string
+    name: deletionTimestamp
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List
+uid: graph.windows.net.graphrbac.applications.list
