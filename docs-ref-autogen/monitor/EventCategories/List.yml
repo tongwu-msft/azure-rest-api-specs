@@ -1,0 +1,91 @@
+### YamlMime:RESTOperation
+summary: 'Get the list of available event categories supported in the Activity Logs Service.<br>The current list includes the following: Administrative, Security, ServiceHealth, Alert, Recommendation, Policy.'
+service: Monitor
+apiVersion: 2015-04-01
+groupName: Event Categories
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/microsoft.insights/eventcategories?api-version=2015-04-01
+uriParameters:
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+- description: Successful request to get the list of event categories
+  types:
+  - uid: EventCategoryCollection
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: EventCategoryCollection
+  description: 'A collection of event categories. Currently possible values are: Administrative, Security, ServiceHealth, Alert, Recommendation, Policy.'
+  kind: object
+  properties:
+  - description: The localizable string class.
+    types:
+    - isArray: true
+      uid: LocalizableString
+    name: value
+- name: LocalizableString
+  description: The localizable string class.
+  kind: object
+  properties:
+  - description: the invariant value.
+    types:
+    - uid: string
+    name: value
+  - description: the locale specific value.
+    types:
+    - uid: string
+    name: localizedValue
+examples:
+- request:
+    uri: GET https://management.azure.com/providers/microsoft.insights/eventcategories?api-version=2015-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "value": "category1",
+            "localizedValue": "category1"
+          },
+          {
+            "value": "category2",
+            "localizedValue": "category2"
+          }
+        ]
+      }
+  name: Get event categories
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List
+uid: management.azure.com.monitor.eventcategories.list

@@ -1,0 +1,277 @@
+### YamlMime:RESTOperation
+summary: Lists a collection of the APIs associated with a product.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Product Api
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis?api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: path
+  isRequired: true
+  description: Product identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+  name: productId
+- in: query
+  description: >
+    | Field       | Supported operators    | Supported functions                         |
+
+    |-------------|------------------------|---------------------------------------------|
+
+    | id          | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+
+    | name        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+
+    | description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+
+    | serviceUrl  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+
+    | path        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  description: Number of records to return.
+  types:
+  - uid: integer
+  format: int32
+  name: $top
+- in: query
+  description: Number of records to skip.
+  types:
+  - uid: integer
+  format: int32
+  name: $skip
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The response body contains a collection of Api entities in the product.
+  types:
+  - uid: ApiCollection
+  name: 200 OK
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: ApiCollection
+  description: Paged Api list representation.
+  kind: object
+  properties:
+  - description: API details.
+    types:
+    - isArray: true
+      uid: ApiContract
+    name: value
+  - description: Next page link if any.
+    types:
+    - uid: string
+    name: nextLink
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: Error Field contract.
+    types:
+    - isArray: true
+      uid: ErrorFieldContract
+    name: details
+- name: ApiContract
+  description: API details.
+  kind: object
+  properties:
+  - description: API name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: Absolute URL of the backend service implementing this API.
+    types:
+    - uid: string
+    name: properties.serviceUrl
+  - description: Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.
+    types:
+    - uid: string
+    name: properties.path
+  - description: Describes on which protocols the operations in this API can be invoked.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.protocols
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
+  - description: Description of the API. May include HTML formatting tags.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Collection of authentication settings included into this API.
+    types:
+    - uid: AuthenticationSettingsContract
+    name: properties.authenticationSettings
+  - description: Protocols over which API is made available.
+    types:
+    - uid: SubscriptionKeyParameterNamesContract
+    name: properties.subscriptionKeyParameterNames
+  - description: Type of API.
+    types:
+    - uid: ApiType
+    name: properties.type
+  - description: Describes the Revision of the Api. If no value is provided, default revision 1 is created
+    types:
+    - uid: string
+    name: properties.apiRevision
+  - description: Indicates if API revision is current api revision.
+    types:
+    - uid: boolean
+    name: properties.isCurrent
+  - description: Indicates if API revision is accessible via the gateway.
+    types:
+    - uid: boolean
+    name: properties.isOnline
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - description: Property level error code.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+    name: message
+  - description: Property name.
+    types:
+    - uid: string
+    name: target
+- name: AuthenticationSettingsContract
+  description: API Authentication Settings.
+  kind: object
+  properties:
+  - description: OAuth2 Authentication settings
+    types:
+    - uid: OAuth2AuthenticationSettingsContract
+    name: oAuth2
+- name: SubscriptionKeyParameterNamesContract
+  description: Subscription key parameter names details.
+  kind: object
+  properties:
+  - description: Subscription key header name.
+    types:
+    - uid: string
+    name: header
+  - description: Subscription key query string parameter name.
+    types:
+    - uid: string
+    name: query
+- name: ApiType
+  description: Type of API.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: http
+  - types:
+    - uid: string
+    name: soap
+- name: OAuth2AuthenticationSettingsContract
+  description: API OAuth2 Authentication settings details.
+  kind: object
+  properties:
+  - description: OAuth authorization server identifier.
+    types:
+    - uid: string
+    name: authorizationServerId
+  - description: operations scope.
+    types:
+    - uid: string
+    name: scope
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5768181ea40f7eb6c49f6ac7/apis?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5768181ea40f7eb6c49f6ac7/apis/57681820a40f7eb6c49f6aca",
+            "type": "Microsoft.ApiManagement/service/products/apis",
+            "name": "57681820a40f7eb6c49f6aca",
+            "properties": {
+              "displayName": "api_57681820a40f7eb6c49f6acb",
+              "apiRevision": "1",
+              "description": "description_57681820a40f7eb6c49f6acc",
+              "serviceUrl": "http://contoso/57681820a40f7eb6c49f6acd",
+              "path": "suffix_57681820a40f7eb6c49f6ace",
+              "protocols": [
+                "https"
+              ],
+              "isCurrent": true
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+  name: ApiManagementListProductApis
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Product
+uid: management.azure.com.apimanagement.productapi.listbyproduct

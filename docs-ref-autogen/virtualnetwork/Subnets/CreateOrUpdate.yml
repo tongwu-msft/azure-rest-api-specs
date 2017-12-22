@@ -1,0 +1,300 @@
+### YamlMime:RESTOperation
+summary: Creates or updates a subnet in the specified virtual network.
+service: Virtual Networks
+apiVersion: 2017-10-01
+groupName: Subnets
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2017-10-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the virtual network.
+  types:
+  - uid: string
+  name: virtualNetworkName
+- in: path
+  isRequired: true
+  description: The name of the subnet.
+  types:
+  - uid: string
+  name: subnetName
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Update successful. The operation returns the resulting Subnet resource.
+  types:
+  - uid: Subnet
+  name: 200 OK
+- description: Create successful. The operation returns the resulting Subnet resource.
+  types:
+  - uid: Subnet
+  name: 201 Created
+requestBody:
+- parameters:
+  - in: body
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+    name: name
+  - in: body
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - in: body
+    description: The address prefix for the subnet.
+    types:
+    - uid: string
+    name: properties.addressPrefix
+  - in: body
+    description: The reference of the NetworkSecurityGroup resource.
+    types:
+    - uid: SubResource
+    name: properties.networkSecurityGroup
+  - in: body
+    description: The reference of the RouteTable resource.
+    types:
+    - uid: SubResource
+    name: properties.routeTable
+  - in: body
+    description: The service endpoint properties.
+    types:
+    - isArray: true
+      uid: ServiceEndpointPropertiesFormat
+    name: properties.serviceEndpoints
+  - in: body
+    description: ResourceNavigationLink resource.
+    types:
+    - isArray: true
+      uid: ResourceNavigationLink
+    name: properties.resourceNavigationLinks
+  - in: body
+    description: The provisioning state of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+requestHeader: []
+definitions:
+- name: SubResource
+  description: The reference of the NetworkSecurityGroup resource.
+  kind: object
+  properties:
+  - description: Resource ID.
+    types:
+    - uid: string
+    name: id
+- name: ServiceEndpointPropertiesFormat
+  description: An array of service endpoints.
+  kind: object
+  properties:
+  - description: The type of the endpoint service.
+    types:
+    - uid: string
+    name: service
+  - description: A list of locations.
+    types:
+    - isArray: true
+      uid: string
+    name: locations
+  - description: The provisioning state of the resource.
+    types:
+    - uid: string
+    name: provisioningState
+- name: ResourceNavigationLink
+  description: ResourceNavigationLink resource.
+  kind: object
+  properties:
+  - description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - description: Resource type of the linked resource.
+    types:
+    - uid: string
+    name: properties.linkedResourceType
+  - description: Link to the external resource
+    types:
+    - uid: string
+    name: properties.link
+  - isReadyOnly: true
+    description: Provisioning state of the ResourceNavigationLink resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+- name: Subnet
+  description: Subnet in a virtual network resource.
+  kind: object
+  properties:
+  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+    name: name
+  - description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - description: The address prefix for the subnet.
+    types:
+    - uid: string
+    name: properties.addressPrefix
+  - description: The reference of the NetworkSecurityGroup resource.
+    types:
+    - uid: SubResource
+    name: properties.networkSecurityGroup
+  - description: The reference of the RouteTable resource.
+    types:
+    - uid: SubResource
+    name: properties.routeTable
+  - description: The service endpoint properties.
+    types:
+    - isArray: true
+      uid: ServiceEndpointPropertiesFormat
+    name: properties.serviceEndpoints
+  - isReadyOnly: true
+    description: Reference to another subresource.
+    types:
+    - isArray: true
+      uid: SubResource
+    name: properties.ipConfigurations
+  - description: ResourceNavigationLink resource.
+    types:
+    - isArray: true
+      uid: ResourceNavigationLink
+    name: properties.resourceNavigationLinks
+  - description: The provisioning state of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2017-10-01
+    body: >-
+      {
+        "properties": {
+          "addressPrefix": "10.0.0.0/16"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1",
+        "name": "subnet1",
+        "properties": {
+          "addressPrefix": "10.0.0.0/16",
+          "provisioningState": "Succeeded"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1",
+        "name": "subnet1",
+        "properties": {
+          "addressPrefix": "10.0.0.0/16",
+          "provisioningState": "Succeeded"
+        }
+      }
+  name: Create subnet
+- request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2017-10-01
+    body: >-
+      {
+        "properties": {
+          "addressPrefix": "10.0.0.0/16",
+          "serviceEndpoints": [
+            {
+              "service": "Microsoft.Storage"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1",
+        "name": "subnet1",
+        "properties": {
+          "addressPrefix": "10.0.0.0/16",
+          "serviceEndpoints": [
+            {
+              "service": "Microsoft.Storage",
+              "locations": [
+                "eastus2(stage)",
+                "usnorth(stage)"
+              ],
+              "provisioningState": "Succeeded"
+            }
+          ],
+          "provisioningState": "Succeeded"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1",
+        "name": "subnet1",
+        "properties": {
+          "addressPrefix": "10.0.0.0/16",
+          "serviceEndpoints": [
+            {
+              "service": "Microsoft.Storage",
+              "locations": [
+                "eastus2(stage)",
+                "usnorth(stage)"
+              ],
+              "provisioningState": "Succeeded"
+            }
+          ],
+          "provisioningState": "Succeeded"
+        }
+      }
+  name: Create subnet with service endpoints
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update
+uid: management.azure.com.virtualnetworks.subnets.createorupdate

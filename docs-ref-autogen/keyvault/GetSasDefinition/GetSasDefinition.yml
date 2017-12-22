@@ -1,0 +1,159 @@
+### YamlMime:RESTOperation
+summary: Gets information about a SAS definition for the specified storage account.
+service: Key Vault
+apiVersion: 2016-10-01
+groupName: Get Sas Definition
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{vaultBaseUrl}/storage/{storage-account-name}/sas/{sas-definition-name}?api-version=2016-10-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+  name: vaultBaseUrl
+- in: path
+  isRequired: true
+  description: The name of the storage account.
+  types:
+  - uid: string
+  pattern: ^[0-9a-zA-Z]+$
+  name: storage-account-name
+- in: path
+  isRequired: true
+  description: The name of the SAS definition.
+  types:
+  - uid: string
+  pattern: ^[0-9a-zA-Z]+$
+  name: sas-definition-name
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The retrieved SAS definition.
+  types:
+  - uid: SasDefinitionBundle
+  name: 200 OK
+- description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: SasDefinitionBundle
+  description: A SAS definition bundle consists of key vault SAS definition details plus its attributes.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The SAS definition id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Storage account SAS definition secret id.
+    types:
+    - uid: string
+    name: sid
+  - isReadyOnly: true
+    description: The SAS definition metadata in the form of key-value pairs.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: parameters
+  - isReadyOnly: true
+    description: The SAS definition attributes.
+    types:
+    - uid: SasDefinitionAttributes
+    name: attributes
+  - isReadyOnly: true
+    description: Application specific metadata in the form of key-value pairs
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
+- name: SasDefinitionAttributes
+  description: The SAS definition management attributes.
+  kind: object
+  properties:
+  - description: the enabled state of the object.
+    types:
+    - uid: boolean
+    name: enabled
+  - isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+    name: created
+  - isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+    name: updated
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - description: ''
+    types:
+    - {}
+    name: innererror
+examples:
+- request:
+    uri: GET https://{vaultBaseUrl}/storage/getsas01/sas/getStrgSasDef01?api-version=2016-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/getsas01/sas/getStrgSasDef01",
+        "sid": "https://storage-sdk-test.vault-int.azure-int.net/secrets/getsas01-getStrgSasDef01",
+        "parameters": {
+          "sasType": "account",
+          "signedProtocols": "https",
+          "signedServices": "bq",
+          "signedResourceTypes": "sco",
+          "signedPermissions": "rw",
+          "signedVersion": "2016-05-31",
+          "validityPeriod": "PT10H"
+        },
+        "attributes": {
+          "enabled": true,
+          "created": 1490738438,
+          "updated": 1490738438
+        }
+      }
+  name: Get Storage Sas Definition
+security: []
+name: Get Sas Definition
+uid: keyvault.getsasdefinition.getsasdefinition

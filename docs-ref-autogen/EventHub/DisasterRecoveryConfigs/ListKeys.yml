@@ -1,0 +1,134 @@
+### YamlMime:RESTOperation
+summary: Gets the primary and secondary connection strings for the Namespace.
+service: Event Hubs
+apiVersion: 2017-04-01
+groupName: Disaster Recovery Configs
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/AuthorizationRules/{authorizationRuleName}/listKeys?api-version=2017-04-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group within the azure subscription.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The Namespace name
+  types:
+  - uid: string
+  name: namespaceName
+- in: path
+  isRequired: true
+  description: The Disaster Recovery configuration name
+  types:
+  - uid: string
+  name: alias
+- in: path
+  isRequired: true
+  description: The authorization rule name.
+  types:
+  - uid: string
+  name: authorizationRuleName
+- in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Connection strings returned successfully.
+  types:
+  - uid: AccessKeys
+  name: 200 OK
+- description: Eventhub error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: AccessKeys
+  description: Namespace/EventHub Connection String
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Primary connection string of the created namespace AuthorizationRule.
+    types:
+    - uid: string
+    name: primaryConnectionString
+  - isReadyOnly: true
+    description: Secondary connection string of the created namespace AuthorizationRule.
+    types:
+    - uid: string
+    name: secondaryConnectionString
+  - isReadyOnly: true
+    description: Primary connection string of the alias if GEO DR is enabled
+    types:
+    - uid: string
+    name: aliasPrimaryConnectionString
+  - isReadyOnly: true
+    description: Secondary  connection string of the alias if GEO DR is enabled
+    types:
+    - uid: string
+    name: aliasSecondaryConnectionString
+  - isReadyOnly: true
+    description: A base64-encoded 256-bit primary key for signing and validating the SAS token.
+    types:
+    - uid: string
+    name: primaryKey
+  - isReadyOnly: true
+    description: A base64-encoded 256-bit primary key for signing and validating the SAS token.
+    types:
+    - uid: string
+    name: secondaryKey
+  - isReadyOnly: true
+    description: A string that describes the AuthorizationRule.
+    types:
+    - uid: string
+    name: keyName
+- name: ErrorResponse
+  description: Error reponse indicates EventHub service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+examples:
+- request:
+    uri: POST https://management.azure.com/subscriptions/exampleSubscriptionId/resourceGroups/exampleResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-2702/disasterRecoveryConfigs/sdk-DisasterRecovery-4047/AuthorizationRules/sdk-Authrules-1746/listKeys?api-version=2017-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "aliasPrimaryConnectionString": "Endpoint=sb://sdk-disasterrecovery-4047.servicebus.windows-int.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=############################################",
+        "aliasSecondaryConnectionString": "Endpoint=sb://sdk-disasterrecovery-4047.servicebus.windows-int.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=############################################",
+        "primaryKey": "############################################",
+        "secondaryKey": "############################################",
+        "keyName": "sdk-Authrules-1746"
+      }
+  name: NameSpaceAuthorizationRuleListKey
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List Keys
+uid: management.azure.com.eventhubs.disasterrecoveryconfigs.listkeys

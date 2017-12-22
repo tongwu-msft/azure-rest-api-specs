@@ -1,0 +1,239 @@
+### YamlMime:RESTOperation
+summary: Returns the members of the client group during the specified time interval.
+service: Service Map
+apiVersion: 2015-11-01-preview
+groupName: Client Groups
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/clientGroups/{clientGroupName}/members?api-version=2015-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/clientGroups/{clientGroupName}/members?api-version=2015-11-01-preview&startTime={startTime}&endTime={endTime}&$top={$top}
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Azure subscription identifier.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Resource group name within the specified subscriptionId.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_-]+'
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: OMS workspace containing the resources of interest.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_][a-zA-Z0-9_-]+[a-zA-Z0-9_]'
+  name: workspaceName
+- in: path
+  isRequired: true
+  description: Client Group resource name.
+  types:
+  - uid: string
+  name: clientGroupName
+- in: query
+  isRequired: true
+  description: API version.
+  types:
+  - uid: string
+  name: api-version
+- in: query
+  description: UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m
+  types:
+  - uid: string
+  format: date-time
+  name: startTime
+- in: query
+  description: UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow
+  types:
+  - uid: string
+  format: date-time
+  name: endTime
+- in: query
+  description: Page size to use. When not specified, the default page size is 100 records.
+  types:
+  - uid: integer
+  format: int32
+  name: $top
+responses:
+- description: The operation completed successfully.
+  types:
+  - uid: ClientGroupMembersCollection
+  name: 200 OK
+- description: An error occurred while processing the request. See the error.code parameter to identify the specific error.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: ClientGroupMembersCollection
+  description: Collection of ClientGroupMember resources.
+  kind: object
+  properties:
+  - description: Represents a member of a client group
+    types:
+    - isArray: true
+      uid: ClientGroupMember
+    name: value
+  - description: The URL to the next set of resources.
+    types:
+    - uid: string
+    name: nextLink
+- name: ErrorResponse
+  description: An error response from the API.
+  kind: object
+  properties:
+  - description: Error information.
+    types:
+    - uid: Error
+    name: error
+- name: ClientGroupMember
+  description: Represents a member of a client group
+  kind: object
+  properties:
+  - description: IP address.
+    types:
+    - uid: string
+    name: properties.ipAddress
+  - description: Port into which this client connected
+    types:
+    - uid: PortReference
+    name: properties.port
+  - description: Reference to a process.
+    types:
+    - isArray: true
+      uid: ProcessReference
+    name: properties.processes
+  - isReadyOnly: true
+    description: Resource identifier.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+- name: Error
+  description: Error information.
+  kind: object
+  properties:
+  - description: Error code identifying the specific error.
+    types:
+    - uid: string
+    name: code
+  - description: Error message in the caller's locale.
+    types:
+    - uid: string
+    name: message
+- name: PortReference
+  description: Reference to a port.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Machine hosting the port.
+    types:
+    - uid: MachineReference
+    name: properties.machine
+  - isReadyOnly: true
+    description: IP address of the port.
+    types:
+    - uid: string
+    name: properties.ipAddress
+  - description: Port number.
+    types:
+    - uid: integer
+    name: properties.portNumber
+  - description: Resource URI.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+    name: type
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:port
+    typesTitle: string
+    name: kind
+- name: ProcessReference
+  description: Reference to a process.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Machine hosting the process.
+    types:
+    - uid: MachineReference
+    name: properties.machine
+  - description: Resource URI.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+    name: type
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:process
+    typesTitle: string
+    name: kind
+- name: MachineReference
+  description: Reference to a machine.
+  kind: object
+  properties:
+  - description: Resource URI.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+    name: type
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:machine
+    typesTitle: string
+    name: kind
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List Members
+uid: management.azure.com.servicemap.clientgroups.listmembers

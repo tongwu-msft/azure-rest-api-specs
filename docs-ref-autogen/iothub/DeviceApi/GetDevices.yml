@@ -1,0 +1,143 @@
+### YamlMime:RESTOperation
+summary: Get the identities of multiple devices from the IoT hub identity registry. Get the identities of multiple devices from the IoT hub identity registry. Returns the specified number of devices from the IoT hub's identity registry. If a limit is not specified, it returns up to 1000 identities. Pagination of device identities is not supported. This API is targeted at development and test scenarios. For large scale operations, consider using the export feature using blob storage(https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities)
+service: IoT Hub
+apiVersion: 2016-11-14
+groupName: Device Api
+consumes: []
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://<fully-qualified IoT hub domain name>/devices?api-version=2016-11-14
+- content: GET https://<fully-qualified IoT hub domain name>/devices?api-version=2016-11-14&top={top}
+  isOptional: true
+uriParameters:
+- in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+  name: api-version
+- in: query
+  description: This parameter when specified, defines the maximum number of device identities that are returned. Any value outside the range of 1-1000 is considered to be 1000.
+  types:
+  - uid: integer
+  format: int32
+  name: top
+responses:
+- description: OK
+  types:
+  - isArray: true
+    uid: Device
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: Device
+  description: Container of IoT Hub device properties and their accessors.
+  kind: object
+  properties:
+  - description: The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.
+    types:
+    - uid: string
+    name: deviceId
+  - isReadyOnly: true
+    description: An IoT hub-generated case-sensitive string (up to 128 char long). Used to distinguish devices with the same deviceId when they have been deleted and recreated.
+    types:
+    - uid: string
+    name: generationId
+  - description: A string representing an ETag for the device identity, as per RFC7232. It is used in the HTTP protocol to resolve conflicting concurrent updates to the properties of this device. An ETag is required when performing an update or delete operation on a device.
+    types:
+    - uid: string
+    name: etag
+  - description: Specifies the different connection states of a device.
+    types:
+    - uid: DeviceConnectionState
+    name: connectionState
+  - description: Represents the current status of a device. A disabled device is not allowed to perform any messaging operation. An IoT hub administrator can choose to enable or disable a device.
+    types:
+    - uid: DeviceStatus
+    name: status
+  - description: A string of user metadata. Reason, if any, for the device to be in specified status. Not interpreted or used by the IoT hub
+    types:
+    - uid: string
+    name: statusReason
+  - description: Time when the "connectionState" was last updated. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z
+    types:
+    - uid: string
+    name: connectionStateUpdatedTime
+  - description: Time when the "status" was last updated. In ISO8601 datetime format in UTC; for example, 2015-01-28T16:24:48.789Z
+    types:
+    - uid: string
+    name: statusUpdatedTime
+  - description: Last time the device connected, received or sent a message. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.
+    types:
+    - uid: string
+    name: lastActivityTime
+  - description: Current number of cloud-to-device messages that are waiting to be delivered to the device.
+    types:
+    - uid: integer
+    name: cloudToDeviceMessageCount
+  - description: Used to specify the authentication mechanism used by a device. Two mutually-exclusive options are supported - shared access signature keys and device X.509 client certificates.
+    types:
+    - uid: AuthenticationMechanism
+    name: authentication
+- name: DeviceConnectionState
+  description: Specifies the different connection states of a device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: disconnected
+  - types:
+    - uid: string
+    name: connected
+- name: DeviceStatus
+  description: Represents the current status of a device. A disabled device is not allowed to perform any messaging operation. An IoT hub administrator can choose to enable or disable a device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: enabled
+  - types:
+    - uid: string
+    name: disabled
+- name: AuthenticationMechanism
+  description: Used to specify the authentication mechanism used by a device. Two mutually-exclusive options are supported - shared access signature keys and device X.509 client certificates.
+  kind: object
+  properties:
+  - description: Primary and secondary shared access signature symmetric keys of a device. If specified, both primary key and secondary key are required. The keys must be in valid base-64 format with a key length between 16 bytes and 64 bytes. They can be identical. If they are not specified, the Iot Hub generates both keys for the device with a default key length of 32 bytes.
+    types:
+    - uid: SymmetricKey
+    name: symmetricKey
+  - description: If the device is using X.509 client certificates for authentication, at least one of primaryThumbprint or secondaryThumbprint must be specified. They can be identical.
+    types:
+    - uid: X509Thumbprint
+    name: x509Thumbprint
+- name: SymmetricKey
+  description: Primary and secondary shared access signature symmetric keys of a device. If specified, both primary key and secondary key are required. The keys must be in valid base-64 format with a key length between 16 bytes and 64 bytes. They can be identical. If they are not specified, the Iot Hub generates both keys for the device with a default key length of 32 bytes.
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: string
+    name: primaryKey
+  - description: ''
+    types:
+    - uid: string
+    name: secondaryKey
+- name: X509Thumbprint
+  description: If the device is using X.509 client certificates for authentication, at least one of primaryThumbprint or secondaryThumbprint must be specified. They can be identical.
+  kind: object
+  properties:
+  - description: Represents the SHA-1 hash of the X.509 client certificate used by the device when connecting to an IoT hub. Thumbprint values other than 40 hex chars are not accepted.
+    types:
+    - uid: string
+    name: primaryThumbprint
+  - description: Represents the SHA-1 hash of the X.509 client certificate used by the device when connecting to an IoT hub. Thumbprint values other than 40 hex chars are not accepted.
+    types:
+    - uid: string
+    name: secondaryThumbprint
+examples: []
+security: []
+name: Get Devices
+uid: <fully-qualifiediothubdomainname>.iothub.deviceapi.getdevices

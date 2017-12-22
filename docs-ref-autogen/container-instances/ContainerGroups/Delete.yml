@@ -1,0 +1,548 @@
+### YamlMime:RESTOperation
+summary: Delete the specified container group. Delete the specified container group in the specified subscription and resource group. The operation does not delete other resources provided by the user, such as volumes.
+service: Container Instances
+apiVersion: 2017-10-01-preview
+groupName: Container Groups
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2017-10-01-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the container group.
+  types:
+  - uid: string
+  name: containerGroupName
+- in: query
+  isRequired: true
+  description: Client API version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: ContainerGroup
+  name: 200 OK
+- description: No Content - the specified container group was not found.
+  name: 204 No Content
+requestHeader: []
+definitions:
+- name: ContainerGroup
+  description: A container group.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The resource id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+    name: type
+  - description: The resource location.
+    types:
+    - uid: string
+    name: location
+  - description: The resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - isReadyOnly: true
+    description: The provisioning state of the container group. This only appears in the response.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: A container instance.
+    types:
+    - isArray: true
+      uid: Container
+    name: properties.containers
+  - description: Image registry credential.
+    types:
+    - isArray: true
+      uid: ImageRegistryCredential
+    name: properties.imageRegistryCredentials
+  - description: "Restart policy for all containers within the container group. \n- `Always` Always restart\n- `OnFailure` Restart on failure\n- `Never` Never restart"
+    types:
+    - uid: ContainerGroupRestartPolicy
+    name: properties.restartPolicy
+  - description: The IP address type of the container group.
+    types:
+    - uid: IpAddress
+    name: properties.ipAddress
+  - description: The operating system type required by the containers in the container group.
+    types:
+    - uid: OperatingSystemTypes
+    name: properties.osType
+  - description: The properties of the volume.
+    types:
+    - isArray: true
+      uid: Volume
+    name: properties.volumes
+  - isReadyOnly: true
+    description: The instance view of the container group. Only valid in response.
+    types:
+    - uid: InstanceView
+    name: properties.instanceView
+- name: Container
+  description: A container instance.
+  kind: object
+  properties:
+  - description: The user-provided name of the container instance.
+    types:
+    - uid: string
+    name: name
+  - description: The name of the image used to create the container instance.
+    types:
+    - uid: string
+    name: properties.image
+  - description: The commands to execute within the container instance in exec form.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.command
+  - description: The port exposed on the container instance.
+    types:
+    - isArray: true
+      uid: ContainerPort
+    name: properties.ports
+  - description: The environment variable to set within the container instance.
+    types:
+    - isArray: true
+      uid: EnvironmentVariable
+    name: properties.environmentVariables
+  - isReadyOnly: true
+    description: The instance view of the container instance. Only valid in response.
+    types:
+    - uid: InstanceView
+    name: properties.instanceView
+  - description: The resource requirements of the container instance.
+    types:
+    - uid: ResourceRequirements
+    name: properties.resources
+  - description: The properties of the volume mount.
+    types:
+    - isArray: true
+      uid: VolumeMount
+    name: properties.volumeMounts
+- name: ImageRegistryCredential
+  description: The image registry credentials by which the container group is created from.
+  kind: object
+  properties:
+  - description: The Docker image registry server without a protocol such as "http" and "https".
+    types:
+    - uid: string
+    name: server
+  - description: The username for the private registry.
+    types:
+    - uid: string
+    name: username
+  - description: The password for the private registry.
+    types:
+    - uid: string
+    name: password
+- name: ContainerGroupRestartPolicy
+  description: "Restart policy for all containers within the container group. \n- `Always` Always restart\n- `OnFailure` Restart on failure\n- `Never` Never restart"
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Always
+  - types:
+    - uid: string
+    name: OnFailure
+  - types:
+    - uid: string
+    name: Never
+- name: IpAddress
+  description: The IP address type of the container group.
+  kind: object
+  properties:
+  - description: The port exposed on the container group.
+    types:
+    - isArray: true
+      uid: Port
+    name: ports
+  - description: Specifies if the IP is exposed to the public internet.
+    types:
+    - uid: ContainerGroupIpAddressType
+    name: type
+  - description: The IP exposed to the public internet.
+    types:
+    - uid: string
+    name: ip
+- name: OperatingSystemTypes
+  description: The operating system type required by the containers in the container group.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Windows
+  - types:
+    - uid: string
+    name: Linux
+- name: Volume
+  description: The properties of the volume.
+  kind: object
+  properties:
+  - description: The name of the volume.
+    types:
+    - uid: string
+    name: name
+  - description: The name of the Azure File volume.
+    types:
+    - uid: AzureFileVolume
+    name: azureFile
+  - description: The empty directory volume.
+    types:
+    - uid: EmptyDirVolume
+    name: emptyDir
+- name: InstanceView
+  description: The instance view of the container instance. Only valid in response.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The number of times that the container instance has been restarted.
+    types:
+    - uid: integer
+    name: restartCount
+  - isReadyOnly: true
+    description: Current container instance state.
+    types:
+    - uid: ContainerState
+    name: currentState
+  - isReadyOnly: true
+    description: Previous container instance state.
+    types:
+    - uid: ContainerState
+    name: previousState
+  - isReadyOnly: true
+    description: A container group or container instance event.
+    types:
+    - isArray: true
+      uid: Event
+    name: events
+- name: ContainerPort
+  description: The exposed ports on the container instance.
+  kind: object
+  properties:
+  - description: The protocol associated with the port.
+    types:
+    - uid: ContainerNetworkProtocol
+    name: protocol
+  - description: The port number exposed within the container group.
+    types:
+    - uid: integer
+    name: port
+- name: EnvironmentVariable
+  description: The environment variables to set in the container instance.
+  kind: object
+  properties:
+  - description: The name of the environment variable.
+    types:
+    - uid: string
+    name: name
+  - description: The value of the environment variable.
+    types:
+    - uid: string
+    name: value
+- name: ResourceRequirements
+  description: The resource requirements of the container instance.
+  kind: object
+  properties:
+  - description: The resource requests of this container instance.
+    types:
+    - uid: ResourceRequests
+    name: requests
+  - description: The resource limits of this container instance.
+    types:
+    - uid: ResourceLimits
+    name: limits
+- name: VolumeMount
+  description: The volume mounts available to the container instance.
+  kind: object
+  properties:
+  - description: The name of the volume mount.
+    types:
+    - uid: string
+    name: name
+  - description: The path within the container where the volume should be mounted. Must not contain colon (:).
+    types:
+    - uid: string
+    name: mountPath
+  - description: The flag indicating whether the volume mount is read-only.
+    types:
+    - uid: boolean
+    name: readOnly
+- name: Port
+  description: The list of ports exposed on the container group.
+  kind: object
+  properties:
+  - description: The protocol associated with the port.
+    types:
+    - uid: ContainerGroupNetworkProtocol
+    name: protocol
+  - description: The port number.
+    types:
+    - uid: integer
+    name: port
+- name: ContainerGroupIpAddressType
+  description: Specifies if the IP is exposed to the public internet.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Public
+- name: AzureFileVolume
+  description: The properties of the Azure File volume. Azure File shares are mounted as volumes.
+  kind: object
+  properties:
+  - description: The name of the Azure File share to be mounted as a volume.
+    types:
+    - uid: string
+    name: shareName
+  - description: The flag indicating whether the Azure File shared mounted as a volume is read-only.
+    types:
+    - uid: boolean
+    name: readOnly
+  - description: The name of the storage account that contains the Azure File share.
+    types:
+    - uid: string
+    name: storageAccountName
+  - description: The storage account access key used to access the Azure File share.
+    types:
+    - uid: string
+    name: storageAccountKey
+- name: EmptyDirVolume
+  description: The empty directory volume.
+  kind: object
+  properties: []
+- name: ContainerState
+  description: Current container instance state.
+  kind: object
+  properties:
+  - description: The state of the container instance.
+    types:
+    - uid: string
+    name: state
+  - description: The date-time when the container instance state started.
+    types:
+    - uid: string
+    name: startTime
+  - description: The container instance exit codes correspond to those from the `docker run` command.
+    types:
+    - uid: integer
+    name: exitCode
+  - description: The date-time when the container instance state finished.
+    types:
+    - uid: string
+    name: finishTime
+  - description: The human-readable status of the container instance state.
+    types:
+    - uid: string
+    name: detailStatus
+- name: Event
+  description: The events of the container instance.
+  kind: object
+  properties:
+  - description: The count of the event.
+    types:
+    - uid: integer
+    name: count
+  - description: The date-time of the earliest logged event.
+    types:
+    - uid: string
+    name: firstTimestamp
+  - description: The date-time of the latest logged event.
+    types:
+    - uid: string
+    name: lastTimestamp
+  - description: The event name.
+    types:
+    - uid: string
+    name: name
+  - description: The event message.
+    types:
+    - uid: string
+    name: message
+  - description: The event type.
+    types:
+    - uid: string
+    name: type
+- name: ContainerNetworkProtocol
+  description: The protocol associated with the port.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: TCP
+  - types:
+    - uid: string
+    name: UDP
+- name: ResourceRequests
+  description: The resource requests of this container instance.
+  kind: object
+  properties:
+  - description: The memory request in GB of this container instance.
+    types:
+    - uid: number
+    name: memoryInGB
+  - description: The CPU request of this container instance.
+    types:
+    - uid: number
+    name: cpu
+- name: ResourceLimits
+  description: The resource limits of this container instance.
+  kind: object
+  properties:
+  - description: The memory limit in GB of this container instance.
+    types:
+    - uid: number
+    name: memoryInGB
+  - description: The CPU limit of this container instance.
+    types:
+    - uid: number
+    name: cpu
+- name: ContainerGroupNetworkProtocol
+  description: The protocol associated with the port.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: TCP
+  - types:
+    - uid: string
+    name: UDP
+examples:
+- request:
+    uri: DELETE https://management.azure.com/subscriptions/ae43b1e3-c35d-4c8c-bc0d-f148b4c52b78/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/mycontainers?api-version=2017-10-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Succeeded",
+          "containers": [
+            {
+              "name": "mycontainers",
+              "properties": {
+                "image": "nginx",
+                "command": [],
+                "ports": [
+                  {
+                    "port": 80
+                  }
+                ],
+                "environmentVariables": [],
+                "instanceView": {
+                  "restartCount": 0,
+                  "currentState": {
+                    "state": "Running",
+                    "startTime": "2017-10-17T17:27:21Z",
+                    "detailStatus": ""
+                  },
+                  "events": [
+                    {
+                      "count": 1,
+                      "firstTimestamp": "2017-10-17T17:27:14Z",
+                      "lastTimestamp": "2017-10-17T17:27:14Z",
+                      "name": "Pulling",
+                      "message": "pulling image \"nginx\"",
+                      "type": "Normal"
+                    },
+                    {
+                      "count": 1,
+                      "firstTimestamp": "2017-10-17T17:27:20Z",
+                      "lastTimestamp": "2017-10-17T17:27:20Z",
+                      "name": "Pulled",
+                      "message": "Successfully pulled image \"nginx\"",
+                      "type": "Normal"
+                    },
+                    {
+                      "count": 1,
+                      "firstTimestamp": "2017-10-17T17:27:20Z",
+                      "lastTimestamp": "2017-10-17T17:27:20Z",
+                      "name": "Created",
+                      "message": "Created container with id 59ac4a83384ce9184c315ecd3c7cff39a7c9a3257646d41309758f8730b9a527",
+                      "type": "Normal"
+                    },
+                    {
+                      "count": 1,
+                      "firstTimestamp": "2017-10-17T17:27:21Z",
+                      "lastTimestamp": "2017-10-17T17:27:21Z",
+                      "name": "Started",
+                      "message": "Started container with id 59ac4a83384ce9184c315ecd3c7cff39a7c9a3257646d41309758f8730b9a527",
+                      "type": "Normal"
+                    }
+                  ]
+                },
+                "resources": {
+                  "requests": {
+                    "memoryInGB": 1.5,
+                    "cpu": 1
+                  }
+                }
+              }
+            }
+          ],
+          "imageRegistryCredentials": [],
+          "ipAddress": {
+            "ports": [
+              {
+                "protocol": "TCP",
+                "port": 80
+              }
+            ],
+            "ip": "13.64.70.13",
+            "type": "Public"
+          },
+          "osType": "Linux",
+          "instanceView": {
+            "events": [],
+            "state": "Running"
+          }
+        },
+        "id": "/subscriptions/ae43b1e3-c35d-4c8c-bc0d-f148b4c52b78/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/mycontainers",
+        "name": "mycontainers",
+        "type": "Microsoft.ContainerInstance/containerGroups",
+        "location": "westus"
+      }
+  - statusCode: "204"
+  name: ContainerGroupsDelete
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: Impersonate your user account
+    name: user_impersonation
+name: Delete
+uid: management.azure.com.containerinstances.containergroups.delete

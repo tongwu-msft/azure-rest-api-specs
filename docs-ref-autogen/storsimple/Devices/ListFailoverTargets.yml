@@ -1,0 +1,304 @@
+### YamlMime:RESTOperation
+summary: Given a list of volume containers to be failed over from a source device, this method returns the eligibility result, as a failover target, for all devices under that resource.
+service: StorSimple
+apiVersion: 2017-06-01
+groupName: Devices
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{sourceDeviceName}/listFailoverTargets?api-version=2017-06-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription id
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The resource group name
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The manager name
+  types:
+  - uid: string
+  name: managerName
+- in: path
+  isRequired: true
+  description: The source device name on which failover is performed.
+  types:
+  - uid: string
+  name: sourceDeviceName
+- in: query
+  isRequired: true
+  description: The api version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The list of target devices and their eligibility for failover.
+  types:
+  - uid: FailoverTargetsList
+  name: 200 OK
+requestBody:
+- parameters:
+  - in: body
+    description: The list of path IDs of the volume containers that needs to be failed-over, for which we want to fetch the eligible targets.
+    types:
+    - isArray: true
+      uid: string
+    name: volumeContainers
+requestHeader: []
+definitions:
+- name: FailoverTargetsList
+  description: The list of all devices in a resource and their eligibility status as a failover target device.
+  kind: object
+  properties:
+  - description: Represents the eligibility of a device as a failover target device.
+    types:
+    - isArray: true
+      uid: FailoverTarget
+    name: value
+- name: ListFailoverTargetsRequest
+  description: The request object for fetching the list of failover targets (eligible devices for failover).
+  kind: object
+  properties:
+  - description: The list of path IDs of the volume containers that needs to be failed-over, for which we want to fetch the eligible targets.
+    types:
+    - isArray: true
+      uid: string
+    name: volumeContainers
+- name: FailoverTarget
+  description: Represents the eligibility of a device as a failover target device.
+  kind: object
+  properties:
+  - description: The path ID of the device.
+    types:
+    - uid: string
+    name: deviceId
+  - description: The status of the device.
+    types:
+    - uid: DeviceStatus
+    name: deviceStatus
+  - description: The model number of the device.
+    types:
+    - uid: string
+    name: modelDescription
+  - description: The software version of the device.
+    types:
+    - uid: string
+    name: deviceSoftwareVersion
+  - description: The count of datacontainers on the device.
+    types:
+    - uid: integer
+    name: dataContainersCount
+  - description: The count of volumes on the device.
+    types:
+    - uid: integer
+    name: volumesCount
+  - description: The amount of free local storage available on the device in bytes.
+    types:
+    - uid: integer
+    name: availableLocalStorageInBytes
+  - description: The amount of free tiered storage available for the device in bytes.
+    types:
+    - uid: integer
+    name: availableTieredStorageInBytes
+  - description: The geo location (applicable only for cloud appliances) of the device.
+    types:
+    - uid: string
+    name: deviceLocation
+  - description: The friendly name for the current version of software on the device.
+    types:
+    - uid: string
+    name: friendlyDeviceSoftwareVersion
+  - description: The eligibility result of the device, as a failover target device.
+    types:
+    - uid: TargetEligibilityResult
+    name: eligibilityResult
+- name: DeviceStatus
+  description: The current status of the device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: Online
+  - types:
+    - uid: string
+    name: Offline
+  - types:
+    - uid: string
+    name: Deactivated
+  - types:
+    - uid: string
+    name: RequiresAttention
+  - types:
+    - uid: string
+    name: MaintenanceMode
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Provisioning
+  - types:
+    - uid: string
+    name: Deactivating
+  - types:
+    - uid: string
+    name: Deleted
+  - types:
+    - uid: string
+    name: ReadyToSetup
+- name: TargetEligibilityResult
+  description: The eligibility result of the device, as a failover target device.
+  kind: object
+  properties:
+  - description: The eligibility status of device, as a failover target device.
+    types:
+    - uid: TargetEligibilityStatus
+    name: eligibilityStatus
+  - description: The error/warning message due to which the device is ineligible as a failover target device.
+    types:
+    - isArray: true
+      uid: TargetEligibilityErrorMessage
+    name: messages
+- name: TargetEligibilityStatus
+  description: The eligibility status of device, as a failover target device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotEligible
+  - types:
+    - uid: string
+    name: Eligible
+- name: TargetEligibilityErrorMessage
+  description: The list of error messages, if a device does not qualify as a failover target device.
+  kind: object
+  properties:
+  - description: The localized error message stating the reason why the device is not eligible as a target device.
+    types:
+    - uid: string
+    name: message
+  - description: The localized resolution message for the error.
+    types:
+    - uid: string
+    name: resolution
+  - description: The result code for the error, due to which the device does not qualify as a failover target device.
+    types:
+    - uid: TargetEligibilityResultCode
+    name: resultCode
+- name: TargetEligibilityResultCode
+  description: The result code for the error, due to which the device does not qualify as a failover target device.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: TargetAndSourceCannotBeSameError
+  - types:
+    - uid: string
+    name: TargetIsNotOnlineError
+  - types:
+    - uid: string
+    name: TargetSourceIncompatibleVersionError
+  - types:
+    - uid: string
+    name: LocalToTieredVolumesConversionWarning
+  - types:
+    - uid: string
+    name: TargetInsufficientCapacityError
+  - types:
+    - uid: string
+    name: TargetInsufficientLocalVolumeMemoryError
+  - types:
+    - uid: string
+    name: TargetInsufficientTieredVolumeMemoryError
+examples:
+- request:
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/listFailoverTargets?api-version=2017-06-01
+    body: >-
+      {
+        "volumeContainers": [
+          "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/vcforsdktest"
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "deviceId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/sugattdeviceforSDK",
+            "deviceStatus": "Offline",
+            "deviceSoftwareVersion": "6.3.9600.17802",
+            "dataContainersCount": 0,
+            "volumesCount": 0,
+            "availableLocalStorageInBytes": 43980464128,
+            "availableTieredStorageInBytes": 1099511627776,
+            "friendlyDeviceSoftwareVersion": "StorSimple 8000 Series Update 4.0",
+            "eligibilityResult": {
+              "eligibilityStatus": "NotEligible",
+              "messages": [
+                {
+                  "message": "The selected target device is in 'Offline' state. The device configuration status is 'True'. Only online devices with the configuration status as complete can be failed over.",
+                  "resolution": "Ensure that the specified target device is online and the device configuration is complete before you try the device failover.",
+                  "resultCode": "TargetIsNotOnlineError"
+                }
+              ]
+            }
+          },
+          {
+            "deviceId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/jemdeviceforsdk",
+            "deviceStatus": "Online",
+            "deviceSoftwareVersion": "6.3.9600.17802",
+            "dataContainersCount": 0,
+            "volumesCount": 0,
+            "availableLocalStorageInBytes": 43980464128,
+            "availableTieredStorageInBytes": 1099511627776,
+            "friendlyDeviceSoftwareVersion": "StorSimple 8000 Series Update 4.0",
+            "eligibilityResult": {
+              "eligibilityStatus": "Eligible"
+            }
+          },
+          {
+            "deviceId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest",
+            "deviceStatus": "Online",
+            "deviceSoftwareVersion": "6.3.9600.17802",
+            "dataContainersCount": 2,
+            "volumesCount": 7,
+            "availableLocalStorageInBytes": 40458590976,
+            "availableTieredStorageInBytes": 1011464798208,
+            "friendlyDeviceSoftwareVersion": "StorSimple 8000 Series Update 4.0",
+            "eligibilityResult": {
+              "eligibilityStatus": "NotEligible",
+              "messages": [
+                {
+                  "message": "The specified target device is the same as the source device. This is not supported. ",
+                  "resolution": "Select a different target device and then retry the failover. ",
+                  "resultCode": "TargetAndSourceCannotBeSameError"
+                }
+              ]
+            }
+          }
+        ]
+      }
+  name: DevicesListFailoverTargets
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List Failover Targets
+uid: management.azure.com.storsimple.devices.listfailovertargets

@@ -1,0 +1,335 @@
+### YamlMime:RESTOperation
+summary: Lists the appliance definitions in a resource group.
+service: Resource Management
+apiVersion: 2016-09-01-preview
+groupName: Appliance Definitions
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applianceDefinitions?api-version=2016-09-01-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+  name: resourceGroupName
+- in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK - Returns an array of appliance definitions.
+  types:
+  - uid: ApplianceDefinitionListResult
+  name: 200 OK
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: ApplianceDefinitionListResult
+  description: List of appliance definitions.
+  kind: object
+  properties:
+  - description: Information about appliance definition.
+    types:
+    - isArray: true
+      uid: ApplianceDefinition
+    name: value
+  - description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+    name: nextLink
+- name: ErrorResponse
+  description: Error reponse indicates ARM appliance is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Http status code.
+    types:
+    - uid: string
+    name: httpStatus
+  - description: Error code.
+    types:
+    - uid: string
+    name: errorCode
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: errorMessage
+- name: ApplianceDefinition
+  description: Information about appliance definition.
+  kind: object
+  properties:
+  - description: The appliance lock level.
+    types:
+    - uid: ApplianceLockLevel
+    name: properties.lockLevel
+  - description: The appliance definition display name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: The appliance provider authorization.
+    types:
+    - isArray: true
+      uid: ApplianceProviderAuthorization
+    name: properties.authorizations
+  - description: Appliance artifact.
+    types:
+    - isArray: true
+      uid: ApplianceArtifact
+    name: properties.artifacts
+  - description: The appliance definition description.
+    types:
+    - uid: string
+    name: properties.description
+  - description: The appliance definition package file Uri.
+    types:
+    - uid: string
+    name: properties.packageFileUri
+  - description: ID of the resource that manages this resource.
+    types:
+    - uid: string
+    name: managedBy
+  - description: The SKU of the resource.
+    types:
+    - uid: Sku
+    name: sku
+  - description: The identity of the resource.
+    types:
+    - uid: Identity
+    name: identity
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+  - description: Resource location
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: ApplianceLockLevel
+  description: The appliance lock level.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: CanNotDelete
+  - types:
+    - uid: string
+    name: ReadOnly
+  - types:
+    - uid: string
+    name: None
+- name: ApplianceProviderAuthorization
+  description: The appliance provider authorizations.
+  kind: object
+  properties:
+  - description: The provider's principal identifier. This is the identity that the provider will use to call ARM to manage the appliance resources.
+    types:
+    - uid: string
+    name: principalId
+  - description: The provider's role definition identifier. This role will define all the permissions that the provider must have on the appliance's container resource group. This role definition cannot have permission to delete the resource group.
+    types:
+    - uid: string
+    name: roleDefinitionId
+- name: ApplianceArtifact
+  description: The collection of appliance artifacts. The portal will use the files specified as artifacts to construct the user experience of creating an appliance from an appliance definition.
+  kind: object
+  properties:
+  - description: The appliance artifact name.
+    types:
+    - uid: string
+    name: name
+  - description: The appliance artifact blob uri.
+    types:
+    - uid: string
+    name: uri
+  - description: The the appliance artifact type.
+    types:
+    - uid: ApplianceArtifactType
+    name: type
+- name: Sku
+  description: The SKU of the resource.
+  kind: object
+  properties:
+  - description: The SKU name.
+    types:
+    - uid: string
+    name: name
+  - description: The SKU tier.
+    types:
+    - uid: string
+    name: tier
+  - description: The SKU size.
+    types:
+    - uid: string
+    name: size
+  - description: The SKU family.
+    types:
+    - uid: string
+    name: family
+  - description: The SKU model.
+    types:
+    - uid: string
+    name: model
+  - description: The SKU capacity.
+    types:
+    - uid: integer
+    name: capacity
+- name: Identity
+  description: The identity of the resource.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+    name: principalId
+  - isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+    name: tenantId
+  - description: The identity type.
+    types:
+    - uid: ResourceIdentityType
+    name: type
+- name: ApplianceArtifactType
+  description: The the appliance artifact type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Template
+  - types:
+    - uid: string
+    name: Custom
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: SystemAssigned
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions?api-version=2016-09-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "myApplianceDef",
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myApplianceDef",
+            "type": "Microsoft.Solutions/applianceDefinitions",
+            "location": "East US 2",
+            "managedBy": null,
+            "resourceGroup": "rg",
+            "tags": null,
+            "identity": null,
+            "sku": null,
+            "properties": {
+              "artifacts": [
+                {
+                  "name": "CreateUiDefinition",
+                  "type": "Custom",
+                  "uri": "https://path/to/applianceCreateUiDefinition.json"
+                },
+                {
+                  "name": "ApplianceResourceTemplate",
+                  "type": "Template",
+                  "uri": "https://path/to/mainTemplate.json"
+                }
+              ],
+              "authorizations": [
+                {
+                  "principalId": "validprincipalguid",
+                  "roleDefinitionId": "validroleguid"
+                }
+              ],
+              "description": "myApplianceDef description",
+              "displayName": "myApplianceDef",
+              "lockLevel": null,
+              "packageFileUri": "https://path/to/packagezipfile"
+            }
+          },
+          {
+            "name": "myApplianceDef2",
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myApplianceDef2",
+            "type": "Microsoft.Solutions/applianceDefinitions",
+            "location": "West US",
+            "managedBy": null,
+            "resourceGroup": "rg",
+            "tags": null,
+            "identity": null,
+            "sku": null,
+            "properties": {
+              "artifacts": [
+                {
+                  "name": "CreateUiDefinition",
+                  "type": "Custom",
+                  "uri": "https://path/to/applianceCreateUiDefinition.json"
+                },
+                {
+                  "name": "ApplianceResourceTemplate",
+                  "type": "Template",
+                  "uri": "https://path/to/mainTemplate.json"
+                }
+              ],
+              "authorizations": [
+                {
+                  "principalId": "validprincipalguid",
+                  "roleDefinitionId": "validroleguid"
+                }
+              ],
+              "description": "myApplianceDef2 description",
+              "displayName": "myApplianceDef2",
+              "lockLevel": null,
+              "packageFileUri": "https://path/to/packagezipfile"
+            }
+          }
+        ]
+      }
+  name: List appliance definitions
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Resource Group
+uid: management.azure.com.resourcemanagement.appliancedefinitions.listbyresourcegroup

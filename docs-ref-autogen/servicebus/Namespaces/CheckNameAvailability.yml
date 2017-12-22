@@ -1,0 +1,128 @@
+### YamlMime:RESTOperation
+summary: Check the give namespace name availability.
+service: Service Bus
+apiVersion: 2017-04-01
+groupName: Namespaces
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ServiceBus/CheckNameAvailability?api-version=2017-04-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: check availability returned successfully.
+  types:
+  - uid: CheckNameAvailabilityResult
+  name: 200 OK
+- description: ServiceBus error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The Name to check the namespce name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number.
+    types:
+    - uid: string
+    name: name
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityResult
+  description: Description of a Check Name availability request properties.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The detailed info regarding the reason associated with the namespace.
+    types:
+    - uid: string
+    name: message
+  - description: Value indicating namespace is availability, true if the namespace is available; otherwise, false.
+    types:
+    - uid: boolean
+    name: nameAvailable
+  - description: The reason for unavailability of a namespace.
+    types:
+    - uid: UnavailableReason
+    name: reason
+- name: ErrorResponse
+  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: CheckNameAvailability
+  description: Description of a Check Name availability request properties.
+  kind: object
+  properties:
+  - description: The Name to check the namespce name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number.
+    types:
+    - uid: string
+    name: name
+- name: UnavailableReason
+  description: Specifies the reason for the unavailability of the service.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: None
+  - types:
+    - uid: string
+    name: InvalidName
+  - types:
+    - uid: string
+    name: SubscriptionIsDisabled
+  - types:
+    - uid: string
+    name: NameInUse
+  - types:
+    - uid: string
+    name: NameInLockdown
+  - types:
+    - uid: string
+    name: TooManyNamespaceInCurrentSubscription
+examples:
+- request:
+    uri: POST https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/providers/Microsoft.ServiceBus/CheckNameAvailability?api-version=2017-04-01
+    body: >-
+      {
+        "name": "sdk-Namespace-2924"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "None",
+        "message": ""
+      }
+  name: NameSpaceCheckNameAvailability
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Check Name Availability
+uid: management.azure.com.servicebus.namespaces.checknameavailability

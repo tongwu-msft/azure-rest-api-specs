@@ -1,0 +1,153 @@
+### YamlMime:RESTOperation
+summary: Retrieve the usage for the account id.
+service: Automation
+apiVersion: 2015-10-31
+groupName: Usages
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/usages?api-version=2015-10-31
+uriParameters:
+- in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The automation account name.
+  types:
+  - uid: string
+  name: automationAccountName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: UsageListResult
+  name: 200 OK
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: UsageListResult
+  description: The response model for the get usage operation.
+  kind: object
+  properties:
+  - description: Definition of Usage.
+    types:
+    - isArray: true
+      uid: Usage
+    name: value
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: Usage
+  description: Definition of Usage.
+  kind: object
+  properties:
+  - description: Gets or sets the id of the resource.
+    types:
+    - uid: string
+    name: id
+  - description: Gets or sets the usage counter name.
+    types:
+    - uid: UsageCounterName
+    name: name
+  - description: Gets or sets the usage unit name.
+    types:
+    - uid: string
+    name: unit
+  - description: Gets or sets the current usage value.
+    types:
+    - uid: number
+    name: currentValue
+  - description: Gets or sets max limit. -1 for unlimited
+    types:
+    - uid: integer
+    name: limit
+  - description: Gets or sets the throttle status.
+    types:
+    - uid: string
+    name: throttleStatus
+- name: UsageCounterName
+  description: Definition of usage counter name.
+  kind: object
+  properties:
+  - description: Gets or sets the usage counter name.
+    types:
+    - uid: string
+    name: value
+  - description: Gets or sets the localized usage counter name.
+    types:
+    - uid: string
+    name: localizedValue
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/usages?api-version=2015-10-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": {
+              "value": "AccountUsage",
+              "localizedValue": "AccountUsage"
+            },
+            "unit": "Minute",
+            "currentValue": 0,
+            "limit": 500,
+            "throttleStatus": "NotThrottled"
+          },
+          {
+            "name": {
+              "value": "SubscriptionUsage",
+              "localizedValue": "SubscriptionUsage"
+            },
+            "unit": "Minute",
+            "currentValue": 429,
+            "limit": 500,
+            "throttleStatus": "NotThrottled"
+          },
+          {
+            "name": {
+              "value": "DscSubscriptionUsage",
+              "localizedValue": "DscSubscriptionUsage"
+            },
+            "unit": "Count",
+            "currentValue": 8,
+            "limit": 5,
+            "throttleStatus": "ThrottledAtSubscriptionLevel"
+          }
+        ]
+      }
+  name: Get usages of an automation account
+security: []
+name: List By Automation Account
+uid: management.azure.com.automation.usages.listbyautomationaccount

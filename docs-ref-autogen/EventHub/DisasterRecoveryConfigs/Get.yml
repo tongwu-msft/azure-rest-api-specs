@@ -1,0 +1,156 @@
+### YamlMime:RESTOperation
+summary: Retrieves Alias(Disaster Recovery configuration) for primary or secondary namespace
+service: Event Hubs
+apiVersion: 2017-04-01
+groupName: Disaster Recovery Configs
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}?api-version=2017-04-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group within the azure subscription.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The Namespace name
+  types:
+  - uid: string
+  name: namespaceName
+- in: path
+  isRequired: true
+  description: The Disaster Recovery configuration name
+  types:
+  - uid: string
+  name: alias
+- in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Successfully retrieved the Alias(Disaster Recovery configurations)
+  types:
+  - uid: ArmDisasterRecovery
+  name: 200 OK
+- description: Eventhub error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: ArmDisasterRecovery
+  description: Single item in List or Get Alias(Disaster Recovery configuration) operation
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed'
+    types:
+    - uid: ProvisioningStateDR
+    name: properties.provisioningState
+  - description: ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairning
+    types:
+    - uid: string
+    name: properties.partnerNamespace
+  - description: Alternate name specified when alias and namespace names are same.
+    types:
+    - uid: string
+    name: properties.alternateName
+  - isReadyOnly: true
+    description: role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary'
+    types:
+    - uid: RoleDisasterRecovery
+    name: properties.role
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+- name: ErrorResponse
+  description: Error reponse indicates EventHub service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: ProvisioningStateDR
+  description: Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Accepted
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+- name: RoleDisasterRecovery
+  description: role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Primary
+  - types:
+    - uid: string
+    name: PrimaryNotReplicating
+  - types:
+    - uid: string
+    name: Secondary
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/exampleSubscriptionId/resourceGroups/exampleResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-8859/disasterRecoveryConfigs/sdk-DisasterRecovery-3814?api-version=2017-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/exampleSubscriptionId/resourceGroups/exampleResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-37/disasterRecoveryConfig/sdk-DisasterRecovery-3814",
+        "name": "sdk-DisasterRecovery-3814",
+        "type": "Microsoft.EventHub/Namespaces/DisasterRecoveryConfig",
+        "properties": {
+          "provisioningState": "Accepted",
+          "partnerNamespace": "sdk-Namespace-8859",
+          "role": "Secondary",
+          "type": "MetadataReplication"
+        }
+      }
+  name: EHAliasGet
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get
+uid: management.azure.com.eventhubs.disasterrecoveryconfigs.get

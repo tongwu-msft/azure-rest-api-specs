@@ -1,0 +1,336 @@
+### YamlMime:RESTOperation
+summary: Updates the details of the operation in the API specified by its identifier.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Api Operation
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}?api-version=2017-03-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: path
+  isRequired: true
+  description: API identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+  name: apiId
+- in: path
+  isRequired: true
+  description: Operation identifier within an API. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+  name: operationId
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The operation was successfully updated.
+  name: 204 No Content
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: Operation Name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - in: body
+    description: A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.
+    types:
+    - uid: string
+    name: properties.method
+  - in: body
+    description: 'Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}'
+    types:
+    - uid: string
+    name: properties.urlTemplate
+  - in: body
+    description: Operation parameters details.
+    types:
+    - isArray: true
+      uid: ParameterContract
+    name: properties.templateParameters
+  - in: body
+    description: Description of the operation. May include HTML formatting tags.
+    types:
+    - uid: string
+    name: properties.description
+  - in: body
+    description: An entity containing request details.
+    types:
+    - uid: RequestContract
+    name: properties.request
+  - in: body
+    description: Operation response details.
+    types:
+    - isArray: true
+      uid: ResponseContract
+    name: properties.responses
+  - in: body
+    description: Operation Policies
+    types:
+    - uid: string
+    name: properties.policies
+requestHeader:
+- in: header
+  isRequired: true
+  description: ETag of the API Operation Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
+  types:
+  - uid: string
+  name: If-Match
+definitions:
+- name: ParameterContract
+  description: Collection of URL template parameters.
+  kind: object
+  properties:
+  - description: Parameter name.
+    types:
+    - uid: string
+    name: name
+  - description: Parameter description.
+    types:
+    - uid: string
+    name: description
+  - description: Parameter type.
+    types:
+    - uid: string
+    name: type
+  - description: Default parameter value.
+    types:
+    - uid: string
+    name: defaultValue
+  - description: whether parameter is required or not.
+    types:
+    - uid: boolean
+    name: required
+  - description: Parameter values.
+    types:
+    - isArray: true
+      uid: string
+    name: values
+- name: RequestContract
+  description: An entity containing request details.
+  kind: object
+  properties:
+  - description: Operation request description.
+    types:
+    - uid: string
+    name: description
+  - description: Operation parameters details.
+    types:
+    - isArray: true
+      uid: ParameterContract
+    name: queryParameters
+  - description: Operation parameters details.
+    types:
+    - isArray: true
+      uid: ParameterContract
+    name: headers
+  - description: Operation request/response representation details.
+    types:
+    - isArray: true
+      uid: RepresentationContract
+    name: representations
+- name: ResponseContract
+  description: Array of Operation responses.
+  kind: object
+  properties:
+  - description: Operation response HTTP status code.
+    types:
+    - uid: integer
+    name: statusCode
+  - description: Operation response description.
+    types:
+    - uid: string
+    name: description
+  - description: Operation request/response representation details.
+    types:
+    - isArray: true
+      uid: RepresentationContract
+    name: representations
+  - description: Operation parameters details.
+    types:
+    - isArray: true
+      uid: ParameterContract
+    name: headers
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: Error Field contract.
+    types:
+    - isArray: true
+      uid: ErrorFieldContract
+    name: details
+- name: OperationUpdateContract
+  description: Api Operation Update Contract details.
+  kind: object
+  properties:
+  - description: Operation Name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.
+    types:
+    - uid: string
+    name: properties.method
+  - description: 'Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}'
+    types:
+    - uid: string
+    name: properties.urlTemplate
+  - description: Operation parameters details.
+    types:
+    - isArray: true
+      uid: ParameterContract
+    name: properties.templateParameters
+  - description: Description of the operation. May include HTML formatting tags.
+    types:
+    - uid: string
+    name: properties.description
+  - description: An entity containing request details.
+    types:
+    - uid: RequestContract
+    name: properties.request
+  - description: Operation response details.
+    types:
+    - isArray: true
+      uid: ResponseContract
+    name: properties.responses
+  - description: Operation Policies
+    types:
+    - uid: string
+    name: properties.policies
+- name: RepresentationContract
+  description: Collection of operation request representations.
+  kind: object
+  properties:
+  - description: Specifies a registered or custom content type for this representation, e.g. application/xml.
+    types:
+    - uid: string
+    name: contentType
+  - description: An example of the representation.
+    types:
+    - uid: string
+    name: sample
+  - description: Schema identifier. Applicable only if 'contentType' value is neither 'application/x-www-form-urlencoded' nor 'multipart/form-data'.
+    types:
+    - uid: string
+    name: schemaId
+  - description: Type name defined by the schema. Applicable only if 'contentType' value is neither 'application/x-www-form-urlencoded' nor 'multipart/form-data'.
+    types:
+    - uid: string
+    name: typeName
+  - description: Operation parameters details.
+    types:
+    - isArray: true
+      uid: ParameterContract
+    name: formParameters
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - description: Property level error code.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+    name: message
+  - description: Property name.
+    types:
+    - uid: string
+    name: target
+examples:
+- request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api/operations/operationId?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "displayName": "Retrieve resource",
+          "method": "GET",
+          "urlTemplate": "/resource",
+          "templateParameters": [],
+          "request": {
+            "queryParameters": [
+              {
+                "name": "param1",
+                "description": "A sample parameter that is required and has a default value of \"sample\".",
+                "type": "string",
+                "defaultValue": "sample",
+                "required": true,
+                "values": [
+                  "sample"
+                ]
+              }
+            ]
+          },
+          "responses": [
+            {
+              "statusCode": 200,
+              "description": "Returned in all cases.",
+              "representations": [],
+              "headers": []
+            },
+            {
+              "statusCode": 500,
+              "description": "Server Error.",
+              "representations": [],
+              "headers": []
+            }
+          ]
+        }
+      }
+    headers:
+    - value: '*'
+      name: If-Match
+  responses:
+  - statusCode: "204"
+  name: ApiManagementUpdateApiOperation
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Update
+uid: management.azure.com.apimanagement.apioperation.update

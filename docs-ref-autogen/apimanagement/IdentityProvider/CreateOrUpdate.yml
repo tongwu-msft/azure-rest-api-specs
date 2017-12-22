@@ -1,0 +1,262 @@
+### YamlMime:RESTOperation
+summary: Creates or Updates the IdentityProvider configuration.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Identity Provider
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}?api-version=2017-03-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: path
+  isRequired: true
+  description: Identity Provider Type identifier.
+  types:
+  - uid: string
+  name: identityProviderName
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: IdentityProvider configuration were successfully created.
+  types:
+  - uid: IdentityProviderContract
+  name: 201 Created
+- description: The existing Identity Provider was successfully updated.
+  types:
+  - uid: IdentityProviderContract
+  name: 200 OK
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft.
+    types:
+    - uid: string
+    name: properties.clientId
+  - in: body
+    isRequired: true
+    description: Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft.
+    types:
+    - uid: string
+    name: properties.clientSecret
+  - in: body
+    description: Identity Provider Type identifier.
+    types:
+    - uid: IdentityProviderType
+    name: properties.type
+  - in: body
+    description: List of Allowed Tenants when configuring Azure Active Directory login.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.allowedTenants
+  - in: body
+    description: Signup Policy Name. Only applies to AAD B2C Identity Provider.
+    types:
+    - uid: string
+    name: properties.signupPolicyName
+  - in: body
+    description: Signin Policy Name. Only applies to AAD B2C Identity Provider.
+    types:
+    - uid: string
+    name: properties.signinPolicyName
+  - in: body
+    description: Profile Editing Policy Name. Only applies to AAD B2C Identity Provider.
+    types:
+    - uid: string
+    name: properties.profileEditingPolicyName
+  - in: body
+    description: Password Reset Policy Name. Only applies to AAD B2C Identity Provider.
+    types:
+    - uid: string
+    name: properties.passwordResetPolicyName
+requestHeader: []
+definitions:
+- name: IdentityProviderContract
+  description: Identity Provider details.
+  kind: object
+  properties:
+  - description: Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft.
+    types:
+    - uid: string
+    name: properties.clientId
+  - description: Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft.
+    types:
+    - uid: string
+    name: properties.clientSecret
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
+  - description: Identity Provider Type identifier.
+    types:
+    - uid: IdentityProviderType
+    name: properties.type
+  - description: List of Allowed Tenants when configuring Azure Active Directory login.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.allowedTenants
+  - description: Signup Policy Name. Only applies to AAD B2C Identity Provider.
+    types:
+    - uid: string
+    name: properties.signupPolicyName
+  - description: Signin Policy Name. Only applies to AAD B2C Identity Provider.
+    types:
+    - uid: string
+    name: properties.signinPolicyName
+  - description: Profile Editing Policy Name. Only applies to AAD B2C Identity Provider.
+    types:
+    - uid: string
+    name: properties.profileEditingPolicyName
+  - description: Password Reset Policy Name. Only applies to AAD B2C Identity Provider.
+    types:
+    - uid: string
+    name: properties.passwordResetPolicyName
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: Error Field contract.
+    types:
+    - isArray: true
+      uid: ErrorFieldContract
+    name: details
+- name: IdentityProviderType
+  description: Identity Provider Type identifier.
+  kind: enum
+  properties:
+  - description: Facebook as Identity provider.
+    types:
+    - uid: string
+    name: facebook
+  - description: Google as Identity provider.
+    types:
+    - uid: string
+    name: google
+  - description: Microsoft Live as Identity provider.
+    types:
+    - uid: string
+    name: microsoft
+  - description: Twitter as Identity provider.
+    types:
+    - uid: string
+    name: twitter
+  - description: Azure Active Directory as Identity provider.
+    types:
+    - uid: string
+    name: aad
+  - description: Azure Active Directory B2C as Identity provider.
+    types:
+    - uid: string
+    name: aadB2C
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - description: Property level error code.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+    name: message
+  - description: Property name.
+    types:
+    - uid: string
+    name: target
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/identityProviders/facebook?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "clientId": "facebookid",
+          "clientSecret": "facebookapplicationsecret"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/identityProviders/Facebook",
+        "type": "Microsoft.ApiManagement/service/identityProviders",
+        "name": "Facebook",
+        "properties": {
+          "clientId": "facebookid",
+          "clientSecret": "facebookapplicationsecret",
+          "type": "facebook"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/identityProviders/Facebook",
+        "type": "Microsoft.ApiManagement/service/identityProviders",
+        "name": "Facebook",
+        "properties": {
+          "clientId": "facebookid",
+          "clientSecret": "facebookapplicationsecret",
+          "type": "facebook"
+        }
+      }
+  name: ApiManagementCreateIdentityProvider
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update
+uid: management.azure.com.apimanagement.identityprovider.createorupdate

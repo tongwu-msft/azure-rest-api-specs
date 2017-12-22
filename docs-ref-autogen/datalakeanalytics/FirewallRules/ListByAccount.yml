@@ -1,0 +1,115 @@
+### YamlMime:RESTOperation
+summary: Lists the Data Lake Analytics firewall rules within the specified Data Lake Analytics account.
+service: Data Lake Analytics
+apiVersion: 2016-11-01
+groupName: Firewall Rules
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/firewallRules?api-version=2016-11-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the Azure resource group that contains the Data Lake Analytics account.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the Data Lake Analytics account from which to get the firewall rules.
+  types:
+  - uid: string
+  name: accountName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Successfully listed the firewall rules.
+  types:
+  - uid: DataLakeAnalyticsFirewallRuleListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: DataLakeAnalyticsFirewallRuleListResult
+  description: Data Lake Analytics firewall rule list information.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Data Lake Analytics firewall rule information
+    types:
+    - isArray: true
+      uid: FirewallRule
+    name: value
+  - isReadyOnly: true
+    description: the link (url) to the next page of results.
+    types:
+    - uid: string
+    name: nextLink
+- name: FirewallRule
+  description: The list of firewall rules associated with this Data Lake Analytics account.
+  kind: object
+  properties:
+  - description: the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+    types:
+    - uid: string
+    name: properties.startIpAddress
+  - description: the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+    types:
+    - uid: string
+    name: properties.endIpAddress
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/firewallRules?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+            "name": "test_rule",
+            "type": "test_type",
+            "properties": {
+              "startIpAddress": "1.1.1.1",
+              "endIpAddress": "2.2.2.2"
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/jobPolicies?api-version=2016-11-01&%24skiptoken=<token>"
+      }
+  name: Lists the Data Lake Analytics firewall rules
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Account
+uid: management.azure.com.datalakeanalytics.firewallrules.listbyaccount

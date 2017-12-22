@@ -1,0 +1,103 @@
+### YamlMime:RESTOperation
+summary: Deletes a record set from a DNS zone. This operation cannot be undone.
+service: DNS
+apiVersion: 2017-09-01
+groupName: Record Sets
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}/{relativeRecordSetName}?api-version=2017-09-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the DNS zone (without a terminating dot).
+  types:
+  - uid: string
+  name: zoneName
+- in: path
+  isRequired: true
+  description: The type of DNS record in this record set. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+  types:
+  - uid: string
+  name: recordType
+- in: path
+  isRequired: true
+  description: The name of the record set, relative to the name of the zone.
+  types:
+  - uid: string
+  name: relativeRecordSetName
+- in: query
+  isRequired: true
+  description: Specifies the API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The record set was not found.
+  name: 204 No Content
+- description: The record set has been deleted.
+  name: 200 OK
+- description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+  name: Other Status Codes
+requestHeader:
+- in: header
+  description: The etag of the record set. Omit this value to always delete the current record set. Specify the last-seen etag value to prevent accidentally deleting any concurrent changes.
+  types:
+  - uid: string
+  name: If-Match
+definitions:
+- name: CloudError
+  description: An error message
+  kind: object
+  properties:
+  - description: The error message body
+    types:
+    - uid: CloudErrorBody
+    name: error
+- name: CloudErrorBody
+  description: The error message body
+  kind: object
+  properties:
+  - description: The error code
+    types:
+    - uid: string
+    name: code
+  - description: A description of what caused the error
+    types:
+    - uid: string
+    name: message
+  - description: The target resource of the error message
+    types:
+    - uid: string
+    name: target
+  - description: Extra error information
+    types:
+    - isArray: true
+      uid: CloudErrorBody
+    name: details
+examples:
+- request:
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA/record1?api-version=2017-09-01
+  responses:
+  - statusCode: "200"
+  - statusCode: "204"
+  name: Delete CAA recordset
+security: []
+name: Delete
+uid: management.azure.com.dns.recordsets.delete

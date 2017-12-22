@@ -1,0 +1,149 @@
+### YamlMime:RESTOperation
+summary: Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any.
+service: Data Lake Analytics
+apiVersion: 2016-11-01
+groupName: Storage Accounts
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/StorageAccounts?api-version=2016-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/StorageAccounts?$filter={$filter}&$top={$top}&$skip={$skip}&$select={$select}&$orderby={$orderby}&$count={$count}&api-version=2016-11-01
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the Azure resource group that contains the Data Lake Analytics account.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the Data Lake Analytics account for which to list Azure Storage accounts.
+  types:
+  - uid: string
+  name: accountName
+- in: query
+  description: The OData filter. Optional.
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  description: The number of items to return. Optional.
+  types:
+  - uid: integer
+  format: int32
+  name: $top
+- in: query
+  description: The number of items to skip over before returning elements. Optional.
+  types:
+  - uid: integer
+  format: int32
+  name: $skip
+- in: query
+  description: OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+  types:
+  - uid: string
+  name: $select
+- in: query
+  description: OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+  types:
+  - uid: string
+  name: $orderby
+- in: query
+  description: The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+  types:
+  - uid: boolean
+  name: $count
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Successfully retrieved the list of Azure Storage accounts.
+  types:
+  - uid: DataLakeAnalyticsAccountListStorageAccountsResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: DataLakeAnalyticsAccountListStorageAccountsResult
+  description: Azure Storage Account list information.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Azure Storage account information.
+    types:
+    - isArray: true
+      uid: StorageAccountInfo
+    name: value
+  - isReadyOnly: true
+    description: the link (url) to the next page of results.
+    types:
+    - uid: string
+    name: nextLink
+- name: StorageAccountInfo
+  description: Azure Storage account information.
+  kind: object
+  properties:
+  - description: the access key associated with this Azure Storage account that will be used to connect to it.
+    types:
+    - uid: string
+    name: properties.accessKey
+  - description: the optional suffix for the storage account.
+    types:
+    - uid: string
+    name: properties.suffix
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/StorageAccounts?$filter=test_filter&$top=1&$skip=1&$select=test_select&$orderby=test_orderby&$count=False&api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+            "name": "test_storage",
+            "type": "test_type",
+            "properties": {
+              "accessKey": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab346",
+              "suffix": "test_suffix"
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/jobPolicies?api-version=2016-11-01&%24skiptoken=<token>"
+      }
+  name: Gets the first page of Azure Storage accounts linked to the specified Data Lake Analytics account
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Account
+uid: management.azure.com.datalakeanalytics.storageaccounts.listbyaccount

@@ -1,0 +1,157 @@
+### YamlMime:RESTOperation
+summary: Restores a web app.
+service: App Service
+apiVersion: 2016-08-01
+groupName: Web Apps
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/migrate?subscriptionName={subscriptionName}&api-version=2016-08-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Name of web app.
+  types:
+  - uid: string
+  name: name
+- in: query
+  isRequired: true
+  description: Azure subscription.
+  types:
+  - uid: string
+  name: subscriptionName
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: StorageMigrationResponse
+  name: 200 OK
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: AzureFiles connection string.
+    types:
+    - uid: string
+    name: properties.azurefilesConnectionString
+  - in: body
+    isRequired: true
+    description: AzureFiles share.
+    types:
+    - uid: string
+    name: properties.azurefilesShare
+  - in: body
+    description: <code>true</code>if the app should be switched over; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.switchSiteAfterMigration
+  - in: body
+    description: <code>true</code> if the app should be read only during copy operation; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.blockWriteAccessToSite
+  - in: body
+    description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+requestHeader: []
+definitions:
+- name: StorageMigrationResponse
+  description: Response for a migration of app content request.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: When server starts the migration process, it will return an operation ID identifying that particular migration operation.
+    types:
+    - uid: string
+    name: properties.operationId
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: StorageMigrationOptions
+  description: Options for app content migration.
+  kind: object
+  properties:
+  - description: AzureFiles connection string.
+    types:
+    - uid: string
+    name: properties.azurefilesConnectionString
+  - description: AzureFiles share.
+    types:
+    - uid: string
+    name: properties.azurefilesShare
+  - description: <code>true</code>if the app should be switched over; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.switchSiteAfterMigration
+  - description: <code>true</code> if the app should be read only during copy operation; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.blockWriteAccessToSite
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Migrate Storage
+uid: management.azure.com.appservice.webapps.migratestorage

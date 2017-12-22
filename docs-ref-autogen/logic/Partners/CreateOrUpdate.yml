@@ -1,0 +1,262 @@
+### YamlMime:RESTOperation
+summary: Creates or updates an integration account partner.
+service: Logic Apps
+apiVersion: 2016-06-01
+groupName: Partners
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners/{partnerName}?api-version=2016-06-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription id.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The integration account name.
+  types:
+  - uid: string
+  name: integrationAccountName
+- in: path
+  isRequired: true
+  description: The integration account partner name.
+  types:
+  - uid: string
+  name: partnerName
+- in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: IntegrationAccountPartner
+  name: 200 OK
+- description: Created
+  types:
+  - uid: IntegrationAccountPartner
+  name: 201 Created
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The partner type.
+    types:
+    - uid: PartnerType
+    name: properties.partnerType
+  - in: body
+    description: The metadata.
+    types:
+    - uid: Metadata
+    name: properties.metadata
+  - in: body
+    isRequired: true
+    description: The partner content.
+    types:
+    - uid: PartnerContent
+    name: properties.content
+  - in: body
+    description: The resource location.
+    types:
+    - uid: string
+    name: location
+  - in: body
+    description: The resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+requestHeader: []
+definitions:
+- name: Metadata
+  description: The metadata.
+  kind: object
+  properties: []
+- name: PartnerContent
+  description: The partner content.
+  kind: object
+  properties:
+  - description: The B2B partner content.
+    types:
+    - uid: B2BPartnerContent
+    name: b2b
+- name: IntegrationAccountPartner
+  description: The list of integration account partners.
+  kind: object
+  properties:
+  - description: The partner type.
+    types:
+    - uid: PartnerType
+    name: properties.partnerType
+  - isReadyOnly: true
+    description: The created time.
+    types:
+    - uid: string
+    name: properties.createdTime
+  - isReadyOnly: true
+    description: The changed time.
+    types:
+    - uid: string
+    name: properties.changedTime
+  - description: The metadata.
+    types:
+    - uid: Metadata
+    name: properties.metadata
+  - description: The partner content.
+    types:
+    - uid: PartnerContent
+    name: properties.content
+  - isReadyOnly: true
+    description: The resource id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Gets the resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Gets the resource type.
+    types:
+    - uid: string
+    name: type
+  - description: The resource location.
+    types:
+    - uid: string
+    name: location
+  - description: The resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: B2BPartnerContent
+  description: The B2B partner content.
+  kind: object
+  properties:
+  - description: The integration account partner's business identity.
+    types:
+    - isArray: true
+      uid: BusinessIdentity
+    name: businessIdentities
+- name: PartnerType
+  description: The partner type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: B2B
+- name: BusinessIdentity
+  description: The list of partner business identities.
+  kind: object
+  properties:
+  - description: The business identity qualifier e.g. as2identity, ZZ, ZZZ, 31, 32
+    types:
+    - uid: string
+    name: qualifier
+  - description: The user defined business identity value.
+    types:
+    - uid: string
+    name: value
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/partners/testPartner?api-version=2016-06-01
+    body: >-
+      {
+        "properties": {
+          "partnerType": "B2B",
+          "metadata": {},
+          "content": {
+            "b2b": {
+              "businessIdentities": [
+                {
+                  "qualifier": "AA",
+                  "value": "ZZ"
+                }
+              ]
+            }
+          }
+        },
+        "location": "westus",
+        "tags": {}
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "partnerType": "B2B",
+          "content": {
+            "b2b": {
+              "businessIdentities": [
+                {
+                  "qualifier": "AA",
+                  "value": "ZZ"
+                }
+              ]
+            }
+          },
+          "createdTime": "2017-03-06T20:06:23.5895246Z",
+          "changedTime": "2017-03-06T20:06:23.5904806Z",
+          "metadata": {}
+        },
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/flowrg/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/partners/testPartner",
+        "name": "testPartner",
+        "type": "Microsoft.Logic/integrationAccounts/partners"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "partnerType": "B2B",
+          "content": {
+            "b2b": {
+              "businessIdentities": [
+                {
+                  "qualifier": "AA",
+                  "value": "ZZ"
+                }
+              ]
+            }
+          },
+          "createdTime": "2017-03-06T20:06:23.5895246Z",
+          "changedTime": "2017-03-06T20:06:23.5904806Z",
+          "metadata": {}
+        },
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/flowrg/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/partners/testPartner",
+        "name": "testPartner",
+        "type": "Microsoft.Logic/integrationAccounts/partners"
+      }
+  name: Create or update a partner
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update
+uid: management.azure.com.logicapps.partners.createorupdate

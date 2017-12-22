@@ -1,0 +1,101 @@
+### YamlMime:RESTOperation
+summary: Check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint.
+service: CDN
+apiVersion: 2016-10-02
+groupName: Check Name Availability
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.Cdn/checkNameAvailability?api-version=2016-10-02
+uriParameters:
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2016-10-02.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK. The request has succeeded.
+  types:
+  - uid: CheckNameAvailabilityOutput
+  name: 200 OK
+- description: CDN error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: The resource name to validate.
+    types:
+    - uid: string
+    name: name
+  - in: body
+    isRequired: true
+    description: The type of the resource whose name is to be validated.
+    types:
+    - uid: ResourceType
+    name: type
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityOutput
+  description: Output of check name availability API.
+  kind: object
+  properties:
+  - description: Indicates whether the name is available.
+    types:
+    - uid: boolean
+    name: nameAvailable
+  - description: The reason why the name is not available.
+    types:
+    - uid: string
+    name: reason
+  - description: The detailed error message describing why the name is not available.
+    types:
+    - uid: string
+    name: message
+- name: ErrorResponse
+  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: CheckNameAvailabilityInput
+  description: Input of CheckNameAvailability API.
+  kind: object
+  properties:
+  - description: The resource name to validate.
+    types:
+    - uid: string
+    name: name
+  - description: The type of the resource whose name is to be validated.
+    types:
+    - uid: ResourceType
+    name: type
+- name: ResourceType
+  description: The type of the resource whose name is to be validated.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Microsoft.Cdn/Profiles/Endpoints
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Check Name Availability
+uid: management.azure.com.cdn.checknameavailability.checknameavailability

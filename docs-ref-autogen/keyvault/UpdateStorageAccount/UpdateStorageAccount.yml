@@ -1,0 +1,220 @@
+### YamlMime:RESTOperation
+summary: Updates the specified attributes associated with the given storage account.
+service: Key Vault
+apiVersion: 2016-10-01
+groupName: Update Storage Account
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://{vaultBaseUrl}/storage/{storage-account-name}?api-version=2016-10-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+  name: vaultBaseUrl
+- in: path
+  isRequired: true
+  description: The name of the storage account.
+  types:
+  - uid: string
+  pattern: ^[0-9a-zA-Z]+$
+  name: storage-account-name
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The updated storage account.
+  types:
+  - uid: StorageBundle
+  name: 200 OK
+- description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: The current active storage account key name.
+    types:
+    - uid: string
+    name: activeKeyName
+  - in: body
+    description: whether keyvault should manage the storage account for the user.
+    types:
+    - uid: boolean
+    name: autoRegenerateKey
+  - in: body
+    description: The key regeneration time duration specified in ISO-8601 format.
+    types:
+    - uid: string
+    name: regenerationPeriod
+  - in: body
+    description: The attributes of the storage account.
+    types:
+    - uid: StorageAccountAttributes
+    name: attributes
+  - in: body
+    description: Application specific metadata in the form of key-value pairs.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+requestHeader: []
+definitions:
+- name: StorageAccountAttributes
+  description: The storage account management attributes.
+  kind: object
+  properties:
+  - description: the enabled state of the object.
+    types:
+    - uid: boolean
+    name: enabled
+  - isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+    name: created
+  - isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+    name: updated
+- name: StorageBundle
+  description: A Storage account bundle consists of key vault storage account details plus its attributes.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The storage account id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The storage account resource id.
+    types:
+    - uid: string
+    name: resourceId
+  - isReadyOnly: true
+    description: The current active storage account key name.
+    types:
+    - uid: string
+    name: activeKeyName
+  - isReadyOnly: true
+    description: whether keyvault should manage the storage account for the user.
+    types:
+    - uid: boolean
+    name: autoRegenerateKey
+  - isReadyOnly: true
+    description: The key regeneration time duration specified in ISO-8601 format.
+    types:
+    - uid: string
+    name: regenerationPeriod
+  - isReadyOnly: true
+    description: The storage account attributes.
+    types:
+    - uid: StorageAccountAttributes
+    name: attributes
+  - isReadyOnly: true
+    description: Application specific metadata in the form of key-value pairs
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+    name: error
+- name: StorageAccountUpdateParameters
+  description: The storage account update parameters.
+  kind: object
+  properties:
+  - description: The current active storage account key name.
+    types:
+    - uid: string
+    name: activeKeyName
+  - description: whether keyvault should manage the storage account for the user.
+    types:
+    - uid: boolean
+    name: autoRegenerateKey
+  - description: The key regeneration time duration specified in ISO-8601 format.
+    types:
+    - uid: string
+    name: regenerationPeriod
+  - description: The attributes of the storage account.
+    types:
+    - uid: StorageAccountAttributes
+    name: attributes
+  - description: Application specific metadata in the form of key-value pairs.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+    name: message
+  - description: ''
+    types:
+    - {}
+    name: innererror
+examples:
+- request:
+    uri: PATCH https://{vaultBaseUrl}/storage/patchStrg01?api-version=2016-10-01
+    body: >-
+      {
+        "activeKeyName": "key1",
+        "regenerationPeriod": "P10D"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/patchStrg01",
+        "resourceId": "/subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Storage/storageAccounts/kvstorageacc",
+        "activeKeyName": "key1",
+        "autoRegenerateKey": true,
+        "regenerationPeriod": "P10D",
+        "attributes": {
+          "enabled": true,
+          "created": 1490738386,
+          "updated": 1490738386
+        },
+        "tags": {
+          "tag1": "val1",
+          "tag2": "val2"
+        }
+      }
+  name: Update Storage account
+security: []
+name: Update Storage Account
+uid: keyvault.updatestorageaccount.updatestorageaccount

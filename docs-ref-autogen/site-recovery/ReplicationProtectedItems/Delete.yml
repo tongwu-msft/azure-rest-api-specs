@@ -1,0 +1,137 @@
+### YamlMime:RESTOperation
+summary: Disables protection. The operation to disable replication on a replication protected item. This will also remove the item.
+service: Recovery Services - Site Recovery
+apiVersion: 2016-08-10
+groupName: Replication Protected Items
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/remove?api-version=2016-08-10
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+  name: resourceName
+- in: path
+  isRequired: true
+  description: Fabric name.
+  types:
+  - uid: string
+  name: fabricName
+- in: path
+  isRequired: true
+  description: Protection container name.
+  types:
+  - uid: string
+  name: protectionContainerName
+- in: path
+  isRequired: true
+  description: Replication protected item name.
+  types:
+  - uid: string
+  name: replicatedProtectedItemName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Accepted
+  name: 202 Accepted
+- description: NoContent
+  name: 204 No Content
+requestBody:
+- parameters:
+  - in: body
+    description: Disable protection input properties.
+    types:
+    - uid: DisableProtectionInputProperties
+    name: properties
+requestHeader: []
+definitions:
+- name: DisableProtectionInputProperties
+  description: Disable protection input properties.
+  kind: object
+  properties:
+  - description: Disable protection reason. It can have values NotSpecified/MigrationComplete.
+    types:
+    - uid: DisableProtectionReason
+    name: disableProtectionReason
+  - description: Replication provider specific input.
+    types:
+    - uid: InMageDisableProtectionProviderSpecificInput
+    typesTitle: DisableProtectionProviderSpecificInput
+    name: replicationProviderInput
+- name: DisableProtectionInput
+  description: Disable protection input.
+  kind: object
+  properties:
+  - description: Disable protection input properties.
+    types:
+    - uid: DisableProtectionInputProperties
+    name: properties
+- name: DisableProtectionReason
+  description: Disable protection reason. It can have values NotSpecified/MigrationComplete.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: NotSpecified
+  - types:
+    - uid: string
+    name: MigrationComplete
+- name: InMageDisableProtectionProviderSpecificInput
+  description: InMage disable protection provider specific input.
+  kind: object
+  properties:
+  - description: A value indicating whether the replica VM should be destroyed or retained. Values from Delete and Retain.
+    types:
+    - uid: string
+    name: replicaVmDeletionStatus
+  - description: The class type.
+    types:
+    - uid: InMage
+    typesTitle: string
+    name: instanceType
+examples:
+- request:
+    uri: POST https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectedItems/c0c14913-3d7a-48ea-9531-cc99e0e686e6/remove?api-version=2016-08-10
+    body: >-
+      {
+        "properties": {
+          "replicationProviderInput": {
+            "instanceType": "DisableProtectionProviderSpecificInput"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+  - statusCode: "204"
+  name: Disables protection.
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account.
+    name: user_impersonation
+name: Delete
+uid: management.azure.com.recoveryservices-siterecovery.replicationprotecteditems.delete

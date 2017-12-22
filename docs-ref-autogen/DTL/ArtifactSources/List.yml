@@ -1,0 +1,219 @@
+### YamlMime:RESTOperation
+summary: List artifact sources in a given lab.
+service: Dev Test Labs
+apiVersion: 2016-05-15
+groupName: Artifact Sources
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources?api-version=2016-05-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources?$expand={$expand}&$filter={$filter}&$top={$top}&$orderby={$orderby}&api-version=2016-05-15
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+  name: labName
+- in: query
+  description: "Specify the $expand query. Example: 'properties($select=displayName)'"
+  types:
+  - uid: string
+  name: $expand
+- in: query
+  description: The filter to apply to the operation.
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  description: The maximum number of resources to return from the operation.
+  types:
+  - uid: integer
+  format: int32
+  name: $top
+- in: query
+  description: The ordering expression for the results, using OData notation.
+  types:
+  - uid: string
+  name: $orderby
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: ResponseWithContinuation[ArtifactSource]
+  name: 200 OK
+- description: BadRequest
+  types:
+  - uid: CloudError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: ResponseWithContinuation[ArtifactSource]
+  description: The response of a list operation.
+  kind: object
+  properties:
+  - description: Properties of an artifact source.
+    types:
+    - isArray: true
+      uid: ArtifactSource
+    name: value
+  - description: Link for next set of results.
+    types:
+    - uid: string
+    name: nextLink
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
+- name: ArtifactSource
+  description: Properties of an artifact source.
+  kind: object
+  properties:
+  - description: The artifact source's display name.
+    types:
+    - uid: string
+    name: properties.displayName
+  - description: The artifact source's URI.
+    types:
+    - uid: string
+    name: properties.uri
+  - description: The artifact source's type.
+    types:
+    - uid: SourceControlType
+    name: properties.sourceType
+  - description: The folder containing artifacts.
+    types:
+    - uid: string
+    name: properties.folderPath
+  - description: The folder containing Azure Resource Manager templates.
+    types:
+    - uid: string
+    name: properties.armTemplateFolderPath
+  - description: The artifact source's branch reference.
+    types:
+    - uid: string
+    name: properties.branchRef
+  - description: The security token to authenticate to the artifact source.
+    types:
+    - uid: string
+    name: properties.securityToken
+  - description: 'Indicates if the artifact source is enabled (values: Enabled, Disabled).'
+    types:
+    - uid: EnableStatus
+    name: properties.status
+  - isReadyOnly: true
+    description: The artifact source's creation date.
+    types:
+    - uid: string
+    name: properties.createdDate
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: string
+    name: code
+  - description: ''
+    types:
+    - uid: string
+    name: message
+  - description: ''
+    types:
+    - uid: string
+    name: target
+  - description: Inner errors.
+    types:
+    - isArray: true
+      uid: CloudErrorBody
+    name: details
+- name: SourceControlType
+  description: The artifact source's type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: VsoGit
+  - types:
+    - uid: string
+    name: GitHub
+- name: EnableStatus
+  description: The status of the schedule (i.e. Enabled, Disabled)
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
+examples: []
+security:
+- type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: Access Microsoft Azure
+    name: user_impersonation
+name: List
+uid: management.azure.com.devtestlabs.artifactsources.list

@@ -1,0 +1,104 @@
+### YamlMime:RESTOperation
+summary: Gets the SAS token associated with the specified Data Lake Analytics and Azure Storage account and container combination.
+service: Data Lake Analytics
+apiVersion: 2016-11-01
+groupName: Storage Accounts
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/StorageAccounts/{storageAccountName}/Containers/{containerName}/listSasTokens?api-version=2016-11-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the Azure resource group that contains the Data Lake Analytics account.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the Data Lake Analytics account from which an Azure Storage account's SAS token is being requested.
+  types:
+  - uid: string
+  name: accountName
+- in: path
+  isRequired: true
+  description: The name of the Azure storage account for which the SAS token is being requested.
+  types:
+  - uid: string
+  name: storageAccountName
+- in: path
+  isRequired: true
+  description: The name of the Azure storage container for which the SAS token is being requested.
+  types:
+  - uid: string
+  name: containerName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Successfully retrieved the list of Storage Account SAS tokens for the specified Azure Storage account container.
+  types:
+  - uid: ListSasTokensResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: ListSasTokensResult
+  description: The SAS response that contains the storage account, container and associated SAS token for connection use.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: SAS token information.
+    types:
+    - isArray: true
+      uid: SasTokenInfo
+    name: value
+  - isReadyOnly: true
+    description: the link (url) to the next page of results.
+    types:
+    - uid: string
+    name: nextLink
+- name: SasTokenInfo
+  description: SAS token information.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: the access token for the associated Azure Storage Container.
+    types:
+    - uid: string
+    name: accessToken
+examples:
+- request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/StorageAccounts/test_storage/Containers/test_container/listSasTokens?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "accessToken": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab346"
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/jobPolicies?api-version=2016-11-01&%24skiptoken=<token>"
+      }
+  name: Gets the SAS token
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List Sas Tokens
+uid: management.azure.com.datalakeanalytics.storageaccounts.listsastokens

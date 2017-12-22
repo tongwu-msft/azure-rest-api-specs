@@ -1,0 +1,352 @@
+### YamlMime:RESTOperation
+summary: Lists the containers registered to the Recovery Services vault.
+service: Recovery Services - Backup
+apiVersion: 2016-06-01
+groupName: Protection Containers
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectionContainers?api-version=2016-06-01
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectionContainers?api-version=2016-06-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group associated with the Recovery Services vault.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the Recovery Services vault.
+  types:
+  - uid: string
+  name: vaultName
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+- in: query
+  description: The following equation is used to sort or filter the containers registered to the vault. providerType eq {AzureIaasVM, MAB, DPM, AzureBackupServer, AzureSql} and status eq {Unknown, NotRegistered, Registered, Registering} and friendlyName eq {containername} and backupManagementType eq {AzureIaasVM, MAB, DPM, AzureBackupServer, AzureSql}.
+  types:
+  - uid: string
+  name: $filter
+responses:
+- description: OK.
+  types:
+  - uid: ProtectionContainerResourceList
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: ProtectionContainerResourceList
+  description: The list of ProtectionContainer resources.
+  kind: object
+  properties:
+  - description: Base class for a container with backup items. Containers with specific workloads are derived from this class.
+    types:
+    - isArray: true
+      uid: ProtectionContainerResource
+    name: value
+  - description: The URI to GET the next page of resources. Call ListNext() gets the next page of resources.
+    types:
+    - uid: string
+    name: nextLink
+- name: ProtectionContainerResource
+  description: The list of resources.
+  kind: object
+  properties:
+  - description: The base class for a container with backup items. Containers with specific workloads are derived from this class.
+    types:
+    - uid: AzureSqlContainer
+    - uid: IaaSVMContainer
+    - uid: MabContainer
+    typesTitle: ProtectionContainer
+    name: properties
+  - description: Resource ID represents the complete path to the resource.
+    types:
+    - uid: string
+    name: id
+  - description: Resource name associated with the resource.
+    types:
+    - uid: string
+    name: name
+  - description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+    name: type
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: Optional ETag.
+    types:
+    - uid: string
+    name: eTag
+- name: AzureSqlContainer
+  description: Azure SQL workload-specific container.
+  kind: object
+  properties:
+  - description: Friendly name of the container.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The backup managemenent type for the container.
+    types:
+    - uid: BackupManagementType
+    name: backupManagementType
+  - description: The container's registration status with the Recovery Services vault.
+    types:
+    - uid: string
+    name: registrationStatus
+  - description: The status of the container's health.
+    types:
+    - uid: string
+    name: healthStatus
+  - isReadyOnly: true
+    description: The type assigned to the container. The values to use for each of these propertes are:<br/> 1. Compute Azure VM is Microsoft.Compute/virtualMachines<br/> 2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines<br/> 3. Windows machines (like Azure Backup Server and DPM) is Windows<br/> 4. Azure SQL instance is AzureSqlContainer.
+    types:
+    - uid: string
+    name: containerType
+  - description: The protectable object type associated with the container.
+    types:
+    - uid: AzureSqlContainer
+    typesTitle: string
+    name: protectableObjectType
+- name: MabContainer
+  description: The container associated with items backed up using Azure Backup Server.
+  kind: object
+  properties:
+  - description: The container can be registered one more time.
+    types:
+    - uid: boolean
+    name: canReRegister
+  - description: The ID for the container.
+    types:
+    - uid: integer
+    name: containerId
+  - description: The number of backup items in the container.
+    types:
+    - uid: integer
+    name: protectedItemCount
+  - description: The version of the agent used with this container.
+    types:
+    - uid: string
+    name: agentVersion
+  - description: Additional information for the container.
+    types:
+    - uid: MabContainerExtendedInfo
+    name: extendedInfo
+  - description: Friendly name of the container.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The backup managemenent type for the container.
+    types:
+    - uid: BackupManagementType
+    name: backupManagementType
+  - description: The container's registration status with the Recovery Services vault.
+    types:
+    - uid: string
+    name: registrationStatus
+  - description: The status of the container's health.
+    types:
+    - uid: string
+    name: healthStatus
+  - isReadyOnly: true
+    description: The type assigned to the container. The values to use for each of these propertes are:<br/> 1. Compute Azure VM is Microsoft.Compute/virtualMachines<br/> 2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines<br/> 3. Windows machines (like Azure Backup Server and DPM) is Windows<br/> 4. Azure SQL instance is AzureSqlContainer.
+    types:
+    - uid: string
+    name: containerType
+  - description: The protectable object type associated with the container.
+    types:
+    - uid: MABWindowsContainer
+    typesTitle: string
+    name: protectableObjectType
+- name: BackupManagementType
+  description: The backup management type for the current job.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: AzureIaasVM
+  - types:
+    - uid: string
+    name: MAB
+  - types:
+    - uid: string
+    name: DPM
+  - types:
+    - uid: string
+    name: AzureBackupServer
+  - types:
+    - uid: string
+    name: AzureSql
+- name: AzureIaaSComputeVMContainer
+  description: IaaS VM workload-specific backup item representing a Resource Manager-deployed virtual machine.
+  kind: object
+  properties:
+  - description: The fully qualified Resource Manager URL of the virtual machine represented by this Azure IaaS VM container.
+    types:
+    - uid: string
+    name: virtualMachineId
+  - description: Specifies whether the container represents a classic or a Resource Manager-deployed virtual machine.
+    types:
+    - uid: string
+    name: virtualMachineVersion
+  - description: The resource group name associated with the Recovery Services vault.
+    types:
+    - uid: string
+    name: resourceGroup
+  - description: Friendly name of the container.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The backup managemenent type for the container.
+    types:
+    - uid: BackupManagementType
+    name: backupManagementType
+  - description: The container's registration status with the Recovery Services vault.
+    types:
+    - uid: string
+    name: registrationStatus
+  - description: The status of the container's health.
+    types:
+    - uid: string
+    name: healthStatus
+  - isReadyOnly: true
+    description: The type assigned to the container. The values to use for each of these propertes are:<br/> 1. Compute Azure VM is Microsoft.Compute/virtualMachines<br/> 2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines<br/> 3. Windows machines (like Azure Backup Server and DPM) is Windows<br/> 4. Azure SQL instance is AzureSqlContainer.
+    types:
+    - uid: string
+    name: containerType
+  - description: The protectable object type associated with the container.
+    types:
+    - uid: IaaSVMContainer
+    typesTitle: string
+    name: protectableObjectType
+- name: AzureIaaSClassicComputeVMContainer
+  description: IaaS VM workload-specific backup item representing a classic-deployed virtual machine.
+  kind: object
+  properties:
+  - description: The fully qualified Resource Manager URL of the virtual machine represented by this Azure IaaS VM container.
+    types:
+    - uid: string
+    name: virtualMachineId
+  - description: Specifies whether the container represents a classic or a Resource Manager-deployed virtual machine.
+    types:
+    - uid: string
+    name: virtualMachineVersion
+  - description: The resource group name associated with the Recovery Services vault.
+    types:
+    - uid: string
+    name: resourceGroup
+  - description: Friendly name of the container.
+    types:
+    - uid: string
+    name: friendlyName
+  - description: The backup managemenent type for the container.
+    types:
+    - uid: BackupManagementType
+    name: backupManagementType
+  - description: The container's registration status with the Recovery Services vault.
+    types:
+    - uid: string
+    name: registrationStatus
+  - description: The status of the container's health.
+    types:
+    - uid: string
+    name: healthStatus
+  - isReadyOnly: true
+    description: The type assigned to the container. The values to use for each of these propertes are:<br/> 1. Compute Azure VM is Microsoft.Compute/virtualMachines<br/> 2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines<br/> 3. Windows machines (like Azure Backup Server and DPM) is Windows<br/> 4. Azure SQL instance is AzureSqlContainer.
+    types:
+    - uid: string
+    name: containerType
+  - description: The protectable object type associated with the container.
+    types:
+    - uid: IaaSVMContainer
+    typesTitle: string
+    name: protectableObjectType
+- name: MabContainerExtendedInfo
+  description: Additional information for the container.
+  kind: object
+  properties:
+  - description: The time stamp when this container was refreshed.
+    types:
+    - uid: string
+    name: lastRefreshedAt
+  - description: The type of backup items associated with this container.
+    types:
+    - uid: BackupItemType
+    name: backupItemType
+  - description: The list of backup items associated with this container.
+    types:
+    - isArray: true
+      uid: string
+    name: backupItems
+  - description: The backup policy associated with this container.
+    types:
+    - uid: string
+    name: policyName
+  - description: The latest backup status of this container.
+    types:
+    - uid: string
+    name: lastBackupStatus
+- name: BackupItemType
+  description: The type of backup items associated with this container.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: VM
+  - types:
+    - uid: string
+    name: FileFolder
+  - types:
+    - uid: string
+    name: AzureSqlDb
+  - types:
+    - uid: string
+    name: SQLDB
+  - types:
+    - uid: string
+    name: Exchange
+  - types:
+    - uid: string
+    name: Sharepoint
+  - types:
+    - uid: string
+    name: DPMUnknown
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account.
+    name: user_impersonation
+name: List
+uid: management.azure.com.recoveryservices-backup.protectioncontainers.list

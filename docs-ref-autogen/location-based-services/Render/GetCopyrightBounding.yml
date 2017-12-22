@@ -1,0 +1,205 @@
+### YamlMime:RESTOperation
+summary: Returns the copyright information for a given bounding box
+service: Location Based Services Functional API
+apiVersion: "1.0"
+groupName: Render
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: GET https://atlas.microsoft.com/map/copyright/bounding/{format}?api-version=1.0&subscription-key={subscription-key}&mincoordinates={mincoordinates}&maxcoordinates={maxcoordinates}
+- content: GET https://atlas.microsoft.com/map/copyright/bounding/{format}?api-version=1.0&subscription-key={subscription-key}&mincoordinates={mincoordinates}&maxcoordinates={maxcoordinates}&text={text}
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: Desired format of the response
+  types:
+  - uid: string
+  name: format
+- in: query
+  isRequired: true
+  description: Version number of Azure LBS API.  Current version is 1.0
+  types:
+  - uid: string
+  name: api-version
+- in: query
+  isRequired: true
+  description: Azure LBS subscription key
+  types:
+  - uid: string
+  name: subscription-key
+- in: query
+  isRequired: true
+  description: Minimum coordinates of bounding box in latitude longitude coordinate system.  E.g. 52.41064,4.84228
+  types:
+  - uid: string
+  name: mincoordinates
+- in: query
+  isRequired: true
+  description: Maximum coordinates of bounding box in latitude longitude coordinate system.  E.g. 52.41064,4.84228
+  types:
+  - uid: string
+  name: maxcoordinates
+- in: query
+  description: True or False string to exclude textual data from response. Only images and country names will be in response.
+  types:
+  - uid: string
+  name: text
+responses:
+- description: OK
+  types:
+  - uid: copyrightbounding200
+  name: 200 OK
+- description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: Error
+  name: 400 Bad Request
+- description: 'Unauthorized: Access is denied due to invalid credentials.'
+  types:
+  - uid: Error
+  name: Other Status Codes
+- description: Permission, capacity, or authentication issues.
+  types:
+  - uid: Error
+  name: Other Status Codes
+- description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: Error
+  name: Other Status Codes
+- description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: Error
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: copyrightbounding200
+  description: This object is returned from a successful Copyright Bounding call
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Format Version property
+    types:
+    - uid: string
+    name: formatVersion
+  - isReadyOnly: true
+    description: General Copyrights array
+    types:
+    - isArray: true
+      uid: string
+    name: generalCopyrights
+  - isReadyOnly: true
+    description: Regions array
+    types:
+    - isArray: true
+      uid: Regions
+    name: regions
+- name: Error
+  description: This object is returned when an error occurs in the Location Based Service API
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+    name: statuscode
+  - isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+    name: message
+- name: Regions
+  description: Regions array
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Copyrights array
+    types:
+    - isArray: true
+      uid: string
+    name: copyrights
+  - isReadyOnly: true
+    description: Country property
+    types:
+    - uid: Country
+    name: country
+- name: Country
+  description: Country property
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: ISO3 property
+    types:
+    - uid: string
+    name: ISO3
+  - isReadyOnly: true
+    description: Label property
+    types:
+    - uid: string
+    name: label
+examples:
+- request:
+    uri: GET https://atlas.microsoft.com/map/copyright/bounding/json?api-version=1.0&mincoordinates=52.41064,4.84228&maxcoordinates=52.41072,4.84239&text=true
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "formatVersion": "0.0.1",
+        "generalCopyrights": [
+          "� 1992 � 2016 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection, database right protection and other intellectual property rights owned by TomTom or its suppliers. The use of this material is subject to the terms of a license agreement. Any unauthorized copying or disclosure of this material will lead to criminal and civil liabilities.",
+          "Data Source � 2016 TomTom",
+          "based on"
+        ],
+        "regions": [
+          {
+            "copyrights": [
+              "Topografische onderground Copyright � dienst voor het kadaster en de openbare registers, Apeldoorn 2016."
+            ],
+            "country": {
+              "ISO3": "NLD",
+              "label": "Netherlands"
+            }
+          }
+        ]
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "statuscode": "400",
+        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "statuscode": "401",
+        "message": "Unauthorized: Access is denied due to invalid credentials."
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "statuscode": "403",
+        "message": "Permission, capacity, or authentication issues."
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "statuscode": "404",
+        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "statuscode": "500",
+        "message": "An error occurred while processing the request. Please try again later."
+      }
+  name: GetCopyrightBounding
+security:
+- type: apiKey
+  in: header
+  name: Ocp-Apim-Subscription-Key
+- type: apiKey
+  in: query
+  name: subscription-key
+name: Get Copyright Bounding
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.render.getcopyrightbounding

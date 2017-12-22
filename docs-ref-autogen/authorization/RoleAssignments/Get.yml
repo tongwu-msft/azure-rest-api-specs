@@ -1,0 +1,105 @@
+### YamlMime:RESTOperation
+summary: Get the specified role assignment.
+service: Authorization
+apiVersion: 2015-07-01
+groupName: Role Assignments
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}?api-version=2015-07-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The scope of the role assignment.
+  types:
+  - uid: string
+  name: scope
+- in: path
+  isRequired: true
+  description: The name of the role assignment to get.
+  types:
+  - uid: string
+  name: roleAssignmentName
+- in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK - Returns information about the role assignment.
+  types:
+  - uid: RoleAssignment
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: RoleAssignment
+  description: Role Assignments
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The role assignment ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The role assignment name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The role assignment type.
+    types:
+    - uid: string
+    name: type
+  - description: Role assignment properties.
+    types:
+    - uid: RoleAssignmentPropertiesWithScope
+    name: properties
+- name: RoleAssignmentPropertiesWithScope
+  description: Role assignment properties with scope.
+  kind: object
+  properties:
+  - description: The role assignment scope.
+    types:
+    - uid: string
+    name: scope
+  - description: The role definition ID.
+    types:
+    - uid: string
+    name: roleDefinitionId
+  - description: The principal ID.
+    types:
+    - uid: string
+    name: principalId
+examples:
+- request:
+    uri: GET https://management.azure.com/scope/providers/Microsoft.Authorization/roleAssignments/roleAssignmentName?api-version=2015-07-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "roleDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/roleDefinitions/roledefinitionId",
+          "principalId": "Pid",
+          "scope": "/subscriptions/subId/resourcegroups/rgname"
+        },
+        "id": "/subscriptions/subId/resourcegroups/rgname/providers/Microsoft.Authorization/roleAssignments/roleassignmentId",
+        "type": "Microsoft.Authorization/roleAssignments",
+        "name": "raId"
+      }
+  name: GetConfigurations
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get
+uid: management.azure.com.authorization.roleassignments.get

@@ -1,0 +1,139 @@
+### YamlMime:RESTOperation
+summary: Creates a new database or updates an existing database.
+service: MySQL
+apiVersion: 2017-04-30-preview
+groupName: Databases
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/servers/{serverName}/databases/{databaseName}?api-version=2017-04-30-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+  name: serverName
+- in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+  name: databaseName
+- in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: Database
+  name: 200 OK
+- description: Created
+  types:
+  - uid: Database
+  name: 201 Created
+- description: Accepted
+  name: 202 Accepted
+requestBody:
+- parameters:
+  - in: body
+    description: The charset of the database.
+    types:
+    - uid: string
+    name: properties.charset
+  - in: body
+    description: The collation of the database.
+    types:
+    - uid: string
+    name: properties.collation
+requestHeader: []
+definitions:
+- name: Database
+  description: Represents a Database.
+  kind: object
+  properties:
+  - description: The charset of the database.
+    types:
+    - uid: string
+    name: properties.charset
+  - description: The collation of the database.
+    types:
+    - uid: string
+    name: properties.collation
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db1?api-version=2017-04-30-preview
+    body: >-
+      {
+        "properties": {
+          "charset": "utf8",
+          "collation": "utf8_general_ci"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db1",
+        "name": "db1",
+        "type": "Microsoft.DBforMySQL/servers/databases",
+        "properties": {
+          "charset": "utf8",
+          "collation": "utf8_general_ci"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db1",
+        "name": "db1",
+        "type": "Microsoft.DBforMySQL/servers/databases",
+        "properties": {
+          "charset": "utf8",
+          "collation": "utf8_general_ci"
+        }
+      }
+  - statusCode: "202"
+  name: DatabaseCreate
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update
+uid: management.azure.com.mysql.databases.createorupdate

@@ -1,0 +1,232 @@
+### YamlMime:RESTOperation
+summary: Gets a triggered web job by its ID for an app, or a deployment slot.
+service: App Service
+apiVersion: 2016-08-01
+groupName: Web Apps
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/triggeredwebjobs/{webJobName}?api-version=2016-08-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Site name.
+  types:
+  - uid: string
+  name: name
+- in: path
+  isRequired: true
+  description: Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+  types:
+  - uid: string
+  name: slot
+- in: path
+  isRequired: true
+  description: Name of Web Job.
+  types:
+  - uid: string
+  name: webJobName
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Found continuous web job.
+  types:
+  - uid: TriggeredWebJob
+  name: 200 OK
+- description: Triggered web job does not exist.
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: TriggeredWebJob
+  description: Triggered Web Job Information.
+  kind: object
+  properties:
+  - description: Latest job run information.
+    types:
+    - uid: TriggeredJobRun
+    name: properties.latestRun
+  - description: History URL.
+    types:
+    - uid: string
+    name: properties.historyUrl
+  - description: Scheduler Logs URL.
+    types:
+    - uid: string
+    name: properties.schedulerLogsUrl
+  - isReadyOnly: true
+    description: Job name. Used as job identifier in ARM resource URI.
+    types:
+    - uid: string
+    name: properties.name
+  - description: Run command.
+    types:
+    - uid: string
+    name: properties.runCommand
+  - description: Job URL.
+    types:
+    - uid: string
+    name: properties.url
+  - description: Extra Info URL.
+    types:
+    - uid: string
+    name: properties.extraInfoUrl
+  - description: Job type.
+    types:
+    - uid: WebJobType
+    name: properties.jobType
+  - description: Error information.
+    types:
+    - uid: string
+    name: properties.error
+  - description: Using SDK?
+    types:
+    - uid: boolean
+    name: properties.usingSdk
+  - description: Job settings.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+      uid: object
+    name: properties.settings
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: TriggeredJobRun
+  description: List of triggered web job runs.
+  kind: object
+  properties:
+  - description: Job ID.
+    types:
+    - uid: string
+    name: properties.id
+  - isReadyOnly: true
+    description: Job name.
+    types:
+    - uid: string
+    name: properties.name
+  - description: Job status.
+    types:
+    - uid: TriggeredWebJobStatus
+    name: properties.status
+  - description: Start time.
+    types:
+    - uid: string
+    name: properties.startTime
+  - description: End time.
+    types:
+    - uid: string
+    name: properties.endTime
+  - description: Job duration.
+    types:
+    - uid: string
+    name: properties.duration
+  - description: Output URL.
+    types:
+    - uid: string
+    name: properties.outputUrl
+  - description: Error URL.
+    types:
+    - uid: string
+    name: properties.errorUrl
+  - description: Job URL.
+    types:
+    - uid: string
+    name: properties.url
+  - description: Job name.
+    types:
+    - uid: string
+    name: properties.jobName
+  - description: Job trigger.
+    types:
+    - uid: string
+    name: properties.trigger
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: WebJobType
+  description: Job type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Continuous
+  - types:
+    - uid: string
+    name: Triggered
+- name: TriggeredWebJobStatus
+  description: Job status.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Success
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Error
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get Triggered Web Job Slot
+uid: management.azure.com.appservice.webapps.gettriggeredwebjobslot

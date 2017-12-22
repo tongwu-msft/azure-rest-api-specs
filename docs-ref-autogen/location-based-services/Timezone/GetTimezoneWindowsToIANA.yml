@@ -1,0 +1,150 @@
+### YamlMime:RESTOperation
+summary: Get the IANA timezone from a Windows timezone
+service: Location Based Services Functional API
+apiVersion: "1.0"
+groupName: Timezone
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: GET https://atlas.microsoft.com/timezone/windowsToIana/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}
+uriParameters:
+- in: path
+  isRequired: true
+  description: Desired format of the response
+  types:
+  - uid: string
+  name: format
+- in: query
+  isRequired: true
+  description: Version number of Azure LBS API.  Current version is 1.0
+  types:
+  - uid: string
+  name: api-version
+- in: query
+  isRequired: true
+  description: Azure LBS subscription key
+  types:
+  - uid: string
+  name: subscription-key
+- in: query
+  isRequired: true
+  description: The applicable query string and/or coordinates
+  types:
+  - uid: string
+  name: query
+responses:
+- description: OK
+  types:
+  - isArray: true
+    uid: timezonewindowstoiana200
+  name: 200 OK
+- description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: Error
+  name: 400 Bad Request
+- description: 'Unauthorized: Access is denied due to invalid credentials.'
+  types:
+  - uid: Error
+  name: Other Status Codes
+- description: Permission, capacity, or authentication issues.
+  types:
+  - uid: Error
+  name: Other Status Codes
+- description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: Error
+  name: Other Status Codes
+- description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: Error
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: timezonewindowstoiana200
+  description: This object is returned from a successful Timezone Windows To IANA call
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Id property
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: IsAlias property
+    types:
+    - uid: string
+    name: isAlias
+  - isReadyOnly: true
+    description: HasZone1970Location property
+    types:
+    - uid: string
+    name: hasZone1970Location
+- name: Error
+  description: This object is returned when an error occurs in the Location Based Service API
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+    name: statuscode
+  - isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+    name: message
+examples:
+- request:
+    uri: GET https://atlas.microsoft.com/timezone/windowsToIana/json?api-version=1.0&query=pacific standard time
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "Id": "America/Los_Angeles",
+          "IsAlias": false,
+          "HasZone1970Location": true
+        }
+      ]
+  - statusCode: "400"
+    body: >-
+      {
+        "statuscode": "400",
+        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "statuscode": "401",
+        "message": "Unauthorized: Access is denied due to invalid credentials."
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "statuscode": "403",
+        "message": "Permission, capacity, or authentication issues."
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "statuscode": "404",
+        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "statuscode": "500",
+        "message": "An error occurred while processing the request. Please try again later."
+      }
+  name: GetTimezoneWindowsToIANA
+security:
+- type: apiKey
+  in: header
+  name: Ocp-Apim-Subscription-Key
+- type: apiKey
+  in: query
+  name: subscription-key
+name: Get Timezone Windows To IANA
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.timezone.gettimezonewindowstoiana

@@ -1,0 +1,228 @@
+### YamlMime:RESTOperation
+summary: Gets a Traffic Manager endpoint.
+service: Traffic Manager
+apiVersion: 2017-05-01
+groupName: Endpoints
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}?api-version=2017-05-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group containing the Traffic Manager endpoint.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the Traffic Manager profile.
+  types:
+  - uid: string
+  name: profileName
+- in: path
+  isRequired: true
+  description: The type of the Traffic Manager endpoint.
+  types:
+  - uid: string
+  name: endpointType
+- in: path
+  isRequired: true
+  description: The name of the Traffic Manager endpoint.
+  types:
+  - uid: string
+  name: endpointName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The Traffic Manager endpoint.
+  types:
+  - uid: Endpoint
+  name: 200 OK
+- description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: Endpoint
+  description: Class representing a Traffic Manager endpoint.
+  kind: object
+  properties:
+  - description: The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type 'ExternalEndpoints'.
+    types:
+    - uid: string
+    name: properties.targetResourceId
+  - description: The fully-qualified DNS name of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
+    types:
+    - uid: string
+    name: properties.target
+  - description: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.
+    types:
+    - uid: EndpointStatus
+    name: properties.endpointStatus
+  - description: The weight of this endpoint when using the 'Weighted' traffic routing method. Possible values are from 1 to 1000.
+    types:
+    - uid: integer
+    name: properties.weight
+  - description: The priority of this endpoint when using the ‘Priority’ traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
+    types:
+    - uid: integer
+    name: properties.priority
+  - description: Specifies the location of the external or nested endpoints when using the ‘Performance’ traffic routing method.
+    types:
+    - uid: string
+    name: properties.endpointLocation
+  - description: The monitoring status of the endpoint.
+    types:
+    - uid: EndpointMonitorStatus
+    name: properties.endpointMonitorStatus
+  - description: The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type 'NestedEndpoints'.
+    types:
+    - uid: integer
+    name: properties.minChildEndpoints
+  - description: The list of countries/regions mapped to this endpoint when using the ‘Geographic’ traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.geoMapping
+  - isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Network/trafficmanagerProfiles.
+    types:
+    - uid: string
+    name: type
+- name: CloudError
+  description: An error returned by the Azure Resource Manager
+  kind: object
+  properties:
+  - description: The content of the error.
+    types:
+    - uid: CloudErrorBody
+    name: error
+- name: EndpointStatus
+  description: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Enabled
+  - types:
+    - uid: string
+    name: Disabled
+- name: EndpointMonitorStatus
+  description: The monitoring status of the endpoint.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: CheckingEndpoint
+  - types:
+    - uid: string
+    name: Online
+  - types:
+    - uid: string
+    name: Degraded
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Inactive
+  - types:
+    - uid: string
+    name: Stopped
+- name: CloudErrorBody
+  description: The content of the error.
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message
+    types:
+    - uid: string
+    name: message
+  - description: Error target
+    types:
+    - uid: string
+    name: target
+  - description: Error details
+    types:
+    - isArray: true
+      uid: CloudErrorBody
+    name: details
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager2191/providers/Microsoft.Network/trafficmanagerprofiles/azuresdkfornetautoresttrafficmanager8224/ExternalEndpoints/My%20external%20endpoint?api-version=2017-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager2191/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager8224/externalEndpoints/My external endpoint",
+        "name": "My external endpoint",
+        "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",
+        "properties": {
+          "endpointStatus": "Enabled",
+          "endpointMonitorStatus": "CheckingEndpoint",
+          "target": "foobar.contoso.com",
+          "weight": 1,
+          "priority": 1,
+          "geoMapping": [
+            "GEO-AS",
+            "GEO-AF"
+          ]
+        }
+      }
+  name: Endpoint-GET-External-WithGeoMapping
+- request:
+    uri: GET https://management.azure.com/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficmanagerprofiles/azsmnet6386/ExternalEndpoints/azsmnet7187?api-version=2017-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficManagerProfiles/azsmnet6386/externalEndpoints/azsmnet7187",
+        "name": "azsmnet7187",
+        "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",
+        "properties": {
+          "endpointStatus": "Enabled",
+          "endpointMonitorStatus": "CheckingEndpoint",
+          "target": "foobar.contoso.com",
+          "weight": 1,
+          "priority": 1,
+          "endpointLocation": "North Europe"
+        }
+      }
+  name: Endpoint-GET-External-WithLocation
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get
+uid: management.azure.com.trafficmanager.endpoints.get

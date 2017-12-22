@@ -1,0 +1,302 @@
+### YamlMime:RESTOperation
+summary: Retrieve a list of accounts within a given resource group.
+service: Automation
+apiVersion: 2015-10-31
+groupName: Automation Account
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts?api-version=2015-10-31
+uriParameters:
+- in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+  name: resourceGroupName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: AutomationAccountListResult
+  name: 200 OK
+- description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: AutomationAccountListResult
+  description: The response model for the list account operation.
+  kind: object
+  properties:
+  - description: Definition of the automation account type.
+    types:
+    - isArray: true
+      uid: AutomationAccount
+    name: value
+  - description: Gets or sets the next link.
+    types:
+    - uid: string
+    name: nextLink
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: AutomationAccount
+  description: Definition of the automation account type.
+  kind: object
+  properties:
+  - description: Gets or sets the etag of the resource.
+    types:
+    - uid: string
+    name: etag
+  - description: Gets or sets the SKU of account.
+    types:
+    - uid: Sku
+    name: properties.sku
+  - description: Gets or sets the last modified by.
+    types:
+    - uid: string
+    name: properties.lastModifiedBy
+  - isReadyOnly: true
+    description: Gets status of account.
+    types:
+    - uid: AutomationAccountState
+    name: properties.state
+  - isReadyOnly: true
+    description: Gets the creation time.
+    types:
+    - uid: string
+    name: properties.creationTime
+  - isReadyOnly: true
+    description: Gets the last modified time.
+    types:
+    - uid: string
+    name: properties.lastModifiedTime
+  - description: Gets or sets the description.
+    types:
+    - uid: string
+    name: properties.description
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+  - description: Resource location
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: Sku
+  description: The account SKU.
+  kind: object
+  properties:
+  - description: Gets or sets the SKU name of the account.
+    types:
+    - uid: SkuNameEnum
+    name: name
+  - description: Gets or sets the SKU family.
+    types:
+    - uid: string
+    name: family
+  - description: Gets or sets the SKU capacity.
+    types:
+    - uid: integer
+    name: capacity
+- name: AutomationAccountState
+  description: Gets status of account.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Ok
+  - types:
+    - uid: string
+    name: Unavailable
+  - types:
+    - uid: string
+    name: Suspended
+- name: SkuNameEnum
+  description: Gets or sets the SKU name of the account.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Free
+  - types:
+    - uid: string
+    name: Basic
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts?api-version=2015-10-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myaccount",
+            "location": "eastus2",
+            "name": "myaccount",
+            "type": "Microsoft.Automation/AutomationAccounts",
+            "properties": {
+              "creationTime": "2016-09-24T00:47:04.227+00:00",
+              "lastModifiedTime": "2017-02-09T21:35:16.4+00:00",
+              "lastModifiedBy": "myEmailId@microsoft.com",
+              "state": "Ok"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAccount123",
+            "location": "eastus2",
+            "name": "myAccount123",
+            "type": "Microsoft.Automation/AutomationAccounts",
+            "properties": {
+              "creationTime": "2016-09-29T00:32:32.52+00:00",
+              "lastModifiedTime": "2017-02-09T21:35:16.4+00:00",
+              "lastModifiedBy": "myEmailId@microsoft.com",
+              "state": "Ok"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAccountasfads",
+            "location": "East US 2",
+            "name": "myAccountasfads",
+            "type": "Microsoft.Automation/AutomationAccounts",
+            "properties": {
+              "creationTime": "2017-03-24T23:21:03.27+00:00",
+              "lastModifiedTime": "2017-03-24T23:21:03.27+00:00",
+              "lastModifiedBy": "myEmailId@microsoft.com",
+              "state": "Ok"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount1",
+            "location": "East US 2",
+            "name": "myAutomationAccount1",
+            "type": "Microsoft.Automation/AutomationAccounts",
+            "properties": {
+              "creationTime": "2017-03-24T23:22:33.26+00:00",
+              "lastModifiedTime": "2017-03-24T23:22:33.26+00:00",
+              "lastModifiedBy": "myEmailId@microsoft.com",
+              "state": "Ok"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11",
+            "location": "East US 2",
+            "name": "myAutomationAccount11",
+            "type": "Microsoft.Automation/AutomationAccounts",
+            "properties": {
+              "creationTime": "2017-03-26T02:10:24.523+00:00",
+              "lastModifiedTime": "2017-03-26T02:11:12.027+00:00",
+              "lastModifiedBy": "myEmailId@microsoft.com",
+              "state": "Ok"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount2",
+            "location": "East US 2",
+            "name": "myAutomationAccount2",
+            "type": "Microsoft.Automation/AutomationAccounts",
+            "properties": {
+              "creationTime": "2017-03-24T23:24:20.31+00:00",
+              "lastModifiedTime": "2017-03-24T23:24:20.31+00:00",
+              "lastModifiedBy": "myEmailId@microsoft.com",
+              "state": "Ok"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount3",
+            "location": "East US 2",
+            "name": "myAutomationAccount3",
+            "type": "Microsoft.Automation/AutomationAccounts",
+            "properties": {
+              "creationTime": "2017-03-24T23:24:43.967+00:00",
+              "lastModifiedTime": "2017-03-24T23:24:43.967+00:00",
+              "lastModifiedBy": "myEmailId@microsoft.com",
+              "state": "Ok"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount4",
+            "location": "East US 2",
+            "name": "myAutomationAccount4",
+            "type": "Microsoft.Automation/AutomationAccounts",
+            "properties": {
+              "creationTime": "2017-03-25T02:04:56.9+00:00",
+              "lastModifiedTime": "2017-03-25T02:04:56.9+00:00",
+              "lastModifiedBy": "myEmailId@microsoft.com",
+              "state": "Ok"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount6",
+            "location": "East US 2",
+            "name": "myAutomationAccount6",
+            "type": "Microsoft.Automation/AutomationAccounts",
+            "properties": {
+              "creationTime": "2017-03-25T02:10:44.567+00:00",
+              "lastModifiedTime": "2017-03-25T02:10:44.567+00:00",
+              "lastModifiedBy": "myEmailId@microsoft.com",
+              "state": "Ok"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount7",
+            "location": "East US 2",
+            "name": "myAutomationAccount7",
+            "type": "Microsoft.Automation/AutomationAccounts",
+            "properties": {
+              "creationTime": "2017-03-25T02:19:17.943+00:00",
+              "lastModifiedTime": "2017-03-25T02:19:17.943+00:00",
+              "lastModifiedBy": "myEmailId@microsoft.com",
+              "state": "Ok"
+            }
+          }
+        ]
+      }
+  name: List automation accounts by resource group
+security: []
+name: List By Resource Group
+uid: management.azure.com.automation.automationaccount.listbyresourcegroup

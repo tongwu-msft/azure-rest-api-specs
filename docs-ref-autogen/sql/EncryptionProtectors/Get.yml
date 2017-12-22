@@ -1,0 +1,147 @@
+### YamlMime:RESTOperation
+summary: Gets a server encryption protector.
+service: SQL Database
+apiVersion: 2015-05-01-preview
+groupName: Encryption Protectors
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}?api-version=2015-05-01-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+  name: serverName
+- in: path
+  isRequired: true
+  description: The name of the encryption protector to be retrieved.
+  types:
+  - uid: string
+  name: encryptionProtectorName
+- in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Successfully retrieved the specified server encryption protector.
+  types:
+  - uid: EncryptionProtector
+  name: 200 OK
+- description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidKeyName - An invalid value was given for the server key name.
+
+     * 400 InvalidKeyType - The create server key type is not supported.
+
+     * 400 InvalidKeyUpsertRequest - The create server key request does not exist or has no properties object.
+
+     * 400 InvalidEncryptionProtectorName - The encryption protector key name is not supported.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ResourceNotFound - The requested resource was not found.
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: EncryptionProtector
+  description: Array of results.
+  kind: object
+  properties:
+  - description: Kind of encryption protector. This is metadata used for the Azure portal experience.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - isReadyOnly: true
+    description: Subregion of the encryption protector.
+    types:
+    - uid: string
+    name: properties.subregion
+  - description: The name of the server key.
+    types:
+    - uid: string
+    name: properties.serverKeyName
+  - description: The encryption protector type like 'ServiceManaged', 'AzureKeyVault'.
+    types:
+    - uid: ServerKeyType
+    name: properties.serverKeyType
+  - isReadyOnly: true
+    description: The URI of the server key.
+    types:
+    - uid: string
+    name: properties.uri
+  - isReadyOnly: true
+    description: Thumbprint of the server key.
+    types:
+    - uid: string
+    name: properties.thumbprint
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: ServerKeyType
+  description: The encryption protector type like 'ServiceManaged', 'AzureKeyVault'.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: ServiceManaged
+  - types:
+    - uid: string
+    name: AzureKeyVault
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/encryptionProtector/current?api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/encryptionProtector/current",
+        "name": "current",
+        "type": "Microsoft.Sql/servers/encryptionProtector",
+        "location": "Japan East",
+        "kind": "azurekeyvault",
+        "properties": {
+          "serverKeyName": "someVault_someKey_01234567890123456789012345678901",
+          "serverKeyType": "AzureKeyVault",
+          "uri": "https://someVault.vault.azure.net/keys/someKey/01234567890123456789012345678901"
+        }
+      }
+  name: Get the encryption protector
+security: []
+name: Get
+uid: management.azure.com.sqldatabase.encryptionprotectors.get

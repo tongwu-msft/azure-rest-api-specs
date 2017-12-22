@@ -1,0 +1,211 @@
+### YamlMime:RESTOperation
+summary: Retrieve a list of Vaults.
+service: Recovery Services
+apiVersion: 2016-06-01
+groupName: Vaults
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults?api-version=2016-06-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: VaultList
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: VaultList
+  description: The response model for a list of Vaults.
+  kind: object
+  properties:
+  - description: Resource information, as returned by the resource provider.
+    types:
+    - isArray: true
+      uid: Vault
+    name: value
+  - isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+    name: nextLink
+- name: Vault
+  description: Resource information, as returned by the resource provider.
+  kind: object
+  properties:
+  - description: Properties of the vault.
+    types:
+    - uid: VaultProperties
+    name: properties
+  - description: Identifies the unique system identifier for each Azure resource.
+    types:
+    - uid: Sku
+    name: sku
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - isReadyOnly: true
+    description: Resource Id represents the complete path to the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name associated with the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+    name: type
+  - description: Optional ETag.
+    types:
+    - uid: string
+    name: eTag
+- name: VaultProperties
+  description: Properties of the vault.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Provisioning State.
+    types:
+    - uid: string
+    name: provisioningState
+  - description: Details for upgrading vault.
+    types:
+    - uid: UpgradeDetails
+    name: upgradeDetails
+- name: Sku
+  description: Identifies the unique system identifier for each Azure resource.
+  kind: object
+  properties:
+  - description: The Sku name.
+    types:
+    - uid: SkuName
+    name: name
+- name: UpgradeDetails
+  description: Details for upgrading vault.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: ID of the vault upgrade operation.
+    types:
+    - uid: string
+    name: operationId
+  - isReadyOnly: true
+    description: UTC time at which the upgrade operation has started.
+    types:
+    - uid: string
+    name: startTimeUtc
+  - isReadyOnly: true
+    description: UTC time at which the upgrade operation status was last updated.
+    types:
+    - uid: string
+    name: lastUpdatedTimeUtc
+  - isReadyOnly: true
+    description: UTC time at which the upgrade operation has ended.
+    types:
+    - uid: string
+    name: endTimeUtc
+  - isReadyOnly: true
+    description: Status of the vault upgrade operation.
+    types:
+    - uid: VaultUpgradeState
+    name: status
+  - isReadyOnly: true
+    description: Message to the user containing information about the upgrade operation.
+    types:
+    - uid: string
+    name: message
+  - isReadyOnly: true
+    description: The way the vault upgradation was triggered.
+    types:
+    - uid: TriggerType
+    name: triggerType
+  - isReadyOnly: true
+    description: Resource ID of the upgraded vault.
+    types:
+    - uid: string
+    name: upgradedResourceId
+  - isReadyOnly: true
+    description: Resource ID of the vault before the upgrade.
+    types:
+    - uid: string
+    name: previousResourceId
+- name: SkuName
+  description: The Sku name.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: RS0
+- name: VaultUpgradeState
+  description: Status of the vault upgrade operation.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: InProgress
+  - types:
+    - uid: string
+    name: Upgraded
+  - types:
+    - uid: string
+    name: Failed
+- name: TriggerType
+  description: The way the vault upgradation was triggered.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: UserTriggered
+  - types:
+    - uid: string
+    name: ForcedUpgrade
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account.
+    name: user_impersonation
+name: List By Resource Group
+uid: management.azure.com.recoveryservices.vaults.listbyresourcegroup

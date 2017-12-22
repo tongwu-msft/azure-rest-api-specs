@@ -1,0 +1,108 @@
+### YamlMime:RESTOperation
+summary: Lists the keys for a Media Service.
+service: Media Services
+apiVersion: 2015-10-01
+groupName: Media Service
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{mediaServiceName}/listKeys?api-version=2015-10-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Name of the Media Service.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9]{3,24}$
+  name: mediaServiceName
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2015-10-01.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Success. The keys for the Media Services account were listed.
+  types:
+  - uid: ServiceKeys
+  name: 200 OK
+- description: List Media Service keys failed.
+  types:
+  - uid: ApiError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: ServiceKeys
+  description: The response body for a ListKeys API.
+  kind: object
+  properties:
+  - description: The primary authorization endpoint.
+    types:
+    - uid: string
+    name: primaryAuthEndpoint
+  - description: The secondary authorization endpoint.
+    types:
+    - uid: string
+    name: secondaryAuthEndpoint
+  - description: The primary key for the Media Service resource.
+    types:
+    - uid: string
+    name: primaryKey
+  - description: The secondary key for the Media Service resource.
+    types:
+    - uid: string
+    name: secondaryKey
+  - description: The authorization scope.
+    types:
+    - uid: string
+    name: scope
+- name: ApiError
+  description: The error returned from a failed Media Services REST API call.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
+examples:
+- request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosmedia/listKeys?api-version=2015-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "primaryAuthEndpoint": "https://wamsprodglobal001acs.accesscontrol.windows.net/",
+        "secondaryAuthEndpoint": "https://wamsprodglobal002acs.accesscontrol.windows.net/",
+        "primaryKey": "<primary key value>",
+        "secondaryKey": "<secondary key value>",
+        "scope": "urn:windowsazuremediaservices"
+      }
+  name: MediaServiceListKeys
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List Keys
+uid: management.azure.com.mediaservices.mediaservice.listkeys

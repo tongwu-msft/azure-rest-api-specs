@@ -1,0 +1,188 @@
+### YamlMime:RESTOperation
+summary: Get user profile.
+service: Dev Test Labs
+apiVersion: 2016-05-15
+groupName: Users
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{name}?api-version=2016-05-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{name}?$expand={$expand}&api-version=2016-05-15
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+  name: labName
+- in: path
+  isRequired: true
+  description: The name of the user profile.
+  types:
+  - uid: string
+  name: name
+- in: query
+  description: "Specify the $expand query. Example: 'properties($select=identity)'"
+  types:
+  - uid: string
+  name: $expand
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: User
+  name: 200 OK
+- description: BadRequest
+  types:
+  - uid: CloudError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: User
+  description: Results of the list operation.
+  kind: object
+  properties:
+  - description: The identity of the user.
+    types:
+    - uid: UserIdentity
+    name: properties.identity
+  - description: The secret store of the user.
+    types:
+    - uid: UserSecretStore
+    name: properties.secretStore
+  - isReadyOnly: true
+    description: The creation date of the user profile.
+    types:
+    - uid: string
+    name: properties.createdDate
+  - description: The provisioning status of the resource.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+    name: properties.uniqueIdentifier
+  - isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+    name: error
+- name: UserIdentity
+  description: The identity of the user.
+  kind: object
+  properties:
+  - description: Set to the principal name / UPN of the client JWT making the request.
+    types:
+    - uid: string
+    name: principalName
+  - description: Set to the principal Id of the client JWT making the request. Service principal will not have the principal Id.
+    types:
+    - uid: string
+    name: principalId
+  - description: Set to the tenant ID of the client JWT making the request.
+    types:
+    - uid: string
+    name: tenantId
+  - description: Set to the object Id of the client JWT making the request. Not all users have object Id. For CSP (reseller) scenarios for example, object Id is not available.
+    types:
+    - uid: string
+    name: objectId
+  - description: Set to the app Id of the client JWT making the request.
+    types:
+    - uid: string
+    name: appId
+- name: UserSecretStore
+  description: The secret store of the user.
+  kind: object
+  properties:
+  - description: The URI of the user's Key vault.
+    types:
+    - uid: string
+    name: keyVaultUri
+  - description: The ID of the user's Key vault.
+    types:
+    - uid: string
+    name: keyVaultId
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - description: ''
+    types:
+    - uid: string
+    name: code
+  - description: ''
+    types:
+    - uid: string
+    name: message
+  - description: ''
+    types:
+    - uid: string
+    name: target
+  - description: Inner errors.
+    types:
+    - isArray: true
+      uid: CloudErrorBody
+    name: details
+examples: []
+security:
+- type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: Access Microsoft Azure
+    name: user_impersonation
+name: Get
+uid: management.azure.com.devtestlabs.users.get

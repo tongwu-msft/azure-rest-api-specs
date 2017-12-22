@@ -1,0 +1,558 @@
+### YamlMime:RESTOperation
+summary: Create a new software update configuration with the name given in the URI.
+service: Automation
+apiVersion: 2017-05-15-preview
+groupName: Software Update Configurations
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations/{softwareUpdateConfigurationName}?api-version=2017-05-15-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the automation account.
+  types:
+  - uid: string
+  name: automationAccountName
+- in: path
+  isRequired: true
+  description: The name of the software update configuration to be created.
+  types:
+  - uid: string
+  name: softwareUpdateConfigurationName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Software update configuration with the same name and properties already exists.
+  types:
+  - uid: softwareUpdateConfiguration
+  name: 200 OK
+- description: Software update configuration is created.
+  types:
+  - uid: softwareUpdateConfiguration
+  name: 201 Created
+- description: Bad request.
+  name: 400 Bad Request
+- description: Resource group or automation account does not exist.
+  name: Other Status Codes
+- description: A software update configuration with different properties and the same name already exist.
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: update specific properties for the Software update configuration
+    types:
+    - uid: updateConfiguration
+    name: properties.updateConfiguration
+  - in: body
+    isRequired: true
+    description: Schedule information for the Software update configuration
+    types:
+    - uid: ScheduleProperties
+    name: properties.scheduleInfo
+  - in: body
+    description: detailes of provisioning error
+    types:
+    - uid: ErrorResponse
+    name: properties.error
+requestHeader:
+- in: header
+  description: Identifies this specific client request.
+  types:
+  - uid: string
+  name: clientRequestId
+definitions:
+- name: updateConfiguration
+  description: Update specifc properties of the software update configuration.
+  kind: object
+  properties:
+  - description: operating system of target machines
+    types:
+    - uid: OperatingSystemType
+    name: operatingSystem
+  - description: Windows specific update configuration.
+    types:
+    - uid: WindowsProperties
+    name: windows
+  - description: Linux specific update configuration.
+    types:
+    - uid: LinuxProperties
+    name: linux
+  - description: Maximum time allowed for the software update configuration run. Duration needs to be specified using the format PT[n]H[n]M[n]S as per ISO8601
+    types:
+    - uid: string
+    name: duration
+  - description: Azure Resource Manager Id for a virtual machine.
+    types:
+    - isArray: true
+      uid: string
+    name: azureVirtualMachines
+  - description: Name of Non-Azure OMS Computer.
+    types:
+    - isArray: true
+      uid: string
+    name: nonAzureComputerNames
+- name: ScheduleProperties
+  description: Definition of schedule parameters.
+  kind: object
+  properties:
+  - description: Gets or sets the start time of the schedule.
+    types:
+    - uid: string
+    name: startTime
+  - isReadyOnly: true
+    description: Gets the start time's offset in minutes.
+    types:
+    - uid: number
+    name: startTimeOffsetMinutes
+  - description: Gets or sets the end time of the schedule.
+    types:
+    - uid: string
+    name: expiryTime
+  - description: Gets or sets the expiry time's offset in minutes.
+    types:
+    - uid: number
+    name: expiryTimeOffsetMinutes
+  - description: Gets or sets a value indicating whether this schedule is enabled.
+    types:
+    - uid: boolean
+    name: isEnabled
+  - description: Gets or sets the next run time of the schedule.
+    types:
+    - uid: string
+    name: nextRun
+  - description: Gets or sets the next run time's offset in minutes.
+    types:
+    - uid: number
+    name: nextRunOffsetMinutes
+  - description: Gets or sets the interval of the schedule.
+    types:
+    - {}
+    name: interval
+  - description: Gets or sets the frequency of the schedule.
+    types:
+    - uid: ScheduleFrequency
+    name: frequency
+  - description: Gets or sets the time zone of the schedule.
+    types:
+    - uid: string
+    name: timeZone
+  - description: Gets or sets the advanced schedule.
+    types:
+    - uid: AdvancedSchedule
+    name: advancedSchedule
+  - description: Gets or sets the creation time.
+    types:
+    - uid: string
+    name: creationTime
+  - description: Gets or sets the last modified time.
+    types:
+    - uid: string
+    name: lastModifiedTime
+  - description: Gets or sets the description.
+    types:
+    - uid: string
+    name: description
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: softwareUpdateConfiguration
+  description: Software update configuration properties.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+  - description: update specific properties for the Software update configuration
+    types:
+    - uid: updateConfiguration
+    name: properties.updateConfiguration
+  - description: Schedule information for the Software update configuration
+    types:
+    - uid: ScheduleProperties
+    name: properties.scheduleInfo
+  - isReadyOnly: true
+    description: Provisioning state for the software update configuration, which only appears in the response.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - description: detailes of provisioning error
+    types:
+    - uid: ErrorResponse
+    name: properties.error
+  - isReadyOnly: true
+    description: Creation time of theresource, which only appears in the response.
+    types:
+    - uid: string
+    name: properties.creationTime
+  - isReadyOnly: true
+    description: createdBy property, which only appears in the response.
+    types:
+    - uid: string
+    name: properties.createdBy
+  - isReadyOnly: true
+    description: Last time resource was modified, which only appears in the response.
+    types:
+    - uid: string
+    name: properties.lastModifiedTime
+  - isReadyOnly: true
+    description: lastModifiedBy property, which only appears in the response.
+    types:
+    - uid: string
+    name: properties.lastModifiedBy
+- name: OperatingSystemType
+  description: operating system of target machines
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Windows
+  - types:
+    - uid: string
+    name: Linux
+- name: WindowsProperties
+  description: Windows specific update configuration.
+  kind: object
+  properties:
+  - description: Update classification included in the software update configuration. A comma separated string with required values
+    types:
+    - uid: WindowsUpdateClasses
+    name: includedUpdateClassifications
+  - description: KB numbers excluded from the software update configuration.
+    types:
+    - isArray: true
+      uid: string
+    name: excludedKbNumbers
+- name: LinuxProperties
+  description: Linux specific update configuration.
+  kind: object
+  properties:
+  - description: Update classifications included in the software update configuration.
+    types:
+    - uid: LinuxUpdateClasses
+    name: includedPackageClassifications
+  - description: packages excluded from the software update configuration.
+    types:
+    - isArray: true
+      uid: string
+    name: excludedPackageNameMasks
+- name: ScheduleFrequency
+  description: execution frequency of the schedule associated with the software update configuration
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: OneTime
+  - types:
+    - uid: string
+    name: Day
+  - types:
+    - uid: string
+    name: Hour
+  - types:
+    - uid: string
+    name: Week
+  - types:
+    - uid: string
+    name: Month
+- name: AdvancedSchedule
+  description: The properties of the create Advanced Schedule.
+  kind: object
+  properties:
+  - description: Days of the week that the job should execute on.
+    types:
+    - isArray: true
+      uid: string
+    name: weekDays
+  - description: Days of the month that the job should execute on. Must be between 1 and 31.
+    types:
+    - isArray: true
+      uid: integer
+    name: monthDays
+  - description: The properties of the create advanced schedule monthly occurrence.
+    types:
+    - isArray: true
+      uid: AdvancedScheduleMonthlyOccurrence
+    name: monthlyOccurrences
+- name: WindowsUpdateClasses
+  description: Update classification included in the software update configuration. A comma separated string with required values
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Unclassified
+  - types:
+    - uid: string
+    name: Critical
+  - types:
+    - uid: string
+    name: Security
+  - types:
+    - uid: string
+    name: UpdateRollup
+  - types:
+    - uid: string
+    name: FeaturePack
+  - types:
+    - uid: string
+    name: ServicePack
+  - types:
+    - uid: string
+    name: Definition
+  - types:
+    - uid: string
+    name: Tools
+  - types:
+    - uid: string
+    name: Updates
+- name: LinuxUpdateClasses
+  description: Update classifications included in the software update configuration.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Unclassified
+  - types:
+    - uid: string
+    name: Critical
+  - types:
+    - uid: string
+    name: Security
+  - types:
+    - uid: string
+    name: Other
+- name: AdvancedScheduleMonthlyOccurrence
+  description: The properties of the create advanced schedule monthly occurrence.
+  kind: object
+  properties:
+  - description: Occurrence of the week within the month. Must be between 1 and 5
+    types:
+    - uid: integer
+    name: occurrence
+  - description: Day of the occurrence. Must be one of monday, tuesday, wednesday,thursday, friday, saturday, sunday.
+    types:
+    - uid: ScheduleDay
+    name: day
+- name: ScheduleDay
+  description: Day of the occurrence. Must be one of monday, tuesday, wednesday,thursday, friday, saturday, sunday.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Monday
+  - types:
+    - uid: string
+    name: Tuesday
+  - types:
+    - uid: string
+    name: Wednesday
+  - types:
+    - uid: string
+    name: Thursday
+  - types:
+    - uid: string
+    name: Friday
+  - types:
+    - uid: string
+    name: Saturday
+  - types:
+    - uid: string
+    name: Sunday
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurations/testpatch?api-version=2017-05-15-preview
+    body: >-
+      {
+        "properties": {
+          "updateConfiguration": {
+            "operatingSystem": "Windows",
+            "duration": "PT2H0M",
+            "windows": {
+              "excludedKbNumbers": [
+                "168934",
+                "168973"
+              ],
+              "includedUpdateClassifications": "Critical,Definition,FeaturePack,Security,ServicePack,Tools,UpdateRollup,Updates"
+            },
+            "azureVirtualMachines": [
+              "/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01",
+              "/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-02",
+              "/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-03"
+            ],
+            "nonAzureComputerNames": [
+              "box1.contoso.com",
+              "box2.contoso.com"
+            ]
+          },
+          "scheduleInfo": {
+            "frequency": "Hour",
+            "startTime": "2017-10-19T12:22:57+00:00",
+            "timeZone": "America/Los_Angeles",
+            "interval": 1,
+            "expiryTime": "2018-11-09T11:22:57+00:00",
+            "advancedSchedule": {
+              "weekDays": [
+                "Monday",
+                "Thursday"
+              ]
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "testpatch",
+        "id": "/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurations/testpatch",
+        "properties": {
+          "updateConfiguration": {
+            "operatingSystem": "Windows",
+            "windows": {
+              "includedUpdateClassifications": "Critical, Security, UpdateRollup, FeaturePack, ServicePack, Definition, Tools, Updates",
+              "excludedKbNumbers": [
+                "168934",
+                "168973"
+              ]
+            },
+            "linux": {},
+            "duration": "PT2H",
+            "azureVirtualMachines": [
+              "/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01",
+              "/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-02",
+              "/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-03"
+            ],
+            "nonAzureComputerNames": [
+              "box1.contoso.com",
+              "box2.contoso.com"
+            ]
+          },
+          "scheduleInfo": {
+            "description": "",
+            "startTime": "2017-10-19T19:22:00+00:00",
+            "startTimeOffsetMinutes": -420,
+            "expiryTime": "2018-11-09T19:22:00+00:00",
+            "expiryTimeOffsetMinutes": -480,
+            "isEnabled": true,
+            "nextRun": "2017-10-19T19:22:00+00:00",
+            "nextRunOffsetMinutes": -420,
+            "interval": 1,
+            "frequency": "Week",
+            "creationTime": "2017-10-19T18:54:50.5233333+00:00",
+            "lastModifiedTime": "2017-10-19T18:54:50.5233333+00:00",
+            "timeZone": "America/Los_Angeles",
+            "advancedSchedule": {}
+          },
+          "provisioningState": "Provisioning",
+          "error": {},
+          "creationTime": "2017-10-19T18:54:50.5233333+00:00",
+          "createdBy": "adam@contoso.com",
+          "lastModifiedBy": "adam@contoso.com",
+          "lastModifiedTime": "2017-10-19T18:54:50.68+00:00"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "testpatch",
+        "id": "/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurations/testpatch",
+        "properties": {
+          "updateConfiguration": {
+            "operatingSystem": "Windows",
+            "windows": {
+              "includedUpdateClassifications": "Critical, Security, UpdateRollup, FeaturePack, ServicePack, Definition, Tools, Updates",
+              "excludedKbNumbers": [
+                "168934",
+                "168973"
+              ]
+            },
+            "linux": {},
+            "duration": "PT2H",
+            "azureVirtualMachines": [
+              "/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01",
+              "/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-02",
+              "/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-03"
+            ],
+            "nonAzureComputerNames": [
+              "box1.contoso.com",
+              "box2.contoso.com"
+            ]
+          },
+          "scheduleInfo": {
+            "description": "",
+            "startTime": "2017-10-19T19:22:00+00:00",
+            "startTimeOffsetMinutes": -420,
+            "expiryTime": "2018-11-09T19:22:00+00:00",
+            "expiryTimeOffsetMinutes": -480,
+            "isEnabled": true,
+            "nextRun": "2017-10-19T19:22:00+00:00",
+            "nextRunOffsetMinutes": -420,
+            "interval": 1,
+            "frequency": "Week",
+            "creationTime": "2017-10-19T18:54:50.5233333+00:00",
+            "lastModifiedTime": "2017-10-19T18:54:50.5233333+00:00",
+            "timeZone": "America/Los_Angeles",
+            "advancedSchedule": null
+          },
+          "provisioningState": "Provisioning",
+          "error": {},
+          "creationTime": "2017-10-19T18:54:50.5233333+00:00",
+          "lastModifiedBy": "",
+          "lastModifiedTime": "2017-10-19T18:54:50.68+00:00"
+        }
+      }
+  - statusCode: "400"
+  - statusCode: "404"
+  - statusCode: "409"
+  name: Create software update configuration
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create
+uid: management.azure.com.automation.softwareupdateconfigurations.create

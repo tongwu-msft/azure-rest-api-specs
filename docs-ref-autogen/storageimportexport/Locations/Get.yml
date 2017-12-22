@@ -1,0 +1,177 @@
+### YamlMime:RESTOperation
+summary: Returns the details about a location to which you can ship the disks associated with an import or export job. A location is an Azure region.
+service: Storage Import-Export
+apiVersion: 2016-11-01
+groupName: Locations
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.ImportExport/locations/{locationName}?api-version=2016-11-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The name of the location. For example, West US or westus.
+  types:
+  - uid: string
+  name: locationName
+- in: query
+  isRequired: true
+  description: Specifies the API version to use for this request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: Location
+  name: 200 OK
+- description: An error occurs.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader:
+- in: header
+  description: Specifies the preferred language for the response.
+  types:
+  - uid: string
+  name: Accept-Language
+definitions:
+- name: Location
+  description: Provides information about an Azure data center location.
+  kind: object
+  properties:
+  - description: 'Specifies the resource identifier of the location. '
+    types:
+    - uid: string
+    name: id
+  - description: 'Specifies the name of the location. Use List Locations to get all supported locations. '
+    types:
+    - uid: string
+    name: name
+  - description: 'Specifies the type of the location. '
+    types:
+    - uid: string
+    name: type
+  - description: 'The recipient name to use when shipping the drives to the Azure data center. '
+    types:
+    - uid: string
+    name: properties.recipientName
+  - description: 'The first line of the street address to use when shipping the drives to the Azure data center. '
+    types:
+    - uid: string
+    name: properties.streetAddress1
+  - description: 'The second line of the street address to use when shipping the drives to the Azure data center. '
+    types:
+    - uid: string
+    name: properties.streetAddress2
+  - description: 'The city name to use when shipping the drives to the Azure data center. '
+    types:
+    - uid: string
+    name: properties.city
+  - description: 'The state or province to use when shipping the drives to the Azure data center. '
+    types:
+    - uid: string
+    name: properties.stateOrProvince
+  - description: 'The postal code to use when shipping the drives to the Azure data center. '
+    types:
+    - uid: string
+    name: properties.postalCode
+  - description: 'The country or region to use when shipping the drives to the Azure data center. '
+    types:
+    - uid: string
+    name: properties.countryOrRegion
+  - description: 'The phone number for the Azure data center. '
+    types:
+    - uid: string
+    name: properties.phone
+  - description: 'A list of carriers that are supported at this location. '
+    types:
+    - isArray: true
+      uid: string
+    name: properties.supportedCarriers
+  - description: 'A list of location IDs that should be used to ship shipping drives to for jobs created against the current location. If the current location is active, it will be part of the list. If it is temporarily closed due to maintenance, this list may contain other locations. '
+    types:
+    - isArray: true
+      uid: string
+    name: properties.alternateLocations
+- name: ErrorResponse
+  description: Response when errors occurred
+  kind: object
+  properties:
+  - description: Provides information about the error code.
+    types:
+    - uid: string
+    name: error.code
+  - description: Provides information about the error message.
+    types:
+    - uid: string
+    name: error.message
+  - description: Provides information about the error target.
+    types:
+    - uid: string
+    name: error.target
+  - description: Describes the error details if present.
+    types:
+    - isArray: true
+      uid: Details
+    name: error.details
+  - description: Inner error object if present.
+    types:
+    - uid: object
+    name: error.innererror
+- name: Details
+  description: Describes the error details if present.
+  kind: object
+  properties:
+  - description: Provides information about the error code.
+    types:
+    - uid: string
+    name: code
+  - description: Provides information about the error target.
+    types:
+    - uid: string
+    name: target
+  - description: Provides information about the error message.
+    types:
+    - uid: string
+    name: message
+examples:
+- request:
+    uri: GET https://management.azure.com/providers/Microsoft.ImportExport/locations/West US?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "recipientName": "Microsoft Azure Import/Export Service",
+          "streetAddress1": "2045 Lafayette Street",
+          "streetAddress2": "",
+          "city": "Santa Clara",
+          "stateOrProvince": "CA",
+          "postalCode": "95050",
+          "countryOrRegion": "USA",
+          "phone": "408 352 7600",
+          "supportedCarriers": [
+            "FedEx"
+          ],
+          "alternateLocations": [
+            "/providers/Microsoft.ImportExport/locations/westus"
+          ]
+        },
+        "id": "/providers/Microsoft.ImportExport/locations/westus",
+        "name": "West US",
+        "type": "Microsoft.ImportExport/locations"
+      }
+  name: Get locations
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get
+uid: management.azure.com.storageimport-export.locations.get

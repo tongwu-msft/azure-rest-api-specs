@@ -1,0 +1,184 @@
+### YamlMime:RESTOperation
+summary: Gets a virtual network the app (or deployment slot) is connected to by name.
+service: App Service
+apiVersion: 2016-08-01
+groupName: Web Apps
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/virtualNetworkConnections/{vnetName}?api-version=2016-08-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Name of the app.
+  types:
+  - uid: string
+  name: name
+- in: path
+  isRequired: true
+  description: Name of the virtual network.
+  types:
+  - uid: string
+  name: vnetName
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: VnetInfo
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: VnetInfo
+  description: The Virtual Network summary view.
+  kind: object
+  properties:
+  - description: The Virtual Network's resource ID.
+    types:
+    - uid: string
+    name: properties.vnetResourceId
+  - isReadyOnly: true
+    description: The client certificate thumbprint.
+    types:
+    - uid: string
+    name: properties.certThumbprint
+  - description: "A certificate file (.cer) blob containing the public key of the private key used to authenticate a \nPoint-To-Site VPN connection."
+    types:
+    - uid: string
+    name: properties.certBlob
+  - isReadyOnly: true
+    description: Virtual Network route contract used to pass routing information for a Virtual Network.
+    types:
+    - isArray: true
+      uid: VnetRoute
+    name: properties.routes
+  - isReadyOnly: true
+    description: <code>true</code> if a resync is required; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.resyncRequired
+  - description: DNS servers to be used by this Virtual Network. This should be a comma-separated list of IP addresses.
+    types:
+    - uid: string
+    name: properties.dnsServers
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: VnetRoute
+  description: The routes that this Virtual Network connection uses.
+  kind: object
+  properties:
+  - description: The name of this route. This is only returned by the server and does not need to be set by the client.
+    types:
+    - uid: string
+    name: properties.name
+  - description: The starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified.
+    types:
+    - uid: string
+    name: properties.startAddress
+  - description: The ending address for this route. If the start address is specified in CIDR notation, this must be omitted.
+    types:
+    - uid: string
+    name: properties.endAddress
+  - description: >-
+      The type of route this is:
+
+      DEFAULT - By default, every app has routes to the local address ranges specified by RFC1918
+
+      INHERITED - Routes inherited from the real Virtual Network routes
+
+      STATIC - Static route set on the app only
+
+
+      These values will be used for syncing an app's routes with those from a Virtual Network.
+    types:
+    - uid: RouteType
+    name: properties.routeType
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: RouteType
+  description: >-
+    The type of route this is:
+
+    DEFAULT - By default, every app has routes to the local address ranges specified by RFC1918
+
+    INHERITED - Routes inherited from the real Virtual Network routes
+
+    STATIC - Static route set on the app only
+
+
+    These values will be used for syncing an app's routes with those from a Virtual Network.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: DEFAULT
+  - types:
+    - uid: string
+    name: INHERITED
+  - types:
+    - uid: string
+    name: STATIC
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get Vnet Connection
+uid: management.azure.com.appservice.webapps.getvnetconnection

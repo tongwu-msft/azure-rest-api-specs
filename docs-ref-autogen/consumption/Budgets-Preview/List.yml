@@ -1,0 +1,327 @@
+### YamlMime:RESTOperation
+summary: Lists all budgets for a subscription.
+service: Consumption
+apiVersion: 2017-12-30-preview
+groupName: Budgets-Preview
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/budgets?api-version=2017-12-30-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2017-12-30-preview.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK. The request has succeeded.
+  types:
+  - uid: BudgetsListResult
+  name: 200 OK
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: BudgetsListResult
+  description: Result of listing budgets. It contains a list of available budgets in the scope provided.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: A budget resource.
+    types:
+    - isArray: true
+      uid: Budget
+    name: value
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: The details of the error.
+    types:
+    - uid: ErrorDetails
+    name: error
+- name: Budget
+  description: The list of budgets.
+  kind: object
+  properties:
+  - description: The category of the budget, whether the budget tracks cost or something else.
+    types:
+    - uid: CategoryType
+    name: properties.category
+  - description: The total amount of cost to track with the budget
+    types:
+    - uid: number
+    name: properties.amount
+  - description: The time covered by a budget. Tracking of the amount will be reset based on the time grain.
+    types:
+    - uid: TimeGrainType
+    name: properties.timeGrain
+  - description: Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than three months. Past start date should  be selected within the timegrain preiod. There are no restrictions on the end date.
+    types:
+    - uid: BudgetTimePeriod
+    name: properties.timePeriod
+  - isReadyOnly: true
+    description: The current amount of cost which is being tracked for a budget.
+    types:
+    - uid: CurrentSpend
+    name: properties.currentSpend
+  - description: Dictionary of notifications associated with the budget. Budget can have up to five notifications.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: Notification
+      uid: object
+    name: properties.notifications
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: eTag of the resource. To handle concurrent update scenarion, this field will be used to determine whether the user is updating the latest version or not.
+    types:
+    - uid: string
+    name: eTag
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+    name: code
+  - isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: CategoryType
+  description: The category of the budget, whether the budget tracks cost or something else.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Cost
+- name: TimeGrainType
+  description: The time covered by a budget. Tracking of the amount will be reset based on the time grain.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Monthly
+  - types:
+    - uid: string
+    name: Quarterly
+  - types:
+    - uid: string
+    name: Annually
+- name: BudgetTimePeriod
+  description: Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than three months. Past start date should  be selected within the timegrain preiod. There are no restrictions on the end date.
+  kind: object
+  properties:
+  - description: The start date for the budget.
+    types:
+    - uid: string
+    name: startDate
+  - description: The end date for the budget. If not provided, we default this to 10 years from the start date.
+    types:
+    - uid: string
+    name: endDate
+- name: CurrentSpend
+  description: The current amount of cost which is being tracked for a budget.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The total amount of cost which is being tracked by the budget.
+    types:
+    - uid: number
+    name: amount
+  - isReadyOnly: true
+    description: The unit of measure for the budget amount.
+    types:
+    - uid: string
+    name: unit
+- name: Notifications
+  description: Dictionary of notifications associated with the budget. Budget can have up to five notifications.
+  kind: object
+  properties:
+  - description: The notification associated with a budget.
+    types:
+    - uid: Notification
+    name: ''
+- name: Notification
+  description: The notification associated with a budget.
+  kind: object
+  properties:
+  - description: The notification is enabled or not.
+    types:
+    - uid: boolean
+    name: enabled
+  - description: The comparison operator.
+    types:
+    - uid: OperatorType
+    name: operator
+  - description: Threshold value associated with a notification. Notification is sent when the cost exceeded the threshold. It is always percent and has to be between 0 and 1000.
+    types:
+    - uid: number
+    name: threshold
+  - description: Email addresses to send the budget notification to when the threshold is exceeded.
+    types:
+    - isArray: true
+      uid: string
+    name: contactEmails
+  - description: Contact roles to send the budget notification to when the threshold is exceeded.
+    types:
+    - isArray: true
+      uid: string
+    name: contactRoles
+- name: OperatorType
+  description: The comparison operator.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: EqualTo
+  - types:
+    - uid: string
+    name: GreaterThan
+  - types:
+    - uid: string
+    name: GreaterThanOrEqualTo
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Consumption/budgets?api-version=2017-12-30-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "subscriptions/{subscription-id}/providers/Microsoft.Consumption/budgets/TestBudget",
+            "name": "TestBudget",
+            "type": "Microsoft.Consumption/budgets",
+            "eTag": "\"1d34d012214157f\"",
+            "properties": {
+              "category": "Cost",
+              "amount": 100.65,
+              "timeGrain": "Monthly",
+              "timePeriod": {
+                "startDate": "2017-10-01T00:00:00Z",
+                "endDate": "2018-10-31T00:00:00Z"
+              },
+              "currentSpend": {
+                "amount": 80.89,
+                "unit": "USD"
+              },
+              "notifications": {
+                "Actual_GreaterThan_80_Percent": {
+                  "enabled": true,
+                  "operator": "GreaterThan",
+                  "threshold": 80,
+                  "contactEmails": [
+                    "johndoe@contoso.com",
+                    "janesmith@contoso.com"
+                  ],
+                  "contactRoles": [
+                    "Contributor",
+                    "Reader"
+                  ]
+                },
+                "Actual_GreaterThanOrEqualTo_90_Percent": {
+                  "enabled": true,
+                  "operator": "GreaterThanOrEqualTo",
+                  "threshold": 90,
+                  "contactEmails": [
+                    "johndoe@contoso.com",
+                    "janesmith@contoso.com"
+                  ],
+                  "contactRoles": [
+                    "Contributor",
+                    "Reader"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "id": "subscriptions/{subscription-id}/providers/Microsoft.Consumption/budgets/TestBudget",
+            "name": "TestBudget",
+            "type": "Microsoft.Consumption/budgets",
+            "eTag": "\"1d34d012214157f\"",
+            "properties": {
+              "category": "Cost",
+              "amount": 600.65,
+              "timeGrain": "Monthly",
+              "timePeriod": {
+                "startDate": "2017-10-01T00:00:00Z",
+                "endDate": "2018-10-31T00:00:00Z"
+              },
+              "currentSpend": {
+                "amount": 120.89,
+                "unit": "USD"
+              },
+              "notifications": {
+                "Actual_GreaterThan_40_Percent": {
+                  "enabled": true,
+                  "operator": "GreaterThan",
+                  "threshold": 40,
+                  "contactEmails": [
+                    "johndoe@contoso.com",
+                    "janesmith@contoso.com"
+                  ],
+                  "contactRoles": [
+                    "Contributor",
+                    "Reader"
+                  ]
+                },
+                "Actual_GreaterThanOrEqualTo_60_Percent": {
+                  "enabled": true,
+                  "operator": "GreaterThanOrEqualTo",
+                  "threshold": 60,
+                  "contactEmails": [
+                    "johndoe@contoso.com",
+                    "janesmith@contoso.com"
+                  ],
+                  "contactRoles": [
+                    "Contributor",
+                    "Reader"
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+  name: BudgetsList
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List
+uid: management.azure.com.consumption.budgets-preview.list

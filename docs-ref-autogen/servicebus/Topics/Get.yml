@@ -1,0 +1,253 @@
+### YamlMime:RESTOperation
+summary: Returns a description for the specified topic.
+service: Service Bus
+apiVersion: 2017-04-01
+groupName: Topics
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}?api-version=2017-04-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The namespace name
+  types:
+  - uid: string
+  name: namespaceName
+- in: path
+  isRequired: true
+  description: The topic name.
+  types:
+  - uid: string
+  name: topicName
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Topic description successfully retrieved.
+  types:
+  - uid: SBTopic
+  name: 200 OK
+- description: ServiceBus error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: SBTopic
+  description: Result of the List Topics operation.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Size of the topic, in bytes.
+    types:
+    - uid: integer
+    name: properties.sizeInBytes
+  - isReadyOnly: true
+    description: Exact time the message was created.
+    types:
+    - uid: string
+    name: properties.createdAt
+  - isReadyOnly: true
+    description: The exact time the message was updated.
+    types:
+    - uid: string
+    name: properties.updatedAt
+  - isReadyOnly: true
+    description: Last time the message was sent, or a request was received, for this topic.
+    types:
+    - uid: string
+    name: properties.accessedAt
+  - isReadyOnly: true
+    description: Number of subscriptions.
+    types:
+    - uid: integer
+    name: properties.subscriptionCount
+  - isReadyOnly: true
+    description: Message count deatils
+    types:
+    - uid: MessageCountDetails
+    name: properties.countDetails
+  - description: ISO 8601 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.
+    types:
+    - uid: string
+    name: properties.defaultMessageTimeToLive
+  - description: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic. Default is 1024.
+    types:
+    - uid: integer
+    name: properties.maxSizeInMegabytes
+  - description: Value indicating if this topic requires duplicate detection.
+    types:
+    - uid: boolean
+    name: properties.requiresDuplicateDetection
+  - description: ISO8601 timespan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.
+    types:
+    - uid: string
+    name: properties.duplicateDetectionHistoryTimeWindow
+  - description: Value that indicates whether server-side batched operations are enabled.
+    types:
+    - uid: boolean
+    name: properties.enableBatchedOperations
+  - description: Enumerates the possible values for the status of a messaging entity.
+    types:
+    - uid: EntityStatus
+    name: properties.status
+  - description: Value that indicates whether the topic supports ordering.
+    types:
+    - uid: boolean
+    name: properties.supportOrdering
+  - description: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.
+    types:
+    - uid: string
+    name: properties.autoDeleteOnIdle
+  - description: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.
+    types:
+    - uid: boolean
+    name: properties.enablePartitioning
+  - description: Value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage.
+    types:
+    - uid: boolean
+    name: properties.enableExpress
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+- name: ErrorResponse
+  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: MessageCountDetails
+  description: Message Count Details.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Number of active messages in the queue, topic, or subscription.
+    types:
+    - uid: integer
+    name: activeMessageCount
+  - isReadyOnly: true
+    description: Number of messages that are dead lettered.
+    types:
+    - uid: integer
+    name: deadLetterMessageCount
+  - isReadyOnly: true
+    description: Number of scheduled messages.
+    types:
+    - uid: integer
+    name: scheduledMessageCount
+  - isReadyOnly: true
+    description: Number of messages transferred to another queue, topic, or subscription.
+    types:
+    - uid: integer
+    name: transferMessageCount
+  - isReadyOnly: true
+    description: Number of messages transferred into dead letters.
+    types:
+    - uid: integer
+    name: transferDeadLetterMessageCount
+- name: EntityStatus
+  description: Enumerates the possible values for the status of a messaging entity.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Active
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Restoring
+  - types:
+    - uid: string
+    name: SendDisabled
+  - types:
+    - uid: string
+    name: ReceiveDisabled
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: Renaming
+  - types:
+    - uid: string
+    name: Unknown
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1617/topics/sdk-Topics-5488?api-version=2017-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1617/topics/sdk-Topics-5488",
+        "name": "sdk-Topics-5488",
+        "type": "Microsoft.ServiceBus/Namespaces/Topics",
+        "properties": {
+          "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
+          "maxSizeInMegabytes": 10240,
+          "requiresDuplicateDetection": false,
+          "duplicateDetectionHistoryTimeWindow": "PT10M",
+          "enableBatchedOperations": true,
+          "sizeInBytes": 0,
+          "status": "Active",
+          "supportOrdering": true,
+          "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+          "enablePartitioning": false,
+          "enableExpress": true,
+          "createdAt": "2017-05-26T20:50:31.4442694Z",
+          "updatedAt": "2017-05-26T20:52:32.2092264Z",
+          "accessedAt": "0001-01-01T00:00:00Z",
+          "subscriptionCount": 0
+        }
+      }
+  name: TopicGet
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get
+uid: management.azure.com.servicebus.topics.get

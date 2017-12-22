@@ -1,0 +1,114 @@
+### YamlMime:RESTOperation
+summary: Deletes the specified pool.
+service: Batch Management
+apiVersion: 2017-09-01
+groupName: Pool
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}?api-version=2017-09-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group that contains the Batch account.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the Batch account.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+  name: accountName
+- in: path
+  isRequired: true
+  description: The pool name. This must be unique within the account.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_-]+$
+  name: poolName
+- in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The operation was successful.
+  name: 200 OK
+- description: The operation was successful.
+  name: 204 No Content
+- headers:
+  - value: string
+    name: Location
+  - value: integer
+    name: Retry-After
+  description: The operation will be completed asynchronously.
+  name: 202 Accepted
+- description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - description: An error response from the Batch service.
+    types:
+    - uid: CloudErrorBody
+    name: error
+- name: CloudErrorBody
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+    name: code
+  - description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+    name: message
+  - description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+    name: target
+  - description: A list of additional details about the error.
+    types:
+    - isArray: true
+      uid: CloudErrorBody
+    name: details
+examples:
+- request:
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2017-09-01
+  responses:
+  - statusCode: "200"
+  - statusCode: "204"
+  - statusCode: "202"
+    headers:
+    - value: "15"
+      name: Retry-After
+    - value: https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/poolOperationResults/delete-testpool-8D4EDFF164A11C9?api-version=2017-05-01
+      name: Location
+  name: DeletePool
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Delete
+uid: management.azure.com.batchmanagement.pool.delete

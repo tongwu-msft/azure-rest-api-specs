@@ -1,0 +1,118 @@
+### YamlMime:RESTOperation
+summary: List all the databases in a given server.
+service: MySQL
+apiVersion: 2017-04-30-preview
+groupName: Databases
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/servers/{serverName}/databases?api-version=2017-04-30-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+  name: serverName
+- in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: DatabaseListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: DatabaseListResult
+  description: A List of databases.
+  kind: object
+  properties:
+  - description: Represents a Database.
+    types:
+    - isArray: true
+      uid: Database
+    name: value
+- name: Database
+  description: Represents a Database.
+  kind: object
+  properties:
+  - description: The charset of the database.
+    types:
+    - uid: string
+    name: properties.charset
+  - description: The collation of the database.
+    types:
+    - uid: string
+    name: properties.collation
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases?api-version=2017-04-30-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db1",
+            "name": "db1",
+            "type": "Microsoft.DBforMySQL/servers/databases",
+            "properties": {
+              "charset": "utf8",
+              "collation": "utf8_general_ci"
+            }
+          },
+          {
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver/databases/db2",
+            "name": "db2",
+            "type": "Microsoft.DBforMySQL/servers/databases",
+            "properties": {
+              "charset": "utf8",
+              "collation": "utf8_general_ci"
+            }
+          }
+        ]
+      }
+  name: DatabaseList
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Server
+uid: management.azure.com.mysql.databases.listbyserver

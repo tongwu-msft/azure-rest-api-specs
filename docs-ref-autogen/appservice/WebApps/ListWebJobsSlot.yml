@@ -1,0 +1,144 @@
+### YamlMime:RESTOperation
+summary: List webjobs for an app, or a deployment slot.
+service: App Service
+apiVersion: 2016-08-01
+groupName: Web Apps
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/webjobs?api-version=2016-08-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Site name.
+  types:
+  - uid: string
+  name: name
+- in: path
+  isRequired: true
+  description: Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
+  types:
+  - uid: string
+  name: slot
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK
+  types:
+  - uid: WebJobCollection
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: WebJobCollection
+  description: Collection of Kudu web job information elements.
+  kind: object
+  properties:
+  - description: Web Job Information.
+    types:
+    - isArray: true
+      uid: WebJob
+    name: value
+  - description: Link to next page of resources.
+    types:
+    - uid: string
+    name: nextLink
+- name: WebJob
+  description: Web Job Information.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Job name. Used as job identifier in ARM resource URI.
+    types:
+    - uid: string
+    name: properties.name
+  - description: Run command.
+    types:
+    - uid: string
+    name: properties.runCommand
+  - description: Job URL.
+    types:
+    - uid: string
+    name: properties.url
+  - description: Extra Info URL.
+    types:
+    - uid: string
+    name: properties.extraInfoUrl
+  - description: Job type.
+    types:
+    - uid: WebJobType
+    name: properties.jobType
+  - description: Error information.
+    types:
+    - uid: string
+    name: properties.error
+  - description: Using SDK?
+    types:
+    - uid: boolean
+    name: properties.usingSdk
+  - description: Job settings.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+      uid: object
+    name: properties.settings
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: WebJobType
+  description: Job type.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Continuous
+  - types:
+    - uid: string
+    name: Triggered
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List Web Jobs Slot
+uid: management.azure.com.appservice.webapps.listwebjobsslot

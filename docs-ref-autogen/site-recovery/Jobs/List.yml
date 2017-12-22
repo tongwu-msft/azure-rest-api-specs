@@ -1,0 +1,596 @@
+### YamlMime:RESTOperation
+summary: Provides a pageable list of jobs.
+service: Recovery Services - Backup
+apiVersion: 2016-06-01
+groupName: Jobs
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs?api-version=2016-06-01
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs?api-version=2016-06-01&$filter={$filter}&$skipToken={$skipToken}
+  isOptional: true
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group associated with the Recovery Services vault.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the Recovery Services vault.
+  types:
+  - uid: string
+  name: vaultName
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+- in: query
+  description: The following equation can be used to filter the list of jobs based on status, type, start date, and end date. status eq { InProgress , Completed , Failed , CompletedWithWarnings , Cancelled , Cancelling } and backupManagementType eq {AzureIaasVM, MAB, DPM, AzureBackupServer, AzureSql } and operation eq { ConfigureBackup , Backup , Restore , DisableBackup , DeleteBackupData } and jobId eq {guid} and startTime eq { yyyy-mm-dd hh:mm:ss PM } and endTime eq { yyyy-mm-dd hh:mm:ss PM }.
+  types:
+  - uid: string
+  name: $filter
+- in: query
+  description: The Skip Token filter.
+  types:
+  - uid: string
+  name: $skipToken
+responses:
+- description: OK.
+  types:
+  - uid: JobResourceList
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: JobResourceList
+  description: List of Job resources.
+  kind: object
+  properties:
+  - description: Defines the workload-agnostic properties for a job.
+    types:
+    - isArray: true
+      uid: JobResource
+    name: value
+  - description: The URI to GET the next page of resources. Call ListNext() gets the next page of resources.
+    types:
+    - uid: string
+    name: nextLink
+- name: JobResource
+  description: List of resources.
+  kind: object
+  properties:
+  - description: Defines workload-agnostic properties for a job.
+    types:
+    - uid: AzureIaaSVMJob
+    - uid: DpmJob
+    - uid: MabJob
+    typesTitle: Job
+    name: properties
+  - description: Resource ID represents the complete path to the resource.
+    types:
+    - uid: string
+    name: id
+  - description: Resource name associated with the resource.
+    types:
+    - uid: string
+    name: name
+  - description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+    name: type
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+  - description: Optional ETag.
+    types:
+    - uid: string
+    name: eTag
+- name: AzureIaaSVMJob
+  description: The Azure IaaS VM workload-specifc job object.
+  kind: object
+  properties:
+  - description: The time that elapsed during the execution of this job.
+    types:
+    - uid: string
+    name: duration
+  - description: 'Gets or sets the state, or actions, applicable on this job. Examples of the actions are: Cancel or Retry.'
+    types:
+    - isArray: true
+      uid: string
+    name: actionsInfo
+  - description: Azure IaaS VM workload-specific error information.
+    types:
+    - isArray: true
+      uid: AzureIaaSVMErrorInfo
+    name: errorDetails
+  - description: Specifies whether the backup item is a Classic VM or a Resource Manager VM.
+    types:
+    - uid: string
+    name: virtualMachineVersion
+  - description: Additional information for this job.
+    types:
+    - uid: AzureIaaSVMJobExtendedInfo
+    name: extendedInfo
+  - description: The friendly name of the entity on which the current job is executing.
+    types:
+    - uid: string
+    name: entityFriendlyName
+  - description: The backup management type for the current job.
+    types:
+    - uid: BackupManagementType
+    name: backupManagementType
+  - description: The operation name.
+    types:
+    - uid: string
+    name: operation
+  - description: The job status.
+    types:
+    - uid: string
+    name: status
+  - description: The start time.
+    types:
+    - uid: string
+    name: startTime
+  - description: The end time.
+    types:
+    - uid: string
+    name: endTime
+  - description: ActivityId of job.
+    types:
+    - uid: string
+    name: activityId
+  - description: This property is the discriminator for deciding between the specific types in the polymorhpic chain of types.
+    types:
+    - uid: AzureIaaSVMJob
+    typesTitle: string
+    name: jobType
+- name: DpmJob
+  description: The DPM workload-specifc job object.
+  kind: object
+  properties:
+  - description: The time elapsed for the job.
+    types:
+    - uid: string
+    name: duration
+  - description: DPM server name managing the backup item or backup job.
+    types:
+    - uid: string
+    name: dpmServerName
+  - description: The name of the cluster or server protecting the current backup item, if any.
+    types:
+    - uid: string
+    name: containerName
+  - description: The type of container.
+    types:
+    - uid: string
+    name: containerType
+  - description: The type of backup item.
+    types:
+    - uid: string
+    name: workloadType
+  - description: The state or actions applicable on this job, such as Cancel or Retry.
+    types:
+    - isArray: true
+      uid: string
+    name: actionsInfo
+  - description: DPM workload-specific error information.
+    types:
+    - isArray: true
+      uid: DpmErrorInfo
+    name: errorDetails
+  - description: Additional information for this job.
+    types:
+    - uid: DpmJobExtendedInfo
+    name: extendedInfo
+  - description: The friendly name of the entity on which the current job is executing.
+    types:
+    - uid: string
+    name: entityFriendlyName
+  - description: The backup management type for the current job.
+    types:
+    - uid: BackupManagementType
+    name: backupManagementType
+  - description: The operation name.
+    types:
+    - uid: string
+    name: operation
+  - description: The job status.
+    types:
+    - uid: string
+    name: status
+  - description: The start time.
+    types:
+    - uid: string
+    name: startTime
+  - description: The end time.
+    types:
+    - uid: string
+    name: endTime
+  - description: ActivityId of job.
+    types:
+    - uid: string
+    name: activityId
+  - description: This property is the discriminator for deciding between the specific types in the polymorhpic chain of types.
+    types:
+    - uid: DpmJob
+    typesTitle: string
+    name: jobType
+- name: MabJob
+  description: The Azure Backup Server workload-specific job.
+  kind: object
+  properties:
+  - description: The time required for the job to run.
+    types:
+    - uid: string
+    name: duration
+  - description: The state or actions applicable on jobs such as Cancel or Retry.
+    types:
+    - isArray: true
+      uid: string
+    name: actionsInfo
+  - description: The name of server protecting the data store.
+    types:
+    - uid: string
+    name: mabServerName
+  - description: Server type of the Azure Backup Server container.
+    types:
+    - uid: MabServerType
+    name: mabServerType
+  - description: Workload type of backup item.
+    types:
+    - uid: WorkloadType
+    name: workloadType
+  - description: Azure Backup Server workload-specific error information.
+    types:
+    - isArray: true
+      uid: MabErrorInfo
+    name: errorDetails
+  - description: Additional information on the job.
+    types:
+    - uid: MabJobExtendedInfo
+    name: extendedInfo
+  - description: The friendly name of the entity on which the current job is executing.
+    types:
+    - uid: string
+    name: entityFriendlyName
+  - description: The backup management type for the current job.
+    types:
+    - uid: BackupManagementType
+    name: backupManagementType
+  - description: The operation name.
+    types:
+    - uid: string
+    name: operation
+  - description: The job status.
+    types:
+    - uid: string
+    name: status
+  - description: The start time.
+    types:
+    - uid: string
+    name: startTime
+  - description: The end time.
+    types:
+    - uid: string
+    name: endTime
+  - description: ActivityId of job.
+    types:
+    - uid: string
+    name: activityId
+  - description: This property is the discriminator for deciding between the specific types in the polymorhpic chain of types.
+    types:
+    - uid: MabJob
+    typesTitle: string
+    name: jobType
+- name: AzureIaaSVMErrorInfo
+  description: Error details about this job.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: integer
+    name: errorCode
+  - description: 'Title: typically, the entity associated the error.'
+    types:
+    - uid: string
+    name: errorTitle
+  - description: Localized error string.
+    types:
+    - uid: string
+    name: errorString
+  - description: List of localized recommendations for the error string.
+    types:
+    - isArray: true
+      uid: string
+    name: recommendations
+- name: AzureIaaSVMJobExtendedInfo
+  description: Additional information for this job.
+  kind: object
+  properties:
+  - description: Azure IaaS VM workload-specific job task details.
+    types:
+    - isArray: true
+      uid: AzureIaaSVMJobTaskDetails
+    name: tasksList
+  - description: Job properties.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: propertyBag
+  - description: Indicates progress of the job. Null if it has not started or completed.
+    types:
+    - uid: number
+    name: progressPercentage
+  - description: Non-localized error message for job execution.
+    types:
+    - uid: string
+    name: dynamicErrorMessage
+- name: BackupManagementType
+  description: The backup management type for the current job.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: AzureIaasVM
+  - types:
+    - uid: string
+    name: MAB
+  - types:
+    - uid: string
+    name: DPM
+  - types:
+    - uid: string
+    name: AzureBackupServer
+  - types:
+    - uid: string
+    name: AzureSql
+- name: DpmErrorInfo
+  description: The errors.
+  kind: object
+  properties:
+  - description: Localized error string.
+    types:
+    - uid: string
+    name: errorString
+  - description: The list of localized recommendations for the error string.
+    types:
+    - isArray: true
+      uid: string
+    name: recommendations
+- name: DpmJobExtendedInfo
+  description: Additional information for this job.
+  kind: object
+  properties:
+  - description: DPM workload-specific job task details.
+    types:
+    - isArray: true
+      uid: DpmJobTaskDetails
+    name: tasksList
+  - description: The job properties.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: propertyBag
+  - description: Non-localized error message on job execution.
+    types:
+    - uid: string
+    name: dynamicErrorMessage
+- name: MabServerType
+  description: Server type of the Azure Backup Server container.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: IaasVMContainer
+  - types:
+    - uid: string
+    name: IaasVMServiceContainer
+  - types:
+    - uid: string
+    name: DPMContainer
+  - types:
+    - uid: string
+    name: DPMVenusContainer
+  - types:
+    - uid: string
+    name: MABContainer
+  - types:
+    - uid: string
+    name: ClusterResource
+  - types:
+    - uid: string
+    name: AzureSqlContainer
+  - types:
+    - uid: string
+    name: WindowsServer
+  - types:
+    - uid: string
+    name: Windows
+- name: WorkloadType
+  description: Workload type of backup item.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Invalid
+  - types:
+    - uid: string
+    name: VM
+  - types:
+    - uid: string
+    name: FileFolder
+  - types:
+    - uid: string
+    name: AzureSqlDb
+  - types:
+    - uid: string
+    name: SQLDB
+  - types:
+    - uid: string
+    name: Exchange
+  - types:
+    - uid: string
+    name: Sharepoint
+  - types:
+    - uid: string
+    name: DPMUnknown
+- name: MabErrorInfo
+  description: The errors.
+  kind: object
+  properties:
+  - description: Localized error string.
+    types:
+    - uid: string
+    name: errorString
+  - description: List of localized recommendations.
+    types:
+    - isArray: true
+      uid: string
+    name: recommendations
+- name: MabJobExtendedInfo
+  description: Additional information on the job.
+  kind: object
+  properties:
+  - description: Azure Backup Server workload-specific job task details.
+    types:
+    - isArray: true
+      uid: MabJobTaskDetails
+    name: tasksList
+  - description: The job properties.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: propertyBag
+  - description: Non-localized error message specific to this job.
+    types:
+    - uid: string
+    name: dynamicErrorMessage
+- name: AzureIaaSVMJobTaskDetails
+  description: List of tasks associated with this job.
+  kind: object
+  properties:
+  - description: The task display name.
+    types:
+    - uid: string
+    name: taskId
+  - description: The start time.
+    types:
+    - uid: string
+    name: startTime
+  - description: The end time.
+    types:
+    - uid: string
+    name: endTime
+  - description: The instance ID.
+    types:
+    - uid: string
+    name: instanceId
+  - description: The time elapsed for the task.
+    types:
+    - uid: string
+    name: duration
+  - description: The status.
+    types:
+    - uid: string
+    name: status
+  - description: The progress of the task, as a percentage.
+    types:
+    - uid: number
+    name: progressPercentage
+- name: DpmJobTaskDetails
+  description: List of tasks associated with this job.
+  kind: object
+  properties:
+  - description: The task display name.
+    types:
+    - uid: string
+    name: taskId
+  - description: The start time.
+    types:
+    - uid: string
+    name: startTime
+  - description: The end time.
+    types:
+    - uid: string
+    name: endTime
+  - description: The time elapsed for task.
+    types:
+    - uid: string
+    name: duration
+  - description: The status.
+    types:
+    - uid: string
+    name: status
+- name: MabJobTaskDetails
+  description: List of tasks for this job.
+  kind: object
+  properties:
+  - description: The task display name.
+    types:
+    - uid: string
+    name: taskId
+  - description: The start time.
+    types:
+    - uid: string
+    name: startTime
+  - description: The end time.
+    types:
+    - uid: string
+    name: endTime
+  - description: Time elapsed for task.
+    types:
+    - uid: string
+    name: duration
+  - description: The status.
+    types:
+    - uid: string
+    name: status
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account.
+    name: user_impersonation
+name: List
+uid: management.azure.com.recoveryservices-backup.jobs.list

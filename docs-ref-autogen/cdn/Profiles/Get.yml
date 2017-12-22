@@ -1,0 +1,159 @@
+### YamlMime:RESTOperation
+summary: Gets a CDN profile with the specified profile name under the specified subscription and resource group.
+service: CDN
+apiVersion: 2016-10-02
+groupName: Profiles
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}?api-version=2016-10-02
+uriParameters:
+- in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Name of the CDN profile which is unique within the resource group.
+  types:
+  - uid: string
+  name: profileName
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2016-10-02.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK. The request has succeeded.
+  types:
+  - uid: Profile
+  name: 200 OK
+- description: CDN error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: Profile
+  description: CDN profile represents the top level resource and the entry point into the CDN API. This allows users to set up a logical grouping of endpoints in addition to creating shared configuration settings and selecting pricing tiers and providers.
+  kind: object
+  properties:
+  - description: The pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.
+    types:
+    - uid: Sku
+    name: sku
+  - isReadyOnly: true
+    description: Resource status of the profile.
+    types:
+    - uid: ProfileResourceState
+    name: properties.resourceState
+  - isReadyOnly: true
+    description: Provisioning status of the profile.
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource location.
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: ErrorResponse
+  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: Sku
+  description: The pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.
+  kind: object
+  properties:
+  - description: Name of the pricing tier.
+    types:
+    - uid: SkuName
+    name: name
+- name: ProfileResourceState
+  description: Resource status of the profile.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Active
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: Disabled
+- name: SkuName
+  description: Name of the pricing tier.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Standard_Verizon
+  - types:
+    - uid: string
+    name: Premium_Verizon
+  - types:
+    - uid: string
+    name: Custom_Verizon
+  - types:
+    - uid: string
+    name: Standard_Akamai
+  - types:
+    - uid: string
+    name: Standard_ChinaCdn
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get
+uid: management.azure.com.cdn.profiles.get

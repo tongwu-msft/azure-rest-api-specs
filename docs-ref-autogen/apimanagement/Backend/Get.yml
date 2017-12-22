@@ -1,0 +1,316 @@
+### YamlMime:RESTOperation
+summary: Gets the details of the backend specified by its identifier.
+service: API Management
+apiVersion: 2017-03-01
+groupName: Backend
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendid}?api-version=2017-03-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: path
+  isRequired: true
+  description: Identifier of the Backend entity. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+  name: backendid
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- headers:
+  - value: string
+    name: ETag
+  description: The response body contains the specified Backend entity.
+  types:
+  - uid: BackendContract
+  name: 200 OK
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: BackendContract
+  description: Backend values.
+  kind: object
+  properties:
+  - description: Runtime Url of the Backend.
+    types:
+    - uid: string
+    name: properties.url
+  - description: Backend communication protocol.
+    types:
+    - uid: BackendProtocol
+    name: properties.protocol
+  - isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+    name: type
+  - description: Backend Title.
+    types:
+    - uid: string
+    name: properties.title
+  - description: Backend Description.
+    types:
+    - uid: string
+    name: properties.description
+  - description: Management Uri of the Resource in External System. This url can be the Arm Resource Id of Logic Apps, Function Apps or Api Apps.
+    types:
+    - uid: string
+    name: properties.resourceId
+  - description: Backend Properties contract
+    types:
+    - uid: BackendProperties
+    name: properties.properties
+  - description: Backend Credentials Contract Properties
+    types:
+    - uid: BackendCredentialsContract
+    name: properties.credentials
+  - description: Backend Proxy Contract Properties
+    types:
+    - uid: BackendProxyContract
+    name: properties.proxy
+  - description: Backend TLS Properties
+    types:
+    - uid: BackendTlsProperties
+    name: properties.tls
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: Error Field contract.
+    types:
+    - isArray: true
+      uid: ErrorFieldContract
+    name: details
+- name: BackendProtocol
+  description: Backend communication protocol.
+  kind: enum
+  properties:
+  - description: The Backend is a RESTful service.
+    types:
+    - uid: string
+    name: http
+  - description: The Backend is a SOAP service.
+    types:
+    - uid: string
+    name: soap
+- name: BackendProperties
+  description: Backend Properties contract
+  kind: object
+  properties:
+  - description: Backend Service Fabric Cluster Properties
+    types:
+    - uid: BackendServiceFabricClusterProperties
+    name: serviceFabricCluster
+- name: BackendCredentialsContract
+  description: Backend Credentials Contract Properties
+  kind: object
+  properties:
+  - description: List of Client Certificate Thumbprint.
+    types:
+    - isArray: true
+      uid: string
+    name: certificate
+  - description: Query Parameter description.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+      uid: object
+    name: query
+  - description: Header Parameter description.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+      uid: object
+    name: header
+  - description: Authorization header authentication
+    types:
+    - uid: BackendAuthorizationHeaderCredentials
+    name: authorization
+- name: BackendProxyContract
+  description: Backend Proxy Contract Properties
+  kind: object
+  properties:
+  - description: WebProxy Server AbsoluteUri property which includes the entire URI stored in the Uri instance, including all fragments and query strings.
+    types:
+    - uid: string
+    name: url
+  - description: Username to connect to the WebProxy server
+    types:
+    - uid: string
+    name: username
+  - description: Password to connect to the WebProxy Server
+    types:
+    - uid: string
+    name: password
+- name: BackendTlsProperties
+  description: Backend TLS Properties
+  kind: object
+  properties:
+  - description: Flag indicating whether SSL certificate chain validation should be done when using self-signed certificates for this backend host.
+    types:
+    - uid: boolean
+    name: validateCertificateChain
+  - description: Flag indicating whether SSL certificate name validation should be done when using self-signed certificates for this backend host.
+    types:
+    - uid: boolean
+    name: validateCertificateName
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - description: Property level error code.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+    name: message
+  - description: Property name.
+    types:
+    - uid: string
+    name: target
+- name: BackendServiceFabricClusterProperties
+  description: Backend Service Fabric Cluster Properties
+  kind: object
+  properties:
+  - description: The client certificate thumbprint for the management endpoint.
+    types:
+    - uid: string
+    name: clientCertificatethumbprint
+  - description: Maximum number of retries while attempting resolve the parition.
+    types:
+    - uid: integer
+    name: maxPartitionResolutionRetries
+  - description: The cluster management endpoint.
+    types:
+    - isArray: true
+      uid: string
+    name: managementEndpoints
+  - description: Thumbprints of certificates cluster management service uses for tls communication
+    types:
+    - isArray: true
+      uid: string
+    name: serverCertificateThumbprints
+  - description: Properties of server X509Names.
+    types:
+    - isArray: true
+      uid: X509CertificateName
+    name: serverX509Names
+- name: BackendAuthorizationHeaderCredentials
+  description: Authorization header information.
+  kind: object
+  properties:
+  - description: Authentication Scheme name.
+    types:
+    - uid: string
+    name: scheme
+  - description: Authentication Parameter value.
+    types:
+    - uid: string
+    name: parameter
+- name: X509CertificateName
+  description: Server X509 Certificate Names Collection
+  kind: object
+  properties:
+  - description: Common Name of the Certificate.
+    types:
+    - uid: string
+    name: name
+  - description: Thumbprint for the Issuer of the Certificate.
+    types:
+    - uid: string
+    name: issuerCertificateThumbprint
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/sfbackend?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/sfbackend",
+        "type": "Microsoft.ApiManagement/service/backends",
+        "name": "sfbackend",
+        "properties": {
+          "description": "Service Fabric Test App 1",
+          "url": "fabric:/mytestapp/mytestservice",
+          "protocol": "http",
+          "properties": {
+            "serviceFabricCluster": {
+              "managementEndpoints": [
+                "https://somecluster.com"
+              ],
+              "clientCertificatethumbprint": "EBA029198AA3E76EF0D70482626E5BCF148594A6",
+              "serverX509Names": [
+                {
+                  "name": "ServerCommonName1",
+                  "issuerCertificateThumbprint": "IssuerCertificateThumbprint1"
+                }
+              ],
+              "maxPartitionResolutionRetries": 5
+            }
+          }
+        }
+      }
+  name: ApiManagementGetBackend
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get
+uid: management.azure.com.apimanagement.backend.get

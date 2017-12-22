@@ -1,0 +1,212 @@
+### YamlMime:RESTOperation
+summary: Updates the details of the user specified by its identifier.
+service: API Management
+apiVersion: 2017-03-01
+groupName: User
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}?api-version=2017-03-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+  name: serviceName
+- in: path
+  isRequired: true
+  description: User identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+  name: uid
+- in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The user details were successfully updated.
+  name: 204 No Content
+- description: >-
+    *** Error Responses: ***
+
+     * 405 Administrator user cannot be modified
+
+     * 4XX Error response giving details why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: Email address. Must not be empty and must be unique within the service instance.
+    types:
+    - uid: string
+    name: properties.email
+  - in: body
+    description: User Password.
+    types:
+    - uid: string
+    name: properties.password
+  - in: body
+    description: First name.
+    types:
+    - uid: string
+    name: properties.firstName
+  - in: body
+    description: Last name.
+    types:
+    - uid: string
+    name: properties.lastName
+  - in: body
+    description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
+    types:
+    - uid: UserState
+    name: properties.state
+  - in: body
+    description: Optional note about a user set by the administrator.
+    types:
+    - uid: string
+    name: properties.note
+requestHeader:
+- in: header
+  isRequired: true
+  description: The entity state (Etag) version of the user to update. A value of "*" can be used for If-Match to unconditionally apply the operation.
+  types:
+  - uid: string
+  name: If-Match
+definitions:
+- name: UserIdentityContract
+  description: Collection of user identities.
+  kind: object
+  properties:
+  - description: Identity provider name.
+    types:
+    - uid: string
+    name: provider
+  - description: Identifier value within provider.
+    types:
+    - uid: string
+    name: id
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of the error.
+    types:
+    - uid: string
+    name: message
+  - description: Error Field contract.
+    types:
+    - isArray: true
+      uid: ErrorFieldContract
+    name: details
+- name: UserUpdateParameters
+  description: User update parameters.
+  kind: object
+  properties:
+  - description: Email address. Must not be empty and must be unique within the service instance.
+    types:
+    - uid: string
+    name: properties.email
+  - description: User Password.
+    types:
+    - uid: string
+    name: properties.password
+  - description: First name.
+    types:
+    - uid: string
+    name: properties.firstName
+  - description: Last name.
+    types:
+    - uid: string
+    name: properties.lastName
+  - description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
+    types:
+    - uid: UserState
+    name: properties.state
+  - description: Optional note about a user set by the administrator.
+    types:
+    - uid: string
+    name: properties.note
+  - isReadyOnly: true
+    description: User identity details.
+    types:
+    - isArray: true
+      uid: UserIdentityContract
+    name: properties.identities
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - description: Property level error code.
+    types:
+    - uid: string
+    name: code
+  - description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+    name: message
+  - description: Property name.
+    types:
+    - uid: string
+    name: target
+- name: UserState
+  description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: active
+  - types:
+    - uid: string
+    name: blocked
+examples:
+- request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "firstName": "foo",
+          "lastName": "bar",
+          "email": "foobar@outlook.com"
+        }
+      }
+    headers:
+    - value: '*'
+      name: If-Match
+  responses:
+  - statusCode: "204"
+  name: ApiManagementUpdateUserBasic
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Update
+uid: management.azure.com.apimanagement.user.update

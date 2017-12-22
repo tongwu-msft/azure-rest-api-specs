@@ -1,0 +1,252 @@
+### YamlMime:RESTOperation
+summary: Lists all the container registries under the specified resource group.
+service: Container Registry
+apiVersion: 2017-10-01
+groupName: Registries
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries?api-version=2017-10-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: RegistryListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: RegistryListResult
+  description: The result of a request to list container registries.
+  kind: object
+  properties:
+  - description: An object that represents a container registry.
+    types:
+    - isArray: true
+      uid: Registry
+    name: value
+  - description: The URI that can be used to request the next list of container registries.
+    types:
+    - uid: string
+    name: nextLink
+- name: Registry
+  description: An object that represents a container registry.
+  kind: object
+  properties:
+  - description: The SKU of the container registry.
+    types:
+    - uid: Sku
+    name: sku
+  - isReadyOnly: true
+    description: The URL that can be used to log into the container registry.
+    types:
+    - uid: string
+    name: properties.loginServer
+  - isReadyOnly: true
+    description: The creation date of the container registry in ISO8601 format.
+    types:
+    - uid: string
+    name: properties.creationDate
+  - isReadyOnly: true
+    description: The provisioning state of the container registry at the time the operation was called.
+    types:
+    - uid: ProvisioningState
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: The status of the container registry at the time the operation was called.
+    types:
+    - uid: Status
+    name: properties.status
+  - description: The value that indicates whether the admin user is enabled.
+    types:
+    - uid: boolean
+    name: properties.adminUserEnabled
+  - description: The properties of the storage account for the container registry. Only applicable to Classic SKU.
+    types:
+    - uid: StorageAccountProperties
+    name: properties.storageAccount
+  - isReadyOnly: true
+    description: The resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+  - description: The location of the resource. This cannot be changed after the resource is created.
+    types:
+    - uid: string
+    name: location
+  - description: The tags of the resource.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: Sku
+  description: The SKU of the container registry.
+  kind: object
+  properties:
+  - description: The SKU name of the container registry. Required for registry creation.
+    types:
+    - uid: SkuName
+    name: name
+  - isReadyOnly: true
+    description: The SKU tier based on the SKU name.
+    types:
+    - uid: SkuTier
+    name: tier
+- name: ProvisioningState
+  description: The provisioning state of the container registry at the time the operation was called.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Creating
+  - types:
+    - uid: string
+    name: Updating
+  - types:
+    - uid: string
+    name: Deleting
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Canceled
+- name: Status
+  description: The status of the container registry at the time the operation was called.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The short label for the status.
+    types:
+    - uid: string
+    name: displayStatus
+  - isReadyOnly: true
+    description: The detailed message for the status, including alerts and error messages.
+    types:
+    - uid: string
+    name: message
+  - isReadyOnly: true
+    description: The timestamp when the status was changed to the current value.
+    types:
+    - uid: string
+    name: timestamp
+- name: StorageAccountProperties
+  description: The properties of the storage account for the container registry. Only applicable to Classic SKU.
+  kind: object
+  properties:
+  - description: The resource ID of the storage account.
+    types:
+    - uid: string
+    name: id
+- name: SkuName
+  description: The SKU name of the container registry. Required for registry creation.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Classic
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
+- name: SkuTier
+  description: The SKU tier based on the SKU name.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Classic
+  - types:
+    - uid: string
+    name: Basic
+  - types:
+    - uid: string
+    name: Standard
+  - types:
+    - uid: string
+    name: Premium
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry",
+            "name": "myRegistry",
+            "type": "Microsoft.ContainerRegistry/registries",
+            "location": "westus",
+            "tags": {
+              "key": "value"
+            },
+            "sku": {
+              "name": "Standard",
+              "tier": "Standard"
+            },
+            "properties": {
+              "loginServer": "myregistry.azurecr.io",
+              "creationDate": "2017-03-01T23:14:37.0707808Z",
+              "provisioningState": "Succeeded",
+              "status": {
+                "displayStatus": "Ready",
+                "message": "The registry is ready.",
+                "timestamp": "2017-03-01T23:15:37.0707808Z"
+              },
+              "adminUserEnabled": true
+            }
+          }
+        ]
+      }
+  name: RegistryListByResourceGroup
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List By Resource Group
+uid: management.azure.com.containerregistry.registries.listbyresourcegroup

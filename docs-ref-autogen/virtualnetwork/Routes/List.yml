@@ -1,0 +1,149 @@
+### YamlMime:RESTOperation
+summary: Gets all routes in a route table.
+service: Virtual Networks
+apiVersion: 2017-10-01
+groupName: Routes
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes?api-version=2017-10-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The name of the route table.
+  types:
+  - uid: string
+  name: routeTableName
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Request successful. The operation returns a list of Route resources.
+  types:
+  - uid: RouteListResult
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: RouteListResult
+  description: Response for the ListRoute API service call
+  kind: object
+  properties:
+  - description: Route resource
+    types:
+    - isArray: true
+      uid: Route
+    name: value
+  - description: The URL to get the next set of results.
+    types:
+    - uid: string
+    name: nextLink
+- name: Route
+  description: Route resource
+  kind: object
+  properties:
+  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+    name: name
+  - description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+    name: etag
+  - description: The destination CIDR to which the route applies.
+    types:
+    - uid: string
+    name: properties.addressPrefix
+  - description: "The type of Azure hop the packet should be sent to. Possible values are: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance', and 'None'"
+    types:
+    - uid: RouteNextHopType
+    name: properties.nextHopType
+  - description: The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance.
+    types:
+    - uid: string
+    name: properties.nextHopIpAddress
+  - description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+    name: id
+- name: RouteNextHopType
+  description: "The type of Azure hop the packet should be sent to. Possible values are: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance', and 'None'"
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: VirtualNetworkGateway
+  - types:
+    - uid: string
+    name: VnetLocal
+  - types:
+    - uid: string
+    name: Internet
+  - types:
+    - uid: string
+    name: VirtualAppliance
+  - types:
+    - uid: string
+    name: None
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt/routes?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "route1",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt/routes/route1",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "addressPrefix": "10.0.3.0/24",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "route2",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt/routes/route2",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "addressPrefix": "10.0.2.0/24",
+              "nextHopType": "VirtualNetworkGateway"
+            }
+          }
+        ]
+      }
+  name: List routes
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: List
+uid: management.azure.com.virtualnetworks.routes.list

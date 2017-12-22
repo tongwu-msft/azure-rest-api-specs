@@ -1,0 +1,189 @@
+### YamlMime:RESTOperation
+summary: Obtains details of a cached recommendation.
+service: Advisor
+apiVersion: 2017-03-31
+groupName: Recommendations
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}?api-version=2017-03-31
+uriParameters:
+- in: path
+  isRequired: true
+  description: The fully qualified Azure Resource Manager identifier of the resource to which the recommendation applies.
+  types:
+  - uid: string
+  name: resourceUri
+- in: path
+  isRequired: true
+  description: The recommendation ID.
+  types:
+  - uid: string
+  name: recommendationId
+- in: query
+  isRequired: true
+  description: The version of the API to be used with the client request.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK. Successfully got recommendation detail.
+  types:
+  - uid: ResourceRecommendationBase
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: ResourceRecommendationBase
+  description: The list of recommendations.
+  kind: object
+  properties:
+  - description: The category of the recommendation.
+    types:
+    - uid: category
+    name: properties.category
+  - description: The business impact of the recommendation.
+    types:
+    - uid: impact
+    name: properties.impact
+  - description: The resource type identified by Advisor.
+    types:
+    - uid: string
+    name: properties.impactedField
+  - description: The resource identified by Advisor.
+    types:
+    - uid: string
+    name: properties.impactedValue
+  - description: The most recent time that Advisor checked the validity of the recommendation.
+    types:
+    - uid: string
+    name: properties.lastUpdated
+  - description: The recommendation metadata.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+      uid: object
+    name: properties.metadata
+  - description: The recommendation-type GUID.
+    types:
+    - uid: string
+    name: properties.recommendationTypeId
+  - description: The potential risk of not implementing the recommendation.
+    types:
+    - uid: risk
+    name: properties.risk
+  - description: A summary of the recommendation.
+    types:
+    - uid: ShortDescription
+    name: properties.shortDescription
+  - description: The list of snoozed and dismissed rules for the recommendation.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.suppressionIds
+  - isReadyOnly: true
+    description: The resource ID.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+    name: type
+- name: category
+  description: The category of the recommendation.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: HighAvailability
+  - types:
+    - uid: string
+    name: Security
+  - types:
+    - uid: string
+    name: Performance
+  - types:
+    - uid: string
+    name: Cost
+- name: impact
+  description: The business impact of the recommendation.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: High
+  - types:
+    - uid: string
+    name: Medium
+  - types:
+    - uid: string
+    name: Low
+- name: risk
+  description: The potential risk of not implementing the recommendation.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Error
+  - types:
+    - uid: string
+    name: Warning
+  - types:
+    - uid: string
+    name: None
+- name: ShortDescription
+  description: A summary of the recommendation.
+  kind: object
+  properties:
+  - description: The issue or opportunity identified by the recommendation.
+    types:
+    - uid: string
+    name: problem
+  - description: The remediation action suggested by the recommendation.
+    types:
+    - uid: string
+    name: solution
+examples:
+- request:
+    uri: GET https://management.azure.com/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId?api-version=2017-03-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId",
+        "name": "recommendationId",
+        "properties": {
+          "category": "HighAvailability",
+          "impact": "Medium",
+          "impactedField": "Microsoft.Compute/availabilitySets",
+          "impactedValue": "armavset",
+          "lastUpdated": "2017-02-24T22:24:43.3216408Z",
+          "risk": "Warning",
+          "shortDescription": {
+            "problem": "This availability set is not configured for fault tolerance",
+            "solution": "To ensure high availability add one or more virtual machines to this availability set"
+          }
+        },
+        "type": "Microsoft.Advisor/recommendations"
+      }
+  name: GetRecommendationDetail
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get
+uid: management.azure.com.advisor.recommendations.get

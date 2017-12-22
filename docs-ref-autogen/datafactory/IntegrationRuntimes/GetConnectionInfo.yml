@@ -1,0 +1,142 @@
+### YamlMime:RESTOperation
+summary: Gets the on-premises integration runtime connection information for encrypting the on-premises data source credentials.
+service: Data Factory
+apiVersion: 2017-09-01-preview
+groupName: Integration Runtimes
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getConnectionInfo?api-version=2017-09-01-preview
+uriParameters:
+- in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+  name: factoryName
+- in: path
+  isRequired: true
+  description: The integration runtime name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+  name: integrationRuntimeName
+- in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: OK.
+  types:
+  - uid: IntegrationRuntimeConnectionInfo
+  name: 200 OK
+- description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestHeader: []
+definitions:
+- name: IntegrationRuntimeConnectionInfo
+  description: Connection information for encrypting the on-premises data source credentials.
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: The token generated in service. Callers use this token to authenticate to integration runtime.
+    types:
+    - uid: string
+    name: serviceToken
+  - isReadyOnly: true
+    description: The integration runtime SSL certificate thumbprint. Click-Once application uses it to do server validation.
+    types:
+    - uid: string
+    name: identityCertThumbprint
+  - isReadyOnly: true
+    description: The on-premises integration runtime host URL.
+    types:
+    - uid: string
+    name: hostServiceUri
+  - isReadyOnly: true
+    description: The integration runtime version.
+    types:
+    - uid: string
+    name: version
+  - isReadyOnly: true
+    description: The public key for encrypting a credential when transferring the credential to the integration runtime.
+    types:
+    - uid: string
+    name: publicKey
+  - isReadyOnly: true
+    description: Whether the identity certificate is expired.
+    types:
+    - uid: boolean
+    name: isIdentityCertExprired
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message.
+    types:
+    - uid: string
+    name: message
+  - description: Property name/path in request associated with error.
+    types:
+    - uid: string
+    name: target
+  - description: The object that defines the structure of an Azure Data Factory response.
+    types:
+    - isArray: true
+      uid: ErrorResponse
+    name: details
+examples:
+- request:
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/getConnectionInfo?api-version=2017-09-01-preview
+  responses:
+  - statusCode: "200"
+    headers:
+    - value: Wed, 13 Sep 2017 17:55:51 GMT
+      name: Date
+    - value: c38b64ae-4e0c-488d-8baa-6dc104cecdb2
+      name: x-ms-request-id
+    - value: nosniff
+      name: X-Content-Type-Options
+    - value: "1190"
+      name: x-ms-ratelimit-remaining-subscription-writes
+    - value: 500722f2-d4e5-4d88-b2d7-5231f158857c
+      name: x-ms-correlation-request-id
+    body: >-
+      {
+        "isIdentityCertExprired": false
+      }
+  name: IntegrationRuntimes_GetConnectionInfo
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get Connection Info
+uid: management.azure.com.datafactory.integrationruntimes.getconnectioninfo

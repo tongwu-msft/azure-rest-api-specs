@@ -1,0 +1,609 @@
+### YamlMime:RESTOperation
+summary: Creates or updates a domain.
+service: App Service
+apiVersion: 2015-04-01
+groupName: Domains
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}?api-version=2015-04-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: Name of the domain.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9][a-zA-Z0-9\.-]+'
+  name: domainName
+- in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Domain purchase is in progress.
+  types:
+  - uid: Domain
+  name: 202 Accepted
+- description: Domain purchase was successful.
+  types:
+  - uid: Domain
+  name: 200 OK
+requestBody:
+- parameters:
+  - in: body
+    isRequired: true
+    description: Administrative contact.
+    types:
+    - uid: Contact
+    name: properties.contactAdmin
+  - in: body
+    isRequired: true
+    description: Billing contact.
+    types:
+    - uid: Contact
+    name: properties.contactBilling
+  - in: body
+    isRequired: true
+    description: Registrant contact.
+    types:
+    - uid: Contact
+    name: properties.contactRegistrant
+  - in: body
+    isRequired: true
+    description: Technical contact.
+    types:
+    - uid: Contact
+    name: properties.contactTech
+  - in: body
+    description: <code>true</code> if domain privacy is enabled for this domain; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.privacy
+  - in: body
+    description: <code>true</code> if the domain should be automatically renewed; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.autoRenew
+  - in: body
+    isRequired: true
+    description: Legal agreement consent.
+    types:
+    - uid: DomainPurchaseConsent
+    name: properties.consent
+  - in: body
+    description: Current DNS type
+    types:
+    - uid: DnsType
+    name: properties.dnsType
+  - in: body
+    description: Azure DNS Zone to use
+    types:
+    - uid: string
+    name: properties.dnsZoneId
+  - in: body
+    description: Target DNS type (would be used for migration)
+    types:
+    - uid: DnsType
+    name: properties.targetDnsType
+  - in: body
+    description: ''
+    types:
+    - uid: string
+    name: properties.authCode
+  - in: body
+    description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+requestHeader: []
+definitions:
+- name: Contact
+  description: "Contact information for domain registration. If 'Domain Privacy' option is not selected then the contact information is made publicly available through the Whois \ndirectories as per ICANN requirements."
+  kind: object
+  properties:
+  - description: Mailing address.
+    types:
+    - uid: Address
+    name: addressMailing
+  - description: Email address.
+    types:
+    - uid: string
+    name: email
+  - description: Fax number.
+    types:
+    - uid: string
+    name: fax
+  - description: Job title.
+    types:
+    - uid: string
+    name: jobTitle
+  - description: First name.
+    types:
+    - uid: string
+    name: nameFirst
+  - description: Last name.
+    types:
+    - uid: string
+    name: nameLast
+  - description: Middle name.
+    types:
+    - uid: string
+    name: nameMiddle
+  - description: Organization contact belongs to.
+    types:
+    - uid: string
+    name: organization
+  - description: Phone number.
+    types:
+    - uid: string
+    name: phone
+- name: HostName
+  description: All hostnames derived from the domain and assigned to Azure resources.
+  kind: object
+  properties:
+  - description: Name of the hostname.
+    types:
+    - uid: string
+    name: name
+  - description: List of apps the hostname is assigned to. This list will have more than one app only if the hostname is pointing to a Traffic Manager.
+    types:
+    - isArray: true
+      uid: string
+    name: siteNames
+  - description: Name of the Azure resource the hostname is assigned to. If it is assigned to a Traffic Manager then it will be the Traffic Manager name otherwise it will be the app name.
+    types:
+    - uid: string
+    name: azureResourceName
+  - description: Type of the Azure resource the hostname is assigned to.
+    types:
+    - uid: AzureResourceType
+    name: azureResourceType
+  - description: Type of the DNS record.
+    types:
+    - uid: CustomHostNameDnsRecordType
+    name: customHostNameDnsRecordType
+  - description: Type of the hostname.
+    types:
+    - uid: HostNameType
+    name: hostNameType
+- name: DomainPurchaseConsent
+  description: Legal agreement consent.
+  kind: object
+  properties:
+  - description: List of applicable legal agreement keys. This list can be retrieved using ListLegalAgreements API under <code>TopLevelDomain</code> resource.
+    types:
+    - isArray: true
+      uid: string
+    name: agreementKeys
+  - description: Client IP address.
+    types:
+    - uid: string
+    name: agreedBy
+  - description: Timestamp when the agreements were accepted.
+    types:
+    - uid: string
+    name: agreedAt
+- name: Domain
+  description: Information about a domain.
+  kind: object
+  properties:
+  - description: Administrative contact.
+    types:
+    - uid: Contact
+    name: properties.contactAdmin
+  - description: Billing contact.
+    types:
+    - uid: Contact
+    name: properties.contactBilling
+  - description: Registrant contact.
+    types:
+    - uid: Contact
+    name: properties.contactRegistrant
+  - description: Technical contact.
+    types:
+    - uid: Contact
+    name: properties.contactTech
+  - isReadyOnly: true
+    description: Domain registration status.
+    types:
+    - uid: DomainStatus
+    name: properties.registrationStatus
+  - isReadyOnly: true
+    description: Domain provisioning state.
+    types:
+    - uid: ProvisioningState
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Name servers.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.nameServers
+  - description: <code>true</code> if domain privacy is enabled for this domain; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.privacy
+  - isReadyOnly: true
+    description: Domain creation timestamp.
+    types:
+    - uid: string
+    name: properties.createdTime
+  - isReadyOnly: true
+    description: Domain expiration timestamp.
+    types:
+    - uid: string
+    name: properties.expirationTime
+  - isReadyOnly: true
+    description: Timestamp when the domain was renewed last time.
+    types:
+    - uid: string
+    name: properties.lastRenewedTime
+  - description: <code>true</code> if the domain should be automatically renewed; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.autoRenew
+  - isReadyOnly: true
+    description: "<code>true</code> if Azure can assign this domain to App Service apps; otherwise, <code>false</code>. This value will be <code>true</code> if domain registration status is active and \n it is hosted on name servers Azure has programmatic access to."
+    types:
+    - uid: boolean
+    name: properties.readyForDnsRecordManagement
+  - isReadyOnly: true
+    description: Details of a hostname derived from a domain.
+    types:
+    - isArray: true
+      uid: HostName
+    name: properties.managedHostNames
+  - description: Legal agreement consent.
+    types:
+    - uid: DomainPurchaseConsent
+    name: properties.consent
+  - isReadyOnly: true
+    description: Reasons why domain is not renewable.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.domainNotRenewableReasons
+  - description: Current DNS type
+    types:
+    - uid: DnsType
+    name: properties.dnsType
+  - description: Azure DNS Zone to use
+    types:
+    - uid: string
+    name: properties.dnsZoneId
+  - description: Target DNS type (would be used for migration)
+    types:
+    - uid: DnsType
+    name: properties.targetDnsType
+  - description: ''
+    types:
+    - uid: string
+    name: properties.authCode
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - description: Resource Location.
+    types:
+    - uid: string
+    name: location
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+  - description: Resource tags.
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: DomainPatchResource
+  description: ARM resource for a domain.
+  kind: object
+  properties:
+  - description: Administrative contact.
+    types:
+    - uid: Contact
+    name: properties.contactAdmin
+  - description: Billing contact.
+    types:
+    - uid: Contact
+    name: properties.contactBilling
+  - description: Registrant contact.
+    types:
+    - uid: Contact
+    name: properties.contactRegistrant
+  - description: Technical contact.
+    types:
+    - uid: Contact
+    name: properties.contactTech
+  - isReadyOnly: true
+    description: Domain registration status.
+    types:
+    - uid: DomainStatus
+    name: properties.registrationStatus
+  - isReadyOnly: true
+    description: Domain provisioning state.
+    types:
+    - uid: ProvisioningState
+    name: properties.provisioningState
+  - isReadyOnly: true
+    description: Name servers.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.nameServers
+  - description: <code>true</code> if domain privacy is enabled for this domain; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.privacy
+  - isReadyOnly: true
+    description: Domain creation timestamp.
+    types:
+    - uid: string
+    name: properties.createdTime
+  - isReadyOnly: true
+    description: Domain expiration timestamp.
+    types:
+    - uid: string
+    name: properties.expirationTime
+  - isReadyOnly: true
+    description: Timestamp when the domain was renewed last time.
+    types:
+    - uid: string
+    name: properties.lastRenewedTime
+  - description: <code>true</code> if the domain should be automatically renewed; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+    name: properties.autoRenew
+  - isReadyOnly: true
+    description: "<code>true</code> if Azure can assign this domain to App Service apps; otherwise, <code>false</code>. This value will be <code>true</code> if domain registration status is active and \n it is hosted on name servers Azure has programmatic access to."
+    types:
+    - uid: boolean
+    name: properties.readyForDnsRecordManagement
+  - isReadyOnly: true
+    description: Details of a hostname derived from a domain.
+    types:
+    - isArray: true
+      uid: HostName
+    name: properties.managedHostNames
+  - description: Legal agreement consent.
+    types:
+    - uid: DomainPurchaseConsent
+    name: properties.consent
+  - isReadyOnly: true
+    description: Reasons why domain is not renewable.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.domainNotRenewableReasons
+  - description: Current DNS type
+    types:
+    - uid: DnsType
+    name: properties.dnsType
+  - description: Azure DNS Zone to use
+    types:
+    - uid: string
+    name: properties.dnsZoneId
+  - description: Target DNS type (would be used for migration)
+    types:
+    - uid: DnsType
+    name: properties.targetDnsType
+  - description: ''
+    types:
+    - uid: string
+    name: properties.authCode
+  - isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+    name: name
+  - description: Kind of resource.
+    types:
+    - uid: string
+    name: kind
+  - isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+    name: type
+- name: Address
+  description: Address information for domain registration.
+  kind: object
+  properties:
+  - description: First line of an Address.
+    types:
+    - uid: string
+    name: address1
+  - description: The second line of the Address. Optional.
+    types:
+    - uid: string
+    name: address2
+  - description: The city for the address.
+    types:
+    - uid: string
+    name: city
+  - description: The country for the address.
+    types:
+    - uid: string
+    name: country
+  - description: The postal code for the address.
+    types:
+    - uid: string
+    name: postalCode
+  - description: The state or province for the address.
+    types:
+    - uid: string
+    name: state
+- name: AzureResourceType
+  description: Type of the Azure resource the hostname is assigned to.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Website
+  - types:
+    - uid: string
+    name: TrafficManager
+- name: CustomHostNameDnsRecordType
+  description: Type of the DNS record.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: CName
+  - types:
+    - uid: string
+    name: A
+- name: HostNameType
+  description: Type of the hostname.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Verified
+  - types:
+    - uid: string
+    name: Managed
+- name: DomainStatus
+  description: Domain registration status.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Active
+  - types:
+    - uid: string
+    name: Awaiting
+  - types:
+    - uid: string
+    name: Cancelled
+  - types:
+    - uid: string
+    name: Confiscated
+  - types:
+    - uid: string
+    name: Disabled
+  - types:
+    - uid: string
+    name: Excluded
+  - types:
+    - uid: string
+    name: Expired
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Held
+  - types:
+    - uid: string
+    name: Locked
+  - types:
+    - uid: string
+    name: Parked
+  - types:
+    - uid: string
+    name: Pending
+  - types:
+    - uid: string
+    name: Reserved
+  - types:
+    - uid: string
+    name: Reverted
+  - types:
+    - uid: string
+    name: Suspended
+  - types:
+    - uid: string
+    name: Transferred
+  - types:
+    - uid: string
+    name: Unknown
+  - types:
+    - uid: string
+    name: Unlocked
+  - types:
+    - uid: string
+    name: Unparked
+  - types:
+    - uid: string
+    name: Updated
+  - types:
+    - uid: string
+    name: JsonConverterFailed
+- name: ProvisioningState
+  description: Domain provisioning state.
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+  - types:
+    - uid: string
+    name: Canceled
+  - types:
+    - uid: string
+    name: InProgress
+  - types:
+    - uid: string
+    name: Deleting
+- name: DnsType
+  description: Current DNS type
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: AzureDns
+  - types:
+    - uid: string
+    name: DefaultDomainRegistrarDns
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Update
+uid: management.azure.com.appservice.domains.update

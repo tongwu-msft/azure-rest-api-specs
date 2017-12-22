@@ -1,0 +1,158 @@
+### YamlMime:RESTOperation
+summary: Gets the log profile.
+service: Monitor
+apiVersion: 2016-03-01
+groupName: Log Profiles
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/microsoft.insights/logprofiles/{logProfileName}?api-version=2016-03-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: The Azure subscription Id.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: The name of the log profile.
+  types:
+  - uid: string
+  name: logProfileName
+- in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+- description: Successful request to get more information about a log profile.
+  types:
+  - uid: LogProfileResource
+  name: 200 OK
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - description: Error code
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: LogProfileResource
+  description: The log profile resource.
+  kind: object
+  properties:
+  - description: the resource id of the storage account to which you would like to send the Activity Log.
+    types:
+    - uid: string
+    name: properties.storageAccountId
+  - description: "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'."
+    types:
+    - uid: string
+    name: properties.serviceBusRuleId
+  - description: List of regions for which Activity Log events should be stored or streamed. It is a comma separated list of valid ARM locations including the 'global' location.
+    types:
+    - isArray: true
+      uid: string
+    name: properties.locations
+  - description: "the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.'"
+    types:
+    - isArray: true
+      uid: string
+    name: properties.categories
+  - description: the retention policy for the events in the log.
+    types:
+    - uid: RetentionPolicy
+    name: properties.retentionPolicy
+  - isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Azure resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Azure resource type
+    types:
+    - uid: string
+    name: type
+  - description: Resource location
+    types:
+    - uid: string
+    name: location
+  - description: Resource tags
+    types:
+    - isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+      uid: object
+    name: tags
+- name: RetentionPolicy
+  description: Specifies the retention policy for the log.
+  kind: object
+  properties:
+  - description: a value indicating whether the retention policy is enabled.
+    types:
+    - uid: boolean
+    name: enabled
+  - description: the number of days for the retention in days. A value of 0 will retain the events indefinitely.
+    types:
+    - uid: integer
+    name: days
+examples:
+- request:
+    uri: GET https://management.azure.com/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/providers/microsoft.insights/logprofiles/default?api-version=2016-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/providers/microsoft.insights/logprofiles/default",
+        "type": "",
+        "name": "default",
+        "location": "",
+        "tags": null,
+        "properties": {
+          "storageAccountId": "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/JohnKemTest/providers/Microsoft.Storage/storageAccounts/johnkemtest8162",
+          "serviceBusRuleId": "",
+          "locations": [
+            "global"
+          ],
+          "categories": [
+            "Delete",
+            "Write",
+            "Action"
+          ],
+          "retentionPolicy": {
+            "enabled": true,
+            "days": 3
+          }
+        }
+      }
+  name: Get log profile
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Get
+uid: management.azure.com.monitor.logprofiles.get

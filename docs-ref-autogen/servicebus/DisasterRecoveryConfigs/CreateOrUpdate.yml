@@ -1,0 +1,179 @@
+### YamlMime:RESTOperation
+summary: Creates or updates a new Alias(Disaster Recovery configuration)
+service: Service Bus
+apiVersion: 2017-04-01
+groupName: Disaster Recovery Configs
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}?api-version=2017-04-01
+uriParameters:
+- in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+  name: subscriptionId
+- in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  name: resourceGroupName
+- in: path
+  isRequired: true
+  description: The namespace name
+  types:
+  - uid: string
+  name: namespaceName
+- in: path
+  isRequired: true
+  description: The Disaster Recovery configuration name
+  types:
+  - uid: string
+  name: alias
+- in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+  name: api-version
+responses:
+- description: Alias(Disaster Recovery configuration) successfully created
+  types:
+  - uid: ArmDisasterRecovery
+  name: 200 OK
+- description: Alias(Disaster Recovery configuration) creation request received
+  name: 201 Created
+- description: ServiceBus error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+  name: Other Status Codes
+requestBody:
+- parameters:
+  - in: body
+    description: ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairning
+    types:
+    - uid: string
+    name: properties.partnerNamespace
+  - in: body
+    description: Primary/Secondary eventhub namespace name, which is part of GEO DR pairning
+    types:
+    - uid: string
+    name: properties.alternateName
+requestHeader: []
+definitions:
+- name: ArmDisasterRecovery
+  description: Single item in List or Get Alias(Disaster Recovery configuration) operation
+  kind: object
+  properties:
+  - isReadyOnly: true
+    description: Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed'
+    types:
+    - uid: ProvisioningStateDR
+    name: properties.provisioningState
+  - description: ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairning
+    types:
+    - uid: string
+    name: properties.partnerNamespace
+  - description: Primary/Secondary eventhub namespace name, which is part of GEO DR pairning
+    types:
+    - uid: string
+    name: properties.alternateName
+  - isReadyOnly: true
+    description: role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary'
+    types:
+    - uid: RoleDisasterRecovery
+    name: properties.role
+  - isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+    name: id
+  - isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+    name: name
+  - isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+    name: type
+- name: ErrorResponse
+  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - description: Error code.
+    types:
+    - uid: string
+    name: code
+  - description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+    name: message
+- name: ProvisioningStateDR
+  description: Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Accepted
+  - types:
+    - uid: string
+    name: Succeeded
+  - types:
+    - uid: string
+    name: Failed
+- name: RoleDisasterRecovery
+  description: role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary'
+  kind: enum
+  properties:
+  - types:
+    - uid: string
+    name: Primary
+  - types:
+    - uid: string
+    name: PrimaryNotReplicating
+  - types:
+    - uid: string
+    name: Secondary
+examples:
+- request:
+    uri: PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ardsouzatestRG/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-8860/disasterRecoveryConfigs/sdk-Namespace-8860?api-version=2017-04-01
+    body: >-
+      {
+        "properties": {
+          "partnerNamespace": "sdk-Namespace-37",
+          "alternateName": "alternameforAlias-Namespace-8860"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ardsouzatestRG/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-8860/disasterRecoveryConfig/sdk-Namespace-8860",
+        "name": "sdk-Namespace-8860",
+        "type": "Microsoft.ServiceBus/Namespaces/DisasterRecoveryConfig",
+        "properties": {
+          "provisioningState": "Accepted",
+          "partnerNamespace": "sdk-Namespace-37",
+          "alternateName": "alternameforAlias-Namespace-8860",
+          "role": "Primary",
+          "type": "MetadataReplication"
+        }
+      }
+  - statusCode: "201"
+  name: SBAliasCreate
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - description: impersonate your user account
+    name: user_impersonation
+name: Create Or Update
+uid: management.azure.com.servicebus.disasterrecoveryconfigs.createorupdate
