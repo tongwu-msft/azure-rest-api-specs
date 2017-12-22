@@ -523,7 +523,7 @@ The following table lists the market code values that you may use to specify the
   
 For a list of country codes that you may specify in the `cc` query parameter, see [Country Codes](#countrycodes).  
   
-|Country/Region|Language|Market Code|  
+|Country/Region|Language|Market code|  
 |---------------------|--------------|-----------------|  
 |Argentina|Spanish|es-AR|  
 |Australia|English|en-AU|  
@@ -566,11 +566,11 @@ For a list of country codes that you may specify in the `cc` query parameter, se
 |United States|Spanish|es-US|  
   
 <a name="countrycodes"></a>   
-### Country Codes  
+### Country codes  
 
 The following are the country codes that you may specify in the `cc` query parameter. The list is subject to change.  
   
-|Country/Region|Country Code|  
+|Country/Region|Country code|  
 |---------------------|------------------|  
 |Argentina|AR|  
 |Australia|AU|  
