@@ -25,11 +25,22 @@ To link from [ref conceptual](#definitions) to content within the same repo (suc
 * `[text](../../docs-ref-autogen/<service>/<file>.yml#<anchor>`
 * `[text](~/docs-ref-autogen/<service>/<file>.yml#<anchor>`
 
+or
+
+reference with the uid, uid could be found in the yml.
+* `<xref:uid>`
+* `@uid`
+
 Examples:
 * `[Resource group operations](../../docs-ref-autogen/resources/resourcegroups.yml)`
 * `[Create a resource group](../../docs-ref-autogen/resources/resourcegroups.yml#ResourceGroups_CreateOrUpdate)`
 * `[Resource group operations](~/docs-ref-autogen/resources/resourcegroups.yml)`
 * `[Create a resource group](~/docs-ref-autogen/resources/resourcegroups.yml#ResourceGroups_CreateOrUpdate)`
+
+or
+
+* `<xref:management.azure.com.advisor.operations.list>`
+* `@management.azure.com.advisor.operations.list`
 
 To link to the top-level node of a REST API, replace `docs-ref-autogen` with `docs-ref-conceptual`.
 
