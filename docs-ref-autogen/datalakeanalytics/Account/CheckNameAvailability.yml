@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Checks whether the specified account name is available or taken.
+uid: management.azure.com.datalakeanalytics.account.checknameavailability
+name: Check Name Availability
 service: Data Lake Analytics
-apiVersion: 2016-11-01
 groupName: Account
+apiVersion: 2016-11-01
+summary: Checks whether the specified account name is available or taken.
 consumes:
 - application/json
 produces:
@@ -10,80 +12,81 @@ produces:
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataLakeAnalytics/locations/{location}/checkNameAvailability?api-version=2016-11-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: location
+  in: path
   isRequired: true
   description: The Resource location without whitespace.
   types:
   - uid: string
-  name: location
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client Api Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Successfully retrieved the Data Lake Analytics account name availability information.
+- name: 200 OK
+  description: Successfully retrieved the Data Lake Analytics account name availability information.
   types:
   - uid: NameAvailabilityInformation
-  name: 200 OK
 requestBody:
 - parameters:
-  - in: body
+  - name: name
+    in: body
     isRequired: true
     description: the Data Lake Analytics name to check availability for.
     types:
     - uid: string
-    name: name
-  - in: body
+  - name: type
+    in: body
     isRequired: true
     description: 'the Resource type. Note: This should not be set by the user, as the constant value is Microsoft.DataLakeAnalytics/accounts'
     types:
     - uid: Microsoft.DataLakeAnalytics/accounts
     typesTitle: enum
-    name: type
 requestHeader: []
 definitions:
 - name: NameAvailabilityInformation
   description: Data Lake Analytics account name availability result information
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: nameAvailable
+    isReadyOnly: true
     description: the Boolean value of true or false to indicate whether the Data Lake Analytics account name is available or not.
     types:
     - uid: boolean
-    name: nameAvailable
-  - isReadyOnly: true
+  - name: reason
+    isReadyOnly: true
     description: the reason why the Data Lake Analytics account name is not available, if nameAvailable is false.
     types:
     - uid: string
-    name: reason
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: the message describing why the Data Lake Analytics account name is not available, if nameAvailable is false.
     types:
     - uid: string
-    name: message
 - name: CheckNameAvailabilityParameters
   description: Data Lake Analytics account name availability check parameters
   kind: object
   properties:
-  - description: the Data Lake Analytics name to check availability for.
+  - name: name
+    description: the Data Lake Analytics name to check availability for.
     types:
     - uid: string
-    name: name
-  - description: 'the Resource type. Note: This should not be set by the user, as the constant value is Microsoft.DataLakeAnalytics/accounts'
+  - name: type
+    description: 'the Resource type. Note: This should not be set by the user, as the constant value is Microsoft.DataLakeAnalytics/accounts'
     types:
     - uid: Microsoft.DataLakeAnalytics/accounts
     typesTitle: enum
-    name: type
 examples:
-- request:
+- name: Checks whether the specified account name is available or taken
+  request:
     uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DataLakeAnalytics/locations/EastUS2/checkNameAvailability?api-version=2016-11-01
     body: >-
       {
@@ -98,14 +101,11 @@ examples:
         "reason": "AlreadyExists",
         "message": "An account named 'abc' already exists."
       }
-  name: Checks whether the specified account name is available or taken
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Check Name Availability
-uid: management.azure.com.datalakeanalytics.account.checknameavailability
+  - name: user_impersonation
+    description: impersonate your user account

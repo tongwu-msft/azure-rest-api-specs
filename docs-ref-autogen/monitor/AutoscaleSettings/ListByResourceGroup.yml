@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists the autoscale settings for a resource group
+uid: management.azure.com.monitor.autoscalesettings.listbyresourcegroup
+name: List By Resource Group
 service: Monitor
-apiVersion: 2015-04-01
 groupName: Autoscale Settings
+apiVersion: 2015-04-01
+summary: Lists the autoscale settings for a resource group
 consumes:
 - application/json
 produces:
@@ -10,443 +12,444 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/autoscalesettings?api-version=2015-04-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The Azure subscription Id.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client Api Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
-- description: Successful request for a list of autoscale settings
+- name: 200 OK
+  description: Successful request for a list of autoscale settings
   types:
   - uid: AutoscaleSettingResourceCollection
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: ErrorResponse
   description: Describes the format of Error response.
   kind: object
   properties:
-  - description: Error code
+  - name: code
+    description: Error code
     types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
-    name: message
 - name: AutoscaleSettingResourceCollection
   description: Represents a collection of autoscale setting resources.
   kind: object
   properties:
-  - description: The autoscale setting resource.
+  - name: value
+    description: The autoscale setting resource.
     types:
-    - isArray: true
-      uid: AutoscaleSettingResource
-    name: value
-  - description: URL to get the next set of results.
+    - uid: AutoscaleSettingResource
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of results.
     types:
     - uid: string
-    name: nextLink
 - name: AutoscaleSettingResource
   description: The autoscale setting resource.
   kind: object
   properties:
-  - description: Autoscale profile.
+  - name: properties.profiles
+    description: Autoscale profile.
     types:
-    - isArray: true
-      uid: AutoscaleProfile
-    name: properties.profiles
-  - description: Autoscale notification.
+    - uid: AutoscaleProfile
+      isArray: true
+  - name: properties.notifications
+    description: Autoscale notification.
     types:
-    - isArray: true
-      uid: AutoscaleNotification
-    name: properties.notifications
-  - description: the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'true'.
+    - uid: AutoscaleNotification
+      isArray: true
+  - name: properties.enabled
+    description: the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'true'.
     types:
     - uid: boolean
-    name: properties.enabled
-  - description: the name of the autoscale setting.
+  - name: properties.name
+    description: the name of the autoscale setting.
     types:
     - uid: string
-    name: properties.name
-  - description: the resource identifier of the resource that the autoscale setting should be added to.
+  - name: properties.targetResourceUri
+    description: the resource identifier of the resource that the autoscale setting should be added to.
     types:
     - uid: string
-    name: properties.targetResourceUri
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Azure resource Id
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Azure resource name
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Azure resource type
     types:
     - uid: string
-    name: type
-  - description: Resource location
+  - name: location
+    description: Resource location
     types:
     - uid: string
-    name: location
-  - description: Resource tags
+  - name: tags
+    description: Resource tags
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 - name: AutoscaleProfile
   description: Autoscale profile.
   kind: object
   properties:
-  - description: the name of the profile.
+  - name: name
+    description: the name of the profile.
     types:
     - uid: string
-    name: name
-  - description: the number of instances that can be used during this profile.
+  - name: capacity
+    description: the number of instances that can be used during this profile.
     types:
     - uid: ScaleCapacity
-    name: capacity
-  - description: A rule that provide the triggers and parameters for the scaling action.
+  - name: rules
+    description: A rule that provide the triggers and parameters for the scaling action.
     types:
-    - isArray: true
-      uid: ScaleRule
-    name: rules
-  - description: the specific date-time for the profile. This element is not used if the Recurrence element is used.
+    - uid: ScaleRule
+      isArray: true
+  - name: fixedDate
+    description: the specific date-time for the profile. This element is not used if the Recurrence element is used.
     types:
     - uid: TimeWindow
-    name: fixedDate
-  - description: the repeating times at which this profile begins. This element is not used if the FixedDate element is used.
+  - name: recurrence
+    description: the repeating times at which this profile begins. This element is not used if the FixedDate element is used.
     types:
     - uid: Recurrence
-    name: recurrence
 - name: AutoscaleNotification
   description: Autoscale notification.
   kind: object
   properties:
-  - description: the operation associated with the notification and its value must be "scale"
+  - name: operation
+    description: the operation associated with the notification and its value must be "scale"
     types:
     - uid: OperationType
-    name: operation
-  - description: the email notification.
+  - name: email
+    description: the email notification.
     types:
     - uid: EmailNotification
-    name: email
-  - description: Webhook notification of an autoscale event.
+  - name: webhooks
+    description: Webhook notification of an autoscale event.
     types:
-    - isArray: true
-      uid: WebhookNotification
-    name: webhooks
+    - uid: WebhookNotification
+      isArray: true
 - name: ScaleCapacity
   description: The number of instances that can be used during this profile.
   kind: object
   properties:
-  - description: the minimum number of instances for the resource.
+  - name: minimum
+    description: the minimum number of instances for the resource.
     types:
     - uid: string
-    name: minimum
-  - description: the maximum number of instances for the resource. The actual maximum number of instances is limited by the cores that are available in the subscription.
+  - name: maximum
+    description: the maximum number of instances for the resource. The actual maximum number of instances is limited by the cores that are available in the subscription.
     types:
     - uid: string
-    name: maximum
-  - description: the number of instances that will be set if metrics are not available for evaluation. The default is only used if the current instance count is lower than the default.
+  - name: default
+    description: the number of instances that will be set if metrics are not available for evaluation. The default is only used if the current instance count is lower than the default.
     types:
     - uid: string
-    name: default
 - name: ScaleRule
   description: A rule that provide the triggers and parameters for the scaling action.
   kind: object
   properties:
-  - description: the trigger that results in a scaling action.
+  - name: metricTrigger
+    description: the trigger that results in a scaling action.
     types:
     - uid: MetricTrigger
-    name: metricTrigger
-  - description: the parameters for the scaling action.
+  - name: scaleAction
+    description: the parameters for the scaling action.
     types:
     - uid: ScaleAction
-    name: scaleAction
 - name: TimeWindow
   description: A specific date-time for the profile.
   kind: object
   properties:
-  - description: 'the timezone of the start and end times for the profile. Some examples of valid timezones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time'
+  - name: timeZone
+    description: 'the timezone of the start and end times for the profile. Some examples of valid timezones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time'
     types:
     - uid: string
-    name: timeZone
-  - description: the start time for the profile in ISO 8601 format.
+  - name: start
+    description: the start time for the profile in ISO 8601 format.
     types:
     - uid: string
-    name: start
-  - description: the end time for the profile in ISO 8601 format.
+  - name: end
+    description: the end time for the profile in ISO 8601 format.
     types:
     - uid: string
-    name: end
 - name: Recurrence
   description: The repeating times at which this profile begins. This element is not used if the FixedDate element is used.
   kind: object
   properties:
-  - description: the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles.
+  - name: frequency
+    description: the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles.
     types:
     - uid: RecurrenceFrequency
-    name: frequency
-  - description: the scheduling constraints for when the profile begins.
+  - name: schedule
+    description: the scheduling constraints for when the profile begins.
     types:
     - uid: RecurrentSchedule
-    name: schedule
 - name: OperationType
   description: the operation associated with the notification and its value must be "scale"
   kind: enum
   properties:
-  - types:
+  - name: Scale
+    types:
     - uid: string
-    name: Scale
 - name: EmailNotification
   description: Email notification of an autoscale event.
   kind: object
   properties:
-  - description: a value indicating whether to send email to subscription administrator.
+  - name: sendToSubscriptionAdministrator
+    description: a value indicating whether to send email to subscription administrator.
     types:
     - uid: boolean
-    name: sendToSubscriptionAdministrator
-  - description: a value indicating whether to send email to subscription co-administrators.
+  - name: sendToSubscriptionCoAdministrators
+    description: a value indicating whether to send email to subscription co-administrators.
     types:
     - uid: boolean
-    name: sendToSubscriptionCoAdministrators
-  - description: the custom e-mails list. This value can be null or empty, in which case this attribute will be ignored.
+  - name: customEmails
+    description: the custom e-mails list. This value can be null or empty, in which case this attribute will be ignored.
     types:
-    - isArray: true
-      uid: string
-    name: customEmails
+    - uid: string
+      isArray: true
 - name: WebhookNotification
   description: Webhook notification of an autoscale event.
   kind: object
   properties:
-  - description: the service address to receive the notification.
+  - name: serviceUri
+    description: the service address to receive the notification.
     types:
     - uid: string
-    name: serviceUri
-  - description: a property bag of settings. This value can be empty.
+  - name: properties
+    description: a property bag of settings. This value can be empty.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: properties
 - name: MetricTrigger
   description: The trigger that results in a scaling action.
   kind: object
   properties:
-  - description: the name of the metric that defines what the rule monitors.
+  - name: metricName
+    description: the name of the metric that defines what the rule monitors.
     types:
     - uid: string
-    name: metricName
-  - description: the resource identifier of the resource the rule monitors.
+  - name: metricResourceUri
+    description: the resource identifier of the resource the rule monitors.
     types:
     - uid: string
-    name: metricResourceUri
-  - description: the granularity of metrics the rule monitors. Must be one of the predefined values returned from metric definitions for the metric. Must be between 12 hours and 1 minute.
+  - name: timeGrain
+    description: the granularity of metrics the rule monitors. Must be one of the predefined values returned from metric definitions for the metric. Must be between 12 hours and 1 minute.
     types:
     - uid: string
-    name: timeGrain
-  - description: the metric statistic type. How the metrics from multiple instances are combined.
+  - name: statistic
+    description: the metric statistic type. How the metrics from multiple instances are combined.
     types:
     - uid: MetricStatisticType
-    name: statistic
-  - description: the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
+  - name: timeWindow
+    description: the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
     types:
     - uid: string
-    name: timeWindow
-  - description: time aggregation type. How the data that is collected should be combined over time. The default value is Average.
+  - name: timeAggregation
+    description: time aggregation type. How the data that is collected should be combined over time. The default value is Average.
     types:
     - uid: TimeAggregationType
-    name: timeAggregation
-  - description: the operator that is used to compare the metric data and the threshold.
+  - name: operator
+    description: the operator that is used to compare the metric data and the threshold.
     types:
     - uid: ComparisonOperationType
-    name: operator
-  - description: the threshold of the metric that triggers the scale action.
+  - name: threshold
+    description: the threshold of the metric that triggers the scale action.
     types:
     - uid: number
-    name: threshold
 - name: ScaleAction
   description: The parameters for the scaling action.
   kind: object
   properties:
-  - description: the scale direction. Whether the scaling action increases or decreases the number of instances.
+  - name: direction
+    description: the scale direction. Whether the scaling action increases or decreases the number of instances.
     types:
     - uid: ScaleDirection
-    name: direction
-  - description: the type of action that should occur when the scale rule fires.
+  - name: type
+    description: the type of action that should occur when the scale rule fires.
     types:
     - uid: ScaleType
-    name: type
-  - description: the number of instances that are involved in the scaling action. This value must be 1 or greater. The default value is 1.
+  - name: value
+    description: the number of instances that are involved in the scaling action. This value must be 1 or greater. The default value is 1.
     types:
     - uid: string
-    name: value
-  - description: the amount of time to wait since the last scaling action before this action occurs. It must be between 1 week and 1 minute in ISO 8601 format.
+  - name: cooldown
+    description: the amount of time to wait since the last scaling action before this action occurs. It must be between 1 week and 1 minute in ISO 8601 format.
     types:
     - uid: string
-    name: cooldown
 - name: RecurrenceFrequency
   description: the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles.
   kind: enum
   properties:
-  - types:
+  - name: None
+    types:
     - uid: string
-    name: None
-  - types:
+  - name: Second
+    types:
     - uid: string
-    name: Second
-  - types:
+  - name: Minute
+    types:
     - uid: string
-    name: Minute
-  - types:
+  - name: Hour
+    types:
     - uid: string
-    name: Hour
-  - types:
+  - name: Day
+    types:
     - uid: string
-    name: Day
-  - types:
+  - name: Week
+    types:
     - uid: string
-    name: Week
-  - types:
+  - name: Month
+    types:
     - uid: string
-    name: Month
-  - types:
+  - name: Year
+    types:
     - uid: string
-    name: Year
 - name: RecurrentSchedule
   description: The scheduling constraints for when the profile begins.
   kind: object
   properties:
-  - description: 'the timezone for the hours of the profile. Some examples of valid timezones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time'
+  - name: timeZone
+    description: 'the timezone for the hours of the profile. Some examples of valid timezones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time'
     types:
     - uid: string
-    name: timeZone
-  - description: the collection of days that the profile takes effect on. Possible values are Sunday through Saturday.
+  - name: days
+    description: the collection of days that the profile takes effect on. Possible values are Sunday through Saturday.
     types:
-    - isArray: true
-      uid: string
-    name: days
-  - description: A collection of hours that the profile takes effect on. Values supported are 0 to 23 on the 24-hour clock (AM/PM times are not supported).
+    - uid: string
+      isArray: true
+  - name: hours
+    description: A collection of hours that the profile takes effect on. Values supported are 0 to 23 on the 24-hour clock (AM/PM times are not supported).
     types:
-    - isArray: true
-      uid: integer
-    name: hours
-  - description: A collection of minutes at which the profile takes effect at.
+    - uid: integer
+      isArray: true
+  - name: minutes
+    description: A collection of minutes at which the profile takes effect at.
     types:
-    - isArray: true
-      uid: integer
-    name: minutes
+    - uid: integer
+      isArray: true
 - name: MetricStatisticType
   description: the metric statistic type. How the metrics from multiple instances are combined.
   kind: enum
   properties:
-  - types:
+  - name: Average
+    types:
     - uid: string
-    name: Average
-  - types:
+  - name: Min
+    types:
     - uid: string
-    name: Min
-  - types:
+  - name: Max
+    types:
     - uid: string
-    name: Max
-  - types:
+  - name: Sum
+    types:
     - uid: string
-    name: Sum
 - name: TimeAggregationType
   description: time aggregation type. How the data that is collected should be combined over time. The default value is Average.
   kind: enum
   properties:
-  - types:
+  - name: Average
+    types:
     - uid: string
-    name: Average
-  - types:
+  - name: Minimum
+    types:
     - uid: string
-    name: Minimum
-  - types:
+  - name: Maximum
+    types:
     - uid: string
-    name: Maximum
-  - types:
+  - name: Total
+    types:
     - uid: string
-    name: Total
-  - types:
+  - name: Count
+    types:
     - uid: string
-    name: Count
 - name: ComparisonOperationType
   description: the operator that is used to compare the metric data and the threshold.
   kind: enum
   properties:
-  - types:
+  - name: Equals
+    types:
     - uid: string
-    name: Equals
-  - types:
+  - name: NotEquals
+    types:
     - uid: string
-    name: NotEquals
-  - types:
+  - name: GreaterThan
+    types:
     - uid: string
-    name: GreaterThan
-  - types:
+  - name: GreaterThanOrEqual
+    types:
     - uid: string
-    name: GreaterThanOrEqual
-  - types:
+  - name: LessThan
+    types:
     - uid: string
-    name: LessThan
-  - types:
+  - name: LessThanOrEqual
+    types:
     - uid: string
-    name: LessThanOrEqual
 - name: ScaleDirection
   description: the scale direction. Whether the scaling action increases or decreases the number of instances.
   kind: enum
   properties:
-  - types:
+  - name: None
+    types:
     - uid: string
-    name: None
-  - types:
+  - name: Increase
+    types:
     - uid: string
-    name: Increase
-  - types:
+  - name: Decrease
+    types:
     - uid: string
-    name: Decrease
 - name: ScaleType
   description: the type of action that should occur when the scale rule fires.
   kind: enum
   properties:
-  - types:
+  - name: ChangeCount
+    types:
     - uid: string
-    name: ChangeCount
-  - types:
+  - name: PercentChangeCount
+    types:
     - uid: string
-    name: PercentChangeCount
-  - types:
+  - name: ExactCount
+    types:
     - uid: string
-    name: ExactCount
 examples:
-- request:
+- name: List autoscale settings
+  request:
     uri: GET https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/TestingMetricsScaleSet/providers/microsoft.insights/autoscalesettings?api-version=2015-04-01
   responses:
   - statusCode: "200"
@@ -603,14 +606,11 @@ examples:
         ],
         "nextLink": "https://management.azure.com/########-####-####-####-############$skiptoken=######"
       }
-  name: List autoscale settings
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List By Resource Group
-uid: management.azure.com.monitor.autoscalesettings.listbyresourcegroup
+  - name: user_impersonation
+    description: impersonate your user account

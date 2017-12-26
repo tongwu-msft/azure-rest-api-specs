@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Disables task scheduling on the specified compute node. You can disable task scheduling on a node only if its current scheduling state is enabled.
+uid: batch.core.windows.net.batchservice.computenode.disablescheduling
+name: Disable Scheduling
 service: Batch Service
-apiVersion: 2017-09-01.6.0
 groupName: Compute Node
+apiVersion: 2017-09-01.6.0
+summary: Disables task scheduling on the specified compute node. You can disable task scheduling on a node only if its current scheduling state is enabled.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
@@ -12,129 +14,129 @@ paths:
 - content: POST https://batch.core.windows.net/pools/{poolId}/nodes/{nodeId}/disablescheduling?timeout={timeout}&api-version=2017-09-01.6.0
   isOptional: true
 uriParameters:
-- in: path
+- name: poolId
+  in: path
   isRequired: true
   description: The ID of the pool that contains the compute node.
   types:
   - uid: string
-  name: poolId
-- in: path
+- name: nodeId
+  in: path
   isRequired: true
   description: The ID of the compute node on which you want to disable task scheduling.
   types:
   - uid: string
-  name: nodeId
-- in: query
+- name: timeout
+  in: query
   description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
   types:
   - uid: integer
   format: int32
-  name: timeout
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- headers:
-  - value: string
-    name: client-request-id
-  - value: string
-    name: request-id
-  - value: string
-    name: ETag
-  - value: string
-    name: Last-Modified
-  - value: string
-    name: DataServiceId
+- name: 200 OK
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
+  - name: DataServiceId
+    value: string
   description: The request to the Batch service was successful.
-  name: 200 OK
-- description: The error from the Batch service.
+- name: Other Status Codes
+  description: The error from the Batch service.
   types:
   - uid: BatchError
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: nodeDisableSchedulingOption
+    in: body
     description: >-
       What to do with currently running tasks when disabling task scheduling on the compute node.
 
       The default value is requeue.
     types:
     - uid: DisableComputeNodeSchedulingOption
-    name: nodeDisableSchedulingOption
 requestHeader:
-- in: header
+- name: client-request-id
+  in: header
   description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
   types:
   - uid: string
   format: uuid
-  name: client-request-id
-- in: header
+- name: return-client-request-id
+  in: header
   description: Whether the server should return the client-request-id in the response.
   types:
   - uid: boolean
-  name: return-client-request-id
-- in: header
+- name: ocp-date
+  in: header
   description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
   types:
   - uid: string
   format: date-time-rfc1123
-  name: ocp-date
 definitions:
 - name: BatchError
   description: The error encountered while attempting to add the task.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: ErrorMessage
-    name: message
-  - description: An item of additional information included in an Azure Batch error response.
+  - name: values
+    description: An item of additional information included in an Azure Batch error response.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
+    - uid: BatchErrorDetail
+      isArray: true
 - name: NodeDisableSchedulingParameter
   description: Options for disabling scheduling on a compute node.
   kind: object
   properties:
-  - description: >-
+  - name: nodeDisableSchedulingOption
+    description: >-
       What to do with currently running tasks when disabling task scheduling on the compute node.
 
       The default value is requeue.
     types:
     - uid: DisableComputeNodeSchedulingOption
-    name: nodeDisableSchedulingOption
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
-  - description: The language code of the error message
+  - name: lang
+    description: The language code of the error message
     types:
     - uid: string
-    name: lang
-  - description: The text of the message.
+  - name: value
+    description: The text of the message.
     types:
     - uid: string
-    name: value
 - name: BatchErrorDetail
   description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
-  - description: An identifier specifying the meaning of the Value property.
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
     types:
     - uid: string
-    name: key
-  - description: The additional information included with the error response.
+  - name: value
+    description: The additional information included with the error response.
     types:
     - uid: string
-    name: value
 - name: DisableComputeNodeSchedulingOption
   description: >-
     What to do with currently running tasks when disabling task scheduling on the compute node.
@@ -142,32 +144,30 @@ definitions:
     The default value is requeue.
   kind: enum
   properties:
-  - description: Terminate running task processes and requeue the tasks. The tasks may run again on other compute nodes, or when task scheduling is re-enabled on this node. Enter offline state as soon as tasks have been terminated.
+  - name: requeue
+    description: Terminate running task processes and requeue the tasks. The tasks may run again on other compute nodes, or when task scheduling is re-enabled on this node. Enter offline state as soon as tasks have been terminated.
     types:
     - uid: string
-    name: requeue
-  - description: Terminate running tasks. The tasks will be completed with failureInfo indicating that they were terminated, and will not run again. Enter offline state as soon as tasks have been terminated.
+  - name: terminate
+    description: Terminate running tasks. The tasks will be completed with failureInfo indicating that they were terminated, and will not run again. Enter offline state as soon as tasks have been terminated.
     types:
     - uid: string
-    name: terminate
-  - description: Allow currently running tasks to complete. Schedule no new tasks while waiting. Enter offline state when all tasks have completed.
+  - name: taskcompletion
+    description: Allow currently running tasks to complete. Schedule no new tasks while waiting. Enter offline state when all tasks have completed.
     types:
     - uid: string
-    name: taskcompletion
 examples:
-- request:
+- name: Node disable scheduling
+  request:
     uri: POST https://batch.core.windows.net/pools/poolId/nodes/tvm-1695681911_1-20161122t193202z/disablescheduling?api-version=2017-09-01.6.0
     body: >-
       {
         "nodeDisableSchedulingOption": "terminate"
       }
     headers:
-    - value: 00000000-0000-0000-0000-000000000000
-      name: client-request-id
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
   responses:
   - statusCode: "200"
     body: "\"\""
-  name: Node disable scheduling
 security: []
-name: Disable Scheduling
-uid: batch.core.windows.net.batchservice.computenode.disablescheduling

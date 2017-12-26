@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: This operation applies changes from the specified Git branch to the configuration database. This is a long running operation and could take several minutes to complete.
+uid: management.azure.com.apimanagement.tenantconfiguration.deploy
+name: Deploy
 service: API Management
-apiVersion: 2017-03-01
 groupName: Tenant Configuration
+apiVersion: 2017-03-01
+summary: This operation applies changes from the specified Git branch to the configuration database. This is a long running operation and could take several minutes to complete.
 consumes:
 - application/json
 produces:
@@ -10,176 +12,177 @@ produces:
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/deploy?api-version=2017-03-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serviceName
+  in: path
   isRequired: true
   description: The name of the API Management service.
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-  name: serviceName
-- in: path
+- name: configurationName
+  in: path
   isRequired: true
   description: The identifier of the Git Configuration Operation.
   types:
   - uid: string
-  name: configurationName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: 'Accepted: Location header contains the URL where the status of the long running operation can be checked.'
-  name: 202 Accepted
-- description: Result of appplying changes from Git branch to database.
+- name: 202 Accepted
+  description: 'Accepted: Location header contains the URL where the status of the long running operation can be checked.'
+- name: 200 OK
+  description: Result of appplying changes from Git branch to database.
   types:
   - uid: OperationResultContract
-  name: 200 OK
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: branch
+    in: body
     isRequired: true
     description: The name of the Git branch from which the configuration is to be deployed to the configuration database.
     types:
     - uid: string
-    name: branch
-  - in: body
+  - name: force
+    in: body
     description: The value enforcing deleting subscriptions to products that are deleted in this update.
     types:
     - uid: boolean
-    name: force
 requestHeader: []
 definitions:
 - name: OperationResultContract
   description: Operation Result.
   kind: object
   properties:
-  - description: Operation result identifier.
+  - name: id
+    description: Operation result identifier.
     types:
     - uid: string
-    name: id
-  - description: Status of an async operation.
+  - name: status
+    description: Status of an async operation.
     types:
     - uid: AsyncOperationStatus
-    name: status
-  - description: 'Start time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+  - name: started
+    description: 'Start time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
-    name: started
-  - description: 'Last update time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+  - name: updated
+    description: 'Last update time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
-    name: updated
-  - description: Optional result info.
+  - name: resultInfo
+    description: Optional result info.
     types:
     - uid: string
-    name: resultInfo
-  - description: Error Body Contract
+  - name: error
+    description: Error Body Contract
     types:
     - uid: ErrorResponse
-    name: error
-  - isReadyOnly: true
+  - name: actionLog
+    isReadyOnly: true
     description: Log of the entity being created, updated or deleted.
     types:
-    - isArray: true
-      uid: OperationResultLogItemContract
-    name: actionLog
+    - uid: OperationResultLogItemContract
+      isArray: true
 - name: ErrorResponse
   description: Error Body Contract
   kind: object
   properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of the error.
+  - name: message
+    description: Human-readable representation of the error.
     types:
     - uid: string
-    name: message
-  - description: Error Field contract.
+  - name: details
+    description: Error Field contract.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
+    - uid: ErrorFieldContract
+      isArray: true
 - name: DeployConfigurationParameters
   description: Parameters supplied to the Deploy Configuration operation.
   kind: object
   properties:
-  - description: The name of the Git branch from which the configuration is to be deployed to the configuration database.
+  - name: branch
+    description: The name of the Git branch from which the configuration is to be deployed to the configuration database.
     types:
     - uid: string
-    name: branch
-  - description: The value enforcing deleting subscriptions to products that are deleted in this update.
+  - name: force
+    description: The value enforcing deleting subscriptions to products that are deleted in this update.
     types:
     - uid: boolean
-    name: force
 - name: AsyncOperationStatus
   description: Status of an async operation.
   kind: enum
   properties:
-  - types:
+  - name: Started
+    types:
     - uid: string
-    name: Started
-  - types:
+  - name: InProgress
+    types:
     - uid: string
-    name: InProgress
-  - types:
+  - name: Succeeded
+    types:
     - uid: string
-    name: Succeeded
-  - types:
+  - name: Failed
+    types:
     - uid: string
-    name: Failed
 - name: OperationResultLogItemContract
   description: This property if only provided as part of the TenantConfiguration_Validate operation. It contains the log the entities which will be updated/created/deleted as part of the TenantConfiguration_Deploy operation.
   kind: object
   properties:
-  - description: The type of entity contract.
+  - name: objectType
+    description: The type of entity contract.
     types:
     - uid: string
-    name: objectType
-  - description: Action like create/update/delete.
+  - name: action
+    description: Action like create/update/delete.
     types:
     - uid: string
-    name: action
-  - description: Identifier of the entity being created/updated/deleted.
+  - name: objectKey
+    description: Identifier of the entity being created/updated/deleted.
     types:
     - uid: string
-    name: objectKey
 - name: ErrorFieldContract
   description: The list of invalid fields send in request, in case of validation error.
   kind: object
   properties:
-  - description: Property level error code.
+  - name: code
+    description: Property level error code.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of property-level error.
+  - name: message
+    description: Human-readable representation of property-level error.
     types:
     - uid: string
-    name: message
-  - description: Property name.
+  - name: target
+    description: Property name.
     types:
     - uid: string
-    name: target
 examples:
-- request:
+- name: ApiManagementTenantConfigurationDeploy
+  request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/configuration/deploy?api-version=2017-03-01
     body: >-
       {
@@ -188,8 +191,8 @@ examples:
   responses:
   - statusCode: "202"
     headers:
-    - value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/operationResults/5a1af4ae2a6d2e0b688d7517?api-version=2017-03-01
-      name: location
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/operationResults/5a1af4ae2a6d2e0b688d7517?api-version=2017-03-01
   - statusCode: "200"
     body: >-
       {
@@ -202,14 +205,11 @@ examples:
           "message": "File not found: 'api-management/configuration.json'"
         }
       }
-  name: ApiManagementTenantConfigurationDeploy
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Deploy
-uid: management.azure.com.apimanagement.tenantconfiguration.deploy
+  - name: user_impersonation
+    description: impersonate your user account

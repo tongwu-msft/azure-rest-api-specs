@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Cancels a failed deletion of a certificate from the specified account. If you try to delete a certificate that is being used by a pool or compute node, the status of the certificate changes to deleteFailed. If you decide that you want to continue using the certificate, you can use this operation to set the status of the certificate back to active. If you intend to delete the certificate, you do not need to run this operation after the deletion failed. You must make sure that the certificate is not being used by any resources, and then you can try again to delete the certificate.
+uid: batch.core.windows.net.batchservice.certificate.canceldeletion
+name: Cancel Deletion
 service: Batch Service
-apiVersion: 2017-09-01.6.0
 groupName: Certificate
+apiVersion: 2017-09-01.6.0
+summary: Cancels a failed deletion of a certificate from the specified account. If you try to delete a certificate that is being used by a pool or compute node, the status of the certificate changes to deleteFailed. If you decide that you want to continue using the certificate, you can use this operation to set the status of the certificate back to active. If you intend to delete the certificate, you do not need to run this operation after the deletion failed. You must make sure that the certificate is not being used by any resources, and then you can try again to delete the certificate.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
@@ -12,118 +14,116 @@ paths:
 - content: POST https://batch.core.windows.net/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})/canceldelete?timeout={timeout}&api-version=2017-09-01.6.0
   isOptional: true
 uriParameters:
-- in: path
+- name: thumbprintAlgorithm
+  in: path
   isRequired: true
   description: The algorithm used to derive the thumbprint parameter. This must be sha1.
   types:
   - uid: string
-  name: thumbprintAlgorithm
-- in: path
+- name: thumbprint
+  in: path
   isRequired: true
   description: The thumbprint of the certificate being deleted.
   types:
   - uid: string
-  name: thumbprint
-- in: query
+- name: timeout
+  in: query
   description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
   types:
   - uid: integer
   format: int32
-  name: timeout
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- headers:
-  - value: string
-    name: client-request-id
-  - value: string
-    name: request-id
-  - value: string
-    name: ETag
-  - value: string
-    name: Last-Modified
-  - value: string
-    name: DataServiceId
+- name: 204 No Content
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
+  - name: DataServiceId
+    value: string
   description: The request to the Batch service was successful.
-  name: 204 No Content
-- description: The error from the Batch service.
+- name: Other Status Codes
+  description: The error from the Batch service.
   types:
   - uid: BatchError
-  name: Other Status Codes
 requestHeader:
-- in: header
+- name: client-request-id
+  in: header
   description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
   types:
   - uid: string
   format: uuid
-  name: client-request-id
-- in: header
+- name: return-client-request-id
+  in: header
   description: Whether the server should return the client-request-id in the response.
   types:
   - uid: boolean
-  name: return-client-request-id
-- in: header
+- name: ocp-date
+  in: header
   description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
   types:
   - uid: string
   format: date-time-rfc1123
-  name: ocp-date
 definitions:
 - name: BatchError
   description: The error encountered while attempting to add the task.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: ErrorMessage
-    name: message
-  - description: An item of additional information included in an Azure Batch error response.
+  - name: values
+    description: An item of additional information included in an Azure Batch error response.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
+    - uid: BatchErrorDetail
+      isArray: true
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
-  - description: The language code of the error message
+  - name: lang
+    description: The language code of the error message
     types:
     - uid: string
-    name: lang
-  - description: The text of the message.
+  - name: value
+    description: The text of the message.
     types:
     - uid: string
-    name: value
 - name: BatchErrorDetail
   description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
-  - description: An identifier specifying the meaning of the Value property.
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
     types:
     - uid: string
-    name: key
-  - description: The additional information included with the error response.
+  - name: value
+    description: The additional information included with the error response.
     types:
     - uid: string
-    name: value
 examples:
-- request:
+- name: Certificate cancel delete
+  request:
     uri: POST https://batch.core.windows.net/certificates(thumbprintAlgorithm=sha1,thumbprint=0123456789abcdef0123456789abcdef01234567)/canceldelete?api-version=2017-09-01.6.0
     headers:
-    - value: 00000000-0000-0000-0000-000000000000
-      name: client-request-id
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
   responses:
   - statusCode: "204"
     body: "\"\""
-  name: Certificate cancel delete
 security: []
-name: Cancel Deletion
-uid: batch.core.windows.net.batchservice.certificate.canceldeletion

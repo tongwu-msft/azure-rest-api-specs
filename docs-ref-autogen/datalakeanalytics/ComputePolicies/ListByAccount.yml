@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists the Data Lake Analytics compute policies within the specified Data Lake Analytics account. An account supports, at most, 50 policies
+uid: management.azure.com.datalakeanalytics.computepolicies.listbyaccount
+name: List By Account
 service: Data Lake Analytics
-apiVersion: 2016-11-01
 groupName: Compute Policies
+apiVersion: 2016-11-01
+summary: Lists the Data Lake Analytics compute policies within the specified Data Lake Analytics account. An account supports, at most, 50 policies
 consumes:
 - application/json
 produces:
@@ -10,94 +12,95 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/computePolicies?api-version=2016-11-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the Azure resource group that contains the Data Lake Analytics account.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: accountName
+  in: path
   isRequired: true
   description: The name of the Data Lake Analytics account from which to get the compute policies.
   types:
   - uid: string
-  name: accountName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client Api Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Successfully listed the compute policies.
+- name: 200 OK
+  description: Successfully listed the compute policies.
   types:
   - uid: ComputePolicyListResult
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: ComputePolicyListResult
   description: The list of compute policies in the account.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: value
+    isReadyOnly: true
     description: The parameters used to create a new compute policy.
     types:
-    - isArray: true
-      uid: ComputePolicy
-    name: value
-  - isReadyOnly: true
+    - uid: ComputePolicy
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
     description: the link (url) to the next page of results.
     types:
     - uid: string
-    name: nextLink
 - name: ComputePolicy
   description: the list of existing compute policies to update in this account.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: The name of the compute policy
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: properties.objectId
+    isReadyOnly: true
     description: The AAD object identifier for the entity to create a policy for.
     types:
     - uid: string
-    name: properties.objectId
-  - isReadyOnly: true
+  - name: properties.objectType
+    isReadyOnly: true
     description: The type of AAD object the object identifier refers to.
     types:
     - uid: AADObjectType
-    name: properties.objectType
-  - description: The maximum degree of parallelism per job this user can use to submit jobs.
+  - name: properties.maxDegreeOfParallelismPerJob
+    description: The maximum degree of parallelism per job this user can use to submit jobs.
     types:
     - uid: integer
-    name: properties.maxDegreeOfParallelismPerJob
-  - description: The minimum priority per job this user can use to submit jobs.
+  - name: properties.minPriorityPerJob
+    description: The minimum priority per job this user can use to submit jobs.
     types:
     - uid: integer
-    name: properties.minPriorityPerJob
 - name: AADObjectType
   description: The type of AAD object the object identifier refers to.
   kind: enum
   properties:
-  - types:
+  - name: User
+    types:
     - uid: string
-    name: User
-  - types:
+  - name: Group
+    types:
     - uid: string
-    name: Group
-  - types:
+  - name: ServicePrincipal
+    types:
     - uid: string
-    name: ServicePrincipal
 examples:
-- request:
+- name: Lists the compute policies within the adla account
+  request:
     uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/computePolicies?api-version=2016-11-01
   responses:
   - statusCode: "200"
@@ -134,14 +137,11 @@ examples:
         ],
         "nextLink": "https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/jobPolicies?api-version=2016-11-01&%24skiptoken=<token>"
       }
-  name: Lists the compute policies within the adla account
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List By Account
-uid: management.azure.com.datalakeanalytics.computepolicies.listbyaccount
+  - name: user_impersonation
+    description: impersonate your user account

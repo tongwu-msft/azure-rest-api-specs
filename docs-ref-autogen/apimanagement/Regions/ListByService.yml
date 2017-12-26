@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists all azure regions in which the service exists.
+uid: management.azure.com.apimanagement.regions.listbyservice
+name: List By Service
 service: API Management
-apiVersion: 2017-03-01
 groupName: Regions
+apiVersion: 2017-03-01
+summary: Lists all azure regions in which the service exists.
 consumes:
 - application/json
 produces:
@@ -10,74 +12,75 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/regions?api-version=2017-03-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serviceName
+  in: path
   isRequired: true
   description: The name of the API Management service.
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-  name: serviceName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Lists of Regions in which the service is deployed.
+- name: 200 OK
+  description: Lists of Regions in which the service is deployed.
   types:
   - uid: RegionListResult
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: RegionListResult
   description: Lists Regions operation response details.
   kind: object
   properties:
-  - description: Region profile.
+  - name: value
+    description: Region profile.
     types:
-    - isArray: true
-      uid: RegionContract
-    name: value
-  - description: Total record count number across all pages.
+    - uid: RegionContract
+      isArray: true
+  - name: count
+    description: Total record count number across all pages.
     types:
     - uid: integer
-    name: count
-  - description: Next page link if any.
+  - name: nextLink
+    description: Next page link if any.
     types:
     - uid: string
-    name: nextLink
 - name: RegionContract
   description: Region profile.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Region name.
     types:
     - uid: string
-    name: name
-  - description: whether Region is the master region.
+  - name: isMasterRegion
+    description: whether Region is the master region.
     types:
     - uid: boolean
-    name: isMasterRegion
-  - description: whether Region is deleted.
+  - name: isDeleted
+    description: whether Region is deleted.
     types:
     - uid: boolean
-    name: isDeleted
 examples:
-- request:
+- name: ApiManagementListRegions
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/regions?api-version=2017-03-01
   responses:
   - statusCode: "200"
@@ -93,14 +96,11 @@ examples:
         "count": 1,
         "nextLink": ""
       }
-  name: ApiManagementListRegions
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List By Service
-uid: management.azure.com.apimanagement.regions.listbyservice
+  - name: user_impersonation
+    description: impersonate your user account

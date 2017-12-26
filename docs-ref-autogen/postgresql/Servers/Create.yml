@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Creates a new server, or will overwrite an existing server.
+uid: management.azure.com.postgresql.servers.create
+name: Create
 service: PostgreSQL
-apiVersion: 2017-04-30-preview
 groupName: Servers
+apiVersion: 2017-04-30-preview
+summary: Creates a new server, or will overwrite an existing server.
 consumes:
 - application/json
 produces:
@@ -10,285 +12,286 @@ produces:
 paths:
 - content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}?api-version=2017-04-30-preview
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription ID that identifies an Azure subscription.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serverName
+  in: path
   isRequired: true
   description: The name of the server.
   types:
   - uid: string
-  name: serverName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version to use for the request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK
+- name: 200 OK
+  description: OK
   types:
   - uid: Server
-  name: 200 OK
-- description: Created
+- name: 201 Created
+  description: Created
   types:
   - uid: Server
-  name: 201 Created
-- description: Accepted
-  name: 202 Accepted
+- name: 202 Accepted
+  description: Accepted
 requestBody:
 - parameters:
-  - in: body
+  - name: sku
+    in: body
     description: The SKU (pricing tier) of the server.
     types:
     - uid: Sku
-    name: sku
-  - in: body
+  - name: properties
+    in: body
     isRequired: true
     description: Properties of the server.
     types:
     - uid: ServerPropertiesForDefaultCreate
     - uid: ServerPropertiesForRestore
     typesTitle: ServerPropertiesForCreate
-    name: properties
-  - in: body
+  - name: location
+    in: body
     isRequired: true
     description: The location the resource resides in.
     types:
     - uid: string
-    name: location
-  - in: body
+  - name: tags
+    in: body
     description: Application-specific metadata in the form of key-value pairs.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 requestHeader: []
 definitions:
 - name: Sku
   description: Billing information related properties of a server.
   kind: object
   properties:
-  - description: The name of the sku, typically, a letter + Number code, e.g. P3.
+  - name: name
+    description: The name of the sku, typically, a letter + Number code, e.g. P3.
     types:
     - uid: string
-    name: name
-  - description: The tier of the particular SKU, e.g. Basic.
+  - name: tier
+    description: The tier of the particular SKU, e.g. Basic.
     types:
     - uid: SkuTier
-    name: tier
-  - description: The scale up/out capacity, representing server's compute units.
+  - name: capacity
+    description: The scale up/out capacity, representing server's compute units.
     types:
     - uid: integer
-    name: capacity
-  - description: The size code, to be interpreted by resource as appropriate.
+  - name: size
+    description: The size code, to be interpreted by resource as appropriate.
     types:
     - uid: string
-    name: size
-  - description: The family of hardware.
+  - name: family
+    description: The family of hardware.
     types:
     - uid: string
-    name: family
 - name: Server
   description: Represents a server.
   kind: object
   properties:
-  - description: The SKU (pricing tier) of the server.
+  - name: sku
+    description: The SKU (pricing tier) of the server.
     types:
     - uid: Sku
-    name: sku
-  - description: The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation).
+  - name: properties.administratorLogin
+    description: The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation).
     types:
     - uid: string
-    name: properties.administratorLogin
-  - description: The maximum storage allowed for a server.
+  - name: properties.storageMB
+    description: The maximum storage allowed for a server.
     types:
     - uid: integer
-    name: properties.storageMB
-  - description: Server version.
+  - name: properties.version
+    description: Server version.
     types:
     - uid: ServerVersion
-    name: properties.version
-  - description: Enable ssl enforcement or not when connect to server.
+  - name: properties.sslEnforcement
+    description: Enable ssl enforcement or not when connect to server.
     types:
     - uid: SslEnforcementEnum
-    name: properties.sslEnforcement
-  - description: A state of a server that is visible to user.
+  - name: properties.userVisibleState
+    description: A state of a server that is visible to user.
     types:
     - uid: ServerState
-    name: properties.userVisibleState
-  - description: The fully qualified domain name of a server.
+  - name: properties.fullyQualifiedDomainName
+    description: The fully qualified domain name of a server.
     types:
     - uid: string
-    name: properties.fullyQualifiedDomainName
-  - description: The location the resource resides in.
+  - name: location
+    description: The location the resource resides in.
     types:
     - uid: string
-    name: location
-  - description: Application-specific metadata in the form of key-value pairs.
+  - name: tags
+    description: Application-specific metadata in the form of key-value pairs.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type.
     types:
     - uid: string
-    name: type
 - name: ServerForCreate
   description: Represents a server to be created.
   kind: object
   properties:
-  - description: The SKU (pricing tier) of the server.
+  - name: sku
+    description: The SKU (pricing tier) of the server.
     types:
     - uid: Sku
-    name: sku
-  - description: Properties of the server.
+  - name: properties
+    description: Properties of the server.
     types:
     - uid: ServerPropertiesForDefaultCreate
     - uid: ServerPropertiesForRestore
     typesTitle: ServerPropertiesForCreate
-    name: properties
-  - description: The location the resource resides in.
+  - name: location
+    description: The location the resource resides in.
     types:
     - uid: string
-    name: location
-  - description: Application-specific metadata in the form of key-value pairs.
+  - name: tags
+    description: Application-specific metadata in the form of key-value pairs.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 - name: SkuTier
   description: The tier of the particular SKU, e.g. Basic.
   kind: enum
   properties:
-  - types:
+  - name: Basic
+    types:
     - uid: string
-    name: Basic
-  - types:
+  - name: Standard
+    types:
     - uid: string
-    name: Standard
 - name: ServerPropertiesForDefaultCreate
   description: The properties used to create a new server.
   kind: object
   properties:
-  - description: The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation).
+  - name: administratorLogin
+    description: The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation).
     types:
     - uid: string
-    name: administratorLogin
-  - description: The password of the administrator login.
+  - name: administratorLoginPassword
+    description: The password of the administrator login.
     types:
     - uid: string
-    name: administratorLoginPassword
-  - description: The maximum storage allowed for a server.
+  - name: storageMB
+    description: The maximum storage allowed for a server.
     types:
     - uid: integer
-    name: storageMB
-  - description: Server version.
+  - name: version
+    description: Server version.
     types:
     - uid: ServerVersion
-    name: version
-  - description: Enable ssl enforcement or not when connect to server.
+  - name: sslEnforcement
+    description: Enable ssl enforcement or not when connect to server.
     types:
     - uid: SslEnforcementEnum
-    name: sslEnforcement
-  - description: The mode to create a new server.
+  - name: createMode
+    description: The mode to create a new server.
     types:
     - uid: Default
     typesTitle: string
-    name: createMode
 - name: ServerPropertiesForRestore
   description: The properties to a new server by restoring from a backup.
   kind: object
   properties:
-  - description: The source server id to restore from.
+  - name: sourceServerId
+    description: The source server id to restore from.
     types:
     - uid: string
-    name: sourceServerId
-  - description: Restore point creation time (ISO8601 format), specifying the time to restore from.
+  - name: restorePointInTime
+    description: Restore point creation time (ISO8601 format), specifying the time to restore from.
     types:
     - uid: string
-    name: restorePointInTime
-  - description: The maximum storage allowed for a server.
+  - name: storageMB
+    description: The maximum storage allowed for a server.
     types:
     - uid: integer
-    name: storageMB
-  - description: Server version.
+  - name: version
+    description: Server version.
     types:
     - uid: ServerVersion
-    name: version
-  - description: Enable ssl enforcement or not when connect to server.
+  - name: sslEnforcement
+    description: Enable ssl enforcement or not when connect to server.
     types:
     - uid: SslEnforcementEnum
-    name: sslEnforcement
-  - description: The mode to create a new server.
+  - name: createMode
+    description: The mode to create a new server.
     types:
     - uid: PointInTimeRestore
     typesTitle: string
-    name: createMode
 - name: ServerVersion
   description: The version of a server.
   kind: enum
   properties:
-  - types:
+  - name: "9.5"
+    types:
     - uid: string
-    name: "9.5"
-  - types:
+  - name: "9.6"
+    types:
     - uid: string
-    name: "9.6"
 - name: SslEnforcementEnum
   description: Enable ssl enforcement or not when connect to server.
   kind: enum
   properties:
-  - types:
+  - name: Enabled
+    types:
     - uid: string
-    name: Enabled
-  - types:
+  - name: Disabled
+    types:
     - uid: string
-    name: Disabled
 - name: ServerState
   description: A state of a server that is visible to user.
   kind: enum
   properties:
-  - types:
+  - name: Ready
+    types:
     - uid: string
-    name: Ready
-  - types:
+  - name: Dropping
+    types:
     - uid: string
-    name: Dropping
-  - types:
+  - name: Disabled
+    types:
     - uid: string
-    name: Disabled
 examples:
-- request:
+- name: ServerCreate
+  request:
     uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforPostgreSQL/servers/testserver?api-version=2017-04-30-preview
     body: >-
       {
@@ -357,14 +360,11 @@ examples:
         }
       }
   - statusCode: "202"
-  name: ServerCreate
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Create
-uid: management.azure.com.postgresql.servers.create
+  - name: user_impersonation
+    description: impersonate your user account

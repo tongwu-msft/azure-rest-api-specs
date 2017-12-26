@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Retrieves the list of snoozed or dismissed suppressions for a subscription. The snoozed or dismissed attribute of a recommendation is referred to as a suppression.
+uid: management.azure.com.advisor.suppressions.list
+name: List
 service: Advisor
-apiVersion: 2017-03-31
 groupName: Suppressions
+apiVersion: 2017-03-31
+summary: Retrieves the list of snoozed or dismissed suppressions for a subscription. The snoozed or dismissed attribute of a recommendation is referred to as a suppression.
 consumes:
 - application/json
 produces:
@@ -10,55 +12,56 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/suppressions?api-version=2017-03-31
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The Azure subscription ID.
   types:
   - uid: string
-  name: subscriptionId
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The version of the API to be used with the client request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK. Successfully got all suppressions in a subscription.
+- name: 200 OK
+  description: OK. Successfully got all suppressions in a subscription.
   types:
-  - isArray: true
-    uid: SuppressionContract
-  name: 200 OK
+  - uid: SuppressionContract
+    isArray: true
 requestHeader: []
 definitions:
 - name: SuppressionContract
   description: The details of the snoozed or dismissed rule; for example, the duration, name, and GUID associated with the rule.
   kind: object
   properties:
-  - description: The GUID of the suppression.
+  - name: properties.suppressionId
+    description: The GUID of the suppression.
     types:
     - uid: string
-    name: properties.suppressionId
-  - description: The duration for which the suppression is valid.
+  - name: properties.ttl
+    description: The duration for which the suppression is valid.
     types:
     - uid: string
-    name: properties.ttl
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: The resource ID.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: The name of the resource.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: The type of the resource.
     types:
     - uid: string
-    name: type
 examples:
-- request:
+- name: ListSuppressions
+  request:
     uri: GET https://management.azure.com/subscriptions/subscriptionId1/providers/Microsoft.Advisor/suppressions?api-version=2017-03-31
   responses:
   - statusCode: "200"
@@ -83,14 +86,11 @@ examples:
           }
         }
       ]
-  name: ListSuppressions
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List
-uid: management.azure.com.advisor.suppressions.list
+  - name: user_impersonation
+    description: impersonate your user account

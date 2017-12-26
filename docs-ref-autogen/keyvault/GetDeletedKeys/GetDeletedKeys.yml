@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists the deleted keys in the specified vault. Retrieves a list of the keys in the Key Vault as JSON Web Key structures that contain the public part of a deleted key. The Get Deleted Keys operation is applicable for soft-delete enabled vaults. It requires the keys/list permission to be enabled on this vault. While the operation can be invoked on any vault, it will return an error if invoked on a non soft-delete enabled vault.
+uid: keyvault.getdeletedkeys.getdeletedkeys
+name: Get Deleted Keys
 service: Key Vault
-apiVersion: 2016-10-01
 groupName: Get Deleted Keys
+apiVersion: 2016-10-01
+summary: Lists the deleted keys in the specified vault. Retrieves a list of the keys in the Key Vault as JSON Web Key structures that contain the public part of a deleted key. The Get Deleted Keys operation is applicable for soft-delete enabled vaults. It requires the keys/list permission to be enabled on this vault. While the operation can be invoked on any vault, it will return an error if invoked on a non soft-delete enabled vault.
 consumes:
 - application/json
 produces:
@@ -12,164 +14,162 @@ paths:
 - content: GET https://{vaultBaseUrl}/deletedkeys?maxresults={maxresults}&api-version=2016-10-01
   isOptional: true
 uriParameters:
-- in: path
+- name: vaultBaseUrl
+  in: path
   isRequired: true
   description: The vault name, for example https://myvault.vault.azure.net.
   types:
   - uid: string
-  name: vaultBaseUrl
-- in: query
+- name: maxresults
+  in: query
   description: Maximum number of results to return in a page. If not specified the service will return up to 25 results.
   types:
   - uid: integer
   format: int32
-  name: maxresults
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: A response message containing a list of deleted keys in the vault along with a link to the next page of deleted keys.
+- name: 200 OK
+  description: A response message containing a list of deleted keys in the vault along with a link to the next page of deleted keys.
   types:
   - uid: DeletedKeyListResult
-  name: 200 OK
-- description: Key Vault error response describing why the operation failed.
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
   types:
   - uid: KeyVaultError
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: DeletedKeyListResult
   description: A list of keys that have been deleted in this vault.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: value
+    isReadyOnly: true
     description: The deleted key item containing the deleted key metadata and information about deletion.
     types:
-    - isArray: true
-      uid: DeletedKeyItem
-    name: value
-  - isReadyOnly: true
+    - uid: DeletedKeyItem
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
     description: The URL to get the next set of deleted keys.
     types:
     - uid: string
-    name: nextLink
 - name: KeyVaultError
   description: The key vault error exception.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: error
+    isReadyOnly: true
     description: The key vault server error.
     types:
     - uid: Error
-    name: error
 - name: DeletedKeyItem
   description: The deleted key item containing the deleted key metadata and information about deletion.
   kind: object
   properties:
-  - description: The url of the recovery object, used to identify and recover the deleted key.
+  - name: recoveryId
+    description: The url of the recovery object, used to identify and recover the deleted key.
     types:
     - uid: string
-    name: recoveryId
-  - isReadyOnly: true
+  - name: scheduledPurgeDate
+    isReadyOnly: true
     description: The time when the key is scheduled to be purged, in UTC
     types:
     - uid: integer
-    name: scheduledPurgeDate
-  - isReadyOnly: true
+  - name: deletedDate
+    isReadyOnly: true
     description: The time when the key was deleted, in UTC
     types:
     - uid: integer
-    name: deletedDate
-  - description: Key identifier.
+  - name: kid
+    description: Key identifier.
     types:
     - uid: string
-    name: kid
-  - description: The key management attributes.
+  - name: attributes
+    description: The key management attributes.
     types:
     - uid: KeyAttributes
-    name: attributes
-  - description: Application specific metadata in the form of key-value pairs.
+  - name: tags
+    description: Application specific metadata in the form of key-value pairs.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
-  - isReadyOnly: true
+  - name: managed
+    isReadyOnly: true
     description: True if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true.
     types:
     - uid: boolean
-    name: managed
 - name: Error
   description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: code
+    isReadyOnly: true
     description: The error code.
     types:
     - uid: string
-    name: code
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: The error message.
     types:
     - uid: string
-    name: message
-  - description: ''
+  - name: innererror
+    description: ''
     types:
     - {}
-    name: innererror
 - name: KeyAttributes
   description: The attributes of a key managed by the key vault service.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: recoveryLevel
+    isReadyOnly: true
     description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
     types:
     - uid: DeletionRecoveryLevel
-    name: recoveryLevel
-  - description: Determines whether the object is enabled.
+  - name: enabled
+    description: Determines whether the object is enabled.
     types:
     - uid: boolean
-    name: enabled
-  - description: Not before date in UTC.
+  - name: nbf
+    description: Not before date in UTC.
     types:
     - uid: integer
-    name: nbf
-  - description: Expiry date in UTC.
+  - name: exp
+    description: Expiry date in UTC.
     types:
     - uid: integer
-    name: exp
-  - isReadyOnly: true
+  - name: created
+    isReadyOnly: true
     description: Creation time in UTC.
     types:
     - uid: integer
-    name: created
-  - isReadyOnly: true
+  - name: updated
+    isReadyOnly: true
     description: Last updated time in UTC.
     types:
     - uid: integer
-    name: updated
 - name: DeletionRecoveryLevel
   description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
   kind: enum
   properties:
-  - types:
+  - name: Purgeable
+    types:
     - uid: string
-    name: Purgeable
-  - types:
+  - name: Recoverable+Purgeable
+    types:
     - uid: string
-    name: Recoverable+Purgeable
-  - types:
+  - name: Recoverable
+    types:
     - uid: string
-    name: Recoverable
-  - types:
+  - name: Recoverable+ProtectedSubscription
+    types:
     - uid: string
-    name: Recoverable+ProtectedSubscription
 examples: []
 security: []
-name: Get Deleted Keys
-uid: keyvault.getdeletedkeys.getdeletedkeys

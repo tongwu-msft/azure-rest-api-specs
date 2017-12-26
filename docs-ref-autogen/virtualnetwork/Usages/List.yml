@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: List network usages for a subscription.
+uid: management.azure.com.virtualnetworks.usages.list
+name: List
 service: Virtual Networks
-apiVersion: 2017-10-01
 groupName: Usages
+apiVersion: 2017-10-01
+summary: List network usages for a subscription.
 consumes:
 - application/json
 - text/json
@@ -12,91 +14,92 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages?api-version=2017-10-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: location
+  in: path
   isRequired: true
   description: The location where resource usage is queried.
   types:
   - uid: string
   pattern: ^[-\w\._]+$
-  name: location
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Request successful. The operation returns a list of Usage resources.
+- name: 200 OK
+  description: Request successful. The operation returns a list of Usage resources.
   types:
   - uid: UsagesListResult
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: UsagesListResult
   description: The list usages operation response.
   kind: object
   properties:
-  - description: Describes network resource usage.
+  - name: value
+    description: Describes network resource usage.
     types:
-    - isArray: true
-      uid: Usage
-    name: value
-  - description: URL to get the next set of results.
+    - uid: Usage
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of results.
     types:
     - uid: string
-    name: nextLink
 - name: Usage
   description: Describes network resource usage.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource identifier.
     types:
     - uid: string
-    name: id
-  - description: An enum describing the unit of measurement.
+  - name: unit
+    description: An enum describing the unit of measurement.
     types:
     - uid: UsageUnit
-    name: unit
-  - description: The current value of the usage.
+  - name: currentValue
+    description: The current value of the usage.
     types:
     - uid: integer
-    name: currentValue
-  - description: The limit of usage.
+  - name: limit
+    description: The limit of usage.
     types:
     - uid: integer
-    name: limit
-  - description: The name of the type of usage.
+  - name: name
+    description: The name of the type of usage.
     types:
     - uid: UsageName
-    name: name
 - name: UsageUnit
   description: An enum describing the unit of measurement.
   kind: enum
   properties:
-  - types:
+  - name: Count
+    types:
     - uid: string
-    name: Count
 - name: UsageName
   description: The usage names.
   kind: object
   properties:
-  - description: A string describing the resource name.
+  - name: value
+    description: A string describing the resource name.
     types:
     - uid: string
-    name: value
-  - description: A localized string describing the resource name.
+  - name: localizedValue
+    description: A localized string describing the resource name.
     types:
     - uid: string
-    name: localizedValue
 examples:
-- request:
+- name: List usages
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/locations/westus/usages?api-version=2017-10-01
   responses:
   - statusCode: "200"
@@ -355,14 +358,11 @@ examples:
           }
         ]
       }
-  name: List usages
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List
-uid: management.azure.com.virtualnetworks.usages.list
+  - name: user_impersonation
+    description: impersonate your user account

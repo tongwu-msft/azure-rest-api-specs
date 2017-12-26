@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists report records by subscription.
+uid: management.azure.com.apimanagement.reports.listbysubscription
+name: List By Subscription
 service: API Management
-apiVersion: 2017-03-01
 groupName: Reports
+apiVersion: 2017-03-01
+summary: Lists report records by subscription.
 consumes:
 - application/json
 produces:
@@ -12,184 +14,185 @@ paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/bySubscriptionId?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01
   isOptional: true
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serviceName
+  in: path
   isRequired: true
   description: The name of the API Management service.
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-  name: serviceName
-- in: query
+- name: $filter
+  in: query
   description: The filter to apply on the operation.
   types:
   - uid: string
-  name: $filter
-- in: query
+- name: $top
+  in: query
   description: Number of records to return.
   types:
   - uid: integer
   format: int32
-  name: $top
-- in: query
+- name: $skip
+  in: query
   description: Number of records to skip.
   types:
   - uid: integer
   format: int32
-  name: $skip
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Lists a collection of Report record.
+- name: 200 OK
+  description: Lists a collection of Report record.
   types:
   - uid: ReportCollection
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: ReportCollection
   description: Paged Report records list representation.
   kind: object
   properties:
-  - description: Report data.
+  - name: value
+    description: Report data.
     types:
-    - isArray: true
-      uid: ReportRecordContract
-    name: value
-  - description: Total record count number across all pages.
+    - uid: ReportRecordContract
+      isArray: true
+  - name: count
+    description: Total record count number across all pages.
     types:
     - uid: integer
-    name: count
-  - description: Next page link if any.
+  - name: nextLink
+    description: Next page link if any.
     types:
     - uid: string
-    name: nextLink
 - name: ReportRecordContract
   description: Page values.
   kind: object
   properties:
-  - description: Name depending on report endpoint specifies product, API, operation or developer name.
+  - name: name
+    description: Name depending on report endpoint specifies product, API, operation or developer name.
     types:
     - uid: string
-    name: name
-  - description: 'Start of aggregation period. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+  - name: timestamp
+    description: 'Start of aggregation period. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
-    name: timestamp
-  - description: Length of agregation period.  Interval must be multiple of 15 minutes and may not be zero. The value should be in ISO 8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).
+  - name: interval
+    description: Length of agregation period.  Interval must be multiple of 15 minutes and may not be zero. The value should be in ISO 8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).
     types:
     - uid: string
-    name: interval
-  - description: Country to which this record data is related.
+  - name: country
+    description: Country to which this record data is related.
     types:
     - uid: string
-    name: country
-  - description: Country region to which this record data is related.
+  - name: region
+    description: Country region to which this record data is related.
     types:
     - uid: string
-    name: region
-  - description: Zip code to which this record data is related.
+  - name: zip
+    description: Zip code to which this record data is related.
     types:
     - uid: string
-    name: zip
-  - isReadyOnly: true
+  - name: userId
+    isReadyOnly: true
     description: User identifier path. /users/{userId}
     types:
     - uid: string
-    name: userId
-  - isReadyOnly: true
+  - name: productId
+    isReadyOnly: true
     description: Product identifier path. /products/{productId}
     types:
     - uid: string
-    name: productId
-  - description: API identifier path. /apis/{apiId}
+  - name: apiId
+    description: API identifier path. /apis/{apiId}
     types:
     - uid: string
-    name: apiId
-  - description: Operation identifier path. /apis/{apiId}/operations/{operationId}
+  - name: operationId
+    description: Operation identifier path. /apis/{apiId}/operations/{operationId}
     types:
     - uid: string
-    name: operationId
-  - description: API region identifier.
+  - name: apiRegion
+    description: API region identifier.
     types:
     - uid: string
-    name: apiRegion
-  - description: Subscription identifier path. /subscriptions/{subscriptionId}
+  - name: subscriptionId
+    description: Subscription identifier path. /subscriptions/{subscriptionId}
     types:
     - uid: string
-    name: subscriptionId
-  - description: Number of succesful calls. This includes calls returning HttpStatusCode <= 301 and HttpStatusCode.NotModified and HttpStatusCode.TemporaryRedirect
+  - name: callCountSuccess
+    description: Number of succesful calls. This includes calls returning HttpStatusCode <= 301 and HttpStatusCode.NotModified and HttpStatusCode.TemporaryRedirect
     types:
     - uid: integer
-    name: callCountSuccess
-  - description: Number of calls blocked due to invalid credentials. This includes calls returning HttpStatusCode.Unauthorize and HttpStatusCode.Forbidden and HttpStatusCode.TooManyRequests
+  - name: callCountBlocked
+    description: Number of calls blocked due to invalid credentials. This includes calls returning HttpStatusCode.Unauthorize and HttpStatusCode.Forbidden and HttpStatusCode.TooManyRequests
     types:
     - uid: integer
-    name: callCountBlocked
-  - description: Number of calls failed due to proxy or backend errors. This includes calls returning HttpStatusCode.BadRequest(400) and any Code between HttpStatusCode.InternalServerError (500) and 600
+  - name: callCountFailed
+    description: Number of calls failed due to proxy or backend errors. This includes calls returning HttpStatusCode.BadRequest(400) and any Code between HttpStatusCode.InternalServerError (500) and 600
     types:
     - uid: integer
-    name: callCountFailed
-  - description: Number of other calls.
+  - name: callCountOther
+    description: Number of other calls.
     types:
     - uid: integer
-    name: callCountOther
-  - description: Total number of calls.
+  - name: callCountTotal
+    description: Total number of calls.
     types:
     - uid: integer
-    name: callCountTotal
-  - description: Bandwidth consumed.
+  - name: bandwidth
+    description: Bandwidth consumed.
     types:
     - uid: integer
-    name: bandwidth
-  - description: Number of times when content was served from cache policy.
+  - name: cacheHitCount
+    description: Number of times when content was served from cache policy.
     types:
     - uid: integer
-    name: cacheHitCount
-  - description: Number of times content was fetched from backend.
+  - name: cacheMissCount
+    description: Number of times content was fetched from backend.
     types:
     - uid: integer
-    name: cacheMissCount
-  - description: Average time it took to process request.
+  - name: apiTimeAvg
+    description: Average time it took to process request.
     types:
     - uid: number
-    name: apiTimeAvg
-  - description: Minimum time it took to process request.
+  - name: apiTimeMin
+    description: Minimum time it took to process request.
     types:
     - uid: number
-    name: apiTimeMin
-  - description: Maximum time it took to process request.
+  - name: apiTimeMax
+    description: Maximum time it took to process request.
     types:
     - uid: number
-    name: apiTimeMax
-  - description: Average time it took to process request on backend.
+  - name: serviceTimeAvg
+    description: Average time it took to process request on backend.
     types:
     - uid: number
-    name: serviceTimeAvg
-  - description: Minimum time it took to process request on backend.
+  - name: serviceTimeMin
+    description: Minimum time it took to process request on backend.
     types:
     - uid: number
-    name: serviceTimeMin
-  - description: Maximum time it took to process request on backend.
+  - name: serviceTimeMax
+    description: Maximum time it took to process request on backend.
     types:
     - uid: number
-    name: serviceTimeMax
 examples:
-- request:
+- name: ApiManagementGetReportsBySubscription
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/reports/bySubscriptionId?$filter=timestamp ge datetime'2017-06-01T00:00:00' and timestamp le datetime'2017-06-04T00:00:00'&api-version=2017-03-01
   responses:
   - statusCode: "200"
@@ -260,14 +263,11 @@ examples:
         "count": 3,
         "nextLink": ""
       }
-  name: ApiManagementGetReportsBySubscription
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List By Subscription
-uid: management.azure.com.apimanagement.reports.listbysubscription
+  - name: user_impersonation
+    description: impersonate your user account

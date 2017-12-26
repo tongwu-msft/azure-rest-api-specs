@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets the budget for a subscription by budget name.
+uid: management.azure.com.consumption.budgets-preview.get
+name: Get
 service: Consumption
-apiVersion: 2017-12-30-preview
 groupName: Budgets-Preview
+apiVersion: 2017-12-30-preview
+summary: Gets the budget for a subscription by budget name.
 consumes:
 - application/json
 produces:
@@ -10,204 +12,205 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/budgets/{name}?api-version=2017-12-30-preview
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Azure Subscription ID.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: name
+  in: path
   isRequired: true
   description: Budget name.
   types:
   - uid: string
-  name: name
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request. The current version is 2017-12-30-preview.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK. The request has succeeded.
+- name: 200 OK
+  description: OK. The request has succeeded.
   types:
   - uid: Budget
-  name: 200 OK
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: Budget
   description: The list of budgets.
   kind: object
   properties:
-  - description: The category of the budget, whether the budget tracks cost or something else.
+  - name: properties.category
+    description: The category of the budget, whether the budget tracks cost or something else.
     types:
     - uid: CategoryType
-    name: properties.category
-  - description: The total amount of cost to track with the budget
+  - name: properties.amount
+    description: The total amount of cost to track with the budget
     types:
     - uid: number
-    name: properties.amount
-  - description: The time covered by a budget. Tracking of the amount will be reset based on the time grain.
+  - name: properties.timeGrain
+    description: The time covered by a budget. Tracking of the amount will be reset based on the time grain.
     types:
     - uid: TimeGrainType
-    name: properties.timeGrain
-  - description: Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than three months. Past start date should  be selected within the timegrain preiod. There are no restrictions on the end date.
+  - name: properties.timePeriod
+    description: Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than three months. Past start date should  be selected within the timegrain preiod. There are no restrictions on the end date.
     types:
     - uid: BudgetTimePeriod
-    name: properties.timePeriod
-  - isReadyOnly: true
+  - name: properties.currentSpend
+    isReadyOnly: true
     description: The current amount of cost which is being tracked for a budget.
     types:
     - uid: CurrentSpend
-    name: properties.currentSpend
-  - description: Dictionary of notifications associated with the budget. Budget can have up to five notifications.
+  - name: properties.notifications
+    description: Dictionary of notifications associated with the budget. Budget can have up to five notifications.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: Notification
-      uid: object
-    name: properties.notifications
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource Id.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type.
     types:
     - uid: string
-    name: type
-  - description: eTag of the resource. To handle concurrent update scenarion, this field will be used to determine whether the user is updating the latest version or not.
+  - name: eTag
+    description: eTag of the resource. To handle concurrent update scenarion, this field will be used to determine whether the user is updating the latest version or not.
     types:
     - uid: string
-    name: eTag
 - name: ErrorResponse
   description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
-  - description: The details of the error.
+  - name: error
+    description: The details of the error.
     types:
     - uid: ErrorDetails
-    name: error
 - name: CategoryType
   description: The category of the budget, whether the budget tracks cost or something else.
   kind: enum
   properties:
-  - types:
+  - name: Cost
+    types:
     - uid: string
-    name: Cost
 - name: TimeGrainType
   description: The time covered by a budget. Tracking of the amount will be reset based on the time grain.
   kind: enum
   properties:
-  - types:
+  - name: Monthly
+    types:
     - uid: string
-    name: Monthly
-  - types:
+  - name: Quarterly
+    types:
     - uid: string
-    name: Quarterly
-  - types:
+  - name: Annually
+    types:
     - uid: string
-    name: Annually
 - name: BudgetTimePeriod
   description: Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than three months. Past start date should  be selected within the timegrain preiod. There are no restrictions on the end date.
   kind: object
   properties:
-  - description: The start date for the budget.
+  - name: startDate
+    description: The start date for the budget.
     types:
     - uid: string
-    name: startDate
-  - description: The end date for the budget. If not provided, we default this to 10 years from the start date.
+  - name: endDate
+    description: The end date for the budget. If not provided, we default this to 10 years from the start date.
     types:
     - uid: string
-    name: endDate
 - name: CurrentSpend
   description: The current amount of cost which is being tracked for a budget.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: amount
+    isReadyOnly: true
     description: The total amount of cost which is being tracked by the budget.
     types:
     - uid: number
-    name: amount
-  - isReadyOnly: true
+  - name: unit
+    isReadyOnly: true
     description: The unit of measure for the budget amount.
     types:
     - uid: string
-    name: unit
 - name: Notifications
   description: Dictionary of notifications associated with the budget. Budget can have up to five notifications.
   kind: object
   properties:
-  - description: The notification associated with a budget.
+  - name: ''
+    description: The notification associated with a budget.
     types:
     - uid: Notification
-    name: ''
 - name: ErrorDetails
   description: The details of the error.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: code
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
-    name: code
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-    name: message
 - name: Notification
   description: The notification associated with a budget.
   kind: object
   properties:
-  - description: The notification is enabled or not.
+  - name: enabled
+    description: The notification is enabled or not.
     types:
     - uid: boolean
-    name: enabled
-  - description: The comparison operator.
+  - name: operator
+    description: The comparison operator.
     types:
     - uid: OperatorType
-    name: operator
-  - description: Threshold value associated with a notification. Notification is sent when the cost exceeded the threshold. It is always percent and has to be between 0 and 1000.
+  - name: threshold
+    description: Threshold value associated with a notification. Notification is sent when the cost exceeded the threshold. It is always percent and has to be between 0 and 1000.
     types:
     - uid: number
-    name: threshold
-  - description: Email addresses to send the budget notification to when the threshold is exceeded.
+  - name: contactEmails
+    description: Email addresses to send the budget notification to when the threshold is exceeded.
     types:
-    - isArray: true
-      uid: string
-    name: contactEmails
-  - description: Contact roles to send the budget notification to when the threshold is exceeded.
+    - uid: string
+      isArray: true
+  - name: contactRoles
+    description: Contact roles to send the budget notification to when the threshold is exceeded.
     types:
-    - isArray: true
-      uid: string
-    name: contactRoles
+    - uid: string
+      isArray: true
 - name: OperatorType
   description: The comparison operator.
   kind: enum
   properties:
-  - types:
+  - name: EqualTo
+    types:
     - uid: string
-    name: EqualTo
-  - types:
+  - name: GreaterThan
+    types:
     - uid: string
-    name: GreaterThan
-  - types:
+  - name: GreaterThanOrEqualTo
+    types:
     - uid: string
-    name: GreaterThanOrEqualTo
 examples:
-- request:
+- name: Budget
+  request:
     uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Consumption/budgets/TestBudget?api-version=2017-12-30-preview
   responses:
   - statusCode: "200"
@@ -246,14 +249,11 @@ examples:
           }
         }
       }
-  name: Budget
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Get
-uid: management.azure.com.consumption.budgets-preview.get
+  - name: user_impersonation
+    description: impersonate your user account

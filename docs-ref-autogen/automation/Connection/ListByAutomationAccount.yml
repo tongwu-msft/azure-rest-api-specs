@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Retrieve a list of connections.
+uid: management.azure.com.automation.connection.listbyautomationaccount
+name: List By Automation Account
 service: Automation
-apiVersion: 2015-10-31
 groupName: Connection
+apiVersion: 2015-10-31
+summary: Retrieve a list of connections.
 consumes:
 - application/json
 produces:
@@ -10,118 +12,119 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections?api-version=2015-10-31
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The resource group name.
   types:
   - uid: string
   pattern: ^[-\w\._]+$
-  name: resourceGroupName
-- in: path
+- name: automationAccountName
+  in: path
   isRequired: true
   description: The automation account name.
   types:
   - uid: string
-  name: automationAccountName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client Api Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK
+- name: 200 OK
+  description: OK
   types:
   - uid: ConnectionListResult
-  name: 200 OK
-- description: Automation error response describing why the operation failed.
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: ConnectionListResult
   description: The response model for the list connection operation.
   kind: object
   properties:
-  - description: Definition of the connection.
+  - name: value
+    description: Definition of the connection.
     types:
-    - isArray: true
-      uid: Connection
-    name: value
-  - description: Gets or sets the next link.
+    - uid: Connection
+      isArray: true
+  - name: nextLink
+    description: Gets or sets the next link.
     types:
     - uid: string
-    name: nextLink
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
   properties:
-  - description: Error code
+  - name: code
+    description: Error code
     types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
-    name: message
 - name: Connection
   description: Definition of the connection.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Gets the id of the resource.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Gets the name of the connection.
     types:
     - uid: string
-    name: name
-  - description: Gets or sets the connectionType of the connection.
+  - name: properties.connectionType
+    description: Gets or sets the connectionType of the connection.
     types:
     - uid: ConnectionTypeAssociationProperty
-    name: properties.connectionType
-  - isReadyOnly: true
+  - name: properties.fieldDefinitionValues
+    isReadyOnly: true
     description: Gets the field definition values of the connection.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: properties.fieldDefinitionValues
-  - isReadyOnly: true
+  - name: properties.creationTime
+    isReadyOnly: true
     description: Gets the creation time.
     types:
     - uid: string
-    name: properties.creationTime
-  - isReadyOnly: true
+  - name: properties.lastModifiedTime
+    isReadyOnly: true
     description: Gets the last modified time.
     types:
     - uid: string
-    name: properties.lastModifiedTime
-  - description: Gets or sets the description.
+  - name: properties.description
+    description: Gets or sets the description.
     types:
     - uid: string
-    name: properties.description
 - name: ConnectionTypeAssociationProperty
   description: The connection type property associated with the entity.
   kind: object
   properties:
-  - description: Gets or sets the name of the connection type.
+  - name: name
+    description: Gets or sets the name of the connection type.
     types:
     - uid: string
-    name: name
 examples:
-- request:
+- name: List connections by automation account, first 100
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount28/connections?api-version=2015-10-31
   responses:
   - statusCode: "200"
@@ -1431,8 +1434,8 @@ examples:
         ],
         "nextLink": "https://management.azure.com:443/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount28/connections?api-version=2015-10-31&$skip=100"
       }
-  name: List connections by automation account, first 100
-- request:
+- name: List connections by automation account, next 100
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount28/connections?api-version=2015-10-31
   responses:
   - statusCode: "200"
@@ -2442,14 +2445,11 @@ examples:
           }
         ]
       }
-  name: List connections by automation account, next 100
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List By Automation Account
-uid: management.azure.com.automation.connection.listbyautomationaccount
+  - name: user_impersonation
+    description: impersonate your user account

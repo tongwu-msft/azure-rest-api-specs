@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets a list of virtual network rules in a server.
+uid: management.azure.com.postgresql.virtualnetworkrules.listbyserver
+name: List By Server
 service: PostgreSQL
-apiVersion: 2017-04-30-preview
 groupName: Virtual Network Rules
+apiVersion: 2017-04-30-preview
+summary: Gets a list of virtual network rules in a server.
 consumes:
 - application/json
 produces:
@@ -10,112 +12,113 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/virtualNetworkRules?api-version=2017-04-30-preview
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription ID that identifies an Azure subscription.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serverName
+  in: path
   isRequired: true
   description: The name of the server.
   types:
   - uid: string
-  name: serverName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version to use for the request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Successfully retrieved the list of virtual network rules.
+- name: 200 OK
+  description: Successfully retrieved the list of virtual network rules.
   types:
   - uid: VirtualNetworkRuleListResult
-  name: 200 OK
-- description: >-
+- name: Other Status Codes
+  description: >-
     *** Error Responses: ***
 
      * 404 SubscriptionDoesNotHaveServer - The requested server was not found
 
      * 404 ResourceNotFound - The requested resource was not found.
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: VirtualNetworkRuleListResult
   description: A list of virtual network rules.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: value
+    isReadyOnly: true
     description: A virtual network rule.
     types:
-    - isArray: true
-      uid: VirtualNetworkRule
-    name: value
-  - isReadyOnly: true
+    - uid: VirtualNetworkRule
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
     description: Link to retrieve next page of results.
     types:
     - uid: string
-    name: nextLink
 - name: VirtualNetworkRule
   description: A virtual network rule.
   kind: object
   properties:
-  - description: The ARM resource id of the virtual network subnet.
+  - name: properties.virtualNetworkSubnetId
+    description: The ARM resource id of the virtual network subnet.
     types:
     - uid: string
-    name: properties.virtualNetworkSubnetId
-  - description: Create firewall rule before the virtual network has vnet service endpoint enabled.
+  - name: properties.ignoreMissingVnetServiceEndpoint
+    description: Create firewall rule before the virtual network has vnet service endpoint enabled.
     types:
     - uid: boolean
-    name: properties.ignoreMissingVnetServiceEndpoint
-  - isReadyOnly: true
+  - name: properties.state
+    isReadyOnly: true
     description: Virtual Network Rule State
     types:
     - uid: VirtualNetworkRuleState
-    name: properties.state
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type.
     types:
     - uid: string
-    name: type
 - name: VirtualNetworkRuleState
   description: Virtual Network Rule State
   kind: enum
   properties:
-  - types:
+  - name: Initializing
+    types:
     - uid: string
-    name: Initializing
-  - types:
+  - name: InProgress
+    types:
     - uid: string
-    name: InProgress
-  - types:
+  - name: Ready
+    types:
     - uid: string
-    name: Ready
-  - types:
+  - name: Deleting
+    types:
     - uid: string
-    name: Deleting
-  - types:
+  - name: Unknown
+    types:
     - uid: string
-    name: Unknown
 examples:
-- request:
+- name: List virtual network rules
+  request:
     uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforPostgreSQL/servers/vnet-test-svr/virtualNetworkRules?api-version=2017-04-30-preview
   responses:
   - statusCode: "200"
@@ -144,14 +147,11 @@ examples:
           }
         ]
       }
-  name: List virtual network rules
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List By Server
-uid: management.azure.com.postgresql.virtualnetworkrules.listbyserver
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists all the replications for the specified container registry.
+uid: management.azure.com.containerregistry.replications.list
+name: List
 service: Container Registry
-apiVersion: 2017-10-01
 groupName: Replications
+apiVersion: 2017-10-01
+summary: Lists all the replications for the specified container registry.
 consumes:
 - application/json
 produces:
@@ -10,135 +12,136 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications?api-version=2017-10-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The Microsoft Azure subscription ID.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group to which the container registry belongs.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: registryName
+  in: path
   isRequired: true
   description: The name of the container registry.
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9]*$
-  name: registryName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The client API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: The request was successful; the request was well-formed and received properly.
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
   types:
   - uid: ReplicationListResult
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: ReplicationListResult
   description: The result of a request to list replications for a container registry.
   kind: object
   properties:
-  - description: An object that represents a replication for a container registry.
+  - name: value
+    description: An object that represents a replication for a container registry.
     types:
-    - isArray: true
-      uid: Replication
-    name: value
-  - description: The URI that can be used to request the next list of replications.
+    - uid: Replication
+      isArray: true
+  - name: nextLink
+    description: The URI that can be used to request the next list of replications.
     types:
     - uid: string
-    name: nextLink
 - name: Replication
   description: An object that represents a replication for a container registry.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: properties.provisioningState
+    isReadyOnly: true
     description: The provisioning state of the replication at the time the operation was called.
     types:
     - uid: ProvisioningState
-    name: properties.provisioningState
-  - isReadyOnly: true
+  - name: properties.status
+    isReadyOnly: true
     description: The status of the replication at the time the operation was called.
     types:
     - uid: Status
-    name: properties.status
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: The resource ID.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: The name of the resource.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: The type of the resource.
     types:
     - uid: string
-    name: type
-  - description: The location of the resource. This cannot be changed after the resource is created.
+  - name: location
+    description: The location of the resource. This cannot be changed after the resource is created.
     types:
     - uid: string
-    name: location
-  - description: The tags of the resource.
+  - name: tags
+    description: The tags of the resource.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 - name: ProvisioningState
   description: The provisioning state of the container registry at the time the operation was called.
   kind: enum
   properties:
-  - types:
+  - name: Creating
+    types:
     - uid: string
-    name: Creating
-  - types:
+  - name: Updating
+    types:
     - uid: string
-    name: Updating
-  - types:
+  - name: Deleting
+    types:
     - uid: string
-    name: Deleting
-  - types:
+  - name: Succeeded
+    types:
     - uid: string
-    name: Succeeded
-  - types:
+  - name: Failed
+    types:
     - uid: string
-    name: Failed
-  - types:
+  - name: Canceled
+    types:
     - uid: string
-    name: Canceled
 - name: Status
   description: The status of the container registry at the time the operation was called.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: displayStatus
+    isReadyOnly: true
     description: The short label for the status.
     types:
     - uid: string
-    name: displayStatus
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: The detailed message for the status, including alerts and error messages.
     types:
     - uid: string
-    name: message
-  - isReadyOnly: true
+  - name: timestamp
+    isReadyOnly: true
     description: The timestamp when the status was changed to the current value.
     types:
     - uid: string
-    name: timestamp
 examples:
-- request:
+- name: ReplicationList
+  request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/replications?api-version=2017-10-01
   responses:
   - statusCode: "200"
@@ -164,14 +167,11 @@ examples:
           }
         ]
       }
-  name: ReplicationList
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List
-uid: management.azure.com.containerregistry.replications.list
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets the Batch service quotas for the specified subscription at the given location.
+uid: management.azure.com.batchmanagement.location.getquotas
+name: Get Quotas
 service: Batch Management
-apiVersion: 2017-09-01
 groupName: Location
+apiVersion: 2017-09-01
+summary: Gets the Batch service quotas for the specified subscription at the given location.
 consumes:
 - application/json
 produces:
@@ -10,75 +12,76 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/quotas?api-version=2017-09-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: locationName
+  in: path
   isRequired: true
   description: The region for which to retrieve Batch service quotas.
   types:
   - uid: string
-  name: locationName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version to be used with the HTTP request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: The operation was successful. The response contains the Batch service quotas for the subscription in the specified location.
+- name: 200 OK
+  description: The operation was successful. The response contains the Batch service quotas for the subscription in the specified location.
   types:
   - uid: BatchLocationQuota
-  name: 200 OK
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: BatchLocationQuota
   description: Quotas associated with a Batch region for a particular subscription.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: accountQuota
+    isReadyOnly: true
     description: The number of Batch accounts that may be created under the subscription in the specified region.
     types:
     - uid: integer
-    name: accountQuota
 - name: CloudError
   description: An error response from the Batch service.
   kind: object
   properties:
-  - description: An error response from the Batch service.
+  - name: error
+    description: An error response from the Batch service.
     types:
     - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
-    name: message
-  - description: The target of the particular error. For example, the name of the property in error.
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
     types:
     - uid: string
-    name: target
-  - description: A list of additional details about the error.
+  - name: details
+    description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: CloudErrorBody
-    name: details
+    - uid: CloudErrorBody
+      isArray: true
 examples:
-- request:
+- name: LocationGetQuotas
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/locations/japaneast/quotas?api-version=2017-09-01
   responses:
   - statusCode: "200"
@@ -86,14 +89,11 @@ examples:
       {
         "accountQuota": 1
       }
-  name: LocationGetQuotas
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Get Quotas
-uid: management.azure.com.batchmanagement.location.getquotas
+  - name: user_impersonation
+    description: impersonate your user account

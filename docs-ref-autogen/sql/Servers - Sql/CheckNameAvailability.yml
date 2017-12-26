@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Determines whether a resource can be created with the specified name.
+uid: management.azure.com.sqldatabase.servers-sql.checknameavailability
+name: Check Name Availability
 service: SQL Database
-apiVersion: 2014-04-01
 groupName: Servers - Sql
+apiVersion: 2014-04-01
+summary: Determines whether a resource can be created with the specified name.
 consumes:
 - application/json
 produces:
@@ -10,94 +12,95 @@ produces:
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Sql/checkNameAvailability?api-version=2014-04-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription ID that identifies an Azure subscription.
   types:
   - uid: string
-  name: subscriptionId
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version to use for the request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK
+- name: 200 OK
+  description: OK
   types:
   - uid: CheckNameAvailabilityResponse
-  name: 200 OK
 requestBody:
 - parameters:
-  - in: body
+  - name: name
+    in: body
     isRequired: true
     description: The name whose availability is to be checked.
     types:
     - uid: string
-    name: name
-  - in: body
+  - name: type
+    in: body
     isRequired: true
     description: The type of resource that is used as the scope of the availability check.
     types:
     - uid: CheckNameAvailabilityResourceType
-    name: type
 requestHeader: []
 definitions:
 - name: CheckNameAvailabilityResponse
   description: A response indicating whether the specified name for a resource is available.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: available
+    isReadyOnly: true
     description: True if the name is available, otherwise false.
     types:
     - uid: boolean
-    name: available
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: A message explaining why the name is unavailable. Will be null if the name is available.
     types:
     - uid: string
-    name: message
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: The name whose availability was checked.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: reason
+    isReadyOnly: true
     description: The reason code explaining why the name is unavailable. Will be null if the name is available.
     types:
     - uid: CheckNameAvailabilityReason
-    name: reason
 - name: CheckNameAvailabilityRequest
   description: A request to check whether the specified name for a resource is available.
   kind: object
   properties:
-  - description: The name whose availability is to be checked.
+  - name: name
+    description: The name whose availability is to be checked.
     types:
     - uid: string
-    name: name
-  - description: The type of resource that is used as the scope of the availability check.
+  - name: type
+    description: The type of resource that is used as the scope of the availability check.
     types:
     - uid: CheckNameAvailabilityResourceType
-    name: type
 - name: CheckNameAvailabilityReason
   description: The reason code explaining why the name is unavailable. Will be null if the name is available.
   kind: enum
   properties:
-  - types:
+  - name: Invalid
+    types:
     - uid: string
-    name: Invalid
-  - types:
+  - name: AlreadyExists
+    types:
     - uid: string
-    name: AlreadyExists
 - name: CheckNameAvailabilityResourceType
   description: The type of resource that is used as the scope of the availability check.
   kind: enum
   properties:
-  - types:
+  - name: Microsoft.Sql/servers
+    types:
     - uid: string
-    name: Microsoft.Sql/servers
 examples:
-- request:
+- name: Check for a server name that is available
+  request:
     uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/checkNameAvailability?api-version=2014-04-01
     body: >-
       {
@@ -113,8 +116,8 @@ examples:
         "reason": null,
         "message": null
       }
-  name: Check for a server name that is available
-- request:
+- name: Check for a server name that already exists
+  request:
     uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/checkNameAvailability?api-version=2014-04-01
     body: >-
       {
@@ -130,8 +133,8 @@ examples:
         "reason": "AlreadyExists",
         "message": "Specified server name is already used"
       }
-  name: Check for a server name that already exists
-- request:
+- name: Check for a server name that is invalid
+  request:
     uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/checkNameAvailability?api-version=2014-04-01
     body: >-
       {
@@ -147,7 +150,4 @@ examples:
         "reason": "Invalid",
         "message": "Specified server name contains unsupported characters or is too long. Server name must be no longer than 63 characters long, contain only lower-case characters or digits, cannot contain '.' or '_' characters and can't start or end with '-' character."
       }
-  name: Check for a server name that is invalid
 security: []
-name: Check Name Availability
-uid: management.azure.com.sqldatabase.servers-sql.checknameavailability

@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Updates settings for the specified application.
+uid: management.azure.com.batchmanagement.application.update
+name: Update
 service: Batch Management
-apiVersion: 2017-09-01
 groupName: Application
+apiVersion: 2017-09-01
+summary: Updates settings for the specified application.
 consumes:
 - application/json
 produces:
@@ -10,110 +12,111 @@ produces:
 paths:
 - content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}?api-version=2017-09-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group that contains the Batch account.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: accountName
+  in: path
   isRequired: true
   description: The name of the Batch account.
   types:
   - uid: string
   pattern: ^[-\w\._]+$
-  name: accountName
-- in: path
+- name: applicationId
+  in: path
   isRequired: true
   description: The ID of the application.
   types:
   - uid: string
-  name: applicationId
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version to be used with the HTTP request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: The operation was successful.
-  name: 204 No Content
-- description: Error response describing why the operation failed.
+- name: 204 No Content
+  description: The operation was successful.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: allowUpdates
+    in: body
     description: A value indicating whether packages within the application may be overwritten using the same version string.
     types:
     - uid: boolean
-    name: allowUpdates
-  - in: body
+  - name: defaultVersion
+    in: body
     description: The package to use if a client requests the application but does not specify a version.
     types:
     - uid: string
-    name: defaultVersion
-  - in: body
+  - name: displayName
+    in: body
     description: The display name for the application.
     types:
     - uid: string
-    name: displayName
 requestHeader: []
 definitions:
 - name: CloudError
   description: An error response from the Batch service.
   kind: object
   properties:
-  - description: An error response from the Batch service.
+  - name: error
+    description: An error response from the Batch service.
     types:
     - uid: CloudErrorBody
-    name: error
 - name: ApplicationUpdateParameters
   description: Parameters for an update application request.
   kind: object
   properties:
-  - description: A value indicating whether packages within the application may be overwritten using the same version string.
+  - name: allowUpdates
+    description: A value indicating whether packages within the application may be overwritten using the same version string.
     types:
     - uid: boolean
-    name: allowUpdates
-  - description: The package to use if a client requests the application but does not specify a version.
+  - name: defaultVersion
+    description: The package to use if a client requests the application but does not specify a version.
     types:
     - uid: string
-    name: defaultVersion
-  - description: The display name for the application.
+  - name: displayName
+    description: The display name for the application.
     types:
     - uid: string
-    name: displayName
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
-    name: message
-  - description: The target of the particular error. For example, the name of the property in error.
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
     types:
     - uid: string
-    name: target
-  - description: A list of additional details about the error.
+  - name: details
+    description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: CloudErrorBody
-    name: details
+    - uid: CloudErrorBody
+      isArray: true
 examples:
-- request:
+- name: ApplicationUpdate
+  request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications/app1?api-version=2017-09-01
     body: >-
       {
@@ -123,14 +126,11 @@ examples:
       }
   responses:
   - statusCode: "204"
-  name: ApplicationUpdate
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Update
-uid: management.azure.com.batchmanagement.application.update
+  - name: user_impersonation
+    description: impersonate your user account

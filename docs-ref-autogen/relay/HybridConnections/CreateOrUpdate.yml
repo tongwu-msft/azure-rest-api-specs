@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Creates or updates a service hybrid connection. This operation is idempotent.
+uid: management.azure.com.relay.hybridconnections.createorupdate
+name: Create Or Update
 service: Relay
-apiVersion: 2017-04-01
 groupName: Hybrid Connections
+apiVersion: 2017-04-01
+summary: Creates or updates a service hybrid connection. This operation is idempotent.
 consumes:
 - application/json
 produces:
@@ -10,115 +12,116 @@ produces:
 paths:
 - content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}?api-version=2017-04-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: Name of the Resource group within the Azure subscription.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: namespaceName
+  in: path
   isRequired: true
   description: The namespace name
   types:
   - uid: string
-  name: namespaceName
-- in: path
+- name: hybridConnectionName
+  in: path
   isRequired: true
   description: The hybrid connection name.
   types:
   - uid: string
-  name: hybridConnectionName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Request to create hybrid connections succeeded.
+- name: 200 OK
+  description: Request to create hybrid connections succeeded.
   types:
   - uid: HybridConnection
-  name: 200 OK
-- description: Relay error response describing why the operation failed.
+- name: Other Status Codes
+  description: Relay error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: properties.requiresClientAuthorization
+    in: body
     description: Returns true if client authorization is needed for this hybrid connection; otherwise, false.
     types:
     - uid: boolean
-    name: properties.requiresClientAuthorization
-  - in: body
+  - name: properties.userMetadata
+    in: body
     description: The usermetadata is a placeholder to store user-defined string data for the hybrid connection endpoint. For example, it can be used to store descriptive data, such as a list of teams and their contact information. Also, user-defined configuration settings can be stored.
     types:
     - uid: string
-    name: properties.userMetadata
 requestHeader: []
 definitions:
 - name: HybridConnection
   description: Result of the list hybrid connections.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: properties.createdAt
+    isReadyOnly: true
     description: The time the hybrid connection was created.
     types:
     - uid: string
-    name: properties.createdAt
-  - isReadyOnly: true
+  - name: properties.updatedAt
+    isReadyOnly: true
     description: The time the namespace was updated.
     types:
     - uid: string
-    name: properties.updatedAt
-  - isReadyOnly: true
+  - name: properties.listenerCount
+    isReadyOnly: true
     description: 'The number of listeners for this hybrid connection. Note that min : 1 and max:25 are supported.'
     types:
     - uid: integer
-    name: properties.listenerCount
-  - description: Returns true if client authorization is needed for this hybrid connection; otherwise, false.
+  - name: properties.requiresClientAuthorization
+    description: Returns true if client authorization is needed for this hybrid connection; otherwise, false.
     types:
     - uid: boolean
-    name: properties.requiresClientAuthorization
-  - description: The usermetadata is a placeholder to store user-defined string data for the hybrid connection endpoint. For example, it can be used to store descriptive data, such as a list of teams and their contact information. Also, user-defined configuration settings can be stored.
+  - name: properties.userMetadata
+    description: The usermetadata is a placeholder to store user-defined string data for the hybrid connection endpoint. For example, it can be used to store descriptive data, such as a list of teams and their contact information. Also, user-defined configuration settings can be stored.
     types:
     - uid: string
-    name: properties.userMetadata
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type.
     types:
     - uid: string
-    name: type
 - name: ErrorResponse
   description: Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
-  - description: Error code.
+  - name: code
+    description: Error code.
     types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
-    name: message
 examples:
-- request:
+- name: RelayHybridConnectionCreate
+  request:
     uri: PUT https://management.azure.com/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01/hybridConnections/sdk-Relay-Hybrid-01?api-version=2017-04-01
     body: >-
       {
@@ -139,14 +142,11 @@ examples:
           "requiresClientAuthorization": true
         }
       }
-  name: RelayHybridConnectionCreate
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Create Or Update
-uid: management.azure.com.relay.hybridconnections.createorupdate
+  - name: user_impersonation
+    description: impersonate your user account

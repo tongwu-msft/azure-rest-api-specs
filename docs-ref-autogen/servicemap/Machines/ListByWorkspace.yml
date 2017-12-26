@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Returns a collection of machines matching the specified conditions.  The returned collection represents either machines that are active/live during the specified interval  of time (`live=true` and `startTime`/`endTime` are specified) or that are known to have existed at or  some time prior to the specified point in time (`live=false` and `timestamp` is specified).
+uid: management.azure.com.servicemap.machines.listbyworkspace
+name: List By Workspace
 service: Service Map
-apiVersion: 2015-11-01-preview
 groupName: Machines
+apiVersion: 2015-11-01-preview
+summary: Returns a collection of machines matching the specified conditions.  The returned collection represents either machines that are active/live during the specified interval  of time (`live=true` and `startTime`/`endTime` are specified) or that are known to have existed at or  some time prior to the specified point in time (`live=false` and `timestamp` is specified).
 consumes:
 - application/json
 produces:
@@ -12,455 +14,455 @@ paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machines?api-version=2015-11-01-preview&live={live}&startTime={startTime}&endTime={endTime}&timestamp={timestamp}&$top={$top}
   isOptional: true
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Azure subscription identifier.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: Resource group name within the specified subscriptionId.
   types:
   - uid: string
   pattern: '[a-zA-Z0-9_-]+'
-  name: resourceGroupName
-- in: path
+- name: workspaceName
+  in: path
   isRequired: true
   description: OMS workspace containing the resources of interest.
   types:
   - uid: string
   pattern: '[a-zA-Z0-9_][a-zA-Z0-9_-]+[a-zA-Z0-9_]'
-  name: workspaceName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: API version.
   types:
   - uid: string
-  name: api-version
-- in: query
+- name: live
+  in: query
   description: Specifies whether to return live resources (true) or inventory resources (false). Defaults to **true**. When retrieving live resources, the start time (`startTime`) and end time (`endTime`) of the desired interval should be included. When retrieving inventory resources, an optional timestamp (`timestamp`) parameter can be specified to return the version of each resource closest (not-after) that timestamp.
   types:
   - uid: boolean
-  name: live
-- in: query
+- name: startTime
+  in: query
   description: UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m
   types:
   - uid: string
   format: date-time
-  name: startTime
-- in: query
+- name: endTime
+  in: query
   description: UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow
   types:
   - uid: string
   format: date-time
-  name: endTime
-- in: query
+- name: timestamp
+  in: query
   description: UTC date and time specifying a time instance relative to which to evaluate each machine resource. Only applies when `live=false`. When not specified, the service uses DateTime.UtcNow.
   types:
   - uid: string
   format: date-time
-  name: timestamp
-- in: query
+- name: $top
+  in: query
   description: Page size to use. When not specified, the default page size is 100 records.
   types:
   - uid: integer
   format: int32
-  name: $top
 responses:
-- description: The operation completed successfully.
+- name: 200 OK
+  description: The operation completed successfully.
   types:
   - uid: MachineCollection
-  name: 200 OK
-- description: An error occurred while processing the request. See the error.code parameter to identify the specific error.
+- name: Other Status Codes
+  description: An error occurred while processing the request. See the error.code parameter to identify the specific error.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: MachineCollection
   description: Collection of Machine resources.
   kind: object
   properties:
-  - description: A machine resource represents a discovered computer system. It can be *monitored*, i.e., a Dependency Agent is running on it, or *discovered*, i.e., its existence was inferred by observing the data stream from monitored machines. As machines change, prior versions of the machine resource are preserved and available for access. A machine is live during an interval of time, if either its Dependency Agent has reported data during (parts) of that interval, or a Dependency agent running on other machines has reported activity associated with the machine.
+  - name: value
+    description: A machine resource represents a discovered computer system. It can be *monitored*, i.e., a Dependency Agent is running on it, or *discovered*, i.e., its existence was inferred by observing the data stream from monitored machines. As machines change, prior versions of the machine resource are preserved and available for access. A machine is live during an interval of time, if either its Dependency Agent has reported data during (parts) of that interval, or a Dependency agent running on other machines has reported activity associated with the machine.
     types:
-    - isArray: true
-      uid: Machine
-    name: value
-  - description: The URL to the next set of resources.
+    - uid: Machine
+      isArray: true
+  - name: nextLink
+    description: The URL to the next set of resources.
     types:
     - uid: string
-    name: nextLink
 - name: ErrorResponse
   description: An error response from the API.
   kind: object
   properties:
-  - description: Error information.
+  - name: error
+    description: Error information.
     types:
     - uid: Error
-    name: error
 - name: Machine
   description: A machine resource represents a discovered computer system. It can be *monitored*, i.e., a Dependency Agent is running on it, or *discovered*, i.e., its existence was inferred by observing the data stream from monitored machines. As machines change, prior versions of the machine resource are preserved and available for access. A machine is live during an interval of time, if either its Dependency Agent has reported data during (parts) of that interval, or a Dependency agent running on other machines has reported activity associated with the machine.
   kind: object
   properties:
-  - description: UTC date and time when this resource was updated in the system.
+  - name: properties.timestamp
+    description: UTC date and time when this resource was updated in the system.
     types:
     - uid: string
-    name: properties.timestamp
-  - description: Specifies whether the machine is actively monitored or discovered.
+  - name: properties.monitoringState
+    description: Specifies whether the machine is actively monitored or discovered.
     types:
     - uid: MonitoringState
-    name: properties.monitoringState
-  - description: Specifies whether the machine is virtualized.
+  - name: properties.virtualizationState
+    description: Specifies whether the machine is virtualized.
     types:
     - uid: VirtualizationState
-    name: properties.virtualizationState
-  - description: Name to use for display purposes
+  - name: properties.displayName
+    description: Name to use for display purposes
     types:
     - uid: string
-    name: properties.displayName
-  - description: Name of the machine, e.g., server
+  - name: properties.computerName
+    description: Name of the machine, e.g., server
     types:
     - uid: string
-    name: properties.computerName
-  - description: Fully-qualified name of the machine, e.g., server.company.com
+  - name: properties.fullyQualifiedDomainName
+    description: Fully-qualified name of the machine, e.g., server.company.com
     types:
     - uid: string
-    name: properties.fullyQualifiedDomainName
-  - description: UTC date and time when the machine last booted
+  - name: properties.bootTime
+    description: UTC date and time when the machine last booted
     types:
     - uid: string
-    name: properties.bootTime
-  - description: Timezone of the machine.
+  - name: properties.timezone
+    description: Timezone of the machine.
     types:
     - uid: Timezone
-    name: properties.timezone
-  - description: Dependency Agent configuration.
+  - name: properties.agent
+    description: Dependency Agent configuration.
     types:
     - uid: AgentConfiguration
-    name: properties.agent
-  - description: Machine resources (memory, cpu, etc.).
+  - name: properties.resources
+    description: Machine resources (memory, cpu, etc.).
     types:
     - uid: MachineResourcesConfiguration
-    name: properties.resources
-  - description: Network configuration (ips, gateways, dns, etc.)
+  - name: properties.networking
+    description: Network configuration (ips, gateways, dns, etc.)
     types:
     - uid: NetworkConfiguration
-    name: properties.networking
-  - description: Operating system information.
+  - name: properties.operatingSystem
+    description: Operating system information.
     types:
     - uid: OperatingSystemConfiguration
-    name: properties.operatingSystem
-  - description: Virtualization-related configuration. Present only when `virtualizationState` is `virtual`.
+  - name: properties.virtualMachine
+    description: Virtualization-related configuration. Present only when `virtualizationState` is `virtual`.
     types:
     - uid: VirtualMachineConfiguration
-    name: properties.virtualMachine
-  - description: Hypervisor-related configuration. Present only when 'virtualizationState' is `hypervisor`.
+  - name: properties.hypervisor
+    description: Hypervisor-related configuration. Present only when 'virtualizationState' is `hypervisor`.
     types:
     - uid: HypervisorConfiguration
-    name: properties.hypervisor
-  - description: Resource ETAG.
+  - name: etag
+    description: Resource ETAG.
     types:
     - uid: string
-    name: etag
-  - description: Additional resource type qualifier.
+  - name: kind
+    description: Additional resource type qualifier.
     types:
     - uid: machine
     typesTitle: string
-    name: kind
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource identifier.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type.
     types:
     - uid: string
-    name: type
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
 - name: Error
   description: Error information.
   kind: object
   properties:
-  - description: Error code identifying the specific error.
+  - name: code
+    description: Error code identifying the specific error.
     types:
     - uid: string
-    name: code
-  - description: Error message in the caller's locale.
+  - name: message
+    description: Error message in the caller's locale.
     types:
     - uid: string
-    name: message
 - name: MonitoringState
   description: Specifies whether the machine is actively monitored or discovered.
   kind: enum
   properties:
-  - types:
+  - name: monitored
+    types:
     - uid: string
-    name: monitored
-  - types:
+  - name: discovered
+    types:
     - uid: string
-    name: discovered
 - name: VirtualizationState
   description: Specifies whether the machine is virtualized.
   kind: enum
   properties:
-  - types:
+  - name: unknown
+    types:
     - uid: string
-    name: unknown
-  - types:
+  - name: physical
+    types:
     - uid: string
-    name: physical
-  - types:
+  - name: virtual
+    types:
     - uid: string
-    name: virtual
-  - types:
+  - name: hypervisor
+    types:
     - uid: string
-    name: hypervisor
 - name: Timezone
   description: Timezone of the machine.
   kind: object
   properties:
-  - description: Timezone full name.
+  - name: fullName
+    description: Timezone full name.
     types:
     - uid: string
-    name: fullName
 - name: AgentConfiguration
   description: Dependency Agent configuration.
   kind: object
   properties:
-  - description: Health Service Agent unique identifier.
+  - name: agentId
+    description: Health Service Agent unique identifier.
     types:
     - uid: string
-    name: agentId
-  - description: Dependency Agent unique identifier.
+  - name: dependencyAgentId
+    description: Dependency Agent unique identifier.
     types:
     - uid: string
-    name: dependencyAgentId
-  - description: Dependency Agent version number.
+  - name: dependencyAgentVersion
+    description: Dependency Agent version number.
     types:
     - uid: string
-    name: dependencyAgentVersion
-  - description: Dependency Agent revision number.
+  - name: dependencyAgentRevision
+    description: Dependency Agent revision number.
     types:
     - uid: string
-    name: dependencyAgentRevision
-  - description: Specifies whether the machine has been rebooted since the Dependency Agent installation.
+  - name: rebootStatus
+    description: Specifies whether the machine has been rebooted since the Dependency Agent installation.
     types:
     - uid: MachineRebootStatus
-    name: rebootStatus
-  - description: Machine clock granularity in milliseconds.
+  - name: clockGranularity
+    description: Machine clock granularity in milliseconds.
     types:
     - uid: integer
-    name: clockGranularity
 - name: MachineResourcesConfiguration
   description: Machine resources (memory, cpu, etc.).
   kind: object
   properties:
-  - description: Physical memory in megabytes (MB).
+  - name: physicalMemory
+    description: Physical memory in megabytes (MB).
     types:
     - uid: integer
-    name: physicalMemory
-  - description: Number of CPUs.
+  - name: cpus
+    description: Number of CPUs.
     types:
     - uid: integer
-    name: cpus
-  - description: CPU speed in megahertz (Mhz).
+  - name: cpuSpeed
+    description: CPU speed in megahertz (Mhz).
     types:
     - uid: integer
-    name: cpuSpeed
-  - description: Describes the accuracy of the cpuSpeed field.
+  - name: cpuSpeedAccuracy
+    description: Describes the accuracy of the cpuSpeed field.
     types:
     - uid: Accuracy
-    name: cpuSpeedAccuracy
 - name: NetworkConfiguration
   description: Network configuration (ips, gateways, dns, etc.)
   kind: object
   properties:
-  - description: Describes an IPv4 network interface.
+  - name: ipv4Interfaces
+    description: Describes an IPv4 network interface.
     types:
-    - isArray: true
-      uid: Ipv4NetworkInterface
-    name: ipv4Interfaces
-  - description: Describes an IPv6 network interface.
+    - uid: Ipv4NetworkInterface
+      isArray: true
+  - name: ipv6Interfaces
+    description: Describes an IPv6 network interface.
     types:
-    - isArray: true
-      uid: Ipv6NetworkInterface
-    name: ipv6Interfaces
-  - description: IPv4 address.
+    - uid: Ipv6NetworkInterface
+      isArray: true
+  - name: defaultIpv4Gateways
+    description: IPv4 address.
     types:
-    - isArray: true
-      uid: string
-    name: defaultIpv4Gateways
-  - description: MAC address.
+    - uid: string
+      isArray: true
+  - name: macAddresses
+    description: MAC address.
     types:
-    - isArray: true
-      uid: string
-    name: macAddresses
-  - description: DNS name.
+    - uid: string
+      isArray: true
+  - name: dnsNames
+    description: DNS name.
     types:
-    - isArray: true
-      uid: string
-    name: dnsNames
+    - uid: string
+      isArray: true
 - name: OperatingSystemConfiguration
   description: Operating system information.
   kind: object
   properties:
-  - description: Windows, Linux, etc.
+  - name: family
+    description: Windows, Linux, etc.
     types:
     - uid: OperatingSystemFamily
-    name: family
-  - description: Operating system full name.
+  - name: fullName
+    description: Operating system full name.
     types:
     - uid: string
-    name: fullName
-  - description: Operating system bitness (32-bit or 64-bit).
+  - name: bitness
+    description: Operating system bitness (32-bit or 64-bit).
     types:
     - uid: Bitness
-    name: bitness
 - name: VirtualMachineConfiguration
   description: Virtualization-related configuration. Present only when `virtualizationState` is `virtual`.
   kind: object
   properties:
-  - description: Specifies the virtualization technology used by the machine (hyperv, vmware, etc.)
+  - name: virtualMachineType
+    description: Specifies the virtualization technology used by the machine (hyperv, vmware, etc.)
     types:
     - uid: VirtualMachineType
-    name: virtualMachineType
-  - description: The unique identifier of the virtual machine as reported by the underlying virtualization sytem.
+  - name: nativeMachineId
+    description: The unique identifier of the virtual machine as reported by the underlying virtualization sytem.
     types:
     - uid: string
-    name: nativeMachineId
-  - description: The Name of the virtual machine.
+  - name: virtualMachineName
+    description: The Name of the virtual machine.
     types:
     - uid: string
-    name: virtualMachineName
-  - description: The unique identifier of the host of this virtual machine as reported by the underlying virtualization system.
+  - name: nativeHostMachineId
+    description: The unique identifier of the host of this virtual machine as reported by the underlying virtualization system.
     types:
     - uid: string
-    name: nativeHostMachineId
 - name: HypervisorConfiguration
   description: Hypervisor-related configuration. Present only when 'virtualizationState' is `hypervisor`.
   kind: object
   properties:
-  - description: Specifies the virtualization technology used by the hypervisor (hyperv, vmware, etc.)
+  - name: hypervisorType
+    description: Specifies the virtualization technology used by the hypervisor (hyperv, vmware, etc.)
     types:
     - uid: HypervisorType
-    name: hypervisorType
-  - description: The unique identifier of the hypervisor machine as reported by the underlying virtualization system.
+  - name: nativeHostMachineId
+    description: The unique identifier of the hypervisor machine as reported by the underlying virtualization system.
     types:
     - uid: string
-    name: nativeHostMachineId
 - name: MachineRebootStatus
   description: Specifies whether the machine has been rebooted since the Dependency Agent installation.
   kind: enum
   properties:
-  - types:
+  - name: unknown
+    types:
     - uid: string
-    name: unknown
-  - types:
+  - name: rebooted
+    types:
     - uid: string
-    name: rebooted
-  - types:
+  - name: notRebooted
+    types:
     - uid: string
-    name: notRebooted
 - name: Accuracy
   description: Describes the accuracy of the cpuSpeed field.
   kind: enum
   properties:
-  - types:
+  - name: actual
+    types:
     - uid: string
-    name: actual
-  - types:
+  - name: estimated
+    types:
     - uid: string
-    name: estimated
 - name: Ipv4NetworkInterface
   description: IPv4 interfaces.
   kind: object
   properties:
-  - description: IPv4 address.
+  - name: ipAddress
+    description: IPv4 address.
     types:
     - uid: string
-    name: ipAddress
-  - description: IPv4 subnet mask.
+  - name: subnetMask
+    description: IPv4 subnet mask.
     types:
     - uid: string
-    name: subnetMask
 - name: Ipv6NetworkInterface
   description: IPv6 interfaces.
   kind: object
   properties:
-  - description: IPv6 address.
+  - name: ipAddress
+    description: IPv6 address.
     types:
     - uid: string
-    name: ipAddress
 - name: OperatingSystemFamily
   description: Last known operating system family.
   kind: enum
   properties:
-  - types:
+  - name: unknown
+    types:
     - uid: string
-    name: unknown
-  - types:
+  - name: windows
+    types:
     - uid: string
-    name: windows
-  - types:
+  - name: linux
+    types:
     - uid: string
-    name: linux
-  - types:
+  - name: solaris
+    types:
     - uid: string
-    name: solaris
-  - types:
+  - name: aix
+    types:
     - uid: string
-    name: aix
 - name: Bitness
   description: Operating system bitness (32-bit or 64-bit).
   kind: enum
   properties:
-  - types:
+  - name: 32bit
+    types:
     - uid: string
-    name: 32bit
-  - types:
+  - name: 64bit
+    types:
     - uid: string
-    name: 64bit
 - name: VirtualMachineType
   description: Specifies the virtualization technology used by the machine (hyperv, vmware, etc.)
   kind: enum
   properties:
-  - types:
+  - name: unknown
+    types:
     - uid: string
-    name: unknown
-  - types:
+  - name: hyperv
+    types:
     - uid: string
-    name: hyperv
-  - types:
+  - name: ldom
+    types:
     - uid: string
-    name: ldom
-  - types:
+  - name: lpar
+    types:
     - uid: string
-    name: lpar
-  - types:
+  - name: vmware
+    types:
     - uid: string
-    name: vmware
-  - types:
+  - name: virtualPc
+    types:
     - uid: string
-    name: virtualPc
-  - types:
+  - name: xen
+    types:
     - uid: string
-    name: xen
 - name: HypervisorType
   description: Specifies the virtualization technology used by the hypervisor (hyperv, vmware, etc.)
   kind: enum
   properties:
-  - types:
+  - name: unknown
+    types:
     - uid: string
-    name: unknown
-  - types:
+  - name: hyperv
+    types:
     - uid: string
-    name: hyperv
 examples: []
 security:
 - type: oauth2
@@ -468,7 +470,5 @@ security:
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List By Workspace
-uid: management.azure.com.servicemap.machines.listbyworkspace
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Returns a raster map tile
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.render.getmapstatictile
+name: Get Map Static Tile
 service: Location Based Services Functional API
-apiVersion: "1.0"
 groupName: Render
+apiVersion: "1.0"
+summary: Returns a raster map tile
 consumes: []
 produces:
 - application/json
@@ -12,129 +14,130 @@ paths:
 - content: GET https://atlas.microsoft.com/map/static/{format}?api-version=1.0&subscription-key={subscription-key}&service={service}&version={version}&request={request}&srs={srs}&bbox={bbox}&height={height}&width={width}&layers={layers}&styles={styles}
   isOptional: true
 uriParameters:
-- in: path
+- name: format
+  in: path
   isRequired: true
   description: Desired format of the response
   types:
   - uid: string
-  name: format
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version number of Azure LBS API.  Current version is 1.0
   types:
   - uid: string
-  name: api-version
-- in: query
+- name: subscription-key
+  in: query
   isRequired: true
   description: Azure LBS subscription key
   types:
   - uid: string
-  name: subscription-key
-- in: query
+- name: service
+  in: query
   description: Service type.  E.g WMS
   types:
   - uid: string
-  name: service
-- in: query
+- name: version
+  in: query
   isRequired: true
   description: WMS service version.  E.g. 1.1.1
   types:
   - uid: string
-  name: version
-- in: query
+- name: request
+  in: query
   isRequired: true
   description: Request type.  E.g. GetMap
   types:
   - uid: string
-  name: request
-- in: query
+- name: srs
+  in: query
   isRequired: true
   description: Projection used in describing the bbox.  E.g. EPSG:4326 or EPSG:3857
   types:
   - uid: string
-  name: srs
-- in: query
+- name: bbox
+  in: query
   isRequired: true
   description: Bounding box in the projection stated in srs.  In the stucture of 'minLon, minLat, maxLon, maxLat'
   types:
   - uid: string
-  name: bbox
-- in: query
+- name: height
+  in: query
   isRequired: true
   description: Height of the resulting image, in pixels.  Maximum value is 2048.
   types:
   - uid: string
-  name: height
-- in: query
+- name: width
+  in: query
   isRequired: true
   description: Width of the resulting image, in pixels.   Maximum value is 2048.
   types:
   - uid: string
-  name: width
-- in: query
+- name: layers
+  in: query
   isRequired: true
   description: Map layer requested.  E.g basic
   types:
   - uid: string
-  name: layers
-- in: query
+- name: styles
+  in: query
   isRequired: true
   description: Map style to be returned.  Currently, no styles are available. This parameter is present for forward compatibility; it must be used and left blank
   types:
   - uid: string
-  name: styles
 responses:
-- description: OK
+- name: 200 OK
+  description: OK
   types:
   - uid: mapstatic200
-  name: 200 OK
-- description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
   - uid: Error
-  name: 400 Bad Request
-- description: 'Unauthorized: Access is denied due to invalid credentials.'
+- name: Other Status Codes
+  description: 'Unauthorized: Access is denied due to invalid credentials.'
   types:
   - uid: Error
-  name: Other Status Codes
-- description: Permission, capacity, or authentication issues.
+- name: Other Status Codes
+  description: Permission, capacity, or authentication issues.
   types:
   - uid: Error
-  name: Other Status Codes
-- description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+- name: Other Status Codes
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
   - uid: Error
-  name: Other Status Codes
-- description: An error occurred while processing the request. Please try again later.
+- name: Other Status Codes
+  description: An error occurred while processing the request. Please try again later.
   types:
   - uid: Error
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: mapstatic200
   description: This object is returned from a successful Map Static call
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: image
+    isReadyOnly: true
     description: Image property
     types:
     - uid: string
-    name: image
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: statuscode
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
-    name: statuscode
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: If available, a human readable description of the error.
     types:
     - uid: string
-    name: message
 examples:
-- request:
+- name: GetMapStaticTile
+  request:
     uri: GET https://atlas.microsoft.com/map/static/png?api-version=1.0&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:4326&bbox=1.355233,42.982261,24.980233,56.526017&height=768&width=1024&layers=basic&styles=1
   responses:
   - statusCode: "200"
@@ -169,13 +172,10 @@ examples:
         "statuscode": "500",
         "message": "An error occurred while processing the request. Please try again later."
       }
-  name: GetMapStaticTile
 security:
-- type: apiKey
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
   in: header
-  name: Ocp-Apim-Subscription-Key
-- type: apiKey
+- name: subscription-key
+  type: apiKey
   in: query
-  name: subscription-key
-name: Get Map Static Tile
-uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.render.getmapstatictile

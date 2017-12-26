@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Enables the specified job, allowing new tasks to run. When you call this API, the Batch service sets a disabled job to the enabling state. After the this operation is completed, the job moves to the active state, and scheduling of new tasks under the job resumes. The Batch service does not allow a task to remain in the active state for more than 7 days. Therefore, if you enable a job containing active tasks which were added more than 7 days ago, those tasks will not run.
+uid: batch.core.windows.net.batchservice.job.enable
+name: Enable
 service: Batch Service
-apiVersion: 2017-09-01.6.0
 groupName: Job
+apiVersion: 2017-09-01.6.0
+summary: Enables the specified job, allowing new tasks to run. When you call this API, the Batch service sets a disabled job to the enabling state. After the this operation is completed, the job moves to the active state, and scheduling of new tasks under the job resumes. The Batch service does not allow a task to remain in the active state for more than 7 days. Therefore, if you enable a job containing active tasks which were added more than 7 days ago, those tasks will not run.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
@@ -12,134 +14,132 @@ paths:
 - content: POST https://batch.core.windows.net/jobs/{jobId}/enable?timeout={timeout}&api-version=2017-09-01.6.0
   isOptional: true
 uriParameters:
-- in: path
+- name: jobId
+  in: path
   isRequired: true
   description: The ID of the job to enable.
   types:
   - uid: string
-  name: jobId
-- in: query
+- name: timeout
+  in: query
   description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
   types:
   - uid: integer
   format: int32
-  name: timeout
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- headers:
-  - value: string
-    name: client-request-id
-  - value: string
-    name: request-id
-  - value: string
-    name: ETag
-  - value: string
-    name: Last-Modified
-  - value: string
-    name: DataServiceId
+- name: 202 Accepted
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
+  - name: DataServiceId
+    value: string
   description: The request to the Batch service was successful.
-  name: 202 Accepted
-- description: The error from the Batch service.
+- name: Other Status Codes
+  description: The error from the Batch service.
   types:
   - uid: BatchError
-  name: Other Status Codes
 requestHeader:
-- in: header
+- name: client-request-id
+  in: header
   description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
   types:
   - uid: string
   format: uuid
-  name: client-request-id
-- in: header
+- name: return-client-request-id
+  in: header
   description: Whether the server should return the client-request-id in the response.
   types:
   - uid: boolean
-  name: return-client-request-id
-- in: header
+- name: ocp-date
+  in: header
   description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
   types:
   - uid: string
   format: date-time-rfc1123
-  name: ocp-date
-- in: header
+- name: If-Match
+  in: header
   description: An ETag value associated with the version of the resource known to the client. The operation will be performed only if the resource's current ETag on the service exactly matches the value specified by the client.
   types:
   - uid: string
-  name: If-Match
-- in: header
+- name: If-None-Match
+  in: header
   description: An ETag value associated with the version of the resource known to the client. The operation will be performed only if the resource's current ETag on the service does not match the value specified by the client.
   types:
   - uid: string
-  name: If-None-Match
-- in: header
+- name: If-Modified-Since
+  in: header
   description: A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has been modified since the specified time.
   types:
   - uid: string
   format: date-time-rfc1123
-  name: If-Modified-Since
-- in: header
+- name: If-Unmodified-Since
+  in: header
   description: A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has not been modified since the specified time.
   types:
   - uid: string
   format: date-time-rfc1123
-  name: If-Unmodified-Since
 definitions:
 - name: BatchError
   description: The error encountered while attempting to add the task.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: ErrorMessage
-    name: message
-  - description: An item of additional information included in an Azure Batch error response.
+  - name: values
+    description: An item of additional information included in an Azure Batch error response.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
+    - uid: BatchErrorDetail
+      isArray: true
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
-  - description: The language code of the error message
+  - name: lang
+    description: The language code of the error message
     types:
     - uid: string
-    name: lang
-  - description: The text of the message.
+  - name: value
+    description: The text of the message.
     types:
     - uid: string
-    name: value
 - name: BatchErrorDetail
   description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
-  - description: An identifier specifying the meaning of the Value property.
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
     types:
     - uid: string
-    name: key
-  - description: The additional information included with the error response.
+  - name: value
+    description: The additional information included with the error response.
     types:
     - uid: string
-    name: value
 examples:
-- request:
+- name: Job enable
+  request:
     uri: POST https://batch.core.windows.net/jobs/jobId/enable?api-version=2017-09-01.6.0
     headers:
-    - value: 00000000-0000-0000-0000-000000000000
-      name: client-request-id
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
   responses:
   - statusCode: "202"
     body: "\"\""
-  name: Job enable
 security: []
-name: Enable
-uid: batch.core.windows.net.batchservice.job.enable

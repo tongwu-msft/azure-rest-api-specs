@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Updates the specified attributes associated with the given certificate. The UpdateCertificate operation applies the specified update on the given certificate; note the only elements being updated are the certificate's attributes.
+uid: keyvault.updatecertificate.updatecertificate
+name: Update Certificate
 service: Key Vault
-apiVersion: 2016-10-01
 groupName: Update Certificate
+apiVersion: 2016-10-01
+summary: Updates the specified attributes associated with the given certificate. The UpdateCertificate operation applies the specified update on the given certificate; note the only elements being updated are the certificate's attributes.
 consumes:
 - application/json
 produces:
@@ -10,381 +12,379 @@ produces:
 paths:
 - content: PATCH https://{vaultBaseUrl}/certificates/{certificate-name}/{certificate-version}?api-version=2016-10-01
 uriParameters:
-- in: path
+- name: vaultBaseUrl
+  in: path
   isRequired: true
   description: The vault name, for example https://myvault.vault.azure.net.
   types:
   - uid: string
-  name: vaultBaseUrl
-- in: path
+- name: certificate-name
+  in: path
   isRequired: true
   description: The name of the certificate in the given key vault.
   types:
   - uid: string
-  name: certificate-name
-- in: path
+- name: certificate-version
+  in: path
   isRequired: true
   description: The version of the certificate.
   types:
   - uid: string
-  name: certificate-version
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: The updated certificate.
+- name: 200 OK
+  description: The updated certificate.
   types:
   - uid: CertificateBundle
-  name: 200 OK
-- description: Key Vault error response describing why the operation failed.
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
   types:
   - uid: KeyVaultError
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: policy
+    in: body
     description: The management policy for the certificate.
     types:
     - uid: CertificatePolicy
-    name: policy
-  - in: body
+  - name: attributes
+    in: body
     description: The attributes of the certificate (optional).
     types:
     - uid: CertificateAttributes
-    name: attributes
-  - in: body
+  - name: tags
+    in: body
     description: Application specific metadata in the form of key-value pairs.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 requestHeader: []
 definitions:
 - name: CertificatePolicy
   description: The management policy.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: The certificate id.
     types:
     - uid: string
-    name: id
-  - description: Properties of the key backing a certificate.
+  - name: key_props
+    description: Properties of the key backing a certificate.
     types:
     - uid: KeyProperties
-    name: key_props
-  - description: Properties of the secret backing a certificate.
+  - name: secret_props
+    description: Properties of the secret backing a certificate.
     types:
     - uid: SecretProperties
-    name: secret_props
-  - description: Properties of the X509 component of a certificate.
+  - name: x509_props
+    description: Properties of the X509 component of a certificate.
     types:
     - uid: X509CertificateProperties
-    name: x509_props
-  - description: Action and its trigger that will be performed by Key Vault over the lifetime of a certificate.
+  - name: lifetime_actions
+    description: Action and its trigger that will be performed by Key Vault over the lifetime of a certificate.
     types:
-    - isArray: true
-      uid: LifetimeAction
-    name: lifetime_actions
-  - description: Parameters for the issuer of the X509 component of a certificate.
+    - uid: LifetimeAction
+      isArray: true
+  - name: issuer
+    description: Parameters for the issuer of the X509 component of a certificate.
     types:
     - uid: IssuerParameters
-    name: issuer
-  - description: The certificate attributes.
+  - name: attributes
+    description: The certificate attributes.
     types:
     - uid: CertificateAttributes
-    name: attributes
 - name: CertificateAttributes
   description: The certificate management attributes.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: recoveryLevel
+    isReadyOnly: true
     description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
     types:
     - uid: DeletionRecoveryLevel
-    name: recoveryLevel
-  - description: Determines whether the object is enabled.
+  - name: enabled
+    description: Determines whether the object is enabled.
     types:
     - uid: boolean
-    name: enabled
-  - description: Not before date in UTC.
+  - name: nbf
+    description: Not before date in UTC.
     types:
     - uid: integer
-    name: nbf
-  - description: Expiry date in UTC.
+  - name: exp
+    description: Expiry date in UTC.
     types:
     - uid: integer
-    name: exp
-  - isReadyOnly: true
+  - name: created
+    isReadyOnly: true
     description: Creation time in UTC.
     types:
     - uid: integer
-    name: created
-  - isReadyOnly: true
+  - name: updated
+    isReadyOnly: true
     description: Last updated time in UTC.
     types:
     - uid: integer
-    name: updated
 - name: KeyVaultError
   description: The key vault error exception.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: error
+    isReadyOnly: true
     description: The key vault server error.
     types:
     - uid: Error
-    name: error
 - name: CertificateUpdateParameters
   description: The certificate update parameters.
   kind: object
   properties:
-  - description: The management policy for the certificate.
+  - name: policy
+    description: The management policy for the certificate.
     types:
     - uid: CertificatePolicy
-    name: policy
-  - description: The attributes of the certificate (optional).
+  - name: attributes
+    description: The attributes of the certificate (optional).
     types:
     - uid: CertificateAttributes
-    name: attributes
-  - description: Application specific metadata in the form of key-value pairs.
+  - name: tags
+    description: Application specific metadata in the form of key-value pairs.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 - name: KeyProperties
   description: Properties of the key backing a certificate.
   kind: object
   properties:
-  - description: Indicates if the private key can be exported.
+  - name: exportable
+    description: Indicates if the private key can be exported.
     types:
     - uid: boolean
-    name: exportable
-  - description: The key type.
+  - name: kty
+    description: The key type.
     types:
     - uid: string
-    name: kty
-  - description: The key size in bytes. For example;  1024 or 2048.
+  - name: key_size
+    description: The key size in bytes. For example;  1024 or 2048.
     types:
     - uid: integer
-    name: key_size
-  - description: Indicates if the same key pair will be used on certificate renewal.
+  - name: reuse_key
+    description: Indicates if the same key pair will be used on certificate renewal.
     types:
     - uid: boolean
-    name: reuse_key
 - name: SecretProperties
   description: Properties of the secret backing a certificate.
   kind: object
   properties:
-  - description: The media type (MIME type).
+  - name: contentType
+    description: The media type (MIME type).
     types:
     - uid: string
-    name: contentType
 - name: X509CertificateProperties
   description: Properties of the X509 component of a certificate.
   kind: object
   properties:
-  - description: The subject name. Should be a valid X509 distinguished Name.
+  - name: subject
+    description: The subject name. Should be a valid X509 distinguished Name.
     types:
     - uid: string
-    name: subject
-  - description: The enhanced key usage.
+  - name: ekus
+    description: The enhanced key usage.
     types:
-    - isArray: true
-      uid: string
-    name: ekus
-  - description: The subject alternative names.
+    - uid: string
+      isArray: true
+  - name: sans
+    description: The subject alternative names.
     types:
     - uid: SubjectAlternativeNames
-    name: sans
-  - description: List of key usages.
+  - name: key_usage
+    description: List of key usages.
     types:
-    - isArray: true
-      uid: string
-    name: key_usage
-  - description: The duration that the ceritifcate is valid in months.
+    - uid: string
+      isArray: true
+  - name: validity_months
+    description: The duration that the ceritifcate is valid in months.
     types:
     - uid: integer
-    name: validity_months
 - name: LifetimeAction
   description: Actions that will be performed by Key Vault over the lifetime of a certificate.
   kind: object
   properties:
-  - description: The condition that will execute the action.
+  - name: trigger
+    description: The condition that will execute the action.
     types:
     - uid: Trigger
-    name: trigger
-  - description: The action that will be executed.
+  - name: action
+    description: The action that will be executed.
     types:
     - uid: Action
-    name: action
 - name: IssuerParameters
   description: Parameters for the issuer of the X509 component of a certificate.
   kind: object
   properties:
-  - description: Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
+  - name: name
+    description: Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
     types:
     - uid: string
-    name: name
-  - description: Type of certificate to be requested from the issuer provider.
+  - name: cty
+    description: Type of certificate to be requested from the issuer provider.
     types:
     - uid: string
-    name: cty
 - name: DeletionRecoveryLevel
   description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
   kind: enum
   properties:
-  - types:
+  - name: Purgeable
+    types:
     - uid: string
-    name: Purgeable
-  - types:
+  - name: Recoverable+Purgeable
+    types:
     - uid: string
-    name: Recoverable+Purgeable
-  - types:
+  - name: Recoverable
+    types:
     - uid: string
-    name: Recoverable
-  - types:
+  - name: Recoverable+ProtectedSubscription
+    types:
     - uid: string
-    name: Recoverable+ProtectedSubscription
 - name: DeletedCertificateBundle
   description: A Deleted Certificate consisting of its previous id, attributes and its tags, as well as information on when it will be purged.
   kind: object
   properties:
-  - description: The url of the recovery object, used to identify and recover the deleted certificate.
+  - name: recoveryId
+    description: The url of the recovery object, used to identify and recover the deleted certificate.
     types:
     - uid: string
-    name: recoveryId
-  - isReadyOnly: true
+  - name: scheduledPurgeDate
+    isReadyOnly: true
     description: The time when the certificate is scheduled to be purged, in UTC
     types:
     - uid: integer
-    name: scheduledPurgeDate
-  - isReadyOnly: true
+  - name: deletedDate
+    isReadyOnly: true
     description: The time when the certificate was deleted, in UTC
     types:
     - uid: integer
-    name: deletedDate
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: The certificate id.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: kid
+    isReadyOnly: true
     description: The key id.
     types:
     - uid: string
-    name: kid
-  - isReadyOnly: true
+  - name: sid
+    isReadyOnly: true
     description: The secret id.
     types:
     - uid: string
-    name: sid
-  - isReadyOnly: true
+  - name: x5t
+    isReadyOnly: true
     description: Thumbprint of the certificate.
     types:
     - uid: string
-    name: x5t
-  - isReadyOnly: true
+  - name: policy
+    isReadyOnly: true
     description: The management policy.
     types:
     - uid: CertificatePolicy
-    name: policy
-  - description: CER contents of x509 certificate.
+  - name: cer
+    description: CER contents of x509 certificate.
     types:
     - uid: string
-    name: cer
-  - description: The content type of the secret.
+  - name: contentType
+    description: The content type of the secret.
     types:
     - uid: string
-    name: contentType
-  - description: The certificate attributes.
+  - name: attributes
+    description: The certificate attributes.
     types:
     - uid: CertificateAttributes
-    name: attributes
-  - description: Application specific metadata in the form of key-value pairs
+  - name: tags
+    description: Application specific metadata in the form of key-value pairs
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 - name: Error
   description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: code
+    isReadyOnly: true
     description: The error code.
     types:
     - uid: string
-    name: code
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: The error message.
     types:
     - uid: string
-    name: message
-  - description: ''
+  - name: innererror
+    description: ''
     types:
     - {}
-    name: innererror
 - name: SubjectAlternativeNames
   description: The subject alternative names.
   kind: object
   properties:
-  - description: Email addresses.
+  - name: emails
+    description: Email addresses.
     types:
-    - isArray: true
-      uid: string
-    name: emails
-  - description: Domain names.
+    - uid: string
+      isArray: true
+  - name: dns_names
+    description: Domain names.
     types:
-    - isArray: true
-      uid: string
-    name: dns_names
-  - description: User principal names.
+    - uid: string
+      isArray: true
+  - name: upns
+    description: User principal names.
     types:
-    - isArray: true
-      uid: string
-    name: upns
+    - uid: string
+      isArray: true
 - name: Trigger
   description: The condition that will execute the action.
   kind: object
   properties:
-  - description: Percentage of lifetime at which to trigger. Value should be between 1 and 99.
+  - name: lifetime_percentage
+    description: Percentage of lifetime at which to trigger. Value should be between 1 and 99.
     types:
     - uid: integer
-    name: lifetime_percentage
-  - description: Days before expiry to attempt renewal. Value should be between 1 and validity_in_months multiplied by 27. If validity_in_months is 36, then value should be between 1 and 972 (36 * 27).
+  - name: days_before_expiry
+    description: Days before expiry to attempt renewal. Value should be between 1 and validity_in_months multiplied by 27. If validity_in_months is 36, then value should be between 1 and 972 (36 * 27).
     types:
     - uid: integer
-    name: days_before_expiry
 - name: Action
   description: The action that will be executed.
   kind: object
   properties:
-  - description: The type of the action.
+  - name: action_type
+    description: The type of the action.
     types:
     - uid: ActionType
-    name: action_type
 - name: ActionType
   description: The type of the action.
   kind: enum
   properties:
-  - types:
+  - name: EmailContacts
+    types:
     - uid: string
-    name: EmailContacts
-  - types:
+  - name: AutoRenew
+    types:
     - uid: string
-    name: AutoRenew
 examples: []
 security: []
-name: Update Certificate
-uid: keyvault.updatecertificate.updatecertificate

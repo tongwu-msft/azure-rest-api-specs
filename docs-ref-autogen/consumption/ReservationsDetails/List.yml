@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists the reservations details for provided date range.
+uid: management.azure.com.consumption.reservationsdetails.list
+name: List
 service: Consumption
-apiVersion: 2017-11-30
 groupName: Reservations Details
+apiVersion: 2017-11-30
+summary: Lists the reservations details for provided date range.
 consumes:
 - application/json
 produces:
@@ -10,137 +12,138 @@ produces:
 paths:
 - content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/reservationDetails?$filter={$filter}&api-version=2017-11-30
 uriParameters:
-- in: path
+- name: scope
+  in: path
   isRequired: true
   description: The scope of the reservation details. The scope can be 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}' or 'providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'
   types:
   - uid: string
-  name: scope
-- in: query
+- name: $filter
+  in: query
   isRequired: true
   description: "Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge' "
   types:
   - uid: string
-  name: $filter
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request. The current version is 2017-11-30.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK. The request has succeeded.
+- name: 200 OK
+  description: OK. The request has succeeded.
   types:
   - uid: ReservationDetailsListResult
-  name: 200 OK
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: ReservationDetailsListResult
   description: Result of listing reservation details.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: value
+    isReadyOnly: true
     description: reservation details resource.
     types:
-    - isArray: true
-      uid: ReservationDetails
-    name: value
+    - uid: ReservationDetails
+      isArray: true
 - name: ErrorResponse
   description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
-  - description: The details of the error.
+  - name: error
+    description: The details of the error.
     types:
     - uid: ErrorDetails
-    name: error
 - name: ReservationDetails
   description: reservation details resource.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: properties.reservationOrderId
+    isReadyOnly: true
     description: The reservation order ID is the identifier for a reservation purchase. Each reservation order ID represents a single purchase transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations.
     types:
     - uid: string
-    name: properties.reservationOrderId
-  - isReadyOnly: true
+  - name: properties.reservationId
+    isReadyOnly: true
     description: The reservation ID is the identifier of a reservation within a reservation order. Each reservation is the grouping for applying the benefit scope and also specifies the number of instances to which the reservation benefit can be applied to.
     types:
     - uid: string
-    name: properties.reservationId
-  - isReadyOnly: true
+  - name: properties.skuName
+    isReadyOnly: true
     description: This is the ARM Sku name. It can be used to join with the servicetype field in additoinalinfo in usage records.
     types:
     - uid: string
-    name: properties.skuName
-  - isReadyOnly: true
+  - name: properties.reservedHours
+    isReadyOnly: true
     description: This is the total hours reserved for the day. E.g. if reservation for 1 instance was made on 1 PM, this will be 11 hours for that day and 24 hours from subsequent days.
     types:
     - uid: number
-    name: properties.reservedHours
-  - isReadyOnly: true
+  - name: properties.usageDate
+    isReadyOnly: true
     description: The date on which consumption occurred.
     types:
     - uid: string
-    name: properties.usageDate
-  - isReadyOnly: true
+  - name: properties.usedHours
+    isReadyOnly: true
     description: This is the total hours used by the instance.
     types:
     - uid: number
-    name: properties.usedHours
-  - isReadyOnly: true
+  - name: properties.instanceId
+    isReadyOnly: true
     description: This identifier is the name of the resource or the fully qualified Resource ID.
     types:
     - uid: string
-    name: properties.instanceId
-  - isReadyOnly: true
+  - name: properties.totalReservedQuantity
+    isReadyOnly: true
     description: This is the total count of instances that are reserved for the reservationid.
     types:
     - uid: number
-    name: properties.totalReservedQuantity
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource Id.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type.
     types:
     - uid: string
-    name: type
-  - isReadyOnly: true
+  - name: tags
+    isReadyOnly: true
     description: Resource tags.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 - name: ErrorDetails
   description: The details of the error.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: code
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
-    name: code
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-    name: message
 examples:
-- request:
+- name: ReservationDetails
+  request:
     uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/87f3c981-3e33-43d0-b26b-dfca785cf18a/providers/Microsoft.Consumption/reservationDetails?$filter=properties/UsageDate ge 2017-10-01 AND properties/UsageDate le 2017-12-05&api-version=2017-11-30
   responses:
   - statusCode: "200"
@@ -168,8 +171,8 @@ examples:
           }
         ]
       }
-  name: ReservationDetails
-- request:
+- name: ReservationDetailsWithReservationId
+  request:
     uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/87f3c981-3e33-43d0-b26b-dfca785cf18a/reservations/ba4a5693-71ef-4ec2-a5ea-c4897ee7e740/providers/Microsoft.Consumption/reservationDetails?$filter=properties/UsageDate ge 2017-10-01 AND properties/UsageDate le 2017-12-05&api-version=2017-11-30
   responses:
   - statusCode: "200"
@@ -197,14 +200,11 @@ examples:
           }
         ]
       }
-  name: ReservationDetailsWithReservationId
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List
-uid: management.azure.com.consumption.reservationsdetails.list
+  - name: user_impersonation
+    description: impersonate your user account

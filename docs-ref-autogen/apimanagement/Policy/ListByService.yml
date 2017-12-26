@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists all the Global Policy definitions of the Api Management service.
+uid: management.azure.com.apimanagement.policy.listbyservice
+name: List By Service
 service: API Management
-apiVersion: 2017-03-01
 groupName: Policy
+apiVersion: 2017-03-01
+summary: Lists all the Global Policy definitions of the Api Management service.
 consumes:
 - application/json
 produces:
@@ -12,81 +14,82 @@ paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies?scope={scope}&api-version=2017-03-01
   isOptional: true
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serviceName
+  in: path
   isRequired: true
   description: The name of the API Management service.
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-  name: serviceName
-- in: query
+- name: scope
+  in: query
   description: Policy scope.
   types:
   - uid: string
-  name: scope
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Returns an array of Policy Contracts.
+- name: 200 OK
+  description: Returns an array of Policy Contracts.
   types:
   - uid: PolicyCollection
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: PolicyCollection
   description: The response of the list policy operation.
   kind: object
   properties:
-  - description: Policy Contract details.
+  - name: value
+    description: Policy Contract details.
     types:
-    - isArray: true
-      uid: PolicyContract
-    name: value
-  - description: Next page link if any.
+    - uid: PolicyContract
+      isArray: true
+  - name: nextLink
+    description: Next page link if any.
     types:
     - uid: string
-    name: nextLink
 - name: PolicyContract
   description: Policy Contract value.
   kind: object
   properties:
-  - description: Json escaped Xml Encoded contents of the Policy.
+  - name: properties.policyContent
+    description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
-    name: properties.policyContent
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type for API Management resource.
     types:
     - uid: string
-    name: type
 examples:
-- request:
+- name: ApiManagementListPolicies
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies?api-version=2017-03-01
   responses:
   - statusCode: "200"
@@ -104,14 +107,11 @@ examples:
         ],
         "nextLink": ""
       }
-  name: ApiManagementListPolicies
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List By Service
-uid: management.azure.com.apimanagement.policy.listbyservice
+  - name: user_impersonation
+    description: impersonate your user account

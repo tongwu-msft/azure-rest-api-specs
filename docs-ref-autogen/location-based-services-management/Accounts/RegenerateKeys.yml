@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Regenerate either the primary or secondary key for use with the Location Based Services APIs. The old key will stop working immediately.
+uid: management.azure.com.locationbasedservicesmanagementapi.accounts.regeneratekeys
+name: Regenerate Keys
 service: Location Based Services Management API
-apiVersion: 2017-01-01-preview
 groupName: Accounts
+apiVersion: 2017-01-01-preview
+summary: Regenerate either the primary or secondary key for use with the Location Based Services APIs. The old key will stop working immediately.
 consumes:
 - application/json
 produces:
@@ -10,134 +12,135 @@ produces:
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LocationBasedServices/accounts/{accountName}/regenerateKey?api-version=2017-01-01-preview
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the Azure Resource Group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: accountName
+  in: path
   isRequired: true
   description: The name of the Location Based Services Account.
   types:
   - uid: string
-  name: accountName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client Api Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: The request was successful.
+- name: 200 OK
+  description: The request was successful.
   types:
   - uid: LocationBasedServicesAccountKeys
-  name: 200 OK
-- description: The specified Account does not exist.
-  name: Other Status Codes
-- description: An unexpected error occurred.
+- name: Other Status Codes
+  description: The specified Account does not exist.
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
   - uid: Error
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: keyType
+    in: body
     isRequired: true
     description: Whether the operation refers to the primary or secondary key.
     types:
     - uid: KeyType
-    name: keyType
 requestHeader: []
 definitions:
 - name: LocationBasedServicesAccountKeys
   description: The set of keys which can be used to access the Location Based Services REST APIs. Two keys are provided for key rotation without interruption.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: The full Azure resource identifier of the Location Based Services Account.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: primaryKey
+    isReadyOnly: true
     description: The primary key for accessing the Location Based Services REST APIs.
     types:
     - uid: string
-    name: primaryKey
-  - isReadyOnly: true
+  - name: secondaryKey
+    isReadyOnly: true
     description: The secondary key for accessing the Location Based Services REST APIs.
     types:
     - uid: string
-    name: secondaryKey
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: code
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
-    name: code
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: If available, a human readable description of the error.
     types:
     - uid: string
-    name: message
-  - isReadyOnly: true
+  - name: target
+    isReadyOnly: true
     description: If available, the component generating the error.
     types:
     - uid: string
-    name: target
-  - isReadyOnly: true
+  - name: details
+    isReadyOnly: true
     description: If available, a list of additional details about the error.
     types:
-    - isArray: true
-      uid: Details
-    name: details
+    - uid: Details
+      isArray: true
 - name: LocationBasedServicesKeySpecification
   description: Whether the operation refers to the primary or secondary key.
   kind: object
   properties:
-  - description: Whether the operation refers to the primary or secondary key.
+  - name: keyType
+    description: Whether the operation refers to the primary or secondary key.
     types:
     - uid: KeyType
-    name: keyType
 - name: Details
   description: If available, a list of additional details about the error.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: code
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
-    name: code
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: If available, a human readable description of the error.
     types:
     - uid: string
-    name: message
-  - isReadyOnly: true
+  - name: target
+    isReadyOnly: true
     description: If available, the component generating the error.
     types:
     - uid: string
-    name: target
 - name: KeyType
   description: Whether the operation refers to the primary or secondary key.
   kind: enum
   properties:
-  - types:
+  - name: primary
+    types:
     - uid: string
-    name: primary
-  - types:
+  - name: secondary
+    types:
     - uid: string
-    name: secondary
 examples:
-- request:
+- name: RegenerateKey
+  request:
     uri: POST https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.LocationBasedServices/accounts/myLBSAccount/regenerateKey?api-version=2017-01-01-preview
     body: >-
       {
@@ -152,14 +155,11 @@ examples:
         "secondaryKey": "cJHpmUGNaGGO8H59p6NKGhfff9VjD278-2bi5wo0_mU"
       }
   - statusCode: "404"
-  name: RegenerateKey
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Regenerate Keys
-uid: management.azure.com.locationbasedservicesmanagementapi.accounts.regeneratekeys
+  - name: user_impersonation
+    description: impersonate your user account

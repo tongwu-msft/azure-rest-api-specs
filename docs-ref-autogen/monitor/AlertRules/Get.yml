@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets an alert rule
+uid: management.azure.com.monitor.alertrules.get
+name: Get
 service: Monitor
-apiVersion: 2016-03-01
 groupName: Alert Rules
+apiVersion: 2016-03-01
+summary: Gets an alert rule
 consumes:
 - application/json
 produces:
@@ -10,339 +12,340 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/alertrules/{ruleName}?api-version=2016-03-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The Azure subscription Id.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: ruleName
+  in: path
   isRequired: true
   description: The name of the rule.
   types:
   - uid: string
-  name: ruleName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client Api Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Successful request to get an alert rule
+- name: 200 OK
+  description: Successful request to get an alert rule
   types:
   - uid: AlertRuleResource
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: AlertRuleResource
   description: The alert rule resource.
   kind: object
   properties:
-  - description: the name of the alert rule.
+  - name: properties.name
+    description: the name of the alert rule.
     types:
     - uid: string
-    name: properties.name
-  - description: the description of the alert rule that will be included in the alert email.
+  - name: properties.description
+    description: the description of the alert rule that will be included in the alert email.
     types:
     - uid: string
-    name: properties.description
-  - description: the flag that indicates whether the alert rule is enabled.
+  - name: properties.isEnabled
+    description: the flag that indicates whether the alert rule is enabled.
     types:
     - uid: boolean
-    name: properties.isEnabled
-  - description: the condition that results in the alert rule being activated.
+  - name: properties.condition
+    description: the condition that results in the alert rule being activated.
     types:
     - uid: ThresholdRuleCondition
     - uid: LocationThresholdRuleCondition
     - uid: ManagementEventRuleCondition
     typesTitle: RuleCondition
-    name: properties.condition
-  - description: The action that is performed when the alert rule becomes active, and when an alert condition is resolved.
+  - name: properties.actions
+    description: The action that is performed when the alert rule becomes active, and when an alert condition is resolved.
     types:
-    - isArray: true
-      uid: RuleEmailAction
-    - isArray: true
-      uid: RuleWebhookAction
+    - uid: RuleEmailAction
+      isArray: true
+    - uid: RuleWebhookAction
+      isArray: true
     typesTitle: RuleAction[]
-    name: properties.actions
-  - isReadyOnly: true
+  - name: properties.lastUpdatedTime
+    isReadyOnly: true
     description: Last time the rule was updated in ISO8601 format.
     types:
     - uid: string
-    name: properties.lastUpdatedTime
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Azure resource Id
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Azure resource name
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Azure resource type
     types:
     - uid: string
-    name: type
-  - description: Resource location
+  - name: location
+    description: Resource location
     types:
     - uid: string
-    name: location
-  - description: Resource tags
+  - name: tags
+    description: Resource tags
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 - name: ThresholdRuleCondition
   description: A rule condition based on a metric crossing a threshold.
   kind: object
   properties:
-  - description: the operator used to compare the data and the threshold.
+  - name: operator
+    description: the operator used to compare the data and the threshold.
     types:
     - uid: ConditionOperator
-    name: operator
-  - description: the threshold value that activates the alert.
+  - name: threshold
+    description: the threshold value that activates the alert.
     types:
     - uid: number
-    name: threshold
-  - description: the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
+  - name: windowSize
+    description: the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
     types:
     - uid: string
-    name: windowSize
-  - description: the time aggregation operator. How the data that are collected should be combined over time. The default value is the PrimaryAggregationType of the Metric.
+  - name: timeAggregation
+    description: the time aggregation operator. How the data that are collected should be combined over time. The default value is the PrimaryAggregationType of the Metric.
     types:
     - uid: TimeAggregationOperator
-    name: timeAggregation
-  - description: 'specifies the type of condition. This can be one of three types: ManagementEventRuleCondition (occurrences of management events), LocationThresholdRuleCondition (based on the number of failures of a web test), and ThresholdRuleCondition (based on the threshold of a metric).'
+  - name: odata.type
+    description: 'specifies the type of condition. This can be one of three types: ManagementEventRuleCondition (occurrences of management events), LocationThresholdRuleCondition (based on the number of failures of a web test), and ThresholdRuleCondition (based on the threshold of a metric).'
     types:
     - uid: Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition
     typesTitle: string
-    name: odata.type
-  - description: the resource from which the rule collects its data. For this type dataSource will always be of type RuleMetricDataSource.
+  - name: dataSource
+    description: the resource from which the rule collects its data. For this type dataSource will always be of type RuleMetricDataSource.
     types:
     - uid: RuleMetricDataSource
     - uid: RuleManagementEventDataSource
     typesTitle: RuleDataSource
-    name: dataSource
 - name: LocationThresholdRuleCondition
   description: A rule condition based on a certain number of locations failing.
   kind: object
   properties:
-  - description: the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
+  - name: windowSize
+    description: the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
     types:
     - uid: string
-    name: windowSize
-  - description: the number of locations that must fail to activate the alert.
+  - name: failedLocationCount
+    description: the number of locations that must fail to activate the alert.
     types:
     - uid: integer
-    name: failedLocationCount
-  - description: 'specifies the type of condition. This can be one of three types: ManagementEventRuleCondition (occurrences of management events), LocationThresholdRuleCondition (based on the number of failures of a web test), and ThresholdRuleCondition (based on the threshold of a metric).'
+  - name: odata.type
+    description: 'specifies the type of condition. This can be one of three types: ManagementEventRuleCondition (occurrences of management events), LocationThresholdRuleCondition (based on the number of failures of a web test), and ThresholdRuleCondition (based on the threshold of a metric).'
     types:
     - uid: Microsoft.Azure.Management.Insights.Models.LocationThresholdRuleCondition
     typesTitle: string
-    name: odata.type
-  - description: the resource from which the rule collects its data. For this type dataSource will always be of type RuleMetricDataSource.
+  - name: dataSource
+    description: the resource from which the rule collects its data. For this type dataSource will always be of type RuleMetricDataSource.
     types:
     - uid: RuleMetricDataSource
     - uid: RuleManagementEventDataSource
     typesTitle: RuleDataSource
-    name: dataSource
 - name: ManagementEventRuleCondition
   description: A management event rule condition.
   kind: object
   properties:
-  - description: How the data that is collected should be combined over time and when the alert is activated. Note that for management event alerts aggregation is optional – if it is not provided then any event will cause the alert to activate.
+  - name: aggregation
+    description: How the data that is collected should be combined over time and when the alert is activated. Note that for management event alerts aggregation is optional – if it is not provided then any event will cause the alert to activate.
     types:
     - uid: ManagementEventAggregationCondition
-    name: aggregation
-  - description: 'specifies the type of condition. This can be one of three types: ManagementEventRuleCondition (occurrences of management events), LocationThresholdRuleCondition (based on the number of failures of a web test), and ThresholdRuleCondition (based on the threshold of a metric).'
+  - name: odata.type
+    description: 'specifies the type of condition. This can be one of three types: ManagementEventRuleCondition (occurrences of management events), LocationThresholdRuleCondition (based on the number of failures of a web test), and ThresholdRuleCondition (based on the threshold of a metric).'
     types:
     - uid: Microsoft.Azure.Management.Insights.Models.ManagementEventRuleCondition
     typesTitle: string
-    name: odata.type
-  - description: the resource from which the rule collects its data. For this type dataSource will always be of type RuleMetricDataSource.
+  - name: dataSource
+    description: the resource from which the rule collects its data. For this type dataSource will always be of type RuleMetricDataSource.
     types:
     - uid: RuleMetricDataSource
     - uid: RuleManagementEventDataSource
     typesTitle: RuleDataSource
-    name: dataSource
 - name: RuleEmailAction
   description: Specifies the action to send email when the rule condition is evaluated. The discriminator is always RuleEmailAction in this case.
   kind: object
   properties:
-  - description: Whether the administrators (service and co-administrators) of the service should be notified when the alert is activated.
+  - name: sendToServiceOwners
+    description: Whether the administrators (service and co-administrators) of the service should be notified when the alert is activated.
     types:
     - uid: boolean
-    name: sendToServiceOwners
-  - description: the list of administrator's custom email addresses to notify of the activation of the alert.
+  - name: customEmails
+    description: the list of administrator's custom email addresses to notify of the activation of the alert.
     types:
-    - isArray: true
-      uid: string
-    name: customEmails
-  - description: 'specifies the type of the action. There are two types of actions: RuleEmailAction and RuleWebhookAction.'
+    - uid: string
+      isArray: true
+  - name: odata.type
+    description: 'specifies the type of the action. There are two types of actions: RuleEmailAction and RuleWebhookAction.'
     types:
     - uid: Microsoft.Azure.Management.Insights.Models.RuleEmailAction
     typesTitle: string
-    name: odata.type
 - name: RuleWebhookAction
   description: Specifies the action to post to service when the rule condition is evaluated. The discriminator is always RuleWebhookAction in this case.
   kind: object
   properties:
-  - description: the service uri to Post the notification when the alert activates or resolves.
+  - name: serviceUri
+    description: the service uri to Post the notification when the alert activates or resolves.
     types:
     - uid: string
-    name: serviceUri
-  - description: the dictionary of custom properties to include with the post operation. These data are appended to the webhook payload.
+  - name: properties
+    description: the dictionary of custom properties to include with the post operation. These data are appended to the webhook payload.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: properties
-  - description: 'specifies the type of the action. There are two types of actions: RuleEmailAction and RuleWebhookAction.'
+  - name: odata.type
+    description: 'specifies the type of the action. There are two types of actions: RuleEmailAction and RuleWebhookAction.'
     types:
     - uid: Microsoft.Azure.Management.Insights.Models.RuleWebhookAction
     typesTitle: string
-    name: odata.type
 - name: ConditionOperator
   description: Operators allowed in the rule condition.
   kind: enum
   properties:
-  - types:
+  - name: GreaterThan
+    types:
     - uid: string
-    name: GreaterThan
-  - types:
+  - name: GreaterThanOrEqual
+    types:
     - uid: string
-    name: GreaterThanOrEqual
-  - types:
+  - name: LessThan
+    types:
     - uid: string
-    name: LessThan
-  - types:
+  - name: LessThanOrEqual
+    types:
     - uid: string
-    name: LessThanOrEqual
 - name: TimeAggregationOperator
   description: Aggregation operators allowed in a rule.
   kind: enum
   properties:
-  - types:
+  - name: Average
+    types:
     - uid: string
-    name: Average
-  - types:
+  - name: Minimum
+    types:
     - uid: string
-    name: Minimum
-  - types:
+  - name: Maximum
+    types:
     - uid: string
-    name: Maximum
-  - types:
+  - name: Total
+    types:
     - uid: string
-    name: Total
-  - types:
+  - name: Last
+    types:
     - uid: string
-    name: Last
 - name: ManagementEventAggregationCondition
   description: How the data that is collected should be combined over time.
   kind: object
   properties:
-  - description: the condition operator.
+  - name: operator
+    description: the condition operator.
     types:
     - uid: ConditionOperator
-    name: operator
-  - description: The threshold value that activates the alert.
+  - name: threshold
+    description: The threshold value that activates the alert.
     types:
     - uid: number
-    name: threshold
-  - description: the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
+  - name: windowSize
+    description: the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
     types:
     - uid: string
-    name: windowSize
 - name: RuleMetricDataSource
   description: A rule metric data source. The discriminator value is always RuleMetricDataSource in this case.
   kind: object
   properties:
-  - description: the name of the metric that defines what the rule monitors.
+  - name: metricName
+    description: the name of the metric that defines what the rule monitors.
     types:
     - uid: string
-    name: metricName
-  - description: 'specifies the type of data source. There are two types of rule data sources: RuleMetricDataSource and RuleManagementEventDataSource'
+  - name: odata.type
+    description: 'specifies the type of data source. There are two types of rule data sources: RuleMetricDataSource and RuleManagementEventDataSource'
     types:
     - uid: Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource
     typesTitle: string
-    name: odata.type
-  - description: 'the resource identifier of the resource the rule monitors. **NOTE**: this property cannot be updated for an existing rule.'
+  - name: resourceUri
+    description: 'the resource identifier of the resource the rule monitors. **NOTE**: this property cannot be updated for an existing rule.'
     types:
     - uid: string
-    name: resourceUri
 - name: RuleManagementEventDataSource
   description: A rule management event data source. The discriminator fields is always RuleManagementEventDataSource in this case.
   kind: object
   properties:
-  - description: the event name.
+  - name: eventName
+    description: the event name.
     types:
     - uid: string
-    name: eventName
-  - description: the event source.
+  - name: eventSource
+    description: the event source.
     types:
     - uid: string
-    name: eventSource
-  - description: the level.
+  - name: level
+    description: the level.
     types:
     - uid: string
-    name: level
-  - description: The name of the operation that should be checked for. If no name is provided, any operation will match.
+  - name: operationName
+    description: The name of the operation that should be checked for. If no name is provided, any operation will match.
     types:
     - uid: string
-    name: operationName
-  - description: the resource group name.
+  - name: resourceGroupName
+    description: the resource group name.
     types:
     - uid: string
-    name: resourceGroupName
-  - description: the resource provider name.
+  - name: resourceProviderName
+    description: the resource provider name.
     types:
     - uid: string
-    name: resourceProviderName
-  - description: The status of the operation that should be checked for. If no status is provided, any status will match.
+  - name: status
+    description: The status of the operation that should be checked for. If no status is provided, any status will match.
     types:
     - uid: string
-    name: status
-  - description: the substatus.
+  - name: subStatus
+    description: the substatus.
     types:
     - uid: string
-    name: subStatus
-  - description: the claims.
+  - name: claims
+    description: the claims.
     types:
     - uid: RuleManagementEventClaimsDataSource
-    name: claims
-  - description: 'specifies the type of data source. There are two types of rule data sources: RuleMetricDataSource and RuleManagementEventDataSource'
+  - name: odata.type
+    description: 'specifies the type of data source. There are two types of rule data sources: RuleMetricDataSource and RuleManagementEventDataSource'
     types:
     - uid: Microsoft.Azure.Management.Insights.Models.RuleManagementEventDataSource
     typesTitle: string
-    name: odata.type
-  - description: 'the resource identifier of the resource the rule monitors. **NOTE**: this property cannot be updated for an existing rule.'
+  - name: resourceUri
+    description: 'the resource identifier of the resource the rule monitors. **NOTE**: this property cannot be updated for an existing rule.'
     types:
     - uid: string
-    name: resourceUri
 - name: RuleManagementEventClaimsDataSource
   description: The claims for a rule management event data source.
   kind: object
   properties:
-  - description: the email address.
+  - name: emailAddress
+    description: the email address.
     types:
     - uid: string
-    name: emailAddress
 examples:
-- request:
+- name: Get an alert rule
+  request:
     uri: GET https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/Rac46PostSwapRG/providers/microsoft.insights/alertrules/chiricutin?api-version=2016-03-01
   responses:
   - statusCode: "200"
@@ -376,14 +379,11 @@ examples:
           "actions": []
         }
       }
-  name: Get an alert rule
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Get
-uid: management.azure.com.monitor.alertrules.get
+  - name: user_impersonation
+    description: impersonate your user account

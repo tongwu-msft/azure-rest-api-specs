@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Updates specific properties of a job. You can call this operation to notify the Import/Export service that the hard drives comprising the import or export job have been shipped to the Microsoft data center. It can also be used to cancel an existing job.
+uid: management.azure.com.storageimport-export.jobs.update
+name: Update
 service: Storage Import-Export
-apiVersion: 2016-11-01
 groupName: Jobs
+apiVersion: 2016-11-01
+summary: Updates specific properties of a job. You can call this operation to notify the Import/Export service that the hard drives comprising the import or export job have been shipped to the Microsoft data center. It can also be used to cancel an existing job.
 consumes:
 - application/json
 produces:
@@ -10,485 +12,486 @@ produces:
 paths:
 - content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}?api-version=2016-11-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription ID for the Azure user.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The resource group name uniquely identifies the resource group within the user subscription.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: jobName
+  in: path
   isRequired: true
   description: The name of the import/export job.
   types:
   - uid: string
-  name: jobName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Specifies the API version to use for this request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK
+- name: 200 OK
+  description: OK
   types:
   - uid: JobResponse
-  name: 200 OK
-- description: An error occurs.
+- name: Other Status Codes
+  description: An error occurs.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: tags
+    in: body
     description: Specifies the tags that will be assigned to the job
     types:
     - uid: object
-    name: tags
-  - in: body
+  - name: properties.cancelRequested
+    in: body
     description: 'If specified, the value must be true. The service will attempt to cancel the job. '
     types:
     - uid: boolean
-    name: properties.cancelRequested
-  - in: body
+  - name: properties.state
+    in: body
     description: 'If specified, the value must be Shipping, which tells the Import/Export service that the package for the job has been shipped. The ReturnAddress and DeliveryPackage properties must have been set either in this request or in a previous request, otherwise the request will fail. '
     types:
     - uid: string
-    name: properties.state
-  - in: body
+  - name: properties.returnAddress
+    in: body
     description: Specifies the return address information for the job.
     types:
     - uid: ReturnAddress
-    name: properties.returnAddress
-  - in: body
+  - name: properties.returnShipping
+    in: body
     description: Specifies the return carrier and customer's account with the carrier.
     types:
     - uid: ReturnShipping
-    name: properties.returnShipping
-  - in: body
+  - name: properties.deliveryPackage
+    in: body
     description: Contains information about the package being shipped by the customer to the Microsoft data center.
     types:
     - uid: PackageInfomation
-    name: properties.deliveryPackage
-  - in: body
+  - name: properties.logLevel
+    in: body
     description: Indicates whether error logging or verbose logging is enabled.
     types:
     - uid: string
-    name: properties.logLevel
-  - in: body
+  - name: properties.backupDriveManifest
+    in: body
     description: Indicates whether the manifest files on the drives should be copied to block blobs.
     types:
     - uid: boolean
-    name: properties.backupDriveManifest
-  - in: body
+  - name: properties.driveList
+    in: body
     description: Provides information about the drive's status
     types:
-    - isArray: true
-      uid: DriveStatus
-    name: properties.driveList
+    - uid: DriveStatus
+      isArray: true
 requestHeader:
-- in: header
+- name: Accept-Language
+  in: header
   description: Specifies the preferred language for the response.
   types:
   - uid: string
-  name: Accept-Language
 definitions:
 - name: ReturnAddress
   description: 'Specifies the return address information for the job. '
   kind: object
   properties:
-  - description: 'The name of the recipient who will receive the hard drives when they are returned. '
+  - name: recipientName
+    description: 'The name of the recipient who will receive the hard drives when they are returned. '
     types:
     - uid: string
-    name: recipientName
-  - description: 'The first line of the street address to use when returning the drives. '
+  - name: streetAddress1
+    description: 'The first line of the street address to use when returning the drives. '
     types:
     - uid: string
-    name: streetAddress1
-  - description: 'The second line of the street address to use when returning the drives. '
+  - name: streetAddress2
+    description: 'The second line of the street address to use when returning the drives. '
     types:
     - uid: string
-    name: streetAddress2
-  - description: The city name to use when returning the drives.
+  - name: city
+    description: The city name to use when returning the drives.
     types:
     - uid: string
-    name: city
-  - description: The state or province to use when returning the drives.
+  - name: stateOrProvince
+    description: The state or province to use when returning the drives.
     types:
     - uid: string
-    name: stateOrProvince
-  - description: The postal code to use when returning the drives.
+  - name: postalCode
+    description: The postal code to use when returning the drives.
     types:
     - uid: string
-    name: postalCode
-  - description: 'The country or region to use when returning the drives. '
+  - name: countryOrRegion
+    description: 'The country or region to use when returning the drives. '
     types:
     - uid: string
-    name: countryOrRegion
-  - description: Phone number of the recipient of the returned drives.
+  - name: phone
+    description: Phone number of the recipient of the returned drives.
     types:
     - uid: string
-    name: phone
-  - description: Email address of the recipient of the returned drives.
+  - name: email
+    description: Email address of the recipient of the returned drives.
     types:
     - uid: string
-    name: email
 - name: ReturnShipping
   description: "Specifies the return carrier and customer's account with the carrier. "
   kind: object
   properties:
-  - description: The carrier's name.
+  - name: carrierName
+    description: The carrier's name.
     types:
     - uid: string
-    name: carrierName
-  - description: The customer's account number with the carrier.
+  - name: carrierAccountNumber
+    description: The customer's account number with the carrier.
     types:
     - uid: string
-    name: carrierAccountNumber
 - name: PackageInfomation
   description: 'Contains information about the package being shipped by the customer to the Microsoft data center. '
   kind: object
   properties:
-  - description: The name of the carrier that is used to ship the import or export drives.
+  - name: carrierName
+    description: The name of the carrier that is used to ship the import or export drives.
     types:
     - uid: string
-    name: carrierName
-  - description: The tracking number of the package.
+  - name: trackingNumber
+    description: The tracking number of the package.
     types:
     - uid: string
-    name: trackingNumber
-  - description: The number of drives included in the package.
+  - name: driveCount
+    description: The number of drives included in the package.
     types:
     - uid: integer
-    name: driveCount
-  - description: The date when the package is shipped.
+  - name: shipDate
+    description: The date when the package is shipped.
     types:
     - uid: string
-    name: shipDate
 - name: DriveStatus
   description: List of up to ten drives that comprise the job. The drive list is a required element for an import job; it is not specified for export jobs.
   kind: object
   properties:
-  - description: The drive's hardware serial number, without spaces.
+  - name: driveId
+    description: The drive's hardware serial number, without spaces.
     types:
     - uid: string
-    name: driveId
-  - description: The BitLocker key used to encrypt the drive.
+  - name: bitLockerKey
+    description: The BitLocker key used to encrypt the drive.
     types:
     - uid: string
-    name: bitLockerKey
-  - description: 'The relative path of the manifest file on the drive. '
+  - name: manifestFile
+    description: 'The relative path of the manifest file on the drive. '
     types:
     - uid: string
-    name: manifestFile
-  - description: The Base16-encoded MD5 hash of the manifest file on the drive.
+  - name: manifestHash
+    description: The Base16-encoded MD5 hash of the manifest file on the drive.
     types:
     - uid: string
-    name: manifestHash
-  - description: The drive header hash value.
+  - name: driveHeaderHash
+    description: The drive header hash value.
     types:
     - uid: string
-    name: driveHeaderHash
-  - description: "The drive's current state. "
+  - name: state
+    description: "The drive's current state. "
     types:
     - uid: DriveState
-    name: state
-  - description: Detailed status about the data transfer process. This field is not returned in the response until the drive is in the Transferring state.
+  - name: copyStatus
+    description: Detailed status about the data transfer process. This field is not returned in the response until the drive is in the Transferring state.
     types:
     - uid: string
-    name: copyStatus
-  - description: 'Percentage completed for the drive. '
+  - name: percentComplete
+    description: 'Percentage completed for the drive. '
     types:
     - uid: integer
-    name: percentComplete
-  - description: 'A URI that points to the blob containing the verbose log for the data transfer operation. '
+  - name: verboseLogUri
+    description: 'A URI that points to the blob containing the verbose log for the data transfer operation. '
     types:
     - uid: string
-    name: verboseLogUri
-  - description: A URI that points to the blob containing the error log for the data transfer operation.
+  - name: errorLogUri
+    description: A URI that points to the blob containing the error log for the data transfer operation.
     types:
     - uid: string
-    name: errorLogUri
-  - description: 'A URI that points to the blob containing the drive manifest file. '
+  - name: manifestUri
+    description: 'A URI that points to the blob containing the drive manifest file. '
     types:
     - uid: string
-    name: manifestUri
-  - description: Bytes successfully transferred for the drive.
+  - name: bytesSucceeded
+    description: Bytes successfully transferred for the drive.
     types:
     - uid: integer
-    name: bytesSucceeded
 - name: JobResponse
   description: Job list
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Specifies the resource identifier of the job.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Specifies the name of the job.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Specifies the type of the job resource.
     types:
     - uid: string
-    name: type
-  - description: Specifies the Azure location where the job is created.
+  - name: location
+    description: Specifies the Azure location where the job is created.
     types:
     - uid: string
-    name: location
-  - description: Specifies the tags that are assigned to the job.
+  - name: tags
+    description: Specifies the tags that are assigned to the job.
     types:
     - uid: object
-    name: tags
-  - description: Specifies the job properties
+  - name: properties
+    description: Specifies the job properties
     types:
     - uid: JobDetails
-    name: properties
 - name: ErrorResponse
   description: Response when errors occurred
   kind: object
   properties:
-  - description: Provides information about the error code.
+  - name: error.code
+    description: Provides information about the error code.
     types:
     - uid: string
-    name: error.code
-  - description: Provides information about the error message.
+  - name: error.message
+    description: Provides information about the error message.
     types:
     - uid: string
-    name: error.message
-  - description: Provides information about the error target.
+  - name: error.target
+    description: Provides information about the error target.
     types:
     - uid: string
-    name: error.target
-  - description: Describes the error details if present.
+  - name: error.details
+    description: Describes the error details if present.
     types:
-    - isArray: true
-      uid: Details
-    name: error.details
-  - description: Inner error object if present.
+    - uid: Details
+      isArray: true
+  - name: error.innererror
+    description: Inner error object if present.
     types:
     - uid: object
-    name: error.innererror
 - name: UpdateJobParameters
   description: Update Job parameters
   kind: object
   properties:
-  - description: Specifies the tags that will be assigned to the job
+  - name: tags
+    description: Specifies the tags that will be assigned to the job
     types:
     - uid: object
-    name: tags
-  - description: 'If specified, the value must be true. The service will attempt to cancel the job. '
+  - name: properties.cancelRequested
+    description: 'If specified, the value must be true. The service will attempt to cancel the job. '
     types:
     - uid: boolean
-    name: properties.cancelRequested
-  - description: 'If specified, the value must be Shipping, which tells the Import/Export service that the package for the job has been shipped. The ReturnAddress and DeliveryPackage properties must have been set either in this request or in a previous request, otherwise the request will fail. '
+  - name: properties.state
+    description: 'If specified, the value must be Shipping, which tells the Import/Export service that the package for the job has been shipped. The ReturnAddress and DeliveryPackage properties must have been set either in this request or in a previous request, otherwise the request will fail. '
     types:
     - uid: string
-    name: properties.state
-  - description: Specifies the return address information for the job.
+  - name: properties.returnAddress
+    description: Specifies the return address information for the job.
     types:
     - uid: ReturnAddress
-    name: properties.returnAddress
-  - description: Specifies the return carrier and customer's account with the carrier.
+  - name: properties.returnShipping
+    description: Specifies the return carrier and customer's account with the carrier.
     types:
     - uid: ReturnShipping
-    name: properties.returnShipping
-  - description: Contains information about the package being shipped by the customer to the Microsoft data center.
+  - name: properties.deliveryPackage
+    description: Contains information about the package being shipped by the customer to the Microsoft data center.
     types:
     - uid: PackageInfomation
-    name: properties.deliveryPackage
-  - description: Indicates whether error logging or verbose logging is enabled.
+  - name: properties.logLevel
+    description: Indicates whether error logging or verbose logging is enabled.
     types:
     - uid: string
-    name: properties.logLevel
-  - description: Indicates whether the manifest files on the drives should be copied to block blobs.
+  - name: properties.backupDriveManifest
+    description: Indicates whether the manifest files on the drives should be copied to block blobs.
     types:
     - uid: boolean
-    name: properties.backupDriveManifest
-  - description: Provides information about the drive's status
+  - name: properties.driveList
+    description: Provides information about the drive's status
     types:
-    - isArray: true
-      uid: DriveStatus
-    name: properties.driveList
+    - uid: DriveStatus
+      isArray: true
 - name: DriveState
   description: "The drive's current state. "
   kind: enum
   properties:
-  - types:
+  - name: Specified
+    types:
     - uid: string
-    name: Specified
-  - types:
+  - name: Received
+    types:
     - uid: string
-    name: Received
-  - types:
+  - name: NeverReceived
+    types:
     - uid: string
-    name: NeverReceived
-  - types:
+  - name: Transferring
+    types:
     - uid: string
-    name: Transferring
-  - types:
+  - name: Completed
+    types:
     - uid: string
-    name: Completed
-  - types:
+  - name: CompletedMoreInfo
+    types:
     - uid: string
-    name: CompletedMoreInfo
-  - types:
+  - name: ShippedBack
+    types:
     - uid: string
-    name: ShippedBack
 - name: JobDetails
   description: Specifies the job properties
   kind: object
   properties:
-  - description: The resource identifier of the storage account where data will be imported to or exported from.
+  - name: storageAccountId
+    description: The resource identifier of the storage account where data will be imported to or exported from.
     types:
     - uid: string
-    name: storageAccountId
-  - description: The type of job
+  - name: jobType
+    description: The type of job
     types:
     - uid: string
-    name: jobType
-  - description: 'Specifies the return address information for the job. '
+  - name: returnAddress
+    description: 'Specifies the return address information for the job. '
     types:
     - uid: ReturnAddress
-    name: returnAddress
-  - description: "Specifies the return carrier and customer's account with the carrier. "
+  - name: returnShipping
+    description: "Specifies the return carrier and customer's account with the carrier. "
     types:
     - uid: ReturnShipping
-    name: returnShipping
-  - description: 'Contains information about the Microsoft datacenter to which the drives should be shipped. '
+  - name: shippingInformation
+    description: 'Contains information about the Microsoft datacenter to which the drives should be shipped. '
     types:
     - uid: ShippingInformation
-    name: shippingInformation
-  - description: 'Contains information about the package being shipped by the customer to the Microsoft data center. '
+  - name: deliveryPackage
+    description: 'Contains information about the package being shipped by the customer to the Microsoft data center. '
     types:
     - uid: PackageInfomation
-    name: deliveryPackage
-  - description: 'Contains information about the package being shipped from the Microsoft data center to the customer to return the drives. The format is the same as the deliveryPackage property above. This property is not included if the drives have not yet been returned. '
+  - name: returnPackage
+    description: 'Contains information about the package being shipped from the Microsoft data center to the customer to return the drives. The format is the same as the deliveryPackage property above. This property is not included if the drives have not yet been returned. '
     types:
     - uid: PackageInfomation
-    name: returnPackage
-  - description: The virtual blob directory to which the copy logs and backups of drive manifest files (if enabled) will be stored.
+  - name: diagnosticsPath
+    description: The virtual blob directory to which the copy logs and backups of drive manifest files (if enabled) will be stored.
     types:
     - uid: string
-    name: diagnosticsPath
-  - description: Default value is Error. Indicates whether error logging or verbose logging will be enabled.
+  - name: logLevel
+    description: Default value is Error. Indicates whether error logging or verbose logging will be enabled.
     types:
     - uid: string
-    name: logLevel
-  - description: Default value is false. Indicates whether the manifest files on the drives should be copied to block blobs.
+  - name: backupDriveManifest
+    description: Default value is false. Indicates whether the manifest files on the drives should be copied to block blobs.
     types:
     - uid: boolean
-    name: backupDriveManifest
-  - description: Current state of the job.
+  - name: state
+    description: Current state of the job.
     types:
     - uid: string
-    name: state
-  - description: Indicates whether a request has been submitted to cancel the job.
+  - name: cancelRequested
+    description: Indicates whether a request has been submitted to cancel the job.
     types:
     - uid: boolean
-    name: cancelRequested
-  - description: Overall percentage completed for the job.
+  - name: percentComplete
+    description: Overall percentage completed for the job.
     types:
     - uid: integer
-    name: percentComplete
-  - description: A blob path that points to a block blob containing a list of blob names that were not exported due to insufficient drive space. If all blobs were exported successfully, then this element is not included in the response.
+  - name: incompleteBlobListUri
+    description: A blob path that points to a block blob containing a list of blob names that were not exported due to insufficient drive space. If all blobs were exported successfully, then this element is not included in the response.
     types:
     - uid: string
-    name: incompleteBlobListUri
-  - description: Provides information about the drive's status
+  - name: driveList
+    description: Provides information about the drive's status
     types:
-    - isArray: true
-      uid: DriveStatus
-    name: driveList
-  - description: A property containing information about the blobs to be exported for an export job. This property is included for export jobs only.
+    - uid: DriveStatus
+      isArray: true
+  - name: export
+    description: A property containing information about the blobs to be exported for an export job. This property is included for export jobs only.
     types:
     - uid: Export
-    name: export
-  - description: Specifies the provisioning state of the job.
+  - name: provisioningState
+    description: Specifies the provisioning state of the job.
     types:
     - uid: string
-    name: provisioningState
 - name: Details
   description: Describes the error details if present.
   kind: object
   properties:
-  - description: Provides information about the error code.
+  - name: code
+    description: Provides information about the error code.
     types:
     - uid: string
-    name: code
-  - description: Provides information about the error target.
+  - name: target
+    description: Provides information about the error target.
     types:
     - uid: string
-    name: target
-  - description: Provides information about the error message.
+  - name: message
+    description: Provides information about the error message.
     types:
     - uid: string
-    name: message
 - name: ShippingInformation
   description: 'Contains information about the Microsoft datacenter to which the drives should be shipped. '
   kind: object
   properties:
-  - description: 'The name of the recipient who will receive the hard drives when they are returned. '
+  - name: recipientName
+    description: 'The name of the recipient who will receive the hard drives when they are returned. '
     types:
     - uid: string
-    name: recipientName
-  - description: 'The first line of the street address to use when returning the drives. '
+  - name: streetAddress1
+    description: 'The first line of the street address to use when returning the drives. '
     types:
     - uid: string
-    name: streetAddress1
-  - description: 'The second line of the street address to use when returning the drives. '
+  - name: streetAddress2
+    description: 'The second line of the street address to use when returning the drives. '
     types:
     - uid: string
-    name: streetAddress2
-  - description: The city name to use when returning the drives.
+  - name: city
+    description: The city name to use when returning the drives.
     types:
     - uid: string
-    name: city
-  - description: The state or province to use when returning the drives.
+  - name: stateOrProvince
+    description: The state or province to use when returning the drives.
     types:
     - uid: string
-    name: stateOrProvince
-  - description: The postal code to use when returning the drives.
+  - name: postalCode
+    description: The postal code to use when returning the drives.
     types:
     - uid: string
-    name: postalCode
-  - description: 'The country or region to use when returning the drives. '
+  - name: countryOrRegion
+    description: 'The country or region to use when returning the drives. '
     types:
     - uid: string
-    name: countryOrRegion
-  - description: Phone number of the recipient of the returned drives.
+  - name: phone
+    description: Phone number of the recipient of the returned drives.
     types:
     - uid: string
-    name: phone
 - name: Export
   description: A property containing information about the blobs to be exported for an export job. This property is included for export jobs only.
   kind: object
   properties:
-  - description: 'The relative URI to the block blob that contains the list of blob paths or blob path prefixes as defined above, beginning with the container name. If the blob is in root container, the URI must begin with $root. '
+  - name: blobListblobPath
+    description: 'The relative URI to the block blob that contains the list of blob paths or blob path prefixes as defined above, beginning with the container name. If the blob is in root container, the URI must begin with $root. '
     types:
     - uid: string
-    name: blobListblobPath
-  - description: A collection of blob-path strings.
+  - name: blobList.blobPath
+    description: A collection of blob-path strings.
     types:
-    - isArray: true
-      uid: string
-    name: blobList.blobPath
-  - description: A collection of blob-prefix strings.
+    - uid: string
+      isArray: true
+  - name: blobList.blobPathPrefix
+    description: A collection of blob-prefix strings.
     types:
-    - isArray: true
-      uid: string
-    name: blobList.blobPathPrefix
+    - uid: string
+      isArray: true
 examples:
-- request:
+- name: Update job
+  request:
     uri: PATCH https://management.azure.com/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-Storage-WestUS/providers/Microsoft.ImportExport/jobs/test-by1-import?api-version=2016-11-01
     body: >-
       {
@@ -547,14 +550,11 @@ examples:
         "type": "Microsoft.ImportExport/jobs",
         "location": "West US"
       }
-  name: Update job
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Update
-uid: management.azure.com.storageimport-export.jobs.update
+  - name: user_impersonation
+    description: impersonate your user account

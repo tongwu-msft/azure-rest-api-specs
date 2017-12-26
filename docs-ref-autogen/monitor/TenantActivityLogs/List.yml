@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets the Activity Logs for the Tenant.<br>Everything that is applicable to the API to get the Activity Logs for the subscription is applicable to this API (the parameters, $filter, etc.).<br>One thing to point out here is that this API does *not* retrieve the logs at the individual subscription of the tenant but only surfaces the logs that were generated at the tenant level.
+uid: management.azure.com.monitor.tenantactivitylogs.list
+name: List
 service: Monitor
-apiVersion: 2015-04-01
 groupName: Tenant Activity Logs
+apiVersion: 2015-04-01
+summary: Gets the Activity Logs for the Tenant.<br>Everything that is applicable to the API to get the Activity Logs for the subscription is applicable to this API (the parameters, $filter, etc.).<br>One thing to point out here is that this API does *not* retrieve the logs at the individual subscription of the tenant but only surfaces the logs that were generated at the tenant level.
 consumes:
 - application/json
 produces:
@@ -12,235 +14,236 @@ paths:
 - content: GET https://management.azure.com/providers/microsoft.insights/eventtypes/management/values?api-version=2015-04-01&$filter={$filter}&$select={$select}
   isOptional: true
 uriParameters:
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client Api Version.
   types:
   - uid: string
-  name: api-version
-- in: query
+- name: $filter
+  in: query
   description: "Reduces the set of data collected. <br>The **$filter** is very restricted and allows only the following patterns.<br>- List events for a resource group: $filter=eventTimestamp ge '<Start Time>' and eventTimestamp le '<End Time>' and eventChannels eq 'Admin, Operation' and resourceGroupName eq '<ResourceGroupName>'.<br>- List events for resource: $filter=eventTimestamp ge '<Start Time>' and eventTimestamp le '<End Time>' and eventChannels eq 'Admin, Operation' and resourceUri eq '<ResourceURI>'.<br>- List events for a subscription: $filter=eventTimestamp ge '<Start Time>' and eventTimestamp le '<End Time>' and eventChannels eq 'Admin, Operation'.<br>- List events for a resource provider: $filter=eventTimestamp ge '<Start Time>' and eventTimestamp le '<End Time>' and eventChannels eq 'Admin, Operation' and resourceProvider eq '<ResourceProviderName>'.<br>- List events for a correlation Id: api-version=2014-04-01&$filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and eventTimestamp le '2014-07-20T04:36:37.6407898Z' and eventChannels eq 'Admin, Operation' and correlationId eq '<CorrelationID>'.<br>**NOTE**: No other syntax is allowed."
   types:
   - uid: string
-  name: $filter
-- in: query
+- name: $select
+  in: query
   description: 'Used to fetch events with only the given properties.<br>The **$select** argument is a comma separated list of property names to be returned. Possible values are: *authorization*, *claims*, *correlationId*, *description*, *eventDataId*, *eventName*, *eventTimestamp*, *httpRequest*, *level*, *operationId*, *operationName*, *properties*, *resourceGroupName*, *resourceProviderName*, *resourceId*, *status*, *submissionTimestamp*, *subStatus*, *subscriptionId*'
   types:
   - uid: string
-  name: $select
 responses:
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
-- description: Successful request to get a page of events in the tenant activity logs
+- name: 200 OK
+  description: Successful request to get a page of events in the tenant activity logs
   types:
   - uid: EventDataCollection
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: ErrorResponse
   description: Describes the format of Error response.
   kind: object
   properties:
-  - description: Error code
+  - name: code
+    description: Error code
     types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
-    name: message
 - name: EventDataCollection
   description: Represents collection of events.
   kind: object
   properties:
-  - description: The Azure event log entries are of type EventData
+  - name: value
+    description: The Azure event log entries are of type EventData
     types:
-    - isArray: true
-      uid: EventData
-    name: value
-  - description: Provides the link to retrieve the next set of events.
+    - uid: EventData
+      isArray: true
+  - name: nextLink
+    description: Provides the link to retrieve the next set of events.
     types:
     - uid: string
-    name: nextLink
 - name: EventData
   description: The Azure event log entries are of type EventData
   kind: object
   properties:
-  - description: the authorization used by the user who has performed the operation that led to this event. This captures the RBAC properties of the event. These usually include the 'action', 'role' and the 'scope'
+  - name: authorization
+    description: the authorization used by the user who has performed the operation that led to this event. This captures the RBAC properties of the event. These usually include the 'action', 'role' and the 'scope'
     types:
     - uid: SenderAuthorization
-    name: authorization
-  - description: key value pairs to identify ARM permissions.
+  - name: claims
+    description: key value pairs to identify ARM permissions.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: claims
-  - description: the email address of the user who has performed the operation, the UPN claim or SPN claim based on availability.
+  - name: caller
+    description: the email address of the user who has performed the operation, the UPN claim or SPN claim based on availability.
     types:
     - uid: string
-    name: caller
-  - description: the description of the event.
+  - name: description
+    description: the description of the event.
     types:
     - uid: string
-    name: description
-  - description: the Id of this event as required by ARM for RBAC. It contains the EventDataID and a timestamp information.
+  - name: id
+    description: the Id of this event as required by ARM for RBAC. It contains the EventDataID and a timestamp information.
     types:
     - uid: string
-    name: id
-  - description: the event data Id. This is a unique identifier for an event.
+  - name: eventDataId
+    description: the event data Id. This is a unique identifier for an event.
     types:
     - uid: string
-    name: eventDataId
-  - description: the correlation Id, usually a GUID in the string format. The correlation Id is shared among the events that belong to the same uber operation.
+  - name: correlationId
+    description: the correlation Id, usually a GUID in the string format. The correlation Id is shared among the events that belong to the same uber operation.
     types:
     - uid: string
-    name: correlationId
-  - description: the event name. This value should not be confused with OperationName. For practical purposes, OperationName might be more appealing to end users.
+  - name: eventName
+    description: the event name. This value should not be confused with OperationName. For practical purposes, OperationName might be more appealing to end users.
     types:
     - uid: LocalizableString
-    name: eventName
-  - description: the event category.
+  - name: category
+    description: the event category.
     types:
     - uid: LocalizableString
-    name: category
-  - description: the HTTP request info. Usually includes the 'clientRequestId', 'clientIpAddress' (IP address of the user who initiated the event) and 'method' (HTTP method e.g. PUT).
+  - name: httpRequest
+    description: the HTTP request info. Usually includes the 'clientRequestId', 'clientIpAddress' (IP address of the user who initiated the event) and 'method' (HTTP method e.g. PUT).
     types:
     - uid: HttpRequestInfo
-    name: httpRequest
-  - description: the event level
+  - name: level
+    description: the event level
     types:
     - uid: EventLevel
-    name: level
-  - description: the resource group name of the impacted resource.
+  - name: resourceGroupName
+    description: the resource group name of the impacted resource.
     types:
     - uid: string
-    name: resourceGroupName
-  - description: the resource provider name of the impacted resource.
+  - name: resourceProviderName
+    description: the resource provider name of the impacted resource.
     types:
     - uid: LocalizableString
-    name: resourceProviderName
-  - description: the resource uri that uniquely identifies the resource that caused this event.
+  - name: resourceId
+    description: the resource uri that uniquely identifies the resource that caused this event.
     types:
     - uid: string
-    name: resourceId
-  - description: the resource type
+  - name: resourceType
+    description: the resource type
     types:
     - uid: LocalizableString
-    name: resourceType
-  - description: It is usually a GUID shared among the events corresponding to single operation. This value should not be confused with EventName.
+  - name: operationId
+    description: It is usually a GUID shared among the events corresponding to single operation. This value should not be confused with EventName.
     types:
     - uid: string
-    name: operationId
-  - description: the operation name.
+  - name: operationName
+    description: the operation name.
     types:
     - uid: LocalizableString
-    name: operationName
-  - description: the set of <Key, Value> pairs (usually a Dictionary<String, String>) that includes details about the event.
+  - name: properties
+    description: the set of <Key, Value> pairs (usually a Dictionary<String, String>) that includes details about the event.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: properties
-  - description: 'a string describing the status of the operation. Some typical values are: Started, In progress, Succeeded, Failed, Resolved.'
+  - name: status
+    description: 'a string describing the status of the operation. Some typical values are: Started, In progress, Succeeded, Failed, Resolved.'
     types:
     - uid: LocalizableString
-    name: status
-  - description: 'the event sub status. Most of the time, when included, this captures the HTTP status code of the REST call. Common values are: OK (HTTP Status Code: 200), Created (HTTP Status Code: 201), Accepted (HTTP Status Code: 202), No Content (HTTP Status Code: 204), Bad Request(HTTP Status Code: 400), Not Found (HTTP Status Code: 404), Conflict (HTTP Status Code: 409), Internal Server Error (HTTP Status Code: 500), Service Unavailable (HTTP Status Code:503), Gateway Timeout (HTTP Status Code: 504)'
+  - name: subStatus
+    description: 'the event sub status. Most of the time, when included, this captures the HTTP status code of the REST call. Common values are: OK (HTTP Status Code: 200), Created (HTTP Status Code: 201), Accepted (HTTP Status Code: 202), No Content (HTTP Status Code: 204), Bad Request(HTTP Status Code: 400), Not Found (HTTP Status Code: 404), Conflict (HTTP Status Code: 409), Internal Server Error (HTTP Status Code: 500), Service Unavailable (HTTP Status Code:503), Gateway Timeout (HTTP Status Code: 504)'
     types:
     - uid: LocalizableString
-    name: subStatus
-  - description: the timestamp of when the event was generated by the Azure service processing the request corresponding the event. It in ISO 8601 format.
+  - name: eventTimestamp
+    description: the timestamp of when the event was generated by the Azure service processing the request corresponding the event. It in ISO 8601 format.
     types:
     - uid: string
-    name: eventTimestamp
-  - description: the timestamp of when the event became available for querying via this API. It is in ISO 8601 format. This value should not be confused eventTimestamp. As there might be a delay between the occurrence time of the event, and the time that the event is submitted to the Azure logging infrastructure.
+  - name: submissionTimestamp
+    description: the timestamp of when the event became available for querying via this API. It is in ISO 8601 format. This value should not be confused eventTimestamp. As there might be a delay between the occurrence time of the event, and the time that the event is submitted to the Azure logging infrastructure.
     types:
     - uid: string
-    name: submissionTimestamp
-  - description: the Azure subscription Id usually a GUID.
+  - name: subscriptionId
+    description: the Azure subscription Id usually a GUID.
     types:
     - uid: string
-    name: subscriptionId
-  - description: the Azure tenant Id
+  - name: tenantId
+    description: the Azure tenant Id
     types:
     - uid: string
-    name: tenantId
 - name: SenderAuthorization
   description: the authorization used by the user who has performed the operation that led to this event. This captures the RBAC properties of the event. These usually include the 'action', 'role' and the 'scope'
   kind: object
   properties:
-  - description: 'the permissible actions. For instance: microsoft.support/supporttickets/write'
+  - name: action
+    description: 'the permissible actions. For instance: microsoft.support/supporttickets/write'
     types:
     - uid: string
-    name: action
-  - description: 'the role of the user. For instance: Subscription Admin'
+  - name: role
+    description: 'the role of the user. For instance: Subscription Admin'
     types:
     - uid: string
-    name: role
-  - description: the scope.
+  - name: scope
+    description: the scope.
     types:
     - uid: string
-    name: scope
 - name: LocalizableString
   description: The localizable string class.
   kind: object
   properties:
-  - description: the invariant value.
+  - name: value
+    description: the invariant value.
     types:
     - uid: string
-    name: value
-  - description: the locale specific value.
+  - name: localizedValue
+    description: the locale specific value.
     types:
     - uid: string
-    name: localizedValue
 - name: HttpRequestInfo
   description: The Http request info.
   kind: object
   properties:
-  - description: the client request id.
+  - name: clientRequestId
+    description: the client request id.
     types:
     - uid: string
-    name: clientRequestId
-  - description: the client Ip Address
+  - name: clientIpAddress
+    description: the client Ip Address
     types:
     - uid: string
-    name: clientIpAddress
-  - description: the Http request method.
+  - name: method
+    description: the Http request method.
     types:
     - uid: string
-    name: method
-  - description: the Uri.
+  - name: uri
+    description: the Uri.
     types:
     - uid: string
-    name: uri
 - name: EventLevel
   description: the event level
   kind: enum
   properties:
-  - types:
+  - name: Critical
+    types:
     - uid: string
-    name: Critical
-  - types:
+  - name: Error
+    types:
     - uid: string
-    name: Error
-  - types:
+  - name: Warning
+    types:
     - uid: string
-    name: Warning
-  - types:
+  - name: Informational
+    types:
     - uid: string
-    name: Informational
-  - types:
+  - name: Verbose
+    types:
     - uid: string
-    name: Verbose
 examples:
-- request:
+- name: Get Tenant Activity Logs without filter or select
+  request:
     uri: GET https://management.azure.com/providers/microsoft.insights/eventtypes/management/values?api-version=2015-04-01
   responses:
   - statusCode: "200"
@@ -319,8 +322,8 @@ examples:
         ],
         "nextLink": "https://management.azure.com/########-####-####-####-############$skiptoken=######"
       }
-  name: Get Tenant Activity Logs without filter or select
-- request:
+- name: Get Tenant Activity Logs with filter
+  request:
     uri: GET https://management.azure.com/providers/microsoft.insights/eventtypes/management/values?api-version=2015-04-01&$filter=eventTimestamp ge '2015-01-21T20:00:00Z' and eventTimestamp le '2015-01-23T20:00:00Z' and resourceGroupName eq 'MSSupportGroup'
   responses:
   - statusCode: "200"
@@ -399,8 +402,8 @@ examples:
         ],
         "nextLink": "https://management.azure.com/########-####-####-####-############$skiptoken=######"
       }
-  name: Get Tenant Activity Logs with filter
-- request:
+- name: Get Tenant Activity Logs with select
+  request:
     uri: GET https://management.azure.com/providers/microsoft.insights/eventtypes/management/values?api-version=2015-04-01&$select=eventName,id,resourceGroupName,resourceProviderName,operationName,status,eventTimestamp,correlationId,submissionTimestamp,level
   responses:
   - statusCode: "200"
@@ -434,8 +437,8 @@ examples:
         ],
         "nextLink": "https://management.azure.com/########-####-####-####-############$skiptoken=######"
       }
-  name: Get Tenant Activity Logs with select
-- request:
+- name: Get Tenant Activity Logs with filter and select
+  request:
     uri: GET https://management.azure.com/providers/microsoft.insights/eventtypes/management/values?api-version=2015-04-01&$filter=eventTimestamp ge '2015-01-21T20:00:00Z' and eventTimestamp le '2015-01-23T20:00:00Z' and resourceGroupName eq 'MSSupportGroup'&$select=eventName,id,resourceGroupName,resourceProviderName,operationName,status,eventTimestamp,correlationId,submissionTimestamp,level
   responses:
   - statusCode: "200"
@@ -469,14 +472,11 @@ examples:
         ],
         "nextLink": "https://management.azure.com/########-####-####-####-############$skiptoken=######"
       }
-  name: Get Tenant Activity Logs with filter and select
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List
-uid: management.azure.com.monitor.tenantactivitylogs.list
+  - name: user_impersonation
+    description: impersonate your user account

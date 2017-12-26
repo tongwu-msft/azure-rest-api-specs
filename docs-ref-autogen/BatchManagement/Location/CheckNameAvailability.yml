@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Checks whether the Batch account name is available in the specified region.
+uid: management.azure.com.batchmanagement.location.checknameavailability
+name: Check Name Availability
 service: Batch Management
-apiVersion: 2017-09-01
 groupName: Location
+apiVersion: 2017-09-01
+summary: Checks whether the Batch account name is available in the specified region.
 consumes:
 - application/json
 produces:
@@ -10,128 +12,129 @@ produces:
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/checkNameAvailability?api-version=2017-09-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: locationName
+  in: path
   isRequired: true
   description: The desired region for the name check.
   types:
   - uid: string
-  name: locationName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version to be used with the HTTP request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Success. Returns details about whether a Batch account name is available.
+- name: 200 OK
+  description: Success. Returns details about whether a Batch account name is available.
   types:
   - uid: CheckNameAvailabilityResult
-  name: 200 OK
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: name
+    in: body
     isRequired: true
     description: The name to check for availability
     types:
     - uid: string
-    name: name
-  - in: body
+  - name: type
+    in: body
     isRequired: true
     description: The resource type. Must be set to Microsoft.Batch/batchAccounts
     types:
     - uid: Type
-    name: type
 requestHeader: []
 definitions:
 - name: CheckNameAvailabilityResult
   description: The CheckNameAvailability operation response.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: nameAvailable
+    isReadyOnly: true
     description: Gets a boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken or invalid and cannot be used.
     types:
     - uid: boolean
-    name: nameAvailable
-  - isReadyOnly: true
+  - name: reason
+    isReadyOnly: true
     description: Gets the reason that a Batch account name could not be used. The Reason element is only returned if NameAvailable is false.
     types:
     - uid: NameAvailabilityReason
-    name: reason
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: Gets an error message explaining the Reason value in more detail.
     types:
     - uid: string
-    name: message
 - name: CloudError
   description: An error response from the Batch service.
   kind: object
   properties:
-  - description: An error response from the Batch service.
+  - name: error
+    description: An error response from the Batch service.
     types:
     - uid: CloudErrorBody
-    name: error
 - name: CheckNameAvailabilityParameters
   description: Parameters for a check name availability request.
   kind: object
   properties:
-  - description: The name to check for availability
+  - name: name
+    description: The name to check for availability
     types:
     - uid: string
-    name: name
-  - description: The resource type. Must be set to Microsoft.Batch/batchAccounts
+  - name: type
+    description: The resource type. Must be set to Microsoft.Batch/batchAccounts
     types:
     - uid: Type
-    name: type
 - name: NameAvailabilityReason
   description: Gets the reason that a Batch account name could not be used. The Reason element is only returned if NameAvailable is false.
   kind: enum
   properties:
-  - types:
+  - name: Invalid
+    types:
     - uid: string
-    name: Invalid
-  - types:
+  - name: AlreadyExists
+    types:
     - uid: string
-    name: AlreadyExists
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
-    name: message
-  - description: The target of the particular error. For example, the name of the property in error.
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
     types:
     - uid: string
-    name: target
-  - description: A list of additional details about the error.
+  - name: details
+    description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: CloudErrorBody
-    name: details
+    - uid: CloudErrorBody
+      isArray: true
 - name: Type
   description: The resource type. Must be set to Microsoft.Batch/batchAccounts
   kind: enum
   properties:
-  - types:
+  - name: Microsoft.Batch/batchAccounts
+    types:
     - uid: string
-    name: Microsoft.Batch/batchAccounts
 examples:
-- request:
+- name: LocationCheckNameAvailability_Available
+  request:
     uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/locations/japaneast/checkNameAvailability?api-version=2017-09-01
     body: >-
       {
@@ -144,8 +147,8 @@ examples:
       {
         "nameAvailable": true
       }
-  name: LocationCheckNameAvailability_Available
-- request:
+- name: LocationCheckNameAvailability_AlreadyExists
+  request:
     uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/locations/japaneast/checkNameAvailability?api-version=2017-09-01
     body: >-
       {
@@ -160,14 +163,11 @@ examples:
         "reason": "AlreadyExists",
         "message": "An account named 'existingaccountname' is already in use."
       }
-  name: LocationCheckNameAvailability_AlreadyExists
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Check Name Availability
-uid: management.azure.com.batchmanagement.location.checknameavailability
+  - name: user_impersonation
+    description: impersonate your user account

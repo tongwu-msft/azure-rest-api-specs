@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: '**Lists the metric values for a resource**.'
+uid: management.azure.com.monitor.metrics.list
+name: List
 service: Monitor
-apiVersion: 2017-05-01-preview
 groupName: Metrics
+apiVersion: 2017-05-01-preview
+summary: '**Lists the metric values for a resource**.'
 consumes:
 - application/json
 produces:
@@ -12,34 +14,35 @@ paths:
 - content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?timespan={timespan}&interval={interval}&metric={metric}&aggregation={aggregation}&$top={$top}&$orderby={$orderby}&$filter={$filter}&resultType={resultType}&api-version=2017-05-01-preview
   isOptional: true
 uriParameters:
-- in: path
+- name: resourceUri
+  in: path
   isRequired: true
   description: The identifier of the resource.
   types:
   - uid: string
-  name: resourceUri
-- in: query
+- name: timespan
+  in: query
   description: The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'.
   types:
   - uid: string
-  name: timespan
-- in: query
+- name: interval
+  in: query
   description: The interval (i.e. timegrain) of the query.
   types:
   - uid: string
   format: duration
-  name: interval
-- in: query
+- name: metric
+  in: query
   description: The name of the metric to retrieve.
   types:
   - uid: string
-  name: metric
-- in: query
+- name: aggregation
+  in: query
   description: The list of aggregation types (comma separated) to retrieve.
   types:
   - uid: string
-  name: aggregation
-- in: query
+- name: $top
+  in: query
   description: >-
     The maximum number of records to retrieve.
 
@@ -49,8 +52,8 @@ uriParameters:
   types:
   - uid: number
   format: int32
-  name: $top
-- in: query
+- name: $orderby
+  in: query
   description: >-
     The aggregation to use for sorting results and the direction of the sort.
 
@@ -59,191 +62,191 @@ uriParameters:
     Examples: sum asc.
   types:
   - uid: string
-  name: $orderby
-- in: query
+- name: $filter
+  in: query
   description: The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**.
   types:
   - uid: string
-  name: $filter
-- in: query
+- name: resultType
+  in: query
   description: Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details.
   types:
   - uid: string
-  name: resultType
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client Api Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
-- description: Successful request to get the list of metric values.
+- name: 200 OK
+  description: Successful request to get the list of metric values.
   types:
   - uid: Response
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: ErrorResponse
   description: Describes the format of Error response.
   kind: object
   properties:
-  - description: Error code
+  - name: code
+    description: Error code
     types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
-    name: message
 - name: Response
   description: The response to a metrics query.
   kind: object
   properties:
-  - description: The integer value representing the cost of the query, for data case.
+  - name: cost
+    description: The integer value representing the cost of the query, for data case.
     types:
     - uid: number
-    name: cost
-  - description: The timespan for which the data was retrieved. Its value consists of two datatimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested.
+  - name: timespan
+    description: The timespan for which the data was retrieved. Its value consists of two datatimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested.
     types:
     - uid: string
-    name: timespan
-  - description: The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made.
+  - name: interval
+    description: The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made.
     types:
     - uid: string
-    name: interval
-  - description: The result data of a query.
+  - name: value
+    description: The result data of a query.
     types:
-    - isArray: true
-      uid: Metric
-    name: value
+    - uid: Metric
+      isArray: true
 - name: Metric
   description: the value of the collection.
   kind: object
   properties:
-  - description: the metric Id.
+  - name: id
+    description: the metric Id.
     types:
     - uid: string
-    name: id
-  - description: the resource type of the metric resource.
+  - name: type
+    description: the resource type of the metric resource.
     types:
     - uid: string
-    name: type
-  - description: the name and the display name of the metric, i.e. it is localizable string.
+  - name: name
+    description: the name and the display name of the metric, i.e. it is localizable string.
     types:
     - uid: LocalizableString
-    name: name
-  - description: the unit of the metric.
+  - name: unit
+    description: the unit of the metric.
     types:
     - uid: Unit
-    name: unit
-  - description: A time series result type. The discriminator value is always TimeSeries in this case.
+  - name: timeseries
+    description: A time series result type. The discriminator value is always TimeSeries in this case.
     types:
-    - isArray: true
-      uid: TimeSeriesElement
-    name: timeseries
+    - uid: TimeSeriesElement
+      isArray: true
 - name: LocalizableString
   description: The localizable string class.
   kind: object
   properties:
-  - description: the invariant value.
+  - name: value
+    description: the invariant value.
     types:
     - uid: string
-    name: value
-  - description: the locale specific value.
+  - name: localizedValue
+    description: the locale specific value.
     types:
     - uid: string
-    name: localizedValue
 - name: Unit
   description: the unit of the metric.
   kind: enum
   properties:
-  - types:
+  - name: Count
+    types:
     - uid: string
-    name: Count
-  - types:
+  - name: Bytes
+    types:
     - uid: string
-    name: Bytes
-  - types:
+  - name: Seconds
+    types:
     - uid: string
-    name: Seconds
-  - types:
+  - name: CountPerSecond
+    types:
     - uid: string
-    name: CountPerSecond
-  - types:
+  - name: BytesPerSecond
+    types:
     - uid: string
-    name: BytesPerSecond
-  - types:
+  - name: Percent
+    types:
     - uid: string
-    name: Percent
-  - types:
+  - name: MilliSeconds
+    types:
     - uid: string
-    name: MilliSeconds
-  - types:
+  - name: ByteSeconds
+    types:
     - uid: string
-    name: ByteSeconds
-  - types:
+  - name: Unspecified
+    types:
     - uid: string
-    name: Unspecified
 - name: TimeSeriesElement
   description: the time series returned when a data query is performed.
   kind: object
   properties:
-  - description: Represents a metric metadata value.
+  - name: metadatavalues
+    description: Represents a metric metadata value.
     types:
-    - isArray: true
-      uid: MetadataValue
-    name: metadatavalues
-  - description: Represents a metric value.
+    - uid: MetadataValue
+      isArray: true
+  - name: data
+    description: Represents a metric value.
     types:
-    - isArray: true
-      uid: MetricValue
-    name: data
+    - uid: MetricValue
+      isArray: true
 - name: MetadataValue
   description: Represents a metric metadata value.
   kind: object
   properties:
-  - description: the name of the metadata.
+  - name: name
+    description: the name of the metadata.
     types:
     - uid: LocalizableString
-    name: name
-  - description: the value of the metadata.
+  - name: value
+    description: the value of the metadata.
     types:
     - uid: string
-    name: value
 - name: MetricValue
   description: Represents a metric value.
   kind: object
   properties:
-  - description: the timestamp for the metric value in ISO 8601 format.
+  - name: timeStamp
+    description: the timestamp for the metric value in ISO 8601 format.
     types:
     - uid: string
-    name: timeStamp
-  - description: the average value in the time range.
+  - name: average
+    description: the average value in the time range.
     types:
     - uid: number
-    name: average
-  - description: the least value in the time range.
+  - name: minimum
+    description: the least value in the time range.
     types:
     - uid: number
-    name: minimum
-  - description: the greatest value in the time range.
+  - name: maximum
+    description: the greatest value in the time range.
     types:
     - uid: number
-    name: maximum
-  - description: the sum of all of the values in the time range.
+  - name: total
+    description: the sum of all of the values in the time range.
     types:
     - uid: number
-    name: total
-  - description: the number of samples in the time range. Can be used to determine the number of values that contributed to the average value.
+  - name: count
+    description: the number of samples in the time range. Can be used to determine the number of values that contributed to the average value.
     types:
     - uid: integer
-    name: count
 examples:
-- request:
+- name: Get Metric for data
+  request:
     uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&metric=BlobCapacity&aggregation=Average,count&$filter=BlobType eq '*'&api-version=2017-05-01-preview
   responses:
   - statusCode: "200"
@@ -326,8 +329,8 @@ examples:
           }
         ]
       }
-  name: Get Metric for data
-- request:
+- name: Get Metric for metadata
+  request:
     uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&metric=BlobCapacity&aggregation=Average,count&$filter=BlobType eq '*'&api-version=2017-05-01-preview
   responses:
   - statusCode: "200"
@@ -370,14 +373,11 @@ examples:
           }
         ]
       }
-  name: Get Metric for metadata
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List
-uid: management.azure.com.monitor.metrics.list
+  - name: user_impersonation
+    description: impersonate your user account

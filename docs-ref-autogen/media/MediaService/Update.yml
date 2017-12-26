@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Updates a Media Service.
+uid: management.azure.com.mediaservices.mediaservice.update
+name: Update
 service: Media Services
-apiVersion: 2015-10-01
 groupName: Media Service
+apiVersion: 2015-10-01
+summary: Updates a Media Service.
 consumes:
 - application/json
 produces:
@@ -10,144 +12,145 @@ produces:
 paths:
 - content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{mediaServiceName}?api-version=2015-10-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The unique identifier for a Microsoft Azure subscription.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: Name of the resource group within the Azure subscription.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: mediaServiceName
+  in: path
   isRequired: true
   description: Name of the Media Service.
   types:
   - uid: string
   pattern: ^[a-z0-9]{3,24}$
-  name: mediaServiceName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request. The current version is 2015-10-01.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Success. The Media Services account was updated.
+- name: 200 OK
+  description: Success. The Media Services account was updated.
   types:
   - uid: MediaService
-  name: 200 OK
-- description: Update Media Services failed.
+- name: Other Status Codes
+  description: Update Media Services failed.
   types:
   - uid: ApiError
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: properties.storageAccounts
+    in: body
     description: The properties of a storage account associated with this resource.
     types:
-    - isArray: true
-      uid: StorageAccount
-    name: properties.storageAccounts
-  - in: body
+    - uid: StorageAccount
+      isArray: true
+  - name: location
+    in: body
     description: The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth).
     types:
     - uid: string
-    name: location
-  - in: body
+  - name: tags
+    in: body
     description: Tags to help categorize the resource in the Azure portal.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 requestHeader: []
 definitions:
 - name: ApiEndpoint
   description: The properties for a Media Services REST API endpoint.
   kind: object
   properties:
-  - description: The Media Services REST endpoint.
+  - name: endpoint
+    description: The Media Services REST endpoint.
     types:
     - uid: string
-    name: endpoint
-  - description: The version of Media Services REST API.
+  - name: majorVersion
+    description: The version of Media Services REST API.
     types:
     - uid: string
-    name: majorVersion
 - name: StorageAccount
   description: The storage accounts for this resource.
   kind: object
   properties:
-  - description: The id of the storage account resource. Media Services relies on tables and queues as well as blobs, so the primary storage account must be a Standard Storage account (either Microsoft.ClassicStorage or Microsoft.Storage). Blob only storage accounts can be added as secondary storage accounts (isPrimary false).
+  - name: id
+    description: The id of the storage account resource. Media Services relies on tables and queues as well as blobs, so the primary storage account must be a Standard Storage account (either Microsoft.ClassicStorage or Microsoft.Storage). Blob only storage accounts can be added as secondary storage accounts (isPrimary false).
     types:
     - uid: string
-    name: id
-  - description: Is this storage account resource the primary storage account for the Media Service resource. Blob only storage must set this to false.
+  - name: isPrimary
+    description: Is this storage account resource the primary storage account for the Media Service resource. Blob only storage must set this to false.
     types:
     - uid: boolean
-    name: isPrimary
 - name: MediaService
   description: The properties of a Media Service resource.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: properties.apiEndpoints
+    isReadyOnly: true
     description: The properties for a Media Services REST API endpoint.
     types:
-    - isArray: true
-      uid: ApiEndpoint
-    name: properties.apiEndpoints
-  - description: The properties of a storage account associated with this resource.
+    - uid: ApiEndpoint
+      isArray: true
+  - name: properties.storageAccounts
+    description: The properties of a storage account associated with this resource.
     types:
-    - isArray: true
-      uid: StorageAccount
-    name: properties.storageAccounts
-  - isReadyOnly: true
+    - uid: StorageAccount
+      isArray: true
+  - name: id
+    isReadyOnly: true
     description: The id of the resource.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: The name of the resource.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: The type of the resource
     types:
     - uid: string
-    name: type
-  - description: The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth).
+  - name: location
+    description: The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth).
     types:
     - uid: string
-    name: location
-  - description: Tags to help categorize the resource in the Azure portal.
+  - name: tags
+    description: Tags to help categorize the resource in the Azure portal.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 - name: ApiError
   description: The error returned from a failed Media Services REST API call.
   kind: object
   properties:
-  - description: Error code.
+  - name: code
+    description: Error code.
     types:
     - uid: string
-    name: code
-  - description: Error message.
+  - name: message
+    description: Error message.
     types:
     - uid: string
-    name: message
 examples:
-- request:
+- name: MediaServiceUpdate
+  request:
     uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosmedia?api-version=2015-10-01
     body: >-
       {
@@ -175,14 +178,11 @@ examples:
           ]
         }
       }
-  name: MediaServiceUpdate
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Update
-uid: management.azure.com.mediaservices.mediaservice.update
+  - name: user_impersonation
+    description: impersonate your user account

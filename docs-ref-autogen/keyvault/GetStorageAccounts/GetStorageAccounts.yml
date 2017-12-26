@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: List storage accounts managed by specified key vault
+uid: keyvault.getstorageaccounts.getstorageaccounts
+name: Get Storage Accounts
 service: Key Vault
-apiVersion: 2016-10-01
 groupName: Get Storage Accounts
+apiVersion: 2016-10-01
+summary: List storage accounts managed by specified key vault
 consumes:
 - application/json
 produces:
@@ -12,125 +14,126 @@ paths:
 - content: GET https://{vaultBaseUrl}/storage?maxresults={maxresults}&api-version=2016-10-01
   isOptional: true
 uriParameters:
-- in: path
+- name: vaultBaseUrl
+  in: path
   isRequired: true
   description: The vault name, for example https://myvault.vault.azure.net.
   types:
   - uid: string
-  name: vaultBaseUrl
-- in: query
+- name: maxresults
+  in: query
   description: Maximum number of results to return in a page. If not specified the service will return up to 25 results.
   types:
   - uid: integer
   format: int32
-  name: maxresults
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: A response message containing a list of storage accounts along with a link to the next page of storage accounts.
+- name: 200 OK
+  description: A response message containing a list of storage accounts along with a link to the next page of storage accounts.
   types:
   - uid: StorageListResult
-  name: 200 OK
-- description: Key Vault error response describing why the operation failed.
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
   types:
   - uid: KeyVaultError
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: StorageListResult
   description: The storage accounts list result.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: value
+    isReadyOnly: true
     description: The storage account item containing storage account metadata.
     types:
-    - isArray: true
-      uid: StorageAccountItem
-    name: value
-  - isReadyOnly: true
+    - uid: StorageAccountItem
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
     description: The URL to get the next set of storage accounts.
     types:
     - uid: string
-    name: nextLink
 - name: KeyVaultError
   description: The key vault error exception.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: error
+    isReadyOnly: true
     description: The key vault server error.
     types:
     - uid: Error
-    name: error
 - name: StorageAccountItem
   description: The storage account item containing storage account metadata.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Storage identifier.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: resourceId
+    isReadyOnly: true
     description: Storage account resource Id.
     types:
     - uid: string
-    name: resourceId
-  - isReadyOnly: true
+  - name: attributes
+    isReadyOnly: true
     description: The storage account management attributes.
     types:
     - uid: StorageAccountAttributes
-    name: attributes
-  - isReadyOnly: true
+  - name: tags
+    isReadyOnly: true
     description: Application specific metadata in the form of key-value pairs.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 - name: Error
   description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: code
+    isReadyOnly: true
     description: The error code.
     types:
     - uid: string
-    name: code
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: The error message.
     types:
     - uid: string
-    name: message
-  - description: ''
+  - name: innererror
+    description: ''
     types:
     - {}
-    name: innererror
 - name: StorageAccountAttributes
   description: The storage account management attributes.
   kind: object
   properties:
-  - description: the enabled state of the object.
+  - name: enabled
+    description: the enabled state of the object.
     types:
     - uid: boolean
-    name: enabled
-  - isReadyOnly: true
+  - name: created
+    isReadyOnly: true
     description: Creation time in UTC.
     types:
     - uid: integer
-    name: created
-  - isReadyOnly: true
+  - name: updated
+    isReadyOnly: true
     description: Last updated time in UTC.
     types:
     - uid: integer
-    name: updated
 examples:
-- request:
+- name: List Storage account
+  request:
     uri: GET https://{vaultBaseUrl}/storage?api-version=2016-10-01
   responses:
   - statusCode: "200"
@@ -166,7 +169,4 @@ examples:
         ],
         "nextLink": "https://{BaseUri}/storage?api-version=2016-10-01&%24skiptoken=<token>"
       }
-  name: List Storage account
 security: []
-name: Get Storage Accounts
-uid: keyvault.getstorageaccounts.getstorageaccounts

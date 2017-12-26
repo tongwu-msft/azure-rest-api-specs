@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Updates a factory.
+uid: management.azure.com.datafactory.factories.update
+name: Update
 service: Data Factory
-apiVersion: 2017-09-01-preview
 groupName: Factories
+apiVersion: 2017-09-01-preview
+summary: Updates a factory.
 consumes:
 - application/json
 produces:
@@ -10,173 +12,174 @@ produces:
 paths:
 - content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}?api-version=2017-09-01-preview
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription identifier.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The resource group name.
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
-  name: resourceGroupName
-- in: path
+- name: factoryName
+  in: path
   isRequired: true
   description: The factory name.
   types:
   - uid: string
   pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
-  name: factoryName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK.
+- name: 200 OK
+  description: OK.
   types:
   - uid: Factory
-  name: 200 OK
-- description: An error response received from the Azure Data Factory service.
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: tags
+    in: body
     description: The resource tags.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
-  - in: body
+  - name: identity
+    in: body
     description: Managed service identity of the factory.
     types:
     - uid: FactoryIdentity
-    name: identity
 requestHeader: []
 definitions:
 - name: FactoryIdentity
   description: Managed service identity of the factory.
   kind: object
   properties:
-  - description: The identity type. Currently the only supported type is 'SystemAssigned'.
+  - name: type
+    description: The identity type. Currently the only supported type is 'SystemAssigned'.
     types:
     - uid: FactoryIdentityType
-    name: type
-  - isReadyOnly: true
+  - name: principalId
+    isReadyOnly: true
     description: The principal id of the identity.
     types:
     - uid: string
-    name: principalId
-  - isReadyOnly: true
+  - name: tenantId
+    isReadyOnly: true
     description: The client tenant id of the identity.
     types:
     - uid: string
-    name: tenantId
 - name: Factory
   description: List of factories.
   kind: object
   properties:
-  - description: Managed service identity of the factory.
+  - name: identity
+    description: Managed service identity of the factory.
     types:
     - uid: FactoryIdentity
-    name: identity
-  - isReadyOnly: true
+  - name: properties.provisioningState
+    isReadyOnly: true
     description: Factory provisioning state, example Succeeded.
     types:
     - uid: string
-    name: properties.provisioningState
-  - isReadyOnly: true
+  - name: properties.createTime
+    isReadyOnly: true
     description: Time the factory was created in ISO8601 format.
     types:
     - uid: string
-    name: properties.createTime
-  - isReadyOnly: true
+  - name: properties.version
+    isReadyOnly: true
     description: Version of the factory.
     types:
     - uid: string
-    name: properties.version
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: The resource identifier.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: The resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: The resource type.
     types:
     - uid: string
-    name: type
-  - description: The resource location.
+  - name: location
+    description: The resource location.
     types:
     - uid: string
-    name: location
-  - description: The resource tags.
+  - name: tags
+    description: The resource tags.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 - name: ErrorResponse
   description: The object that defines the structure of an Azure Data Factory response.
   kind: object
   properties:
-  - description: Error code.
+  - name: code
+    description: Error code.
     types:
     - uid: string
-    name: code
-  - description: Error message.
+  - name: message
+    description: Error message.
     types:
     - uid: string
-    name: message
-  - description: Property name/path in request associated with error.
+  - name: target
+    description: Property name/path in request associated with error.
     types:
     - uid: string
-    name: target
-  - description: The object that defines the structure of an Azure Data Factory response.
+  - name: details
+    description: The object that defines the structure of an Azure Data Factory response.
     types:
-    - isArray: true
-      uid: ErrorResponse
-    name: details
+    - uid: ErrorResponse
+      isArray: true
 - name: FactoryUpdateParameters
   description: Parameters for updating a factory resource.
   kind: object
   properties:
-  - description: The resource tags.
+  - name: tags
+    description: The resource tags.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
-  - description: Managed service identity of the factory.
+  - name: identity
+    description: Managed service identity of the factory.
     types:
     - uid: FactoryIdentity
-    name: identity
 - name: FactoryIdentityType
   description: The identity type. Currently the only supported type is 'SystemAssigned'.
   kind: enum
   properties:
-  - types:
+  - name: SystemAssigned
+    types:
     - uid: string
-    name: SystemAssigned
 examples:
-- request:
+- name: Factories_Update
+  request:
     uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName?api-version=2017-09-01-preview
     body: >-
       {
@@ -187,16 +190,16 @@ examples:
   responses:
   - statusCode: "200"
     headers:
-    - value: Wed, 13 Sep 2017 17:33:55 GMT
-      name: Date
-    - value: 3223701f-ce33-4a58-bb14-d3d53569d4f0
-      name: x-ms-request-id
-    - value: nosniff
-      name: X-Content-Type-Options
-    - value: "1197"
-      name: x-ms-ratelimit-remaining-subscription-writes
-    - value: ec4ce622-a1dd-4c49-a324-17e8d4d1fe83
-      name: x-ms-correlation-request-id
+    - name: Date
+      value: Wed, 13 Sep 2017 17:33:55 GMT
+    - name: x-ms-request-id
+      value: 3223701f-ce33-4a58-bb14-d3d53569d4f0
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1197"
+    - name: x-ms-correlation-request-id
+      value: ec4ce622-a1dd-4c49-a324-17e8d4d1fe83
     body: >-
       {
         "name": "exampleFactoryName",
@@ -212,14 +215,11 @@ examples:
         "type": "Microsoft.DataFactory/factories",
         "location": "East US"
       }
-  name: Factories_Update
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Update
-uid: management.azure.com.datafactory.factories.update
+  - name: user_impersonation
+    description: impersonate your user account

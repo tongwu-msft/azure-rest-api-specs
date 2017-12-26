@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists the execution status of the Job Preparation and Job Release task for the specified job across the compute nodes where the job has run. This API returns the Job Preparation and Job Release task status on all compute nodes that have run the Job Preparation or Job Release task. This includes nodes which have since been removed from the pool. If this API is invoked on a job which has no Job Preparation or Job Release task, the Batch service returns HTTP status code 409 (Conflict) with an error code of JobPreparationTaskNotSpecified.
+uid: batch.core.windows.net.batchservice.job.listpreparationandreleasetaskstatus
+name: List Preparation And Release Task Status
 service: Batch Service
-apiVersion: 2017-09-01.6.0
 groupName: Job
+apiVersion: 2017-09-01.6.0
+summary: Lists the execution status of the Job Preparation and Job Release task for the specified job across the compute nodes where the job has run. This API returns the Job Preparation and Job Release task status on all compute nodes that have run the Job Preparation or Job Release task. This includes nodes which have since been removed from the pool. If this API is invoked on a job which has no Job Preparation or Job Release task, the Batch service returns HTTP status code 409 (Conflict) with an error code of JobPreparationTaskNotSpecified.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
@@ -12,343 +14,343 @@ paths:
 - content: GET https://batch.core.windows.net/jobs/{jobId}/jobpreparationandreleasetaskstatus?$filter={$filter}&$select={$select}&maxresults={maxresults}&timeout={timeout}&api-version=2017-09-01.6.0
   isOptional: true
 uriParameters:
-- in: path
+- name: jobId
+  in: path
   isRequired: true
   description: The ID of the job.
   types:
   - uid: string
-  name: jobId
-- in: query
+- name: $filter
+  in: query
   description: An OData $filter clause. For more information on constructing this filter, see https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-job-preparation-and-release-status.
   types:
   - uid: string
-  name: $filter
-- in: query
+- name: $select
+  in: query
   description: An OData $select clause.
   types:
   - uid: string
-  name: $select
-- in: query
+- name: maxresults
+  in: query
   description: The maximum number of items to return in the response. A maximum of 1000 tasks can be returned.
   types:
   - uid: integer
   format: int32
-  name: maxresults
-- in: query
+- name: timeout
+  in: query
   description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
   types:
   - uid: integer
   format: int32
-  name: timeout
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- headers:
-  - value: string
-    name: client-request-id
-  - value: string
-    name: request-id
-  - value: string
-    name: ETag
-  - value: string
-    name: Last-Modified
+- name: 200 OK
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
   description: A response containing a list of Job Preparation and Job Release task statuses.
   types:
   - uid: CloudJobListPreparationAndReleaseTaskStatusResult
-  name: 200 OK
-- description: The error from the Batch service. If this API is invoked on a job which has no Job Preparation or Job Release task, the Batch service returns HTTP status code 409.
+- name: Other Status Codes
+  description: The error from the Batch service. If this API is invoked on a job which has no Job Preparation or Job Release task, the Batch service returns HTTP status code 409.
   types:
   - uid: BatchError
-  name: Other Status Codes
 requestHeader:
-- in: header
+- name: client-request-id
+  in: header
   description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
   types:
   - uid: string
   format: uuid
-  name: client-request-id
-- in: header
+- name: return-client-request-id
+  in: header
   description: Whether the server should return the client-request-id in the response.
   types:
   - uid: boolean
-  name: return-client-request-id
-- in: header
+- name: ocp-date
+  in: header
   description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
   types:
   - uid: string
   format: date-time-rfc1123
-  name: ocp-date
 definitions:
 - name: CloudJobListPreparationAndReleaseTaskStatusResult
   description: The result of listing the status of the Job Preparation and Job Release tasks for a job.
   kind: object
   properties:
-  - description: The status of the Job Preparation and Job Release tasks on a compute node.
+  - name: value
+    description: The status of the Job Preparation and Job Release tasks on a compute node.
     types:
-    - isArray: true
-      uid: JobPreparationAndReleaseTaskExecutionInformation
-    name: value
-  - description: The URL to get the next set of results.
+    - uid: JobPreparationAndReleaseTaskExecutionInformation
+      isArray: true
+  - name: odata.nextLink
+    description: The URL to get the next set of results.
     types:
     - uid: string
-    name: odata.nextLink
 - name: BatchError
   description: The error encountered while attempting to add the task.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: ErrorMessage
-    name: message
-  - description: An item of additional information included in an Azure Batch error response.
+  - name: values
+    description: An item of additional information included in an Azure Batch error response.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
+    - uid: BatchErrorDetail
+      isArray: true
 - name: JobPreparationAndReleaseTaskExecutionInformation
   description: The status of the Job Preparation and Job Release tasks on a compute node.
   kind: object
   properties:
-  - description: The ID of the pool containing the compute node to which this entry refers.
+  - name: poolId
+    description: The ID of the pool containing the compute node to which this entry refers.
     types:
     - uid: string
-    name: poolId
-  - description: The ID of the compute node to which this entry refers.
+  - name: nodeId
+    description: The ID of the compute node to which this entry refers.
     types:
     - uid: string
-    name: nodeId
-  - description: The URL of the compute node to which this entry refers.
+  - name: nodeUrl
+    description: The URL of the compute node to which this entry refers.
     types:
     - uid: string
-    name: nodeUrl
-  - description: Information about the execution status of the Job Preparation task on this compute node.
+  - name: jobPreparationTaskExecutionInfo
+    description: Information about the execution status of the Job Preparation task on this compute node.
     types:
     - uid: JobPreparationTaskExecutionInformation
-    name: jobPreparationTaskExecutionInfo
-  - description: >-
+  - name: jobReleaseTaskExecutionInfo
+    description: >-
       Information about the execution status of the Job Release task on this compute node.
 
       This property is set only if the Job Release task has run on the node.
     types:
     - uid: JobReleaseTaskExecutionInformation
-    name: jobReleaseTaskExecutionInfo
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
-  - description: The language code of the error message
+  - name: lang
+    description: The language code of the error message
     types:
     - uid: string
-    name: lang
-  - description: The text of the message.
+  - name: value
+    description: The text of the message.
     types:
     - uid: string
-    name: value
 - name: BatchErrorDetail
   description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
-  - description: An identifier specifying the meaning of the Value property.
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
     types:
     - uid: string
-    name: key
-  - description: The additional information included with the error response.
+  - name: value
+    description: The additional information included with the error response.
     types:
     - uid: string
-    name: value
 - name: JobPreparationTaskExecutionInformation
   description: Contains information about the execution of a Job Preparation task on a compute node.
   kind: object
   properties:
-  - description: >-
+  - name: startTime
+    description: >-
       The time at which the task started running.
 
       If the task has been restarted or retried, this is the most recent time at which the task started running.
     types:
     - uid: string
-    name: startTime
-  - description: >-
+  - name: endTime
+    description: >-
       The time at which the Job Preparation task completed.
 
       This property is set only if the task is in the Completed state.
     types:
     - uid: string
-    name: endTime
-  - description: The current state of the Job Preparation task on the compute node.
+  - name: state
+    description: The current state of the Job Preparation task on the compute node.
     types:
     - uid: JobPreparationTaskState
-    name: state
-  - description: The root directory of the Job Preparation task on the compute node. You can use this path to retrieve files created by the task, such as log files.
+  - name: taskRootDirectory
+    description: The root directory of the Job Preparation task on the compute node. You can use this path to retrieve files created by the task, such as log files.
     types:
     - uid: string
-    name: taskRootDirectory
-  - description: The URL to the root directory of the Job Preparation task on the compute node.
+  - name: taskRootDirectoryUrl
+    description: The URL to the root directory of the Job Preparation task on the compute node.
     types:
     - uid: string
-    name: taskRootDirectoryUrl
-  - description: >-
+  - name: exitCode
+    description: >-
       The exit code of the program specified on the task command line.
 
       This parameter is returned only if the task is in the completed state. The exit code for a process reflects the specific convention implemented by the application developer for that process. If you use the exit code value to make decisions in your code, be sure that you know the exit code convention used by the application process. Note that the exit code may also be generated by the compute node operating system, such as when a process is forcibly terminated.
     types:
     - uid: integer
-    name: exitCode
-  - description: >-
+  - name: containerInfo
+    description: >-
       Information about the container under which the task is executing.
 
       This property is set only if the task runs in a container context.
     types:
     - uid: TaskContainerExecutionInformation
-    name: containerInfo
-  - description: >-
+  - name: failureInfo
+    description: >-
       Information describing the task failure, if any.
 
       This property is set only if the task is in the completed state and encountered a failure.
     types:
     - uid: TaskFailureInformation
-    name: failureInfo
-  - description: >-
+  - name: retryCount
+    description: >-
       The number of times the task has been retried by the Batch service. Task application failures (non-zero exit code) are retried, pre-processing errors (the task could not be run) and file upload errors are not retried. The Batch service will retry the task up to the limit specified by the constraints.
 
       Task application failures (non-zero exit code) are retried, pre-processing errors (the task could not be run) and file upload errors are not retried. The Batch service will retry the task up to the limit specified by the constraints.
     types:
     - uid: integer
-    name: retryCount
-  - description: >-
+  - name: lastRetryTime
+    description: >-
       The most recent time at which a retry of the Job Preparation task started running.
 
       This property is set only if the task was retried (i.e. retryCount is nonzero). If present, this is typically the same as startTime, but may be different if the task has been restarted for reasons other than retry; for example, if the compute node was rebooted during a retry, then the startTime is updated but the lastRetryTime is not.
     types:
     - uid: string
-    name: lastRetryTime
-  - description: >-
+  - name: result
+    description: >-
       The result of the task execution.
 
       If the value is 'failed', then the details of the failure can be found in the failureInfo property.
     types:
     - uid: TaskExecutionResult
-    name: result
 - name: JobReleaseTaskExecutionInformation
   description: Contains information about the execution of a Job Release task on a compute node.
   kind: object
   properties:
-  - description: >-
+  - name: startTime
+    description: >-
       The time at which the task started running.
 
       If the task has been restarted or retried, this is the most recent time at which the task started running.
     types:
     - uid: string
-    name: startTime
-  - description: >-
+  - name: endTime
+    description: >-
       The time at which the Job Release task completed.
 
       This property is set only if the task is in the Completed state.
     types:
     - uid: string
-    name: endTime
-  - description: The current state of the Job Release task on the compute node.
+  - name: state
+    description: The current state of the Job Release task on the compute node.
     types:
     - uid: JobReleaseTaskState
-    name: state
-  - description: The root directory of the Job Release task on the compute node. You can use this path to retrieve files created by the task, such as log files.
+  - name: taskRootDirectory
+    description: The root directory of the Job Release task on the compute node. You can use this path to retrieve files created by the task, such as log files.
     types:
     - uid: string
-    name: taskRootDirectory
-  - description: The URL to the root directory of the Job Release task on the compute node.
+  - name: taskRootDirectoryUrl
+    description: The URL to the root directory of the Job Release task on the compute node.
     types:
     - uid: string
-    name: taskRootDirectoryUrl
-  - description: >-
+  - name: exitCode
+    description: >-
       The exit code of the program specified on the task command line.
 
       This parameter is returned only if the task is in the completed state. The exit code for a process reflects the specific convention implemented by the application developer for that process. If you use the exit code value to make decisions in your code, be sure that you know the exit code convention used by the application process. Note that the exit code may also be generated by the compute node operating system, such as when a process is forcibly terminated.
     types:
     - uid: integer
-    name: exitCode
-  - description: >-
+  - name: containerInfo
+    description: >-
       Information about the container under which the task is executing.
 
       This property is set only if the task runs in a container context.
     types:
     - uid: TaskContainerExecutionInformation
-    name: containerInfo
-  - description: >-
+  - name: failureInfo
+    description: >-
       Information describing the task failure, if any.
 
       This property is set only if the task is in the completed state and encountered a failure.
     types:
     - uid: TaskFailureInformation
-    name: failureInfo
-  - description: >-
+  - name: result
+    description: >-
       The result of the task execution.
 
       If the value is 'failed', then the details of the failure can be found in the failureInfo property.
     types:
     - uid: TaskExecutionResult
-    name: result
 - name: JobPreparationTaskState
   description: The current state of the Job Preparation task on the compute node.
   kind: enum
   properties:
-  - description: The task is currently running (including retrying).
+  - name: running
+    description: The task is currently running (including retrying).
     types:
     - uid: string
-    name: running
-  - description: The task has exited with exit code 0, or the task has exhausted its retry limit, or the Batch service was unable to start the task due to task preparation errors (such as resource file download failures).
+  - name: completed
+    description: The task has exited with exit code 0, or the task has exhausted its retry limit, or the Batch service was unable to start the task due to task preparation errors (such as resource file download failures).
     types:
     - uid: string
-    name: completed
 - name: TaskContainerExecutionInformation
   description: Contains information about the container which a task is executing.
   kind: object
   properties:
-  - description: The ID of the container.
+  - name: containerId
+    description: The ID of the container.
     types:
     - uid: string
-    name: containerId
-  - description: >-
+  - name: state
+    description: >-
       The state of the container.
 
       This is the state of the container according to the Docker service. It is equivalent to the status field returned by "docker inspect".
     types:
     - uid: string
-    name: state
-  - description: >-
+  - name: error
+    description: >-
       Detailed error information about the container.
 
       This is the detailed error string from the Docker service, if available. It is equivalent to the error field returned by "docker inspect".
     types:
     - uid: string
-    name: error
 - name: TaskFailureInformation
   description: Information about a task failure.
   kind: object
   properties:
-  - description: The category of the task error.
+  - name: category
+    description: The category of the task error.
     types:
     - uid: ErrorCategory
-    name: category
-  - description: An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.
+  - name: code
+    description: An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
-    name: code
-  - description: A message describing the task error, intended to be suitable for display in a user interface.
+  - name: message
+    description: A message describing the task error, intended to be suitable for display in a user interface.
     types:
     - uid: string
-    name: message
-  - description: Represents a name-value pair.
+  - name: details
+    description: Represents a name-value pair.
     types:
-    - isArray: true
-      uid: NameValuePair
-    name: details
+    - uid: NameValuePair
+      isArray: true
 - name: TaskExecutionResult
   description: >-
     The result of the task execution.
@@ -356,56 +358,57 @@ definitions:
     If the value is 'failed', then the details of the failure can be found in the failureInfo property.
   kind: enum
   properties:
-  - description: The task ran successfully.
+  - name: success
+    description: The task ran successfully.
     types:
     - uid: string
-    name: success
-  - description: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.
+  - name: failure
+    description: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.
     types:
     - uid: string
-    name: failure
 - name: JobReleaseTaskState
   description: The current state of the Job Release task on the compute node.
   kind: enum
   properties:
-  - description: The task is currently running (including retrying).
+  - name: running
+    description: The task is currently running (including retrying).
     types:
     - uid: string
-    name: running
-  - description: The task has exited with exit code 0, or the task has exhausted its retry limit, or the Batch service was unable to start the task due to task preparation errors (such as resource file download failures).
+  - name: completed
+    description: The task has exited with exit code 0, or the task has exhausted its retry limit, or the Batch service was unable to start the task due to task preparation errors (such as resource file download failures).
     types:
     - uid: string
-    name: completed
 - name: ErrorCategory
   description: The category of the job scheduling error.
   kind: enum
   properties:
-  - description: The error is due to a user issue, such as misconfiguration.
+  - name: usererror
+    description: The error is due to a user issue, such as misconfiguration.
     types:
     - uid: string
-    name: usererror
-  - description: The error is due to an internal server issue.
+  - name: servererror
+    description: The error is due to an internal server issue.
     types:
     - uid: string
-    name: servererror
 - name: NameValuePair
   description: Represents a name-value pair.
   kind: object
   properties:
-  - description: The name in the name-value pair.
+  - name: name
+    description: The name in the name-value pair.
     types:
     - uid: string
-    name: name
-  - description: The value in the name-value pair.
+  - name: value
+    description: The value in the name-value pair.
     types:
     - uid: string
-    name: value
 examples:
-- request:
+- name: Job list preparation and release task status
+  request:
     uri: GET https://batch.core.windows.net/jobs/jobId/jobpreparationandreleasetaskstatus?api-version=2017-09-01.6.0
     headers:
-    - value: 00000000-0000-0000-0000-000000000000
-      name: client-request-id
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
   responses:
   - statusCode: "200"
     body: >-
@@ -436,7 +439,4 @@ examples:
         ],
         "odata.nextLink": "https://account.region.batch.azure.com/jobs/myjob/jobpreparationandreleasestatus?$skipToken=tvm-2167304207_1-20140905t174658z&api-version=2017-09-01.6.0"
       }
-  name: Job list preparation and release task status
 security: []
-name: List Preparation And Release Task Status
-uid: batch.core.windows.net.batchservice.job.listpreparationandreleasetaskstatus
