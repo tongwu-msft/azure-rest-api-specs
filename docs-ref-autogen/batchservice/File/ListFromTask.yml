@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists the files in a task's directory on its compute node.
+uid: batch.core.windows.net.batchservice.file.listfromtask
+name: List From Task
 service: Batch Service
-apiVersion: 2017-09-01.6.0
 groupName: File
+apiVersion: 2017-09-01.6.0
+summary: Lists the files in a task's directory on its compute node.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
@@ -12,193 +14,194 @@ paths:
 - content: GET https://batch.core.windows.net/jobs/{jobId}/tasks/{taskId}/files?$filter={$filter}&recursive={recursive}&maxresults={maxresults}&timeout={timeout}&api-version=2017-09-01.6.0
   isOptional: true
 uriParameters:
-- in: path
+- name: jobId
+  in: path
   isRequired: true
   description: The ID of the job that contains the task.
   types:
   - uid: string
-  name: jobId
-- in: path
+- name: taskId
+  in: path
   isRequired: true
   description: The ID of the task whose files you want to list.
   types:
   - uid: string
-  name: taskId
-- in: query
+- name: $filter
+  in: query
   description: An OData $filter clause. For more information on constructing this filter, see https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-task-files.
   types:
   - uid: string
-  name: $filter
-- in: query
+- name: recursive
+  in: query
   description: Whether to list children of the task directory. This parameter can be used in combination with the filter parameter to list specific type of files.
   types:
   - uid: boolean
-  name: recursive
-- in: query
+- name: maxresults
+  in: query
   description: The maximum number of items to return in the response. A maximum of 1000 files can be returned.
   types:
   - uid: integer
   format: int32
-  name: maxresults
-- in: query
+- name: timeout
+  in: query
   description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
   types:
   - uid: integer
   format: int32
-  name: timeout
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- headers:
-  - value: string
-    name: client-request-id
-  - value: string
-    name: request-id
-  - value: string
-    name: ETag
-  - value: string
-    name: Last-Modified
+- name: 200 OK
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
   description: A response containing the list of files.
   types:
   - uid: NodeFileListResult
-  name: 200 OK
-- description: The error from the Batch service.
+- name: Other Status Codes
+  description: The error from the Batch service.
   types:
   - uid: BatchError
-  name: Other Status Codes
 requestHeader:
-- in: header
+- name: client-request-id
+  in: header
   description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
   types:
   - uid: string
   format: uuid
-  name: client-request-id
-- in: header
+- name: return-client-request-id
+  in: header
   description: Whether the server should return the client-request-id in the response.
   types:
   - uid: boolean
-  name: return-client-request-id
-- in: header
+- name: ocp-date
+  in: header
   description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
   types:
   - uid: string
   format: date-time-rfc1123
-  name: ocp-date
 definitions:
 - name: NodeFileListResult
   description: The result of listing the files on a compute node, or the files associated with a task on a node.
   kind: object
   properties:
-  - description: Information about a file or directory on a compute node.
+  - name: value
+    description: Information about a file or directory on a compute node.
     types:
-    - isArray: true
-      uid: NodeFile
-    name: value
-  - description: The URL to get the next set of results.
+    - uid: NodeFile
+      isArray: true
+  - name: odata.nextLink
+    description: The URL to get the next set of results.
     types:
     - uid: string
-    name: odata.nextLink
 - name: BatchError
   description: The error encountered while attempting to add the task.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: ErrorMessage
-    name: message
-  - description: An item of additional information included in an Azure Batch error response.
+  - name: values
+    description: An item of additional information included in an Azure Batch error response.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
+    - uid: BatchErrorDetail
+      isArray: true
 - name: NodeFile
   description: Information about a file or directory on a compute node.
   kind: object
   properties:
-  - description: The file path.
+  - name: name
+    description: The file path.
     types:
     - uid: string
-    name: name
-  - description: The URL of the file.
+  - name: url
+    description: The URL of the file.
     types:
     - uid: string
-    name: url
-  - description: Whether the object represents a directory.
+  - name: isDirectory
+    description: Whether the object represents a directory.
     types:
     - uid: boolean
-    name: isDirectory
-  - description: The file properties.
+  - name: properties
+    description: The file properties.
     types:
     - uid: FileProperties
-    name: properties
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
-  - description: The language code of the error message
+  - name: lang
+    description: The language code of the error message
     types:
     - uid: string
-    name: lang
-  - description: The text of the message.
+  - name: value
+    description: The text of the message.
     types:
     - uid: string
-    name: value
 - name: BatchErrorDetail
   description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
-  - description: An identifier specifying the meaning of the Value property.
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
     types:
     - uid: string
-    name: key
-  - description: The additional information included with the error response.
+  - name: value
+    description: The additional information included with the error response.
     types:
     - uid: string
-    name: value
 - name: FileProperties
   description: The properties of a file on a compute node.
   kind: object
   properties:
-  - description: >-
+  - name: creationTime
+    description: >-
       The file creation time.
 
       The creation time is not returned for files on Linux compute nodes.
     types:
     - uid: string
-    name: creationTime
-  - description: The time at which the file was last modified.
+  - name: lastModified
+    description: The time at which the file was last modified.
     types:
     - uid: string
-    name: lastModified
-  - description: The length of the file.
+  - name: contentLength
+    description: The length of the file.
     types:
     - uid: integer
-    name: contentLength
-  - description: The content type of the file.
+  - name: contentType
+    description: The content type of the file.
     types:
     - uid: string
-    name: contentType
-  - description: >-
+  - name: fileMode
+    description: >-
       The file mode attribute in octal format.
 
       The file mode is returned only for files on Linux compute nodes.
     types:
     - uid: string
-    name: fileMode
 examples:
-- request:
+- name: File list from task
+  request:
     uri: GET https://batch.core.windows.net/jobs/jobId/tasks/taskId/files?recursive=false&api-version=2017-09-01.6.0
     headers:
-    - value: 00000000-0000-0000-0000-000000000000
-      name: client-request-id
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
   responses:
   - statusCode: "200"
     body: >-
@@ -228,7 +231,4 @@ examples:
           }
         ]
       }
-  name: File list from task
 security: []
-name: List From Task
-uid: batch.core.windows.net.batchservice.file.listfromtask

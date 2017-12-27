@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets all legal agreements that user needs to accept before purchasing a domain.
+uid: management.azure.com.appservice.topleveldomains.listagreements
+name: List Agreements
 service: App Service
-apiVersion: 2015-04-01
 groupName: Top Level Domains
+apiVersion: 2015-04-01
+summary: Gets all legal agreements that user needs to accept before purchasing a domain.
 consumes:
 - application/json
 produces:
@@ -10,90 +12,91 @@ produces:
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains/{name}/listAgreements?api-version=2015-04-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: name
+  in: path
   isRequired: true
   description: Name of the top-level domain.
   types:
   - uid: string
-  name: name
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: API Version
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK
+- name: 200 OK
+  description: OK
   types:
   - uid: TldLegalAgreementCollection
-  name: 200 OK
 requestBody:
 - parameters:
-  - in: body
+  - name: includePrivacy
+    in: body
     description: If <code>true</code>, then the list of agreements will include agreements for domain privacy as well; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: includePrivacy
-  - in: body
+  - name: forTransfer
+    in: body
     description: If <code>true</code>, then the list of agreements will include agreements for domain transfer as well; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: forTransfer
 requestHeader: []
 definitions:
 - name: TldLegalAgreementCollection
   description: Collection of top-level domain legal agreements.
   kind: object
   properties:
-  - description: Legal agreement for a top level domain.
+  - name: value
+    description: Legal agreement for a top level domain.
     types:
-    - isArray: true
-      uid: TldLegalAgreement
-    name: value
-  - description: Link to next page of resources.
+    - uid: TldLegalAgreement
+      isArray: true
+  - name: nextLink
+    description: Link to next page of resources.
     types:
     - uid: string
-    name: nextLink
 - name: TopLevelDomainAgreementOption
   description: Options for retrieving the list of top level domain legal agreements.
   kind: object
   properties:
-  - description: If <code>true</code>, then the list of agreements will include agreements for domain privacy as well; otherwise, <code>false</code>.
+  - name: includePrivacy
+    description: If <code>true</code>, then the list of agreements will include agreements for domain privacy as well; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: includePrivacy
-  - description: If <code>true</code>, then the list of agreements will include agreements for domain transfer as well; otherwise, <code>false</code>.
+  - name: forTransfer
+    description: If <code>true</code>, then the list of agreements will include agreements for domain transfer as well; otherwise, <code>false</code>.
     types:
     - uid: boolean
-    name: forTransfer
 - name: TldLegalAgreement
   description: Legal agreement for a top level domain.
   kind: object
   properties:
-  - description: Unique identifier for the agreement.
+  - name: agreementKey
+    description: Unique identifier for the agreement.
     types:
     - uid: string
-    name: agreementKey
-  - description: Agreement title.
+  - name: title
+    description: Agreement title.
     types:
     - uid: string
-    name: title
-  - description: Agreement details.
+  - name: content
+    description: Agreement details.
     types:
     - uid: string
-    name: content
-  - description: URL where a copy of the agreement details is hosted.
+  - name: url
+    description: URL where a copy of the agreement details is hosted.
     types:
     - uid: string
-    name: url
 examples:
-- request:
+- name: List Top Level Domain Agreements
+  request:
     uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/in/listAgreements?api-version=2015-04-01
   responses:
   - statusCode: "200"
@@ -114,14 +117,11 @@ examples:
           }
         ]
       }
-  name: List Top Level Domain Agreements
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List Agreements
-uid: management.azure.com.appservice.topleveldomains.listagreements
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Get the schema configuration at the API level.
+uid: management.azure.com.apimanagement.apischema.listbyapi
+name: List By Api
 service: API Management
-apiVersion: 2017-03-01
 groupName: Api Schema
+apiVersion: 2017-03-01
+summary: Get the schema configuration at the API level.
 consumes:
 - application/json
 produces:
@@ -10,127 +12,128 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas?api-version=2017-03-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serviceName
+  in: path
   isRequired: true
   description: The name of the API Management service.
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-  name: serviceName
-- in: path
+- name: apiId
+  in: path
   isRequired: true
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
-  name: apiId
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-  name: api-version
 responses:
-- headers:
-  - value: string
-    name: ETag
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
   description: Apis Schema Collection.
   types:
   - uid: SchemaCollection
-  name: 200 OK
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: SchemaCollection
   description: The response of the list schema operation.
   kind: object
   properties:
-  - description: Schema Contract details.
+  - name: value
+    description: Schema Contract details.
     types:
-    - isArray: true
-      uid: SchemaContract
-    name: value
-  - description: Next page link if any.
+    - uid: SchemaContract
+      isArray: true
+  - name: nextLink
+    description: Next page link if any.
     types:
     - uid: string
-    name: nextLink
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
   properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of the error.
+  - name: message
+    description: Human-readable representation of the error.
     types:
     - uid: string
-    name: message
-  - description: Error Field contract.
+  - name: details
+    description: Error Field contract.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
+    - uid: ErrorFieldContract
+      isArray: true
 - name: SchemaContract
   description: Api Schema Contract value.
   kind: object
   properties:
-  - description: Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml).
+  - name: properties.contentType
+    description: Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml).
     types:
     - uid: string
-    name: properties.contentType
-  - description: Json escaped string defining the document representing the Schema.
+  - name: properties.document.value
+    description: Json escaped string defining the document representing the Schema.
     types:
     - uid: string
-    name: properties.document.value
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type for API Management resource.
     types:
     - uid: string
-    name: type
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
   properties:
-  - description: Property level error code.
+  - name: code
+    description: Property level error code.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of property-level error.
+  - name: message
+    description: Human-readable representation of property-level error.
     types:
     - uid: string
-    name: message
-  - description: Property name.
+  - name: target
+    description: Property name.
     types:
     - uid: string
-    name: target
 examples:
-- request:
+- name: ApiManagementListApiSchemas
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d5b28d1f7fab116c282650/schemas?api-version=2017-03-01
   responses:
   - statusCode: "200"
@@ -148,14 +151,11 @@ examples:
         ],
         "nextLink": ""
       }
-  name: ApiManagementListApiSchemas
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List By Api
-uid: management.azure.com.apimanagement.apischema.listbyapi
+  - name: user_impersonation
+    description: impersonate your user account

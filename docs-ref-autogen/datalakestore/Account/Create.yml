@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Creates the specified Data Lake Store account.
+uid: management.azure.com.datalakestore.account.create
+name: Create
 service: Data Lake Store
-apiVersion: 2016-11-01
 groupName: Account
+apiVersion: 2016-11-01
+summary: Creates the specified Data Lake Store account.
 consumes:
 - application/json
 produces:
@@ -10,458 +12,459 @@ produces:
 paths:
 - content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{name}?api-version=2016-11-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the Azure resource group that contains the Data Lake Store account.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: name
+  in: path
   isRequired: true
   description: The name of the Data Lake Store account to create.
   types:
   - uid: string
-  name: name
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client Api Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Successfully created the account.
+- name: 200 OK
+  description: Successfully created the account.
   types:
   - uid: DataLakeStoreAccount
-  name: 200 OK
-- description: Successfully initiated creation of the account.
+- name: 201 Created
+  description: Successfully initiated creation of the account.
   types:
   - uid: DataLakeStoreAccount
-  name: 201 Created
 requestBody:
 - parameters:
-  - in: body
+  - name: identity
+    in: body
     description: The Key Vault encryption identity, if any.
     types:
     - uid: EncryptionIdentity
-    name: identity
-  - in: body
+  - name: properties.encryptionState
+    in: body
     description: The current state of encryption for this Data Lake store account.
     types:
     - uid: EncryptionState
-    name: properties.encryptionState
-  - in: body
+  - name: properties.encryptionConfig
+    in: body
     description: The Key Vault encryption configuration.
     types:
     - uid: EncryptionConfig
-    name: properties.encryptionConfig
-  - in: body
+  - name: properties.firewallState
+    in: body
     description: The current state of the IP address firewall for this Data Lake store account.
     types:
     - uid: FirewallState
-    name: properties.firewallState
-  - in: body
+  - name: properties.firewallRules
+    in: body
     description: Data Lake Store firewall rule information
     types:
-    - isArray: true
-      uid: FirewallRule
-    name: properties.firewallRules
-  - in: body
+    - uid: FirewallRule
+      isArray: true
+  - name: properties.trustedIdProviderState
+    in: body
     description: The current state of the trusted identity provider feature for this Data Lake store account.
     types:
     - uid: TrustedIdProviderState
-    name: properties.trustedIdProviderState
-  - in: body
+  - name: properties.trustedIdProviders
+    in: body
     description: Data Lake Store Trusted Identity Provider information
     types:
-    - isArray: true
-      uid: TrustedIdProvider
-    name: properties.trustedIdProviders
-  - in: body
+    - uid: TrustedIdProvider
+      isArray: true
+  - name: properties.defaultGroup
+    in: body
     description: the default owner group for all new folders and files created in the Data Lake Store account.
     types:
     - uid: string
-    name: properties.defaultGroup
-  - in: body
+  - name: properties.newTier
+    in: body
     description: the commitment tier to use for next month.
     types:
     - uid: TierType
-    name: properties.newTier
-  - in: body
+  - name: properties.firewallAllowAzureIps
+    in: body
     description: The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced.
     types:
     - uid: FirewallAllowAzureIpsState
-    name: properties.firewallAllowAzureIps
-  - in: body
+  - name: location
+    in: body
     isRequired: true
     description: Resource location
     types:
     - uid: string
-    name: location
-  - in: body
+  - name: tags
+    in: body
     description: Resource tags
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 requestHeader: []
 definitions:
 - name: EncryptionIdentity
   description: The encryption identity properties.
   kind: object
   properties:
-  - description: The type of encryption being used. Currently the only supported type is 'SystemAssigned'.
+  - name: type
+    description: The type of encryption being used. Currently the only supported type is 'SystemAssigned'.
     types:
     - uid: EncryptionIdentityType
-    name: type
-  - isReadyOnly: true
+  - name: principalId
+    isReadyOnly: true
     description: The principal identifier associated with the encryption.
     types:
     - uid: string
-    name: principalId
-  - isReadyOnly: true
+  - name: tenantId
+    isReadyOnly: true
     description: The tenant identifier associated with the encryption.
     types:
     - uid: string
-    name: tenantId
 - name: EncryptionConfig
   description: The encryption configuration for the account.
   kind: object
   properties:
-  - description: The type of encryption configuration being used. Currently the only supported types are 'UserManaged' and 'ServiceManaged'.
+  - name: type
+    description: The type of encryption configuration being used. Currently the only supported types are 'UserManaged' and 'ServiceManaged'.
     types:
     - uid: EncryptionConfigType
-    name: type
-  - description: The Key Vault information for connecting to user managed encryption keys.
+  - name: keyVaultMetaInfo
+    description: The Key Vault information for connecting to user managed encryption keys.
     types:
     - uid: KeyVaultMetaInfo
-    name: keyVaultMetaInfo
 - name: FirewallRule
   description: Data Lake Store firewall rule information
   kind: object
   properties:
-  - description: the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+  - name: properties.startIpAddress
+    description: the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
     types:
     - uid: string
-    name: properties.startIpAddress
-  - description: the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+  - name: properties.endIpAddress
+    description: the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
     types:
     - uid: string
-    name: properties.endIpAddress
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource Id
     types:
     - uid: string
-    name: id
-  - description: Resource name
+  - name: name
+    description: Resource name
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type
     types:
     - uid: string
-    name: type
 - name: TrustedIdProvider
   description: Data Lake Store Trusted Identity Provider information
   kind: object
   properties:
-  - description: The URL of this trusted identity provider
+  - name: properties.idProvider
+    description: The URL of this trusted identity provider
     types:
     - uid: string
-    name: properties.idProvider
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource Id
     types:
     - uid: string
-    name: id
-  - description: Resource name
+  - name: name
+    description: Resource name
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type
     types:
     - uid: string
-    name: type
 - name: DataLakeStoreAccount
   description: Data Lake Store account information
   kind: object
   properties:
-  - description: The Key Vault encryption identity, if any.
+  - name: identity
+    description: The Key Vault encryption identity, if any.
     types:
     - uid: EncryptionIdentity
-    name: identity
-  - description: The current state of encryption for this Data Lake store account.
+  - name: properties.encryptionState
+    description: The current state of encryption for this Data Lake store account.
     types:
     - uid: EncryptionState
-    name: properties.encryptionState
-  - isReadyOnly: true
+  - name: properties.encryptionProvisioningState
+    isReadyOnly: true
     description: The current state of encryption provisioning for this Data Lake store account.
     types:
     - uid: EncryptionProvisioningState
-    name: properties.encryptionProvisioningState
-  - description: The Key Vault encryption configuration.
+  - name: properties.encryptionConfig
+    description: The Key Vault encryption configuration.
     types:
     - uid: EncryptionConfig
-    name: properties.encryptionConfig
-  - description: The current state of the IP address firewall for this Data Lake store account.
+  - name: properties.firewallState
+    description: The current state of the IP address firewall for this Data Lake store account.
     types:
     - uid: FirewallState
-    name: properties.firewallState
-  - description: Data Lake Store firewall rule information
+  - name: properties.firewallRules
+    description: Data Lake Store firewall rule information
     types:
-    - isArray: true
-      uid: FirewallRule
-    name: properties.firewallRules
-  - description: The current state of the trusted identity provider feature for this Data Lake store account.
+    - uid: FirewallRule
+      isArray: true
+  - name: properties.trustedIdProviderState
+    description: The current state of the trusted identity provider feature for this Data Lake store account.
     types:
     - uid: TrustedIdProviderState
-    name: properties.trustedIdProviderState
-  - description: Data Lake Store Trusted Identity Provider information
+  - name: properties.trustedIdProviders
+    description: Data Lake Store Trusted Identity Provider information
     types:
-    - isArray: true
-      uid: TrustedIdProvider
-    name: properties.trustedIdProviders
-  - description: the default owner group for all new folders and files created in the Data Lake Store account.
+    - uid: TrustedIdProvider
+      isArray: true
+  - name: properties.defaultGroup
+    description: the default owner group for all new folders and files created in the Data Lake Store account.
     types:
     - uid: string
-    name: properties.defaultGroup
-  - description: the commitment tier to use for next month.
+  - name: properties.newTier
+    description: the commitment tier to use for next month.
     types:
     - uid: TierType
-    name: properties.newTier
-  - isReadyOnly: true
+  - name: properties.currentTier
+    isReadyOnly: true
     description: the commitment tier in use for the current month.
     types:
     - uid: TierType
-    name: properties.currentTier
-  - description: The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced.
+  - name: properties.firewallAllowAzureIps
+    description: The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced.
     types:
     - uid: FirewallAllowAzureIpsState
-    name: properties.firewallAllowAzureIps
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource Id
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type
     types:
     - uid: string
-    name: type
-  - description: Resource location
+  - name: location
+    description: Resource location
     types:
     - uid: string
-    name: location
-  - description: Resource tags
+  - name: tags
+    description: Resource tags
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
-  - isReadyOnly: true
+  - name: properties.provisioningState
+    isReadyOnly: true
     description: the provisioning status of the Data Lake Store account.
     types:
     - uid: DataLakeStoreAccountStatus
-    name: properties.provisioningState
-  - isReadyOnly: true
+  - name: properties.state
+    isReadyOnly: true
     description: the state of the Data Lake Store account.
     types:
     - uid: DataLakeStoreAccountState
-    name: properties.state
-  - isReadyOnly: true
+  - name: properties.creationTime
+    isReadyOnly: true
     description: the account creation time.
     types:
     - uid: string
-    name: properties.creationTime
-  - isReadyOnly: true
+  - name: properties.lastModifiedTime
+    isReadyOnly: true
     description: the account last modified time.
     types:
     - uid: string
-    name: properties.lastModifiedTime
-  - isReadyOnly: true
+  - name: properties.endpoint
+    isReadyOnly: true
     description: the full CName endpoint for this account.
     types:
     - uid: string
-    name: properties.endpoint
-  - isReadyOnly: true
+  - name: properties.accountId
+    isReadyOnly: true
     description: The unique identifier associated with this Data Lake Store account.
     types:
     - uid: string
-    name: properties.accountId
 - name: EncryptionIdentityType
   description: The type of encryption being used. Currently the only supported type is 'SystemAssigned'.
   kind: enum
   properties:
-  - types:
+  - name: SystemAssigned
+    types:
     - uid: string
-    name: SystemAssigned
 - name: EncryptionConfigType
   description: The type of encryption configuration being used. Currently the only supported types are 'UserManaged' and 'ServiceManaged'.
   kind: enum
   properties:
-  - types:
+  - name: UserManaged
+    types:
     - uid: string
-    name: UserManaged
-  - types:
+  - name: ServiceManaged
+    types:
     - uid: string
-    name: ServiceManaged
 - name: KeyVaultMetaInfo
   description: The Key Vault information for connecting to user managed encryption keys.
   kind: object
   properties:
-  - description: The resource identifier for the user managed Key Vault being used to encrypt.
+  - name: keyVaultResourceId
+    description: The resource identifier for the user managed Key Vault being used to encrypt.
     types:
     - uid: string
-    name: keyVaultResourceId
-  - description: The name of the user managed encryption key.
+  - name: encryptionKeyName
+    description: The name of the user managed encryption key.
     types:
     - uid: string
-    name: encryptionKeyName
-  - description: The version of the user managed encryption key.
+  - name: encryptionKeyVersion
+    description: The version of the user managed encryption key.
     types:
     - uid: string
-    name: encryptionKeyVersion
 - name: EncryptionState
   description: The current state of encryption for this Data Lake store account.
   kind: enum
   properties:
-  - types:
+  - name: Enabled
+    types:
     - uid: string
-    name: Enabled
-  - types:
+  - name: Disabled
+    types:
     - uid: string
-    name: Disabled
 - name: EncryptionProvisioningState
   description: The current state of encryption provisioning for this Data Lake store account.
   kind: enum
   properties:
-  - types:
+  - name: Creating
+    types:
     - uid: string
-    name: Creating
-  - types:
+  - name: Succeeded
+    types:
     - uid: string
-    name: Succeeded
 - name: FirewallState
   description: The current state of the IP address firewall for this Data Lake store account.
   kind: enum
   properties:
-  - types:
+  - name: Enabled
+    types:
     - uid: string
-    name: Enabled
-  - types:
+  - name: Disabled
+    types:
     - uid: string
-    name: Disabled
 - name: TrustedIdProviderState
   description: The current state of the trusted identity provider feature for this Data Lake store account.
   kind: enum
   properties:
-  - types:
+  - name: Enabled
+    types:
     - uid: string
-    name: Enabled
-  - types:
+  - name: Disabled
+    types:
     - uid: string
-    name: Disabled
 - name: TierType
   description: the commitment tier to use for next month.
   kind: enum
   properties:
-  - types:
+  - name: Consumption
+    types:
     - uid: string
-    name: Consumption
-  - types:
+  - name: Commitment_1TB
+    types:
     - uid: string
-    name: Commitment_1TB
-  - types:
+  - name: Commitment_10TB
+    types:
     - uid: string
-    name: Commitment_10TB
-  - types:
+  - name: Commitment_100TB
+    types:
     - uid: string
-    name: Commitment_100TB
-  - types:
+  - name: Commitment_500TB
+    types:
     - uid: string
-    name: Commitment_500TB
-  - types:
+  - name: Commitment_1PB
+    types:
     - uid: string
-    name: Commitment_1PB
-  - types:
+  - name: Commitment_5PB
+    types:
     - uid: string
-    name: Commitment_5PB
 - name: FirewallAllowAzureIpsState
   description: The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced.
   kind: enum
   properties:
-  - types:
+  - name: Enabled
+    types:
     - uid: string
-    name: Enabled
-  - types:
+  - name: Disabled
+    types:
     - uid: string
-    name: Disabled
 - name: DataLakeStoreAccountStatus
   description: the provisioning status of the Data Lake Store account.
   kind: enum
   properties:
-  - types:
+  - name: Failed
+    types:
     - uid: string
-    name: Failed
-  - types:
+  - name: Creating
+    types:
     - uid: string
-    name: Creating
-  - types:
+  - name: Running
+    types:
     - uid: string
-    name: Running
-  - types:
+  - name: Succeeded
+    types:
     - uid: string
-    name: Succeeded
-  - types:
+  - name: Patching
+    types:
     - uid: string
-    name: Patching
-  - types:
+  - name: Suspending
+    types:
     - uid: string
-    name: Suspending
-  - types:
+  - name: Resuming
+    types:
     - uid: string
-    name: Resuming
-  - types:
+  - name: Deleting
+    types:
     - uid: string
-    name: Deleting
-  - types:
+  - name: Deleted
+    types:
     - uid: string
-    name: Deleted
-  - types:
+  - name: Undeleting
+    types:
     - uid: string
-    name: Undeleting
-  - types:
+  - name: Canceled
+    types:
     - uid: string
-    name: Canceled
 - name: DataLakeStoreAccountState
   description: the state of the Data Lake Store account.
   kind: enum
   properties:
-  - types:
+  - name: Active
+    types:
     - uid: string
-    name: Active
-  - types:
+  - name: Suspended
+    types:
     - uid: string
-    name: Suspended
 examples:
-- request:
+- name: Creates the specified Data Lake Store account
+  request:
     uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeStore/accounts/contosoadla?api-version=2016-11-01
     body: >-
       {
@@ -629,14 +632,11 @@ examples:
           "firewallAllowAzureIps": "Enabled"
         }
       }
-  name: Creates the specified Data Lake Store account
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Create
-uid: management.azure.com.datalakestore.account.create
+  - name: user_impersonation
+    description: impersonate your user account

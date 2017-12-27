@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Import data into Redis cache.
+uid: management.azure.com.rediscache.redis.importdata
+name: Import Data
 service: Redis Cache
-apiVersion: 2016-04-01
 groupName: Redis
+apiVersion: 2016-04-01
+summary: Import data into Redis cache.
 consumes:
 - application/json
 produces:
@@ -10,68 +12,69 @@ produces:
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/import?api-version=2016-04-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: name
+  in: path
   isRequired: true
   description: The name of the Redis cache.
   types:
   - uid: string
-  name: name
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client Api Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Import operation successfully enqueued; follow the Location header to poll for final outcome.
-  name: 202 Accepted
-- description: Import operation succeeded.
-  name: 200 OK
-- description: Import operation succeeded.
-  name: 204 No Content
+- name: 202 Accepted
+  description: Import operation successfully enqueued; follow the Location header to poll for final outcome.
+- name: 200 OK
+  description: Import operation succeeded.
+- name: 204 No Content
+  description: Import operation succeeded.
 requestBody:
 - parameters:
-  - in: body
+  - name: format
+    in: body
     description: File format.
     types:
     - uid: string
-    name: format
-  - in: body
+  - name: files
+    in: body
     isRequired: true
     description: files to import.
     types:
-    - isArray: true
-      uid: string
-    name: files
+    - uid: string
+      isArray: true
 requestHeader: []
 definitions:
 - name: ImportRDBParameters
   description: Parameters for Redis import operation.
   kind: object
   properties:
-  - description: File format.
+  - name: format
+    description: File format.
     types:
     - uid: string
-    name: format
-  - description: files to import.
+  - name: files
+    description: files to import.
     types:
-    - isArray: true
-      uid: string
-    name: files
+    - uid: string
+      isArray: true
 examples:
-- request:
+- name: RedisCacheImport
+  request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/import?api-version=2016-04-01
     body: >-
       {
@@ -84,17 +87,14 @@ examples:
   - statusCode: "200"
   - statusCode: "202"
     headers:
-    - value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationResult...
-      name: location
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationResult...
   - statusCode: "204"
-  name: RedisCacheImport
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Import Data
-uid: management.azure.com.rediscache.redis.importdata
+  - name: user_impersonation
+    description: impersonate your user account

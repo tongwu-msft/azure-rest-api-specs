@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists the collection of subscriptions of the specified user.
+uid: management.azure.com.apimanagement.usersubscription.list
+name: List
 service: API Management
-apiVersion: 2017-03-01
 groupName: User Subscription
+apiVersion: 2017-03-01
+summary: Lists the collection of subscriptions of the specified user.
 consumes:
 - application/json
 produces:
@@ -12,33 +14,34 @@ paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}/subscriptions?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01
   isOptional: true
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serviceName
+  in: path
   isRequired: true
   description: The name of the API Management service.
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-  name: serviceName
-- in: path
+- name: uid
+  in: path
   isRequired: true
   description: User identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
-  name: uid
-- in: query
+- name: $filter
+  in: query
   description: >-
     | Field        | Supported operators    | Supported functions                         |
 
@@ -57,174 +60,174 @@ uriParameters:
     | state        | eq                     |                                             |
   types:
   - uid: string
-  name: $filter
-- in: query
+- name: $top
+  in: query
   description: Number of records to return.
   types:
   - uid: integer
   format: int32
-  name: $top
-- in: query
+- name: $skip
+  in: query
   description: Number of records to skip.
   types:
   - uid: integer
   format: int32
-  name: $skip
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Lists a collection of Subscription entities.
+- name: 200 OK
+  description: Lists a collection of Subscription entities.
   types:
   - uid: SubscriptionCollection
-  name: 200 OK
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: SubscriptionCollection
   description: Paged Subscriptions list representation.
   kind: object
   properties:
-  - description: Subscription details.
+  - name: value
+    description: Subscription details.
     types:
-    - isArray: true
-      uid: SubscriptionContract
-    name: value
-  - description: Next page link if any.
+    - uid: SubscriptionContract
+      isArray: true
+  - name: nextLink
+    description: Next page link if any.
     types:
     - uid: string
-    name: nextLink
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
   properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of the error.
+  - name: message
+    description: Human-readable representation of the error.
     types:
     - uid: string
-    name: message
-  - description: Error Field contract.
+  - name: details
+    description: Error Field contract.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
+    - uid: ErrorFieldContract
+      isArray: true
 - name: SubscriptionContract
   description: Subscription details.
   kind: object
   properties:
-  - description: The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{uid} where {uid} is a user identifier.
+  - name: properties.userId
+    description: The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{uid} where {uid} is a user identifier.
     types:
     - uid: string
-    name: properties.userId
-  - description: The product resource identifier of the subscribed product. The value is a valid relative URL in the format of /products/{productId} where {productId} is a product identifier.
+  - name: properties.productId
+    description: The product resource identifier of the subscribed product. The value is a valid relative URL in the format of /products/{productId} where {productId} is a product identifier.
     types:
     - uid: string
-    name: properties.productId
-  - description: The name of the subscription, or null if the subscription has no name.
+  - name: properties.displayName
+    description: The name of the subscription, or null if the subscription has no name.
     types:
     - uid: string
-    name: properties.displayName
-  - description: Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
+  - name: properties.state
+    description: Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
     types:
     - uid: SubscriptionState
-    name: properties.state
-  - isReadyOnly: true
+  - name: properties.createdDate
+    isReadyOnly: true
     description: 'Subscription creation date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
-    name: properties.createdDate
-  - description: 'Subscription activation date. The setting is for audit purposes only and the subscription is not automatically activated. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+  - name: properties.startDate
+    description: 'Subscription activation date. The setting is for audit purposes only and the subscription is not automatically activated. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
-    name: properties.startDate
-  - description: 'Subscription expiration date. The setting is for audit purposes only and the subscription is not automatically expired. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+  - name: properties.expirationDate
+    description: 'Subscription expiration date. The setting is for audit purposes only and the subscription is not automatically expired. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
-    name: properties.expirationDate
-  - description: 'Date when subscription was cancelled or expired. The setting is for audit purposes only and the subscription is not automatically cancelled. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+  - name: properties.endDate
+    description: 'Date when subscription was cancelled or expired. The setting is for audit purposes only and the subscription is not automatically cancelled. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
-    name: properties.endDate
-  - description: 'Upcoming subscription expiration notification date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+  - name: properties.notificationDate
+    description: 'Upcoming subscription expiration notification date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
-    name: properties.notificationDate
-  - description: Subscription primary key.
+  - name: properties.primaryKey
+    description: Subscription primary key.
     types:
     - uid: string
-    name: properties.primaryKey
-  - description: Subscription secondary key.
+  - name: properties.secondaryKey
+    description: Subscription secondary key.
     types:
     - uid: string
-    name: properties.secondaryKey
-  - description: Optional subscription comment added by an administrator.
+  - name: properties.stateComment
+    description: Optional subscription comment added by an administrator.
     types:
     - uid: string
-    name: properties.stateComment
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type for API Management resource.
     types:
     - uid: string
-    name: type
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
   properties:
-  - description: Property level error code.
+  - name: code
+    description: Property level error code.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of property-level error.
+  - name: message
+    description: Human-readable representation of property-level error.
     types:
     - uid: string
-    name: message
-  - description: Property name.
+  - name: target
+    description: Property name.
     types:
     - uid: string
-    name: target
 - name: SubscriptionState
   description: Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
   kind: enum
   properties:
-  - types:
+  - name: suspended
+    types:
     - uid: string
-    name: suspended
-  - types:
+  - name: active
+    types:
     - uid: string
-    name: active
-  - types:
+  - name: expired
+    types:
     - uid: string
-    name: expired
-  - types:
+  - name: submitted
+    types:
     - uid: string
-    name: submitted
-  - types:
+  - name: rejected
+    types:
     - uid: string
-    name: rejected
-  - types:
+  - name: cancelled
+    types:
     - uid: string
-    name: cancelled
 examples:
-- request:
+- name: ApiManagementListUserSubscriptions
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57681833a40f7eb6c49f6acf/subscriptions?api-version=2017-03-01
   responses:
   - statusCode: "200"
@@ -264,14 +267,11 @@ examples:
         ],
         "nextLink": ""
       }
-  name: ApiManagementListUserSubscriptions
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List
-uid: management.azure.com.apimanagement.usersubscription.list
+  - name: user_impersonation
+    description: impersonate your user account

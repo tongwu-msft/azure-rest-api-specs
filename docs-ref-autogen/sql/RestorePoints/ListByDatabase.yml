@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets a list of database restore points.
+uid: management.azure.com.sqldatabase.restorepoints.listbydatabase
+name: List By Database
 service: SQL Database
-apiVersion: 2014-04-01
 groupName: Restore Points
+apiVersion: 2014-04-01
+summary: Gets a list of database restore points.
 consumes:
 - application/json
 produces:
@@ -10,98 +12,99 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints?api-version=2014-04-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription ID that identifies an Azure subscription.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serverName
+  in: path
   isRequired: true
   description: The name of the server.
   types:
   - uid: string
-  name: serverName
-- in: path
+- name: databaseName
+  in: path
   isRequired: true
   description: The name of the database to get available restore points.
   types:
   - uid: string
-  name: databaseName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version to use for the request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK
+- name: 200 OK
+  description: OK
   types:
   - uid: RestorePointListResult
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: RestorePointListResult
   description: The response to a list database restore points request.
   kind: object
   properties:
-  - description: A database restore point.
+  - name: value
+    description: A database restore point.
     types:
-    - isArray: true
-      uid: RestorePoint
-    name: value
+    - uid: RestorePoint
+      isArray: true
 - name: RestorePoint
   description: A database restore point.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: properties.restorePointType
+    isReadyOnly: true
     description: The restore point type of the database restore point.
     types:
     - uid: RestorePointType
-    name: properties.restorePointType
-  - isReadyOnly: true
+  - name: properties.restorePointCreationDate
+    isReadyOnly: true
     description: Restore point creation time (ISO8601 format). Populated when restorePointType = CONTINUOUS. Null otherwise.
     types:
     - uid: string
-    name: properties.restorePointCreationDate
-  - isReadyOnly: true
+  - name: properties.earliestRestoreDate
+    isReadyOnly: true
     description: Earliest restore time (ISO8601 format). Populated when restorePointType = DISCRETE. Null otherwise.
     types:
     - uid: string
-    name: properties.earliestRestoreDate
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type.
     types:
     - uid: string
-    name: type
 - name: RestorePointType
   description: The restore point type of the database restore point.
   kind: enum
   properties:
-  - types:
+  - name: DISCRETE
+    types:
     - uid: string
-    name: DISCRETE
-  - types:
+  - name: CONTINUOUS
+    types:
     - uid: string
-    name: CONTINUOUS
 examples:
-- request:
+- name: Get a database's restore points
+  request:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6730/providers/Microsoft.Sql/servers/sqlcrudtest-9007/databases/3481/restorePoints?api-version=2014-04-01
   responses:
   - statusCode: "200"
@@ -121,8 +124,8 @@ examples:
           }
         ]
       }
-  name: Get a database's restore points
-- request:
+- name: Get a data warehouse's restore points
+  request:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6730/providers/Microsoft.Sql/servers/sqlcrudtest-9007/databases/3481/restorePoints?api-version=2014-04-01
   responses:
   - statusCode: "200"
@@ -175,7 +178,4 @@ examples:
           }
         ]
       }
-  name: Get a data warehouse's restore points
 security: []
-name: List By Database
-uid: management.azure.com.sqldatabase.restorepoints.listbydatabase

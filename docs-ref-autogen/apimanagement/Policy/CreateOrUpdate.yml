@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Creates or updates the global policy configuration of the Api Management service.
+uid: management.azure.com.apimanagement.policy.createorupdate
+name: Create Or Update
 service: API Management
-apiVersion: 2017-03-01
 groupName: Policy
+apiVersion: 2017-03-01
+summary: Creates or updates the global policy configuration of the Api Management service.
 consumes:
 - application/json
 produces:
@@ -10,118 +12,119 @@ produces:
 paths:
 - content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}?api-version=2017-03-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serviceName
+  in: path
   isRequired: true
   description: The name of the API Management service.
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-  name: serviceName
-- in: path
+- name: policyId
+  in: path
   isRequired: true
   description: The identifier of the Policy.
   types:
   - uid: string
-  name: policyId
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Global policy configuration was successfully created.
+- name: 201 Created
+  description: Global policy configuration was successfully created.
   types:
   - uid: PolicyContract
-  name: 201 Created
-- description: Global policy configuration of the Api Management service was successfully updated.
+- name: 200 OK
+  description: Global policy configuration of the Api Management service was successfully updated.
   types:
   - uid: PolicyContract
-  name: 200 OK
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: properties.policyContent
+    in: body
     isRequired: true
     description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
-    name: properties.policyContent
 requestHeader: []
 definitions:
 - name: PolicyContract
   description: Policy Contract value.
   kind: object
   properties:
-  - description: Json escaped Xml Encoded contents of the Policy.
+  - name: properties.policyContent
+    description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
-    name: properties.policyContent
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type for API Management resource.
     types:
     - uid: string
-    name: type
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
   properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of the error.
+  - name: message
+    description: Human-readable representation of the error.
     types:
     - uid: string
-    name: message
-  - description: Error Field contract.
+  - name: details
+    description: Error Field contract.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
+    - uid: ErrorFieldContract
+      isArray: true
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
   properties:
-  - description: Property level error code.
+  - name: code
+    description: Property level error code.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of property-level error.
+  - name: message
+    description: Human-readable representation of property-level error.
     types:
     - uid: string
-    name: message
-  - description: Property name.
+  - name: target
+    description: Property name.
     types:
     - uid: string
-    name: target
 examples:
-- request:
+- name: ApiManagementCreatePolicy
+  request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies/policy?api-version=2017-03-01
     body: >-
       {
@@ -150,14 +153,11 @@ examples:
           "policyContent": "<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
         }
       }
-  name: ApiManagementCreatePolicy
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Create Or Update
-uid: management.azure.com.apimanagement.policy.createorupdate
+  - name: user_impersonation
+    description: impersonate your user account

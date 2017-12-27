@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Get the policy configuration at the Product level.
+uid: management.azure.com.apimanagement.productpolicy.listbyproduct
+name: List By Product
 service: API Management
-apiVersion: 2017-03-01
 groupName: Product Policy
+apiVersion: 2017-03-01
+summary: Get the policy configuration at the Product level.
 consumes:
 - application/json
 produces:
@@ -10,123 +12,124 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies?api-version=2017-03-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serviceName
+  in: path
   isRequired: true
   description: The name of the API Management service.
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-  name: serviceName
-- in: path
+- name: productId
+  in: path
   isRequired: true
   description: Product identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
-  name: productId
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-  name: api-version
 responses:
-- headers:
-  - value: string
-    name: ETag
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
   description: Product Policy information.
   types:
   - uid: PolicyCollection
-  name: 200 OK
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: PolicyCollection
   description: The response of the list policy operation.
   kind: object
   properties:
-  - description: Policy Contract details.
+  - name: value
+    description: Policy Contract details.
     types:
-    - isArray: true
-      uid: PolicyContract
-    name: value
-  - description: Next page link if any.
+    - uid: PolicyContract
+      isArray: true
+  - name: nextLink
+    description: Next page link if any.
     types:
     - uid: string
-    name: nextLink
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
   properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of the error.
+  - name: message
+    description: Human-readable representation of the error.
     types:
     - uid: string
-    name: message
-  - description: Error Field contract.
+  - name: details
+    description: Error Field contract.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
+    - uid: ErrorFieldContract
+      isArray: true
 - name: PolicyContract
   description: Policy Contract details.
   kind: object
   properties:
-  - description: Json escaped Xml Encoded contents of the Policy.
+  - name: properties.policyContent
+    description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
-    name: properties.policyContent
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type for API Management resource.
     types:
     - uid: string
-    name: type
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
   properties:
-  - description: Property level error code.
+  - name: code
+    description: Property level error code.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of property-level error.
+  - name: message
+    description: Human-readable representation of property-level error.
     types:
     - uid: string
-    name: message
-  - description: Property name.
+  - name: target
+    description: Property name.
     types:
     - uid: string
-    name: target
 examples:
-- request:
+- name: ApiManagementListProductPolicy
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/armTemplateProduct4/policies?api-version=2017-03-01
   responses:
   - statusCode: "200"
@@ -144,14 +147,11 @@ examples:
         ],
         "nextLink": ""
       }
-  name: ApiManagementListProductPolicy
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List By Product
-uid: management.azure.com.apimanagement.productpolicy.listbyproduct
+  - name: user_impersonation
+    description: impersonate your user account

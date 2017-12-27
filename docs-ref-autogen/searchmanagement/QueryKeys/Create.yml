@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Generates a new query key for the specified Search service. You can create up to 50 query keys per service.
+uid: management.azure.com.searchmanagement.querykeys.create
+name: Create
 service: Search Management
-apiVersion: 2015-08-19
 groupName: Query Keys
+apiVersion: 2015-08-19
+summary: Generates a new query key for the specified Search service. You can create up to 50 query keys per service.
 consumes:
 - application/json
 - text/json
@@ -12,96 +14,96 @@ produces:
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/createQueryKey/{name}?api-version=2015-08-19
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The unique identifier for a Microsoft Azure subscription. You can obtain this value from the Azure Resource Manager API or the portal.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: searchServiceName
+  in: path
   isRequired: true
   description: The name of the Azure Search service associated with the specified resource group.
   types:
   - uid: string
-  name: searchServiceName
-- in: path
+- name: name
+  in: path
   isRequired: true
   description: The name of the new query API key.
   types:
   - uid: string
-  name: name
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version to use for each request. The current version is 2015-08-19.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: The query key was successfully created and is in the response. You can use the query key as the value of the 'api-key' parameter in the Azure Search Service REST API or SDK to perform read-only operations on your Search indexes such as querying and looking up documents by ID.
+- name: 200 OK
+  description: The query key was successfully created and is in the response. You can use the query key as the value of the 'api-key' parameter in the Azure Search Service REST API or SDK to perform read-only operations on your Search indexes such as querying and looking up documents by ID.
   types:
   - uid: QueryKey
-  name: 200 OK
-- description: 'HTTP 404 (Not Found): The subscription, resource group, or Search service could not be found. HTTP 409 (Conflict): The specified subscription is disabled.'
+- name: Other Status Codes
+  description: 'HTTP 404 (Not Found): The subscription, resource group, or Search service could not be found. HTTP 409 (Conflict): The specified subscription is disabled.'
   types:
   - uid: CloudError
-  name: Other Status Codes
 requestHeader:
-- in: header
+- name: x-ms-client-request-id
+  in: header
   description: A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request.
   types:
   - uid: string
   format: uuid
-  name: x-ms-client-request-id
 definitions:
 - name: QueryKey
   description: Describes an API key for a given Azure Search service that has permissions for query operations only.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: The name of the query API key; may be empty.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: key
+    isReadyOnly: true
     description: The value of the query API key.
     types:
     - uid: string
-    name: key
 - name: CloudError
   description: Contains information about an API error.
   kind: object
   properties:
-  - description: Describes a particular API error with an error code and a message.
+  - name: error
+    description: Describes a particular API error with an error code and a message.
     types:
     - uid: CloudErrorBody
-    name: error
 - name: CloudErrorBody
   description: Describes a particular API error with an error code and a message.
   kind: object
   properties:
-  - description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programatically handle specific error cases.
+  - name: code
+    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programatically handle specific error cases.
     types:
     - uid: string
-    name: code
-  - description: A message that describes the error in detail and provides debugging information.
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
     types:
     - uid: string
-    name: message
-  - description: The target of the particular error (for example, the name of the property in error).
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
     types:
     - uid: string
-    name: target
-  - description: Contains nested errors that are related to this error.
+  - name: details
+    description: Contains nested errors that are related to this error.
     types:
-    - isArray: true
-      uid: CloudErrorBody
-    name: details
+    - uid: CloudErrorBody
+      isArray: true
 examples: []
 security:
 - type: oauth2
@@ -109,7 +111,5 @@ security:
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Create
-uid: management.azure.com.searchmanagement.querykeys.create
+  - name: user_impersonation
+    description: impersonate your user account

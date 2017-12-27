@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Creates or updates a new server.
+uid: management.azure.com.sqldatabase.servers.createorupdate
+name: Create Or Update
 service: SQL Database
-apiVersion: 2014-04-01
 groupName: Servers
+apiVersion: 2014-04-01
+summary: Creates or updates a new server.
 consumes:
 - application/json
 produces:
@@ -10,163 +12,164 @@ produces:
 paths:
 - content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}?api-version=2014-04-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription ID that identifies an Azure subscription.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serverName
+  in: path
   isRequired: true
   description: The name of the server.
   types:
   - uid: string
-  name: serverName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version to use for the request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK
+- name: 200 OK
+  description: OK
   types:
   - uid: Server
-  name: 200 OK
-- description: Created
+- name: 201 Created
+  description: Created
   types:
   - uid: Server
-  name: 201 Created
 requestBody:
 - parameters:
-  - in: body
+  - name: properties.version
+    in: body
     description: The version of the server.
     types:
     - uid: ServerVersion
-    name: properties.version
-  - in: body
+  - name: properties.administratorLogin
+    in: body
     description: Administrator username for the server. Can only be specified when the server is being created (and is required for creation).
     types:
     - uid: string
-    name: properties.administratorLogin
-  - in: body
+  - name: properties.administratorLoginPassword
+    in: body
     description: The administrator login password (required for server creation).
     types:
     - uid: string
-    name: properties.administratorLoginPassword
-  - in: body
+  - name: tags
+    in: body
     description: Resource tags.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
-  - in: body
+  - name: location
+    in: body
     isRequired: true
     description: Resource location.
     types:
     - uid: string
-    name: location
 requestHeader: []
 definitions:
 - name: Server
   description: Represents a server.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: kind
+    isReadyOnly: true
     description: Kind of sql server.  This is metadata used for the Azure portal experience.
     types:
     - uid: string
-    name: kind
-  - isReadyOnly: true
+  - name: properties.fullyQualifiedDomainName
+    isReadyOnly: true
     description: The fully qualified domain name of the server.
     types:
     - uid: string
-    name: properties.fullyQualifiedDomainName
-  - description: The version of the server.
+  - name: properties.version
+    description: The version of the server.
     types:
     - uid: ServerVersion
-    name: properties.version
-  - description: Administrator username for the server. Can only be specified when the server is being created (and is required for creation).
+  - name: properties.administratorLogin
+    description: Administrator username for the server. Can only be specified when the server is being created (and is required for creation).
     types:
     - uid: string
-    name: properties.administratorLogin
-  - description: The administrator login password (required for server creation).
+  - name: properties.administratorLoginPassword
+    description: The administrator login password (required for server creation).
     types:
     - uid: string
-    name: properties.administratorLoginPassword
-  - isReadyOnly: true
+  - name: properties.externalAdministratorSid
+    isReadyOnly: true
     description: The ID of the Active Azure Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators.
     types:
     - uid: string
-    name: properties.externalAdministratorSid
-  - isReadyOnly: true
+  - name: properties.externalAdministratorLogin
+    isReadyOnly: true
     description: The display name of the Azure Active Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators
     types:
     - uid: string
-    name: properties.externalAdministratorLogin
-  - isReadyOnly: true
+  - name: properties.state
+    isReadyOnly: true
     description: The state of the server.
     types:
     - uid: ServerState
-    name: properties.state
-  - description: Resource tags.
+  - name: tags
+    description: Resource tags.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
-  - description: Resource location.
+  - name: location
+    description: Resource location.
     types:
     - uid: string
-    name: location
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type.
     types:
     - uid: string
-    name: type
 - name: ServerVersion
   description: The version of the server.
   kind: enum
   properties:
-  - types:
+  - name: "2.0"
+    types:
     - uid: string
-    name: "2.0"
-  - types:
+  - name: "12.0"
+    types:
     - uid: string
-    name: "12.0"
 - name: ServerState
   description: The state of the server.
   kind: enum
   properties:
-  - types:
+  - name: Ready
+    types:
     - uid: string
-    name: Ready
-  - types:
+  - name: Disabled
+    types:
     - uid: string
-    name: Disabled
 examples:
-- request:
+- name: Create server min
+  request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2014-04-01
     body: >-
       {
@@ -213,8 +216,8 @@ examples:
           "state": "Ready"
         }
       }
-  name: Create server min
-- request:
+- name: Create server max
+  request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2014-04-01
     body: >-
       {
@@ -273,7 +276,4 @@ examples:
           "state": "Ready"
         }
       }
-  name: Create server max
 security: []
-name: Create Or Update
-uid: management.azure.com.sqldatabase.servers.createorupdate

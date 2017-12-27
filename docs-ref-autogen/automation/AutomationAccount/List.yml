@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists the Automation Accounts within an Azure subscription. Retrieve a list of accounts within a given subscription.
+uid: management.azure.com.automation.automationaccount.list
+name: List
 service: Automation
-apiVersion: 2015-10-31
 groupName: Automation Account
+apiVersion: 2015-10-31
+summary: Lists the Automation Accounts within an Azure subscription. Retrieve a list of accounts within a given subscription.
 consumes:
 - application/json
 produces:
@@ -10,157 +12,158 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Automation/automationAccounts?api-version=2015-10-31
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client Api Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK
+- name: 200 OK
+  description: OK
   types:
   - uid: AutomationAccountListResult
-  name: 200 OK
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: AutomationAccountListResult
   description: The response model for the list account operation.
   kind: object
   properties:
-  - description: Definition of the automation account type.
+  - name: value
+    description: Definition of the automation account type.
     types:
-    - isArray: true
-      uid: AutomationAccount
-    name: value
-  - description: Gets or sets the next link.
+    - uid: AutomationAccount
+      isArray: true
+  - name: nextLink
+    description: Gets or sets the next link.
     types:
     - uid: string
-    name: nextLink
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
   properties:
-  - description: Error code
+  - name: code
+    description: Error code
     types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
-    name: message
 - name: AutomationAccount
   description: Definition of the automation account type.
   kind: object
   properties:
-  - description: Gets or sets the etag of the resource.
+  - name: etag
+    description: Gets or sets the etag of the resource.
     types:
     - uid: string
-    name: etag
-  - description: Gets or sets the SKU of account.
+  - name: properties.sku
+    description: Gets or sets the SKU of account.
     types:
     - uid: Sku
-    name: properties.sku
-  - description: Gets or sets the last modified by.
+  - name: properties.lastModifiedBy
+    description: Gets or sets the last modified by.
     types:
     - uid: string
-    name: properties.lastModifiedBy
-  - isReadyOnly: true
+  - name: properties.state
+    isReadyOnly: true
     description: Gets status of account.
     types:
     - uid: AutomationAccountState
-    name: properties.state
-  - isReadyOnly: true
+  - name: properties.creationTime
+    isReadyOnly: true
     description: Gets the creation time.
     types:
     - uid: string
-    name: properties.creationTime
-  - isReadyOnly: true
+  - name: properties.lastModifiedTime
+    isReadyOnly: true
     description: Gets the last modified time.
     types:
     - uid: string
-    name: properties.lastModifiedTime
-  - description: Gets or sets the description.
+  - name: properties.description
+    description: Gets or sets the description.
     types:
     - uid: string
-    name: properties.description
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource Id
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type
     types:
     - uid: string
-    name: type
-  - description: Resource location
+  - name: location
+    description: Resource location
     types:
     - uid: string
-    name: location
-  - description: Resource tags
+  - name: tags
+    description: Resource tags
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 - name: Sku
   description: The account SKU.
   kind: object
   properties:
-  - description: Gets or sets the SKU name of the account.
+  - name: name
+    description: Gets or sets the SKU name of the account.
     types:
     - uid: SkuNameEnum
-    name: name
-  - description: Gets or sets the SKU family.
+  - name: family
+    description: Gets or sets the SKU family.
     types:
     - uid: string
-    name: family
-  - description: Gets or sets the SKU capacity.
+  - name: capacity
+    description: Gets or sets the SKU capacity.
     types:
     - uid: integer
-    name: capacity
 - name: AutomationAccountState
   description: Gets status of account.
   kind: enum
   properties:
-  - types:
+  - name: Ok
+    types:
     - uid: string
-    name: Ok
-  - types:
+  - name: Unavailable
+    types:
     - uid: string
-    name: Unavailable
-  - types:
+  - name: Suspended
+    types:
     - uid: string
-    name: Suspended
 - name: SkuNameEnum
   description: Gets or sets the SKU name of the account.
   kind: enum
   properties:
-  - types:
+  - name: Free
+    types:
     - uid: string
-    name: Free
-  - types:
+  - name: Basic
+    types:
     - uid: string
-    name: Basic
 examples:
-- request:
+- name: List automation accounts by resource group
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Automation/automationAccounts?api-version=2015-10-31
   responses:
   - statusCode: "200"
@@ -839,14 +842,11 @@ examples:
           }
         ]
       }
-  name: List automation accounts by resource group
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List
-uid: management.azure.com.automation.automationaccount.list
+  - name: user_impersonation
+    description: impersonate your user account

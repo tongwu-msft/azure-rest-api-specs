@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Recovers the deleted key to its latest version. The Recover Deleted Key operation is applicable for deleted keys in soft-delete enabled vaults. It recovers the deleted key back to its latest version under /keys. It requires the keys/recover permissions to be enabled on this vault. An attempt to recover an non-deleted key will return an error. Consider this the inverse of the delete operation on soft-delete enabled vaults.
+uid: keyvault.recoverdeletedkey.recoverdeletedkey
+name: Recover Deleted Key
 service: Key Vault
-apiVersion: 2016-10-01
 groupName: Recover Deleted Key
+apiVersion: 2016-10-01
+summary: Recovers the deleted key to its latest version. The Recover Deleted Key operation is applicable for deleted keys in soft-delete enabled vaults. It recovers the deleted key back to its latest version under /keys. It requires the keys/recover permissions to be enabled on this vault. An attempt to recover an non-deleted key will return an error. Consider this the inverse of the delete operation on soft-delete enabled vaults.
 consumes:
 - application/json
 produces:
@@ -10,253 +12,251 @@ produces:
 paths:
 - content: POST https://{vaultBaseUrl}/deletedkeys/{key-name}/recover?api-version=2016-10-01
 uriParameters:
-- in: path
+- name: vaultBaseUrl
+  in: path
   isRequired: true
   description: The vault name, for example https://myvault.vault.azure.net.
   types:
   - uid: string
-  name: vaultBaseUrl
-- in: path
+- name: key-name
+  in: path
   isRequired: true
   description: The name of the deleted key.
   types:
   - uid: string
-  name: key-name
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: A Key bundle of the original key and its attributes
+- name: 200 OK
+  description: A Key bundle of the original key and its attributes
   types:
   - uid: KeyBundle
-  name: 200 OK
-- description: Key Vault error response describing why the operation failed.
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
   types:
   - uid: KeyVaultError
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: KeyVaultError
   description: The key vault error exception.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: error
+    isReadyOnly: true
     description: The key vault server error.
     types:
     - uid: Error
-    name: error
 - name: DeletedKeyBundle
   description: A DeletedKeyBundle consisting of a WebKey plus its Attributes and deletion info
   kind: object
   properties:
-  - description: The url of the recovery object, used to identify and recover the deleted key.
+  - name: recoveryId
+    description: The url of the recovery object, used to identify and recover the deleted key.
     types:
     - uid: string
-    name: recoveryId
-  - isReadyOnly: true
+  - name: scheduledPurgeDate
+    isReadyOnly: true
     description: The time when the key is scheduled to be purged, in UTC
     types:
     - uid: integer
-    name: scheduledPurgeDate
-  - isReadyOnly: true
+  - name: deletedDate
+    isReadyOnly: true
     description: The time when the key was deleted, in UTC
     types:
     - uid: integer
-    name: deletedDate
-  - description: The Json web key.
+  - name: key
+    description: The Json web key.
     types:
     - uid: JsonWebKey
-    name: key
-  - description: The key management attributes.
+  - name: attributes
+    description: The key management attributes.
     types:
     - uid: KeyAttributes
-    name: attributes
-  - description: Application specific metadata in the form of key-value pairs.
+  - name: tags
+    description: Application specific metadata in the form of key-value pairs.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
-  - isReadyOnly: true
+  - name: managed
+    isReadyOnly: true
     description: True if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true.
     types:
     - uid: boolean
-    name: managed
 - name: Error
   description: Error encountered, if any, during the certificate operation.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: code
+    isReadyOnly: true
     description: The error code.
     types:
     - uid: string
-    name: code
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: The error message.
     types:
     - uid: string
-    name: message
-  - description: ''
+  - name: innererror
+    description: ''
     types:
     - {}
-    name: innererror
 - name: JsonWebKey
   description: As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
   kind: object
   properties:
-  - description: Key identifier.
+  - name: kid
+    description: Key identifier.
     types:
     - uid: string
-    name: kid
-  - description: JsonWebKey key type (kty).
+  - name: kty
+    description: JsonWebKey key type (kty).
     types:
     - uid: JsonWebKeyType
-    name: kty
-  - description: Supported key operations.
-    types:
-    - isArray: true
-      uid: string
-    name: key_ops
-  - description: RSA modulus.
+  - name: key_ops
+    description: Supported key operations.
     types:
     - uid: string
-    name: n
-  - description: RSA public exponent.
+      isArray: true
+  - name: n
+    description: RSA modulus.
     types:
     - uid: string
-    name: e
-  - description: RSA private exponent, or the D component of an EC private key.
+  - name: e
+    description: RSA public exponent.
     types:
     - uid: string
-    name: d
-  - description: RSA private key parameter.
+  - name: d
+    description: RSA private exponent, or the D component of an EC private key.
     types:
     - uid: string
-    name: dp
-  - description: RSA private key parameter.
+  - name: dp
+    description: RSA private key parameter.
     types:
     - uid: string
-    name: dq
-  - description: RSA private key parameter.
+  - name: dq
+    description: RSA private key parameter.
     types:
     - uid: string
-    name: qi
-  - description: RSA secret prime.
+  - name: qi
+    description: RSA private key parameter.
     types:
     - uid: string
-    name: p
-  - description: RSA secret prime, with p < q.
+  - name: p
+    description: RSA secret prime.
     types:
     - uid: string
-    name: q
-  - description: Symmetric key.
+  - name: q
+    description: RSA secret prime, with p < q.
     types:
     - uid: string
-    name: k
-  - description: HSM Token, used with 'Bring Your Own Key'.
+  - name: k
+    description: Symmetric key.
     types:
     - uid: string
-    name: key_hsm
-  - description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
+  - name: key_hsm
+    description: HSM Token, used with 'Bring Your Own Key'.
+    types:
+    - uid: string
+  - name: crv
+    description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
     types:
     - uid: JsonWebKeyCurveName
-    name: crv
-  - description: X component of an EC public key.
+  - name: x
+    description: X component of an EC public key.
     types:
     - uid: string
-    name: x
-  - description: Y component of an EC public key.
+  - name: y
+    description: Y component of an EC public key.
     types:
     - uid: string
-    name: y
 - name: KeyAttributes
   description: The attributes of a key managed by the key vault service.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: recoveryLevel
+    isReadyOnly: true
     description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
     types:
     - uid: DeletionRecoveryLevel
-    name: recoveryLevel
-  - description: Determines whether the object is enabled.
+  - name: enabled
+    description: Determines whether the object is enabled.
     types:
     - uid: boolean
-    name: enabled
-  - description: Not before date in UTC.
+  - name: nbf
+    description: Not before date in UTC.
     types:
     - uid: integer
-    name: nbf
-  - description: Expiry date in UTC.
+  - name: exp
+    description: Expiry date in UTC.
     types:
     - uid: integer
-    name: exp
-  - isReadyOnly: true
+  - name: created
+    isReadyOnly: true
     description: Creation time in UTC.
     types:
     - uid: integer
-    name: created
-  - isReadyOnly: true
+  - name: updated
+    isReadyOnly: true
     description: Last updated time in UTC.
     types:
     - uid: integer
-    name: updated
 - name: JsonWebKeyType
   description: JsonWebKey key type (kty).
   kind: enum
   properties:
-  - types:
+  - name: EC
+    types:
     - uid: string
-    name: EC
-  - types:
+  - name: EC-HSM
+    types:
     - uid: string
-    name: EC-HSM
-  - types:
+  - name: RSA
+    types:
     - uid: string
-    name: RSA
-  - types:
+  - name: RSA-HSM
+    types:
     - uid: string
-    name: RSA-HSM
-  - types:
+  - name: oct
+    types:
     - uid: string
-    name: oct
 - name: JsonWebKeyCurveName
   description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
   kind: enum
   properties:
-  - types:
+  - name: P-256
+    types:
     - uid: string
-    name: P-256
-  - types:
+  - name: P-384
+    types:
     - uid: string
-    name: P-384
-  - types:
+  - name: P-521
+    types:
     - uid: string
-    name: P-521
-  - types:
+  - name: SECP256K1
+    types:
     - uid: string
-    name: SECP256K1
 - name: DeletionRecoveryLevel
   description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
   kind: enum
   properties:
-  - types:
+  - name: Purgeable
+    types:
     - uid: string
-    name: Purgeable
-  - types:
+  - name: Recoverable+Purgeable
+    types:
     - uid: string
-    name: Recoverable+Purgeable
-  - types:
+  - name: Recoverable
+    types:
     - uid: string
-    name: Recoverable
-  - types:
+  - name: Recoverable+ProtectedSubscription
+    types:
     - uid: string
-    name: Recoverable+ProtectedSubscription
 examples: []
 security: []
-name: Recover Deleted Key
-uid: keyvault.recoverdeletedkey.recoverdeletedkey

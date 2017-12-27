@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Get a pipeline run by its run ID.
+uid: management.azure.com.datafactory.pipelineruns.get
+name: Get
 service: Data Factory
-apiVersion: 2017-09-01-preview
 groupName: Pipeline Runs
+apiVersion: 2017-09-01-preview
+summary: Get a pipeline run by its run ID.
 consumes:
 - application/json
 produces:
@@ -10,158 +12,159 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}?api-version=2017-09-01-preview
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription identifier.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The resource group name.
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
-  name: resourceGroupName
-- in: path
+- name: factoryName
+  in: path
   isRequired: true
   description: The factory name.
   types:
   - uid: string
   pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
-  name: factoryName
-- in: path
+- name: runId
+  in: path
   isRequired: true
   description: The pipeline run identifier.
   types:
   - uid: string
-  name: runId
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK.
+- name: 200 OK
+  description: OK.
   types:
   - uid: PipelineRun
-  name: 200 OK
-- description: An error response received from the Azure Data Factory service.
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: PipelineRun
   description: List of pipeline runs.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: runId
+    isReadyOnly: true
     description: Identifier of a run.
     types:
     - uid: string
-    name: runId
-  - isReadyOnly: true
+  - name: pipelineName
+    isReadyOnly: true
     description: The pipeline name.
     types:
     - uid: string
-    name: pipelineName
-  - isReadyOnly: true
+  - name: parameters
+    isReadyOnly: true
     description: The full or partial list of parameter name, value pair used in the pipeline run.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: parameters
-  - isReadyOnly: true
+  - name: invokedBy
+    isReadyOnly: true
     description: Entity that started the pipeline run.
     types:
     - uid: PipelineRunInvokedBy
-    name: invokedBy
-  - isReadyOnly: true
+  - name: lastUpdated
+    isReadyOnly: true
     description: The last updated timestamp for the pipeline run event in ISO8601 format.
     types:
     - uid: string
-    name: lastUpdated
-  - isReadyOnly: true
+  - name: runStart
+    isReadyOnly: true
     description: The start time of a pipeline run in ISO8601 format.
     types:
     - uid: string
-    name: runStart
-  - isReadyOnly: true
+  - name: runEnd
+    isReadyOnly: true
     description: The end time of a pipeline run in ISO8601 format.
     types:
     - uid: string
-    name: runEnd
-  - isReadyOnly: true
+  - name: durationInMs
+    isReadyOnly: true
     description: The duration of a pipeline run.
     types:
     - uid: integer
-    name: durationInMs
-  - isReadyOnly: true
+  - name: status
+    isReadyOnly: true
     description: The status of a pipeline run.
     types:
     - uid: string
-    name: status
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: The message from a pipeline run.
     types:
     - uid: string
-    name: message
 - name: ErrorResponse
   description: The object that defines the structure of an Azure Data Factory response.
   kind: object
   properties:
-  - description: Error code.
+  - name: code
+    description: Error code.
     types:
     - uid: string
-    name: code
-  - description: Error message.
+  - name: message
+    description: Error message.
     types:
     - uid: string
-    name: message
-  - description: Property name/path in request associated with error.
+  - name: target
+    description: Property name/path in request associated with error.
     types:
     - uid: string
-    name: target
-  - description: The object that defines the structure of an Azure Data Factory response.
+  - name: details
+    description: The object that defines the structure of an Azure Data Factory response.
     types:
-    - isArray: true
-      uid: ErrorResponse
-    name: details
+    - uid: ErrorResponse
+      isArray: true
 - name: PipelineRunInvokedBy
   description: Entity that started the pipeline run.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Name of the entity that started the pipeline run.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: The ID of the entity that started the run.
     types:
     - uid: string
-    name: id
 examples:
-- request:
+- name: PipelineRuns_Get
+  request:
     uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelineruns/a420e4fd-ebe9-4758-8db7-852b4d06245e?api-version=2017-09-01-preview
   responses:
   - statusCode: "200"
     headers:
-    - value: Wed, 13 Sep 2017 17:58:09 GMT
-      name: Date
-    - value: 751b997c-7971-4c8e-bf84-cc4ee24ba2b7
-      name: x-ms-request-id
-    - value: nosniff
-      name: X-Content-Type-Options
-    - value: "14911"
-      name: x-ms-ratelimit-remaining-subscription-reads
-    - value: 5ce2fefe-900d-41b6-a4df-6e15421b1d9d
-      name: x-ms-correlation-request-id
+    - name: Date
+      value: Wed, 13 Sep 2017 17:58:09 GMT
+    - name: x-ms-request-id
+      value: 751b997c-7971-4c8e-bf84-cc4ee24ba2b7
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "14911"
+    - name: x-ms-correlation-request-id
+      value: 5ce2fefe-900d-41b6-a4df-6e15421b1d9d
     body: >-
       {
         "runId": "a420e4fd-ebe9-4758-8db7-852b4d06245e",
@@ -180,14 +183,11 @@ examples:
         "message": "",
         "lastUpdated": "2017-09-13T17:56:25.2051416Z"
       }
-  name: PipelineRuns_Get
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Get
-uid: management.azure.com.datafactory.pipelineruns.get
+  - name: user_impersonation
+    description: impersonate your user account

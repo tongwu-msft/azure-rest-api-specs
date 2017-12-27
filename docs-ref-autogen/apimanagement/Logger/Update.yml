@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Updates an existing logger.
+uid: management.azure.com.apimanagement.logger.update
+name: Update
 service: API Management
-apiVersion: 2017-03-01
 groupName: Logger
+apiVersion: 2017-03-01
+summary: Updates an existing logger.
 consumes:
 - application/json
 produces:
@@ -10,146 +12,147 @@ produces:
 paths:
 - content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerid}?api-version=2017-03-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serviceName
+  in: path
   isRequired: true
   description: The name of the API Management service.
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-  name: serviceName
-- in: path
+- name: loggerid
+  in: path
   isRequired: true
   description: Logger identifier. Must be unique in the API Management service instance.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
-  name: loggerid
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: The existing logger was successfully updated.
-  name: 204 No Content
-- description: Error response describing why the operation failed.
+- name: 204 No Content
+  description: The existing logger was successfully updated.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: properties.loggerType
+    in: body
     description: Logger type.
     types:
     - uid: LoggerType
-    name: properties.loggerType
-  - in: body
+  - name: properties.description
+    in: body
     description: Logger description.
     types:
     - uid: string
-    name: properties.description
-  - in: body
+  - name: properties.credentials
+    in: body
     description: Logger credentials.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: properties.credentials
-  - in: body
+  - name: properties.isBuffered
+    in: body
     description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
     types:
     - uid: boolean
-    name: properties.isBuffered
 requestHeader:
-- in: header
+- name: If-Match
+  in: header
   isRequired: true
   description: The entity state (Etag) version of the logger to update. A value of "*" can be used for If-Match to unconditionally apply the operation.
   types:
   - uid: string
-  name: If-Match
 definitions:
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
   properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of the error.
+  - name: message
+    description: Human-readable representation of the error.
     types:
     - uid: string
-    name: message
-  - description: Error Field contract.
+  - name: details
+    description: Error Field contract.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
+    - uid: ErrorFieldContract
+      isArray: true
 - name: LoggerUpdateContract
   description: Logger update contract.
   kind: object
   properties:
-  - description: Logger type.
+  - name: properties.loggerType
+    description: Logger type.
     types:
     - uid: LoggerType
-    name: properties.loggerType
-  - description: Logger description.
+  - name: properties.description
+    description: Logger description.
     types:
     - uid: string
-    name: properties.description
-  - description: Logger credentials.
+  - name: properties.credentials
+    description: Logger credentials.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: properties.credentials
-  - description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
+  - name: properties.isBuffered
+    description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
     types:
     - uid: boolean
-    name: properties.isBuffered
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
   properties:
-  - description: Property level error code.
+  - name: code
+    description: Property level error code.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of property-level error.
+  - name: message
+    description: Human-readable representation of property-level error.
     types:
     - uid: string
-    name: message
-  - description: Property name.
+  - name: target
+    description: Property name.
     types:
     - uid: string
-    name: target
 - name: LoggerType
   description: Logger type.
   kind: enum
   properties:
-  - description: Azure Event Hub as log destination.
+  - name: azureEventHub
+    description: Azure Event Hub as log destination.
     types:
     - uid: string
-    name: azureEventHub
 examples:
-- request:
+- name: ApiManagementUpdateLogger
+  request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2017-03-01
     body: >-
       {
@@ -161,18 +164,15 @@ examples:
         }
       }
     headers:
-    - value: '*'
-      name: If-Match
+    - name: If-Match
+      value: '*'
   responses:
   - statusCode: "204"
-  name: ApiManagementUpdateLogger
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Update
-uid: management.azure.com.apimanagement.logger.update
+  - name: user_impersonation
+    description: impersonate your user account

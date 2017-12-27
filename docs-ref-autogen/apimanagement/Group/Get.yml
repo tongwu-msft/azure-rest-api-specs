@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets the details of the group specified by its identifier.
+uid: management.azure.com.apimanagement.group.get
+name: Get
 service: API Management
-apiVersion: 2017-03-01
 groupName: Group
+apiVersion: 2017-03-01
+summary: Gets the details of the group specified by its identifier.
 consumes:
 - application/json
 produces:
@@ -10,140 +12,141 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}?api-version=2017-03-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serviceName
+  in: path
   isRequired: true
   description: The name of the API Management service.
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-  name: serviceName
-- in: path
+- name: groupId
+  in: path
   isRequired: true
   description: Group identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
-  name: groupId
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-  name: api-version
 responses:
-- headers:
-  - value: string
-    name: ETag
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
   description: The response body contains the specified Group entity.
   types:
   - uid: GroupContract
-  name: 200 OK
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: GroupContract
   description: Page values.
   kind: object
   properties:
-  - description: Group name.
+  - name: properties.displayName
+    description: Group name.
     types:
     - uid: string
-    name: properties.displayName
-  - description: Group description. Can contain HTML formatting tags.
+  - name: properties.description
+    description: Group description. Can contain HTML formatting tags.
     types:
     - uid: string
-    name: properties.description
-  - isReadyOnly: true
+  - name: properties.builtIn
+    isReadyOnly: true
     description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
     types:
     - uid: boolean
-    name: properties.builtIn
-  - description: Group type.
+  - name: properties.type
+    description: Group type.
     types:
     - uid: GroupType
-    name: properties.type
-  - description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+  - name: properties.externalId
+    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
     types:
     - uid: string
-    name: properties.externalId
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type for API Management resource.
     types:
     - uid: string
-    name: type
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
   properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of the error.
+  - name: message
+    description: Human-readable representation of the error.
     types:
     - uid: string
-    name: message
-  - description: Error Field contract.
+  - name: details
+    description: Error Field contract.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
+    - uid: ErrorFieldContract
+      isArray: true
 - name: GroupType
   description: Group type.
   kind: enum
   properties:
-  - types:
+  - name: custom
+    types:
     - uid: string
-    name: custom
-  - types:
+  - name: system
+    types:
     - uid: string
-    name: system
-  - types:
+  - name: external
+    types:
     - uid: string
-    name: external
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
   properties:
-  - description: Property level error code.
+  - name: code
+    description: Property level error code.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of property-level error.
+  - name: message
+    description: Human-readable representation of property-level error.
     types:
     - uid: string
-    name: message
-  - description: Property name.
+  - name: target
+    description: Property name.
     types:
     - uid: string
-    name: target
 examples:
-- request:
+- name: ApiManagementGetGroup
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/59306a29e4bbd510dc24e5f9?api-version=2017-03-01
   responses:
   - statusCode: "200"
@@ -160,14 +163,11 @@ examples:
           "externalId": "aad://samiraad.onmicrosoft.com/groups/3773adf4-032e-4d25-9988-eaff9ca72eca"
         }
       }
-  name: ApiManagementGetGroup
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Get
-uid: management.azure.com.apimanagement.group.get
+  - name: user_impersonation
+    description: impersonate your user account

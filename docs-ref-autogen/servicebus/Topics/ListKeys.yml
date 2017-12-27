@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets the primary and secondary connection strings for the topic.
+uid: management.azure.com.servicebus.topics.listkeys
+name: List Keys
 service: Service Bus
-apiVersion: 2017-04-01
 groupName: Topics
+apiVersion: 2017-04-01
+summary: Gets the primary and secondary connection strings for the topic.
 consumes:
 - application/json
 produces:
@@ -10,106 +12,107 @@ produces:
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}/ListKeys?api-version=2017-04-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: Name of the Resource group within the Azure subscription.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: namespaceName
+  in: path
   isRequired: true
   description: The namespace name
   types:
   - uid: string
-  name: namespaceName
-- in: path
+- name: topicName
+  in: path
   isRequired: true
   description: The topic name.
   types:
   - uid: string
-  name: topicName
-- in: path
+- name: authorizationRuleName
+  in: path
   isRequired: true
   description: The authorizationrule name.
   types:
   - uid: string
-  name: authorizationRuleName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Connection strings successfully retrieved.
+- name: 200 OK
+  description: Connection strings successfully retrieved.
   types:
   - uid: AccessKeys
-  name: 200 OK
-- description: ServiceBus error response describing why the operation failed.
+- name: Other Status Codes
+  description: ServiceBus error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: AccessKeys
   description: Namespace/ServiceBus Connection String
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: primaryConnectionString
+    isReadyOnly: true
     description: Primary connection string of the created namespace authorization rule.
     types:
     - uid: string
-    name: primaryConnectionString
-  - isReadyOnly: true
+  - name: secondaryConnectionString
+    isReadyOnly: true
     description: Secondary connection string of the created namespace authorization rule.
     types:
     - uid: string
-    name: secondaryConnectionString
-  - isReadyOnly: true
+  - name: aliasPrimaryConnectionString
+    isReadyOnly: true
     description: Primary connection string of the alias if GEO DR is enabled
     types:
     - uid: string
-    name: aliasPrimaryConnectionString
-  - isReadyOnly: true
+  - name: aliasSecondaryConnectionString
+    isReadyOnly: true
     description: Secondary  connection string of the alias if GEO DR is enabled
     types:
     - uid: string
-    name: aliasSecondaryConnectionString
-  - isReadyOnly: true
+  - name: primaryKey
+    isReadyOnly: true
     description: A base64-encoded 256-bit primary key for signing and validating the SAS token.
     types:
     - uid: string
-    name: primaryKey
-  - isReadyOnly: true
+  - name: secondaryKey
+    isReadyOnly: true
     description: A base64-encoded 256-bit primary key for signing and validating the SAS token.
     types:
     - uid: string
-    name: secondaryKey
-  - isReadyOnly: true
+  - name: keyName
+    isReadyOnly: true
     description: A string that describes the authorization rule.
     types:
     - uid: string
-    name: keyName
 - name: ErrorResponse
   description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
-  - description: Error code.
+  - name: code
+    description: Error code.
     types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
-    name: message
 examples:
-- request:
+- name: TopicAuthorizationRuleListKey
+  request:
     uri: POST https://management.azure.com/subscriptions/e2f361f0-3b27-4503-a9cc-21cfba380093/resourceGroups/Default-ServiceBus-WestUS/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace8408/topics/sdk-Topics2075/authorizationRules/sdk-Authrules5067/ListKeys?api-version=2017-04-01
   responses:
   - statusCode: "200"
@@ -121,14 +124,11 @@ examples:
         "secondaryKey": "#############################################",
         "keyName": "sdk-AuthRules-4310"
       }
-  name: TopicAuthorizationRuleListKey
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List Keys
-uid: management.azure.com.servicebus.topics.listkeys
+  - name: user_impersonation
+    description: impersonate your user account

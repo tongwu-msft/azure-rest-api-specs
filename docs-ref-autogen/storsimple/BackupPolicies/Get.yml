@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets the properties of the specified backup policy name.
+uid: management.azure.com.storsimple.backuppolicies.get
+name: Get
 service: StorSimple
-apiVersion: 2017-06-01
 groupName: Backup Policies
+apiVersion: 2017-06-01
+summary: Gets the properties of the specified backup policy name.
 consumes:
 - application/json
 produces:
@@ -10,136 +12,137 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backupPolicies/{backupPolicyName}?api-version=2017-06-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription id
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The resource group name
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: managerName
+  in: path
   isRequired: true
   description: The manager name
   types:
   - uid: string
-  name: managerName
-- in: path
+- name: deviceName
+  in: path
   isRequired: true
   description: The device name
   types:
   - uid: string
-  name: deviceName
-- in: path
+- name: backupPolicyName
+  in: path
   isRequired: true
   description: The name of backup policy to be fetched.
   types:
   - uid: string
-  name: backupPolicyName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The api version
   types:
   - uid: string
-  name: api-version
 responses:
-- description: The backup policy.
+- name: 200 OK
+  description: The backup policy.
   types:
   - uid: BackupPolicy
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: BackupPolicy
   description: The backup policy.
   kind: object
   properties:
-  - description: The path IDs of the volumes which are part of the backup policy.
+  - name: properties.volumeIds
+    description: The path IDs of the volumes which are part of the backup policy.
     types:
-    - isArray: true
-      uid: string
-    name: properties.volumeIds
-  - isReadyOnly: true
+    - uid: string
+      isArray: true
+  - name: properties.nextBackupTime
+    isReadyOnly: true
     description: The time of the next backup for the backup policy.
     types:
     - uid: string
-    name: properties.nextBackupTime
-  - isReadyOnly: true
+  - name: properties.lastBackupTime
+    isReadyOnly: true
     description: The time of the last backup for the backup policy.
     types:
     - uid: string
-    name: properties.lastBackupTime
-  - isReadyOnly: true
+  - name: properties.schedulesCount
+    isReadyOnly: true
     description: The count of schedules the backup policy contains.
     types:
     - uid: integer
-    name: properties.schedulesCount
-  - isReadyOnly: true
+  - name: properties.scheduledBackupStatus
+    isReadyOnly: true
     description: Indicates whether atleast one of the schedules in the backup policy is active or not.
     types:
     - uid: ScheduledBackupStatus
-    name: properties.scheduledBackupStatus
-  - isReadyOnly: true
+  - name: properties.backupPolicyCreationType
+    isReadyOnly: true
     description: The backup policy creation type. Indicates whether this was created through SaaS or through StorSimple Snapshot Manager.
     types:
     - uid: BackupPolicyCreationType
-    name: properties.backupPolicyCreationType
-  - isReadyOnly: true
+  - name: properties.ssmHostName
+    isReadyOnly: true
     description: If the backup policy was created by StorSimple Snapshot Manager, then this field indicates the hostname of the StorSimple Snapshot Manager.
     types:
     - uid: string
-    name: properties.ssmHostName
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: The path ID that uniquely identifies the object.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: The name of the object.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: The hierarchical type of the object.
     types:
     - uid: string
-    name: type
-  - description: The Kind of the object. Currently only Series8000 is supported
+  - name: kind
+    description: The Kind of the object. Currently only Series8000 is supported
     types:
     - uid: Kind
-    name: kind
 - name: ScheduledBackupStatus
   description: Indicates whether atleast one of the schedules in the backup policy is active or not.
   kind: enum
   properties:
-  - types:
+  - name: Disabled
+    types:
     - uid: string
-    name: Disabled
-  - types:
+  - name: Enabled
+    types:
     - uid: string
-    name: Enabled
 - name: BackupPolicyCreationType
   description: The backup policy creation type. Indicates whether this was created through SaaS or through StorSimple Snapshot Manager.
   kind: enum
   properties:
-  - types:
+  - name: BySaaS
+    types:
     - uid: string
-    name: BySaaS
-  - types:
+  - name: BySSM
+    types:
     - uid: string
-    name: BySSM
 - name: Kind
   description: The Kind of the object. Currently only Series8000 is supported
   kind: enum
   properties:
-  - types:
+  - name: Series8000
+    types:
     - uid: string
-    name: Series8000
 examples:
-- request:
+- name: BackupPoliciesGet
+  request:
     uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backupPolicies/BkUpPolicy01ForSDKTest?api-version=2017-06-01
   responses:
   - statusCode: "200"
@@ -159,14 +162,11 @@ examples:
         "type": "Microsoft.StorSimple/managers/devices/backupPolicies",
         "kind": "Series8000"
       }
-  name: BackupPoliciesGet
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Get
-uid: management.azure.com.storsimple.backuppolicies.get
+  - name: user_impersonation
+    description: impersonate your user account

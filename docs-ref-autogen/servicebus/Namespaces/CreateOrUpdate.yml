@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Creates or updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
+uid: management.azure.com.servicebus.namespaces.createorupdate
+name: Create Or Update
 service: Service Bus
-apiVersion: 2017-04-01
 groupName: Namespaces
+apiVersion: 2017-04-01
+summary: Creates or updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
 consumes:
 - application/json
 produces:
@@ -10,185 +12,186 @@ produces:
 paths:
 - content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}?api-version=2017-04-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: Name of the Resource group within the Azure subscription.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: namespaceName
+  in: path
   isRequired: true
   description: The namespace name.
   types:
   - uid: string
-  name: namespaceName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Namespace create request accepted.
+- name: 201 Created
+  description: Namespace create request accepted.
   types:
   - uid: SBNamespace
-  name: 201 Created
-- description: Namespace created successfully.
+- name: 200 OK
+  description: Namespace created successfully.
   types:
   - uid: SBNamespace
-  name: 200 OK
-- description: Namespace create or update request accepted.
-  name: 202 Accepted
-- description: ServiceBus error response describing why the operation failed.
+- name: 202 Accepted
+  description: Namespace create or update request accepted.
+- name: Other Status Codes
+  description: ServiceBus error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: sku
+    in: body
     description: Porperties of Sku
     types:
     - uid: SBSku
-    name: sku
-  - in: body
+  - name: location
+    in: body
     isRequired: true
     description: The Geo-location where the resource lives
     types:
     - uid: string
-    name: location
-  - in: body
+  - name: tags
+    in: body
     description: Resource tags
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
 requestHeader: []
 definitions:
 - name: SBSku
   description: Porperties of Sku
   kind: object
   properties:
-  - description: Name of this SKU.
+  - name: name
+    description: Name of this SKU.
     types:
     - uid: SkuName
-    name: name
-  - description: The billing tier of this particular SKU.
+  - name: tier
+    description: The billing tier of this particular SKU.
     types:
     - uid: SkuTier
-    name: tier
-  - description: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
+  - name: capacity
+    description: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
     types:
     - uid: integer
-    name: capacity
 - name: SBNamespace
   description: Result of the List Namespace operation.
   kind: object
   properties:
-  - description: Porperties of Sku
+  - name: sku
+    description: Porperties of Sku
     types:
     - uid: SBSku
-    name: sku
-  - isReadyOnly: true
+  - name: properties.provisioningState
+    isReadyOnly: true
     description: Provisioning state of the namespace.
     types:
     - uid: string
-    name: properties.provisioningState
-  - isReadyOnly: true
+  - name: properties.createdAt
+    isReadyOnly: true
     description: The time the namespace was created.
     types:
     - uid: string
-    name: properties.createdAt
-  - isReadyOnly: true
+  - name: properties.updatedAt
+    isReadyOnly: true
     description: The time the namespace was updated.
     types:
     - uid: string
-    name: properties.updatedAt
-  - isReadyOnly: true
+  - name: properties.serviceBusEndpoint
+    isReadyOnly: true
     description: Endpoint you can use to perform Service Bus operations.
     types:
     - uid: string
-    name: properties.serviceBusEndpoint
-  - isReadyOnly: true
+  - name: properties.metricId
+    isReadyOnly: true
     description: Identifier for Azure Insights metrics
     types:
     - uid: string
-    name: properties.metricId
-  - description: The Geo-location where the resource lives
+  - name: location
+    description: The Geo-location where the resource lives
     types:
     - uid: string
-    name: location
-  - description: Resource tags
+  - name: tags
+    description: Resource tags
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource Id
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type
     types:
     - uid: string
-    name: type
 - name: ErrorResponse
   description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
-  - description: Error code.
+  - name: code
+    description: Error code.
     types:
     - uid: string
-    name: code
-  - description: Error message indicating why the operation failed.
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
-    name: message
 - name: SkuName
   description: Name of this SKU.
   kind: enum
   properties:
-  - types:
+  - name: Basic
+    types:
     - uid: string
-    name: Basic
-  - types:
+  - name: Standard
+    types:
     - uid: string
-    name: Standard
-  - types:
+  - name: Premium
+    types:
     - uid: string
-    name: Premium
 - name: SkuTier
   description: The billing tier of this particular SKU.
   kind: enum
   properties:
-  - types:
+  - name: Basic
+    types:
     - uid: string
-    name: Basic
-  - types:
+  - name: Standard
+    types:
     - uid: string
-    name: Standard
-  - types:
+  - name: Premium
+    types:
     - uid: string
-    name: Premium
 examples:
-- request:
+- name: NameSpaceCreate
+  request:
     uri: PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace2924?api-version=2017-04-01
     body: >-
       {
@@ -250,14 +253,11 @@ examples:
         }
       }
   - statusCode: "202"
-  name: NameSpaceCreate
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Create Or Update
-uid: management.azure.com.servicebus.namespaces.createorupdate
+  - name: user_impersonation
+    description: impersonate your user account

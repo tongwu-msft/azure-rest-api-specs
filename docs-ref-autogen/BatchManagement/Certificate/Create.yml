@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Creates a new certificate inside the specified account.
+uid: management.azure.com.batchmanagement.certificate.create
+name: Create
 service: Batch Management
-apiVersion: 2017-09-01
 groupName: Certificate
+apiVersion: 2017-09-01
+summary: Creates a new certificate inside the specified account.
 consumes:
 - application/json
 produces:
@@ -10,53 +12,54 @@ produces:
 paths:
 - content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}?api-version=2017-09-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group that contains the Batch account.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: accountName
+  in: path
   isRequired: true
   description: The name of the Batch account.
   types:
   - uid: string
   pattern: ^[-\w\._]+$
-  name: accountName
-- in: path
+- name: certificateName
+  in: path
   isRequired: true
   description: The identifier for the certificate. This must be made up of algorithm and thumbprint separated by a dash, and must match the certificate data in the request. For example SHA1-a3d1c5.
   types:
   - uid: string
   pattern: ^[\w]+-[\w]+$
-  name: certificateName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version to be used with the HTTP request.
   types:
   - uid: string
-  name: api-version
 responses:
-- headers:
-  - value: string
-    name: ETag
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
   description: The operation was successful. The response contains the certificate entity.
   types:
   - uid: Certificate
-  name: 200 OK
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: properties.data
+    in: body
     isRequired: true
     description: >-
       The base64-encoded contents of the certificate.
@@ -64,53 +67,53 @@ requestBody:
       The maximum size is 10KB.
     types:
     - uid: string
-    name: properties.data
-  - in: body
+  - name: properties.password
+    in: body
     description: >-
       The password to access the certificate's private key.
 
       This is required if the certificate format is pfx and must be omitted if the certificate format is cer.
     types:
     - uid: string
-    name: properties.password
-  - in: body
+  - name: properties.thumbprintAlgorithm
+    in: body
     description: >-
       The algorithm of the certificate thumbprint
 
       This must match the first portion of the certificate name. Currently required to be 'SHA1'.
     types:
     - uid: string
-    name: properties.thumbprintAlgorithm
-  - in: body
+  - name: properties.thumbprint
+    in: body
     description: >-
       The thumbprint of the certificate
 
       This must match the thumbprint from the name.
     types:
     - uid: string
-    name: properties.thumbprint
-  - in: body
+  - name: properties.format
+    in: body
     description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
     types:
     - uid: CertificateFormat
-    name: properties.format
 requestHeader:
-- in: header
+- name: If-Match
+  in: header
   description: The entity state (ETag) version of the certificate to update. A value of "*" can be used to apply the operation only if the certificate already exists. If omitted, this operation will always be applied.
   types:
   - uid: string
-  name: If-Match
-- in: header
+- name: If-None-Match
+  in: header
   description: Set to '*' to allow a new certificate to be created, but to prevent updating an existing certificate. Other values will be ignored.
   types:
   - uid: string
-  name: If-None-Match
 definitions:
 - name: Certificate
   description: Contains information about a certificate.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: properties.provisioningState
+    isReadyOnly: true
     description: >-
       The provisioned state of the resource
 
@@ -121,137 +124,136 @@ definitions:
        Failed - The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
     types:
     - uid: CertificateProvisioningState
-    name: properties.provisioningState
-  - isReadyOnly: true
+  - name: properties.provisioningStateTransitionTime
+    isReadyOnly: true
     description: The time at which the certificate entered its current state.
     types:
     - uid: string
-    name: properties.provisioningStateTransitionTime
-  - isReadyOnly: true
+  - name: properties.previousProvisioningState
+    isReadyOnly: true
     description: The previous provisioned state of the resource
     types:
     - uid: CertificateProvisioningState
-    name: properties.previousProvisioningState
-  - isReadyOnly: true
+  - name: properties.previousProvisioningStateTransitionTime
+    isReadyOnly: true
     description: The time at which the certificate entered its previous state.
     types:
     - uid: string
-    name: properties.previousProvisioningStateTransitionTime
-  - isReadyOnly: true
+  - name: properties.publicData
+    isReadyOnly: true
     description: The public key of the certificate.
     types:
     - uid: string
-    name: properties.publicData
-  - isReadyOnly: true
+  - name: properties.deleteCertificateError
+    isReadyOnly: true
     description: >-
       The error which occurred while deleting the certificate
 
       This is only returned when the certificate provisioningState is 'Failed'.
     types:
     - uid: DeleteCertificateError
-    name: properties.deleteCertificateError
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: The ID of the resource.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: The name of the resource.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: The type of the resource.
     types:
     - uid: string
-    name: type
-  - isReadyOnly: true
+  - name: etag
+    isReadyOnly: true
     description: The ETag of the resource, used for concurrency statements.
     types:
     - uid: string
-    name: etag
-  - description: >-
+  - name: properties.thumbprintAlgorithm
+    description: >-
       The algorithm of the certificate thumbprint
 
       This must match the first portion of the certificate name. Currently required to be 'SHA1'.
     types:
     - uid: string
-    name: properties.thumbprintAlgorithm
-  - description: >-
+  - name: properties.thumbprint
+    description: >-
       The thumbprint of the certificate
 
       This must match the thumbprint from the name.
     types:
     - uid: string
-    name: properties.thumbprint
-  - description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
+  - name: properties.format
+    description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
     types:
     - uid: CertificateFormat
-    name: properties.format
 - name: CloudError
   description: An error response from the Batch service.
   kind: object
   properties:
-  - description: An error response from the Batch service.
+  - name: error
+    description: An error response from the Batch service.
     types:
     - uid: CloudErrorBody
-    name: error
 - name: CertificateCreateOrUpdateParameters
   description: Contains information about a certificate.
   kind: object
   properties:
-  - description: >-
+  - name: properties.data
+    description: >-
       The base64-encoded contents of the certificate.
 
       The maximum size is 10KB.
     types:
     - uid: string
-    name: properties.data
-  - description: >-
+  - name: properties.password
+    description: >-
       The password to access the certificate's private key.
 
       This is required if the certificate format is pfx and must be omitted if the certificate format is cer.
     types:
     - uid: string
-    name: properties.password
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: The ID of the resource.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: The name of the resource.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: The type of the resource.
     types:
     - uid: string
-    name: type
-  - isReadyOnly: true
+  - name: etag
+    isReadyOnly: true
     description: The ETag of the resource, used for concurrency statements.
     types:
     - uid: string
-    name: etag
-  - description: >-
+  - name: properties.thumbprintAlgorithm
+    description: >-
       The algorithm of the certificate thumbprint
 
       This must match the first portion of the certificate name. Currently required to be 'SHA1'.
     types:
     - uid: string
-    name: properties.thumbprintAlgorithm
-  - description: >-
+  - name: properties.thumbprint
+    description: >-
       The thumbprint of the certificate
 
       This must match the thumbprint from the name.
     types:
     - uid: string
-    name: properties.thumbprint
-  - description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
+  - name: properties.format
+    description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
     types:
     - uid: CertificateFormat
-    name: properties.format
 - name: CertificateProvisioningState
   description: >-
     The provisioned state of the resource
@@ -263,15 +265,15 @@ definitions:
      Failed - The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
   kind: enum
   properties:
-  - types:
+  - name: Succeeded
+    types:
     - uid: string
-    name: Succeeded
-  - types:
+  - name: Deleting
+    types:
     - uid: string
-    name: Deleting
-  - types:
+  - name: Failed
+    types:
     - uid: string
-    name: Failed
 - name: DeleteCertificateError
   description: >-
     The error which occurred while deleting the certificate
@@ -279,56 +281,57 @@ definitions:
     This is only returned when the certificate provisioningState is 'Failed'.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
-    name: message
-  - description: The target of the particular error. For example, the name of the property in error.
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
     types:
     - uid: string
-    name: target
-  - description: A list of additional details about the error.
+  - name: details
+    description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: DeleteCertificateError
-    name: details
+    - uid: DeleteCertificateError
+      isArray: true
 - name: CertificateFormat
   description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
   kind: enum
   properties:
-  - types:
+  - name: Pfx
+    types:
     - uid: string
-    name: Pfx
-  - types:
+  - name: Cer
+    types:
     - uid: string
-    name: Cer
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
-    name: message
-  - description: The target of the particular error. For example, the name of the property in error.
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
     types:
     - uid: string
-    name: target
-  - description: A list of additional details about the error.
+  - name: details
+    description: A list of additional details about the error.
     types:
-    - isArray: true
-      uid: CloudErrorBody
-    name: details
+    - uid: CloudErrorBody
+      isArray: true
 examples:
-- request:
+- name: CreateCertificate - Minimal Pfx
+  request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E?api-version=2017-09-01
     body: >-
       {
@@ -340,8 +343,8 @@ examples:
   responses:
   - statusCode: "200"
     headers:
-    - value: W/"0x8D4EDD5118668F7"
-      name: ETag
+    - name: ETag
+      value: W/"0x8D4EDD5118668F7"
     body: >-
       {
         "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
@@ -357,8 +360,8 @@ examples:
           "publicData": "MIICrjCCAZagAwI..."
         }
       }
-  name: CreateCertificate - Minimal Pfx
-- request:
+- name: CreateCertificate - Minimal Cer
+  request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E?api-version=2017-09-01
     body: >-
       {
@@ -370,8 +373,8 @@ examples:
   responses:
   - statusCode: "200"
     headers:
-    - value: W/"0x8D4EDD5118668F7"
-      name: ETag
+    - name: ETag
+      value: W/"0x8D4EDD5118668F7"
     body: >-
       {
         "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
@@ -387,8 +390,8 @@ examples:
           "publicData": "MIICrjCCAZagAwI..."
         }
       }
-  name: CreateCertificate - Minimal Cer
-- request:
+- name: CreateCertificate - Full
+  request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E?api-version=2017-09-01
     body: >-
       {
@@ -403,8 +406,8 @@ examples:
   responses:
   - statusCode: "200"
     headers:
-    - value: W/"0x8D4EDD5118668F7"
-      name: ETag
+    - name: ETag
+      value: W/"0x8D4EDD5118668F7"
     body: >-
       {
         "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
@@ -420,14 +423,11 @@ examples:
           "publicData": "MIICrjCCAZagAwI..."
         }
       }
-  name: CreateCertificate - Full
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Create
-uid: management.azure.com.batchmanagement.certificate.create
+  - name: user_impersonation
+    description: impersonate your user account

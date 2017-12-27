@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets the specified rule from a route filter.
+uid: management.azure.com.expressroute.routefilterrules.get
+name: Get
 service: ExpressRoute
-apiVersion: 2017-10-01
 groupName: Route Filter Rules
+apiVersion: 2017-10-01
+summary: Gets the specified rule from a route filter.
 consumes:
 - application/json
 produces:
@@ -10,110 +12,111 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}?api-version=2017-10-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: routeFilterName
+  in: path
   isRequired: true
   description: The name of the route filter.
   types:
   - uid: string
-  name: routeFilterName
-- in: path
+- name: ruleName
+  in: path
   isRequired: true
   description: The name of the rule.
   types:
   - uid: string
-  name: ruleName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Request successful. The operation returns the resulting Route Filter Rule resource.
+- name: 200 OK
+  description: Request successful. The operation returns the resulting Route Filter Rule resource.
   types:
   - uid: RouteFilterRule
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: RouteFilterRule
   description: Route Filter Rule Resource
   kind: object
   properties:
-  - description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
     types:
     - uid: string
-    name: name
-  - description: Resource location.
+  - name: location
+    description: Resource location.
     types:
     - uid: string
-    name: location
-  - isReadyOnly: true
+  - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-    name: etag
-  - description: Resource tags.
+  - name: tags
+    description: Resource tags.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
-  - description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
+  - name: properties.access
+    description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
     types:
     - uid: Access
-    name: properties.access
-  - description: "The rule type of the rule. Valid value is: 'Community'"
+  - name: properties.routeFilterRuleType
+    description: "The rule type of the rule. Valid value is: 'Community'"
     types:
     - uid: RouteFilterRuleType
-    name: properties.routeFilterRuleType
-  - description: The collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020']
+  - name: properties.communities
+    description: The collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020']
     types:
-    - isArray: true
-      uid: string
-    name: properties.communities
-  - isReadyOnly: true
+    - uid: string
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
     description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
     types:
     - uid: string
-    name: properties.provisioningState
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID
     types:
     - uid: string
-    name: id
 - name: Access
   description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
   kind: enum
   properties:
-  - types:
+  - name: Allow
+    types:
     - uid: string
-    name: Allow
-  - types:
+  - name: Deny
+    types:
     - uid: string
-    name: Deny
 - name: RouteFilterRuleType
   description: "The rule type of the rule. Valid value is: 'Community'"
   kind: enum
   properties:
-  - types:
+  - name: Community
+    types:
     - uid: string
-    name: Community
 examples:
-- request:
+- name: RouteFilterRuleGet
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeFilters/filterName/routeFilterRules/filterName?api-version=2017-10-01
   responses:
   - statusCode: "200"
@@ -135,14 +138,11 @@ examples:
           ]
         }
       }
-  name: RouteFilterRuleGet
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Get
-uid: management.azure.com.expressroute.routefilterrules.get
+  - name: user_impersonation
+    description: impersonate your user account

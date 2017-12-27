@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets the current usage count and the limit for the resources under the subscription.
+uid: management.azure.com.storageresourceprovider.usage.list
+name: List
 service: Storage Resource Provider
-apiVersion: 2017-06-01
 groupName: Usage
+apiVersion: 2017-06-01
+summary: Gets the current usage count and the limit for the resources under the subscription.
 consumes:
 - application/json
 produces:
@@ -11,96 +13,97 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Storage/usages?api-version=2017-06-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client Api Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK -- current usage acount and limit retrieved and returned successfully.
+- name: 200 OK
+  description: OK -- current usage acount and limit retrieved and returned successfully.
   types:
   - uid: UsageListResult
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: UsageListResult
   description: The response from the List Usages operation.
   kind: object
   properties:
-  - description: Describes Storage Resource Usage.
+  - name: value
+    description: Describes Storage Resource Usage.
     types:
-    - isArray: true
-      uid: Usage
-    name: value
+    - uid: Usage
+      isArray: true
 - name: Usage
   description: Describes Storage Resource Usage.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: unit
+    isReadyOnly: true
     description: Gets the unit of measurement.
     types:
     - uid: UsageUnit
-    name: unit
-  - isReadyOnly: true
+  - name: currentValue
+    isReadyOnly: true
     description: Gets the current count of the allocated resources in the subscription.
     types:
     - uid: integer
-    name: currentValue
-  - isReadyOnly: true
+  - name: limit
+    isReadyOnly: true
     description: Gets the maximum count of the resources that can be allocated in the subscription.
     types:
     - uid: integer
-    name: limit
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Gets the name of the type of usage.
     types:
     - uid: UsageName
-    name: name
 - name: UsageUnit
   description: Gets the unit of measurement.
   kind: enum
   properties:
-  - types:
+  - name: Count
+    types:
     - uid: string
-    name: Count
-  - types:
+  - name: Bytes
+    types:
     - uid: string
-    name: Bytes
-  - types:
+  - name: Seconds
+    types:
     - uid: string
-    name: Seconds
-  - types:
+  - name: Percent
+    types:
     - uid: string
-    name: Percent
-  - types:
+  - name: CountsPerSecond
+    types:
     - uid: string
-    name: CountsPerSecond
-  - types:
+  - name: BytesPerSecond
+    types:
     - uid: string
-    name: BytesPerSecond
 - name: UsageName
   description: The usage names that can be used; currently limited to StorageAccount.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: value
+    isReadyOnly: true
     description: Gets a string describing the resource name.
     types:
     - uid: string
-    name: value
-  - isReadyOnly: true
+  - name: localizedValue
+    isReadyOnly: true
     description: Gets a localized string describing the resource name.
     types:
     - uid: string
-    name: localizedValue
 examples:
-- request:
+- name: UsageList
+  request:
     uri: GET https://management.azure.com/subscriptions/27de630f-e1ee-42de-8849-90def4986454/providers/Microsoft.Storage/usages?api-version=2017-06-01
   responses:
   - statusCode: "200"
@@ -118,14 +121,11 @@ examples:
           }
         ]
       }
-  name: UsageList
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List
-uid: management.azure.com.storageresourceprovider.usage.list
+  - name: user_impersonation
+    description: impersonate your user account

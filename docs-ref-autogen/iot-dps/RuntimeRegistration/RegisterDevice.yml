@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Registers the devices.
+uid: global.azure-devices-provisioning.net.iothubdeviceprovisioningservice.runtimeregistration.registerdevice
+name: Register Device
 service: IoT Hub Device Provisioning Service
-apiVersion: 2017-11-15
 groupName: Runtime Registration
+apiVersion: 2017-11-15
+summary: Registers the devices.
 consumes:
 - application/json
 produces:
@@ -12,71 +14,72 @@ paths:
 - content: PUT https://global.azure-devices-provisioning.net/{idScope}/registrations/{registrationId}/register?forceRegistration={forceRegistration}&api-version=2017-11-15
   isOptional: true
 uriParameters:
-- in: path
+- name: idScope
+  in: path
   isRequired: true
   types:
   - uid: string
-  name: idScope
-- in: path
+- name: registrationId
+  in: path
   isRequired: true
   description: Registration ID.
   types:
   - uid: string
-  name: registrationId
-- in: query
+- name: forceRegistration
+  in: query
   description: Force the device to re-register. Setting this option may assign the device to a different IotHub.
   types:
   - uid: boolean
-  name: forceRegistration
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: 'The API version to use for the request. Supported versions include: 2017-11-15'
   types:
   - uid: string
-  name: api-version
 responses:
-- headers:
-  - value: string
-    name: Location
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
   description: Success
   types:
   - uid: RegistrationOperationStatus
-  name: 202 Accepted
 requestBody:
 - parameters:
-  - in: body
+  - name: registrationId
+    in: body
     description: ''
     types:
     - uid: string
-    name: registrationId
-  - in: body
+  - name: tpm
+    in: body
     description: Attestation via TPM.
     types:
     - uid: TpmAttestation
-    name: tpm
 requestHeader: []
 definitions:
 - name: TpmAttestation
   description: Attestation via TPM.
   kind: object
   properties:
-  - description: ''
+  - name: endorsementKey
+    description: ''
     types:
     - uid: string
-    name: endorsementKey
-  - description: ''
+  - name: storageRootKey
+    description: ''
     types:
     - uid: string
-    name: storageRootKey
 - name: RegistrationOperationStatus
   description: Registration operation status.
   kind: object
   properties:
-  - description: Operation ID.
+  - name: operationId
+    description: Operation ID.
     types:
     - uid: string
-    name: operationId
-  - description: Device enrollment status.
+  - name: status
+    description: Device enrollment status.
     types:
     - uid: unassigned
     - uid: assigning
@@ -84,52 +87,52 @@ definitions:
     - uid: failed
     - uid: disabled
     typesTitle: enum
-    name: status
-  - description: Device registration status.
+  - name: registrationState
+    description: Device registration status.
     types:
     - uid: DeviceRegistrationResult
-    name: registrationState
 - name: DeviceRegistration
   description: Device registration.
   kind: object
   properties:
-  - description: ''
+  - name: registrationId
+    description: ''
     types:
     - uid: string
-    name: registrationId
-  - description: Attestation via TPM.
+  - name: tpm
+    description: Attestation via TPM.
     types:
     - uid: TpmAttestation
-    name: tpm
 - name: DeviceRegistrationResult
   description: Device registration status.
   kind: object
   properties:
-  - description: TPM registration result.
+  - name: tpm
+    description: TPM registration result.
     types:
     - uid: TpmRegistrationResult
-    name: tpm
-  - description: X509 registration result.
+  - name: x509
+    description: X509 registration result.
     types:
     - uid: X509RegistrationResult
-    name: x509
-  - description: Registration ID.
+  - name: registrationId
+    description: Registration ID.
     types:
     - uid: string
-    name: registrationId
-  - description: Registration create date time (in UTC).
+  - name: createdDateTimeUtc
+    description: Registration create date time (in UTC).
     types:
     - uid: string
-    name: createdDateTimeUtc
-  - description: Assigned Azure IoT Hub.
+  - name: assignedHub
+    description: Assigned Azure IoT Hub.
     types:
     - uid: string
-    name: assignedHub
-  - description: Device ID.
+  - name: deviceId
+    description: Device ID.
     types:
     - uid: string
-    name: deviceId
-  - description: Enrollment status.
+  - name: status
+    description: Enrollment status.
     types:
     - uid: unassigned
     - uid: assigning
@@ -137,84 +140,81 @@ definitions:
     - uid: failed
     - uid: disabled
     typesTitle: enum
-    name: status
-  - description: Error code.
+  - name: errorCode
+    description: Error code.
     types:
     - uid: integer
-    name: errorCode
-  - description: Error message.
+  - name: errorMessage
+    description: Error message.
     types:
     - uid: string
-    name: errorMessage
-  - description: Last updated date time (in UTC).
+  - name: lastUpdatedDateTimeUtc
+    description: Last updated date time (in UTC).
     types:
     - uid: string
-    name: lastUpdatedDateTimeUtc
-  - description: The entity tag associated with the resource.
+  - name: etag
+    description: The entity tag associated with the resource.
     types:
     - uid: string
-    name: etag
 - name: TpmRegistrationResult
   description: TPM registration result.
   kind: object
   properties:
-  - description: ''
+  - name: authenticationKey
+    description: ''
     types:
     - uid: string
-    name: authenticationKey
 - name: X509RegistrationResult
   description: X509 registration result.
   kind: object
   properties:
-  - description: X509 certificate info.
+  - name: certificateInfo
+    description: X509 certificate info.
     types:
     - uid: X509CertificateInfo
-    name: certificateInfo
-  - description: ''
+  - name: enrollmentGroupId
+    description: ''
     types:
     - uid: string
-    name: enrollmentGroupId
-  - description: X509 certificate info.
+  - name: signingCertificateInfo
+    description: X509 certificate info.
     types:
     - uid: X509CertificateInfo
-    name: signingCertificateInfo
 - name: X509CertificateInfo
   description: X509 certificate info.
   kind: object
   properties:
-  - description: ''
+  - name: subjectName
+    description: ''
     types:
     - uid: string
-    name: subjectName
-  - description: ''
+  - name: sha1Thumbprint
+    description: ''
     types:
     - uid: string
-    name: sha1Thumbprint
-  - description: ''
+  - name: sha256Thumbprint
+    description: ''
     types:
     - uid: string
-    name: sha256Thumbprint
-  - description: ''
+  - name: issuerName
+    description: ''
     types:
     - uid: string
-    name: issuerName
-  - description: ''
+  - name: notBeforeUtc
+    description: ''
     types:
     - uid: string
-    name: notBeforeUtc
-  - description: ''
+  - name: notAfterUtc
+    description: ''
     types:
     - uid: string
-    name: notAfterUtc
-  - description: ''
+  - name: serialNumber
+    description: ''
     types:
     - uid: string
-    name: serialNumber
-  - description: ''
+  - name: version
+    description: ''
     types:
     - uid: integer
-    name: version
 examples: []
 security: []
-name: Register Device
-uid: global.azure-devices-provisioning.net.iothubdeviceprovisioningservice.runtimeregistration.registerdevice

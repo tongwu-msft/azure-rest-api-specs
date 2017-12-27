@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Returns all failover sets for a given device and their eligibility for participating in a failover. A failover set refers to a set of volume containers that need to be failed-over as a single unit to maintain data integrity.
+uid: management.azure.com.storsimple.devices.listfailoversets
+name: List Failover Sets
 service: StorSimple
-apiVersion: 2017-06-01
 groupName: Devices
+apiVersion: 2017-06-01
+summary: Returns all failover sets for a given device and their eligibility for participating in a failover. A failover set refers to a set of volume containers that need to be failed-over as a single unit to maintain data integrity.
 consumes:
 - application/json
 produces:
@@ -10,137 +12,138 @@ produces:
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/listFailoverSets?api-version=2017-06-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription id
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The resource group name
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: managerName
+  in: path
   isRequired: true
   description: The manager name
   types:
   - uid: string
-  name: managerName
-- in: path
+- name: deviceName
+  in: path
   isRequired: true
   description: The device name
   types:
   - uid: string
-  name: deviceName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The api version
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Returns the list of failoversets on the given device.
+- name: 200 OK
+  description: Returns the list of failoversets on the given device.
   types:
   - uid: FailoverSetsList
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: FailoverSetsList
   description: The list of failover sets.
   kind: object
   properties:
-  - description: The failover set on a device.
+  - name: value
+    description: The failover set on a device.
     types:
-    - isArray: true
-      uid: FailoverSet
-    name: value
+    - uid: FailoverSet
+      isArray: true
 - name: FailoverSet
   description: The failover set on a device.
   kind: object
   properties:
-  - description: The metadata of the volume container, that is being considered as part of a failover set.
+  - name: volumeContainers
+    description: The metadata of the volume container, that is being considered as part of a failover set.
     types:
-    - isArray: true
-      uid: VolumeContainerFailoverMetadata
-    name: volumeContainers
-  - description: The eligibility result of the failover set, for failover.
+    - uid: VolumeContainerFailoverMetadata
+      isArray: true
+  - name: eligibilityResult
+    description: The eligibility result of the failover set, for failover.
     types:
     - uid: FailoverSetEligibilityResult
-    name: eligibilityResult
 - name: VolumeContainerFailoverMetadata
   description: The list of meta data of volume containers, which are part of the failover set.
   kind: object
   properties:
-  - description: The path ID of the volume container.
+  - name: volumeContainerId
+    description: The path ID of the volume container.
     types:
     - uid: string
-    name: volumeContainerId
-  - description: The metadata of a volume that has valid cloud snapshot.
+  - name: volumes
+    description: The metadata of a volume that has valid cloud snapshot.
     types:
-    - isArray: true
-      uid: VolumeFailoverMetadata
-    name: volumes
+    - uid: VolumeFailoverMetadata
+      isArray: true
 - name: FailoverSetEligibilityResult
   description: The eligibility result of the failover set, for failover.
   kind: object
   properties:
-  - description: Represents if this failover set is eligible for failover or not.
+  - name: isEligibleForFailover
+    description: Represents if this failover set is eligible for failover or not.
     types:
     - uid: boolean
-    name: isEligibleForFailover
-  - description: The error message, if the failover set is not eligible for failover.
+  - name: errorMessage
+    description: The error message, if the failover set is not eligible for failover.
     types:
     - uid: string
-    name: errorMessage
 - name: VolumeFailoverMetadata
   description: The list of metadata of volumes inside the volume container, which contains valid cloud snapshots.
   kind: object
   properties:
-  - description: The path ID of the volume.
+  - name: volumeId
+    description: The path ID of the volume.
     types:
     - uid: string
-    name: volumeId
-  - description: The type of the volume.
+  - name: volumeType
+    description: The type of the volume.
     types:
     - uid: VolumeType
-    name: volumeType
-  - description: The size of the volume in bytes at the time the snapshot was taken.
+  - name: sizeInBytes
+    description: The size of the volume in bytes at the time the snapshot was taken.
     types:
     - uid: integer
-    name: sizeInBytes
-  - description: The date at which the snapshot was taken.
+  - name: backupCreatedDate
+    description: The date at which the snapshot was taken.
     types:
     - uid: string
-    name: backupCreatedDate
-  - description: The path ID of the backup-element for this volume, inside the backup set.
+  - name: backupElementId
+    description: The path ID of the backup-element for this volume, inside the backup set.
     types:
     - uid: string
-    name: backupElementId
-  - description: The path ID of the backup set.
+  - name: backupId
+    description: The path ID of the backup set.
     types:
     - uid: string
-    name: backupId
-  - description: The path ID of the backup policy using which the snapshot was taken.
+  - name: backupPolicyId
+    description: The path ID of the backup policy using which the snapshot was taken.
     types:
     - uid: string
-    name: backupPolicyId
 - name: VolumeType
   description: The volume type.
   kind: enum
   properties:
-  - types:
+  - name: Tiered
+    types:
     - uid: string
-    name: Tiered
-  - types:
+  - name: Archival
+    types:
     - uid: string
-    name: Archival
-  - types:
+  - name: LocallyPinned
+    types:
     - uid: string
-    name: LocallyPinned
 examples:
-- request:
+- name: DevicesListFailoverSets
+  request:
     uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/listFailoverSets?api-version=2017-06-01
   responses:
   - statusCode: "200"
@@ -200,14 +203,11 @@ examples:
           }
         ]
       }
-  name: DevicesListFailoverSets
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List Failover Sets
-uid: management.azure.com.storsimple.devices.listfailoversets
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Fails over from the current primary server to this server. This operation might result in data loss.
+uid: management.azure.com.sqldatabase.failovergroups.forcefailoverallowdataloss
+name: Force Failover Allow Data Loss
 service: SQL Database
-apiVersion: 2015-05-01-preview
 groupName: Failover Groups
+apiVersion: 2015-05-01-preview
+summary: Fails over from the current primary server to this server. This operation might result in data loss.
 consumes:
 - application/json
 produces:
@@ -10,42 +12,43 @@ produces:
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}/forceFailoverAllowDataLoss?api-version=2015-05-01-preview
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription ID that identifies an Azure subscription.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serverName
+  in: path
   isRequired: true
   description: The name of the server containing the failover group.
   types:
   - uid: string
-  name: serverName
-- in: path
+- name: failoverGroupName
+  in: path
   isRequired: true
   description: The name of the failover group.
   types:
   - uid: string
-  name: failoverGroupName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version to use for the request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Successfully failed over.
+- name: 200 OK
+  description: Successfully failed over.
   types:
   - uid: FailoverGroup
-  name: 200 OK
-- description: >-
+- name: Other Status Codes
+  description: >-
     *** Error Responses: ***
 
      * 400 FailoverGroupCreateOrUpdateRequestInvalidDatabases - The provided databases in the request are not valid database resource IDs.
@@ -181,141 +184,141 @@ responses:
      * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
 
      * 504 RequestTimeout - Service request exceeded the allowed timeout.
-  name: Other Status Codes
-- description: Accepted
-  name: 202 Accepted
+- name: 202 Accepted
+  description: Accepted
 requestHeader: []
 definitions:
 - name: FailoverGroup
   description: A failover group.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: location
+    isReadyOnly: true
     description: Resource location.
     types:
     - uid: string
-    name: location
-  - description: Resource tags.
+  - name: tags
+    description: Resource tags.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: tags
-  - description: Read-write endpoint of the failover group instance.
+  - name: properties.readWriteEndpoint
+    description: Read-write endpoint of the failover group instance.
     types:
     - uid: FailoverGroupReadWriteEndpoint
-    name: properties.readWriteEndpoint
-  - description: Read-only endpoint of the failover group instance.
+  - name: properties.readOnlyEndpoint
+    description: Read-only endpoint of the failover group instance.
     types:
     - uid: FailoverGroupReadOnlyEndpoint
-    name: properties.readOnlyEndpoint
-  - isReadyOnly: true
+  - name: properties.replicationRole
+    isReadyOnly: true
     description: Local replication role of the failover group instance.
     types:
     - uid: FailoverGroupReplicationRole
-    name: properties.replicationRole
-  - isReadyOnly: true
+  - name: properties.replicationState
+    isReadyOnly: true
     description: Replication state of the failover group instance.
     types:
     - uid: string
-    name: properties.replicationState
-  - description: Partner server information for the failover group.
+  - name: properties.partnerServers
+    description: Partner server information for the failover group.
     types:
-    - isArray: true
-      uid: PartnerInfo
-    name: properties.partnerServers
-  - description: List of databases in the failover group.
+    - uid: PartnerInfo
+      isArray: true
+  - name: properties.databases
+    description: List of databases in the failover group.
     types:
-    - isArray: true
-      uid: string
-    name: properties.databases
-  - isReadyOnly: true
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type.
     types:
     - uid: string
-    name: type
 - name: FailoverGroupReadWriteEndpoint
   description: Read-write endpoint of the failover group instance.
   kind: object
   properties:
-  - description: Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
+  - name: failoverPolicy
+    description: Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
     types:
     - uid: ReadWriteEndpointFailoverPolicy
-    name: failoverPolicy
-  - description: Grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
+  - name: failoverWithDataLossGracePeriodMinutes
+    description: Grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
     types:
     - uid: integer
-    name: failoverWithDataLossGracePeriodMinutes
 - name: FailoverGroupReadOnlyEndpoint
   description: Read-only endpoint of the failover group instance.
   kind: object
   properties:
-  - description: Failover policy of the read-only endpoint for the failover group.
+  - name: failoverPolicy
+    description: Failover policy of the read-only endpoint for the failover group.
     types:
     - uid: ReadOnlyEndpointFailoverPolicy
-    name: failoverPolicy
 - name: FailoverGroupReplicationRole
   description: Local replication role of the failover group instance.
   kind: enum
   properties:
-  - types:
+  - name: Primary
+    types:
     - uid: string
-    name: Primary
-  - types:
+  - name: Secondary
+    types:
     - uid: string
-    name: Secondary
 - name: PartnerInfo
   description: List of partner server information for the failover group.
   kind: object
   properties:
-  - description: Resource identifier of the partner server.
+  - name: id
+    description: Resource identifier of the partner server.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: location
+    isReadyOnly: true
     description: Geo location of the partner server.
     types:
     - uid: string
-    name: location
-  - isReadyOnly: true
+  - name: replicationRole
+    isReadyOnly: true
     description: Replication role of the partner server.
     types:
     - uid: FailoverGroupReplicationRole
-    name: replicationRole
 - name: ReadWriteEndpointFailoverPolicy
   description: Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
   kind: enum
   properties:
-  - types:
+  - name: Manual
+    types:
     - uid: string
-    name: Manual
-  - types:
+  - name: Automatic
+    types:
     - uid: string
-    name: Automatic
 - name: ReadOnlyEndpointFailoverPolicy
   description: Failover policy of the read-only endpoint for the failover group.
   kind: enum
   properties:
-  - types:
+  - name: Disabled
+    types:
     - uid: string
-    name: Disabled
-  - types:
+  - name: Enabled
+    types:
     - uid: string
-    name: Enabled
 examples:
-- request:
+- name: Forced failover of a failover group allowing data loss
+  request:
     uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-secondary-server/failoverGroups/failover-group-test-3/forceFailoverAllowDataLoss?api-version=2015-05-01-preview
   responses:
   - statusCode: "200"
@@ -349,7 +352,4 @@ examples:
         }
       }
   - statusCode: "202"
-  name: Forced failover of a failover group allowing data loss
 security: []
-name: Force Failover Allow Data Loss
-uid: management.azure.com.sqldatabase.failovergroups.forcefailoverallowdataloss

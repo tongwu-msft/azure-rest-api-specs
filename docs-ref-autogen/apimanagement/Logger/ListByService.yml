@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists a collection of loggers in the specified service instance.
+uid: management.azure.com.apimanagement.logger.listbyservice
+name: List By Service
 service: API Management
-apiVersion: 2017-03-01
 groupName: Logger
+apiVersion: 2017-03-01
+summary: Lists a collection of loggers in the specified service instance.
 consumes:
 - application/json
 produces:
@@ -12,26 +14,27 @@ paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01
   isOptional: true
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: serviceName
+  in: path
   isRequired: true
   description: The name of the API Management service.
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-  name: serviceName
-- in: query
+- name: $filter
+  in: query
   description: >-
     | Field | Supported operators    | Supported functions                         |
 
@@ -42,135 +45,135 @@ uriParameters:
     | type  | eq                     |                                             |
   types:
   - uid: string
-  name: $filter
-- in: query
+- name: $top
+  in: query
   description: Number of records to return.
   types:
   - uid: integer
   format: int32
-  name: $top
-- in: query
+- name: $skip
+  in: query
   description: Number of records to skip.
   types:
   - uid: integer
   format: int32
-  name: $skip
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Lists a collection of Logger entities.
+- name: 200 OK
+  description: Lists a collection of Logger entities.
   types:
   - uid: LoggerCollection
-  name: 200 OK
-- description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: LoggerCollection
   description: Paged Logger list representation.
   kind: object
   properties:
-  - description: Logger details.
+  - name: value
+    description: Logger details.
     types:
-    - isArray: true
-      uid: LoggerContract
-    name: value
-  - description: Total record count number across all pages.
+    - uid: LoggerContract
+      isArray: true
+  - name: count
+    description: Total record count number across all pages.
     types:
     - uid: integer
-    name: count
-  - description: Next page link if any.
+  - name: nextLink
+    description: Next page link if any.
     types:
     - uid: string
-    name: nextLink
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
   properties:
-  - description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of the error.
+  - name: message
+    description: Human-readable representation of the error.
     types:
     - uid: string
-    name: message
-  - description: Error Field contract.
+  - name: details
+    description: Error Field contract.
     types:
-    - isArray: true
-      uid: ErrorFieldContract
-    name: details
+    - uid: ErrorFieldContract
+      isArray: true
 - name: LoggerContract
   description: Logger values.
   kind: object
   properties:
-  - description: Logger type.
+  - name: properties.loggerType
+    description: Logger type.
     types:
     - uid: LoggerType
-    name: properties.loggerType
-  - description: Logger description.
+  - name: properties.description
+    description: Logger description.
     types:
     - uid: string
-    name: properties.description
-  - description: The name and SendRule connection string of the event hub.
+  - name: properties.credentials
+    description: The name and SendRule connection string of the event hub.
     types:
-    - isDictionary: true
+    - uid: object
+      isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-      uid: object
-    name: properties.credentials
-  - description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
+  - name: properties.isBuffered
+    description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
     types:
     - uid: boolean
-    name: properties.isBuffered
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type for API Management resource.
     types:
     - uid: string
-    name: type
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
   properties:
-  - description: Property level error code.
+  - name: code
+    description: Property level error code.
     types:
     - uid: string
-    name: code
-  - description: Human-readable representation of property-level error.
+  - name: message
+    description: Human-readable representation of property-level error.
     types:
     - uid: string
-    name: message
-  - description: Property name.
+  - name: target
+    description: Property name.
     types:
     - uid: string
-    name: target
 - name: LoggerType
   description: Logger type.
   kind: enum
   properties:
-  - description: Azure Event Hub as log destination.
+  - name: azureEventHub
+    description: Azure Event Hub as log destination.
     types:
     - uid: string
-    name: azureEventHub
 examples:
-- request:
+- name: ApiManagementListLoggers
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers?api-version=2017-03-01
   responses:
   - statusCode: "200"
@@ -207,14 +210,11 @@ examples:
         ],
         "nextLink": ""
       }
-  name: ApiManagementListLoggers
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List By Service
-uid: management.azure.com.apimanagement.logger.listbyservice
+  - name: user_impersonation
+    description: impersonate your user account

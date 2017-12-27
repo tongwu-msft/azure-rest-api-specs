@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets the current network topology by resource group.
+uid: management.azure.com.networkwatcher.networkwatchers.gettopology
+name: Get Topology
 service: Network Watcher
-apiVersion: 2017-10-01
 groupName: Network Watchers
+apiVersion: 2017-10-01
+summary: Gets the current network topology by resource group.
 consumes:
 - application/json
 - text/json
@@ -12,151 +14,152 @@ produces:
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/topology?api-version=2017-10-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: networkWatcherName
+  in: path
   isRequired: true
   description: The name of the network watcher.
   types:
   - uid: string
-  name: networkWatcherName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Request successful. The operation returns the topology of resource group.
+- name: 200 OK
+  description: Request successful. The operation returns the topology of resource group.
   types:
   - uid: Topology
-  name: 200 OK
 requestBody:
 - parameters:
-  - in: body
+  - name: targetResourceGroupName
+    in: body
     description: The name of the target resource group to perform topology on.
     types:
     - uid: string
-    name: targetResourceGroupName
-  - in: body
+  - name: targetVirtualNetwork
+    in: body
     description: The reference of the Virtual Network resource.
     types:
     - uid: SubResource
-    name: targetVirtualNetwork
-  - in: body
+  - name: targetSubnet
+    in: body
     description: The reference of the Subnet resource.
     types:
     - uid: SubResource
-    name: targetSubnet
 requestHeader: []
 definitions:
 - name: SubResource
   description: The reference of the Virtual Network resource.
   kind: object
   properties:
-  - description: Resource ID.
+  - name: id
+    description: Resource ID.
     types:
     - uid: string
-    name: id
 - name: Topology
   description: Topology of the specified resource group.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: GUID representing the operation id.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: createdDateTime
+    isReadyOnly: true
     description: The datetime when the topology was initially created for the resource group.
     types:
     - uid: string
-    name: createdDateTime
-  - isReadyOnly: true
+  - name: lastModified
+    isReadyOnly: true
     description: The datetime when the topology was last modified.
     types:
     - uid: string
-    name: lastModified
-  - description: The network resource topology information for the given resource group.
+  - name: resources
+    description: The network resource topology information for the given resource group.
     types:
-    - isArray: true
-      uid: TopologyResource
-    name: resources
+    - uid: TopologyResource
+      isArray: true
 - name: TopologyParameters
   description: Parameters that define the representation of topology.
   kind: object
   properties:
-  - description: The name of the target resource group to perform topology on.
+  - name: targetResourceGroupName
+    description: The name of the target resource group to perform topology on.
     types:
     - uid: string
-    name: targetResourceGroupName
-  - description: The reference of the Virtual Network resource.
+  - name: targetVirtualNetwork
+    description: The reference of the Virtual Network resource.
     types:
     - uid: SubResource
-    name: targetVirtualNetwork
-  - description: The reference of the Subnet resource.
+  - name: targetSubnet
+    description: The reference of the Subnet resource.
     types:
     - uid: SubResource
-    name: targetSubnet
 - name: TopologyResource
   description: ''
   kind: object
   properties:
-  - description: Name of the resource.
+  - name: name
+    description: Name of the resource.
     types:
     - uid: string
-    name: name
-  - description: ID of the resource.
+  - name: id
+    description: ID of the resource.
     types:
     - uid: string
-    name: id
-  - description: Resource location.
+  - name: location
+    description: Resource location.
     types:
     - uid: string
-    name: location
-  - description: Resources that have an association with the parent resource.
+  - name: associations
+    description: Resources that have an association with the parent resource.
     types:
-    - isArray: true
-      uid: TopologyAssociation
-    name: associations
+    - uid: TopologyAssociation
+      isArray: true
 - name: TopologyAssociation
   description: Holds the associations the resource has with other resources in the resource group.
   kind: object
   properties:
-  - description: The name of the resource that is associated with the parent resource.
+  - name: name
+    description: The name of the resource that is associated with the parent resource.
     types:
     - uid: string
-    name: name
-  - description: The ID of the resource that is associated with the parent resource.
+  - name: resourceId
+    description: The ID of the resource that is associated with the parent resource.
     types:
     - uid: string
-    name: resourceId
-  - description: The association type of the child resource to the parent resource.
+  - name: associationType
+    description: The association type of the child resource to the parent resource.
     types:
     - uid: AssociationType
-    name: associationType
 - name: AssociationType
   description: The association type of the child resource to the parent resource.
   kind: enum
   properties:
-  - types:
+  - name: Associated
+    types:
     - uid: string
-    name: Associated
-  - types:
+  - name: Contains
+    types:
     - uid: string
-    name: Contains
 examples:
-- request:
+- name: Get Topology
+  request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/topology?api-version=2017-10-01
     body: >-
       {
@@ -189,14 +192,11 @@ examples:
           }
         ]
       }
-  name: Get Topology
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Get Topology
-uid: management.azure.com.networkwatcher.networkwatchers.gettopology
+  - name: user_impersonation
+    description: impersonate your user account

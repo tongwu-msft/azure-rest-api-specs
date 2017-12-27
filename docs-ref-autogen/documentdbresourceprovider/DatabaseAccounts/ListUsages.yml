@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Retrieves the usages (most recent data) for the given database account.
+uid: management.azure.com.cosmosdbresourceprovider.databaseaccounts.listusages
+name: List Usages
 service: Cosmos DB Resource Provider
-apiVersion: 2015-04-08
 groupName: Database Accounts
+apiVersion: 2015-04-08
+summary: Retrieves the usages (most recent data) for the given database account.
 consumes:
 - application/json
 produces:
@@ -12,123 +14,124 @@ paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/usages?api-version=2015-04-08&$filter={$filter}
   isOptional: true
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Azure subscription ID.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: Name of an Azure resource group.
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
-  name: resourceGroupName
-- in: path
+- name: accountName
+  in: path
   isRequired: true
   description: Cosmos DB database account name.
   types:
   - uid: string
-  name: accountName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request. The current version is 2015-04-08.
   types:
   - uid: string
-  name: api-version
-- in: query
+- name: $filter
+  in: query
   description: An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names).
   types:
   - uid: string
-  name: $filter
 responses:
-- description: The usages for the database account were retrieved successfully.
+- name: 200 OK
+  description: The usages for the database account were retrieved successfully.
   types:
   - uid: UsagesResult
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: UsagesResult
   description: The response to a list usage request.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: value
+    isReadyOnly: true
     description: The usage data for a usage request.
     types:
-    - isArray: true
-      uid: Usage
-    name: value
+    - uid: Usage
+      isArray: true
 - name: Usage
   description: The list of usages for the database. A usage is a point in time metric
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: unit
+    isReadyOnly: true
     description: The unit of the metric.
     types:
     - uid: UnitType
-    name: unit
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: The name information for the metric.
     types:
     - uid: MetricName
-    name: name
-  - isReadyOnly: true
+  - name: quotaPeriod
+    isReadyOnly: true
     description: The quota period used to summarize the usage values.
     types:
     - uid: string
-    name: quotaPeriod
-  - isReadyOnly: true
+  - name: limit
+    isReadyOnly: true
     description: Maximum value for this metric
     types:
     - uid: integer
-    name: limit
-  - isReadyOnly: true
+  - name: currentValue
+    isReadyOnly: true
     description: Current value for this metric
     types:
     - uid: integer
-    name: currentValue
 - name: UnitType
   description: The unit of the metric.
   kind: enum
   properties:
-  - types:
+  - name: Count
+    types:
     - uid: string
-    name: Count
-  - types:
+  - name: Bytes
+    types:
     - uid: string
-    name: Bytes
-  - types:
+  - name: Seconds
+    types:
     - uid: string
-    name: Seconds
-  - types:
+  - name: Percent
+    types:
     - uid: string
-    name: Percent
-  - types:
+  - name: CountPerSecond
+    types:
     - uid: string
-    name: CountPerSecond
-  - types:
+  - name: BytesPerSecond
+    types:
     - uid: string
-    name: BytesPerSecond
-  - types:
+  - name: Milliseconds
+    types:
     - uid: string
-    name: Milliseconds
 - name: MetricName
   description: The name information for the metric.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: value
+    isReadyOnly: true
     description: The name of the metric.
     types:
     - uid: string
-    name: value
-  - isReadyOnly: true
+  - name: localizedValue
+    isReadyOnly: true
     description: The friendly name of the metric.
     types:
     - uid: string
-    name: localizedValue
 examples:
-- request:
+- name: CosmosDBDatabaseAccountGetUsages
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/usages?api-version=2015-04-08&$filter=$filter=name.value eq 'Storage'
   responses:
   - statusCode: "200"
@@ -147,14 +150,11 @@ examples:
           }
         ]
       }
-  name: CosmosDBDatabaseAccountGetUsages
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: Impersonate your user account
-    name: user_impersonation
-name: List Usages
-uid: management.azure.com.cosmosdbresourceprovider.databaseaccounts.listusages
+  - name: user_impersonation
+    description: Impersonate your user account

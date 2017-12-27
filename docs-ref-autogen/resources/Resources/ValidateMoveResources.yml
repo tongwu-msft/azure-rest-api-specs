@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Validates whether resources can be moved from one resource group to another resource group. This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
+uid: management.azure.com.resourcemanagement.resources.validatemoveresources
+name: Validate Move Resources
 service: Resource Management
-apiVersion: 2017-05-10
 groupName: Resources
+apiVersion: 2017-05-10
+summary: Validates whether resources can be moved from one resource group to another resource group. This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
 consumes:
 - application/json
 produces:
@@ -10,60 +12,60 @@ produces:
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/validateMoveResources?api-version=2017-05-10
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The ID of the target subscription.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: sourceResourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group containing the resources to validate for move.
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
-  name: sourceResourceGroupName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: The API version to use for this operation.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Accepted
-  name: 202 Accepted
-- description: No Content
-  name: 204 No Content
-- description: Conflict
-  name: Other Status Codes
+- name: 202 Accepted
+  description: Accepted
+- name: 204 No Content
+  description: No Content
+- name: Other Status Codes
+  description: Conflict
 requestBody:
 - parameters:
-  - in: body
+  - name: resources
+    in: body
     description: The IDs of the resources.
     types:
-    - isArray: true
-      uid: string
-    name: resources
-  - in: body
+    - uid: string
+      isArray: true
+  - name: targetResourceGroup
+    in: body
     description: The target resource group.
     types:
     - uid: string
-    name: targetResourceGroup
 requestHeader: []
 definitions:
 - name: ResourcesMoveInfo
   description: Parameters of move resources.
   kind: object
   properties:
-  - description: The IDs of the resources.
-    types:
-    - isArray: true
-      uid: string
-    name: resources
-  - description: The target resource group.
+  - name: resources
+    description: The IDs of the resources.
     types:
     - uid: string
-    name: targetResourceGroup
+      isArray: true
+  - name: targetResourceGroup
+    description: The target resource group.
+    types:
+    - uid: string
 examples: []
 security:
 - type: oauth2
@@ -71,7 +73,5 @@ security:
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: Validate Move Resources
-uid: management.azure.com.resourcemanagement.resources.validatemoveresources
+  - name: user_impersonation
+    description: impersonate your user account

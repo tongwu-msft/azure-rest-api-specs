@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists the available SKUs supported by Microsoft.Storage for given subscription.
+uid: management.azure.com.storageresourceprovider.skus.list
+name: List
 service: Storage Resource Provider
-apiVersion: 2017-06-01
 groupName: Skus
+apiVersion: 2017-06-01
+summary: Lists the available SKUs supported by Microsoft.Storage for given subscription.
 consumes:
 - application/json
 produces:
@@ -11,159 +13,160 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Storage/skus?api-version=2017-06-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client Api Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: OK -- List of storage SKUs in the given subscription retrieved and returned successfully.
+- name: 200 OK
+  description: OK -- List of storage SKUs in the given subscription retrieved and returned successfully.
   types:
   - uid: StorageSkuListResult
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: StorageSkuListResult
   description: The response from the List Storage SKUs operation.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: value
+    isReadyOnly: true
     description: The SKU of the storage account.
     types:
-    - isArray: true
-      uid: Sku
-    name: value
+    - uid: Sku
+      isArray: true
 - name: Sku
   description: Get the list result of storage SKUs and their properties.
   kind: object
   properties:
-  - description: Gets or sets the sku name. Required for account creation; optional for update. Note that in older versions, sku name was called accountType.
+  - name: name
+    description: Gets or sets the sku name. Required for account creation; optional for update. Note that in older versions, sku name was called accountType.
     types:
     - uid: SkuName
-    name: name
-  - isReadyOnly: true
+  - name: tier
+    isReadyOnly: true
     description: Gets the sku tier. This is based on the SKU name.
     types:
     - uid: SkuTier
-    name: tier
-  - isReadyOnly: true
+  - name: resourceType
+    isReadyOnly: true
     description: The type of the resource, usually it is 'storageAccounts'.
     types:
     - uid: string
-    name: resourceType
-  - isReadyOnly: true
+  - name: kind
+    isReadyOnly: true
     description: Indicates the type of storage account.
     types:
     - uid: Kind
-    name: kind
-  - isReadyOnly: true
+  - name: locations
+    isReadyOnly: true
     description: The set of locations that the SKU is available. This will be supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.).
     types:
-    - isArray: true
-      uid: string
-    name: locations
-  - isReadyOnly: true
+    - uid: string
+      isArray: true
+  - name: capabilities
+    isReadyOnly: true
     description: The capability information in the specified sku, including file encryption, network acls, change notification, etc.
     types:
-    - isArray: true
-      uid: SKUCapability
-    name: capabilities
-  - description: The restriction because of which SKU cannot be used.
+    - uid: SKUCapability
+      isArray: true
+  - name: restrictions
+    description: The restriction because of which SKU cannot be used.
     types:
-    - isArray: true
-      uid: Restriction
-    name: restrictions
+    - uid: Restriction
+      isArray: true
 - name: SkuName
   description: Gets or sets the sku name. Required for account creation; optional for update. Note that in older versions, sku name was called accountType.
   kind: enum
   properties:
-  - types:
+  - name: Standard_LRS
+    types:
     - uid: string
-    name: Standard_LRS
-  - types:
+  - name: Standard_GRS
+    types:
     - uid: string
-    name: Standard_GRS
-  - types:
+  - name: Standard_RAGRS
+    types:
     - uid: string
-    name: Standard_RAGRS
-  - types:
+  - name: Standard_ZRS
+    types:
     - uid: string
-    name: Standard_ZRS
-  - types:
+  - name: Premium_LRS
+    types:
     - uid: string
-    name: Premium_LRS
 - name: SkuTier
   description: Gets the sku tier. This is based on the SKU name.
   kind: enum
   properties:
-  - types:
+  - name: Standard
+    types:
     - uid: string
-    name: Standard
-  - types:
+  - name: Premium
+    types:
     - uid: string
-    name: Premium
 - name: Kind
   description: Indicates the type of storage account.
   kind: enum
   properties:
-  - types:
+  - name: Storage
+    types:
     - uid: string
-    name: Storage
-  - types:
+  - name: BlobStorage
+    types:
     - uid: string
-    name: BlobStorage
 - name: SKUCapability
   description: The capability information in the specified sku, including file encryption, network acls, change notification, etc.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: The name of capability, The capability information in the specified sku, including file encryption, network acls, change notification, etc.
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: value
+    isReadyOnly: true
     description: A string value to indicate states of given capability. Possibly 'true' or 'false'.
     types:
     - uid: string
-    name: value
 - name: Restriction
   description: The restriction because of which SKU cannot be used.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: The type of restrictions. As of now only possible value for this is location.
     types:
     - uid: string
-    name: type
-  - isReadyOnly: true
+  - name: values
+    isReadyOnly: true
     description: The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted.
     types:
-    - isArray: true
-      uid: string
-    name: values
-  - description: The reason for the restriction. As of now this can be “QuotaId” or “NotAvailableForSubscription”. Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The “NotAvailableForSubscription” is related to capacity at DC.
+    - uid: string
+      isArray: true
+  - name: reasonCode
+    description: The reason for the restriction. As of now this can be “QuotaId” or “NotAvailableForSubscription”. Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The “NotAvailableForSubscription” is related to capacity at DC.
     types:
     - uid: ReasonCode
-    name: reasonCode
 - name: ReasonCode
   description: The reason for the restriction. As of now this can be “QuotaId” or “NotAvailableForSubscription”. Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The “NotAvailableForSubscription” is related to capacity at DC.
   kind: enum
   properties:
-  - types:
+  - name: QuotaId
+    types:
     - uid: string
-    name: QuotaId
-  - types:
+  - name: NotAvailableForSubscription
+    types:
     - uid: string
-    name: NotAvailableForSubscription
 examples:
-- request:
+- name: SkuList
+  request:
     uri: GET https://management.azure.com/subscriptions/27de630f-e1ee-42de-8849-90def4986454/providers/Microsoft.Storage/skus?api-version=2017-06-01
   responses:
   - statusCode: "200"
@@ -6612,14 +6615,11 @@ examples:
           }
         ]
       }
-  name: SkuList
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List
-uid: management.azure.com.storageresourceprovider.skus.list
+  - name: user_impersonation
+    description: impersonate your user account

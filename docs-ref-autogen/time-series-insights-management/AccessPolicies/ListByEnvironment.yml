@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists all the available access policies associated with the environment.
+uid: management.azure.com.timeseriesinsightsmanagement.accesspolicies.listbyenvironment
+name: List By Environment
 service: Time Series Insights Management
-apiVersion: 2017-11-15
 groupName: Access Policies
+apiVersion: 2017-11-15
+summary: Lists all the available access policies associated with the environment.
 consumes:
 - application/json
 produces:
@@ -10,113 +12,114 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/accessPolicies?api-version=2017-11-15
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: Azure Subscription ID.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: Name of an Azure Resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: environmentName
+  in: path
   isRequired: true
   description: The name of the Time Series Insights environment associated with the specified resource group.
   types:
   - uid: string
-  name: environmentName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: access policies returned successfully.
+- name: 200 OK
+  description: access policies returned successfully.
   types:
   - uid: AccessPolicyListResponse
-  name: 200 OK
-- description: 'HTTP 404 (Not Found): The subscription, resource group, or environment could not be found.'
+- name: Other Status Codes
+  description: 'HTTP 404 (Not Found): The subscription, resource group, or environment could not be found.'
   types:
   - uid: CloudError
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: AccessPolicyListResponse
   description: The response of the List access policies operation.
   kind: object
   properties:
-  - description: An access policy is used to grant users and applications access to the environment. Roles are assigned to service principals in Azure Active Directory. These roles define the actions the principal can perform through the Time Series Insights data plane APIs.
+  - name: value
+    description: An access policy is used to grant users and applications access to the environment. Roles are assigned to service principals in Azure Active Directory. These roles define the actions the principal can perform through the Time Series Insights data plane APIs.
     types:
-    - isArray: true
-      uid: AccessPolicyResource
-    name: value
+    - uid: AccessPolicyResource
+      isArray: true
 - name: CloudError
   description: Contains information about an API error.
   kind: object
   properties:
-  - description: Describes a particular API error with an error code and a message.
+  - name: error
+    description: Describes a particular API error with an error code and a message.
     types:
     - uid: CloudErrorBody
-    name: error
 - name: AccessPolicyResource
   description: Result of the List access policies operation.
   kind: object
   properties:
-  - description: The objectId of the principal in Azure Active Directory.
+  - name: properties.principalObjectId
+    description: The objectId of the principal in Azure Active Directory.
     types:
     - uid: string
-    name: properties.principalObjectId
-  - description: An description of the access policy.
+  - name: properties.description
+    description: An description of the access policy.
     types:
     - uid: string
-    name: properties.description
-  - description: A role defining the data plane operations that a principal can perform on a Time Series Insights client.
+  - name: properties.roles
+    description: A role defining the data plane operations that a principal can perform on a Time Series Insights client.
     types:
-    - isArray: true
-      uid: string
-    name: properties.roles
-  - isReadyOnly: true
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
     description: Resource Id
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: Resource name
     types:
     - uid: string
-    name: name
-  - isReadyOnly: true
+  - name: type
+    isReadyOnly: true
     description: Resource type
     types:
     - uid: string
-    name: type
 - name: CloudErrorBody
   description: Describes a particular API error with an error code and a message.
   kind: object
   properties:
-  - description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programatically handle specific error cases.
+  - name: code
+    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programatically handle specific error cases.
     types:
     - uid: string
-    name: code
-  - description: A message that describes the error in detail and provides debugging information.
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
     types:
     - uid: string
-    name: message
-  - description: The target of the particular error (for example, the name of the property in error).
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
     types:
     - uid: string
-    name: target
-  - description: Contains nested errors that are related to this error.
+  - name: details
+    description: Contains nested errors that are related to this error.
     types:
-    - isArray: true
-      uid: CloudErrorBody
-    name: details
+    - uid: CloudErrorBody
+      isArray: true
 examples:
-- request:
+- name: AccessPoliciesByEnvironment
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/environments/env1/accessPolicies?api-version=2017-11-15
   responses:
   - statusCode: "200"
@@ -137,14 +140,11 @@ examples:
           }
         ]
       }
-  name: AccessPoliciesByEnvironment
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List By Environment
-uid: management.azure.com.timeseriesinsightsmanagement.accesspolicies.listbyenvironment
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Returns the copyright information for a given tile
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.render.getcopyrighttile
+name: Get Copyright Tile
 service: Location Based Services Functional API
-apiVersion: "1.0"
 groupName: Render
+apiVersion: "1.0"
+summary: Returns the copyright information for a given tile
 consumes: []
 produces:
 - application/json
@@ -12,140 +14,141 @@ paths:
 - content: GET https://atlas.microsoft.com/map/copyright/tile/{format}?api-version=1.0&subscription-key={subscription-key}&zoom={zoom}&x={x}&y={y}&text={text}
   isOptional: true
 uriParameters:
-- in: path
+- name: format
+  in: path
   isRequired: true
   description: Desired format of the response
   types:
   - uid: string
-  name: format
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Version number of Azure LBS API.  Current version is 1.0
   types:
   - uid: string
-  name: api-version
-- in: query
+- name: subscription-key
+  in: query
   isRequired: true
   description: Azure LBS subscription key
   types:
   - uid: string
-  name: subscription-key
-- in: query
+- name: zoom
+  in: query
   isRequired: true
   description: Zoom level for desired tile.  0 to 18 for raster tiles, 0 through 20 for vector tiles
   types:
   - uid: string
-  name: zoom
-- in: query
+- name: x
+  in: query
   isRequired: true
   description: 'X index for the desired tile, based on Spherical Mercator projection coordinate system (EPSG:3857) '
   types:
   - uid: string
-  name: x
-- in: query
+- name: y
+  in: query
   isRequired: true
   description: Y index for the desired tile, based on Spherical Mercator projection coordinate system (EPSG:3857)
   types:
   - uid: string
-  name: y
-- in: query
+- name: text
+  in: query
   description: True or False string to exclude textual data from response.  Only images and country names will be in response.
   types:
   - uid: string
-  name: text
 responses:
-- description: OK
+- name: 200 OK
+  description: OK
   types:
   - uid: copyrighttile200
-  name: 200 OK
-- description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
   - uid: Error
-  name: 400 Bad Request
-- description: 'Unauthorized: Access is denied due to invalid credentials.'
+- name: Other Status Codes
+  description: 'Unauthorized: Access is denied due to invalid credentials.'
   types:
   - uid: Error
-  name: Other Status Codes
-- description: Permission, capacity, or authentication issues.
+- name: Other Status Codes
+  description: Permission, capacity, or authentication issues.
   types:
   - uid: Error
-  name: Other Status Codes
-- description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+- name: Other Status Codes
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
   - uid: Error
-  name: Other Status Codes
-- description: An error occurred while processing the request. Please try again later.
+- name: Other Status Codes
+  description: An error occurred while processing the request. Please try again later.
   types:
   - uid: Error
-  name: Other Status Codes
 requestHeader: []
 definitions:
 - name: copyrighttile200
   description: This object is returned from a successful Copyright Tile call
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: formatVersion
+    isReadyOnly: true
     description: Format Version property
     types:
     - uid: string
-    name: formatVersion
-  - isReadyOnly: true
+  - name: generalCopyrights
+    isReadyOnly: true
     description: General Copyrights array
     types:
-    - isArray: true
-      uid: string
-    name: generalCopyrights
-  - isReadyOnly: true
+    - uid: string
+      isArray: true
+  - name: regions
+    isReadyOnly: true
     description: Regions array
     types:
-    - isArray: true
-      uid: Regions
-    name: regions
+    - uid: Regions
+      isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: statuscode
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
-    name: statuscode
-  - isReadyOnly: true
+  - name: message
+    isReadyOnly: true
     description: If available, a human readable description of the error.
     types:
     - uid: string
-    name: message
 - name: Regions
   description: Regions array
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: copyrights
+    isReadyOnly: true
     description: Copyrights array
     types:
-    - isArray: true
-      uid: string
-    name: copyrights
-  - isReadyOnly: true
+    - uid: string
+      isArray: true
+  - name: country
+    isReadyOnly: true
     description: Country property
     types:
     - uid: Country
-    name: country
 - name: Country
   description: Country property
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: ISO3
+    isReadyOnly: true
     description: ISO3 property
     types:
     - uid: string
-    name: ISO3
-  - isReadyOnly: true
+  - name: label
+    isReadyOnly: true
     description: Label property
     types:
     - uid: string
-    name: label
 examples:
-- request:
+- name: GetCopyrightTile
+  request:
     uri: GET https://atlas.microsoft.com/map/copyright/tile/json?api-version=1.0&zoom=6&x=9&y=22
   responses:
   - statusCode: "200"
@@ -222,13 +225,10 @@ examples:
         "statuscode": "500",
         "message": "An error occurred while processing the request. Please try again later."
       }
-  name: GetCopyrightTile
 security:
-- type: apiKey
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
   in: header
-  name: Ocp-Apim-Subscription-Key
-- type: apiKey
+- name: subscription-key
+  type: apiKey
   in: query
-  name: subscription-key
-name: Get Copyright Tile
-uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.render.getcopyrighttile

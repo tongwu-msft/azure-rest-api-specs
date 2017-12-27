@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Gets the result of evaluating an automatic scaling formula on the pool. This API is primarily for validating an autoscale formula, as it simply returns the result without applying the formula to the pool. The pool must have auto scaling enabled in order to evaluate a formula.
+uid: batch.core.windows.net.batchservice.pool.evaluateautoscale
+name: Evaluate Auto Scale
 service: Batch Service
-apiVersion: 2017-09-01.6.0
 groupName: Pool
+apiVersion: 2017-09-01.6.0
+summary: Gets the result of evaluating an automatic scaling formula on the pool. This API is primarily for validating an autoscale formula, as it simply returns the result without applying the formula to the pool. The pool must have auto scaling enabled in order to evaluate a formula.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
@@ -12,47 +14,48 @@ paths:
 - content: POST https://batch.core.windows.net/pools/{poolId}/evaluateautoscale?timeout={timeout}&api-version=2017-09-01.6.0
   isOptional: true
 uriParameters:
-- in: path
+- name: poolId
+  in: path
   isRequired: true
   description: The ID of the pool on which to evaluate the automatic scaling formula.
   types:
   - uid: string
-  name: poolId
-- in: query
+- name: timeout
+  in: query
   description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
   types:
   - uid: integer
   format: int32
-  name: timeout
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API Version.
   types:
   - uid: string
-  name: api-version
 responses:
-- headers:
-  - value: string
-    name: client-request-id
-  - value: string
-    name: request-id
-  - value: string
-    name: ETag
-  - value: string
-    name: Last-Modified
-  - value: string
-    name: DataServiceId
+- name: 200 OK
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
+  - name: DataServiceId
+    value: string
   description: A response containing the results of the autoscale evaluation.
   types:
   - uid: AutoScaleRun
-  name: 200 OK
-- description: The error from the Batch service.
+- name: Other Status Codes
+  description: The error from the Batch service.
   types:
   - uid: BatchError
-  name: Other Status Codes
 requestBody:
 - parameters:
-  - in: body
+  - name: autoScaleFormula
+    in: body
     isRequired: true
     description: >-
       The formula for the desired number of compute nodes in the pool.
@@ -60,136 +63,136 @@ requestBody:
       The formula is validated and its results calculated, but it is not applied to the pool. To apply the formula to the pool, 'Enable automatic scaling on a pool'. For more information about specifying this formula, see Automatically scale compute nodes in an Azure Batch pool (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
     types:
     - uid: string
-    name: autoScaleFormula
 requestHeader:
-- in: header
+- name: client-request-id
+  in: header
   description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
   types:
   - uid: string
   format: uuid
-  name: client-request-id
-- in: header
+- name: return-client-request-id
+  in: header
   description: Whether the server should return the client-request-id in the response.
   types:
   - uid: boolean
-  name: return-client-request-id
-- in: header
+- name: ocp-date
+  in: header
   description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
   types:
   - uid: string
   format: date-time-rfc1123
-  name: ocp-date
 definitions:
 - name: AutoScaleRun
   description: The results and errors from an execution of a pool autoscale formula.
   kind: object
   properties:
-  - description: The time at which the autoscale formula was last evaluated.
+  - name: timestamp
+    description: The time at which the autoscale formula was last evaluated.
     types:
     - uid: string
-    name: timestamp
-  - description: >-
+  - name: results
+    description: >-
       The final values of all variables used in the evaluation of the autoscale formula.
 
       Each variable value is returned in the form $variable=value, and variables are separated by semicolons.
     types:
     - uid: string
-    name: results
-  - description: Details of the error encountered evaluating the autoscale formula on the pool, if the evaluation was unsuccessful.
+  - name: error
+    description: Details of the error encountered evaluating the autoscale formula on the pool, if the evaluation was unsuccessful.
     types:
     - uid: AutoScaleRunError
-    name: error
 - name: BatchError
   description: The error encountered while attempting to add the task.
   kind: object
   properties:
-  - description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
-    name: code
-  - description: A message describing the error, intended to be suitable for display in a user interface.
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: ErrorMessage
-    name: message
-  - description: An item of additional information included in an Azure Batch error response.
+  - name: values
+    description: An item of additional information included in an Azure Batch error response.
     types:
-    - isArray: true
-      uid: BatchErrorDetail
-    name: values
+    - uid: BatchErrorDetail
+      isArray: true
 - name: PoolEvaluateAutoScaleParameter
   description: Options for evaluating an automatic scaling formula on a pool.
   kind: object
   properties:
-  - description: >-
+  - name: autoScaleFormula
+    description: >-
       The formula for the desired number of compute nodes in the pool.
 
       The formula is validated and its results calculated, but it is not applied to the pool. To apply the formula to the pool, 'Enable automatic scaling on a pool'. For more information about specifying this formula, see Automatically scale compute nodes in an Azure Batch pool (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
     types:
     - uid: string
-    name: autoScaleFormula
 - name: AutoScaleRunError
   description: An error that occurred when executing or evaluating a pool autoscale formula.
   kind: object
   properties:
-  - description: An identifier for the autoscale error. Codes are invariant and are intended to be consumed programmatically.
+  - name: code
+    description: An identifier for the autoscale error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
-    name: code
-  - description: A message describing the autoscale error, intended to be suitable for display in a user interface.
+  - name: message
+    description: A message describing the autoscale error, intended to be suitable for display in a user interface.
     types:
     - uid: string
-    name: message
-  - description: Represents a name-value pair.
+  - name: values
+    description: Represents a name-value pair.
     types:
-    - isArray: true
-      uid: NameValuePair
-    name: values
+    - uid: NameValuePair
+      isArray: true
 - name: ErrorMessage
   description: A message describing the error, intended to be suitable for display in a user interface.
   kind: object
   properties:
-  - description: The language code of the error message
+  - name: lang
+    description: The language code of the error message
     types:
     - uid: string
-    name: lang
-  - description: The text of the message.
+  - name: value
+    description: The text of the message.
     types:
     - uid: string
-    name: value
 - name: BatchErrorDetail
   description: A collection of key-value pairs containing additional details about the error.
   kind: object
   properties:
-  - description: An identifier specifying the meaning of the Value property.
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
     types:
     - uid: string
-    name: key
-  - description: The additional information included with the error response.
+  - name: value
+    description: The additional information included with the error response.
     types:
     - uid: string
-    name: value
 - name: NameValuePair
   description: Represents a name-value pair.
   kind: object
   properties:
-  - description: The name in the name-value pair.
+  - name: name
+    description: The name in the name-value pair.
     types:
     - uid: string
-    name: name
-  - description: The value in the name-value pair.
+  - name: value
+    description: The value in the name-value pair.
     types:
     - uid: string
-    name: value
 examples:
-- request:
+- name: Pool evaluate autoscale
+  request:
     uri: POST https://batch.core.windows.net/pools/poolId/evaluateautoscale?api-version=2017-09-01.6.0
     body: >-
       {
         "autoScaleFormula": "$TargetDedicated=1"
       }
     headers:
-    - value: 00000000-0000-0000-0000-000000000000
-      name: client-request-id
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
   responses:
   - statusCode: "200"
     body: >-
@@ -197,7 +200,4 @@ examples:
         "timestamp": "2016-11-22T19:39:28.5246331Z",
         "results": "$TargetDedicated=1;$NodeDeallocationOption=requeue"
       }
-  name: Pool evaluate autoscale
 security: []
-name: Evaluate Auto Scale
-uid: batch.core.windows.net.batchservice.pool.evaluateautoscale

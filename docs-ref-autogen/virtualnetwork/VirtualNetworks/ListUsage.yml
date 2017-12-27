@@ -1,8 +1,10 @@
 ### YamlMime:RESTOperation
-summary: Lists usage stats.
+uid: management.azure.com.virtualnetworks.virtualnetworks.listusage
+name: List Usage
 service: Virtual Networks
-apiVersion: 2017-10-01
 groupName: Virtual Networks
+apiVersion: 2017-10-01
+summary: Lists usage stats.
 consumes:
 - application/json
 - text/json
@@ -12,96 +14,97 @@ produces:
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/usages?api-version=2017-10-01
 uriParameters:
-- in: path
+- name: subscriptionId
+  in: path
   isRequired: true
   description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-  name: subscriptionId
-- in: path
+- name: resourceGroupName
+  in: path
   isRequired: true
   description: The name of the resource group.
   types:
   - uid: string
-  name: resourceGroupName
-- in: path
+- name: virtualNetworkName
+  in: path
   isRequired: true
   description: The name of the virtual network.
   types:
   - uid: string
-  name: virtualNetworkName
-- in: query
+- name: api-version
+  in: query
   isRequired: true
   description: Client API version.
   types:
   - uid: string
-  name: api-version
 responses:
-- description: Usage stats for vnet.
+- name: 200 OK
+  description: Usage stats for vnet.
   types:
   - uid: VirtualNetworkListUsageResult
-  name: 200 OK
 requestHeader: []
 definitions:
 - name: VirtualNetworkListUsageResult
   description: Response for the virtual networks GetUsage API service call.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: value
+    isReadyOnly: true
     description: Usage details for subnet.
     types:
-    - isArray: true
-      uid: VirtualNetworkUsage
-    name: value
-  - description: The URL to get the next set of results.
+    - uid: VirtualNetworkUsage
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of results.
     types:
     - uid: string
-    name: nextLink
 - name: VirtualNetworkUsage
   description: VirtualNetwork usage stats.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: currentValue
+    isReadyOnly: true
     description: Indicates number of IPs used from the Subnet.
     types:
     - uid: number
-    name: currentValue
-  - isReadyOnly: true
+  - name: id
+    isReadyOnly: true
     description: Subnet identifier.
     types:
     - uid: string
-    name: id
-  - isReadyOnly: true
+  - name: limit
+    isReadyOnly: true
     description: Indicates the size of the subnet.
     types:
     - uid: number
-    name: limit
-  - isReadyOnly: true
+  - name: name
+    isReadyOnly: true
     description: The name containing common and localized value for usage.
     types:
     - uid: VirtualNetworkUsageName
-    name: name
-  - isReadyOnly: true
+  - name: unit
+    isReadyOnly: true
     description: Usage units. Returns 'Count'
     types:
     - uid: string
-    name: unit
 - name: VirtualNetworkUsageName
   description: The name containing common and localized value for usage.
   kind: object
   properties:
-  - isReadyOnly: true
+  - name: localizedValue
+    isReadyOnly: true
     description: Localized subnet size and usage string.
     types:
     - uid: string
-    name: localizedValue
-  - isReadyOnly: true
+  - name: value
+    isReadyOnly: true
     description: Subnet size and usage string.
     types:
     - uid: string
-    name: value
 examples:
-- request:
+- name: VnetGetUsage
+  request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetName/usages?api-version=2017-10-01
   responses:
   - statusCode: "200"
@@ -130,14 +133,11 @@ examples:
           }
         ]
       }
-  name: VnetGetUsage
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
-  - description: impersonate your user account
-    name: user_impersonation
-name: List Usage
-uid: management.azure.com.virtualnetworks.virtualnetworks.listusage
+  - name: user_impersonation
+    description: impersonate your user account
