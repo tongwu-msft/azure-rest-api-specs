@@ -1,7 +1,7 @@
 ---
 title: "Send batch events"
 ms.custom: ""
-ms.date: "2017-03-03"
+ms.date: "2018-01-02"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -23,7 +23,7 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
   
 2.  The message body must be a valid JSON payload and follow a convention to describe each message.  
   
-3.  Set the Content-Type header to "**application/vnd.microsoft.servicebus.yml**".  
+3.  Set the Content-Type header to "**application/vnd.microsoft.servicebus.json**".  
   
 ## Request  
   
@@ -38,7 +38,7 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
   
 |Request Header|Required or Optional|Description|  
 |--------------------|--------------------------|-----------------|  
-|Content-Type|Required|Set to “**application/vnd.microsoft.servicebus.yml**”.|  
+|Content-Type|Required|Set to “**application/vnd.microsoft.servicebus.json**”.|  
   
 ### Request Body  
  JSON payload that contains the content of multiple messages. For example:  
@@ -79,7 +79,7 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
 ```  
 POST https://your-namespace.servicebus.windows.net/your-event-hub/messages?timeout=60&api-version=2014-01 HTTP/1.1  
 Authorization: SharedAccessSignature sr=your-namespace.servicebus.windows.net&sig=your-sas-key&se=1456197782&skn=RootManageSharedAccessKey  
-Content-Type: application/vnd.microsoft.servicebus.yml  
+Content-Type: application/vnd.microsoft.servicebus.json  
 Host: your-namespace.servicebus.windows.net  
   
 [{"Body":"Message1", "UserProperties":{"Alert":"Strong Wind"}},{"Body":"Message2"},{"Body":"Message3"}]  
