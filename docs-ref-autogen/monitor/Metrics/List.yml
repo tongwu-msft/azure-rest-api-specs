@@ -1,0 +1,383 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.metrics.list
+name: List
+service: Monitor
+groupName: Metrics
+apiVersion: 2017-05-01-preview
+summary: '**Lists the metric values for a resource**.'
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?api-version=2017-05-01-preview
+- content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?timespan={timespan}&interval={interval}&metric={metric}&aggregation={aggregation}&$top={$top}&$orderby={$orderby}&$filter={$filter}&resultType={resultType}&api-version=2017-05-01-preview
+  isOptional: true
+uriParameters:
+- name: resourceUri
+  in: path
+  isRequired: true
+  description: The identifier of the resource.
+  types:
+  - uid: string
+- name: timespan
+  in: query
+  description: The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'.
+  types:
+  - uid: string
+- name: interval
+  in: query
+  description: The interval (i.e. timegrain) of the query.
+  types:
+  - uid: string
+  format: duration
+- name: metric
+  in: query
+  description: The name of the metric to retrieve.
+  types:
+  - uid: string
+- name: aggregation
+  in: query
+  description: The list of aggregation types (comma separated) to retrieve.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: >-
+    The maximum number of records to retrieve.
+
+    Valid only if $filter is specified.
+
+    Defaults to 10.
+  types:
+  - uid: number
+  format: int32
+- name: $orderby
+  in: query
+  description: >-
+    The aggregation to use for sorting results and the direction of the sort.
+
+    Only one order can be specified.
+
+    Examples: sum asc.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**.
+  types:
+  - uid: string
+- name: resultType
+  in: query
+  description: Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+- name: 200 OK
+  description: Successful request to get the list of metric values.
+  types:
+  - uid: Response
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Response
+  description: The response to a metrics query.
+  kind: object
+  properties:
+  - name: cost
+    description: The integer value representing the cost of the query, for data case.
+    types:
+    - uid: number
+  - name: timespan
+    description: The timespan for which the data was retrieved. Its value consists of two datatimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested.
+    types:
+    - uid: string
+  - name: interval
+    description: The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made.
+    types:
+    - uid: string
+  - name: value
+    description: The result data of a query.
+    types:
+    - uid: Metric
+      isArray: true
+- name: Metric
+  description: the value of the collection.
+  kind: object
+  properties:
+  - name: id
+    description: the metric Id.
+    types:
+    - uid: string
+  - name: type
+    description: the resource type of the metric resource.
+    types:
+    - uid: string
+  - name: name
+    description: the name and the display name of the metric, i.e. it is localizable string.
+    types:
+    - uid: LocalizableString
+  - name: unit
+    description: the unit of the metric.
+    types:
+    - uid: Unit
+  - name: timeseries
+    description: A time series result type. The discriminator value is always TimeSeries in this case.
+    types:
+    - uid: TimeSeriesElement
+      isArray: true
+- name: LocalizableString
+  description: The localizable string class.
+  kind: object
+  properties:
+  - name: value
+    description: the invariant value.
+    types:
+    - uid: string
+  - name: localizedValue
+    description: the locale specific value.
+    types:
+    - uid: string
+- name: Unit
+  description: the unit of the metric.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+  - name: Seconds
+    types:
+    - uid: string
+  - name: CountPerSecond
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    types:
+    - uid: string
+  - name: Percent
+    types:
+    - uid: string
+  - name: MilliSeconds
+    types:
+    - uid: string
+  - name: ByteSeconds
+    types:
+    - uid: string
+  - name: Unspecified
+    types:
+    - uid: string
+- name: TimeSeriesElement
+  description: the time series returned when a data query is performed.
+  kind: object
+  properties:
+  - name: metadatavalues
+    description: Represents a metric metadata value.
+    types:
+    - uid: MetadataValue
+      isArray: true
+  - name: data
+    description: Represents a metric value.
+    types:
+    - uid: MetricValue
+      isArray: true
+- name: MetadataValue
+  description: Represents a metric metadata value.
+  kind: object
+  properties:
+  - name: name
+    description: the name of the metadata.
+    types:
+    - uid: LocalizableString
+  - name: value
+    description: the value of the metadata.
+    types:
+    - uid: string
+- name: MetricValue
+  description: Represents a metric value.
+  kind: object
+  properties:
+  - name: timeStamp
+    description: the timestamp for the metric value in ISO 8601 format.
+    types:
+    - uid: string
+  - name: average
+    description: the average value in the time range.
+    types:
+    - uid: number
+  - name: minimum
+    description: the least value in the time range.
+    types:
+    - uid: number
+  - name: maximum
+    description: the greatest value in the time range.
+    types:
+    - uid: number
+  - name: total
+    description: the sum of all of the values in the time range.
+    types:
+    - uid: number
+  - name: count
+    description: the number of samples in the time range. Can be used to determine the number of values that contributed to the average value.
+    types:
+    - uid: integer
+examples:
+- name: Get Metric for data
+  request:
+    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&metric=BlobCapacity&aggregation=Average,count&$filter=BlobType eq '*'&api-version=2017-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "cost": 0,
+        "timespan": "2017-04-14T02:20:00Z/2017-04-14T04:20:00Z",
+        "interval": "PT1M",
+        "value": [
+          {
+            "id": "/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics/BlobCapacity",
+            "type": "Microsoft.Insights/metrics",
+            "name": {
+              "value": "BlobCapacity",
+              "localizedValue": "Blob Capacity"
+            },
+            "unit": "Bytes",
+            "timeseries": [
+              {
+                "metadatavalues": [
+                  {
+                    "name": {
+                      "value": "blobtype",
+                      "localizedValue": "blobtype"
+                    },
+                    "value": "PageBlob"
+                  }
+                ],
+                "data": [
+                  {
+                    "timeStamp": "2017-04-14T02:20:00Z",
+                    "count": 0
+                  },
+                  {
+                    "timeStamp": "2017-04-14T02:21:00Z",
+                    "count": 0
+                  },
+                  {
+                    "timeStamp": "2017-04-14T02:22:00Z",
+                    "count": 0
+                  },
+                  {
+                    "timeStamp": "2017-04-14T02:23:00Z",
+                    "count": 1,
+                    "average": 0
+                  }
+                ]
+              },
+              {
+                "metadatavalues": [
+                  {
+                    "name": {
+                      "value": "blobtype",
+                      "localizedValue": "blobtype"
+                    },
+                    "value": "BlockBlob"
+                  }
+                ],
+                "data": [
+                  {
+                    "timeStamp": "2017-04-14T02:20:00Z",
+                    "count": 0
+                  },
+                  {
+                    "timeStamp": "2017-04-14T02:21:00Z",
+                    "count": 0
+                  },
+                  {
+                    "timeStamp": "2017-04-14T02:22:00Z",
+                    "count": 0
+                  },
+                  {
+                    "timeStamp": "2017-04-14T02:23:00Z",
+                    "count": 1,
+                    "average": 245
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+- name: Get Metric for metadata
+  request:
+    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&metric=BlobCapacity&aggregation=Average,count&$filter=BlobType eq '*'&api-version=2017-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timespan": "2017-04-14T02:20:00Z/2017-04-14T04:20:00Z",
+        "value": [
+          {
+            "id": "/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics/BlobCapacity",
+            "type": "Microsoft.Insights/metrics",
+            "name": {
+              "value": "BlobCapacity",
+              "localizedValue": "Blob Capacity"
+            },
+            "unit": "Bytes",
+            "timeseries": [
+              {
+                "metadatavalues": [
+                  {
+                    "name": {
+                      "value": "blobtype",
+                      "localizedValue": "blobtype"
+                    },
+                    "value": "BlockBlob"
+                  }
+                ]
+              },
+              {
+                "metadatavalues": [
+                  {
+                    "name": {
+                      "value": "blobtype",
+                      "localizedValue": "blobtype"
+                    },
+                    "value": "PageBlob"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

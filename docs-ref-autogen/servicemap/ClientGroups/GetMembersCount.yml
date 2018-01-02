@@ -1,0 +1,134 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicemap.clientgroups.getmemberscount
+name: Get Members Count
+service: Service Map
+groupName: Client Groups
+apiVersion: 2015-11-01-preview
+summary: Returns the approximate number of members in the client group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/clientGroups/{clientGroupName}/membersCount?api-version=2015-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/clientGroups/{clientGroupName}/membersCount?api-version=2015-11-01-preview&startTime={startTime}&endTime={endTime}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name within the specified subscriptionId.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_-]+'
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: OMS workspace containing the resources of interest.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_][a-zA-Z0-9_-]+[a-zA-Z0-9_]'
+- name: clientGroupName
+  in: path
+  isRequired: true
+  description: Client Group resource name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version.
+  types:
+  - uid: string
+- name: startTime
+  in: query
+  description: UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m
+  types:
+  - uid: string
+  format: date-time
+- name: endTime
+  in: query
+  description: UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow
+  types:
+  - uid: string
+  format: date-time
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: ClientGroupMembersCount
+- name: Other Status Codes
+  description: An error occurred while processing the request. See the error.code parameter to identify the specific error.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ClientGroupMembersCount
+  description: Specifies the number of members in a client group.
+  kind: object
+  properties:
+  - name: startTime
+    description: Membership interval start time.
+    types:
+    - uid: string
+  - name: endTime
+    description: Membership interval start time.
+    types:
+    - uid: string
+  - name: groupId
+    description: Client Group URI.
+    types:
+    - uid: string
+  - name: count
+    description: Number of members in the client group. Use this value together with the value of ```accuracy```. If accuracy is `exact` then the value represents the actual number of members in the cloud. When accuracy is `estimated`, the actual number of members is larger than the value of ```count```.
+    types:
+    - uid: integer
+  - name: accuracy
+    description: Accuracy of the reported count.
+    types:
+    - uid: Accuracy
+- name: ErrorResponse
+  description: An error response from the API.
+  kind: object
+  properties:
+  - name: error
+    description: Error information.
+    types:
+    - uid: Error
+- name: Accuracy
+  description: Describes the accuracy of the cpuSpeed field.
+  kind: enum
+  properties:
+  - name: actual
+    types:
+    - uid: string
+  - name: estimated
+    types:
+    - uid: string
+- name: Error
+  description: Error information.
+  kind: object
+  properties:
+  - name: code
+    description: Error code identifying the specific error.
+    types:
+    - uid: string
+  - name: message
+    description: Error message in the caller's locale.
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

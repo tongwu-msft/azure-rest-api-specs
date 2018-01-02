@@ -1,0 +1,354 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.tenantconfiguration.validate
+name: Validate
+service: API Management
+groupName: Tenant Configuration
+apiVersion: 2017-03-01
+summary: This operation validates the changes in the specified Git branch. This is a long running operation and could take several minutes to complete.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/validate?api-version=2017-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: configurationName
+  in: path
+  isRequired: true
+  description: The identifier of the Git Configuration Operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: 'Accepted: Location header contains the URL where the status of the long running operation can be checked.'
+- name: 200 OK
+  description: Result of validating the changes in the specified Git branch.
+  types:
+  - uid: OperationResultContract
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: branch
+    in: body
+    isRequired: true
+    description: The name of the Git branch from which the configuration is to be deployed to the configuration database.
+    types:
+    - uid: string
+  - name: force
+    in: body
+    description: The value enforcing deleting subscriptions to products that are deleted in this update.
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: OperationResultContract
+  description: Operation Result.
+  kind: object
+  properties:
+  - name: id
+    description: Operation result identifier.
+    types:
+    - uid: string
+  - name: status
+    description: Status of an async operation.
+    types:
+    - uid: AsyncOperationStatus
+  - name: started
+    description: 'Start time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+    types:
+    - uid: string
+  - name: updated
+    description: 'Last update time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+    types:
+    - uid: string
+  - name: resultInfo
+    description: Optional result info.
+    types:
+    - uid: string
+  - name: error
+    description: Error Body Contract
+    types:
+    - uid: ErrorResponse
+  - name: actionLog
+    isReadyOnly: true
+    description: Log of the entity being created, updated or deleted.
+    types:
+    - uid: OperationResultLogItemContract
+      isArray: true
+- name: ErrorResponse
+  description: Error Body Contract
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error Field contract.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: DeployConfigurationParameters
+  description: Parameters supplied to the Deploy Configuration operation.
+  kind: object
+  properties:
+  - name: branch
+    description: The name of the Git branch from which the configuration is to be deployed to the configuration database.
+    types:
+    - uid: string
+  - name: force
+    description: The value enforcing deleting subscriptions to products that are deleted in this update.
+    types:
+    - uid: boolean
+- name: AsyncOperationStatus
+  description: Status of an async operation.
+  kind: enum
+  properties:
+  - name: Started
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: OperationResultLogItemContract
+  description: This property if only provided as part of the TenantConfiguration_Validate operation. It contains the log the entities which will be updated/created/deleted as part of the TenantConfiguration_Deploy operation.
+  kind: object
+  properties:
+  - name: objectType
+    description: The type of entity contract.
+    types:
+    - uid: string
+  - name: action
+    description: Action like create/update/delete.
+    types:
+    - uid: string
+  - name: objectKey
+    description: Identifier of the entity being created/updated/deleted.
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: The list of invalid fields send in request, in case of validation error.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementTenantConfigurationValidate
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/configuration/validate?api-version=2017-03-01
+    body: >-
+      {
+        "branch": "master"
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/operationResults/5a1af64e2a6d2e0b688d751e?api-version=2017-03-01
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "5a1af64e2a6d2e0b688d751e",
+        "status": "Succeeded",
+        "started": "2017-11-26T17:13:50.787Z",
+        "updated": "2017-11-26T17:13:59.723Z",
+        "resultInfo": "Validation is successfull",
+        "actionLog": [
+          {
+            "objectType": "ApiSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57914cb351f68a16889be190;rev=1"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "5768181ea40f7eb6c49f6ac7"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "576819c9a40f7e86289fb3e3"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "576819f1a40f7e86289fb6de"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681a67a40f7e72b4132522"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681a73a40f7e72b413281d"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681a7ea40f7e72b4132b18"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681b88a40f7ea0f017f099"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681b9fa40f7ea0f017f682"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681bb5a40f7ea0f017fc6b"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681bcaa40f7ea0f0180254"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681bdfa40f7ea0f018083d"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681bf5a40f7ea0f0180e26"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681c0ea40f7ea0f018140f"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681c26a40f7ea0f01819f8"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681c83a40f7e85f44db237"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681cb2a40f7e85f44dbcd0"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681ce3a40f7e85f44dc769"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681d1fa40f7e85f44dd202"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681d60a40f7e85f44ddc9b"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681db4a40f7e85f44de735"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681e11a40f7e85f44df1ce"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681e73a40f7e85f44dfc67"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "57681f06a40f7e74ec07785c"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "5768211fa40f7e74ec07a74a"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "576823cfa40f7e74ec07d63a"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "5600b57e7e8880006a060001"
+          },
+          {
+            "objectType": "ProductSpecificationContract",
+            "action": "Updated",
+            "objectKey": "5600b57e7e8880006a060002"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

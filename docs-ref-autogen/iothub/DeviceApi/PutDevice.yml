@@ -1,0 +1,194 @@
+### YamlMime:RESTOperation
+uid: <fully-qualifiediothubdomainname>.iothub.deviceapi.putdevice
+name: Put Device
+service: IoT Hub
+groupName: Device Api
+apiVersion: 2016-11-14
+summary: Create or update the identity of a device in the identity registry of an IoT hub. Create or update the identity of a device in the identity registry of an IoT hub. An ETag must not be specified for the create operation. An ETag must be specified for the update operation. Note that generationId and deviceId cannot be updated by the user.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PUT https://<fully-qualified IoT hub domain name>/devices/{id}?api-version=2016-11-14
+uriParameters:
+- name: id
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Device
+requestBody:
+- parameters:
+  - name: deviceId
+    in: body
+    isRequired: true
+    description: The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.
+    types:
+    - uid: string
+  - name: etag
+    in: body
+    description: A string representing an ETag for the device identity, as per RFC7232. It is used in the HTTP protocol to resolve conflicting concurrent updates to the properties of this device. An ETag is required when performing an update or delete operation on a device.
+    types:
+    - uid: string
+  - name: connectionState
+    in: body
+    description: Specifies the different connection states of a device.
+    types:
+    - uid: DeviceConnectionState
+  - name: status
+    in: body
+    description: Represents the current status of a device. A disabled device is not allowed to perform any messaging operation. An IoT hub administrator can choose to enable or disable a device.
+    types:
+    - uid: DeviceStatus
+  - name: statusReason
+    in: body
+    description: A string of user metadata. Reason, if any, for the device to be in specified status. Not interpreted or used by the IoT hub
+    types:
+    - uid: string
+  - name: connectionStateUpdatedTime
+    in: body
+    description: Time when the "connectionState" was last updated. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z
+    types:
+    - uid: string
+  - name: statusUpdatedTime
+    in: body
+    description: Time when the "status" was last updated. In ISO8601 datetime format in UTC; for example, 2015-01-28T16:24:48.789Z
+    types:
+    - uid: string
+  - name: lastActivityTime
+    in: body
+    description: Last time the device connected, received or sent a message. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.
+    types:
+    - uid: string
+  - name: cloudToDeviceMessageCount
+    in: body
+    description: Current number of cloud-to-device messages that are waiting to be delivered to the device.
+    types:
+    - uid: integer
+  - name: authentication
+    in: body
+    description: Used to specify the authentication mechanism used by a device. Two mutually-exclusive options are supported - shared access signature keys and device X.509 client certificates.
+    types:
+    - uid: AuthenticationMechanism
+requestHeader: []
+definitions:
+- name: AuthenticationMechanism
+  description: Used to specify the authentication mechanism used by a device. Two mutually-exclusive options are supported - shared access signature keys and device X.509 client certificates.
+  kind: object
+  properties:
+  - name: symmetricKey
+    description: Primary and secondary shared access signature symmetric keys of a device. If specified, both primary key and secondary key are required. The keys must be in valid base-64 format with a key length between 16 bytes and 64 bytes. They can be identical. If they are not specified, the Iot Hub generates both keys for the device with a default key length of 32 bytes.
+    types:
+    - uid: SymmetricKey
+  - name: x509Thumbprint
+    description: If the device is using X.509 client certificates for authentication, at least one of primaryThumbprint or secondaryThumbprint must be specified. They can be identical.
+    types:
+    - uid: X509Thumbprint
+- name: Device
+  description: Container of IoT Hub device properties and their accessors.
+  kind: object
+  properties:
+  - name: deviceId
+    description: The deviceId uniquely identifies the device in the IoT hub's identity registry. A case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars + {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.
+    types:
+    - uid: string
+  - name: generationId
+    isReadyOnly: true
+    description: An IoT hub-generated case-sensitive string (up to 128 char long). Used to distinguish devices with the same deviceId when they have been deleted and recreated.
+    types:
+    - uid: string
+  - name: etag
+    description: A string representing an ETag for the device identity, as per RFC7232. It is used in the HTTP protocol to resolve conflicting concurrent updates to the properties of this device. An ETag is required when performing an update or delete operation on a device.
+    types:
+    - uid: string
+  - name: connectionState
+    description: Specifies the different connection states of a device.
+    types:
+    - uid: DeviceConnectionState
+  - name: status
+    description: Represents the current status of a device. A disabled device is not allowed to perform any messaging operation. An IoT hub administrator can choose to enable or disable a device.
+    types:
+    - uid: DeviceStatus
+  - name: statusReason
+    description: A string of user metadata. Reason, if any, for the device to be in specified status. Not interpreted or used by the IoT hub
+    types:
+    - uid: string
+  - name: connectionStateUpdatedTime
+    description: Time when the "connectionState" was last updated. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z
+    types:
+    - uid: string
+  - name: statusUpdatedTime
+    description: Time when the "status" was last updated. In ISO8601 datetime format in UTC; for example, 2015-01-28T16:24:48.789Z
+    types:
+    - uid: string
+  - name: lastActivityTime
+    description: Last time the device connected, received or sent a message. In ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This does not update if the device uses the HTTP/1 protocol to perform messaging operations.
+    types:
+    - uid: string
+  - name: cloudToDeviceMessageCount
+    description: Current number of cloud-to-device messages that are waiting to be delivered to the device.
+    types:
+    - uid: integer
+  - name: authentication
+    description: Used to specify the authentication mechanism used by a device. Two mutually-exclusive options are supported - shared access signature keys and device X.509 client certificates.
+    types:
+    - uid: AuthenticationMechanism
+- name: SymmetricKey
+  description: Primary and secondary shared access signature symmetric keys of a device. If specified, both primary key and secondary key are required. The keys must be in valid base-64 format with a key length between 16 bytes and 64 bytes. They can be identical. If they are not specified, the Iot Hub generates both keys for the device with a default key length of 32 bytes.
+  kind: object
+  properties:
+  - name: primaryKey
+    description: ''
+    types:
+    - uid: string
+  - name: secondaryKey
+    description: ''
+    types:
+    - uid: string
+- name: X509Thumbprint
+  description: If the device is using X.509 client certificates for authentication, at least one of primaryThumbprint or secondaryThumbprint must be specified. They can be identical.
+  kind: object
+  properties:
+  - name: primaryThumbprint
+    description: Represents the SHA-1 hash of the X.509 client certificate used by the device when connecting to an IoT hub. Thumbprint values other than 40 hex chars are not accepted.
+    types:
+    - uid: string
+  - name: secondaryThumbprint
+    description: Represents the SHA-1 hash of the X.509 client certificate used by the device when connecting to an IoT hub. Thumbprint values other than 40 hex chars are not accepted.
+    types:
+    - uid: string
+- name: DeviceConnectionState
+  description: Specifies the different connection states of a device.
+  kind: enum
+  properties:
+  - name: disconnected
+    types:
+    - uid: string
+  - name: connected
+    types:
+    - uid: string
+- name: DeviceStatus
+  description: Represents the current status of a device. A disabled device is not allowed to perform any messaging operation. An IoT hub administrator can choose to enable or disable a device.
+  kind: enum
+  properties:
+  - name: enabled
+    types:
+    - uid: string
+  - name: disabled
+    types:
+    - uid: string
+examples: []
+security: []

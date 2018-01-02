@@ -1,0 +1,110 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.analysisservices.servers.listskusfornew
+name: List Skus For New
+service: Analysis Services
+groupName: Servers
+apiVersion: 2016-05-16
+summary: Lists eligible SKUs for Analysis Services resource provider.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.AnalysisServices/skus?api-version=2016-05-16
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SkuEnumerationForNewResourceResult
+requestHeader: []
+definitions:
+- name: SkuEnumerationForNewResourceResult
+  description: An object that represents enumerating SKUs for new resources
+  kind: object
+  properties:
+  - name: value
+    description: Represents the SKU name and Azure pricing tier for Analysis Services resource.
+    types:
+    - uid: ResourceSku
+      isArray: true
+- name: ResourceSku
+  description: The SKU of the Analysis Services resource.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the SKU level.
+    types:
+    - uid: string
+  - name: tier
+    description: The name of the Azure pricing tier to which the SKU applies.
+    types:
+    - uid: SkuTier
+- name: SkuTier
+  description: The name of the Azure pricing tier to which the SKU applies.
+  kind: enum
+  properties:
+  - name: Development
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+examples:
+- name: List eligible SKUs for a new server
+  request:
+    uri: GET https://management.azure.com/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/providers/Microsoft.AnalysisServices/skus?api-version=2016-05-16
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "B1"
+          },
+          {
+            "name": "B2"
+          },
+          {
+            "name": "D1"
+          },
+          {
+            "name": "S0"
+          },
+          {
+            "name": "S1"
+          },
+          {
+            "name": "S2"
+          },
+          {
+            "name": "S3"
+          },
+          {
+            "name": "S4"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

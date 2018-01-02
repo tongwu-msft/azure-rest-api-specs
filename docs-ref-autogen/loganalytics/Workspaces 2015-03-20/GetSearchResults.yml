@@ -1,0 +1,275 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.loganalytics.workspaces2015-03-20.getsearchresults
+name: Get Search Results
+service: Log Analytics
+groupName: Workspaces 2015-03-20
+apiVersion: 2015-03-20
+summary: 'Submit a search for a given workspace. The response will contain an id to track the search. User can use the id to poll the search status and get the full search result later if the search takes long time to finish. '
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/search?api-version=2015-03-20
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to get. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: Log Analytics workspace name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK response definition.
+  types:
+  - uid: SearchResultsResponse
+- name: 202 Accepted
+  description: Accepted response definition
+requestBody:
+- parameters:
+  - name: top
+    in: body
+    description: The number to get from the top.
+    types:
+    - uid: integer
+  - name: highlight
+    in: body
+    description: The highlight that looks for all occurences of a string.
+    types:
+    - uid: SearchHighlight
+  - name: query
+    in: body
+    isRequired: true
+    description: The query to search.
+    types:
+    - uid: string
+  - name: start
+    in: body
+    description: The start date filter, so the only query results returned are after this date.
+    types:
+    - uid: string
+  - name: end
+    in: body
+    description: The end date filter, so the only query results returned are before this date.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SearchHighlight
+  description: Highlight details.
+  kind: object
+  properties:
+  - name: pre
+    description: The string that is put before a matched result.
+    types:
+    - uid: string
+  - name: post
+    description: The string that is put after a matched result.
+    types:
+    - uid: string
+- name: SearchResultsResponse
+  description: The get search result operation response.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The id of the search, which includes the full url.
+    types:
+    - uid: string
+  - name: __metadata
+    description: The metadata from search results.
+    types:
+    - uid: SearchMetadata
+  - name: value
+    description: The array of result values.
+    types:
+    - uid: object
+      isArray: true
+  - name: error
+    description: The error.
+    types:
+    - uid: SearchError
+- name: SearchParameters
+  description: Parameters specifying the search query and range.
+  kind: object
+  properties:
+  - name: top
+    description: The number to get from the top.
+    types:
+    - uid: integer
+  - name: highlight
+    description: The highlight that looks for all occurences of a string.
+    types:
+    - uid: SearchHighlight
+  - name: query
+    description: The query to search.
+    types:
+    - uid: string
+  - name: start
+    description: The start date filter, so the only query results returned are after this date.
+    types:
+    - uid: string
+  - name: end
+    description: The end date filter, so the only query results returned are before this date.
+    types:
+    - uid: string
+- name: SearchMetadata
+  description: Metadata for search results.
+  kind: object
+  properties:
+  - name: RequestId
+    description: The request id of the search.
+    types:
+    - uid: string
+  - name: resultType
+    description: The search result type.
+    types:
+    - uid: string
+  - name: total
+    description: The total number of search results.
+    types:
+    - uid: integer
+  - name: top
+    description: The number of top search results.
+    types:
+    - uid: integer
+  - name: id
+    description: The id of the search results request.
+    types:
+    - uid: string
+  - name: CoreSummaries
+    description: The core summary of a search.
+    types:
+    - uid: CoreSummary
+      isArray: true
+  - name: Status
+    description: The status of the search results.
+    types:
+    - uid: string
+  - name: StartTime
+    description: The start time for the search.
+    types:
+    - uid: string
+  - name: LastUpdated
+    description: The time of last update.
+    types:
+    - uid: string
+  - name: ETag
+    description: The ETag of the search results.
+    types:
+    - uid: string
+  - name: sort
+    description: The sort parameters for search.
+    types:
+    - uid: SearchSort
+      isArray: true
+  - name: requestTime
+    description: The request time.
+    types:
+    - uid: integer
+  - name: aggregatedValueField
+    description: The aggregated value field.
+    types:
+    - uid: string
+  - name: aggregatedGroupingFields
+    description: The aggregated grouping fields.
+    types:
+    - uid: string
+  - name: sum
+    description: The sum of all aggregates returned in the result set.
+    types:
+    - uid: integer
+  - name: max
+    description: The max of all aggregates returned in the result set.
+    types:
+    - uid: integer
+  - name: schema
+    description: The schema.
+    types:
+    - uid: SearchMetadataSchema
+- name: SearchError
+  description: Details for a search error.
+  kind: object
+  properties:
+  - name: type
+    description: The error type.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: CoreSummary
+  description: The core summary of a search.
+  kind: object
+  properties:
+  - name: Status
+    description: The status of a core summary.
+    types:
+    - uid: string
+  - name: NumberOfDocuments
+    description: The number of documents of a core summary.
+    types:
+    - uid: integer
+- name: SearchSort
+  description: The sort parameters for search.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the field the search query is sorted on.
+    types:
+    - uid: string
+  - name: order
+    description: The sort order of the search.
+    types:
+    - uid: SearchSortEnum
+- name: SearchMetadataSchema
+  description: Schema metadata for search.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the metadata schema.
+    types:
+    - uid: string
+  - name: version
+    description: The version of the metadata schema.
+    types:
+    - uid: integer
+- name: SearchSortEnum
+  description: The sort order of the search.
+  kind: enum
+  properties:
+  - name: asc
+    types:
+    - uid: string
+  - name: desc
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

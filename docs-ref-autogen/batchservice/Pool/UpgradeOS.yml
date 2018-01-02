@@ -1,0 +1,152 @@
+### YamlMime:RESTOperation
+uid: batch.core.windows.net.batchservice.pool.upgradeos
+name: Upgrade OS
+service: Batch Service
+groupName: Pool
+apiVersion: 2017-09-01.6.0
+summary: Upgrades the operating system of the specified pool. During an upgrade, the Batch service upgrades each compute node in the pool. When a compute node is chosen for upgrade, any tasks running on that node are removed from the node and returned to the queue to be rerun later (or on a different compute node). The node will be unavailable until the upgrade is complete. This operation results in temporarily reduced pool capacity as nodes are taken out of service to be upgraded. Although the Batch service tries to avoid upgrading all compute nodes at the same time, it does not guarantee to do this (particularly on small pools); therefore, the pool may be temporarily unavailable to run tasks. When this operation runs, the pool state changes to upgrading. When all compute nodes have finished upgrading, the pool state returns to active. While the upgrade is in progress, the pool's currentOSVersion reflects the OS version that nodes are upgrading from, and targetOSVersion reflects the OS version that nodes are upgrading to. Once the upgrade is complete, currentOSVersion is updated to reflect the OS version now running on all nodes. This operation can only be invoked on pools created with the cloudServiceConfiguration property.
+consumes:
+- application/json; odata=minimalmetadata
+produces:
+- application/json
+paths:
+- content: POST https://batch.core.windows.net/pools/{poolId}/upgradeos?api-version=2017-09-01.6.0
+- content: POST https://batch.core.windows.net/pools/{poolId}/upgradeos?timeout={timeout}&api-version=2017-09-01.6.0
+  isOptional: true
+uriParameters:
+- name: poolId
+  in: path
+  isRequired: true
+  description: The ID of the pool to upgrade.
+  types:
+  - uid: string
+- name: timeout
+  in: query
+  description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
+  - name: DataServiceId
+    value: string
+  description: The request to the Batch service was successful.
+- name: Other Status Codes
+  description: The error from the Batch service.
+  types:
+  - uid: BatchError
+requestBody:
+- parameters:
+  - name: targetOSVersion
+    in: body
+    isRequired: true
+    description: The Azure Guest OS version to be installed on the virtual machines in the pool.
+    types:
+    - uid: string
+requestHeader:
+- name: client-request-id
+  in: header
+  description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+  types:
+  - uid: string
+  format: uuid
+- name: return-client-request-id
+  in: header
+  description: Whether the server should return the client-request-id in the response.
+  types:
+  - uid: boolean
+- name: ocp-date
+  in: header
+  description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+- name: If-Match
+  in: header
+  description: An ETag value associated with the version of the resource known to the client. The operation will be performed only if the resource's current ETag on the service exactly matches the value specified by the client.
+  types:
+  - uid: string
+- name: If-None-Match
+  in: header
+  description: An ETag value associated with the version of the resource known to the client. The operation will be performed only if the resource's current ETag on the service does not match the value specified by the client.
+  types:
+  - uid: string
+- name: If-Modified-Since
+  in: header
+  description: A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has been modified since the specified time.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+- name: If-Unmodified-Since
+  in: header
+  description: A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has not been modified since the specified time.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+definitions:
+- name: BatchError
+  description: The error encountered while attempting to add the task.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+  - name: values
+    description: An item of additional information included in an Azure Batch error response.
+    types:
+    - uid: BatchErrorDetail
+      isArray: true
+- name: PoolUpgradeOSParameter
+  description: Options for upgrading the operating system of compute nodes in a pool.
+  kind: object
+  properties:
+  - name: targetOSVersion
+    description: The Azure Guest OS version to be installed on the virtual machines in the pool.
+    types:
+    - uid: string
+- name: ErrorMessage
+  description: A message describing the error, intended to be suitable for display in a user interface.
+  kind: object
+  properties:
+  - name: lang
+    description: The language code of the error message
+    types:
+    - uid: string
+  - name: value
+    description: The text of the message.
+    types:
+    - uid: string
+- name: BatchErrorDetail
+  description: A collection of key-value pairs containing additional details about the error.
+  kind: object
+  properties:
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+  - name: value
+    description: The additional information included with the error response.
+    types:
+    - uid: string
+examples: []
+security: []

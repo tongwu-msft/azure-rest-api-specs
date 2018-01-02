@@ -1,3 +1,12 @@
+---
+ms.assetid: 
+ms.title: Transformation | Microsoft Docs
+ms.service: stream-analytics
+author: SnehaGunda
+ms.author: sngun
+ms.manager: kfile
+---
+
 # Transformation
 
 ## Create
@@ -165,7 +174,7 @@ Updates the properties that are assigned to a transformation.
   
  Any one or more of the input properties may be specified in the request body, setting/replacing any existing value for each property specified.  
   
- For more information about input properties, see [Create Transformation &#40;Azure Stream Analytics&#41;](Create-Transformation--Azure-Stream-Analytics-.md).  
+ For more information about input properties, see [Create Transformation &#40;Azure Stream Analytics&#41;](#create).  
   
 ### Response  
  Status code: 201  

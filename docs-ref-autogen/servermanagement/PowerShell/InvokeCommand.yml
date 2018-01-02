@@ -1,0 +1,210 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servermanagement.powershell.invokecommand
+name: Invoke Command
+service: Server Management
+groupName: Power Shell
+apiVersion: 2016-07-01-preview
+summary: Creates a PowerShell script and invokes it.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServerManagement/nodes/{nodeName}/sessions/{session}/features/powerShellConsole/pssessions/{pssession}/invokeCommand?api-version=2016-07-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name uniquely identifies the resource group within the user subscriptionId.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9]+'
+- name: nodeName
+  in: path
+  isRequired: true
+  description: The node name (256 characters maximum).
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$
+- name: session
+  in: path
+  isRequired: true
+  description: The sessionId from the user.
+  types:
+  - uid: string
+- name: pssession
+  in: path
+  isRequired: true
+  description: The PowerShell sessionId from the user.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: PowerShellCommandResults
+- name: 202 Accepted
+  description: 'Accepted: Location header contains the URL where the status of the long running operation can be checked.'
+- name: Other Status Codes
+  description: Default Response. It will be deserialized as per the error definition specified in the schema, and an exception will be thrown.
+  types:
+  - uid: Error
+requestBody:
+- parameters:
+  - name: properties.command
+    in: body
+    description: Script to execute.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: PowerShellCommandResults
+  description: A collection of results from a PowerShell command.
+  kind: object
+  properties:
+  - name: results
+    description: Results from invoking a PowerShell command.
+    types:
+    - uid: PowerShellCommandResult
+      isArray: true
+  - name: pssession
+    description: ''
+    types:
+    - uid: string
+  - name: command
+    description: ''
+    types:
+    - uid: string
+  - name: completed
+    description: ''
+    types:
+    - uid: boolean
+- name: Error
+  description: Error message.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: integer
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: fields
+    description: ''
+    types:
+    - uid: string
+- name: PowerShellCommandParameters
+  description: The parameters to a PowerShell script execution command.
+  kind: object
+  properties:
+  - name: properties.command
+    description: Script to execute.
+    types:
+    - uid: string
+- name: PowerShellCommandResult
+  description: ''
+  kind: object
+  properties:
+  - name: messageType
+    description: The type of message.
+    types:
+    - uid: integer
+  - name: foregroundColor
+    description: The HTML color string representing the foreground color.
+    types:
+    - uid: string
+  - name: backgroundColor
+    description: The HTML color string representing the background color.
+    types:
+    - uid: string
+  - name: value
+    description: Actual result text from the PowerShell Command.
+    types:
+    - uid: string
+  - name: prompt
+    description: The interactive prompt message.
+    types:
+    - uid: string
+  - name: exitCode
+    description: The exit code from a executable that was called from PowerShell.
+    types:
+    - uid: integer
+  - name: id
+    description: ID of the prompt message.
+    types:
+    - uid: integer
+  - name: caption
+    description: Text that precedes the prompt.
+    types:
+    - uid: string
+  - name: message
+    description: Text of the prompt.
+    types:
+    - uid: string
+  - name: descriptions
+    description: Field description for the implementation of PSHostUserInterface.Prompt
+    types:
+    - uid: PromptFieldDescription
+      isArray: true
+- name: PromptFieldDescription
+  description: Collection of PromptFieldDescription objects that contains the user input.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the prompt.
+    types:
+    - uid: string
+  - name: label
+    description: The label text of the prompt.
+    types:
+    - uid: string
+  - name: helpMessage
+    description: The help message of the prompt.
+    types:
+    - uid: string
+  - name: promptFieldTypeIsList
+    description: When set to 'true' the prompt field type is a list of values.
+    types:
+    - uid: boolean
+  - name: promptFieldType
+    description: ''
+    types:
+    - uid: PromptFieldType
+- name: PromptFieldType
+  description: ''
+  kind: enum
+  properties:
+  - name: String
+    types:
+    - uid: string
+  - name: SecureString
+    types:
+    - uid: string
+  - name: Credential
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,191 @@
+### YamlMime:RESTOperation
+uid: batch.core.windows.net.batchservice.computenode.updateuser
+name: Update User
+service: Batch Service
+groupName: Compute Node
+apiVersion: 2017-09-01.6.0
+summary: Updates the password and expiration time of a user account on the specified compute node. This operation replaces of all the updateable properties of the account. For example, if the expiryTime element is not specified, the current value is replaced with the default value, not left unmodified. You can update a user account on a node only when it is in the idle or running state.
+consumes:
+- application/json; odata=minimalmetadata
+produces:
+- application/json
+paths:
+- content: PUT https://batch.core.windows.net/pools/{poolId}/nodes/{nodeId}/users/{userName}?api-version=2017-09-01.6.0
+- content: PUT https://batch.core.windows.net/pools/{poolId}/nodes/{nodeId}/users/{userName}?timeout={timeout}&api-version=2017-09-01.6.0
+  isOptional: true
+uriParameters:
+- name: poolId
+  in: path
+  isRequired: true
+  description: The ID of the pool that contains the compute node.
+  types:
+  - uid: string
+- name: nodeId
+  in: path
+  isRequired: true
+  description: The ID of the machine on which you want to update a user account.
+  types:
+  - uid: string
+- name: userName
+  in: path
+  isRequired: true
+  description: The name of the user account to update.
+  types:
+  - uid: string
+- name: timeout
+  in: query
+  description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
+  - name: DataServiceId
+    value: string
+  description: The request to the Batch service was successful.
+- name: Other Status Codes
+  description: The error from the Batch service.
+  types:
+  - uid: BatchError
+requestBody:
+- parameters:
+  - name: password
+    in: body
+    description: >-
+      The password of the account.
+
+      The password is required for Windows nodes (those created with 'cloudServiceConfiguration', or created with 'virtualMachineConfiguration' using a Windows image reference). For Linux compute nodes, the password can optionally be specified along with the sshPublicKey property. If omitted, any existing password is removed.
+    types:
+    - uid: string
+  - name: expiryTime
+    in: body
+    description: >-
+      The time at which the account should expire.
+
+      If omitted, the default is 1 day from the current time. For Linux compute nodes, the expiryTime has a precision up to a day.
+    types:
+    - uid: string
+  - name: sshPublicKey
+    in: body
+    description: >-
+      The SSH public key that can be used for remote login to the compute node.
+
+      The public key should be compatible with OpenSSH encoding and should be base 64 encoded. This property can be specified only for Linux nodes. If this is specified for a Windows node, then the Batch service rejects the request; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). If omitted, any existing SSH public key is removed.
+    types:
+    - uid: string
+requestHeader:
+- name: client-request-id
+  in: header
+  description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+  types:
+  - uid: string
+  format: uuid
+- name: return-client-request-id
+  in: header
+  description: Whether the server should return the client-request-id in the response.
+  types:
+  - uid: boolean
+- name: ocp-date
+  in: header
+  description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+definitions:
+- name: BatchError
+  description: The error encountered while attempting to add the task.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+  - name: values
+    description: An item of additional information included in an Azure Batch error response.
+    types:
+    - uid: BatchErrorDetail
+      isArray: true
+- name: NodeUpdateUserParameter
+  description: The set of changes to be made to a user account on a node.
+  kind: object
+  properties:
+  - name: password
+    description: >-
+      The password of the account.
+
+      The password is required for Windows nodes (those created with 'cloudServiceConfiguration', or created with 'virtualMachineConfiguration' using a Windows image reference). For Linux compute nodes, the password can optionally be specified along with the sshPublicKey property. If omitted, any existing password is removed.
+    types:
+    - uid: string
+  - name: expiryTime
+    description: >-
+      The time at which the account should expire.
+
+      If omitted, the default is 1 day from the current time. For Linux compute nodes, the expiryTime has a precision up to a day.
+    types:
+    - uid: string
+  - name: sshPublicKey
+    description: >-
+      The SSH public key that can be used for remote login to the compute node.
+
+      The public key should be compatible with OpenSSH encoding and should be base 64 encoded. This property can be specified only for Linux nodes. If this is specified for a Windows node, then the Batch service rejects the request; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). If omitted, any existing SSH public key is removed.
+    types:
+    - uid: string
+- name: ErrorMessage
+  description: A message describing the error, intended to be suitable for display in a user interface.
+  kind: object
+  properties:
+  - name: lang
+    description: The language code of the error message
+    types:
+    - uid: string
+  - name: value
+    description: The text of the message.
+    types:
+    - uid: string
+- name: BatchErrorDetail
+  description: A collection of key-value pairs containing additional details about the error.
+  kind: object
+  properties:
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+  - name: value
+    description: The additional information included with the error response.
+    types:
+    - uid: string
+examples:
+- name: Node update user
+  request:
+    uri: PUT https://batch.core.windows.net/pools/poolId/nodes/tvm-1695681911_1-20161121t182739z/users/userName?api-version=2017-09-01.6.0
+    body: >-
+      {
+        "password": "12345",
+        "expiryTime": "2016-11-27T00:45:48.7320857Z"
+      }
+    headers:
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
+  responses:
+  - statusCode: "200"
+    body: "\"\""
+security: []

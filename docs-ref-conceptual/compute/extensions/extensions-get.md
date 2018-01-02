@@ -56,7 +56,7 @@ Status code: If the validation is complete, the operation returns 202 (OK). If s
 | id | Specifies the identifying URL of the virtual machine. |    
 | name | Specifies the name of the virtual machine. |    
 | type | Specifies the type of compute resource. |    
-| location | Specifies the supported Azure location where the resource exists. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations). |    
+| location | Specifies the supported Azure location where the resource exists. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.yml#Subscriptions_ListLocations). |    
 | publisher | Specifies name of the extension’s publisher. |    
 | type | Specifies type of extension. |    
 | typeHandlerVersion | Specifies version of the extension. |    

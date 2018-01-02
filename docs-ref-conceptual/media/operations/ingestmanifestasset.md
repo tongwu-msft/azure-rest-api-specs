@@ -39,13 +39,8 @@ IngestManifestAssets represent Assets within an IngestManifest that are used wit
 -   [Delete an IngestManifestAsset](../operations/ingestmanifestasset.md#delete_an_ingestmanifestasset)  
   
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
 ##  <a name="ingestmanifestasset_entity_properties"></a> IngestManifestAsset Entity Properties  
   
 |Property|Type|Description|  
@@ -65,11 +60,8 @@ IngestManifestAssets represent Assets within an IngestManifest that are used wit
 |POST|https://media.windows.net/API/IngestManifestAssets|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
+
+To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 POST https://media.windows.net /API/IngestManifestAssets HTTP/1.1  
@@ -95,10 +87,7 @@ Expect: 100-continue
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
+s To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
 GET https://media.windows.net /API/IngestManifestAssets('nb:maid:UUID:6422b0a7-15f1-3442-b800-dac3195df54f') HTTP/1.1  
@@ -120,9 +109,6 @@ Host: media.windows.net
 |DELETE|https://media.windows.net/API/IngestManifestAssets(‘IngestManifestAsset Id’)|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   

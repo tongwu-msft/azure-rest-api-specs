@@ -1,0 +1,242 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.recoveryservices.vaultcertificates.create
+name: Create
+service: Recovery Services
+groupName: Vault Certificates
+apiVersion: 2016-06-01
+summary: Upload a certificate for a resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/certificates/{certificateName}?api-version=2016-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: certificateName
+  in: path
+  isRequired: true
+  description: Certificate friendly name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: VaultCertificateResponse
+requestBody:
+- parameters:
+  - name: properties
+    in: body
+    description: Raw certificate data.
+    types:
+    - uid: RawCertificateData
+requestHeader: []
+definitions:
+- name: RawCertificateData
+  description: Raw certificate data.
+  kind: object
+  properties:
+  - name: authType
+    description: Specifies the authentication type.
+    types:
+    - uid: AuthType
+  - name: certificate
+    description: The base64 encoded certificate raw data string
+    types:
+    - uid: string
+- name: VaultCertificateResponse
+  description: Certificate corresponding to a vault that can be used by clients to register themselves with the vault.
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: type
+    description: ''
+    types:
+    - uid: string
+  - name: id
+    description: ''
+    types:
+    - uid: string
+  - name: properties
+    description: Certificate details representing the Vault credentials.
+    types:
+    - uid: ResourceCertificateAndAadDetails
+    - uid: ResourceCertificateAndAcsDetails
+    typesTitle: ResourceCertificateDetails
+- name: CertificateRequest
+  description: Details of the certificate to be uploaded to the vault.
+  kind: object
+  properties:
+  - name: properties
+    description: Raw certificate data.
+    types:
+    - uid: RawCertificateData
+- name: AuthType
+  description: Specifies the authentication type.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: ACS
+    types:
+    - uid: string
+  - name: AAD
+    types:
+    - uid: string
+  - name: AccessControlService
+    types:
+    - uid: string
+  - name: AzureActiveDirectory
+    types:
+    - uid: string
+- name: ResourceCertificateAndAadDetails
+  description: Certificate details representing the Vault credentials for AAD.
+  kind: object
+  properties:
+  - name: aadAuthority
+    description: AAD tenant authority.
+    types:
+    - uid: string
+  - name: aadTenantId
+    description: AAD tenant Id.
+    types:
+    - uid: string
+  - name: servicePrincipalClientId
+    description: AAD service principal clientId.
+    types:
+    - uid: string
+  - name: servicePrincipalObjectId
+    description: AAD service principal ObjectId.
+    types:
+    - uid: string
+  - name: azureManagementEndpointAudience
+    description: Azure Management Endpoint Audience.
+    types:
+    - uid: string
+  - name: authType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: AzureActiveDirectory
+    typesTitle: string
+  - name: certificate
+    description: The base64 encoded certificate raw data string.
+    types:
+    - uid: string
+  - name: friendlyName
+    description: Certificate friendlyname.
+    types:
+    - uid: string
+  - name: issuer
+    description: Certificate issuer.
+    types:
+    - uid: string
+  - name: resourceId
+    description: Resource ID of the vault.
+    types:
+    - uid: integer
+  - name: subject
+    description: Certificate Subject Name.
+    types:
+    - uid: string
+  - name: thumbprint
+    description: Certificate thumbprint.
+    types:
+    - uid: string
+  - name: validFrom
+    description: Certificate Validity start Date time.
+    types:
+    - uid: string
+  - name: validTo
+    description: Certificate Validity End Date time.
+    types:
+    - uid: string
+- name: ResourceCertificateAndAcsDetails
+  description: Certificate details representing the Vault credentials for ACS.
+  kind: object
+  properties:
+  - name: globalAcsNamespace
+    description: ACS namespace name - tenant for our service.
+    types:
+    - uid: string
+  - name: globalAcsHostName
+    description: Acs mgmt host name to connect to.
+    types:
+    - uid: string
+  - name: globalAcsRPRealm
+    description: Global ACS namespace RP realm.
+    types:
+    - uid: string
+  - name: authType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: AccessControlService
+    typesTitle: string
+  - name: certificate
+    description: The base64 encoded certificate raw data string.
+    types:
+    - uid: string
+  - name: friendlyName
+    description: Certificate friendlyname.
+    types:
+    - uid: string
+  - name: issuer
+    description: Certificate issuer.
+    types:
+    - uid: string
+  - name: resourceId
+    description: Resource ID of the vault.
+    types:
+    - uid: integer
+  - name: subject
+    description: Certificate Subject Name.
+    types:
+    - uid: string
+  - name: thumbprint
+    description: Certificate thumbprint.
+    types:
+    - uid: string
+  - name: validFrom
+    description: Certificate Validity start Date time.
+    types:
+    - uid: string
+  - name: validTo
+    description: Certificate Validity End Date time.
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

@@ -1,0 +1,104 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.apimanagementservice.checknameavailability
+name: Check Name Availability
+service: API Management
+groupName: Api Management Service
+apiVersion: 2017-03-01
+summary: Checks availability and correctness of a name for an API Management service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/checkNameAvailability?api-version=2017-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The result of check name availability.
+  types:
+  - uid: ApiManagementServiceNameAvailabilityResult
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: The name to check for availability.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ApiManagementServiceNameAvailabilityResult
+  description: Response of the CheckNameAvailability operation.
+  kind: object
+  properties:
+  - name: nameAvailable
+    isReadyOnly: true
+    description: True if the name is available and can be used to create a new API Management service; otherwise false.
+    types:
+    - uid: boolean
+  - name: message
+    isReadyOnly: true
+    description: If reason == invalid, provide the user with the reason why the given name is invalid, and provide the resource naming requirements so that the user can select a valid name. If reason == AlreadyExists, explain that <resourceName> is already in use, and direct them to select a different name.
+    types:
+    - uid: string
+  - name: reason
+    description: Invalid indicates the name provided does not match the resource provider’s naming requirements (incorrect length, unsupported characters, etc.)  AlreadyExists indicates that the name is already in use and is therefore unavailable.
+    types:
+    - uid: NameAvailabilityReason
+- name: ApiManagementServiceCheckNameAvailabilityParameters
+  description: Parameters supplied to the CheckNameAvailability operation.
+  kind: object
+  properties:
+  - name: name
+    description: The name to check for availability.
+    types:
+    - uid: string
+- name: NameAvailabilityReason
+  description: Invalid indicates the name provided does not match the resource provider’s naming requirements (incorrect length, unsupported characters, etc.)  AlreadyExists indicates that the name is already in use and is therefore unavailable.
+  kind: enum
+  properties:
+  - name: Valid
+    types:
+    - uid: string
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+examples:
+- name: ApiManagementServiceCheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.ApiManagement/checkNameAvailability?api-version=2017-03-01
+    body: >-
+      {
+        "name": "apimService1"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "Valid",
+        "message": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

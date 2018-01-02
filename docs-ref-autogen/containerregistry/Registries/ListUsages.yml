@@ -1,0 +1,116 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerregistry.registries.listusages
+name: List Usages
+service: Container Registry
+groupName: Registries
+apiVersion: 2017-10-01
+summary: Gets the quota usages for the specified container registry.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listUsages?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: registryName
+  in: path
+  isRequired: true
+  description: The name of the container registry.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the registry usages retrieved and returned successfully.
+  types:
+  - uid: RegistryUsageListResult
+requestHeader: []
+definitions:
+- name: RegistryUsageListResult
+  description: The result of a request to get container registry quota usages.
+  kind: object
+  properties:
+  - name: value
+    description: The quota usage for a container registry.
+    types:
+    - uid: RegistryUsage
+      isArray: true
+- name: RegistryUsage
+  description: The list of container registry quota usages.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the usage.
+    types:
+    - uid: string
+  - name: limit
+    description: The limit of the usage.
+    types:
+    - uid: integer
+  - name: currentValue
+    description: The current value of the usage.
+    types:
+    - uid: integer
+  - name: unit
+    description: The unit of measurement.
+    types:
+    - uid: RegistryUsageUnit
+- name: RegistryUsageUnit
+  description: The unit of measurement.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+examples:
+- name: RegistryListUsages
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/listUsages?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Size",
+            "limit": 107374182400,
+            "currentValue": 12345678,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Webhooks",
+            "limit": 10,
+            "currentValue": 2,
+            "unit": "Count"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

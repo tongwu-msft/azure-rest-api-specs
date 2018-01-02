@@ -1,0 +1,138 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.policy.get
+name: Get
+service: API Management
+groupName: Policy
+apiVersion: 2017-03-01
+summary: Get the Global policy definition of the Api Management service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}?api-version=2017-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: policyId
+  in: path
+  isRequired: true
+  description: The identifier of the Policy.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
+  description: Returns the Policy Contracts.
+  types:
+  - uid: PolicyContract
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PolicyContract
+  description: Policy Contract value.
+  kind: object
+  properties:
+  - name: properties.policyContent
+    description: Json escaped Xml Encoded contents of the Policy.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error Field contract.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementGetPolicy
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies/policy?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies/policy",
+        "type": "Microsoft.ApiManagement/service/policies",
+        "name": "policy",
+        "properties": {
+          "policyContent": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - Only the <forward-request> policy element can appear within the <backend> section element.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n-->\r\n<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

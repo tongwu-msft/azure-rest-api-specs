@@ -1,0 +1,124 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.getinstancemsdeploylog
+name: Get Instance MS Deploy Log
+service: App Service
+groupName: Web Apps
+apiVersion: 2016-08-01
+summary: Get the MSDeploy Log for the last MSDeploy operation.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/extensions/MSDeploy/log?api-version=2016-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of web app.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  description: ID of web app instance.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: MSDeploy log returned.
+  types:
+  - uid: MSDeployLog
+- name: Other Status Codes
+  description: MSDeploy log not found.
+requestHeader: []
+definitions:
+- name: MSDeployLog
+  description: MSDeploy log
+  kind: object
+  properties:
+  - name: properties.entries
+    isReadyOnly: true
+    description: MSDeploy log entry
+    types:
+    - uid: MSDeployLogEntry
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: MSDeployLogEntry
+  description: List of log entry messages
+  kind: object
+  properties:
+  - name: time
+    isReadyOnly: true
+    description: Timestamp of log entry
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Log entry type
+    types:
+    - uid: MSDeployLogEntryType
+  - name: message
+    isReadyOnly: true
+    description: Log entry message
+    types:
+    - uid: string
+- name: MSDeployLogEntryType
+  description: Log entry type
+  kind: enum
+  properties:
+  - name: Message
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

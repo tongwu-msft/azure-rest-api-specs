@@ -1,0 +1,178 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.timeseriesinsightsmanagement.accesspolicies.update
+name: Update
+service: Time Series Insights Management
+groupName: Access Policies
+apiVersion: 2017-11-15
+summary: Updates the access policy with the specified name in the specified subscription, resource group, and environment.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/accessPolicies/{accessPolicyName}?api-version=2017-11-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+- name: environmentName
+  in: path
+  isRequired: true
+  description: The name of the Time Series Insights environment associated with the specified resource group.
+  types:
+  - uid: string
+- name: accessPolicyName
+  in: path
+  isRequired: true
+  description: The name of the Time Series Insights access policy associated with the specified environment.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The access policy definition was successfully updated and is in the response.
+  types:
+  - uid: AccessPolicyResource
+- name: Other Status Codes
+  description: 'HTTP 404 (Not Found): The subscription, resource group, environment, or access policy could not be found.'
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: properties.description
+    in: body
+    description: An description of the access policy.
+    types:
+    - uid: string
+  - name: properties.roles
+    in: body
+    description: A role defining the data plane operations that a principal can perform on a Time Series Insights client.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: AccessPolicyResource
+  description: Result of the List access policies operation.
+  kind: object
+  properties:
+  - name: properties.principalObjectId
+    description: The objectId of the principal in Azure Active Directory.
+    types:
+    - uid: string
+  - name: properties.description
+    description: An description of the access policy.
+    types:
+    - uid: string
+  - name: properties.roles
+    description: A role defining the data plane operations that a principal can perform on a Time Series Insights client.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: CloudError
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: CloudErrorBody
+- name: AccessPolicyUpdateParameters
+  description: ''
+  kind: object
+  properties:
+  - name: properties.description
+    description: An description of the access policy.
+    types:
+    - uid: string
+  - name: properties.roles
+    description: A role defining the data plane operations that a principal can perform on a Time Series Insights client.
+    types:
+    - uid: string
+      isArray: true
+- name: CloudErrorBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: AccessPoliciesUpdate
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/environments/env1/accessPolicies/ap1?api-version=2017-11-15
+    body: >-
+      {
+        "properties": {
+          "roles": [
+            "Reader",
+            "Contributor"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/Environments/env1/accessPolicies/ap1",
+        "name": "ap1",
+        "type": "Microsoft.TimeSeriesInsights/Environments/AccessPolicies",
+        "properties": {
+          "principalObjectId": "aGuid",
+          "roles": [
+            "Reader"
+          ],
+          "description": "some description"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

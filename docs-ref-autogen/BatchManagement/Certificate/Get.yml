@@ -1,0 +1,293 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.batchmanagement.certificate.get
+name: Get
+service: Batch Management
+groupName: Certificate
+apiVersion: 2017-09-01
+summary: Gets information about the specified certificate.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}?api-version=2017-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the Batch account.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the Batch account.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: certificateName
+  in: path
+  isRequired: true
+  description: The identifier for the certificate. This must be made up of algorithm and thumbprint separated by a dash, and must match the certificate data in the request. For example SHA1-a3d1c5.
+  types:
+  - uid: string
+  pattern: ^[\w]+-[\w]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
+  description: The operation was successful. The response contains the certificate entity.
+  types:
+  - uid: Certificate
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: Certificate
+  description: Contains information about a certificate.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: >-
+      The provisioned state of the resource
+
+      Values are:
+
+       Succeeded - The certificate is available for use in pools.
+       Deleting - The user has requested that the certificate be deleted, but the delete operation has not yet completed. You may not reference the certificate when creating or updating pools.
+       Failed - The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
+    types:
+    - uid: CertificateProvisioningState
+  - name: properties.provisioningStateTransitionTime
+    isReadyOnly: true
+    description: The time at which the certificate entered its current state.
+    types:
+    - uid: string
+  - name: properties.previousProvisioningState
+    isReadyOnly: true
+    description: The previous provisioned state of the resource
+    types:
+    - uid: CertificateProvisioningState
+  - name: properties.previousProvisioningStateTransitionTime
+    isReadyOnly: true
+    description: The time at which the certificate entered its previous state.
+    types:
+    - uid: string
+  - name: properties.publicData
+    isReadyOnly: true
+    description: The public key of the certificate.
+    types:
+    - uid: string
+  - name: properties.deleteCertificateError
+    isReadyOnly: true
+    description: >-
+      The error which occurred while deleting the certificate
+
+      This is only returned when the certificate provisioningState is 'Failed'.
+    types:
+    - uid: DeleteCertificateError
+  - name: id
+    isReadyOnly: true
+    description: The ID of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: The ETag of the resource, used for concurrency statements.
+    types:
+    - uid: string
+  - name: properties.thumbprintAlgorithm
+    description: >-
+      The algorithm of the certificate thumbprint
+
+      This must match the first portion of the certificate name. Currently required to be 'SHA1'.
+    types:
+    - uid: string
+  - name: properties.thumbprint
+    description: >-
+      The thumbprint of the certificate
+
+      This must match the thumbprint from the name.
+    types:
+    - uid: string
+  - name: properties.format
+    description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
+    types:
+    - uid: CertificateFormat
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Batch service.
+    types:
+    - uid: CloudErrorBody
+- name: CertificateProvisioningState
+  description: >-
+    The provisioned state of the resource
+
+    Values are:
+
+     Succeeded - The certificate is available for use in pools.
+     Deleting - The user has requested that the certificate be deleted, but the delete operation has not yet completed. You may not reference the certificate when creating or updating pools.
+     Failed - The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: DeleteCertificateError
+  description: >-
+    The error which occurred while deleting the certificate
+
+    This is only returned when the certificate provisioningState is 'Failed'.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: DeleteCertificateError
+      isArray: true
+- name: CertificateFormat
+  description: The format of the certificate - either Pfx or Cer. If omitted, the default is Pfx.
+  kind: enum
+  properties:
+  - name: Pfx
+    types:
+    - uid: string
+  - name: Cer
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Get Certificate
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E?api-version=2017-09-01
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: W/"0x8D4EDD5118668F7"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+        "name": "SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+        "type": "Microsoft.Batch/batchAccounts/certificates",
+        "etag": "W/\"0x8D4EDD5118668F7\"",
+        "properties": {
+          "thumbprintAlgorithm": "SHA1",
+          "thumbprint": "0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+          "provisioningState": "Succeeded",
+          "provisioningStateTransitionTime": "2017-07-21T01:47:38.4420202Z",
+          "format": "Pfx",
+          "publicData": "MIICrjCCAZagAwI..."
+        }
+      }
+- name: Get Certificate with Deletion Error
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E?api-version=2017-09-01
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: W/"0x8D4EDD5118668F7"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/samplecct/certificates/SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+        "name": "SHA1-0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+        "type": "Microsoft.Batch/batchAccounts/certificates",
+        "etag": "W/\"0x8D4EDD5118668F7\"",
+        "properties": {
+          "thumbprintAlgorithm": "SHA1",
+          "thumbprint": "0A0E4F50D51BEADEAC1D35AFC5116098E7902E6E",
+          "provisioningState": "Failed",
+          "provisioningStateTransitionTime": "2017-07-21T01:47:38.4420202Z",
+          "previousProvisioningState": "Deleting",
+          "previousProvisioningStateTransitionTime": "2017-07-21T00:15:25.5625498Z",
+          "format": "Pfx",
+          "publicData": "MIICrjCCAZagAwI...",
+          "deleteCertificateError": {
+            "code": "NodesReferencingCertificate",
+            "message": "The specified certificate is being used by the below mentioned node(s)\nRequestId:2dc78afc-b15b-42d2-8c85-39cb61a0799e\nTime:2017-08-28T10:22:52.8633406Z",
+            "target": "BatchAccount",
+            "details": [
+              {
+                "code": "Nodes",
+                "message": "node1, node3"
+              }
+            ]
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

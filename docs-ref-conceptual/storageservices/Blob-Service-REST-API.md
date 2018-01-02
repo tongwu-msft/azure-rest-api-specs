@@ -69,7 +69,7 @@ The Blob service stores text and binary data as blobs in the cloud. The Blob ser
 |[Put Block](Put-Block.md)|Block blobs only|Creates a new block to be committed as part of a block blob.|  
 |[Put Block List](Put-Block-List.md)|Block blobs only|Commits a blob by specifying the set of block IDs that comprise the block blob.|  
 |[Get Block List](Get-Block-List.md)|Block blobs only|Retrieves the list of blocks that have been uploaded as part of a block blob.|  
-|[Set Blob Tier](set-blob-tier.md)|Page blobs only|Set the tier of a page blob in a premium storage account.|  
+|[Set Blob Tier](set-blob-tier.md)|Block and page blobs|Sets the tier of a blob.|  
 |[Put Page](Put-Page.md)|Page blobs only|Writes a range of pages into a page blob.|  
 |[Get Page Ranges](Get-Page-Ranges.md)|Page blobs only|Returns a list of valid page ranges for a page blob or a snapshot of a page blob.|  
 |[Incremental Copy Blob](Incremental-Copy-Blob.md)|Page blobs only|Copies a snapshot of a source page blob to a destination page blob. Only differential changes are transferred.|  

@@ -1,0 +1,83 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.domains.checkavailability
+name: Check Availability
+service: App Service
+groupName: Domains
+apiVersion: 2015-04-01
+summary: Check if a domain is available for registration.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/checkDomainAvailability?api-version=2015-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: DomainAvailablilityCheckResult
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    description: Name of the object.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: DomainAvailablilityCheckResult
+  description: Domain availablility check result.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the domain.
+    types:
+    - uid: string
+  - name: available
+    description: <code>true</code> if domain can be purchased using CreateDomain API; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+  - name: domainType
+    description: 'Valid values are Regular domain: Azure will charge the full price of domain registration, SoftDeleted: Purchasing this domain will simply restore it and this operation will not cost anything.'
+    types:
+    - uid: DomainType
+- name: NameIdentifier
+  description: Collection of resources.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the object.
+    types:
+    - uid: string
+- name: DomainType
+  description: 'Valid values are Regular domain: Azure will charge the full price of domain registration, SoftDeleted: Purchasing this domain will simply restore it and this operation will not cost anything.'
+  kind: enum
+  properties:
+  - name: Regular
+    types:
+    - uid: string
+  - name: SoftDeleted
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,132 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.loadbalancer.loadbalancerbackendaddresspools.get
+name: Get
+service: Load balancer
+groupName: Load Balancer Backend Address Pools
+apiVersion: 2017-10-01
+summary: Gets load balancer backend address pool.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: loadBalancerName
+  in: path
+  isRequired: true
+  description: The name of the load balancer.
+  types:
+  - uid: string
+- name: backendAddressPoolName
+  in: path
+  isRequired: true
+  description: The name of the backend address pool.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns LoadBalancer BackendAddressPool resource.
+  types:
+  - uid: BackendAddressPool
+requestHeader: []
+definitions:
+- name: BackendAddressPool
+  description: Pool of backend IP addresses.
+  kind: object
+  properties:
+  - name: name
+    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.backendIPConfigurations
+    isReadyOnly: true
+    description: Reference to another subresource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.loadBalancingRules
+    isReadyOnly: true
+    description: Reference to another subresource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.outboundNatRule
+    isReadyOnly: true
+    description: Gets outbound rules that use this backend address pool.
+    types:
+    - uid: SubResource
+  - name: properties.provisioningState
+    description: "Get provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+- name: SubResource
+  description: Read only. Inbound rules URIs that use this frontend IP.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+examples:
+- name: LoadBalancerBackendAddressPoolGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/backend?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "backend",
+        "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/backend",
+        "etag": "W/\\\"00000000-0000-0000-0000-000000000000\\\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "backendIPConfigurations": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkInterfaces/nic/ipConfigurations/default-ip-config"
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+            }
+          ]
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

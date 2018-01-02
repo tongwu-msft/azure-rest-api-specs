@@ -1,0 +1,137 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.networkgateway.virtualnetworkgateways.getbgppeerstatus
+name: Get Bgp Peer Status
+service: Network Gateway
+groupName: Virtual Network Gateways
+apiVersion: 2017-10-01
+summary: The GetBgpPeerStatus operation retrieves the status of all BGP peers.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getBgpPeerStatus?api-version=2017-10-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getBgpPeerStatus?peer={peer}&api-version=2017-10-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: virtualNetworkGatewayName
+  in: path
+  isRequired: true
+  description: The name of the virtual network gateway.
+  types:
+  - uid: string
+- name: peer
+  in: query
+  description: The IP address of the peer to retrieve the status of.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: List of BGP peer statuses
+  types:
+  - uid: BgpPeerStatusListResult
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+requestHeader: []
+definitions:
+- name: BgpPeerStatusListResult
+  description: Response for list BGP peer status API service call
+  kind: object
+  properties:
+  - name: value
+    description: BGP peer status details
+    types:
+    - uid: BgpPeerStatus
+      isArray: true
+- name: BgpPeerStatus
+  description: BGP peer status details
+  kind: object
+  properties:
+  - name: localAddress
+    isReadyOnly: true
+    description: The virtual network gateway's local address
+    types:
+    - uid: string
+  - name: neighbor
+    isReadyOnly: true
+    description: The remote BGP peer
+    types:
+    - uid: string
+  - name: asn
+    isReadyOnly: true
+    description: The autonomous system number of the remote BGP peer
+    types:
+    - uid: integer
+  - name: state
+    isReadyOnly: true
+    description: The BGP peer state
+    types:
+    - uid: BgpPeerState
+  - name: connectedDuration
+    isReadyOnly: true
+    description: For how long the peering has been up
+    types:
+    - uid: string
+  - name: routesReceived
+    isReadyOnly: true
+    description: The number of routes learned from this peer
+    types:
+    - uid: integer
+  - name: messagesSent
+    isReadyOnly: true
+    description: The number of BGP messages sent
+    types:
+    - uid: integer
+  - name: messagesReceived
+    isReadyOnly: true
+    description: The number of BGP messages received
+    types:
+    - uid: integer
+- name: BgpPeerState
+  description: The BGP peer state
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Idle
+    types:
+    - uid: string
+  - name: Connecting
+    types:
+    - uid: string
+  - name: Connected
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

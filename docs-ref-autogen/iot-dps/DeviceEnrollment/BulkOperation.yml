@@ -1,0 +1,352 @@
+### YamlMime:RESTOperation
+uid: contoso.azure-devices-provisioning.net.iothubdeviceprovisioningservice.deviceenrollment.bulkoperation
+name: Bulk Operation
+service: IoT Hub Device Provisioning Service
+groupName: Device Enrollment
+apiVersion: 2017-11-15
+summary: Bulk device enrollment operation.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://contoso.azure-devices-provisioning.net/enrollments?api-version=2017-11-15
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: 'The API version to use for the request. Supported versions include: 2017-11-15'
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: BulkEnrollmentOperationResult
+requestBody:
+- parameters:
+  - name: mode
+    in: body
+    isRequired: true
+    description: Operation mode
+    types:
+    - uid: create
+    - uid: update
+    - uid: updateIfMatchETag
+    - uid: delete
+    typesTitle: enum
+  - name: enrollments
+    in: body
+    isRequired: true
+    description: The device enrollment record.
+    types:
+    - uid: IndividualEnrollment
+      isArray: true
+requestHeader: []
+definitions:
+- name: IndividualEnrollment
+  description: The device enrollment record.
+  kind: object
+  properties:
+  - name: registrationId
+    description: Registration ID.
+    types:
+    - uid: string
+  - name: deviceId
+    description: Desired IoT Hub device ID (optional).
+    types:
+    - uid: string
+  - name: registrationState
+    description: Current registration status.
+    types:
+    - uid: DeviceRegistrationState
+  - name: attestation
+    description: Attestation method used by the device.
+    types:
+    - uid: AttestationMechanism
+  - name: iotHubHostName
+    description: The Iot Hub host name.
+    types:
+    - uid: string
+  - name: initialTwin
+    description: Initial device twin.
+    types:
+    - uid: InitialTwin
+  - name: etag
+    description: The entity tag associated with the resource.
+    types:
+    - uid: string
+  - name: provisioningStatus
+    description: The provisioning status.
+    types:
+    - uid: enabled
+    - uid: disabled
+    typesTitle: enum
+  - name: createdDateTimeUtc
+    description: The DateTime this resource was created.
+    types:
+    - uid: string
+  - name: lastUpdatedDateTimeUtc
+    description: The DateTime this resource was last updated.
+    types:
+    - uid: string
+- name: BulkEnrollmentOperationResult
+  description: Bulk enrollment operation result
+  kind: object
+  properties:
+  - name: isSuccessful
+    description: Indicates if the operation was successful in its entirety
+    types:
+    - uid: boolean
+  - name: errors
+    description: Bulk enrollment operation error
+    types:
+    - uid: BulkEnrollmentOperationError
+      isArray: true
+- name: BulkEnrollmentOperation
+  description: Bulk operation
+  kind: object
+  properties:
+  - name: mode
+    description: Operation mode
+    types:
+    - uid: create
+    - uid: update
+    - uid: updateIfMatchETag
+    - uid: delete
+    typesTitle: enum
+  - name: enrollments
+    description: The device enrollment record.
+    types:
+    - uid: IndividualEnrollment
+      isArray: true
+- name: DeviceRegistrationState
+  description: Current registration status.
+  kind: object
+  properties:
+  - name: registrationId
+    description: Registration ID.
+    types:
+    - uid: string
+  - name: createdDateTimeUtc
+    description: Registration create date time (in UTC).
+    types:
+    - uid: string
+  - name: assignedHub
+    description: Assigned Azure IoT Hub.
+    types:
+    - uid: string
+  - name: deviceId
+    description: Device ID.
+    types:
+    - uid: string
+  - name: status
+    description: Enrollment status.
+    types:
+    - uid: unassigned
+    - uid: assigning
+    - uid: assigned
+    - uid: failed
+    - uid: disabled
+    typesTitle: enum
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: integer
+  - name: errorMessage
+    description: Error message.
+    types:
+    - uid: string
+  - name: lastUpdatedDateTimeUtc
+    description: Last updated date time (in UTC).
+    types:
+    - uid: string
+  - name: etag
+    description: The entity tag associated with the resource.
+    types:
+    - uid: string
+- name: AttestationMechanism
+  description: Attestation method used by the device.
+  kind: object
+  properties:
+  - name: type
+    description: ''
+    types:
+    - uid: none
+    - uid: tpm
+    - uid: x509
+    typesTitle: enum
+  - name: tpm
+    description: Attestation via TPM.
+    types:
+    - uid: TpmAttestation
+  - name: x509
+    description: Attestation via X509.
+    types:
+    - uid: X509Attestation
+- name: InitialTwin
+  description: Initial device twin.
+  kind: object
+  properties:
+  - name: tags
+    description: Twin tags.
+    types:
+    - uid: TwinCollection
+  - name: properties
+    description: Twin desired properties.
+    types:
+    - uid: InitialTwinProperties
+- name: BulkEnrollmentOperationError
+  description: Registration errors
+  kind: object
+  properties:
+  - name: registrationId
+    description: Device registration id.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code
+    types:
+    - uid: integer
+  - name: errorStatus
+    description: Error status
+    types:
+    - uid: string
+- name: TpmAttestation
+  description: Attestation via TPM.
+  kind: object
+  properties:
+  - name: endorsementKey
+    description: ''
+    types:
+    - uid: string
+  - name: storageRootKey
+    description: ''
+    types:
+    - uid: string
+- name: X509Attestation
+  description: Attestation via X509.
+  kind: object
+  properties:
+  - name: clientCertificates
+    description: Primary and secondary certificates
+    types:
+    - uid: X509Certificates
+  - name: signingCertificates
+    description: Primary and secondary certificates
+    types:
+    - uid: X509Certificates
+  - name: caReferences
+    description: Primary and secondary CA references.
+    types:
+    - uid: X509CAReferences
+- name: TwinCollection
+  description: Twin tags.
+  kind: object
+  properties:
+  - name: version
+    description: ''
+    types:
+    - uid: integer
+  - name: count
+    description: ''
+    types:
+    - uid: integer
+  - name: metadata
+    description: ''
+    types:
+    - uid: Metadata
+- name: InitialTwinProperties
+  description: Twin desired properties.
+  kind: object
+  properties:
+  - name: desired
+    description: Gets and sets the InitialTwin desired properties.
+    types:
+    - uid: TwinCollection
+- name: X509Certificates
+  description: Primary and secondary certificates
+  kind: object
+  properties:
+  - name: primary
+    description: Certificate and Certificate info
+    types:
+    - uid: X509CertificateWithInfo
+  - name: secondary
+    description: Certificate and Certificate info
+    types:
+    - uid: X509CertificateWithInfo
+- name: X509CAReferences
+  description: Primary and secondary CA references.
+  kind: object
+  properties:
+  - name: primary
+    description: ''
+    types:
+    - uid: string
+  - name: secondary
+    description: ''
+    types:
+    - uid: string
+- name: Metadata
+  description: ''
+  kind: object
+  properties:
+  - name: lastUpdated
+    description: ''
+    types:
+    - uid: string
+  - name: lastUpdatedVersion
+    description: This SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata.
+    types:
+    - uid: integer
+- name: X509CertificateWithInfo
+  description: Certificate and Certificate info
+  kind: object
+  properties:
+  - name: certificate
+    description: ''
+    types:
+    - uid: string
+  - name: info
+    description: X509 certificate info.
+    types:
+    - uid: X509CertificateInfo
+- name: X509CertificateInfo
+  description: X509 certificate info.
+  kind: object
+  properties:
+  - name: subjectName
+    description: ''
+    types:
+    - uid: string
+  - name: sha1Thumbprint
+    description: ''
+    types:
+    - uid: string
+  - name: sha256Thumbprint
+    description: ''
+    types:
+    - uid: string
+  - name: issuerName
+    description: ''
+    types:
+    - uid: string
+  - name: notBeforeUtc
+    description: ''
+    types:
+    - uid: string
+  - name: notAfterUtc
+    description: ''
+    types:
+    - uid: string
+  - name: serialNumber
+    description: ''
+    types:
+    - uid: string
+  - name: version
+    description: ''
+    types:
+    - uid: integer
+examples: []
+security: []

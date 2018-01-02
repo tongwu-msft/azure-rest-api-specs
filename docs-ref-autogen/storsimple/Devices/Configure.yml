@@ -1,0 +1,179 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storsimple.devices.configure
+name: Configure
+service: StorSimple
+groupName: Devices
+apiVersion: 2017-06-01
+summary: Complete minimal setup before using the device.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/configureDevice?api-version=2017-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name
+  types:
+  - uid: string
+- name: managerName
+  in: path
+  isRequired: true
+  description: The manager name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted the request to configure device.
+- name: 204 No Content
+  description: Successfully configured the device.
+requestBody:
+- parameters:
+  - name: properties.friendlyName
+    in: body
+    isRequired: true
+    description: The friendly name for the device.
+    types:
+    - uid: string
+  - name: properties.currentDeviceName
+    in: body
+    isRequired: true
+    description: The current name of the device.
+    types:
+    - uid: string
+  - name: properties.timeZone
+    in: body
+    isRequired: true
+    description: 'The device time zone. For eg: "Pacific Standard Time"'
+    types:
+    - uid: string
+  - name: properties.dnsSettings
+    in: body
+    description: The secondary DNS Settings of the device.
+    types:
+    - uid: SecondaryDNSSettings
+  - name: properties.networkInterfaceData0Settings
+    in: body
+    description: The 'Data 0' network interface card settings.
+    types:
+    - uid: NetworkInterfaceData0Settings
+  - name: kind
+    in: body
+    description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+requestHeader: []
+definitions:
+- name: SecondaryDNSSettings
+  description: The secondary DNS Settings of the device.
+  kind: object
+  properties:
+  - name: secondaryDnsServers
+    description: The list of secondary DNS Server IP addresses.
+    types:
+    - uid: string
+      isArray: true
+- name: NetworkInterfaceData0Settings
+  description: The 'Data 0' network interface card settings.
+  kind: object
+  properties:
+  - name: controllerZeroIp
+    description: The controller 0's IPv4 address.
+    types:
+    - uid: string
+  - name: controllerOneIp
+    description: The controller 1's IPv4 address.
+    types:
+    - uid: string
+- name: ConfigureDeviceRequest
+  description: The mandatory device configuration request.
+  kind: object
+  properties:
+  - name: properties.friendlyName
+    description: The friendly name for the device.
+    types:
+    - uid: string
+  - name: properties.currentDeviceName
+    description: The current name of the device.
+    types:
+    - uid: string
+  - name: properties.timeZone
+    description: 'The device time zone. For eg: "Pacific Standard Time"'
+    types:
+    - uid: string
+  - name: properties.dnsSettings
+    description: The secondary DNS Settings of the device.
+    types:
+    - uid: SecondaryDNSSettings
+  - name: properties.networkInterfaceData0Settings
+    description: The 'Data 0' network interface card settings.
+    types:
+    - uid: NetworkInterfaceData0Settings
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the object.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+  - name: kind
+    description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - name: Series8000
+    types:
+    - uid: string
+examples:
+- name: DevicesConfigure
+  request:
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/configureDevice?api-version=2017-06-01
+    body: >-
+      {
+        "properties": {
+          "friendlyName": "Device001ForSDKTest",
+          "currentDeviceName": "Device001ForSDKTest",
+          "timeZone": "Pacific Standard Time",
+          "networkInterfaceData0Settings": {
+            "controllerZeroIp": "10.168.220.227",
+            "controllerOneIp": "10.168.220.228"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    body: "\"\""
+  - statusCode: "204"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

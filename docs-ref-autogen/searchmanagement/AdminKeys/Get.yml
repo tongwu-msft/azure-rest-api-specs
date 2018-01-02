@@ -1,0 +1,109 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.searchmanagement.adminkeys.get
+name: Get
+service: Search Management
+groupName: Admin Keys
+apiVersion: 2015-08-19
+summary: Gets the primary and secondary admin API keys for the specified Azure Search service.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listAdminKeys?api-version=2015-08-19
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: searchServiceName
+  in: path
+  isRequired: true
+  description: The name of the Azure Search service associated with the specified resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for each request. The current version is 2015-08-19.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The admin keys were successfully retrieved and are in the response. You can use either the primary or secondary key as the value of the 'api-key' parameter in the Azure Search Service REST API or SDK to perform any operations on your Search service, including privileged operations. Privileged operations include managing resources like indexes and data sources as well as uploading, modifying, or deleting data in your indexes.
+  types:
+  - uid: AdminKeyResult
+- name: Other Status Codes
+  description: 'HTTP 404 (Not Found): The subscription, resource group, or Search service could not be found. HTTP 409 (Conflict): The specified subscription is disabled.'
+  types:
+  - uid: CloudError
+requestHeader:
+- name: x-ms-client-request-id
+  in: header
+  description: A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request.
+  types:
+  - uid: string
+  format: uuid
+definitions:
+- name: AdminKeyResult
+  description: Response containing the primary and secondary admin API keys for a given Azure Search service.
+  kind: object
+  properties:
+  - name: primaryKey
+    isReadyOnly: true
+    description: The primary admin API key of the Search service.
+    types:
+    - uid: string
+  - name: secondaryKey
+    isReadyOnly: true
+    description: The secondary admin API key of the Search service.
+    types:
+    - uid: string
+- name: CloudError
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

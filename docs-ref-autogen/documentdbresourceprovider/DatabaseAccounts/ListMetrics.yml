@@ -1,0 +1,225 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmosdbresourceprovider.databaseaccounts.listmetrics
+name: List Metrics
+service: Cosmos DB Resource Provider
+groupName: Database Accounts
+apiVersion: 2015-04-08
+summary: Retrieves the metrics determined by the given filter for the given database account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/metrics?api-version=2015-04-08&$filter={$filter}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: Cosmos DB database account name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2015-04-08.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  isRequired: true
+  description: An OData filter expression that describes a subset of metrics to return. The parameters that can be filtered are name.value (name of the metric, can have an or of multiple names), startTime, endTime, and timeGrain. The supported operator is eq.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The metrics for the database account were retrieved successfully.
+  types:
+  - uid: MetricListResult
+requestHeader: []
+definitions:
+- name: MetricListResult
+  description: The response to a list metrics request.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Metric data
+    types:
+    - uid: Metric
+      isArray: true
+- name: Metric
+  description: The list of metrics for the account.
+  kind: object
+  properties:
+  - name: startTime
+    isReadyOnly: true
+    description: The start time for the metric (ISO-8601 format).
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: The end time for the metric (ISO-8601 format).
+    types:
+    - uid: string
+  - name: timeGrain
+    isReadyOnly: true
+    description: The time grain to be used to summarize the metric values.
+    types:
+    - uid: string
+  - name: unit
+    isReadyOnly: true
+    description: The unit of the metric.
+    types:
+    - uid: UnitType
+  - name: name
+    isReadyOnly: true
+    description: The name information for the metric.
+    types:
+    - uid: MetricName
+  - name: metricValues
+    isReadyOnly: true
+    description: Represents metrics values.
+    types:
+    - uid: MetricValue
+      isArray: true
+- name: UnitType
+  description: The unit of the metric.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+  - name: Seconds
+    types:
+    - uid: string
+  - name: Percent
+    types:
+    - uid: string
+  - name: CountPerSecond
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    types:
+    - uid: string
+  - name: Milliseconds
+    types:
+    - uid: string
+- name: MetricName
+  description: The name information for the metric.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The name of the metric.
+    types:
+    - uid: string
+  - name: localizedValue
+    isReadyOnly: true
+    description: The friendly name of the metric.
+    types:
+    - uid: string
+- name: MetricValue
+  description: The metric values for the specified time window and timestep.
+  kind: object
+  properties:
+  - name: _count
+    isReadyOnly: true
+    description: The number of values for the metric.
+    types:
+    - uid: number
+  - name: average
+    isReadyOnly: true
+    description: The average value of the metric.
+    types:
+    - uid: number
+  - name: maximum
+    isReadyOnly: true
+    description: The max value of the metric.
+    types:
+    - uid: number
+  - name: minimum
+    isReadyOnly: true
+    description: The min value of the metric.
+    types:
+    - uid: number
+  - name: timestamp
+    isReadyOnly: true
+    description: The metric timestamp (ISO-8601 format).
+    types:
+    - uid: string
+  - name: total
+    isReadyOnly: true
+    description: The total value of the metric.
+    types:
+    - uid: number
+examples:
+- name: CosmosDBDatabaseAccountGetMetrics
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/metrics?api-version=2015-04-08&$filter=$filter=(name.value eq 'Total Requests') and timeGrain eq duration'PT5M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T00:13:55.2780000Z
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "timeGrain": "PT5M",
+            "startTime": "2017-11-19T23:53:55.278Z",
+            "endTime": "2017-11-20T00:13:55.278Z",
+            "unit": "Count",
+            "metricValues": [
+              {
+                "timestamp": "2017-11-19T23:53:55.278Z",
+                "total": 0,
+                "_count": 0,
+                "average": 0
+              },
+              {
+                "timestamp": "2017-11-19T23:58:55.278Z",
+                "total": 0,
+                "_count": 0,
+                "average": 0
+              },
+              {
+                "timestamp": "2017-11-20T00:03:55.278Z",
+                "total": 0,
+                "_count": 0,
+                "average": 0
+              },
+              {
+                "timestamp": "2017-11-20T00:08:55.278Z",
+                "total": 0,
+                "_count": 0,
+                "average": 0
+              }
+            ],
+            "name": {
+              "value": "Total Requests",
+              "localizedValue": "Total Requests"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account

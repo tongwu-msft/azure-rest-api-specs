@@ -1,0 +1,224 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.batchmanagement.application.list
+name: List
+service: Batch Management
+groupName: Application
+apiVersion: 2017-09-01
+summary: Lists all of the applications in the specified account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications?api-version=2017-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications?maxresults={maxresults}&api-version=2017-09-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the Batch account.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the Batch account.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: maxresults
+  in: query
+  description: The maximum number of items to return in the response.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation was successful. The response contains a list of the application entities associated with the specified account.
+  types:
+  - uid: ListApplicationsResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ListApplicationsResult
+  description: The result of performing list applications.
+  kind: object
+  properties:
+  - name: value
+    description: Contains information about an application in a Batch account.
+    types:
+    - uid: Application
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Batch service.
+    types:
+    - uid: CloudErrorBody
+- name: Application
+  description: Contains information about an application in a Batch account.
+  kind: object
+  properties:
+  - name: id
+    description: A string that uniquely identifies the application within the account.
+    types:
+    - uid: string
+  - name: displayName
+    description: The display name for the application.
+    types:
+    - uid: string
+  - name: packages
+    description: An application package which represents a particular version of an application.
+    types:
+    - uid: ApplicationPackage
+      isArray: true
+  - name: allowUpdates
+    description: A value indicating whether packages within the application may be overwritten using the same version string.
+    types:
+    - uid: boolean
+  - name: defaultVersion
+    description: The package to use if a client requests the application but does not specify a version.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ApplicationPackage
+  description: The list of packages under this application.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ID of the application.
+    types:
+    - uid: string
+  - name: version
+    isReadyOnly: true
+    description: The version of the application package.
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: The current state of the application package.
+    types:
+    - uid: PackageState
+  - name: format
+    isReadyOnly: true
+    description: The format of the application package, if the package is active.
+    types:
+    - uid: string
+  - name: storageUrl
+    isReadyOnly: true
+    description: The URL for the application package in Azure Storage.
+    types:
+    - uid: string
+  - name: storageUrlExpiry
+    isReadyOnly: true
+    description: The UTC time at which the Azure Storage URL will expire.
+    types:
+    - uid: string
+  - name: lastActivationTime
+    isReadyOnly: true
+    description: The time at which the package was last activated, if the package is active.
+    types:
+    - uid: string
+- name: PackageState
+  description: The current state of the application package.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Active
+    types:
+    - uid: string
+  - name: Unmapped
+    types:
+    - uid: string
+examples:
+- name: ApplicationList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications?api-version=2017-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "app1",
+            "displayName": "myAppName",
+            "packages": [
+              {
+                "version": "1",
+                "state": "active",
+                "format": "zip",
+                "lastActivationTime": "2017-06-27T18:48:09.9330991Z"
+              }
+            ],
+            "allowUpdates": false,
+            "defaultVersion": "1"
+          },
+          {
+            "id": "app2",
+            "displayName": "myAppName",
+            "packages": [
+              {
+                "version": "1",
+                "state": "active",
+                "format": "zip",
+                "lastActivationTime": "2017-06-27T18:48:09.9330991Z"
+              }
+            ],
+            "allowUpdates": false,
+            "defaultVersion": "1"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

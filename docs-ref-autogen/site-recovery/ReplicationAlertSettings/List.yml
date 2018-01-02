@@ -1,0 +1,133 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.recoveryservices-siterecovery.replicationalertsettings.list
+name: List
+service: Recovery Services - Site Recovery
+groupName: Replication Alert Settings
+apiVersion: 2016-08-10
+summary: Gets the list of configured email notification(alert) configurations. Gets the list of email notification(alert) configurations for the vault.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings?api-version=2016-08-10
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: AlertCollection
+requestHeader: []
+definitions:
+- name: AlertCollection
+  description: Collection of alerts.
+  kind: object
+  properties:
+  - name: value
+    description: Implements the Alert class.
+    types:
+    - uid: Alert
+      isArray: true
+  - name: nextLink
+    description: The value of next link.
+    types:
+    - uid: string
+- name: Alert
+  description: The list of alerts.
+  kind: object
+  properties:
+  - name: properties
+    description: Alert related data.
+    types:
+    - uid: AlertProperties
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource Type
+    types:
+    - uid: string
+  - name: location
+    description: Resource Location
+    types:
+    - uid: string
+- name: AlertProperties
+  description: Alert related data.
+  kind: object
+  properties:
+  - name: sendToOwners
+    description: A value indicating whether to send email to subscription administrator.
+    types:
+    - uid: string
+  - name: customEmailAddresses
+    description: The custom email address for sending emails.
+    types:
+    - uid: string
+      isArray: true
+  - name: locale
+    description: The locale for the email notification.
+    types:
+    - uid: string
+examples:
+- name: Gets the list of configured email notification(alert) configurations.
+  request:
+    uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings?api-version=2016-08-10
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "type": "Microsoft.RecoveryServices/vaults/replicationAlertSettings",
+            "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationAlertSettings/defaultAlertSetting",
+            "name": "defaultAlertSetting",
+            "properties": {
+              "sendToOwners": "false",
+              "customEmailAddresses": [
+                "ronehr@microsoft.com"
+              ],
+              "locale": "en-US"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

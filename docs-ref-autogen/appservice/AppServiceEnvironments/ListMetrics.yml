@@ -1,0 +1,197 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.appserviceenvironments.listmetrics
+name: List Metrics
+service: App Service
+groupName: App Service Environments
+apiVersion: 2016-09-01
+summary: Get global metrics of an App Service Environment.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/metrics?api-version=2016-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/metrics?details={details}&$filter={$filter}&api-version=2016-09-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the App Service Environment.
+  types:
+  - uid: string
+- name: details
+  in: query
+  description: Specify <code>true</code> to include instance details. The default is <code>false</code>.
+  types:
+  - uid: boolean
+- name: $filter
+  in: query
+  description: "Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq '2014-01-01T00:00:00Z' and endTime eq '2014-12-31T23:59:59Z' and timeGrain eq duration'[Hour|Minute|Day]'."
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ResourceMetricCollection
+requestHeader: []
+definitions:
+- name: ResourceMetricCollection
+  description: Collection of metric responses.
+  kind: object
+  properties:
+  - name: value
+    description: Object representing a metric for any resource .
+    types:
+    - uid: ResourceMetric
+      isArray: true
+  - name: nextLink
+    description: Link to next page of resources.
+    types:
+    - uid: string
+- name: ResourceMetric
+  description: Object representing a metric for any resource .
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of metric.
+    types:
+    - uid: ResourceMetricName
+  - name: unit
+    isReadyOnly: true
+    description: Metric unit.
+    types:
+    - uid: string
+  - name: timeGrain
+    isReadyOnly: true
+    description: Metric granularity. E.g PT1H, PT5M, P1D
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: Metric start time.
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: Metric end time.
+    types:
+    - uid: string
+  - name: resourceId
+    isReadyOnly: true
+    description: Metric resource Id.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: metricValues
+    isReadyOnly: true
+    description: Value of resource metric.
+    types:
+    - uid: ResourceMetricValue
+      isArray: true
+  - name: properties
+    isReadyOnly: true
+    description: Resource metric property.
+    types:
+    - uid: ResourceMetricProperty
+      isArray: true
+- name: ResourceMetricName
+  description: Name of a metric for any resource .
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: metric name value.
+    types:
+    - uid: string
+  - name: localizedValue
+    isReadyOnly: true
+    description: Localized metric name value.
+    types:
+    - uid: string
+- name: ResourceMetricValue
+  description: Value of resource metric.
+  kind: object
+  properties:
+  - name: timestamp
+    isReadyOnly: true
+    description: Value timestamp.
+    types:
+    - uid: string
+  - name: average
+    isReadyOnly: true
+    description: Value average.
+    types:
+    - uid: number
+  - name: minimum
+    isReadyOnly: true
+    description: Value minimum.
+    types:
+    - uid: number
+  - name: maximum
+    isReadyOnly: true
+    description: Value maximum.
+    types:
+    - uid: number
+  - name: total
+    isReadyOnly: true
+    description: Value total.
+    types:
+    - uid: number
+  - name: count
+    isReadyOnly: true
+    description: Value count.
+    types:
+    - uid: number
+  - name: properties
+    isReadyOnly: true
+    description: Resource metric property.
+    types:
+    - uid: ResourceMetricProperty
+      isArray: true
+- name: ResourceMetricProperty
+  description: Resource metric property.
+  kind: object
+  properties:
+  - name: key
+    description: Key for resource metric property.
+    types:
+    - uid: string
+  - name: value
+    description: Value of pair.
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,235 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.api.get
+name: Get
+service: API Management
+groupName: Api
+apiVersion: 2017-03-01
+summary: Gets the details of the API specified by its identifier.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?api-version=2017-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: apiId
+  in: path
+  isRequired: true
+  description: API identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
+  description: The response body contains the specified API entity.
+  types:
+  - uid: ApiContract
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ApiContract
+  description: Page values.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: API name.
+    types:
+    - uid: string
+  - name: properties.serviceUrl
+    description: Absolute URL of the backend service implementing this API.
+    types:
+    - uid: string
+  - name: properties.path
+    description: Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.
+    types:
+    - uid: string
+  - name: properties.protocols
+    description: Describes on which protocols the operations in this API can be invoked.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Description of the API. May include HTML formatting tags.
+    types:
+    - uid: string
+  - name: properties.authenticationSettings
+    description: Collection of authentication settings included into this API.
+    types:
+    - uid: AuthenticationSettingsContract
+  - name: properties.subscriptionKeyParameterNames
+    description: Protocols over which API is made available.
+    types:
+    - uid: SubscriptionKeyParameterNamesContract
+  - name: properties.type
+    description: Type of API.
+    types:
+    - uid: ApiType
+  - name: properties.apiRevision
+    description: Describes the Revision of the Api. If no value is provided, default revision 1 is created
+    types:
+    - uid: string
+  - name: properties.isCurrent
+    description: Indicates if API revision is current api revision.
+    types:
+    - uid: boolean
+  - name: properties.isOnline
+    description: Indicates if API revision is accessible via the gateway.
+    types:
+    - uid: boolean
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error Field contract.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: AuthenticationSettingsContract
+  description: Collection of authentication settings included into this API.
+  kind: object
+  properties:
+  - name: oAuth2
+    description: OAuth2 Authentication settings
+    types:
+    - uid: OAuth2AuthenticationSettingsContract
+- name: SubscriptionKeyParameterNamesContract
+  description: Protocols over which API is made available.
+  kind: object
+  properties:
+  - name: header
+    description: Subscription key header name.
+    types:
+    - uid: string
+  - name: query
+    description: Subscription key query string parameter name.
+    types:
+    - uid: string
+- name: ApiType
+  description: Type of API.
+  kind: enum
+  properties:
+  - name: http
+    types:
+    - uid: string
+  - name: soap
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+- name: OAuth2AuthenticationSettingsContract
+  description: OAuth2 Authentication settings
+  kind: object
+  properties:
+  - name: authorizationServerId
+    description: OAuth authorization server identifier.
+    types:
+    - uid: string
+  - name: scope
+    description: operations scope.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementGetApiContract
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a",
+        "type": "Microsoft.ApiManagement/service/apis",
+        "name": "57d1f7558aa04f15146d9d8a",
+        "properties": {
+          "displayName": "Service",
+          "apiRevision": "1",
+          "serviceUrl": "https://api.plexonline.com/DataSource/Service.asmx",
+          "path": "schulte",
+          "protocols": [
+            "https"
+          ],
+          "subscriptionKeyParameterNames": {
+            "header": "Ocp-Apim-Subscription-Key",
+            "query": "subscription-key"
+          },
+          "type": "soap",
+          "isCurrent": true,
+          "isOnline": true
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

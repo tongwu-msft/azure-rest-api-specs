@@ -1,0 +1,166 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmosdbresourceprovider.database.listusages
+name: List Usages
+service: Cosmos DB Resource Provider
+groupName: Database
+apiVersion: 2015-04-08
+summary: Retrieves the usages (most recent data) for the given database.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/usages?api-version=2015-04-08
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/usages?api-version=2015-04-08&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: Cosmos DB database account name.
+  types:
+  - uid: string
+- name: databaseRid
+  in: path
+  isRequired: true
+  description: Cosmos DB database rid.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2015-04-08.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names).
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The usages for the database were retrieved successfully.
+  types:
+  - uid: UsagesResult
+requestHeader: []
+definitions:
+- name: UsagesResult
+  description: The response to a list usage request.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The usage data for a usage request.
+    types:
+    - uid: Usage
+      isArray: true
+- name: Usage
+  description: The list of usages for the database. A usage is a point in time metric
+  kind: object
+  properties:
+  - name: unit
+    isReadyOnly: true
+    description: The unit of the metric.
+    types:
+    - uid: UnitType
+  - name: name
+    isReadyOnly: true
+    description: The name information for the metric.
+    types:
+    - uid: MetricName
+  - name: quotaPeriod
+    isReadyOnly: true
+    description: The quota period used to summarize the usage values.
+    types:
+    - uid: string
+  - name: limit
+    isReadyOnly: true
+    description: Maximum value for this metric
+    types:
+    - uid: integer
+  - name: currentValue
+    isReadyOnly: true
+    description: Current value for this metric
+    types:
+    - uid: integer
+- name: UnitType
+  description: The unit of the metric.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+  - name: Seconds
+    types:
+    - uid: string
+  - name: Percent
+    types:
+    - uid: string
+  - name: CountPerSecond
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    types:
+    - uid: string
+  - name: Milliseconds
+    types:
+    - uid: string
+- name: MetricName
+  description: The name information for the metric.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The name of the metric.
+    types:
+    - uid: string
+  - name: localizedValue
+    isReadyOnly: true
+    description: The friendly name of the metric.
+    types:
+    - uid: string
+examples:
+- name: CosmosDBDatabaseGetUsages
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/databases/databaseRid/usages?api-version=2015-04-08&$filter=$filter=name.value eq 'Storage'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "unit": "Bytes",
+            "quotaPeriod": "P1D",
+            "limit": 10737418240,
+            "currentValue": 0,
+            "name": {
+              "value": "Storage",
+              "localizedValue": "Storage"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account

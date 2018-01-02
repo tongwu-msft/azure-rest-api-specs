@@ -1,0 +1,98 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resourcemanagement.resourcelinks.listatsubscription
+name: List At Subscription
+service: Resource Management
+groupName: Resource Links
+apiVersion: 2016-09-01
+summary: Gets all the linked resources for the subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Resources/links?api-version=2016-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Resources/links?$filter={$filter}&api-version=2016-09-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the list resource links operation. The supported filter for list resource links is targetid. For example, $filter=targetid eq {value}
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Returns an array of resource links for the subscription.
+  types:
+  - uid: ResourceLinkResult
+requestHeader: []
+definitions:
+- name: ResourceLinkResult
+  description: List of resource links.
+  kind: object
+  properties:
+  - name: value
+    description: The resource link.
+    types:
+    - uid: ResourceLink
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: ResourceLink
+  description: An array of resource links.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The fully qualified ID of the resource link.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource link.
+    types:
+    - uid: string
+  - name: properties
+    description: Properties for resource link.
+    types:
+    - uid: ResourceLinkProperties
+- name: ResourceLinkProperties
+  description: Properties for resource link.
+  kind: object
+  properties:
+  - name: sourceId
+    isReadyOnly: true
+    description: 'The fully qualified ID of the source resource in the link. '
+    types:
+    - uid: string
+  - name: targetId
+    description: The fully qualified ID of the target resource in the link.
+    types:
+    - uid: string
+  - name: notes
+    description: Notes about the resource link.
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

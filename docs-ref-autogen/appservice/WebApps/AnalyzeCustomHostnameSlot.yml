@@ -1,0 +1,189 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.analyzecustomhostnameslot
+name: Analyze Custom Hostname Slot
+service: App Service
+groupName: Web Apps
+apiVersion: 2016-08-01
+summary: Analyze a custom hostname.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/analyzeCustomHostname?api-version=2016-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/analyzeCustomHostname?hostName={hostName}&api-version=2016-08-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of web app.
+  types:
+  - uid: string
+- name: slot
+  in: path
+  isRequired: true
+  description: Name of web app slot. If not specified then will default to production slot.
+  types:
+  - uid: string
+- name: hostName
+  in: query
+  description: Custom hostname.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: CustomHostnameAnalysisResult
+requestHeader: []
+definitions:
+- name: CustomHostnameAnalysisResult
+  description: Custom domain analysis.
+  kind: object
+  properties:
+  - name: properties.isHostnameAlreadyVerified
+    isReadyOnly: true
+    description: <code>true</code> if hostname is already verified; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+  - name: properties.customDomainVerificationTest
+    isReadyOnly: true
+    description: DNS verification test result.
+    types:
+    - uid: DnsVerificationTestResult
+  - name: properties.customDomainVerificationFailureInfo
+    isReadyOnly: true
+    description: Raw failure information if DNS verification fails.
+    types:
+    - uid: ErrorEntity
+  - name: properties.hasConflictOnScaleUnit
+    isReadyOnly: true
+    description: <code>true</code> if there is a conflict on a scale unit; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+  - name: properties.hasConflictAcrossSubscription
+    isReadyOnly: true
+    description: <code>true</code> if htere is a conflict across subscriptions; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+  - name: properties.conflictingAppResourceId
+    isReadyOnly: true
+    description: Name of the conflicting app on scale unit if it's within the same subscription.
+    types:
+    - uid: string
+  - name: properties.cNameRecords
+    description: CName records controller can see for this hostname.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.txtRecords
+    description: TXT records controller can see for this hostname.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.aRecords
+    description: A records controller can see for this hostname.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.alternateCNameRecords
+    description: Alternate CName records controller can see for this hostname.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.alternateTxtRecords
+    description: Alternate TXT records controller can see for this hostname.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: DnsVerificationTestResult
+  description: DNS verification test result.
+  kind: enum
+  properties:
+  - name: Passed
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Skipped
+    types:
+    - uid: string
+- name: ErrorEntity
+  description: Raw failure information if DNS verification fails.
+  kind: object
+  properties:
+  - name: extendedCode
+    description: Type of error.
+    types:
+    - uid: string
+  - name: messageTemplate
+    description: Message template.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for the template.
+    types:
+    - uid: string
+      isArray: true
+  - name: innerErrors
+    description: Inner errors.
+    types:
+    - uid: ErrorEntity
+      isArray: true
+  - name: code
+    description: Basic error code.
+    types:
+    - uid: string
+  - name: message
+    description: Any details of the error.
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

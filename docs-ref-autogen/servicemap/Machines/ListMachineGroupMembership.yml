@@ -1,0 +1,188 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicemap.machines.listmachinegroupmembership
+name: List Machine Group Membership
+service: Service Map
+groupName: Machines
+apiVersion: 2015-11-01-preview
+summary: Returns a collection of machine groups this machine belongs to.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machines/{machineName}/machineGroups?api-version=2015-11-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name within the specified subscriptionId.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_-]+'
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: OMS workspace containing the resources of interest.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_][a-zA-Z0-9_-]+[a-zA-Z0-9_]'
+- name: machineName
+  in: path
+  isRequired: true
+  description: Machine resource name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: MachineGroupCollection
+- name: Other Status Codes
+  description: An error occurred while processing the request. See the error.code parameter to identify the specific error.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: MachineGroupCollection
+  description: Collection of Machine Group resources.
+  kind: object
+  properties:
+  - name: value
+    description: A user-defined logical grouping of machines.
+    types:
+    - uid: MachineGroup
+      isArray: true
+  - name: nextLink
+    description: The URL to the next set of resources.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: An error response from the API.
+  kind: object
+  properties:
+  - name: error
+    description: Error information.
+    types:
+    - uid: Error
+- name: MachineGroup
+  description: A user-defined logical grouping of machines.
+  kind: object
+  properties:
+  - name: etag
+    description: Resource ETAG.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: User defined name for the group
+    types:
+    - uid: string
+  - name: properties.machines
+    description: A machine reference with a hint of the machine's name and operating system.
+    types:
+    - uid: MachineReferenceWithHints
+      isArray: true
+  - name: kind
+    description: Additional resource type qualifier.
+    types:
+    - uid: machineGroup
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Resource identifier.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+- name: Error
+  description: Error information.
+  kind: object
+  properties:
+  - name: code
+    description: Error code identifying the specific error.
+    types:
+    - uid: string
+  - name: message
+    description: Error message in the caller's locale.
+    types:
+    - uid: string
+- name: MachineReferenceWithHints
+  description: A machine reference with a hint of the machine's name and operating system.
+  kind: object
+  properties:
+  - name: properties.displayNameHint
+    isReadyOnly: true
+    description: Last known display name.
+    types:
+    - uid: string
+  - name: properties.osFamilyHint
+    isReadyOnly: true
+    description: Last known operating system family.
+    types:
+    - uid: OperatingSystemFamily
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:machinewithhints
+    typesTitle: string
+- name: OperatingSystemFamily
+  description: Last known operating system family.
+  kind: enum
+  properties:
+  - name: unknown
+    types:
+    - uid: string
+  - name: windows
+    types:
+    - uid: string
+  - name: linux
+    types:
+    - uid: string
+  - name: solaris
+    types:
+    - uid: string
+  - name: aix
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

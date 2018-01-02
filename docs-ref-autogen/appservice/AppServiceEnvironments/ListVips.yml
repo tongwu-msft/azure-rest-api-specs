@@ -1,0 +1,97 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.appserviceenvironments.listvips
+name: List Vips
+service: App Service
+groupName: App Service Environments
+apiVersion: 2016-09-01
+summary: Get IP addresses assigned to an App Service Environment.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/capacities/virtualip?api-version=2016-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the App Service Environment.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: AddressResponse
+requestHeader: []
+definitions:
+- name: AddressResponse
+  description: Describes main public IP address and any extra virtual IPs.
+  kind: object
+  properties:
+  - name: serviceIpAddress
+    description: Main public virtual IP.
+    types:
+    - uid: string
+  - name: internalIpAddress
+    description: Virtual Network internal IP address of the App Service Environment if it is in internal load-balancing mode.
+    types:
+    - uid: string
+  - name: outboundIpAddresses
+    description: IP addresses appearing on outbound connections.
+    types:
+    - uid: string
+      isArray: true
+  - name: vipMappings
+    description: Virtual IP mapping.
+    types:
+    - uid: VirtualIPMapping
+      isArray: true
+- name: VirtualIPMapping
+  description: Additional virtual IPs.
+  kind: object
+  properties:
+  - name: virtualIP
+    description: Virtual IP address.
+    types:
+    - uid: string
+  - name: internalHttpPort
+    description: Internal HTTP port.
+    types:
+    - uid: integer
+  - name: internalHttpsPort
+    description: Internal HTTPS port.
+    types:
+    - uid: integer
+  - name: inUse
+    description: Is virtual IP mapping in use.
+    types:
+    - uid: boolean
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

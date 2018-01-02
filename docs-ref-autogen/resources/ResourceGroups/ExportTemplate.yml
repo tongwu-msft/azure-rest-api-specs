@@ -1,0 +1,112 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resourcemanagement.resourcegroups.exporttemplate
+name: Export Template
+service: Resource Management
+groupName: Resource Groups
+apiVersion: 2017-05-10
+summary: Captures the specified resource group as a template.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate?api-version=2017-05-10
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to export as a template.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns the result of the export.
+  types:
+  - uid: ResourceGroupExportResult
+requestBody:
+- parameters:
+  - name: resources
+    in: body
+    description: The IDs of the resources. The only supported string currently is '*' (all resources). Future updates will support exporting specific resources.
+    types:
+    - uid: string
+      isArray: true
+  - name: options
+    in: body
+    description: The export template options. Supported values include 'IncludeParameterDefaultValue', 'IncludeComments' or 'IncludeParameterDefaultValue, IncludeComments
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ResourceGroupExportResult
+  description: Resource group export result.
+  kind: object
+  properties:
+  - name: template
+    description: The template content.
+    types:
+    - uid: object
+  - name: error
+    description: The error.
+    types:
+    - uid: ResourceManagementErrorWithDetails
+- name: ExportTemplateRequest
+  description: Export resource group template request parameters.
+  kind: object
+  properties:
+  - name: resources
+    description: The IDs of the resources. The only supported string currently is '*' (all resources). Future updates will support exporting specific resources.
+    types:
+    - uid: string
+      isArray: true
+  - name: options
+    description: The export template options. Supported values include 'IncludeParameterDefaultValue', 'IncludeComments' or 'IncludeParameterDefaultValue, IncludeComments
+    types:
+    - uid: string
+- name: ResourceManagementErrorWithDetails
+  description: The detailed error message of resource management.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code returned when exporting the template.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message describing the export error.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The detailed error message of resource management.
+    types:
+    - uid: ResourceManagementErrorWithDetails
+      isArray: true
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

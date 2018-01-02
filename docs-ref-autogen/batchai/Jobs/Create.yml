@@ -1,0 +1,1137 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.batchai.jobs.create
+name: Create
+service: Batch AI
+groupName: Jobs
+apiVersion: 2017-09-01-preview
+summary: Adds a Job that gets executed on a cluster.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs/{jobName}?api-version=2017-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscriptionID for the Azure user.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: jobName
+  in: path
+  isRequired: true
+  description: The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the version of API used for this request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation was successful. The response contains the job entity.
+  types:
+  - uid: Job
+- name: 202 Accepted
+  description: The operation will be completed asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: location
+    in: body
+    isRequired: true
+    description: The region in which to create the job.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: The user specified tags associated with the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.experimentName
+    in: body
+    description: Describe the experiment information of the job
+    types:
+    - uid: string
+  - name: properties.priority
+    in: body
+    description: >-
+      Priority associated with the job.
+
+      Priority associated with the job. Priority values can range from -1000 to 1000, with -1000 being the lowest priority and 1000 being the highest priority. The default value is 0.
+    types:
+    - uid: integer
+  - name: properties.cluster
+    in: body
+    isRequired: true
+    description: >-
+      Specifies the Id of the cluster on which this job will run.
+
+      Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
+    types:
+    - uid: ResourceId
+  - name: properties.nodeCount
+    in: body
+    isRequired: true
+    description: >-
+      Number of compute nodes to run the job on.
+
+      The job will be gang scheduled on that many compute nodes
+    types:
+    - uid: integer
+  - name: properties.containerSettings
+    in: body
+    description: >-
+      If provided the job will run in the specified container.
+
+      If the container was downloaded as part of cluster setup then the same container image will be used. If not provided, the job will run on the VM.
+    types:
+    - uid: ContainerSettings
+  - name: properties.cntkSettings
+    in: body
+    description: >-
+      Specifies the settings for CNTK (aka Microsoft Cognitive Toolkit) job.
+
+      Specifies the settings for CNTK (aka Microsoft Cognitive Toolkit) job.
+    types:
+    - uid: CNTKsettings
+  - name: properties.tensorFlowSettings
+    in: body
+    description: >-
+      Specifies the settings for Tensor Flow job.
+
+      Specifies the settings for TensorFlow job.
+    types:
+    - uid: TensorFlowSettings
+  - name: properties.caffeSettings
+    in: body
+    description: >-
+      Specifies the settings for Caffe job.
+
+      Specifies the settings for Caffe job.
+    types:
+    - uid: CaffeSettings
+  - name: properties.caffe2Settings
+    in: body
+    description: >-
+      Specifies the settings for Caffe2 job.
+
+      Specifies the settings for Caffe2 job.
+    types:
+    - uid: Caffe2Settings
+  - name: properties.chainerSettings
+    in: body
+    description: >-
+      Specifies the settings for Chainer job.
+
+      Specifies the settings for Chainer job.
+    types:
+    - uid: ChainerSettings
+  - name: properties.customToolkitSettings
+    in: body
+    description: >-
+      Specifies the settings for custom tool kit job.
+
+      Specifies the settings for a custom tool kit job.
+    types:
+    - uid: CustomToolkitSettings
+  - name: properties.jobPreparation
+    in: body
+    description: >-
+      Specifies the command line to be executed before tool kit is launched.
+
+      The specified actions will run on all the nodes that are part of the job
+    types:
+    - uid: JobPreparation
+  - name: properties.stdOutErrPathPrefix
+    in: body
+    isRequired: true
+    description: The path where the Batch AI service will upload stdout and stderror of the job.
+    types:
+    - uid: string
+  - name: properties.inputDirectories
+    in: body
+    description: Input directory for the job.
+    types:
+    - uid: InputDirectory
+      isArray: true
+  - name: properties.outputDirectories
+    in: body
+    description: Output directory for the job.
+    types:
+    - uid: OutputDirectory
+      isArray: true
+  - name: properties.environmentVariables
+    in: body
+    description: A collection of environment variables to set.
+    types:
+    - uid: EnvironmentSetting
+      isArray: true
+  - name: properties.constraints
+    in: body
+    description: Constraints associated with the Job.
+    types:
+    - uid: Constraints
+requestHeader: []
+definitions:
+- name: ResourceId
+  description: >-
+    Specifies the identifier of the subnet.
+
+    Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the resource
+    types:
+    - uid: string
+- name: ContainerSettings
+  description: >-
+    If provided the job will run in the specified container.
+
+    If the container was downloaded as part of cluster setup then the same container image will be used. If not provided, the job will run on the VM.
+  kind: object
+  properties:
+  - name: imageSourceRegistry
+    description: >-
+      Registry to download the container from.
+
+      Details of the container image such as name, URL and credentials.
+    types:
+    - uid: ImageSourceRegistry
+- name: CNTKsettings
+  description: >-
+    Specifies the settings for CNTK (aka Microsoft Cognitive Toolkit) job.
+
+    Specifies the settings for CNTK (aka Microsoft Cognitive Toolkit) job.
+  kind: object
+  properties:
+  - name: languageType
+    description: >-
+      Specifies the language type to use for launching CNTK (aka Microsoft Cognitive Toolkit) job.
+
+      Valid values are 'BrainScript' or 'Python'.
+    types:
+    - uid: string
+  - name: configFilePath
+    description: >-
+      Specifies the path of the config file.
+
+      This property can be specified only if the languageType is 'BrainScript'.
+    types:
+    - uid: string
+  - name: pythonScriptFilePath
+    description: >-
+      The path and file name of the python script to execute the job.
+
+      This property can be specified only if the languageType is 'Python'.
+    types:
+    - uid: string
+  - name: pythonInterpreterPath
+    description: >-
+      The path to python interpreter.
+
+      This property can be specified only if the languageType is 'Python'.
+    types:
+    - uid: string
+  - name: commandLineArgs
+    description: Command line arguments that needs to be passed to the python script or CNTK.exe.
+    types:
+    - uid: string
+  - name: processCount
+    description: >-
+      Number of processes parameter that is passed to MPI runtime.
+
+      The default value for this property is equal to nodeCount property
+    types:
+    - uid: integer
+- name: TensorFlowSettings
+  description: >-
+    Specifies the settings for Tensor Flow job.
+
+    Specifies the settings for TensorFlow job.
+  kind: object
+  properties:
+  - name: pythonScriptFilePath
+    description: The path and file name of the python script to execute the job.
+    types:
+    - uid: string
+  - name: pythonInterpreterPath
+    description: The path to python interpreter.
+    types:
+    - uid: string
+  - name: masterCommandLineArgs
+    description: Specifies the command line arguments for the master task.
+    types:
+    - uid: string
+  - name: workerCommandLineArgs
+    description: >-
+      Specifies the command line arguments for the worker task.
+
+      This property is optional for single machine training.
+    types:
+    - uid: string
+  - name: parameterServerCommandLineArgs
+    description: >-
+      Specifies the command line arguments for the parameter server task.
+
+      This property is optional for single machine training.
+    types:
+    - uid: string
+  - name: workerCount
+    description: >-
+      The number of worker tasks.
+
+      If specified, the value must be less than or equal to (nodeCount * numberOfGPUs per VM). If not specified, the default value is equal to nodeCount. This property can be specified only for distributed TensorFlow training
+    types:
+    - uid: integer
+  - name: parameterServerCount
+    description: >-
+      The number of parmeter server tasks.
+
+      If specified, the value must be less than or equal to nodeCount. If not specified, the default value is equal to 1 for distributed TensorFlow training (This property is not applicable for single machine training). This property can be specified only for distributed TensorFlow training.
+    types:
+    - uid: integer
+- name: CaffeSettings
+  description: >-
+    Specifies the settings for Caffe job.
+
+    Specifies the settings for Caffe job.
+  kind: object
+  properties:
+  - name: configFilePath
+    description: >-
+      Specifies the path of the config file.
+
+      This property cannot be specified if pythonScriptFilePath is specified.
+    types:
+    - uid: string
+  - name: pythonScriptFilePath
+    description: >-
+      The path and file name of the python script to execute the job.
+
+      This property cannot be specified if configFilePath is specified.
+    types:
+    - uid: string
+  - name: pythonInterpreterPath
+    description: >-
+      The path to python interpreter.
+
+      This property can be specified only if the pythonScriptFilePath is specified.
+    types:
+    - uid: string
+  - name: commandLineArgs
+    description: Command line arguments that needs to be passed to the Caffe job.
+    types:
+    - uid: string
+  - name: processCount
+    description: >-
+      Number of processes parameter that is passed to MPI runtime.
+
+      The default value for this property is equal to nodeCount property
+    types:
+    - uid: integer
+- name: Caffe2Settings
+  description: >-
+    Specifies the settings for Caffe2 job.
+
+    Specifies the settings for Caffe2 job.
+  kind: object
+  properties:
+  - name: pythonScriptFilePath
+    description: The path and file name of the python script to execute the job.
+    types:
+    - uid: string
+  - name: pythonInterpreterPath
+    description: The path to python interpreter.
+    types:
+    - uid: string
+  - name: commandLineArgs
+    description: Command line arguments that needs to be passed to the python script
+    types:
+    - uid: string
+- name: ChainerSettings
+  description: >-
+    Specifies the settings for Chainer job.
+
+    Specifies the settings for Chainer job.
+  kind: object
+  properties:
+  - name: pythonScriptFilePath
+    description: The path and file name of the python script to execute the job.
+    types:
+    - uid: string
+  - name: pythonInterpreterPath
+    description: The path to python interpreter.
+    types:
+    - uid: string
+  - name: commandLineArgs
+    description: Command line arguments that needs to be passed to the python script
+    types:
+    - uid: string
+  - name: processCount
+    description: >-
+      Number of processes parameter that is passed to MPI runtime.
+
+      The default value for this property is equal to nodeCount property
+    types:
+    - uid: integer
+- name: CustomToolkitSettings
+  description: >-
+    Specifies the settings for custom tool kit job.
+
+    Specifies the settings for a custom tool kit job.
+  kind: object
+  properties:
+  - name: commandLine
+    description: The command line to execute the custom toolkit Job.
+    types:
+    - uid: string
+- name: JobPreparation
+  description: >-
+    Specifies the command line to be executed before tool kit is launched.
+
+    The specified actions will run on all the nodes that are part of the job
+  kind: object
+  properties:
+  - name: commandLine
+    description: >-
+      The command line to execute.
+
+      If containerSettings is specified on the job, this commandLine will be executed in the same container as job. Otherwise it will be executed on the node.
+    types:
+    - uid: string
+- name: InputDirectory
+  description: Specifies the list of input directories for the Job.
+  kind: object
+  properties:
+  - name: id
+    description: >-
+      The id for the input directory.
+
+      It will be available for the job as an environment variable under AZ_BATCHAI_INPUT_id. The service will also provide the following  environment variable: AZ_BATCHAI_PREV_OUTPUT_Name. The value of the variable will be populated if the job is being retried after a previous failure, otherwise it will be set to nothing.
+    types:
+    - uid: string
+  - name: path
+    description: The path to the input directory.
+    types:
+    - uid: string
+- name: OutputDirectory
+  description: Specifies the list of output directories where the models will be created. .
+  kind: object
+  properties:
+  - name: id
+    description: >-
+      The name for the output directory.
+
+      It will be available for the job as an environment variable under AZ_BATCHAI_OUTPUT_id.
+    types:
+    - uid: string
+  - name: pathPrefix
+    description: >-
+      The prefix path where the output directory will be created.
+
+      NOTE: This is an absolute path to prefix. E.g. $AZ_BATCHAI_MOUNT_ROOT/MyNFS/MyLogs.
+    types:
+    - uid: string
+  - name: pathSuffix
+    description: >-
+      The suffix path where the output directory will be created.
+
+      The suffix path where the output directory will be created.
+    types:
+    - uid: string
+  - name: type
+    description: >-
+      An enumeration, which specifies the type of job output directory.
+
+      Default value is Custom. The possible values are Model, Logs, Summary, and Custom. Users can use multiple enums for a single directory. Eg. outPutType='Model,Logs, Summary'
+    types:
+    - uid: OutputType
+  - name: createNew
+    description: >-
+      True to create new directory.
+
+      Default is true. If false, then the directory is not created and can be any directory path that the user specifies.
+    types:
+    - uid: boolean
+- name: EnvironmentSetting
+  description: Collection of environment settings.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the environment variable.
+    types:
+    - uid: string
+  - name: value
+    description: The value of the environment variable.
+    types:
+    - uid: string
+- name: Constraints
+  description: Constraints associated with the Job.
+  kind: object
+  properties:
+  - name: maxWallClockTime
+    description: >-
+      Max time the job can run.
+
+      Default Value = 1 week.
+    types:
+    - uid: string
+- name: Job
+  description: Contains information about the job.
+  kind: object
+  properties:
+  - name: properties.experimentName
+    description: Describe the experiment information of the job
+    types:
+    - uid: string
+  - name: properties.priority
+    description: >-
+      Priority associated with the job.
+
+      Priority associated with the job. Priority values can range from -1000 to 1000, with -1000 being the lowest priority and 1000 being the highest priority. The default value is 0.
+    types:
+    - uid: integer
+  - name: properties.cluster
+    description: >-
+      Specifies the Id of the cluster on which this job will run.
+
+      Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
+    types:
+    - uid: ResourceId
+  - name: properties.nodeCount
+    description: >-
+      Number of compute nodes to run the job on.
+
+      The job will be gang scheduled on that many compute nodes
+    types:
+    - uid: integer
+  - name: properties.containerSettings
+    description: >-
+      If provided the job will run in the specified container.
+
+      If the container was downloaded as part of cluster setup then the same container image will be used. If not provided, the job will run on the VM.
+    types:
+    - uid: ContainerSettings
+  - name: properties.toolType
+    description: >-
+      The toolkit type of this job.
+
+      Possible values are: cntk, tensorflow, caffe, caffe2, chainer, custom.
+    types:
+    - uid: ToolType
+  - name: properties.cntkSettings
+    description: >-
+      Specifies the settings for CNTK (aka Microsoft Cognitive Toolkit) job.
+
+      Specifies the settings for CNTK (aka Microsoft Cognitive Toolkit) job.
+    types:
+    - uid: CNTKsettings
+  - name: properties.tensorFlowSettings
+    description: >-
+      Specifies the settings for Tensor Flow job.
+
+      Specifies the settings for TensorFlow job.
+    types:
+    - uid: TensorFlowSettings
+  - name: properties.caffeSettings
+    description: >-
+      Specifies the settings for Caffe job.
+
+      Specifies the settings for Caffe job.
+    types:
+    - uid: CaffeSettings
+  - name: properties.chainerSettings
+    description: >-
+      Specifies the settings for Chainer job.
+
+      Specifies the settings for Chainer job.
+    types:
+    - uid: ChainerSettings
+  - name: properties.customToolkitSettings
+    description: >-
+      Specifies the settings for custom tool kit job.
+
+      Specifies the settings for a custom tool kit job.
+    types:
+    - uid: CustomToolkitSettings
+  - name: properties.jobPreparation
+    description: >-
+      Specifies the actions to be performed before tool kit is launched.
+
+      The specified actions will run on all the nodes that are part of the job
+    types:
+    - uid: JobPreparation
+  - name: properties.stdOutErrPathPrefix
+    description: The path where the Batch AI service will upload stdout and stderror of the job.
+    types:
+    - uid: string
+  - name: properties.inputDirectories
+    description: Input directory for the job.
+    types:
+    - uid: InputDirectory
+      isArray: true
+  - name: properties.outputDirectories
+    description: Output directory for the job.
+    types:
+    - uid: OutputDirectory
+      isArray: true
+  - name: properties.environmentVariables
+    description: A collection of environment variables to set.
+    types:
+    - uid: EnvironmentSetting
+      isArray: true
+  - name: properties.constraints
+    description: Constraints associated with the Job.
+    types:
+    - uid: Constraints
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: >-
+      The job creation time.
+
+      The creation time of the job.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioned state of the Batch AI job
+    types:
+    - uid: ProvisioningState
+  - name: properties.provisioningStateTransitionTime
+    isReadyOnly: true
+    description: >-
+      The time at which the job entered its current provisioning state.
+
+      The time at which the job entered its current provisioning state.
+    types:
+    - uid: string
+  - name: properties.executionState
+    description: >-
+      The current state of the job.
+
+      The current state of the job. Possible values are: queued - The job is queued and able to run. A job enters this state when it is created, or when it is awaiting a retry after a failed run. running - The job is running on a compute cluster. This includes job-level preparation such as downloading resource files or set up container specified on the job - it does not necessarily mean that the job command line has started executing. terminating - The job is terminated by the user, the terminate operation is in progress. succeeded - The job has completed running succesfully and exited with exit code 0. failed - The job has finished unsuccessfully (failed with a non-zero exit code) and has exhausted its retry limit. A job is also marked as failed if an error occurred launching the job.
+    types:
+    - uid: ExecutionState
+  - name: properties.executionStateTransitionTime
+    isReadyOnly: true
+    description: >-
+      The time at which the job entered its current execution state.
+
+      The time at which the job entered its current execution state.
+    types:
+    - uid: string
+  - name: properties.executionInfo
+    description: Contains information about the execution of a job in the Azure Batch service.
+    types:
+    - uid: ExecutionInfo
+  - name: id
+    isReadyOnly: true
+    description: The ID of the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The location of the resource
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: The tags of the resource
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: An error response from the Batch AI service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Batch AI service.
+    types:
+    - uid: CloudErrorBody
+- name: JobCreateParameters
+  description: Parameters supplied to the Create operation.
+  kind: object
+  properties:
+  - name: location
+    description: The region in which to create the job.
+    types:
+    - uid: string
+  - name: tags
+    description: The user specified tags associated with the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.experimentName
+    description: Describe the experiment information of the job
+    types:
+    - uid: string
+  - name: properties.priority
+    description: >-
+      Priority associated with the job.
+
+      Priority associated with the job. Priority values can range from -1000 to 1000, with -1000 being the lowest priority and 1000 being the highest priority. The default value is 0.
+    types:
+    - uid: integer
+  - name: properties.cluster
+    description: >-
+      Specifies the Id of the cluster on which this job will run.
+
+      Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
+    types:
+    - uid: ResourceId
+  - name: properties.nodeCount
+    description: >-
+      Number of compute nodes to run the job on.
+
+      The job will be gang scheduled on that many compute nodes
+    types:
+    - uid: integer
+  - name: properties.containerSettings
+    description: >-
+      If provided the job will run in the specified container.
+
+      If the container was downloaded as part of cluster setup then the same container image will be used. If not provided, the job will run on the VM.
+    types:
+    - uid: ContainerSettings
+  - name: properties.cntkSettings
+    description: >-
+      Specifies the settings for CNTK (aka Microsoft Cognitive Toolkit) job.
+
+      Specifies the settings for CNTK (aka Microsoft Cognitive Toolkit) job.
+    types:
+    - uid: CNTKsettings
+  - name: properties.tensorFlowSettings
+    description: >-
+      Specifies the settings for Tensor Flow job.
+
+      Specifies the settings for TensorFlow job.
+    types:
+    - uid: TensorFlowSettings
+  - name: properties.caffeSettings
+    description: >-
+      Specifies the settings for Caffe job.
+
+      Specifies the settings for Caffe job.
+    types:
+    - uid: CaffeSettings
+  - name: properties.caffe2Settings
+    description: >-
+      Specifies the settings for Caffe2 job.
+
+      Specifies the settings for Caffe2 job.
+    types:
+    - uid: Caffe2Settings
+  - name: properties.chainerSettings
+    description: >-
+      Specifies the settings for Chainer job.
+
+      Specifies the settings for Chainer job.
+    types:
+    - uid: ChainerSettings
+  - name: properties.customToolkitSettings
+    description: >-
+      Specifies the settings for custom tool kit job.
+
+      Specifies the settings for a custom tool kit job.
+    types:
+    - uid: CustomToolkitSettings
+  - name: properties.jobPreparation
+    description: >-
+      Specifies the command line to be executed before tool kit is launched.
+
+      The specified actions will run on all the nodes that are part of the job
+    types:
+    - uid: JobPreparation
+  - name: properties.stdOutErrPathPrefix
+    description: The path where the Batch AI service will upload stdout and stderror of the job.
+    types:
+    - uid: string
+  - name: properties.inputDirectories
+    description: Input directory for the job.
+    types:
+    - uid: InputDirectory
+      isArray: true
+  - name: properties.outputDirectories
+    description: Output directory for the job.
+    types:
+    - uid: OutputDirectory
+      isArray: true
+  - name: properties.environmentVariables
+    description: A collection of environment variables to set.
+    types:
+    - uid: EnvironmentSetting
+      isArray: true
+  - name: properties.constraints
+    description: Constraints associated with the Job.
+    types:
+    - uid: Constraints
+- name: ImageSourceRegistry
+  description: >-
+    Registry to download the container from.
+
+    Details of the container image such as name, URL and credentials.
+  kind: object
+  properties:
+  - name: serverUrl
+    description: URL for image repository.
+    types:
+    - uid: string
+  - name: image
+    description: The name of the image in image repository.
+    types:
+    - uid: string
+  - name: credentials
+    description: >-
+      Information to access the private Docker repository.
+
+      Credentials to access a container image in a private repository.
+    types:
+    - uid: PrivateRegistryCredentials
+- name: OutputType
+  description: >-
+    An enumeration, which specifies the type of job output directory.
+
+    Default value is Custom. The possible values are Model, Logs, Summary, and Custom. Users can use multiple enums for a single directory. Eg. outPutType='Model,Logs, Summary'
+  kind: enum
+  properties:
+  - name: model
+    types:
+    - uid: string
+  - name: logs
+    types:
+    - uid: string
+  - name: summary
+    types:
+    - uid: string
+  - name: custom
+    types:
+    - uid: string
+- name: ToolType
+  description: >-
+    The toolkit type of this job.
+
+    Possible values are: cntk, tensorflow, caffe, caffe2, chainer, custom.
+  kind: enum
+  properties:
+  - name: cntk
+    types:
+    - uid: string
+  - name: tensorflow
+    types:
+    - uid: string
+  - name: caffe
+    types:
+    - uid: string
+  - name: caffe2
+    types:
+    - uid: string
+  - name: chainer
+    types:
+    - uid: string
+  - name: custom
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: >-
+    Specifies the provisioning state of the cluster.
+
+    Possible value are: creating - Specifies that the cluster is being created. succeeded - Specifies that the cluster has been created successfully. failed - Specifies that the cluster creation has failed. deleting - Specifies that the cluster is being deleted.
+  kind: enum
+  properties:
+  - name: creating
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: deleting
+    types:
+    - uid: string
+- name: ExecutionState
+  description: >-
+    The current state of the job.
+
+    The current state of the job. Possible values are: queued - The job is queued and able to run. A job enters this state when it is created, or when it is awaiting a retry after a failed run. running - The job is running on a compute cluster. This includes job-level preparation such as downloading resource files or set up container specified on the job - it does not necessarily mean that the job command line has started executing. terminating - The job is terminated by the user, the terminate operation is in progress. succeeded - The job has completed running succesfully and exited with exit code 0. failed - The job has finished unsuccessfully (failed with a non-zero exit code) and has exhausted its retry limit. A job is also marked as failed if an error occurred launching the job.
+  kind: enum
+  properties:
+  - name: queued
+    types:
+    - uid: string
+  - name: running
+    types:
+    - uid: string
+  - name: terminating
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+- name: ExecutionInfo
+  description: Contains information about the execution of a job in the Azure Batch service.
+  kind: object
+  properties:
+  - name: startTime
+    description: >-
+      The time at which the job started running.
+
+      'Running' corresponds to the running state. If the job has been restarted or retried, this is the most recent time at which the job started running. This property is present only for job that are in the running or completed state.
+    types:
+    - uid: string
+  - name: endTime
+    description: >-
+      The time at which the job completed.
+
+      This property is only returned if the job is in completed state.
+    types:
+    - uid: string
+  - name: exitCode
+    description: >-
+      The exit code of the job.
+
+      This property is only returned if the job is in completed state.
+    types:
+    - uid: integer
+  - name: errors
+    description: An error response from the Batch AI service.
+    types:
+    - uid: BatchAIError
+      isArray: true
+- name: CloudErrorBody
+  description: An error response from the Batch AI service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: PrivateRegistryCredentials
+  description: >-
+    Information to access the private Docker repository.
+
+    Credentials to access a container image in a private repository.
+  kind: object
+  properties:
+  - name: username
+    description: User name to login.
+    types:
+    - uid: string
+  - name: password
+    description: >-
+      Password to login.
+
+      One of password or passwordSecretReference must be specified.
+    types:
+    - uid: string
+  - name: passwordSecretReference
+    description: >-
+      Specifies the location of the password, which is a Key Vault Secret.
+
+      Users can store their secrets in Azure KeyVault and pass it to the Batch AI Service to integrate with KeyVault. One of password or passwordSecretReference must be specified.
+    types:
+    - uid: KeyVaultSecretReference
+- name: BatchAIError
+  description: >-
+    Contains details of various errors on the cluster including resize and node setup task
+
+    This element contains all the errors encountered by various compute nodes during node setup.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: details
+    description: Represents a name-value pair.
+    types:
+    - uid: NameValuePair
+      isArray: true
+- name: KeyVaultSecretReference
+  description: Describes a reference to Key Vault Secret.
+  kind: object
+  properties:
+  - name: sourceVault
+    description: >-
+      Fully qualified resource Id for the Key Vault.
+
+      Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
+    types:
+    - uid: ResourceId
+  - name: secretUrl
+    description: The URL referencing a secret in a Key Vault.
+    types:
+    - uid: string
+- name: NameValuePair
+  description: A list of additional details about the error.
+  kind: object
+  properties:
+  - name: name
+    description: The name in the name-value pair.
+    types:
+    - uid: string
+  - name: value
+    description: The value in the name-value pair.
+    types:
+    - uid: string
+examples:
+- name: Create or update job
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/jobs/demo_job?api-version=2017-09-01-preview
+    body: >-
+      {
+        "location": "eastus",
+        "properties": {
+          "stdOutErrPathPrefix": "$AZ_BATCHAI_MOUNT_ROOT/azfiles",
+          "cluster": {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/clusters/demo_cluster"
+          },
+          "nodeCount": 1,
+          "customToolkitSettings": {
+            "commandLine": "echo hi | tee $AZ_BATCHAI_OUTPUT_OUTPUTS/hi.txt"
+          },
+          "inputDirectories": [
+            {
+              "id": "INPUT",
+              "path": "$AZ_BATCHAI_MOUNT_ROOT/azfiles/input"
+            }
+          ],
+          "priority": 0,
+          "containerSettings": {
+            "imageSourceRegistry": {
+              "image": "ubuntu"
+            }
+          },
+          "outputDirectories": [
+            {
+              "pathPrefix": "$AZ_BATCHAI_MOUNT_ROOT/azfiles/",
+              "type": "custom",
+              "id": "OUTPUTS",
+              "pathSuffix": "files",
+              "createNew": true
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.BatchAI/locations/eastus/operationresults/7e69f371-db62-4183-bba0-5ee577d43bd7?api-version=2017-09-01-preview
+    - name: Retry-After
+      value: "15"
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/jobs/demo_job",
+        "name": "demo_job",
+        "type": "Microsoft.BatchAI/Job",
+        "properties": {
+          "priority": 0,
+          "cluster": {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/clusters/demo_cluster"
+          },
+          "nodeCount": 1,
+          "containerSettings": {
+            "imageSourceRegistry": {
+              "image": "ubuntu"
+            }
+          },
+          "toolType": "custom",
+          "customToolkitSettings": {
+            "commandLine": "echo hi | tee $AZ_BATCHAI_OUTPUT_OUTPUTS/hi.txt"
+          },
+          "stdOutErrPathPrefix": "$AZ_BATCHAI_MOUNT_ROOT/azfiles",
+          "inputDirectories": [
+            {
+              "id": "INPUT",
+              "path": "$AZ_BATCHAI_MOUNT_ROOT/azfiles/input"
+            }
+          ],
+          "outputDirectories": [
+            {
+              "id": "OUTPUTS",
+              "pathPrefix": "$AZ_BATCHAI_MOUNT_ROOT/azfiles/",
+              "pathSuffix": "files",
+              "type": "custom",
+              "createNew": true
+            }
+          ],
+          "constraints": {
+            "maxWallClockTime": "P7D"
+          },
+          "creationTime": "2017-09-27T23:36:52.611Z",
+          "provisioningState": "succeeded",
+          "provisioningStateTransitionTime": "2017-09-27T23:36:53.701Z",
+          "executionState": "running",
+          "executionStateTransitionTime": "2017-09-27T23:36:56.395Z",
+          "executionInfo": {
+            "startTime": "2017-09-27T23:36:54.115Z"
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

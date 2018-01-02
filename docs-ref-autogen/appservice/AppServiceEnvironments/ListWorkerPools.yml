@@ -1,0 +1,204 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.appserviceenvironments.listworkerpools
+name: List Worker Pools
+service: App Service
+groupName: App Service Environments
+apiVersion: 2016-09-01
+summary: Get all worker pools of an App Service Environment.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools?api-version=2016-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the App Service Environment.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: WorkerPoolCollection
+requestHeader: []
+definitions:
+- name: WorkerPoolCollection
+  description: Collection of worker pools.
+  kind: object
+  properties:
+  - name: value
+    description: Worker pool of an App Service Environment ARM resource.
+    types:
+    - uid: WorkerPoolResource
+      isArray: true
+  - name: nextLink
+    description: Link to next page of resources.
+    types:
+    - uid: string
+- name: WorkerPoolResource
+  description: Collection of resources.
+  kind: object
+  properties:
+  - name: sku
+    description: Description of a SKU for a scalable resource.
+    types:
+    - uid: SkuDescription
+  - name: properties.workerSizeId
+    description: Worker size ID for referencing this worker pool.
+    types:
+    - uid: integer
+  - name: properties.computeMode
+    description: Shared or dedicated app hosting.
+    types:
+    - uid: ComputeModeOptions
+  - name: properties.workerSize
+    description: VM size of the worker pool instances.
+    types:
+    - uid: string
+  - name: properties.workerCount
+    description: Number of instances in the worker pool.
+    types:
+    - uid: integer
+  - name: properties.instanceNames
+    isReadyOnly: true
+    description: Names of all instances in the worker pool (read only).
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: SkuDescription
+  description: Name and tier of the SKU.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the resource SKU.
+    types:
+    - uid: string
+  - name: tier
+    description: Service tier of the resource SKU.
+    types:
+    - uid: string
+  - name: size
+    description: Size specifier of the resource SKU.
+    types:
+    - uid: string
+  - name: family
+    description: Family code of the resource SKU.
+    types:
+    - uid: string
+  - name: capacity
+    description: Current number of instances assigned to the resource.
+    types:
+    - uid: integer
+  - name: skuCapacity
+    description: Min, max, and default scale values of the SKU.
+    types:
+    - uid: SkuCapacity
+  - name: locations
+    description: Locations of the SKU.
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Describes the capabilities/features allowed for a specific SKU.
+    types:
+    - uid: Capability
+      isArray: true
+- name: ComputeModeOptions
+  description: Shared or dedicated app hosting.
+  kind: enum
+  properties:
+  - name: Shared
+    types:
+    - uid: string
+  - name: Dedicated
+    types:
+    - uid: string
+  - name: Dynamic
+    types:
+    - uid: string
+- name: SkuCapacity
+  description: Min, max, and default scale values of the SKU.
+  kind: object
+  properties:
+  - name: minimum
+    description: Minimum number of workers for this App Service plan SKU.
+    types:
+    - uid: integer
+  - name: maximum
+    description: Maximum number of workers for this App Service plan SKU.
+    types:
+    - uid: integer
+  - name: default
+    description: Default number of workers for this App Service plan SKU.
+    types:
+    - uid: integer
+  - name: scaleType
+    description: Available scale configurations for an App Service plan.
+    types:
+    - uid: string
+- name: Capability
+  description: Capabilities of the SKU, e.g., is traffic manager enabled?
+  kind: object
+  properties:
+  - name: name
+    description: Name of the SKU capability.
+    types:
+    - uid: string
+  - name: value
+    description: Value of the SKU capability.
+    types:
+    - uid: string
+  - name: reason
+    description: Reason of the SKU capability.
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

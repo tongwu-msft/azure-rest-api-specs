@@ -40,14 +40,9 @@ A ContentKey provides secure access to an Asset. In addition to creating a Conte
   
 -   [Delete a ContentKey](../operations/contentkey.md#delete_a_contentkey)  
   
-> [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+  > [!IMPORTANT]
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
 ##  <a name="contentkey_properties"></a> ContentKey Entity Properties  
   
 |Property|Type|Description|  
@@ -71,11 +66,6 @@ A ContentKey provides secure access to an Asset. In addition to creating a Conte
 |POST|https://media.windows.net/API/ContentKeys|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -106,12 +96,7 @@ Expect: 100-continue
   
 ### Sample  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. The example gets the PlayReady license acquisition URL.  
-  
- Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
  Request headers:  
   
@@ -154,11 +139,6 @@ Content-Length: 21
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
@@ -182,13 +162,8 @@ Host: media.windows.net
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
-  
- Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+    
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  

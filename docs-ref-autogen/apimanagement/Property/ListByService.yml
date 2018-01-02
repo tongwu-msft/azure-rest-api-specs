@@ -1,0 +1,165 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.property.listbyservice
+name: List By Service
+service: API Management
+groupName: Property
+apiVersion: 2017-03-01
+summary: Lists a collection of properties defined within a service instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties?api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: $filter
+  in: query
+  description: >-
+    | Field | Supported operators    | Supported functions                                   |
+
+    |-------|------------------------|-------------------------------------------------------|
+
+    | tags  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith, any, all |
+
+    | name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith           |
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: Number of records to return.
+  types:
+  - uid: integer
+  format: int32
+- name: $skip
+  in: query
+  description: Number of records to skip.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A Collection of the Property entities for the specified API Management service instance.
+  types:
+  - uid: PropertyCollection
+requestHeader: []
+definitions:
+- name: PropertyCollection
+  description: Paged Property list representation.
+  kind: object
+  properties:
+  - name: value
+    description: Property details.
+    types:
+    - uid: PropertyContract
+      isArray: true
+  - name: nextLink
+    description: Next page link if any.
+    types:
+    - uid: string
+- name: PropertyContract
+  description: Page values.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.
+    types:
+    - uid: string
+  - name: properties.value
+    description: Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+  - name: properties.tags
+    description: Optional tags that when provided can be used to filter the property list.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.secret
+    description: Determines whether the value is a secret and should be encrypted or not. Default value is false.
+    types:
+    - uid: boolean
+examples:
+- name: ApiManagementListProperties
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/properties?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/properties/592f1174cc83890dc4f32686",
+            "type": "Microsoft.ApiManagement/service/properties",
+            "name": "592f1174cc83890dc4f32686",
+            "properties": {
+              "displayName": "Logger-Credentials-592f1174cc83890dc4f32687",
+              "value": "Endpoint=sb://testtemplatetesteh.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=...",
+              "secret": true
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/properties/testarmTemplateproperties2",
+            "type": "Microsoft.ApiManagement/service/properties",
+            "name": "testarmTemplateproperties2",
+            "properties": {
+              "displayName": "propName",
+              "value": "propValue",
+              "tags": [
+                "foo",
+                "bar"
+              ],
+              "secret": false
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

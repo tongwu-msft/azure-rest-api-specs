@@ -1,0 +1,193 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.postgresql.virtualnetworkrules.createorupdate
+name: Create Or Update
+service: PostgreSQL
+groupName: Virtual Network Rules
+apiVersion: 2017-04-30-preview
+summary: Creates or updates an existing virtual network rule.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}?api-version=2017-04-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: virtualNetworkRuleName
+  in: path
+  isRequired: true
+  description: The name of the virtual network rule.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully updated a virtual network rule.
+  types:
+  - uid: VirtualNetworkRule
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidResourceId - Invalid resource identifier.
+
+     * 400 MismatchingSubscriptionWithUrl - The provided subscription did not match the subscription in the Url.
+
+     * 400 MismatchingResourceGroupNameWithUrl - The provided resource group name did not match the name in the Url.
+
+     * 400 MismatchingServerNameWithUrl - The provided server name did not match the name in the Url.
+
+     * 400 NullVirtualNetworkRequest - Virtual Network Request is Null
+
+     * 400 NullVirtualNetworkRequestParameters - Virtual Network Request Parameters are Null
+
+     * 400 NullVirtualNetworkSubnetId - The Virtual Network Subnet Id is null
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 VirtualNetworkRuleNotEnabled - Azure SQL Server Virtual Network Rule feature is not enabled
+
+     * 404 OperationIdNotFound - The operation with Id does not exist.
+
+     * 409 OperationCancelled - The operation has been cancelled by user.
+
+     * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
+
+     * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
+- name: 202 Accepted
+  description: Accepted
+- name: 201 Created
+  description: Successfully created a virtual network rule.
+  types:
+  - uid: VirtualNetworkRule
+requestBody:
+- parameters:
+  - name: properties.virtualNetworkSubnetId
+    in: body
+    isRequired: true
+    description: The ARM resource id of the virtual network subnet.
+    types:
+    - uid: string
+  - name: properties.ignoreMissingVnetServiceEndpoint
+    in: body
+    description: Create firewall rule before the virtual network has vnet service endpoint enabled.
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: VirtualNetworkRule
+  description: A virtual network rule.
+  kind: object
+  properties:
+  - name: properties.virtualNetworkSubnetId
+    description: The ARM resource id of the virtual network subnet.
+    types:
+    - uid: string
+  - name: properties.ignoreMissingVnetServiceEndpoint
+    description: Create firewall rule before the virtual network has vnet service endpoint enabled.
+    types:
+    - uid: boolean
+  - name: properties.state
+    isReadyOnly: true
+    description: Virtual Network Rule State
+    types:
+    - uid: VirtualNetworkRuleState
+  - name: id
+    isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: VirtualNetworkRuleState
+  description: Virtual Network Rule State
+  kind: enum
+  properties:
+  - name: Initializing
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+examples:
+- name: Create or update a virtual network rule
+  request:
+    uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforPostgreSQL/servers/vnet-test-svr/virtualNetworkRules/vnet-firewall-rule?api-version=2017-04-30-preview
+    body: >-
+      {
+        "properties": {
+          "ignoreMissingVnetServiceEndpoint": false,
+          "virtualNetworkSubnetId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforPostgreSQL/servers/vnet-test-svr/virtualNetworkRules/vnet-firewall-rule",
+        "name": "vnet-firewall-rule",
+        "type": "Microsoft.DBforPostgreSQL/servers/virtualNetworkRules",
+        "properties": {
+          "ignoreMissingVnetServiceEndpoint": false,
+          "virtualNetworkSubnetId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforPostgreSQL/servers/vnet-test-svr/virtualNetworkRules/vnet-firewall-rule",
+        "name": "vnet-firewall-rule",
+        "type": "Microsoft.DBforPostgreSQL/servers/virtualNetworkRules",
+        "properties": {
+          "ignoreMissingVnetServiceEndpoint": false,
+          "virtualNetworkSubnetId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet"
+        }
+      }
+  - statusCode: "202"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

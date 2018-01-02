@@ -1,0 +1,468 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.recoveryservices-backup.protecteditems.get
+name: Get
+service: Recovery Services - Backup
+groupName: Protected Items
+apiVersion: 2016-06-01
+summary: Provides the details of the backup item. This is an asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}?api-version=2016-06-01
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}?api-version=2016-06-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group associated with the Recovery Services vault.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the Recovery Services vault.
+  types:
+  - uid: string
+- name: fabricName
+  in: path
+  isRequired: true
+  description: The fabric name associated with the backup item.
+  types:
+  - uid: string
+- name: containerName
+  in: path
+  isRequired: true
+  description: The container name associated with the backup item.
+  types:
+  - uid: string
+- name: protectedItemName
+  in: path
+  isRequired: true
+  description: The backup item name used in this GET operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: expand eq {extendedinfo}. This filter enables you to choose (or filter) specific items in the list of backup items.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: ProtectedItemResource
+requestHeader: []
+definitions:
+- name: ProtectedItemResource
+  description: The base class for backup items.
+  kind: object
+  properties:
+  - name: properties
+    description: The base class for backup items.
+    types:
+    - uid: AzureIaaSVMProtectedItem
+    - uid: MabFileFolderProtectedItem
+    - uid: AzureSqlProtectedItem
+    typesTitle: ProtectedItem
+  - name: id
+    description: Resource ID represents the complete path to the resource.
+    types:
+    - uid: string
+  - name: name
+    description: Resource name associated with the resource.
+    types:
+    - uid: string
+  - name: type
+    description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    description: Optional ETag.
+    types:
+    - uid: string
+- name: MabFileFolderProtectedItem
+  description: This is a file or folder workload-specific backup item.
+  kind: object
+  properties:
+  - name: friendlyName
+    description: The friendly name of this backup item.
+    types:
+    - uid: string
+  - name: computerName
+    description: The name of the computer associated with this backup item.
+    types:
+    - uid: string
+  - name: lastBackupStatus
+    description: The status of last backup operation.
+    types:
+    - uid: string
+  - name: protectionState
+    description: 'The states for this property are: Protected, ProtectionStopped, IRPending, or ProtectionError.'
+    types:
+    - uid: string
+  - name: isScheduledForDeferredDelete
+    description: ''
+    types:
+    - uid: boolean
+  - name: extendedInfo
+    description: Additional information for this backup item.
+    types:
+    - uid: MabFileFolderProtectedItemExtendedInfo
+  - name: protectedItemType
+    description: The backup item type.
+    types:
+    - uid: MabFileFolderProtectedItem
+    typesTitle: string
+  - name: backupManagementType
+    description: The backup managemenent type associated with the backup item.
+    types:
+    - uid: BackupManagementType
+  - name: workloadType
+    description: The workload type for this item.
+    types:
+    - uid: DataSourceType
+  - name: sourceResourceId
+    description: The ID of the resource to be backed up.
+    types:
+    - uid: string
+  - name: policyId
+    description: The ID of the backup policy associated with this backup item.
+    types:
+    - uid: string
+  - name: lastRecoveryPoint
+    description: The timestamp when the most recent backup copy was created for this backup item.
+    types:
+    - uid: string
+- name: AzureSqlProtectedItem
+  description: This is an Azure SQL workload-specific backup item.
+  kind: object
+  properties:
+  - name: protectedItemDataId
+    description: The internal ID of a backup item. The internal ID is used by the Azure SQL Backup engine to contact Recovery Services.
+    types:
+    - uid: string
+  - name: protectionState
+    description: The backup state of the backup item.
+    types:
+    - uid: ProtectedItemState
+  - name: extendedInfo
+    description: Additional information for this backup item.
+    types:
+    - uid: AzureSqlProtectedItemExtendedInfo
+  - name: protectedItemType
+    description: The backup item type.
+    types:
+    - uid: Microsoft.Sql/servers/databases
+    typesTitle: string
+  - name: backupManagementType
+    description: The backup managemenent type associated with the backup item.
+    types:
+    - uid: BackupManagementType
+  - name: workloadType
+    description: The workload type for this item.
+    types:
+    - uid: DataSourceType
+  - name: sourceResourceId
+    description: The ID of the resource to be backed up.
+    types:
+    - uid: string
+  - name: policyId
+    description: The ID of the backup policy associated with this backup item.
+    types:
+    - uid: string
+  - name: lastRecoveryPoint
+    description: The timestamp when the most recent backup copy was created for this backup item.
+    types:
+    - uid: string
+- name: AzureIaaSComputeVMProtectedItem
+  description: IaaS VM workload-specific backup item representing the Resource Manager VM.
+  kind: object
+  properties:
+  - name: friendlyName
+    description: The friendly name of the VM represented by this backup item.
+    types:
+    - uid: string
+  - name: virtualMachineId
+    description: The fully qualified Resource Manager ID of the virtual machine represented by this item.
+    types:
+    - uid: string
+  - name: protectionStatus
+    description: The backup status of this backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: The backup state of this backup item.
+    types:
+    - uid: ProtectionState
+  - name: lastBackupStatus
+    description: 'The last backup operation status. The possible values are: Healthy or Unhealthy.'
+    types:
+    - uid: string
+  - name: lastBackupTime
+    description: The timestamp of the last backup operation for this backup item.
+    types:
+    - uid: string
+  - name: extendedInfo
+    description: Additional information for this backup item.
+    types:
+    - uid: AzureIaaSVMProtectedItemExtendedInfo
+  - name: protectedItemType
+    description: The backup item type.
+    types:
+    - uid: AzureIaaSVMProtectedItem
+    typesTitle: string
+  - name: backupManagementType
+    description: The backup managemenent type associated with the backup item.
+    types:
+    - uid: BackupManagementType
+  - name: workloadType
+    description: The workload type for this item.
+    types:
+    - uid: DataSourceType
+  - name: sourceResourceId
+    description: The ID of the resource to be backed up.
+    types:
+    - uid: string
+  - name: policyId
+    description: The ID of the backup policy associated with this backup item.
+    types:
+    - uid: string
+  - name: lastRecoveryPoint
+    description: The timestamp when the most recent backup copy was created for this backup item.
+    types:
+    - uid: string
+- name: AzureIaaSClassicComputeVMProtectedItem
+  description: IaaS VM workload-specific backup item representing the classic VM.
+  kind: object
+  properties:
+  - name: friendlyName
+    description: The friendly name of the VM represented by this backup item.
+    types:
+    - uid: string
+  - name: virtualMachineId
+    description: The fully qualified Resource Manager ID of the virtual machine represented by this item.
+    types:
+    - uid: string
+  - name: protectionStatus
+    description: The backup status of this backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: The backup state of this backup item.
+    types:
+    - uid: ProtectionState
+  - name: lastBackupStatus
+    description: 'The last backup operation status. The possible values are: Healthy or Unhealthy.'
+    types:
+    - uid: string
+  - name: lastBackupTime
+    description: The timestamp of the last backup operation for this backup item.
+    types:
+    - uid: string
+  - name: extendedInfo
+    description: Additional information for this backup item.
+    types:
+    - uid: AzureIaaSVMProtectedItemExtendedInfo
+  - name: protectedItemType
+    description: The backup item type.
+    types:
+    - uid: AzureIaaSVMProtectedItem
+    typesTitle: string
+  - name: backupManagementType
+    description: The backup managemenent type associated with the backup item.
+    types:
+    - uid: BackupManagementType
+  - name: workloadType
+    description: The workload type for this item.
+    types:
+    - uid: DataSourceType
+  - name: sourceResourceId
+    description: The ID of the resource to be backed up.
+    types:
+    - uid: string
+  - name: policyId
+    description: The ID of the backup policy associated with this backup item.
+    types:
+    - uid: string
+  - name: lastRecoveryPoint
+    description: The timestamp when the most recent backup copy was created for this backup item.
+    types:
+    - uid: string
+- name: MabFileFolderProtectedItemExtendedInfo
+  description: Additional information for this backup item.
+  kind: object
+  properties:
+  - name: lastRefreshedAt
+    description: The last day and time the agent synced with the service.
+    types:
+    - uid: string
+  - name: oldestRecoveryPoint
+    description: The oldest backup copy available.
+    types:
+    - uid: string
+  - name: recoveryPointCount
+    description: The number of backup copies associated with the backup item.
+    types:
+    - uid: integer
+- name: BackupManagementType
+  description: The backup management type for the current job.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AzureIaasVM
+    types:
+    - uid: string
+  - name: MAB
+    types:
+    - uid: string
+  - name: DPM
+    types:
+    - uid: string
+  - name: AzureBackupServer
+    types:
+    - uid: string
+  - name: AzureSql
+    types:
+    - uid: string
+- name: DataSourceType
+  description: The workload type for this item.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: VM
+    types:
+    - uid: string
+  - name: FileFolder
+    types:
+    - uid: string
+  - name: AzureSqlDb
+    types:
+    - uid: string
+  - name: SQLDB
+    types:
+    - uid: string
+  - name: Exchange
+    types:
+    - uid: string
+  - name: Sharepoint
+    types:
+    - uid: string
+  - name: DPMUnknown
+    types:
+    - uid: string
+- name: ProtectedItemState
+  description: The backup state of the backup item.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: IRPending
+    types:
+    - uid: string
+  - name: Protected
+    types:
+    - uid: string
+  - name: ProtectionError
+    types:
+    - uid: string
+  - name: ProtectionStopped
+    types:
+    - uid: string
+  - name: ProtectionPaused
+    types:
+    - uid: string
+- name: AzureSqlProtectedItemExtendedInfo
+  description: Additional information for this backup item.
+  kind: object
+  properties:
+  - name: oldestRecoveryPoint
+    description: The oldest backup copy available for this item in the service.
+    types:
+    - uid: string
+  - name: recoveryPointCount
+    description: The number of available backup copies for this backup item.
+    types:
+    - uid: integer
+  - name: policyState
+    description: The state of the backup policy associated with this backup item.
+    types:
+    - uid: string
+- name: ProtectionState
+  description: The backup state of this backup item.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: IRPending
+    types:
+    - uid: string
+  - name: Protected
+    types:
+    - uid: string
+  - name: ProtectionError
+    types:
+    - uid: string
+  - name: ProtectionStopped
+    types:
+    - uid: string
+  - name: ProtectionPaused
+    types:
+    - uid: string
+- name: AzureIaaSVMProtectedItemExtendedInfo
+  description: Additional information for this backup item.
+  kind: object
+  properties:
+  - name: oldestRecoveryPoint
+    description: The oldest backup copy available for this backup item.
+    types:
+    - uid: string
+  - name: recoveryPointCount
+    description: The number of backup copies available for this backup item.
+    types:
+    - uid: integer
+  - name: policyInconsistent
+    description: Specifies if the backup policy associated with the backup item is inconsistent.
+    types:
+    - uid: boolean
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

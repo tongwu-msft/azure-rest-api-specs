@@ -1,0 +1,142 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.dscnodeconfiguration.listbyautomationaccount
+name: List By Automation Account
+service: Automation
+groupName: Dsc Node Configuration
+apiVersion: 2015-10-31
+summary: Retrieve a list of dsc node configurations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations?api-version=2015-10-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations?$filter={$filter}&api-version=2015-10-31
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The automation account name.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: DscNodeConfigurationListResult
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: DscNodeConfigurationListResult
+  description: The response model for the list job operation.
+  kind: object
+  properties:
+  - name: value
+    description: Definition of the dsc node configuration.
+    types:
+    - uid: DscNodeConfiguration
+      isArray: true
+  - name: nextLink
+    description: Gets or sets the next link.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: DscNodeConfiguration
+  description: Definition of the dsc node configuration.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the node configuration name.
+    types:
+    - uid: string
+  - name: lastModifiedTime
+    description: Gets or sets the last modified time.
+    types:
+    - uid: string
+  - name: creationTime
+    description: Gets or sets creation time.
+    types:
+    - uid: string
+  - name: configuration
+    description: Gets or sets the configuration of the node.
+    types:
+    - uid: DscConfigurationAssociationProperty
+  - name: id
+    description: Gets or sets the id of the resource.
+    types:
+    - uid: string
+- name: DscConfigurationAssociationProperty
+  description: The Dsc configuration property associated with the entity.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the Dsc configuration.
+    types:
+    - uid: string
+examples:
+- name: List DSC node configurations by Automation Account
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations?api-version=2015-10-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations/SetupServer.localhost",
+            "name": "SetupServer.localhost",
+            "creationTime": "2017-03-28T23:17:06.8901968+00:00",
+            "lastModifiedTime": "2017-03-28T23:17:06.8901968+00:00",
+            "configuration": {
+              "name": "SetupServer"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

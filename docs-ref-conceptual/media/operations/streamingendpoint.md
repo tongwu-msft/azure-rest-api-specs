@@ -69,13 +69,8 @@ For more information, see [Streaming endpoints overview](https://docs.microsoft.
 ## StreamingEndpoint properties and operations  
 
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
  This section gives an overview of the `StreamingEndpoint` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
 -   [Create StreamingEndpoint](#create_streaming_endpoints)  
@@ -176,13 +171,8 @@ string base64Key = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(ak
 |POST|https://media.windows.net/api/StreamingEndpoint|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
+
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
-  
- Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -326,13 +316,8 @@ Available actions when in the **Running** state.
 |POST|https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*')/Start|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
-  
- Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.   
   
  Request headers:  
   
@@ -366,14 +351,9 @@ Available actions when in the **Stopped** state.
 |POST|https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*')/Stop|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
+
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
-  
- Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+    
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
  Request headers:  
@@ -403,12 +383,7 @@ Dynamically updates the streaming unit capacity while in the running state and c
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
-  
- Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -444,12 +419,7 @@ StreamingEndpoints are retrieved using a GET HTTP request.
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
-  
- Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -479,12 +449,7 @@ Authorization: Bearer <token value>
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. The example updates the **MaxAge** value.  
-  
- Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -520,12 +485,7 @@ Authorization: Bearer <token value>
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
  You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
-  
- Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   

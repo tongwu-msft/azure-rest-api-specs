@@ -18,11 +18,11 @@ For api-version, use 2015-07-01.
 
 | Operation Group                                   | Description |
 |---------------------------------------------------|-------------|
-| [Classic Administrators](~/docs-ref-autogen/authorization/classicadministrators.json) | Provides information about administrators in a subscription. |
-| [Permissions](~/docs-ref-autogen/authorization/permissions.json)                      | Provides operations to get the permissions assigned to resources and resource groups. |
-| [Provider Operations Metadata](~/docs-ref-autogen/authorization/provideroperationsmetadata.json) | Provides operations for getting information about resource providers. |
-| [Role Assignments](~/docs-ref-autogen/authorization/roleassignments.json)             | Provides operations for working with role assignments, such as assigning a role to a user or group. |
-| [Role Definitions](~/docs-ref-autogen/authorization/roledefinitions.json)             | Provides operations for defining roles, such as what actions are permitted. |
+| [Classic Administrators](~/docs-ref-autogen/authorization/classicadministrators.yml) | Provides information about administrators in a subscription. |
+| [Permissions](~/docs-ref-autogen/authorization/permissions.yml)                      | Provides operations to get the permissions assigned to resources and resource groups. |
+| [Provider Operations Metadata](~/docs-ref-autogen/authorization/provideroperationsmetadata.yml) | Provides operations for getting information about resource providers. |
+| [Role Assignments](~/docs-ref-autogen/authorization/roleassignments.yml)             | Provides operations for working with role assignments, such as assigning a role to a user or group. |
+| [Role Definitions](~/docs-ref-autogen/authorization/roledefinitions.yml)             | Provides operations for defining roles, such as what actions are permitted. |
 
 ## See Also
 

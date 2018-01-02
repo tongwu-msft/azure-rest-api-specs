@@ -1,0 +1,144 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.useridentities.list
+name: List
+service: API Management
+groupName: User Identities
+apiVersion: 2017-03-01
+summary: Lists all user identities.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}/identities?api-version=2017-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: uid
+  in: path
+  isRequired: true
+  description: User identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Lists of User Identities.
+  types:
+  - uid: UserIdentityCollection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: UserIdentityCollection
+  description: List of Users Identity list representation.
+  kind: object
+  properties:
+  - name: value
+    description: User identity details.
+    types:
+    - uid: UserIdentityContract
+      isArray: true
+  - name: count
+    description: Total record count number across all pages.
+    types:
+    - uid: integer
+  - name: nextLink
+    description: Next page link if any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error Field contract.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: UserIdentityContract
+  description: Collection of user identities.
+  kind: object
+  properties:
+  - name: provider
+    description: Identity provider name.
+    types:
+    - uid: string
+  - name: id
+    description: Identifier value within provider.
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementListUsersIdentities
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57f2af53bb17172280f44057/identities?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "provider": "Microsoft",
+            "id": "086cf9********55ab"
+          }
+        ],
+        "count": 1,
+        "nextLink": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

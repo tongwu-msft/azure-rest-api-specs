@@ -1,0 +1,703 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.machinelearning.webservices.patch
+name: Patch
+service: Machine Learning
+groupName: Web Services
+apiVersion: 2016-05-01-preview
+summary: Modifies an existing web service resource. The PATCH API call is an asynchronous operation. To determine whether it has completed successfully, you must perform a Get operation.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}?api-version=2016-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group in which the web service is located.
+  types:
+  - uid: string
+- name: webServiceName
+  in: path
+  isRequired: true
+  description: The name of the web service.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the Microsoft.MachineLearning resource provider API to use.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The response payload is identical to the response payload that is returned by the GET operation. The response includes the Provisioning State and the Azure-AsyncOperation header. To get the progress of the operation, call GET operation on the URL in Azure-AsyncOperation header field. For more information about Asynchronous Operations, see https://msdn.microsoft.com/en-us/library/mt742920.aspx.
+  types:
+  - uid: WebService
+requestBody:
+- parameters:
+  - name: properties
+    in: body
+    isRequired: true
+    description: Contains the property payload that describes the web service.
+    types:
+    - uid: WebServicePropertiesForGraph
+    typesTitle: WebServiceProperties
+  - name: name
+    in: body
+    description: Specifies the name of the resource.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: Specifies the location of the resource.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Contains resource tags defined as key/value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: WebService
+  description: Instance of an Azure ML web service resource.
+  kind: object
+  properties:
+  - name: properties
+    description: Contains the property payload that describes the web service.
+    types:
+    - uid: WebServicePropertiesForGraph
+    typesTitle: WebServiceProperties
+  - name: id
+    isReadyOnly: true
+    description: Specifies the resource ID.
+    types:
+    - uid: string
+  - name: name
+    description: Specifies the name of the resource.
+    types:
+    - uid: string
+  - name: location
+    description: Specifies the location of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Specifies the type of the resource.
+    types:
+    - uid: string
+  - name: tags
+    description: Contains resource tags defined as key/value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: WebServicePropertiesForGraph
+  description: Properties specific to a Graph based web service.
+  kind: object
+  properties:
+  - name: package
+    description: The definition of the graph package making up this web service.
+    types:
+    - uid: GraphPackage
+  - name: title
+    description: The title of the web service.
+    types:
+    - uid: string
+  - name: description
+    description: The description of the web service.
+    types:
+    - uid: string
+  - name: createdOn
+    isReadyOnly: true
+    description: 'Read Only: The date and time when the web service was created.'
+    types:
+    - uid: string
+  - name: modifiedOn
+    isReadyOnly: true
+    description: 'Read Only: The date and time when the web service was last modified.'
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: 'Read Only: The provision state of the web service. Valid values are Unknown, Provisioning, Succeeded, and Failed.'
+    types:
+    - uid: ProvisioningState
+  - name: keys
+    description: 'Contains the web service provisioning keys. If you do not specify provisioning keys, the Azure Machine Learning system generates them for you. Note: The keys are not returned from calls to GET operations.'
+    types:
+    - uid: WebServiceKeys
+  - name: readOnly
+    description: 'When set to true, indicates that the web service is read-only and can no longer be updated or patched, only removed. Default, is false. Note: Once set to true, you cannot change its value.'
+    types:
+    - uid: boolean
+  - name: swaggerLocation
+    isReadyOnly: true
+    description: 'Read Only: Contains the URI of the swagger spec associated with this web service.'
+    types:
+    - uid: string
+  - name: exposeSampleData
+    description: When set to true, sample data is included in the web service's swagger definition. The default value is true.
+    types:
+    - uid: boolean
+  - name: realtimeConfiguration
+    description: Contains the configuration settings for the web service endpoint.
+    types:
+    - uid: RealtimeConfiguration
+  - name: diagnostics
+    description: Settings controlling the diagnostics traces collection for the web service.
+    types:
+    - uid: DiagnosticsConfiguration
+  - name: storageAccount
+    description: Specifies the storage account that Azure Machine Learning uses to store information about the web service. Only the name of the storage account is returned from calls to GET operations. When updating the storage account information, you must ensure that all necessary assets are available in the new storage account or calls to your web service will fail.
+    types:
+    - uid: StorageAccount
+  - name: machineLearningWorkspace
+    description: Specifies the Machine Learning workspace containing the experiment that is source for the web service.
+    types:
+    - uid: MachineLearningWorkspace
+  - name: commitmentPlan
+    description: 'Contains the commitment plan associated with this web service. Set at creation time. Once set, this value cannot be changed. Note: The commitment plan is not returned from calls to GET operations.'
+    types:
+    - uid: CommitmentPlan
+  - name: input
+    description: Contains the Swagger 2.0 schema describing one or more of the web service's inputs. For more information, see the Swagger specification.
+    types:
+    - uid: ServiceInputOutputSpecification
+  - name: output
+    description: Contains the Swagger 2.0 schema describing one or more of the web service's outputs. For more information, see the Swagger specification.
+    types:
+    - uid: ServiceInputOutputSpecification
+  - name: exampleRequest
+    description: Defines sample input data for one or more of the service's inputs.
+    types:
+    - uid: ExampleRequest
+  - name: assets
+    description: Contains user defined properties describing web service assets. Properties are expressed as Key/Value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AssetItem
+  - name: parameters
+    description: The set of global parameters values defined for the web service, given as a global parameter name to default value map. If no default value is specified, the parameter is considered to be required.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: packageType
+    description: 'Specifies the package type. Valid values are Graph (Specifies a web service published through the Machine Learning Studio) and Code (Specifies a web service published using code such as Python). Note: Code is not supported at this time.'
+    types:
+    - uid: Graph
+    typesTitle: string
+- name: GraphPackage
+  description: The definition of the graph package making up this web service.
+  kind: object
+  properties:
+  - name: nodes
+    description: The set of nodes making up the graph, provided as a nodeId to GraphNode map
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: GraphNode
+  - name: edges
+    description: Defines an edge within the web service's graph.
+    types:
+    - uid: GraphEdge
+      isArray: true
+  - name: graphParameters
+    description: The collection of global parameters for the graph, given as a global parameter name to GraphParameter map. Each parameter here has a 1:1 match with the global parameters values map declared at the WebServiceProperties level.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: GraphParameter
+- name: ProvisioningState
+  description: 'Read Only: The provision state of the web service. Valid values are Unknown, Provisioning, Succeeded, and Failed.'
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Provisioning
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: WebServiceKeys
+  description: 'Contains the web service provisioning keys. If you do not specify provisioning keys, the Azure Machine Learning system generates them for you. Note: The keys are not returned from calls to GET operations.'
+  kind: object
+  properties:
+  - name: primary
+    description: The primary access key.
+    types:
+    - uid: string
+  - name: secondary
+    description: The secondary access key.
+    types:
+    - uid: string
+- name: RealtimeConfiguration
+  description: Contains the configuration settings for the web service endpoint.
+  kind: object
+  properties:
+  - name: maxConcurrentCalls
+    description: 'Specifies the maximum concurrent calls that can be made to the web service. Minimum value: 4, Maximum value: 200.'
+    types:
+    - uid: integer
+- name: DiagnosticsConfiguration
+  description: Settings controlling the diagnostics traces collection for the web service.
+  kind: object
+  properties:
+  - name: level
+    description: 'Specifies the verbosity of the diagnostic output. Valid values are: None - disables tracing; Error - collects only error (stderr) traces; All - collects all traces (stdout and stderr).'
+    types:
+    - uid: DiagnosticsLevel
+  - name: expiry
+    description: Specifies the date and time when the logging will cease. If null, diagnostic collection is not time limited.
+    types:
+    - uid: string
+- name: StorageAccount
+  description: Specifies the storage account that Azure Machine Learning uses to store information about the web service. Only the name of the storage account is returned from calls to GET operations. When updating the storage account information, you must ensure that all necessary assets are available in the new storage account or calls to your web service will fail.
+  kind: object
+  properties:
+  - name: name
+    description: Specifies the name of the storage account.
+    types:
+    - uid: string
+  - name: key
+    description: Specifies the key used to access the storage account.
+    types:
+    - uid: string
+- name: MachineLearningWorkspace
+  description: Specifies the Machine Learning workspace containing the experiment that is source for the web service.
+  kind: object
+  properties:
+  - name: id
+    description: Specifies the workspace ID of the machine learning workspace associated with the web service
+    types:
+    - uid: string
+- name: CommitmentPlan
+  description: 'Contains the commitment plan associated with this web service. Set at creation time. Once set, this value cannot be changed. Note: The commitment plan is not returned from calls to GET operations.'
+  kind: object
+  properties:
+  - name: id
+    description: Specifies the Azure Resource Manager ID of the commitment plan associated with the web service.
+    types:
+    - uid: string
+- name: ServiceInputOutputSpecification
+  description: Contains the Swagger 2.0 schema describing one or more of the web service's inputs. For more information, see the Swagger specification.
+  kind: object
+  properties:
+  - name: title
+    description: The title of your Swagger schema.
+    types:
+    - uid: string
+  - name: description
+    description: The description of the Swagger schema.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the entity described in swagger. Always 'object'.
+    types:
+    - uid: string
+  - name: properties
+    description: Specifies a collection that contains the column schema for each input or output of the web service. For more information, see the Swagger specification.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: TableSpecification
+- name: ExampleRequest
+  description: Defines sample input data for one or more of the service's inputs.
+  kind: object
+  properties:
+  - name: inputs
+    description: Sample input data for the web service's input(s) given as an input name to sample input values matrix map.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+  - name: globalParameters
+    description: Sample input data for the web service's global parameters
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: Assets
+  description: Contains user defined properties describing web service assets. Properties are expressed as Key/Value pairs.
+  kind: object
+  properties:
+  - name: ''
+    description: Information about an asset associated with the web service.
+    types:
+    - uid: AssetItem
+- name: Nodes
+  description: The set of nodes making up the graph, provided as a nodeId to GraphNode map
+  kind: object
+  properties:
+  - name: ''
+    description: Specifies a node in the web service graph. The node can either be an input, output or asset node, so only one of the corresponding id properties is populated at any given time.
+    types:
+    - uid: GraphNode
+- name: GraphEdge
+  description: The list of edges making up the graph.
+  kind: object
+  properties:
+  - name: sourceNodeId
+    description: The source graph node's identifier.
+    types:
+    - uid: string
+  - name: sourcePortId
+    description: The identifier of the source node's port that the edge connects from.
+    types:
+    - uid: string
+  - name: targetNodeId
+    description: The destination graph node's identifier.
+    types:
+    - uid: string
+  - name: targetPortId
+    description: The identifier of the destination node's port that the edge connects into.
+    types:
+    - uid: string
+- name: GraphParameters
+  description: The collection of global parameters for the graph, given as a global parameter name to GraphParameter map. Each parameter here has a 1:1 match with the global parameters values map declared at the WebServiceProperties level.
+  kind: object
+  properties:
+  - name: ''
+    description: Defines a global parameter in the graph.
+    types:
+    - uid: GraphParameter
+- name: DiagnosticsLevel
+  description: 'Specifies the verbosity of the diagnostic output. Valid values are: None - disables tracing; Error - collects only error (stderr) traces; All - collects all traces (stdout and stderr).'
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
+- name: Properties
+  description: Specifies a collection that contains the column schema for each input or output of the web service. For more information, see the Swagger specification.
+  kind: object
+  properties:
+  - name: ''
+    description: 'The swagger 2.0 schema describing a single service input or output. See Swagger specification: http://swagger.io/specification/'
+    types:
+    - uid: TableSpecification
+- name: AssetItem
+  description: Information about an asset associated with the web service.
+  kind: object
+  properties:
+  - name: name
+    description: Asset's friendly name.
+    types:
+    - uid: string
+  - name: id
+    description: Asset's Id.
+    types:
+    - uid: string
+  - name: type
+    description: Asset's type.
+    types:
+    - uid: AssetType
+  - name: locationInfo
+    description: Access information for the asset.
+    types:
+    - uid: AssetLocation
+  - name: inputPorts
+    description: Information about the asset's input ports.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: InputPort
+  - name: outputPorts
+    description: Information about the asset's output ports.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: OutputPort
+  - name: metadata
+    description: If the asset is a custom module, this holds the module's metadata.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: parameters
+    description: Parameter definition for a module asset.
+    types:
+    - uid: ModuleAssetParameter
+      isArray: true
+- name: GraphNode
+  description: Specifies a node in the web service graph. The node can either be an input, output or asset node, so only one of the corresponding id properties is populated at any given time.
+  kind: object
+  properties:
+  - name: assetId
+    description: The id of the asset represented by this node.
+    types:
+    - uid: string
+  - name: inputId
+    description: The id of the input element represented by this node.
+    types:
+    - uid: string
+  - name: outputId
+    description: The id of the output element represented by this node.
+    types:
+    - uid: string
+  - name: parameters
+    description: If applicable, parameters of the node. Global graph parameters map into these, with values set at runtime.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: GraphParameter
+  description: Defines a global parameter in the graph.
+  kind: object
+  properties:
+  - name: description
+    description: Description of this graph parameter.
+    types:
+    - uid: string
+  - name: type
+    description: Graph parameter's type.
+    types:
+    - uid: ParameterType
+  - name: links
+    description: Association link for a graph global parameter to a node in the graph.
+    types:
+    - uid: GraphParameterLink
+      isArray: true
+- name: TableSpecification
+  description: 'The swagger 2.0 schema describing a single service input or output. See Swagger specification: http://swagger.io/specification/'
+  kind: object
+  properties:
+  - name: title
+    description: Swagger schema title.
+    types:
+    - uid: string
+  - name: description
+    description: Swagger schema description.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the entity described in swagger.
+    types:
+    - uid: string
+  - name: format
+    description: The format, if 'type' is not 'object'
+    types:
+    - uid: string
+  - name: properties
+    description: The set of columns within the data table.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ColumnSpecification
+- name: AssetType
+  description: Asset's type.
+  kind: enum
+  properties:
+  - name: Module
+    types:
+    - uid: string
+  - name: Resource
+    types:
+    - uid: string
+- name: AssetLocation
+  description: Access information for the asset.
+  kind: object
+  properties:
+  - name: uri
+    description: The URI where the asset is accessible from, (e.g. aml://abc for system assets or https://xyz for user asets
+    types:
+    - uid: string
+  - name: credentials
+    description: Access credentials for the asset, if applicable (e.g. asset specified by storage account connection string + blob URI)
+    types:
+    - uid: string
+- name: InputPorts
+  description: Information about the asset's input ports.
+  kind: object
+  properties:
+  - name: ''
+    description: Asset input port
+    types:
+    - uid: InputPort
+- name: OutputPorts
+  description: Information about the asset's output ports.
+  kind: object
+  properties:
+  - name: ''
+    description: Asset output port
+    types:
+    - uid: OutputPort
+- name: ModuleAssetParameter
+  description: If the asset is a custom module, this holds the module's parameters.
+  kind: object
+  properties:
+  - name: name
+    description: Parameter name.
+    types:
+    - uid: string
+  - name: parameterType
+    description: Parameter type.
+    types:
+    - uid: string
+  - name: modeValuesInfo
+    description: Definitions for nested interface parameters if this is a complex module parameter.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ModeValueInfo
+- name: ParameterType
+  description: Graph parameter's type.
+  kind: enum
+  properties:
+  - name: String
+    types:
+    - uid: string
+  - name: Int
+    types:
+    - uid: string
+  - name: Float
+    types:
+    - uid: string
+  - name: Enumerated
+    types:
+    - uid: string
+  - name: Script
+    types:
+    - uid: string
+  - name: Mode
+    types:
+    - uid: string
+  - name: Credential
+    types:
+    - uid: string
+  - name: Boolean
+    types:
+    - uid: string
+  - name: Double
+    types:
+    - uid: string
+  - name: ColumnPicker
+    types:
+    - uid: string
+  - name: ParameterRange
+    types:
+    - uid: string
+  - name: DataGatewayName
+    types:
+    - uid: string
+- name: GraphParameterLink
+  description: Association links for this parameter to nodes in the graph.
+  kind: object
+  properties:
+  - name: nodeId
+    description: The graph node's identifier
+    types:
+    - uid: string
+  - name: parameterKey
+    description: The identifier of the node parameter that the global parameter maps to.
+    types:
+    - uid: string
+- name: InputPort
+  description: Asset input port
+  kind: object
+  properties:
+  - name: type
+    description: Port data type.
+    types:
+    - uid: InputPortType
+- name: OutputPort
+  description: Asset output port
+  kind: object
+  properties:
+  - name: type
+    description: Port data type.
+    types:
+    - uid: OutputPortType
+- name: ModeValuesInfo
+  description: Definitions for nested interface parameters if this is a complex module parameter.
+  kind: object
+  properties:
+  - name: ''
+    description: Nested parameter definition.
+    types:
+    - uid: ModeValueInfo
+- name: InputPortType
+  description: Port data type.
+  kind: enum
+  properties:
+  - name: Dataset
+    types:
+    - uid: string
+- name: OutputPortType
+  description: Port data type.
+  kind: enum
+  properties:
+  - name: Dataset
+    types:
+    - uid: string
+- name: ModeValueInfo
+  description: Nested parameter definition.
+  kind: object
+  properties:
+  - name: interfaceString
+    description: The interface string name for the nested parameter.
+    types:
+    - uid: string
+  - name: parameters
+    description: The definition of the parameter.
+    types:
+    - uid: ModuleAssetParameter
+      isArray: true
+examples: []
+security: []

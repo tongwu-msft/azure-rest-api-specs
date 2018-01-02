@@ -1,0 +1,112 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datalakestore.locations.getcapability
+name: Get Capability
+service: Data Lake Store
+groupName: Locations
+apiVersion: 2016-11-01
+summary: Gets subscription-level properties and limits for Data Lake Store specified by Resource location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataLakeStore/locations/{location}/capability?api-version=2016-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The Resource location without whitespace.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the subscription-level properties and limits for Data Lake Store specified by Resource location.
+  types:
+  - uid: CapabilityInformation
+- name: Other Status Codes
+  description: Subscription not found.
+requestHeader: []
+definitions:
+- name: CapabilityInformation
+  description: Subscription-level properties and limits for Data Lake Store
+  kind: object
+  properties:
+  - name: subscriptionId
+    isReadyOnly: true
+    description: the subscription credentials that uniquely identifies the subscription.
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: the subscription state.
+    types:
+    - uid: SubscriptionState
+  - name: maxAccountCount
+    isReadyOnly: true
+    description: the maximum supported number of accounts under this subscription.
+    types:
+    - uid: integer
+  - name: accountCount
+    isReadyOnly: true
+    description: the current number of accounts under this subscription.
+    types:
+    - uid: integer
+  - name: migrationState
+    isReadyOnly: true
+    description: the Boolean value of true or false to indicate the maintenance state.
+    types:
+    - uid: boolean
+- name: SubscriptionState
+  description: the subscription state.
+  kind: enum
+  properties:
+  - name: Registered
+    types:
+    - uid: string
+  - name: Suspended
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Unregistered
+    types:
+    - uid: string
+  - name: Warned
+    types:
+    - uid: string
+examples:
+- name: Gets subscription-level properties and limits for Data Lake Store specified by Resource location
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DataLakeStore/locations/EastUS2/capability?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "state": "Registered",
+        "maxAccountCount": 150,
+        "accountCount": 100,
+        "migrationState": false
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
