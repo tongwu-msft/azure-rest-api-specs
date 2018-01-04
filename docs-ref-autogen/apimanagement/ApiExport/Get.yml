@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?export=true?export={export}&api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?export=true&api-version=2017-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -43,7 +43,7 @@ uriParameters:
   isRequired: true
   description: Query parameter required to export the API details.
   types:
-  - uid: string
+  - uid: ExportApi
 - name: api-version
   in: query
   isRequired: true
@@ -65,8 +65,31 @@ requestHeader:
   isRequired: true
   description: Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5 minutes.
   types:
-  - uid: string
+  - uid: ExportFormat
 definitions:
+- name: ExportFormat
+  description: Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5 minutes.
+  kind: enum
+  properties:
+  - name: application/vnd.swagger.link+json
+    description: Export the Api Definition in OpenApi Specification 2.0 format to the Storage Blob.
+    types:
+    - uid: string
+  - name: application/vnd.sun.wadl.link+json
+    description: Export the Api Definition in WADL Schema to Storage Blob.
+    types:
+    - uid: string
+  - name: application/vnd.ms.wsdl.link+xml
+    description: Export the Api Definition in WSDL Schema to Storage Blob.
+    types:
+    - uid: string
+- name: ExportApi
+  description: Query parameter required to export the API details.
+  kind: enum
+  properties:
+  - name: "true"
+    types:
+    - uid: string
 - name: ApiExportResult
   description: API Export result Blob Uri.
   kind: object
@@ -111,7 +134,7 @@ definitions:
 examples:
 - name: ApiManagementGetApiExportInOpenApi2dot0
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api?export=true?export=true&api-version=2017-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api?export=true&api-version=2017-03-01
     headers:
     - name: Accept
       value: application/vnd.swagger.link+json
