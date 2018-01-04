@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Attachments
-[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for managing attachment [resources](/azure/cosmos-db/documentdb-resources) using the [DocumentDB API](/azure/cosmos-db/documentdb-introduction) via REST.  
+[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, cassandra, and table data models. The content in this section is for managing attachment [resources](/azure/cosmos-db/sql-api-resources) using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.  
 
  Attachments are special documents that contain references and associated metadata with an external blob or media file.  
   
@@ -35,7 +35,7 @@ Developers can choose to have:
 * The attachment media/blob managed by Azure Cosmos DB or  
 * Store it with an external blob service provider such as OneDrive, Dropbox, etc. and store the reference metadata for attachment in Azure Cosmos DB.  
     
-The attachment resource is represented by attachments in the [Azure Cosmos DB REST resource model](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources). The attachment resource has a fixed schema. Regardless of where the raw media is stored, the following properties are required.  
+The attachment resource is represented by attachments in the [Azure Cosmos DB REST resource model](/azure/cosmos-db/sql-api-resources). The attachment resource has a fixed schema. Regardless of where the raw media is stored, the following properties are required.  
   
 The following example illustrates the JSON construct of a document attachment.  
   
@@ -87,8 +87,8 @@ The following example illustrates the JSON construct of a document attachment.
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
-* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)   
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   

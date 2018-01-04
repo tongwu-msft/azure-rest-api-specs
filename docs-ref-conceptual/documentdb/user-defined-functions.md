@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # User Defined Functions
-[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for managing user defined function [resources](/azure/cosmos-db/documentdb-resources) (udfs) using the [DocumentDB API](/azure/cosmos-db/documentdb-introduction) via REST.  
+[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for managing user defined function [resources](/azure/cosmos-db/sql-api-resources) (udfs) using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.  
 
 A user defined function (UDF) is a side effect free piece of application logic written in JavaScript. It allows developers to construct a query operator, thus extending the core of the Cosmos DB query language. Like stored procedures, UDFs live in the confines of a collection, thus confining the application logic to the collection.  
   
@@ -75,11 +75,11 @@ You can do the following with user defined functions:
   
 -   [Delete a User Defined Function](delete-a-user-defined-function.md)  
   
-For information on how UDFs work, including executing an UDF in a query, see [Cosmos DB programming: Stored procedures, triggers, and UDFs](/azure/cosmos-db/documentdb-programming/).  
+For information on how UDFs work, including executing an UDF in a query, see [Cosmos DB programming: Stored procedures, triggers, and UDFs](/azure/cosmos-db/programming/).  
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
-* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
 

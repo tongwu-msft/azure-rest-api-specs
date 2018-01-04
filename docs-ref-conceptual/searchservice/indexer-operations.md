@@ -51,7 +51,7 @@ translation.priority.mt:
  The following data sources are currently supported:  
 
  - **Azure SQL Database** and **SQL Server on Azure VMs**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers/).
- - **Azure DocumentDB**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/documentdb-search-indexer/).
+ - **Azure Cosmos DB SQL API**. For a targeted walk-through, see [this article](https://docs.microsoft.com/azure/search/search-howto-index-documentdb).
  - **Azure Blob Storage**, including the following document formats: PDF, Microsoft Office (DOCX/DOC, XSLX/XLS, PPTX/PPT, MSG), HTML, XML, ZIP, and plain text files (including JSON). For  a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-blob-storage).
  - **Azure Table Storage**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-tables).
 
