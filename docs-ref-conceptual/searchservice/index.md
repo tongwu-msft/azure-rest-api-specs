@@ -33,11 +33,11 @@ Azure Search is a fully managed cloud search service that provides a rich search
 Version 2016-09-01 is the second generally available release of the Azure Search Service REST API. New features in this API version include:
 
   - [Custom analyzers](https://aka.ms/customanalyzers), which allow you to take control over the process of converting text into indexable and searchable terms.
-  - [Azure Blob Storage](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-blob-storage/) and [Azure Table Storage](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-tables/) indexers, which allow you to easily import data from Azure storage into Azure Search on a schedule or on-demand.
-  - [Field mappings](https://azure.microsoft.com/documentation/articles/search-indexer-field-mappings/), which allow you to customize how indexers import data into Azure Search.
+  - [Azure Blob Storage](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-blob-storage) and [Azure Table Storage](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-tables) indexers, which allow you to easily import data from Azure storage into Azure Search on a schedule or on-demand.
+  - [Field mappings](https://docs.microsoft.com/azure/search/search-indexer-field-mappings), which allow you to customize how indexers import data into Azure Search.
   - ETags, which allow you to update the definitions of indexes, indexers, and data sources in a concurrency-safe manner.
 
-For details on how to upgrade to version 2016-09-01 from the previous GA version, see [Upgrading to the Azure Search Service REST API version 2016-09-01](https://azure.microsoft.com/documentation/articles/search-api-migration/).
+For details on how to upgrade to version 2016-09-01 from the previous GA version, see [Upgrading to the Azure Search Service REST API version 2016-09-01](https://docs.microsoft.com/azure/search/search-api-migration).
 
 ## Overview
 
@@ -65,7 +65,7 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
 
      `GET https://[search service name].search.windows.net/indexes?api-version=2016-09-01`  
 
--   All API requests can optionally set the Accept HTTP header. If is not set, the default is assumed to be `application/json`.  
+-   All API requests can optionally set the Accept HTTP header. If the header is not set, the default is assumed to be `application/json`.  
 
 ## Endpoint  
  The endpoint for service operations is the URL of the Azure Search service you provisioned: https://\<yourService>.search.windows.net.  
@@ -90,7 +90,7 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
 
  **Authorization in Azure Search**  
 
- Authorization is available for administrative operations via the role-based access controls (RBAC) provided in the Azure Preview Portal. RBAC roles are used to set levels of access for service administration in a way that is consistent across all services. For example, viewing sensitive data, such as the admin key, is restricted to the Owner and Contributor roles, whereas viewing service status is available to members of any role.  
+ Authorization is available for administrative operations via the role-based access controls (RBAC) provided in the Azure portal. RBAC roles are used to set levels of access for service administration in a way that is consistent across all services. For example, viewing sensitive data, such as the admin key, is restricted to the Owner and Contributor roles, whereas viewing service status is available to members of any role.  
 
  For its own search-centric operations, Azure Search does not provide an authorization model. However, if you have the ability to load an index with document and user associations, you can filter search results based on user identity. For more information, see [Security filters for trimming results in Azure Search](https://docs.microsoft.com/azure/search/search-security-trimming-for-azure-search).
 
@@ -177,15 +177,15 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
     ```  
 
 
- To create the service, see [Create an Azure Search service](https://azure.microsoft.com/documentation/articles/search-create-service-portal/). followed by [How to build a .NET application with Azure Search](https://azure.microsoft.com/documentation/articles/search-howto-dotnet-sdk/).  
+ To create the service, see [Create an Azure Search service](https://docs.microsoft.com/azure/search/search-create-service-portal). followed by [How to build a .NET application with Azure Search](https://docs.microsoft.com/azure/search/search-howto-dotnet-sdk).  
 
 ## See also  
- [Azure Search: tutorials, video demos, and samples](https://azure.microsoft.com/documentation/articles/search-video-demo-tutorial-list/)     
+ [Azure Search: tutorials, video demos, and samples](https://docs.microsoft.com/azure/search/search-video-demo-tutorial-list)     
  [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
- [Create an Azure Search service](https://azure.microsoft.com/documentation/articles/search-create-service-portal/)   
+ [Create an Azure Search service](https://docs.microsoft.com/azure/search/search-create-service-porta)   
  [Pricing Details](http://go.microsoft.com/fwlink/?LinkId=509792)   
  [Manage your search service on Microsoft Azure](http://go.microsoft.com/fwlink/?LinkId=509793)   
  [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
  [Common HTTP request and response headers used in Azure Search](common-http-request-and-response-headers-used-in-azure-search.md)   
  [Azure Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md)
- [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
+ [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
