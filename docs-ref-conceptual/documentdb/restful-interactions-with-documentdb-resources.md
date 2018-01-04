@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Azure Cosmos DB: Azure Cosmos DB REST API
+# RESTful interactions with Azure Cosmos DB
 
 [Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing document resources using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.  
 
