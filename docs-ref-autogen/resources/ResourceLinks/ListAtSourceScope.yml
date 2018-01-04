@@ -11,18 +11,13 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/{scope}/providers/Microsoft.Resources/links?api-version=2016-09-01
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Resources/links?$filter={$filter}&api-version=2016-09-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Resources/links?$filter=atScope()&api-version=2016-09-01
   isOptional: true
 uriParameters:
 - name: scope
   in: path
   isRequired: true
   description: The fully qualified ID of the scope for getting the resource links. For example, to list resource links at and under a resource group, set the scope to /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup.
-  types:
-  - uid: string
-- name: $filter
-  in: query
-  description: The filter to apply when getting resource links. To get links only at the specified scope (not below the scope), use Filter.atScope().
   types:
   - uid: string
 - name: api-version
@@ -38,6 +33,13 @@ responses:
   - uid: ResourceLinkResult
 requestHeader: []
 definitions:
+- name: Filter
+  description: The filter to apply when getting resource links. To get links only at the specified scope (not below the scope), use Filter.atScope().
+  kind: enum
+  properties:
+  - name: atScope()
+    types:
+    - uid: string
 - name: ResourceLinkResult
   description: List of resource links.
   kind: object
