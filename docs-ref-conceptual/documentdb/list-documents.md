@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # List (ReadFeed) Documents
- Performing a GET on the documents resource of a particular collection, i.e. the docs URI path, returns a list of documents under the collection. ReadFeed can be used to retrieve all documents, or just the [incremental changes](https://docs.microsoft.com/azure/documentdb/documentdb-change-feed) to documents within the collection.
+ Performing a GET on the documents resource of a particular collection, i.e. the docs URI path, returns a list of documents under the collection. ReadFeed can be used to retrieve all documents, or just the [incremental changes](https://docs.microsoft.com/azure/cosmos-db/change-feed) to documents within the collection.
   
 ## Request  
   
@@ -85,7 +85,7 @@ translation.priority.mt:
 |--------------|-----------------|  
 |`id`|This is the unique name that identifies the document, i.e. no two documents can share the same `id`. The `id` must not exceed 255 characters.|  
 |\<custom>|Any user-defined JSON.|  
-|`_rid`|This is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources#system-vs-user-defined-resources). The resource ID (`_rid`) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
+|`_rid`|This is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources#system-vs-user-defined-resources). The resource ID (`_rid`) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
 |`_ts`|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |`_self`|This is a system generated property. It is the unique addressable URI for the resource.|  
 |`_etag`|This is a system generated property that specifies the resource `etag` required for optimistic concurrency control.|  
@@ -260,8 +260,8 @@ Date: Tue, 29 Mar 2016 02:03:07 GMT
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
-* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   

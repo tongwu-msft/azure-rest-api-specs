@@ -81,7 +81,7 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 
 -   **maxFailedItemsPerBatch**: The number of items that can fail to be indexed in each batch before an indexer run is considered a failure. Default is 0.  
 
--   **batchSize:** Specifies the number of items that are read from the data source and indexed as a single batch in order to improve performance. The default depends on the data source type: it is 1000 for Azure SQL and DocumentDB, and 10 for Azure Blob Storage.
+-   **batchSize:** Specifies the number of items that are read from the data source and indexed as a single batch in order to improve performance. The default depends on the data source type: it is 1000 for Azure SQL and Azure Cosmos DB, and 10 for Azure Blob Storage.
 
 **Field Mappings**
 
