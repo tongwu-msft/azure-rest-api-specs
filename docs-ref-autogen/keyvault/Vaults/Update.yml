@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.keyvault.vaults.createorupdate
-name: Create Or Update
+uid: management.azure.com.keyvault.vaults.update
+name: Update
 service: Key Vault
 groupName: Vaults
 apiVersion: 2016-10-01
-summary: Create or update a key vault in the specified subscription.
+summary: Update a key vault in the specified subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}?api-version=2016-10-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}?api-version=2016-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,24 +39,18 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
-  description: Created or updated vault
+  description: Patched vault
   types:
   - uid: Vault
 - name: 200 OK
-  description: Created or updated vault
+  description: Patched vault
   types:
   - uid: Vault
 requestBody:
 - parameters:
-  - name: location
-    in: body
-    isRequired: true
-    description: The supported Azure location where the key vault should be created.
-    types:
-    - uid: string
   - name: tags
     in: body
-    description: The tags that will be assigned to the key vault.
+    description: 'The tags that will be assigned to the key vault. '
     types:
     - uid: object
       isDictionary: true
@@ -65,13 +59,12 @@ requestBody:
       - uid: string
   - name: properties
     in: body
-    isRequired: true
     description: Properties of the vault
     types:
-    - uid: VaultProperties
+    - uid: VaultPatchProperties
 requestHeader: []
 definitions:
-- name: VaultProperties
+- name: VaultPatchProperties
   description: Properties of the vault
   kind: object
   properties:
@@ -88,11 +81,6 @@ definitions:
     types:
     - uid: AccessPolicyEntry
       isArray: true
-  - name: vaultUri
-    isReadyOnly: true
-    description: The URI of the vault for performing operations on keys and secrets.
-    types:
-    - uid: string
   - name: enabledForDeployment
     description: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault.
     types:
@@ -148,16 +136,12 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: VaultCreateOrUpdateParameters
+- name: VaultPatchParameters
   description: Parameters for creating or updating a vault
   kind: object
   properties:
-  - name: location
-    description: The supported Azure location where the key vault should be created.
-    types:
-    - uid: string
   - name: tags
-    description: The tags that will be assigned to the key vault.
+    description: 'The tags that will be assigned to the key vault. '
     types:
     - uid: object
       isDictionary: true
@@ -167,7 +151,7 @@ definitions:
   - name: properties
     description: Properties of the vault
     types:
-    - uid: VaultProperties
+    - uid: VaultPatchProperties
 - name: Sku
   description: SKU details
   kind: object
@@ -210,6 +194,48 @@ definitions:
   - name: default
     types:
     - uid: string
+- name: VaultProperties
+  description: Properties of the vault
+  kind: object
+  properties:
+  - name: tenantId
+    description: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
+    types:
+    - uid: string
+  - name: sku
+    description: SKU details
+    types:
+    - uid: Sku
+  - name: accessPolicies
+    description: An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID.
+    types:
+    - uid: AccessPolicyEntry
+      isArray: true
+  - name: vaultUri
+    isReadyOnly: true
+    description: The URI of the vault for performing operations on keys and secrets.
+    types:
+    - uid: string
+  - name: enabledForDeployment
+    description: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault.
+    types:
+    - uid: boolean
+  - name: enabledForDiskEncryption
+    description: Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys.
+    types:
+    - uid: boolean
+  - name: enabledForTemplateDeployment
+    description: Property to specify whether Azure Resource Manager is permitted to retrieve secrets from the key vault.
+    types:
+    - uid: boolean
+  - name: enableSoftDelete
+    description: Property to specify whether the 'soft delete' functionality is enabled for this key vault. It does not accept false value.
+    types:
+    - uid: boolean
+  - name: createMode
+    description: The vault's create mode to indicate whether the vault need to be recovered or not.
+    types:
+    - uid: CreateMode
 - name: SkuFamily
   description: SKU family name
   kind: enum
@@ -252,12 +278,11 @@ definitions:
     - uid: string
       isArray: true
 examples:
-- name: Create a new vault or update an existing vault
+- name: Update an existing vault
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-resource-group/providers/Microsoft.KeyVault/vaults/sample-vault?api-version=2016-10-01
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-resource-group/providers/Microsoft.KeyVault/vaults/sample-vault?api-version=2016-10-01
     body: >-
       {
-        "location": "westus",
         "properties": {
           "tenantId": "00000000-0000-0000-0000-000000000000",
           "sku": {
