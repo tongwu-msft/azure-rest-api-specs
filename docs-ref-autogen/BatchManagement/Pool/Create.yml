@@ -63,6 +63,7 @@ requestBody:
     description: >-
       The display name for the pool.
 
+
       The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024.
     types:
     - uid: string
@@ -70,6 +71,7 @@ requestBody:
     in: body
     description: >-
       The size of virtual machines in the pool. All VMs in a pool are the same size.
+
 
       For information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (http://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series).
     types:
@@ -79,6 +81,7 @@ requestBody:
     description: >-
       This property describes how the pool nodes will be deployed - using Cloud Services or Virtual Machines.
 
+
       Using CloudServiceConfiguration specifies that the nodes should be creating using Azure Cloud Services (PaaS), while VirtualMachineConfiguration uses Azure Virtual Machines (IaaS).
     types:
     - uid: DeploymentConfiguration
@@ -86,6 +89,7 @@ requestBody:
     in: body
     description: >-
       Settings which configure the number of nodes in the pool.
+
 
       Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes.
     types:
@@ -95,6 +99,7 @@ requestBody:
     description: >-
       Whether the pool permits direct communication between nodes.
 
+
       This imposes restrictions on which nodes can be assigned to the pool. Enabling this value can reduce the chance of the requested number of nodes to be allocated in the pool. If not specified, this value defaults to 'Disabled'.
     types:
     - uid: InterNodeCommunicationState
@@ -102,6 +107,7 @@ requestBody:
     in: body
     description: >-
       The network configuration for the pool.
+
 
       The network configuration for a pool.
     types:
@@ -127,6 +133,7 @@ requestBody:
     description: >-
       A name-value pair associated with a Batch service resource.
 
+
       The Batch service does not assign any meaning to this metadata; it is solely for the use of user code.
     types:
     - uid: MetadataItem
@@ -135,6 +142,7 @@ requestBody:
     in: body
     description: >-
       A task specified to run on each compute node as it joins the pool.
+
 
       In an PATCH (update) operation, this property can be set to an empty object to remove the start task from the pool.
     types:
@@ -156,6 +164,7 @@ requestBody:
     description: >-
       The list of application licenses the Batch service will make available on each compute node in the pool.
 
+
       The list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, pool creation will fail.
     types:
     - uid: string
@@ -173,15 +182,13 @@ requestHeader:
   - uid: string
 definitions:
 - name: DeploymentConfiguration
-  description: >-
-    This property describes how the pool nodes will be deployed - using Cloud Services or Virtual Machines.
-
-    Using CloudServiceConfiguration specifies that the nodes should be creating using Azure Cloud Services (PaaS), while VirtualMachineConfiguration uses Azure Virtual Machines (IaaS).
+  description: This property describes how the pool nodes will be deployed - using Cloud Services or Virtual Machines.
   kind: object
   properties:
   - name: cloudServiceConfiguration
     description: >-
       The cloud service configuration for the pool.
+
 
       This property and virtualMachineConfiguration are mutually exclusive and one of the properties must be specified. This property cannot be specified if the Batch account was created with its poolAllocationMode property set to 'UserSubscription'.
     types:
@@ -190,19 +197,18 @@ definitions:
     description: >-
       The virtual machine configuration for the pool.
 
+
       This property and cloudServiceConfiguration are mutually exclusive and one of the properties must be specified.
     types:
     - uid: VirtualMachineConfiguration
 - name: ScaleSettings
-  description: >-
-    Settings which configure the number of nodes in the pool.
-
-    Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes.
+  description: Settings which configure the number of nodes in the pool.
   kind: object
   properties:
   - name: fixedScale
     description: >-
       Fixed scale settings for the pool.
+
 
       This property and autoScale are mutually exclusive and one of the properties must be specified.
     types:
@@ -211,14 +217,12 @@ definitions:
     description: >-
       AutoScale settings for the pool.
 
+
       This property and fixedScale are mutually exclusive and one of the properties must be specified.
     types:
     - uid: AutoScaleSettings
 - name: AutoScaleRun
-  description: >-
-    The results and errors from the last execution of the autoscale formula.
-
-    This property is set only if the pool automatically scales, i.e. autoScaleSettings are used.
+  description: The results and errors from the last execution of the autoscale formula.
   kind: object
   properties:
   - name: evaluationTime
@@ -229,6 +233,7 @@ definitions:
     description: >-
       The final values of all variables used in the evaluation of the autoscale formula.
 
+
       Each variable value is returned in the form $variable=value, and variables are separated by semicolons.
     types:
     - uid: string
@@ -237,15 +242,13 @@ definitions:
     types:
     - uid: AutoScaleRunError
 - name: NetworkConfiguration
-  description: >-
-    The network configuration for the pool.
-
-    The network configuration for a pool.
+  description: The network configuration for the pool.
   kind: object
   properties:
   - name: subnetId
     description: >-
       The ARM resource identifier of the virtual network subnet which the compute nodes of the pool will join. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}.
+
 
       The virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes, and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. For pools created via virtualMachineConfiguration the Batch account must have poolAllocationMode userSubscription in order to use a VNet. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. For pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. For pools created with a cloud service configuration, enable ports 10100, 20100, and 30100. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
     types:
@@ -253,6 +256,7 @@ definitions:
   - name: endpointConfiguration
     description: >-
       The configuration for endpoints on compute nodes in the Batch pool.
+
 
       Pool endpoint configuration is only supported on pools with the virtualMachineConfiguration property.
     types:
@@ -281,6 +285,7 @@ definitions:
     description: >-
       The elevation level of the user account.
 
+
       nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
     types:
     - uid: ElevationLevel
@@ -288,14 +293,12 @@ definitions:
     description: >-
       The Linux-specific user configuration for the user account.
 
+
       This property is ignored if specified on a Windows pool. If not specified, the user is created with the default options.
     types:
     - uid: LinuxUserConfiguration
 - name: MetadataItem
-  description: >-
-    A list of name-value pairs associated with the pool as metadata.
-
-    The Batch service does not assign any meaning to metadata; it is solely for the use of user code.
+  description: A list of name-value pairs associated with the pool as metadata.
   kind: object
   properties:
   - name: name
@@ -307,15 +310,13 @@ definitions:
     types:
     - uid: string
 - name: StartTask
-  description: >-
-    A task specified to run on each compute node as it joins the pool.
-
-    In an PATCH (update) operation, this property can be set to an empty object to remove the start task from the pool.
+  description: A task specified to run on each compute node as it joins the pool.
   kind: object
   properties:
   - name: commandLine
     description: >-
       The command line of the start task.
+
 
       The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. Required if any other properties of the startTask are specified.
     types:
@@ -334,12 +335,14 @@ definitions:
     description: >-
       The user identity under which the start task runs.
 
+
       If omitted, the task runs as a non-administrative user unique to the task.
     types:
     - uid: UserIdentity
   - name: maxTaskRetryCount
     description: >-
       The maximum number of times the task may be retried.
+
 
       The Batch service retries a task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit.
     types:
@@ -348,14 +351,12 @@ definitions:
     description: >-
       Whether the Batch service should wait for the start task to complete successfully (that is, to exit with exit code 0) before scheduling any tasks on the compute node.
 
+
       If true and the start task fails on a compute node, the Batch service retries the start task up to its maximum retry count (maxTaskRetryCount). If the task has still not completed successfully after all retries, then the Batch service marks the compute node unusable, and will not schedule tasks to it. This condition can be detected via the node state and scheduling error detail. If false, the Batch service will not wait for the start task to complete. In this case, other tasks can start executing on the compute node while the start task is still running; and even if the start task fails, new tasks will continue to be scheduled on the node. The default is false.
     types:
     - uid: boolean
 - name: CertificateReference
-  description: >-
-    The list of certificates to be installed on each compute node in the pool.
-
-    For Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
+  description: The list of certificates to be installed on each compute node in the pool.
   kind: object
   properties:
   - name: id
@@ -366,6 +367,7 @@ definitions:
     description: >-
       The location of the certificate store on the compute node into which to install the certificate.
 
+
       The default value is currentUser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
     types:
     - uid: CertificateStoreLocation
@@ -373,12 +375,14 @@ definitions:
     description: >-
       The name of the certificate store on the compute node into which to install the certificate.
 
+
       This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The default value is My.
     types:
     - uid: string
   - name: visibility
     description: >-
       Which user accounts on the compute node should have access to the private data of the certificate.
+
 
       Values are:
 
@@ -391,10 +395,7 @@ definitions:
     - uid: string
       isArray: true
 - name: ApplicationPackageReference
-  description: >-
-    The list of application packages to be installed on each compute node in the pool.
-
-    Changes to application packages affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged.
+  description: The list of application packages to be installed on each compute node in the pool.
   kind: object
   properties:
   - name: id
@@ -405,14 +406,12 @@ definitions:
     description: >-
       The version of the application to deploy. If omitted, the default version is deployed.
 
+
       If this is omitted, and no default version is specified for this application, the request fails with the error code InvalidApplicationPackageReferences. If you are calling the REST API directly, the HTTP status code is 409.
     types:
     - uid: string
 - name: ResizeOperationStatus
-  description: >-
-    Contains details about the current or last completed resize operation.
-
-    Describes either the current operation (if the pool AllocationState is Resizing) or the previously completed operation (if the AllocationState is Steady).
+  description: Contains details about the current or last completed resize operation.
   kind: object
   properties:
   - name: targetDedicatedNodes
@@ -427,12 +426,14 @@ definitions:
     description: >-
       The timeout for allocation of compute nodes to the pool or removal of compute nodes from the pool.
 
+
       The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
     types:
     - uid: string
   - name: nodeDeallocationOption
     description: >-
       Determines what to do with a node and its running task(s) if the pool size is decreasing.
+
 
       The default value is requeue.
     types:
@@ -454,6 +455,7 @@ definitions:
     description: >-
       The display name for the pool.
 
+
       The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024.
     types:
     - uid: string
@@ -461,6 +463,7 @@ definitions:
     isReadyOnly: true
     description: >-
       The last modified time of the pool.
+
 
       This is the last time at which the pool level data, such as the targetDedicatedNodes or autoScaleSettings, changed. It does not factor in node-level changes such as a compute node changing state.
     types:
@@ -474,6 +477,7 @@ definitions:
     isReadyOnly: true
     description: >-
       The current state of the pool.
+
 
       Values are:
 
@@ -491,6 +495,7 @@ definitions:
     description: >-
       Whether the pool is resizing.
 
+
       Values are:
 
        Steady - The pool is not resizing. There are no changes to the number of nodes in the pool in progress. A pool enters this state when it is created and when no operations are being performed on the pool to change the number of dedicated nodes.
@@ -507,12 +512,14 @@ definitions:
     description: >-
       The size of virtual machines in the pool. All VMs in a pool are the same size.
 
+
       For information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (http://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series).
     types:
     - uid: string
   - name: properties.deploymentConfiguration
     description: >-
       This property describes how the pool nodes will be deployed - using Cloud Services or Virtual Machines.
+
 
       Using CloudServiceConfiguration specifies that the nodes should be creating using Azure Cloud Services (PaaS), while VirtualMachineConfiguration uses Azure Virtual Machines (IaaS).
     types:
@@ -531,6 +538,7 @@ definitions:
     description: >-
       Settings which configure the number of nodes in the pool.
 
+
       Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes.
     types:
     - uid: ScaleSettings
@@ -539,6 +547,7 @@ definitions:
     description: >-
       The results and errors from the last execution of the autoscale formula.
 
+
       This property is set only if the pool automatically scales, i.e. autoScaleSettings are used.
     types:
     - uid: AutoScaleRun
@@ -546,12 +555,14 @@ definitions:
     description: >-
       Whether the pool permits direct communication between nodes.
 
+
       This imposes restrictions on which nodes can be assigned to the pool. Enabling this value can reduce the chance of the requested number of nodes to be allocated in the pool. If not specified, this value defaults to 'Disabled'.
     types:
     - uid: InterNodeCommunicationState
   - name: properties.networkConfiguration
     description: >-
       The network configuration for the pool.
+
 
       The network configuration for a pool.
     types:
@@ -573,6 +584,7 @@ definitions:
     description: >-
       A name-value pair associated with a Batch service resource.
 
+
       The Batch service does not assign any meaning to this metadata; it is solely for the use of user code.
     types:
     - uid: MetadataItem
@@ -580,6 +592,7 @@ definitions:
   - name: properties.startTask
     description: >-
       A task specified to run on each compute node as it joins the pool.
+
 
       In an PATCH (update) operation, this property can be set to an empty object to remove the start task from the pool.
     types:
@@ -598,6 +611,7 @@ definitions:
     description: >-
       The list of application licenses the Batch service will make available on each compute node in the pool.
 
+
       The list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, pool creation will fail.
     types:
     - uid: string
@@ -606,6 +620,7 @@ definitions:
     isReadyOnly: true
     description: >-
       Contains details about the current or last completed resize operation.
+
 
       Describes either the current operation (if the pool AllocationState is Resizing) or the previously completed operation (if the AllocationState is Steady).
     types:
@@ -639,15 +654,13 @@ definitions:
     types:
     - uid: CloudErrorBody
 - name: CloudServiceConfiguration
-  description: >-
-    The cloud service configuration for the pool.
-
-    This property and virtualMachineConfiguration are mutually exclusive and one of the properties must be specified. This property cannot be specified if the Batch account was created with its poolAllocationMode property set to 'UserSubscription'.
+  description: The cloud service configuration for the pool.
   kind: object
   properties:
   - name: osFamily
     description: >-
       The Azure Guest OS family to be installed on the virtual machines in the pool.
+
 
       Possible values are: 2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1. 3 - OS Family 3, equivalent to Windows Server 2012. 4 - OS Family 4, equivalent to Windows Server 2012 R2. 5 - OS Family 5, equivalent to Windows Server 2016. For more information, see Azure Guest OS Releases (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases).
     types:
@@ -656,6 +669,7 @@ definitions:
     description: >-
       The Azure Guest OS version to be installed on the virtual machines in the pool.
 
+
       The default value is * which specifies the latest operating system version for the specified OS family.
     types:
     - uid: string
@@ -663,14 +677,12 @@ definitions:
     description: >-
       The Azure Guest OS Version currently installed on the virtual machines in the pool.
 
+
       This may differ from targetOSVersion if the pool state is Upgrading. In this case some virtual machines may be on the targetOSVersion and some may be on the currentOSVersion during the upgrade process. Once all virtual machines have upgraded, currentOSVersion is updated to be the same as targetOSVersion.
     types:
     - uid: string
 - name: VirtualMachineConfiguration
-  description: >-
-    The virtual machine configuration for the pool.
-
-    This property and cloudServiceConfiguration are mutually exclusive and one of the properties must be specified.
+  description: The virtual machine configuration for the pool.
   kind: object
   properties:
   - name: imageReference
@@ -685,12 +697,14 @@ definitions:
     description: >-
       The SKU of the Batch node agent to be provisioned on compute nodes in the pool.
 
+
       The Batch node agent is a program that runs on each node in the pool, and provides the command-and-control interface between the node and the Batch service. There are different implementations of the node agent, known as SKUs, for different operating systems. You must specify a node agent SKU which matches the selected image reference. To get the list of supported node agent SKUs along with their list of verified image references, see the 'List supported node agent SKUs' operation.
     types:
     - uid: string
   - name: windowsConfiguration
     description: >-
       Windows operating system settings on the virtual machine.
+
 
       This property must not be specified if the imageReference specifies a Linux OS image.
     types:
@@ -704,6 +718,7 @@ definitions:
     description: >-
       The type of on-premises license to be used when deploying the operating system.
 
+
       This only applies to images that contain the Windows operating system, and should only be used when you hold valid on-premises licenses for the nodes which will be deployed. If omitted, no on-premises licensing discount is applied. Values are:
 
        Windows_Server - The on-premises license is for Windows Server.
@@ -711,15 +726,13 @@ definitions:
     types:
     - uid: string
 - name: FixedScaleSettings
-  description: >-
-    Fixed scale settings for the pool.
-
-    This property and autoScale are mutually exclusive and one of the properties must be specified.
+  description: Fixed scale settings for the pool.
   kind: object
   properties:
   - name: resizeTimeout
     description: >-
       The timeout for allocation of compute nodes to the pool.
+
 
       The default value is 15 minutes. Timeout values use ISO 8601 format. For example, use PT10M for 10 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service rejects the request with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
     types:
@@ -728,12 +741,14 @@ definitions:
     description: >-
       The desired number of dedicated compute nodes in the pool.
 
+
       At least one of targetDedicatedNodes, targetLowPriority nodes must be set.
     types:
     - uid: integer
   - name: targetLowPriorityNodes
     description: >-
       The desired number of low-priority compute nodes in the pool.
+
 
       At least one of targetDedicatedNodes, targetLowPriority nodes must be set.
     types:
@@ -742,14 +757,12 @@ definitions:
     description: >-
       Determines what to do with a node and its running task(s) if the pool size is decreasing.
 
+
       If omitted, the default value is Requeue.
     types:
     - uid: ComputeNodeDeallocationOption
 - name: AutoScaleSettings
-  description: >-
-    AutoScale settings for the pool.
-
-    This property and fixedScale are mutually exclusive and one of the properties must be specified.
+  description: AutoScale settings for the pool.
   kind: object
   properties:
   - name: formula
@@ -759,6 +772,7 @@ definitions:
   - name: evaluationInterval
     description: >-
       The time interval at which to automatically adjust the pool size according to the autoscale formula.
+
 
       If omitted, the default value is 15 minutes (PT15M).
     types:
@@ -781,10 +795,7 @@ definitions:
     - uid: AutoScaleRunError
       isArray: true
 - name: PoolEndpointConfiguration
-  description: >-
-    The configuration for endpoints on compute nodes in the Batch pool.
-
-    Pool endpoint configuration is only supported on pools with the virtualMachineConfiguration property.
+  description: The configuration for endpoints on compute nodes in the Batch pool.
   kind: object
   properties:
   - name: inboundNatPools
@@ -803,10 +814,7 @@ definitions:
     types:
     - uid: string
 - name: ElevationLevel
-  description: >-
-    The elevation level of the user account.
-
-    nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
+  description: The elevation level of the user account.
   kind: enum
   properties:
   - name: NonAdmin
@@ -816,15 +824,13 @@ definitions:
     types:
     - uid: string
 - name: LinuxUserConfiguration
-  description: >-
-    The Linux-specific user configuration for the user account.
-
-    This property is ignored if specified on a Windows pool. If not specified, the user is created with the default options.
+  description: The Linux-specific user configuration for the user account.
   kind: object
   properties:
   - name: uid
     description: >-
       The user ID of the user account.
+
 
       The uid and gid properties must be specified together or not at all. If not specified the underlying operating system picks the uid.
     types:
@@ -833,12 +839,14 @@ definitions:
     description: >-
       The group ID for the user account.
 
+
       The uid and gid properties must be specified together or not at all. If not specified the underlying operating system picks the gid.
     types:
     - uid: integer
   - name: sshPrivateKey
     description: >-
       The SSH private key for the user account.
+
 
       The private key must not be password protected. The private key is used to automatically configure asymmetric-key based authentication for SSH between nodes in a Linux pool when the pool's enableInterNodeCommunication property is true (it is ignored if enableInterNodeCommunication is false). It does this by placing the key pair into the user's .ssh directory. If not specified, password-less SSH is not configured between nodes (no modification of the user's .ssh directory is done).
     types:
@@ -851,6 +859,7 @@ definitions:
     description: >-
       The URL of the file within Azure Blob Storage.
 
+
       This URL must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access.
     types:
     - uid: string
@@ -861,6 +870,7 @@ definitions:
   - name: fileMode
     description: >-
       The file permission mode attribute in octal format.
+
 
       This property applies only to files being downloaded to Linux compute nodes. It will be ignored if it is specified for a resourceFile which will be downloaded to a Windows node. If this property is not specified for a Linux node, then a default value of 0770 is applied to the file.
     types:
@@ -878,15 +888,13 @@ definitions:
     types:
     - uid: string
 - name: UserIdentity
-  description: >-
-    The user identity under which the start task runs.
-
-    If omitted, the task runs as a non-administrative user unique to the task.
+  description: The user identity under which the start task runs.
   kind: object
   properties:
   - name: userName
     description: >-
       The name of the user identity under which the task is run.
+
 
       The userName and autoUser properties are mutually exclusive; you must specify one but not both.
     types:
@@ -895,14 +903,12 @@ definitions:
     description: >-
       The auto user under which the task is run.
 
+
       The userName and autoUser properties are mutually exclusive; you must specify one but not both.
     types:
     - uid: AutoUserSpecification
 - name: CertificateStoreLocation
-  description: >-
-    The location of the certificate store on the compute node into which to install the certificate.
-
-    The default value is currentUser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
+  description: The location of the certificate store on the compute node into which to install the certificate.
   kind: enum
   properties:
   - name: CurrentUser
@@ -912,10 +918,7 @@ definitions:
     types:
     - uid: string
 - name: ComputeNodeDeallocationOption
-  description: >-
-    Determines what to do with a node and its running task(s) if the pool size is decreasing.
-
-    If omitted, the default value is Requeue.
+  description: Determines what to do with a node and its running task(s) if the pool size is decreasing.
   kind: enum
   properties:
   - name: Requeue
@@ -931,10 +934,7 @@ definitions:
     types:
     - uid: string
 - name: ResizeError
-  description: >-
-    Details of any errors encountered while performing the last resize on the pool.
-
-    This property is set only if an error occurred during the last pool resize, and only when the pool allocationState is Steady.
+  description: Details of any errors encountered while performing the last resize on the pool.
   kind: object
   properties:
   - name: code
@@ -951,13 +951,7 @@ definitions:
     - uid: ResizeError
       isArray: true
 - name: PoolProvisioningState
-  description: >-
-    The current state of the pool.
-
-    Values are:
-
-     Succeeded - The pool is available to run tasks subject to the availability of compute nodes.
-     Deleting - The user has requested that the pool be deleted, but the delete operation has not yet completed.
+  description: The current state of the pool.
   kind: enum
   properties:
   - name: Succeeded
@@ -967,14 +961,7 @@ definitions:
     types:
     - uid: string
 - name: AllocationState
-  description: >-
-    Whether the pool is resizing.
-
-    Values are:
-
-     Steady - The pool is not resizing. There are no changes to the number of nodes in the pool in progress. A pool enters this state when it is created and when no operations are being performed on the pool to change the number of dedicated nodes.
-     Resizing - The pool is resizing; that is, compute nodes are being added to or removed from the pool.
-     Stopping - The pool was resizing, but the user has requested that the resize be stopped, but the stop request has not yet been completed.
+  description: Whether the pool is resizing.
   kind: enum
   properties:
   - name: Steady
@@ -987,10 +974,7 @@ definitions:
     types:
     - uid: string
 - name: InterNodeCommunicationState
-  description: >-
-    Whether the pool permits direct communication between nodes.
-
-    This imposes restrictions on which nodes can be assigned to the pool. Enabling this value can reduce the chance of the requested number of nodes to be allocated in the pool. If not specified, this value defaults to 'Disabled'.
+  description: Whether the pool permits direct communication between nodes.
   kind: enum
   properties:
   - name: Enabled
@@ -1028,12 +1012,14 @@ definitions:
     description: >-
       The publisher of the Azure Virtual Machines Marketplace image.
 
+
       For example, Canonical or MicrosoftWindowsServer.
     types:
     - uid: string
   - name: offer
     description: >-
       The offer type of the Azure Virtual Machines Marketplace image.
+
 
       For example, UbuntuServer or WindowsServer.
     types:
@@ -1042,6 +1028,7 @@ definitions:
     description: >-
       The SKU of the Azure Virtual Machines Marketplace image.
 
+
       For example, 14.04.0-LTS or 2012-R2-Datacenter.
     types:
     - uid: string
@@ -1049,12 +1036,14 @@ definitions:
     description: >-
       The version of the Azure Virtual Machines Marketplace image.
 
+
       A value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'.
     types:
     - uid: string
   - name: id
     description: >-
       The ARM resource identifier of the virtual machine image. Computes nodes of the pool will be created using this custom image. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}
+
 
       This property is mutually exclusive with other properties. The virtual machine image must be in the same region and subscription as the Azure Batch account. For information about the firewall settings for Batch node agent to communicate with Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration .
     types:
@@ -1067,33 +1056,30 @@ definitions:
     description: >-
       The type of caching to be enabled for the data disks. none - The caching mode for the disk is not enabled. readOnly - The caching mode for the disk is read only. readWrite - The caching mode for the disk is read and write.
 
+
       Default value is none.
     types:
     - uid: CachingType
 - name: WindowsConfiguration
-  description: >-
-    Windows operating system settings on the virtual machine.
-
-    This property must not be specified if the imageReference specifies a Linux OS image.
+  description: Windows operating system settings on the virtual machine.
   kind: object
   properties:
   - name: enableAutomaticUpdates
     description: >-
       Whether automatic updates are enabled on the virtual machine.
 
+
       If omitted, the default value is true.
     types:
     - uid: boolean
 - name: DataDisk
-  description: >-
-    The configuration for data disks attached to the comptue nodes in the pool.
-
-    This property must be specified if the compute nodes in the pool need to have empty data disks attached to them.
+  description: The configuration for data disks attached to the comptue nodes in the pool.
   kind: object
   properties:
   - name: lun
     description: >-
       The logical unit number.
+
 
       The lun is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct lun.
     types:
@@ -1101,6 +1087,7 @@ definitions:
   - name: caching
     description: >-
       The type of caching to be enabled for the data disks.
+
 
       Values are:
 
@@ -1119,6 +1106,7 @@ definitions:
     description: >-
       The storage account type to be used for the data disk.
 
+
       If omitted, the default is "Standard_LRS". Values are:
 
        Standard_LRS - The data disk should use standard locally redundant storage.
@@ -1126,15 +1114,13 @@ definitions:
     types:
     - uid: StorageAccountType
 - name: InboundNatPool
-  description: >-
-    A list of inbound NAT pools that can be used to address specific ports on an individual compute node externally.
-
-    The maximum number of inbound NAT pools per Batch pool is 5. If the maximum number of inbound NAT pools is exceeded the request fails with HTTP status code 400.
+  description: A list of inbound NAT pools that can be used to address specific ports on an individual compute node externally.
   kind: object
   properties:
   - name: name
     description: >-
       The name of the endpoint.
+
 
       The name must be unique within a Batch pool, can contain letters, numbers, underscores, periods, and hyphens. Names must start with a letter or number, must end with a letter, number, or underscore, and cannot exceed 77 characters.  If any invalid values are provided the request fails with HTTP status code 400.
     types:
@@ -1147,6 +1133,7 @@ definitions:
     description: >-
       The port number on the compute node.
 
+
       This must be unique within a Batch pool. Acceptable values are between 1 and 65535 except for 22, 3389, 29876 and 29877 as these are reserved. If any reserved values are provided the request fails with HTTP status code 400.
     types:
     - uid: integer
@@ -1154,12 +1141,14 @@ definitions:
     description: >-
       The first port number in the range of external ports that will be used to provide inbound access to the backendPort on individual compute nodes.
 
+
       Acceptable values range between 1 and 65534 except ports from 50000 to 55000 which are reserved. All ranges within a pool must be distinct and cannot overlap. If any reserved or overlapping values are provided the request fails with HTTP status code 400.
     types:
     - uid: integer
   - name: frontendPortRangeEnd
     description: >-
       The last port number in the range of external ports that will be used to provide inbound access to the backendPort on individual compute nodes.
+
 
       Acceptable values range between 1 and 65534 except ports from 50000 to 55000 which are reserved by the Batch service. All ranges within a pool must be distinct and cannot overlap. If any reserved or overlapping values are provided the request fails with HTTP status code 400.
     types:
@@ -1170,15 +1159,13 @@ definitions:
     - uid: NetworkSecurityGroupRule
       isArray: true
 - name: AutoUserSpecification
-  description: >-
-    The auto user under which the task is run.
-
-    The userName and autoUser properties are mutually exclusive; you must specify one but not both.
+  description: The auto user under which the task is run.
   kind: object
   properties:
   - name: scope
     description: >-
       The scope for the auto user
+
 
       pool - specifies that the task runs as the common auto user account which is created on every node in a pool. task - specifies that the service should create a new user for the task. The default value is task.
     types:
@@ -1187,14 +1174,12 @@ definitions:
     description: >-
       The elevation level of the auto user.
 
+
       nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin.
     types:
     - uid: ElevationLevel
 - name: CachingType
-  description: >-
-    The type of caching to be enabled for the data disks. none - The caching mode for the disk is not enabled. readOnly - The caching mode for the disk is read only. readWrite - The caching mode for the disk is read and write.
-
-    Default value is none.
+  description: The type of caching to be enabled for the data disks. none - The caching mode for the disk is not enabled. readOnly - The caching mode for the disk is read only. readWrite - The caching mode for the disk is read and write.
   kind: enum
   properties:
   - name: None
@@ -1207,13 +1192,7 @@ definitions:
     types:
     - uid: string
 - name: StorageAccountType
-  description: >-
-    The storage account type to be used for the data disk.
-
-    If omitted, the default is "Standard_LRS". Values are:
-
-     Standard_LRS - The data disk should use standard locally redundant storage.
-     Premium_LRS - The data disk should use premium locally redundant storage.
+  description: The storage account type to be used for the data disk.
   kind: enum
   properties:
   - name: Standard_LRS
@@ -1233,15 +1212,13 @@ definitions:
     types:
     - uid: string
 - name: NetworkSecurityGroupRule
-  description: >-
-    A list of network security group rules that will be applied to the endpoint.
-
-    The maximum number of rules that can be specified across all the endpoints on a Batch pool is 25. If no network security group rules are specified, a default rule will be created to allow inbound access to the specified backendPort. If the maximum number of network security group rules is exceeded the request fails with HTTP status code 400.
+  description: A list of network security group rules that will be applied to the endpoint.
   kind: object
   properties:
   - name: priority
     description: >-
       The priority for this rule.
+
 
       Priorities within a pool must be unique and are evaluated in order of priority. The lower the number the higher the priority. For example, rules could be specified with order numbers of 150, 250, and 350. The rule with the order number of 150 takes precedence over the rule that has an order of 250. Allowed priorities are 150 to 3500. If any reserved or duplicate values are provided the request fails with HTTP status code 400.
     types:
@@ -1254,14 +1231,12 @@ definitions:
     description: >-
       The source address prefix or tag to match for the rule.
 
+
       Valid values are a single IP address (i.e. 10.10.10.10), IP subnet (i.e. 192.168.1.0/24), default tag, or * (for all addresses).  If any other values are provided the request fails with HTTP status code 400.
     types:
     - uid: string
 - name: AutoUserScope
-  description: >-
-    The scope for the auto user
-
-    pool - specifies that the task runs as the common auto user account which is created on every node in a pool. task - specifies that the service should create a new user for the task. The default value is task.
+  description: The scope for the auto user
   kind: enum
   properties:
   - name: Task
