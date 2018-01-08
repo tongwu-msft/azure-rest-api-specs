@@ -1,7 +1,7 @@
 ---
 title: "RESTful interactions with Azure Cosmos DB resources"
 ms.custom: ""
-ms.date: "10/03/2017"
+ms.date: "01/08/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "cosmos-db"
