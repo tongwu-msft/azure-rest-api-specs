@@ -1,7 +1,7 @@
 ---
 title: "RESTful interactions with Azure Cosmos DB resources"
 ms.custom: ""
-ms.date: "2016-08-30"
+ms.date: "10/03/2017"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "cosmos-db"
@@ -206,7 +206,7 @@ Content-Type: application/json1
 |-|-|-|-|  
 |Connectivity Mode|Protocol|Details|Azure Cosmos DB SDKs|  
 |Gateway|HTTPS|Applications directly connect with the edge nodes using logical URIs. This incurs an extra network hop.|REST API, .NET, Node.js, Java, Python, JavaScript|  
-|Direct Connectivity|HTTPS and TCP|The applications can directly access the routing table and perform the client side routing to directly connect with replicas.|.NET|  
+|Direct Connectivity|HTTPS and TCP|The applications can directly access the routing table and perform the client side routing to directly connect with replicas.|.NET, Java|  
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
