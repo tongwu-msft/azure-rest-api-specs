@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}?api-version=2017-03-01
+- content: PUT management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}?api-version=2017-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -82,6 +82,11 @@ requestBody:
     description: "  \nUser Password. If no value is provided, a default password is generated."
     types:
     - uid: string
+  - name: properties.confirmation
+    in: body
+    description: "  \nDetermines the type of confirmation e-mail that will be sent to the newly created user."
+    types:
+    - uid: Confirmation
   - name: properties.state
     in: body
     description: "  \nAccount state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active."
@@ -198,6 +203,10 @@ definitions:
     description: "  \nUser Password. If no value is provided, a default password is generated."
     types:
     - uid: string
+  - name: properties.confirmation
+    description: "  \nDetermines the type of confirmation e-mail that will be sent to the newly created user."
+    types:
+    - uid: Confirmation
   - name: properties.state
     description: "  \nAccount state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active."
     types:
@@ -257,9 +266,19 @@ definitions:
   kind: enum
   properties:
   - name: active
+    description: User state is active.
     types:
     - uid: string
   - name: blocked
+    description: User is blocked. Blocked users cannot authenticate at developer portal or call API.
+    types:
+    - uid: string
+  - name: pending
+    description: User account is pending. Requires identity confirmation before it can be made active.
+    types:
+    - uid: string
+  - name: deleted
+    description: User account is closed. All identities and related entities are removed.
     types:
     - uid: string
 - name: ErrorFieldContract
@@ -278,6 +297,18 @@ definitions:
     description: "  \nProperty name."
     types:
     - uid: string
+- name: Confirmation
+  description: Determines the type of confirmation e-mail that will be sent to the newly created user.
+  kind: enum
+  properties:
+  - name: signup
+    description: Send an e-mail to the user confirming they have successfully signed up.
+    types:
+    - uid: string
+  - name: invite
+    description: Send an e-mail inviting the user to sign-up and complete registration.
+    types:
+    - uid: string
 - name: GroupType
   description: Group type.
   kind: enum
@@ -294,20 +325,21 @@ definitions:
 examples:
 - name: ApiManagementCreateUserBasic
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b?api-version=2017-03-01
+    uri: PUT management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b?api-version=2017-03-01
     body: >-
       {
         "properties": {
           "firstName": "foo",
           "lastName": "bar",
-          "email": "foobar@outlook.com"
+          "email": "foobar@outlook.com",
+          "confirmation": "signup"
         }
       }
   responses:
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b",
+        "id": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b",
         "type": "Microsoft.ApiManagement/service/users",
         "name": "5931a75ae4bbd512288c680b",
         "properties": {
@@ -315,7 +347,7 @@ examples:
           "lastName": "bar",
           "email": "foobar@outlook.com",
           "state": "active",
-          "registrationDate": "2017-06-02T18:22:12.98Z",
+          "registrationDate": "2018-01-07T21:21:29.16Z",
           "groups": [],
           "identities": [
             {
@@ -328,7 +360,7 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b",
+        "id": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b",
         "type": "Microsoft.ApiManagement/service/users",
         "name": "5931a75ae4bbd512288c680b",
         "properties": {
@@ -336,7 +368,7 @@ examples:
           "lastName": "bar",
           "email": "foobar@outlook.com",
           "state": "active",
-          "registrationDate": "2017-06-02T18:22:12.98Z",
+          "registrationDate": "2018-01-07T21:21:29.16Z",
           "groups": [],
           "identities": [
             {

@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PUT https://contoso.azure-devices-provisioning.net/enrollments/{id}?api-version=2017-11-15
+- content: PUT contoso.azure-devices-provisioning.net/enrollments/{id}?api-version=2017-11-15
 uriParameters:
 - name: id
   in: path
@@ -25,10 +25,28 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 400 Bad Request
+  description: The body of the request is not valid; for example, it cannot be parsed, or the object cannot be validated.
+- name: Other Status Codes
+  description: The authorization token cannot be validated; for example, it is expired or does not apply to the request’s URI. This error code is also returned to devices as part of the TPM attestation flow.
+- name: Other Status Codes
+  description: The Device Provisioning Service instance, or a resource (e.g. an enrollment) does not exist.
+- name: Other Status Codes
+  description: Operations are being throttled by the service. For specific service limits, see IoT Hub Device Provisioning Service limits.
+- name: Other Status Codes
+  description: An internal error occurred.
+- name: Other Status Codes
+  description: The ETag in the request does not match the ETag of the existing resource, as per RFC7232.
+- name: Other Status Codes
+  description: The request payload is in an unsupported format. The request's Content-Type header should be set to 'application/json'.
 - name: 200 OK
   description: Success
   types:
   - uid: IndividualEnrollment
+- name: Other Status Codes
+  description: Error response
+  types:
+  - uid: ProvisioningServiceErrorDetails
 requestBody:
 - parameters:
   - name: registrationId
@@ -212,6 +230,33 @@ definitions:
     - uid: string
   - name: lastUpdatedDateTimeUtc
     description: "  \nThe DateTime this resource was last updated."
+    types:
+    - uid: string
+- name: ProvisioningServiceErrorDetails
+  kind: object
+  properties:
+  - name: errorCode
+    description: "  "
+    types:
+    - uid: integer
+  - name: trackingId
+    description: "  "
+    types:
+    - uid: string
+  - name: message
+    description: "  "
+    types:
+    - uid: string
+  - name: info
+    description: "  "
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: timestampUtc
+    description: "  "
     types:
     - uid: string
 - name: TpmAttestation

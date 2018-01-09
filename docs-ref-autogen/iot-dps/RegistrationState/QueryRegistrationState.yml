@@ -1,15 +1,15 @@
 ### YamlMime:RESTOperation
-uid: contoso.azure-devices-provisioning.net.iothubdeviceprovisioningservice.registrationstatus.queryregistrationstate
+uid: contoso.azure-devices-provisioning.net.iothubdeviceprovisioningservice.registrationstate.queryregistrationstate
 name: Query Registration State
 service: IoT Hub Device Provisioning Service
-groupName: Registration Status
+groupName: Registration State
 apiVersion: 2017-11-15
 summary: Gets the registration state of devices in this enrollmentGroup.
 consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://contoso.azure-devices-provisioning.net/registrations/{id}/query?api-version=2017-11-15
+- content: POST contoso.azure-devices-provisioning.net/registrations/{id}/query?api-version=2017-11-15
 uriParameters:
 - name: id
   in: path
@@ -24,11 +24,25 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 400 Bad Request
+  description: The body of the request is not valid; for example, it cannot be parsed, or the object cannot be validated.
+- name: Other Status Codes
+  description: The authorization token cannot be validated; for example, it is expired or does not apply to the request’s URI. This error code is also returned to devices as part of the TPM attestation flow.
+- name: Other Status Codes
+  description: The Device Provisioning Service instance, or a resource (e.g. an enrollment) does not exist.
+- name: Other Status Codes
+  description: Operations are being throttled by the service. For specific service limits, see IoT Hub Device Provisioning Service limits.
+- name: Other Status Codes
+  description: An internal error occurred.
 - name: 200 OK
   description: Success
   types:
   - uid: DeviceRegistrationState
     isArray: true
+- name: Other Status Codes
+  description: Error response
+  types:
+  - uid: ProvisioningServiceErrorDetails
 requestHeader: []
 definitions:
 - name: DeviceRegistrationState
@@ -74,6 +88,33 @@ definitions:
     - uid: string
   - name: etag
     description: "  \nThe entity tag associated with the resource."
+    types:
+    - uid: string
+- name: ProvisioningServiceErrorDetails
+  kind: object
+  properties:
+  - name: errorCode
+    description: "  "
+    types:
+    - uid: integer
+  - name: trackingId
+    description: "  "
+    types:
+    - uid: string
+  - name: message
+    description: "  "
+    types:
+    - uid: string
+  - name: info
+    description: "  "
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: timestampUtc
+    description: "  "
     types:
     - uid: string
 examples: []
