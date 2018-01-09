@@ -211,7 +211,8 @@ And you should receive a response body that contains a list of Azure subscriptio
         "subscriptionId":"...",
         "displayName":"My Azure Subscription",
         "state":"Enabled",
-        "subscriptionPolicies":{
+
+"subscriptionPolicies":{
             "locationPlacementId":"Public_2015-09-01",
             "quotaId":"MSDN_2014-05-01",
             "spendingLimit":"On"}
