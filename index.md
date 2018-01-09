@@ -26,8 +26,8 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 > [!NOTE] 
 > Most Azure service REST APIs have client libraries that provide a native interface for using Azure services. 
 > 
-> [.NET developers][SDK-NET]   
-> [Java developers][SDK-JAVA]   
+> [.NET][SDK-NET]   
+> [Java][SDK-JAVA]   
 > [Node.js][SDK-NODE]   
 > [Python][SDK-PYTHON]   
 > [Azure CLI 2.0 SDK][SDK-CLI]    
