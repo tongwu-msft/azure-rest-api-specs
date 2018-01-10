@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.monitor.actiongroups.listbyresourcegroup
-name: List By Resource Group
+uid: management.azure.com.monitor.actiongroups.update
+name: Update
 service: Monitor
 groupName: Action Groups
 apiVersion: 2017-04-01
-summary: Get a list of all action groups in a resource group.
+summary: Updates an existing action group's tags. To update other fields use the CreateOrUpdate method.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups?api-version=2017-04-01
+- content: PATCH management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}?api-version=2017-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,6 +24,12 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
+- name: actionGroupName
+  in: path
+  isRequired: true
+  description: The name of the action group.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -31,29 +37,32 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: The request succeeded.
-  types:
-  - uid: ActionGroupList
 - name: Other Status Codes
-  description: An error occurred and the list of action groups could not be retrieved.
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
+- name: 200 OK
+  description: An existing action group was successfully updated.
+  types:
+  - uid: ActionGroupResource
+requestBody:
+- parameters:
+  - name: tags
+    in: body
+    description: "  \nResource tags"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.enabled
+    in: body
+    description: "  \nIndicates whether this action group is enabled. If an action group is not enabled, then none of its actions will be activated."
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
-- name: ActionGroupList
-  description: A list of action groups.
-  kind: object
-  properties:
-  - name: value
-    description: "  \nAn action group resource."
-    types:
-    - uid: ActionGroupResource
-      isArray: true
-  - name: nextLink
-    description: "  \nProvides the link to retrieve the next set of elements."
-    types:
-    - uid: string
 - name: ErrorResponse
   description: Describes the format of Error response.
   kind: object
@@ -135,6 +144,22 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ActionGroupPatchBody
+  description: An action group object for the body of patch operations.
+  kind: object
+  properties:
+  - name: tags
+    description: "  \nResource tags"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.enabled
+    description: "  \nIndicates whether this action group is enabled. If an action group is not enabled, then none of its actions will be activated."
+    types:
+    - uid: boolean
 - name: EmailReceiver
   description: The list of email receivers that are part of this action group.
   kind: object
@@ -263,85 +288,67 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List action groups
+- name: Patch an action group
   request:
-    uri: GET management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups?api-version=2017-04-01
+    uri: PATCH management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups/SampleActionGroup?api-version=2017-04-01
+    body: >-
+      {
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "properties": {
+          "enabled": false
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups/SampleActionGroup",
-            "type": "Microsoft.Insights/ActionGroups",
-            "name": "SampleActionGroup",
-            "location": "Global",
-            "tags": {},
-            "properties": {
-              "groupShortName": "sample",
-              "enabled": true,
-              "emailReceivers": [
-                {
-                  "name": "John Doe's email",
-                  "emailAddress": "johndoe@email.com",
-                  "status": "Enabled"
-                },
-                {
-                  "name": "Jane Smith's email",
-                  "emailAddress": "janesmith@email.com",
-                  "status": "Disabled"
-                }
-              ],
-              "smsReceivers": [
-                {
-                  "name": "John Doe's mobile",
-                  "countryCode": "1",
-                  "phoneNumber": "1234567890",
-                  "status": "Disabled"
-                },
-                {
-                  "name": "Jane Smith's mobile",
-                  "countryCode": "1",
-                  "phoneNumber": "0987654321",
-                  "status": "Enabled"
-                }
-              ],
-              "webhookReceivers": [
-                {
-                  "name": "Sample webhook",
-                  "serviceUri": "http://www.example.com/webhook"
-                }
-              ]
+        "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups/SampleActionGroup",
+        "type": "Microsoft.Insights/ActionGroups",
+        "name": "SampleActionGroup",
+        "location": "Global",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "properties": {
+          "groupShortName": "sample",
+          "enabled": true,
+          "emailReceivers": [
+            {
+              "name": "John Doe's email",
+              "emailAddress": "johndoe@email.com",
+              "status": "Enabled"
+            },
+            {
+              "name": "Jane Smith's email",
+              "emailAddress": "janesmith@email.com",
+              "status": "Enabled"
             }
-          },
-          {
-            "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups/SampleActionGroup2",
-            "type": "Microsoft.Insights/ActionGroups",
-            "name": "SampleActionGroup2",
-            "location": "Global",
-            "tags": {},
-            "properties": {
-              "groupShortName": "sample2",
-              "enabled": false,
-              "emailReceivers": [
-                {
-                  "name": "John Doe's email",
-                  "emailAddress": "johndoe@email.com",
-                  "status": "Enabled"
-                }
-              ],
-              "smsReceivers": [
-                {
-                  "name": "Jane Smith's mobile",
-                  "countryCode": "1",
-                  "phoneNumber": "0987654321",
-                  "status": "Enabled"
-                }
-              ],
-              "webhookReceivers": []
+          ],
+          "smsReceivers": [
+            {
+              "name": "John Doe's mobile",
+              "countryCode": "1",
+              "phoneNumber": "1234567890",
+              "status": "Enabled"
+            },
+            {
+              "name": "Jane Smith's mobile",
+              "countryCode": "1",
+              "phoneNumber": "0987654321",
+              "status": "Enabled"
             }
-          }
-        ]
+          ],
+          "webhookReceivers": [
+            {
+              "name": "Sample webhook",
+              "serviceUri": "http://www.example.com/webhook"
+            }
+          ]
+        }
       }
 security:
 - type: oauth2
