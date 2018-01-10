@@ -39,7 +39,7 @@ The following response headers are common to all responses from the SQL API:
 |**x-ms-item-count**|The number of items returned for a query or read-feed request.|  
 |**x-ms-request-charge**|This is the number of normalized requests a.k.a. request units (RU) for the operation. For more information, see [Request units in Azure Cosmos DB](/azure/cosmos-db/request-units/).|  
 |**x-ms-resource-quota**|Shows the allotted quota for a resource in an account.|  
-|**x-ms-resource-usage**|Shows the current usage cout of a resource in an account. When deleting a resource, this shows the number of resources after the deletion. |  
+|**x-ms-resource-usage**|Shows the current usage count of a resource in an account. When deleting a resource, this shows the number of resources after the deletion. |  
 |**x-ms-retry-after-ms**|The number of milliseconds to wait to retry the operation after an initial operation received HTTP status code 429 and was throttled.|  
 |**x-ms-schemaversion**|Shows the resource schema version number.|  
 |**x-ms-serviceversion**|Shows the service version number.|  
