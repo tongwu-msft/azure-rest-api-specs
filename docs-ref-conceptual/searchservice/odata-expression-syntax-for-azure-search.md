@@ -1,7 +1,7 @@
-﻿---
+---
 title: "OData Expression Syntax for Azure Search"
 ms.custom: ""
-ms.date: "08/16/2017"
+ms.date: "01/09/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -201,7 +201,7 @@ $filter=description eq null
 Find all hotels with name equal to either Roach motel' or 'Budget hotel'):  
 
 ```  
-$filter=search.in(name, 'Roach motel, Budget hotel') 
+$filter=search.in(name, 'Roach motel,Budget hotel', ',') 
 ```
 
 Find all hotels with name equal to either Roach motel' or 'Budget hotel' separated by '|'):  
