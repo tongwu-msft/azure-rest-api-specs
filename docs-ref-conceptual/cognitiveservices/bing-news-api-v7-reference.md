@@ -13,10 +13,7 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
-# News Search API v7 Preview reference
-
-> [!NOTE]
-> Preview release of the News API. All aspects of the API and documentation are subject to change. 
+# News Search API v7 reference
 
 The News Search API lets you send a search query to Bing and get back a list of relevant news articles. This section provides technical details about the query parameters and headers that you use to request news articles and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for News](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/search-the-web).  
 
@@ -85,8 +82,7 @@ The following are the query parameters that the request may include. The Require
 |<a name="since" />since|The Unix epoch time (Unix timestamp) that Bing uses to select the trending topics. Bing returns trending topics that it discovered on or after the specified date and time, not the date the topic was published.<br /><br /> To use this parameter, also specify the `sortBy` parameter.|Integer|No|  
 |<a name="sortby" />sortBy|The order to return the trending topics in. The following are the possible case-insensitive values.<br /><ul><li>Date&mdash;Returns trending topics sorted by date from the most recent to the oldest</li></ul><br /> If you do not specify this parameter, there is no specific ordering. However, topic freshness, category, global user engagement, and personalized features are taken into account.|String|No|  
 |<a name="textdecorations" />textDecorations|A Boolean value that determines whether display strings should contain decoration markers such as hit highlighting characters. If **true**, the strings may include markers. The default is **false**.<br /><br /> To specify whether to use Unicode characters or HTML tags as the markers, see the [textFormat](#textformat) query parameter.<br /><br /> For information about hit highlighting, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).|Boolean|No|  
-|<a name="textformat" />textFormat|The type of markers to use for text decorations (see the `textDecorations` query parameter).<br /><br /> The following are the possible values.<br /><ul><li>Raw&mdash;Use Unicode characters to mark content that needs special formatting. The Unicode characters are in the range E000 through E019. For example, Bing uses E000 and E001 to mark the beginning and end of query terms for hit highlighting.<br /><br/></li><li>HTML&mdash;Use HTML tags to mark content that needs special formatting. For example, use \<b> tags to highlight query terms in display strings.</li></ul><br /> The default is Raw.<br /><br />For a list of markers, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).<br /><br /> For display strings that contain escapable HTML characters such as <, >, and &, if `textFormat` is set to HTML, Bing escapes the characters as appropriate (for example, < is escaped to \&lt;).<br /><br />For information about processing strings with embedded Unicode characters, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).|String|No|  
-|String|No|  
+|<a name="textformat" />textFormat|The type of markers to use for text decorations (see the `textDecorations` query parameter).<br /><br /> The following are the possible values.<br /><ul><li>Raw&mdash;Use Unicode characters to mark content that needs special formatting. The Unicode characters are in the range E000 through E019. For example, Bing uses E000 and E001 to mark the beginning and end of query terms for hit highlighting.<br /><br/></li><li>HTML&mdash;Use HTML tags to mark content that needs special formatting. For example, use \<b> tags to highlight query terms in display strings.</li></ul><br /> The default is Raw.<br /><br />For a list of markers, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).<br /><br /> For display strings that contain escapable HTML characters such as <, >, and &, if `textFormat` is set to HTML, Bing escapes the characters as appropriate (for example, < is escaped to \&lt;).<br /><br />For information about processing strings with embedded Unicode characters, see [Hit Highlighting](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/hit-highlighting).|String|No|
   
 ## Response objects  
 The following are the JSON objects that the response may include. If the request succeeds, the top-level object in the response is the [News](#news) object if the endpoint is /news/search or /news, and [TrendingTopicAnswer](#trendingtopicanswer) if the endpoint is /news/trendingtopics. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object. 
@@ -314,4 +310,136 @@ The following are the possible news categories that you may set the [category](#
 
 ## Market codes 
 
-[!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]
+For the `/news/search` endpointhe following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change.  
+  
+For a list of country codes that you may specify in the `cc` query parameter, see [Country Codes](#countrycodes).  
+  
+|Country/Region|Language|Market Code|  
+|---------------------|--------------|-----------------| 
+|Denmark|Danish|da-DK|
+|Austria|German|de-AT| 
+|Switzerland|German|de-CH|
+|Germany|German|de-DE|
+|Australia|English|en-AU|
+|Canada|English|en-CA|
+|United Kingdom|English|en-GB|
+|Indonesia|English|en-ID|
+|Ireland|English|en-IE|
+|India|English|en-IN|
+|Malaysia|English|en-MY|
+|New Zealand|English|en-NZ|
+|Republic of the Philippines|English|en-PH|
+|Singapore|English|en-SG|
+|United States|English|en-US|
+|English|general|en-WW|
+|English|genearl|en-XA|
+|South Africa|English|en-ZA|
+|Argentina|Spanish|es-AR|
+|Chile|Spanish|es-CL|
+|Spain|Spanish|es-ES|
+|Mexico|Spanish|es-MX|
+|United States|Spanish|es-US| 
+|Spanish|general|es-XL|
+|Finland|Finnish|fi-FI|  
+|France|French|fr-BE|
+|Canada|French|fr-CA| 
+|Switzerland|French|fr-CH|
+|France|French|fr-FR|  
+|Italy|Italian|it-IT| 
+|Hong Kong SAR|Traditional Chinese|zh-HK|  
+|Taiwan|Traditional Chinese|zh-TW|
+|Japan|Japanese|ja-JP|  
+|Korea|Korean|ko-KR|  
+|Netherlands|Dutch|nl-NL|  
+|People's republic of China|Chinese|zh-CN|  
+|Poland|Polish|pl-PL|  
+||Portuguese|pl-PT|
+|Portuguese|Brazil|pt-BR|
+|Russia|Russian|ru-RU|  
+|Sweden|Swedish|sv-SE|  
+|Turkey|Turkish|tr-TR|  
+
+For the `/news` endpoint, the following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change.  
+  
+For a list of country codes that you may specify in the `cc` query parameter, see [Country Codes](#countrycodes).  
+  
+|Country/Region|Language|Market Code|  
+|---------------------|--------------|-----------------| 
+|Denmark|Danish|da-DK|
+|Germany|German|de-DE|
+|Australia|English|en-AU|
+|United Kingdom|English|en-GB|
+|United States|English|en-US|
+|English|general|en-WW|
+|Chile|Spanish|es-CL|
+|Mexico|Spanish|es-MX|
+|United States|Spanish|es-US| 
+|Finland|Finnish|fi-FI|  
+|Canada|French|fr-CA|
+|France|French|fr-FR|  
+|Italy|Italian|it-IT| 
+|Portuguese|Brazil|pt-BR|
+|People's republic of China|Chinese|zh-CN|
+
+
+For the `/news/trendingtopics` endpointhe following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change.  
+  
+For a list of country codes that you may specify in the `cc` query parameter, see [Country Codes](#countrycodes).  
+  
+|Country/Region|Language|Market Code|  
+|---------------------|--------------|-----------------| 
+|Germany|German|de-DE|
+|Australia|English|en-AU|
+|United Kingdom|English|en-GB|
+|United States|English|en-US|
+|Canada|English|en-CA|
+|India|English|en-IN|
+|France|French|fr-FR|
+|Canada|French|fr-CA|
+|Portuguese|Brazil|pt-BR|
+|People's republic of China|Chinese|zh-CN|
+
+
+<a name="countrycodes"></a>   
+### Country Codes  
+
+The following are the country codes that you may specify in the `cc` query parameter. The list is subject to change.  
+  
+|Country/Region|Country Code|  
+|---------------------|------------------|  
+|Argentina|AR|  
+|Australia|AU|  
+|Austria|AT|  
+|Belgium|BE|  
+|Brazil|BR|  
+|Canada|CA|  
+|Chile|CL|  
+|Denmark|DK|  
+|Finland|FI|  
+|France|FR|  
+|Germany|DE|  
+|Hong Kong SAR|HK|  
+|India|IN|  
+|Indonesia|ID|  
+|Italy|IT|  
+|Japan|JP|  
+|Korea|KR|  
+|Malaysia|MY|  
+|Mexico|MX|  
+|Netherlands|NL|  
+|New Zealand|NZ|  
+|Norway|NO|  
+|People's Republic of China|CN|  
+|Poland|PL|  
+|Portugal|PT|  
+|Republic of the Philippines|PH|  
+|Russia|RU|  
+|Saudi Arabia|SA|  
+|South Africa|ZA|  
+|Spain|ES|  
+|Sweden|SE|  
+|Switzerland|CH|  
+|Taiwan|TW|  
+|Turkey|TR|  
+|United Kingdom|GB|  
+|United States|US|

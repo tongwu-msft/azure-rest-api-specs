@@ -1,0 +1,252 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.traffic.gettrafficflowsegment
+name: Get Traffic Flow Segment
+service: Location Based Services Functional API
+groupName: Traffic
+apiVersion: "1.0"
+summary: Get the traffic flow segment for a given coordinates
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: GET https://atlas.microsoft.com/traffic/flow/segment/{format}?api-version=1.0&subscription-key={subscription-key}&style={style}&zoom={zoom}&query={query}
+- content: GET https://atlas.microsoft.com/traffic/flow/segment/{format}?api-version=1.0&subscription-key={subscription-key}&style={style}&zoom={zoom}&query={query}&unit={unit}&thickness={thickness}&openLr={openLr}
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure LBS API.  Current version is 1.0
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure LBS subscription key
+  types:
+  - uid: string
+- name: style
+  in: query
+  isRequired: true
+  description: The style to be used to render the tile.  Valid values are absolute which returns colors reflecting the absolute speed measured, relative which returns the speed relative to free-flow, Relative-delay which displays relative speeds only where they are different from the freeflow speeds
+  types:
+  - uid: string
+- name: zoom
+  in: query
+  isRequired: true
+  description: Zoom level for desired tile.  0 to 18 for raster tiles, 0 through 20 for vector tiles
+  types:
+  - uid: string
+- name: query
+  in: query
+  isRequired: true
+  description: The applicable query string and/or coordinates
+  types:
+  - uid: string
+- name: unit
+  in: query
+  description: Unit of speed in KMPH or MPH
+  types:
+  - uid: string
+- name: thickness
+  in: query
+  description: The segment width multiplier.  Valid values are from 1 to 20
+  types:
+  - uid: string
+- name: openLr
+  in: query
+  description: true or false string on whether the response should include OpenLR code
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: trafficflowsegment200
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Unauthorized: Access is denied due to invalid credentials.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: trafficflowsegment200
+  description: This object is returned from a successful Traffic Flow Segment call
+  kind: object
+  properties:
+  - name: flowSegmentData
+    isReadyOnly: true
+    description: "  \nFlow Segment Data property"
+    types:
+    - uid: FlowSegmentData
+- name: Error
+  description: This object is returned when an error occurs in the Location Based Service API
+  kind: object
+  properties:
+  - name: statuscode
+    isReadyOnly: true
+    description: "  \nError code."
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: "  \nIf available, a human readable description of the error."
+    types:
+    - uid: string
+- name: FlowSegmentData
+  description: Flow Segment Data property
+  kind: object
+  properties:
+  - name: frc
+    isReadyOnly: true
+    description: "  \nFRC property"
+    types:
+    - uid: string
+  - name: currentSpeed
+    isReadyOnly: true
+    description: "  \nCurrent Speed property"
+    types:
+    - uid: integer
+  - name: freeFlowSpeed
+    isReadyOnly: true
+    description: "  \nFree Flow Speed property"
+    types:
+    - uid: integer
+  - name: currentTravelTime
+    isReadyOnly: true
+    description: "  \nCurrent Travel Time property"
+    types:
+    - uid: integer
+  - name: freeFlowTravelTime
+    isReadyOnly: true
+    description: "  \nFree Flow Travel Time property"
+    types:
+    - uid: integer
+  - name: confidence
+    isReadyOnly: true
+    description: "  \nConfidence property"
+    types:
+    - uid: number
+  - name: coordinates
+    description: "  \nCoordinates of the result"
+    types:
+    - uid: Coordinates
+  - name: '@version'
+    isReadyOnly: true
+    description: "  \n@Version property"
+    types:
+    - uid: string
+- name: Coordinates
+  description: Coordinates of the result
+  kind: object
+  properties:
+  - name: coordinate
+    isReadyOnly: true
+    description: "  "
+    types:
+    - uid: Coordinate
+      isArray: true
+- name: Coordinate
+  description: Coordinate array
+  kind: object
+  properties:
+  - name: latitude
+    isReadyOnly: true
+    description: "  \nLatitude property"
+    types:
+    - uid: number
+  - name: Longitude
+    isReadyOnly: true
+    description: "  \nLongitude property"
+    types:
+    - uid: number
+examples:
+- name: GetTrafficFlowSegment
+  request:
+    uri: GET https://atlas.microsoft.com/traffic/flow/segment/json?api-version=1.0&style=absolute&zoom=10&query=52.41072,4.84239
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "flowSegmentData": {
+          "frc": "FRC2",
+          "currentSpeed": 79,
+          "freeFlowSpeed": 79,
+          "currentTravelTime": 33,
+          "freeFlowTravelTime": 33,
+          "confidence": 0.86,
+          "coordinates": {
+            "coordinate": [
+              {
+                "latitude": 52.404766,
+                "longitude": 4.844382
+              },
+              {
+                "latitude": 52.408566,
+                "longitude": 4.8358717
+              }
+            ]
+          },
+          "openlr": null,
+          "@version": "1.0.50-mascoma"
+        }
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "statuscode": "400",
+        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "statuscode": "401",
+        "message": "Unauthorized: Access is denied due to invalid credentials."
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "statuscode": "403",
+        "message": "Permission, capacity, or authentication issues."
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "statuscode": "404",
+        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "statuscode": "500",
+        "message": "An error occurred while processing the request. Please try again later."
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

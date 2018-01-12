@@ -35,7 +35,7 @@ Version 2017-04-17 includes these changes:
 
 * A new [Set Blob Tier](set-blob-tier.md) API is now available. 
     -   Use this API to explicitly set a premium page blob (or disk) to a tier without having to resize. The blob will be provisioned and billed at the new tier. This is also the only way to use the tiers `P4` and `P6`. See [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features) for more information on premium tiers. 
-    -   This API can also be used on block blob on blob storage LRS accounts to set the `Hot`/`Cool`/`Archive` tier. Tiers on blob storage accounts are currently in preview. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+    -   This API can also be used on block blob on blob storage accounts to set the `Hot`/`Cool`/`Archive` tier. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
 * The [Create File](Create-File.md), [Create Directory](Create-Directory.md), [Put Range](Put-Range.md), [Set Directory Metadata](Set-Directory-Metadata.md), [Set File Metadata](Set-File-Metadata.md), and [Set File Properties](Set-File-Properties.md) operations now return the x-ms-request-server-encrypted response header. This header is set to true if the contents of the request have been successfully encrypted.
 * The [Get File](Get-File.md), [Get File Properties](Get-File-Properties.md), and [Get Directory Properties](Get-Directory-Properties.md) operations now return the x-ms-server-encrypted response header. This header is set to true if the file data and application metadata are completely encrypted. If the file is not encrypted, or if only parts of the file/application metadata are encrypted, this header is set to false.
 * The storage analytics logs corresponding to requests using version 2017-04-17 or later have a [more detailed `<request-status>`](Storage-Analytics-Log-Format.md) instead of `ClientOtherError`. The new codes are the same as the [error codes](Common-REST-API-Error-Codes.md) returned by the service.
@@ -107,7 +107,16 @@ x-ms-version: 2017-04-17
 >  The .NET Storage Client Library will always set the REST protocol version (in the `api-version` parameter) to the version that it is based on.  
   
 ### Requests Via Anonymous Access  
- If a request to the Blob service does not specify the `x-ms-version` header, and the default version for the service has not been set using [Set Blob Service Properties](Set-Blob-Service-Properties.md), then the earliest version of the Blob service is used to process the request. However, if the container was made public with a [Set Container ACL](Set-Container-ACL.md) operation performed using version 2009-09-19 or newer, then the request is processed using version 2009-09-19.  
+
+Requests made via anonymous access are handled differently depending on the type of storage account they are made against.
+ 
+#### For general-purpose storage accounts
+
+If an anonymous request to a general-purpose storage account does not specify the `x-ms-version` header, and the default version for the service has not been set using [Set Blob Service Properties](Set-Blob-Service-Properties.md), then the service uses the earliest possible version to process the request. However, if the container was made public with a [Set Container ACL](Set-Container-ACL.md) operation performed using version 2009-09-19 or newer, then the request is processed using version 2009-09-19.
+
+#### For Blob storage accounts
+
+If an anonymous request to a Blob storage account does not specify the `x-ms-version` header, and the default version for the service has not been set using [Set Blob Service Properties](Set-Blob-Service-Properties.md), then the service uses the earliest possible version to process the request. For a Blob storage account, the earliest possible version is 2014-02-14.
   
 ## See Also  
  [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)   

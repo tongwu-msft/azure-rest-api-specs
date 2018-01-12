@@ -1,6 +1,6 @@
 ---
 title: "RemoteReplicatorStatus"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # RemoteReplicatorStatus
 
-Represents the state of the secondary replicator from the primary replicator’s point of view. 
+Represents the state of the secondary replicator from the primary replicator’s point of view.
 
 
 ## Properties

@@ -138,6 +138,8 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  Calling `Put Block` does not update the last modified time of an existing blob.  
   
  Calling `Put Block` on a page blob returns an error.  
+ 
+ Calling `Put Block` on an archived blob will return an error and on `Hot`/`Cool` blob does not change the blob tier.
   
 ## See Also  
  [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   

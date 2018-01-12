@@ -1,0 +1,198 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetworks.virtualnetworkpeerings.list
+name: List
+service: Virtual Networks
+groupName: Virtual Network Peerings
+apiVersion: 2017-10-01
+summary: Gets all virtual network peerings in a virtual network.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: virtualNetworkName
+  in: path
+  isRequired: true
+  description: The name of the virtual network.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a list of VirtualNetworkPeering resources.
+  types:
+  - uid: VirtualNetworkPeeringListResult
+requestHeader: []
+definitions:
+- name: VirtualNetworkPeeringListResult
+  description: Response for ListSubnets API service call. Retrieves all subnets that belong to a virtual network.
+  kind: object
+  properties:
+  - name: value
+    description: "  \nPeerings in a virtual network resource."
+    types:
+    - uid: VirtualNetworkPeering
+      isArray: true
+  - name: nextLink
+    description: "  \nThe URL to get the next set of results."
+    types:
+    - uid: string
+- name: VirtualNetworkPeering
+  description: Peerings in a virtual network resource.
+  kind: object
+  properties:
+  - name: name
+    description: "  \nThe name of the resource that is unique within a resource group. This name can be used to access the resource."
+    types:
+    - uid: string
+  - name: etag
+    description: "  \nA unique read-only string that changes whenever the resource is updated."
+    types:
+    - uid: string
+  - name: properties.allowVirtualNetworkAccess
+    description: "  \nWhether the VMs in the linked virtual network space would be able to access all the VMs in local Virtual network space."
+    types:
+    - uid: boolean
+  - name: properties.allowForwardedTraffic
+    description: "  \nWhether the forwarded traffic from the VMs in the remote virtual network will be allowed/disallowed."
+    types:
+    - uid: boolean
+  - name: properties.allowGatewayTransit
+    description: "  \nIf gateway links can be used in remote virtual networking to link to this virtual network."
+    types:
+    - uid: boolean
+  - name: properties.useRemoteGateways
+    description: "  \nIf remote gateways can be used on this virtual network. If the flag is set to true, and allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a gateway."
+    types:
+    - uid: boolean
+  - name: properties.remoteVirtualNetwork
+    description: "  \nThe reference of the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering)."
+    types:
+    - uid: SubResource
+  - name: properties.remoteAddressSpace
+    description: "  \nThe reference of the remote virtual network address space."
+    types:
+    - uid: AddressSpace
+  - name: properties.peeringState
+    description: "  \nThe status of the virtual network peering. Possible values are 'Initiated', 'Connected', and 'Disconnected'."
+    types:
+    - uid: VirtualNetworkPeeringState
+  - name: properties.provisioningState
+    description: "  \nThe provisioning state of the resource."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource ID"
+    types:
+    - uid: string
+- name: SubResource
+  description: The reference of the NetworkSecurityGroup resource.
+  kind: object
+  properties:
+  - name: id
+    description: "  \nResource ID."
+    types:
+    - uid: string
+- name: AddressSpace
+  description: The reference of the remote virtual network address space.
+  kind: object
+  properties:
+  - name: addressPrefixes
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+- name: VirtualNetworkPeeringState
+  description: The status of the virtual network peering. Possible values are 'Initiated', 'Connected', and 'Disconnected'.
+  kind: enum
+  properties:
+  - name: Initiated
+    types:
+    - uid: string
+  - name: Connected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+examples:
+- name: List peerings
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer",
+            "name": "peer",
+            "properties": {
+              "allowVirtualNetworkAccess": true,
+              "allowForwardedTraffic": true,
+              "allowGatewayTransit": false,
+              "useRemoteGateways": false,
+              "remoteVirtualNetwork": {
+                "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+              },
+              "remoteAddressSpace": {
+                "addressPrefixes": [
+                  "12.0.0.0/8"
+                ]
+              },
+              "peeringState": "Initiated",
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer2",
+            "name": "peer",
+            "properties": {
+              "allowVirtualNetworkAccess": true,
+              "allowForwardedTraffic": false,
+              "allowGatewayTransit": false,
+              "useRemoteGateways": false,
+              "remoteVirtualNetwork": {
+                "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet3"
+              },
+              "remoteAddressSpace": {
+                "addressPrefixes": [
+                  "13.0.0.0/8"
+                ]
+              },
+              "peeringState": "Initiated",
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

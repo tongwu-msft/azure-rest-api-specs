@@ -1,0 +1,172 @@
+### YamlMime:RESTOperation
+uid: keyvault.getstorageaccounts.getstorageaccounts
+name: Get Storage Accounts
+service: Key Vault
+groupName: Get Storage Accounts
+apiVersion: 2016-10-01
+summary: List storage accounts managed by specified key vault
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {vaultBaseUrl}/storage?api-version=2016-10-01
+- content: GET {vaultBaseUrl}/storage?maxresults={maxresults}&api-version=2016-10-01
+  isOptional: true
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: maxresults
+  in: query
+  description: Maximum number of results to return in a page. If not specified the service will return up to 25 results.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A response message containing a list of storage accounts along with a link to the next page of storage accounts.
+  types:
+  - uid: StorageListResult
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestHeader: []
+definitions:
+- name: StorageListResult
+  description: The storage accounts list result.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: "  \nThe storage account item containing storage account metadata."
+    types:
+    - uid: StorageAccountItem
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: "  \nThe URL to get the next set of storage accounts."
+    types:
+    - uid: string
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: "  \nThe key vault server error."
+    types:
+    - uid: Error
+- name: StorageAccountItem
+  description: The storage account item containing storage account metadata.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: "  \nStorage identifier."
+    types:
+    - uid: string
+  - name: resourceId
+    isReadyOnly: true
+    description: "  \nStorage account resource Id."
+    types:
+    - uid: string
+  - name: attributes
+    isReadyOnly: true
+    description: "  \nThe storage account management attributes."
+    types:
+    - uid: StorageAccountAttributes
+  - name: tags
+    isReadyOnly: true
+    description: "  \nApplication specific metadata in the form of key-value pairs."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: "  \nThe error code."
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: "  \nThe error message."
+    types:
+    - uid: string
+  - name: innererror
+    description: "  "
+    types:
+    - {}
+- name: StorageAccountAttributes
+  description: The storage account management attributes.
+  kind: object
+  properties:
+  - name: enabled
+    description: "  \nthe enabled state of the object."
+    types:
+    - uid: boolean
+  - name: created
+    isReadyOnly: true
+    description: "  \nCreation time in UTC."
+    types:
+    - uid: integer
+  - name: updated
+    isReadyOnly: true
+    description: "  \nLast updated time in UTC."
+    types:
+    - uid: integer
+examples:
+- name: List Storage account
+  request:
+    uri: GET {vaultBaseUrl}/storage?api-version=2016-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/listStorage01",
+            "resourceId": "/subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Storage/storageAccounts/kvstorageacc1",
+            "attributes": {
+              "enabled": true,
+              "created": 1490738386,
+              "updated": 1490738386
+            },
+            "tags": {
+              "tag1": "val1",
+              "tag2": "val2"
+            }
+          },
+          {
+            "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/listStorage02",
+            "resourceId": "/subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Storage/storageAccounts/kvstorageacc2",
+            "attributes": {
+              "enabled": true,
+              "created": 1490738386,
+              "updated": 1490738386
+            },
+            "tags": {
+              "tag3": "val3",
+              "tag4": "val4"
+            }
+          }
+        ],
+        "nextLink": "https://{BaseUri}/storage?api-version=2016-10-01&%24skiptoken=<token>"
+      }
+security: []

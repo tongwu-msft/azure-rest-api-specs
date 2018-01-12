@@ -31,15 +31,15 @@ service_description: To be added
 # IoT Hub REST
 The REST APIs for IoT Hub offer programmatic access to the device, messaging, and job services, as well as the resource provder, in IoT Hub.  You can access messaging services from within an IoT service running in Azure, or directly over the Internet from any application that can send an HTTPS request and receive an HTTPS response.  
   
--   [Device Identities](~/docs-ref-autogen/iothub/DeviceApi.json)  
+-   [Device Identities](~/docs-ref-autogen/iothub/DeviceApi.yml)  
   
--   [Device Twins](~/docs-ref-autogen/iothub/DeviceTwinApi.json)
+-   [Device Twins](~/docs-ref-autogen/iothub/DeviceTwinApi.yml)
 
--   [Device Messaging](~/docs-ref-autogen/iothub/HttpRuntime.json)  
+-   [Device Messaging](~/docs-ref-autogen/iothub/HttpRuntime.yml)  
 
--   [Jobs](~/docs-ref-autogen/iothub/JobApi.json)
+-   [Jobs](~/docs-ref-autogen/iothub/JobApi.yml)
   
--   [Resource Provider](~/docs-ref-autogen/iothub/IotHubResource.json)  
+-   [Resource Provider](~/docs-ref-autogen/iothub/IotHubResource.yml)  
   
 -   [Common error codes](common-error-codes.md)
 

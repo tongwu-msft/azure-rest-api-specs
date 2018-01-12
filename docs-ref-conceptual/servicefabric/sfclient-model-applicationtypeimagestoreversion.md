@@ -1,6 +1,6 @@
 ---
 title: "ApplicationTypeImageStoreVersion"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,4 +41,4 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The application type version.
+The version of the application type as defined in the application manifest.

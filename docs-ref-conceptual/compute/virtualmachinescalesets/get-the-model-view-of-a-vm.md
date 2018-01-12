@@ -147,7 +147,7 @@ Status code: 200 (OK).
 |[networkProfile](#networkProfile)|Specifies a collection of setting for the virtual network associated with the virtual machine.|    
 |[resources](#resources)|Specifies the extension resources associated with the virtual machine.|    
 |name|Specifies the name of the virtual machine.|    
-|location|Specifies the supported Azure location where the resource exists. For more information, see [List all of the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations) .|    
+|location|Specifies the supported Azure location where the resource exists. For more information, see [List all of the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.yml#Subscriptions_ListLocations) .|    
     
 ###  <a name="sku"></a> sku    
     

@@ -1,0 +1,205 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storageimport-export.locations.list
+name: List
+service: Storage Import-Export
+groupName: Locations
+apiVersion: 2016-11-01
+summary: Returns a list of locations to which you can ship the disks associated with an import or export job. A location is a Microsoft data center region.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.ImportExport/locations?api-version=2016-11-01
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the API version to use for this request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: LocationsResponse
+- name: Other Status Codes
+  description: An error occurs.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Accept-Language
+  in: header
+  description: Specifies the preferred language for the response.
+  types:
+  - uid: string
+definitions:
+- name: LocationsResponse
+  description: Locations response
+  kind: object
+  properties:
+  - name: value
+    description: "  \nProvides information about an Azure data center location."
+    types:
+    - uid: Location
+      isArray: true
+- name: ErrorResponse
+  description: Response when errors occurred
+  kind: object
+  properties:
+  - name: error.code
+    description: "  \nProvides information about the error code."
+    types:
+    - uid: string
+  - name: error.message
+    description: "  \nProvides information about the error message."
+    types:
+    - uid: string
+  - name: error.target
+    description: "  \nProvides information about the error target."
+    types:
+    - uid: string
+  - name: error.details
+    description: "  "
+    types:
+    - uid: Details
+      isArray: true
+  - name: error.innererror
+    description: "  \nInner error object if present."
+    types:
+    - uid: object
+- name: Location
+  description: Provides information about an Azure data center location.
+  kind: object
+  properties:
+  - name: id
+    description: "  \nSpecifies the resource identifier of the location. "
+    types:
+    - uid: string
+  - name: name
+    description: "  \nSpecifies the name of the location. Use List Locations to get all supported locations. "
+    types:
+    - uid: string
+  - name: type
+    description: "  \nSpecifies the type of the location. "
+    types:
+    - uid: string
+  - name: properties.recipientName
+    description: "  \nThe recipient name to use when shipping the drives to the Azure data center. "
+    types:
+    - uid: string
+  - name: properties.streetAddress1
+    description: "  \nThe first line of the street address to use when shipping the drives to the Azure data center. "
+    types:
+    - uid: string
+  - name: properties.streetAddress2
+    description: "  \nThe second line of the street address to use when shipping the drives to the Azure data center. "
+    types:
+    - uid: string
+  - name: properties.city
+    description: "  \nThe city name to use when shipping the drives to the Azure data center. "
+    types:
+    - uid: string
+  - name: properties.stateOrProvince
+    description: "  \nThe state or province to use when shipping the drives to the Azure data center. "
+    types:
+    - uid: string
+  - name: properties.postalCode
+    description: "  \nThe postal code to use when shipping the drives to the Azure data center. "
+    types:
+    - uid: string
+  - name: properties.countryOrRegion
+    description: "  \nThe country or region to use when shipping the drives to the Azure data center. "
+    types:
+    - uid: string
+  - name: properties.phone
+    description: "  \nThe phone number for the Azure data center. "
+    types:
+    - uid: string
+  - name: properties.supportedCarriers
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.alternateLocations
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+- name: Details
+  description: Describes the error details if present.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nProvides information about the error code."
+    types:
+    - uid: string
+  - name: target
+    description: "  \nProvides information about the error target."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nProvides information about the error message."
+    types:
+    - uid: string
+examples:
+- name: List locations
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.ImportExport/locations?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "recipientName": "Windows Azure Import/Export Service",
+              "streetAddress1": "Customer-A c/o NEXTDC Ltd, Delivery code ABCDEFG, 4 Eden Park Drive",
+              "streetAddress2": "",
+              "city": "Macquarie Park",
+              "stateOrProvince": "NSW",
+              "postalCode": "2113",
+              "countryOrRegion": "Australia",
+              "phone": "612 0000 0000",
+              "supportedCarriers": [
+                "DHL"
+              ],
+              "alternateLocations": [
+                "/providers/Microsoft.ImportExport/locations/australiaeast"
+              ]
+            },
+            "id": "/providers/Microsoft.ImportExport/locations/australiaeast",
+            "name": "Australia East",
+            "type": "Microsoft.ImportExport/locations"
+          },
+          {
+            "properties": {
+              "recipientName": "Microsoft Azure Import/Export Service",
+              "streetAddress1": "Microsoft, c/o NEXTDC Ltd, Delivery code ABCDEFG, 826-830 Lorimer St, Port",
+              "streetAddress2": "",
+              "city": "Melbourne",
+              "stateOrProvince": "Melbourne",
+              "postalCode": "3207",
+              "countryOrRegion": "Australia",
+              "phone": "61 0 0000 0000",
+              "supportedCarriers": [
+                "DHL"
+              ],
+              "alternateLocations": [
+                "/providers/Microsoft.ImportExport/locations/australiasoutheast"
+              ]
+            },
+            "id": "/providers/Microsoft.ImportExport/locations/australiasoutheast",
+            "name": "Australia Southeast",
+            "type": "Microsoft.ImportExport/locations"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

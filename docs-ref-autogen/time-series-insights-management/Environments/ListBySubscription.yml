@@ -1,0 +1,227 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.timeseriesinsightsmanagement.environments.listbysubscription
+name: List By Subscription
+service: Time Series Insights Management
+groupName: Environments
+apiVersion: 2017-11-15
+summary: Lists all the available environments within a subscription, irrespective of the resource groups.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.TimeSeriesInsights/environments?api-version=2017-11-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Environments returned successfully.
+  types:
+  - uid: EnvironmentListResponse
+- name: Other Status Codes
+  description: 'HTTP 404 (Not Found): The subscription could not be found.'
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: EnvironmentListResponse
+  description: The response of the List Environments operation.
+  kind: object
+  properties:
+  - name: value
+    description: "  \nAn environment is a set of time-series data avaliable for query, and is the top level Azure Time Series Insights resource."
+    types:
+    - uid: EnvironmentResource
+      isArray: true
+- name: CloudError
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: "  \nDescribes a particular API error with an error code and a message."
+    types:
+    - uid: CloudErrorBody
+- name: EnvironmentResource
+  description: Result of the List Environments operation.
+  kind: object
+  properties:
+  - name: sku
+    description: "  \nThe sku determines the capacity of the environment, the SLA (in queries-per-minute and total capacity), and the billing rate."
+    types:
+    - uid: Sku
+  - name: properties.dataAccessId
+    isReadyOnly: true
+    description: "  \nAn id used to access the environment data, e.g. to query the environment's events or upload reference data for the environment."
+    types:
+    - uid: string
+  - name: properties.dataAccessFqdn
+    isReadyOnly: true
+    description: "  \nThe fully qualified domain name used to access the environment data, e.g. to query the environment's events or upload reference data for the environment."
+    types:
+    - uid: string
+  - name: location
+    description: "  \nResource location"
+    types:
+    - uid: string
+  - name: tags
+    description: "  \nResource tags"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource Id"
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nResource name"
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nResource type"
+    types:
+    - uid: string
+  - name: properties.dataRetentionTime
+    description: "  \nISO8601 timespan specifying the minimum number of days the environment's events will be available for query."
+    types:
+    - uid: string
+  - name: properties.storageLimitExceededBehavior
+    description: "  \nThe behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If \"PauseIngress\" is specified, new events will not be read from the event source. If \"PurgeOldData\" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData."
+    types:
+    - uid: StorageLimitExceededBehavior
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "  \nProvisioning state of the resource."
+    types:
+    - uid: ProvisioningState
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: "  \nThe time the resource was created."
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nAn error code that describes the error condition more precisely than an HTTP status code. Can be used to programatically handle specific error cases."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nA message that describes the error in detail and provides debugging information."
+    types:
+    - uid: string
+  - name: target
+    description: "  \nThe target of the particular error (for example, the name of the property in error)."
+    types:
+    - uid: string
+  - name: details
+    description: "  "
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: Sku
+  description: The sku determines the capacity of the environment, the SLA (in queries-per-minute and total capacity), and the billing rate.
+  kind: object
+  properties:
+  - name: name
+    description: "  \nThe name of this SKU."
+    types:
+    - uid: SkuName
+  - name: capacity
+    description: "  \nThe capacity of the sku. This value can be changed to support scale out of environments after they have been created."
+    types:
+    - uid: integer
+- name: StorageLimitExceededBehavior
+  description: The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.
+  kind: enum
+  properties:
+  - name: PurgeOldData
+    types:
+    - uid: string
+  - name: PauseIngress
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Provisioning state of the resource.
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+- name: SkuName
+  description: The name of this SKU.
+  kind: enum
+  properties:
+  - name: S1
+    types:
+    - uid: string
+  - name: S2
+    types:
+    - uid: string
+examples:
+- name: EnvironmentsBySubscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.TimeSeriesInsights/environments?api-version=2017-11-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/Environments/env1",
+            "location": "West US",
+            "name": "env1",
+            "type": "Microsoft.TimeSeriesInsights/Environments",
+            "tags": {},
+            "properties": {
+              "dataRetentionTime": "P31D",
+              "provisioningState": "Succeeded",
+              "creationTime": "2017-04-18T19:20:33.228882Z"
+            },
+            "sku": {
+              "name": "S1",
+              "capacity": 1
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

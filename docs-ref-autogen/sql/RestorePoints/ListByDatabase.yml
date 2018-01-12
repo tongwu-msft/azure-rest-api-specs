@@ -1,0 +1,181 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sqldatabase.restorepoints.listbydatabase
+name: List By Database
+service: SQL Database
+groupName: Restore Points
+apiVersion: 2014-04-01
+summary: Gets a list of database restore points.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints?api-version=2014-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database to get available restore points.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: RestorePointListResult
+requestHeader: []
+definitions:
+- name: RestorePointListResult
+  description: The response to a list database restore points request.
+  kind: object
+  properties:
+  - name: value
+    description: "  \nA database restore point."
+    types:
+    - uid: RestorePoint
+      isArray: true
+- name: RestorePoint
+  description: A database restore point.
+  kind: object
+  properties:
+  - name: properties.restorePointType
+    isReadyOnly: true
+    description: "  \nThe restore point type of the database restore point."
+    types:
+    - uid: RestorePointType
+  - name: properties.restorePointCreationDate
+    isReadyOnly: true
+    description: "  \nRestore point creation time (ISO8601 format). Populated when restorePointType = CONTINUOUS. Null otherwise."
+    types:
+    - uid: string
+  - name: properties.earliestRestoreDate
+    isReadyOnly: true
+    description: "  \nEarliest restore time (ISO8601 format). Populated when restorePointType = DISCRETE. Null otherwise."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource ID."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nResource name."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nResource type."
+    types:
+    - uid: string
+- name: RestorePointType
+  description: The restore point type of the database restore point.
+  kind: enum
+  properties:
+  - name: DISCRETE
+    types:
+    - uid: string
+  - name: CONTINUOUS
+    types:
+    - uid: string
+examples:
+- name: Get a database's restore points
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6730/providers/Microsoft.Sql/servers/sqlcrudtest-9007/databases/3481/restorePoints?api-version=2014-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6730/providers/Microsoft.Sql/servers/sqlcrudtest-9007/databases/3481/restorepoints/ContinuousRestorePoint",
+            "name": "ContinuousRestorePoint",
+            "location": "West US",
+            "type": "Microsoft.Sql/servers/databases/restorePoints",
+            "properties": {
+              "restorePointType": "CONTINUOUS",
+              "earliestRestoreDate": "2017-06-12T00:00:00Z",
+              "restorePointCreationDate": null
+            }
+          }
+        ]
+      }
+- name: Get a data warehouse's restore points
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6730/providers/Microsoft.Sql/servers/sqlcrudtest-9007/databases/3481/restorePoints?api-version=2014-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6730/providers/Microsoft.Sql/servers/9007/databases/3481/restorepoints/131448209670000000",
+            "name": "131448209670000000",
+            "location": "West US",
+            "type": "Microsoft.Sql/servers/databases/restorePoints",
+            "properties": {
+              "restorePointType": "DISCRETE",
+              "earliestRestoreDate": null,
+              "restorePointCreationDate": "2017-07-18T03:09:27Z"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6730/providers/Microsoft.Sql/servers/9007/databases/3481/restorepoints/131448353660000000",
+            "name": "131448353660000000",
+            "location": "West US",
+            "type": "Microsoft.Sql/servers/databases/restorePoints",
+            "properties": {
+              "restorePointType": "DISCRETE",
+              "earliestRestoreDate": null,
+              "restorePointCreationDate": "2017-07-18T07:09:26Z"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6730/providers/Microsoft.Sql/servers/9007/databases/3481/restorepoints/131448497660000000",
+            "name": "131448497660000000",
+            "location": "West US",
+            "type": "Microsoft.Sql/servers/databases/restorePoints",
+            "properties": {
+              "restorePointType": "DISCRETE",
+              "earliestRestoreDate": null,
+              "restorePointCreationDate": "2017-07-18T11:09:26Z"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6730/providers/Microsoft.Sql/servers/9007/databases/3481/restorepoints/131448641650000000",
+            "name": "131448641650000000",
+            "location": "West US",
+            "type": "Microsoft.Sql/servers/databases/restorePoints",
+            "properties": {
+              "restorePointType": "DISCRETE",
+              "earliestRestoreDate": null,
+              "restorePointCreationDate": "2017-07-18T15:09:25Z"
+            }
+          }
+        ]
+      }
+security: []

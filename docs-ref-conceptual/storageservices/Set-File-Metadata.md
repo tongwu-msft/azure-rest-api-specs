@@ -88,6 +88,8 @@ The `Set File Metadata` operation updates user-defined metadata for the specifie
   
 ## Authorization  
  Only the account owner may call this operation.  
-  
+
+## Remarks
+ `Set File Metadata` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)  
 ## See Also  
  [Operations on Files](Operations-on-Files.md)

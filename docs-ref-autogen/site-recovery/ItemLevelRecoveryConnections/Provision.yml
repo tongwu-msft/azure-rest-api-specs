@@ -1,0 +1,180 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.recoveryservices-backup.itemlevelrecoveryconnections.provision
+name: Provision
+service: Recovery Services - Backup
+groupName: Item Level Recovery Connections
+apiVersion: 2016-06-01
+summary: Provisions a script which invokes an iSCSI connection to the backup data. Executing this script opens File Explorer which displays the recoverable files and folders. This is an asynchronous operation. To get the provisioning status, call GetProtectedItemOperationResult API.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/provisionInstantItemRecovery?api-version=2016-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group associated with the Recovery Services vault.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the Recovery Services vault.
+  types:
+  - uid: string
+- name: fabricName
+  in: path
+  isRequired: true
+  description: The fabric name associated with the backup items.
+  types:
+  - uid: string
+- name: containerName
+  in: path
+  isRequired: true
+  description: The container name associated with the backup items.
+  types:
+  - uid: string
+- name: protectedItemName
+  in: path
+  isRequired: true
+  description: The name of the backup item whose files or folders are to be restored.
+  types:
+  - uid: string
+- name: recoveryPointId
+  in: path
+  isRequired: true
+  description: The recovery point ID for backup data. The iSCSI connection will be provisioned for this backup data.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted.
+requestBody:
+- parameters:
+  - name: properties
+    in: body
+    description: "  \nParameters to restore file or folders API."
+    types:
+    - uid: IaasVMILRRegistrationRequest
+    typesTitle: ILRRequest
+  - name: id
+    in: body
+    description: "  \nResource ID represents the complete path to the resource."
+    types:
+    - uid: string
+  - name: name
+    in: body
+    description: "  \nResource name associated with the resource."
+    types:
+    - uid: string
+  - name: type
+    in: body
+    description: "  \nResource type represents the complete path of the form Namespace/ResourceType/ResourceType/..."
+    types:
+    - uid: string
+  - name: location
+    in: body
+    description: "  \nResource location."
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: "  \nResource tags."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    in: body
+    description: "  \nOptional ETag."
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ILRRequestResource
+  description: The parameters to restore files or folders.
+  kind: object
+  properties:
+  - name: properties
+    description: "  \nParameters to restore file or folders API."
+    types:
+    - uid: IaasVMILRRegistrationRequest
+    typesTitle: ILRRequest
+  - name: id
+    description: "  \nResource ID represents the complete path to the resource."
+    types:
+    - uid: string
+  - name: name
+    description: "  \nResource name associated with the resource."
+    types:
+    - uid: string
+  - name: type
+    description: "  \nResource type represents the complete path of the form Namespace/ResourceType/ResourceType/..."
+    types:
+    - uid: string
+  - name: location
+    description: "  \nResource location."
+    types:
+    - uid: string
+  - name: tags
+    description: "  \nResource tags."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    description: "  \nOptional ETag."
+    types:
+    - uid: string
+- name: IaasVMILRRegistrationRequest
+  description: Restore files or folders from a backup copy, or recovery point, of an IaaS (or Azure) VM.
+  kind: object
+  properties:
+  - name: recoveryPointId
+    description: "  \nThe ID of the IaaS VM recovery point used to restore the files or folders."
+    types:
+    - uid: string
+  - name: virtualMachineId
+    description: "  \nThe fully qualified Resource Manager ID of the VM used to restore the files or folders."
+    types:
+    - uid: string
+  - name: initiatorName
+    description: "  \nThe iSCSI initiator name."
+    types:
+    - uid: string
+  - name: renewExistingRegistration
+    description: "  \nWhether to renew the existing registration with the iSCSI server."
+    types:
+    - uid: boolean
+  - name: objectType
+    description: "  \nThis property is used as the discriminator for deciding the specific types in the polymorhpic chain of types."
+    types:
+    - uid: IaasVMILRRegistrationRequest
+    typesTitle: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

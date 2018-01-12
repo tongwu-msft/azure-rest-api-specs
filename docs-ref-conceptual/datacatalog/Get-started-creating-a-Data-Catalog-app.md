@@ -1,7 +1,7 @@
 ---
 title: "Get started creating a Data Catalog app"
 ms.custom: na
-ms.date: 2017-05-15
+ms.date: 2017-11-09
 ms.prod: azure
 ms.reviewer: na
 ms.service: data-catalog
@@ -26,11 +26,11 @@ translation.priority.mt:
 ---
 # Get started creating a Data Catalog app
 ---  
-The Data Catalog REST API is a REST-based API that provides programmatic access to Data Catalog resources to register, annotate and search data assets programmatically. Using the API, you can create an app in any platform that supports calling REST operations.  
+The Data Catalog REST API is a REST-based API that provides programmatic access to Data Catalog resources to register, annotate, and search data assets programmatically. Using the API, you can create an app in any platform that supports calling REST operations.  
   
 Here's how to get started creating a Data Catalog app:  
   
-| Get started with the Data Catalog REST API to register, annotate and search data assets |  
+| To register, annotate, and search data assets using REST API |  
 | :- |  
 |![Step1](media/Step1.DC.50.png) – [Learn about the Data Catalog REST API](index.md) |  
 |![Step2](media/REST-API-Step-2.png) - [Create an Azure Active Directory tenant](Create-an-Azure-Active-Directory-tenant.md). If you already have an Azure AD tenant and organizational user, you can skip this step. **Important** To create a Data Catalog app, you need an **Azure Active Directory** tenant.  |  

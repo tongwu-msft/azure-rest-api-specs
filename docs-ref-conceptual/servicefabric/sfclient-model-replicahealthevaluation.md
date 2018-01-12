@@ -1,6 +1,6 @@
 ---
 title: "ReplicaHealthEvaluation"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -81,7 +81,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Id of the stateful service replica or the stateless service instance.
+Id of a stateful service replica or a stateless service instance. This id is used in the queries that apply to both stateful and stateless services. It is used by Service Fabric to uniquely identify a replica of a partition of a stateful service or an instance of a stateless service partition. It is unique within a partition and does not change for the lifetime of the replica or the instance. If a stateful replica gets dropped and another replica gets created on the same node for the same partition, it will get a different value for the id. If a staless instance is failed over on the same or different node it will get a different value for the id.
 
 ____
 ### UnhealthyEvaluations

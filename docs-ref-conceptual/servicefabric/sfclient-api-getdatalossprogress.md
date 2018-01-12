@@ -1,6 +1,6 @@
 ---
 title: "Get Data Loss Progress"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,7 +36,7 @@ Gets the progress of a data loss operation started with StartDataLoss, using the
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/GetDataLossProgress?api-version=3.0&OperationId={OperationId}&timeout={timeout}` |
+| GET | `/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/GetDataLossProgress?api-version=6.0&OperationId={OperationId}&timeout={timeout}` |
 
 
 ## Parameters
@@ -53,7 +53,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
+The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the service name is "fabric://myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
 
 ____
 ### partitionId
@@ -66,9 +66,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### OperationId
@@ -102,7 +102,7 @@ This shows an example of possible output when GetDataLossProgress has reached a 
 
 #### Request
 ```
-GET http://localhost:19080/Faults/Services/fabric:/myapp/myservice/$/GetPartitions/1daae3f5-7fd6-42e9-b1ba-8c05f873994d/$/GetDataLossProgress?api-version=3.0&OperationId=7216486c-1ee9-4b00-99b2-92b26fcb07f5
+GET http://localhost:19080/Faults/Services/fabric:/myapp/myservice/$/GetPartitions/1daae3f5-7fd6-42e9-b1ba-8c05f873994d/$/GetDataLossProgress?api-version=6.0&OperationId=7216486c-1ee9-4b00-99b2-92b26fcb07f5
 ```
 
 #### 200 Response
@@ -127,7 +127,7 @@ This shows an example of output when a data loss operation is in a Running State
 
 #### Request
 ```
-GET http://localhost:19080/Faults/Services/fabric:/myapp/myservice/$/GetPartitions/1daae3f5-7fd6-42e9-b1ba-8c05f873994d/$/GetDataLossProgress?api-version=3.0&OperationId=7216486c-1ee9-4b00-99b2-92b26fcb07f5
+GET http://localhost:19080/Faults/Services/fabric:/myapp/myservice/$/GetPartitions/1daae3f5-7fd6-42e9-b1ba-8c05f873994d/$/GetDataLossProgress?api-version=6.0&OperationId=7216486c-1ee9-4b00-99b2-92b26fcb07f5
 ```
 
 #### 200 Response

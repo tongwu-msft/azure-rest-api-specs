@@ -1,6 +1,6 @@
 ---
 title: "ResolvedServiceEndpoint"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -47,7 +47,7 @@ The role of the replica where the endpoint is reported. Possible values are foll
   - Invalid - Indicates the service endpoint role is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
   - Stateless - Indicates that the service endpoint is of a stateless service. The value is 1.
   - StatefulPrimary - Indicates that the service endpoint is of a primary replica of a stateful service. The value is 2.
-  - StatefulSecondary -  Indicates that the service endpoint is of a secondary replica of a stateful service. The value is 3. 
+  - StatefulSecondary -  Indicates that the service endpoint is of a secondary replica of a stateful service. The value is 3.
 
 
 ____

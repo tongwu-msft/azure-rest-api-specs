@@ -1,0 +1,216 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.jobschedule.create
+name: Create
+service: Automation
+groupName: Job Schedule
+apiVersion: 2015-10-31
+summary: Create a job schedule.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules/{jobScheduleId}?api-version=2015-10-31
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The automation account name.
+  types:
+  - uid: string
+- name: jobScheduleId
+  in: path
+  isRequired: true
+  description: The job schedule name.
+  types:
+  - uid: string
+  format: uuid
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Created
+  types:
+  - uid: JobSchedule
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: properties.schedule
+    in: body
+    isRequired: true
+    description: "  \nGets or sets the schedule."
+    types:
+    - uid: ScheduleAssociationProperty
+  - name: properties.runbook
+    in: body
+    isRequired: true
+    description: "  \nGets or sets the runbook."
+    types:
+    - uid: RunbookAssociationProperty
+  - name: properties.runOn
+    in: body
+    description: "  \nGets or sets the hybrid worker group that the scheduled job should run on."
+    types:
+    - uid: string
+  - name: properties.parameters
+    in: body
+    description: "  \nGets or sets a list of job properties."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: ScheduleAssociationProperty
+  description: The schedule property associated with the entity.
+  kind: object
+  properties:
+  - name: name
+    description: "  \nGets or sets the name of the schedule."
+    types:
+    - uid: string
+- name: RunbookAssociationProperty
+  description: The runbook property associated with the entity.
+  kind: object
+  properties:
+  - name: name
+    description: "  \nGets or sets the name of the runbook."
+    types:
+    - uid: string
+- name: JobSchedule
+  description: Definition of the job schedule.
+  kind: object
+  properties:
+  - name: id
+    description: "  \nGets or sets the id of the resource."
+    types:
+    - uid: string
+  - name: properties.jobScheduleId
+    description: "  \nGets or sets the id of job schedule."
+    types:
+    - uid: string
+  - name: properties.schedule
+    description: "  \nGets or sets the schedule."
+    types:
+    - uid: ScheduleAssociationProperty
+  - name: properties.runbook
+    description: "  \nGets or sets the runbook."
+    types:
+    - uid: RunbookAssociationProperty
+  - name: properties.runOn
+    description: "  \nGets or sets the hybrid worker group that the scheduled job should run on."
+    types:
+    - uid: string
+  - name: properties.parameters
+    description: "  \nGets or sets the parameters of the job schedule."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: "  \nError code"
+    types:
+    - uid: string
+  - name: message
+    description: "  \nError message indicating why the operation failed."
+    types:
+    - uid: string
+- name: JobScheduleCreateParameters
+  description: The parameters supplied to the create job schedule operation.
+  kind: object
+  properties:
+  - name: properties.schedule
+    description: "  \nGets or sets the schedule."
+    types:
+    - uid: ScheduleAssociationProperty
+  - name: properties.runbook
+    description: "  \nGets or sets the runbook."
+    types:
+    - uid: RunbookAssociationProperty
+  - name: properties.runOn
+    description: "  \nGets or sets the hybrid worker group that the scheduled job should run on."
+    types:
+    - uid: string
+  - name: properties.parameters
+    description: "  \nGets or sets a list of job properties."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Create a job schedule
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/jobSchedules/0fa462ba-3aa2-4138-83ca-9ebc3bc55cdc?api-version=2015-10-31
+    body: >-
+      {
+        "properties": {
+          "schedule": {
+            "name": "ScheduleNameGoesHere332204b5-debe-4348-a5c7-6357457189f2"
+          },
+          "runbook": {
+            "name": "TestRunbook"
+          },
+          "parameters": {
+            "jobscheduletag01": "jobschedulevalue01",
+            "jobscheduletag02": "jobschedulevalue02"
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/jobSchedules/0fa462ba-3aa2-4138-83ca-9ebc3bc55cdc",
+        "properties": {
+          "jobScheduleId": "0fa462ba-3aa2-4138-83ca-9ebc3bc55cdc",
+          "runbook": {
+            "name": "TestRunbook"
+          },
+          "schedule": {
+            "name": "ScheduleNameGoesHere332204b5-debe-4348-a5c7-6357457189f2"
+          },
+          "runOn": null,
+          "parameters": {
+            "jobscheduletag01": "jobschedulevalue01",
+            "jobscheduletag02": "jobschedulevalue02"
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

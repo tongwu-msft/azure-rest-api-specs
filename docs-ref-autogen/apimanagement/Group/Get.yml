@@ -1,0 +1,173 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.group.get
+name: Get
+service: API Management
+groupName: Group
+apiVersion: 2017-03-01
+summary: Gets the details of the group specified by its identifier.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}?api-version=2017-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: groupId
+  in: path
+  isRequired: true
+  description: Group identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
+  description: The response body contains the specified Group entity.
+  types:
+  - uid: GroupContract
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: GroupContract
+  description: Page values.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: "  \nGroup name."
+    types:
+    - uid: string
+  - name: properties.description
+    description: "  \nGroup description. Can contain HTML formatting tags."
+    types:
+    - uid: string
+  - name: properties.builtIn
+    isReadyOnly: true
+    description: "  \ntrue if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false."
+    types:
+    - uid: boolean
+  - name: properties.type
+    description: "  \nGroup type."
+    types:
+    - uid: GroupType
+  - name: properties.externalId
+    description: "  \nFor external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource ID."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nResource name."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nResource type for API Management resource."
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nService-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nHuman-readable representation of the error."
+    types:
+    - uid: string
+  - name: details
+    description: "  \nError Field contract."
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: GroupType
+  description: Group type.
+  kind: enum
+  properties:
+  - name: custom
+    types:
+    - uid: string
+  - name: system
+    types:
+    - uid: string
+  - name: external
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nProperty level error code."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nHuman-readable representation of property-level error."
+    types:
+    - uid: string
+  - name: target
+    description: "  \nProperty name."
+    types:
+    - uid: string
+examples:
+- name: ApiManagementGetGroup
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/59306a29e4bbd510dc24e5f9?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/59306a29e4bbd510dc24e5f9",
+        "type": "Microsoft.ApiManagement/service/groups",
+        "name": "59306a29e4bbd510dc24e5f9",
+        "properties": {
+          "displayName": "AwesomeGroup (samiraad.onmicrosoft.com)",
+          "description": "awesome group of people",
+          "builtIn": false,
+          "type": "external",
+          "externalId": "aad://samiraad.onmicrosoft.com/groups/3773adf4-032e-4d25-9988-eaff9ca72eca"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

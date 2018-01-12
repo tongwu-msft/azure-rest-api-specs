@@ -1,0 +1,311 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerregistry.webhooks.listevents
+name: List Events
+service: Container Registry
+groupName: Webhooks
+apiVersion: 2017-10-01
+summary: Lists recent events for the specified webhook.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/listEvents?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: registryName
+  in: path
+  isRequired: true
+  description: The name of the container registry.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: webhookName
+  in: path
+  isRequired: true
+  description: The name of the webhook.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: EventListResult
+requestHeader: []
+definitions:
+- name: EventListResult
+  description: The result of a request to list events for a webhook.
+  kind: object
+  properties:
+  - name: value
+    description: "  \nThe event for a webhook."
+    types:
+    - uid: Event
+      isArray: true
+  - name: nextLink
+    description: "  \nThe URI that can be used to request the next list of events."
+    types:
+    - uid: string
+- name: Event
+  description: The list of events. Since this list may be incomplete, the nextLink field should be used to request the next list of events.
+  kind: object
+  properties:
+  - name: eventRequestMessage
+    description: "  \nThe event request message sent to the service URI."
+    types:
+    - uid: EventRequestMessage
+  - name: eventResponseMessage
+    description: "  \nThe event response message received from the service URI."
+    types:
+    - uid: EventResponseMessage
+  - name: id
+    description: "  \nThe event ID."
+    types:
+    - uid: string
+- name: EventRequestMessage
+  description: The event request message sent to the service URI.
+  kind: object
+  properties:
+  - name: content
+    description: "  \nThe content of the event request message."
+    types:
+    - uid: EventContent
+  - name: headers
+    description: "  \nThe headers of the event request message."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: method
+    description: "  \nThe HTTP method used to send the event request message."
+    types:
+    - uid: string
+  - name: requestUri
+    description: "  \nThe URI used to send the event request message."
+    types:
+    - uid: string
+  - name: version
+    description: "  \nThe HTTP message version."
+    types:
+    - uid: string
+- name: EventResponseMessage
+  description: The event response message received from the service URI.
+  kind: object
+  properties:
+  - name: content
+    description: "  \nThe content of the event response message."
+    types:
+    - uid: string
+  - name: headers
+    description: "  \nThe headers of the event response message."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: reasonPhrase
+    description: "  \nThe reason phrase of the event response message."
+    types:
+    - uid: string
+  - name: statusCode
+    description: "  \nThe status code of the event response message."
+    types:
+    - uid: string
+  - name: version
+    description: "  \nThe HTTP message version."
+    types:
+    - uid: string
+- name: EventContent
+  description: The content of the event request message.
+  kind: object
+  properties:
+  - name: id
+    description: "  \nThe event ID."
+    types:
+    - uid: string
+  - name: timestamp
+    description: "  \nThe time at which the event occurred."
+    types:
+    - uid: string
+  - name: action
+    description: "  \nThe action that encompasses the provided event."
+    types:
+    - uid: string
+  - name: target
+    description: "  \nThe target of the event."
+    types:
+    - uid: Target
+  - name: request
+    description: "  \nThe request that generated the event."
+    types:
+    - uid: Request
+  - name: actor
+    description: "  \nThe agent that initiated the event. For most situations, this could be from the authorization context of the request."
+    types:
+    - uid: Actor
+  - name: source
+    description: "  \nThe registry node that generated the event. Put differently, while the actor initiates the event, the source generates it."
+    types:
+    - uid: Source
+- name: Target
+  description: The target of the event.
+  kind: object
+  properties:
+  - name: mediaType
+    description: "  \nThe MIME type of the referenced object."
+    types:
+    - uid: string
+  - name: size
+    description: "  \nThe number of bytes of the content. Same as Length field."
+    types:
+    - uid: integer
+  - name: digest
+    description: "  \nThe digest of the content, as defined by the Registry V2 HTTP API Specification."
+    types:
+    - uid: string
+  - name: length
+    description: "  \nThe number of bytes of the content. Same as Size field."
+    types:
+    - uid: integer
+  - name: repository
+    description: "  \nThe repository name."
+    types:
+    - uid: string
+  - name: url
+    description: "  \nThe direct URL to the content."
+    types:
+    - uid: string
+  - name: tag
+    description: "  \nThe tag name."
+    types:
+    - uid: string
+- name: Request
+  description: The request that generated the event.
+  kind: object
+  properties:
+  - name: id
+    description: "  \nThe ID of the request that initiated the event."
+    types:
+    - uid: string
+  - name: addr
+    description: "  \nThe IP or hostname and possibly port of the client connection that initiated the event. This is the RemoteAddr from the standard http request."
+    types:
+    - uid: string
+  - name: host
+    description: "  \nThe externally accessible hostname of the registry instance, as specified by the http host header on incoming requests."
+    types:
+    - uid: string
+  - name: method
+    description: "  \nThe request method that generated the event."
+    types:
+    - uid: string
+  - name: useragent
+    description: "  \nThe user agent header of the request."
+    types:
+    - uid: string
+- name: Actor
+  description: The agent that initiated the event. For most situations, this could be from the authorization context of the request.
+  kind: object
+  properties:
+  - name: name
+    description: "  \nThe subject or username associated with the request context that generated the event."
+    types:
+    - uid: string
+- name: Source
+  description: The registry node that generated the event. Put differently, while the actor initiates the event, the source generates it.
+  kind: object
+  properties:
+  - name: addr
+    description: "  \nThe IP or hostname and the port of the registry node that generated the event. Generally, this will be resolved by os.Hostname() along with the running port."
+    types:
+    - uid: string
+  - name: instanceID
+    description: "  \nThe running instance of an application. Changes after each restart."
+    types:
+    - uid: string
+examples:
+- name: WebhookListEvents
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/webhooks/myWebhook/listEvents?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "00000000-0000-0000-0000-000000000000",
+            "eventRequestMessage": {
+              "content": {
+                "id": "00000000-0000-0000-0000-000000000000",
+                "timestamp": "2017-03-01T23:14:37.0707808Z",
+                "action": "push",
+                "target": {
+                  "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+                  "size": 708,
+                  "digest": "sha256:fea8895f450959fa676bcc1df0611ea93823a735a01205fd8622846041d0c7cf",
+                  "length": 708,
+                  "repository": "hello-world",
+                  "url": "http://192.168.100.227:5000/v2/hello-world/manifests/sha256:fea8895f450959fa676bcc1df0611ea93823a735a01205fd8622846041d0c7cf",
+                  "tag": "latest"
+                },
+                "request": {
+                  "id": "00000000-0000-0000-0000-000000000000",
+                  "addr": "192.168.64.11:42961",
+                  "host": "192.168.100.227:5000",
+                  "method": "GET",
+                  "useragent": "curl/7.38.0"
+                },
+                "actor": {},
+                "source": {
+                  "addr": "xtal.local:5000",
+                  "instanceID": "00000000-0000-0000-0000-000000000000"
+                }
+              },
+              "headers": {
+                "Content-Type": "application/json",
+                "Content-Length": "719",
+                "Authorization": "******"
+              },
+              "method": "POST",
+              "requestUri": "http://myservice.com",
+              "version": "1.1"
+            },
+            "eventResponseMessage": {
+              "headers": {
+                "Content-Length": "0"
+              },
+              "statusCode": "200",
+              "version": "1.1"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

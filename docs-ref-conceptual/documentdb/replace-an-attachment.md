@@ -1,5 +1,5 @@
 ---
-title: "Replace an Attachment"
+title: "Replace an Attachment - Azure Cosmos DB REST API"
 ms.custom: ""
 ms.date: "2016-02-25"
 ms.prod: "azure"
@@ -13,7 +13,6 @@ caps.latest.revision: 8
 author: "mimig1"
 ms.author: "mimig"
 manager: "jhubbard"
-robots: noindex,nofollow
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -29,7 +28,7 @@ translation.priority.mt:
 # Replace an Attachment
   There are two ways to replace an attachment resource – put the media content to Azure Cosmos DB like in the [AtomPub Protocol](https://tools.ietf.org/html/rfc5023), or put just the attachment metadata to media stored externally.  
   
- The first is to PUT the raw media in the body payload to store it in the provided attachment storage under your Cosmos DB account. For the attachment storage quota, see [Cosmos DB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/). To replace this type of attachment, developers include the raw attachment (video, audio, file, blob, etc.) as the body of the PUT. Two headers must be set: Content-Type and Slug. The Content-Type header is set to the MIME type of the attachment while the Slug header is set to the name of the attachment.  
+ The first is to PUT the raw media in the body payload to store it in the provided attachment storage under your Cosmos DB account. To replace this type of attachment, developers include the raw attachment (video, audio, file, blob, etc.) as the body of the PUT. Two headers must be set: Content-Type and Slug. The Content-Type header is set to the MIME type of the attachment while the Slug header is set to the name of the attachment.  
   
  The second way to replace an attachment resource is to PUT the attachment resource properties noting the type and media link of the attachment. Unlike the first type of attachment resource, the Content-Type and Slug headers are not to be set as the raw media is not part of the request payload.  
   
@@ -77,7 +76,7 @@ translation.priority.mt:
 |400 Bad Request|The JSON body is invalid. Check for missing curly brackets or quotes.|  
 |404 Not Found|The attachment to be replaced is no longer a resource, i.e. the attachment has been deleted.|  
 |409 Conflict|The id provided for the attachment has been taken by an existing attachment.|  
-|413 Entity Too Large|The document size in the request exceeded the allowable document size in a request. For more information on document size limits, see [Azure Cosmos DB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
+|413 Entity Too Large|The document size in the request exceeded the allowable document size in a request.|  
   
 ### Body  
   
@@ -165,10 +164,10 @@ Content-Length: 299
 ```  
   
 ## See Also  
- [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
 

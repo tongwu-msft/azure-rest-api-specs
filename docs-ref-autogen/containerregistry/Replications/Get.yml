@@ -1,0 +1,167 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerregistry.replications.get
+name: Get
+service: Container Registry
+groupName: Replications
+apiVersion: 2017-10-01
+summary: Gets the properties of the specified replication.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: registryName
+  in: path
+  isRequired: true
+  description: The name of the container registry.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: replicationName
+  in: path
+  isRequired: true
+  description: The name of the replication.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: Replication
+requestHeader: []
+definitions:
+- name: Replication
+  description: An object that represents a replication for a container registry.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "  \nThe provisioning state of the replication at the time the operation was called."
+    types:
+    - uid: ProvisioningState
+  - name: properties.status
+    isReadyOnly: true
+    description: "  \nThe status of the replication at the time the operation was called."
+    types:
+    - uid: Status
+  - name: id
+    isReadyOnly: true
+    description: "  \nThe resource ID."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nThe name of the resource."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nThe type of the resource."
+    types:
+    - uid: string
+  - name: location
+    description: "  \nThe location of the resource. This cannot be changed after the resource is created."
+    types:
+    - uid: string
+  - name: tags
+    description: "  \nThe tags of the resource."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ProvisioningState
+  description: The provisioning state of the container registry at the time the operation was called.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: Status
+  description: The status of the container registry at the time the operation was called.
+  kind: object
+  properties:
+  - name: displayStatus
+    isReadyOnly: true
+    description: "  \nThe short label for the status."
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: "  \nThe detailed message for the status, including alerts and error messages."
+    types:
+    - uid: string
+  - name: timestamp
+    isReadyOnly: true
+    description: "  \nThe timestamp when the status was changed to the current value."
+    types:
+    - uid: string
+examples:
+- name: ReplicationGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/replications/myReplication?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/replications/myReplication",
+        "name": "myReplication",
+        "type": "Microsoft.ContainerRegistry/registries/replications",
+        "location": "eastus",
+        "tags": {
+          "key": "value"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "status": {
+            "displayStatus": "Ready",
+            "message": "The replication is ready.",
+            "timestamp": "2017-03-01T23:15:37.0707808Z"
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

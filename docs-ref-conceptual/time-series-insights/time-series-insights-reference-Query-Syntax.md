@@ -1,44 +1,63 @@
-# Azure Time Series Insights Query Syntax
+---
+title: Azure Time Series Insights query syntax | Microsoft Docs
+description: This topic describes the Azure Time Series Insights query syntax
+keywords:
+services: time-series-insights
+documentationcenter:
+author: MarkMcGeeAtAquent
+manager: almineev
+editor: cgronlun
 
-This document describes query request format for query API. Query requests must be in JSON format. The request JSON payload should be created using JSON-based domain-specific strongly typed query language.
+ms.assetid:
+ms.service: time-series-insights
+ms.devlang: na
+ms.topic: data-acesss-api
+ms.tgt_pltfrm: na
+ms.workload: big-data
+ms.date: 11/27/2017
+ms.author: v-mamcge
+---
+# Azure Time Series Insights query syntax
+
+This document describes the request format for Time Series Insights REST query API. Query requests must be in JSON format. The request JSON payload should be created using our JSON format guidelines found below. 
 
 The language is subdivided into the following elements:
+
 - Scalar expressions, which produce scalar values.
 - Scalar functions, which produce scalar values.
 - Aggregate expressions, used to partition collections of events and compute measures over the partitions.
 - Clauses, which form constituent components of input JSON query and also can be a part of expressions.
 
+## Getting Started
+
+To get started, see [Azure Time Series Insights query API](time-series-insights-reference-QueryAPI.md) and [Create the request ](https://docs.microsoft.com/en-us/rest/api/#create-the-request) section from the Azure REST API reference. These topics step you through the REST API request/response pair, how to register your client application with Azure Active Directory to secure REST requests, and how to create and send REST requests, handle responses, and parse query results.
+
 ## Data Model
 
-Query API operates on data stored as individual **events** within an environment.
-Each event is a set of property name and value pairs.
+The Time Series Insights query API operates on data stored as individual **events** within an environment. Each event is a set of property name and value pairs.
 
 Event properties can be of one of the following primitive types: `Boolean`, `DateTime`, `Double`, or `String`.
 Original event source formats may support a larger set of value types, in which case Time Series Insights ingress maps them to the closest primitive types.
 All primitive types are nullable.
 
 All events have the following built-in properties with predefined name and type:
+
 | Property name | Property type | Definition |
 |-|-|-|
 | $ts | DateTime | Event timestamp |
 | $esn | String | Event source name |
 
-By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp.
-However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp.
+By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp. However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp. For more information, see [Create a Time Series Insights event source](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-add-event-source).
 
-Event source name is the display name of the event source from which Time Series Insights has received the event.
-It is associated with a particular event at the ingress time of the event and stays unchanged for the life-time of the event.
-When the name is changed in the event source configuration, already processed events carry the old name and new events carry the new name.
+Event source name is the display name of the event source from which Time Series Insights has received the event. It is associated with a particular event at the ingress time of the event and stays unchanged for the lifetime of the event. When the name is changed in the event source configuration, already processed events carry the old name, and new events carry the new name.
 
-Custom event properties are uniquely identified and referenced in query expressions by name and type.
-An event can have more than one property with the same name and different types.
-Properties with the same name but different types might result from ingress type splitting. An event property value of string type can be stored as a property with a different type in the following cases:
+Custom event properties are uniquely identified and referenced in query expressions by name and type. An event can have more than one property with the same name and different types. Properties with the same name but different types might result from ingress type splitting. An event property value of string type can be stored as a property with a different type in the following cases:
 * If String value is a valid Double value, then it is stored both as Double and String.
 * If String value is a valid DateTime value, then it is stored as DateTime only.
 
 Time Series Insights has limited support for the following values within the Double type: `Double.NaN`, `Double.PositiveInfinity`, and `Double.NegativeInfinity`.
 These values are converted to `null` during ingress, but if query evaluation produces one of these values, the value is evaluated and serialized as a `String` in response.
-User can pass these values as strings for ingress, so in query expressions these values should be also passed as strings.
+You can pass these values as strings for ingress, so in query expressions these values should be also passed as strings.
 Query API converts empty string literals to nulls in the output.
 
 **Event schema** describes properties of an event.
@@ -68,7 +87,7 @@ JSON example:
 {"timeSpan": null}
 ```
 
-**Property reference expression** is used to access values of non-built-in properties of an event.
+A **Property reference expression** is used to access values of non-built-in properties of an event.
 Result type of a property reference expression is the primitive type of the property.
 Properties in the event schema are uniquely identified by name and type and the reference expression requires both to be specified.
 
@@ -80,7 +99,7 @@ JSON example:
 }
 ```
 
-**Built-in Property reference expression** is used to access built-in properties of an event.
+A **Built-in Property reference expression** is used to access built-in properties of an event.
 Result type of a built-in property reference expression is the primitive type of the property.
 Built-in properties are referenced by name only; therefore, no type is needed in the reference expression.
 
@@ -100,7 +119,7 @@ Time Series Insights supports the following **boolean comparison expressions**:
 | `"gt"` | greater than |
 | `"gte"` | greater than or equal |
 
-All comparison expressions take left and right arguments of primitive types and return a Boolean value representing result of the comparison.
+All comparison expressions take left and right arguments of primitive types and return a Boolean value representing the result of the comparison.
 All types implicitly cast only to themselves and explicit casts are not supported, therefore types of left and right arguments should match.
 
 JSON example:
@@ -219,7 +238,7 @@ JSON example:
 
 ### Predicate String
 
-Expression in predicate string is evaluated into JSON boolean expression. It should comply with the following grammar (simplified):
+The expression in the predicate string is evaluated into a JSON boolean expression. It should comply with the following grammar (simplified):
 
 ```bnf
 parse: orPredicate EOF | EOF;
@@ -366,7 +385,14 @@ Dimension expression types:
 |-|-|-|
 | `"uniqueValues"` | Dimension values in the result are exact values of a given property. |  |
 | `"dateHistogram"` | Dimension values in the result are ranges of time of a given property. | Date histogram of timestamp may result in 10 1-hour ranges for a 10-hour search span. |
-| `"numericalHistogram"` | Dimension values in the result are ranges of values in a given property. | Numerical histogram of temperature may result in 10 degrees ranges returned. |
+| `"numericHistogram"` | Dimension values in the result are ranges of values in a given property. | Numeric histogram of temperature may result in 10 degrees ranges returned. |
+
+Time Series Insights restricts the maximum cardinality (max lattice size) of an input aggregate query to 150,000 cells.  To calculate the cardinality of an aggregate query, you multiply the size of all dimensions in the query together.  As long as the product is less than 150,000 the query is accepted for execution, otherwise, the query is rejected.  
+
+The maximum size of a dimension produced by `uniqueValues` and `numericHistogram`s the size of the dimension is specified using the `take` clause.  In `dateHistogram`, the size is calculated by the dividing the search span by the size of the dateHistorgram interval, which is specified using the break clause. 
+
+For example, an aggregate query has the search pan set from 2017-11-15T16:00:00.000Z to 2017-11-15T19:00:00.000Z = 3hours.  If the query includes `dateHistogram` with the interval (`break` clause), set to 1 minute (dimension 1) and `uniqueValues` over property XYZ, then the `dateHistogram` dimension size is 3x60=180, which means `uniqueValues` can take up to 150,000/180 = 833 items total.  
+
 
 **Unique values expression** is used to group a set of events by values of the specified event property.
 
@@ -476,7 +502,7 @@ Filtering of events means running a predicate represented by a boolean expressio
 Execution of an expression on an event returns `true` if event must be included in further operation or `false` if event must be omitted from further processing.
 In addition to predicate expression, events are always filtered by search span.
 
-**Limit top clause** is used to get a given number of values in a given order.
+**Limit top clause** is used to get a given number of values in either ascending or descending order.  The number of values is limited as per the count specified.
 
 JSON example:
 ```json
@@ -491,22 +517,23 @@ JSON example:
 "count": 10
 ```
 
-**Limit take clause** is used to get a given number of values fast in any order.
+**Limit take clause** is used as a quick way to get a set of values not in any particular order. The number of values returned are limited by the input specified.
 
 JSON example:
 ```json
 "take": 10
 ```
 
-**Limit sample clause** is used to get a statistically representative given number of values.
+**Limit sample clause** is used to get a statistically representative sample from a set of values. The number of values returned are limited by the input specified.
 
 JSON example:
 ```json
 "sample": 10
 ```
 
-**Breaks clause** is used in histogram expressions to specify how a range analyzed should be divided.
-* For date histogram one should specify a size of datetime interval, and interval boundaries unless a histogram is based on built-in Timestamp property where boundaries are determined based on search span.
+**Breaks clause** is used in histogram expressions to specify how a range should be divided.
+* For date histogram one should specify the size of datetime interval, and interval boundaries unless a histogram is based on built-in Timestamp property where boundaries are determined based on search span.
+  - Interval boundaries are optional and can be used. For example, "where boundaries are determined based on search span if interval boundaries are omitted".
 * For numeric histogram one should specify number of breaks. Interval boundaries are determined based on minimum and maximum values of a property.
 
 JSON example:

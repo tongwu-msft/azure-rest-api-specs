@@ -180,9 +180,11 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
 
 >  - Setting a blob tier is not allowed on a snapshot or on block blob that has snapshots.
 
->  - If a block blob has tier set then creating a snapshot is not allowed.
+>  - If a tier is set on the root blob then all snapshots will inherit tier from base blob.
 
->  - Tiers on blob storage accounts are currently in preview. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+>  - Snapshot on an archived blob will fail.
+
+>  - For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
   
  **Snapshots in Premium Storage Accounts**  
   

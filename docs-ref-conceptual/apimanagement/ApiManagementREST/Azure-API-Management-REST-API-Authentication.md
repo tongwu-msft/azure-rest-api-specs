@@ -30,7 +30,7 @@ This topic describes how to create the access token required to make calls into 
 > [!NOTE]
 >  For more information about authorization and other prerequisites for accessing the API Management REST API, see the [Prerequisites](../ApiManagementREST/API-Management-REST.md#Prerequisites) section of the [API Management REST](../ApiManagementREST/API-Management-REST.md).  
 >   
->  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](http://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
+>  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   
 -   [To manually create an access token](../ApiManagementREST/Azure-API-Management-REST-API-Authentication.md#ManuallyCreateToken)  
   

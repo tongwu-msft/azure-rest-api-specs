@@ -1,6 +1,6 @@
 ---
 title: "Get Application Upgrade"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Returns information about the state of the latest application upgrade along with
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Applications/{applicationId}/$/GetUpgradeProgress?api-version=3.0&timeout={timeout}` |
+| GET | `/Applications/{applicationId}/$/GetUpgradeProgress?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
@@ -50,15 +50,15 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
+The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the application name is "fabric://myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
 
 ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### timeout
