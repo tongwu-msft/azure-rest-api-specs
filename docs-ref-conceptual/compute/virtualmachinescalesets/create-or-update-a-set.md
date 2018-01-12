@@ -323,7 +323,7 @@ The following example shows the request to create a new virtual machine scale se
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
-| name | Yes | String | Specifies the name of the image from the marketplace. This is the same value that you use for Sku under the imageReference element. For more information about how to find image information, see [Navigating and Selecting Azure Virtual Machine images with PowerShell and the Azure CLI](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-cli-ps-findimage?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)|    
+| name | Yes | String | Specifies the name of the image from the marketplace. This is the same value that you use for Sku under the imageReference element. For more information about how to find image information, see [Navigating and Selecting Azure Virtual Machine images with PowerShell and the Azure CLI](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-cli-ps-findimage?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.yml)|    
 | publisher | Yes | String | Specifies the publisher of the image. |    
 | product | Yes | String | Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element. |    
     

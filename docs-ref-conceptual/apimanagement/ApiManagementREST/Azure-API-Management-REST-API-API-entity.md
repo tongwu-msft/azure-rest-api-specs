@@ -29,7 +29,7 @@ This topic describes how to manage APIs and their operations using the API Manag
   
  For more information about working with APIs and operations in the publisher portal, see [How to create APIs, operations, and products in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=510414).  
   
- For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](http://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
+ For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   
 ## In this topic  
   

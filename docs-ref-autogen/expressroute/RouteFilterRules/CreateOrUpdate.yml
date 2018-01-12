@@ -1,0 +1,225 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.expressroute.routefilterrules.createorupdate
+name: Create Or Update
+service: ExpressRoute
+groupName: Route Filter Rules
+apiVersion: 2017-10-01
+summary: Creates or updates a route in the specified route filter.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: routeFilterName
+  in: path
+  isRequired: true
+  description: The name of the route filter.
+  types:
+  - uid: string
+- name: ruleName
+  in: path
+  isRequired: true
+  description: The name of the route filter rule.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Update successful. The operation returns the resulting Route Filter Rule resource.
+  types:
+  - uid: RouteFilterRule
+- name: 201 Created
+  description: Create successful. The operation returns the resulting Route Filter Rule resource.
+  types:
+  - uid: RouteFilterRule
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    description: "  \nThe name of the resource that is unique within a resource group. This name can be used to access the resource."
+    types:
+    - uid: string
+  - name: location
+    in: body
+    description: "  \nResource location."
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: "  \nResource tags."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.access
+    in: body
+    isRequired: true
+    description: "  \nThe access type of the rule. Valid values are: 'Allow', 'Deny'"
+    types:
+    - uid: Access
+  - name: properties.routeFilterRuleType
+    in: body
+    isRequired: true
+    description: "  \nThe rule type of the rule. Valid value is: 'Community'"
+    types:
+    - uid: RouteFilterRuleType
+  - name: properties.communities
+    in: body
+    isRequired: true
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: RouteFilterRule
+  description: Route Filter Rule Resource
+  kind: object
+  properties:
+  - name: name
+    description: "  \nThe name of the resource that is unique within a resource group. This name can be used to access the resource."
+    types:
+    - uid: string
+  - name: location
+    description: "  \nResource location."
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: "  \nA unique read-only string that changes whenever the resource is updated."
+    types:
+    - uid: string
+  - name: tags
+    description: "  \nResource tags."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.access
+    description: "  \nThe access type of the rule. Valid values are: 'Allow', 'Deny'"
+    types:
+    - uid: Access
+  - name: properties.routeFilterRuleType
+    description: "  \nThe rule type of the rule. Valid value is: 'Community'"
+    types:
+    - uid: RouteFilterRuleType
+  - name: properties.communities
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "  \nThe provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource ID"
+    types:
+    - uid: string
+- name: Access
+  description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: RouteFilterRuleType
+  description: "The rule type of the rule. Valid value is: 'Community'"
+  kind: enum
+  properties:
+  - name: Community
+    types:
+    - uid: string
+examples:
+- name: RouteFilterRuleCreate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeFilters/filterName/routeFilterRules/ruleName?api-version=2017-10-01
+    body: >-
+      {
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "access": "Allow",
+          "routeFilterRuleType": "Community",
+          "communities": [
+            "12076:5030",
+            "12076:5040"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName/routeFilterRules/ruleName",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "tags": {
+          "key1": "value1"
+        },
+        "name": "ruleName",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "access": "Allow",
+          "routeFilterRuleType": "Community",
+          "communities": [
+            "12076:5030",
+            "12076:5040"
+          ]
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName/routeFilterRules/ruleName",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "tags": {
+          "key1": "value1"
+        },
+        "name": "ruleName",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "access": "Allow",
+          "routeFilterRuleType": "Community",
+          "communities": [
+            "12076:5030",
+            "12076:5040"
+          ]
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

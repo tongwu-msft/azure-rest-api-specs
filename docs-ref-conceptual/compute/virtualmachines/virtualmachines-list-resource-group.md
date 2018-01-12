@@ -118,7 +118,7 @@ Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not F
 | Id | Specifies the identifying URL of the virtual machine. |    
 | name | Specifies the name of the virtual machine. |
 | type | Specifies the type of compute resource. | 
-| location | Specifies the supported Azure location where the resource exists. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations).|    
+| location | Specifies the supported Azure location where the resource exists. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.yml#Subscriptions_ListLocations).|    
 | Tags | Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md)|    
 | availabilitySet | Specifies the name of a collection of virtual machines. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. |    
 | vmSize | Specifies the size of the virtual machine. |    

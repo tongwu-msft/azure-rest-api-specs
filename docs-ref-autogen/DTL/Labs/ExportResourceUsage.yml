@@ -1,0 +1,111 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devtestlabs.labs.exportresourceusage
+name: Export Resource Usage
+service: Dev Test Labs
+groupName: Labs
+apiVersion: 2016-05-15
+summary: Exports the lab resource usage into a storage account This operation can take a while to complete.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/exportResourceUsage?api-version=2016-05-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+- name: 202 Accepted
+  description: Accepted
+- name: Other Status Codes
+  description: BadRequest
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: blobStorageAbsoluteSasUri
+    in: body
+    description: "  \nThe blob storage absolute sas uri with write permission to the container which the usage data needs to be uploaded to."
+    types:
+    - uid: string
+  - name: usageStartDate
+    in: body
+    description: "  \nThe start time of the usage. If not provided, usage will be reported since the beginning of data collection."
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: error
+    description: "  \nBody of an error from a REST request."
+    types:
+    - uid: CloudErrorBody
+- name: ExportResourceUsageParameters
+  description: The parameters of the export operation.
+  kind: object
+  properties:
+  - name: blobStorageAbsoluteSasUri
+    description: "  \nThe blob storage absolute sas uri with write permission to the container which the usage data needs to be uploaded to."
+    types:
+    - uid: string
+  - name: usageStartDate
+    description: "  \nThe start time of the usage. If not provided, usage will be reported since the beginning of data collection."
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    description: "  "
+    types:
+    - uid: string
+  - name: message
+    description: "  "
+    types:
+    - uid: string
+  - name: target
+    description: "  "
+    types:
+    - uid: string
+  - name: details
+    description: "  "
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples: []
+security:
+- type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Access Microsoft Azure

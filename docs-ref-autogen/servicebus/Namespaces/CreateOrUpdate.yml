@@ -1,0 +1,263 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicebus.namespaces.createorupdate
+name: Create Or Update
+service: Service Bus
+groupName: Namespaces
+apiVersion: 2017-04-01
+summary: Creates or updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}?api-version=2017-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: namespaceName
+  in: path
+  isRequired: true
+  description: The namespace name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Namespace create request accepted.
+  types:
+  - uid: SBNamespace
+- name: 200 OK
+  description: Namespace created successfully.
+  types:
+  - uid: SBNamespace
+- name: 202 Accepted
+  description: Namespace create or update request accepted.
+- name: Other Status Codes
+  description: ServiceBus error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: sku
+    in: body
+    description: "  \nPorperties of Sku"
+    types:
+    - uid: SBSku
+  - name: location
+    in: body
+    isRequired: true
+    description: "  \nThe Geo-location where the resource lives"
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: "  \nResource tags"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: SBSku
+  description: Porperties of Sku
+  kind: object
+  properties:
+  - name: name
+    description: "  \nName of this SKU."
+    types:
+    - uid: SkuName
+  - name: tier
+    description: "  \nThe billing tier of this particular SKU."
+    types:
+    - uid: SkuTier
+  - name: capacity
+    description: "  \nThe specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4."
+    types:
+    - uid: integer
+- name: SBNamespace
+  description: Result of the List Namespace operation.
+  kind: object
+  properties:
+  - name: sku
+    description: "  \nPorperties of Sku"
+    types:
+    - uid: SBSku
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "  \nProvisioning state of the namespace."
+    types:
+    - uid: string
+  - name: properties.createdAt
+    isReadyOnly: true
+    description: "  \nThe time the namespace was created."
+    types:
+    - uid: string
+  - name: properties.updatedAt
+    isReadyOnly: true
+    description: "  \nThe time the namespace was updated."
+    types:
+    - uid: string
+  - name: properties.serviceBusEndpoint
+    isReadyOnly: true
+    description: "  \nEndpoint you can use to perform Service Bus operations."
+    types:
+    - uid: string
+  - name: properties.metricId
+    isReadyOnly: true
+    description: "  \nIdentifier for Azure Insights metrics"
+    types:
+    - uid: string
+  - name: location
+    description: "  \nThe Geo-location where the resource lives"
+    types:
+    - uid: string
+  - name: tags
+    description: "  \nResource tags"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource Id"
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nResource name"
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nResource type"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nError code."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nError message indicating why the operation failed."
+    types:
+    - uid: string
+- name: SkuName
+  description: Name of this SKU.
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: SkuTier
+  description: The billing tier of this particular SKU.
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+examples:
+- name: NameSpaceCreate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace2924?api-version=2017-04-01
+    body: >-
+      {
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard"
+        },
+        "location": "South Central US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard"
+        },
+        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-2924",
+        "name": "sdk-Namespace-2924",
+        "type": "Microsoft.ServiceBus/Namespaces",
+        "location": "South Central US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "provisioningState": "Created",
+          "metricId": "5f750a97-50d9-4e36-8081-c9ee4c0210d4:sdk-namespace-2924",
+          "createdAt": "2017-05-25T22:26:36.76Z",
+          "updatedAt": "2017-05-25T22:26:36.76Z",
+          "serviceBusEndpoint": "https://sdk-Namespace-2924.servicebus.windows-int.net:443/"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard"
+        },
+        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-2924",
+        "name": "sdk-Namespace-2924",
+        "type": "Microsoft.ServiceBus/Namespaces",
+        "location": "South Central US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "provisioningState": "Created",
+          "metricId": "5f750a97-50d9-4e36-8081-c9ee4c0210d4:sdk-namespace-2924",
+          "createdAt": "2017-05-25T22:26:36.76Z",
+          "updatedAt": "2017-05-25T22:26:36.76Z",
+          "serviceBusEndpoint": "https://sdk-Namespace-2924.servicebus.windows-int.net:443/"
+        }
+      }
+  - statusCode: "202"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

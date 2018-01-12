@@ -98,6 +98,7 @@ The `Set File Properties` operation sets system properties on the file.
  Only the account owner may call this operation.  
   
 ## Remarks  
+
  The semantics for updating a file's properties are as follows:  
   
 -   A file's size is modified only if the request specifies a value for the `x-ms-content-length` header.  
@@ -118,6 +119,7 @@ The `Set File Properties` operation sets system properties on the file.
   
 > [!NOTE]
 >  The file properties listed above are discrete from the file system properties available to SMB clients. SMB clients cannot read, write, or modify these property values.  
-  
+
+ `Set File properties` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue) 
 ## See Also  
  [Operations on Files](Operations-on-Files.md)

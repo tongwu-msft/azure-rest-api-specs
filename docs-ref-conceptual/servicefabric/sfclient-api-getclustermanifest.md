@@ -1,6 +1,6 @@
 ---
 title: "Get Cluster Manifest"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -33,7 +33,7 @@ Get the Service Fabric cluster manifest.
 Get the Service Fabric cluster manifest. The cluster manifest contains properties of the cluster that include different node types on the cluster,
 security configurations, fault and upgrade domain topologies etc.
 
-These properties are specified as part of the ClusterConfig.JSON file while deploying a stand alone cluster. However, most of the information in the cluster manifest
+These properties are specified as part of the ClusterConfig.yml file while deploying a stand alone cluster. However, most of the information in the cluster manifest
 is generated internally by service fabric during cluster deployment in other deployment scenarios (for e.g when using azuer portal).
 
 The contents of the cluster manifest are for informational purposes only and users are not expected to take a dependency on the format of the file contents or its interpretation.
@@ -42,7 +42,7 @@ The contents of the cluster manifest are for informational purposes only and use
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/$/GetClusterManifest?api-version=3.0&timeout={timeout}` |
+| GET | `/$/GetClusterManifest?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
@@ -55,9 +55,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### timeout

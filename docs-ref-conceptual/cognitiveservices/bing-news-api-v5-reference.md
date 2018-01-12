@@ -15,6 +15,9 @@ ms.author: scottwhi
 
 # News Search API v5 reference
 
+> [!NOTE]
+> A new version of this API is available. See [Bing News Search API v7](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-news-api-v7-reference).  For information about upgrading, see the [upgrade guide](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-news-search/bing-news-upgrade-guide-v5-to-v7).
+
 The News Search API lets you send a search query to Bing and get back a list of relevant news articles. This section provides technical details about the query parameters and headers that you use to request news articles and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for News](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/search-the-web).  
 
 For information about the headers that requests should include, see [Request Headers](#headers).  

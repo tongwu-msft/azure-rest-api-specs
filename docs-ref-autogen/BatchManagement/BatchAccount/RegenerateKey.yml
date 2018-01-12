@@ -1,0 +1,148 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.batchmanagement.batchaccount.regeneratekey
+name: Regenerate Key
+service: Batch Management
+groupName: Batch Account
+apiVersion: 2017-09-01
+summary: Regenerates the specified account key for the Batch account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/regenerateKeys?api-version=2017-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the Batch account.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the Batch account.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation was successful. The response contains the Batch account keys.
+  types:
+  - uid: BatchAccountKeys
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: keyName
+    in: body
+    isRequired: true
+    description: "  \nThe type of account key to regenerate."
+    types:
+    - uid: AccountKeyType
+requestHeader: []
+definitions:
+- name: BatchAccountKeys
+  description: A set of Azure Batch account keys.
+  kind: object
+  properties:
+  - name: accountName
+    isReadyOnly: true
+    description: "  \nThe Batch account name."
+    types:
+    - uid: string
+  - name: primary
+    isReadyOnly: true
+    description: "  \nThe primary key associated with the account."
+    types:
+    - uid: string
+  - name: secondary
+    isReadyOnly: true
+    description: "  \nThe secondary key associated with the account."
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: "  \nAn error response from the Batch service."
+    types:
+    - uid: CloudErrorBody
+- name: BatchAccountRegenerateKeyParameters
+  description: Parameters supplied to the RegenerateKey operation.
+  kind: object
+  properties:
+  - name: keyName
+    description: "  \nThe type of account key to regenerate."
+    types:
+    - uid: AccountKeyType
+- name: CloudErrorBody
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nAn identifier for the error. Codes are invariant and are intended to be consumed programmatically."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nA message describing the error, intended to be suitable for display in a user interface."
+    types:
+    - uid: string
+  - name: target
+    description: "  \nThe target of the particular error. For example, the name of the property in error."
+    types:
+    - uid: string
+  - name: details
+    description: "  "
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: AccountKeyType
+  description: The type of account key to regenerate.
+  kind: enum
+  properties:
+  - name: Primary
+    types:
+    - uid: string
+  - name: Secondary
+    types:
+    - uid: string
+examples:
+- name: BatchAccountRegenerateKey
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/regenerateKeys?api-version=2017-09-01
+    body: >-
+      {
+        "keyName": "Primary"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "accountName": "sampleacct",
+        "primary": "AAAA==",
+        "secondary": "BBBB=="
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

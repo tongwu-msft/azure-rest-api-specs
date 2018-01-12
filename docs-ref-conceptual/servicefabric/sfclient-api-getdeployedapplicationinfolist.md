@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Application Info List"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Gets the list of applications deployed on a Service Fabric node.
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Nodes/{nodeName}/$/GetApplications?api-version=3.0&timeout={timeout}` |
+| GET | `/Nodes/{nodeName}/$/GetApplications?api-version=6.0&timeout={timeout}` |
 
 
 ## Parameters
@@ -56,9 +56,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### timeout

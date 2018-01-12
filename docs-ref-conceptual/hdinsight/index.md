@@ -22,7 +22,7 @@ Use these APIs to create and manage HDInsight resources through Azure Resource M
   
 -   Replace {subscription-id} with your subscription identifier in the URI.  
   
--   Replace {resource-group-name} with the resource group. For more information, see [Using Resource groups to manage your Azure resources](http://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
+-   Replace {resource-group-name} with the resource group. For more information, see [Using Resource groups to manage your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
 -   Replace {cluster-name} with your HDInsight cluster name in the URI.  
   
@@ -45,7 +45,7 @@ The following information is common to all tasks that you might do related to cl
   
 -   Replace {subscription-id} with your subscription identifier in the URI.  
   
--   Replace {resource-group-name} with the resource group. For more information, see [Using Resource groups to manage your Azure resources](http://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
+-   Replace {resource-group-name} with the resource group. For more information, see [Using Resource groups to manage your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
 -   Replace {cluster-name} with your HDInsight cluster name in the URI.  
   

@@ -33,6 +33,10 @@ The Microsoft Azure Media Services REST API reference section describes the enti
   
 |x-ms-version|Description|  
 |--------------------|-----------------|  
+|2.19||
+|2.18||
+|2.17||
+|2.16||
 |2.15|Version and design updates were made to the **StreamingEndpoint**. For more information, see [StreamingEndpoint](../operations/streamingendpoint.md) and [Streaming endpoints overview](https://docs.microsoft.com/azure/media-services/media-services-streaming-endpoints-overview). Also, the following new properties: **CdnProvider**, **CdnProfile**, **FreeTrialEndTime**, **StreamingEndpointVersion** were added to **StreamingEndpoint**. |
 |2.14|Internal changes|
 |2.13|Telemetry related changes were added in this release: [MonitoringConfiguration](../operations/monitoringconfiguration.md). |  

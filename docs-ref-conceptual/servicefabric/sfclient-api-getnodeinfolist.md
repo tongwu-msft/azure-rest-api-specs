@@ -1,6 +1,6 @@
 ---
 title: "Get Node Info List"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ The Nodes endpoint returns information about the nodes in the Service Fabric Clu
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Nodes?api-version=3.0&ContinuationToken={ContinuationToken}&NodeStatusFilter={NodeStatusFilter}&timeout={timeout}` |
+| GET | `/Nodes?api-version=6.0&ContinuationToken={ContinuationToken}&NodeStatusFilter={NodeStatusFilter}&timeout={timeout}` |
 
 
 ## Parameters
@@ -50,9 +50,9 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of the API. This is a required parameter and it's value must be "6.0".
 
 ____
 ### ContinuationToken
@@ -68,7 +68,7 @@ __Required__: No<br/>
 __Default__: default <br/>
 <br/>
 Allows filtering the nodes based on the NodeStatus. Only the nodes that are matching the specified filter value will be returned. The filter value can be one of the following.
-  
+
   - default - This filter value will match all of the nodes excepts the ones with with status as Unknown or Removed.
   - all - This filter value will match all of the nodes.
   - up - This filter value will match nodes that are Up.
@@ -105,7 +105,7 @@ This example shows how to get information about all the nodes in the cluster whe
 
 #### Request
 ```
-GET http://localhost:19080/Nodes?api-version=3.0
+GET http://localhost:19080/Nodes?api-version=6.0
 ```
 
 #### 200 Response

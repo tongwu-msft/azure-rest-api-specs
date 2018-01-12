@@ -1,0 +1,229 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.machinelearning.commitmentplans.patch
+name: Patch
+service: Machine Learning
+groupName: Commitment Plans
+apiVersion: 2016-05-01-preview
+summary: Patch an existing Azure ML commitment plan resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}?api-version=2016-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: commitmentPlanName
+  in: path
+  isRequired: true
+  description: The Azure ML commitment plan name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the Microsoft.MachineLearning resource provider API to use.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: CommitmentPlan
+requestBody:
+- parameters:
+  - name: tags
+    in: body
+    description: "  \nUser-defined tags for the commitment plan."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: sku
+    in: body
+    description: "  \nThe commitment plan SKU."
+    types:
+    - uid: ResourceSku
+requestHeader: []
+definitions:
+- name: ResourceSku
+  description: The SKU of a resource.
+  kind: object
+  properties:
+  - name: capacity
+    description: "  \nThe scale-out capacity of the resource. 1 is 1x, 2 is 2x, etc. This impacts the quantities and cost of any commitment plan resource."
+    types:
+    - uid: integer
+  - name: name
+    description: "  \nThe SKU name. Along with tier, uniquely identifies the SKU."
+    types:
+    - uid: string
+  - name: tier
+    description: "  \nThe SKU tier. Along with name, uniquely identifies the SKU."
+    types:
+    - uid: string
+- name: CommitmentPlan
+  description: An Azure ML commitment plan resource.
+  kind: object
+  properties:
+  - name: etag
+    description: "  \nAn entity tag used to enforce optimistic concurrency."
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: "  \nThe commitment plan properties."
+    types:
+    - uid: CommitmentPlanProperties
+  - name: sku
+    description: "  \nThe commitment plan SKU."
+    types:
+    - uid: ResourceSku
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource Id."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nResource name."
+    types:
+    - uid: string
+  - name: location
+    description: "  \nResource location."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nResource type."
+    types:
+    - uid: string
+  - name: tags
+    description: "  \nUser-defined tags for the resource."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CommitmentPlanPatchPayload
+  description: The properties of a commitment plan which may be updated via PATCH.
+  kind: object
+  properties:
+  - name: tags
+    description: "  \nUser-defined tags for the commitment plan."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: sku
+    description: "  \nThe commitment plan SKU."
+    types:
+    - uid: ResourceSku
+- name: CommitmentPlanProperties
+  description: The commitment plan properties.
+  kind: object
+  properties:
+  - name: chargeForOverage
+    isReadyOnly: true
+    description: "  \nIndicates whether usage beyond the commitment plan's included quantities will be charged."
+    types:
+    - uid: boolean
+  - name: chargeForPlan
+    isReadyOnly: true
+    description: "  \nIndicates whether the commitment plan will incur a charge."
+    types:
+    - uid: boolean
+  - name: creationDate
+    isReadyOnly: true
+    description: "  \nThe date at which this commitment plan was created, in ISO 8601 format."
+    types:
+    - uid: string
+  - name: includedQuantities
+    isReadyOnly: true
+    description: "  \nThe included resource quantities this plan gives you."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: PlanQuantity
+  - name: maxAssociationLimit
+    isReadyOnly: true
+    description: "  \nThe maximum number of commitment associations that can be children of this commitment plan."
+    types:
+    - uid: integer
+  - name: maxCapacityLimit
+    isReadyOnly: true
+    description: "  \nThe maximum scale-out capacity for this commitment plan."
+    types:
+    - uid: integer
+  - name: minCapacityLimit
+    isReadyOnly: true
+    description: "  \nThe minimum scale-out capacity for this commitment plan."
+    types:
+    - uid: integer
+  - name: planMeter
+    isReadyOnly: true
+    description: "  \nThe Azure meter which will be used to charge for this commitment plan."
+    types:
+    - uid: string
+  - name: refillFrequencyInDays
+    isReadyOnly: true
+    description: "  \nThe frequency at which this commitment plan's included quantities are refilled."
+    types:
+    - uid: integer
+  - name: suspendPlanOnOverage
+    isReadyOnly: true
+    description: "  \nIndicates whether this commitment plan will be moved into a suspended state if usage goes beyond the commitment plan's included quantities."
+    types:
+    - uid: boolean
+- name: IncludedQuantities
+  description: The included resource quantities this plan gives you.
+  kind: object
+  properties:
+  - name: ''
+    description: "  \nRepresents the quantity a commitment plan provides of a metered resource."
+    types:
+    - uid: PlanQuantity
+- name: PlanQuantity
+  description: Represents the quantity a commitment plan provides of a metered resource.
+  kind: object
+  properties:
+  - name: allowance
+    isReadyOnly: true
+    description: "  \nThe quantity added to the commitment plan at an interval specified by its allowance frequency."
+    types:
+    - uid: number
+  - name: amount
+    isReadyOnly: true
+    description: "  \nThe quantity available to the plan the last time usage was calculated."
+    types:
+    - uid: number
+  - name: includedQuantityMeter
+    isReadyOnly: true
+    description: "  \nThe Azure meter for usage against included quantities."
+    types:
+    - uid: string
+  - name: overageMeter
+    isReadyOnly: true
+    description: "  \nThe Azure meter for usage which exceeds included quantities."
+    types:
+    - uid: string
+examples: []
+security: []

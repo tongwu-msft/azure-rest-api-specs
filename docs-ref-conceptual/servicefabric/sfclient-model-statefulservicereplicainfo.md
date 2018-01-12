@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceReplicaInfo"
-ms.date: "2017-05-09"
+ms.date: "2017-10-02"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -84,7 +84,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the node.
+The name of a Service Fabric node.
 
 ____
 ### Address
@@ -118,4 +118,4 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-An internal ID used by Service Fabric to uniquely identify a replica of a partition. The replica ID is unique within a partition and does not change for the lifetime of the replica. If a replica gets dropped and another replica gets created on the same node for the same partition, it will get a different replica ID.
+Id of a stateful service replica. ReplicaId is used by Service Fabric to uniquely identify a replica of a partition. It is unique within a partition and does not change for the lifetime of the replica. If a replica gets dropped and another replica gets created on the same node for the same partition, it will get a different value for the id. Sometimes the id of a stateless service instance is also referred as a replica id.

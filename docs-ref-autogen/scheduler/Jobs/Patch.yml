@@ -1,0 +1,654 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.scheduler.jobs.patch
+name: Patch
+service: Scheduler
+groupName: Jobs
+apiVersion: 2016-03-01
+summary: Patches an existing job.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}/jobs/{jobName}?api-version=2016-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: jobCollectionName
+  in: path
+  isRequired: true
+  description: The job collection name.
+  types:
+  - uid: string
+- name: jobName
+  in: path
+  isRequired: true
+  description: The job name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The job has been successfully patched.
+  types:
+  - uid: JobDefinition
+requestBody:
+- parameters:
+  - name: properties
+    in: body
+    description: "  \nGets or sets the job properties."
+    types:
+    - uid: JobProperties
+requestHeader: []
+definitions:
+- name: JobProperties
+  description: Gets or sets the job properties.
+  kind: object
+  properties:
+  - name: startTime
+    description: "  \nGets or sets the job start time."
+    types:
+    - uid: string
+  - name: action
+    description: "  \nGets or sets the job action."
+    types:
+    - uid: JobAction
+  - name: recurrence
+    description: "  \nGets or sets the job recurrence."
+    types:
+    - uid: JobRecurrence
+  - name: state
+    description: "  \nGets or set the job state."
+    types:
+    - uid: JobState
+  - name: status
+    isReadyOnly: true
+    description: "  \nGets the job status."
+    types:
+    - uid: JobStatus
+- name: JobDefinition
+  description: Gets or sets all jobs under job collection.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: "  \nGets the job resource identifier."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nGets the job resource type."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nGets the job resource name."
+    types:
+    - uid: string
+  - name: properties
+    description: "  \nGets or sets the job properties."
+    types:
+    - uid: JobProperties
+- name: JobAction
+  description: Gets or sets the job action.
+  kind: object
+  properties:
+  - name: type
+    description: "  \nGets or sets the job action type."
+    types:
+    - uid: JobActionType
+  - name: request
+    description: "  \nGets or sets the http requests."
+    types:
+    - uid: HttpRequest
+  - name: queueMessage
+    description: "  \nGets or sets the storage queue message."
+    types:
+    - uid: StorageQueueMessage
+  - name: serviceBusQueueMessage
+    description: "  \nGets or sets the service bus queue message."
+    types:
+    - uid: ServiceBusQueueMessage
+  - name: serviceBusTopicMessage
+    description: "  \nGets or sets the service bus topic message."
+    types:
+    - uid: ServiceBusTopicMessage
+  - name: retryPolicy
+    description: "  \nGets or sets the retry policy."
+    types:
+    - uid: RetryPolicy
+  - name: errorAction
+    description: "  \nGets or sets the error action."
+    types:
+    - uid: JobErrorAction
+- name: JobRecurrence
+  description: Gets or sets the job recurrence.
+  kind: object
+  properties:
+  - name: frequency
+    description: "  \nGets or sets the frequency of recurrence (second, minute, hour, day, week, month)."
+    types:
+    - uid: RecurrenceFrequency
+  - name: interval
+    description: "  \nGets or sets the interval between retries."
+    types:
+    - uid: integer
+  - name: count
+    description: "  \nGets or sets the maximum number of times that the job should run."
+    types:
+    - uid: integer
+  - name: endTime
+    description: "  \nGets or sets the time at which the job will complete."
+    types:
+    - uid: string
+  - name: schedule
+    description: "  "
+    types:
+    - uid: JobRecurrenceSchedule
+- name: JobState
+  description: Gets or set the job state.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Faulted
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+- name: JobStatus
+  description: Gets the job status.
+  kind: object
+  properties:
+  - name: executionCount
+    isReadyOnly: true
+    description: "  \nGets the number of times this job has executed."
+    types:
+    - uid: integer
+  - name: failureCount
+    isReadyOnly: true
+    description: "  \nGets the number of times this job has failed."
+    types:
+    - uid: integer
+  - name: faultedCount
+    isReadyOnly: true
+    description: "  \nGets the number of faulted occurrences (occurrences that were retried and failed as many times as the retry policy states)."
+    types:
+    - uid: integer
+  - name: lastExecutionTime
+    isReadyOnly: true
+    description: "  \nGets the time the last occurrence executed in ISO-8601 format.  Could be empty if job has not run yet."
+    types:
+    - uid: string
+  - name: nextExecutionTime
+    isReadyOnly: true
+    description: "  \nGets the time of the next occurrence in ISO-8601 format. Could be empty if the job is completed."
+    types:
+    - uid: string
+- name: JobActionType
+  description: Gets or sets the job action type.
+  kind: enum
+  properties:
+  - name: Http
+    types:
+    - uid: string
+  - name: Https
+    types:
+    - uid: string
+  - name: StorageQueue
+    types:
+    - uid: string
+  - name: ServiceBusQueue
+    types:
+    - uid: string
+  - name: ServiceBusTopic
+    types:
+    - uid: string
+- name: HttpRequest
+  description: Gets or sets the http requests.
+  kind: object
+  properties:
+  - name: authentication
+    description: "  \nGets or sets the authentication method of the request."
+    types:
+    - uid: ClientCertAuthentication
+    - uid: BasicAuthentication
+    - uid: OAuthAuthentication
+    typesTitle: HttpAuthentication
+  - name: uri
+    description: "  \nGets or sets the URI of the request."
+    types:
+    - uid: string
+  - name: method
+    description: "  \nGets or sets the method of the request."
+    types:
+    - uid: string
+  - name: body
+    description: "  \nGets or sets the request body."
+    types:
+    - uid: string
+  - name: headers
+    description: "  \nGets or sets the headers."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: StorageQueueMessage
+  description: Gets or sets the storage queue message.
+  kind: object
+  properties:
+  - name: storageAccount
+    description: "  \nGets or sets the storage account name."
+    types:
+    - uid: string
+  - name: queueName
+    description: "  \nGets or sets the queue name."
+    types:
+    - uid: string
+  - name: sasToken
+    description: "  \nGets or sets the SAS key."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nGets or sets the message."
+    types:
+    - uid: string
+- name: ServiceBusQueueMessage
+  description: Gets or sets the service bus queue message.
+  kind: object
+  properties:
+  - name: queueName
+    description: "  \nGets or sets the queue name."
+    types:
+    - uid: string
+  - name: authentication
+    description: "  \nGets or sets the Service Bus authentication."
+    types:
+    - uid: ServiceBusAuthentication
+  - name: brokeredMessageProperties
+    description: "  \nGets or sets the brokered message properties."
+    types:
+    - uid: ServiceBusBrokeredMessageProperties
+  - name: customMessageProperties
+    description: "  \nGets or sets the custom message properties."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: message
+    description: "  \nGets or sets the message."
+    types:
+    - uid: string
+  - name: namespace
+    description: "  \nGets or sets the namespace."
+    types:
+    - uid: string
+  - name: transportType
+    description: "  \nGets or sets the transport type."
+    types:
+    - uid: ServiceBusTransportType
+- name: ServiceBusTopicMessage
+  description: Gets or sets the service bus topic message.
+  kind: object
+  properties:
+  - name: topicPath
+    description: "  \nGets or sets the topic path."
+    types:
+    - uid: string
+  - name: authentication
+    description: "  \nGets or sets the Service Bus authentication."
+    types:
+    - uid: ServiceBusAuthentication
+  - name: brokeredMessageProperties
+    description: "  \nGets or sets the brokered message properties."
+    types:
+    - uid: ServiceBusBrokeredMessageProperties
+  - name: customMessageProperties
+    description: "  \nGets or sets the custom message properties."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: message
+    description: "  \nGets or sets the message."
+    types:
+    - uid: string
+  - name: namespace
+    description: "  \nGets or sets the namespace."
+    types:
+    - uid: string
+  - name: transportType
+    description: "  \nGets or sets the transport type."
+    types:
+    - uid: ServiceBusTransportType
+- name: RetryPolicy
+  description: Gets or sets the retry policy.
+  kind: object
+  properties:
+  - name: retryType
+    description: "  \nGets or sets the retry strategy to be used."
+    types:
+    - uid: RetryType
+  - name: retryInterval
+    description: "  \nGets or sets the retry interval between retries, specify duration in ISO 8601 format."
+    types:
+    - uid: string
+  - name: retryCount
+    description: "  \nGets or sets the number of times a retry should be attempted."
+    types:
+    - uid: integer
+- name: JobErrorAction
+  description: Gets or sets the error action.
+  kind: object
+  properties:
+  - name: type
+    description: "  \nGets or sets the job error action type."
+    types:
+    - uid: JobActionType
+  - name: request
+    description: "  \nGets or sets the http requests."
+    types:
+    - uid: HttpRequest
+  - name: queueMessage
+    description: "  \nGets or sets the storage queue message."
+    types:
+    - uid: StorageQueueMessage
+  - name: serviceBusQueueMessage
+    description: "  \nGets or sets the service bus queue message."
+    types:
+    - uid: ServiceBusQueueMessage
+  - name: serviceBusTopicMessage
+    description: "  \nGets or sets the service bus topic message."
+    types:
+    - uid: ServiceBusTopicMessage
+  - name: retryPolicy
+    description: "  \nGets or sets the retry policy."
+    types:
+    - uid: RetryPolicy
+- name: RecurrenceFrequency
+  description: Gets or sets the frequency of recurrence (second, minute, hour, day, week, month).
+  kind: enum
+  properties:
+  - name: Minute
+    types:
+    - uid: string
+  - name: Hour
+    types:
+    - uid: string
+  - name: Day
+    types:
+    - uid: string
+  - name: Week
+    types:
+    - uid: string
+  - name: Month
+    types:
+    - uid: string
+- name: JobRecurrenceSchedule
+  kind: object
+  properties:
+  - name: weekDays
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+  - name: hours
+    description: "  "
+    types:
+    - uid: integer
+      isArray: true
+  - name: minutes
+    description: "  "
+    types:
+    - uid: integer
+      isArray: true
+  - name: monthDays
+    description: "  "
+    types:
+    - uid: integer
+      isArray: true
+  - name: monthlyOccurrences
+    description: "  "
+    types:
+    - uid: JobRecurrenceScheduleMonthlyOccurrence
+      isArray: true
+- name: ServiceBusAuthentication
+  description: Gets or sets the Service Bus authentication.
+  kind: object
+  properties:
+  - name: sasKey
+    description: "  \nGets or sets the SAS key."
+    types:
+    - uid: string
+  - name: sasKeyName
+    description: "  \nGets or sets the SAS key name."
+    types:
+    - uid: string
+  - name: type
+    description: "  \nGets or sets the authentication type."
+    types:
+    - uid: ServiceBusAuthenticationType
+- name: ServiceBusBrokeredMessageProperties
+  description: Gets or sets the brokered message properties.
+  kind: object
+  properties:
+  - name: contentType
+    description: "  \nGets or sets the content type."
+    types:
+    - uid: string
+  - name: correlationId
+    description: "  \nGets or sets the correlation ID."
+    types:
+    - uid: string
+  - name: forcePersistence
+    description: "  \nGets or sets the force persistence."
+    types:
+    - uid: boolean
+  - name: label
+    description: "  \nGets or sets the label."
+    types:
+    - uid: string
+  - name: messageId
+    description: "  \nGets or sets the message ID."
+    types:
+    - uid: string
+  - name: partitionKey
+    description: "  \nGets or sets the partition key."
+    types:
+    - uid: string
+  - name: replyTo
+    description: "  \nGets or sets the reply to."
+    types:
+    - uid: string
+  - name: replyToSessionId
+    description: "  \nGets or sets the reply to session ID."
+    types:
+    - uid: string
+  - name: scheduledEnqueueTimeUtc
+    description: "  \nGets or sets the scheduled enqueue time UTC."
+    types:
+    - uid: string
+  - name: sessionId
+    description: "  \nGets or sets the session ID."
+    types:
+    - uid: string
+  - name: timeToLive
+    description: "  \nGets or sets the time to live."
+    types:
+    - uid: string
+  - name: to
+    description: "  \nGets or sets the to."
+    types:
+    - uid: string
+  - name: viaPartitionKey
+    description: "  \nGets or sets the via partition key."
+    types:
+    - uid: string
+- name: ServiceBusTransportType
+  description: Gets or sets the transport type.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: NetMessaging
+    types:
+    - uid: string
+  - name: AMQP
+    types:
+    - uid: string
+- name: RetryType
+  description: Gets or sets the retry strategy to be used.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Fixed
+    types:
+    - uid: string
+- name: JobRecurrenceScheduleMonthlyOccurrence
+  description: Gets or sets the occurrences of days within a month.
+  kind: object
+  properties:
+  - name: day
+    description: "  \nGets or sets the day. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday."
+    types:
+    - uid: JobScheduleDay
+  - name: Occurrence
+    description: "  \nGets or sets the occurrence. Must be between -5 and 5."
+    types:
+    - uid: integer
+- name: ClientCertAuthentication
+  kind: object
+  properties:
+  - name: password
+    description: "  \nGets or sets the certificate password, return value will always be empty."
+    types:
+    - uid: string
+  - name: pfx
+    description: "  \nGets or sets the pfx certificate. Accepts certification in base64 encoding, return value will always be empty."
+    types:
+    - uid: string
+  - name: certificateThumbprint
+    description: "  \nGets or sets the certificate thumbprint."
+    types:
+    - uid: string
+  - name: certificateExpirationDate
+    description: "  \nGets or sets the certificate expiration date."
+    types:
+    - uid: string
+  - name: certificateSubjectName
+    description: "  \nGets or sets the certificate subject name."
+    types:
+    - uid: string
+  - name: type
+    description: "  \nGets or sets the HTTP authentication type."
+    types:
+    - uid: ClientCertificate
+    typesTitle: string
+- name: BasicAuthentication
+  kind: object
+  properties:
+  - name: username
+    description: "  \nGets or sets the username."
+    types:
+    - uid: string
+  - name: password
+    description: "  \nGets or sets the password, return value will always be empty."
+    types:
+    - uid: string
+  - name: type
+    description: "  \nGets or sets the HTTP authentication type."
+    types:
+    - uid: Basic
+    typesTitle: string
+- name: OAuthAuthentication
+  kind: object
+  properties:
+  - name: secret
+    description: "  \nGets or sets the secret, return value will always be empty."
+    types:
+    - uid: string
+  - name: tenant
+    description: "  \nGets or sets the tenant."
+    types:
+    - uid: string
+  - name: audience
+    description: "  \nGets or sets the audience."
+    types:
+    - uid: string
+  - name: clientId
+    description: "  \nGets or sets the client identifier."
+    types:
+    - uid: string
+  - name: type
+    description: "  \nGets or sets the HTTP authentication type."
+    types:
+    - uid: ActiveDirectoryOAuth
+    typesTitle: string
+- name: ServiceBusAuthenticationType
+  description: Gets or sets the authentication type.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: SharedAccessKey
+    types:
+    - uid: string
+- name: JobScheduleDay
+  description: Gets or sets the day. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday.
+  kind: enum
+  properties:
+  - name: Monday
+    types:
+    - uid: string
+  - name: Tuesday
+    types:
+    - uid: string
+  - name: Wednesday
+    types:
+    - uid: string
+  - name: Thursday
+    types:
+    - uid: string
+  - name: Friday
+    types:
+    - uid: string
+  - name: Saturday
+    types:
+    - uid: string
+  - name: Sunday
+    types:
+    - uid: string
+examples: []
+security: []

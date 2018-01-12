@@ -1,0 +1,95 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.mediaservices.mediaservice.syncstoragekeys
+name: Sync Storage Keys
+service: Media Services
+groupName: Media Service
+apiVersion: 2015-10-01
+summary: Synchronizes storage account keys for a storage account associated with the Media Service account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{mediaServiceName}/syncStorageKeys?api-version=2015-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: mediaServiceName
+  in: path
+  isRequired: true
+  description: Name of the Media Service.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9]{3,24}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2015-10-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The keys for the storage account were synchronized.
+- name: Other Status Codes
+  description: Synch Media Service storage keys failed.
+  types:
+  - uid: ApiError
+requestBody:
+- parameters:
+  - name: id
+    in: body
+    isRequired: true
+    description: "  \nThe id of the storage account resource."
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ApiError
+  description: The error returned from a failed Media Services REST API call.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nError code."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nError message."
+    types:
+    - uid: string
+- name: SyncStorageKeysInput
+  description: The request  body for a SyncStorageKeys API.
+  kind: object
+  properties:
+  - name: id
+    description: "  \nThe id of the storage account resource."
+    types:
+    - uid: string
+examples:
+- name: MediaServiceSyncStorageKeys
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosmedia/syncStorageKeys?api-version=2015-10-01
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Storage/storageAccounts/contosostore"
+      }
+  responses:
+  - statusCode: "200"
+    body: "\"\""
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

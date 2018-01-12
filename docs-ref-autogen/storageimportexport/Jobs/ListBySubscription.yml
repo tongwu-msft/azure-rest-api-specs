@@ -1,0 +1,541 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storageimport-export.jobs.listbysubscription
+name: List By Subscription
+service: Storage Import-Export
+groupName: Jobs
+apiVersion: 2016-11-01
+summary: Returns all active and completed jobs in a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ImportExport/jobs?api-version=2016-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ImportExport/jobs?$top={$top}&$filter={$filter}&api-version=2016-11-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID for the Azure user.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: An integer value that specifies how many jobs at most should be returned. The value cannot exceed 100.
+  types:
+  - uid: integer
+- name: $filter
+  in: query
+  description: Can be used to restrict the results to certain conditions.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the API version to use for this request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ListJobsResponse
+- name: Other Status Codes
+  description: An error occurs.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Accept-Language
+  in: header
+  description: Specifies the preferred language for the response.
+  types:
+  - uid: string
+definitions:
+- name: ListJobsResponse
+  description: List jobs response
+  kind: object
+  properties:
+  - name: nextLink
+    description: "  \nlink to next batch of jobs"
+    types:
+    - uid: string
+  - name: value
+    description: "  \nContains the job information."
+    types:
+    - uid: JobResponse
+      isArray: true
+- name: ErrorResponse
+  description: Response when errors occurred
+  kind: object
+  properties:
+  - name: error.code
+    description: "  \nProvides information about the error code."
+    types:
+    - uid: string
+  - name: error.message
+    description: "  \nProvides information about the error message."
+    types:
+    - uid: string
+  - name: error.target
+    description: "  \nProvides information about the error target."
+    types:
+    - uid: string
+  - name: error.details
+    description: "  "
+    types:
+    - uid: Details
+      isArray: true
+  - name: error.innererror
+    description: "  \nInner error object if present."
+    types:
+    - uid: object
+- name: JobResponse
+  description: Job list
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: "  \nSpecifies the resource identifier of the job."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nSpecifies the name of the job."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nSpecifies the type of the job resource."
+    types:
+    - uid: string
+  - name: location
+    description: "  \nSpecifies the Azure location where the job is created."
+    types:
+    - uid: string
+  - name: tags
+    description: "  \nSpecifies the tags that are assigned to the job."
+    types:
+    - uid: object
+  - name: properties
+    description: "  \nSpecifies the job properties"
+    types:
+    - uid: JobDetails
+- name: Details
+  description: Describes the error details if present.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nProvides information about the error code."
+    types:
+    - uid: string
+  - name: target
+    description: "  \nProvides information about the error target."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nProvides information about the error message."
+    types:
+    - uid: string
+- name: JobDetails
+  description: Specifies the job properties
+  kind: object
+  properties:
+  - name: storageAccountId
+    description: "  \nThe resource identifier of the storage account where data will be imported to or exported from."
+    types:
+    - uid: string
+  - name: jobType
+    description: "  \nThe type of job"
+    types:
+    - uid: string
+  - name: returnAddress
+    description: "  \nSpecifies the return address information for the job. "
+    types:
+    - uid: ReturnAddress
+  - name: returnShipping
+    description: "  \nSpecifies the return carrier and customer's account with the carrier. "
+    types:
+    - uid: ReturnShipping
+  - name: shippingInformation
+    description: "  \nContains information about the Microsoft datacenter to which the drives should be shipped. "
+    types:
+    - uid: ShippingInformation
+  - name: deliveryPackage
+    description: "  \nContains information about the package being shipped by the customer to the Microsoft data center. "
+    types:
+    - uid: PackageInfomation
+  - name: returnPackage
+    description: "  \nContains information about the package being shipped from the Microsoft data center to the customer to return the drives. The format is the same as the deliveryPackage property above. This property is not included if the drives have not yet been returned. "
+    types:
+    - uid: PackageInfomation
+  - name: diagnosticsPath
+    description: "  \nThe virtual blob directory to which the copy logs and backups of drive manifest files (if enabled) will be stored."
+    types:
+    - uid: string
+  - name: logLevel
+    description: "  \nDefault value is Error. Indicates whether error logging or verbose logging will be enabled."
+    types:
+    - uid: string
+  - name: backupDriveManifest
+    description: "  \nDefault value is false. Indicates whether the manifest files on the drives should be copied to block blobs."
+    types:
+    - uid: boolean
+  - name: state
+    description: "  \nCurrent state of the job."
+    types:
+    - uid: string
+  - name: cancelRequested
+    description: "  \nIndicates whether a request has been submitted to cancel the job."
+    types:
+    - uid: boolean
+  - name: percentComplete
+    description: "  \nOverall percentage completed for the job."
+    types:
+    - uid: integer
+  - name: incompleteBlobListUri
+    description: "  \nA blob path that points to a block blob containing a list of blob names that were not exported due to insufficient drive space. If all blobs were exported successfully, then this element is not included in the response."
+    types:
+    - uid: string
+  - name: driveList
+    description: "  \nProvides information about the drive's status"
+    types:
+    - uid: DriveStatus
+      isArray: true
+  - name: export
+    description: "  \nA property containing information about the blobs to be exported for an export job. This property is included for export jobs only."
+    types:
+    - uid: Export
+  - name: provisioningState
+    description: "  \nSpecifies the provisioning state of the job."
+    types:
+    - uid: string
+- name: ReturnAddress
+  description: 'Specifies the return address information for the job. '
+  kind: object
+  properties:
+  - name: recipientName
+    description: "  \nThe name of the recipient who will receive the hard drives when they are returned. "
+    types:
+    - uid: string
+  - name: streetAddress1
+    description: "  \nThe first line of the street address to use when returning the drives. "
+    types:
+    - uid: string
+  - name: streetAddress2
+    description: "  \nThe second line of the street address to use when returning the drives. "
+    types:
+    - uid: string
+  - name: city
+    description: "  \nThe city name to use when returning the drives."
+    types:
+    - uid: string
+  - name: stateOrProvince
+    description: "  \nThe state or province to use when returning the drives."
+    types:
+    - uid: string
+  - name: postalCode
+    description: "  \nThe postal code to use when returning the drives."
+    types:
+    - uid: string
+  - name: countryOrRegion
+    description: "  \nThe country or region to use when returning the drives. "
+    types:
+    - uid: string
+  - name: phone
+    description: "  \nPhone number of the recipient of the returned drives."
+    types:
+    - uid: string
+  - name: email
+    description: "  \nEmail address of the recipient of the returned drives."
+    types:
+    - uid: string
+- name: ReturnShipping
+  description: "Specifies the return carrier and customer's account with the carrier. "
+  kind: object
+  properties:
+  - name: carrierName
+    description: "  \nThe carrier's name."
+    types:
+    - uid: string
+  - name: carrierAccountNumber
+    description: "  \nThe customer's account number with the carrier."
+    types:
+    - uid: string
+- name: ShippingInformation
+  description: 'Contains information about the Microsoft datacenter to which the drives should be shipped. '
+  kind: object
+  properties:
+  - name: recipientName
+    description: "  \nThe name of the recipient who will receive the hard drives when they are returned. "
+    types:
+    - uid: string
+  - name: streetAddress1
+    description: "  \nThe first line of the street address to use when returning the drives. "
+    types:
+    - uid: string
+  - name: streetAddress2
+    description: "  \nThe second line of the street address to use when returning the drives. "
+    types:
+    - uid: string
+  - name: city
+    description: "  \nThe city name to use when returning the drives."
+    types:
+    - uid: string
+  - name: stateOrProvince
+    description: "  \nThe state or province to use when returning the drives."
+    types:
+    - uid: string
+  - name: postalCode
+    description: "  \nThe postal code to use when returning the drives."
+    types:
+    - uid: string
+  - name: countryOrRegion
+    description: "  \nThe country or region to use when returning the drives. "
+    types:
+    - uid: string
+  - name: phone
+    description: "  \nPhone number of the recipient of the returned drives."
+    types:
+    - uid: string
+- name: PackageInfomation
+  description: 'Contains information about the package being shipped by the customer to the Microsoft data center. '
+  kind: object
+  properties:
+  - name: carrierName
+    description: "  \nThe name of the carrier that is used to ship the import or export drives."
+    types:
+    - uid: string
+  - name: trackingNumber
+    description: "  \nThe tracking number of the package."
+    types:
+    - uid: string
+  - name: driveCount
+    description: "  \nThe number of drives included in the package."
+    types:
+    - uid: integer
+  - name: shipDate
+    description: "  \nThe date when the package is shipped."
+    types:
+    - uid: string
+- name: DriveStatus
+  description: List of up to ten drives that comprise the job. The drive list is a required element for an import job; it is not specified for export jobs.
+  kind: object
+  properties:
+  - name: driveId
+    description: "  \nThe drive's hardware serial number, without spaces."
+    types:
+    - uid: string
+  - name: bitLockerKey
+    description: "  \nThe BitLocker key used to encrypt the drive."
+    types:
+    - uid: string
+  - name: manifestFile
+    description: "  \nThe relative path of the manifest file on the drive. "
+    types:
+    - uid: string
+  - name: manifestHash
+    description: "  \nThe Base16-encoded MD5 hash of the manifest file on the drive."
+    types:
+    - uid: string
+  - name: driveHeaderHash
+    description: "  \nThe drive header hash value."
+    types:
+    - uid: string
+  - name: state
+    description: "  \nThe drive's current state. "
+    types:
+    - uid: DriveState
+  - name: copyStatus
+    description: "  \nDetailed status about the data transfer process. This field is not returned in the response until the drive is in the Transferring state."
+    types:
+    - uid: string
+  - name: percentComplete
+    description: "  \nPercentage completed for the drive. "
+    types:
+    - uid: integer
+  - name: verboseLogUri
+    description: "  \nA URI that points to the blob containing the verbose log for the data transfer operation. "
+    types:
+    - uid: string
+  - name: errorLogUri
+    description: "  \nA URI that points to the blob containing the error log for the data transfer operation."
+    types:
+    - uid: string
+  - name: manifestUri
+    description: "  \nA URI that points to the blob containing the drive manifest file. "
+    types:
+    - uid: string
+  - name: bytesSucceeded
+    description: "  \nBytes successfully transferred for the drive."
+    types:
+    - uid: integer
+- name: Export
+  description: A property containing information about the blobs to be exported for an export job. This property is included for export jobs only.
+  kind: object
+  properties:
+  - name: blobListblobPath
+    description: "  \nThe relative URI to the block blob that contains the list of blob paths or blob path prefixes as defined above, beginning with the container name. If the blob is in root container, the URI must begin with $root. "
+    types:
+    - uid: string
+  - name: blobList.blobPath
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+  - name: blobList.blobPathPrefix
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+- name: DriveState
+  description: "The drive's current state. "
+  kind: enum
+  properties:
+  - name: Specified
+    types:
+    - uid: string
+  - name: Received
+    types:
+    - uid: string
+  - name: NeverReceived
+    types:
+    - uid: string
+  - name: Transferring
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+  - name: CompletedMoreInfo
+    types:
+    - uid: string
+  - name: ShippedBack
+    types:
+    - uid: string
+examples:
+- name: List jobs in a subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/providers/Microsoft.ImportExport/jobs?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "storageAccountId": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/testrg/providers/Microsoft.Storage/storageAccounts/xtprodtestarmos2",
+              "jobType": "Import",
+              "returnAddress": {
+                "recipientName": "La",
+                "streetAddress1": "Street1",
+                "streetAddress2": "street2",
+                "city": "city",
+                "stateOrProvince": "wa",
+                "postalCode": "98007",
+                "countryOrRegion": "USA",
+                "phone": "425000000",
+                "email": "test@contoso.com"
+              },
+              "shippingInformation": {
+                "recipientName": "Windows Azure Import Export Service",
+                "streetAddress1": "Boydton 1 / BLDG # 1 101 Herbert Drive",
+                "streetAddress2": "",
+                "city": "Boydton",
+                "stateOrProvince": "VA",
+                "postalCode": "23917",
+                "countryOrRegion": "USA",
+                "phone": "+1-434-738-9443"
+              },
+              "deliveryPackage": {
+                "carrierName": "FedEx",
+                "trackingNumber": "992016102507",
+                "driveCount": 1,
+                "shipDate": "8/11/2017 9:05:00 PM"
+              },
+              "diagnosticsPath": "waimportexport",
+              "logLevel": "Verbose",
+              "backupDriveManifest": true,
+              "cancelRequested": false,
+              "state": "Received",
+              "driveList": [
+                {
+                  "driveId": "7PHR882C",
+                  "manifestFile": "\\DriveManifest.xml",
+                  "manifestHash": "E5D632DB047C74B3B17C8F3359950ADB",
+                  "state": "Received"
+                }
+              ],
+              "provisioningState": "Succeeded"
+            },
+            "id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/testrg/providers/Microsoft.ImportExport/jobs/test-bn1-import-cpu100-01",
+            "name": "test-bn1-import-cpu100-01",
+            "type": "Microsoft.ImportExport/jobs",
+            "location": "East US 2"
+          },
+          {
+            "properties": {
+              "storageAccountId": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/testrg/providers/Microsoft.Storage/storageAccounts/xtprodtestarmos2",
+              "jobType": "Import",
+              "returnAddress": {
+                "recipientName": "La",
+                "streetAddress1": "Street1",
+                "streetAddress2": "street2",
+                "city": "city",
+                "stateOrProvince": "wa",
+                "postalCode": "98007",
+                "countryOrRegion": "USA",
+                "phone": "4256150991",
+                "email": "test@contoso.com"
+              },
+              "shippingInformation": {
+                "recipientName": "Windows Azure Import Export Service",
+                "streetAddress1": "Boydton 1 / BLDG # 1 101 Herbert Drive",
+                "streetAddress2": "",
+                "city": "Boydton",
+                "stateOrProvince": "VA",
+                "postalCode": "23917",
+                "countryOrRegion": "USA",
+                "phone": "+1-434-738-9443"
+              },
+              "deliveryPackage": {
+                "carrierName": "FedEx",
+                "trackingNumber": "992016102508",
+                "driveCount": 1,
+                "shipDate": "8/13/2017 7:32:23 PM"
+              },
+              "diagnosticsPath": "waimportexport",
+              "logLevel": "Verbose",
+              "backupDriveManifest": true,
+              "cancelRequested": false,
+              "state": "Transferring",
+              "percentComplete": 6,
+              "driveList": [
+                {
+                  "driveId": "KV6H86XP",
+                  "manifestFile": "\\DriveManifest.xml",
+                  "manifestHash": "F6A488A65AF0CCA7D050B7F9F43A197C",
+                  "state": "CompletedMoreInfo",
+                  "copyStatus": "InProgress",
+                  "verboseLogUri": "https://foo.blob.core.windows.net/waimportexport/waies/test-bn1-import-cpu100-02_KV6H86XP_20170813-194618-350_verbose.xml",
+                  "errorLogUri": "https://foo.blob.core.windows.net/waimportexport/waies/test-bn1-import-cpu100-02_KV6H86XP_20170813-194620-021_error.xml",
+                  "manifestUri": "https://foo.blob.core.windows.net/waimportexport/waies/test-bn1-import-cpu100-02_KV6H86XP_20170813-194620-574_manifest.xml"
+                }
+              ],
+              "provisioningState": "Succeeded"
+            },
+            "id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/testrg/providers/Microsoft.ImportExport/jobs/test-bn1-import-cpu100-02",
+            "name": "test-bn1-import-cpu100-02",
+            "type": "Microsoft.ImportExport/jobs",
+            "location": "East US 2"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

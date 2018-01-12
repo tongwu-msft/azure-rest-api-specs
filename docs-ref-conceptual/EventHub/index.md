@@ -29,9 +29,9 @@ The Event Hubs REST API provides operations for working with the following resou
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
-| [Consumer Groups](~/docs-ref-autogen/EventHub/ConsumerGroups.json)          | Provides operations for working with Event Hubs consumer groups. |
-| [Event Hubs](~/docs-ref-autogen/EventHub/EventHubs.json)  | Operations for managing Event Hubs. |
-| [Namespaces](~/docs-ref-autogen/EventHub/Namespaces.json)  | Operations for managing Event Hubs namespaces. |
+| [Consumer Groups](~/docs-ref-autogen/EventHub/ConsumerGroups.yml)          | Provides operations for working with Event Hubs consumer groups. |
+| [Event Hubs](~/docs-ref-autogen/EventHub/EventHubs.yml)  | Operations for managing Event Hubs. |
+| [Namespaces](~/docs-ref-autogen/EventHub/Namespaces.yml)  | Operations for managing Event Hubs namespaces. |
 
 ### Event Hubs service
 

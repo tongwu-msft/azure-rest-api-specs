@@ -1,0 +1,197 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetworks.routetables.get
+name: Get
+service: Virtual Networks
+groupName: Route Tables
+apiVersion: 2017-10-01
+summary: Gets the specified route table.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: routeTableName
+  in: path
+  isRequired: true
+  description: The name of the route table.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns the resulting RouteTable resource.
+  types:
+  - uid: RouteTable
+requestHeader: []
+definitions:
+- name: RouteTable
+  description: Route table resource.
+  kind: object
+  properties:
+  - name: etag
+    description: "  \nGets a unique read-only string that changes whenever the resource is updated."
+    types:
+    - uid: string
+  - name: properties.routes
+    description: "  \nRoute resource"
+    types:
+    - uid: Route
+      isArray: true
+  - name: properties.subnets
+    isReadyOnly: true
+    description: "  \nReference to another subresource."
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.disableBgpRoutePropagation
+    description: "  \nGets or sets whether to disable the routes learned by BGP on that route table. True means disable."
+    types:
+    - uid: boolean
+  - name: properties.provisioningState
+    description: "  \nThe provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource ID."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nResource name."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nResource type."
+    types:
+    - uid: string
+  - name: location
+    description: "  \nResource location."
+    types:
+    - uid: string
+  - name: tags
+    description: "  \nResource tags."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: Route
+  description: Route resource
+  kind: object
+  properties:
+  - name: name
+    description: "  \nThe name of the resource that is unique within a resource group. This name can be used to access the resource."
+    types:
+    - uid: string
+  - name: etag
+    description: "  \nA unique read-only string that changes whenever the resource is updated."
+    types:
+    - uid: string
+  - name: properties.addressPrefix
+    description: "  \nThe destination CIDR to which the route applies."
+    types:
+    - uid: string
+  - name: properties.nextHopType
+    description: "  \nThe type of Azure hop the packet should be sent to. Possible values are: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance', and 'None'"
+    types:
+    - uid: RouteNextHopType
+  - name: properties.nextHopIpAddress
+    description: "  \nThe IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance."
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: "  \nThe provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource ID"
+    types:
+    - uid: string
+- name: SubResource
+  description: A collection of references to subnets.
+  kind: object
+  properties:
+  - name: id
+    description: "  \nResource ID."
+    types:
+    - uid: string
+- name: RouteNextHopType
+  description: "The type of Azure hop the packet should be sent to. Possible values are: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance', and 'None'"
+  kind: enum
+  properties:
+  - name: VirtualNetworkGateway
+    types:
+    - uid: string
+  - name: VnetLocal
+    types:
+    - uid: string
+  - name: Internet
+    types:
+    - uid: string
+  - name: VirtualAppliance
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+examples:
+- name: Get route table
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "testrt",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt",
+        "type": "Microsoft.Network/routeTables",
+        "location": "westus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "disableBgpRoutePropagation": false,
+          "routes": [
+            {
+              "name": "route1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt/routes/route1",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "addressPrefix": "10.0.3.0/24",
+                "nextHopType": "VirtualNetworkGateway"
+              }
+            }
+          ]
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

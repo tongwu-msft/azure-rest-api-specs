@@ -37,13 +37,8 @@ A Task is an individual operation of work on an Asset and is defined in a Job.
 -   [List Tasks](../operations/task.md#list_tasks)  
   
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
 ##  <a name="task_entity_properties"></a> Task Entity Properties  
   
 |Property|Type|Description|  
@@ -72,7 +67,7 @@ A Task is an individual operation of work on an Asset and is defined in a Job.
 |`TaskNotificationSubscriptions`<br /><br /> Required.|[TaskNotificationSubscription](../operations/tasknotificationsubscription.md) entity set|Defines the notification endpoint task state changes. Also,  indicates whether to include task progress for which to be notified.|  
   
 ##  <a name="create_a_task"></a> Create a Task  
- Tasks are created by creating a Job. For an example, see [How to encode an asset using Media Encoder Standard](http://azure.microsoft.com/documentation/articles/media-services-dotnet-encode-with-media-encoder-standard/).  
+ Tasks are created by creating a Job. For an example, see [How to encode an asset using Media Encoder Standard](https://azure.microsoft.com/documentation/articles/media-services-dotnet-encode-with-media-encoder-standard/).  
   
 ##  <a name="list_tasks"></a> List Tasks  
  Tasks are retrieved using a GET HTTP request.  
@@ -86,10 +81,7 @@ A Task is an individual operation of work on an Asset and is defined in a Job.
 |GET|https://media.windows.net/API/Jobs('*jobid*')/Tasks|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
+
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  

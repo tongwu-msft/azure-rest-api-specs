@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Delete Share
-The `Delete Share` operation marks the specified share for deletion. The share and any files contained within it are later deleted during garbage collection.  
+The `Delete Share` operation marks the specified share or share snapshot for deletion. The share or share snapshot and any files contained within it are later deleted during garbage collection.  
   
 ## Request  
  The `Delete Share` request may be constructed as follows. HTTPS is recommended.  
@@ -33,6 +33,7 @@ The `Delete Share` operation marks the specified share for deletion. The share a
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`DELETE`|`https://myaccount.file.core.windows.net/myshare?restype=share`|HTTP/1.1|  
+|`DELETE`|`https://myaccount.file.core.windows.net/myshare?sharesnapshot=<DateTime>&restype=share`|HTTP/1.1|  
   
  Replace the path components shown in the request URI with your own, as follows:  
   
@@ -48,6 +49,7 @@ The `Delete Share` operation marks the specified share for deletion. The share a
   
 |Parameter|Description|  
 |---------------|-----------------|  
+|`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to delete |
 |`timeout`|Optional. The timeout parameter is expressed in seconds.  For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ## Request Headers  
@@ -58,6 +60,7 @@ The `Delete Share` operation marks the specified share for deletion. The share a
 |`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-delete-snapshots: {include}`| Optional if the share has associated snapshots. Specify the following option <br /> -   `include`: Delete the base share and all of its snapshots.|
   
 ## Request Body  
  None.  
@@ -98,6 +101,10 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ= 
   
 ## Remarks  
  When a share is deleted, a share with the same name cannot be recreated for at least 30 seconds. While the share is being deleted, attempts to recreate a share of the same name will fail with status code 409 (Conflict), with the service returning additional error information indicating that the share is being deleted. All other operations, including operations on any files under the share, will fail with status code 404 (Not Found) while the share is being deleted.  
+
+ Deleting a share that has snapshots is currently not allowed. The share snapshots can be individually deleted or can be deleted together with the share using the `x-ms-delete-snapshots=include` header as stated above.
+
+ This header `x-ms-delete-snapshots` should be specified only for a request against the base share resource. If this header is specified on a request to delete an individual snapshot, the file service returns status code 400 (InvalidQueryParameterValue). If this header is not specified on the delete request and the share has associated snapshots, the file service returns status code 409 (ShareHasSnapshots).
   
 ## See Also  
  [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

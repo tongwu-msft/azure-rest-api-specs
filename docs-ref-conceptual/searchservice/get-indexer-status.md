@@ -37,64 +37,68 @@ GET https://[service name].search.windows.net/indexers/[indexer name]/status?api
 
  The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+ The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 
 ## Response  
  Status Code: 200 OK for a successful response. The response body contains information about overall indexer health status, the last indexer invocation, as well as the history of recent indexer invocations (if present).  
 
  A sample response body looks like this:  
 
-```  
-{  
-        "status":"running",  
-        "lastResult": {  
-            "status":"success",  
-            "errorMessage":null,  
-            "startTime":"2014-11-26T03:37:18.853Z",  
-            "endTime":"2014-11-26T03:37:19.012Z",  
-            "errors":[],  
-	    "warnings":[],
-            "itemsProcessed":11,  
-            "itemsFailed":0,  
-            "initialTrackingState":null,  
-            "finalTrackingState":null  
-         },  
-        "executionHistory":[
-         {  
-            "status":"success",  
-            "errorMessage":null,  
-            "startTime":"2014-11-26T03:37:18.853Z",  
-            "endTime":"2014-11-26T03:37:19.012Z",  
-            "errors":[], 
-	    "warnings":[],
-            "itemsProcessed":11,  
-            "itemsFailed":0,  
-            "initialTrackingState":null,  
-            "finalTrackingState":null  
-         },   
-         {  
-            "status":"transientFailure",  
-            "errorMessage":null,  
-            "startTime":"2014-11-26T03:28:10.125Z",  
-            "endTime":"2014-11-26T03:28:12.007Z",  
-            "errors":[
-	     {
-                 "key":  "",
-                 "status":  false,
-                 "errorMessage":  "Document key cannot be missing or empty.",
-                 "statusCode":  400
-             }],  
-	    "warnings":[
-	     {
-                 "key":  "document id",
-                 "message":  "A warning doesn't stop indexing, and is intended to inform you of certain interesting situations, like when a blob indexer truncates the amount of text extracted from a blob."
-             }],
-            "itemsProcessed":1,  
-            "itemsFailed":1,  
-            "initialTrackingState":null,  
-            "finalTrackingState":null  
-        }]  
-```  
+```
+{
+    "status" : "running",
+    "lastResult" : {
+        "status" : "success",
+        "errorMessage" : null,
+        "startTime" : "2014-11-26T03:37:18.853Z",
+        "endTime" : "2014-11-26T03:37:19.012Z",
+        "errors" : [],
+        "warnings" : [],
+        "itemsProcessed" : 11,
+        "itemsFailed" : 0,
+        "initialTrackingState" : null,
+        "finalTrackingState" : null
+    },
+    "executionHistory" : [
+        {
+            "status" : "success",
+            "errorMessage" : null,
+            "startTime" : "2014-11-26T03:37:18.853Z",
+            "endTime" : "2014-11-26T03:37:19.012Z",
+            "errors" : [],
+            "warnings" : [],
+            "itemsProcessed" : 11,
+            "itemsFailed" : 0,
+            "initialTrackingState" : null,
+            "finalTrackingState" : null
+        },
+        {
+            "status" : "transientFailure",
+            "errorMessage" : null,
+            "startTime" : "2014-11-26T03:28:10.125Z",
+            "endTime" : "2014-11-26T03:28:12.007Z",
+            "errors" : [
+                {
+                    "key" : "",
+                    "status" : false,
+                    "errorMessage" : "Document key cannot be missing or empty.",
+                    "statusCode" : 400
+                }
+            ],
+            "warnings" : [
+                {
+                    "key" : "document id",
+                    "message" : "A warning doesn't stop indexing, and is intended to inform you of certain interesting situations, like when a blob indexer truncates the amount of text extracted from a blob."
+                }
+            ],
+            "itemsProcessed" : 1,
+            "itemsFailed" : 1,
+            "initialTrackingState" : null,
+            "finalTrackingState" : null
+        }
+    ]
+}
+```
 
 ### Indexer status  
  Indexer status can be one of the following values:  

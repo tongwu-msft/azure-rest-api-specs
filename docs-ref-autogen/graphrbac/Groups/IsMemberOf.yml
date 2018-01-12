@@ -1,0 +1,94 @@
+### YamlMime:RESTOperation
+uid: graph.windows.net.graphrbac.groups.ismemberof
+name: Is Member Of
+service: Graph RBAC
+groupName: Groups
+apiVersion: "1.6"
+summary: Checks whether the specified user, group, contact, or service principal is a direct or transitive member of the specified group.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://graph.windows.net/{tenantID}/isMemberOf?api-version=1.6
+uriParameters:
+- name: tenantID
+  in: path
+  isRequired: true
+  description: The tenant ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. Indicates success. Returns true if the user, contact, group, or service principal is a direct or a transitive member of the specified group; otherwsie, false.
+  types:
+  - uid: CheckGroupMembershipResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: GraphError
+requestBody:
+- parameters:
+  - name: groupId
+    in: body
+    isRequired: true
+    description: "  \nThe object ID of the group to check."
+    types:
+    - uid: string
+  - name: memberId
+    in: body
+    isRequired: true
+    description: "  \nThe object ID of the contact, group, user, or service principal to check for membership in the specified group."
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CheckGroupMembershipResult
+  description: Server response for IsMemberOf API call
+  kind: object
+  properties:
+  - name: value
+    description: "  \nTrue if the specified user, group, contact, or service principal has either direct or transitive membership in the specified group; otherwise, false."
+    types:
+    - uid: boolean
+- name: GraphError
+  description: Active Directory error information.
+  kind: object
+  properties:
+  - name: odata.error.code
+    description: "  \nError code."
+    types:
+    - uid: string
+  - name: odata.error.message.value
+    description: "  \nError message value."
+    types:
+    - uid: string
+- name: CheckGroupMembershipParameters
+  description: Request parameters for IsMemberOf API call.
+  kind: object
+  properties:
+  - name: groupId
+    description: "  \nThe object ID of the group to check."
+    types:
+    - uid: string
+  - name: memberId
+    description: "  \nThe object ID of the contact, group, user, or service principal to check for membership in the specified group."
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

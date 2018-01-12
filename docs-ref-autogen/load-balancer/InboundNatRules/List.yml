@@ -1,0 +1,187 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.loadbalancer.inboundnatrules.list
+name: List
+service: Load balancer
+groupName: Inbound Nat Rules
+apiVersion: 2017-10-01
+summary: Gets all the inbound nat rules in a load balancer.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: loadBalancerName
+  in: path
+  isRequired: true
+  description: The name of the load balancer.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a list of LoadBalancer InboundNatRule resources.
+  types:
+  - uid: InboundNatRuleListResult
+requestHeader: []
+definitions:
+- name: InboundNatRuleListResult
+  description: Response for ListInboundNatRule API service call.
+  kind: object
+  properties:
+  - name: value
+    description: "  \nInbound NAT rule of the load balancer."
+    types:
+    - uid: InboundNatRule
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: "  \nThe URL to get the next set of results."
+    types:
+    - uid: string
+- name: InboundNatRule
+  description: Inbound NAT rule of the load balancer.
+  kind: object
+  properties:
+  - name: name
+    description: "  \nGets name of the resource that is unique within a resource group. This name can be used to access the resource."
+    types:
+    - uid: string
+  - name: etag
+    description: "  \nA unique read-only string that changes whenever the resource is updated."
+    types:
+    - uid: string
+  - name: properties.frontendIPConfiguration
+    description: "  \nA reference to frontend IP addresses."
+    types:
+    - uid: SubResource
+  - name: properties.backendIPConfiguration
+    isReadyOnly: true
+    description: "  \nA reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backend IP."
+    types:
+    - uid: SubResource
+  - name: properties.protocol
+    description: "  \nThe transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'"
+    types:
+    - uid: TransportProtocol
+  - name: properties.frontendPort
+    description: "  \nThe port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values range from 1 to 65534."
+    types:
+    - uid: integer
+  - name: properties.backendPort
+    description: "  \nThe port used for the internal endpoint. Acceptable values range from 1 to 65535."
+    types:
+    - uid: integer
+  - name: properties.idleTimeoutInMinutes
+    description: "  \nThe timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP."
+    types:
+    - uid: integer
+  - name: properties.enableFloatingIP
+    description: "  \nConfigures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint."
+    types:
+    - uid: boolean
+  - name: properties.provisioningState
+    description: "  \nGets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource ID"
+    types:
+    - uid: string
+- name: SubResource
+  description: Read only. Inbound rules URIs that use this frontend IP.
+  kind: object
+  properties:
+  - name: id
+    description: "  \nResource ID."
+    types:
+    - uid: string
+- name: TransportProtocol
+  description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All.'
+  kind: enum
+  properties:
+  - name: Udp
+    types:
+    - uid: string
+  - name: Tcp
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
+examples:
+- name: InboundNatRuleList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/inboundNatRules?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "natRule1.1",
+            "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/inboundNatRules/natRule1.1",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "frontendIPConfiguration": {
+                "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/frontendIPConfigurations/ip1"
+              },
+              "frontendPort": 3390,
+              "backendPort": 3389,
+              "enableFloatingIP": false,
+              "idleTimeoutInMinutes": 4,
+              "protocol": "Tcp",
+              "backendIPConfiguration": {
+                "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipConfigurations/ip1"
+              }
+            }
+          },
+          {
+            "name": "natRule1.3",
+            "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/inboundNatRules/natRule1.3",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "frontendIPConfiguration": {
+                "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/frontendIPConfigurations/ip1"
+              },
+              "frontendPort": 3392,
+              "backendPort": 3389,
+              "enableFloatingIP": false,
+              "idleTimeoutInMinutes": 4,
+              "protocol": "Tcp",
+              "backendIPConfiguration": {
+                "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/3/networkInterfaces/nic1/ipConfigurations/ip1"
+              }
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

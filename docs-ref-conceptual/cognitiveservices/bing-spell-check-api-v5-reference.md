@@ -15,6 +15,9 @@ ms.author: scottwhi
 
 # Spell Check API v5 reference
 
+> [!NOTE]
+> A new version of this API is available. See [Spell Check API v7](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-spell-check-api-v7-reference).  For information about upgrading, see the [upgrade guide](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-spell-check/bing-spell-check-upgrade-guide-v5-to-v7).
+
 The Spell Check API lets you check a text string for spelling and grammar errors. This section provides technical details about the query parameters and headers that you use to request spell checking, and the JSON response objects that contain the results. For examples that show how to make requests, see [Spell check a text string](https://docs.microsoft.com/azure/cognitive-services/bing-spell-check/proof-text).  
   
 For information about the headers that requests should include, see [Request Headers](#headers).  

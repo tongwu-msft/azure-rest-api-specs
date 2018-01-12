@@ -24,6 +24,6 @@ The Storage Resource Provider requires all requests to be versioned. To make a r
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Storage Accounts](~/docs-ref-autogen/storagerp/storageaccounts.json) |Operations to manage your storage accounts, such as create, update, delete, etc.|
-| [Usage](~/docs-ref-autogen/storagerp/usage.json) |Operation to retrieve the current usage count and limit for the subscription's resources.|
+| [Storage Accounts](~/docs-ref-autogen/storagerp/storageaccounts.yml) |Operations to manage your storage accounts, such as create, update, delete, etc.|
+| [Usage](~/docs-ref-autogen/storagerp/usage.yml) |Operation to retrieve the current usage count and limit for the subscription's resources.|
 

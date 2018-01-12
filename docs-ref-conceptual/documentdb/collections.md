@@ -1,5 +1,5 @@
 ---
-title: "Collections"
+title: "Collections -  Azure Cosmos DB REST API"
 ms.custom: ""
 ms.date: "2017-08-16"
 ms.prod: "azure"
@@ -13,7 +13,6 @@ caps.latest.revision: 13
 author: "mimig1"
 ms.author: "mimig"
 manager: "jhubbard"
-robots: noindex,nofollow
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -27,13 +26,13 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Collections
-Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing collection [resources](/azure/cosmos-db/sql-api-resources) using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.  
 
-The DocumentDB REST API supports basic CRUD operations on the resources under a database account. A collection is a container of JSON documents and associated JavaScript application logic, i.e. stored procedures, triggers and user-defined functions. This topic outlines the REST operations used to manage DocumentDB document collections.  
+The REST API supports basic CRUD operations on the resources under a database account. A collection is a container of JSON documents and associated JavaScript application logic, i.e. stored procedures, triggers and user-defined functions. This topic outlines the REST operations used to manage document collections.  
   
 A collection maps to a container in Azure Cosmos DB. Therefore, it is a billable entity, where the cost is determined by the provisioned throughput expressed in request units per second. Collections can span one or more partitions/servers and scaled up and down in terms of throughput. Collections are automatically partitioned into one or more physical servers by Azure Cosmos DB. 
 
-Since a collection is a system resource, it has a fixed schema. A collection's URI path is represented by colls in the [resource model](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources).  
+Since a collection is a system resource, it has a fixed schema. A collection's URI path is represented by colls in the [resource model](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources).  
   
 The following example illustrates the JSON definition of a collection:  
   

@@ -50,7 +50,7 @@ Note that if your application code handles *service administration operations* a
 
 Authentication documentation for ARM can be found at [Use Resource Manager authentication API to access subscriptions](https://docs.microsoft.com/azure/azure-resource-manager/resource-manager-api-authentication).
 
-Access control for Azure Resource Manager uses the built-in Owner, Contributor, and Reader roles. By default, all service administrators are members of the Owner role. For details, see [Role-based access control in the Azure portal](http://azure.microsoft.com/documentation/articles/role-based-access-control-configure/).
+Access control for Azure Resource Manager uses the built-in Owner, Contributor, and Reader roles. By default, all service administrators are members of the Owner role. For details, see [Role-based access control in the Azure portal](https://azure.microsoft.com/documentation/articles/role-based-access-control-configure/).
 
 ## Next steps
 

@@ -1,0 +1,111 @@
+### YamlMime:RESTOperation
+uid: graph.windows.net.graphrbac.serviceprincipals.listnext
+name: List Next
+service: Graph RBAC
+groupName: Service Principals
+apiVersion: "1.6"
+summary: Gets a list of service principals from the current tenant.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://graph.windows.net/{tenantID}/{nextLink}?ServicePrincipals_ListNext&api-version=1.6
+uriParameters:
+- name: tenantID
+  in: path
+  isRequired: true
+  description: The tenant ID.
+  types:
+  - uid: string
+- name: nextLink
+  in: path
+  isRequired: true
+  description: Next link for the list operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The operation was successful.
+  types:
+  - uid: ServicePrincipalListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: GraphError
+requestHeader: []
+definitions:
+- name: ServicePrincipalListResult
+  description: Server response for get tenant service principals API call.
+  kind: object
+  properties:
+  - name: value
+    description: "  \nActive Directory service principal information."
+    types:
+    - uid: ServicePrincipal
+      isArray: true
+  - name: odata.nextLink
+    description: "  \nthe URL to get the next set of results."
+    types:
+    - uid: string
+- name: GraphError
+  description: Active Directory error information.
+  kind: object
+  properties:
+  - name: odata.error.code
+    description: "  \nError code."
+    types:
+    - uid: string
+  - name: odata.error.message.value
+    description: "  \nError message value."
+    types:
+    - uid: string
+- name: ServicePrincipal
+  description: Active Directory service principal information.
+  kind: object
+  properties:
+  - name: displayName
+    description: "  \nThe display name of the service principal."
+    types:
+    - uid: string
+  - name: appId
+    description: "  \nThe application ID."
+    types:
+    - uid: string
+  - name: servicePrincipalNames
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+  - name: objectId
+    isReadyOnly: true
+    description: "  \nThe object ID."
+    types:
+    - uid: string
+  - name: objectType
+    isReadyOnly: true
+    description: "  \nThe object type."
+    types:
+    - uid: string
+  - name: deletionTimestamp
+    isReadyOnly: true
+    description: "  \nThe time at which the directory object was deleted."
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
