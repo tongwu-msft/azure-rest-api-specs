@@ -38,7 +38,8 @@ The following example shows the request to create a new virtual machine scale se
     "name": "Standard_A1",    
     "tier": "Standard",    
     "capacity": 10          
-  },     
+  },
+  "zones": ["1", "2", "3"],
   "properties": {  
     "singlePlacementGroup": true,  
     "overprovision": true,    

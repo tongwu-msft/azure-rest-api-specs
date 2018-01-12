@@ -38,6 +38,7 @@ For information about getting started with Azure REST operations including reque
   "tags": {
     "department": "finance"
   },
+  "zones": ["1"],
   "properties": {
     "licenseType": "Windows_Server | Windows_Client",
     "availabilitySet": {
