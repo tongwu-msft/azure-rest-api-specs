@@ -39,18 +39,12 @@ The REST APIs fall into two main categories:
   
   - **Service Fabric Client**: APIs that manage applications, services, and elements of the cluster itself are located directly at your cluster address, e.g., `mycluster.westus.cloudapp.azure.com`.  
 
----
 ## [Service Fabric Resource Manager APIs](sfrp-index.md)
 
  [Service Fabric Resource Manager APIs](sfrp-index.md) allows you to create and manage Service Fabric cluster in Azure. A Service Fabric cluster is a network-connected set of virtual or physical machines into which your microservices are deployed and managed.  Once a cluster is created you can manage and deploy applications, services and containers in the cluster using Service Fabric Client APIs. 
 
  This is a current stable version of the Service Fabric Resource Manager APIs.
 
-## [Service Fabric Resource Manager REST API Reference (2017-07-01-preview)](sfrp-2017-07-01-preview-index.md)
-
-This is a preview version of the APIs that in addition to managing the cluster, allows managing application and services as ARM resources.
-
----
 ## [Service Fabric Client APIs](sfclient-index.md)
 
 Once a cluster is created you can deploy and manage your applications, services, and containers using the [Service Fabric Client APIs](sfclient-index.md). These APIs are provided by Service Fabric itself and are always available anywhere Service Fabric runs, whether that's in Azure, on-premises, or another cloud. This APIs is the primary way of interacting with your Service Fabric cluster to deploy, upgrade, delete, and query your applications and services. 
@@ -58,5 +52,7 @@ Once a cluster is created you can deploy and manage your applications, services,
 This is a current version of the Service Fabric Client APIs. These APIs work with Service Fabric runtime version 6.0 and above.
 
 ## [Service Fabric Client APIs (v5.6)](sfclient-v56-index.md)
+
+Once a cluster is created you can deploy and manage your applications, services, and containers using the [Service Fabric Client APIs (v5.6)](sfclient-v56-index.md). These APIs are provided by Service Fabric itself and are always available anywhere Service Fabric runs, whether that's in Azure, on-premises, or another cloud. This API is the primary way of interacting with your Service Fabric cluster to deploy, upgrade, delete, and query your applications and services. 
 
 This is a previous version of the Service Fabric Client APIs. These API work with Service Fabric runtime version 5.6 and 5.7. 
