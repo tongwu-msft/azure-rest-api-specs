@@ -38,6 +38,7 @@ For information about getting started with Azure REST operations including reque
   "tags": {
     "department": "finance"
   },
+  "zones": ["1"],
   "properties": {
     "licenseType": "Windows_Server | Windows_Client",
     "availabilitySet": {
@@ -195,10 +196,11 @@ For information about getting started with Azure REST operations including reque
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|      
 | name | Yes | String | Specifies the name of the virtual machine. This name should be unique within the resource group. |    
-| location | Yes | String | Specifies the supported Azure location where the virtual machine should be created. This location can be different from the location of the resource group. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.yml#Subscriptions_ListLocations). |
+| location | Yes | String | Specifies the supported Azure location where the virtual machine should be created. This location can be different from the location of the resource group. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/Subscriptions.yml). |
 | tags | No | String | Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md).|    
 | [plan](#plan) | No | Complex Type| Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. |    
-| [properties](#props) | Yes | Complex Type | Specifies the properties of the virtual machine. |    
+| [properties](#props) | Yes | Complex Type | Specifies the properties of the virtual machine. |
+| zones | No | String List | Specifies which zone to put the virtual machine in. Allowed values are ["1"], ["2"], and ["3"]. |    
     
 ### <a name="plan"></a> plan    
     
@@ -669,6 +671,20 @@ The following example shows the licenseType element that is used when the image 
 ```json
 "properties": {  
    "licenseType": "Windows_Server",
+   "availabilitySet": {  
+     "id":"/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/availabilitySets/myav1"
+   },
+   ...
+```
+
+
+### Zonal VM
+
+The following example shows the zones element that is used to deploy the VM into an availability zone.
+
+```json
+"zones": ["1"],
+"properties": {  
    "availabilitySet": {  
      "id":"/subscriptions/{subscription-id}/resourceGroups/myresourcegroup1/providers/Microsoft.Compute/availabilitySets/myav1"
    },
