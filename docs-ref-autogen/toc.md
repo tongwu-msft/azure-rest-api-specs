@@ -381,6 +381,7 @@
 ### [List By Resource Group](appservice/Domains/ListByResourceGroup.yml)
 ### [List Ownership Identifiers](appservice/Domains/ListOwnershipIdentifiers.yml)
 ### [List Recommendations](appservice/Domains/ListRecommendations.yml)
+### [Renew](appservice/Domains/Renew.yml)
 ### [Update](appservice/Domains/Update.yml)
 ### [Update Ownership Identifier](appservice/Domains/UpdateOwnershipIdentifier.yml)
 ## [Recommendations](appservice/Recommendations.yml)
