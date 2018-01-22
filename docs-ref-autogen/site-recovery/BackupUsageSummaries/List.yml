@@ -1,0 +1,229 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.recoveryservices-backup.backupusagesummaries.list
+name: List
+service: Recovery Services - Backup
+groupName: Backup Usage Summaries
+apiVersion: 2017-07-01
+summary: Fetches the backup management usage summaries of the vault.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupUsageSummaries?api-version=2017-07-01
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupUsageSummaries?api-version=2017-07-01&$filter={$filter}&$skipToken={$skipToken}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter options.
+  types:
+  - uid: string
+- name: $skipToken
+  in: query
+  description: skipToken Filter.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: BackupManagementUsageList
+requestHeader: []
+definitions:
+- name: BackupManagementUsageList
+  description: Backup management usage for vault.
+  kind: object
+  properties:
+  - name: value
+    description: "  \nBackup management usages of a vault."
+    types:
+    - uid: BackupManagementUsage
+      isArray: true
+- name: BackupManagementUsage
+  description: Backup management usages of a vault.
+  kind: object
+  properties:
+  - name: unit
+    description: "  \nUnit of the usage."
+    types:
+    - uid: UsagesUnit
+  - name: quotaPeriod
+    description: "  \nQuota period of usage."
+    types:
+    - uid: string
+  - name: nextResetTime
+    description: "  \nNext reset time of usage."
+    types:
+    - uid: string
+  - name: currentValue
+    description: "  \nCurrent value of usage."
+    types:
+    - uid: integer
+  - name: limit
+    description: "  \nLimit of usage."
+    types:
+    - uid: integer
+  - name: name
+    description: "  \nName of usage."
+    types:
+    - uid: NameInfo
+- name: UsagesUnit
+  description: Unit of the usage.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+  - name: Seconds
+    types:
+    - uid: string
+  - name: Percent
+    types:
+    - uid: string
+  - name: CountPerSecond
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    types:
+    - uid: string
+- name: NameInfo
+  description: Name of usage.
+  kind: object
+  properties:
+  - name: value
+    description: "  \nValue of usage."
+    types:
+    - uid: string
+  - name: localizedValue
+    description: "  \nLocalized value of usage."
+    types:
+    - uid: string
+examples:
+- name: Get Protected Items Usages Summary
+  request:
+    uri: GET https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRG/providers/Microsoft.RecoveryServices/vaults/testVault/backupUsageSummaries?api-version=2017-07-01&$filter=type eq 'BackupProtectedItemCountSummary'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "unit": "Count",
+            "currentValue": 7,
+            "limit": -1,
+            "name": {
+              "value": "AzureIaasVM",
+              "localizedValue": "Azure Virtual Machine"
+            }
+          },
+          {
+            "unit": "Count",
+            "currentValue": 3,
+            "limit": -1,
+            "name": {
+              "value": "MAB",
+              "localizedValue": "Azure Backup Agent"
+            }
+          },
+          {
+            "unit": "Count",
+            "currentValue": 1,
+            "limit": -1,
+            "name": {
+              "value": "AzureBackupServer",
+              "localizedValue": "Azure Backup Server"
+            }
+          },
+          {
+            "unit": "Count",
+            "currentValue": 2,
+            "limit": -1,
+            "name": {
+              "value": "AzureStorage",
+              "localizedValue": "Azure Storage (Azure Files)"
+            }
+          },
+          {
+            "unit": "Count",
+            "currentValue": 2,
+            "limit": -1,
+            "name": {
+              "value": "AzureWorkload",
+              "localizedValue": "SQL in Azure VM"
+            }
+          }
+        ]
+      }
+- name: Get Protected Containers Usages Summary
+  request:
+    uri: GET https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRG/providers/Microsoft.RecoveryServices/vaults/testVault/backupUsageSummaries?api-version=2017-07-01&$filter=type eq 'BackupProtectionContainerCountSummary'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "unit": "Count",
+            "currentValue": 2,
+            "limit": -1,
+            "name": {
+              "value": "AzureBackupServer",
+              "localizedValue": "Azure Backup Server"
+            }
+          },
+          {
+            "unit": "Count",
+            "currentValue": 3,
+            "limit": -1,
+            "name": {
+              "value": "MAB",
+              "localizedValue": "Azure Backup Agent"
+            }
+          },
+          {
+            "unit": "Count",
+            "currentValue": 1,
+            "limit": -1,
+            "name": {
+              "value": "AzureWorkload",
+              "localizedValue": "SQL in Azure VM"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
