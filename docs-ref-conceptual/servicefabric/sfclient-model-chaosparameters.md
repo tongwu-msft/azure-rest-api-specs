@@ -1,6 +1,6 @@
 ---
 title: "ChaosParameters"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,6 +43,7 @@ Defines all the parameters to configure a Chaos run.
 | [WaitTimeBetweenIterationsInSeconds](#waittimebetweeniterationsinseconds) | integer (int64) | No |
 | [ClusterHealthPolicy](#clusterhealthpolicy) | [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) | No |
 | [Context](#context) | [ChaosContext](sfclient-model-chaoscontext.md) | No |
+| [ChaosTargetFilter](#chaostargetfilter) | [ChaosTargetFilter](sfclient-model-chaostargetfilter.md) | No |
 
 ____
 ### TimeToRunInSeconds
@@ -129,4 +130,14 @@ __Required__: No<br/>
 Describes a map, which is a collection of (string, string) type key-value pairs. The map can be used to record information about
 the Chaos run. There cannot be more than 100 such pairs and each string (key or value) can be at most 4095 characters long.
 This map is set by the starter of the Chaos run to optionally store the context about the specific run.
+
+
+____
+### ChaosTargetFilter
+__Type__: [ChaosTargetFilter](sfclient-model-chaostargetfilter.md) <br/>
+__Required__: No<br/>
+<br/>
+List of cluster entities to target for Chaos faults.
+This filter can be used to target Chaos faults only to certain node types or only to certain application instances. If ChaosTargetFilter is not used, Chaos faults all cluster entities.
+If ChaosTargetFilter is used, Chaos faults only the entities that meet the ChaosTargetFilter specification.
 

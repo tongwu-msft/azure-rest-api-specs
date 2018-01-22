@@ -1,6 +1,6 @@
 ---
 title: "Cluster"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -42,6 +42,8 @@ translation.priority.mt:
 | [Get Cluster Upgrade Progress](sfclient-api-getclusterupgradeprogress.md) | Gets the progress of the current cluster upgrade.<br/> |
 | [Get Cluster Configuration](sfclient-api-getclusterconfiguration.md) | Get the Service Fabric standalone cluster configuration.<br/> |
 | [Get Cluster Configuration Upgrade Status](sfclient-api-getclusterconfigurationupgradestatus.md) | Get the cluster configuration upgrade status of a Service Fabric standalone cluster.<br/> |
+| [Get Upgrade Orchestration Service State](sfclient-api-getupgradeorchestrationservicestate.md) | Get the service state of Service Fabric Upgrade Orchestration Service.<br/> |
+| [Set Upgrade Orchestration Service State](sfclient-api-setupgradeorchestrationservicestate.md) | Update the service state of Service Fabric Upgrade Orchestration Service.<br/> |
 | [Provision Cluster](sfclient-api-provisioncluster.md) | Provision the code or configuration packages of a Service Fabric cluster.<br/> |
 | [Unprovision Cluster](sfclient-api-unprovisioncluster.md) | Unprovision the code or configuration packages of a Service Fabric cluster.<br/> |
 | [Rollback Cluster Upgrade](sfclient-api-rollbackclusterupgrade.md) | Rollback the upgrade of a Service Fabric cluster.<br/> |

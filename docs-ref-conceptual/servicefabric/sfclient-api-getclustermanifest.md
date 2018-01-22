@@ -1,6 +1,6 @@
 ---
 title: "Get Cluster Manifest"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -33,8 +33,8 @@ Get the Service Fabric cluster manifest.
 Get the Service Fabric cluster manifest. The cluster manifest contains properties of the cluster that include different node types on the cluster,
 security configurations, fault and upgrade domain topologies etc.
 
-These properties are specified as part of the ClusterConfig.yml file while deploying a stand alone cluster. However, most of the information in the cluster manifest
-is generated internally by service fabric during cluster deployment in other deployment scenarios (for e.g when using azuer portal).
+These properties are specified as part of the ClusterConfig.JSON file while deploying a stand alone cluster. However, most of the information in the cluster manifest
+is generated internally by service fabric during cluster deployment in other deployment scenarios (for e.g when using azure portal).
 
 The contents of the cluster manifest are for informational purposes only and users are not expected to take a dependency on the format of the file contents or its interpretation.
 
@@ -57,7 +57,12 @@ __Type__: string <br/>
 __Required__: Yes<br/>
 __Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "6.0".
+The version of this API. This is a required parameter and its value must be "6.0".
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+
 
 ____
 ### timeout

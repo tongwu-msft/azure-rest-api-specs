@@ -1,6 +1,6 @@
 ---
 title: "SingletonPartitionInformation"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # SingletonPartitionInformation
 
-Information about a partition that is singleton. The services with singletone partitioning scheme are effectively non-partitioned. They only have one partition.
+Information about a partition that is singleton. The services with singleton partitioning scheme are effectively non-partitioned. They only have one partition.
 
 ## Properties
 | Name | Type | Required |

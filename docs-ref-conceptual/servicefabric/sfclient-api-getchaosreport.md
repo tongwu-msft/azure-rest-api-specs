@@ -1,6 +1,6 @@
 ---
 title: "Get Chaos Report"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -56,7 +56,12 @@ __Type__: string <br/>
 __Required__: Yes<br/>
 __Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "6.0".
+The version of this API. This is a required parameter and its value must be "6.0".
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+
 
 ____
 ### ContinuationToken
@@ -70,14 +75,14 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The count of ticks representing the start time of the time range for which a Chaos report is to be generated. Please consult [DateTime.Ticks Property](https://msdn.microsoft.com/en-us/library/system.datetime.ticks%28v=vs.110%29) for details about tick.
+The Windows file time representing the start time of the time range for which a Chaos report is to be generated. Please consult [DateTime.ToFileTimeUtc Method](https://msdn.microsoft.com/en-us/library/system.datetime.tofiletimeutc(v=vs.110).aspx) for details.
 
 ____
 ### EndTimeUtc
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The count of ticks representing the end time of the time range for which a Chaos report is to be generated. Please consult [DateTime.Ticks Property](https://msdn.microsoft.com/en-us/library/system.datetime.ticks%28v=vs.110%29) for details about tick.
+The Windows file time representing the end time of the time range for which a Chaos report is to be generated. Please consult [DateTime.ToFileTimeUtc Method](https://msdn.microsoft.com/en-us/library/system.datetime.tofiletimeutc(v=vs.110).aspx) for details.
 
 ____
 ### timeout
@@ -112,20 +117,20 @@ GET http://localhost:19080/Tools/Chaos/$/Report?api-version=6.0&StartTimeUtc=0&E
 ```json
 {
   "ChaosParameters": {
-    "MaxClusterStabilizationTimeoutInSeconds": 30,
-    "MaxConcurrentFaults": 3,
-    "WaitTimeBetweenIterationsInSeconds": 10,
-    "WaitTimeBetweenFaultsInSeconds": 1,
+    "MaxClusterStabilizationTimeoutInSeconds": "30",
+    "MaxConcurrentFaults": "3",
+    "WaitTimeBetweenIterationsInSeconds": "10",
+    "WaitTimeBetweenFaultsInSeconds": "1",
     "TimeToRunInSeconds": "3600",
     "EnableMoveReplicaFaults": true,
     "ClusterHealthPolicy": {
       "ConsiderWarningAsError": true,
-      "MaxPercentUnhealthyNodes": 0,
-      "MaxPercentUnhealthyApplications": 10,
+      "MaxPercentUnhealthyNodes": "0",
+      "MaxPercentUnhealthyApplications": "10",
       "ApplicationTypeHealthPolicyMap": [
         {
           "Key": "myapp",
-          "Value": 3
+          "Value": "3"
         }
       ]
     },
@@ -145,20 +150,20 @@ GET http://localhost:19080/Tools/Chaos/$/Report?api-version=6.0&StartTimeUtc=0&E
         "Kind": "Started",
         "TimeStampUtc": "2017-04-14T04:27:19.049Z",
         "ChaosParameters": {
-          "MaxClusterStabilizationTimeoutInSeconds": 30,
-          "MaxConcurrentFaults": 3,
-          "WaitTimeBetweenIterationsInSeconds": 10,
-          "WaitTimeBetweenFaultsInSeconds": 1,
+          "MaxClusterStabilizationTimeoutInSeconds": "30",
+          "MaxConcurrentFaults": "3",
+          "WaitTimeBetweenIterationsInSeconds": "10",
+          "WaitTimeBetweenFaultsInSeconds": "1",
           "TimeToRunInSeconds": "3600",
           "EnableMoveReplicaFaults": true,
           "ClusterHealthPolicy": {
             "ConsiderWarningAsError": true,
-            "MaxPercentUnhealthyNodes": 0,
-            "MaxPercentUnhealthyApplications": 10,
+            "MaxPercentUnhealthyNodes": "0",
+            "MaxPercentUnhealthyApplications": "10",
             "ApplicationTypeHealthPolicyMap": [
               {
                 "Key": "myapp",
-                "Value": 3
+                "Value": "3"
               }
             ]
           },

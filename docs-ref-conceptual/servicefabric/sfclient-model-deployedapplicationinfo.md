@@ -1,6 +1,6 @@
 ---
 title: "DeployedApplicationInfo"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,15 +41,16 @@ Information about application deployed on the node.
 | [WorkDirectory](#workdirectory) | string | No |
 | [LogDirectory](#logdirectory) | string | No |
 | [TempDirectory](#tempdirectory) | string | No |
+| [HealthState](#healthstate) | string (enum) | No |
 
 ____
 ### Id
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource. 
-
-Starting in version 6.0, hierarchical names are delimited with the "~" character. For example, if the application name is "fabric://myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
+The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
 
 
 ____
@@ -71,14 +72,20 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The status of the application deployed on the node. Following are the possible values.
 
-- Invalid - Indicates that deployment status is not valid. All Service Fabric enumerations have the invalid type. The value is zero.
-- Downloading - Indicates that the package is downloading from the ImageStore. The value is 1.
-- Activating - Indicates that the package is activating. The value is 2.
-- Active - Indicates that the package is active. The value is 3.
-- Upgrading - Indicates that the package is upgrading. The value is 4.
-- Deactivating - Indicates that the package is deactivating. The value is 5.
+
+Possible values are: 
+
+  - Invalid - Indicates that deployment status is not valid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - Downloading - Indicates that the package is downloading from the ImageStore. The value is 1.
+  - Activating - Indicates that the package is activating. The value is 2.
+  - Active - Indicates that the package is active. The value is 3.
+  - Upgrading - Indicates that the package is upgrading. The value is 4.
+  - Deactivating - Indicates that the package is deactivating. The value is 5.
+
 
 
 ____
@@ -101,3 +108,22 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The temp directory of the application on the node. The code packages belonging to the application are forked with this directory set as their temporary directory.
+
+____
+### HealthState
+__Type__: string (enum) <br/>
+__Required__: No<br/>
+<br/>
+
+
+The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+Possible values are: 
+
+  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+  - Ok - Indicates the health state is okay. The value is 1.
+  - Warning - Indicates the health state is at a warning level. The value is 2.
+  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+  - Unknown - Indicates an unknown health status. The value is 65535.
+
+
