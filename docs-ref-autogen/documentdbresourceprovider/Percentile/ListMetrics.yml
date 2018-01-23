@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cosmosdbresourceprovider.collection.listmetrics
+uid: management.azure.com.cosmosdbresourceprovider.percentile.listmetrics
 name: List Metrics
 service: Cosmos DB Resource Provider
-groupName: Collection
+groupName: Percentile
 apiVersion: 2015-04-08
-summary: Retrieves the metrics determined by the given filter for the given database account and collection.
+summary: Retrieves the metrics determined by the given filter for the given database account. This url is only for PBS and Replication Latency data
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/metrics?api-version=2015-04-08&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/percentile/metrics?api-version=2015-04-08&$filter={$filter}
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,18 +31,6 @@ uriParameters:
   description: Cosmos DB database account name.
   types:
   - uid: string
-- name: databaseRid
-  in: path
-  isRequired: true
-  description: Cosmos DB database rid.
-  types:
-  - uid: string
-- name: collectionRid
-  in: path
-  isRequired: true
-  description: Cosmos DB collection rid.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -57,36 +45,25 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The metrics for the database account were retrieved successfully.
+  description: The percentile metrics for the account were retrieved successfully.
   types:
-  - uid: MetricListResult
+  - uid: PercentileMetricListResult
 requestHeader: []
 definitions:
-- name: MetricListResult
-  description: The response to a list metrics request.
+- name: PercentileMetricListResult
+  description: The response to a list percentile metrics request.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
-    description: "  \nMetric data"
+    description: "  \nPercentile Metric data"
     types:
-    - uid: PartitionMetric
+    - uid: PercentileMetric
       isArray: true
-    typesTitle: Metric[]
-- name: PartitionMetric
-  description: The list of partition-level metrics for the account.
+- name: PercentileMetric
+  description: The list of percentile metrics for the account.
   kind: object
   properties:
-  - name: partitionId
-    isReadyOnly: true
-    description: "  \nThe parition id (GUID identifier) of the metric values."
-    types:
-    - uid: string
-  - name: partitionKeyRangeId
-    isReadyOnly: true
-    description: "  \nThe partition key range id (integer identifier) of the metric values."
-    types:
-    - uid: string
   - name: startTime
     isReadyOnly: true
     description: "  \nThe start time for the metric (ISO-8601 format)."
@@ -114,11 +91,10 @@ definitions:
     - uid: MetricName
   - name: metricValues
     isReadyOnly: true
-    description: "  \nRepresents metrics values."
+    description: "  \nRepresents percentile metrics values."
     types:
     - uid: PercentileMetricValue
       isArray: true
-    typesTitle: MetricValue[]
 - name: UnitType
   description: The unit of the metric.
   kind: enum
@@ -228,9 +204,9 @@ definitions:
     types:
     - uid: number
 examples:
-- name: CosmosDBCollectionGetMetrics
+- name: CosmosDBDatabaseAccountRegionGetMetrics
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/databases/databaseRid/collections/collectionRid/metrics?api-version=2015-04-08&$filter=$filter=(name.value eq 'Total Requests') and timeGrain eq duration'PT5M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T00:13:55.2780000Z
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/percentile/metrics?api-version=2015-04-08&$filter=$filter=(name.value eq 'Probabilistic Bounded Staleness') and timeGrain eq duration'PT5M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T00:13:55.2780000Z
   responses:
   - statusCode: "200"
     body: >-
@@ -240,36 +216,44 @@ examples:
             "timeGrain": "PT5M",
             "startTime": "2017-11-19T23:53:55.278Z",
             "endTime": "2017-11-20T00:13:55.278Z",
-            "unit": "Count",
+            "unit": "Milliseconds",
             "metricValues": [
               {
                 "timestamp": "2017-11-19T23:53:55.278Z",
-                "total": 0,
-                "_count": 0,
-                "average": 0
-              },
-              {
-                "timestamp": "2017-11-19T23:58:55.278Z",
-                "total": 0,
-                "_count": 0,
-                "average": 0
-              },
-              {
-                "timestamp": "2017-11-20T00:03:55.278Z",
-                "total": 0,
-                "_count": 0,
-                "average": 0
-              },
-              {
-                "timestamp": "2017-11-20T00:08:55.278Z",
-                "total": 0,
-                "_count": 0,
-                "average": 0
+                "P10": 1.11,
+                "P25": 2.5,
+                "P50": 4.34,
+                "P75": 5.2,
+                "P90": 6.77,
+                "P95": 7.1,
+                "P99": 8.3
               }
             ],
             "name": {
-              "value": "Total Requests",
-              "localizedValue": "Total Requests"
+              "value": "Probabilistic Bounded Staleness-S-West Central US-T-East US",
+              "localizedValue": "Probabilistic Bounded Staleness-S-West Central US-T-East US"
+            }
+          },
+          {
+            "timeGrain": "PT5M",
+            "startTime": "2017-11-19T23:53:55.278Z",
+            "endTime": "2017-11-20T00:13:55.278Z",
+            "unit": "Milliseconds",
+            "metricValues": [
+              {
+                "timestamp": "2017-11-19T23:53:55.278Z",
+                "P10": 1.11,
+                "P25": 2.5,
+                "P50": 4.34,
+                "P75": 5.2,
+                "P90": 6.77,
+                "P95": 7.1,
+                "P99": 8.3
+              }
+            ],
+            "name": {
+              "value": "Probabilistic Bounded Staleness-S-West Central US-T-West US",
+              "localizedValue": "Probabilistic Bounded Staleness-S-West Central US-T-West US"
             }
           }
         ]

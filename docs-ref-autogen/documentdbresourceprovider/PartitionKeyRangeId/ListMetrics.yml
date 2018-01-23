@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cosmosdbresourceprovider.collection.listmetrics
+uid: management.azure.com.cosmosdbresourceprovider.partitionkeyrangeid.listmetrics
 name: List Metrics
 service: Cosmos DB Resource Provider
-groupName: Collection
+groupName: Partition Key Range Id
 apiVersion: 2015-04-08
-summary: Retrieves the metrics determined by the given filter for the given database account and collection.
+summary: Retrieves the metrics determined by the given filter for the given partition key range id.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/metrics?api-version=2015-04-08&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitionKeyRangeId/{partitionKeyRangeId}/metrics?api-version=2015-04-08&$filter={$filter}
 uriParameters:
 - name: subscriptionId
   in: path
@@ -43,6 +43,12 @@ uriParameters:
   description: Cosmos DB collection rid.
   types:
   - uid: string
+- name: partitionKeyRangeId
+  in: path
+  isRequired: true
+  description: Partition Key Range Id for which to get data.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -57,22 +63,21 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The metrics for the database account were retrieved successfully.
+  description: The partition-level metrics for the partition key range id were retrieved successfully.
   types:
-  - uid: MetricListResult
+  - uid: PartitionMetricListResult
 requestHeader: []
 definitions:
-- name: MetricListResult
-  description: The response to a list metrics request.
+- name: PartitionMetricListResult
+  description: The response to a list partition metrics request.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
-    description: "  \nMetric data"
+    description: "  \nThe metric values for a single partition."
     types:
     - uid: PartitionMetric
       isArray: true
-    typesTitle: Metric[]
 - name: PartitionMetric
   description: The list of partition-level metrics for the account.
   kind: object
@@ -228,48 +233,50 @@ definitions:
     types:
     - uid: number
 examples:
-- name: CosmosDBCollectionGetMetrics
+- name: CosmosDBDatabaseAccountRegionGetMetrics
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/databases/databaseRid/collections/collectionRid/metrics?api-version=2015-04-08&$filter=$filter=(name.value eq 'Total Requests') and timeGrain eq duration'PT5M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T00:13:55.2780000Z
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/databases/databaseRid/collections/collectionRid/partitionKeyRangeId/0/metrics?api-version=2015-04-08&$filter=$filter=(name.value eq 'Max RUs Per Second') and timeGrain eq duration'PT1M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T23:58:55.2780000Z
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "timeGrain": "PT5M",
+            "timeGrain": "PT1M",
             "startTime": "2017-11-19T23:53:55.278Z",
-            "endTime": "2017-11-20T00:13:55.278Z",
+            "endTime": "2017-11-20T23:58:55.278Z",
             "unit": "Count",
+            "partitionId": "00000000-0000-0000-0000-000000000000",
+            "partitionKeyRangeId": "0",
             "metricValues": [
               {
                 "timestamp": "2017-11-19T23:53:55.278Z",
-                "total": 0,
-                "_count": 0,
-                "average": 0
+                "maximum": 5
+              },
+              {
+                "timestamp": "2017-11-19T23:54:55.278Z",
+                "maximum": 5
+              },
+              {
+                "timestamp": "2017-11-19T23:55:55.278Z",
+                "maximum": 5
+              },
+              {
+                "timestamp": "2017-11-19T23:56:55.278Z",
+                "maximum": 5
+              },
+              {
+                "timestamp": "2017-11-19T23:57:55.278Z",
+                "maximum": 5
               },
               {
                 "timestamp": "2017-11-19T23:58:55.278Z",
-                "total": 0,
-                "_count": 0,
-                "average": 0
-              },
-              {
-                "timestamp": "2017-11-20T00:03:55.278Z",
-                "total": 0,
-                "_count": 0,
-                "average": 0
-              },
-              {
-                "timestamp": "2017-11-20T00:08:55.278Z",
-                "total": 0,
-                "_count": 0,
-                "average": 0
+                "maximum": 5
               }
             ],
             "name": {
-              "value": "Total Requests",
-              "localizedValue": "Total Requests"
+              "value": "Max RUs Per Second",
+              "localizedValue": "Max RUs Per Second"
             }
           }
         ]

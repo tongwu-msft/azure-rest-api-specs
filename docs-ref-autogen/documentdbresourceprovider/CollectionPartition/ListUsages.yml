@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cosmosdbresourceprovider.collection.listusages
+uid: management.azure.com.cosmosdbresourceprovider.collectionpartition.listusages
 name: List Usages
 service: Cosmos DB Resource Provider
-groupName: Collection
+groupName: Collection Partition
 apiVersion: 2015-04-08
-summary: Retrieves the usages (most recent storage data) for the given collection.
+summary: Retrieves the usages (most recent storage data) for the given collection, split by partition.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/usages?api-version=2015-04-08
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/usages?api-version=2015-04-08&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/usages?api-version=2015-04-08
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/usages?api-version=2015-04-08&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -58,22 +58,21 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The usages for the collection were retrieved successfully.
+  description: The usages for the collection, per partition were retrieved successfully.
   types:
-  - uid: UsagesResult
+  - uid: PartitionUsagesResult
 requestHeader: []
 definitions:
-- name: UsagesResult
-  description: The response to a list usage request.
+- name: PartitionUsagesResult
+  description: The response to a list partition level usage request.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
-    description: "  \nThe usage data for a usage request."
+    description: "  \nThe partition level usage data for a usage request."
     types:
     - uid: PartitionUsage
       isArray: true
-    typesTitle: Usage[]
 - name: PartitionUsage
   description: The list of partition-level usages for the database. A usage is a point in time metric
   kind: object
@@ -155,7 +154,7 @@ definitions:
 examples:
 - name: CosmosDBCollectionGetUsages
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/databases/databaseRid/collections/collectionRid/usages?api-version=2015-04-08&$filter=$filter=name.value eq 'Storage'
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/databases/databaseRid/collections/collectionRid/partitions/usages?api-version=2015-04-08&$filter=$filter=name.value eq 'Partition Storage'
   responses:
   - statusCode: "200"
     body: >-
@@ -166,6 +165,8 @@ examples:
             "quotaPeriod": "P1D",
             "limit": 10737418240,
             "currentValue": 0,
+            "partitionId": "00000000-0000-0000-0000-000000000000",
+            "partitionKeyRangeId": "0",
             "name": {
               "value": "Storage",
               "localizedValue": "Storage"
