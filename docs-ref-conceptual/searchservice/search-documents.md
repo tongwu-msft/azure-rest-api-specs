@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "01/04/2018"
+ms.date: "01/23/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -219,7 +219,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 
  Sometimes Azure Search can't return all the requested results in a single Search response. This can happen for different reasons, such as when the query requests too many documents by not specifying `$top` or specifying a value for `$top` that is too large. In such cases, Azure Search will include the `@odata.nextLink` annotation in the response body, and also `@search.nextPageParameters` if it was a POST request. You can use the values of these annotations to formulate another Search request to get the next part of the search response. This is called a *continuation* of the original Search request, and the annotations are generally called *continuation tokens*. See the example in Response below for details on the syntax of these annotations and where they appear in the response body.  
 
- The reasons why Azure Search might return continuation tokens are implementation-specific and subject to change. Robust clients should always be ready to handle cases where fewer documents than expected are returned and a continuation token is included to continue retrieving documents. Also note that you must use the same HTTP method as the original request in order to continue. For example, if you sent a GET request, any continuation requests you send must also use GET (and likewise for POST).  
+ The reasons why Azure Search might return continuation tokens are implementation-specific and subject to change. Robust clients should always be ready to handle cases where fewer documents than expected are returned and a continuation token is included to continue retrieving documents. Also note that you must use the same HTTP method as the original request in order to continue. For example, if you sent a GET request, any continuation requests you send must also use GET (and likewise for POST).
+
+> [!NOTE]
+> The purpose of `@odata.nextLink` and `@search.nextPageParameters` is to protect the service from queries that request too many results, not to provide a general mechanism for paging. If you want to page through results, use `$top` and `$skip` together. For example, if you want pages of size 10, your first request should have `$top=10` and `$skip=0`, the second request should have `$top=10` and `$skip=10`, the third request should have `$top=10` and `$skip=20`, and so on.
+
 
 ## Response  
 
