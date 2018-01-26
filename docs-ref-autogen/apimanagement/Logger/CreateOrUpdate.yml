@@ -73,7 +73,7 @@ requestBody:
   - name: properties.credentials
     in: body
     isRequired: true
-    description: "  \nThe name and SendRule connection string of the event hub."
+    description: "  \nThe name and SendRule connection string of the event hub for azureEventHub logger.\nInstrumentation key for applicationInsights logger."
     types:
     - uid: object
       isDictionary: true
@@ -100,7 +100,7 @@ definitions:
     types:
     - uid: string
   - name: properties.credentials
-    description: "  \nThe name and SendRule connection string of the event hub."
+    description: "  \nThe name and SendRule connection string of the event hub for azureEventHub logger.\nInstrumentation key for applicationInsights logger."
     types:
     - uid: object
       isDictionary: true
@@ -151,6 +151,10 @@ definitions:
     description: Azure Event Hub as log destination.
     types:
     - uid: string
+  - name: applicationInsights
+    description: Azure Application Insights as log destination.
+    types:
+    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -168,7 +172,7 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ApiManagementCreateLogger
+- name: ApiManagementCreateEHLogger
   request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2017-03-01
     body: >-
@@ -213,6 +217,50 @@ examples:
             "connectionString": "{{59544ef2e4bbd50d9468c617}}"
           },
           "isBuffered": true
+        }
+      }
+- name: ApiManagementCreateAILogger
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "loggerType": "applicationInsights",
+          "description": "adding a new logger",
+          "credentials": {
+            "instrumentationKey": "11................a1"
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId",
+        "type": "Microsoft.ApiManagement/service/loggers",
+        "name": "loggerId",
+        "properties": {
+          "loggerType": "applicationInsights",
+          "description": null,
+          "credentials": {
+            "instrumentationKey": "{{5a.......2a}}"
+          },
+          "isBuffered": false
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId",
+        "type": "Microsoft.ApiManagement/service/loggers",
+        "name": "loggerId",
+        "properties": {
+          "loggerType": "applicationInsights",
+          "description": null,
+          "credentials": {
+            "instrumentationKey": "{{5a.......2a}}"
+          },
+          "isBuffered": false
         }
       }
 security:
