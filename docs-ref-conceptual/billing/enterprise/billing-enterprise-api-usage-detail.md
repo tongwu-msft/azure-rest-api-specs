@@ -24,7 +24,7 @@ The Usage Detail API offers a daily breakdown of consumed quantities and estimat
 
 Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd.  
 
-## CSV Format (currently in preview)
+## CSV Format
 The API listed below provides data in csv format.
 
 ### Synchronous call (non-polling)
