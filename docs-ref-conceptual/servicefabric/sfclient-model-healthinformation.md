@@ -1,6 +1,6 @@
 ---
 title: "HealthInformation"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -71,13 +71,18 @@ ____
 __Type__: string (enum) <br/>
 __Required__: Yes<br/>
 <br/>
+
+
 The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+Possible values are: 
 
   - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
   - Ok - Indicates the health state is okay. The value is 1.
   - Warning - Indicates the health state is at a warning level. The value is 2.
   - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
   - Unknown - Indicates an unknown health status. The value is 65535.
+
 
 
 ____
@@ -123,7 +128,7 @@ __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>
 Value that indicates whether the report is removed from health store when it expires.
-If set to true, the report is remopved from the health store after it expires.
+If set to true, the report is removed from the health store after it expires.
 If set to false, the report is treated as an error when expired. The value of this property is false by default.
 When clients report periodically, they should set RemoveWhenExpired false (default).
 This way, is the reporter has issues (eg. deadlock) and can't report, the entity is evaluated at error when the health report expires.

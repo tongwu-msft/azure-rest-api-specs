@@ -34,7 +34,7 @@ uriParameters:
 - name: apiId
   in: path
   isRequired: true
-  description: API identifier. Must be unique in the current API Management service instance.
+  description: API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
@@ -102,6 +102,11 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: properties.apiVersionSet
+    in: body
+    description: "  \nAn API Version Set contains the common configuration for a set of API Versions relating "
+    types:
+    - uid: ApiVersionSetContract
   - name: description
     in: body
     description: "  \nDescription of the API. May include HTML formatting tags."
@@ -127,16 +132,16 @@ requestBody:
     description: "  \nDescribes the Revision of the Api. If no value is provided, default revision 1 is created"
     types:
     - uid: string
-  - name: isCurrent
+  - name: apiVersion
     in: body
-    description: "  \nIndicates if API revision is current api revision."
+    description: "  \nIndicates the Version identifier of the API if the API is versioned"
     types:
-    - uid: boolean
-  - name: isOnline
+    - uid: string
+  - name: apiVersionSetId
     in: body
-    description: "  \nIndicates if API revision is accessible via the gateway."
+    description: "  \nA resource identifier for the related ApiVersionSet."
     types:
-    - uid: boolean
+    - uid: string
 requestHeader:
 - name: If-Match
   in: header
@@ -154,6 +159,33 @@ definitions:
     - uid: string
   - name: wsdlEndpointName
     description: "  \nName of endpoint(port) to import from WSDL"
+    types:
+    - uid: string
+- name: ApiVersionSetContract
+  description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+  kind: object
+  properties:
+  - name: id
+    description: "  \nIdentifier for existing API Version Set. Omit this value to create a new Version Set."
+    types:
+    - uid: string
+  - name: description
+    description: "  \nDescription of API Version Set."
+    types:
+    - uid: string
+  - name: versioningScheme
+    description: "  \nAn value that determines where the API Version identifer will be located in a HTTP request."
+    types:
+    - uid: Segment
+    - uid: Query
+    - uid: Header
+    typesTitle: enum
+  - name: versionQueryName
+    description: "  \nName of query parameter that indicates the API Version if versioningScheme is set to `query`."
+    types:
+    - uid: string
+  - name: versionHeaderName
+    description: "  \nName of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`."
     types:
     - uid: string
 - name: AuthenticationSettingsContract
@@ -197,6 +229,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.apiVersionSet
+    description: "  \nAn API Version Set contains the common configuration for a set of API Versions relating "
+    types:
+    - uid: ApiVersionSetContract
   - name: id
     isReadyOnly: true
     description: "  \nResource ID."
@@ -232,14 +268,24 @@ definitions:
     description: "  \nDescribes the Revision of the Api. If no value is provided, default revision 1 is created"
     types:
     - uid: string
+  - name: properties.apiVersion
+    description: "  \nIndicates the Version identifier of the API if the API is versioned"
+    types:
+    - uid: string
   - name: properties.isCurrent
+    isReadyOnly: true
     description: "  \nIndicates if API revision is current api revision."
     types:
     - uid: boolean
   - name: properties.isOnline
+    isReadyOnly: true
     description: "  \nIndicates if API revision is accessible via the gateway."
     types:
     - uid: boolean
+  - name: properties.apiVersionSetId
+    description: "  \nA resource identifier for the related ApiVersionSet."
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -290,6 +336,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.apiVersionSet
+    description: "  \nAn API Version Set contains the common configuration for a set of API Versions relating "
+    types:
+    - uid: ApiVersionSetContract
   - name: description
     description: "  \nDescription of the API. May include HTML formatting tags."
     types:
@@ -310,14 +360,24 @@ definitions:
     description: "  \nDescribes the Revision of the Api. If no value is provided, default revision 1 is created"
     types:
     - uid: string
+  - name: apiVersion
+    description: "  \nIndicates the Version identifier of the API if the API is versioned"
+    types:
+    - uid: string
   - name: isCurrent
+    isReadyOnly: true
     description: "  \nIndicates if API revision is current api revision."
     types:
     - uid: boolean
   - name: isOnline
+    isReadyOnly: true
     description: "  \nIndicates if API revision is accessible via the gateway."
     types:
     - uid: boolean
+  - name: apiVersionSetId
+    description: "  \nA resource identifier for the related ApiVersionSet."
+    types:
+    - uid: string
 - name: OAuth2AuthenticationSettingsContract
   description: OAuth2 Authentication settings
   kind: object
@@ -369,7 +429,7 @@ definitions:
     types:
     - uid: string
   - name: swagger-json
-    description: The contents are inline and Content Type if a OpenApi 2.0 Document.
+    description: The contents are inline and Content Type is a OpenApi 2.0 Document.
     types:
     - uid: string
   - name: swagger-link-json

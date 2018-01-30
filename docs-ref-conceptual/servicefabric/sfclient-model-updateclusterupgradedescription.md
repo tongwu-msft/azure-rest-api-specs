@@ -1,6 +1,6 @@
 ---
 title: "UpdateClusterUpgradeDescription"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -47,11 +47,16 @@ __Type__: string (enum) <br/>
 __Required__: No<br/>
 __Default__: Rolling <br/>
 <br/>
+
+
 The type of upgrade out of the following possible values.
 
-    - Invalid - Indicates the upgrade kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-    - Rolling - The upgrade progresses one upgrade domain at a time. The value is 1.
-    - Rolling_ForceRestart - The upgrade gets restarted by force. The value is 2.
+Possible values are: 
+
+  - Invalid - Indicates the upgrade kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - Rolling - The upgrade progresses one upgrade domain at a time. The value is 1.
+  - Rolling_ForceRestart - The upgrade gets restarted by force. The value is 2.
+
 
 
 ____

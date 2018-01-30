@@ -45,14 +45,17 @@ The REST APIs fall into two main categories:
 
  This is a current stable version of the Service Fabric Resource Manager APIs.
 
+### [Service Fabric Resource Manager APIs (2017-07-01-Preview Version)](sfrp-2017-07-01-preview-index.md)
+This is a preview version of the Service Fabric Resource Manager APIs that in addition to managing the cluster resource allows representing and managing applications and services resources.
+
 ## [Service Fabric Client APIs](sfclient-index.md)
 
 Once a cluster is created you can deploy and manage your applications, services, and containers using the [Service Fabric Client APIs](sfclient-index.md). These APIs are provided by Service Fabric itself and are always available anywhere Service Fabric runs, whether that's in Azure, on-premises, or another cloud. This APIs is the primary way of interacting with your Service Fabric cluster to deploy, upgrade, delete, and query your applications and services. 
 
-This is a current version of the Service Fabric Client APIs. These APIs work with Service Fabric runtime version 6.0 and above.
+This is a current version of the Service Fabric Client APIs. These APIs work with Service Fabric runtime version *6.1* and above.
 
-## [Service Fabric Client APIs (v5.6)](sfclient-v56-index.md)
+### Service Fabric Client APIs - Previous Versions
 
-Once a cluster is created you can deploy and manage your applications, services, and containers using the [Service Fabric Client APIs (v5.6)](sfclient-v56-index.md). These APIs are provided by Service Fabric itself and are always available anywhere Service Fabric runs, whether that's in Azure, on-premises, or another cloud. This API is the primary way of interacting with your Service Fabric cluster to deploy, upgrade, delete, and query your applications and services. 
+* [Service Fabric Client APIs (v6.0)](sfclient-v60-index.md)
 
-This is a previous version of the Service Fabric Client APIs. These API work with Service Fabric runtime version 5.6 and 5.7. 
+* [Service Fabric Client APIs (v5.6)](sfclient-v56-index.md)

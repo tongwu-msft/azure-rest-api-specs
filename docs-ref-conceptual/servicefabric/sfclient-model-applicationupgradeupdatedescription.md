@@ -1,6 +1,6 @@
 ---
 title: "ApplicationUpgradeUpdateDescription"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -52,10 +52,15 @@ __Type__: string (enum) <br/>
 __Required__: Yes<br/>
 __Default__: Rolling <br/>
 <br/>
+
+
 The kind of upgrade out of the following possible values.
 
-    - Invalid - Indicates the upgrade kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-    - Rolling - The upgrade progresses one upgrade domain at a time. The value is 1
+Possible values are: 
+
+  - Invalid - Indicates the upgrade kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - Rolling - The upgrade progresses one upgrade domain at a time. The value is 1
+
 
 
 ____

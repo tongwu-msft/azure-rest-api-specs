@@ -1,6 +1,6 @@
 ---
 title: "Get Property Info List"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Property Info List
 Gets information on all Service Fabric properties under a given name.
 
-Gets information on all Service Fabric properties under a given name.
+A Service Fabric name can have one or more named properties that stores custom information. This operation gets the information about these properties in a paged list. The information include name, value and metadata about each of the properties.
 
 ## Request
 | Method | Request URI |
@@ -60,7 +60,12 @@ __Type__: string <br/>
 __Required__: Yes<br/>
 __Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "6.0".
+The version of this API. This is a required parameter and its value must be "6.0".
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+
 
 ____
 ### IncludeValues
@@ -118,7 +123,7 @@ GET http://localhost:19080/Names/samples/apps/$/GetProperties?api-version=6.0
         "TypeId": "Int64",
         "CustomTypeId": "",
         "Parent": "fabric:/samples/apps",
-        "SizeInBytes": 5,
+        "SizeInBytes": "5",
         "LastModifiedUtcTimestamp": "2017-07-17T04:27:19.049Z",
         "SequenceNumber": "10"
       }
@@ -129,7 +134,7 @@ GET http://localhost:19080/Names/samples/apps/$/GetProperties?api-version=6.0
         "TypeId": "Binary",
         "CustomTypeId": "InitializationDataType",
         "Parent": "fabric:/samples/apps",
-        "SizeInBytes": 5,
+        "SizeInBytes": "5",
         "LastModifiedUtcTimestamp": "2017-07-17T04:36:19.049Z",
         "SequenceNumber": "12"
       }
@@ -165,7 +170,7 @@ GET http://localhost:19080/Names/samples/apps/$/GetProperties?api-version=6.0&In
         "TypeId": "Int64",
         "CustomTypeId": "",
         "Parent": "fabric:/samples/apps",
-        "SizeInBytes": 8,
+        "SizeInBytes": "8",
         "LastModifiedUtcTimestamp": "2017-07-17T04:27:19.049Z",
         "SequenceNumber": "10"
       }
@@ -175,18 +180,18 @@ GET http://localhost:19080/Names/samples/apps/$/GetProperties?api-version=6.0&In
       "Value": {
         "Kind": "Binary",
         "Data": [
-          6,
-          7,
-          8,
-          9,
-          10
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
         ]
       },
       "Metadata": {
         "TypeId": "Binary",
         "CustomTypeId": "InitializationDataType",
         "Parent": "fabric:/samples/apps",
-        "SizeInBytes": 5,
+        "SizeInBytes": "5",
         "LastModifiedUtcTimestamp": "2017-07-17T04:36:19.049Z",
         "SequenceNumber": "12"
       }
@@ -216,13 +221,13 @@ GET http://localhost:19080/Names/samples/apps/$/GetProperties?api-version=6.0&In
       "Name": "VolatileQueueAppData",
       "Value": {
         "Kind": "Double",
-        "Data": 67.89
+        "Data": "67.89"
       },
       "Metadata": {
         "TypeId": "Double",
         "CustomTypeId": "",
         "Parent": "fabric:/samples/apps",
-        "SizeInBytes": 8,
+        "SizeInBytes": "8",
         "LastModifiedUtcTimestamp": "2017-07-17T04:01:19.049Z",
         "SequenceNumber": "8"
       }
