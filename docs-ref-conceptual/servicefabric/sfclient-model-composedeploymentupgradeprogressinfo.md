@@ -1,6 +1,6 @@
 ---
 title: "ComposeDeploymentUpgradeProgressInfo"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -74,18 +74,24 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The state of the compose deployment upgrade.
 
-    - Invalid - Indicates the upgrade state is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-    - ProvisioningTarget - The upgrade is in the progress of provisioning target application type version. The value is 1.
-    - RollingForwardInProgress - The upgrade is rolling forward to the target version but is not complete yet. The value is 2.
-    - RollingForwardPending - The current upgrade domain has finished upgrading. The overall upgrade is waiting for an explicit move next request in UnmonitoredManual mode or performing health checks in Monitored mode. The value is 3
-    - UnprovisioningCurrent - The upgrade is in the progress of unprovisioning current application type version and rolling forward to the target version is completed. The value is 4.
-    - RollingForwardCompleted - The upgrade has finished rolling forward. The value is 5.
-    - RollingBackInProgress - The upgrade is rolling back to the previous version but is not complete yet. The value is 6.
-    - UnprovisioningTarget - The upgrade is in the progress of unprovisioning target application type version and rolling back to the current version is completed. The value is 7.
-    - RollingBackCompleted - The upgrade has finished rolling back. The valud is 8.
-    - Failed - The upgrade has failed and is unable to execute FailureAction. The value is 9.
+
+Possible values are: 
+
+  - Invalid - Indicates the upgrade state is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - ProvisioningTarget - The upgrade is in the progress of provisioning target application type version. The value is 1.
+  - RollingForwardInProgress - The upgrade is rolling forward to the target version but is not complete yet. The value is 2.
+  - RollingForwardPending - The current upgrade domain has finished upgrading. The overall upgrade is waiting for an explicit move next request in UnmonitoredManual mode or performing health checks in Monitored mode. The value is 3
+  - UnprovisioningCurrent - The upgrade is in the progress of unprovisioning current application type version and rolling forward to the target version is completed. The value is 4.
+  - RollingForwardCompleted - The upgrade has finished rolling forward. The value is 5.
+  - RollingBackInProgress - The upgrade is rolling back to the previous version but is not complete yet. The value is 6.
+  - UnprovisioningTarget - The upgrade is in the progress of unprovisioning target application type version and rolling back to the current version is completed. The value is 7.
+  - RollingBackCompleted - The upgrade has finished rolling back. The value is 8.
+  - Failed - The upgrade has failed and is unable to execute FailureAction. The value is 9.
+
 
 
 ____
@@ -101,10 +107,15 @@ __Type__: string (enum) <br/>
 __Required__: No<br/>
 __Default__: Rolling <br/>
 <br/>
+
+
 The kind of upgrade out of the following possible values.
 
-    - Invalid - Indicates the upgrade kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-    - Rolling - The upgrade progresses one upgrade domain at a time. The value is 1
+Possible values are: 
+
+  - Invalid - Indicates the upgrade kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - Rolling - The upgrade progresses one upgrade domain at a time. The value is 1
+
 
 
 ____
@@ -113,12 +124,17 @@ __Type__: string (enum) <br/>
 __Required__: No<br/>
 __Default__: UnmonitoredAuto <br/>
 <br/>
+
+
 The mode used to monitor health during a rolling upgrade.
 
-    - Invalid - Indicates the upgrade mode is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-    - UnmonitoredAuto - The upgrade will proceed automatically without performing any health monitoring. The value is 1
-    - UnmonitoredManual - The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. The value is 2
-    - Monitored - The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 3
+Possible values are: 
+
+  - Invalid - Indicates the upgrade mode is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - UnmonitoredAuto - The upgrade will proceed automatically without performing any health monitoring. The value is 1
+  - UnmonitoredManual - The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. The value is 2
+  - Monitored - The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 3
+
 
 
 ____
@@ -204,13 +220,18 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The cause of an upgrade failure that resulted in FailureAction being executed.
 
-    - None - Indicates the reason is invalid or unknown. All Service Fabric enumerations have the invalid type. The value is zero.
-    - Interrupted - There was an external request to rollback the upgrade. The value is 1
-    - HealthCheck - The upgrade failed due to health policy violations. The value is 2
-    - UpgradeDomainTimeout - An upgrade domain took longer than the allowed upgrade domain timeout to process. The value is 3
-    - UpgradeTimeout - The overall upgrade took longer than the allowed upgrade timeout to process. The value is 4
+Possible values are: 
+
+  - None - Indicates the reason is invalid or unknown. All Service Fabric enumerations have the invalid type. The value is zero.
+  - Interrupted - There was an external request to rollback the upgrade. The value is 1
+  - HealthCheck - The upgrade failed due to health policy violations. The value is 2
+  - UpgradeDomainTimeout - An upgrade domain took longer than the allowed upgrade domain timeout to process. The value is 3
+  - OverallUpgradeTimeout - The overall upgrade took longer than the allowed upgrade timeout to process. The value is 4
+
 
 
 ____

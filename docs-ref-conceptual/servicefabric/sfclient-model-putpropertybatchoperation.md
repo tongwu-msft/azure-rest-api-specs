@@ -1,6 +1,6 @@
 ---
 title: "PutPropertyBatchOperation"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,9 @@ translation.priority.mt:
 ---
 # PutPropertyBatchOperation
 
-Puts the specified property under the specified name.  Note that if one PropertyBatchOperation in a PropertyBatch fails,  the entire batch fails and cannot be committed in a transactional manner.
+Puts the specified property under the specified name.
+Note that if one PropertyBatchOperation in a PropertyBatch fails,
+the entire batch fails and cannot be committed in a transactional manner.
 
 
 ## Properties

@@ -1,6 +1,6 @@
 ---
 title: "ImageStoreContent"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -49,4 +49,4 @@ ____
 __Type__: array of [FolderInfo](sfclient-model-folderinfo.md) <br/>
 __Required__: No<br/>
 <br/>
-The list of image store folder info objectes represents subfolders found under the given image store relative path.
+The list of image store folder info objects represents subfolders found under the given image store relative path.

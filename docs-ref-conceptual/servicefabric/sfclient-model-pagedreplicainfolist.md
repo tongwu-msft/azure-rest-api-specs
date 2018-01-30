@@ -1,6 +1,6 @@
 ---
 title: "PagedReplicaInfoList"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -49,4 +49,4 @@ ____
 __Type__: array of [ReplicaInfo](sfclient-model-replicainfo.md) <br/>
 __Required__: No<br/>
 <br/>
-
+List of replica information.
