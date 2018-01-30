@@ -36,7 +36,7 @@ To get started, see [Azure Time Series Insights query API](time-series-insights-
 
 The Time Series Insights query API operates on data stored as individual **events** within an environment. Each event is a set of property name and value pairs.
 
-Event properties can be of one of the following primitive types: `Boolean`, `DateTime`, `Double`, or `String`.
+Event properties can be of one of the following primitive types: `Bool`, `DateTime`, `Double`, or `String`.
 Original event source formats may support a larger set of value types, in which case Time Series Insights ingress maps them to the closest primitive types.
 All primitive types are nullable.
 
@@ -70,7 +70,7 @@ Schema contains the name of the event source and ordered set of properties for t
 
 | Primitive Type | JSON Representation | JSON Example | Notes |
 |-|-|-|-|
-| Boolean | JSON Boolean | `true`, `false`|  |
+| Bool | JSON boolean | `true`, `false`|  |
 | DateTime | Nested object with single "dateTime" property in ISO 8601 format `yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK`. | `{"dateTime":"2016-08-01T00:00:00.000Z"}`|  |
 | Double | JSON number cast to Double range. | `1.23e45`, `123`| Overflow of Double results in error. |
 | String | JSON String | `"abc"`|  |
@@ -95,7 +95,23 @@ JSON example:
 ```json
 {
     "property": "p1",
+    "type": "Bool"
+}
+{
+    "property": "p1",
+    "type": "DateTime"
+}
+{
+    "property": "p1",
+    "type": "Double"
+}
+{
+    "property": "p1",
     "type": "String"
+}
+{
+    "property": "p1",
+    "type": "TimeSpan"
 }
 ```
 
@@ -119,7 +135,7 @@ Time Series Insights supports the following **boolean comparison expressions**:
 | `"gt"` | greater than |
 | `"gte"` | greater than or equal |
 
-All comparison expressions take left and right arguments of primitive types and return a Boolean value representing the result of the comparison.
+All comparison expressions take left and right arguments of primitive types and return a boolean value representing the result of the comparison.
 All types implicitly cast only to themselves and explicit casts are not supported, therefore types of left and right arguments should match.
 
 JSON example:
@@ -136,7 +152,7 @@ JSON example:
 The following table shows supported types of arguments for each of the comparison expressions:
 | Argument Type | Supported comparison operation |
 |-|-|
-| Boolean | `eq`, `in` |
+| Bool | `eq`, `in` |
 | DateTime | `eq`, `in`, `lt`, `lte`, `gt`, `gte` |
 | Double | `eq`, `in`, `lt`, `lte`, `gt`, `gte` |
 | String | `eq`, `in`, `phrase` |
@@ -280,7 +296,7 @@ Unlike the JSON property reference expressions, a type for property can be omitt
 Supported literals:
 | Primitive Type | Literals |
 |--|--|
-| Boolean  | TRUE, FALSE |
+| Bool  | TRUE, FALSE |
 | DateTime | dt'2016-10-08T03:22:55.3031599Z' |
 | Double   | 1.23, 1 |
 | String   | 'abc' |
@@ -466,7 +482,7 @@ JSON example:
 Supported dimension and measure expressions depending on property type:
 | Property Type | Supported Dimension Expressions | Supported Measure Expressions |
 |-|-|-|-|
-| Boolean | `"uniqueValues"` | - |
+| Bool | `"uniqueValues"` | - |
 | DateTime | `"uniqueValues"`, `"dateHistogram"` | `"min"`, `"max"` |
 | Double | `"uniqueValues"`, `"numericHistogram"` | `"sum"`, `"avg"`, `"min"`, `"max"` |
 | String | `"uniqueValues"` | - |
