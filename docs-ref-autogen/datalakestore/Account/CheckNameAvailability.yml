@@ -1,0 +1,111 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datalakestore.account.checknameavailability
+name: Check Name Availability
+service: Data Lake Store
+groupName: Account
+apiVersion: 2016-11-01
+summary: Checks whether the specified account name is available or taken.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataLakeStore/locations/{location}/checkNameAvailability?api-version=2016-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The resource location without whitespace.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the Data Lake Store account name availability information.
+  types:
+  - uid: NameAvailabilityInformation
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: "  \nThe Data Lake Store name to check availability for."
+    types:
+    - uid: string
+  - name: type
+    in: body
+    isRequired: true
+    description: "  \nThe resource type. Note: This should not be set by the user, as the constant value is Microsoft.DataLakeStore/accounts"
+    types:
+    - uid: Microsoft.DataLakeStore/accounts
+    typesTitle: enum
+requestHeader: []
+definitions:
+- name: NameAvailabilityInformation
+  description: Data Lake Store account name availability result information.
+  kind: object
+  properties:
+  - name: nameAvailable
+    isReadyOnly: true
+    description: "  \nThe Boolean value of true or false to indicate whether the Data Lake Store account name is available or not."
+    types:
+    - uid: boolean
+  - name: reason
+    isReadyOnly: true
+    description: "  \nThe reason why the Data Lake Store account name is not available, if nameAvailable is false."
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: "  \nThe message describing why the Data Lake Store account name is not available, if nameAvailable is false."
+    types:
+    - uid: string
+- name: CheckNameAvailabilityParameters
+  description: Data Lake Store account name availability check parameters.
+  kind: object
+  properties:
+  - name: name
+    description: "  \nThe Data Lake Store name to check availability for."
+    types:
+    - uid: string
+  - name: type
+    description: "  \nThe resource type. Note: This should not be set by the user, as the constant value is Microsoft.DataLakeStore/accounts"
+    types:
+    - uid: Microsoft.DataLakeStore/accounts
+    typesTitle: enum
+examples:
+- name: Checks whether the specified account name is available or taken
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DataLakeStore/locations/EastUS2/checkNameAvailability?api-version=2016-11-01
+    body: >-
+      {
+        "name": "contosoadla",
+        "type": "Microsoft.DataLakeStore/accounts"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": false,
+        "reason": "AlreadyExists",
+        "message": "An account named 'abc' already exists."
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

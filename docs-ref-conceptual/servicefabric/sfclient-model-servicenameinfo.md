@@ -1,6 +1,6 @@
 ---
 title: "ServiceNameInfo"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,8 +43,8 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The identity of the service. This is an encoded representation of the service name. This is used in the REST APIs to identify the service resource.
-
-Starting in version 6.0, hierarchical names are delimited with the "~" character. For example, if the service name is "fabric://myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
+Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the service name is "fabric:/myapp/app1/svc1",
+the service identity would be "myapp~app1\~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
 
 
 ____

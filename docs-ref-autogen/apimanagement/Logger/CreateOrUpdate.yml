@@ -1,0 +1,273 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.logger.createorupdate
+name: Create Or Update
+service: API Management
+groupName: Logger
+apiVersion: 2017-03-01
+summary: Creates or Updates a logger.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerid}?api-version=2017-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: loggerid
+  in: path
+  isRequired: true
+  description: Logger identifier. Must be unique in the API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Logger was successfully created.
+  types:
+  - uid: LoggerContract
+- name: 200 OK
+  description: The existing logger was successfully updated.
+  types:
+  - uid: LoggerContract
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: properties.loggerType
+    in: body
+    isRequired: true
+    description: "  \nLogger type."
+    types:
+    - uid: LoggerType
+  - name: properties.description
+    in: body
+    description: "  \nLogger description."
+    types:
+    - uid: string
+  - name: properties.credentials
+    in: body
+    isRequired: true
+    description: "  \nThe name and SendRule connection string of the event hub for azureEventHub logger.\nInstrumentation key for applicationInsights logger."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.isBuffered
+    in: body
+    description: "  \nWhether records are buffered in the logger before publishing. Default is assumed to be true."
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: LoggerContract
+  description: Logger values.
+  kind: object
+  properties:
+  - name: properties.loggerType
+    description: "  \nLogger type."
+    types:
+    - uid: LoggerType
+  - name: properties.description
+    description: "  \nLogger description."
+    types:
+    - uid: string
+  - name: properties.credentials
+    description: "  \nThe name and SendRule connection string of the event hub for azureEventHub logger.\nInstrumentation key for applicationInsights logger."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.isBuffered
+    description: "  \nWhether records are buffered in the logger before publishing. Default is assumed to be true."
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource ID."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nResource name."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nResource type for API Management resource."
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nService-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nHuman-readable representation of the error."
+    types:
+    - uid: string
+  - name: details
+    description: "  \nError Field contract."
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: LoggerType
+  description: Logger type.
+  kind: enum
+  properties:
+  - name: azureEventHub
+    description: Azure Event Hub as log destination.
+    types:
+    - uid: string
+  - name: applicationInsights
+    description: Azure Application Insights as log destination.
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nProperty level error code."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nHuman-readable representation of property-level error."
+    types:
+    - uid: string
+  - name: target
+    description: "  \nProperty name."
+    types:
+    - uid: string
+examples:
+- name: ApiManagementCreateEHLogger
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "loggerType": "azureEventHub",
+          "description": "adding a new logger",
+          "credentials": {
+            "name": "hydraeventhub",
+            "connectionString": "Endpoint=sb://hydraeventhub-ns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=********="
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId",
+        "type": "Microsoft.ApiManagement/service/loggers",
+        "name": "loggerId",
+        "properties": {
+          "loggerType": "azureEventHub",
+          "description": "adding a new logger",
+          "credentials": {
+            "name": "hydraeventhub",
+            "connectionString": "{{59544ef2e4bbd50d9468c617}}"
+          },
+          "isBuffered": true
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId",
+        "type": "Microsoft.ApiManagement/service/loggers",
+        "name": "loggerId",
+        "properties": {
+          "loggerType": "azureEventHub",
+          "description": "adding a new logger",
+          "credentials": {
+            "name": "hydraeventhub",
+            "connectionString": "{{59544ef2e4bbd50d9468c617}}"
+          },
+          "isBuffered": true
+        }
+      }
+- name: ApiManagementCreateAILogger
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "loggerType": "applicationInsights",
+          "description": "adding a new logger",
+          "credentials": {
+            "instrumentationKey": "11................a1"
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId",
+        "type": "Microsoft.ApiManagement/service/loggers",
+        "name": "loggerId",
+        "properties": {
+          "loggerType": "applicationInsights",
+          "description": null,
+          "credentials": {
+            "instrumentationKey": "{{5a.......2a}}"
+          },
+          "isBuffered": false
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId",
+        "type": "Microsoft.ApiManagement/service/loggers",
+        "name": "loggerId",
+        "properties": {
+          "loggerType": "applicationInsights",
+          "description": null,
+          "credentials": {
+            "instrumentationKey": "{{5a.......2a}}"
+          },
+          "isBuffered": false
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

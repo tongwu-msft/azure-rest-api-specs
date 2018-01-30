@@ -1,0 +1,645 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.batchai.clusters.list
+name: List
+service: Batch AI
+groupName: Clusters
+apiVersion: 2017-09-01-preview
+summary: Gets information about the Clusters associated with the subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.BatchAI/clusters?api-version=2017-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.BatchAI/clusters?$filter={$filter}&$select={$select}&maxresults={maxresults}&api-version=2017-09-01-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscriptionID for the Azure user.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: An OData $filter clause.. Used to filter results that are returned in the GET respnose.
+  types:
+  - uid: string
+- name: $select
+  in: query
+  description: An OData $select clause. Used to select the properties to be returned in the GET respnose.
+  types:
+  - uid: string
+- name: maxresults
+  in: query
+  description: The maximum number of items to return in the response. A maximum of 1000 files can be returned.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the version of API used for this request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation was successful. The response contains a list of Cluster entities associated with the subscription.
+  types:
+  - uid: ClusterListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ClusterListResult
+  description: Values returned by the List Clusters operation.
+  kind: object
+  properties:
+  - name: value
+    description: "  \nContains information about a Cluster."
+    types:
+    - uid: Cluster
+      isArray: true
+  - name: nextLink
+    description: "  \nThe continuation token."
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Batch AI service.
+  kind: object
+  properties:
+  - name: error
+    description: "  \nAn error response from the Batch AI service."
+    types:
+    - uid: CloudErrorBody
+- name: Cluster
+  description: Contains information about a Cluster.
+  kind: object
+  properties:
+  - name: properties.vmSize
+    description: "The size of the virtual machines in the cluster.  \nAll virtual machines in a cluster are the same size. For information about available VM sizes for clusters using images from the Virtual Machines Marketplace (see Sizes for Virtual Machines (Linux) or Sizes for Virtual Machines (Windows). Batch AI service supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series)."
+    types:
+    - uid: string
+  - name: properties.vmPriority
+    description: "dedicated or lowpriority.  \nThe default value is dedicated. The node can get preempted while the task is running if lowpriority is choosen. This is best suited if the workload is checkpointing and can be restarted."
+    types:
+    - uid: VmPriority
+  - name: properties.scaleSettings
+    description: "Desired scale for the Cluster.  \nAt least one of manual or autoScale settings must be specified. Only one of manual or autoScale settings can be specified. If autoScale settings are specified, the system automatically scales the cluster up and down (within the supplied limits) based on the pending jobs on the cluster."
+    types:
+    - uid: ScaleSettings
+  - name: properties.virtualMachineConfiguration
+    description: "Settings for OS image and mounted data volumes.  \nSettings for OS image."
+    types:
+    - uid: VirtualMachineConfiguration
+  - name: properties.nodeSetup
+    description: "Setup to be done on all compute nodes in the Cluster.  \nUse this to prepare the VM. NOTE: The volumes specified in mountVolumes are mounted first and then the setupTask is run. Therefore the setup task can use local mountPaths in its execution."
+    types:
+    - uid: NodeSetup
+  - name: properties.userAccountSettings
+    description: "Settings for user account of compute nodes.  \nSettings for user account that gets created on each on the nodes of a cluster."
+    types:
+    - uid: UserAccountSettings
+  - name: properties.subnet
+    description: "Specifies the identifier of the subnet.  \nRepresents a resource ID. For example, for a subnet, it is the resource URL for the subnet."
+    types:
+    - uid: ResourceId
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: 'The creation time of the cluster.  '
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "Specifies the provisioning state of the cluster.  \nPossible value are: creating - Specifies that the cluster is being created. succeeded - Specifies that the cluster has been created successfully. failed - Specifies that the cluster creation has failed. deleting - Specifies that the cluster is being deleted."
+    types:
+    - uid: ProvisioningState
+  - name: properties.provisioningStateTransitionTime
+    isReadyOnly: true
+    description: 'The provisioning state transition time of the cluster.  '
+    types:
+    - uid: string
+  - name: properties.allocationState
+    isReadyOnly: true
+    description: "Indicates whether the cluster is resizing.  \nPossible values are: steady and resizing. steady state indicates that the cluster is not resizing. There are no changes to the number of compute nodes in the cluster in progress. A cluster enters this state when it is created and when no operations are being performed on the cluster to change the number of compute nodes. resizing state indicates that the cluster is resizing; that is, compute nodes are being added to or removed from the cluster."
+    types:
+    - uid: AllocationState
+  - name: properties.allocationStateTransitionTime
+    isReadyOnly: true
+    description: 'The time at which the cluster entered its current allocation state.  '
+    types:
+    - uid: string
+  - name: properties.errors
+    description: "  \nAn error response from the Batch AI service."
+    types:
+    - uid: BatchAIError
+      isArray: true
+  - name: properties.currentNodeCount
+    isReadyOnly: true
+    description: 'The number of compute nodes currently assigned to the cluster.  '
+    types:
+    - uid: integer
+  - name: properties.nodeStateCounts
+    isReadyOnly: true
+    description: "Counts of various node states on the cluster.  \nCounts of various compute node states on the cluster."
+    types:
+    - uid: NodeStateCounts
+  - name: id
+    isReadyOnly: true
+    description: "  \nThe ID of the resource"
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nThe name of the resource"
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nThe type of the resource"
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: "  \nThe location of the resource"
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: "  \nThe tags of the resource"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudErrorBody
+  description: An error response from the Batch AI service.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nAn identifier for the error. Codes are invariant and are intended to be consumed programmatically."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nA message describing the error, intended to be suitable for display in a user interface."
+    types:
+    - uid: string
+  - name: target
+    description: "  \nThe target of the particular error. For example, the name of the property in error."
+    types:
+    - uid: string
+  - name: details
+    description: "  "
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: VmPriority
+  description: dedicated or lowpriority.
+  kind: enum
+  properties:
+  - name: dedicated
+    types:
+    - uid: string
+  - name: lowpriority
+    types:
+    - uid: string
+- name: ScaleSettings
+  description: Desired scale for the cluster.
+  kind: object
+  properties:
+  - name: manual
+    description: "The scale for the cluster by manual settings  \nManual scale settings for the cluster."
+    types:
+    - uid: ManualScaleSettings
+  - name: autoScale
+    description: "The scale for the cluster by autoscale settings  \nThe system automatically scales the cluster up and down (within minimumNodeCount and maximumNodeCount) based on the pending and running jobs on the cluster."
+    types:
+    - uid: AutoScaleSettings
+- name: VirtualMachineConfiguration
+  description: Settings for OS image and mounted data volumes.
+  kind: object
+  properties:
+  - name: imageReference
+    description: "Reference to OS image.  \nThe image reference."
+    types:
+    - uid: ImageReference
+- name: NodeSetup
+  description: Setup to be done on all compute nodes in the cluster.
+  kind: object
+  properties:
+  - name: setupTask
+    description: "Specifies a setup task which can be used to customize the compute nodes of the cluster. The NodeSetup task runs everytime a VM is rebooted. For that reason the task code needs to be idempotent. Generally it is used to either download static data that is required for all jobs that run on the cluster VMs or to download/install software.  \nSpecifies a setup task which can be used to customize the compute nodes of the cluster."
+    types:
+    - uid: SetupTask
+  - name: mountVolumes
+    description: "Information on shared volumes to be used by jobs.  \nDetails of volumes to mount on the cluster."
+    types:
+    - uid: MountVolumes
+- name: UserAccountSettings
+  description: Settings for user account of VMs.
+  kind: object
+  properties:
+  - name: adminUserName
+    description: 'Specifies the name of the administrator account.  '
+    types:
+    - uid: string
+  - name: adminUserSshPublicKey
+    description: 'SSH public keys used to authenticate with linux based VMs. This does not get returned in a GET response body.  '
+    types:
+    - uid: string
+  - name: adminUserPassword
+    description: 'Admin user Password (linux only). This does not get returned in a GET response body.  '
+    types:
+    - uid: string
+- name: ResourceId
+  description: Specifies the identifier of the subnet.
+  kind: object
+  properties:
+  - name: id
+    description: "  \nThe ID of the resource"
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Specifies the provisioning state of the cluster.
+  kind: enum
+  properties:
+  - name: creating
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: deleting
+    types:
+    - uid: string
+- name: AllocationState
+  description: Indicates whether the cluster is resizing.
+  kind: enum
+  properties:
+  - name: steady
+    types:
+    - uid: string
+  - name: resizing
+    types:
+    - uid: string
+- name: BatchAIError
+  description: Contains details of various errors on the cluster including resize and node setup task
+  kind: object
+  properties:
+  - name: code
+    description: "  \nAn identifier for the error. Codes are invariant and are intended to be consumed programmatically."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nA message describing the error, intended to be suitable for display in a user interface."
+    types:
+    - uid: string
+  - name: details
+    description: "  \nRepresents a name-value pair."
+    types:
+    - uid: NameValuePair
+      isArray: true
+- name: NodeStateCounts
+  description: Counts of various compute node states on the cluster.
+  kind: object
+  properties:
+  - name: idleNodeCount
+    description: 'Number of compute nodes in idle state.  '
+    types:
+    - uid: integer
+  - name: runningNodeCount
+    description: 'Number of compute nodes which are running jobs.  '
+    types:
+    - uid: integer
+  - name: preparingNodeCount
+    description: 'Number of compute nodes which are being prepared.  '
+    types:
+    - uid: integer
+  - name: unusableNodeCount
+    description: 'Number of compute nodes which are unusable.  '
+    types:
+    - uid: integer
+  - name: leavingNodeCount
+    description: 'Number of compute nodes which are leaving the cluster.  '
+    types:
+    - uid: integer
+- name: ManualScaleSettings
+  description: The scale for the cluster by manual settings
+  kind: object
+  properties:
+  - name: targetNodeCount
+    description: "The desired number of compute nodes in the Cluster.  \nDefault is 0. If autoScaleSettings are not specified, then the Cluster starts with this target."
+    types:
+    - uid: integer
+  - name: nodeDeallocationOption
+    description: "Determines what to do with the job(s) running on compute node if the Cluster size is decreasing.  \nThe default value is requeue."
+    types:
+    - uid: DeallocationOption
+- name: AutoScaleSettings
+  description: The scale for the cluster by autoscale settings
+  kind: object
+  properties:
+  - name: minimumNodeCount
+    description: 'Specifies the minimum number of compute nodes the cluster can have.  '
+    types:
+    - uid: integer
+  - name: maximumNodeCount
+    description: 'Specifies the maximum number of compute nodes the cluster can have.  '
+    types:
+    - uid: integer
+  - name: initialNodeCount
+    description: 'Specifies the number of compute nodes to allocate on cluster creation. Note that this value is used only during cluster creation.  '
+    types:
+    - uid: integer
+- name: ImageReference
+  description: Reference to OS image.
+  kind: object
+  properties:
+  - name: publisher
+    description: 'Publisher of the image.  '
+    types:
+    - uid: string
+  - name: offer
+    description: 'Offer of the image.  '
+    types:
+    - uid: string
+  - name: sku
+    description: 'SKU of the image.  '
+    types:
+    - uid: string
+  - name: version
+    description: 'Version of the image  '
+    types:
+    - uid: string
+- name: SetupTask
+  description: Specifies a setup task which can be used to customize the compute nodes of the cluster. The NodeSetup task runs everytime a VM is rebooted. For that reason the task code needs to be idempotent. Generally it is used to either download static data that is required for all jobs that run on the cluster VMs or to download/install software.
+  kind: object
+  properties:
+  - name: commandLine
+    description: 'Command Line to start Setup process.  '
+    types:
+    - uid: string
+  - name: environmentVariables
+    description: "  \nA collection of environment variables to set."
+    types:
+    - uid: EnvironmentSetting
+      isArray: true
+  - name: runElevated
+    description: 'Specifies whether to run the setup task in elevated mode. The default value is false.  '
+    types:
+    - uid: boolean
+  - name: stdOutErrPathPrefix
+    description: "  \nThe path where the Batch AI service will upload the stdout and stderror of setup task."
+    types:
+    - uid: string
+- name: MountVolumes
+  description: Information on shared volumes to be used by jobs.
+  kind: object
+  properties:
+  - name: azureFileShares
+    description: "  \nDetails of the Azure File Share to mount on the cluster."
+    types:
+    - uid: AzureFileShareReference
+      isArray: true
+  - name: azureBlobFileSystems
+    description: "  \nProvides required information, for the service to be able to mount Azure Blob Storage container on the cluster nodes."
+    types:
+    - uid: AzureBlobFileSystemReference
+      isArray: true
+  - name: fileServers
+    description: "  \nProvides required information, for the service to be able to mount Azure FileShare on the cluster nodes."
+    types:
+    - uid: FileServerReference
+      isArray: true
+  - name: unmanagedFileSystems
+    description: "  \nDetails of the file system to mount on the compute cluster nodes."
+    types:
+    - uid: UnmanagedFileSystemReference
+      isArray: true
+- name: NameValuePair
+  description: A list of additional details about the error.
+  kind: object
+  properties:
+  - name: name
+    description: 'The name in the name-value pair.  '
+    types:
+    - uid: string
+  - name: value
+    description: 'The value in the name-value pair.  '
+    types:
+    - uid: string
+- name: DeallocationOption
+  description: Determines what to do with the job(s) running on compute node if the Cluster size is decreasing.
+  kind: enum
+  properties:
+  - name: requeue
+    types:
+    - uid: string
+  - name: terminate
+    types:
+    - uid: string
+  - name: waitforjobcompletion
+    types:
+    - uid: string
+  - name: unknown
+    types:
+    - uid: string
+- name: EnvironmentSetting
+  description: Collection of environment settings.
+  kind: object
+  properties:
+  - name: name
+    description: 'The name of the environment variable.  '
+    types:
+    - uid: string
+  - name: value
+    description: 'The value of the environment variable.  '
+    types:
+    - uid: string
+- name: AzureFileShareReference
+  description: Azure File Share setup configuration.
+  kind: object
+  properties:
+  - name: accountName
+    description: 'Name of the storage account.  '
+    types:
+    - uid: string
+  - name: azureFileUrl
+    description: 'URL to access the Azure File.  '
+    types:
+    - uid: string
+  - name: credentials
+    description: "Information of the Azure File credentials.  \nCredentials to access Azure File Share."
+    types:
+    - uid: AzureStorageCredentialsInfo
+  - name: relativeMountPath
+    description: "Specifies the relative path on the compute node where the Azure file share will be mounted.  \nNote that all file shares will be mounted under $AZ_BATCHAI_MOUNT_ROOT location."
+    types:
+    - uid: string
+  - name: fileMode
+    description: "Specifies the file mode.  \nDefault value is 0777. Valid only if OS is linux."
+    types:
+    - uid: string
+  - name: directoryMode
+    description: "Specifies the directory Mode.  \nDefault value is 0777. Valid only if OS is linux."
+    types:
+    - uid: string
+- name: AzureBlobFileSystemReference
+  description: Azure Blob FileSystem setup configuration.
+  kind: object
+  properties:
+  - name: accountName
+    description: 'Name of the Azure Blob Storage account.  '
+    types:
+    - uid: string
+  - name: containerName
+    description: 'Name of the Azure Blob Storage container to mount on the cluster.  '
+    types:
+    - uid: string
+  - name: credentials
+    description: "Information of the Azure Blob Storage account credentials.  \nCredentials to access Azure File Share."
+    types:
+    - uid: AzureStorageCredentialsInfo
+  - name: relativeMountPath
+    description: "Specifies the relative path on the compute node where the Azure Blob file system will be mounted.  \nNote that all blob file systems will be mounted under $AZ_BATCHAI_MOUNT_ROOT location."
+    types:
+    - uid: string
+  - name: mountOptions
+    description: 'Specifies the various mount options that can be used to configure Blob file system.  '
+    types:
+    - uid: string
+- name: FileServerReference
+  description: References to a list of file servers that are mounted to the cluster node.
+  kind: object
+  properties:
+  - name: fileServer
+    description: "Reference to the file server resource.  \nRepresents a resource ID. For example, for a subnet, it is the resource URL for the subnet."
+    types:
+    - uid: ResourceId
+  - name: sourceDirectory
+    description: "Specifies the source directory in File Server that needs to be mounted.  \nIf this property is not specified, the entire File Server will be mounted."
+    types:
+    - uid: string
+  - name: relativeMountPath
+    description: "Specifies the relative path on the compute node where the File Server will be mounted.  \nNote that all file shares will be mounted under $AZ_BATCHAI_MOUNT_ROOT location."
+    types:
+    - uid: string
+  - name: mountOptions
+    description: 'Specifies the mount options for File Server.  '
+    types:
+    - uid: string
+- name: UnmanagedFileSystemReference
+  description: References to a list of file servers that are mounted to the cluster node.
+  kind: object
+  properties:
+  - name: mountCommand
+    description: 'Command used to mount the unmanaged file system.  '
+    types:
+    - uid: string
+  - name: relativeMountPath
+    description: "Specifies the relative path on the compute cluster node where the file system will be mounted.  \nNote that all file shares will be mounted under $AZ_BATCHAI_MOUNT_ROOT location."
+    types:
+    - uid: string
+- name: AzureStorageCredentialsInfo
+  description: Information of the Azure File credentials.
+  kind: object
+  properties:
+  - name: accountKey
+    description: "Storage account key.  \nOne of accountKey or accountKeySecretReference must be specified."
+    types:
+    - uid: string
+  - name: accountKeySecretReference
+    description: "Specifies the location of the storage account key, which is a Key Vault Secret.  \nUsers can store their secrets in Azure KeyVault and pass it to the Batch AI Service to integrate with KeyVault. One of accountKey or accountKeySecretReference must be specified."
+    types:
+    - uid: KeyVaultSecretReference
+- name: KeyVaultSecretReference
+  description: Describes a reference to Key Vault Secret.
+  kind: object
+  properties:
+  - name: sourceVault
+    description: "Fully qualified resource Id for the Key Vault.  \nRepresents a resource ID. For example, for a subnet, it is the resource URL for the subnet."
+    types:
+    - uid: ResourceId
+  - name: secretUrl
+    description: 'The URL referencing a secret in a Key Vault.  '
+    types:
+    - uid: string
+examples:
+- name: List clusters
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.BatchAI/clusters?api-version=2017-09-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/clusters/demo_cluster",
+            "name": "demo_cluster",
+            "type": "Microsoft.BatchAI/Clusters",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "succeeded",
+              "allocationState": "resizing",
+              "creationTime": "2017-09-27T22:28:07.645Z",
+              "allocationStateTransitionTime": "2017-09-27T22:28:08.998Z",
+              "provisioningStateTransitionTime": "2017-09-27T22:28:08.327Z",
+              "vmSize": "STANDARD_NC6",
+              "currentNodeCount": 0,
+              "nodeStateCounts": {
+                "runningNodeCount": 0,
+                "idleNodeCount": 0,
+                "unusableNodeCount": 0,
+                "preparingNodeCount": 0,
+                "leavingNodeCount": 0
+              },
+              "vmPriority": "dedicated",
+              "scaleSettings": {
+                "manual": {
+                  "targetNodeCount": 1,
+                  "nodeDeallocationOption": "requeue"
+                }
+              },
+              "virtualMachineConfiguration": {
+                "imageReference": {
+                  "publisher": "Canonical",
+                  "offer": "UbuntuServer",
+                  "sku": "16.04-LTS",
+                  "version": "latest"
+                }
+              },
+              "userAccountSettings": {
+                "adminUserName": "admin_user_name"
+              },
+              "nodeSetup": {
+                "mountVolumes": {
+                  "azureFileShares": [
+                    {
+                      "accountName": "storage_account_name",
+                      "azureFileUrl": "https://storage_account_name.file.core.windows.net/azure_file_share_name",
+                      "credentials": {},
+                      "relativeMountPath": "azfiles",
+                      "fileMode": "0777",
+                      "directoryMode": "0777"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -16,8 +16,8 @@ The Reserved VM Instances API gives you access to reservation operations.
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Get Applied Reservation List](~/docs-ref-autogen/reserved-vm-instances/getappliedreservationlist.json) | Provides operations for applied reservations. |
-| [Get Catalog](~/docs-ref-autogen/reserved-vm-instances/getcatalog.json) | Provides operations for available instances. |
-| [Operation](~/docs-ref-autogen/reserved-vm-instances/operation.json) | Provides operations for reserved instances operations. |
-| [Reservation](~/docs-ref-autogen/reserved-vm-instances/reservation.json) | Provides operations for reservations. |
-| [Reservation Order](~/docs-ref-autogen/reserved-vm-instances/reservationorder.json) | Provides operation for reservation orders. |
+| [Get Applied Reservation List](~/docs-ref-autogen/reserved-vm-instances/getappliedreservationlist.yml) | Provides operations for applied reservations. |
+| [Get Catalog](~/docs-ref-autogen/reserved-vm-instances/getcatalog.yml) | Provides operations for available instances. |
+| [Operation](~/docs-ref-autogen/reserved-vm-instances/operation.yml) | Provides operations for reserved instances operations. |
+| [Reservation](~/docs-ref-autogen/reserved-vm-instances/reservation.yml) | Provides operations for reservations. |
+| [Reservation Order](~/docs-ref-autogen/reserved-vm-instances/reservationorder.yml) | Provides operation for reservation orders. |

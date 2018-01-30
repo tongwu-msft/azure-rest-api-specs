@@ -1,6 +1,6 @@
 ---
 title: "RestartNodeDescription"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -52,3 +52,6 @@ __Required__: No<br/>
 __Default__: False <br/>
 <br/>
 Specify True to create a dump of the fabric node process. This is case sensitive.
+
+
+

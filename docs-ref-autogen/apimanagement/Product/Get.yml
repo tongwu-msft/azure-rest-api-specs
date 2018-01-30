@@ -1,0 +1,178 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.product.get
+name: Get
+service: API Management
+groupName: Product
+apiVersion: 2017-03-01
+summary: Gets the details of the product specified by its identifier.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}?api-version=2017-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: productId
+  in: path
+  isRequired: true
+  description: Product identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
+  description: The response body contains the specified Product entity.
+  types:
+  - uid: ProductContract
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ProductContract
+  description: Page values.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: "  \nProduct name."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource ID."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nResource name."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nResource type for API Management resource."
+    types:
+    - uid: string
+  - name: properties.description
+    description: "  \nProduct description. May include HTML formatting tags."
+    types:
+    - uid: string
+  - name: properties.terms
+    description: "  \nProduct terms of use. Developers trying to subscribe to the product will be presented and required to accept these terms before they can complete the subscription process."
+    types:
+    - uid: string
+  - name: properties.subscriptionRequired
+    description: "  \nWhether a product subscription is required for accessing APIs included in this product. If true, the product is referred to as \"protected\" and a valid subscription key is required for a request to an API included in the product to succeed. If false, the product is referred to as \"open\" and requests to an API included in the product can be made without a subscription key. If property is omitted when creating a new product it's value is assumed to be true."
+    types:
+    - uid: boolean
+  - name: properties.approvalRequired
+    description: "  \nwhether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can any of the product’s APIs. Can be present only if subscriptionRequired property is present and has a value of false."
+    types:
+    - uid: boolean
+  - name: properties.subscriptionsLimit
+    description: "  \nWhether the number of subscriptions a user can have to this product at the same time. Set to null or omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has a value of false."
+    types:
+    - uid: integer
+  - name: properties.state
+    description: "  \nwhether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished."
+    types:
+    - uid: ProductState
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nService-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nHuman-readable representation of the error."
+    types:
+    - uid: string
+  - name: details
+    description: "  \nError Field contract."
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: ProductState
+  description: whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished.
+  kind: enum
+  properties:
+  - name: notPublished
+    types:
+    - uid: string
+  - name: published
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nProperty level error code."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nHuman-readable representation of property-level error."
+    types:
+    - uid: string
+  - name: target
+    description: "  \nProperty name."
+    types:
+    - uid: string
+examples:
+- name: ApiManagementGetProduct
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/unlimited?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/unlimited",
+        "type": "Microsoft.ApiManagement/service/products",
+        "name": "unlimited",
+        "properties": {
+          "displayName": "Unlimited",
+          "description": "Subscribers have completely unlimited access to the API. Administrator approval is required.",
+          "subscriptionRequired": true,
+          "approvalRequired": true,
+          "subscriptionsLimit": 1,
+          "state": "published"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

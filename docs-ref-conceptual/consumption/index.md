@@ -27,7 +27,9 @@ MS-AZR-0144P (DreamSpark)
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Usage Details](usagedetails.md) | Provides operations to get usage information on subscription. |
+| [Usage Details](~/docs-ref-autogen/consumption/UsageDetails.yml) | Provides operations to get usage information on subscription. |
+  [Reservation Details](~/docs-ref-autogen/consumption/ReservationsDetails.yml) | Provides operations to get reservation detailed usage for Pay as you go and Enterprise Subscriptions. |
+  [Reservation Summaries](~/docs-ref-autogen/consumption/ReservationsSummaries.yml) | Provides operations to get reservation summary usage for Pay as you go and Enterprise Subscriptions. |
 
 ## See also
 

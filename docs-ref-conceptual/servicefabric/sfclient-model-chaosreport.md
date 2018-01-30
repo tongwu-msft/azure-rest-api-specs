@@ -1,6 +1,6 @@
 ---
 title: "ChaosReport"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -55,10 +55,16 @@ __Required__: No<br/>
 <br/>
 Current status of the Chaos run.
 
-- Invalid - Indicates an invalid Chaos status. All Service Fabric enumerations have the invalid type.
-  The valus is zero.
-- Running - Indicates that Chaos is not stopped.
-- Stopped - Indicates that Chaos is not scheduling futher faults.
+
+
+
+Possible values are: 
+
+  - Invalid - Indicates an invalid Chaos status. All Service Fabric enumerations have the invalid type.
+  - Running - Indicates that Chaos is not stopped.
+  - Stopped - Indicates that Chaos is not scheduling further faults.
+
+
 
 ____
 ### ContinuationToken

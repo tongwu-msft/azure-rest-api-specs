@@ -1,0 +1,129 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.timezone.gettimezoneianaversion
+name: Get Timezone IANA Version
+service: Location Based Services Functional API
+groupName: Timezone
+apiVersion: "1.0"
+summary: Returns the current IANA version
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: GET https://atlas.microsoft.com/timezone/ianaVersion/{format}?api-version=1.0&subscription-key={subscription-key}
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure LBS API.  Current version is 1.0
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure LBS subscription key
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: timezoneianaversion200
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Unauthorized: Access is denied due to invalid credentials.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: timezoneianaversion200
+  description: This object is returned from a successful Timezone IANA Version call
+  kind: object
+  properties:
+  - name: version
+    isReadyOnly: true
+    description: "  \nVersion property"
+    types:
+    - uid: string
+- name: Error
+  description: This object is returned when an error occurs in the Location Based Service API
+  kind: object
+  properties:
+  - name: statuscode
+    isReadyOnly: true
+    description: "  \nError code."
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: "  \nIf available, a human readable description of the error."
+    types:
+    - uid: string
+examples:
+- name: GetTimezoneIANAVersion
+  request:
+    uri: GET https://atlas.microsoft.com/timezone/ianaVersion/json?api-version=1.0
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "version": "2017b"
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "statuscode": "400",
+        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "statuscode": "401",
+        "message": "Unauthorized: Access is denied due to invalid credentials."
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "statuscode": "403",
+        "message": "Permission, capacity, or authentication issues."
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "statuscode": "404",
+        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "statuscode": "500",
+        "message": "An error occurred while processing the request. Please try again later."
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

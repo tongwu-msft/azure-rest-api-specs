@@ -1,0 +1,346 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resourcehealth.availabilitystatuses.listbyresourcegroup
+name: List By Resource Group
+service: Resource Health
+groupName: Availability Statuses
+apiVersion: 2015-01-01
+summary: Lists the current availability status for all the resources in the resource group. Use the nextLink property in the response to get the next page of availability statuses.
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2015-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2015-01-01&$filter={$filter}&$expand={$expand}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: Setting $expand=recommendedactions in url query expands the recommendedactions in the response.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The body contains the list of the current availability status for all the resources in the resource group
+  types:
+  - uid: availabilityStatusListResult
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: availabilityStatusListResult
+  description: The List availabilityStatus operation response.
+  kind: object
+  properties:
+  - name: value
+    description: "  \navailabilityStatus of a resource."
+    types:
+    - uid: availabilityStatus
+      isArray: true
+  - name: nextLink
+    description: "  \nThe URI to fetch the next page of availabilityStatuses. Call ListNext() with this URI to fetch the next page of availabilityStatuses."
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: "  \nThe error code."
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: "  \nThe error message."
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: "  \nThe error details."
+    types:
+    - uid: string
+- name: availabilityStatus
+  description: The list of availabilityStatuses.
+  kind: object
+  properties:
+  - name: id
+    description: "  \nAzure Resource Manager Identity for the availabilityStatuses resource."
+    types:
+    - uid: string
+  - name: name
+    description: "  \ncurrent."
+    types:
+    - uid: string
+  - name: type
+    description: "  \nMicrosoft.ResourceHealth/AvailabilityStatuses."
+    types:
+    - uid: string
+  - name: location
+    description: "  \nAzure Resource Manager geo location of the resource."
+    types:
+    - uid: string
+  - name: properties
+    description: "  \nProperties of availability state."
+    types:
+    - uid: Properties
+- name: Properties
+  description: Properties of availability state.
+  kind: object
+  properties:
+  - name: availabilityState
+    description: "  \nAvailability status of the resource."
+    types:
+    - uid: AvailabilityStateValues
+  - name: summary
+    description: "  \nSummary description of the availability state."
+    types:
+    - uid: string
+  - name: detailedStatus
+    description: "  \nDetails of the availability status."
+    types:
+    - uid: string
+  - name: reasonType
+    description: "  \nWhen the resource's availabilityState is Unavailable, it describes where the health impacting event was originated. Examples are planned, unplanned, user initiated or an outage etc."
+    types:
+    - uid: string
+  - name: rootCauseAttributionTime
+    description: "  \nWhen the resource's availabilityState is Unavailable, it provides the Timestamp for when the health impacting event was received."
+    types:
+    - uid: string
+  - name: resolutionETA
+    description: "  \nWhen the resource's availabilityState is Unavailable and the reasonType is not User Initiated, it provides the date and time for when the issue is expected to be resolved."
+    types:
+    - uid: string
+  - name: occuredTime
+    description: "  \nTimestamp for when last change in health status occurred."
+    types:
+    - uid: string
+  - name: reasonChronicity
+    description: "  \nChronicity of the availability transition."
+    types:
+    - uid: reasonChronicityTypes
+  - name: reportedTime
+    description: "  \nTimestamp for when the health was last checked. "
+    types:
+    - uid: string
+  - name: recentlyResolvedState
+    description: "  \nAn annotation describing a change in the availabilityState to Available from Unavailable with a reasonType of type Unplanned"
+    types:
+    - uid: RecentlyResolvedState
+  - name: recommendedActions
+    description: "  \nLists actions the user can take based on the current availabilityState of the resource."
+    types:
+    - uid: recommendedAction
+      isArray: true
+  - name: serviceImpactingEvents
+    description: "  \nLists the service impacting events that may be affecting the health of the resource."
+    types:
+    - uid: serviceImpactingEvent
+      isArray: true
+- name: AvailabilityStateValues
+  description: Availability status of the resource.
+  kind: enum
+  properties:
+  - name: Available
+    types:
+    - uid: string
+  - name: Unavailable
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+- name: reasonChronicityTypes
+  description: Chronicity of the availability transition.
+  kind: enum
+  properties:
+  - name: Transient
+    types:
+    - uid: string
+  - name: Persistent
+    types:
+    - uid: string
+- name: RecentlyResolvedState
+  description: An annotation describing a change in the availabilityState to Available from Unavailable with a reasonType of type Unplanned
+  kind: object
+  properties:
+  - name: unavailableOccurredTime
+    description: "  \nTimestamp for when the availabilityState changed to Unavailable"
+    types:
+    - uid: string
+  - name: resolvedTime
+    description: "  \nTimestamp when the availabilityState changes to Available."
+    types:
+    - uid: string
+  - name: unavailabilitySummary
+    description: "  \nBrief description of cause of the resource becoming unavailable."
+    types:
+    - uid: string
+- name: recommendedAction
+  description: Lists actions the user can take based on the current availabilityState of the resource.
+  kind: object
+  properties:
+  - name: action
+    description: "  \nRecommended action."
+    types:
+    - uid: string
+  - name: actionUrl
+    description: "  \nLink to the action"
+    types:
+    - uid: string
+  - name: actionUrlText
+    description: "  \nSubstring of action, it describes which text should host the action url."
+    types:
+    - uid: string
+- name: serviceImpactingEvent
+  description: Lists the service impacting events that may be affecting the health of the resource.
+  kind: object
+  properties:
+  - name: eventStartTime
+    description: "  \nTimestamp for when the event started."
+    types:
+    - uid: string
+  - name: eventStatusLastModifiedTime
+    description: "  \nTimestamp for when event was submitted/detected."
+    types:
+    - uid: string
+  - name: correlationId
+    description: "  \nCorrelation id for the event"
+    types:
+    - uid: string
+  - name: status
+    description: "  \nStatus of the service impacting event."
+    types:
+    - uid: Status
+  - name: incidentProperties
+    description: "  \nProperties of the service impacting event."
+    types:
+    - uid: IncidentProperties
+- name: Status
+  description: Status of the service impacting event.
+  kind: object
+  properties:
+  - name: value
+    description: "  \nCurrent status of the event"
+    types:
+    - uid: string
+- name: IncidentProperties
+  description: Properties of the service impacting event.
+  kind: object
+  properties:
+  - name: title
+    description: "  \nTitle of the incident."
+    types:
+    - uid: string
+  - name: service
+    description: "  \nService impacted by the event."
+    types:
+    - uid: string
+  - name: region
+    description: "  \nRegion impacted by the event."
+    types:
+    - uid: string
+  - name: incidentType
+    description: "  \nType of Event."
+    types:
+    - uid: string
+examples:
+- name: ListByResourceGroup
+  request:
+    uri: GET https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2015-01-01&$expand=recommendedactions
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "<resourceId>/providers/Microsoft.ResourceHealth/AvailabilityStatueses/current",
+            "name": "current",
+            "type": "Microsoft.ResourceHealth/AvailabilityStatuses",
+            "location": "eastus",
+            "properties": {
+              "availabilityState": "Available",
+              "summary": "Vm is available",
+              "reasonType": "Unplanned",
+              "reasonChronicity": "Persistent",
+              "detailedStatus": "We have not seen any issues with your virtual machine",
+              "occuredTime": "2016-03-29T09:12:00Z",
+              "reportedTime": "2016-05-04T14:11:29.7598931Z",
+              "RecentlyResolved": {
+                "UnavailableOccuredTime": "2017-02-28T00:48:00Z",
+                "ResolvedTime": "2017-02-28T00:49:00Z",
+                "UnavailableSummary": "We are sorry your SQL database is unavailable"
+              },
+              "RecommendedActions": [
+                {
+                  "Action": "To start this virtualmachine, open the resource blade and click Start",
+                  "ActionUrl": "<#ResourceBlade>",
+                  "ActionUrlText": "resourceblade"
+                }
+              ]
+            }
+          },
+          {
+            "id": "<resourceId>/providers/Microsoft.ResourceHealth/AvailabilityStatueses/current",
+            "name": "current",
+            "type": "Microsoft.ResourceHealth/AvailabilityStatuses",
+            "location": "eastus",
+            "properties": {
+              "availabilityState": "Unavailable",
+              "summary": "We are sorry, we couldn't automatically recovery our virtualmachine",
+              "reasonType": "Unplanned",
+              "reasonChronicity": "Persistent",
+              "detailedStatus": "Diskproblemsarepreventingusfromautomaticallyrecoveringyourvirtualmachine",
+              "occuredTime": "2016-03-29T09:12:00Z",
+              "reportedTime": "2016-05-04T14:11:29.7598931Z",
+              "rootCauseAttributionTime": "2016-03-29T09:13:00Z",
+              "resolutionETA": "2016-03-29T09:37:00Z",
+              "RecommendedActions": [
+                {
+                  "Action": "To start this virtualmachine, open the resource blade",
+                  "ActionUrl": "<#ResourceBlade>",
+                  "ActionUrlText": "resourceblade"
+                },
+                {
+                  "Action": "If you are experiencing problems you believe are caused by Azure, contact support",
+                  "ActionUrl": "<#SupportCase>",
+                  "ActionUrlText": "contactsupport"
+                }
+              ]
+            }
+          }
+        ],
+        "nextLink": "{originalRequestUrl}?$skipToken={OpaquePageNumber}"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,135 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storageresourceprovider.storageaccounts.regeneratekey
+name: Regenerate Key
+service: Storage Resource Provider
+groupName: Storage Accounts
+apiVersion: 2017-06-01
+summary: Regenerates one of the access keys for the specified storage account.
+consumes:
+- application/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/regenerateKey?api-version=2017-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- specified key regenerated successfully.
+  types:
+  - uid: StorageAccountListKeysResult
+requestBody:
+- parameters:
+  - name: keyName
+    in: body
+    isRequired: true
+    description: "  \nThe name of storage keys that want to be regenerated, possible vaules are key1, key2."
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: StorageAccountListKeysResult
+  description: The response from the ListKeys operation.
+  kind: object
+  properties:
+  - name: keys
+    isReadyOnly: true
+    description: "  \nAn access key for the storage account."
+    types:
+    - uid: StorageAccountKey
+      isArray: true
+- name: StorageAccountRegenerateKeyParameters
+  description: The parameters used to regenerate the storage account key.
+  kind: object
+  properties:
+  - name: keyName
+    description: "  \nThe name of storage keys that want to be regenerated, possible vaules are key1, key2."
+    types:
+    - uid: string
+- name: StorageAccountKey
+  description: An access key for the storage account.
+  kind: object
+  properties:
+  - name: keyName
+    isReadyOnly: true
+    description: "  \nName of the key."
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: "  \nBase 64-encoded value of the key."
+    types:
+    - uid: string
+  - name: permissions
+    isReadyOnly: true
+    description: "  \nPermissions for the key -- read-only or full permissions."
+    types:
+    - uid: KeyPermission
+- name: KeyPermission
+  description: Permissions for the key -- read-only or full permissions.
+  kind: enum
+  properties:
+  - name: Read
+    types:
+    - uid: string
+  - name: Full
+    types:
+    - uid: string
+examples:
+- name: StorageAccountRegenerateKey
+  request:
+    uri: POST https://management.azure.com/subscriptions/27de630f-e1ee-42de-8849-90def4986454/resourceGroups/res4167/providers/Microsoft.Storage/storageAccounts/sto3539/regenerateKey?api-version=2017-06-01
+    body: >-
+      {
+        "keyName": "key2"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "keys": [
+          {
+            "keyName": "key1",
+            "permissions": "Full",
+            "value": "7xl+yQ4MrVpZCHspveCfy4f8jgTY1wv42gHO8k4bAX+EPvN4hY5uPau/bpofgeye+K9FtgvjkadkLISPfOxlMw=="
+          },
+          {
+            "keyName": "key2",
+            "permissions": "Full",
+            "value": "uC+kyJ9/gT81E/+9I1Go4xtOe8sW5rdIm3n6PNIyQ5kGO5OpFq69aWnrn3jLeFIyItzpln9P392U0353RYKvbg=="
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,112 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datalakeanalytics.locations.getcapability
+name: Get Capability
+service: Data Lake Analytics
+groupName: Locations
+apiVersion: 2016-11-01
+summary: Gets subscription-level properties and limits for Data Lake Analytics specified by resource location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataLakeAnalytics/locations/{location}/capability?api-version=2016-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The resource location without whitespace.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the subscription-level properties and limits for Data Lake Analytics specified by resource location.
+  types:
+  - uid: CapabilityInformation
+- name: Other Status Codes
+  description: Subscription not found.
+requestHeader: []
+definitions:
+- name: CapabilityInformation
+  description: Subscription-level properties and limits for Data Lake Analytics.
+  kind: object
+  properties:
+  - name: subscriptionId
+    isReadyOnly: true
+    description: "  \nThe subscription credentials that uniquely identifies the subscription."
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: "  \nThe subscription state."
+    types:
+    - uid: SubscriptionState
+  - name: maxAccountCount
+    isReadyOnly: true
+    description: "  \nThe maximum supported number of accounts under this subscription."
+    types:
+    - uid: integer
+  - name: accountCount
+    isReadyOnly: true
+    description: "  \nThe current number of accounts under this subscription."
+    types:
+    - uid: integer
+  - name: migrationState
+    isReadyOnly: true
+    description: "  \nThe Boolean value of true or false to indicate the maintenance state."
+    types:
+    - uid: boolean
+- name: SubscriptionState
+  description: The subscription state.
+  kind: enum
+  properties:
+  - name: Registered
+    types:
+    - uid: string
+  - name: Suspended
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Unregistered
+    types:
+    - uid: string
+  - name: Warned
+    types:
+    - uid: string
+examples:
+- name: Gets subscription-level properties and limits for Data Lake Analytics specified by resource location
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DataLakeAnalytics/locations/EastUS2/capability?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "subscriptionId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "state": "Registered",
+        "maxAccountCount": 150,
+        "accountCount": 100,
+        "migrationState": false
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

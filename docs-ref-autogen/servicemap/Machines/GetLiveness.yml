@@ -1,0 +1,116 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicemap.machines.getliveness
+name: Get Liveness
+service: Service Map
+groupName: Machines
+apiVersion: 2015-11-01-preview
+summary: Obtains the liveness status of the machine during the specified time interval.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machines/{machineName}/liveness?api-version=2015-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machines/{machineName}/liveness?api-version=2015-11-01-preview&startTime={startTime}&endTime={endTime}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name within the specified subscriptionId.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_-]+'
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: OMS workspace containing the resources of interest.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_][a-zA-Z0-9_-]+[a-zA-Z0-9_]'
+- name: machineName
+  in: path
+  isRequired: true
+  description: Machine resource name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version.
+  types:
+  - uid: string
+- name: startTime
+  in: query
+  description: UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m
+  types:
+  - uid: string
+  format: date-time
+- name: endTime
+  in: query
+  description: UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow
+  types:
+  - uid: string
+  format: date-time
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: Liveness
+- name: Other Status Codes
+  description: An error occurred while processing the request. See the error.code parameter to identify the specific error.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: Liveness
+  description: Specifies the contents of a check liveness response.
+  kind: object
+  properties:
+  - name: startTime
+    description: "  \nLiveness interval start time."
+    types:
+    - uid: string
+  - name: endTime
+    description: "  \nLiveness interval end time."
+    types:
+    - uid: string
+  - name: live
+    description: "  \n`true` if the resource is live during [startTime, endTime], `false` otherwise"
+    types:
+    - uid: boolean
+- name: ErrorResponse
+  description: An error response from the API.
+  kind: object
+  properties:
+  - name: error
+    description: "  \nError information."
+    types:
+    - uid: Error
+- name: Error
+  description: Error information.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nError code identifying the specific error."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nError message in the caller's locale."
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

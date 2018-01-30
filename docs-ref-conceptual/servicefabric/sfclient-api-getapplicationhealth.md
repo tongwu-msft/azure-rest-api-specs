@@ -1,6 +1,6 @@
 ---
 title: "Get Application Health"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Application Health
 Gets the health of the service fabric application.
 
-Returns the heath state of the service fabric application. The response reports either Ok, Error or Warning health state. If the entity is not found in the helath store, it will return Error.
+Returns the heath state of the service fabric application. The response reports either Ok, Error or Warning health state. If the entity is not found in the health store, it will return Error.
 
 ## Request
 | Method | Request URI |
@@ -54,7 +54,10 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the application name is "fabric://myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
+The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
+Starting from version 6.0, hierarchical names are delimited with the "~" character.
+For example, if the application name is "fabric:/myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
+
 
 ____
 ### api-version
@@ -62,7 +65,12 @@ __Type__: string <br/>
 __Required__: Yes<br/>
 __Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "6.0".
+The version of this API. This is a required parameter and its value must be "6.0".
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+
 
 ____
 ### EventsHealthStateFilter
@@ -90,7 +98,7 @@ __Required__: No<br/>
 __Default__: 0 <br/>
 <br/>
 Allows filtering of the deployed applications health state objects returned in the result of application health query based on their health state.
-The possible values for this parameter include integer value of one of the following health states. Only deployed applications that match the filter will be returned.\
+The possible values for this parameter include integer value of one of the following health states. Only deployed applications that match the filter will be returned.
 All deployed applications are used to evaluate the aggregated health state. If not specified, all entries are returned.
 The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator.
 For example, if the provided value is 6 then health state of deployed applications with HealthState value of OK (2) and Warning (4) are returned.

@@ -1,0 +1,159 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.appserviceenvironments.listmultirolepoolskus
+name: List Multi Role Pool Skus
+service: App Service
+groupName: App Service Environments
+apiVersion: 2016-09-01
+summary: Get available SKUs for scaling a multi-role pool.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/skus?api-version=2016-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the App Service Environment.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SkuInfoCollection
+requestHeader: []
+definitions:
+- name: SkuInfoCollection
+  description: Collection of SKU information.
+  kind: object
+  properties:
+  - name: value
+    description: "  \nSKU discovery information."
+    types:
+    - uid: SkuInfo
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: "  \nLink to next page of resources."
+    types:
+    - uid: string
+- name: SkuInfo
+  description: SKU discovery information.
+  kind: object
+  properties:
+  - name: resourceType
+    description: "  \nResource type that this SKU applies to."
+    types:
+    - uid: string
+  - name: sku
+    description: "  \nName and tier of the SKU."
+    types:
+    - uid: SkuDescription
+  - name: capacity
+    description: "  \nMin, max, and default scale values of the SKU."
+    types:
+    - uid: SkuCapacity
+- name: SkuDescription
+  description: Name and tier of the SKU.
+  kind: object
+  properties:
+  - name: name
+    description: "  \nName of the resource SKU."
+    types:
+    - uid: string
+  - name: tier
+    description: "  \nService tier of the resource SKU."
+    types:
+    - uid: string
+  - name: size
+    description: "  \nSize specifier of the resource SKU."
+    types:
+    - uid: string
+  - name: family
+    description: "  \nFamily code of the resource SKU."
+    types:
+    - uid: string
+  - name: capacity
+    description: "  \nCurrent number of instances assigned to the resource."
+    types:
+    - uid: integer
+  - name: skuCapacity
+    description: "  \nMin, max, and default scale values of the SKU."
+    types:
+    - uid: SkuCapacity
+  - name: locations
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: "  \nDescribes the capabilities/features allowed for a specific SKU."
+    types:
+    - uid: Capability
+      isArray: true
+- name: SkuCapacity
+  description: Min, max, and default scale values of the SKU.
+  kind: object
+  properties:
+  - name: minimum
+    description: "  \nMinimum number of workers for this App Service plan SKU."
+    types:
+    - uid: integer
+  - name: maximum
+    description: "  \nMaximum number of workers for this App Service plan SKU."
+    types:
+    - uid: integer
+  - name: default
+    description: "  \nDefault number of workers for this App Service plan SKU."
+    types:
+    - uid: integer
+  - name: scaleType
+    description: "  \nAvailable scale configurations for an App Service plan."
+    types:
+    - uid: string
+- name: Capability
+  description: Capabilities of the SKU, e.g., is traffic manager enabled?
+  kind: object
+  properties:
+  - name: name
+    description: "  \nName of the SKU capability."
+    types:
+    - uid: string
+  - name: value
+    description: "  \nValue of the SKU capability."
+    types:
+    - uid: string
+  - name: reason
+    description: "  \nReason of the SKU capability."
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

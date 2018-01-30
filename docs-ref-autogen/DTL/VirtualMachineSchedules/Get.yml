@@ -1,0 +1,247 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devtestlabs.virtualmachineschedules.get
+name: Get
+service: Dev Test Labs
+groupName: Virtual Machine Schedules
+apiVersion: 2016-05-15
+summary: Get schedule.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules/{name}?api-version=2016-05-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules/{name}?$expand={$expand}&api-version=2016-05-15
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: labName
+  in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+- name: virtualMachineName
+  in: path
+  isRequired: true
+  description: The name of the virtual machine.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the schedule.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: "Specify the $expand query. Example: 'properties($select=status)'"
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Schedule
+- name: Other Status Codes
+  description: BadRequest
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: Schedule
+  description: The auto-shutdown schedule, if one has been set at the lab or lab resource level.
+  kind: object
+  properties:
+  - name: properties.status
+    description: "  \nThe status of the schedule (i.e. Enabled, Disabled)"
+    types:
+    - uid: EnableStatus
+  - name: properties.taskType
+    description: "  \nThe task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart)."
+    types:
+    - uid: string
+  - name: properties.weeklyRecurrence
+    description: "  \nIf the schedule will occur only some days of the week, specify the weekly recurrence."
+    types:
+    - uid: WeekDetails
+  - name: properties.dailyRecurrence
+    description: "  \nIf the schedule will occur once each day of the week, specify the daily recurrence."
+    types:
+    - uid: DayDetails
+  - name: properties.hourlyRecurrence
+    description: "  \nIf the schedule will occur multiple times a day, specify the hourly recurrence."
+    types:
+    - uid: HourDetails
+  - name: properties.timeZoneId
+    description: "  \nThe time zone ID (e.g. Pacific Standard time)."
+    types:
+    - uid: string
+  - name: properties.notificationSettings
+    description: "  \nNotification settings."
+    types:
+    - uid: NotificationSettings
+  - name: properties.createdDate
+    isReadyOnly: true
+    description: "  \nThe creation date of the schedule."
+    types:
+    - uid: string
+  - name: properties.targetResourceId
+    description: "  \nThe resource ID to which the schedule belongs"
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: "  \nThe provisioning status of the resource."
+    types:
+    - uid: string
+  - name: properties.uniqueIdentifier
+    description: "  \nThe unique immutable identifier of a resource (Guid)."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nThe identifier of the resource."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nThe name of the resource."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nThe type of the resource."
+    types:
+    - uid: string
+  - name: location
+    description: "  \nThe location of the resource."
+    types:
+    - uid: string
+  - name: tags
+    description: "  \nThe tags of the resource."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: error
+    description: "  \nBody of an error from a REST request."
+    types:
+    - uid: CloudErrorBody
+- name: EnableStatus
+  description: The status of the schedule (i.e. Enabled, Disabled)
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: WeekDetails
+  description: If the schedule will occur only some days of the week, specify the weekly recurrence.
+  kind: object
+  properties:
+  - name: weekdays
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+  - name: time
+    description: "  \nThe time of the day the schedule will occur."
+    types:
+    - uid: string
+- name: DayDetails
+  description: If the schedule will occur once each day of the week, specify the daily recurrence.
+  kind: object
+  properties:
+  - name: time
+    description: "  \nThe time of day the schedule will occur."
+    types:
+    - uid: string
+- name: HourDetails
+  description: If the schedule will occur multiple times a day, specify the hourly recurrence.
+  kind: object
+  properties:
+  - name: minute
+    description: "  \nMinutes of the hour the schedule will run."
+    types:
+    - uid: integer
+- name: NotificationSettings
+  description: Notification settings.
+  kind: object
+  properties:
+  - name: status
+    description: "  \nIf notifications are enabled for this schedule (i.e. Enabled, Disabled)."
+    types:
+    - uid: NotificationStatus
+  - name: timeInMinutes
+    description: "  \nTime in minutes before event at which notification will be sent."
+    types:
+    - uid: integer
+  - name: webhookUrl
+    description: "  \nThe webhook URL to which the notification will be sent."
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    description: "  "
+    types:
+    - uid: string
+  - name: message
+    description: "  "
+    types:
+    - uid: string
+  - name: target
+    description: "  "
+    types:
+    - uid: string
+  - name: details
+    description: "  "
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: NotificationStatus
+  description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Access Microsoft Azure

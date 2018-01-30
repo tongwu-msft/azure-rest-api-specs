@@ -16,6 +16,6 @@ Each profile contains a list of endpoints.  These endpoints are child resource o
 
 | Operation Group | Description | 
 |---------|-----------|
-| [Endpoints](~/docs-ref-autogen/trafficmanager/Profiles.json)    |  Provides operations for managing endpoints. |  
-| [Geographic Hierarchies](~/docs-ref-autogen/trafficmanager/Profiles.json)       |  Provides operations for listing geographic hierarchies. | 
-| [Profiles](~/docs-ref-autogen/trafficmanager/Profiles.json)    |  Provides operations for managing profiles. |  
+| [Endpoints](~/docs-ref-autogen/trafficmanager/Profiles.yml)    |  Provides operations for managing endpoints. |  
+| [Geographic Hierarchies](~/docs-ref-autogen/trafficmanager/Profiles.yml)       |  Provides operations for listing geographic hierarchies. | 
+| [Profiles](~/docs-ref-autogen/trafficmanager/Profiles.yml)    |  Provides operations for managing profiles. |  

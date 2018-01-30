@@ -1,0 +1,370 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.batchmanagement.batchaccount.create
+name: Create
+service: Batch Management
+groupName: Batch Account
+apiVersion: 2017-09-01
+summary: Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}?api-version=2017-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the Batch account.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: 'A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24 characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is used to access the Batch service in the region in which the account is created. For example: http://accountname.region.batch.azure.com/.'
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation was successful. The response contains the Batch account entity.
+  types:
+  - uid: BatchAccount
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Retry-After
+    value: integer
+  description: The operation will be completed asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: location
+    in: body
+    isRequired: true
+    description: "  \nThe region in which to create the account."
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: "  \nThe user-specified tags associated with the account."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.autoStorage
+    in: body
+    description: "  \nThe properties related to the auto-storage account."
+    types:
+    - uid: AutoStorageProperties
+    typesTitle: AutoStorageBaseProperties
+  - name: properties.poolAllocationMode
+    in: body
+    description: "The allocation mode to use for creating pools in the Batch account.  \nThe pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService."
+    types:
+    - uid: PoolAllocationMode
+  - name: properties.keyVaultReference
+    in: body
+    description: "  \nA reference to the Azure key vault associated with the Batch account."
+    types:
+    - uid: KeyVaultReference
+requestHeader: []
+definitions:
+- name: KeyVaultReference
+  description: A reference to the Azure key vault associated with the Batch account.
+  kind: object
+  properties:
+  - name: id
+    description: "  \nThe resource ID of the Azure key vault associated with the Batch account."
+    types:
+    - uid: string
+  - name: url
+    description: "  \nThe URL of the Azure key vault associated with the Batch account."
+    types:
+    - uid: string
+- name: BatchAccount
+  description: Contains information about an Azure Batch account.
+  kind: object
+  properties:
+  - name: properties.accountEndpoint
+    isReadyOnly: true
+    description: "  \nThe account endpoint used to interact with the Batch service."
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "  \nThe provisioned state of the resource"
+    types:
+    - uid: ProvisioningState
+  - name: properties.poolAllocationMode
+    isReadyOnly: true
+    description: "The allocation mode to use for creating pools in the Batch account.  \nThe allocation mode for creating pools in the Batch account."
+    types:
+    - uid: PoolAllocationMode
+  - name: properties.keyVaultReference
+    isReadyOnly: true
+    description: "A reference to the Azure key vault associated with the Batch account.  \nIdentifies the Azure key vault associated with a Batch account."
+    types:
+    - uid: KeyVaultReference
+  - name: properties.autoStorage
+    isReadyOnly: true
+    description: "The properties and status of any auto-storage account associated with the Batch account.  \nContains information about the auto-storage account associated with a Batch account."
+    types:
+    - uid: AutoStorageProperties
+  - name: properties.dedicatedCoreQuota
+    isReadyOnly: true
+    description: 'The dedicated core quota for this Batch account.  '
+    types:
+    - uid: integer
+  - name: properties.lowPriorityCoreQuota
+    isReadyOnly: true
+    description: 'The low-priority core quota for this Batch account.  '
+    types:
+    - uid: integer
+  - name: properties.poolQuota
+    isReadyOnly: true
+    description: 'The pool quota for this Batch account.  '
+    types:
+    - uid: integer
+  - name: properties.activeJobAndJobScheduleQuota
+    isReadyOnly: true
+    description: 'The active job and job schedule quota for this Batch account.  '
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: "  \nThe ID of the resource."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nThe name of the resource."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nThe type of the resource."
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: "  \nThe location of the resource."
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: "  \nThe tags of the resource."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: "  \nAn error response from the Batch service."
+    types:
+    - uid: CloudErrorBody
+- name: BatchAccountCreateParameters
+  description: Parameters supplied to the Create operation.
+  kind: object
+  properties:
+  - name: location
+    description: "  \nThe region in which to create the account."
+    types:
+    - uid: string
+  - name: tags
+    description: "  \nThe user-specified tags associated with the account."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.autoStorage
+    description: "  \nThe properties related to the auto-storage account."
+    types:
+    - uid: AutoStorageProperties
+    typesTitle: AutoStorageBaseProperties
+  - name: properties.poolAllocationMode
+    description: "The allocation mode to use for creating pools in the Batch account.  \nThe pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService."
+    types:
+    - uid: PoolAllocationMode
+  - name: properties.keyVaultReference
+    description: "  \nA reference to the Azure key vault associated with the Batch account."
+    types:
+    - uid: KeyVaultReference
+- name: AutoStorageProperties
+  description: Contains information about the auto-storage account associated with a Batch account.
+  kind: object
+  properties:
+  - name: lastKeySync
+    description: "  \nThe UTC time at which storage keys were last synchronized with the Batch account."
+    types:
+    - uid: string
+  - name: storageAccountId
+    description: "  \nThe resource ID of the storage account to be used for auto-storage account."
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The provisioned state of the resource
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+- name: PoolAllocationMode
+  description: The allocation mode to use for creating pools in the Batch account.
+  kind: enum
+  properties:
+  - name: BatchService
+    types:
+    - uid: string
+  - name: UserSubscription
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nAn identifier for the error. Codes are invariant and are intended to be consumed programmatically."
+    types:
+    - uid: string
+  - name: message
+    description: "  \nA message describing the error, intended to be suitable for display in a user interface."
+    types:
+    - uid: string
+  - name: target
+    description: "  \nThe target of the particular error. For example, the name of the property in error."
+    types:
+    - uid: string
+  - name: details
+    description: "  "
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: BatchAccountCreate_Default
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2017-09-01
+    body: >-
+      {
+        "location": "japaneast",
+        "properties": {
+          "autoStorage": {
+            "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "sampleacct",
+        "location": "japaneast",
+        "properties": {
+          "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+          "provisioningState": "Succeeded",
+          "poolAllocationMode": "BatchService",
+          "dedicatedCoreQuota": 20,
+          "lowPriorityCoreQuota": 20,
+          "poolQuota": 20,
+          "activeJobAndJobScheduleQuota": 20,
+          "autoStorage": {
+            "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+            "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+          }
+        },
+        "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+        "type": "Microsoft.Batch/batchAccounts"
+      }
+- name: BatchAccountCreate_BYOS
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2017-09-01
+    body: >-
+      {
+        "location": "japaneast",
+        "properties": {
+          "autoStorage": {
+            "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+          },
+          "poolAllocationMode": "UserSubscription",
+          "keyVaultReference": {
+            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
+            "url": "http://sample.vault.azure.net/"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "sampleacct",
+        "location": "japaneast",
+        "properties": {
+          "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+          "provisioningState": "Succeeded",
+          "poolAllocationMode": "UserSubscription",
+          "dedicatedCoreQuota": 20,
+          "lowPriorityCoreQuota": 20,
+          "poolQuota": 20,
+          "activeJobAndJobScheduleQuota": 20,
+          "autoStorage": {
+            "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+            "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+          },
+          "keyVaultReference": {
+            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
+            "url": "http://sample.vault.azure.net/"
+          }
+        },
+        "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+        "type": "Microsoft.Batch/batchAccounts"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

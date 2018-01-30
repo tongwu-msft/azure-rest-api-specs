@@ -1,0 +1,175 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.loadbalancer.loadbalancerfrontendipconfigurations.get
+name: Get
+service: Load balancer
+groupName: Load Balancer Frontend IP Configurations
+apiVersion: 2017-10-01
+summary: Gets load balancer frontend IP configuration.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/frontendIPConfigurations/{frontendIPConfigurationName}?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: loadBalancerName
+  in: path
+  isRequired: true
+  description: The name of the load balancer.
+  types:
+  - uid: string
+- name: frontendIPConfigurationName
+  in: path
+  isRequired: true
+  description: The name of the frontend IP configuration.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns LoadBalancer FrontendIPConfiguration resource.
+  types:
+  - uid: FrontendIPConfiguration
+requestHeader: []
+definitions:
+- name: FrontendIPConfiguration
+  description: Frontend IP address of the load balancer.
+  kind: object
+  properties:
+  - name: name
+    description: "  \nThe name of the resource that is unique within a resource group. This name can be used to access the resource."
+    types:
+    - uid: string
+  - name: etag
+    description: "  \nA unique read-only string that changes whenever the resource is updated."
+    types:
+    - uid: string
+  - name: zones
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.inboundNatRules
+    isReadyOnly: true
+    description: "  \nReference to another subresource."
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.inboundNatPools
+    isReadyOnly: true
+    description: "  \nReference to another subresource."
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.outboundNatRules
+    isReadyOnly: true
+    description: "  \nReference to another subresource."
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.loadBalancingRules
+    isReadyOnly: true
+    description: "  \nReference to another subresource."
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.privateIPAddress
+    description: "  \nThe private IP address of the IP configuration."
+    types:
+    - uid: string
+  - name: properties.privateIPAllocationMethod
+    description: "  \nThe Private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+    types:
+    - uid: IPAllocationMethod
+  - name: properties.subnet
+    description: "  \nThe reference of the subnet resource."
+    types:
+    - uid: SubResource
+  - name: properties.publicIPAddress
+    description: "  \nThe reference of the Public IP resource."
+    types:
+    - uid: SubResource
+  - name: properties.provisioningState
+    description: "  \nGets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource ID"
+    types:
+    - uid: string
+- name: SubResource
+  description: Read only. Inbound rules URIs that use this frontend IP.
+  kind: object
+  properties:
+  - name: id
+    description: "  \nResource ID."
+    types:
+    - uid: string
+- name: IPAllocationMethod
+  description: "The Private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+  kind: enum
+  properties:
+  - name: Static
+    types:
+    - uid: string
+  - name: Dynamic
+    types:
+    - uid: string
+examples:
+- name: LoadBalancerFrontendIPConfigurationGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/frontend?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "frontend",
+        "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/frontend",
+        "etag": "W/\\\"00000000-0000-0000-0000-000000000000\\\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "privateIPAddress": "10.0.1.4",
+          "privateIPAllocationMethod": "Dynamic",
+          "subnet": {
+            "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+          },
+          "loadBalancingRules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+            }
+          ],
+          "inboundNatRules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/inrlb"
+            }
+          ]
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

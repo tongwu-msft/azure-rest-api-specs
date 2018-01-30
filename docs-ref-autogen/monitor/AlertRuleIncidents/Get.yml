@@ -1,0 +1,118 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.alertruleincidents.get
+name: Get
+service: Monitor
+groupName: Alert Rule Incidents
+apiVersion: 2016-03-01
+summary: Gets an incident associated to an alert rule
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/alertrules/{ruleName}/incidents/{incidentName}?api-version=2016-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: ruleName
+  in: path
+  isRequired: true
+  description: The name of the rule.
+  types:
+  - uid: string
+- name: incidentName
+  in: path
+  isRequired: true
+  description: The name of the incident to retrieve.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+- name: 200 OK
+  description: Successful request for one alert rule related incident
+  types:
+  - uid: Incident
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nError code"
+    types:
+    - uid: string
+  - name: message
+    description: "  \nError message indicating why the operation failed."
+    types:
+    - uid: string
+- name: Incident
+  description: An alert incident indicates the activation status of an alert rule.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: "  \nIncident name."
+    types:
+    - uid: string
+  - name: ruleName
+    isReadyOnly: true
+    description: "  \nRule name that is associated with the incident."
+    types:
+    - uid: string
+  - name: isActive
+    isReadyOnly: true
+    description: "  \nA boolean to indicate whether the incident is active or resolved."
+    types:
+    - uid: boolean
+  - name: activatedTime
+    isReadyOnly: true
+    description: "  \nThe time at which the incident was activated in ISO8601 format."
+    types:
+    - uid: string
+  - name: resolvedTime
+    isReadyOnly: true
+    description: "  \nThe time at which the incident was resolved in ISO8601 format. If null, it means the incident is still active."
+    types:
+    - uid: string
+examples:
+- name: Get a single alert rule incident
+  request:
+    uri: GET https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/Rac46PostSwapRG/providers/microsoft.insights/alertrules/myRuleName/incidents/Website_started?api-version=2016-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "Website_started",
+        "ruleName": "myRuleName",
+        "isActive": true,
+        "activatedTime": "2017-09-13T15:45:26.9792776Z",
+        "resolvedTime": "2017-09-13T22:14:28.9792776Z"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

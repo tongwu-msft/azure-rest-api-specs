@@ -1,0 +1,175 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.createinstancemsdeployoperationslot
+name: Create Instance MS Deploy Operation Slot
+service: App Service
+groupName: Web Apps
+apiVersion: 2016-08-01
+summary: Invoke the MSDeploy web app extension.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/extensions/MSDeploy?api-version=2016-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of web app.
+  types:
+  - uid: string
+- name: slot
+  in: path
+  isRequired: true
+  description: Name of web app slot. If not specified then will default to production slot.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  description: ID of web app instance.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Deployment is scheduled.
+  types:
+  - uid: MSDeployStatus
+- name: Other Status Codes
+  description: Another deployment is in progress.
+requestBody:
+- parameters:
+  - name: properties.addOnPackages
+    in: body
+    description: "  \nList of Add-On packages. Add-On packages implicitly enable the Do Not Delete MSDeploy rule."
+    types:
+    - uid: array
+  - name: kind
+    in: body
+    description: "  \nKind of resource."
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: MSDeployStatus
+  description: MSDeploy ARM response
+  kind: object
+  properties:
+  - name: properties.deployer
+    isReadyOnly: true
+    description: "  \nUsername of deployer"
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "  \nProvisioning state"
+    types:
+    - uid: MSDeployProvisioningState
+  - name: properties.startTime
+    isReadyOnly: true
+    description: "  \nStart time of deploy operation"
+    types:
+    - uid: string
+  - name: properties.endTime
+    isReadyOnly: true
+    description: "  \nEnd time of deploy operation"
+    types:
+    - uid: string
+  - name: properties.complete
+    isReadyOnly: true
+    description: "  \nWhether the deployment operation has completed"
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource Id."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nResource Name."
+    types:
+    - uid: string
+  - name: kind
+    description: "  \nKind of resource."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nResource type."
+    types:
+    - uid: string
+- name: MSDeploy
+  description: MSDeploy ARM PUT information
+  kind: object
+  properties:
+  - name: properties.addOnPackages
+    description: "  \nList of Add-On packages. Add-On packages implicitly enable the Do Not Delete MSDeploy rule."
+    types:
+    - uid: array
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource Id."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nResource Name."
+    types:
+    - uid: string
+  - name: kind
+    description: "  \nKind of resource."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nResource type."
+    types:
+    - uid: string
+- name: MSDeployProvisioningState
+  description: Provisioning state
+  kind: enum
+  properties:
+  - name: accepted
+    types:
+    - uid: string
+  - name: running
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: canceled
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

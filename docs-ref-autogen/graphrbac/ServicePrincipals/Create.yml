@@ -1,0 +1,188 @@
+### YamlMime:RESTOperation
+uid: graph.windows.net.graphrbac.serviceprincipals.create
+name: Create
+service: Graph RBAC
+groupName: Service Principals
+apiVersion: "1.6"
+summary: Creates a service principal in the directory.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://graph.windows.net/{tenantID}/servicePrincipals?api-version=1.6
+uriParameters:
+- name: tenantID
+  in: path
+  isRequired: true
+  description: The tenant ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: The service principal was created successfully.
+  types:
+  - uid: ServicePrincipal
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: GraphError
+requestBody:
+- parameters:
+  - name: appId
+    in: body
+    isRequired: true
+    description: "  \napplication Id"
+    types:
+    - uid: string
+  - name: accountEnabled
+    in: body
+    isRequired: true
+    description: "  \nWhether the account is enabled"
+    types:
+    - uid: boolean
+  - name: keyCredentials
+    in: body
+    description: "  \nActive Directory Key Credential information."
+    types:
+    - uid: KeyCredential
+      isArray: true
+  - name: passwordCredentials
+    in: body
+    description: "  \nActive Directory Password Credential information."
+    types:
+    - uid: PasswordCredential
+      isArray: true
+requestHeader: []
+definitions:
+- name: KeyCredential
+  description: Active Directory Key Credential information.
+  kind: object
+  properties:
+  - name: startDate
+    description: "  \nStart date."
+    types:
+    - uid: string
+  - name: endDate
+    description: "  \nEnd date."
+    types:
+    - uid: string
+  - name: value
+    description: "  \nKey value."
+    types:
+    - uid: string
+  - name: keyId
+    description: "  \nKey ID."
+    types:
+    - uid: string
+  - name: usage
+    description: "  \nUsage. Acceptable values are 'Verify' and 'Sign'."
+    types:
+    - uid: string
+  - name: type
+    description: "  \nType. Acceptable values are 'AsymmetricX509Cert' and 'Symmetric'."
+    types:
+    - uid: string
+- name: PasswordCredential
+  description: Active Directory Password Credential information.
+  kind: object
+  properties:
+  - name: startDate
+    description: "  \nStart date."
+    types:
+    - uid: string
+  - name: endDate
+    description: "  \nEnd date."
+    types:
+    - uid: string
+  - name: keyId
+    description: "  \nKey ID."
+    types:
+    - uid: string
+  - name: value
+    description: "  \nKey value."
+    types:
+    - uid: string
+- name: ServicePrincipal
+  description: Active Directory service principal information.
+  kind: object
+  properties:
+  - name: displayName
+    description: "  \nThe display name of the service principal."
+    types:
+    - uid: string
+  - name: appId
+    description: "  \nThe application ID."
+    types:
+    - uid: string
+  - name: servicePrincipalNames
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+  - name: objectId
+    isReadyOnly: true
+    description: "  \nThe object ID."
+    types:
+    - uid: string
+  - name: objectType
+    isReadyOnly: true
+    description: "  \nThe object type."
+    types:
+    - uid: string
+  - name: deletionTimestamp
+    isReadyOnly: true
+    description: "  \nThe time at which the directory object was deleted."
+    types:
+    - uid: string
+- name: GraphError
+  description: Active Directory error information.
+  kind: object
+  properties:
+  - name: odata.error.code
+    description: "  \nError code."
+    types:
+    - uid: string
+  - name: odata.error.message.value
+    description: "  \nError message value."
+    types:
+    - uid: string
+- name: ServicePrincipalCreateParameters
+  description: Request parameters for creating a new service principal.
+  kind: object
+  properties:
+  - name: appId
+    description: "  \napplication Id"
+    types:
+    - uid: string
+  - name: accountEnabled
+    description: "  \nWhether the account is enabled"
+    types:
+    - uid: boolean
+  - name: keyCredentials
+    description: "  \nActive Directory Key Credential information."
+    types:
+    - uid: KeyCredential
+      isArray: true
+  - name: passwordCredentials
+    description: "  \nActive Directory Password Credential information."
+    types:
+    - uid: PasswordCredential
+      isArray: true
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

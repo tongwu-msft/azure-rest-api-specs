@@ -55,7 +55,7 @@ Status code: If successful, the operation returns 200 (OK); otherwise 404 (Not F
 | id | Specifies the identifying URL of the availability set. |    
 | name | Specifies the name of the availability set. |    
 | type | Specifies the type of compute resource. |    
-| location | Specifies the supported Azure location where the resource exists. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations). |
+| location | Specifies the supported Azure location where the resource exists. For more information, see [List all the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.yml#Subscriptions_ListLocations). |
 | tags | Specifies tags associated with the availability set. |
 | sku.name | Specifies whether the availability set is managed or not. |    
 | platformUpdateDomainCount | Specifies the update domain count of availability set. |    

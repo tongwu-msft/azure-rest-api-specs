@@ -1,0 +1,262 @@
+### YamlMime:RESTOperation
+uid: keyvault.deletekey.deletekey
+name: Delete Key
+service: Key Vault
+groupName: Delete Key
+apiVersion: 2016-10-01
+summary: Deletes a key of any type from storage in Azure Key Vault. The delete key operation cannot be used to remove individual versions of a key. This operation removes the cryptographic material associated with the key, which means the key is not usable for Sign/Verify, Wrap/Unwrap or Encrypt/Decrypt operations. This operation requires the keys/delete permission.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE {vaultBaseUrl}/keys/{key-name}?api-version=2016-10-01
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: key-name
+  in: path
+  isRequired: true
+  description: The name of the key to delete.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The public part of the deleted key and deletion information on when the key will be purged.
+  types:
+  - uid: DeletedKeyBundle
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestHeader: []
+definitions:
+- name: DeletedKeyBundle
+  description: A DeletedKeyBundle consisting of a WebKey plus its Attributes and deletion info
+  kind: object
+  properties:
+  - name: recoveryId
+    description: "  \nThe url of the recovery object, used to identify and recover the deleted key."
+    types:
+    - uid: string
+  - name: scheduledPurgeDate
+    isReadyOnly: true
+    description: "  \nThe time when the key is scheduled to be purged, in UTC"
+    types:
+    - uid: integer
+  - name: deletedDate
+    isReadyOnly: true
+    description: "  \nThe time when the key was deleted, in UTC"
+    types:
+    - uid: integer
+  - name: key
+    description: "  \nThe Json web key."
+    types:
+    - uid: JsonWebKey
+  - name: attributes
+    description: "  \nThe key management attributes."
+    types:
+    - uid: KeyAttributes
+  - name: tags
+    description: "  \nApplication specific metadata in the form of key-value pairs."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: managed
+    isReadyOnly: true
+    description: "  \nTrue if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true."
+    types:
+    - uid: boolean
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: "  \nThe key vault server error."
+    types:
+    - uid: Error
+- name: JsonWebKey
+  description: As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
+  kind: object
+  properties:
+  - name: kid
+    description: "  \nKey identifier."
+    types:
+    - uid: string
+  - name: kty
+    description: "  \nJsonWebKey key type (kty)."
+    types:
+    - uid: JsonWebKeyType
+  - name: key_ops
+    description: "  \nSupported key operations."
+    types:
+    - uid: string
+      isArray: true
+  - name: n
+    description: "  \nRSA modulus."
+    types:
+    - uid: string
+  - name: e
+    description: "  \nRSA public exponent."
+    types:
+    - uid: string
+  - name: d
+    description: "  \nRSA private exponent, or the D component of an EC private key."
+    types:
+    - uid: string
+  - name: dp
+    description: "  \nRSA private key parameter."
+    types:
+    - uid: string
+  - name: dq
+    description: "  \nRSA private key parameter."
+    types:
+    - uid: string
+  - name: qi
+    description: "  \nRSA private key parameter."
+    types:
+    - uid: string
+  - name: p
+    description: "  \nRSA secret prime."
+    types:
+    - uid: string
+  - name: q
+    description: "  \nRSA secret prime, with p < q."
+    types:
+    - uid: string
+  - name: k
+    description: "  \nSymmetric key."
+    types:
+    - uid: string
+  - name: key_hsm
+    description: "  \nHSM Token, used with 'Bring Your Own Key'."
+    types:
+    - uid: string
+  - name: crv
+    description: "  \nElliptic curve name. For valid values, see JsonWebKeyCurveName."
+    types:
+    - uid: JsonWebKeyCurveName
+  - name: x
+    description: "  \nX component of an EC public key."
+    types:
+    - uid: string
+  - name: y
+    description: "  \nY component of an EC public key."
+    types:
+    - uid: string
+- name: KeyAttributes
+  description: The attributes of a key managed by the key vault service.
+  kind: object
+  properties:
+  - name: recoveryLevel
+    isReadyOnly: true
+    description: "  \nReflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval."
+    types:
+    - uid: DeletionRecoveryLevel
+  - name: enabled
+    description: "  \nDetermines whether the object is enabled."
+    types:
+    - uid: boolean
+  - name: nbf
+    description: "  \nNot before date in UTC."
+    types:
+    - uid: integer
+  - name: exp
+    description: "  \nExpiry date in UTC."
+    types:
+    - uid: integer
+  - name: created
+    isReadyOnly: true
+    description: "  \nCreation time in UTC."
+    types:
+    - uid: integer
+  - name: updated
+    isReadyOnly: true
+    description: "  \nLast updated time in UTC."
+    types:
+    - uid: integer
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: "  \nThe error code."
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: "  \nThe error message."
+    types:
+    - uid: string
+  - name: innererror
+    description: "  "
+    types:
+    - {}
+- name: JsonWebKeyType
+  description: JsonWebKey key type (kty).
+  kind: enum
+  properties:
+  - name: EC
+    types:
+    - uid: string
+  - name: EC-HSM
+    types:
+    - uid: string
+  - name: RSA
+    types:
+    - uid: string
+  - name: RSA-HSM
+    types:
+    - uid: string
+  - name: oct
+    types:
+    - uid: string
+- name: JsonWebKeyCurveName
+  description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
+  kind: enum
+  properties:
+  - name: P-256
+    types:
+    - uid: string
+  - name: P-384
+    types:
+    - uid: string
+  - name: P-521
+    types:
+    - uid: string
+  - name: SECP256K1
+    types:
+    - uid: string
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  kind: enum
+  properties:
+  - name: Purgeable
+    types:
+    - uid: string
+  - name: Recoverable+Purgeable
+    types:
+    - uid: string
+  - name: Recoverable
+    types:
+    - uid: string
+  - name: Recoverable+ProtectedSubscription
+    types:
+    - uid: string
+examples: []
+security: []

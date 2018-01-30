@@ -1,7 +1,7 @@
 ---
 title: "Data Catalog limitations"
 ms.custom: na
-ms.date: 2017-11-09
+ms.date: 2018-01-17
 ms.prod: azure
 ms.reviewer: na
 ms.service: data-catalog
@@ -28,7 +28,7 @@ translation.priority.mt:
 The Data Catalog Assets REST API has the following limitations:  
   
 -   Maximum annotation or asset root size in bytes: 256 K.  
--   Maximum number of annotations on an asset: 1000.  
+-   Maximum number of annotations on an asset: 3000.  
 -   Maximum overall size of asset and its annotations: 8 MB.  
 -   Transactions are scoped to a single asset and its annotations. Transcations cannot span assets.  
 -   Delete of an asset deletes all annotations associated with that asset. A delete of annotation deletes all annotations beneath that annotation.  

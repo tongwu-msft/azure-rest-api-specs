@@ -14,7 +14,7 @@ Managing your key vaults as well as the keys, secrets, and certificates within y
 
 Manage your key vaults using the following set of operations.
 
-- [Manage key vaults](../../docs-ref-autogen/keyvault/Vaults.json)
+- [Manage key vaults](../../docs-ref-autogen/keyvault/Vaults.yml)
 
 Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations with keys, secrets and certificates within the Azure environment.
 
@@ -28,36 +28,36 @@ For conceptual and detailed information, see - [About keys, secrets, and certifi
 
 ### Key vaults
 
-- [Create or update a key vault](../../docs-ref-autogen/keyvault/Vaults.json#Vaults_CreateOrUpdate)
-- [Deletes a key vault](../../docs-ref-autogen/keyvault/Vaults.json#Vaults_Delete)
-- [Gets info about a key vault](../../docs-ref-autogen/keyvault/Vaults.json#Vaults_Get)
+- [Create or update a key vault](../../docs-ref-autogen/keyvault/Vaults.yml#Vaults_CreateOrUpdate)
+- [Deletes a key vault](../../docs-ref-autogen/keyvault/Vaults.yml#Vaults_Delete)
+- [Gets info about a key vault](../../docs-ref-autogen/keyvault/Vaults.yml#Vaults_Get)
 
 ### Keys
 
-- [Create a key](../../docs-ref-autogen/keyvault/CreateKey.json)
-- [Get information about a key](../../docs-ref-autogen/keyvault/GetKey.json)
-- [Encrypt with a key](../../docs-ref-autogen/keyvault/encrypt.json)
-- [Recover deleted key](../../docs-ref-autogen/keyvault/RecoverDeletedKey.json)
+- [Create a key](../../docs-ref-autogen/keyvault/CreateKey.yml)
+- [Get information about a key](../../docs-ref-autogen/keyvault/GetKey.yml)
+- [Encrypt with a key](../../docs-ref-autogen/keyvault/encrypt.yml)
+- [Recover deleted key](../../docs-ref-autogen/keyvault/RecoverDeletedKey.yml)
 
 ### Secrets
 
-- [Create a secret](../../docs-ref-autogen/keyvault/SetSecret.json)
-- [Get a secret](../../docs-ref-autogen/keyvault/GetSecret.json)
-- [Recover deleted secret](../../docs-ref-autogen/keyvault/RecoverDeletedSecret.json)
+- [Create a secret](../../docs-ref-autogen/keyvault/SetSecret.yml)
+- [Get a secret](../../docs-ref-autogen/keyvault/GetSecret.yml)
+- [Recover deleted secret](../../docs-ref-autogen/keyvault/RecoverDeletedSecret.yml)
 
 ### Certificates
 
-- [Create a certificate](../../docs-ref-autogen/keyvault/CreateCertificate.json)
-- [Import a certificate](../../docs-ref-autogen/keyvault/ImportCertificate.json)
-- [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.json)
-- [Update a certificate policy](../../docs-ref-autogen/keyvault/UpdateCertificatePolicy.json)
-- [Recover deleted certificate](../../docs-ref-autogen/keyvault/RecoverDeletedCertificate.json)
+- [Create a certificate](../../docs-ref-autogen/keyvault/CreateCertificate.yml)
+- [Import a certificate](../../docs-ref-autogen/keyvault/ImportCertificate.yml)
+- [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.yml)
+- [Update a certificate policy](../../docs-ref-autogen/keyvault/UpdateCertificatePolicy.yml)
+- [Recover deleted certificate](../../docs-ref-autogen/keyvault/RecoverDeletedCertificate.yml)
 
 ### Storage accounts
 
-- [Set a storage account](../../docs-ref-autogen/keyvault/SetStorageAccount.json)
-- [Get a storage account](../../docs-ref-autogen/keyvault/GetStorageAccount.json)
-- [Delete a storage account](../../docs-ref-autogen/keyvault/DeleteStorageAccount.json)
+- [Set a storage account](../../docs-ref-autogen/keyvault/SetStorageAccount.yml)
+- [Get a storage account](../../docs-ref-autogen/keyvault/GetStorageAccount.yml)
+- [Delete a storage account](../../docs-ref-autogen/keyvault/DeleteStorageAccount.yml)
 
 ### See also
 

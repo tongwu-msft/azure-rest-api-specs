@@ -1,0 +1,173 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.render.getmaptile
+name: Get Map Tile
+service: Location Based Services Functional API
+groupName: Render
+apiVersion: "1.0"
+summary: Returns a raster or vector map tile
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: GET https://atlas.microsoft.com/map/tile/{format}?api-version=1.0&subscription-key={subscription-key}&layer={layer}&style=main&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/map/tile/{format}?api-version=1.0&subscription-key={subscription-key}&layer={layer}&style=main&zoom={zoom}&x={x}&y={y}&tileSize={tileSize}&language={language}&view={view}
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure LBS API.  Current version is 1.0
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure LBS subscription key
+  types:
+  - uid: string
+- name: layer
+  in: query
+  isRequired: true
+  description: Map layer requested
+  types:
+  - uid: string
+- name: style
+  in: query
+  isRequired: true
+  description: Map style to be returned.  Currently there is only one style, e.g. main
+  types:
+  - uid: string
+- name: zoom
+  in: query
+  isRequired: true
+  description: Zoom level for desired tile.  0 to 18 for raster tiles, 0 through 20 for vector tiles
+  types:
+  - uid: string
+- name: x
+  in: query
+  isRequired: true
+  description: 'X index for the desired tile, based on Spherical Mercator projection coordinate system (EPSG:3857) '
+  types:
+  - uid: string
+- name: y
+  in: query
+  isRequired: true
+  description: Y index for the desired tile, based on Spherical Mercator projection coordinate system (EPSG:3857)
+  types:
+  - uid: string
+- name: tileSize
+  in: query
+  description: The size of the returned map tile in pixels.  E.g. 256 or 512
+  types:
+  - uid: string
+- name: language
+  in: query
+  description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used
+  types:
+  - uid: string
+- name: view
+  in: query
+  description: The geopolitical view of the returned map. E.g. Unified, IN, IL
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: maptile200
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Unauthorized: Access is denied due to invalid credentials.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: maptile200
+  description: This object is returned from a successful Map Tile call
+  kind: object
+  properties:
+  - name: image
+    isReadyOnly: true
+    description: "  \nImage property"
+    types:
+    - uid: string
+- name: Error
+  description: This object is returned when an error occurs in the Location Based Service API
+  kind: object
+  properties:
+  - name: statuscode
+    isReadyOnly: true
+    description: "  \nError code."
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: "  \nIf available, a human readable description of the error."
+    types:
+    - uid: string
+examples:
+- name: GetMapTile
+  request:
+    uri: GET https://atlas.microsoft.com/map/tile/png?api-version=1.0&layer=basic&style=main&zoom=6&x=10&y=22
+  responses:
+  - statusCode: "200"
+    body: '{}'
+  - statusCode: "400"
+    body: >-
+      {
+        "statuscode": "400",
+        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "statuscode": "401",
+        "message": "Unauthorized: Access is denied due to invalid credentials."
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "statuscode": "403",
+        "message": "Permission, capacity, or authentication issues."
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "statuscode": "404",
+        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "statuscode": "500",
+        "message": "An error occurred while processing the request. Please try again later."
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

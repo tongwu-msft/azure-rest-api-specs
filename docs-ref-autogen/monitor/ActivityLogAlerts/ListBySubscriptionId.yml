@@ -1,0 +1,244 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.activitylogalerts.listbysubscriptionid
+name: List By Subscription Id
+service: Monitor
+groupName: Activity Log Alerts
+apiVersion: 2017-04-01
+summary: Get a list of all activity log alerts in a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/microsoft.insights/activityLogAlerts?api-version=2017-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription Id.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request succeeded.
+  types:
+  - uid: ActivityLogAlertList
+- name: Other Status Codes
+  description: An error occurred and the list of activity log alerts could not be retrieved.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ActivityLogAlertList
+  description: A list of activity log alerts.
+  kind: object
+  properties:
+  - name: value
+    description: "  \nAn activity log alert resource."
+    types:
+    - uid: ActivityLogAlertResource
+      isArray: true
+  - name: nextLink
+    description: "  \nProvides the link to retrieve the next set of elements."
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: "  \nError code"
+    types:
+    - uid: string
+  - name: message
+    description: "  \nError message indicating why the operation failed."
+    types:
+    - uid: string
+- name: ActivityLogAlertResource
+  description: An activity log alert resource.
+  kind: object
+  properties:
+  - name: properties.scopes
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.enabled
+    description: "  \nIndicates whether this activity log alert is enabled. If an activity log alert is not enabled, then none of its actions will be activated."
+    types:
+    - uid: boolean
+  - name: properties.condition
+    description: "  \nThe condition that will cause this alert to activate."
+    types:
+    - uid: ActivityLogAlertAllOfCondition
+  - name: properties.actions
+    description: "  \nThe actions that will activate when the condition is met."
+    types:
+    - uid: ActivityLogAlertActionList
+  - name: properties.description
+    description: "  \nA description of this activity log alert."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nAzure resource Id"
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nAzure resource name"
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nAzure resource type"
+    types:
+    - uid: string
+  - name: location
+    description: "  \nResource location"
+    types:
+    - uid: string
+  - name: tags
+    description: "  \nResource tags"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ActivityLogAlertAllOfCondition
+  description: The condition that will cause this alert to activate.
+  kind: object
+  properties:
+  - name: allOf
+    description: "  \nAn Activity Log alert condition that is met by comparing an activity log field and value."
+    types:
+    - uid: ActivityLogAlertLeafCondition
+      isArray: true
+- name: ActivityLogAlertActionList
+  description: The actions that will activate when the condition is met.
+  kind: object
+  properties:
+  - name: actionGroups
+    description: "  \nA pointer to an Azure Action Group."
+    types:
+    - uid: ActivityLogAlertActionGroup
+      isArray: true
+- name: ActivityLogAlertLeafCondition
+  description: The list of activity log alert conditions.
+  kind: object
+  properties:
+  - name: field
+    description: "  \nThe name of the field that this condition will examine. The possible values for this field are (case-insensitive): 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties.'."
+    types:
+    - uid: string
+  - name: equals
+    description: "  \nThe field value will be compared to this value (case-insensitive) to determine if the condition is met."
+    types:
+    - uid: string
+- name: ActivityLogAlertActionGroup
+  description: The list of activity log alerts.
+  kind: object
+  properties:
+  - name: actionGroupId
+    description: "  \nThe resourceId of the action group. This cannot be null or empty."
+    types:
+    - uid: string
+  - name: webhookProperties
+    description: "  \nthe dictionary of custom properties to include with the post operation. These data are appended to the webhook payload."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: List activity log alerts
+  request:
+    uri: GET https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/providers/microsoft.insights/activityLogAlerts?api-version=2017-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-ActivityLogAlerts/providers/microsoft.insights/activityLogAlerts/SampleActivityLogAlert",
+            "type": "Microsoft.Insights/ActivityLogAlerts",
+            "name": "SampleActivityLogAlert",
+            "location": "Global",
+            "tags": {},
+            "properties": {
+              "scopes": [
+                "subscriptions/187f412d-1758-44d9-b052-169e2564721d"
+              ],
+              "enabled": true,
+              "condition": {
+                "allOf": [
+                  {
+                    "field": "Category",
+                    "equals": "Administrative"
+                  },
+                  {
+                    "field": "Level",
+                    "equals": "Error"
+                  }
+                ]
+              },
+              "actions": {
+                "actionGroups": [
+                  {
+                    "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-ActionGroups/providers/microsoft.insights/actionGroups/SampleActionGroup",
+                    "webhookProperties": {
+                      "sampleWebhookProperty": "samplePropertyValue"
+                    }
+                  }
+                ]
+              },
+              "description": "Sample activity log alert description"
+            }
+          },
+          {
+            "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-ActivityLogAlerts/providers/microsoft.insights/activityLogAlerts/SampleActivityLogAlert2",
+            "type": "Microsoft.Insights/ActivityLogAlerts",
+            "name": "SampleActivityLogAlert2",
+            "location": "Global",
+            "tags": {},
+            "properties": {
+              "scopes": [
+                "subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-ActivityLogAlerts"
+              ],
+              "enabled": true,
+              "condition": {
+                "allOf": [
+                  {
+                    "field": "Category",
+                    "equals": "Administrative"
+                  }
+                ]
+              },
+              "actions": {
+                "actionGroups": [
+                  {
+                    "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-ActionGroups/providers/microsoft.insights/actionGroups/SampleActionGroup",
+                    "webhookProperties": {}
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

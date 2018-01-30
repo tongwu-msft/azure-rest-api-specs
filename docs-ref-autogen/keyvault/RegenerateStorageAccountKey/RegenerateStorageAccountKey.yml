@@ -1,0 +1,176 @@
+### YamlMime:RESTOperation
+uid: keyvault.regeneratestorageaccountkey.regeneratestorageaccountkey
+name: Regenerate Storage Account Key
+service: Key Vault
+groupName: Regenerate Storage Account Key
+apiVersion: 2016-10-01
+summary: Regenerates the specified key value for the given storage account. This operation requires the storage/regeneratekey permission.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {vaultBaseUrl}/storage/{storage-account-name}/regeneratekey?api-version=2016-10-01
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: storage-account-name
+  in: path
+  isRequired: true
+  description: The name of the storage account.
+  types:
+  - uid: string
+  pattern: ^[0-9a-zA-Z]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The updated storage account.
+  types:
+  - uid: StorageBundle
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestBody:
+- parameters:
+  - name: keyName
+    in: body
+    isRequired: true
+    description: "  \nThe storage account key name."
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: StorageBundle
+  description: A Storage account bundle consists of key vault storage account details plus its attributes.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: "  \nThe storage account id."
+    types:
+    - uid: string
+  - name: resourceId
+    isReadyOnly: true
+    description: "  \nThe storage account resource id."
+    types:
+    - uid: string
+  - name: activeKeyName
+    isReadyOnly: true
+    description: "  \nThe current active storage account key name."
+    types:
+    - uid: string
+  - name: autoRegenerateKey
+    isReadyOnly: true
+    description: "  \nwhether keyvault should manage the storage account for the user."
+    types:
+    - uid: boolean
+  - name: regenerationPeriod
+    isReadyOnly: true
+    description: "  \nThe key regeneration time duration specified in ISO-8601 format."
+    types:
+    - uid: string
+  - name: attributes
+    isReadyOnly: true
+    description: "  \nThe storage account attributes."
+    types:
+    - uid: StorageAccountAttributes
+  - name: tags
+    isReadyOnly: true
+    description: "  \nApplication specific metadata in the form of key-value pairs"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: "  \nThe key vault server error."
+    types:
+    - uid: Error
+- name: StorageAccountRegenerteKeyParameters
+  description: The storage account key regenerate parameters.
+  kind: object
+  properties:
+  - name: keyName
+    description: "  \nThe storage account key name."
+    types:
+    - uid: string
+- name: StorageAccountAttributes
+  description: The storage account management attributes.
+  kind: object
+  properties:
+  - name: enabled
+    description: "  \nthe enabled state of the object."
+    types:
+    - uid: boolean
+  - name: created
+    isReadyOnly: true
+    description: "  \nCreation time in UTC."
+    types:
+    - uid: integer
+  - name: updated
+    isReadyOnly: true
+    description: "  \nLast updated time in UTC."
+    types:
+    - uid: integer
+- name: Error
+  description: Error encountered, if any, during the certificate operation.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: "  \nThe error code."
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: "  \nThe error message."
+    types:
+    - uid: string
+  - name: innererror
+    description: "  "
+    types:
+    - {}
+examples:
+- name: Regenerate Storage account key
+  request:
+    uri: POST {vaultBaseUrl}/storage/regenerateKey01/regeneratekey?api-version=2016-10-01
+    body: >-
+      {
+        "keyName": "key2"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/regenerateKey01",
+        "resourceId": "/subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Storage/storageAccounts/kvstorageacc",
+        "activeKeyName": "key2",
+        "autoRegenerateKey": true,
+        "regenerationPeriod": "P10D",
+        "attributes": {
+          "enabled": true,
+          "created": 1490738386,
+          "updated": 1490738386
+        },
+        "tags": {
+          "tag1": "val1",
+          "tag2": "val2"
+        }
+      }
+security: []

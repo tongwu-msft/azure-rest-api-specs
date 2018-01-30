@@ -1,0 +1,200 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetworks.subnets.list
+name: List
+service: Virtual Networks
+groupName: Subnets
+apiVersion: 2017-10-01
+summary: Gets all subnets in a virtual network.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: virtualNetworkName
+  in: path
+  isRequired: true
+  description: The name of the virtual network.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a list of Subnet resources.
+  types:
+  - uid: SubnetListResult
+requestHeader: []
+definitions:
+- name: SubnetListResult
+  description: Response for ListSubnets API service callRetrieves all subnet that belongs to a virtual network
+  kind: object
+  properties:
+  - name: value
+    description: "  \nSubnet in a virtual network resource."
+    types:
+    - uid: Subnet
+      isArray: true
+  - name: nextLink
+    description: "  \nThe URL to get the next set of results."
+    types:
+    - uid: string
+- name: Subnet
+  description: Subnet in a virtual network resource.
+  kind: object
+  properties:
+  - name: name
+    description: "  \nThe name of the resource that is unique within a resource group. This name can be used to access the resource."
+    types:
+    - uid: string
+  - name: etag
+    description: "  \nA unique read-only string that changes whenever the resource is updated."
+    types:
+    - uid: string
+  - name: properties.addressPrefix
+    description: "  \nThe address prefix for the subnet."
+    types:
+    - uid: string
+  - name: properties.networkSecurityGroup
+    description: "  \nThe reference of the NetworkSecurityGroup resource."
+    types:
+    - uid: SubResource
+  - name: properties.routeTable
+    description: "  \nThe reference of the RouteTable resource."
+    types:
+    - uid: SubResource
+  - name: properties.serviceEndpoints
+    description: "  \nThe service endpoint properties."
+    types:
+    - uid: ServiceEndpointPropertiesFormat
+      isArray: true
+  - name: properties.ipConfigurations
+    isReadyOnly: true
+    description: "  \nReference to another subresource."
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.resourceNavigationLinks
+    description: "  \nResourceNavigationLink resource."
+    types:
+    - uid: ResourceNavigationLink
+      isArray: true
+  - name: properties.provisioningState
+    description: "  \nThe provisioning state of the resource."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource ID"
+    types:
+    - uid: string
+- name: SubResource
+  description: The reference of the NetworkSecurityGroup resource.
+  kind: object
+  properties:
+  - name: id
+    description: "  \nResource ID."
+    types:
+    - uid: string
+- name: ServiceEndpointPropertiesFormat
+  description: An array of service endpoints.
+  kind: object
+  properties:
+  - name: service
+    description: "  \nThe type of the endpoint service."
+    types:
+    - uid: string
+  - name: locations
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+  - name: provisioningState
+    description: "  \nThe provisioning state of the resource."
+    types:
+    - uid: string
+- name: ResourceNavigationLink
+  description: ResourceNavigationLink resource.
+  kind: object
+  properties:
+  - name: name
+    description: "  \nName of the resource that is unique within a resource group. This name can be used to access the resource."
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: "  \nA unique read-only string that changes whenever the resource is updated."
+    types:
+    - uid: string
+  - name: properties.linkedResourceType
+    description: "  \nResource type of the linked resource."
+    types:
+    - uid: string
+  - name: properties.link
+    description: "  \nLink to the external resource"
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "  \nProvisioning state of the ResourceNavigationLink resource."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource ID"
+    types:
+    - uid: string
+examples:
+- name: List subnets
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1",
+            "name": "subnet1",
+            "properties": {
+              "addressPrefix": "10.0.0.0/16",
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet2",
+            "name": "subnet2",
+            "properties": {
+              "addressPrefix": "10.0.0.0/16",
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,230 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storsimple.backupschedules.listbybackuppolicy
+name: List By Backup Policy
+service: StorSimple
+groupName: Backup Schedules
+apiVersion: 2017-06-01
+summary: Gets all the backup schedules in a backup policy.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backupPolicies/{backupPolicyName}/schedules?api-version=2017-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name
+  types:
+  - uid: string
+- name: managerName
+  in: path
+  isRequired: true
+  description: The manager name
+  types:
+  - uid: string
+- name: deviceName
+  in: path
+  isRequired: true
+  description: The device name
+  types:
+  - uid: string
+- name: backupPolicyName
+  in: path
+  isRequired: true
+  description: The backup policy name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The collection of backup schedules.
+  types:
+  - uid: BackupScheduleList
+requestHeader: []
+definitions:
+- name: BackupScheduleList
+  description: The backup schedule list.
+  kind: object
+  properties:
+  - name: value
+    description: "  \nThe backup schedule."
+    types:
+    - uid: BackupSchedule
+      isArray: true
+- name: BackupSchedule
+  description: The backup schedule.
+  kind: object
+  properties:
+  - name: properties.scheduleRecurrence
+    description: "  \nThe schedule recurrence."
+    types:
+    - uid: ScheduleRecurrence
+  - name: properties.backupType
+    description: "  \nThe type of backup which needs to be taken."
+    types:
+    - uid: BackupType
+  - name: properties.retentionCount
+    description: "  \nThe number of backups to be retained."
+    types:
+    - uid: integer
+  - name: properties.startTime
+    description: "  \nThe start time of the schedule."
+    types:
+    - uid: string
+  - name: properties.scheduleStatus
+    description: "  \nThe schedule status."
+    types:
+    - uid: ScheduleStatus
+  - name: properties.lastSuccessfulRun
+    isReadyOnly: true
+    description: "  \nThe last successful backup run which was triggered for the schedule."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nThe path ID that uniquely identifies the object."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nThe name of the object."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nThe hierarchical type of the object."
+    types:
+    - uid: string
+  - name: kind
+    description: "  \nThe Kind of the object. Currently only Series8000 is supported"
+    types:
+    - uid: Kind
+- name: ScheduleRecurrence
+  description: The schedule recurrence.
+  kind: object
+  properties:
+  - name: recurrenceType
+    description: "  \nThe recurrence type."
+    types:
+    - uid: RecurrenceType
+  - name: recurrenceValue
+    description: "  \nThe recurrence value."
+    types:
+    - uid: integer
+  - name: weeklyDaysList
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+- name: BackupType
+  description: The type of the backup.
+  kind: enum
+  properties:
+  - name: LocalSnapshot
+    types:
+    - uid: string
+  - name: CloudSnapshot
+    types:
+    - uid: string
+- name: ScheduleStatus
+  description: The schedule status.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - name: Series8000
+    types:
+    - uid: string
+- name: RecurrenceType
+  description: The recurrence type.
+  kind: enum
+  properties:
+  - name: Minutes
+    types:
+    - uid: string
+  - name: Hourly
+    types:
+    - uid: string
+  - name: Daily
+    types:
+    - uid: string
+  - name: Weekly
+    types:
+    - uid: string
+examples:
+- name: BackupSchedulesListByBackupPolicy
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backupPolicies/BkUpPolicy01ForSDKTest/schedules?api-version=2017-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "scheduleRecurrence": {
+                "recurrenceType": "Daily",
+                "recurrenceValue": 1
+              },
+              "backupType": "CloudSnapshot",
+              "retentionCount": 1,
+              "startTime": "2017-06-24T00:00:00Z",
+              "scheduleStatus": "Enabled"
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backupPolicies/BkUpPolicy01ForSDKTest/schedules/schedule1",
+            "name": "schedule1",
+            "type": "Microsoft.StorSimple/managers/devices/backupPolicies/schedules",
+            "kind": "Series8000"
+          },
+          {
+            "properties": {
+              "scheduleRecurrence": {
+                "recurrenceType": "Weekly",
+                "recurrenceValue": 1,
+                "weeklyDaysList": [
+                  "Monday",
+                  "Thursday",
+                  "Friday"
+                ]
+              },
+              "backupType": "CloudSnapshot",
+              "retentionCount": 1,
+              "startTime": "2017-06-24T01:00:00Z",
+              "scheduleStatus": "Enabled"
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backupPolicies/BkUpPolicy01ForSDKTest/schedules/schedule2",
+            "name": "schedule2",
+            "type": "Microsoft.StorSimple/managers/devices/backupPolicies/schedules",
+            "kind": "Series8000"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

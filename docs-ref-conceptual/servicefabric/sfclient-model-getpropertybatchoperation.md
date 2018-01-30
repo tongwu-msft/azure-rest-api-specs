@@ -1,6 +1,6 @@
 ---
 title: "GetPropertyBatchOperation"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,9 @@ translation.priority.mt:
 ---
 # GetPropertyBatchOperation
 
-Represents a PropertyBatchOperation that gets the specified property if it exists.  Note that if one PropertyBatchOperation in a PropertyBatch fails,  the entire batch fails and cannot be committed in a transactional manner.
+Represents a PropertyBatchOperation that gets the specified property if it exists.
+Note that if one PropertyBatchOperation in a PropertyBatch fails,
+the entire batch fails and cannot be committed in a transactional manner.
 
 
 ## Properties
@@ -59,5 +61,6 @@ __Type__: boolean <br/>
 __Required__: No<br/>
 __Default__: false <br/>
 <br/>
-Whether or not to return the property value with the metadata.  True if values should be returned with the metadata; False to return only property metadata.
+Whether or not to return the property value with the metadata.
+True if values should be returned with the metadata; False to return only property metadata.
 

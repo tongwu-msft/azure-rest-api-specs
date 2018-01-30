@@ -1,0 +1,353 @@
+### YamlMime:RESTOperation
+uid: contoso.azure-devices-provisioning.net.iothubdeviceprovisioningservice.deviceenrollment.query
+name: Query
+service: IoT Hub Device Provisioning Service
+groupName: Device Enrollment
+apiVersion: 2017-11-15
+summary: Query the device enrollment records.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://contoso.azure-devices-provisioning.net/enrollments/query?api-version=2017-11-15
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: 'The API version to use for the request. Supported versions include: 2017-11-15'
+  types:
+  - uid: string
+responses:
+- name: 400 Bad Request
+  description: The body of the request is not valid; for example, it cannot be parsed, or the object cannot be validated.
+- name: Other Status Codes
+  description: The authorization token cannot be validated; for example, it is expired or does not apply to the request’s URI. This error code is also returned to devices as part of the TPM attestation flow.
+- name: Other Status Codes
+  description: The Device Provisioning Service instance, or a resource (e.g. an enrollment) does not exist.
+- name: Other Status Codes
+  description: Operations are being throttled by the service. For specific service limits, see IoT Hub Device Provisioning Service limits.
+- name: Other Status Codes
+  description: An internal error occurred.
+- name: Other Status Codes
+  description: The request payload is in an unsupported format. The request's Content-Type header should be set to 'application/json'.
+- name: 200 OK
+  headers:
+  - name: x-ms-continuation
+    value: string
+  - name: x-ms-max-item-count
+    value: integer
+  - name: x-ms-item-type
+    value: string
+  description: Success
+  types:
+  - uid: IndividualEnrollment
+    isArray: true
+- name: Other Status Codes
+  description: Error response
+  types:
+  - uid: ProvisioningServiceErrorDetails
+requestBody:
+- parameters:
+  - name: query
+    in: body
+    isRequired: true
+    description: "  \nThe query."
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: IndividualEnrollment
+  description: The device enrollment record.
+  kind: object
+  properties:
+  - name: registrationId
+    description: "  \nRegistration ID."
+    types:
+    - uid: string
+  - name: deviceId
+    description: "  \nDesired IoT Hub device ID (optional)."
+    types:
+    - uid: string
+  - name: registrationState
+    description: "  \nCurrent registration status."
+    types:
+    - uid: DeviceRegistrationState
+  - name: attestation
+    description: "  \nAttestation method used by the device."
+    types:
+    - uid: AttestationMechanism
+  - name: iotHubHostName
+    description: "  \nThe Iot Hub host name."
+    types:
+    - uid: string
+  - name: initialTwin
+    description: "  \nInitial device twin."
+    types:
+    - uid: InitialTwin
+  - name: etag
+    description: "  \nThe entity tag associated with the resource."
+    types:
+    - uid: string
+  - name: provisioningStatus
+    description: "  \nThe provisioning status."
+    types:
+    - uid: enabled
+    - uid: disabled
+    typesTitle: enum
+  - name: createdDateTimeUtc
+    description: "  \nThe DateTime this resource was created."
+    types:
+    - uid: string
+  - name: lastUpdatedDateTimeUtc
+    description: "  \nThe DateTime this resource was last updated."
+    types:
+    - uid: string
+- name: ProvisioningServiceErrorDetails
+  kind: object
+  properties:
+  - name: errorCode
+    description: "  "
+    types:
+    - uid: integer
+  - name: trackingId
+    description: "  "
+    types:
+    - uid: string
+  - name: message
+    description: "  "
+    types:
+    - uid: string
+  - name: info
+    description: "  "
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: timestampUtc
+    description: "  "
+    types:
+    - uid: string
+- name: QuerySpecification
+  description: A Json query request
+  kind: object
+  properties:
+  - name: query
+    description: "  \nThe query."
+    types:
+    - uid: string
+- name: DeviceRegistrationState
+  description: Current registration status.
+  kind: object
+  properties:
+  - name: registrationId
+    description: "  \nRegistration ID."
+    types:
+    - uid: string
+  - name: createdDateTimeUtc
+    description: "  \nRegistration create date time (in UTC)."
+    types:
+    - uid: string
+  - name: assignedHub
+    description: "  \nAssigned Azure IoT Hub."
+    types:
+    - uid: string
+  - name: deviceId
+    description: "  \nDevice ID."
+    types:
+    - uid: string
+  - name: status
+    description: "  \nEnrollment status."
+    types:
+    - uid: unassigned
+    - uid: assigning
+    - uid: assigned
+    - uid: failed
+    - uid: disabled
+    typesTitle: enum
+  - name: errorCode
+    description: "  \nError code."
+    types:
+    - uid: integer
+  - name: errorMessage
+    description: "  \nError message."
+    types:
+    - uid: string
+  - name: lastUpdatedDateTimeUtc
+    description: "  \nLast updated date time (in UTC)."
+    types:
+    - uid: string
+  - name: etag
+    description: "  \nThe entity tag associated with the resource."
+    types:
+    - uid: string
+- name: AttestationMechanism
+  description: Attestation method used by the device.
+  kind: object
+  properties:
+  - name: type
+    description: "  "
+    types:
+    - uid: none
+    - uid: tpm
+    - uid: x509
+    typesTitle: enum
+  - name: tpm
+    description: "  \nAttestation via TPM."
+    types:
+    - uid: TpmAttestation
+  - name: x509
+    description: "  \nAttestation via X509."
+    types:
+    - uid: X509Attestation
+- name: InitialTwin
+  description: Initial device twin.
+  kind: object
+  properties:
+  - name: tags
+    description: "  \nTwin tags."
+    types:
+    - uid: TwinCollection
+  - name: properties
+    description: "  \nTwin desired properties."
+    types:
+    - uid: InitialTwinProperties
+- name: TpmAttestation
+  description: Attestation via TPM.
+  kind: object
+  properties:
+  - name: endorsementKey
+    description: "  "
+    types:
+    - uid: string
+  - name: storageRootKey
+    description: "  "
+    types:
+    - uid: string
+- name: X509Attestation
+  description: Attestation via X509.
+  kind: object
+  properties:
+  - name: clientCertificates
+    description: "  \nPrimary and secondary certificates"
+    types:
+    - uid: X509Certificates
+  - name: signingCertificates
+    description: "  \nPrimary and secondary certificates"
+    types:
+    - uid: X509Certificates
+  - name: caReferences
+    description: "  \nPrimary and secondary CA references."
+    types:
+    - uid: X509CAReferences
+- name: TwinCollection
+  description: Twin tags.
+  kind: object
+  properties:
+  - name: version
+    description: "  "
+    types:
+    - uid: integer
+  - name: count
+    description: "  "
+    types:
+    - uid: integer
+  - name: metadata
+    description: "  "
+    types:
+    - uid: Metadata
+- name: InitialTwinProperties
+  description: Twin desired properties.
+  kind: object
+  properties:
+  - name: desired
+    description: "  \nGets and sets the InitialTwin desired properties."
+    types:
+    - uid: TwinCollection
+- name: X509Certificates
+  description: Primary and secondary certificates
+  kind: object
+  properties:
+  - name: primary
+    description: "  \nCertificate and Certificate info"
+    types:
+    - uid: X509CertificateWithInfo
+  - name: secondary
+    description: "  \nCertificate and Certificate info"
+    types:
+    - uid: X509CertificateWithInfo
+- name: X509CAReferences
+  description: Primary and secondary CA references.
+  kind: object
+  properties:
+  - name: primary
+    description: "  "
+    types:
+    - uid: string
+  - name: secondary
+    description: "  "
+    types:
+    - uid: string
+- name: Metadata
+  kind: object
+  properties:
+  - name: lastUpdated
+    description: "  "
+    types:
+    - uid: string
+  - name: lastUpdatedVersion
+    description: "  \nThis SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata."
+    types:
+    - uid: integer
+- name: X509CertificateWithInfo
+  description: Certificate and Certificate info
+  kind: object
+  properties:
+  - name: certificate
+    description: "  "
+    types:
+    - uid: string
+  - name: info
+    description: "  \nX509 certificate info."
+    types:
+    - uid: X509CertificateInfo
+- name: X509CertificateInfo
+  description: X509 certificate info.
+  kind: object
+  properties:
+  - name: subjectName
+    description: "  "
+    types:
+    - uid: string
+  - name: sha1Thumbprint
+    description: "  "
+    types:
+    - uid: string
+  - name: sha256Thumbprint
+    description: "  "
+    types:
+    - uid: string
+  - name: issuerName
+    description: "  "
+    types:
+    - uid: string
+  - name: notBeforeUtc
+    description: "  "
+    types:
+    - uid: string
+  - name: notAfterUtc
+    description: "  "
+    types:
+    - uid: string
+  - name: serialNumber
+    description: "  "
+    types:
+    - uid: string
+  - name: version
+    description: "  "
+    types:
+    - uid: integer
+examples: []
+security: []

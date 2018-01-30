@@ -1,0 +1,73 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetworks.checkdnsnameavailability.checkdnsnameavailability
+name: Check Dns Name Availability
+service: Virtual Networks
+groupName: Check Dns Name Availability
+apiVersion: 2017-10-01
+summary: Checks whether a domain name in the cloudapp.azure.com zone is available for use.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability?domainNameLabel={domainNameLabel}&api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The location of the domain name.
+  types:
+  - uid: string
+- name: domainNameLabel
+  in: query
+  isRequired: true
+  description: 'The domain name to be verified. It must conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.'
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns whether the DNS name is available.
+  types:
+  - uid: DnsNameAvailabilityResult
+requestHeader: []
+definitions:
+- name: DnsNameAvailabilityResult
+  description: Response for the CheckDnsNameAvailability API service call.
+  kind: object
+  properties:
+  - name: available
+    description: "  \nDomain availability (True/False)."
+    types:
+    - uid: boolean
+examples:
+- name: Check Dns Name Availability
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/locations/westus/CheckDnsNameAvailability?domainNameLabel=testdns&api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "available": false
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

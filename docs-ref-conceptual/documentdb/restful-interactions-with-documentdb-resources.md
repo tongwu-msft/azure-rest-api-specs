@@ -1,7 +1,7 @@
 ---
 title: "RESTful interactions with Azure Cosmos DB resources"
 ms.custom: ""
-ms.date: "2016-08-30"
+ms.date: "01/08/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "cosmos-db"
@@ -25,9 +25,9 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Azure Cosmos DB: Azure Cosmos DB REST API
+# RESTful interactions with Azure Cosmos DB
 
-[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing document resources using the [DocumentDB API](/azure/cosmos-db/documentdb-introduction) via REST.  
+[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing document resources using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.  
 
   
  By reading this article, you'll be able to answer the following questions: 
@@ -41,7 +41,7 @@ translation.priority.mt:
  If you are looking for information on how to perform CRUD operations on specific resources using REST, see [Common tasks using the Azure Cosmos DB REST API](common-tasks-using-the-documentdb-rest-api.md). If you are looking for samples on how to perform CRUD operations using C# and REST, see the [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) on GitHub.  
   
 > [!NOTE]  
->  You can also perform CRUD operations on Cosmos DB resources using the Cosmos DB SDKs. For samples, see [Azure Cosmos DB examples](/azure/cosmos-db/documentdb-dotnet-samples). For links to the SDK downloads and documentation, see [Cosmos DB SDKs](/azure/cosmos-db/documentdb-sdk-dotnet).  
+>  You can also perform CRUD operations on Cosmos DB resources using the Cosmos DB SDKs. For samples, see [Azure Cosmos DB examples](/azure/cosmos-db/sql-api-dotnet-samples). For links to the SDK downloads and documentation, see [Cosmos DB SDKs](/azure/cosmos-db/sql-api-sdk-dotnet).  
   
 ## Overview of HTTP verbs  
 Azure Cosmos DB resources support the following HTTP verbs with their standard interpretation:  
@@ -206,12 +206,12 @@ Content-Type: application/json1
 |-|-|-|-|  
 |Connectivity Mode|Protocol|Details|Azure Cosmos DB SDKs|  
 |Gateway|HTTPS|Applications directly connect with the edge nodes using logical URIs. This incurs an extra network hop.|REST API, .NET, Node.js, Java, Python, JavaScript|  
-|Direct Connectivity|HTTPS and TCP|The applications can directly access the routing table and perform the client side routing to directly connect with replicas.|.NET|  
+|Direct Connectivity|HTTPS and TCP|The applications can directly access the routing table and perform the client side routing to directly connect with replicas.|.NET, Java|  
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
-* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
