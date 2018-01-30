@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis?api-version=2017-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01&expandApiVersionSet={expandApiVersionSet}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -69,9 +69,14 @@ uriParameters:
   description: Version of the API to be used with the client request.
   types:
   - uid: string
+- name: expandApiVersionSet
+  in: query
+  description: Include full ApiVersionSet resource in response
+  types:
+  - uid: boolean
 responses:
 - name: 200 OK
-  description: Paged Result reponse of Apis.
+  description: Paged Result response of Apis.
   types:
   - uid: ApiCollection
 - name: Other Status Codes
@@ -131,6 +136,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.apiVersionSet
+    description: "  \nAn API Version Set contains the common configuration for a set of API Versions relating "
+    types:
+    - uid: ApiVersionSetContract
   - name: id
     isReadyOnly: true
     description: "  \nResource ID."
@@ -166,14 +175,24 @@ definitions:
     description: "  \nDescribes the Revision of the Api. If no value is provided, default revision 1 is created"
     types:
     - uid: string
+  - name: properties.apiVersion
+    description: "  \nIndicates the Version identifier of the API if the API is versioned"
+    types:
+    - uid: string
   - name: properties.isCurrent
+    isReadyOnly: true
     description: "  \nIndicates if API revision is current api revision."
     types:
     - uid: boolean
   - name: properties.isOnline
+    isReadyOnly: true
     description: "  \nIndicates if API revision is accessible via the gateway."
     types:
     - uid: boolean
+  - name: properties.apiVersionSetId
+    description: "  \nA resource identifier for the related ApiVersionSet."
+    types:
+    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -188,6 +207,33 @@ definitions:
     - uid: string
   - name: target
     description: "  \nProperty name."
+    types:
+    - uid: string
+- name: ApiVersionSetContract
+  description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+  kind: object
+  properties:
+  - name: id
+    description: "  \nIdentifier for existing API Version Set. Omit this value to create a new Version Set."
+    types:
+    - uid: string
+  - name: description
+    description: "  \nDescription of API Version Set."
+    types:
+    - uid: string
+  - name: versioningScheme
+    description: "  \nAn value that determines where the API Version identifer will be located in a HTTP request."
+    types:
+    - uid: Segment
+    - uid: Query
+    - uid: Header
+    typesTitle: enum
+  - name: versionQueryName
+    description: "  \nName of query parameter that indicates the API Version if versioningScheme is set to `query`."
+    types:
+    - uid: string
+  - name: versionHeaderName
+    description: "  \nName of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`."
     types:
     - uid: string
 - name: AuthenticationSettingsContract

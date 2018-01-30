@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.apimanagement.apioperationpolicy.get
-name: Get
+uid: management.azure.com.apimanagement.apirelease.create
+name: Create
 service: API Management
-groupName: Api Operation Policy
+groupName: Api Release
 apiVersion: 2017-03-01
-summary: Get the policy configuration at the API Operation level.
+summary: Creates a new Release for the API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/policies/policy?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}?api-version=2017-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,23 +34,17 @@ uriParameters:
 - name: apiId
   in: path
   isRequired: true
-  description: API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+  description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
-- name: operationId
+- name: releaseId
   in: path
   isRequired: true
-  description: Operation identifier within an API. Must be unique in the current API Management service instance.
+  description: Release identifier within an API. Must be unique in the current API Management service instance.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
-- name: policyId
-  in: path
-  isRequired: true
-  description: The identifier of the Policy.
-  types:
-  - uid: PolicyIdName
 - name: api-version
   in: query
   isRequired: true
@@ -58,32 +52,52 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  headers:
-  - name: ETag
-    value: string
-  description: Api Operation Policy information.
+- name: 201 Created
+  description: Release was successfully created.
   types:
-  - uid: PolicyContract
+  - uid: ApiReleaseContract
+- name: 200 OK
+  description: Release was successfully updated.
+  types:
+  - uid: ApiReleaseContract
 - name: Other Status Codes
-  description: Error response describing why the operation failed.
+  description: Error response describing why the release failed.
   types:
   - uid: ErrorResponse
-requestHeader: []
-definitions:
-- name: PolicyIdName
-  description: The identifier of the Policy.
-  kind: enum
-  properties:
-  - name: policy
+requestBody:
+- parameters:
+  - name: properties.apiId
+    in: body
+    description: "  \nIdentifier of the API the release belongs to."
     types:
     - uid: string
-- name: PolicyContract
-  description: Policy Contract details.
+  - name: properties.notes
+    in: body
+    description: "  \nRelease Notes"
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ApiReleaseContract
+  description: Page values.
   kind: object
   properties:
-  - name: properties.policyContent
-    description: "  \nJson escaped Xml Encoded contents of the Policy."
+  - name: properties.apiId
+    description: "  \nIdentifier of the API the release belongs to."
+    types:
+    - uid: string
+  - name: properties.createdDate
+    isReadyOnly: true
+    description: "  \nThe time the API was released. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard."
+    types:
+    - uid: string
+  - name: properties.updatedDate
+    isReadyOnly: true
+    description: "  \nThe time the API release was updated."
+    types:
+    - uid: string
+  - name: properties.notes
+    description: "  \nRelease Notes"
     types:
     - uid: string
   - name: id
@@ -135,19 +149,15 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ApiManagementGetApiOperationPolicy
+- name: ApiManagementCreateApiRelease
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b539c53f5b0062040001/operations/5600b53ac53f5b0062080006/policies/policy?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5a5fcc09124a7fa9b89f2f1d/releases/{releaseId}?api-version=2017-03-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b539c53f5b0062040001/operations/5600b53ac53f5b0062080006/policies/policy",
-        "type": "Microsoft.ApiManagement/service/apis/operations/policies",
-        "name": "policy",
-        "properties": {
-          "policyContent": "<policies>\r\n  <inbound>\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n    <set-header name=\"X-My-Sample\" exists-action=\"override\">\r\n      <value>This is a sample</value>\r\n      <!-- for multiple headers with the same name add additional value elements -->\r\n    </set-header>\r\n    <jsonp callback-parameter-name=\"ProcessResponse\" />\r\n  </outbound>\r\n</policies>"
-        }
+        "apiId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5a5fcc09124a7fa9b89f2f1d",
+        "notes": "This is the latest revision"
       }
 security:
 - type: oauth2
