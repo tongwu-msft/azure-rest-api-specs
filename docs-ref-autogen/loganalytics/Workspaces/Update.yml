@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.loganalytics.workspaces.get
-name: Get
+uid: management.azure.com.loganalytics.workspaces.update
+name: Update
 service: Log Analytics
 groupName: Workspaces
 apiVersion: 2015-11-01-preview
-summary: Gets a workspace instance.
+summary: Updates a workspace.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}?api-version=2015-11-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}?api-version=2015-11-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,9 +27,10 @@ uriParameters:
 - name: workspaceName
   in: path
   isRequired: true
-  description: Name of the Log Analytics Workspace.
+  description: The name of the workspace.
   types:
   - uid: string
+  pattern: ^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$
 - name: api-version
   in: query
   isRequired: true
@@ -38,11 +39,70 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK response definition.
+  description: The existing workspace was successfully updated. Check provisioningStatus to see detailed status.
   types:
   - uid: Workspace
+requestBody:
+- parameters:
+  - name: eTag
+    in: body
+    description: "  \nThe ETag of the workspace."
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    in: body
+    description: "  \nThe provisioning state of the workspace."
+    types:
+    - uid: EntityStatus
+  - name: properties.source
+    in: body
+    description: "  \nThe source of the workspace.  Source defines where the workspace was created. 'Azure' implies it was created in Azure.  'External' implies it was created via the Operational Insights Portal. This value is set on the service side and read-only on the client side."
+    types:
+    - uid: string
+  - name: properties.customerId
+    in: body
+    description: "  \nThe ID associated with the workspace.  Setting this value at creation time allows the workspace being created to be linked to an existing workspace."
+    types:
+    - uid: string
+  - name: properties.portalUrl
+    in: body
+    description: "  \nThe URL of the Operational Insights portal for this workspace.  This value is set on the service side and read-only on the client side."
+    types:
+    - uid: string
+  - name: properties.sku
+    in: body
+    description: "  \nThe SKU of the workspace."
+    types:
+    - uid: Sku
+  - name: properties.retentionInDays
+    in: body
+    description: "  \nThe workspace data retention in days. -1 means Unlimited retention for the Unlimited Sku. 730 days is the maximum allowed for all other Skus. "
+    types:
+    - uid: integer
+  - name: location
+    in: body
+    description: "  \nResource location"
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: "  \nResource tags"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 requestHeader: []
 definitions:
+- name: Sku
+  description: The SKU (tier) of a workspace.
+  kind: object
+  properties:
+  - name: name
+    description: "  \nThe name of the SKU."
+    types:
+    - uid: SkuNameEnum
 - name: Workspace
   description: The top level Workspace resource container.
   kind: object
@@ -102,36 +162,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: EntityStatus
-  description: The provisioning state of the workspace.
-  kind: enum
-  properties:
-  - name: Creating
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Canceled
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-  - name: ProvisioningAccount
-    types:
-    - uid: string
-- name: Sku
-  description: The SKU (tier) of a workspace.
-  kind: object
-  properties:
-  - name: name
-    description: "  \nThe name of the SKU."
-    types:
-    - uid: SkuNameEnum
 - name: SkuNameEnum
   description: The name of the SKU.
   kind: enum
@@ -154,47 +184,54 @@ definitions:
   - name: Standalone
     types:
     - uid: string
+- name: EntityStatus
+  description: The provisioning state of the workspace.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: ProvisioningAccount
+    types:
+    - uid: string
 examples:
-- name: WorkspaceGet
+- name: WorkspacesPatch
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685?api-version=2015-11-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685?api-version=2015-11-01-preview
+    body: >-
+      {
+        "properties": {
+          "customerId": "6c576b6a-75d3-4ff9-bc23-28d524e52f5b"
+        },
+        "location": "australiasoutheast"
+      }
   responses:
   - statusCode: "200"
     body: >-
-      [
-        {
-          "properties": {
-            "source": "Azure",
-            "customerId": "5b02755b-5bf4-430c-9487-45502a2a7e62",
-            "portalUrl": "https://eus.mms.microsoft.com/Account?tenant=72f988bf-86f1-41af-91ab-2d7cd011db47&resource=%2fsubscriptions%2f594038b5-1093-476e-a366-482775671c11%2fresourcegroups%2fcalbot-rg%2fproviders%2fmicrosoft.operationalinsights%2fworkspaces%2ftestresourcelock",
-            "provisioningState": "Succeeded",
-            "sku": {
-              "name": "free"
-            },
-            "retentionInDays": 7
+      {
+        "properties": {
+          "sku": {
+            "name": "PerNode"
           },
-          "id": "/subscriptions/594038b5-1093-476e-a366-482775671c11/resourcegroups/calbot-rg/providers/microsoft.operationalinsights/workspaces/testresourcelock",
-          "name": "TestResourceLock",
-          "type": "Microsoft.OperationalInsights/workspaces",
-          "location": "eastus"
+          "retentionInDays": 30
         },
-        {
-          "properties": {
-            "source": "External",
-            "customerId": "4884a2fd-b08f-4aa6-bf16-5757df1093fe",
-            "portalUrl": "https://eus.mms.microsoft.com/Account?tenant=72f988bf-86f1-41af-91ab-2d7cd011db47&resource=%2fsubscriptions%2f594038b5-1093-476e-a366-482775671c11%2fresourcegroups%2fmms-eus%2fproviders%2fmicrosoft.operationalinsights%2fworkspaces%2fsouthukws",
-            "provisioningState": "Succeeded",
-            "sku": {
-              "name": "free"
-            },
-            "retentionInDays": 7
-          },
-          "id": "/subscriptions/594038b5-1093-476e-a366-482775671c11/resourcegroups/mms-eus/providers/microsoft.operationalinsights/workspaces/southukws",
-          "name": "SouthUKWS",
-          "type": "Microsoft.OperationalInsights/workspaces",
-          "location": "East US"
+        "location": "australiasoutheast",
+        "tags": {
+          "tag1": "val1"
         }
-      ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
