@@ -3,21 +3,21 @@ uid: management.azure.com.consumption.usagedetails.list
 name: List
 service: Consumption
 groupName: Usage Details
-apiVersion: 2017-11-30
+apiVersion: 2018-01-31
 summary: Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2017-11-30
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&api-version=2017-11-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-01-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&api-version=2018-01-31
   isOptional: true
 uriParameters:
-- name: scope
+- name: subscriptionId
   in: path
   isRequired: true
-  description: The scope of the usage details. The scope can be '/subscriptions/{subscriptionId}' for a subscription, or '/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}' for a billing perdiod.
+  description: Azure Subscription ID.
   types:
   - uid: string
 - name: $expand
@@ -43,7 +43,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2017-11-30.
+  description: Version of the API to be used with the client request. The current version is 2018-01-31.
   types:
   - uid: string
 responses:
@@ -272,43 +272,9 @@ definitions:
     types:
     - uid: number
 examples:
-- name: UsageDetailsListForBillingPeriod
-  request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?api-version=2017-11-30
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "id": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
-            "type": "Microsoft.Consumption/usageDetails",
-            "tags": {
-              "env": "newcrp",
-              "dev": "tools"
-            },
-            "properties": {
-              "billingPeriodId": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/subscriptions/subid/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/subid/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41"
-            }
-          }
-        ]
-      }
 - name: UsageDetailsList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Consumption/usageDetails?api-version=2017-11-30
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Consumption/usageDetails?api-version=2018-01-31
   responses:
   - statusCode: "200"
     body: >-
@@ -336,56 +302,6 @@ examples:
               "pretaxCost": 0.67,
               "isEstimated": false,
               "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41"
-            }
-          }
-        ]
-      }
-- name: UsageDetailsExpand
-  request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?$expand=meterDetails,additionalProperties&$filter=usageEnd le 2017-02-14T00:00:00Z&$top=1&api-version=2017-11-30
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "id": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
-            "type": "Microsoft.Consumption/usageDetails",
-            "tags": {
-              "env": "newcrp",
-              "dev": "tools"
-            },
-            "properties": {
-              "billingPeriodId": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/subscriptions/subid/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/subid/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41",
-              "meterDetails": {
-                "meterName": "Data Transfer Out (GB)",
-                "meterCategory": "Networking",
-                "unit": "GB",
-                "meterLocation": "Zone 2",
-                "totalIncludedQuantity": 0,
-                "pretaxStandardRate": 0.138
-              },
-              "subscriptionGuid": "fe167397-a38d-43c3-9bb3-8e2907e56a41",
-              "subscriptionName": "Dummy subscription",
-              "accountName": "My account name",
-              "departmentName": "My department name",
-              "product": "My product name",
-              "consumedService": "My consumed service",
-              "costCenter": "Cost center 1",
-              "additionalProperties": "{\"MyType\":\"\",\"ServiceType\":\"\",\"VMName\":\"\",\"UsageType\":\"MyUsage\"}"
             }
           }
         ]

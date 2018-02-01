@@ -1,0 +1,224 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.pricesheet.list
+name: List
+service: Consumption
+groupName: Price Sheet
+apiVersion: 2018-01-31
+summary: Lists the price sheet for a scope by subscriptionId. Price sheets are available via this API only for May 1, 2014 or later.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/pricesheets/default?api-version=2018-01-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/pricesheets/default?$expand={$expand}&$skiptoken={$skiptoken}&api-version=2018-01-31
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: May be used to expand the properties/meterDetails within a price sheet. By default, these fields are not included when returning price sheet.
+  types:
+  - uid: string
+- name: $skiptoken
+  in: query
+  description: Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-01-31.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: PriceSheetListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PriceSheetListResult
+  description: price sheet result. It contains the pricesheet associated with billing period
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: "  \nAn pricesheet resource."
+    types:
+    - uid: PriceSheetModel
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: "  \nThe link (url) to the next page of results."
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: "  \nThe details of the error."
+    types:
+    - uid: ErrorDetails
+- name: PriceSheetModel
+  description: Price sheet
+  kind: object
+  properties:
+  - name: properties.billingPeriodId
+    isReadyOnly: true
+    description: "  \nThe id of the billing period resource that the usage belongs to."
+    types:
+    - uid: string
+  - name: properties.meterId
+    isReadyOnly: true
+    description: "  \nThe meter id"
+    types:
+    - uid: string
+  - name: properties.meterDetails
+    isReadyOnly: true
+    description: "  \nThe details about the meter. By default this is not populated, unless it's specified in $expand."
+    types:
+    - uid: MeterDetails
+  - name: properties.unitOfMeasure
+    isReadyOnly: true
+    description: "  \nUnit of measure"
+    types:
+    - uid: string
+  - name: properties.includedQuantity
+    isReadyOnly: true
+    description: "  \nIncluded quality for an offer"
+    types:
+    - uid: number
+  - name: properties.partNumber
+    isReadyOnly: true
+    description: "  \nPart Number"
+    types:
+    - uid: string
+  - name: properties.unitPrice
+    isReadyOnly: true
+    description: "  \nUnit Price"
+    types:
+    - uid: number
+  - name: properties.currencyCode
+    isReadyOnly: true
+    description: "  \nCurrency Code"
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: "  \nResource Id."
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: "  \nResource name."
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: "  \nResource type."
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: "  \nResource tags."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: "  \nError code."
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: "  \nError message indicating why the operation failed."
+    types:
+    - uid: string
+- name: MeterDetails
+  description: The properties of the meter detail.
+  kind: object
+  properties:
+  - name: meterName
+    isReadyOnly: true
+    description: "  \nThe name of the meter, within the given meter category"
+    types:
+    - uid: string
+  - name: meterCategory
+    isReadyOnly: true
+    description: "  \nThe category of the meter, for example, 'Cloud services', 'Networking', etc.."
+    types:
+    - uid: string
+  - name: meterSubCategory
+    isReadyOnly: true
+    description: "  \nThe subcategory of the meter, for example, 'A6 Cloud services', 'ExpressRoute (IXP)', etc.."
+    types:
+    - uid: string
+  - name: unit
+    isReadyOnly: true
+    description: "  \nThe unit in which the meter consumption is charged, for example, 'Hours', 'GB', etc."
+    types:
+    - uid: string
+  - name: meterLocation
+    isReadyOnly: true
+    description: "  \nThe location in which the Azure service is available."
+    types:
+    - uid: string
+  - name: totalIncludedQuantity
+    isReadyOnly: true
+    description: "  \nThe total included quantity associated with the offer."
+    types:
+    - uid: number
+  - name: pretaxStandardRate
+    isReadyOnly: true
+    description: "  \nThe pretax listing price."
+    types:
+    - uid: number
+examples:
+- name: PriceSheet
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/pricesheets/default?api-version=2018-01-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": {
+          "id": "/subscriptions/subid/providers/Microsoft.Consumption/pricesheets/default",
+          "name": "default",
+          "type": "Microsoft.Consumption/pricesheet",
+          "properties": {
+            "billingPeriodId": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702",
+            "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41",
+            "unitOfMeasure": "100 Hours",
+            "includedQuantity": 100,
+            "partNumber": "AB-11110",
+            "unitPrice": 0.00328,
+            "currencyCode": "EUR"
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
