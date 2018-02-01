@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.consumption.usagedetails.list
-name: List
+uid: management.azure.com.consumption.marketplaces.listbybillingperiod
+name: List By Billing Period
 service: Consumption
-groupName: Usage Details
+groupName: Marketplaces
 apiVersion: 2018-01-31
-summary: Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+summary: Lists the marketplaces for a scope by billing period and subscripotionId. Marketplaces are available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-01-31
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&api-version=2018-01-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces?api-version=2018-01-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces?$filter={$filter}&$top={$top}&$skiptoken={$skiptoken}&api-version=2018-01-31
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -20,26 +20,27 @@ uriParameters:
   description: Azure Subscription ID.
   types:
   - uid: string
-- name: $expand
-  in: query
-  description: May be used to expand the properties/additionalProperties or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
+- name: billingPeriodName
+  in: path
+  isRequired: true
+  description: Billing Period Name.
   types:
   - uid: string
 - name: $filter
   in: query
-  description: May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
+  description: May be used to filter marketplaces by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
   types:
   - uid: string
+- name: $top
+  in: query
+  description: May be used to limit the number of results to the most recent N marketplaces.
+  types:
+  - uid: integer
 - name: $skiptoken
   in: query
   description: Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
   types:
   - uid: string
-- name: $top
-  in: query
-  description: May be used to limit the number of results to the most recent N usageDetails.
-  types:
-  - uid: integer
 - name: api-version
   in: query
   isRequired: true
@@ -50,22 +51,22 @@ responses:
 - name: 200 OK
   description: OK. The request has succeeded.
   types:
-  - uid: UsageDetailsListResult
+  - uid: MarketplacesListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: UsageDetailsListResult
-  description: Result of listing usage details. It contains a list of available usage details in reverse chronological order by billing period.
+- name: MarketplacesListResult
+  description: Result of listing marketplaces. It contains a list of available marketplaces in reverse chronological order by billing period.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
-    description: "  \nAn usage detail resource."
+    description: "  \nAn marketplace resource."
     types:
-    - uid: UsageDetail
+    - uid: Marketplace
       isArray: true
   - name: nextLink
     isReadyOnly: true
@@ -80,18 +81,13 @@ definitions:
     description: "  \nThe details of the error."
     types:
     - uid: ErrorDetails
-- name: UsageDetail
-  description: An usage detail resource.
+- name: Marketplace
+  description: An marketplace resource.
   kind: object
   properties:
   - name: properties.billingPeriodId
     isReadyOnly: true
     description: "  \nThe id of the billing period resource that the usage belongs to."
-    types:
-    - uid: string
-  - name: properties.invoiceId
-    isReadyOnly: true
-    description: "  \nThe id of the invoice resource that the usage belongs to."
     types:
     - uid: string
   - name: properties.usageStart
@@ -104,6 +100,26 @@ definitions:
     description: "  \nThe end of the date time range covered by the usage detail."
     types:
     - uid: string
+  - name: properties.resourceRate
+    isReadyOnly: true
+    description: "  \nThe marketplace resource rate."
+    types:
+    - uid: number
+  - name: properties.offerName
+    isReadyOnly: true
+    description: "  \nThe type of offer."
+    types:
+    - uid: string
+  - name: properties.resourceGroup
+    isReadyOnly: true
+    description: "  \nThe name of resource group."
+    types:
+    - uid: string
+  - name: properties.orderNumber
+    isReadyOnly: true
+    description: "  \nThe order number."
+    types:
+    - uid: string
   - name: properties.instanceName
     isReadyOnly: true
     description: "  \nThe name of the resource instance that the usage is about."
@@ -114,26 +130,21 @@ definitions:
     description: "  \nThe uri of the resource instance that the usage is about."
     types:
     - uid: string
-  - name: properties.instanceLocation
-    isReadyOnly: true
-    description: "  \nThe location of the resource instance that the usage is about."
-    types:
-    - uid: string
   - name: properties.currency
     isReadyOnly: true
     description: "  \nThe ISO currency in which the meter is charged, for example, USD."
     types:
     - uid: string
-  - name: properties.usageQuantity
+  - name: properties.consumedQuantity
     isReadyOnly: true
     description: "  \nThe quantity of usage."
     types:
     - uid: number
-  - name: properties.billableQuantity
+  - name: properties.unitOfMeasure
     isReadyOnly: true
-    description: "  \nThe billable usage quantity."
+    description: "  \nThe unit of measure."
     types:
-    - uid: number
+    - uid: string
   - name: properties.pretaxCost
     isReadyOnly: true
     description: "  \nThe amount of cost before tax."
@@ -149,11 +160,6 @@ definitions:
     description: "  \nThe meter id."
     types:
     - uid: string
-  - name: properties.meterDetails
-    isReadyOnly: true
-    description: "  \nThe details about the meter. By default this is not populated, unless it's specified in $expand."
-    types:
-    - uid: MeterDetails
   - name: properties.subscriptionGuid
     isReadyOnly: true
     description: "  \nSubscription guid."
@@ -174,11 +180,6 @@ definitions:
     description: "  \nDepartment name."
     types:
     - uid: string
-  - name: properties.product
-    isReadyOnly: true
-    description: "  \nProduct name."
-    types:
-    - uid: string
   - name: properties.consumedService
     isReadyOnly: true
     description: "  \nConsumed service name."
@@ -192,6 +193,16 @@ definitions:
   - name: properties.additionalProperties
     isReadyOnly: true
     description: "  \nAdditional details of this usage item. By default this is not populated, unless it's specified in $expand."
+    types:
+    - uid: string
+  - name: properties.publisherName
+    isReadyOnly: true
+    description: "  \nThe name of publisher."
+    types:
+    - uid: string
+  - name: properties.planName
+    isReadyOnly: true
+    description: "  \nThe name of plan."
     types:
     - uid: string
   - name: id
@@ -232,76 +243,42 @@ definitions:
     description: "  \nError message indicating why the operation failed."
     types:
     - uid: string
-- name: MeterDetails
-  description: The properties of the meter detail.
-  kind: object
-  properties:
-  - name: meterName
-    isReadyOnly: true
-    description: "  \nThe name of the meter, within the given meter category"
-    types:
-    - uid: string
-  - name: meterCategory
-    isReadyOnly: true
-    description: "  \nThe category of the meter, for example, 'Cloud services', 'Networking', etc.."
-    types:
-    - uid: string
-  - name: meterSubCategory
-    isReadyOnly: true
-    description: "  \nThe subcategory of the meter, for example, 'A6 Cloud services', 'ExpressRoute (IXP)', etc.."
-    types:
-    - uid: string
-  - name: unit
-    isReadyOnly: true
-    description: "  \nThe unit in which the meter consumption is charged, for example, 'Hours', 'GB', etc."
-    types:
-    - uid: string
-  - name: meterLocation
-    isReadyOnly: true
-    description: "  \nThe location in which the Azure service is available."
-    types:
-    - uid: string
-  - name: totalIncludedQuantity
-    isReadyOnly: true
-    description: "  \nThe total included quantity associated with the offer."
-    types:
-    - uid: number
-  - name: pretaxStandardRate
-    isReadyOnly: true
-    description: "  \nThe pretax listing price."
-    types:
-    - uid: number
 examples:
-- name: UsageDetailsList
+- name: MarketplacesListForBillingPeriod
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Consumption/usageDetails?api-version=2018-01-31
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-4a5f-88ca-5fce9a69faa0/providers/Microsoft.Billing/billingPeriods/201801/providers/Microsoft.Consumption/marketplaces?api-version=2018-01-31
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subid/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
-            "type": "Microsoft.Consumption/usageDetails",
+            "id": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/marketPlaces/marketplacesId1",
+            "name": "marketplacesId1",
+            "type": "Microsoft.Consumption/marketPlaces",
             "tags": {
               "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
               "billingPeriodId": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/subscriptions/subid/providers/Microsoft.Billing/invoices/201703-123456789",
               "usageStart": "2017-02-13T00:00:00Z",
               "usageEnd": "2017-02-13T23:59:59Z",
               "instanceName": "shared1",
               "instanceId": "/subscriptions/subid/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
               "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
+              "consumedQuantity": 0.00328,
               "pretaxCost": 0.67,
               "isEstimated": false,
-              "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41"
+              "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41",
+              "offerName": "offer1",
+              "resourceGroup": "TEST",
+              "orderNumber": "4ca79679-0000-0000-bfe5-b8ca1ff80e2b",
+              "publisherName": "xyz",
+              "planName": "plan2",
+              "resourceRate": 0.24,
+              "subscriptionGuid": "00000000-0000-4a5f-88ca-5fce9a69faa0",
+              "subscriptionName": "azure subscription"
             }
           }
         ]
