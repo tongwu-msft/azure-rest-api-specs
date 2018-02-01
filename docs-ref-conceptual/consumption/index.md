@@ -47,7 +47,8 @@ Azure Consumption APIs provide access to:
 
 ## Working with billing periods and date ranges
 [Usage Details](~/docs-ref-autogen/consumption/UsageDetails.yml) and [Marketplace Charges](~/docs-ref-autogen/consumption/Marketplaces.yml) accept billing period or date ranges for defining the start and end dates for the usage data.
-Here is the API behavior
+
+Here is the API behavior based on billing periods and date ranges in request.
 
 | Billing period present in request | Start date present in request | End date present in request | API behavior |
 |-----------------------------------|-------------------------------|-----------------------------|----------------------------|
@@ -63,9 +64,10 @@ Here is the API behavior
 ### Getting list of billing periods
 For providing a valid billing period in request, client should first get a list of available billing periods by subscription, using following API
 
-       ` https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods?api-version=2017-04-24-preview.`
+        https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods?api-version=2017-04-24-preview.
 
 Using this list, client can pick a specific billing period to get consumption data.
+
 
 
 
