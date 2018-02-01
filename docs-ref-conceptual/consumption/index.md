@@ -37,7 +37,7 @@ Azure Consumption APIs provide access to:
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Budgets](~/docs-ref-autogen/consumption/Budgets.yml) | Provides operations to set, update and delete budgets at a Subscription or resource group scope. Supports cost and usage budgets.
+| [Budgets](~/docs-ref-autogen/consumption/Budgets.yml) | Provides operations to set, update, and delete budgets at a Subscription or resource group scope. Supports cost and usage budgets.
   [Price Sheet](~/docs-ref-autogen/consumption/PriceSheet.yml) | For Enterprise Subscriptions, an API to get the current price sheet.
   [Marketplace Charges](~/docs-ref-autogen/consumption/Marketplaces.yml) | Provides operations to get usage information for marketplace resources on subscription.
   [Usage Details](~/docs-ref-autogen/consumption/UsageDetails.yml) | Provides operations to get usage information on subscription. |
@@ -46,7 +46,7 @@ Azure Consumption APIs provide access to:
 
 
 ## Working with billing periods and date ranges
-[Usage Details](~/docs-ref-autogen/consumption/UsageDetails.yml) and [Marketplace Charges](~/docs-ref-autogen/consumption/Marketplaces.yml) accepts billing period or date ranges for defining the start and end dates for the usage data.
+[Usage Details](~/docs-ref-autogen/consumption/UsageDetails.yml) and [Marketplace Charges](~/docs-ref-autogen/consumption/Marketplaces.yml) accept billing period or date ranges for defining the start and end dates for the usage data.
 Here is the API behavior
 
 | Billing period present in request | Start date present in request | End date present in request | API behavior |
