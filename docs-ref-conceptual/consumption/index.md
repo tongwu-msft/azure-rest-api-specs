@@ -64,7 +64,7 @@ Here is the API behavior based on billing periods and date ranges in request.
 ### Getting list of billing periods
 For providing a valid billing period in request, client should first get a list of available billing periods by subscription, using following API
 
-        https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods?api-version=2017-04-24-preview.
+       GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods?api-version=2017-04-24-preview
 
 Using this list, client can pick a specific billing period to get consumption data.
 
