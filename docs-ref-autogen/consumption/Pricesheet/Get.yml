@@ -1,29 +1,23 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.consumption.pricesheet.listbybillingperiod
-name: List By Billing Period
+uid: management.azure.com.consumption.pricesheet.get
+name: Get
 service: Consumption
-groupName: Price Sheet
+groupName: Pricesheet
 apiVersion: 2018-01-31
-summary: Lists the price sheet for a scope by subscriptionId and billing period. Price sheets are available via this API only for May 1, 2014 or later.
+summary: Gets the price sheet for a scope by subscriptionId. Price sheet is available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/pricesheets/default?api-version=2018-01-31
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/pricesheets/default?$expand={$expand}&$skiptoken={$skiptoken}&api-version=2018-01-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/pricesheets/default?api-version=2018-01-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/pricesheets/default?$expand={$expand}&$skiptoken={$skiptoken}&api-version=2018-01-31
   isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: Azure Subscription ID.
-  types:
-  - uid: string
-- name: billingPeriodName
-  in: path
-  isRequired: true
-  description: Billing Period Name.
   types:
   - uid: string
 - name: $expand
@@ -46,14 +40,14 @@ responses:
 - name: 200 OK
   description: OK. The request has succeeded.
   types:
-  - uid: PriceSheetListResult
+  - uid: PriceSheetResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: PriceSheetListResult
+- name: PriceSheetResult
   description: price sheet result. It contains the pricesheet associated with billing period
   kind: object
   properties:
@@ -198,59 +192,25 @@ definitions:
     types:
     - uid: number
 examples:
-- name: PriceSheetForBillingPeriod
+- name: PriceSheet
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201801/providers/Microsoft.Consumption/pricesheets/default?api-version=2018-01-31
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/pricesheets/default?api-version=2018-01-31
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": {
-          "id": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/pricesheets/default",
-          "name": "pricesheets",
-          "type": "Microsoft.Consumption/pricesheets",
-          "tags": [],
-          "properties": [
-            {
-              "billingPeriodId": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702",
-              "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41",
-              "unitOfMeasure": "100 Hours",
-              "includedQuantity": 100,
-              "partNumber": "AB-11110",
-              "unitPrice": 0.00328,
-              "currencyCode": "EUR"
-            }
-          ]
-        }
-      }
-- name: PriceSheetExpand
-  request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201801/providers/Microsoft.Consumption/pricesheets/default?$expand=meterDetails&api-version=2018-01-31
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": {
-          "id": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/pricesheets/default",
-          "name": "pricesheets",
-          "type": "Microsoft.Consumption/pricesheets",
-          "tags": [],
+          "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/pricesheets/default",
+          "name": "default",
+          "type": "Microsoft.Consumption/pricesheet",
           "properties": {
-            "billingPeriodId": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702",
+            "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
             "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41",
             "unitOfMeasure": "100 Hours",
             "includedQuantity": 100,
             "partNumber": "AB-11110",
             "unitPrice": 0.00328,
-            "currencyCode": "EUR",
-            "meterDetails": {
-              "meterName": "Data Transfer Out (GB)",
-              "meterCategory": "Networking",
-              "unit": "GB",
-              "meterLocation": "Zone 2",
-              "totalIncludedQuantity": 0,
-              "pretaxStandardRate": 0.138
-            }
+            "currencyCode": "EUR"
           }
         }
       }
