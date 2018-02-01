@@ -61,6 +61,8 @@ Here is the API behavior based on billing periods and date ranges in request.
 | yes | no | yes | Data for specified billing period is returned in response |
 | yes | yes | yes | Data for specified Start and End Date is returned in response, supplied billing period is ignored |
 
+Maximum allowed date range is 12 months in one request and data is available from May 1, 2014 or later.
+
 ### Getting list of billing periods
 For providing a valid billing period in request, client should first get a list of available billing periods by subscription, using following API
 
