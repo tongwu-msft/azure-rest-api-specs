@@ -55,11 +55,11 @@ Here is the API behavior based on billing periods and date ranges in request.
 | no | no | no | Data for current billing period is returned in response |
 | no | yes | no | Data for current billing period is returned in response |
 | no | no | yes | Data for current billing period is returned in response |
-| no | yes | yes | Data for specified Start and End Date is returned response |
+| no | yes | yes | Data for specified Start and End Date is returned in response |
 | yes | no | no | Data for specified billing period is returned in response |
 | yes | yes | no | Data for specified billing period is returned in response |
 | yes | no | yes | Data for specified billing period is returned in response |
-| yes | yes | yes | Data for specified Start and End Date is returned response, supplied billing period is ignored |
+| yes | yes | yes | Data for specified Start and End Date is returned in response, supplied billing period is ignored |
 
 ### Getting list of billing periods
 For providing a valid billing period in request, client should first get a list of available billing periods by subscription, using following API
