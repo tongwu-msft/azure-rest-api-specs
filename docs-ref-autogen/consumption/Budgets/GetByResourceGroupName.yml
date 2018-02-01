@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.consumption.budgets-preview.get
-name: Get
+uid: management.azure.com.consumption.budgets.getbyresourcegroupname
+name: Get By Resource Group Name
 service: Consumption
-groupName: Budgets-Preview
-apiVersion: 2017-12-30-preview
-summary: Gets the budget for a subscription by budget name.
+groupName: Budgets
+apiVersion: 2018-01-31
+summary: Gets the budget for a resource group under a subscription by budget name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/budgets/{name}?api-version=2017-12-30-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Consumption/budgets/{budgetName}?api-version=2018-01-31
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,16 +18,22 @@ uriParameters:
   description: Azure Subscription ID.
   types:
   - uid: string
-- name: name
+- name: resourceGroupName
   in: path
   isRequired: true
-  description: Budget name.
+  description: Azure Resource Group Name.
+  types:
+  - uid: string
+- name: budgetName
+  in: path
+  isRequired: true
+  description: Budget Name.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2017-12-30-preview.
+  description: Version of the API to be used with the client request. The current version is 2018-01-31.
   types:
   - uid: string
 responses:
@@ -46,7 +52,7 @@ definitions:
   kind: object
   properties:
   - name: properties.category
-    description: "  \nThe category of the budget, whether the budget tracks cost or something else."
+    description: "  \nThe category of the budget, whether the budget tracks cost or usage."
     types:
     - uid: CategoryType
   - name: properties.amount
@@ -61,6 +67,10 @@ definitions:
     description: "  \nHas start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than three months. Past start date should  be selected within the timegrain preiod. There are no restrictions on the end date."
     types:
     - uid: BudgetTimePeriod
+  - name: properties.filters
+    description: "  \nMay be used to filter budgets by resource group, resource, or meter."
+    types:
+    - uid: Filters
   - name: properties.currentSpend
     isReadyOnly: true
     description: "  \nThe current amount of cost which is being tracked for a budget."
@@ -102,10 +112,13 @@ definitions:
     types:
     - uid: ErrorDetails
 - name: CategoryType
-  description: The category of the budget, whether the budget tracks cost or something else.
+  description: The category of the budget, whether the budget tracks cost or usage.
   kind: enum
   properties:
   - name: Cost
+    types:
+    - uid: string
+  - name: Usage
     types:
     - uid: string
 - name: TimeGrainType
@@ -133,6 +146,25 @@ definitions:
     description: "  \nThe end date for the budget. If not provided, we default this to 10 years from the start date."
     types:
     - uid: string
+- name: Filters
+  description: May be used to filter budgets by resource group, resource, or meter.
+  kind: object
+  properties:
+  - name: resourceGroups
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+  - name: resources
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
+  - name: meters
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
 - name: CurrentSpend
   description: The current amount of cost which is being tracked for a budget.
   kind: object
@@ -195,6 +227,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: contactGroups
+    description: "  "
+    types:
+    - uid: string
+      isArray: true
 - name: OperatorType
   description: The comparison operator.
   kind: enum
@@ -211,7 +248,7 @@ definitions:
 examples:
 - name: Budget
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Consumption/budgets/TestBudget?api-version=2017-12-30-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MPDEVTESTRG/providers/Microsoft.Consumption/budgets/TestBudget?api-version=2018-01-31
   responses:
   - statusCode: "200"
     body: >-
@@ -227,6 +264,18 @@ examples:
           "timePeriod": {
             "startDate": "2017-10-01T00:00:00Z",
             "endDate": "2018-10-31T00:00:00Z"
+          },
+          "filters": {
+            "resourceGroups": [
+              "MPDEVTESTRG"
+            ],
+            "resources": [
+              "/subscriptions/{subscription-id}/resourceGroups/MPDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MSAWSIFT2",
+              "/subscriptions/{subscription-id}/resourceGroups/MPDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"
+            ],
+            "meters": [
+              "fe167397-a38d-43c3-9bb3-8e2907e56a41"
+            ]
           },
           "currentSpend": {
             "amount": 80.89,
@@ -244,6 +293,9 @@ examples:
               "contactRoles": [
                 "Contributor",
                 "Reader"
+              ],
+              "contactGroups": [
+                "/subscriptions/{subscription-id}/resourceGroups/MPDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"
               ]
             }
           }
