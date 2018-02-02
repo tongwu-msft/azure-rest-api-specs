@@ -1,0 +1,132 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storsimple.accesscontrolrecords.listbymanager
+name: List By Manager
+service: StorSimple
+groupName: Access Control Records
+apiVersion: 2017-06-01
+summary: Retrieves all the access control records in a manager.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/accessControlRecords?api-version=2017-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name
+  types:
+  - uid: string
+- name: managerName
+  in: path
+  isRequired: true
+  description: The manager name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The collection of access control records.
+  types:
+  - uid: AccessControlRecordList
+requestHeader: []
+definitions:
+- name: AccessControlRecordList
+  description: The collection of access control records.
+  kind: object
+  properties:
+  - name: value
+    description: The access control record.
+    types:
+    - uid: AccessControlRecord
+      isArray: true
+- name: AccessControlRecord
+  description: The access control record.
+  kind: object
+  properties:
+  - name: properties.initiatorName
+    description: The iSCSI initiator name (IQN).
+    types:
+    - uid: string
+  - name: properties.volumeCount
+    isReadyOnly: true
+    description: The number of volumes using the access control record.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the object.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+  - name: kind
+    description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - name: Series8000
+    types:
+    - uid: string
+examples:
+- name: AccessControlRecordsListByManager
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/accessControlRecords?api-version=2017-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "initiatorName": "iqn.1991-05.com.microsoft:test1",
+              "volumeCount": 1
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/accessControlRecords/ACR2",
+            "name": "ACR2",
+            "type": "Microsoft.StorSimple/managers/accessControlRecords",
+            "kind": "Series8000"
+          },
+          {
+            "properties": {
+              "initiatorName": "iqn.1991-05.com.microsoft:test2",
+              "volumeCount": 1
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/accessControlRecords/ACR1",
+            "name": "ACR1",
+            "type": "Microsoft.StorSimple/managers/accessControlRecords",
+            "kind": "Series8000"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

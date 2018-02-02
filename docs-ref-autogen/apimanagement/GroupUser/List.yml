@@ -1,0 +1,318 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.groupuser.list
+name: List
+service: API Management
+groupName: Group User
+apiVersion: 2017-03-01
+summary: Lists a collection of the members of the group, specified by its identifier.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users?api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: groupId
+  in: path
+  isRequired: true
+  description: Group identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+- name: $filter
+  in: query
+  description: >-
+    | Field            | Supported operators    | Supported functions               |
+
+    |------------------|------------------------|-----------------------------------|
+
+    | id               | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+
+    | firstName        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+
+    | lastName         | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+
+    | email            | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+
+    | state            | eq                     | N/A                               |
+
+    | registrationDate | ge, le, eq, ne, gt, lt | N/A                               |
+
+    | note             | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: Number of records to return.
+  types:
+  - uid: integer
+  format: int32
+- name: $skip
+  in: query
+  description: Number of records to skip.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Lists a collection of user entities associated with the group.
+  types:
+  - uid: UserCollection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: UserCollection
+  description: Paged Users list representation.
+  kind: object
+  properties:
+  - name: value
+    description: User details.
+    types:
+    - uid: UserContract
+      isArray: true
+  - name: nextLink
+    description: Next page link if any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error Field contract.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: UserContract
+  description: User details.
+  kind: object
+  properties:
+  - name: properties.firstName
+    description: First name.
+    types:
+    - uid: string
+  - name: properties.lastName
+    description: Last name.
+    types:
+    - uid: string
+  - name: properties.email
+    description: Email address.
+    types:
+    - uid: string
+  - name: properties.registrationDate
+    description: 'Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+    types:
+    - uid: string
+  - name: properties.groups
+    isReadyOnly: true
+    description: Contract details.
+    types:
+    - uid: GroupContract
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+  - name: properties.state
+    description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
+    types:
+    - uid: UserState
+  - name: properties.note
+    description: Optional note about a user set by the administrator.
+    types:
+    - uid: string
+  - name: properties.identities
+    isReadyOnly: true
+    description: User identity details.
+    types:
+    - uid: UserIdentityContract
+      isArray: true
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+- name: GroupContract
+  description: Contract details.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: Group name.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Group description. Can contain HTML formatting tags.
+    types:
+    - uid: string
+  - name: properties.builtIn
+    isReadyOnly: true
+    description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
+    types:
+    - uid: boolean
+  - name: properties.type
+    description: Group type.
+    types:
+    - uid: GroupType
+  - name: properties.externalId
+    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+- name: UserState
+  description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
+  kind: enum
+  properties:
+  - name: active
+    description: User state is active.
+    types:
+    - uid: string
+  - name: blocked
+    description: User is blocked. Blocked users cannot authenticate at developer portal or call API.
+    types:
+    - uid: string
+  - name: pending
+    description: User account is pending. Requires identity confirmation before it can be made active.
+    types:
+    - uid: string
+  - name: deleted
+    description: User account is closed. All identities and related entities are removed.
+    types:
+    - uid: string
+- name: UserIdentityContract
+  description: User identity details.
+  kind: object
+  properties:
+  - name: provider
+    description: Identity provider name.
+    types:
+    - uid: string
+  - name: id
+    description: Identifier value within provider.
+    types:
+    - uid: string
+- name: GroupType
+  description: Group type.
+  kind: enum
+  properties:
+  - name: custom
+    types:
+    - uid: string
+  - name: system
+    types:
+    - uid: string
+  - name: external
+    types:
+    - uid: string
+examples:
+- name: ApiManagementListGroupUsers
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/57d2ef278aa04f0888cba3f3/users?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/kjoshiarmTemplateUser1",
+            "type": "Microsoft.ApiManagement/service/groups/users",
+            "name": "armTemplateUser1",
+            "properties": {
+              "firstName": "user1",
+              "lastName": "lastname1",
+              "email": "user1@live.com",
+              "state": "active",
+              "registrationDate": "2017-05-31T18:54:41.447Z",
+              "note": "note for user 1",
+              "identities": [
+                {
+                  "provider": "Basic",
+                  "id": "user1@live.com"
+                }
+              ]
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

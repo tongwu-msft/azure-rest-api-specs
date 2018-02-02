@@ -38,7 +38,8 @@ The following example shows the request to create a new virtual machine scale se
     "name": "Standard_A1",    
     "tier": "Standard",    
     "capacity": 10          
-  },     
+  },
+  "zones": ["1", "2", "3"],
   "properties": {  
     "singlePlacementGroup": true,  
     "overprovision": true,    
@@ -301,12 +302,14 @@ The following example shows the request to create a new virtual machine scale se
 |Element name|Required|Type|Description|    
 |------------------|--------------|----------|-----------------|    
 |tags|No|String|Specifies the tags that are assigned to the scale set. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md).|    
-|location|Yes|String|Specifies the supported Azure location where the resource exists. For more information, see [List all of the available geo-locations](../../../docs-ref-autogen/resources/subscriptions.json#Subscriptions_ListLocations) .|    
+|location|Yes|String|Specifies the supported Azure location where the resource exists. For more information, see [List all of the available geo-locations](../../../docs-ref-autogen/resources/Subscriptions.yml) .|    
 |[sku](#sku)|Yes|Complex Type|Specifies configuration information for virtual machines in the scale set.|    
 |singlePlacementGroup|No|Boolean|Indicates whether the scale set is limited to a single placement group, of max size 100 virtual machines. Set this value to false for large scale sets, greater than 100 for platform images and greater than 40 for custom images. The default is true.|
 |overprovision|No|Boolean|Indicates whether over-provisioning should be enabled. An attempt is made to reliably provision the count of virtual machines requested in the value of the capacity element. The number of new virtual machines may over-provisioned. A success status is  returned  as soon as the capacity value is reached.<br /><br /> The count of successfully provisioned virtual machines is maximized while providing best-effort Fault Domain (FD) distribution. It is possible that in some cases, due to higher number of provisioning failures the FD distribution can be uneven.<br /><br /> Applications may start temporarily on over-provisioned virtual machines, but are terminated when the machines are deleted.<br /><br /> The over-provisioned virtual machines can be accessed using APIs while an operation is in progress. When the operation completes, the machines are deleted and no longer accessible.<br /><br /> This element is only used with version **2016-03-30** and higher.|    
 |[upgradePolicy](#upgradepolicy)|Yes|Complex Type|Specifies the mode of the upgrade policy.|    
 |[virtualMachineProfile](#virtualmachineprofile)|Yes|Complex Type|Specifies configuration settings for the virtual machines in the scale set.|    
+| zones | No | String List | Specifies which zones to allocate VMs in. The list elements can be "1", "2", and "3". |    
+
     
 ###  <a name="sku"></a> sku    
     
@@ -320,7 +323,7 @@ The following example shows the request to create a new virtual machine scale se
     
 | Element name | Required | Type | Description |    
 |--------------|----------|------|-------------|    
-| name | Yes | String | Specifies the name of the image from the marketplace. This is the same value that you use for Sku under the imageReference element. For more information about how to find image information, see [Navigating and Selecting Azure Virtual Machine images with PowerShell and the Azure CLI](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-cli-ps-findimage?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)|    
+| name | Yes | String | Specifies the name of the image from the marketplace. This is the same value that you use for Sku under the imageReference element. For more information about how to find image information, see [Navigating and Selecting Azure Virtual Machine images with PowerShell and the Azure CLI](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-cli-ps-findimage?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.yml)|    
 | publisher | Yes | String | Specifies the publisher of the image. |    
 | product | Yes | String | Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element. |    
     
@@ -603,6 +606,19 @@ The following example shows the additional plan element that is required when yo
   "properties": {
   ...
 ```
+
+### Zone Redundant VM Scale Set
+
+The following example shows the zones element that is used to specify which zones the VMs should be deployed in.
+
+```json
+"zones": ["1", "2", "3"],
+"properties": {  
+  "upgradePolicy": {
+   ...
+
+```
+
     
 ### Response    
 

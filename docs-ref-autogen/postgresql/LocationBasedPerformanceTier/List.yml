@@ -1,0 +1,152 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.postgresql.locationbasedperformancetier.list
+name: List
+service: PostgreSQL
+groupName: Location Based Performance Tier
+apiVersion: 2017-04-30-preview
+summary: List all the performance tiers at specified location in a given subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/performanceTiers?api-version=2017-04-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: locationName
+  in: path
+  isRequired: true
+  description: The name of the location.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PerformanceTierListResult
+requestHeader: []
+definitions:
+- name: PerformanceTierListResult
+  description: A list of performance tiers.
+  kind: object
+  properties:
+  - name: value
+    description: Performance tier properties
+    types:
+    - uid: PerformanceTierProperties
+      isArray: true
+- name: PerformanceTierProperties
+  description: Performance tier properties
+  kind: object
+  properties:
+  - name: id
+    description: ID of the performance tier.
+    types:
+    - uid: string
+  - name: backupRetentionDays
+    description: Backup retention in days for the performance tier edition
+    types:
+    - uid: integer
+  - name: serviceLevelObjectives
+    description: Service level objectives for performance tier.
+    types:
+    - uid: PerformanceTierServiceLevelObjectives
+      isArray: true
+- name: PerformanceTierServiceLevelObjectives
+  description: Service level objectives for performance tier.
+  kind: object
+  properties:
+  - name: id
+    description: ID for the service level objective.
+    types:
+    - uid: string
+  - name: edition
+    description: Edition of the performance tier.
+    types:
+    - uid: string
+  - name: dtu
+    description: Database throughput unit associated with the service level objective
+    types:
+    - uid: integer
+  - name: storageMB
+    description: Maximum storage in MB associated with the service level objective
+    types:
+    - uid: integer
+examples:
+- name: PerformanceTiersList
+  request:
+    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/providers/Microsoft.DBforPostgreSQL/locations/WestUS/performanceTiers?api-version=2017-04-30-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "Basic",
+            "backupRetentionDays": 7,
+            "serviceLevelObjectives": [
+              {
+                "edition": "Basic",
+                "dtu": 50,
+                "storageMB": 51200,
+                "id": "PGSQLB50"
+              },
+              {
+                "edition": "Basic",
+                "dtu": 100,
+                "storageMB": 51200,
+                "id": "PGSQLB100"
+              }
+            ]
+          },
+          {
+            "id": "Standard",
+            "backupRetentionDays": 35,
+            "serviceLevelObjectives": [
+              {
+                "edition": "Standard",
+                "dtu": 100,
+                "storageMB": 128000,
+                "id": "PGSQLS100"
+              },
+              {
+                "edition": "Standard",
+                "dtu": 200,
+                "storageMB": 128000,
+                "id": "PGSQLS200"
+              },
+              {
+                "edition": "Standard",
+                "dtu": 400,
+                "storageMB": 128000,
+                "id": "PGSQLS400"
+              },
+              {
+                "edition": "Standard",
+                "dtu": 800,
+                "storageMB": 128000,
+                "id": "PGSQLS800"
+              }
+            ]
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

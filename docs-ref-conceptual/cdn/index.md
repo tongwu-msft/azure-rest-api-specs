@@ -18,14 +18,14 @@ The CDN REST API provides operations for working with the following resources.
 
 | Operation group               | Description |
 |-------------------------------|-------------|
-| [Check Name Availability](~/docs-ref-autogen/cdn/checknameavailability.json) | Verify the uniqueness of resource names. |
-| [Check Resource Usage](~/docs-ref-autogen/cdn/listresourceusage.json) | Discover quotas and usage of CDN profiles. |
-| [Custom Domains](~/docs-ref-autogen/cdn/customdomains.json) | Provides operations for working with CDN custom domains. |
-| [Edge Nodes](~/docs-ref-autogen/cdn/edgenodes.json) | Obtain information about CDN edge nodes. |
-| [Endpoints](~/docs-ref-autogen/cdn/endpoints.json) | Create, validate, start, stop, and delete CDN endpoints. Pre-load and purge cached endpoint content. |
-| [List Operations](~/docs-ref-autogen/cdn/listoperations.json) | Provides information about CDN REST API operations. |
-| [Origins](~/docs-ref-autogen/cdn/origins.json) | Manage origins within an endpoint. |
-| [Profiles](~/docs-ref-autogen/cdn/profiles.json) | Operations for managing CDN profiles. A CDN profile is a collection of CDN endpoints. |
+| [Check Name Availability](~/docs-ref-autogen/cdn/checknameavailability.yml) | Verify the uniqueness of resource names. |
+| [Check Resource Usage](~/docs-ref-autogen/cdn/listresourceusage.yml) | Discover quotas and usage of CDN profiles. |
+| [Custom Domains](~/docs-ref-autogen/cdn/customdomains.yml) | Provides operations for working with CDN custom domains. |
+| [Edge Nodes](~/docs-ref-autogen/cdn/edgenodes.yml) | Obtain information about CDN edge nodes. |
+| [Endpoints](~/docs-ref-autogen/cdn/endpoints.yml) | Create, validate, start, stop, and delete CDN endpoints. Pre-load and purge cached endpoint content. |
+| [List Operations](~/docs-ref-autogen/cdn/listoperations.yml) | Provides information about CDN REST API operations. |
+| [Origins](~/docs-ref-autogen/cdn/origins.yml) | Manage origins within an endpoint. |
+| [Profiles](~/docs-ref-autogen/cdn/profiles.yml) | Operations for managing CDN profiles. A CDN profile is a collection of CDN endpoints. |
 
 ## See also
 

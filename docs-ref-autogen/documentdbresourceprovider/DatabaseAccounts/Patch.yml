@@ -1,0 +1,337 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmosdbresourceprovider.databaseaccounts.patch
+name: Patch
+service: Cosmos DB Resource Provider
+groupName: Database Accounts
+apiVersion: 2015-04-08
+summary: Patches the properties of an existing Azure Cosmos DB database account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}?api-version=2015-04-08
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: Cosmos DB database account name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2015-04-08.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The properties of the database account were patched successfully.
+  types:
+  - uid: DatabaseAccount
+requestBody:
+- parameters:
+  - name: tags
+    in: body
+    description: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.capabilities
+    in: body
+    description: Cosmos DB capability object
+    types:
+    - uid: Capability
+      isArray: true
+requestHeader: []
+definitions:
+- name: Capability
+  description: Cosmos DB capability object
+  kind: object
+  properties:
+  - name: name
+    description: Name of the Cosmos DB capability
+    types:
+    - uid: string
+- name: DatabaseAccount
+  description: An Azure Cosmos DB database account.
+  kind: object
+  properties:
+  - name: kind
+    description: Indicates the type of database account. This can only be set at database account creation.
+    types:
+    - uid: DatabaseAccountKind
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The status of the Cosmos DB account at the time the operation was called. The status can be one of following. 'Creating' – the Cosmos DB account is being created. When an account is in Creating state, only properties that are specified as input for the Create Cosmos DB account operation are returned. 'Succeeded' – the Cosmos DB account is active for use. 'Updating' – the Cosmos DB account is being updated. 'Deleting' – the Cosmos DB account is being deleted. 'Failed' – the Cosmos DB account failed creation.
+    types:
+    - uid: string
+  - name: properties.documentEndpoint
+    isReadyOnly: true
+    description: The connection endpoint for the Cosmos DB database account.
+    types:
+    - uid: string
+  - name: properties.databaseAccountOfferType
+    isReadyOnly: true
+    description: 'The offer type for the Cosmos DB database account. Default value: Standard.'
+    types:
+    - uid: DatabaseAccountOfferType
+  - name: properties.ipRangeFilter
+    description: 'Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.'
+    types:
+    - uid: string
+  - name: properties.enableAutomaticFailover
+    description: Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.
+    types:
+    - uid: boolean
+  - name: properties.consistencyPolicy
+    description: The consistency policy for the Cosmos DB database account.
+    types:
+    - uid: ConsistencyPolicy
+  - name: properties.capabilities
+    description: Cosmos DB capability object
+    types:
+    - uid: Capability
+      isArray: true
+  - name: properties.writeLocations
+    isReadyOnly: true
+    description: A region in which the Azure Cosmos DB database account is deployed.
+    types:
+    - uid: Location
+      isArray: true
+  - name: properties.readLocations
+    isReadyOnly: true
+    description: A region in which the Azure Cosmos DB database account is deployed.
+    types:
+    - uid: Location
+      isArray: true
+  - name: properties.failoverPolicies
+    isReadyOnly: true
+    description: The failover policy for a given region of a database account.
+    types:
+    - uid: FailoverPolicy
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: The unique resource identifier of the database account.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the database account.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of Azure resource.
+    types:
+    - uid: string
+  - name: location
+    description: The location of the resource group to which the resource belongs.
+    types:
+    - uid: string
+  - name: tags
+    description: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: DatabaseAccountPatchParameters
+  description: Parameters for patching Azure Cosmos DB database account properties.
+  kind: object
+  properties:
+  - name: tags
+    description: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.capabilities
+    description: Cosmos DB capability object
+    types:
+    - uid: Capability
+      isArray: true
+- name: DatabaseAccountKind
+  description: Indicates the type of database account. This can only be set at database account creation.
+  kind: enum
+  properties:
+  - name: GlobalDocumentDB
+    types:
+    - uid: string
+  - name: MongoDB
+    types:
+    - uid: string
+  - name: Parse
+    types:
+    - uid: string
+- name: DatabaseAccountOfferType
+  description: The offer type for the Cosmos DB database account.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+- name: ConsistencyPolicy
+  description: The consistency policy for the Cosmos DB database account.
+  kind: object
+  properties:
+  - name: defaultConsistencyLevel
+    description: The default consistency level and configuration settings of the Cosmos DB account.
+    types:
+    - uid: DefaultConsistencyLevel
+  - name: maxStalenessPrefix
+    description: When used with the Bounded Staleness consistency level, this value represents the number of stale requests tolerated. Accepted range for this value is 1 – 2,147,483,647. Required when defaultConsistencyPolicy is set to 'BoundedStaleness'.
+    types:
+    - uid: integer
+  - name: maxIntervalInSeconds
+    description: When used with the Bounded Staleness consistency level, this value represents the time amount of staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is set to 'BoundedStaleness'.
+    types:
+    - uid: integer
+- name: Location
+  description: A region in which the Azure Cosmos DB database account is deployed.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: 'The unique identifier of the region within the database account. Example: &lt;accountName&gt;-&lt;locationName&gt;.'
+    types:
+    - uid: string
+  - name: locationName
+    description: The name of the region.
+    types:
+    - uid: string
+  - name: documentEndpoint
+    isReadyOnly: true
+    description: 'The connection endpoint for the specific region. Example: https://&lt;accountName&gt;-&lt;locationName&gt;.documents.azure.com:443/'
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: The status of the Cosmos DB account at the time the operation was called. The status can be one of following. 'Creating' – the Cosmos DB account is being created. When an account is in Creating state, only properties that are specified as input for the Create Cosmos DB account operation are returned. 'Succeeded' – the Cosmos DB account is active for use. 'Updating' – the Cosmos DB account is being updated. 'Deleting' – the Cosmos DB account is being deleted. 'Failed' – the Cosmos DB account failed creation.
+    types:
+    - uid: string
+  - name: failoverPriority
+    description: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists.
+    types:
+    - uid: integer
+- name: FailoverPolicy
+  description: The failover policy for a given region of a database account.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: 'The unique identifier of the region in which the database account replicates to. Example: &lt;accountName&gt;-&lt;locationName&gt;.'
+    types:
+    - uid: string
+  - name: locationName
+    description: The name of the region in which the database account exists.
+    types:
+    - uid: string
+  - name: failoverPriority
+    description: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists.
+    types:
+    - uid: integer
+- name: DefaultConsistencyLevel
+  description: The default consistency level and configuration settings of the Cosmos DB account.
+  kind: enum
+  properties:
+  - name: Eventual
+    types:
+    - uid: string
+  - name: Session
+    types:
+    - uid: string
+  - name: BoundedStaleness
+    types:
+    - uid: string
+  - name: Strong
+    types:
+    - uid: string
+  - name: ConsistentPrefix
+    types:
+    - uid: string
+examples:
+- name: CosmosDBDatabaseAccountPatch
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1?api-version=2015-04-08
+    body: >-
+      {
+        "tags": {
+          "dept": "finance"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1",
+        "name": "ddb1",
+        "location": "West US",
+        "type": "Microsoft.DocumentDB/databaseAccounts",
+        "kind": "GlobalDocumentDB",
+        "tags": {},
+        "properties": {
+          "provisioningState": "Succeeded",
+          "documentEndpoint": "https://ddb1.documents.azure.com:443/",
+          "ipRangeFilter": "",
+          "databaseAccountOfferType": "Standard",
+          "consistencyPolicy": {
+            "defaultConsistencyLevel": "Session",
+            "maxIntervalInSeconds": 5,
+            "maxStalenessPrefix": 100
+          },
+          "writeLocations": [
+            {
+              "id": "ddb1-eastus",
+              "locationName": "East US",
+              "documentEndpoint": "https://ddb1-eastus.documents.azure.com:443/",
+              "provisioningState": "Succeeded",
+              "failoverPriority": 0
+            }
+          ],
+          "readLocations": [
+            {
+              "id": "ddb1-eastus",
+              "locationName": "East US",
+              "documentEndpoint": "https://ddb1-eastus.documents.azure.com:443/",
+              "provisioningState": "Succeeded",
+              "failoverPriority": 0
+            }
+          ],
+          "failoverPolicies": [
+            {
+              "id": "ddb1-eastus",
+              "locationName": "East US",
+              "failoverPriority": 0
+            }
+          ]
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account

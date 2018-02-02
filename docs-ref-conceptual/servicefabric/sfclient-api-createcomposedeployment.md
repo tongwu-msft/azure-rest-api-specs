@@ -1,6 +1,6 @@
 ---
 title: "Create Compose Deployment"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Create Compose Deployment
 Creates a Service Fabric compose deployment.
 
-Creates a Service Fabric compose deployment.
+Compose is a file format that describes multi-container applications. This API allows deploying container based applications defined in compose format in a Service Fabric cluster. Once the deployment is created it's status can be tracked via `GetComposeDeploymentStatus` API.
 
 ## Request
 | Method | Request URI |

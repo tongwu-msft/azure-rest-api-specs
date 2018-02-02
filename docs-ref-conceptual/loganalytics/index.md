@@ -20,12 +20,12 @@ The Log Analytics REST API provides operations for working with the following re
 | Operation Group | Description |
 |-----------------|-------------|
 | [Data](create-request.md) | Write data to the Log Analytics repository. |
-| [Data sources](~/docs-ref-autogen/loganalytics/datasources.json) | Create or update data sources. |
-| [Linked services](~/docs-ref-autogen/loganalytics/datasources.json) | Create or update linked services. |
-| [Saved searches](~/docs-ref-autogen/loganalytics/savedsearches.json) | Create or update saved searches. |
-| [Storage insights](~/docs-ref-autogen/loganalytics/storageinsights.json) | Create or update storage insights. |
-| [Workspaces](~/docs-ref-autogen/loganalytics/workspaces.json) | Create or update a workspace. |
-| [Workspace schemas](~/docs-ref-autogen/loganalytics/workspaces%202015-03-20.json) | Get the schema for a workspace. |
+| [Data sources](~/docs-ref-autogen/loganalytics/datasources.yml) | Create or update data sources. |
+| [Linked services](~/docs-ref-autogen/loganalytics/datasources.yml) | Create or update linked services. |
+| [Saved searches](~/docs-ref-autogen/loganalytics/savedsearches.yml) | Create or update saved searches. |
+| [Storage insights](~/docs-ref-autogen/loganalytics/storageinsights.yml) | Create or update storage insights. |
+| [Workspaces](~/docs-ref-autogen/loganalytics/workspaces.yml) | Create or update a workspace. |
+| [Workspace schemas](~/docs-ref-autogen/loganalytics/workspaces%202015-03-20.yml) | Get the schema for a workspace. |
 
 ## See Also
 

@@ -1,0 +1,1012 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.recoveryservices-siterecovery.replicationjobs.export
+name: Export
+service: Recovery Services - Site Recovery
+groupName: Replication Jobs
+apiVersion: 2016-08-10
+summary: Exports the details of the Azure Site Recovery jobs of the vault. The operation to export the details of the Azure Site Recovery jobs of the vault.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/export?api-version=2016-08-10
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Job
+- name: 202 Accepted
+  description: Accepted
+requestBody:
+- parameters:
+  - name: startTime
+    in: body
+    description: Date time to get jobs from.
+    types:
+    - uid: string
+  - name: endTime
+    in: body
+    description: Date time to get jobs upto.
+    types:
+    - uid: string
+  - name: fabricId
+    in: body
+    description: The Id of the fabric to search jobs under.
+    types:
+    - uid: string
+  - name: affectedObjectTypes
+    in: body
+    description: The type of objects.
+    types:
+    - uid: string
+      isArray: true
+  - name: jobStatus
+    in: body
+    description: The states of the job to be filtered can be in.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: Job
+  description: Job details.
+  kind: object
+  properties:
+  - name: properties
+    description: The custom data.
+    types:
+    - uid: JobProperties
+  - name: status
+    description: The status of the Job. ARM expects the terminal status to be one of (1) Succeeded, (2) Failed or (3) Canceled. All other values imply that the operation is still running / being applied.
+    types:
+    - uid: string
+  - name: error
+    description: The error.
+    types:
+    - uid: ARMException
+  - name: startTime
+    description: The start time.
+    types:
+    - uid: string
+  - name: endTime
+    description: The start time.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource Type
+    types:
+    - uid: string
+  - name: location
+    description: Resource Location
+    types:
+    - uid: string
+- name: JobQueryParameter
+  description: Query parameter to enumerate jobs.
+  kind: object
+  properties:
+  - name: startTime
+    description: Date time to get jobs from.
+    types:
+    - uid: string
+  - name: endTime
+    description: Date time to get jobs upto.
+    types:
+    - uid: string
+  - name: fabricId
+    description: The Id of the fabric to search jobs under.
+    types:
+    - uid: string
+  - name: affectedObjectTypes
+    description: The type of objects.
+    types:
+    - uid: string
+      isArray: true
+  - name: jobStatus
+    description: The states of the job to be filtered can be in.
+    types:
+    - uid: string
+      isArray: true
+- name: JobProperties
+  description: Job custom data details.
+  kind: object
+  properties:
+  - name: activityId
+    description: The activity id.
+    types:
+    - uid: string
+  - name: scenarioName
+    description: The ScenarioName.
+    types:
+    - uid: string
+  - name: friendlyName
+    description: The DisplayName.
+    types:
+    - uid: string
+  - name: state
+    description: The status of the Job. It is one of these values - NotStarted, InProgress, Succeeded, Failed, Cancelled, Suspended or Other.
+    types:
+    - uid: string
+  - name: stateDescription
+    description: The description of the state of the Job. For e.g. - For Succeeded state, description can be Completed, PartiallySucceeded, CompletedWithInformation or Skipped.
+    types:
+    - uid: string
+  - name: tasks
+    description: Task of the Job.
+    types:
+    - uid: ASRTask
+      isArray: true
+  - name: errors
+    description: This class contains the error details per object.
+    types:
+    - uid: JobErrorDetails
+      isArray: true
+  - name: startTime
+    description: The start time.
+    types:
+    - uid: string
+  - name: endTime
+    description: The end time.
+    types:
+    - uid: string
+  - name: allowedActions
+    description: The Allowed action the job.
+    types:
+    - uid: string
+      isArray: true
+  - name: targetObjectId
+    description: The affected Object Id.
+    types:
+    - uid: string
+  - name: targetObjectName
+    description: The name of the affected object.
+    types:
+    - uid: string
+  - name: targetInstanceType
+    description: The type of the affected object which is of {Microsoft.Azure.SiteRecovery.V2015_11_10.AffectedObjectType} class.
+    types:
+    - uid: string
+  - name: customDetails
+    description: The custom job details like test failover job details.
+    types:
+    - uid: AsrJobDetails
+    - uid: TestFailoverJobDetails
+    - uid: FailoverJobDetails
+    - uid: ExportJobDetails
+    - uid: SwitchProtectionJobDetails
+    typesTitle: JobDetails
+- name: ARMException
+  description: ARM inner exception class.
+  kind: object
+  properties:
+  - name: code
+    description: Gets HTTP status code for the error.
+    types:
+    - uid: string
+  - name: message
+    description: Gets exception message.
+    types:
+    - uid: string
+  - name: target
+    description: Gets exception target.
+    types:
+    - uid: string
+  - name: details
+    description: Service based exception details.
+    types:
+    - uid: ARMExceptionDetails
+      isArray: true
+  - name: innererror
+    description: Gets private data for service debugging.
+    types:
+    - uid: ARMInnerError
+- name: ASRTask
+  description: Task of the Job.
+  kind: object
+  properties:
+  - name: taskId
+    description: The Id.
+    types:
+    - uid: string
+  - name: name
+    description: The unique Task name.
+    types:
+    - uid: string
+  - name: startTime
+    description: The start time.
+    types:
+    - uid: string
+  - name: endTime
+    description: The end time.
+    types:
+    - uid: string
+  - name: allowedActions
+    description: The state/actions applicable on this task.
+    types:
+    - uid: string
+      isArray: true
+  - name: friendlyName
+    description: The name.
+    types:
+    - uid: string
+  - name: state
+    description: The State. It is one of these values - NotStarted, InProgress, Succeeded, Failed, Cancelled, Suspended or Other.
+    types:
+    - uid: string
+  - name: stateDescription
+    description: The description of the task state. For example - For Succeeded state, description can be Completed, PartiallySucceeded, CompletedWithInformation or Skipped.
+    types:
+    - uid: string
+  - name: taskType
+    description: The type of task. Details in CustomDetails property depend on this type.
+    types:
+    - uid: string
+  - name: customDetails
+    description: The custom task details based on the task type.
+    types:
+    - uid: JobTaskDetails
+    - uid: VirtualMachineTaskDetails
+    - uid: FabricReplicationGroupTaskDetails
+    - uid: ManualActionTaskDetails
+    - uid: ScriptActionTaskDetails
+    - uid: VmNicUpdatesTaskDetails
+    - uid: ConsistencyCheckTaskDetails
+    - uid: AutomationRunbookTaskDetails
+    typesTitle: TaskTypeDetails
+  - name: groupTaskCustomDetails
+    description: The custom task details based on the task type, if the task type is GroupTaskDetails or one of the types derived from it.
+    types:
+    - uid: InlineWorkflowTaskDetails
+    - uid: RecoveryPlanGroupTaskDetails
+    - uid: RecoveryPlanShutdownGroupTaskDetails
+    typesTitle: GroupTaskDetails
+  - name: errors
+    description: This class contains the error details per object.
+    types:
+    - uid: JobErrorDetails
+      isArray: true
+- name: JobErrorDetails
+  description: This class contains the error details per object.
+  kind: object
+  properties:
+  - name: serviceErrorDetails
+    description: The Service error details.
+    types:
+    - uid: ServiceError
+  - name: providerErrorDetails
+    description: The Provider error details.
+    types:
+    - uid: ProviderError
+  - name: errorLevel
+    description: Error level of error.
+    types:
+    - uid: string
+  - name: creationTime
+    description: The creation time of job error.
+    types:
+    - uid: string
+  - name: taskId
+    description: The Id of the task.
+    types:
+    - uid: string
+- name: ARMExceptionDetails
+  description: Service based exception details.
+  kind: object
+  properties:
+  - name: code
+    description: Gets service error code.
+    types:
+    - uid: string
+  - name: message
+    description: Gets error message.
+    types:
+    - uid: string
+  - name: possibleCauses
+    description: Gets possible cause for error.
+    types:
+    - uid: string
+  - name: recommendedAction
+    description: Gets recommended action for the error.
+    types:
+    - uid: string
+  - name: clientRequestId
+    description: Gets the client request Id for the session.
+    types:
+    - uid: string
+  - name: activityId
+    description: Gets the activity Id for the session.
+    types:
+    - uid: string
+  - name: target
+    description: Gets exception target.
+    types:
+    - uid: string
+- name: ARMInnerError
+  description: ARM internal error class for providing additional debug data.
+  kind: object
+  properties:
+  - name: trace
+    description: Gets complete stack trace of the exception.
+    types:
+    - uid: string
+  - name: source
+    description: Gets exception source.
+    types:
+    - uid: string
+  - name: methodStatus
+    description: Gets data related to method which threw the exception.
+    types:
+    - uid: MethodCallStatus
+  - name: cloudId
+    description: Gets cloud Id in exception.
+    types:
+    - uid: string
+  - name: hVHostId
+    description: Gets hyperV host ID.
+    types:
+    - uid: string
+  - name: hVClusterId
+    description: Gets hyperV cluster Id.
+    types:
+    - uid: string
+  - name: networkId
+    description: Gets network Id.
+    types:
+    - uid: string
+  - name: vmId
+    description: Gets Vm Id.
+    types:
+    - uid: string
+  - name: fabricId
+    description: Gets Fabric Id.
+    types:
+    - uid: string
+  - name: liveId
+    description: Gets Live Id of the caller.
+    types:
+    - uid: string
+  - name: containerId
+    description: Gets container Id of the caller.
+    types:
+    - uid: string
+  - name: resourceId
+    description: Gets resource id used in the call.
+    types:
+    - uid: string
+  - name: resourceName
+    description: Gets caller resource name.
+    types:
+    - uid: string
+  - name: subscriptionId
+    description: Gets subscription Id.
+    types:
+    - uid: string
+  - name: serializedSRSLogContext
+    description: Gets serialized SRS log context.
+    types:
+    - uid: string
+- name: ServiceError
+  description: ASR error model
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: possibleCauses
+    description: Possible causes of error.
+    types:
+    - uid: string
+  - name: recommendedAction
+    description: Recommended action to resolve error.
+    types:
+    - uid: string
+  - name: activityId
+    description: Activity Id.
+    types:
+    - uid: string
+- name: ProviderError
+  description: This class contains the error details per object.
+  kind: object
+  properties:
+  - name: errorCode
+    description: The Error code.
+    types:
+    - uid: integer
+  - name: errorMessage
+    description: The Error message.
+    types:
+    - uid: string
+  - name: errorId
+    description: The Provider error Id.
+    types:
+    - uid: string
+  - name: possibleCauses
+    description: The possible causes for the error.
+    types:
+    - uid: string
+  - name: recommendedAction
+    description: The recommended action to resolve the error.
+    types:
+    - uid: string
+- name: AsrJobDetails
+  description: This class represents job details based on specific job type.
+  kind: object
+  properties:
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the type of job details (see JobDetailsTypes enum for possible values).
+    types:
+    - uid: AsrJobDetails
+    typesTitle: string
+  - name: affectedObjectDetails
+    description: The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: TestFailoverJobDetails
+  description: This class represents the details for a test failover job.
+  kind: object
+  properties:
+  - name: testFailoverStatus
+    description: The test failover status.
+    types:
+    - uid: string
+  - name: comments
+    description: The test failover comments.
+    types:
+    - uid: string
+  - name: networkName
+    description: The test network name.
+    types:
+    - uid: string
+  - name: networkFriendlyName
+    description: The test network friendly name.
+    types:
+    - uid: string
+  - name: networkType
+    description: The test network type (see TestFailoverInput enum for possible values).
+    types:
+    - uid: string
+  - name: protectedItemDetails
+    description: Failover details for a replication protected item.
+    types:
+    - uid: FailoverReplicationProtectedItemDetails
+      isArray: true
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the type of job details (see JobDetailsTypes enum for possible values).
+    types:
+    - uid: TestFailoverJobDetails
+    typesTitle: string
+  - name: affectedObjectDetails
+    description: The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: FailoverJobDetails
+  description: This class represents the details for a failover job.
+  kind: object
+  properties:
+  - name: protectedItemDetails
+    description: Failover details for a replication protected item.
+    types:
+    - uid: FailoverReplicationProtectedItemDetails
+      isArray: true
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the type of job details (see JobDetailsTypes enum for possible values).
+    types:
+    - uid: FailoverJobDetails
+    typesTitle: string
+  - name: affectedObjectDetails
+    description: The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ExportJobDetails
+  description: This class represents details for export jobs workflow.
+  kind: object
+  properties:
+  - name: blobUri
+    description: BlobUri of the exported jobs.
+    types:
+    - uid: string
+  - name: sasToken
+    description: The sas token to access blob.
+    types:
+    - uid: string
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the type of job details (see JobDetailsTypes enum for possible values).
+    types:
+    - uid: ExportJobDetails
+    typesTitle: string
+  - name: affectedObjectDetails
+    description: The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: SwitchProtectionJobDetails
+  description: This class represents details for switch protection job.
+  kind: object
+  properties:
+  - name: newReplicationProtectedItemId
+    description: ARM Id of the new replication protected item.
+    types:
+    - uid: string
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the type of job details (see JobDetailsTypes enum for possible values).
+    types:
+    - uid: SwitchProtectionJobDetails
+    typesTitle: string
+  - name: affectedObjectDetails
+    description: The affected object properties like source server, source cloud, target server, target cloud etc. based on the workflow object details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: MethodCallStatus
+  description: Reports method status where exception was raised.
+  kind: object
+  properties:
+  - name: isVirtual
+    description: Gets a value indicating whether called method was virtual
+    types:
+    - uid: string
+  - name: parameters
+    description: Gets parameter list passed to method.
+    types:
+    - uid: string
+      isArray: true
+  - name: containsGenericParameters
+    description: Gets a value indicating whether method container generic params.
+    types:
+    - uid: string
+- name: JobTaskDetails
+  description: This class represents a task which is actually a workflow so that one can navigate to its individual drill down.
+  kind: object
+  properties:
+  - name: jobTask
+    description: The job entity.
+    types:
+    - uid: JobEntity
+  - name: instanceType
+    description: The type of task details.
+    types:
+    - uid: JobTaskDetails
+    typesTitle: string
+- name: VirtualMachineTaskDetails
+  description: This class represents the virtual machine task details.
+  kind: object
+  properties:
+  - name: skippedReason
+    description: The skipped reason.
+    types:
+    - uid: string
+  - name: skippedReasonString
+    description: The skipped reason string.
+    types:
+    - uid: string
+  - name: jobTask
+    description: The job entity.
+    types:
+    - uid: JobEntity
+  - name: instanceType
+    description: The type of task details.
+    types:
+    - uid: VirtualMachineTaskDetails
+    typesTitle: string
+- name: FabricReplicationGroupTaskDetails
+  description: This class represents the fabric replication group task details.
+  kind: object
+  properties:
+  - name: skippedReason
+    description: The skipped reason.
+    types:
+    - uid: string
+  - name: skippedReasonString
+    description: The skipped reason string.
+    types:
+    - uid: string
+  - name: jobTask
+    description: The job entity.
+    types:
+    - uid: JobEntity
+  - name: instanceType
+    description: The type of task details.
+    types:
+    - uid: FabricReplicationGroupTaskDetails
+    typesTitle: string
+- name: ManualActionTaskDetails
+  description: This class represents the manual action task details.
+  kind: object
+  properties:
+  - name: name
+    description: The name.
+    types:
+    - uid: string
+  - name: instructions
+    description: The instructions.
+    types:
+    - uid: string
+  - name: observation
+    description: The observation.
+    types:
+    - uid: string
+  - name: instanceType
+    description: The type of task details.
+    types:
+    - uid: ManualActionTaskDetails
+    typesTitle: string
+- name: ScriptActionTaskDetails
+  description: This class represents the script action task details.
+  kind: object
+  properties:
+  - name: name
+    description: The name.
+    types:
+    - uid: string
+  - name: path
+    description: The path.
+    types:
+    - uid: string
+  - name: output
+    description: The output.
+    types:
+    - uid: string
+  - name: isPrimarySideScript
+    description: A value indicating whether it is a primary side script or not.
+    types:
+    - uid: boolean
+  - name: instanceType
+    description: The type of task details.
+    types:
+    - uid: ScriptActionTaskDetails
+    typesTitle: string
+- name: VmNicUpdatesTaskDetails
+  description: This class represents the vm NicUpdates task details.
+  kind: object
+  properties:
+  - name: vmId
+    description: Virtual machine Id.
+    types:
+    - uid: string
+  - name: nicId
+    description: Nic Id.
+    types:
+    - uid: string
+  - name: name
+    description: Name of the Nic.
+    types:
+    - uid: string
+  - name: instanceType
+    description: The type of task details.
+    types:
+    - uid: VmNicUpdatesTaskDetails
+    typesTitle: string
+- name: ConsistencyCheckTaskDetails
+  description: This class contains monitoring details of all the inconsistent Protected Entites in Vmm.
+  kind: object
+  properties:
+  - name: vmDetails
+    description: This class stores the monitoring details for consistency check of inconsistent Protected Entity.
+    types:
+    - uid: InconsistentVmDetails
+      isArray: true
+  - name: instanceType
+    description: The type of task details.
+    types:
+    - uid: ConsistencyCheckTaskDetails
+    typesTitle: string
+- name: AutomationRunbookTaskDetails
+  description: This class represents the task details for an automation runbook.
+  kind: object
+  properties:
+  - name: name
+    description: The recovery plan task name.
+    types:
+    - uid: string
+  - name: cloudServiceName
+    description: The cloud service of the automation runbook account.
+    types:
+    - uid: string
+  - name: subscriptionId
+    description: The subscription Id of the automation runbook account.
+    types:
+    - uid: string
+  - name: accountName
+    description: The automation account name of the runbook.
+    types:
+    - uid: string
+  - name: runbookId
+    description: The runbook Id.
+    types:
+    - uid: string
+  - name: runbookName
+    description: The runbook name.
+    types:
+    - uid: string
+  - name: jobId
+    description: The job Id of the runbook execution.
+    types:
+    - uid: string
+  - name: jobOutput
+    description: The execution output of the runbook.
+    types:
+    - uid: string
+  - name: isPrimarySideScript
+    description: A value indicating whether it is a primary side script or not.
+    types:
+    - uid: boolean
+  - name: instanceType
+    description: The type of task details.
+    types:
+    - uid: AutomationRunbookTaskDetails
+    typesTitle: string
+- name: InlineWorkflowTaskDetails
+  description: This class represents the inline workflow task details.
+  kind: object
+  properties:
+  - name: workflowIds
+    description: The list of child workflow ids.
+    types:
+    - uid: string
+      isArray: true
+  - name: instanceType
+    description: The type of task details.
+    types:
+    - uid: InlineWorkflowTaskDetails
+    typesTitle: string
+  - name: childTasks
+    description: Task of the Job.
+    types:
+    - uid: ASRTask
+      isArray: true
+- name: RecoveryPlanGroupTaskDetails
+  description: This class represents the recovery plan group task.
+  kind: object
+  properties:
+  - name: name
+    description: The name.
+    types:
+    - uid: string
+  - name: groupId
+    description: The group identifier.
+    types:
+    - uid: string
+  - name: rpGroupType
+    description: The group type.
+    types:
+    - uid: string
+  - name: instanceType
+    description: The type of task details.
+    types:
+    - uid: RecoveryPlanGroupTaskDetails
+    typesTitle: string
+  - name: childTasks
+    description: Task of the Job.
+    types:
+    - uid: ASRTask
+      isArray: true
+- name: RecoveryPlanShutdownGroupTaskDetails
+  description: This class represents the recovery plan shutdown group task details.
+  kind: object
+  properties:
+  - name: name
+    description: The name.
+    types:
+    - uid: string
+  - name: groupId
+    description: The group identifier.
+    types:
+    - uid: string
+  - name: rpGroupType
+    description: The group type.
+    types:
+    - uid: string
+  - name: instanceType
+    description: The type of task details.
+    types:
+    - uid: RecoveryPlanShutdownGroupTaskDetails
+    typesTitle: string
+  - name: childTasks
+    description: Task of the Job.
+    types:
+    - uid: ASRTask
+      isArray: true
+- name: FailoverReplicationProtectedItemDetails
+  description: Failover details for a replication protected item.
+  kind: object
+  properties:
+  - name: name
+    description: The name.
+    types:
+    - uid: string
+  - name: friendlyName
+    description: The friendly name.
+    types:
+    - uid: string
+  - name: testVmName
+    description: The test Vm name.
+    types:
+    - uid: string
+  - name: testVmFriendlyName
+    description: The test Vm friendly name.
+    types:
+    - uid: string
+  - name: networkConnectionStatus
+    description: The network connection status.
+    types:
+    - uid: string
+  - name: networkFriendlyName
+    description: The network friendly name.
+    types:
+    - uid: string
+  - name: subnet
+    description: The network subnet.
+    types:
+    - uid: string
+  - name: recoveryPointId
+    description: The recovery point Id.
+    types:
+    - uid: string
+  - name: recoveryPointTime
+    description: The recovery point time.
+    types:
+    - uid: string
+- name: JobEntity
+  description: This class contains the minimal job details required to navigate to the desired drill down.
+  kind: object
+  properties:
+  - name: jobId
+    description: The job id.
+    types:
+    - uid: string
+  - name: jobFriendlyName
+    description: The job display name.
+    types:
+    - uid: string
+  - name: targetObjectId
+    description: The object id.
+    types:
+    - uid: string
+  - name: targetObjectName
+    description: The object name.
+    types:
+    - uid: string
+  - name: targetInstanceType
+    description: The workflow affected object type.
+    types:
+    - uid: string
+  - name: jobScenarioName
+    description: The job name. Enum type ScenarioName.
+    types:
+    - uid: string
+- name: InconsistentVmDetails
+  description: This class stores the monitoring details for consistency check of inconsistent Protected Entity.
+  kind: object
+  properties:
+  - name: vmName
+    description: The Vm name.
+    types:
+    - uid: string
+  - name: cloudName
+    description: The Cloud name.
+    types:
+    - uid: string
+  - name: details
+    description: The list of details regarding state of the Protected Entity in SRS and On prem.
+    types:
+    - uid: string
+      isArray: true
+  - name: errorIds
+    description: The list of error ids.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: Exports the details of the Azure Site Recovery jobs of the vault.
+  request:
+    uri: POST https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationJobs/export?api-version=2016-08-10
+    body: >-
+      {
+        "startTime": "2017-04-27T14:26:51.9161395Z",
+        "endTime": "2017-05-04T14:26:51.9161395Z",
+        "affectedObjectTypes": [],
+        "jobStatus": []
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationJobs/37e0fc2b-13f2-4817-aafa-0cd807d46842",
+        "name": "37e0fc2b-13f2-4817-aafa-0cd807d46842",
+        "properties": {
+          "activityId": "36841d27-34f6-49ad-b572-e7dc263f100b-2017-05-04 14:26:47Z-Ibz ActivityId: c124df21-7661-4541-b32a-3c723ebbb045",
+          "scenarioName": "ExportJobs",
+          "state": "Succeeded",
+          "stateDescription": "Completed",
+          "tasks": [],
+          "errors": [],
+          "startTime": "2017-05-04T14:33:42.2765562Z",
+          "endTime": "2017-05-04T14:33:43Z",
+          "allowedActions": [],
+          "targetObjectId": "",
+          "targetObjectName": "",
+          "targetInstanceType": "Other",
+          "customDetails": {
+            "blobUri": "https://seapod01srs1pspk73202.blob.core.windows.net/datacontainer/Export_37e0fc2b-13f2-4817-aafa-0cd807d46842",
+            "sasToken": "?sv=2015-12-11&sr=c&si=mypolicy&sig=5Z1RyYLS8nT%2BBSdEpVOmqU8GFxkPGQFqYBoYEfj6OJQ%3D",
+            "instanceType": "ExportJobDetails",
+            "affectedObjectDetails": {}
+          }
+        },
+        "status": "Succeeded",
+        "startTime": "2017-05-04T14:33:42.2765562Z",
+        "endTime": "2017-05-04T14:33:43Z"
+      }
+  - statusCode: "202"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

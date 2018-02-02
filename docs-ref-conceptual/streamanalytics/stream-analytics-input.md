@@ -1,3 +1,12 @@
+---
+ms.assetid: 
+ms.title: Input | Microsoft Docs
+ms.service: stream-analytics
+author: SnehaGunda
+ms.author: sngun
+ms.manager: kfile
+---
+
 # Input
 
 ASA service will attempt to get sample events for a limited time, if there are no events in the source when it queries it would not wait, it would return zero events. ASA service will only spend a fixed amount of time to get sample events, it would return as many events as it could read within the limited time. Please note that this is a sample set of events, the order the events are received in the sample and the order the events are processed can be different.  

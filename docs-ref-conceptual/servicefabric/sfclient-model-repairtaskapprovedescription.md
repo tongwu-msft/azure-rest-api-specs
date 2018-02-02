@@ -1,6 +1,6 @@
 ---
 title: "RepairTaskApproveDescription"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -52,4 +52,4 @@ ____
 __Type__: string (int64) <br/>
 __Required__: No<br/>
 <br/>
-The current version number of the repair task. If non-zero, then the request will only succeed if this value matches the actual current version of the repair task. If zero, then no version check is performed.</para>
+The current version number of the repair task. If non-zero, then the request will only succeed if this value matches the actual current version of the repair task. If zero, then no version check is performed.

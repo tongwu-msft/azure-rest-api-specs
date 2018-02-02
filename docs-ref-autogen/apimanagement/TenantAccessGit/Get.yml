@@ -1,0 +1,140 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.tenantaccessgit.get
+name: Get
+service: API Management
+groupName: Tenant Access Git
+apiVersion: 2017-03-01
+summary: Gets the Git access configuration for the tenant.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/access/git?api-version=2017-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: accessName
+  in: path
+  isRequired: true
+  description: The identifier of the Access configuration.
+  types:
+  - uid: AccessIdName
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
+  description: Git Access Information for the Service.
+  types:
+  - uid: AccessInformationContract
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: AccessIdName
+  description: The identifier of the Access configuration.
+  kind: enum
+  properties:
+  - name: access
+    types:
+    - uid: string
+- name: AccessInformationContract
+  description: Tenant access information contract of the API Management service.
+  kind: object
+  properties:
+  - name: id
+    description: Identifier.
+    types:
+    - uid: string
+  - name: primaryKey
+    description: Primary access key.
+    types:
+    - uid: string
+  - name: secondaryKey
+    description: Secondary access key.
+    types:
+    - uid: string
+  - name: enabled
+    description: Tenant access information of the API Management service.
+    types:
+    - uid: boolean
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error Field contract.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementGetTenantAccess
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/access/git?api-version=2017-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "5600b59375ff190048030003",
+        "primaryKey": "qr5nbjNoZkgtLojXgU+OA/ntYMgko3XPSVyt+ObwR1sqp2ZkM9tGhwxkeEz7bfAuPS5ss61b2S3ZrZmqa9v3Mw==",
+        "secondaryKey": "2dCJv1CasJl286SZiKxyBFDiIYCUdbwM1YrFNDcFMXCjCKbFzomrGkv+exAbnV5E3DEk91VP4jbeJ2eV/qtejA==",
+        "enabled": true
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

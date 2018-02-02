@@ -1,0 +1,493 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.apimanagementservice.restore
+name: Restore
+service: API Management
+groupName: Api Management Service
+apiVersion: 2017-03-01
+summary: Restores a backup of an API Management service created using the ApiManagementService_Backup operation on the current service. This is a long running operation and could take several minutes to complete.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/restore?api-version=2017-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully restored the backup onto the API Management service.
+  types:
+  - uid: ApiManagementServiceResource
+- name: 202 Accepted
+  description: 'Accepted: Location header contains the URL where the status of the long running operation can be checked.'
+requestBody:
+- parameters:
+  - name: storageAccount
+    in: body
+    isRequired: true
+    description: Azure Cloud Storage account (used to place/retrieve the backup) name.
+    types:
+    - uid: string
+  - name: accessKey
+    in: body
+    isRequired: true
+    description: Azure Cloud Storage account (used to place/retrieve the backup) access key.
+    types:
+    - uid: string
+  - name: containerName
+    in: body
+    isRequired: true
+    description: Azure Cloud Storage blob container name used to place/retrieve the backup.
+    types:
+    - uid: string
+  - name: backupName
+    in: body
+    isRequired: true
+    description: The name of the backup file to create.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ApiManagementServiceResource
+  description: A single API Management service resource in List or Get response.
+  kind: object
+  properties:
+  - name: sku
+    description: SKU properties of the API Management service.
+    types:
+    - uid: ApiManagementServiceSkuProperties
+  - name: identity
+    description: Managed service identity of the Api Management service.
+    types:
+    - uid: ApiManagementServiceIdentity
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: ETag of the resource.
+    types:
+    - uid: string
+  - name: properties.publisherEmail
+    description: Publisher email.
+    types:
+    - uid: string
+  - name: properties.publisherName
+    description: Publisher name.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource is set to Microsoft.ApiManagement.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.notificationSenderEmail
+    description: Email address from which the notification will be sent.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: 'The current provisioning state of the API Management service which can be one of the following: Created/Activating/Succeeded/Updating/Failed/Stopped/Terminating/TerminationFailed/Deleted.'
+    types:
+    - uid: string
+  - name: properties.targetProvisioningState
+    isReadyOnly: true
+    description: The provisioning state of the API Management service, which is targeted by the long running operation started on the service.
+    types:
+    - uid: string
+  - name: properties.createdAtUtc
+    isReadyOnly: true
+    description: 'Creation UTC date of the API Management service.The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+    types:
+    - uid: string
+  - name: properties.gatewayUrl
+    isReadyOnly: true
+    description: Gateway URL of the API Management service.
+    types:
+    - uid: string
+  - name: properties.gatewayRegionalUrl
+    isReadyOnly: true
+    description: Gateway URL of the API Management service in the Default Region.
+    types:
+    - uid: string
+  - name: properties.portalUrl
+    isReadyOnly: true
+    description: Publisher portal endpoint Url of the API Management service.
+    types:
+    - uid: string
+  - name: properties.managementApiUrl
+    isReadyOnly: true
+    description: Management API endpoint URL of the API Management service.
+    types:
+    - uid: string
+  - name: properties.scmUrl
+    isReadyOnly: true
+    description: SCM endpoint URL of the API Management service.
+    types:
+    - uid: string
+  - name: properties.hostnameConfigurations
+    description: Custom hostname configuration.
+    types:
+    - uid: HostnameConfiguration
+      isArray: true
+  - name: properties.staticIps
+    isReadyOnly: true
+    description: Static IP addresses of the API Management service virtual machines. Available only for Standard and Premium SKU.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.virtualNetworkConfiguration
+    description: Virtual network configuration of the API Management service.
+    types:
+    - uid: VirtualNetworkConfiguration
+  - name: properties.additionalLocations
+    description: Description of an additional API Management resource location.
+    types:
+    - uid: AdditionalLocation
+      isArray: true
+  - name: properties.customProperties
+    description: Custom properties of the API Management service. Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2). Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable just TLS 1.1 and setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable TLS 1.0 on an API Management service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.certificates
+    description: Certificate configuration which consist of non-trusted intermediates and root certificates.
+    types:
+    - uid: CertificateConfiguration
+      isArray: true
+  - name: properties.virtualNetworkType
+    description: The type of VPN in which API Managemet service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
+    types:
+    - uid: VirtualNetworkType
+- name: ApiManagementServiceBackupRestoreParameters
+  description: Parameters supplied to the Backup/Restore of an API Management service operation.
+  kind: object
+  properties:
+  - name: storageAccount
+    description: Azure Cloud Storage account (used to place/retrieve the backup) name.
+    types:
+    - uid: string
+  - name: accessKey
+    description: Azure Cloud Storage account (used to place/retrieve the backup) access key.
+    types:
+    - uid: string
+  - name: containerName
+    description: Azure Cloud Storage blob container name used to place/retrieve the backup.
+    types:
+    - uid: string
+  - name: backupName
+    description: The name of the backup file to create.
+    types:
+    - uid: string
+- name: ApiManagementServiceSkuProperties
+  description: API Management service resource SKU properties.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the Sku.
+    types:
+    - uid: SkuType
+  - name: capacity
+    description: Capacity of the SKU (number of deployed units of the SKU). The default value is 1.
+    types:
+    - uid: integer
+- name: ApiManagementServiceIdentity
+  description: Identity properties of the Api Management service resource.
+  kind: object
+  properties:
+  - name: type
+    description: The identity type. Currently the only supported type is 'SystemAssigned'.
+    types:
+    - uid: ApimIdentityType
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The client tenant id of the identity.
+    types:
+    - uid: string
+- name: HostnameConfiguration
+  description: Custom hostname configuration.
+  kind: object
+  properties:
+  - name: type
+    description: Hostname type.
+    types:
+    - uid: HostnameType
+  - name: hostName
+    description: Hostname to configure on the Api Management service.
+    types:
+    - uid: string
+  - name: keyVaultId
+    description: Url to the KeyVault Secret containing the Ssl Certificate. If absolute Url containing version is provided, auto-update of ssl certificate will not work. This requires Api Management service to be configured with MSI. The secret should be of type *application/x-pkcs12*
+    types:
+    - uid: string
+  - name: encodedCertificate
+    description: Base64 Encoded certificate.
+    types:
+    - uid: string
+  - name: certificatePassword
+    description: Certificate Password.
+    types:
+    - uid: string
+  - name: defaultSslBinding
+    description: Specify true to setup the certificate associated with this Hostname as the Default SSL Certificate. If a client does not send the SNI header, then this will be the certificate that will be challenged. The property is useful if a service has multiple custom hostname enabled and it needs to decide on the default ssl certificate. The setting only applied to Proxy Hostname Type.
+    types:
+    - uid: boolean
+  - name: negotiateClientCertificate
+    description: Specify true to always negotiate client certificate on the hostname. Default Value is false.
+    types:
+    - uid: boolean
+  - name: certificate
+    isReadyOnly: true
+    description: Certificate information.
+    types:
+    - uid: CertificateInformation
+- name: VirtualNetworkConfiguration
+  description: Configuration of a virtual network to which API Management service is deployed.
+  kind: object
+  properties:
+  - name: vnetid
+    isReadyOnly: true
+    description: The virtual network ID. This is typically a GUID. Expect a null GUID by default.
+    types:
+    - uid: string
+  - name: subnetname
+    isReadyOnly: true
+    description: The name of the subnet.
+    types:
+    - uid: string
+  - name: subnetResourceId
+    description: The full resource ID of a subnet in a virtual network to deploy the API Management service in.
+    types:
+    - uid: string
+- name: AdditionalLocation
+  description: Description of an additional API Management resource location.
+  kind: object
+  properties:
+  - name: location
+    description: The location name of the additional region among Azure Data center regions.
+    types:
+    - uid: string
+  - name: sku
+    description: SKU properties of the API Management service.
+    types:
+    - uid: ApiManagementServiceSkuProperties
+  - name: staticIps
+    isReadyOnly: true
+    description: Static IP addresses of the location's virtual machines.
+    types:
+    - uid: string
+      isArray: true
+  - name: virtualNetworkConfiguration
+    description: Virtual network configuration for the location.
+    types:
+    - uid: VirtualNetworkConfiguration
+  - name: gatewayRegionalUrl
+    isReadyOnly: true
+    description: Gateway URL of the API Management service in the Region.
+    types:
+    - uid: string
+- name: CertificateConfiguration
+  description: Certificate configuration which consist of non-trusted intermediates and root certificates.
+  kind: object
+  properties:
+  - name: encodedCertificate
+    description: Base64 Encoded certificate.
+    types:
+    - uid: string
+  - name: certificatePassword
+    description: Certificate Password.
+    types:
+    - uid: string
+  - name: storeName
+    description: The local certificate store location. Only Root and CertificateAuthority are valid locations.
+    types:
+    - uid: CertificateAuthority
+    - uid: Root
+    typesTitle: enum
+  - name: certificate
+    isReadyOnly: true
+    description: Certificate information.
+    types:
+    - uid: CertificateInformation
+- name: VirtualNetworkType
+  description: The type of VPN in which API Managemet service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
+  kind: enum
+  properties:
+  - name: None
+    description: The service is not part of any Virtual Network.
+    types:
+    - uid: string
+  - name: External
+    description: The service is part of Virtual Network and it is accessible from Internet.
+    types:
+    - uid: string
+  - name: Internal
+    description: The service is part of Virtual Network and it is only accessible from within the virtual network.
+    types:
+    - uid: string
+- name: SkuType
+  description: Name of the Sku.
+  kind: enum
+  properties:
+  - name: Developer
+    description: Developer SKU of Api Management.
+    types:
+    - uid: string
+  - name: Standard
+    description: Standard SKU of Api Management.
+    types:
+    - uid: string
+  - name: Premium
+    description: Premium SKU of Api Management.
+    types:
+    - uid: string
+  - name: Basic
+    description: Basic SKU of Api Management.
+    types:
+    - uid: string
+- name: ApimIdentityType
+  description: The identity type. Currently the only supported type is 'SystemAssigned'.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+- name: HostnameType
+  description: Hostname type.
+  kind: enum
+  properties:
+  - name: Proxy
+    types:
+    - uid: string
+  - name: Portal
+    types:
+    - uid: string
+  - name: Management
+    types:
+    - uid: string
+  - name: Scm
+    types:
+    - uid: string
+- name: CertificateInformation
+  description: SSL certificate information.
+  kind: object
+  properties:
+  - name: expiry
+    description: 'Expiration date of the certificate. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+    types:
+    - uid: string
+  - name: thumbprint
+    description: Thumbprint of the certificate.
+    types:
+    - uid: string
+  - name: subject
+    description: Subject of the certificate.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementRestoreService
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/restore?api-version=2017-03-01
+    body: >-
+      {
+        "storageAccount": "teststorageaccount",
+        "accessKey": "**************************************************",
+        "containerName": "backupContainer",
+        "backupName": "apimService1backup_2017_03_19"
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2017-03-01
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+        "name": "apimService1",
+        "type": "Microsoft.ApiManagement/service",
+        "tags": {
+          "UID": "52ed5986-717b-45b4-b17c-3df8db372cff"
+        },
+        "location": "East Asia",
+        "etag": "AAAAAAAXX6Y=",
+        "properties": {
+          "publisherEmail": "admin@live.com",
+          "publisherName": "Contoso",
+          "provisioningState": "Succeeded",
+          "targetProvisioningState": "",
+          "createdAtUtc": "2015-09-22T01:50:34.7921566Z",
+          "gatewayUrl": "https://apimService1.azure-api.net",
+          "portalUrl": "https://apimService1.portal.azure-api.net",
+          "managementApiUrl": "https://apimService1.management.azure-api.net",
+          "scmUrl": "https://apimService1.scm.azure-api.net",
+          "hostnameConfigurations": [],
+          "staticIps": [
+            "207.46.155.24"
+          ],
+          "virtualNetworkType": "None"
+        },
+        "sku": {
+          "name": "Premium",
+          "capacity": 1
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

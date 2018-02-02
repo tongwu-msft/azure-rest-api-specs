@@ -1,0 +1,98 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.powerbiembedded.capacities.listskus
+name: List Skus
+service: Power BI Embedded
+groupName: Capacities
+apiVersion: 2017-10-01
+summary: Lists eligible SKUs for PowerBI Dedicated resource provider.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/skus?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SkuEnumerationForNewResourceResult
+requestHeader: []
+definitions:
+- name: SkuEnumerationForNewResourceResult
+  description: An object that represents enumerating SKUs for new resources
+  kind: object
+  properties:
+  - name: value
+    description: Represents the SKU name and Azure pricing tier for PowerBI Dedicated resource.
+    types:
+    - uid: ResourceSku
+      isArray: true
+- name: ResourceSku
+  description: Represents the SKU name and Azure pricing tier for PowerBI Dedicated resource.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the SKU level.
+    types:
+    - uid: string
+  - name: tier
+    description: The name of the Azure pricing tier to which the SKU applies.
+    types:
+    - uid: SkuTier
+- name: SkuTier
+  description: The name of the Azure pricing tier to which the SKU applies.
+  kind: enum
+  properties:
+  - name: PBIE_Azure
+    types:
+    - uid: string
+examples:
+- name: List eligible SKUs for a new capacity
+  request:
+    uri: GET https://management.azure.com/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/providers/Microsoft.PowerBIDedicated/skus?api-version=2017-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "A1"
+          },
+          {
+            "name": "A2"
+          },
+          {
+            "name": "A3"
+          },
+          {
+            "name": "A4"
+          },
+          {
+            "name": "A5"
+          },
+          {
+            "name": "A6"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

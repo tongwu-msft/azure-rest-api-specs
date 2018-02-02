@@ -1,0 +1,216 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.triggers.listruns
+name: List Runs
+service: Data Factory
+groupName: Triggers
+apiVersion: 2017-09-01-preview
+summary: List trigger runs.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/triggerruns?api-version=2017-09-01-preview&startTime={startTime}&endTime={endTime}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: triggerName
+  in: path
+  isRequired: true
+  description: The trigger name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9_][^<>*#.%&:\\+?/]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+- name: startTime
+  in: query
+  isRequired: true
+  description: Start time for trigger runs.
+  types:
+  - uid: string
+  format: date-time
+- name: endTime
+  in: query
+  isRequired: true
+  description: End time for trigger runs.
+  types:
+  - uid: string
+  format: date-time
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: TriggerRunListResponse
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: TriggerRunListResponse
+  description: A list of trigger runs.
+  kind: object
+  properties:
+  - name: value
+    description: Trigger runs.
+    types:
+    - uid: TriggerRun
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of results, if any remaining results exist.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: details
+    description: The object that defines the structure of an Azure Data Factory response.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+- name: TriggerRun
+  description: Trigger runs.
+  kind: object
+  properties:
+  - name: triggerRunId
+    isReadyOnly: true
+    description: Trigger run id.
+    types:
+    - uid: string
+  - name: triggerName
+    isReadyOnly: true
+    description: Trigger name.
+    types:
+    - uid: string
+  - name: triggerType
+    isReadyOnly: true
+    description: Trigger type.
+    types:
+    - uid: string
+  - name: triggerRunTimestamp
+    isReadyOnly: true
+    description: Trigger run start time.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Trigger run status.
+    types:
+    - uid: TriggerRunStatus
+  - name: message
+    isReadyOnly: true
+    description: Trigger error message.
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: List of property name and value related to trigger run. Name, value pair depends on type of trigger.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: triggeredPipelines
+    isReadyOnly: true
+    description: List of pipeline name and run Id triggered by the trigger run.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: TriggerRunStatus
+  description: Trigger run status.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Inprogress
+    types:
+    - uid: string
+examples:
+- name: Triggers_ListRuns
+  request:
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger/triggerruns?api-version=2017-09-01-preview&startTime=2017-09-13T17%3A54%3A24.0440889Z&endTime=2017-09-13T18%3A14%3A24.0440889Z
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 18:04:24 GMT
+    - name: x-ms-request-id
+      value: c82b86e6-2e81-46e4-8e28-356dd4a15f84
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "14855"
+    - name: x-ms-correlation-request-id
+      value: 165d9588-bcba-49ac-a3d9-0dcc49be6c8a
+    body: >-
+      {
+        "value": [
+          {
+            "triggerName": "exampleTrigger",
+            "triggerRunId": "08586962812027443030287916742",
+            "triggerType": "ScheduleTrigger",
+            "triggerRunTimestamp": "2017-09-13T18:01:22.7219263Z",
+            "status": "Succeeded",
+            "message": "",
+            "properties": {
+              "TriggerTime": "09/13/2017 18:01:22",
+              "ScheduleTime": "09/13/2017 18:01:21"
+            },
+            "triggeredPipelines": {
+              "examplePipeline": "0bf632a4-98c4-4179-935b-0b220d14fb19"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

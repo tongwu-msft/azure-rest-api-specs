@@ -1,0 +1,257 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.networkwatcher.networkwatchers.getazurereachabilityreport
+name: Get Azure Reachability Report
+service: Network Watcher
+groupName: Network Watchers
+apiVersion: 2017-10-01
+summary: Gets the relative latency score for internet service providers from a specified location to Azure regions.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the network watcher resource group.
+  types:
+  - uid: string
+- name: networkWatcherName
+  in: path
+  isRequired: true
+  description: The name of the network watcher resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successful request for Azure reachability report.
+  types:
+  - uid: AzureReachabilityReport
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+  types:
+  - uid: AzureReachabilityReport
+requestBody:
+- parameters:
+  - name: providerLocation
+    in: body
+    isRequired: true
+    description: Parameters that define a geographic location.
+    types:
+    - uid: AzureReachabilityReportLocation
+  - name: providers
+    in: body
+    description: List of Internet service providers.
+    types:
+    - uid: string
+      isArray: true
+  - name: azureLocations
+    in: body
+    description: Optional Azure regions to scope the query to.
+    types:
+    - uid: string
+      isArray: true
+  - name: startTime
+    in: body
+    isRequired: true
+    description: The start time for the Azure reachability report.
+    types:
+    - uid: string
+  - name: endTime
+    in: body
+    isRequired: true
+    description: The end time for the Azure reachability report.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: AzureReachabilityReportLocation
+  description: Parameters that define a geographic location.
+  kind: object
+  properties:
+  - name: country
+    description: The name of the country.
+    types:
+    - uid: string
+  - name: state
+    description: The name of the state.
+    types:
+    - uid: string
+  - name: city
+    description: The name of the city or town.
+    types:
+    - uid: string
+- name: AzureReachabilityReport
+  description: Azure reachability report details.
+  kind: object
+  properties:
+  - name: aggregationLevel
+    description: The aggregation level of Azure reachability report. Can be Country, State or City.
+    types:
+    - uid: string
+  - name: providerLocation
+    description: Parameters that define a geographic location.
+    types:
+    - uid: AzureReachabilityReportLocation
+  - name: reachabilityReport
+    description: Azure reachability report details for a given provider location.
+    types:
+    - uid: AzureReachabilityReportItem
+      isArray: true
+- name: AzureReachabilityReportParameters
+  description: Geographic and time constraints for Azure reachability report.
+  kind: object
+  properties:
+  - name: providerLocation
+    description: Parameters that define a geographic location.
+    types:
+    - uid: AzureReachabilityReportLocation
+  - name: providers
+    description: List of Internet service providers.
+    types:
+    - uid: string
+      isArray: true
+  - name: azureLocations
+    description: Optional Azure regions to scope the query to.
+    types:
+    - uid: string
+      isArray: true
+  - name: startTime
+    description: The start time for the Azure reachability report.
+    types:
+    - uid: string
+  - name: endTime
+    description: The end time for the Azure reachability report.
+    types:
+    - uid: string
+- name: AzureReachabilityReportItem
+  description: Azure reachability report details for a given provider location.
+  kind: object
+  properties:
+  - name: provider
+    description: The Internet service provider.
+    types:
+    - uid: string
+  - name: azureLocation
+    description: The Azure region.
+    types:
+    - uid: string
+  - name: latencies
+    description: Details on latency for a time series.
+    types:
+    - uid: AzureReachabilityReportLatencyInfo
+      isArray: true
+- name: AzureReachabilityReportLatencyInfo
+  description: Details on latency for a time series.
+  kind: object
+  properties:
+  - name: timeStamp
+    description: The time stamp.
+    types:
+    - uid: string
+  - name: score
+    description: The relative latency score between 1 and 100, higher values indicating a faster connection.
+    types:
+    - uid: integer
+examples:
+- name: Get Azure Reachability Report
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/azureReachabilityReport?api-version=2017-10-01
+    body: >-
+      {
+        "providerLocation": {
+          "country": "United States",
+          "state": "washington"
+        },
+        "providers": [
+          "Frontier Communications of America, Inc. - ASN 5650"
+        ],
+        "azureLocations": [
+          "West US"
+        ],
+        "startTime": "2017-09-07T00:00:00Z",
+        "endTime": "2017-09-10T00:00:00Z"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "aggregationLevel": "State",
+        "providerLocation": {
+          "country": "United States",
+          "state": "washington"
+        },
+        "reachabilityReport": [
+          {
+            "provider": "Frontier Communications of America, Inc. - ASN 5650",
+            "azureLocation": "West US",
+            "latencies": [
+              {
+                "timeStamp": "2017-09-07T00:00:00Z",
+                "score": 94
+              },
+              {
+                "timeStamp": "2017-09-08T00:00:00Z",
+                "score": 94
+              },
+              {
+                "timeStamp": "2017-09-09T00:00:00Z",
+                "score": 94
+              }
+            ]
+          }
+        ]
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "aggregationLevel": "State",
+        "providerLocation": {
+          "country": "United States",
+          "state": "washington"
+        },
+        "reachabilityReport": [
+          {
+            "provider": "Frontier Communications of America, Inc. - ASN 5650",
+            "azureLocation": "West US",
+            "latencies": [
+              {
+                "timeStamp": "2017-09-07T00:00:00Z",
+                "score": 94
+              },
+              {
+                "timeStamp": "2017-09-08T00:00:00Z",
+                "score": 94
+              },
+              {
+                "timeStamp": "2017-09-09T00:00:00Z",
+                "score": 94
+              }
+            ]
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

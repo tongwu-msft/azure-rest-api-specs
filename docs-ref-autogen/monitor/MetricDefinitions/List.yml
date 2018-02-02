@@ -1,0 +1,624 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.metricdefinitions.list
+name: List
+service: Monitor
+groupName: Metric Definitions
+apiVersion: 2017-05-01-preview
+summary: Lists the metric definitions for the resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metricDefinitions?api-version=2017-05-01-preview
+uriParameters:
+- name: resourceUri
+  in: path
+  isRequired: true
+  description: The identifier of the resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+- name: 200 OK
+  description: Successful request to get the list of metric definitions
+  types:
+  - uid: MetricDefinitionCollection
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: MetricDefinitionCollection
+  description: Represents collection of metric definitions.
+  kind: object
+  properties:
+  - name: value
+    description: Metric definition class specifies the metadata for a metric.
+    types:
+    - uid: MetricDefinition
+      isArray: true
+- name: MetricDefinition
+  description: Metric definition class specifies the metadata for a metric.
+  kind: object
+  properties:
+  - name: isDimensionRequired
+    description: Flag to indicate whether the dimension is required.
+    types:
+    - uid: boolean
+  - name: resourceId
+    description: the resource identifier of the resource that emitted the metric.
+    types:
+    - uid: string
+  - name: name
+    description: the name and the display name of the metric, i.e. it is a localizable string.
+    types:
+    - uid: LocalizableString
+  - name: unit
+    description: the unit of the metric.
+    types:
+    - uid: Unit
+  - name: primaryAggregationType
+    description: the primary aggregation type value defining how to use the values for display.
+    types:
+    - uid: AggregationType
+  - name: metricAvailabilities
+    description: Metric availability specifies the time grain (aggregation interval or frequency) and the retention period for that time grain.
+    types:
+    - uid: MetricAvailability
+      isArray: true
+  - name: id
+    description: the resource identifier of the metric definition.
+    types:
+    - uid: string
+  - name: dimensions
+    description: The localizable string class.
+    types:
+    - uid: LocalizableString
+      isArray: true
+- name: LocalizableString
+  description: The localizable string class.
+  kind: object
+  properties:
+  - name: value
+    description: the invariant value.
+    types:
+    - uid: string
+  - name: localizedValue
+    description: the locale specific value.
+    types:
+    - uid: string
+- name: Unit
+  description: the unit of the metric.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+  - name: Seconds
+    types:
+    - uid: string
+  - name: CountPerSecond
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    types:
+    - uid: string
+  - name: Percent
+    types:
+    - uid: string
+  - name: MilliSeconds
+    types:
+    - uid: string
+  - name: ByteSeconds
+    types:
+    - uid: string
+  - name: Unspecified
+    types:
+    - uid: string
+- name: AggregationType
+  description: the primary aggregation type value defining how to use the values for display.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Average
+    types:
+    - uid: string
+  - name: Count
+    types:
+    - uid: string
+  - name: Minimum
+    types:
+    - uid: string
+  - name: Maximum
+    types:
+    - uid: string
+  - name: Total
+    types:
+    - uid: string
+- name: MetricAvailability
+  description: Metric availability specifies the time grain (aggregation interval or frequency) and the retention period for that time grain.
+  kind: object
+  properties:
+  - name: timeGrain
+    description: the time grain specifies the aggregation interval for the metric. Expressed as a duration 'PT1M', 'P1D', etc.
+    types:
+    - uid: string
+  - name: retention
+    description: the retention period for the metric at the specified timegrain.  Expressed as a duration 'PT1M', 'P1D', etc.
+    types:
+    - uid: string
+examples:
+- name: Get Metric Definitions without filter
+  request:
+    uri: GET https://management.azure.com/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricDefinitions/providers/microsoft.insights/metricDefinitions?api-version=2017-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/CpuTime",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "CpuTime",
+              "localizedValue": "CPU Time"
+            },
+            "isDimensionRequired": false,
+            "unit": "Seconds",
+            "primaryAggregationType": "Total",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/Requests",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "Requests",
+              "localizedValue": "Requests"
+            },
+            "isDimensionRequired": false,
+            "unit": "Count",
+            "primaryAggregationType": "Total",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/BytesReceived",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "BytesReceived",
+              "localizedValue": "Data In"
+            },
+            "isDimensionRequired": false,
+            "unit": "Bytes",
+            "primaryAggregationType": "Total",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/BytesSent",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "BytesSent",
+              "localizedValue": "Data Out"
+            },
+            "isDimensionRequired": false,
+            "unit": "Bytes",
+            "primaryAggregationType": "Total",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/Http101",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "Http101",
+              "localizedValue": "Http 101"
+            },
+            "isDimensionRequired": false,
+            "unit": "Count",
+            "primaryAggregationType": "Total",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/Http2xx",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "Http2xx",
+              "localizedValue": "Http 2xx"
+            },
+            "isDimensionRequired": false,
+            "unit": "Count",
+            "primaryAggregationType": "Total",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/Http3xx",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "Http3xx",
+              "localizedValue": "Http 3xx"
+            },
+            "isDimensionRequired": false,
+            "unit": "Count",
+            "primaryAggregationType": "Total",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/Http401",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "Http401",
+              "localizedValue": "Http 401"
+            },
+            "isDimensionRequired": false,
+            "unit": "Count",
+            "primaryAggregationType": "Total",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/Http403",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "Http403",
+              "localizedValue": "Http 403"
+            },
+            "isDimensionRequired": false,
+            "unit": "Count",
+            "primaryAggregationType": "Total",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/Http404",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "Http404",
+              "localizedValue": "Http 404"
+            },
+            "isDimensionRequired": false,
+            "unit": "Count",
+            "primaryAggregationType": "Total",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/Http406",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "Http406",
+              "localizedValue": "Http 406"
+            },
+            "isDimensionRequired": false,
+            "unit": "Count",
+            "primaryAggregationType": "Total",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/Http4xx",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "Http4xx",
+              "localizedValue": "Http 4xx"
+            },
+            "isDimensionRequired": false,
+            "unit": "Count",
+            "primaryAggregationType": "Total",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/Http5xx",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "Http5xx",
+              "localizedValue": "Http Server Errors"
+            },
+            "isDimensionRequired": false,
+            "unit": "Count",
+            "primaryAggregationType": "Total",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/MemoryWorkingSet",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "MemoryWorkingSet",
+              "localizedValue": "Memory working set"
+            },
+            "isDimensionRequired": false,
+            "unit": "Bytes",
+            "primaryAggregationType": "Average",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/AverageMemoryWorkingSet",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "AverageMemoryWorkingSet",
+              "localizedValue": "Average memory working set"
+            },
+            "isDimensionRequired": false,
+            "unit": "Bytes",
+            "primaryAggregationType": "Average",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricdefinitions/AverageResponseTime",
+            "resourceId": "/subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest",
+            "name": {
+              "value": "AverageResponseTime",
+              "localizedValue": "Average Response Time"
+            },
+            "isDimensionRequired": false,
+            "unit": "Seconds",
+            "primaryAggregationType": "Average",
+            "metricAvailabilities": [
+              {
+                "timeGrain": "PT1M",
+                "retention": "P30D"
+              },
+              {
+                "timeGrain": "PT1H",
+                "retention": "P30D"
+              }
+            ],
+            "dimensions": [
+              {
+                "value": "Instance",
+                "localizedValue": "Instance"
+              }
+            ]
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

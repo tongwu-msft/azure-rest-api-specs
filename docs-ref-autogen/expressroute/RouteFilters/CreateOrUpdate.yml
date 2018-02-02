@@ -1,0 +1,301 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.expressroute.routefilters.createorupdate
+name: Create Or Update
+service: ExpressRoute
+groupName: Route Filters
+apiVersion: 2017-10-01
+summary: Creates or updates a route filter in a specified resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: routeFilterName
+  in: path
+  isRequired: true
+  description: The name of the route filter.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns the resulting Route Filter resource.
+  types:
+  - uid: RouteFilter
+- name: 201 Created
+  description: Create successful. The operation returns the resulting Route Filter resource.
+  types:
+  - uid: RouteFilter
+requestBody:
+- parameters:
+  - name: properties.rules
+    in: body
+    description: Route Filter Rule Resource
+    types:
+    - uid: RouteFilterRule
+      isArray: true
+  - name: properties.peerings
+    in: body
+    description: Reference to another subresource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: location
+    in: body
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: RouteFilterRule
+  description: Route Filter Rule Resource
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.access
+    description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
+    types:
+    - uid: Access
+  - name: properties.routeFilterRuleType
+    description: "The rule type of the rule. Valid value is: 'Community'"
+    types:
+    - uid: RouteFilterRuleType
+  - name: properties.communities
+    description: The collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020']
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: RouteFilter
+  description: Route Filter Resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.rules
+    description: Route Filter Rule Resource
+    types:
+    - uid: RouteFilterRule
+      isArray: true
+  - name: properties.peerings
+    description: Reference to another subresource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: Access
+  description: "The access type of the rule. Valid values are: 'Allow', 'Deny'"
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: RouteFilterRuleType
+  description: "The rule type of the rule. Valid value is: 'Community'"
+  kind: enum
+  properties:
+  - name: Community
+    types:
+    - uid: string
+examples:
+- name: RouteFilterCreate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeFilters/filterName?api-version=2017-10-01
+    body: >-
+      {
+        "location": "West US",
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "rules": [
+            {
+              "name": "ruleName",
+              "properties": {
+                "access": "Allow",
+                "routeFilterRuleType": "Community",
+                "communities": [
+                  "12076:5030",
+                  "12076:5040"
+                ]
+              }
+            }
+          ],
+          "peerings": []
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "location": "West US",
+        "name": "filterName",
+        "type": "Microsofot.Network/routeFilters",
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "rules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName/routeFilterRules/ruleName",
+              "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+              "name": "ruleName",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "access": "Allow",
+                "routeFilterRuleType": "Community",
+                "communities": [
+                  "12076:5030",
+                  "12076:5040"
+                ]
+              }
+            }
+          ],
+          "peerings": []
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "location": "West US",
+        "name": "filterName",
+        "type": "Microsofot.Network/routeFilters",
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "rules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/routeFilters/filterName/routeFilterRules/ruleName",
+              "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+              "name": "ruleName",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "access": "Allow",
+                "routeFilterRuleType": "Community",
+                "communities": [
+                  "12076:5030",
+                  "12076:5040"
+                ]
+              }
+            }
+          ],
+          "peerings": []
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

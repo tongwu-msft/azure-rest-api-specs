@@ -1,0 +1,247 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.reservationssummaries.listbyreservationorderandreservation
+name: List By Reservation Order And Reservation
+service: Consumption
+groupName: Reservations Summaries
+apiVersion: 2018-01-31
+summary: Lists the reservations summaries for daily or monthly grain.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationSummaries?grain={grain}&api-version=2018-01-31
+- content: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationSummaries?grain={grain}&$filter={$filter}&api-version=2018-01-31
+  isOptional: true
+uriParameters:
+- name: reservationOrderId
+  in: path
+  isRequired: true
+  description: Order Id of the reservation
+  types:
+  - uid: string
+- name: reservationId
+  in: path
+  isRequired: true
+  description: Id of the reservation
+  types:
+  - uid: string
+- name: grain
+  in: query
+  isRequired: true
+  description: Can be daily or monthly
+  types:
+  - uid: datagrain
+- name: $filter
+  in: query
+  description: Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-01-31.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ReservationSummariesListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: datagrain
+  description: Can be daily or monthly
+  kind: enum
+  properties:
+  - name: daily
+    description: Daily grain of data
+    types:
+    - uid: string
+  - name: monthly
+    description: Monthly grain of data
+    types:
+    - uid: string
+- name: ReservationSummariesListResult
+  description: Result of listing reservation summaries.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: reservation summaries resource.
+    types:
+    - uid: ReservationSummaries
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: ReservationSummaries
+  description: reservation summaries resource.
+  kind: object
+  properties:
+  - name: properties.reservationOrderId
+    isReadyOnly: true
+    description: The reservation order ID is the identifier for a reservation purchase. Each reservation order ID represents a single purchase transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations.
+    types:
+    - uid: string
+  - name: properties.reservationId
+    isReadyOnly: true
+    description: The reservation ID is the identifier of a reservation within a reservation order. Each reservation is the grouping for applying the benefit scope and also specifies the number of instances to which the reservation benefit can be applied to.
+    types:
+    - uid: string
+  - name: properties.skuName
+    isReadyOnly: true
+    description: This is the ARM Sku name. It can be used to join with the servicetype field in additoinalinfo in usage records.
+    types:
+    - uid: string
+  - name: properties.reservedHours
+    isReadyOnly: true
+    description: This is the total hours reserved. E.g. if reservation for 1 instance was made on 1 PM, this will be 11 hours for that day and 24 hours from subsequent days
+    types:
+    - uid: number
+  - name: properties.usageDate
+    isReadyOnly: true
+    description: Data corresponding to the utilization record. If the grain of data is monthly, it will be first day of month.
+    types:
+    - uid: string
+  - name: properties.usedHours
+    isReadyOnly: true
+    description: Total used hours by the reservation
+    types:
+    - uid: number
+  - name: properties.minUtilizationPercentage
+    isReadyOnly: true
+    description: This is the minimum hourly utilization in the usage time (day or month). E.g. if usage record corresponds to 12/10/2017 and on that for hour 4 and 5, utilization was 10%, this field will return 10% for that day
+    types:
+    - uid: number
+  - name: properties.avgUtilizationPercentage
+    isReadyOnly: true
+    description: This is average utilization for the entire time range. (day or month depending on the grain)
+    types:
+    - uid: number
+  - name: properties.maxUtilizationPercentage
+    isReadyOnly: true
+    description: This is the maximum hourly utilization in the usage time (day or month). E.g. if usage record corresponds to 12/10/2017 and on that for hour 4 and 5, utilization was 100%, this field will return 100% for that day.
+    types:
+    - uid: number
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: ReservationSummariesDailyWithReservationId
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/87f3c981-3e33-43d0-b26b-dfca785cf18a/reservations/ba4a5693-71ef-4ec2-a5ea-c4897ee7e740/providers/Microsoft.Consumption/reservationSummaries?grain=daily&$filter=properties/UsageDate ge 2017-10-01 AND properties/UsageDate le 2017-11-20&api-version=2018-01-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "providers/Microsoft.Capacity/reservationOrders/87f3c981-3e33-43d0-b26b-dfca785cf18a/reservations/ed0bcc5a-8027-451e-8435-e96c4021abc3/providers/Microsoft.Consumption/reservationSummaries/20171001",
+            "name": "87f3c981-3e33-43d0-b26b-dfca785cf18a_ed0bcc5a-8027-451e-8435-e96c4021abc3_20171001",
+            "type": "Microsoft.Consumption/reservationsummaries",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "reservationOrderId": "87f3c981-3e33-43d0-b26b-dfca785cf18a",
+              "reservationId": "ed0bcc5a-8027-451e-8435-e96c4021abc3",
+              "skuName": "Standard_D8s_v3",
+              "reservedHours": 0,
+              "usageDate": "2017-10-01T00:00:00Z",
+              "usedHours": 0,
+              "minUtilizationPercentage": 0,
+              "avgUtilizationPercentage": 0,
+              "maxUtilizationPercentage": 0
+            }
+          }
+        ]
+      }
+- name: ReservationSummariesMonthlyWithReservationId
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/87f3c981-3e33-43d0-b26b-dfca785cf18a/reservations/ba4a5693-71ef-4ec2-a5ea-c4897ee7e740/providers/Microsoft.Consumption/reservationSummaries?grain=monthly&api-version=2018-01-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "providers/Microsoft.Capacity/reservationOrders/87f3c981-3e33-43d0-b26b-dfca785cf18a/reservations/ed0bcc5a-8027-451e-8435-e96c4021abc3/providers/Microsoft.Consumption/reservationSummaries/20171001",
+            "name": "87f3c981-3e33-43d0-b26b-dfca785cf18a_ed0bcc5a-8027-451e-8435-e96c4021abc3_20171001",
+            "type": "Microsoft.Consumption/reservationsummaries",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "reservationOrderId": "87f3c981-3e33-43d0-b26b-dfca785cf18a",
+              "reservationId": "ed0bcc5a-8027-451e-8435-e96c4021abc3",
+              "skuName": "Standard_D8s_v3",
+              "reservedHours": 0,
+              "usageDate": "2017-10-01T00:00:00Z",
+              "usedHours": 0,
+              "minUtilizationPercentage": 0,
+              "avgUtilizationPercentage": 0,
+              "maxUtilizationPercentage": 0
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

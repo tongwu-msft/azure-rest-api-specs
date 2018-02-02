@@ -1,0 +1,326 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicemap.machines.listconnections
+name: List Connections
+service: Service Map
+groupName: Machines
+apiVersion: 2015-11-01-preview
+summary: Returns a collection of connections terminating or originating at the specified machine
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machines/{machineName}/connections?api-version=2015-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machines/{machineName}/connections?api-version=2015-11-01-preview&startTime={startTime}&endTime={endTime}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name within the specified subscriptionId.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_-]+'
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: OMS workspace containing the resources of interest.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_][a-zA-Z0-9_-]+[a-zA-Z0-9_]'
+- name: machineName
+  in: path
+  isRequired: true
+  description: Machine resource name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version.
+  types:
+  - uid: string
+- name: startTime
+  in: query
+  description: UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m
+  types:
+  - uid: string
+  format: date-time
+- name: endTime
+  in: query
+  description: UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow
+  types:
+  - uid: string
+  format: date-time
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: ConnectionCollection
+- name: Other Status Codes
+  description: An error occurred while processing the request. See the error.code parameter to identify the specific error.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ConnectionCollection
+  description: Collection of Connection resources.
+  kind: object
+  properties:
+  - name: value
+    description: A network connection.
+    types:
+    - uid: Connection
+      isArray: true
+  - name: nextLink
+    description: The URL to the next set of resources.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: An error response from the API.
+  kind: object
+  properties:
+  - name: error
+    description: Error information.
+    types:
+    - uid: Error
+- name: Connection
+  description: A network connection.
+  kind: object
+  properties:
+  - name: properties.serverPort
+    description: Reference to the server port via which this connection has been established.
+    types:
+    - uid: PortReference
+  - name: properties.failureState
+    description: Specifies whether there are only successful, failed or a mixture of both connections represented by this resource.
+    types:
+    - uid: ConnectionFailureState
+  - name: kind
+    description: Additional resource type qualifier.
+    types:
+    - uid: rel:connection
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Resource identifier.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: properties.source
+    description: Source resource of the relationship.
+    types:
+    - uid: MachineReference
+    - uid: ProcessReference
+    - uid: PortReference
+    - uid: MachineReferenceWithHints
+    typesTitle: ResourceReference
+  - name: properties.destination
+    description: Destination resource of the relationship.
+    types:
+    - uid: MachineReference
+    - uid: ProcessReference
+    - uid: PortReference
+    - uid: MachineReferenceWithHints
+    typesTitle: ResourceReference
+  - name: properties.startTime
+    description: Relationship start time.
+    types:
+    - uid: string
+  - name: properties.endTime
+    description: Relationship end time.
+    types:
+    - uid: string
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Error code identifying the specific error.
+    types:
+    - uid: string
+  - name: message
+    description: Error message in the caller's locale.
+    types:
+    - uid: string
+- name: PortReference
+  description: Reference to a port.
+  kind: object
+  properties:
+  - name: properties.machine
+    isReadyOnly: true
+    description: Machine hosting the port.
+    types:
+    - uid: MachineReference
+  - name: properties.ipAddress
+    isReadyOnly: true
+    description: IP address of the port.
+    types:
+    - uid: string
+  - name: properties.portNumber
+    description: Port number.
+    types:
+    - uid: integer
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:port
+    typesTitle: string
+- name: ConnectionFailureState
+  description: >-
+    Connection failure state:
+     * ```ok``` indicates no failures
+     * ```failed``` indicates only failures
+     * ```mixed``` indicates both failures and successes
+  kind: enum
+  properties:
+  - name: ok
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: mixed
+    types:
+    - uid: string
+- name: MachineReference
+  description: Reference to a machine.
+  kind: object
+  properties:
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:machine
+    typesTitle: string
+- name: ProcessReference
+  description: Reference to a process.
+  kind: object
+  properties:
+  - name: properties.machine
+    isReadyOnly: true
+    description: Machine hosting the process.
+    types:
+    - uid: MachineReference
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:process
+    typesTitle: string
+- name: MachineReferenceWithHints
+  description: A machine reference with a hint of the machine's name and operating system.
+  kind: object
+  properties:
+  - name: properties.displayNameHint
+    isReadyOnly: true
+    description: Last known display name.
+    types:
+    - uid: string
+  - name: properties.osFamilyHint
+    isReadyOnly: true
+    description: Last known operating system family.
+    types:
+    - uid: OperatingSystemFamily
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:machinewithhints
+    typesTitle: string
+- name: OperatingSystemFamily
+  description: Specifies the operating system family, e.g., Linux, Windows, etc.
+  kind: enum
+  properties:
+  - name: unknown
+    types:
+    - uid: string
+  - name: windows
+    types:
+    - uid: string
+  - name: linux
+    types:
+    - uid: string
+  - name: solaris
+    types:
+    - uid: string
+  - name: aix
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
