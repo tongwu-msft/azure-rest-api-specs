@@ -1,0 +1,143 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.listperfmoncountersslot
+name: List Perf Mon Counters Slot
+service: App Service
+groupName: Web Apps
+apiVersion: 2016-08-01
+summary: Gets perfmon counters for web app.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/perfcounters?api-version=2016-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/perfcounters?$filter={$filter}&api-version=2016-08-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of web app.
+  types:
+  - uid: string
+- name: slot
+  in: path
+  isRequired: true
+  description: Name of web app slot. If not specified then will default to production slot.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: "Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(startTime eq '2014-01-01T00:00:00Z' and endTime eq '2014-12-31T23:59:59Z' and timeGrain eq duration'[Hour|Minute|Day]'."
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PerfMonCounterCollection
+requestHeader: []
+definitions:
+- name: PerfMonCounterCollection
+  description: Collection of performance monitor counters.
+  kind: object
+  properties:
+  - name: value
+    description: Performance monitor API response.
+    types:
+    - uid: PerfMonResponse
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to next page of resources.
+    types:
+    - uid: string
+- name: PerfMonResponse
+  description: Performance monitor API response.
+  kind: object
+  properties:
+  - name: code
+    description: The response code.
+    types:
+    - uid: string
+  - name: message
+    description: The message.
+    types:
+    - uid: string
+  - name: data
+    description: The performance monitor counters.
+    types:
+    - uid: PerfMonSet
+- name: PerfMonSet
+  description: Metric information.
+  kind: object
+  properties:
+  - name: name
+    description: Unique key name of the counter.
+    types:
+    - uid: string
+  - name: startTime
+    description: Start time of the period.
+    types:
+    - uid: string
+  - name: endTime
+    description: End time of the period.
+    types:
+    - uid: string
+  - name: timeGrain
+    description: Presented time grain.
+    types:
+    - uid: string
+  - name: values
+    description: Performance monitor sample in a set.
+    types:
+    - uid: PerfMonSample
+      isArray: true
+- name: PerfMonSample
+  description: Performance monitor sample in a set.
+  kind: object
+  properties:
+  - name: time
+    description: Point in time for which counter was measured.
+    types:
+    - uid: string
+  - name: instanceName
+    description: Name of the server on which the measurement is made.
+    types:
+    - uid: string
+  - name: value
+    description: Value of counter at a certain time.
+    types:
+    - uid: number
+  - name: coreCount
+    description: Core Count of worker. Not a data member
+    types:
+    - uid: integer
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

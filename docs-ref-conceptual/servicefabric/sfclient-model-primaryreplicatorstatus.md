@@ -1,6 +1,6 @@
 ---
 title: "PrimaryReplicatorStatus"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # PrimaryReplicatorStatus
 
-
+Provides statistics about the Service Fabric Replicator, when it is functioning in a Primary role.
 
 ## Properties
 | Name | Type | Required |
@@ -50,10 +50,7 @@ ____
 __Type__: [ReplicatorQueueStatus](sfclient-model-replicatorqueuestatus.md) <br/>
 __Required__: No<br/>
 <br/>
-Provides various statistics of the queue used in the service fabric replicator.
-Contains information about the service fabric replicator like the replication/copy queue utilization, last acknowledgement received timestamp, etc.
-Depending on the role of the replicator, the properties in this type imply different meanings.
-
+Details about the replication queue on the primary replicator.
 
 ____
 ### RemoteReplicators

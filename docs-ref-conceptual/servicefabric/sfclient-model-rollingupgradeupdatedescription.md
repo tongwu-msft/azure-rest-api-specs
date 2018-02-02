@@ -1,6 +1,6 @@
 ---
 title: "RollingUpgradeUpdateDescription"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -50,12 +50,17 @@ __Type__: string (enum) <br/>
 __Required__: Yes<br/>
 __Default__: UnmonitoredAuto <br/>
 <br/>
+
+
 The mode used to monitor health during a rolling upgrade.
 
-    - Invalid - Indicates the upgrade mode is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-    - UnmonitoredAuto - The upgrade will proceed automatically without performing any health monitoring. The value is 1
-    - UnmonitoredManual - The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. The value is 2
-    - Monitored - The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 3
+Possible values are: 
+
+  - Invalid - Indicates the upgrade mode is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - UnmonitoredAuto - The upgrade will proceed automatically without performing any health monitoring. The value is 1
+  - UnmonitoredManual - The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. The value is 2
+  - Monitored - The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 3
+
 
 
 ____
@@ -77,11 +82,16 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations.
 
-    - Invalid - Indicates the failure action is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-    - Rollback - The upgrade will start rolling back automatically. The value is 1
-    - Manual - The upgrade will switch to UnmonitoredManual upgrade mode. The value is 2
+Possible values are: 
+
+  - Invalid - Indicates the failure action is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - Rollback - The upgrade will start rolling back automatically. The value is 1
+  - Manual - The upgrade will switch to UnmonitoredManual upgrade mode. The value is 2
+
 
 
 ____

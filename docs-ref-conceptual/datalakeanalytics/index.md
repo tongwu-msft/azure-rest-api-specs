@@ -17,11 +17,11 @@ Use the Azure Data Lake Analytics REST APIs to create and manage Data Lake Analy
 
 | Operation Group | Description |
 |-----------------|-------------|
-|[Account](~/docs-ref-autogen/datalakeanalytics/Account.json)| Provides operations to manage Data Lake Analytics account and storage linked to Data Lake Analytics account. |
+|[Account](~/docs-ref-autogen/datalakeanalytics/Account.yml)| Provides operations to manage Data Lake Analytics account and storage linked to Data Lake Analytics account. |
 |[Catalog](catalog-management-apis.md) | Provides operations to manage catalogs for the Data Lake Analytics account. |
 |[Job](job-management-apis.md) | Provides operations to manage jobs in the Data Lake Analytics account. |
-|[Firewall rules](~/docs-ref-autogen/datalakeanalytics/FirewallRules.json) | Provides operations to manage firewall rules for Data Lake Analytics account. |
-|[Storage accounts](~/docs-ref-autogen/datalakeanalytics/StorageAccounts.json) | Provides operations to manage Azure Storage accounts associated with a Data Lake Analytics account. |
+|[Firewall rules](~/docs-ref-autogen/datalakeanalytics/FirewallRules.yml) | Provides operations to manage firewall rules for Data Lake Analytics account. |
+|[Storage accounts](~/docs-ref-autogen/datalakeanalytics/StorageAccounts.yml) | Provides operations to manage Azure Storage accounts associated with a Data Lake Analytics account. |
 
 ##Common parameters and headers
 

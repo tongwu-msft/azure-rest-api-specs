@@ -1,6 +1,6 @@
 ---
 title: "Get Node Info List"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Node Info List
 Gets the list of nodes in the Service Fabric cluster.
 
-The Nodes endpoint returns information about the nodes in the Service Fabric Cluster. The respons include the name, status, id, health, uptime and other details about the node.
+Gets the list of nodes in the Service Fabric cluster. The response include the name, status, id, health, uptime and other details about the node.
 
 ## Request
 | Method | Request URI |
@@ -52,7 +52,12 @@ __Type__: string <br/>
 __Required__: Yes<br/>
 __Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "6.0".
+The version of this API. This is a required parameter and its value must be "6.0".
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+
 
 ____
 ### ContinuationToken
@@ -67,18 +72,7 @@ __Type__: string (enum) <br/>
 __Required__: No<br/>
 __Default__: default <br/>
 <br/>
-Allows filtering the nodes based on the NodeStatus. Only the nodes that are matching the specified filter value will be returned. The filter value can be one of the following.
-
-  - default - This filter value will match all of the nodes excepts the ones with with status as Unknown or Removed.
-  - all - This filter value will match all of the nodes.
-  - up - This filter value will match nodes that are Up.
-  - down - This filter value will match nodes that are Down.
-  - enabling - This filter value will match nodes that are in the process of being enabled with status as Enabling.
-  - disabling - This filter value will match nodes that are in the process of being disabled with status as Disabling.
-  - disabled - This filter value will match nodes that are Disabled.
-  - unknown - This filter value will match nodes whose status is Unknown. A node would be in Unknown state if Service Fabric does not have authoritative information about that node. This can happen if the system learns about a node at runtime.
-  - removed - This filter value will match nodes whose status is Removed. These are the nodes that are removed from the cluster using the RemoveNodeState API.
-. Possible values include: 'default', 'all', 'up', 'down', 'enabling', 'disabling', 'disabled', 'unknown', 'removed'
+Allows filtering the nodes based on the NodeStatus. Only the nodes that are matching the specified filter value will be returned. The filter value can be one of the following. Possible values include: 'default', 'all', 'up', 'down', 'enabling', 'disabling', 'disabled', 'unknown', 'removed'
 
 ____
 ### timeout

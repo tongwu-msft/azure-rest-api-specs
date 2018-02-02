@@ -1,6 +1,6 @@
 ---
 title: "Code Package"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -33,4 +33,5 @@ translation.priority.mt:
 | --- | --- |
 | [Get Deployed Code Package Info List](sfclient-api-getdeployedcodepackageinfolist.md) | Gets the list of code packages deployed on a Service Fabric node.<br/> |
 | [Restart Deployed Code Package](sfclient-api-restartdeployedcodepackage.md) | Restarts a code package deployed on a Service Fabric node in a cluster.<br/> |
+| [Get Container Logs Deployed On Node](sfclient-api-getcontainerlogsdeployedonnode.md) | Gets the container logs for container deployed on a Service Fabric node.<br/> |
 

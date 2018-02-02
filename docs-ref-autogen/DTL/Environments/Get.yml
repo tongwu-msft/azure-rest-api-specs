@@ -1,0 +1,185 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devtestlabs.environments.get
+name: Get
+service: Dev Test Labs
+groupName: Environments
+apiVersion: 2016-05-15
+summary: Get environment.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/environments/{name}?api-version=2016-05-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/environments/{name}?$expand={$expand}&api-version=2016-05-15
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: labName
+  in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+- name: userName
+  in: path
+  isRequired: true
+  description: The name of the user profile.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the environment.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: "Specify the $expand query. Example: 'properties($select=deploymentProperties)'"
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: DtlEnvironment
+- name: Other Status Codes
+  description: BadRequest
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: DtlEnvironment
+  description: An environment, which is essentially an ARM template deployment.
+  kind: object
+  properties:
+  - name: properties.deploymentProperties
+    description: The deployment properties of the environment.
+    types:
+    - uid: EnvironmentDeploymentProperties
+  - name: properties.armTemplateDisplayName
+    description: The display name of the Azure Resource Manager template that produced the environment.
+    types:
+    - uid: string
+  - name: properties.resourceGroupId
+    isReadyOnly: true
+    description: The identifier of the resource group containing the environment's resources.
+    types:
+    - uid: string
+  - name: properties.createdByUser
+    isReadyOnly: true
+    description: The creator of the environment.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: The provisioning status of the resource.
+    types:
+    - uid: string
+  - name: properties.uniqueIdentifier
+    description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: location
+    description: The location of the resource.
+    types:
+    - uid: string
+  - name: tags
+    description: The tags of the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: error
+    description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+- name: EnvironmentDeploymentProperties
+  description: Properties of an environment deployment.
+  kind: object
+  properties:
+  - name: armTemplateId
+    description: The Azure Resource Manager template's identifier.
+    types:
+    - uid: string
+  - name: parameters
+    description: Properties of an Azure Resource Manager template parameter.
+    types:
+    - uid: ArmTemplateParameterProperties
+      isArray: true
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    types:
+    - uid: string
+  - name: message
+    types:
+    - uid: string
+  - name: target
+    types:
+    - uid: string
+  - name: details
+    description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ArmTemplateParameterProperties
+  description: Properties of an Azure Resource Manager template parameter.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the template parameter.
+    types:
+    - uid: string
+  - name: value
+    description: The value of the template parameter.
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Access Microsoft Azure

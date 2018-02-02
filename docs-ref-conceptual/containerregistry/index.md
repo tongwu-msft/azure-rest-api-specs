@@ -1,11 +1,11 @@
 ---
-ms.assetid: 0009e3b6-2fed-465a-95de-457ffea5b700
-ms.title: Azure Container Registry REST API reference
-ms.service: container-registry
+title: Azure Container Registry REST API reference
 author: mmacy
 ms.author: marsma
-ms.date: 10/24/2017
-ms.manager: timlt
+ms.date: 11/20/2017
+ms.topic: reference
+ms.service: container-registry
+ms.devlang: rest-api
 ---
 
 # Azure Container Registry REST API reference
@@ -16,5 +16,15 @@ Azure Container Registry is a managed Docker registry service to store and manag
 
 | Operation group | Description |
 |-----------------|-------------|
-| [Operations](~/docs-ref-autogen/containerregistry/operations.json) | Provides information about the available Azure Container Registry REST API operations.
-| [Registries](~/docs-ref-autogen/containerregistry/registries.json) | Operations for creating and managing Azure container registries such as create, update, delete, list, and regenerate credentials.
+| [Operations](~/docs-ref-autogen/containerregistry/operations.yml) | Get information about Azure Container Registry REST API operations. |
+| [Registries](~/docs-ref-autogen/containerregistry/registries.yml) | Create, read, update, and delete container registries. |
+| [Replications](~/docs-ref-autogen/containerregistry/replications.yml) | Create, read, update, and delete container registry [geo-replications](/azure/container-registry/container-registry-geo-replication). |
+| [Webhooks](~/docs-ref-autogen/containerregistry/webhooks.yml) | Create, read, update, and delete container registry [webhooks](/azure/container-registry/container-registry-webhook). |
+
+## See also
+
+[Azure Container Instances](/azure/container-instances/) - Quickly run Docker containers in Azure, without having to provision virtual machines or adopt a higher-level service.
+
+[Azure Container Service (AKS)](/azure/aks/) - Easily deploy and manage containerized applications in a hosted Kubernetes environment.
+
+[Azure Container Service (ACS)](/azure/container-service/) - Scale and orchestrate containers using Kubernetes, DC/OS, or Docker Swarm.

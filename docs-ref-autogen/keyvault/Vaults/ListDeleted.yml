@@ -1,0 +1,127 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.keyvault.vaults.listdeleted
+name: List Deleted
+service: Key Vault
+groupName: Vaults
+apiVersion: 2016-10-01
+summary: Gets information about the deleted vaults in a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedVaults?api-version=2016-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Retrieved information about all deleted key vaults in a subscription.
+  types:
+  - uid: DeletedVaultListResult
+requestHeader: []
+definitions:
+- name: DeletedVaultListResult
+  description: List of vaults
+  kind: object
+  properties:
+  - name: value
+    description: Deleted vault information with extended details.
+    types:
+    - uid: DeletedVault
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of deleted vaults.
+    types:
+    - uid: string
+- name: DeletedVault
+  description: Deleted vault information with extended details.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The resource ID for the deleted key vault.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the key vault.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type of the key vault.
+    types:
+    - uid: string
+  - name: properties
+    description: Properties of the vault
+    types:
+    - uid: DeletedVaultProperties
+- name: DeletedVaultProperties
+  description: Properties of the deleted vault.
+  kind: object
+  properties:
+  - name: vaultId
+    isReadyOnly: true
+    description: The resource id of the original vault.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The location of the original vault.
+    types:
+    - uid: string
+  - name: deletionDate
+    isReadyOnly: true
+    description: The deleted date.
+    types:
+    - uid: string
+  - name: scheduledPurgeDate
+    isReadyOnly: true
+    description: The scheduled purged date.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Tags of the original vault.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: List deleted vaults in the specified subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/deletedVaults?api-version=2016-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus/deletedVaults/sample-vault",
+            "name": "vault-agile-drawer-6404",
+            "type": "Microsoft.KeyVault/deletedVaults",
+            "properties": {
+              "vaultId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault",
+              "location": "westus",
+              "tags": {},
+              "deletionDate": "2017-01-01T00:00:59Z",
+              "scheduledPurgeDate": "2017-04-01T00:00:59Z"
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/deletedVaults?api-version=2016-10-01&%24skiptoken=HY3RaoMwAEX%2fRcbeYhJrnRXKYNWOuqpME0sfNcYui0Yxade19N8ne7hcDlzOvVuKX81eKKmt4G4dooLQwgqsL2NGHUDYV6o68Z4rY1e388RtNvRQn2vNJjEaMSgNvcbneMUcsKg8BFwft8DndQ0w9hu2QOiFLRs4TsNFNHzSMBFsGvTQGvuD%2f5bVuTOw4R03vPkH%2fVqNAlzm5SxfOwh7ACOA8POTlvPjILlaU1ke8jImOc23JCppQVfZnna0DXc4ISc3vSVuRo5zJE6%2bj25C3vwk2v2kEV2mMn7PyOc1DbtNGkonnzuLym1G400uI5QRZj0efw%3d%3d"
+      }
+security: []

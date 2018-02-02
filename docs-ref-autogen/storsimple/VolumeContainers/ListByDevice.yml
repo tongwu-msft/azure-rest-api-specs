@@ -1,0 +1,222 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storsimple.volumecontainers.listbydevice
+name: List By Device
+service: StorSimple
+groupName: Volume Containers
+apiVersion: 2017-06-01
+summary: Gets all the volume containers in a device.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumeContainers?api-version=2017-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name
+  types:
+  - uid: string
+- name: managerName
+  in: path
+  isRequired: true
+  description: The manager name
+  types:
+  - uid: string
+- name: deviceName
+  in: path
+  isRequired: true
+  description: The device name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The VolumeContainer List
+  types:
+  - uid: VolumeContainerList
+requestHeader: []
+definitions:
+- name: VolumeContainerList
+  description: The collection of volume container entities.
+  kind: object
+  properties:
+  - name: value
+    description: The volume container.
+    types:
+    - uid: VolumeContainer
+      isArray: true
+- name: VolumeContainer
+  description: The volume container.
+  kind: object
+  properties:
+  - name: properties.encryptionKey
+    description: The key used to encrypt data in the volume container. It is required when property 'EncryptionStatus' is "Enabled".
+    types:
+    - uid: AsymmetricEncryptedSecret
+  - name: properties.encryptionStatus
+    isReadyOnly: true
+    description: The flag to denote whether encryption is enabled or not.
+    types:
+    - uid: EncryptionStatus
+  - name: properties.volumeCount
+    isReadyOnly: true
+    description: The number of volumes in the volume Container.
+    types:
+    - uid: integer
+  - name: properties.storageAccountCredentialId
+    description: The path ID of storage account associated with the volume container.
+    types:
+    - uid: string
+  - name: properties.ownerShipStatus
+    isReadyOnly: true
+    description: The owner ship status of the volume container. Only when the status is "NotOwned", the delete operation on the volume container is permitted.
+    types:
+    - uid: OwnerShipStatus
+  - name: properties.bandWidthRateInMbps
+    description: The bandwidth-rate set on the volume container.
+    types:
+    - uid: integer
+  - name: properties.bandwidthSettingId
+    description: The ID of the bandwidth setting associated with the volume container.
+    types:
+    - uid: string
+  - name: properties.totalCloudStorageUsageInBytes
+    isReadyOnly: true
+    description: The total cloud storage for the volume container.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the object.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+  - name: kind
+    description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+- name: AsymmetricEncryptedSecret
+  description: Represent the secrets intended for encryption with asymmetric key pair.
+  kind: object
+  properties:
+  - name: value
+    description: The value of the secret.
+    types:
+    - uid: string
+  - name: encryptionCertThumbprint
+    description: Thumbprint certificate that was used to encrypt "Value". If the value in unencrypted, it will be null.
+    types:
+    - uid: string
+  - name: encryptionAlgorithm
+    description: The algorithm used to encrypt "Value".
+    types:
+    - uid: EncryptionAlgorithm
+- name: EncryptionStatus
+  description: The encryption status to indicates if encryption is enabled or not.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: OwnerShipStatus
+  description: The owner ship status of the volume container. Only when the status is "NotOwned", the delete operation on the volume container is permitted.
+  kind: enum
+  properties:
+  - name: Owned
+    types:
+    - uid: string
+  - name: NotOwned
+    types:
+    - uid: string
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - name: Series8000
+    types:
+    - uid: string
+- name: EncryptionAlgorithm
+  description: The algorithm used to encrypt "Value".
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: AES256
+    types:
+    - uid: string
+  - name: RSAES_PKCS1_v_1_5
+    types:
+    - uid: string
+examples:
+- name: VolumeContainersListByDevice
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers?api-version=2017-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "encryptionStatus": "Disabled",
+              "volumeCount": 1,
+              "storageAccountCredentialId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/storageAccountCredentials/safortestrecording",
+              "ownerShipStatus": "Owned",
+              "bandWidthRateInMbps": 0,
+              "totalCloudStorageUsageInBytes": 33839216
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/vcforsdktest",
+            "name": "vcforsdktest",
+            "type": "Microsoft.StorSimple/managers/devices/volumeContainers",
+            "kind": "Series8000"
+          },
+          {
+            "properties": {
+              "encryptionStatus": "Disabled",
+              "volumeCount": 4,
+              "storageAccountCredentialId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/storageAccountCredentials/safortestrecording",
+              "ownerShipStatus": "Owned",
+              "bandWidthRateInMbps": 0,
+              "totalCloudStorageUsageInBytes": 200277
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/vcForOdataFilterTest",
+            "name": "vcForOdataFilterTest",
+            "type": "Microsoft.StorSimple/managers/devices/volumeContainers",
+            "kind": "Series8000"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

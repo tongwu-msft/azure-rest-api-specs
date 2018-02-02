@@ -1,0 +1,186 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.reservationsdetails.listbyreservationorder
+name: List By Reservation Order
+service: Consumption
+groupName: Reservations Details
+apiVersion: 2018-01-31
+summary: Lists the reservations details for provided date range.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.Consumption/reservationDetails?$filter={$filter}&api-version=2018-01-31
+uriParameters:
+- name: reservationOrderId
+  in: path
+  isRequired: true
+  description: Order Id of the reservation
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  isRequired: true
+  description: "Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge' "
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-01-31.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ReservationDetailsListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ReservationDetailsListResult
+  description: Result of listing reservation details.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: reservation details resource.
+    types:
+    - uid: ReservationDetails
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: ReservationDetails
+  description: reservation details resource.
+  kind: object
+  properties:
+  - name: properties.reservationOrderId
+    isReadyOnly: true
+    description: The reservation order ID is the identifier for a reservation purchase. Each reservation order ID represents a single purchase transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations.
+    types:
+    - uid: string
+  - name: properties.reservationId
+    isReadyOnly: true
+    description: The reservation ID is the identifier of a reservation within a reservation order. Each reservation is the grouping for applying the benefit scope and also specifies the number of instances to which the reservation benefit can be applied to.
+    types:
+    - uid: string
+  - name: properties.skuName
+    isReadyOnly: true
+    description: This is the ARM Sku name. It can be used to join with the servicetype field in additoinalinfo in usage records.
+    types:
+    - uid: string
+  - name: properties.reservedHours
+    isReadyOnly: true
+    description: This is the total hours reserved for the day. E.g. if reservation for 1 instance was made on 1 PM, this will be 11 hours for that day and 24 hours from subsequent days.
+    types:
+    - uid: number
+  - name: properties.usageDate
+    isReadyOnly: true
+    description: The date on which consumption occurred.
+    types:
+    - uid: string
+  - name: properties.usedHours
+    isReadyOnly: true
+    description: This is the total hours used by the instance.
+    types:
+    - uid: number
+  - name: properties.instanceId
+    isReadyOnly: true
+    description: This identifier is the name of the resource or the fully qualified Resource ID.
+    types:
+    - uid: string
+  - name: properties.totalReservedQuantity
+    isReadyOnly: true
+    description: This is the total count of instances that are reserved for the reservationid.
+    types:
+    - uid: number
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: ReservationDetails
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/87f3c981-3e33-43d0-b26b-dfca785cf18a/providers/Microsoft.Consumption/reservationDetails?$filter=properties/UsageDate ge 2017-10-01 AND properties/UsageDate le 2017-12-05&api-version=2018-01-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "providers/Microsoft.Capacity/reservationOrders/87f3c981-3e33-43d0-b26b-dfca785cf18a/reservations/ba4a5693-71ef-4ec2-a5ea-c4897ee7e740/providers/Microsoft.Consumption/reservationDetails/20171129",
+            "name": "87f3c981-3e33-43d0-b26b-dfca785cf18a_ba4a5693-71ef-4ec2-a5ea-c4897ee7e740_20171129",
+            "type": "Microsoft.Consumption/reservationDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "reservationOrderId": "87f3c981-3e33-43d0-b26b-dfca785cf18a",
+              "reservationId": "ba4a5693-71ef-4ec2-a5ea-c4897ee7e740",
+              "usageDate": "2017-11-29T00:00:00Z",
+              "skuName": "Standard_D2_v2",
+              "instanceId": "/subscriptions/ace02136-302a-429c-a2c8-dac173f60bea/resourcegroups/wvn-sql/providers/microsoft.compute/virtualmachines/wvn-sql2014sp33",
+              "totalReservedQuantity": 1,
+              "reservedHours": 24,
+              "usedHours": 24
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,83 @@
+### YamlMime:RESTOperation
+uid: graph.windows.net.graphrbac.domains.list
+name: List
+service: Graph RBAC
+groupName: Domains
+apiVersion: "1.6"
+summary: Gets a list of domains for the current tenant.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://graph.windows.net/{tenantID}/domains?api-version=1.6
+- content: GET https://graph.windows.net/{tenantID}/domains?$filter={$filter}&api-version=1.6
+  isOptional: true
+uriParameters:
+- name: tenantID
+  in: path
+  isRequired: true
+  description: The tenant ID.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply to the operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The operation was successful.
+  types:
+  - uid: DomainListResult
+requestHeader: []
+definitions:
+- name: DomainListResult
+  description: Server response for Get tenant domains API call.
+  kind: object
+  properties:
+  - name: value
+    description: Active Directory Domain information.
+    types:
+    - uid: Domain
+      isArray: true
+- name: Domain
+  description: Active Directory Domain information.
+  kind: object
+  properties:
+  - name: authenticationType
+    isReadyOnly: true
+    description: the type of the authentication into the domain.
+    types:
+    - uid: string
+  - name: isDefault
+    isReadyOnly: true
+    description: if this is the default domain in the tenant.
+    types:
+    - uid: boolean
+  - name: isVerified
+    isReadyOnly: true
+    description: if this domain's ownership is verified.
+    types:
+    - uid: boolean
+  - name: name
+    description: the domain name.
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

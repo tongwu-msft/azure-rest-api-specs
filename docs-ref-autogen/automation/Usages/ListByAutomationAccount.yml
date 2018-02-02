@@ -1,0 +1,160 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.usages.listbyautomationaccount
+name: List By Automation Account
+service: Automation
+groupName: Usages
+apiVersion: 2015-10-31
+summary: Retrieve the usage for the account id.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/usages?api-version=2015-10-31
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The automation account name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: UsageListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: UsageListResult
+  description: The response model for the get usage operation.
+  kind: object
+  properties:
+  - name: value
+    description: Definition of Usage.
+    types:
+    - uid: Usage
+      isArray: true
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Usage
+  description: Definition of Usage.
+  kind: object
+  properties:
+  - name: id
+    description: Gets or sets the id of the resource.
+    types:
+    - uid: string
+  - name: name
+    description: Gets or sets the usage counter name.
+    types:
+    - uid: UsageCounterName
+  - name: unit
+    description: Gets or sets the usage unit name.
+    types:
+    - uid: string
+  - name: currentValue
+    description: Gets or sets the current usage value.
+    types:
+    - uid: number
+  - name: limit
+    description: Gets or sets max limit. -1 for unlimited
+    types:
+    - uid: integer
+  - name: throttleStatus
+    description: Gets or sets the throttle status.
+    types:
+    - uid: string
+- name: UsageCounterName
+  description: Definition of usage counter name.
+  kind: object
+  properties:
+  - name: value
+    description: Gets or sets the usage counter name.
+    types:
+    - uid: string
+  - name: localizedValue
+    description: Gets or sets the localized usage counter name.
+    types:
+    - uid: string
+examples:
+- name: Get usages of an automation account
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount11/usages?api-version=2015-10-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": {
+              "value": "AccountUsage",
+              "localizedValue": "AccountUsage"
+            },
+            "unit": "Minute",
+            "currentValue": 0,
+            "limit": 500,
+            "throttleStatus": "NotThrottled"
+          },
+          {
+            "name": {
+              "value": "SubscriptionUsage",
+              "localizedValue": "SubscriptionUsage"
+            },
+            "unit": "Minute",
+            "currentValue": 429,
+            "limit": 500,
+            "throttleStatus": "NotThrottled"
+          },
+          {
+            "name": {
+              "value": "DscSubscriptionUsage",
+              "localizedValue": "DscSubscriptionUsage"
+            },
+            "unit": "Count",
+            "currentValue": 8,
+            "limit": 5,
+            "throttleStatus": "ThrottledAtSubscriptionLevel"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

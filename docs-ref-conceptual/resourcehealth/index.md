@@ -17,8 +17,8 @@ Resource health helps you diagnose and get support when an Azure issue impacts y
 
 | Operation group | Description                                                        |
 |---------------------------|--------------------------------------------------------------------|
-| [Availability Statuses](~/docs-ref-autogen/resourcehealth/AvailabilityStatuses.json) | Provides operations to get availablity statuses of azure resoures. |
-| [Operations](~/docs-ref-autogen/resourcehealth/Operations.json)  | Lists all available REST APIs for Resource health. |
+| [Availability Statuses](~/docs-ref-autogen/resourcehealth/AvailabilityStatuses.yml) | Provides operations to get availablity statuses of azure resoures. |
+| [Operations](~/docs-ref-autogen/resourcehealth/Operations.yml)  | Lists all available REST APIs for Resource health. |
 
 
 ## See also

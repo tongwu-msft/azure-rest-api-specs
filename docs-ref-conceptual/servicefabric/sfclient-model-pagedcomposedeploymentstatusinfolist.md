@@ -1,6 +1,6 @@
 ---
 title: "PagedComposeDeploymentStatusInfoList"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -49,4 +49,4 @@ ____
 __Type__: array of [ComposeDeploymentStatusInfo](sfclient-model-composedeploymentstatusinfo.md) <br/>
 __Required__: No<br/>
 <br/>
-
+List of compose deployment status information.

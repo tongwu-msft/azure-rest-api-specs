@@ -1,6 +1,6 @@
 ---
 title: "ApplicationTypeInfo"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -67,13 +67,19 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-The status of the application type. Possible values are following.
+
+
+The status of the application type.
+
+
+Possible values are: 
 
   - Invalid - Indicates the application type status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
   - Provisioning - Indicates that the application type is being provisioned in the cluster. The value is 1.
   - Available - Indicates that the application type is fully provisioned and is available for use. An application of this type and version can be created. The value is 2.
   - Unprovisioning - Indicates that the application type is in process of being unprovisioned from the cluster. The value is 3.
   - Failed - Indicates that the application type provisioning failed and it is unavailable for use. The failure details can be obtained from the application type information query. The failed application type information remains in the cluster until it is unprovisioned or reprovisioned successfully. The value is 4.
+
 
 
 ____
@@ -88,9 +94,15 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-The mechanism used to define a Service Fabric application type. Possible values are.
+
+
+The mechanism used to define a Service Fabric application type.
+
+
+Possible values are: 
 
   - Invalid - Indicates the application type definition kind is invalid. All Service Fabric enumerations have the invalid type. The value is 0.
   - ServiceFabricApplicationPackage - Indicates the application type is defined and created by a Service Fabric application package provided by the user. The value is 1.
   - Compose - Indicates the application type is defined and created implicitly as part of a compose deployment. The value is 2.
+
 

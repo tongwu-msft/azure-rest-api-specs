@@ -1,0 +1,712 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.api.createorupdate
+name: Create Or Update
+service: API Management
+groupName: Api
+apiVersion: 2017-03-01
+summary: Creates new or updates existing specified API of the API Management service instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?api-version=2017-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: apiId
+  in: path
+  isRequired: true
+  description: API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  headers:
+  - name: ETag
+    value: string
+  description: API was successfully created.
+  types:
+  - uid: ApiContract
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
+  description: API was successfully updated.
+  types:
+  - uid: ApiContract
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: properties.contentValue
+    in: body
+    description: Content value when Importing an API.
+    types:
+    - uid: string
+  - name: properties.contentFormat
+    in: body
+    description: Format of the Content in which the API is getting imported.
+    types:
+    - uid: ContentFormat
+  - name: properties.wsdlSelector
+    in: body
+    description: Criteria to limit import of WSDL to a subset of the document.
+    types:
+    - uid: WsdlSelector
+  - name: properties.displayName
+    in: body
+    description: API name.
+    types:
+    - uid: string
+  - name: properties.serviceUrl
+    in: body
+    description: Absolute URL of the backend service implementing this API.
+    types:
+    - uid: string
+  - name: properties.path
+    in: body
+    isRequired: true
+    description: Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.
+    types:
+    - uid: string
+  - name: properties.protocols
+    in: body
+    description: Describes on which protocols the operations in this API can be invoked.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.apiVersionSet
+    in: body
+    description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+    types:
+    - uid: ApiVersionSetContract
+  - name: description
+    in: body
+    description: Description of the API. May include HTML formatting tags.
+    types:
+    - uid: string
+  - name: authenticationSettings
+    in: body
+    description: Collection of authentication settings included into this API.
+    types:
+    - uid: AuthenticationSettingsContract
+  - name: subscriptionKeyParameterNames
+    in: body
+    description: Protocols over which API is made available.
+    types:
+    - uid: SubscriptionKeyParameterNamesContract
+  - name: type
+    in: body
+    description: Type of API.
+    types:
+    - uid: ApiType
+  - name: apiRevision
+    in: body
+    description: Describes the Revision of the Api. If no value is provided, default revision 1 is created
+    types:
+    - uid: string
+  - name: apiVersion
+    in: body
+    description: Indicates the Version identifier of the API if the API is versioned
+    types:
+    - uid: string
+  - name: apiVersionSetId
+    in: body
+    description: A resource identifier for the related ApiVersionSet.
+    types:
+    - uid: string
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Api Entity. For Create Api Etag should not be specified. For Update Etag should match the existing Entity or it can be * for unconditional update.
+  types:
+  - uid: string
+definitions:
+- name: WsdlSelector
+  description: Criteria to limit import of WSDL to a subset of the document.
+  kind: object
+  properties:
+  - name: wsdlServiceName
+    description: Name of service to import from WSDL
+    types:
+    - uid: string
+  - name: wsdlEndpointName
+    description: Name of endpoint(port) to import from WSDL
+    types:
+    - uid: string
+- name: ApiVersionSetContract
+  description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+  kind: object
+  properties:
+  - name: id
+    description: Identifier for existing API Version Set. Omit this value to create a new Version Set.
+    types:
+    - uid: string
+  - name: description
+    description: Description of API Version Set.
+    types:
+    - uid: string
+  - name: versioningScheme
+    description: An value that determines where the API Version identifer will be located in a HTTP request.
+    types:
+    - uid: Segment
+    - uid: Query
+    - uid: Header
+    typesTitle: enum
+  - name: versionQueryName
+    description: Name of query parameter that indicates the API Version if versioningScheme is set to `query`.
+    types:
+    - uid: string
+  - name: versionHeaderName
+    description: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.
+    types:
+    - uid: string
+- name: AuthenticationSettingsContract
+  description: API Authentication Settings.
+  kind: object
+  properties:
+  - name: oAuth2
+    description: OAuth2 Authentication settings
+    types:
+    - uid: OAuth2AuthenticationSettingsContract
+- name: SubscriptionKeyParameterNamesContract
+  description: Subscription key parameter names details.
+  kind: object
+  properties:
+  - name: header
+    description: Subscription key header name.
+    types:
+    - uid: string
+  - name: query
+    description: Subscription key query string parameter name.
+    types:
+    - uid: string
+- name: ApiContract
+  description: API details.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: API name.
+    types:
+    - uid: string
+  - name: properties.serviceUrl
+    description: Absolute URL of the backend service implementing this API.
+    types:
+    - uid: string
+  - name: properties.path
+    description: Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.
+    types:
+    - uid: string
+  - name: properties.protocols
+    description: Describes on which protocols the operations in this API can be invoked.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.apiVersionSet
+    description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+    types:
+    - uid: ApiVersionSetContract
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Description of the API. May include HTML formatting tags.
+    types:
+    - uid: string
+  - name: properties.authenticationSettings
+    description: Collection of authentication settings included into this API.
+    types:
+    - uid: AuthenticationSettingsContract
+  - name: properties.subscriptionKeyParameterNames
+    description: Protocols over which API is made available.
+    types:
+    - uid: SubscriptionKeyParameterNamesContract
+  - name: properties.type
+    description: Type of API.
+    types:
+    - uid: ApiType
+  - name: properties.apiRevision
+    description: Describes the Revision of the Api. If no value is provided, default revision 1 is created
+    types:
+    - uid: string
+  - name: properties.apiVersion
+    description: Indicates the Version identifier of the API if the API is versioned
+    types:
+    - uid: string
+  - name: properties.isCurrent
+    isReadyOnly: true
+    description: Indicates if API revision is current api revision.
+    types:
+    - uid: boolean
+  - name: properties.isOnline
+    isReadyOnly: true
+    description: Indicates if API revision is accessible via the gateway.
+    types:
+    - uid: boolean
+  - name: properties.apiVersionSetId
+    description: A resource identifier for the related ApiVersionSet.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error Field contract.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: ApiCreateOrUpdateParameter
+  description: API Create or Update Parameters.
+  kind: object
+  properties:
+  - name: properties.contentValue
+    description: Content value when Importing an API.
+    types:
+    - uid: string
+  - name: properties.contentFormat
+    description: Format of the Content in which the API is getting imported.
+    types:
+    - uid: ContentFormat
+  - name: properties.wsdlSelector
+    description: Criteria to limit import of WSDL to a subset of the document.
+    types:
+    - uid: WsdlSelector
+  - name: properties.displayName
+    description: API name.
+    types:
+    - uid: string
+  - name: properties.serviceUrl
+    description: Absolute URL of the backend service implementing this API.
+    types:
+    - uid: string
+  - name: properties.path
+    description: Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.
+    types:
+    - uid: string
+  - name: properties.protocols
+    description: Describes on which protocols the operations in this API can be invoked.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.apiVersionSet
+    description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+    types:
+    - uid: ApiVersionSetContract
+  - name: description
+    description: Description of the API. May include HTML formatting tags.
+    types:
+    - uid: string
+  - name: authenticationSettings
+    description: Collection of authentication settings included into this API.
+    types:
+    - uid: AuthenticationSettingsContract
+  - name: subscriptionKeyParameterNames
+    description: Protocols over which API is made available.
+    types:
+    - uid: SubscriptionKeyParameterNamesContract
+  - name: type
+    description: Type of API.
+    types:
+    - uid: ApiType
+  - name: apiRevision
+    description: Describes the Revision of the Api. If no value is provided, default revision 1 is created
+    types:
+    - uid: string
+  - name: apiVersion
+    description: Indicates the Version identifier of the API if the API is versioned
+    types:
+    - uid: string
+  - name: isCurrent
+    isReadyOnly: true
+    description: Indicates if API revision is current api revision.
+    types:
+    - uid: boolean
+  - name: isOnline
+    isReadyOnly: true
+    description: Indicates if API revision is accessible via the gateway.
+    types:
+    - uid: boolean
+  - name: apiVersionSetId
+    description: A resource identifier for the related ApiVersionSet.
+    types:
+    - uid: string
+- name: OAuth2AuthenticationSettingsContract
+  description: API OAuth2 Authentication settings details.
+  kind: object
+  properties:
+  - name: authorizationServerId
+    description: OAuth authorization server identifier.
+    types:
+    - uid: string
+  - name: scope
+    description: operations scope.
+    types:
+    - uid: string
+- name: ApiType
+  description: Type of API.
+  kind: enum
+  properties:
+  - name: http
+    types:
+    - uid: string
+  - name: soap
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+- name: ContentFormat
+  description: Format of the Content in which the API is getting imported.
+  kind: enum
+  properties:
+  - name: wadl-xml
+    description: The contents are inline and Content type is a WADL document.
+    types:
+    - uid: string
+  - name: wadl-link-json
+    description: The WADL document is hosted on a publicly accessible internet address.
+    types:
+    - uid: string
+  - name: swagger-json
+    description: The contents are inline and Content Type is a OpenApi 2.0 Document.
+    types:
+    - uid: string
+  - name: swagger-link-json
+    description: The Open Api 2.0 document is hosted on a publicly accessible internet address.
+    types:
+    - uid: string
+  - name: wsdl
+    description: The contents are inline and the document is a WSDL/Soap document.
+    types:
+    - uid: string
+  - name: wsdl-link
+    description: The WSDL document is hosted on a publicly accessible internet address.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementCreateApiUsingSwaggerImport
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstore?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "contentFormat": "swagger-link-json",
+          "contentValue": "http://petstore.swagger.io/v2/swagger.json",
+          "path": "petstore"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstoreapi",
+        "type": "Microsoft.ApiManagement/service/apis",
+        "name": "petstoreapi",
+        "properties": {
+          "displayName": "Swagger Petstore",
+          "apiRevision": "1",
+          "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
+          "serviceUrl": "http://petstore.swagger.io/v2",
+          "path": "petstore",
+          "protocols": [
+            "http"
+          ],
+          "subscriptionKeyParameterNames": {
+            "header": "Ocp-Apim-Subscription-Key",
+            "query": "subscription-key"
+          },
+          "isCurrent": true
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstoreapi",
+        "type": "Microsoft.ApiManagement/service/apis",
+        "name": "petstoreapi",
+        "properties": {
+          "displayName": "Swagger Petstore",
+          "apiRevision": "1",
+          "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
+          "serviceUrl": "http://petstore.swagger.io/v2",
+          "path": "petstore",
+          "protocols": [
+            "http"
+          ],
+          "subscriptionKeyParameterNames": {
+            "header": "Ocp-Apim-Subscription-Key",
+            "query": "subscription-key"
+          },
+          "isCurrent": true
+        }
+      }
+- name: ApiManagementCreateApiUsingWadlImport
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstore?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "contentFormat": "wadl-link-json",
+          "contentValue": "https://developer.cisco.com/media/wae-release-6-2-api-reference/wae-collector-rest-api/application.wadl",
+          "path": "collector"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/collectorwadl",
+        "type": "Microsoft.ApiManagement/service/apis",
+        "name": "collectorwadl",
+        "properties": {
+          "displayName": "http://localhost:8080/collector-northbound",
+          "apiRevision": "1",
+          "description": "",
+          "serviceUrl": "http://localhost:8080/collector-northbound",
+          "path": "collector",
+          "protocols": [
+            "https"
+          ],
+          "subscriptionKeyParameterNames": {
+            "header": "Ocp-Apim-Subscription-Key",
+            "query": "subscription-key"
+          },
+          "isCurrent": true
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/collectorwadl",
+        "type": "Microsoft.ApiManagement/service/apis",
+        "name": "collectorwadl",
+        "properties": {
+          "displayName": "http://localhost:8080/collector-northbound",
+          "apiRevision": "1",
+          "description": "",
+          "serviceUrl": "http://localhost:8080/collector-northbound",
+          "path": "collector",
+          "protocols": [
+            "https"
+          ],
+          "subscriptionKeyParameterNames": {
+            "header": "Ocp-Apim-Subscription-Key",
+            "query": "subscription-key"
+          },
+          "isCurrent": true
+        }
+      }
+- name: ApiManagementCreateApiUsingWsdlImport
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/soapApi?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "contentFormat": "wsdl-link",
+          "contentValue": "http://www.webservicex.net/CurrencyConvertor.asmx?WSDL",
+          "path": "currency",
+          "wsdlSelector": {
+            "wsdlServiceName": "CurrencyConvertor",
+            "wsdlEndpointName": "CurrencyConvertorSoap"
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/soapApi",
+        "type": "Microsoft.ApiManagement/service/apis",
+        "name": "soapApi",
+        "properties": {
+          "displayName": "CurrencyConvertor",
+          "apiRevision": "1",
+          "serviceUrl": "http://www.webservicex.net",
+          "path": "currency",
+          "protocols": [
+            "https"
+          ],
+          "subscriptionKeyParameterNames": {
+            "header": "Ocp-Apim-Subscription-Key",
+            "query": "subscription-key"
+          },
+          "isCurrent": true
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/soapApi",
+        "type": "Microsoft.ApiManagement/service/apis",
+        "name": "soapApi",
+        "properties": {
+          "displayName": "CurrencyConvertor",
+          "apiRevision": "1",
+          "serviceUrl": "http://www.webservicex.net",
+          "path": "currency",
+          "protocols": [
+            "https"
+          ],
+          "subscriptionKeyParameterNames": {
+            "header": "Ocp-Apim-Subscription-Key",
+            "query": "subscription-key"
+          },
+          "isCurrent": true
+        }
+      }
+- name: ApiManagementCreateApi
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/tempgroup?api-version=2017-03-01
+    body: >-
+      {
+        "properties": {
+          "description": "apidescription5200",
+          "authenticationSettings": {
+            "oAuth2": {
+              "authorizationServerId": "authorizationServerId2283",
+              "scope": "oauth2scope2580"
+            }
+          },
+          "subscriptionKeyParameterNames": {
+            "header": "header4520",
+            "query": "query3037"
+          },
+          "displayName": "apiname1463",
+          "serviceUrl": "http://newechoapi.cloudapp.net/api",
+          "path": "newapiPath",
+          "protocols": [
+            "https",
+            "http"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/apiid9419",
+        "type": "Microsoft.ApiManagement/service/apis",
+        "name": "apiid9419",
+        "properties": {
+          "displayName": "apiname1463",
+          "apiRevision": "1",
+          "description": "apidescription5200",
+          "serviceUrl": "http://newechoapi.cloudapp.net/api",
+          "path": "newapiPath",
+          "protocols": [
+            "http",
+            "https"
+          ],
+          "authenticationSettings": {
+            "oAuth2": {
+              "authorizationServerId": "authorizationServerId2283",
+              "scope": "oauth2scope2580"
+            }
+          },
+          "subscriptionKeyParameterNames": {
+            "header": "header4520",
+            "query": "query3037"
+          },
+          "isCurrent": true,
+          "isOnline": true
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/apiid9419",
+        "type": "Microsoft.ApiManagement/service/apis",
+        "name": "apiid9419",
+        "properties": {
+          "displayName": "apiname1463",
+          "apiRevision": "1",
+          "description": "apidescription5200",
+          "serviceUrl": "http://newechoapi.cloudapp.net/api",
+          "path": "newapiPath",
+          "protocols": [
+            "http",
+            "https"
+          ],
+          "authenticationSettings": {
+            "oAuth2": {
+              "authorizationServerId": "authorizationServerId2283",
+              "scope": "oauth2scope2580"
+            }
+          },
+          "subscriptionKeyParameterNames": {
+            "header": "header4520",
+            "query": "query3037"
+          },
+          "isCurrent": true,
+          "isOnline": true
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

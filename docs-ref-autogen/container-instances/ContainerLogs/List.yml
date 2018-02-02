@@ -1,0 +1,84 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerinstances.containerlogs.list
+name: List
+service: Container Instances
+groupName: Container Logs
+apiVersion: 2017-10-01-preview
+summary: Get the logs for a specified container instance. Get the logs for a specified container instance in a specified resource group and container group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/logs?api-version=2017-10-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/logs?api-version=2017-10-01-preview&tail={tail}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: containerGroupName
+  in: path
+  isRequired: true
+  description: The name of the container group.
+  types:
+  - uid: string
+- name: containerName
+  in: path
+  isRequired: true
+  description: The name of the container instance.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version
+  types:
+  - uid: string
+- name: tail
+  in: query
+  description: The number of lines to show from the tail of the container instance log. If not provided, all available logs are shown up to 4mb.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Logs
+requestHeader: []
+definitions:
+- name: Logs
+  description: The logs.
+  kind: object
+  properties:
+  - name: content
+    description: The content of the log.
+    types:
+    - uid: string
+examples:
+- name: ContainerLogsList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1/containers/container1/logs?api-version=2017-10-01-preview&tail=10
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "content": "log content"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account

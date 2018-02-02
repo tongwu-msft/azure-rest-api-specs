@@ -1,0 +1,419 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.integrationruntimes.listbyfactory
+name: List By Factory
+service: Data Factory
+groupName: Integration Runtimes
+apiVersion: 2017-09-01-preview
+summary: Lists integration runtimes.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes?api-version=2017-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: IntegrationRuntimeListResponse
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: IntegrationRuntimeListResponse
+  description: A list of integration runtime resources.
+  kind: object
+  properties:
+  - name: value
+    description: Integration runtime resource type.
+    types:
+    - uid: IntegrationRuntimeResource
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of results, if any remaining results exist.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: details
+    description: The object that defines the structure of an Azure Data Factory response.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+- name: IntegrationRuntimeResource
+  description: Integration runtime resource type.
+  kind: object
+  properties:
+  - name: properties
+    description: Integration runtime properties.
+    types:
+    - uid: SelfHostedIntegrationRuntime
+    - uid: ManagedIntegrationRuntime
+    typesTitle: IntegrationRuntime
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Etag identifies change in the resource.
+    types:
+    - uid: string
+- name: SelfHostedIntegrationRuntime
+  description: Self-hosted integration runtime.
+  kind: object
+  properties:
+  - name: typeProperties.linkedInfo
+    description: The base definition of a secret type.
+    types:
+    - uid: LinkedIntegrationRuntimeRbac
+    - uid: LinkedIntegrationRuntimeKey
+    typesTitle: LinkedIntegrationRuntimeProperties
+  - name: type
+    description: Type of integration runtime.
+    types:
+    - uid: SelfHosted
+    typesTitle: string
+  - name: description
+    description: Integration runtime description.
+    types:
+    - uid: string
+- name: ManagedIntegrationRuntime
+  description: Managed integration runtime, including managed elastic and managed dedicated integration runtimes.
+  kind: object
+  properties:
+  - name: state
+    isReadyOnly: true
+    description: Integration runtime state, only valid for managed dedicated integration runtime.
+    types:
+    - uid: IntegrationRuntimeState
+  - name: typeProperties.computeProperties
+    description: The compute resource for managed integration runtime.
+    types:
+    - uid: IntegrationRuntimeComputeProperties
+  - name: typeProperties.ssisProperties
+    description: SSIS properties for managed integration runtime.
+    types:
+    - uid: IntegrationRuntimeSsisProperties
+  - name: type
+    description: Type of integration runtime.
+    types:
+    - uid: Managed
+    typesTitle: string
+  - name: description
+    description: Integration runtime description.
+    types:
+    - uid: string
+- name: IntegrationRuntimeType
+  description: The type of integration runtime.
+  kind: enum
+  properties:
+  - name: Managed
+    types:
+    - uid: string
+  - name: SelfHosted
+    types:
+    - uid: string
+- name: IntegrationRuntimeState
+  description: The state of integration runtime.
+  kind: enum
+  properties:
+  - name: Initial
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Started
+    types:
+    - uid: string
+  - name: Starting
+    types:
+    - uid: string
+  - name: Stopping
+    types:
+    - uid: string
+  - name: NeedRegistration
+    types:
+    - uid: string
+  - name: Online
+    types:
+    - uid: string
+  - name: Limited
+    types:
+    - uid: string
+  - name: Offline
+    types:
+    - uid: string
+- name: IntegrationRuntimeComputeProperties
+  description: The compute resource properties for managed integration runtime.
+  kind: object
+  properties:
+  - name: location
+    description: The location for managed integration runtime. The supported regions could be found on https://docs.microsoft.com/en-us/azure/data-factory/data-factory-data-movement-activities
+    types:
+    - uid: string
+  - name: nodeSize
+    description: The node size requirement to managed integration runtime.
+    types:
+    - uid: string
+  - name: numberOfNodes
+    description: The required number of nodes for managed integration runtime.
+    types:
+    - uid: integer
+  - name: maxParallelExecutionsPerNode
+    description: Maximum parallel executions count per node for managed integration runtime.
+    types:
+    - uid: integer
+  - name: vNetProperties
+    description: VNet properties for managed integration runtime.
+    types:
+    - uid: IntegrationRuntimeVNetProperties
+- name: IntegrationRuntimeSsisProperties
+  description: SSIS properties for managed integration runtime.
+  kind: object
+  properties:
+  - name: catalogInfo
+    description: Catalog information for managed dedicated integration runtime.
+    types:
+    - uid: IntegrationRuntimeSsisCatalogInfo
+  - name: licenseType
+    description: License type for bringing your own license scenario.
+    types:
+    - uid: IntegrationRuntimeLicenseType
+  - name: customSetupScriptProperties
+    description: Custom setup script properties for a managed dedicated integration runtime.
+    types:
+    - uid: IntegrationRuntimeCustomSetupScriptProperties
+  - name: edition
+    description: The edition for the SSIS Integration Runtime
+    types:
+    - uid: IntegrationRuntimeEdition
+- name: LinkedIntegrationRuntimeRbac
+  description: The base definition of a secret type.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The resource ID of the integration runtime to be shared.
+    types:
+    - uid: string
+  - name: authorizationType
+    description: Type of the secret.
+    types:
+    - uid: RBAC
+    typesTitle: string
+- name: LinkedIntegrationRuntimeKey
+  description: The base definition of a secret type.
+  kind: object
+  properties:
+  - name: key
+    description: Type of the secret.
+    types:
+    - uid: SecureString
+  - name: authorizationType
+    description: Type of the secret.
+    types:
+    - uid: Key
+    typesTitle: string
+- name: IntegrationRuntimeVNetProperties
+  description: VNet properties for managed integration runtime.
+  kind: object
+  properties:
+  - name: vNetId
+    description: The ID of the VNet that this integration runtime will join.
+    types:
+    - uid: string
+  - name: subnet
+    description: The name of the subnet this integration runtime will join.
+    types:
+    - uid: string
+- name: IntegrationRuntimeSsisCatalogInfo
+  description: Catalog information for managed dedicated integration runtime.
+  kind: object
+  properties:
+  - name: catalogServerEndpoint
+    description: The catalog database server URL.
+    types:
+    - uid: string
+  - name: catalogAdminUserName
+    description: The administrator user name of catalog database.
+    types:
+    - uid: string
+  - name: catalogAdminPassword
+    description: The password of the administrator user account of the catalog database.
+    types:
+    - uid: SecureString
+  - name: catalogPricingTier
+    description: The pricing tier for the catalog database. The valid values could be found in https://azure.microsoft.com/en-us/pricing/details/sql-database/
+    types:
+    - uid: IntegrationRuntimeSsisCatalogPricingTier
+- name: IntegrationRuntimeLicenseType
+  description: License type for bringing your own license scenario.
+  kind: enum
+  properties:
+  - name: BasePrice
+    types:
+    - uid: string
+  - name: LicenseIncluded
+    types:
+    - uid: string
+- name: IntegrationRuntimeCustomSetupScriptProperties
+  description: Custom setup script properties for a managed dedicated integration runtime.
+  kind: object
+  properties:
+  - name: blobContainerUri
+    description: The URI of the Azure blob container that contains the custom setup script.
+    types:
+    - uid: string
+  - name: sasToken
+    description: The SAS token of the Azure blob container.
+    types:
+    - uid: SecureString
+- name: IntegrationRuntimeEdition
+  description: The edition for the SSIS Integration Runtime
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: Enterprise
+    types:
+    - uid: string
+- name: SecureString
+  description: Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.
+  kind: object
+  properties:
+  - name: value
+    description: Value of secure string.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the secret.
+    types:
+    - uid: SecureString
+    typesTitle: string
+- name: IntegrationRuntimeSsisCatalogPricingTier
+  description: The pricing tier for the catalog database. The valid values could be found in https://azure.microsoft.com/en-us/pricing/details/sql-database/
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+  - name: PremiumRS
+    types:
+    - uid: string
+examples:
+- name: IntegrationRuntimes_ListByFactory
+  request:
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes?api-version=2017-09-01-preview
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Tue, 28 Nov 2017 07:05:28 GMT
+    - name: x-ms-request-id
+      value: a31dcf14-5eca-42c3-a0ac-5448c2f8b095
+    - name: X-Content-Type-Options
+      value: nosniff
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationruntimes/exampleIntegrationRuntime",
+            "name": "exampleIntegrationRuntime",
+            "properties": {
+              "type": "Managed",
+              "typeProperties": {
+                "computeProperties": {
+                  "location": "West US",
+                  "nodeSize": "Standard_D1_v2",
+                  "numberOfNodes": 1,
+                  "maxParallelExecutionsPerNode": 1
+                },
+                "ssisProperties": {
+                  "catalogInfo": {
+                    "catalogServerEndpoint": "yandongtestsvr.database.windows.net",
+                    "catalogAdminUserName": "yanzhang",
+                    "catalogAdminPassword": {
+                      "type": "SecureString",
+                      "value": "**********"
+                    },
+                    "catalogPricingTier": "S1"
+                  }
+                }
+              },
+              "description": "A managed reserved integration runtime",
+              "state": "Initial"
+            },
+            "etag": "0100333d-0000-0000-0000-5a1d0ab80000"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

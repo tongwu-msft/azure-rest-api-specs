@@ -1,6 +1,6 @@
 ---
 title: "ValidationFailedChaosEvent"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -50,11 +50,11 @@ ____
 __Type__: string (date-time) <br/>
 __Required__: Yes<br/>
 <br/>
-
+The UTC timestamp when this Chaos event was generated.
 
 ____
 ### Reason
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-
+Describes why the ValidationFailedChaosEvent was generated. This may happen because more than MaxPercentUnhealthyNodes are unhealthy for more than MaxClusterStabilizationTimeout. This reason will be in the Reason property of the ValidationFailedChaosEvent as a string.

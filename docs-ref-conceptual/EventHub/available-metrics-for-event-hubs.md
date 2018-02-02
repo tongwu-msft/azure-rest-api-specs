@@ -24,7 +24,7 @@ You can query the following metric data points for Event Hubs.
 |Size|EventHub|size|Number of bytes the entity occupies, regardless of the number of messages at the end of the selected interval.|  
 |Incoming Messages|EventHub, Partition|incoming|Total number of incoming messages in selected interval.|  
 |Incoming Throughput|EventHub, Partition|incoming.throughput|Incoming throughput in units of MB per second.|  
-|Outgoing Messages|ConsumerGroup, ConsumerGroupOnPartition|outgoing|Total number of incoming messages in selected interval.|  
+|Outgoing Messages|ConsumerGroup, ConsumerGroupOnPartition|outgoing|Total number of outgoing messages in selected interval.|  
 |Outgoing Throughput|ConsumerGroup, ConsumerGroupOnPartition|outgoing.throughput|Outgoing throughput in units of MB per second.|  
 |Total Requests|EventHub, Partition,  ConsumerGroup, ConsumerGroupOnPartition|requests.total|Total number of requests.|  
 |Failed Requests|EventHub, Partition,  ConsumerGroup, ConsumerGroupOnPartition|requests.failed|Number of failed requests.|  

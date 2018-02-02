@@ -26,10 +26,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Querying Azure Cosmos DB resources using the REST API
-Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article describes how to use REST to query resources using the DocumentDB API. 
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article describes how to use REST to query resources using the SQL API. 
   
 ## What resources can be queried by using REST?  
-All Azure Cosmos DB resources except account resources can be queried using Azure Cosmos DB SQL language.  For more information on Azure Cosmos DB SQL Language, see [Query with Azure Cosmos DB SQL](/azure/cosmos-db/documentdb-sql-query).  
+All Azure Cosmos DB resources except account resources can be queried using Azure Cosmos DB SQL language.  For more information, see [Query with Azure Cosmos DB SQL](/azure/cosmos-db/sql-api-sql-query).  
   
 ## How do I query a resource by using REST?  
 To perform a SQL query on a resource, do the following:  
@@ -95,7 +95,7 @@ The request body should be a valid JSON document containing the SQL query and pa
   
 |Property|Description|  
 |--------------|-----------------|  
-|query|**Required**. The SQL query string for the query. For more information see [Azure Cosmos DB DocumentDB API: SQL syntax reference](https://go.microsoft.com/fwlink/?linkid=834808).|  
+|query|**Required**. The SQL query string for the query. For more information see [Azure Cosmos DB SQL syntax reference](https://go.microsoft.com/fwlink/?linkid=834808).|  
 |parameters|**Required**. A JSON array of parameters specified as name value pairs. The parameter array can contain from zero to many parameters.Each parameter must have the following values:**name**: the name of the parameter. Parameter names must be valid string literals and begin with ‘@’.**value**: the value of the parameter. Can be any valid JSON value (string, number, object, array, Boolean or null).|  
   
 ## Request Example  
@@ -121,7 +121,7 @@ Content-Length: 50
 }  
 ```  
   
-For more information on the DocumentDB API SQL Language, see [Query with DocumentDB API SQL](/azure/cosmos-db/documentdb-sql-query).  
+For more information on the SQL queries, see [SQL queries for Azure Cosmos DB](/azure/cosmos-db/sql-api-sql-query).  
   
 ## Response Details  
 The following are common status codes returned by this operation. For information about error status codes, please see [HTTP Status Codes for Azure Cosmos DB](http-status-codes-for-documentdb.md).  
@@ -215,8 +215,8 @@ Cosmos DB query executions are stateless at the server side, and can be resumed 
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
-* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
 
   

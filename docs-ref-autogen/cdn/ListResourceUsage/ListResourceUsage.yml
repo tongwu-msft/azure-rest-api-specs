@@ -1,0 +1,91 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cdn.listresourceusage.listresourceusage
+name: List Resource Usage
+service: CDN
+groupName: List Resource Usage
+apiVersion: 2016-10-02
+summary: Check the quota and actual usage of the CDN profiles under the given subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkResourceUsage?api-version=2016-10-02
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2016-10-02.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ResourceUsageListResult
+- name: Other Status Codes
+  description: CDN error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ResourceUsageListResult
+  description: Output of check resource usage API.
+  kind: object
+  properties:
+  - name: value
+    description: Output of check resource usage API.
+    types:
+    - uid: ResourceUsage
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of custom domain objects if there are any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ResourceUsage
+  description: Output of check resource usage API.
+  kind: object
+  properties:
+  - name: resourceType
+    description: Resource type of the usages.
+    types:
+    - uid: string
+  - name: unit
+    description: Unit of the usage. e.g. Count.
+    types:
+    - uid: string
+  - name: currentValue
+    description: Actual value of the resource type.
+    types:
+    - uid: integer
+  - name: limit
+    description: Quota of the resource type.
+    types:
+    - uid: integer
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,186 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.listtriggeredwebjobhistory
+name: List Triggered Web Job History
+service: App Service
+groupName: Web Apps
+apiVersion: 2016-08-01
+summary: List a triggered web job's history for an app, or a deployment slot.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/triggeredwebjobs/{webJobName}/history?api-version=2016-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Site name.
+  types:
+  - uid: string
+- name: webJobName
+  in: path
+  isRequired: true
+  description: Name of Web Job.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Found continuous web job.
+  types:
+  - uid: TriggeredJobHistoryCollection
+- name: Other Status Codes
+  description: Triggered web job does not exist.
+requestHeader: []
+definitions:
+- name: TriggeredJobHistoryCollection
+  description: Collection of Kudu continuous web job information elements.
+  kind: object
+  properties:
+  - name: value
+    description: Triggered Web Job History. List of Triggered Web Job Run Information elements.
+    types:
+    - uid: TriggeredJobHistory
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to next page of resources.
+    types:
+    - uid: string
+- name: TriggeredJobHistory
+  description: Triggered Web Job History. List of Triggered Web Job Run Information elements.
+  kind: object
+  properties:
+  - name: properties.triggeredJobRuns
+    description: Triggered Web Job Run Information.
+    types:
+    - uid: TriggeredJobRun
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: TriggeredJobRun
+  description: Triggered Web Job Run Information.
+  kind: object
+  properties:
+  - name: properties.id
+    description: Job ID.
+    types:
+    - uid: string
+  - name: properties.name
+    isReadyOnly: true
+    description: Job name.
+    types:
+    - uid: string
+  - name: properties.status
+    description: Job status.
+    types:
+    - uid: TriggeredWebJobStatus
+  - name: properties.startTime
+    description: Start time.
+    types:
+    - uid: string
+  - name: properties.endTime
+    description: End time.
+    types:
+    - uid: string
+  - name: properties.duration
+    description: Job duration.
+    types:
+    - uid: string
+  - name: properties.outputUrl
+    description: Output URL.
+    types:
+    - uid: string
+  - name: properties.errorUrl
+    description: Error URL.
+    types:
+    - uid: string
+  - name: properties.url
+    description: Job URL.
+    types:
+    - uid: string
+  - name: properties.jobName
+    description: Job name.
+    types:
+    - uid: string
+  - name: properties.trigger
+    description: Job trigger.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: TriggeredWebJobStatus
+  description: Job status.
+  kind: enum
+  properties:
+  - name: Success
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

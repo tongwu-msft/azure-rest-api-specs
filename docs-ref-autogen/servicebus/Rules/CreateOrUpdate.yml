@@ -1,0 +1,265 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicebus.rules.createorupdate
+name: Create Or Update
+service: Service Bus
+groupName: Rules
+apiVersion: 2017-04-01
+summary: Creates a new rule and updates an existing rule
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}?api-version=2017-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: namespaceName
+  in: path
+  isRequired: true
+  description: The namespace name
+  types:
+  - uid: string
+- name: topicName
+  in: path
+  isRequired: true
+  description: The topic name.
+  types:
+  - uid: string
+- name: subscriptionName
+  in: path
+  isRequired: true
+  description: The subscription name.
+  types:
+  - uid: string
+- name: ruleName
+  in: path
+  isRequired: true
+  description: The rule name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Rule created.
+  types:
+  - uid: Rule
+- name: Other Status Codes
+  description: ServiceBus error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: properties.action
+    in: body
+    description: Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
+    types:
+    - uid: SqlRuleAction
+    typesTitle: Action
+  - name: properties.filterType
+    in: body
+    description: Filter type that is evaluated against a BrokeredMessage.
+    types:
+    - uid: FilterType
+  - name: properties.sqlFilter
+    in: body
+    description: Properties of sqlFilter
+    types:
+    - uid: SqlFilter
+  - name: properties.correlationFilter
+    in: body
+    description: Properties of correlationFilter
+    types:
+    - uid: CorrelationFilter
+requestHeader: []
+definitions:
+- name: SqlFilter
+  description: Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
+  kind: object
+  properties:
+  - name: sqlExpression
+    description: The SQL expression. e.g. MyProperty='ABC'
+    types:
+    - uid: string
+  - name: compatibilityLevel
+    isReadyOnly: true
+    description: This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
+    types:
+    - uid: integer
+  - name: requiresPreprocessing
+    description: Value that indicates whether the rule action requires preprocessing.
+    types:
+    - uid: boolean
+- name: CorrelationFilter
+  description: Represents the correlation filter expression.
+  kind: object
+  properties:
+  - name: correlationId
+    description: Identifier of the correlation.
+    types:
+    - uid: string
+  - name: messageId
+    description: Identifier of the message.
+    types:
+    - uid: string
+  - name: to
+    description: Address to send to.
+    types:
+    - uid: string
+  - name: replyTo
+    description: Address of the queue to reply to.
+    types:
+    - uid: string
+  - name: label
+    description: Application specific label.
+    types:
+    - uid: string
+  - name: sessionId
+    description: Session identifier.
+    types:
+    - uid: string
+  - name: replyToSessionId
+    description: Session identifier to reply to.
+    types:
+    - uid: string
+  - name: contentType
+    description: Content type of the message.
+    types:
+    - uid: string
+  - name: requiresPreprocessing
+    description: Value that indicates whether the rule action requires preprocessing.
+    types:
+    - uid: boolean
+- name: Rule
+  description: Description of Rule Resource.
+  kind: object
+  properties:
+  - name: properties.action
+    description: Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
+    types:
+    - uid: SqlRuleAction
+    typesTitle: Action
+  - name: properties.filterType
+    description: Filter type that is evaluated against a BrokeredMessage.
+    types:
+    - uid: FilterType
+  - name: properties.sqlFilter
+    description: Properties of sqlFilter
+    types:
+    - uid: SqlFilter
+  - name: properties.correlationFilter
+    description: Properties of correlationFilter
+    types:
+    - uid: CorrelationFilter
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: SqlRuleAction
+  description: 'Represents set of actions written in SQL language-based syntax that is performed against a ServiceBus.Messaging.BrokeredMessage '
+  kind: object
+  properties:
+  - name: sqlExpression
+    description: SQL expression. e.g. MyProperty='ABC'
+    types:
+    - uid: string
+  - name: compatibilityLevel
+    description: This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
+    types:
+    - uid: integer
+  - name: requiresPreprocessing
+    description: Value that indicates whether the rule action requires preprocessing.
+    types:
+    - uid: boolean
+- name: FilterType
+  description: Rule filter types
+  kind: enum
+  properties:
+  - name: SqlFilter
+    types:
+    - uid: string
+  - name: CorrelationFilter
+    types:
+    - uid: string
+examples:
+- name: RulesCreateOrUpdate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571?api-version=2017-04-01
+    body: >-
+      {
+        "properties": {
+          "action": {
+            "sqlExpression": "myproperty='test'"
+          },
+          "filterType": "SqlFilter",
+          "sqlFilter": {
+            "sqlExpression": "myproperty='test'"
+          },
+          "correlationFilter": {}
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571",
+        "name": "sdk-Rules-6571",
+        "type": "Microsoft.ServiceBus/Namespaces/Topics/Subscriptions/Rules",
+        "properties": {
+          "action": {
+            "sqlExpression": "myproperty='test'",
+            "compatibilityLevel": 20
+          },
+          "filterType": "SqlFilter",
+          "sqlFilter": {
+            "sqlExpression": "myproperty='test'",
+            "compatibilityLevel": 20
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

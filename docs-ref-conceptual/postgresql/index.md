@@ -8,7 +8,7 @@ ms.topic: reference
 ms.service: postgresql-database
 ms.devlang: rest-api
 service_description: Azure Database for PostgreSQL
-ms.date: 07/25/2017
+ms.date: 11/27/2017
 ---
 
 # Azure Database for PostgreSQL REST API
@@ -28,17 +28,17 @@ Azure Database for PostgreSQL provides a managed database service for app develo
 
 | Operation group | Description |
 |---|---|
-| [Server](~/docs-ref-autogen/postgresql/Servers.json) | Create, Restore, Update, Delete, Get, or List servers. |
-| [Configurations](~/docs-ref-autogen/postgresql/Configurations.json) | Update, Get, and List the configuration of a server. | 
-| [Databases](~/docs-ref-autogen/postgresql/Databases.json)  | Create, Delete, Get, or List databases in the server. | 
-| [Firewall Rules](~/docs-ref-autogen/postgresql/FirewallRules.json) | Creates, Delete, Get, or List the firewall rules in a server. |
-| [Log Files](~/docs-ref-autogen/postgresql/LogFiles.json) | Lists the log files in a given server. |
-| [Operations](~/docs-ref-autogen/postgresql/Operations.json) | Lists the available REST API operations. |
+| [Server](~/docs-ref-autogen/postgresql/Servers.yml) | Create, Restore, Update, Delete, Get, or List servers. |
+| [Configurations](~/docs-ref-autogen/postgresql/Configurations.yml) | Update, Get, and List the configuration of a server. | 
+| [Databases](~/docs-ref-autogen/postgresql/Databases.yml)  | Create, Delete, Get, or List databases in the server. | 
+| [Firewall Rules](~/docs-ref-autogen/postgresql/FirewallRules.yml) | Creates, Delete, Get, or List the firewall rules in a server. |
+| [Log Files](~/docs-ref-autogen/postgresql/LogFiles.yml) | Lists the log files in a given server. |
+| [Operations](~/docs-ref-autogen/postgresql/Operations.yml) | Lists the available REST API operations. |
 
 
 ## See also
-- For an overview of the service, see [Azure Database for PostgreSQL Overview](/azure/postgresql/overview.md)
-- [Create an Azure Database for PostgreSQL server using Azure portal](/azure/postgresql/quickstart-create-server-database-portal.md)
-- [Create an Azure Database for PostgreSQL server using Azure CLI](/azure/postgresql/quickstart-create-server-database-azure-cli.md)
+- For an overview of the service, see [Azure Database for PostgreSQL Overview](/azure/postgresql/overview)
+- [Create an Azure Database for PostgreSQL server using Azure portal](/azure/postgresql/quickstart-create-server-database-portal)
+- [Create an Azure Database for PostgreSQL server using Azure CLI](/azure/postgresql/quickstart-create-server-database-azure-cli)
 - [Azure CLI Samples](/azure/postgresql/sample-scripts-azure-cli) for Azure Database for PostgreSQL
-- For information about connecting to the service, see [Connection libraries for Azure Database for PostgreSQL](/azure/postgresql/concepts-connection-libraries.md).
+- For information about connecting to the service, see [Connection libraries for Azure Database for PostgreSQL](/azure/postgresql/concepts-connection-libraries).

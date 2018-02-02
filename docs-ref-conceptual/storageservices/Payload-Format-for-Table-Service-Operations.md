@@ -113,7 +113,9 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
 |n/a|No|Null|  
  
  The Table service does not persist `null` values for properties. When writing an entity, a `null` value may be specified with or without an odata.type annotation, and any property with a `null` value is handled as if the request did not contain that property. `Null` property values are never returned when querying entities.  
- 
+  
+ For Edm.Double, the values `NaN`, `Infinity` and `-Infinity` are represented in JSON using type `String`, and an odata.type annotation is required. The Table service does not support a negative version of `NaN`, and in JSON format it does not distinguish between positive and negative zero (it treats `-0.0` as `0.0`).  
+  
  The following JSON entity provides an example for each of the eight different property types:  
   
 ```  
@@ -275,6 +277,8 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
  A property may be specified with or without an explicit data type. If the type is omitted, the property is automatically created as data type `Edm.String`.  
   
  If a property is created with an explicit type, a query that returns the entity includes that type within the Atom feed, so that you can determine the type of an existing property if necessary. Knowing a property's type is important when you are constructing a query that filters on that property. For more information, see [Querying Tables and Entities](Querying-Tables-and-Entities.md).  
+  
+ For `Double` properties, the values `NaN`, `INF`, and `-INF` are used in Atom to indicate not a number, positive infinity, and negative infinity, respectively. The forms `Infinity` and `-Infinity` are also accepted. The Table service does not support a negative version of `NaN`. In Atom format, it distinguishes between positive and negative zero.  
   
 ## See Also  
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   

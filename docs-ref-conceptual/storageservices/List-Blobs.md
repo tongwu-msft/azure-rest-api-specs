@@ -125,11 +125,16 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
  For version 2015-12-11 and above, `List Blobs` returns the `ServerEncrypted` element. This element is set to `true` if the blob and application metadata are completely encrypted, and `false` otherwise.  
 
  For version 2016-05-31 and above, `List Blobs` returns the `IncrementalCopy` element for incremental copy blobs and snapshots with the value set to `true`.
- 
- For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features). For blob storage LRS accounts, valid values are `Hot`/`Cool`/`Archive`. If the blob is in rehydrate pending state then `ArchiveStatus` element is returned with one of the valid values `rehydrate-pending-to-hot`/`rehydrate-pending-to-cool`. Tiers on standard blob accounts are currently in preview. For detailed information about standard blob LRS account block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
 
- `Deleted`, `DeletedTime` and `RemainingRetentionDays` appear only in version 2017-07-29 and later, when this operation includes the `include={deleted}` parameter. These elements do not appear if this blob was not deleted. These elements appear for blob or snapshot that are deleted with `DELETE` operation when soft delete feature was enabled. `Deleted` element is set to true for blobs and snapshots that are soft deleted. `Deleted-Time` corresponds to time when the blob was deleted. `RemainingRetentionDays` indicates number of days after which soft deleted blob will be permanently deleted by blob service. 
-  
+
+ For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features). For Blob Storage or General Purpose v2 accounts, valid values are `Hot`/`Cool`/`Archive`. If the blob is in rehydrate pending state then `ArchiveStatus` element is returned with one of the valid values `rehydrate-pending-to-hot`/`rehydrate-pending-to-cool`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+ 
+ For version 2017-04-17 and above, `List Blobs` returns the `AccessTierInferred` element on Blob Storage or General Purpose v2 accounts. If the block blob does not have the access tier set then we infer tier from storage account properties and this value is set to `true`. This header is present only if the tier is inferred from the account property. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers). 
+ 
+ For version 2017-04-17 and above, `List Blobs` returns the `AccessTierChangeTime` element on Blob Storage or General Purpose v2 accounts. This is returned only if tier on block blob was ever set. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers). 
+
+ For version 2017-07-29 and above, `Deleted`, `DeletedTime` and `RemainingRetentionDays` appear when this operation includes the `include={deleted}` parameter. These elements do not appear if this blob was not deleted. These elements appear for blob or snapshot that are deleted with `DELETE` operation when soft delete feature was enabled. `Deleted` element is set to true for blobs and snapshots that are soft deleted. `Deleted-Time` corresponds to time when the blob was deleted. `RemainingRetentionDays` indicates number of days after which soft deleted blob will be permanently deleted by blob service.
+
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
 <EnumerationResults ServiceEndpoint="http://myaccount.blob.core.windows.net/"  ContainerName="mycontainer">  
@@ -164,9 +169,15 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
         <CopyCompletionTime>datetime</CopyCompletionTime>  
         <CopyStatusDescription>error string</CopyStatusDescription>  
         <ServerEncrypted>true</ServerEncrypted> 
+<<<<<<< HEAD
         <IncrementalCopy>true</IncrementalCopy>
         <DeletedTime>datetime</DeletedTime>
         <RemainingRetentionDays>no-of-days</RemainingRetentionDays>
+=======
+        <IncrementalCopy>true</IncrementalCopy> 
+        <AccessTierInferred>true</AccessTierInferred>
+        <AccessTierChangeTime>datetime</AccessTierChangeTime>
+>>>>>>> 4c4b153a4aaec394cb1c5fd797264d83b3171182
       </Properties>  
       <Metadata>     
         <Name>value</Name>  

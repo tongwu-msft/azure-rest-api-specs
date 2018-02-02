@@ -16,4 +16,4 @@ AKS manages your hosted Kubernetes environment, making it quick and easy to depl
 
 | Operation group | Description |
 |-----------------|-------------|
-| [Managed Clusters](~/docs-ref-autogen/aks/managedclusters.json) (Preview) | Provision, upgrade, and scale Kubernetes deployments in AKS. |
+| [Managed Clusters](~/docs-ref-autogen/aks/managedclusters.yml) (Preview) | Provision, upgrade, and scale Kubernetes deployments in AKS. |

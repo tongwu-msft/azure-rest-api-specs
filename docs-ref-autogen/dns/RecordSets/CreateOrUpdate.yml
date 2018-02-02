@@ -1,0 +1,500 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.dns.recordsets.createorupdate
+name: Create Or Update
+service: DNS
+groupName: Record Sets
+apiVersion: 2017-09-01
+summary: Creates or updates a record set within a DNS zone.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}/{relativeRecordSetName}?api-version=2017-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: zoneName
+  in: path
+  isRequired: true
+  description: The name of the DNS zone (without a terminating dot).
+  types:
+  - uid: string
+- name: recordType
+  in: path
+  isRequired: true
+  description: The type of DNS record in this record set. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+  types:
+  - uid: RecordType
+- name: relativeRecordSetName
+  in: path
+  isRequired: true
+  description: The name of the record set, relative to the name of the zone.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the API version.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: The record set has been created.
+  types:
+  - uid: RecordSet
+- name: 200 OK
+  description: The record set has been updated.
+  types:
+  - uid: RecordSet
+- name: Other Status Codes
+  description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: etag
+    in: body
+    description: The etag of the record set.
+    types:
+    - uid: string
+  - name: properties.metadata
+    in: body
+    description: The metadata attached to the record set.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.TTL
+    in: body
+    description: The TTL (time-to-live) of the records in the record set.
+    types:
+    - uid: integer
+  - name: properties.ARecords
+    in: body
+    description: An A record.
+    types:
+    - uid: ARecord
+      isArray: true
+  - name: properties.AAAARecords
+    in: body
+    description: An AAAA record.
+    types:
+    - uid: AaaaRecord
+      isArray: true
+  - name: properties.MXRecords
+    in: body
+    description: An MX record.
+    types:
+    - uid: MxRecord
+      isArray: true
+  - name: properties.NSRecords
+    in: body
+    description: An NS record.
+    types:
+    - uid: NsRecord
+      isArray: true
+  - name: properties.PTRRecords
+    in: body
+    description: A PTR record.
+    types:
+    - uid: PtrRecord
+      isArray: true
+  - name: properties.SRVRecords
+    in: body
+    description: An SRV record.
+    types:
+    - uid: SrvRecord
+      isArray: true
+  - name: properties.TXTRecords
+    in: body
+    description: A TXT record.
+    types:
+    - uid: TxtRecord
+      isArray: true
+  - name: properties.CNAMERecord
+    in: body
+    description: The CNAME record in the  record set.
+    types:
+    - uid: CnameRecord
+  - name: properties.SOARecord
+    in: body
+    description: The SOA record in the record set.
+    types:
+    - uid: SoaRecord
+  - name: properties.caaRecords
+    in: body
+    description: A CAA record.
+    types:
+    - uid: CaaRecord
+      isArray: true
+requestHeader:
+- name: If-Match
+  in: header
+  description: The etag of the record set. Omit this value to always overwrite the current record set. Specify the last-seen etag value to prevent accidentally overwritting any concurrent changes.
+  types:
+  - uid: string
+- name: If-None-Match
+  in: header
+  description: Set to '*' to allow a new record set to be created, but to prevent updating an existing record set. Other values will be ignored.
+  types:
+  - uid: string
+definitions:
+- name: RecordType
+  description: The type of DNS record in this record set. Record sets of type SOA can be updated but not created (they are created when the DNS zone is created).
+  kind: enum
+  properties:
+  - name: A
+    types:
+    - uid: string
+  - name: AAAA
+    types:
+    - uid: string
+  - name: CAA
+    types:
+    - uid: string
+  - name: CNAME
+    types:
+    - uid: string
+  - name: MX
+    types:
+    - uid: string
+  - name: NS
+    types:
+    - uid: string
+  - name: PTR
+    types:
+    - uid: string
+  - name: SOA
+    types:
+    - uid: string
+  - name: SRV
+    types:
+    - uid: string
+  - name: TXT
+    types:
+    - uid: string
+- name: ARecord
+  description: An A record.
+  kind: object
+  properties:
+  - name: ipv4Address
+    description: The IPv4 address of this A record.
+    types:
+    - uid: string
+- name: AaaaRecord
+  description: An AAAA record.
+  kind: object
+  properties:
+  - name: ipv6Address
+    description: The IPv6 address of this AAAA record.
+    types:
+    - uid: string
+- name: MxRecord
+  description: An MX record.
+  kind: object
+  properties:
+  - name: preference
+    description: The preference value for this MX record.
+    types:
+    - uid: integer
+  - name: exchange
+    description: The domain name of the mail host for this MX record.
+    types:
+    - uid: string
+- name: NsRecord
+  description: An NS record.
+  kind: object
+  properties:
+  - name: nsdname
+    description: The name server name for this NS record.
+    types:
+    - uid: string
+- name: PtrRecord
+  description: A PTR record.
+  kind: object
+  properties:
+  - name: ptrdname
+    description: The PTR target domain name for this PTR record.
+    types:
+    - uid: string
+- name: SrvRecord
+  description: An SRV record.
+  kind: object
+  properties:
+  - name: priority
+    description: The priority value for this SRV record.
+    types:
+    - uid: integer
+  - name: weight
+    description: The weight value for this SRV record.
+    types:
+    - uid: integer
+  - name: port
+    description: The port value for this SRV record.
+    types:
+    - uid: integer
+  - name: target
+    description: The target domain name for this SRV record.
+    types:
+    - uid: string
+- name: TxtRecord
+  description: A TXT record.
+  kind: object
+  properties:
+  - name: value
+    description: The text value of this TXT record.
+    types:
+    - uid: string
+      isArray: true
+- name: CnameRecord
+  description: A CNAME record.
+  kind: object
+  properties:
+  - name: cname
+    description: The canonical name for this CNAME record.
+    types:
+    - uid: string
+- name: SoaRecord
+  description: An SOA record.
+  kind: object
+  properties:
+  - name: host
+    description: The domain name of the authoritative name server for this SOA record.
+    types:
+    - uid: string
+  - name: email
+    description: The email contact for this SOA record.
+    types:
+    - uid: string
+  - name: serialNumber
+    description: The serial number for this SOA record.
+    types:
+    - uid: integer
+  - name: refreshTime
+    description: The refresh value for this SOA record.
+    types:
+    - uid: integer
+  - name: retryTime
+    description: The retry time for this SOA record.
+    types:
+    - uid: integer
+  - name: expireTime
+    description: The expire time for this SOA record.
+    types:
+    - uid: integer
+  - name: minimumTTL
+    description: The minimum value for this SOA record. By convention this is used to determine the negative caching duration.
+    types:
+    - uid: integer
+- name: CaaRecord
+  description: A CAA record.
+  kind: object
+  properties:
+  - name: flags
+    description: The flags for this CAA record as an integer between 0 and 255.
+    types:
+    - uid: integer
+  - name: tag
+    description: The tag for this CAA record.
+    types:
+    - uid: string
+  - name: value
+    description: The value for this CAA record.
+    types:
+    - uid: string
+- name: RecordSet
+  description: Describes a DNS record set (a collection of DNS records with the same name and type).
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ID of the record set.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the record set.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the record set.
+    types:
+    - uid: string
+  - name: etag
+    description: The etag of the record set.
+    types:
+    - uid: string
+  - name: properties.metadata
+    description: The metadata attached to the record set.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.TTL
+    description: The TTL (time-to-live) of the records in the record set.
+    types:
+    - uid: integer
+  - name: properties.fqdn
+    isReadyOnly: true
+    description: Fully qualified domain name of the record set.
+    types:
+    - uid: string
+  - name: properties.ARecords
+    description: An A record.
+    types:
+    - uid: ARecord
+      isArray: true
+  - name: properties.AAAARecords
+    description: An AAAA record.
+    types:
+    - uid: AaaaRecord
+      isArray: true
+  - name: properties.MXRecords
+    description: An MX record.
+    types:
+    - uid: MxRecord
+      isArray: true
+  - name: properties.NSRecords
+    description: An NS record.
+    types:
+    - uid: NsRecord
+      isArray: true
+  - name: properties.PTRRecords
+    description: A PTR record.
+    types:
+    - uid: PtrRecord
+      isArray: true
+  - name: properties.SRVRecords
+    description: An SRV record.
+    types:
+    - uid: SrvRecord
+      isArray: true
+  - name: properties.TXTRecords
+    description: A TXT record.
+    types:
+    - uid: TxtRecord
+      isArray: true
+  - name: properties.CNAMERecord
+    description: The CNAME record in the  record set.
+    types:
+    - uid: CnameRecord
+  - name: properties.SOARecord
+    description: The SOA record in the record set.
+    types:
+    - uid: SoaRecord
+  - name: properties.caaRecords
+    description: A CAA record.
+    types:
+    - uid: CaaRecord
+      isArray: true
+- name: CloudError
+  description: An error message
+  kind: object
+  properties:
+  - name: error
+    description: The error message body
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: The body of an error message
+  kind: object
+  properties:
+  - name: code
+    description: The error code
+    types:
+    - uid: string
+  - name: message
+    description: A description of what caused the error
+    types:
+    - uid: string
+  - name: target
+    description: The target resource of the error message
+    types:
+    - uid: string
+  - name: details
+    description: The body of an error message
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Create CAA recordset
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA/record1?api-version=2017-09-01
+    body: >-
+      {
+        "properties": {
+          "metadata": {
+            "key1": "value1"
+          },
+          "TTL": 3600,
+          "caaRecords": [
+            {
+              "flags": 0,
+              "tag": "issue",
+              "value": "ca.contoso.com"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA/record1",
+        "etag": "00000000-0000-0000-0000-000000000000",
+        "name": "record1",
+        "type": "Microsoft.Network/dnsZones/CAA",
+        "properties": {
+          "metadata": {
+            "key1": "value1"
+          },
+          "TTL": 3600,
+          "fqdn": "record1.zone1",
+          "caaRecords": [
+            {
+              "flags": 0,
+              "tag": "issue",
+              "value": "ca.contoso.com"
+            }
+          ]
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA/record1",
+        "etag": "00000000-0000-0000-0000-000000000000",
+        "name": "record1",
+        "type": "Microsoft.Network/dnsZones/CAA",
+        "properties": {
+          "metadata": {
+            "key1": "value1"
+          },
+          "TTL": 3600,
+          "fqdn": "record1.zone1",
+          "caaRecords": [
+            {
+              "flags": 0,
+              "tag": "issue",
+              "value": "ca.contoso.com"
+            }
+          ]
+        }
+      }
+security: []

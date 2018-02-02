@@ -1,6 +1,6 @@
 ---
 title: "PropertyMetadata"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -46,14 +46,19 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The kind of property, determined by the type of data. Following are the possible values.
 
-- Invalid - Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-- Binary - The data inside the property is a binary blob. The value is 1.
-- Int64 - The data inside the property is an int64. The value is 2.
-- Double - The data inside the property is a double. The value is 3.
-- String - The data inside the property is a wstring. The value is 4.
-- Guid - The data inside the property is a guid. The value is 5.
+Possible values are: 
+
+  - Invalid - Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - Binary - The data inside the property is a binary blob. The value is 1.
+  - Int64 - The data inside the property is an int64. The value is 2.
+  - Double - The data inside the property is a double. The value is 3.
+  - String - The data inside the property is a string. The value is 4.
+  - Guid - The data inside the property is a guid. The value is 5.
+
 
 
 ____

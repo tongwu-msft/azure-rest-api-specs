@@ -1,6 +1,6 @@
 ---
 title: "RepairTask"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -69,9 +69,9 @@ __Type__: string (int64) <br/>
 __Required__: No<br/>
 <br/>
 The version of the repair task.
-When creating a new repair task, the version must be set to zero.  When updating a repair task, 
-the version is used for optimistic concurrency checks.  If the version is 
-set to zero, the update will not check for write conflicts.  If the version is set to a non-zero value, then the 
+When creating a new repair task, the version must be set to zero.  When updating a repair task,
+the version is used for optimistic concurrency checks.  If the version is
+set to zero, the update will not check for write conflicts.  If the version is set to a non-zero value, then the
 update will only succeed if the actual current version of the repair task matches this value.
 
 
@@ -91,14 +91,19 @@ __Required__: Yes<br/>
 <br/>
 The workflow state of the repair task. Valid initial states are Created, Claimed, and Preparing.
 
-- Invalid - Indicates that the repair task state is invalid. All Service Fabric enumerations have the invalid value.
-- Created - Indicates that the repair task has been created.
-- Claimed - Indicates that the repair task has been claimed by a repair executor.
-- Preparing - Indicates that the Repair Manager is preparing the system to handle the impact of the repair task, usually by taking resources offline gracefully.
-- Approved - Indicates that the repair task has been approved by the Repair Manager and is safe to execute.
-- Executing - Indicates that execution of the repair task is in progress.
-- Restoring - Indicates that the Repair Manager is restoring the system to its pre-repair state, usually by bringing resources back online.
-- Completed - Indicates that the repair task has completed, and no further state changes will occur.
+
+
+Possible values are: 
+
+  - Invalid - Indicates that the repair task state is invalid. All Service Fabric enumerations have the invalid value.
+  - Created - Indicates that the repair task has been created.
+  - Claimed - Indicates that the repair task has been claimed by a repair executor.
+  - Preparing - Indicates that the Repair Manager is preparing the system to handle the impact of the repair task, usually by taking resources offline gracefully.
+  - Approved - Indicates that the repair task has been approved by the Repair Manager and is safe to execute.
+  - Executing - Indicates that execution of the repair task is in progress.
+  - Restoring - Indicates that the Repair Manager is restoring the system to its pre-repair state, usually by bringing resources back online.
+  - Completed - Indicates that the repair task has completed, and no further state changes will occur.
+
 
 
 ____
@@ -157,15 +162,19 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-A value describing the overall result of the repair task execution.
-Must be specified in the Restoring and later states, and is immutable once set.
+A value describing the overall result of the repair task execution. Must be specified in the Restoring and later states, and is immutable once set.
 
-- Invalid - Indicates that the repair task result is invalid. All Service Fabric enumerations have the invalid value.
-- Succeeded - Indicates that the repair task completed execution successfully.
-- Cancelled - Indicates that the repair task was cancelled prior to execution.
-- Interrupted - Indicates that execution of the repair task was interrupted by a cancellation request after some work had already been performed.
-- Failed - Indicates that there was a failure during execution of the repair task. Some work may have been performed.
-- Pending - Indicates that the repair task result is not yet available, because the repair task has not finished executing.
+
+
+Possible values are: 
+
+  - Invalid - Indicates that the repair task result is invalid. All Service Fabric enumerations have the invalid value.
+  - Succeeded - Indicates that the repair task completed execution successfully.
+  - Cancelled - Indicates that the repair task was cancelled prior to execution.
+  - Interrupted - Indicates that execution of the repair task was interrupted by a cancellation request after some work had already been performed.
+  - Failed - Indicates that there was a failure during execution of the repair task. Some work may have been performed.
+  - Pending - Indicates that the repair task result is not yet available, because the repair task has not finished executing.
+
 
 
 ____
@@ -202,7 +211,16 @@ __Required__: No<br/>
 <br/>
 The workflow state of the health check when the repair task is in the Preparing state.
 
-The workflow state of the health check when the repair task is in the Preparing state.
+Specifies the workflow state of a repair task's health check. This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+
+Possible values are: 
+
+  - NotStarted - Indicates that the health check has not started.
+  - InProgress - Indicates that the health check is in progress.
+  - Succeeded - Indicates that the health check succeeded.
+  - Skipped - Indicates that the health check was skipped.
+  - TimedOut - Indicates that the health check timed out.
+
 
 
 ____
@@ -212,7 +230,16 @@ __Required__: No<br/>
 <br/>
 The workflow state of the health check when the repair task is in the Restoring state.
 
-The workflow state of the health check when the repair task is in the Restoring state.
+Specifies the workflow state of a repair task's health check. This type supports the Service Fabric platform; it is not meant to be used directly from your code.
+
+Possible values are: 
+
+  - NotStarted - Indicates that the health check has not started.
+  - InProgress - Indicates that the health check is in progress.
+  - Succeeded - Indicates that the health check succeeded.
+  - Skipped - Indicates that the health check was skipped.
+  - TimedOut - Indicates that the health check timed out.
+
 
 
 ____

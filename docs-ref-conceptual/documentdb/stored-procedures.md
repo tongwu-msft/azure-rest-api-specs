@@ -26,11 +26,11 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Stored Procedures
-[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing document resources using the [DocumentDB API](/azure/cosmos-db/documentdb-introduction) via REST.   
+[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing document resources using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.   
 
 A stored procedure is a piece of application logic written in JavaScript that is registered and executed against a collection as a single transaction. In Azure Cosmos DB, JavaScript is hosted in the same memory space as the database. Hence, requests made within stored procedures execute in the same scope of a database session. This enables Azure Cosmos DB to guarantee ACID for all operations that are part of a single stored procedure.  
   
-The stored procedure resource is represented by sprocs in the [Azure Cosmos DB resource model](/azure/cosmos-db/documentdb-resources/).  
+The stored procedure resource is represented by sprocs in the [Azure Cosmos DB resource model](/azure/cosmos-db/sql-api-resources/).  
   
 The stored procedure resource has a fixed schema. The body property contains the application logic. The following example illustrates the JSON construct of a stored procedure.  
   
@@ -57,7 +57,7 @@ The stored procedure resource has a fixed schema. The body property contains the
 |**_self**|This is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|This is a system generated property that specifies the resource etag required for optimistic concurrency control.|  
   
-Stored procedures can use the Cosmos DB JavaScript Server-side SDK to make database operations like create, read, update, delete and query documents, as well as read from the request body and write to the response body of the stored procedure. For more details, refer to the [Cosmos DB server-side SDK documentation](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-node) and the server [Cosmos DB side programming tutorial](/azure/cosmos-db/programming/).  
+Stored procedures can use the Cosmos DB JavaScript Server-side SDK to make database operations like create, read, update, delete and query documents, as well as read from the request body and write to the response body of the stored procedure. For more details, refer to the [Cosmos DB server side programming tutorial](/azure/cosmos-db/programming/).  
 For example, here’s a stored procedure for “Hello World”:  
   
 ```  
@@ -172,8 +172,8 @@ You can do the following with stored procedures:
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
-* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
 

@@ -35,7 +35,7 @@ translation.priority.mt:
 |POST|`https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/sprocs/{sproc-name}`|Note that the {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. The {db-id} value is the user generated name/id of the database where where the stored procedure resides, not the system generated id (rid). The {coll-id} value is the name of the collection where the stored procedure resides. The {sproc-name} value is the name of the stored procedure to be executed.|  
   
 ### Headers  
- See [Common REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all DocumentDB API requests.  
+ See [Common REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all SQL API requests.  
   
 ### Body  
   
@@ -117,8 +117,8 @@ Content-Length: 14
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
-* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   

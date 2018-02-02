@@ -17,9 +17,9 @@ Azure ExpressRoute lets you create private connections between Azure datacenters
 
 |Operation Group|Description|
 |---|---|
-|[ExpressRoute Service Providers](~/docs-ref-autogen/expressroute/expressrouteserviceproviders.json)    |Provides operations listing ExpressRoute providers.|
-|[ExpressRoute Circuits](~/docs-ref-autogen/expressroute/expressroutecircuits.json)   | Provides operations for managing ExpressRoute circuit authorizations.|
-|[ExpressRoute Authorizations](~/docs-ref-autogen/expressroute/expressroutecircuitauthorizations.json)  |Provides operations for managing ExpressRoute BGP peerings.|
-|[ExpressRoute BGP Peering](~/docs-ref-autogen/expressroute/expressroutecircuitpeerings.json)  |Provides operations for managing ExpressRoute BGP peerings.|
-|[BGP Service communities](~/docs-ref-autogen/expressroute/bgpservicecommunities.json)    |Gets all available BGP service comunities.|
-|[Route filters](~/docs-ref-autogen/expressroute/routefilters.json)   |Provides operations for managing Route filters.|
+|[ExpressRoute Service Providers](~/docs-ref-autogen/expressroute/expressrouteserviceproviders.yml)    |Provides operations listing ExpressRoute providers.|
+|[ExpressRoute Circuits](~/docs-ref-autogen/expressroute/expressroutecircuits.yml)   | Provides operations for managing ExpressRoute circuit authorizations.|
+|[ExpressRoute Authorizations](~/docs-ref-autogen/expressroute/expressroutecircuitauthorizations.yml)  |Provides operations for managing ExpressRoute BGP peerings.|
+|[ExpressRoute BGP Peering](~/docs-ref-autogen/expressroute/expressroutecircuitpeerings.yml)  |Provides operations for managing ExpressRoute BGP peerings.|
+|[BGP Service communities](~/docs-ref-autogen/expressroute/bgpservicecommunities.yml)    |Gets all available BGP service comunities.|
+|[Route filters](~/docs-ref-autogen/expressroute/routefilters.yml)   |Provides operations for managing Route filters.|

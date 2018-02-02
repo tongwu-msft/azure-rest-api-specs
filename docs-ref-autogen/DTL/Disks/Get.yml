@@ -1,0 +1,185 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devtestlabs.disks.get
+name: Get
+service: Dev Test Labs
+groupName: Disks
+apiVersion: 2016-05-15
+summary: Get disk.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}?api-version=2016-05-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}?$expand={$expand}&api-version=2016-05-15
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: labName
+  in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+- name: userName
+  in: path
+  isRequired: true
+  description: The name of the user profile.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the disk.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: "Specify the $expand query. Example: 'properties($select=diskType)'"
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Disk
+- name: Other Status Codes
+  description: BadRequest
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: Disk
+  description: A Disk.
+  kind: object
+  properties:
+  - name: properties.diskType
+    description: The storage type for the disk (i.e. Standard, Premium).
+    types:
+    - uid: StorageType
+  - name: properties.diskSizeGiB
+    description: The size of the disk in GibiBytes.
+    types:
+    - uid: integer
+  - name: properties.leasedByLabVmId
+    description: The resource ID of the VM to which this disk is leased.
+    types:
+    - uid: string
+  - name: properties.diskBlobName
+    description: When backed by a blob, the name of the VHD blob without extension.
+    types:
+    - uid: string
+  - name: properties.diskUri
+    description: When backed by a blob, the URI of underlying blob.
+    types:
+    - uid: string
+  - name: properties.createdDate
+    isReadyOnly: true
+    description: The creation date of the disk.
+    types:
+    - uid: string
+  - name: properties.hostCaching
+    description: The host caching policy of the disk (i.e. None, ReadOnly, ReadWrite).
+    types:
+    - uid: string
+  - name: properties.managedDiskId
+    description: When backed by managed disk, this is the ID of the compute disk resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: The provisioning status of the resource.
+    types:
+    - uid: string
+  - name: properties.uniqueIdentifier
+    description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: location
+    description: The location of the resource.
+    types:
+    - uid: string
+  - name: tags
+    description: The tags of the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: error
+    description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+- name: StorageType
+  description: The storage type for the disk (i.e. Standard, Premium).
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    types:
+    - uid: string
+  - name: message
+    types:
+    - uid: string
+  - name: target
+    types:
+    - uid: string
+  - name: details
+    description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples: []
+security:
+- type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Access Microsoft Azure
