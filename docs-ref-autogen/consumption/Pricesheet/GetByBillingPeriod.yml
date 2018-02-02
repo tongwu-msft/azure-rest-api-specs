@@ -54,70 +54,18 @@ responses:
 requestHeader: []
 definitions:
 - name: PriceSheetResult
-  description: price sheet result. It contains the pricesheet associated with billing period
+  description: An pricesheet resource.
   kind: object
   properties:
-  - name: value
+  - name: properties.pricesheets
     isReadyOnly: true
-    description: "  \nAn pricesheet resource."
+    description: "  \nThe properties of the price sheet."
     types:
-    - uid: PriceSheetModel
+    - uid: PriceSheetProperties
       isArray: true
-  - name: nextLink
+  - name: properties.nextLink
     isReadyOnly: true
     description: "  \nThe link (url) to the next page of results."
-    types:
-    - uid: string
-- name: ErrorResponse
-  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - name: error
-    description: "  \nThe details of the error."
-    types:
-    - uid: ErrorDetails
-- name: PriceSheetModel
-  description: Price sheet
-  kind: object
-  properties:
-  - name: properties.billingPeriodId
-    isReadyOnly: true
-    description: "  \nThe id of the billing period resource that the usage belongs to."
-    types:
-    - uid: string
-  - name: properties.meterId
-    isReadyOnly: true
-    description: "  \nThe meter id"
-    types:
-    - uid: string
-  - name: properties.meterDetails
-    isReadyOnly: true
-    description: "  \nThe details about the meter. By default this is not populated, unless it's specified in $expand."
-    types:
-    - uid: MeterDetails
-  - name: properties.unitOfMeasure
-    isReadyOnly: true
-    description: "  \nUnit of measure"
-    types:
-    - uid: string
-  - name: properties.includedQuantity
-    isReadyOnly: true
-    description: "  \nIncluded quality for an offer"
-    types:
-    - uid: number
-  - name: properties.partNumber
-    isReadyOnly: true
-    description: "  \nPart Number"
-    types:
-    - uid: string
-  - name: properties.unitPrice
-    isReadyOnly: true
-    description: "  \nUnit Price"
-    types:
-    - uid: number
-  - name: properties.currencyCode
-    isReadyOnly: true
-    description: "  \nCurrency Code"
     types:
     - uid: string
   - name: id
@@ -144,6 +92,58 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: "  \nThe details of the error."
+    types:
+    - uid: ErrorDetails
+- name: PriceSheetProperties
+  description: Price sheet
+  kind: object
+  properties:
+  - name: billingPeriodId
+    isReadyOnly: true
+    description: "  \nThe id of the billing period resource that the usage belongs to."
+    types:
+    - uid: string
+  - name: meterId
+    isReadyOnly: true
+    description: "  \nThe meter id"
+    types:
+    - uid: string
+  - name: meterDetails
+    isReadyOnly: true
+    description: "  \nThe details about the meter. By default this is not populated, unless it's specified in $expand."
+    types:
+    - uid: MeterDetails
+  - name: unitOfMeasure
+    isReadyOnly: true
+    description: "  \nUnit of measure"
+    types:
+    - uid: string
+  - name: includedQuantity
+    isReadyOnly: true
+    description: "  \nIncluded quality for an offer"
+    types:
+    - uid: number
+  - name: partNumber
+    isReadyOnly: true
+    description: "  \nPart Number"
+    types:
+    - uid: string
+  - name: unitPrice
+    isReadyOnly: true
+    description: "  \nUnit Price"
+    types:
+    - uid: number
+  - name: currencyCode
+    isReadyOnly: true
+    description: "  \nCurrency Code"
+    types:
+    - uid: string
 - name: ErrorDetails
   description: The details of the error.
   kind: object
@@ -205,12 +205,12 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "value": {
-          "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/pricesheets/default",
-          "name": "pricesheets",
-          "type": "Microsoft.Consumption/pricesheets",
-          "tags": [],
-          "properties": [
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/pricesheets/default",
+        "name": "default",
+        "type": "Microsoft.Consumption/pricesheets",
+        "properties": {
+          "nextLink": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/microsoft.consumption/pricesheets/default?api-version=2018-01-31",
+          "pricesheets": [
             {
               "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
               "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41",
@@ -230,28 +230,30 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "value": {
-          "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/pricesheets/default",
-          "name": "pricesheets",
-          "type": "Microsoft.Consumption/pricesheets",
-          "tags": [],
-          "properties": {
-            "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
-            "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41",
-            "unitOfMeasure": "100 Hours",
-            "includedQuantity": 100,
-            "partNumber": "AB-11110",
-            "unitPrice": 0.00328,
-            "currencyCode": "EUR",
-            "meterDetails": {
-              "meterName": "Data Transfer Out (GB)",
-              "meterCategory": "Networking",
-              "unit": "GB",
-              "meterLocation": "Zone 2",
-              "totalIncludedQuantity": 0,
-              "pretaxStandardRate": 0.138
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/pricesheets/default",
+        "name": "default",
+        "type": "Microsoft.Consumption/pricesheets",
+        "properties": {
+          "nextLink": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/microsoft.consumption/pricesheets/default?api-version=2018-01-31&$skiptoken=AQAAAA%3D%3D&$expand=properties/pricesheets/meterDetails",
+          "pricesheets": [
+            {
+              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
+              "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41",
+              "unitOfMeasure": "100 Hours",
+              "includedQuantity": 100,
+              "partNumber": "AB-11110",
+              "unitPrice": 0.00328,
+              "currencyCode": "EUR",
+              "meterDetails": {
+                "meterName": "Data Transfer Out (GB)",
+                "meterCategory": "Networking",
+                "unit": "GB",
+                "meterLocation": "Zone 2",
+                "totalIncludedQuantity": 0,
+                "pretaxStandardRate": 0.138
+              }
             }
-          }
+          ]
         }
       }
 security:
