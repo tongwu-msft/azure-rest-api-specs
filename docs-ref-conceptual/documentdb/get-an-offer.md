@@ -54,17 +54,17 @@ translation.priority.mt:
 |HTTP status code|Description|  
 |----------------------|-----------------|  
 |200 Ok|The operation was successful.|  
-|404 Not Found|The offer is no longer a resource, i.e. the parent collection resource was deleted.|  
+|404 Not Found|The offer is no longer a resource, that is, the parent collection resource was deleted.|  
   
 ### Body  
   
 |Property|Description|  
 |--------------|-----------------|  
-|**offerVersion**|**Required**. This can be V1 for pre-defined throughput levels and V2 for user-defined throughput levels.|  
-|**offerType**|**Required**. This is a user settable property, which must be set to **S1**, **S2**, or **S3** for pre-defined performance levels, and Invalid for user-defined performance levels.|  
-|**content**|**Optional**. Contains information about the offer – for V2 offers, this contains the throughput of the collection.|  
+|**offerVersion**|**Required**. This value can be V1 for pre-defined throughput levels and V2 for user-defined throughput levels.|  
+|**offerType**|**Required**. For pre-defined performance levels, this property must be **S1**, **S2**, or **S3**.  For user-defined performance levels, it must be **Invalid**.|  
+|**content**|**Optional**. This property specifies additional information about the offer.  For V2 offers, it contains the throughput of the collection.|  
 |**resource**|**Required**. When creating a new collection, this property is set to the self-link of the collection e.g. dbs/pLJdAA==/colls/pLJdAOlEdgA=/.|  
-|**offerResourceId**|**Required**. During creation of a collection, this property is automatically associated to the resource id, i.e. **_rid** of the collection. In the example above, the **_rid** for the collection is pLJdAOlEdgA=.|  
+|**offerResourceId**|**Required**. During creation of a collection, this property is automatically associated to the resource ID, i.e. **_rid** of the collection. In the example above, the **_rid** for the collection is pLJdAOlEdgA=.|  
 |**id**|This is a system generated property.  The **id** for the offer resource is automatically generated when it is created.  It has the same value as the **_rid** for the offer.|  
 |**_rid**|This is a system generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the offer.|  
 |**_ts**|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
