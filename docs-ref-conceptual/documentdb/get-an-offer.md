@@ -35,8 +35,10 @@ translation.priority.mt:
 |GET|`https://{databaseaccount}.documents.azure.com/offers/{_rid-offer}`|Note that {databaseaccount} is the name of the Azure Cosmos DB account you created under your subscription. The {_rid-offer} value is the system generated resource ID of the offer.|  
   
 ### Headers  
- See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
-  
+ See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.
+
+ When [constructing the hashed signature for the master key token](access-control-on-documentdb-resources.md#constructkeytoken), the **ResourceType** should be "offers".  The **ResourceLink** should be *only* the _rid of the offer you wish to retrieve.  The value must be lowercase.  For example, when performing a GET on `https://querydemo.documents.azure.com/offers/uT2L`, the **ResourceLink** in the master key token should be "ut2l".
+
 ### Body  
  None.  
   
