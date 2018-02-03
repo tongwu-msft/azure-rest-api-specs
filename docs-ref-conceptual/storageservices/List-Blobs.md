@@ -169,15 +169,11 @@ For version 2017-07-29 and above, `Deleted`, `DeletedTime` and `RemainingRetenti
         <CopyCompletionTime>datetime</CopyCompletionTime>  
         <CopyStatusDescription>error string</CopyStatusDescription>  
         <ServerEncrypted>true</ServerEncrypted> 
-<<<<<<< HEAD
         <IncrementalCopy>true</IncrementalCopy>
-        <DeletedTime>datetime</DeletedTime>
-        <RemainingRetentionDays>no-of-days</RemainingRetentionDays>
-=======
-        <IncrementalCopy>true</IncrementalCopy> 
         <AccessTierInferred>true</AccessTierInferred>
         <AccessTierChangeTime>datetime</AccessTierChangeTime>
->>>>>>> 4c4b153a4aaec394cb1c5fd797264d83b3171182
+        <DeletedTime>datetime</DeletedTime>
+        <RemainingRetentionDays>no-of-days</RemainingRetentionDays>
       </Properties>  
       <Metadata>     
         <Name>value</Name>  
