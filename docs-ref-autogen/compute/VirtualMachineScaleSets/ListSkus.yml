@@ -1,0 +1,136 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.virtualmachinescalesets.listskus
+name: List Skus
+service: Compute
+groupName: Virtual Machine Scale Sets
+apiVersion: 2017-12-01
+summary: Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/skus?api-version=2017-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: vmScaleSetName
+  in: path
+  isRequired: true
+  description: The name of the VM scale set.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: VirtualMachineScaleSetListSkusResult
+requestHeader: []
+definitions:
+- name: VirtualMachineScaleSetListSkusResult
+  description: The Virtual Machine Scale Set List Skus operation response.
+  kind: object
+  properties:
+  - name: value
+    description: Describes an available virtual machine scale set sku.
+    types:
+    - uid: VirtualMachineScaleSetSku
+      isArray: true
+  - name: nextLink
+    description: The uri to fetch the next page of Virtual Machine Scale Set Skus. Call ListNext() with this to fetch the next page of VMSS Skus.
+    types:
+    - uid: string
+- name: VirtualMachineScaleSetSku
+  description: Describes an available virtual machine scale set sku.
+  kind: object
+  properties:
+  - name: resourceType
+    isReadyOnly: true
+    description: The type of resource the sku applies to.
+    types:
+    - uid: string
+  - name: sku
+    isReadyOnly: true
+    description: The Sku.
+    types:
+    - uid: Sku
+  - name: capacity
+    isReadyOnly: true
+    description: Specifies the number of virtual machines in the scale set.
+    types:
+    - uid: VirtualMachineScaleSetSkuCapacity
+- name: Sku
+  description: Describes a virtual machine scale set sku.
+  kind: object
+  properties:
+  - name: name
+    description: The sku name.
+    types:
+    - uid: string
+  - name: tier
+    description: Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic**
+    types:
+    - uid: string
+  - name: capacity
+    description: Specifies the number of virtual machines in the scale set.
+    types:
+    - uid: integer
+- name: VirtualMachineScaleSetSkuCapacity
+  description: Describes scaling information of a sku.
+  kind: object
+  properties:
+  - name: minimum
+    isReadyOnly: true
+    description: The minimum capacity.
+    types:
+    - uid: integer
+  - name: maximum
+    isReadyOnly: true
+    description: The maximum capacity that can be set.
+    types:
+    - uid: integer
+  - name: defaultCapacity
+    isReadyOnly: true
+    description: The default capacity.
+    types:
+    - uid: integer
+  - name: scaleType
+    isReadyOnly: true
+    description: The scale type applicable to the sku.
+    types:
+    - uid: VirtualMachineScaleSetSkuScaleType
+- name: VirtualMachineScaleSetSkuScaleType
+  description: The scale type applicable to the sku.
+  kind: enum
+  properties:
+  - name: Automatic
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
