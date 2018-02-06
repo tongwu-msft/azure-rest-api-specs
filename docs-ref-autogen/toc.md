@@ -5055,6 +5055,8 @@
 ## [Restorable Dropped Databases](sql/RestorableDroppedDatabases.yml)
 ### [Get](sql/RestorableDroppedDatabases/Get.yml)
 ### [List By Server](sql/RestorableDroppedDatabases/ListByServer.yml)
+## [Restore Points](sql/RestorePoints.yml)
+### [List By Database](sql/RestorePoints/ListByDatabase.yml)
 ## [Server Advisors](sql/ServerAdvisors.yml)
 ### [Get](sql/ServerAdvisors/Get.yml)
 ### [List By Server](sql/ServerAdvisors/ListByServer.yml)
