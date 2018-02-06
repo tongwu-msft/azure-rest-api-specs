@@ -1251,8 +1251,6 @@
 #### [Get](compute/AvailabilitySets/Get.yml)
 #### [List](compute/AvailabilitySets/List.yml)
 #### [List Available Sizes](compute/AvailabilitySets/ListAvailableSizes.yml)
-<<<<<<< HEAD
-=======
 ### [Disks](compute/Disks.yml)
 #### [Create Or Update](compute/Disks/CreateOrUpdate.yml)
 #### [Delete](compute/Disks/Delete.yml)
@@ -1262,17 +1260,12 @@
 #### [List By Resource Group](compute/Disks/ListByResourceGroup.yml)
 #### [Revoke Access](compute/Disks/RevokeAccess.yml)
 #### [Update](compute/Disks/Update.yml)
->>>>>>> 41035a0b02c9e3ffa5eb0d9996c19278bec293e4
 ### [Images](compute/Images.yml)
 #### [Create Or Update](compute/Images/CreateOrUpdate.yml)
 #### [Delete](compute/Images/Delete.yml)
 #### [Get](compute/Images/Get.yml)
 #### [List](compute/Images/List.yml)
 #### [List By Resource Group](compute/Images/ListByResourceGroup.yml)
-<<<<<<< HEAD
-### [Resource Skus](compute/ResourceSkus.yml)
-#### [List](compute/ResourceSkus/List.yml)
-=======
 ### [Log Analytics](compute/LogAnalytics.yml)
 #### [Export Request Rate By Interval](compute/LogAnalytics/ExportRequestRateByInterval.yml)
 #### [Export Throttled Requests](compute/LogAnalytics/ExportThrottledRequests.yml)
@@ -1287,7 +1280,6 @@
 #### [List By Resource Group](compute/Snapshots/ListByResourceGroup.yml)
 #### [Revoke Access](compute/Snapshots/RevokeAccess.yml)
 #### [Update](compute/Snapshots/Update.yml)
->>>>>>> 41035a0b02c9e3ffa5eb0d9996c19278bec293e4
 ### [Usage](compute/Usage.yml)
 #### [List](compute/Usage/List.yml)
 ### [Virtual Machine Extension Images](compute/VirtualMachineExtensionImages.yml)
@@ -1327,19 +1319,13 @@
 #### [Reimage All](compute/VirtualMachineScaleSetVMs/ReimageAll.yml)
 #### [Restart](compute/VirtualMachineScaleSetVMs/Restart.yml)
 #### [Start](compute/VirtualMachineScaleSetVMs/Start.yml)
-<<<<<<< HEAD
-=======
 #### [Update](compute/VirtualMachineScaleSetVMs/Update.yml)
->>>>>>> 41035a0b02c9e3ffa5eb0d9996c19278bec293e4
 ### [Virtual Machine Scale Sets](compute/VirtualMachineScaleSets.yml)
 #### [Create Or Update](compute/VirtualMachineScaleSets/CreateOrUpdate.yml)
 #### [Deallocate](compute/VirtualMachineScaleSets/Deallocate.yml)
 #### [Delete](compute/VirtualMachineScaleSets/Delete.yml)
 #### [Delete Instances](compute/VirtualMachineScaleSets/DeleteInstances.yml)
-<<<<<<< HEAD
-=======
 #### [Force Recovery Service Fabric Platform Update Domain Walk](compute/VirtualMachineScaleSets/ForceRecoveryServiceFabricPlatformUpdateDomainWalk.yml)
->>>>>>> 41035a0b02c9e3ffa5eb0d9996c19278bec293e4
 #### [Get](compute/VirtualMachineScaleSets/Get.yml)
 #### [Get Instance View](compute/VirtualMachineScaleSets/GetInstanceView.yml)
 #### [List](compute/VirtualMachineScaleSets/List.yml)
