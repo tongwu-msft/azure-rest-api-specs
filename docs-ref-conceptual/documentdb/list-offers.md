@@ -35,7 +35,9 @@ translation.priority.mt:
 |GET|`https://{databaseaccount}.documents.azure.com/offers`|Note that {databaseaccount} is the name of the Azure Cosmos DB account you created under your subscription.|  
   
 ### Headers  
- See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
+ See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.
+ 
+  When [constructing the hashed signature for the master key token](access-control-on-documentdb-resources.md#constructkeytoken), the **ResourceType** should be "offers".  The **ResourceLink** should be blank.
   
 ### Body  
  None.  
