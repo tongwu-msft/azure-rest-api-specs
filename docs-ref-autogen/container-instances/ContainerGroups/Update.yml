@@ -1,21 +1,33 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.containerinstances.containergroups.list
-name: List
+uid: management.azure.com.containerinstances.containergroups.update
+name: Update
 service: Container Instances
 groupName: Container Groups
 apiVersion: 2018-02-01-preview
-summary: Get a list of container groups in the specified subscription. Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
+summary: Update container groups. Updates container group tags with specified values.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/containerGroups?api-version=2018-02-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2018-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: containerGroupName
+  in: path
+  isRequired: true
+  description: The name of the container group.
   types:
   - uid: string
 - name: api-version
@@ -28,22 +40,62 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: ContainerGroupListResult
-requestHeader: []
-definitions:
-- name: ContainerGroupListResult
-  description: The container group list response that contains the container group properties.
-  kind: object
-  properties:
-  - name: value
-    description: A container group.
-    types:
-    - uid: ContainerGroup
-      isArray: true
-  - name: nextLink
-    description: The URI to fetch the next page of container groups.
+  - uid: ContainerGroup
+requestBody:
+- name: ContainerGroup
+  description: A container group.
+  parameters:
+  - name: location
+    in: body
+    description: The resource location.
     types:
     - uid: string
+  - name: tags
+    in: body
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.containers
+    in: body
+    isRequired: true
+    description: A container instance.
+    types:
+    - uid: Container
+      isArray: true
+  - name: properties.imageRegistryCredentials
+    in: body
+    description: Image registry credential.
+    types:
+    - uid: ImageRegistryCredential
+      isArray: true
+  - name: properties.restartPolicy
+    in: body
+    description: "Restart policy for all containers within the container group. \n- `Always` Always restart\n- `OnFailure` Restart on failure\n- `Never` Never restart"
+    types:
+    - uid: ContainerGroupRestartPolicy
+  - name: properties.ipAddress
+    in: body
+    description: The IP address type of the container group.
+    types:
+    - uid: IpAddress
+  - name: properties.osType
+    in: body
+    isRequired: true
+    description: The operating system type required by the containers in the container group.
+    types:
+    - uid: OperatingSystemTypes
+  - name: properties.volumes
+    in: body
+    description: The properties of the volume.
+    types:
+    - uid: Volume
+      isArray: true
+requestHeader: []
+definitions:
 - name: ContainerGroup
   description: A container group.
   kind: object
@@ -479,88 +531,100 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ContainerGroupsList
+- name: ContainerGroupsUpdate
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ContainerInstance/containerGroups?api-version=2018-02-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/demoResource/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2018-02-01-preview
+    body: >-
+      {
+        "tags": {
+          "tag1key": "tag1Value",
+          "tag2key": "tag2Value"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1",
-            "location": "WestUs",
-            "name": "demo1",
-            "properties": {
-              "containers": [
-                {
-                  "name": "demo1",
-                  "properties": {
-                    "command": [],
-                    "environmentVariables": [],
-                    "image": "nginx",
-                    "instanceView": {
-                      "restartCount": 0,
-                      "currentState": {
-                        "state": "Running",
-                        "startTime": "2017-10-17T17:27:21Z",
-                        "detailStatus": ""
-                      },
-                      "events": []
-                    },
-                    "ports": [
-                      {
-                        "port": 80
-                      }
-                    ],
-                    "resources": {
-                      "requests": {
-                        "cpu": 1,
-                        "memoryInGB": 1.5
-                      }
-                    },
-                    "volumeMounts": [
-                      {
-                        "mountPath": "/mnt/volume1",
-                        "name": "volume1",
-                        "readOnly": false
-                      }
-                    ]
-                  }
-                }
-              ],
-              "imageRegistryCredentials": [
-                {
-                  "server": "azcloudconsoleregistry.azurecr.io",
-                  "username": "azcloudconsoleregistry"
-                }
-              ],
-              "ipAddress": {
-                "ip": "10.0.0.1",
+        "id": "/subscriptions/subid/resourceGroups/demoResource/providers/Microsoft.ContainerInstance/containerGroups/demo1",
+        "location": "WestUs",
+        "name": "demo1",
+        "type": "Microsoft.ContainerInstance/containerGroups",
+        "properties": {
+          "tags": {
+            "tag1key": "tag1Value",
+            "tag2key": "tag2Value"
+          },
+          "containers": [
+            {
+              "name": "demo1",
+              "properties": {
+                "command": [],
+                "environmentVariables": [],
+                "image": "nginx",
                 "ports": [
                   {
-                    "port": 80,
-                    "protocol": "TCP"
+                    "port": 80
                   }
                 ],
-                "type": "Public"
-              },
-              "osType": "Linux",
-              "provisioningState": "Succeeded",
-              "volumes": [
-                {
-                  "azureFile": {
-                    "readOnly": false,
-                    "shareName": "share1",
-                    "storageAccountName": "stroage1"
+                "resources": {
+                  "requests": {
+                    "cpu": 1,
+                    "memoryInGB": 1.5
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "volume1",
+                    "mountPath": "/mnt/volume1",
+                    "readOnly": false
                   },
-                  "name": "volume1"
-                }
-              ]
+                  {
+                    "name": "volume2",
+                    "mountPath": "/mnt/volume2",
+                    "readOnly": false
+                  },
+                  {
+                    "name": "volume3",
+                    "mountPath": "/mnt/volume3",
+                    "readOnly": true
+                  }
+                ]
+              }
+            }
+          ],
+          "imageRegistryCredentials": [],
+          "ipAddress": {
+            "ip": "10.0.0.1",
+            "ports": [
+              {
+                "port": 80,
+                "protocol": "TCP"
+              }
+            ],
+            "type": "Public",
+            "dnsNameLabel": "dnsnamelabel1",
+            "fqdn": "dnsnamelabel1.azure-container.io"
+          },
+          "osType": "Linux",
+          "provisioningState": "Succeeded",
+          "volumes": [
+            {
+              "name": "volume1",
+              "azureFile": {
+                "shareName": "shareName",
+                "storageAccountName": "accountName"
+              }
             },
-            "type": "Microsoft.ContainerInstance/containerGroups"
-          }
-        ]
+            {
+              "name": "volume2",
+              "emptyDir": {}
+            },
+            {
+              "name": "volume3",
+              "secret": {}
+            }
+          ]
+        }
       }
 security:
 - type: oauth2
