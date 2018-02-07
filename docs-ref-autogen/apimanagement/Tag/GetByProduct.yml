@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.apimanagement.product.delete
-name: Delete
+uid: management.azure.com.apimanagement.tag.getbyproduct
+name: Get By Product
 service: API Management
-groupName: Product
+groupName: Tag
 apiVersion: 2017-03-01
-summary: Delete product.
+summary: Get tag associated with the Product.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}?api-version=2017-03-01
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}?deleteSubscriptions={deleteSubscriptions}&api-version=2017-03-01
-  isOptional: true
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/tags/{tagId}?api-version=2017-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,11 +38,13 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
-- name: deleteSubscriptions
-  in: query
-  description: Delete existing subscriptions to the product or not.
+- name: tagId
+  in: path
+  isRequired: true
+  description: Tag identifier. Must be unique in the current API Management service instance.
   types:
-  - uid: boolean
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -52,20 +52,42 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 204 No Content
-  description: The product was successfully deleted.
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
+  description: Gets the details of the tag specified by its identifier.
+  types:
+  - uid: TagContract
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-requestHeader:
-- name: If-Match
-  in: header
-  isRequired: true
-  description: ETag of the Product Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
-  types:
-  - uid: string
+requestHeader: []
 definitions:
+- name: TagContract
+  description: Tag Contract details.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: Tag name.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -100,14 +122,20 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ApiManagementDeleteProduct
+- name: ApiManagementGetProductTag
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/testproduct?deleteSubscriptions=True&api-version=2017-03-01
-    headers:
-    - name: If-Match
-      value: '*'
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/59d6bb8f1f7fab13dc67ec9b/tags/59306a29e4bbd510dc24e5f9?api-version=2017-03-01
   responses:
-  - statusCode: "204"
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tags/59306a29e4bbd510dc24e5f9",
+        "type": "Microsoft.ApiManagement/service/tags",
+        "name": "59306a29e4bbd510dc24e5f9",
+        "properties": {
+          "displayName": "tag1"
+        }
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
