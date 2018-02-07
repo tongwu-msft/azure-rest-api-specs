@@ -48,8 +48,8 @@ The `Put Message` operation adds a new message to the back of the message queue.
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`visibilitytimeout=<int=seconds>`|Optional. If specified, the request must be made using an `x-ms-version` of 2011-08-18 or newer. If not specified, the default value is 0. Specifies the new visibility timeout value, in seconds, relative to server time. The new value must be larger than or equal to 0, and cannot be larger than 7 days. The visibility timeout of a message cannot be set to a value later than the expiry time. `visibilitytimeout` should be set to a value smaller than the time-to-live value.|  
-|`messagettl=<int-seconds>`|Optional. Specifies the time-to-live interval for the message, in seconds. The maximum time-to-live allowed is 7 days. If this parameter is omitted, the default time-to-live is 7 days.|  
+|`visibilitytimeout=<int=seconds>`|Optional. If specified, the request must be made using an `x-ms-version` of 2011-08-18 or later. If not specified, the default value is 0. Specifies the new visibility timeout value, in seconds, relative to server time. The new value must be larger than or equal to 0, and cannot be larger than 7 days. The visibility timeout of a message cannot be set to a value later than the expiry time. `visibilitytimeout` should be set to a value smaller than the time-to-live value.|  
+|`messagettl=<int-seconds>`|Optional. Specifies the time-to-live interval for the message, in seconds. Prior to version 2017-07-29, the maximum time-to-live allowed is 7 days. For version 2017-07-29 or later, the maximum time-to-live can be any positive number, as well as `-1` indicating that the message does not expire. If this parameter is omitted, the default time-to-live is 7 days.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](Setting-Timeouts-for-Queue-Service-Operations.md).|  
   
 ### Request Headers  
