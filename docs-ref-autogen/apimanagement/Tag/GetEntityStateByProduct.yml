@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.apimanagement.product.delete
-name: Delete
+uid: management.azure.com.apimanagement.tag.getentitystatebyproduct
+name: Get Entity State By Product
 service: API Management
-groupName: Product
+groupName: Tag
 apiVersion: 2017-03-01
-summary: Delete product.
+summary: Gets the entity state version of the tag specified by its identifier.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}?api-version=2017-03-01
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}?deleteSubscriptions={deleteSubscriptions}&api-version=2017-03-01
-  isOptional: true
+- content: HEAD https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/tags/{tagId}?api-version=2017-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,11 +38,13 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
-- name: deleteSubscriptions
-  in: query
-  description: Delete existing subscriptions to the product or not.
+- name: tagId
+  in: path
+  isRequired: true
+  description: Tag identifier. Must be unique in the current API Management service instance.
   types:
-  - uid: boolean
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -52,19 +52,16 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 204 No Content
-  description: The product was successfully deleted.
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
+  description: Empty response body, ETag header entity state version.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-requestHeader:
-- name: If-Match
-  in: header
-  isRequired: true
-  description: ETag of the Product Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
-  types:
-  - uid: string
+requestHeader: []
 definitions:
 - name: ErrorResponse
   description: Error Body contract.
@@ -100,14 +97,14 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ApiManagementDeleteProduct
+- name: ApiManagementHeadProductTag
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/testproduct?deleteSubscriptions=True&api-version=2017-03-01
-    headers:
-    - name: If-Match
-      value: '*'
+    uri: HEAD https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/59306a29e4bbd510dc24e5f8/tags/59306a29e4bbd510dc24e5f9?api-version=2017-03-01
   responses:
-  - statusCode: "204"
+  - statusCode: "200"
+    headers:
+    - name: Etag
+      value: AAAAAAAACCI=
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
