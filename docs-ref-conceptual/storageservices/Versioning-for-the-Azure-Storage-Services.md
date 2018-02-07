@@ -27,14 +27,14 @@ translation.priority.mt:
 # Versioning for the Azure Storage Services
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is 2017-07-29, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](previous-azure-storage-service-versions.md).
+ The current version of the Azure storage services is 2017-07-29, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md).
   
 ## Version 2017-07-29
 
 Version 2017-07-29 includes these changes:
 
 * This version introduces the preview of the Soft Delete feature. This feature causes blob deletes and overwrites to retain the deleted or overwritten data for some time. You can enable and configure the soft delete feature using [Set Blob Service Properties](Set-Blob-Service-Properties.md).
-* A new [Undelete Blob](undelete-blob.md) API allows you to recover deleted data that was retained using the Soft Delete feature.
+* A new [Undelete Blob](Undelete-Blob.md) API allows you to recover deleted data that was retained using the Soft Delete feature.
 * The [List Blobs](List-Blobs.md) API now accepts a new include parameter, `deleted`, which shows soft-deleted blobs and snapshots.
 * All error responses have an additional response header `x-ms-error-code` that contains the error code string. See [Status and Error Codes](Status-and-Error-Codes2.md).
 * For the Queue service, the [Put Message](Put-Message.md) API now allows a time-to-live value in the `messagettl` parameter of over seven days. You may also specify `-1` for this parameter to indicate that the message should remain in the queue until dequeued and deleted. The default value for this parameter is still seven days.

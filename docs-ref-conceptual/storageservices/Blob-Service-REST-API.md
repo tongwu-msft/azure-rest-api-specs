@@ -62,7 +62,7 @@ The Blob service stores text and binary data as blobs in the cloud. The Blob ser
 |[Get Blob Metadata](Get-Blob-Metadata.md)|Block, append, and page blobs|Retrieves all user-defined metadata of an existing blob or snapshot.|  
 |[Set Blob Metadata](Set-Blob-Metadata.md)|Block, append, and page blobs|Sets user-defined metadata of an existing blob.|
 |[Delete Blob](Delete-Blob.md)|Block, append and page blobs|Marks a blob for deletion.|    
-|[Undelete Blob](undelete-blob.md)|Block, append and page blobs|Restores the contents and metadata of soft deleted blob and/or all associated soft deleted snapshots.|  
+|[Undelete Blob](Undelete-Blob.md)|Block, append and page blobs|Restores the contents and metadata of soft deleted blob and/or all associated soft deleted snapshots.|  
 |[Lease Blob](Lease-Blob.md)|Block, append, and page blobs|Establishes and manages a lock on write and delete operations. To delete or write to a locked blob, a client must provide the lease ID.|  
 |[Snapshot Blob](Snapshot-Blob.md)|Block, append, and page blobs|Creates a read-only snapshot of a blob.|  
 |[Copy Blob](Copy-Blob.md)|Block, append, and page blobs|Copies a source blob to a destination blob in this storage account or in another storage account.|  

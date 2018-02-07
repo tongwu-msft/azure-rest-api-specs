@@ -75,7 +75,7 @@
 ### [Copy Blob](copy-blob.md)
 ### [Abort Copy Blob](abort-copy-blob.md)
 ### [Delete Blob](delete-blob.md)
-### [Undelete Blob](undelete-blob.md)
+### [Undelete Blob](Undelete-Blob.md)
 ### [Set Blob Tier](set-blob-tier.md)
 ### [Operations on Block Blobs](operations-on-block-blobs.md)
 #### [Put Block](put-block.md)
