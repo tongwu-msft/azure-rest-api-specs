@@ -1,1 +1,1 @@
-# [Common headers](documentdbresourceprovider-headers.md)
+# [Common headers](cosmosdbresourceprovider-headers.md)
