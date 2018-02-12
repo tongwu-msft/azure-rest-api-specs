@@ -15,20 +15,20 @@ Azure Service Bus provides cloud-enabled communication with enterprise messaging
 
 The REST APIs fall into the following categories:
 
-- **Azure Resource Manager**: APIs that perform resource manager operations, and have `/providers/Microsoft.ServiceBus/` as part of the request URI. 
+- **Azure Resource Manager**: APIs that perform Resource Manager operations, and have `/providers/Microsoft.ServiceBus/` as part of the request URI. 
 - **Service Bus service**: APIs that enable operations directly on the Service Bus service, and have  the public cloud endpoint `namespaceName.servicebus.windows.net` in the request URI. Other possible domain names are as follows:
-   - Black Forest: `namespaceName.servicebus.cloudapi.de`
-   - China: `namespaceName.servicebus.chinacloudapi.cn`
+   - Azure Germany: `namespaceName.servicebus.cloudapi.de`
+   - Azure China: `namespaceName.servicebus.chinacloudapi.cn`
    - United States government: `namespaceName.servicebus.usgovcloudapi.net`
 - **"Classic" or RDFE management**: APIs that provide programmatic access to much of the functionality available through the Azure portal. These APIs have `management.core.windows.net` in the URI.
 
 ## REST operation groups
 
-The Service Bus REST API provides operations for working with the following resources.
+The Service Bus REST API provides operations for working with the following resources:
 
 ### Azure Resource Manager
 
-[Resource manager APIs](/rest/api/servicebus/namespaces) are management APIs that perform operations on Service Bus entities, such as namespaces, queues, and topics. They are useful in scenarios that enable global authentication, rather than at the namespace or entity level.
+[Resource Manager APIs](/rest/api/servicebus/namespaces) are management APIs that perform operations on Service Bus entities, such as namespaces, queues, and topics. They are useful in scenarios that enable global authentication, rather than at the namespace or entity level.
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
