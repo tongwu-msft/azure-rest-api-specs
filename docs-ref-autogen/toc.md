@@ -2585,6 +2585,8 @@
 ### [List In Resource Group](machineLearning/CommitmentPlans/ListInResourceGroup.yml)
 ### [Patch](machineLearning/CommitmentPlans/Patch.yml)
 ### [Remove](machineLearning/CommitmentPlans/Remove.yml)
+## [Skus](machineLearning/Skus.yml)
+### [List](machineLearning/Skus/List.yml)
 ## [Usage History](machineLearning/UsageHistory.yml)
 ### [List](machineLearning/UsageHistory/List.yml)
 ## [Web Services](machineLearning/WebServices.yml)
