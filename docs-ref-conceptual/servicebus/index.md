@@ -16,7 +16,10 @@ Azure Service Bus provides cloud-enabled communication with enterprise messaging
 The REST APIs fall into the following categories:
 
 - **Azure Resource Manager**: APIs that perform resource manager operations, and have `/providers/Microsoft.ServiceBus/` as part of the request URI. 
-- **Service Bus service**: APIs that enable operations directly on the Service Bus service, and have `<namespaceName>.servicebus.windows.net/` in the request URI. 
+- **Service Bus service**: APIs that enable operations directly on the Service Bus service, and have  the public cloud endpoint `namespaceName.servicebus.windows.net` in the request URI. Other possible domain names are as follows:
+   - Black Forest: `namespaceName.servicebus.cloudapi.de`
+   - China: `namespaceName.servicebus.chinacloudapi.cn`
+   - United States government: `namespaceName.servicebus.usgovcloudapi.net`
 - **"Classic" or RDFE management**: APIs that provide programmatic access to much of the functionality available through the Azure portal. These APIs have `management.core.windows.net` in the URI.
 
 ## REST operation groups
