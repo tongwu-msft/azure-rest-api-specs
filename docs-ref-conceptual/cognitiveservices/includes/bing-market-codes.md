@@ -31,10 +31,8 @@ For a list of country codes that you may specify in the `cc` query parameter, se
 |Norway|Norwegian|no-NO|  
 |People's republic of China|Chinese|zh-CN|  
 |Poland|Polish|pl-PL|  
-|Portugal|Portuguese|pt-PT|  
 |Republic of the Philippines|English|en-PH|  
 |Russia|Russian|ru-RU|  
-|Saudi Arabia|Arabic|ar-SA|  
 |South Africa|English|en-ZA|  
 |Spain|Spanish|es-ES|  
 |Sweden|Swedish|sv-SE|  
