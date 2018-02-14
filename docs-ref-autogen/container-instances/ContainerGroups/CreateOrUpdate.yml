@@ -3,14 +3,14 @@ uid: management.azure.com.containerinstances.containergroups.createorupdate
 name: Create Or Update
 service: Container Instances
 groupName: Container Groups
-apiVersion: 2017-10-01-preview
+apiVersion: 2018-02-01-preview
 summary: Create or update container groups. Create or update container groups with specified configurations.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2017-10-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2018-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -49,7 +49,6 @@ requestBody:
 - parameters:
   - name: location
     in: body
-    isRequired: true
     description: The resource location.
     types:
     - uid: string
@@ -173,6 +172,15 @@ definitions:
     description: The IP exposed to the public internet.
     types:
     - uid: string
+  - name: dnsNameLabel
+    description: The Dns name label for the IP.
+    types:
+    - uid: string
+  - name: fqdn
+    isReadyOnly: true
+    description: The FQDN for the IP.
+    types:
+    - uid: string
 - name: Volume
   description: The properties of the volume.
   kind: object
@@ -182,13 +190,25 @@ definitions:
     types:
     - uid: string
   - name: azureFile
-    description: The name of the Azure File volume.
+    description: The Azure File volume.
     types:
     - uid: AzureFileVolume
   - name: emptyDir
     description: The empty directory volume.
     types:
     - uid: EmptyDirVolume
+  - name: secret
+    description: The secret volume.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: gitRepo
+    description: The git repo volume.
+    types:
+    - uid: GitRepoVolume
 - name: InstanceView
   description: The instance view of the container instance. Only valid in response.
   kind: object
@@ -377,6 +397,22 @@ definitions:
   description: The empty directory volume.
   kind: object
   properties: []
+- name: GitRepoVolume
+  description: Represents a volume that is populated with the contents of a git repository
+  kind: object
+  properties:
+  - name: directory
+    description: Target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the given name.
+    types:
+    - uid: string
+  - name: repository
+    description: Repository URL
+    types:
+    - uid: string
+  - name: revision
+    description: Commit hash for the specified revision.
+    types:
+    - uid: string
 - name: ContainerState
   description: The container instance state.
   kind: object
@@ -499,21 +535,20 @@ definitions:
 examples:
 - name: ContainerGroupsCreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/ae43b1e3-c35d-4c8c-bc0d-f148b4c52b78/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/mycontainers?api-version=2017-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2018-02-01-preview
     body: >-
       {
-        "name": "mycontainers",
-        "type": "Microsoft.ContainerInstance/containerGroups",
-        "location": "westus",
+        "id": "/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1",
+        "location": "west us",
+        "name": "demo1",
         "properties": {
           "containers": [
             {
-              "name": "mycontainers",
+              "name": "demo1",
               "properties": {
                 "command": [],
                 "environmentVariables": [],
                 "image": "nginx",
-                "instanceView": {},
                 "ports": [
                   {
                     "port": 80
@@ -521,8 +556,8 @@ examples:
                 ],
                 "resources": {
                   "requests": {
-                    "memoryInGB": 1.5,
-                    "cpu": 1
+                    "cpu": 1,
+                    "memoryInGB": 1.5
                   }
                 },
                 "volumeMounts": [
@@ -535,6 +570,11 @@ examples:
                     "name": "volume2",
                     "mountPath": "/mnt/volume2",
                     "readOnly": false
+                  },
+                  {
+                    "name": "volume3",
+                    "mountPath": "/mnt/volume3",
+                    "readOnly": true
                   }
                 ]
               }
@@ -548,7 +588,8 @@ examples:
                 "port": 80
               }
             ],
-            "type": "Public"
+            "type": "Public",
+            "dnsNameLabel": "dnsnamelabel1"
           },
           "osType": "Linux",
           "volumes": [
@@ -557,38 +598,48 @@ examples:
               "azureFile": {
                 "shareName": "shareName",
                 "storageAccountName": "accountName",
-                "storageAccountKey": ""
+                "storageAccountKey": "accountKey"
               }
             },
             {
               "name": "volume2",
               "emptyDir": {}
+            },
+            {
+              "name": "volume3",
+              "secret": {
+                "secretKey1": "SecretValue1InBase64",
+                "secretKey2": "SecretValue2InBase64"
+              }
             }
           ]
-        }
+        },
+        "type": "Microsoft.ContainerInstance/containerGroups"
       }
   responses:
   - statusCode: "200"
     body: >-
       {
+        "id": "/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1",
+        "location": "WestUs",
+        "name": "demo1",
         "properties": {
-          "provisioningState": "Creating",
           "containers": [
             {
-              "name": "mycontainers",
+              "name": "demo1",
               "properties": {
-                "image": "nginx",
                 "command": [],
+                "environmentVariables": [],
+                "image": "nginx",
                 "ports": [
                   {
                     "port": 80
                   }
                 ],
-                "environmentVariables": [],
                 "resources": {
                   "requests": {
-                    "memoryInGB": 1.5,
-                    "cpu": 1
+                    "cpu": 1,
+                    "memoryInGB": 1.5
                   }
                 },
                 "volumeMounts": [
@@ -601,6 +652,11 @@ examples:
                     "name": "volume2",
                     "mountPath": "/mnt/volume2",
                     "readOnly": false
+                  },
+                  {
+                    "name": "volume3",
+                    "mountPath": "/mnt/volume3",
+                    "readOnly": true
                   }
                 ]
               }
@@ -608,61 +664,62 @@ examples:
           ],
           "imageRegistryCredentials": [],
           "ipAddress": {
+            "ip": "10.0.0.1",
             "ports": [
               {
-                "protocol": "TCP",
-                "port": 80
+                "port": 80,
+                "protocol": "TCP"
               }
             ],
-            "ip": "13.64.70.13",
-            "type": "Public"
+            "type": "Public",
+            "dnsNameLabel": "dnsnamelabel1",
+            "fqdn": "dnsnamelabel1.azure-container.io"
           },
           "osType": "Linux",
-          "instanceView": {
-            "events": [],
-            "state": "Pending"
-          },
+          "provisioningState": "Succeeded",
           "volumes": [
             {
               "name": "volume1",
               "azureFile": {
                 "shareName": "shareName",
-                "storageAccountName": "accountName",
-                "storageAccountKey": ""
+                "storageAccountName": "accountName"
               }
             },
             {
               "name": "volume2",
               "emptyDir": {}
+            },
+            {
+              "name": "volume3",
+              "secret": {}
             }
           ]
         },
-        "id": "/subscriptions/ae43b1e3-c35d-4c8c-bc0d-f148b4c52b78/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/mycontainers",
-        "name": "mycontainers",
-        "type": "Microsoft.ContainerInstance/containerGroups",
-        "location": "westus"
+        "type": "Microsoft.ContainerInstance/containerGroups"
       }
   - statusCode: "201"
     body: >-
       {
+        "id": "/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1",
+        "location": "WestUs",
+        "name": "demo1",
         "properties": {
-          "provisioningState": "Creating",
           "containers": [
             {
-              "name": "mycontainers",
+              "name": "demo1",
               "properties": {
-                "image": "nginx",
                 "command": [],
+                "environmentVariables": [],
+                "image": "nginx",
                 "ports": [
                   {
                     "port": 80
                   }
                 ],
-                "environmentVariables": [],
                 "resources": {
                   "requests": {
-                    "memoryInGB": 1.5,
-                    "cpu": 1
+                    "cpu": 1,
+                    "memoryInGB": 1.5
                   }
                 },
                 "volumeMounts": [
@@ -675,6 +732,11 @@ examples:
                     "name": "volume2",
                     "mountPath": "/mnt/volume2",
                     "readOnly": false
+                  },
+                  {
+                    "name": "volume3",
+                    "mountPath": "/mnt/volume3",
+                    "readOnly": true
                   }
                 ]
               }
@@ -682,39 +744,38 @@ examples:
           ],
           "imageRegistryCredentials": [],
           "ipAddress": {
+            "ip": "10.0.0.1",
             "ports": [
               {
-                "protocol": "TCP",
-                "port": 80
+                "port": 80,
+                "protocol": "TCP"
               }
             ],
-            "ip": "13.64.70.13",
-            "type": "Public"
+            "type": "Public",
+            "dnsNameLabel": "dnsnamelabel1",
+            "fqdn": "dnsnamelabel1.azure-container.io"
           },
           "osType": "Linux",
-          "instanceView": {
-            "events": [],
-            "state": "Pending"
-          },
+          "provisioningState": "Succeeded",
           "volumes": [
             {
               "name": "volume1",
               "azureFile": {
                 "shareName": "shareName",
-                "storageAccountName": "accountName",
-                "storageAccountKey": ""
+                "storageAccountName": "accountName"
               }
             },
             {
               "name": "volume2",
               "emptyDir": {}
+            },
+            {
+              "name": "volume3",
+              "secret": {}
             }
           ]
         },
-        "id": "/subscriptions/ae43b1e3-c35d-4c8c-bc0d-f148b4c52b78/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/mycontainers",
-        "name": "mycontainers",
-        "type": "Microsoft.ContainerInstance/containerGroups",
-        "location": "westus"
+        "type": "Microsoft.ContainerInstance/containerGroups"
       }
 security:
 - type: oauth2

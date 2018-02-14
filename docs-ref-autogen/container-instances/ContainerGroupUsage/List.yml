@@ -1,0 +1,115 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerinstances.containergroupusage.list
+name: List
+service: Container Instances
+groupName: Container Group Usage
+apiVersion: 2018-02-01-preview
+summary: Get the usage for a subscription
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/usages?api-version=2018-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The identifier for the physical azure location.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: UsageListResult
+requestHeader: []
+definitions:
+- name: UsageListResult
+  description: The response containing the usage data
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: A single usage result
+    types:
+    - uid: Usage
+      isArray: true
+- name: Usage
+  description: A single usage result
+  kind: object
+  properties:
+  - name: unit
+    isReadyOnly: true
+    description: Unit of the usage result
+    types:
+    - uid: string
+  - name: currentValue
+    isReadyOnly: true
+    description: The current usage of the resource
+    types:
+    - uid: integer
+  - name: limit
+    isReadyOnly: true
+    description: The maximum permitted usage of the resource.
+    types:
+    - uid: integer
+  - name: name
+    isReadyOnly: true
+    description: The name object of the resource
+    types:
+    - uid: Name
+- name: Name
+  description: The name object of the resource
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: localizedValue
+    isReadyOnly: true
+    description: The localized name of the resource
+    types:
+    - uid: string
+examples:
+- name: ContainerUsage
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ContainerInstance/locations/westcentralus/usages?api-version=2018-02-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "unit": "Count",
+            "currentValue": 1,
+            "limit": 2000,
+            "name": {
+              "value": "ContainerGroups",
+              "localizedValue": "Container Groups"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
