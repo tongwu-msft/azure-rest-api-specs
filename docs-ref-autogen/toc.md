@@ -1178,6 +1178,9 @@
 ### [Get price sheet](../docs-ref-conceptual/billing/enterprise/billing-enterprise-api-pricesheet.md)
 ### [Get billing periods](../docs-ref-conceptual/billing/enterprise/billing-enterprise-api-billing-periods.md)
 ## Reference
+### [Billing Periods](billing/BillingPeriods.yml)
+#### [Get](billing/BillingPeriods/Get.yml)
+#### [List](billing/BillingPeriods/List.yml)
 ### [Invoices](billing/Invoices.yml)
 #### [Get](billing/Invoices/Get.yml)
 #### [Get Latest](billing/Invoices/GetLatest.yml)
