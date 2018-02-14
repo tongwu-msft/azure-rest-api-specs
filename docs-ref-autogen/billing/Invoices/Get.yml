@@ -3,14 +3,14 @@ uid: management.azure.com.billing.invoices.get
 name: Get
 service: Billing
 groupName: Invoices
-apiVersion: 2017-02-27-preview
+apiVersion: 2017-04-24-preview
 summary: Gets a named invoice resource. When getting a single invoice, the downloadUrl property is expanded automatically.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/invoices/{invoiceName}?api-version=2017-02-27-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/invoices/{invoiceName}?api-version=2017-04-24-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2017-02-27-preview.
+  description: Version of the API to be used with the client request. The current version is 2017-04-24-preview.
   types:
   - uid: string
 responses:
@@ -45,6 +45,10 @@ definitions:
   description: An invoice resource can be used download a PDF version of an invoice.
   kind: object
   properties:
+  - name: properties.downloadUrl
+    description: A secure link to download the PDF version of an invoice. The link will cease to work after its expiry time is reached.
+    types:
+    - uid: DownloadUrl
   - name: properties.invoicePeriodStartDate
     isReadyOnly: true
     description: The start of the date range covered by the invoice.
@@ -55,23 +59,25 @@ definitions:
     description: The end of the date range covered by the invoice.
     types:
     - uid: string
-  - name: properties.downloadUrl
-    description: A secure link to download the PDF version of an invoice. The link will cease to work after its expiry time is reached.
+  - name: properties.billingPeriodIds
+    isReadyOnly: true
+    description: Array of billing perdiod ids that the invoice is attributed to.
     types:
-    - uid: DownloadUrl
+    - uid: string
+      isArray: true
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: Resource Id.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: Resource name.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
+    description: Resource type.
     types:
     - uid: string
 - name: ErrorResponse
@@ -118,30 +124,25 @@ definitions:
 examples:
 - name: InvoicesGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Billing/invoices/2017-02-05-123456789?api-version=2017-02-27-preview
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Billing/invoices/2017-02-05-123456789?api-version=2017-04-24-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid/Microsoft.Billing/invoices/2017-02-05-123456789",
+        "id": "/subscriptions/subid/providers/Microsoft.Billing/invoices/2017-02-05-123456789",
         "name": "2017-02-05-123456789",
         "type": "Microsoft.Billing/invoices",
         "properties": {
           "invoicePeriodStartDate": "2017-01-01",
           "invoicePeriodEndDate": "2017-02-01",
+          "billingPeriodIds": [
+            "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702-1",
+            "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201701-1"
+          ],
           "downloadUrl": {
             "expiryTime": "2017-02-13T20:46:30Z",
             "url": "https://microsoft.com"
           }
-        }
-      }
-  - statusCode: default
-    body: >-
-      {
-        "error": {
-          "code": "UnsupportedSubscriptionType",
-          "message": "Subscription subid is not supported.",
-          "target": "subscriptionId"
         }
       }
 security:

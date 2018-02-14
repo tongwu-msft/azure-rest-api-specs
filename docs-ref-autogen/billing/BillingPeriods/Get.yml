@@ -1,21 +1,27 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.billing.invoices.getlatest
-name: Get Latest
+uid: management.azure.com.billing.billingperiods.get
+name: Get
 service: Billing
-groupName: Invoices
+groupName: Billing Periods
 apiVersion: 2017-04-24-preview
-summary: Gets the most recent invoice. When getting a single invoice, the downloadUrl property is expanded automatically.
+summary: Gets a named billing period.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/invoices/latest?api-version=2017-04-24-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}?api-version=2017-04-24-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: billingPeriodName
+  in: path
+  isRequired: true
+  description: The name of a BillingPeriod resource.
   types:
   - uid: string
 - name: api-version
@@ -28,34 +34,30 @@ responses:
 - name: 200 OK
   description: OK. The request has succeeded.
   types:
-  - uid: Invoice
+  - uid: BillingPeriod
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: Invoice
-  description: An invoice resource can be used download a PDF version of an invoice.
+- name: BillingPeriod
+  description: A billing period resource.
   kind: object
   properties:
-  - name: properties.downloadUrl
-    description: A secure link to download the PDF version of an invoice. The link will cease to work after its expiry time is reached.
-    types:
-    - uid: DownloadUrl
-  - name: properties.invoicePeriodStartDate
+  - name: properties.billingPeriodStartDate
     isReadyOnly: true
-    description: The start of the date range covered by the invoice.
+    description: The start of the date range covered by the billing period.
     types:
     - uid: string
-  - name: properties.invoicePeriodEndDate
+  - name: properties.billingPeriodEndDate
     isReadyOnly: true
-    description: The end of the date range covered by the invoice.
+    description: The end of the date range covered by the billing period.
     types:
     - uid: string
-  - name: properties.billingPeriodIds
+  - name: properties.invoiceIds
     isReadyOnly: true
-    description: Array of billing perdiod ids that the invoice is attributed to.
+    description: Array of invoice ids that associated with.
     types:
     - uid: string
       isArray: true
@@ -82,20 +84,6 @@ definitions:
     description: The details of the error.
     types:
     - uid: ErrorDetails
-- name: DownloadUrl
-  description: A secure URL that can be used to download a PDF invoice until the URL expires.
-  kind: object
-  properties:
-  - name: expiryTime
-    isReadyOnly: true
-    description: The time in UTC at which this download URL will expire.
-    types:
-    - uid: string
-  - name: url
-    isReadyOnly: true
-    description: The URL to the PDF file.
-    types:
-    - uid: string
 - name: ErrorDetails
   description: The details of the error.
   kind: object
@@ -116,27 +104,23 @@ definitions:
     types:
     - uid: string
 examples:
-- name: InvoicesGetLatest
+- name: BillingPeriodsGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Billing/invoices/latest?api-version=2017-04-24-preview
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702-1?api-version=2017-04-24-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid/providers/Microsoft.Billing/invoices/2017-02-05-123456789",
-        "name": "2017-02-05-123456789",
-        "type": "Microsoft.Billing/invoices",
+        "id": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702-1",
+        "name": "201702-1",
+        "type": "Microsoft.Billing/billingPeriods",
         "properties": {
-          "invoicePeriodStartDate": "2017-01-01",
-          "invoicePeriodEndDate": "2017-02-01",
-          "billingPeriodIds": [
-            "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702-1",
-            "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201701-1"
-          ],
-          "downloadUrl": {
-            "expiryTime": "2017-02-13T20:46:30Z",
-            "url": "https://microsoft.com"
-          }
+          "billingPeriodStartDate": "2017-01-01",
+          "billingPeriodEndDate": "2017-02-01",
+          "invoiceIds": [
+            "/subscriptions/subid/providers/Microsoft.Billing/invoices/2017-02-05-123456789",
+            "/subscriptions/subid/providers/Microsoft.Billing/invoices/2017-01-05-987654321"
+          ]
         }
       }
 security:
