@@ -899,6 +899,8 @@
 ### [Get](automation/DscCompilationJob/Get.yml)
 ### [Get Stream](automation/DscCompilationJob/GetStream.yml)
 ### [List By Automation Account](automation/DscCompilationJob/ListByAutomationAccount.yml)
+## [Dsc Compilation Job Stream](automation/DscCompilationJobStream.yml)
+### [List By Job](automation/DscCompilationJobStream/ListByJob.yml)
 ## [Dsc Configuration](automation/DscConfiguration.yml)
 ### [Create Or Update](automation/DscConfiguration/CreateOrUpdate.yml)
 ### [Delete](automation/DscConfiguration/Delete.yml)
