@@ -60,12 +60,22 @@ requestBody:
     description: Resource ETAG.
     types:
     - uid: string
+  - name: properties.groupType
+    in: body
+    description: Type of the machine group
+    types:
+    - uid: MachineGroupType
   - name: properties.displayName
     in: body
     isRequired: true
     description: User defined name for the group
     types:
     - uid: string
+  - name: properties.count
+    in: body
+    description: Count of machines in this group. The value of count may be bigger than the number of machines in case of the group has been truncated due to exceeding the max number of machines a group can handle.
+    types:
+    - uid: integer
   - name: properties.machines
     in: body
     description: A machine reference with a hint of the machine's name and operating system.
@@ -122,10 +132,18 @@ definitions:
     description: Resource ETAG.
     types:
     - uid: string
+  - name: properties.groupType
+    description: Type of the machine group
+    types:
+    - uid: MachineGroupType
   - name: properties.displayName
     description: User defined name for the group
     types:
     - uid: string
+  - name: properties.count
+    description: Count of machines in this group. The value of count may be bigger than the number of machines in case of the group has been truncated due to exceeding the max number of machines a group can handle.
+    types:
+    - uid: integer
   - name: properties.machines
     description: A machine reference with a hint of the machine's name and operating system.
     types:
@@ -178,6 +196,25 @@ definitions:
   - name: aix
     types:
     - uid: string
+- name: MachineGroupType
+  description: Type of the machine group
+  kind: enum
+  properties:
+  - name: unknown
+    types:
+    - uid: string
+  - name: azure-cs
+    types:
+    - uid: string
+  - name: azure-sf
+    types:
+    - uid: string
+  - name: azure-vmss
+    types:
+    - uid: string
+  - name: user-static
+    types:
+    - uid: string
 - name: Error
   description: Error details.
   kind: object
@@ -190,7 +227,52 @@ definitions:
     description: Error message in the caller's locale.
     types:
     - uid: string
-examples: []
+examples:
+- name: SMMachineGroupsUpdatePut
+  request:
+    uri: PUT https://management.azure.com/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/features/serviceMap/machineGroups/ccfbf4bf-dc08-4371-9e9b-00a8d875d45a?api-version=2015-11-01-preview
+    body: >-
+      {
+        "kind": "machineGroup",
+        "properties": {
+          "displayName": "Foo",
+          "count": 1,
+          "machines": [
+            {
+              "kind": "ref:machinewithhints",
+              "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-0fe4b501-7ac9-41d7-a4e1-1591a0789519"
+            }
+          ]
+        },
+        "etag": "8cd3a8a1-4b1f-43fc-ae3c-b2c092561444"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "kind": "machineGroup",
+        "properties": {
+          "groupType": "unknown",
+          "displayName": "Foo",
+          "count": 1,
+          "machines": [
+            {
+              "kind": "ref:machinewithhints",
+              "properties": {
+                "displayNameHint": "MachineName",
+                "osFamilyHint": "windows"
+              },
+              "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-0fe4b501-7ac9-41d7-a4e1-1591a0789519",
+              "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+              "name": "m-0fe4b501-7ac9-41d7-a4e1-1591a0789519"
+            }
+          ]
+        },
+        "etag": "8cd3a8a1-4b1f-43fc-ae3c-b2c092561444",
+        "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machineGroups/ccfbf4bf-dc08-4371-9e9b-00a8d875d45a",
+        "type": "Microsoft.OperationalInsights/workspaces/features/machineGroups",
+        "name": "ccfbf4bf-dc08-4371-9e9b-00a8d875d45a"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
