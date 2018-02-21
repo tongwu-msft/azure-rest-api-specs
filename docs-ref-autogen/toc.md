@@ -2608,7 +2608,7 @@
 ### [Regenerate Media Services Secondary Account Key](../docs-ref-conceptual/media/management/regenerate-media-services-secondary-account-key.md)
 ### [Update Storage Account Key (Media Services)](../docs-ref-conceptual/media/management/update-storage-account-key-media-services.md)
 ### [Media Services Management Error Codes](../docs-ref-conceptual/media/management/media-services-management-error-codes.md)
-## [Media Services Operations REST](../docs-ref-conceptual/media/operations/azure-media-services-rest-api-reference.md)
+## [Media Services REST API](../docs-ref-conceptual/media/operations/azure-media-services-rest-api-reference.md)
 ### [Identify Azure Media Services Entities](../docs-ref-conceptual/media/operations/identify-azure-media-services-entities.md)
 ### [AccessPolicy](../docs-ref-conceptual/media/operations/accesspolicy.md)
 ### [Asset](../docs-ref-conceptual/media/operations/asset.md)
