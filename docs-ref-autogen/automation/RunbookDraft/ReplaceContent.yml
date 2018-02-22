@@ -1,12 +1,12 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.automation.runbookdraft.createorupdate
-name: Create Or Update
+uid: management.azure.com.automation.runbookdraft.replacecontent
+name: Replace Content
 service: Automation
 groupName: Runbook Draft
 apiVersion: 2015-10-31
-summary: Updates the runbook draft with runbookStream as its content.
+summary: Replaces the runbook draft content.
 consumes:
-- application/json
+- text/powershell
 produces:
 - application/json
 paths:
@@ -45,9 +45,10 @@ uriParameters:
   - uid: string
 responses:
 - name: 202 Accepted
+  headers:
+  - name: location
+    value: string
   description: Accepted and  the operation will complete asynchronously.
-- name: 200 OK
-  description: OK.
 - name: Other Status Codes
   description: Automation error response describing why the operation failed.
   types:
@@ -57,7 +58,7 @@ requestBody:
   - name: runbookContent
     in: body
     types:
-    - uid: object
+    - uid: string
 requestHeader: []
 definitions:
 - name: ErrorResponse
@@ -75,12 +76,13 @@ definitions:
 examples:
 - name: Create or update runbook draft
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/runbooks/{runbookName}/draft/content?api-version=2015-10-31
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/runbooks/Get-AzureVMTutorial/draft/content?api-version=2015-10-31
     body: "\"<#\\r\\n        .DESCRIPTION\\r\\n            An example runbook which prints out the first10 Azure VMs in your subscription (ordered alphabetically).\\r\\n            For more information about how this runbook authenticates to your Azure subscription, see our documentation here: http: //aka.ms/fxu3mn\\r\\n\\r\\n        .NOTES\\r\\n            AUTHOR: Azure Automation Team\\r\\n            LASTEDIT: Mar27,\\r\\n            2015\\r\\n    #>\\r\\n    workflow Get-AzureVMTutorial{\\r\\n        #The name of the Automation Credential Asset this runbook will use to authenticate to Azure.\\r\\n        $CredentialAssetName = 'DefaultAzureCredential'\\r\\n\\r\\n        #Get the credential with the above name from the Automation Asset store\\r\\n        $Cred = Get-AutomationPSCredential -Name $CredentialAssetName\\r\\n        if(!$Cred){\\r\\n            Throw\\\"Could not find an Automation Credential Asset named '${CredentialAssetName}'. Make sure you have created one in this Automation Account.\\\"\\r\\n                }\\r\\n\\r\\n        #Connect to your Azure Account\\r\\n        $Account = Add-AzureAccount -Credential $Cred\\r\\n        if(!$Account){\\r\\n            Throw\\\"Could not authenticate to Azure using the credential asset '${CredentialAssetName}'. Make sure the user name and password are correct.\\\"\\r\\n                }\\r\\n\\r\\n        #TODO (optional): pick the right subscription to use. Without this line, the default subscription for your Azure Account will be used.\\r\\n        #Select-AzureSubscription -SubscriptionName\\\"TODO: your Azure subscription name here\\\"\\r\\n        \\r\\n        #Get all the VMs you have in your Azure subscription\\r\\n        $VMs = Get-AzureVM\\r\\n\\r\\n        #Print out up to10 of those VMs\\r\\n        if(!$VMs){\\r\\n            Write-Output\\\"No VMs were found in your subscription.\\\"\\r\\n                } else{\\r\\n            Write-Output $VMs[0..9\\r\\n                    ]\\r\\n                }\\r\\n            }\""
   responses:
   - statusCode: "202"
-  - statusCode: "200"
-    body: "\"<#\\r\\n        .DESCRIPTION\\r\\n            An example runbook which prints out the first10 Azure VMs in your subscription (ordered alphabetically).\\r\\n            For more information about how this runbook authenticates to your Azure subscription, see our documentation here: http: //aka.ms/fxu3mn\\r\\n\\r\\n        .NOTES\\r\\n            AUTHOR: Azure Automation Team\\r\\n            LASTEDIT: Mar27,\\r\\n                2015\\r\\n    #>\\r\\n    workflow Get-AzureVMTutorial{\\r\\n        #The name of the Automation Credential Asset this runbook will use to authenticate to Azure.\\r\\n        $CredentialAssetName = 'DefaultAzureCredential'\\r\\n\\r\\n        #Get the credential with the above name from the Automation Asset store\\r\\n        $Cred = Get-AutomationPSCredential -Name $CredentialAssetName\\r\\n        if(!$Cred){\\r\\n            Throw\\\"Could not find an Automation Credential Asset named '${CredentialAssetName}'. Make sure you have created one in this Automation Account.\\\"\\r\\n                    }\\r\\n\\r\\n        #Connect to your Azure Account\\r\\n        $Account = Add-AzureAccount -Credential $Cred\\r\\n        if(!$Account){\\r\\n            Throw\\\"Could not authenticate to Azure using the credential asset '${CredentialAssetName}'. Make sure the user name and password are correct.\\\"\\r\\n                    }\\r\\n\\r\\n        #TODO (optional): pick the right subscription to use. Without this line, the default subscription for your Azure Account will be used.\\r\\n        #Select-AzureSubscription -SubscriptionName\\\"TODO: your Azure subscription name here\\\"\\r\\n        \\r\\n        #Get all the VMs you have in your Azure subscription\\r\\n        $VMs = Get-AzureVM\\r\\n\\r\\n        #Print out up to10 of those VMs\\r\\n        if(!$VMs){\\r\\n            Write-Output\\\"No VMs were found in your subscription.\\\"\\r\\n                    } else{\\r\\n            Write-Output $VMs[0..9\\r\\n                        ]\\r\\n                    }\\r\\n                }\""
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/subid/resourcegroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/runbooks/Get-AzureVMTutorial/draft/content/operationResults/9bd70be2-cf73-49b4-9467-5261d48c2b3d?api-version=2015-10-31
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
