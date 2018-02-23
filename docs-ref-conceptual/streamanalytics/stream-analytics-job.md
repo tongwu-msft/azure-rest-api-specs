@@ -451,7 +451,7 @@ Lists all of the Stream Analytics jobs that are defined in a resource group.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|**GET**|https://managment.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs?$expand={properties-to-expand}&api-version={api-version}|  
+|**GET**|https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs?$expand={properties-to-expand}&api-version={api-version}|  
   
  Replace {subscription-id} with your subscription ID.  
   
@@ -582,7 +582,7 @@ Deploys and starts a Stream Analytics job in Microsoft Azure.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|**POST**|https://managment.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs/{job-name}/start?api-version={api-version}|  
+|**POST**|https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs/{job-name}/start?api-version={api-version}|  
   
  Replace {subscription-id} with your subscription ID.  
   
