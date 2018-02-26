@@ -5217,7 +5217,7 @@
 ## [Versioning for the Azure Storage Services](../docs-ref-conceptual/storageservices/versioning-for-the-azure-storage-services.md)
 ### [Versioning Best Practices](../docs-ref-conceptual/storageservices/versioning-best-practices.md)
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
-### [Previous Azure Storage services versions](../docs-ref-conceptual/storageservices/azure-storage-services-versions-2015-07-08-and-earlier.md)
+### [Previous Azure Storage services versions](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
 #### [Version 2017-04-17](../docs-ref-conceptual/storageservices/version-2017-04-17.md)
 #### [Version 2016-05-31](../docs-ref-conceptual/storageservices/version-2016-05-31.md)
 #### [Version 2015-12-11](../docs-ref-conceptual/storageservices/version-2015-12-11.md)
