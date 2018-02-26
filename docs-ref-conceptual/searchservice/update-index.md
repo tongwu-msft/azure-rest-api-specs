@@ -1,7 +1,7 @@
 ---
 title: "Update Index (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2018-02-09"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -133,11 +133,11 @@ Note that this operation will put your index offline for at least a few seconds,
         "sum (default) | average | minimum | maximum | firstMatching"  
     }  
   ],  
-"analyzers":(optional)[ ... ],
-"charFilters":(optional)[ ... ],
-"tokenizers":(optional)[ ... ],
-"tokenFilters":(optional)[ ... ],
-"defaultScoringProfile": (optional) "...",  
+  "analyzers":(optional)[ ... ],
+  "charFilters":(optional)[ ... ],
+  "tokenizers":(optional)[ ... ],
+  "tokenFilters":(optional)[ ... ],
+  "defaultScoringProfile": (optional) "...",  
   "corsOptions": (optional) {  
     "allowedOrigins": ["*"] | ["origin_1", "origin_2", ...],  
     "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  

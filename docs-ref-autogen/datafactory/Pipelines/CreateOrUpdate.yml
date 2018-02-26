@@ -84,6 +84,12 @@ requestBody:
     description: The max number of concurrent runs for the pipeline.
     types:
     - uid: integer
+  - name: properties.annotations
+    in: body
+    description: List of tags that can be used for describing the Pipeline.
+    types:
+    - uid: object
+      isArray: true
 requestHeader:
 - name: If-Match
   in: header
@@ -127,6 +133,11 @@ definitions:
     description: The max number of concurrent runs for the pipeline.
     types:
     - uid: integer
+  - name: properties.annotations
+    description: List of tags that can be used for describing the Pipeline.
+    types:
+    - uid: object
+      isArray: true
   - name: id
     isReadyOnly: true
     description: The resource identifier.
@@ -445,6 +456,8 @@ definitions:
     description: Dataset-specific source properties, same as copy activity source.
     types:
     - uid: AmazonRedshiftSource
+    - uid: VerticaSource
+    - uid: NetezzaSource
     - uid: ZohoSource
     - uid: XeroSource
     - uid: SquareSource
@@ -482,6 +495,7 @@ definitions:
     - uid: FileSystemSource
     - uid: SqlDWSource
     - uid: SqlSource
+    - uid: SapEccSource
     - uid: SapCloudForCustomerSource
     - uid: SalesforceSource
     - uid: RelationalSource
@@ -1030,6 +1044,8 @@ definitions:
     description: Copy activity source.
     types:
     - uid: AmazonRedshiftSource
+    - uid: VerticaSource
+    - uid: NetezzaSource
     - uid: ZohoSource
     - uid: XeroSource
     - uid: SquareSource
@@ -1067,6 +1083,7 @@ definitions:
     - uid: FileSystemSource
     - uid: SqlDWSource
     - uid: SqlSource
+    - uid: SapEccSource
     - uid: SapCloudForCustomerSource
     - uid: SalesforceSource
     - uid: RelationalSource
@@ -1148,6 +1165,36 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
+- name: FilterActivity
+  description: Filter and return results from input array based on the conditions.
+  kind: object
+  properties:
+  - name: typeProperties.items
+    description: Input array on which filter should be applied.
+    types:
+    - uid: Expression
+  - name: typeProperties.condition
+    description: Condition to be used for filtering the input.
+    types:
+    - uid: Expression
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Container
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
 - name: UntilActivity
   description: This activity executes inner activities until the specified boolean expression results to true or timeout is reached, whichever is earlier.
   kind: object
@@ -1217,9 +1264,13 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.isSequential
-    description: Should the loop be executed in sequence or in parallel (max 20)
+    description: Should the loop be executed in sequence or in parallel (max 50)
     types:
     - uid: boolean
+  - name: typeProperties.batchCount
+    description: Batch count to be used for controlling the number of parallel execution (when isSequential is set to false).
+    types:
+    - uid: integer
   - name: typeProperties.items
     description: Collection to iterate.
     types:
@@ -1352,6 +1403,9 @@ definitions:
   - name: Array
     types:
     - uid: string
+  - name: SecureString
+    types:
+    - uid: string
 - name: LinkedServiceReference
   description: Linked service reference type.
   kind: object
@@ -1365,6 +1419,14 @@ definitions:
     description: Reference LinkedService name.
     types:
     - uid: string
+  - name: parameters
+    description: Arguments for LinkedService.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
 - name: ActivityPolicy
   description: Execution policy for an activity.
   kind: object
@@ -1381,6 +1443,10 @@ definitions:
     description: Interval between each retry attempt (in seconds). The default is 30 sec.
     types:
     - uid: integer
+  - name: secureOutput
+    description: When set to true, Output from activity is considered as secure and will not be logged to monitoring.
+    types:
+    - uid: boolean
 - name: ActivityDependency
   description: Activity dependency information.
   kind: object
@@ -1444,12 +1510,15 @@ definitions:
   - name: PUT
     types:
     - uid: string
+  - name: DELETE
+    types:
+    - uid: string
 - name: WebActivityAuthentication
   description: Web activity authentication properties.
   kind: object
   properties:
   - name: type
-    description: Web activity authentication (Basic/ClientCertificate)
+    description: Web activity authentication (Basic/ClientCertificate/MSI)
     types:
     - uid: string
   - name: pfx
@@ -1464,6 +1533,10 @@ definitions:
     description: Password for the PFX file or basic authentication.
     types:
     - uid: SecureString
+  - name: resource
+    description: Resource for which Azure Auth token will be requested when using MSI Authentication.
+    types:
+    - uid: string
 - name: StoredProcedureParameters
   description: 'Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}".'
   kind: object
@@ -1633,6 +1706,46 @@ definitions:
     description: The Amazon S3 settings needed for the interim Amazon S3 when copying from Amazon Redshift with unload. With this, data from Amazon Redshift source will be unloaded into S3 first and then copied into the targeted sink from the interim S3.
     types:
     - uid: RedshiftUnloadSettings
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: VerticaSource
+  description: A copy activity Vertica source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: NetezzaSource
+  description: A copy activity Netezza source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: type
     description: Copy source type.
     types:
@@ -2401,6 +2514,26 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: StoredProcedureParameter
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: SapEccSource
+  description: A copy activity source for SAP ECC source.
+  kind: object
+  properties:
+  - name: query
+    description: 'SAP ECC OData query. For example, "$top=1". Type: string (or Expression with resultType string).'
+    types:
+    - uid: string
   - name: type
     description: Copy source type.
     types:

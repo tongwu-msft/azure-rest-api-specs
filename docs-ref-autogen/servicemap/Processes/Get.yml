@@ -88,6 +88,7 @@ definitions:
     - uid: ProcessReference
     - uid: PortReference
     - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
     typesTitle: ResourceReference
   - name: properties.executableName
     description: The name of the process executable
@@ -105,6 +106,10 @@ definitions:
     description: The inferred role of this process based on its name, command line, etc.
     types:
     - uid: ProcessRole
+  - name: properties.group
+    description: The name of the product or suite of the process. The group is determined by its executable name, command line, etc.
+    types:
+    - uid: string
   - name: properties.details
     description: Process metadata (command line, product name, etc.).
     types:
@@ -120,6 +125,7 @@ definitions:
     - uid: ProcessReference
     - uid: PortReference
     - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
     typesTitle: ResourceReference
   - name: properties.acceptorOf
     description: Present only for a discovered process acting as a server. References the port on which the discovered process is accepting.
@@ -128,7 +134,13 @@ definitions:
     - uid: ProcessReference
     - uid: PortReference
     - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
     typesTitle: ResourceReference
+  - name: properties.hosting
+    description: Information about the hosting environment
+    types:
+    - uid: AzureProcessHostingConfiguration
+    typesTitle: ProcessHostingConfiguration
   - name: etag
     description: Resource ETAG.
     types:
@@ -199,7 +211,7 @@ definitions:
     types:
     - uid: string
   - name: poolId
-    description: 'Represents the identity of the process pool assigned to the process by Dependency Agent. '
+    description: Represents the identity of the process pool assigned to the process by Dependency Agent.
     types:
     - uid: integer
   - name: firstPid
@@ -240,6 +252,15 @@ definitions:
     - uid: string
   - name: workingDirectory
     description: Process workingDirectory.
+    types:
+    - uid: string
+  - name: services
+    description: A service hosted by a process.
+    types:
+    - uid: ProcessHostedService
+      isArray: true
+  - name: zoneName
+    description: Process zone name (Linux only).
     types:
     - uid: string
 - name: ProcessUser
@@ -387,6 +408,59 @@ definitions:
     types:
     - uid: ref:machinewithhints
     typesTitle: string
+- name: ClientGroupReference
+  description: Reference to a client group.
+  kind: object
+  properties:
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:clientgroup
+    typesTitle: string
+- name: ProcessHostedService
+  description: A service hosted by a process.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the service.
+    types:
+    - uid: string
+  - name: displayName
+    description: The service's display name.
+    types:
+    - uid: string
+- name: AzureProcessHostingConfiguration
+  description: Describes the hosting configuration of a process when hosted on azure
+  kind: object
+  properties:
+  - name: cloudService
+    description: Contains information about the cloud service the process belongs to
+    types:
+    - uid: AzureCloudServiceConfiguration
+  - name: provider
+    description: The hosting provider of the VM.
+    types:
+    - uid: azure
+    typesTitle: enum
+  - name: kind
+    description: Additional hostring configuration type qualifier.
+    types:
+    - uid: provider:azure
+    typesTitle: string
 - name: OperatingSystemFamily
   description: Specifies the operating system family, e.g., Linux, Windows, etc.
   kind: enum
@@ -406,7 +480,100 @@ definitions:
   - name: aix
     types:
     - uid: string
-examples: []
+- name: AzureCloudServiceConfiguration
+  description: Describes an Azure Cloud Service
+  kind: object
+  properties:
+  - name: name
+    description: Cloud Service name
+    types:
+    - uid: string
+  - name: instanceId
+    description: Cloud Service instance identifier
+    types:
+    - uid: string
+  - name: deployment
+    description: Cloud Service deployment identifier
+    types:
+    - uid: string
+  - name: roleName
+    description: Cloud Service role name
+    types:
+    - uid: string
+  - name: roleType
+    description: Used to specify type of an Azure Cloud Service role
+    types:
+    - uid: AzureCloudServiceRoleType
+- name: AzureCloudServiceRoleType
+  description: Used to specify type of an Azure Cloud Service role
+  kind: enum
+  properties:
+  - name: unknown
+    types:
+    - uid: string
+  - name: worker
+    types:
+    - uid: string
+  - name: web
+    types:
+    - uid: string
+examples:
+- name: SMMachinesProcessesGetGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/features/serviceMap/machines/m-36b83664-0822-4fb3-99a3-8332754f3eae/processes/p-bbf99526b8fc5e7ee4f75568958a040d08489160?api-version=2015-11-01-preview&timestamp=1/10/2018 10:45:45 PM
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "kind": "process",
+        "properties": {
+          "monitoringState": "monitored",
+          "machine": {
+            "kind": "ref:machine",
+            "id": "/subscriptions/A9C800F7-342E-45B7-8EB4-6C9A6F7FE466/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/features/serviceMap/machines/m-36b83664-0822-4fb3-99a3-8332754f3eae",
+            "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+            "name": "m-36b83664-0822-4fb3-99a3-8332754f3eae"
+          },
+          "executableName": "foo-bar",
+          "displayName": "foo-bar",
+          "startTime": "2018-01-10T21:04:56.8518962Z",
+          "role": "webServer",
+          "group": "Foo-bar Suite",
+          "details": {
+            "persistentKey": "77228e39-7348-4fac-8ce5-b83c7bcc52bc",
+            "poolId": 345,
+            "firstPid": 456,
+            "description": "A special process",
+            "companyName": "Microsoft",
+            "internalName": "foo-bar-internal",
+            "productName": "Foo-bar Suite",
+            "productVersion": "3.0.0.10",
+            "fileVersion": "1.2.3.4",
+            "commandLine": "foo-bar.exe -f -g -h do something",
+            "executablePath": "c:\\Program Files\\foobar\\bin\\boo-bar.exe",
+            "workingDirectory": "c:\\temp",
+            "zoneName": "zone name"
+          },
+          "user": {
+            "userName": "SecretUser",
+            "userDomain": "REDMOND"
+          },
+          "hosting": {
+            "kind": "provider:azure",
+            "cloudService": {
+              "name": "MyCloudService",
+              "instanceId": "Instance#1",
+              "deployment": "f4849088-01a2-420e-9709-d0b48ae31d87",
+              "roleName": "MyRoleName",
+              "roleType": "web"
+            },
+            "provider": "azure"
+          }
+        },
+        "id": "/subscriptions/A9C800F7-342E-45B7-8EB4-6C9A6F7FE466/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/features/serviceMap/machines/m-36b83664-0822-4fb3-99a3-8332754f3eae/processes/p-bbf99526b8fc5e7ee4f75568958a040d08489160",
+        "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+        "name": "p-bbf99526b8fc5e7ee4f75568958a040d08489160"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
