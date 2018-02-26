@@ -1,0 +1,461 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.recoveryservices-backup.backupprotectableitems.list
+name: List
+service: Recovery Services - Backup
+groupName: Backup Protectable Items
+apiVersion: 2016-12-01
+summary: Provides a pageable list of protectable objects within your subscription according to the query filter and the pagination parameters.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectableItems?api-version=2016-12-01
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectableItems?api-version=2016-12-01&$filter={$filter}&$skipToken={$skipToken}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter options.
+  types:
+  - uid: string
+- name: $skipToken
+  in: query
+  description: skipToken Filter.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: WorkloadProtectableItemResourceList
+requestHeader: []
+definitions:
+- name: WorkloadProtectableItemResourceList
+  description: List of WorkloadProtectableItem resources
+  kind: object
+  properties:
+  - name: value
+    description: Base class for backup item. Workload-specific backup items are derived from this class.
+    types:
+    - uid: WorkloadProtectableItemResource
+      isArray: true
+  - name: nextLink
+    description: The uri to fetch the next page of resources. Call ListNext() fetches next page of resources.
+    types:
+    - uid: string
+- name: WorkloadProtectableItemResource
+  description: Base class for backup item. Workload-specific backup items are derived from this class.
+  kind: object
+  properties:
+  - name: properties
+    description: WorkloadProtectableItemResource properties
+    types:
+    - uid: AzureFileShareProtectableItem
+    - uid: IaaSVMProtectableItem
+    - uid: AzureVmWorkloadProtectableItem
+    typesTitle: WorkloadProtectableItem
+  - name: id
+    isReadyOnly: true
+    description: Resource Id represents the complete path to the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name associated with the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    description: Optional ETag.
+    types:
+    - uid: string
+- name: AzureFileShareProtectableItem
+  description: Protectable item for Azure Fileshare workloads.
+  kind: object
+  properties:
+  - name: parentContainerFabricId
+    description: Full Fabric ID of container to which this protectable item belongs. For example, ARM ID.
+    types:
+    - uid: string
+  - name: parentContainerFriendlyName
+    description: Friendly name of container to which this protectable item belongs.
+    types:
+    - uid: string
+  - name: azureFileShareType
+    description: File Share type XSync or XSMB.
+    types:
+    - uid: AzureFileShareType
+  - name: backupManagementType
+    description: Type of backup managemenent to backup an item.
+    types:
+    - uid: string
+  - name: workloadType
+    description: Type of workload for the backup management
+    types:
+    - uid: string
+  - name: protectableItemType
+    description: Type of the backup item.
+    types:
+    - uid: AzureFileShare
+    typesTitle: string
+  - name: friendlyName
+    description: Friendly name of the backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: State of the back up item.
+    types:
+    - uid: ProtectionStatus
+- name: AzureFileShareType
+  description: File Share type XSync or XSMB.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: XSMB
+    types:
+    - uid: string
+  - name: XSync
+    types:
+    - uid: string
+- name: ProtectionStatus
+  description: State of the back up item.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: NotProtected
+    types:
+    - uid: string
+  - name: Protecting
+    types:
+    - uid: string
+  - name: Protected
+    types:
+    - uid: string
+  - name: ProtectionFailed
+    types:
+    - uid: string
+- name: AzureIaaSClassicComputeVMProtectableItem
+  description: IaaS VM workload-specific backup item representing the Classic Compute VM.
+  kind: object
+  properties:
+  - name: virtualMachineId
+    description: Fully qualified ARM ID of the virtual machine.
+    types:
+    - uid: string
+  - name: backupManagementType
+    description: Type of backup managemenent to backup an item.
+    types:
+    - uid: string
+  - name: workloadType
+    description: Type of workload for the backup management
+    types:
+    - uid: string
+  - name: protectableItemType
+    description: Type of the backup item.
+    types:
+    - uid: Microsoft.ClassicCompute/virtualMachines
+    typesTitle: string
+  - name: friendlyName
+    description: Friendly name of the backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: State of the back up item.
+    types:
+    - uid: ProtectionStatus
+- name: AzureIaaSComputeVMProtectableItem
+  description: IaaS VM workload-specific backup item representing the Azure Resource Manager VM.
+  kind: object
+  properties:
+  - name: virtualMachineId
+    description: Fully qualified ARM ID of the virtual machine.
+    types:
+    - uid: string
+  - name: backupManagementType
+    description: Type of backup managemenent to backup an item.
+    types:
+    - uid: string
+  - name: workloadType
+    description: Type of workload for the backup management
+    types:
+    - uid: string
+  - name: protectableItemType
+    description: Type of the backup item.
+    types:
+    - uid: Microsoft.Compute/virtualMachines
+    typesTitle: string
+  - name: friendlyName
+    description: Friendly name of the backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: State of the back up item.
+    types:
+    - uid: ProtectionStatus
+- name: AzureVmWorkloadSQLAvailabilityGroupProtectableItem
+  description: Azure VM workload-specific protectable item representing SQL Availability Group.
+  kind: object
+  properties:
+  - name: parentName
+    description: Name for instance or AG
+    types:
+    - uid: string
+  - name: parentUniqueName
+    description: "Parent Unique Name is added to provide the service formatted URI Name of the Parent \n            Only Applicable for data bases where the parent would be either Instance or a SQL AG."
+    types:
+    - uid: string
+  - name: serverName
+    description: Host/Cluster Name for instance or AG
+    types:
+    - uid: string
+  - name: isAutoProtectable
+    description: Indicates if protectable item is auto-protectable
+    types:
+    - uid: boolean
+  - name: subinquireditemcount
+    description: For instance or AG, indicates number of DB's present
+    types:
+    - uid: integer
+  - name: subprotectableitemcount
+    description: For instance or AG, indicates number of DB's to be protected
+    types:
+    - uid: integer
+  - name: prebackupvalidation
+    description: Pre-backup validation for protectable objects
+    types:
+    - uid: PreBackupValidation
+  - name: backupManagementType
+    description: Type of backup managemenent to backup an item.
+    types:
+    - uid: string
+  - name: workloadType
+    description: Type of workload for the backup management
+    types:
+    - uid: string
+  - name: protectableItemType
+    description: Type of the backup item.
+    types:
+    - uid: SQLAvailabilityGroupContainer
+    typesTitle: string
+  - name: friendlyName
+    description: Friendly name of the backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: State of the back up item.
+    types:
+    - uid: ProtectionStatus
+- name: AzureVmWorkloadSQLDatabaseProtectableItem
+  description: Azure VM workload-specific protectable item representing SQL Database.
+  kind: object
+  properties:
+  - name: parentName
+    description: Name for instance or AG
+    types:
+    - uid: string
+  - name: parentUniqueName
+    description: "Parent Unique Name is added to provide the service formatted URI Name of the Parent \n            Only Applicable for data bases where the parent would be either Instance or a SQL AG."
+    types:
+    - uid: string
+  - name: serverName
+    description: Host/Cluster Name for instance or AG
+    types:
+    - uid: string
+  - name: isAutoProtectable
+    description: Indicates if protectable item is auto-protectable
+    types:
+    - uid: boolean
+  - name: subinquireditemcount
+    description: For instance or AG, indicates number of DB's present
+    types:
+    - uid: integer
+  - name: subprotectableitemcount
+    description: For instance or AG, indicates number of DB's to be protected
+    types:
+    - uid: integer
+  - name: prebackupvalidation
+    description: Pre-backup validation for protectable objects
+    types:
+    - uid: PreBackupValidation
+  - name: backupManagementType
+    description: Type of backup managemenent to backup an item.
+    types:
+    - uid: string
+  - name: workloadType
+    description: Type of workload for the backup management
+    types:
+    - uid: string
+  - name: protectableItemType
+    description: Type of the backup item.
+    types:
+    - uid: SQLDataBase
+    typesTitle: string
+  - name: friendlyName
+    description: Friendly name of the backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: State of the back up item.
+    types:
+    - uid: ProtectionStatus
+- name: AzureVmWorkloadSQLInstanceProtectableItem
+  description: Azure VM workload-specific protectable item representing SQL Instance.
+  kind: object
+  properties:
+  - name: parentName
+    description: Name for instance or AG
+    types:
+    - uid: string
+  - name: parentUniqueName
+    description: "Parent Unique Name is added to provide the service formatted URI Name of the Parent \n            Only Applicable for data bases where the parent would be either Instance or a SQL AG."
+    types:
+    - uid: string
+  - name: serverName
+    description: Host/Cluster Name for instance or AG
+    types:
+    - uid: string
+  - name: isAutoProtectable
+    description: Indicates if protectable item is auto-protectable
+    types:
+    - uid: boolean
+  - name: subinquireditemcount
+    description: For instance or AG, indicates number of DB's present
+    types:
+    - uid: integer
+  - name: subprotectableitemcount
+    description: For instance or AG, indicates number of DB's to be protected
+    types:
+    - uid: integer
+  - name: prebackupvalidation
+    description: Pre-backup validation for protectable objects
+    types:
+    - uid: PreBackupValidation
+  - name: backupManagementType
+    description: Type of backup managemenent to backup an item.
+    types:
+    - uid: string
+  - name: workloadType
+    description: Type of workload for the backup management
+    types:
+    - uid: string
+  - name: protectableItemType
+    description: Type of the backup item.
+    types:
+    - uid: SQLInstance
+    typesTitle: string
+  - name: friendlyName
+    description: Friendly name of the backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: State of the back up item.
+    types:
+    - uid: ProtectionStatus
+- name: PreBackupValidation
+  description: Pre-backup validation for Azure VM Workload provider.
+  kind: object
+  properties:
+  - name: status
+    description: Status of protectable item, i.e. InProgress,Succeeded,Failed
+    types:
+    - uid: InquiryStatus
+  - name: code
+    description: Error code of protectable item
+    types:
+    - uid: string
+  - name: message
+    description: Message corresponding to the error code for the protectable item
+    types:
+    - uid: string
+- name: InquiryStatus
+  description: Status of protectable item, i.e. InProgress,Succeeded,Failed
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Success
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: List protectable items with backupManagementType filter as AzureIaasVm
+  request:
+    uri: GET https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SwaggerTestRg/providers/Microsoft.RecoveryServices/vaults/NetSDKTestRsVault/backupProtectableItems?api-version=2016-12-01&$filter=backupManagementType eq 'AzureIaasVM'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SwaggerTestRg/providers/Microsoft.RecoveryServices/vaults/NetSDKTestRsVault/protectionContainers/IaasVMContainer;iaasvmcontainer;iaasvm-rg;iaasvm-1/protectableItems/VM;iaasvmcontainer;iaasvm-rg;iaasvm-1",
+            "name": "VM;iaasvmcontainer;iaasvm-rg;iaasvm-1",
+            "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectableItems",
+            "properties": {
+              "friendlyName": "iaasvm-1",
+              "virtualMachineId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/providers/Microsoft.ClassicCompute/virtualMachines/iaasvm-1",
+              "protectionState": "NotProtected",
+              "protectableItemType": "Microsoft.ClassicCompute/virtualMachines",
+              "backupManagementType": "AzureIaasVM",
+              "workloadType": "VM",
+              "containerName": "iaasvmcontainer;iaasvm-rg;iaasvm-1",
+              "sourceResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/providers/Microsoft.ClassicCompute/virtualMachines/iaasvm-1"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
