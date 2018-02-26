@@ -1,0 +1,87 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.applicationinsights.components.getpurgestatus
+name: Get Purge Status
+service: Application Insights
+groupName: Components
+apiVersion: 2015-05-01
+summary: Gets the status of a previously submitted purge using the id returned from the original purge request.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/operations/{purgeId}?api-version=2015-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the Application Insights component resource.
+  types:
+  - uid: string
+- name: purgeId
+  in: path
+  isRequired: true
+  description: In a purge status request, this is the Id of the operation the status of which is returned.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: 'Returns status of purge operation in body of response. e.g.:  running, completed.'
+  types:
+  - uid: ComponentPurgeStatusResponse
+requestHeader: []
+definitions:
+- name: ComponentPurgeStatusResponse
+  description: Response containing status for a specific purge operation.
+  kind: object
+  properties:
+  - name: status
+    description: Status of the operation represented by the requested Id.
+    types:
+    - uid: PurgeState
+- name: PurgeState
+  description: Status of the operation represented by the requested Id.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+examples:
+- name: ComponentPurgeStatus
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/components/my-component/operations/6779dd32-272a-45d3-a9b8-84d7f47abfb7?api-version=2015-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "Completed"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
