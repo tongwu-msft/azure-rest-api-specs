@@ -105,7 +105,8 @@ Common header properties that need to be added are specified [here](https://docs
 <br/>
 ## See also
 
-* [Purchase Reserved Instance] (https://docs.microsoft.com/en-us/azure/virtual-machines/windows/prepay-reserved-vm-instances)
+* [Purchase Reserved Instance](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/prepay-reserved-vm-instances)
+
 * [Billing Periods API](billing-enterprise-api-billing-periods.md)
 
 * [Usage Detail API](billing-enterprise-api-usage-detail.md) 
