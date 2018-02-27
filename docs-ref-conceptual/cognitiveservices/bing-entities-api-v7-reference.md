@@ -421,8 +421,7 @@ For a list of country codes that you may specify in the `cc` query parameter, se
 The following are the country codes that you may specify in the `cc` query parameter. The list is subject to change.  
   
 |Country/Region|Country Code|  
-|---------------------|------------------|  
-
+|---------------------|------------------|
 |Australia|AU|  
 |Brazil|BR|  
 |Canada|CA|    
