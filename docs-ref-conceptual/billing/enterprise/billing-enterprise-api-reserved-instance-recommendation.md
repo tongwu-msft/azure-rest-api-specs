@@ -20,7 +20,7 @@ ms.author: manshuk
 ---
 # Reserved Instance Purchase Recommendation APIs for Enterprise customers
 
-The Reserved Instance Recommendations API looks at Customers 7, 30 or 60 days virtual machine usage and offers Single and Shared Purchase Recommendations.
+The Reserved Instance Recommendations API looks at Customer's 7, 30 or 60 days virtual machine usage and offers Single and Shared Purchase Recommendations.
 
 
 ## Request for Shared Reserved Instance Recommendation
