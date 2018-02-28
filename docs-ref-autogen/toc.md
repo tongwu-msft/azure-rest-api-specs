@@ -2852,7 +2852,7 @@
 ### [List Authorization Rules](notificationhubs/NotificationHubs/ListAuthorizationRules.yml)
 ### [List Keys](notificationhubs/NotificationHubs/ListKeys.yml)
 ### [Regenerate Keys](notificationhubs/NotificationHubs/RegenerateKeys.yml)
-# [Policy Insights](../docs-ref-conceptual/policyinsights/index.md)
+# [Policy Insights](../docs-ref-conceptual/policy-insights/index.md)
 ## [Policy Events](policy-insights/PolicyEvents.yml)
 ### [Get Metadata](policy-insights/PolicyEvents/GetMetadata.yml)
 ### [List Query Results For Management Group](policy-insights/PolicyEvents/ListQueryResultsForManagementGroup.yml)
