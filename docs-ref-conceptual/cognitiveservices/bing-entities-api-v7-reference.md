@@ -71,8 +71,8 @@ The request may include the following query parameters. See the Required column 
   
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
-|<a name="cc" />cc|A 2-character country code of the country where the results come from.<br /><br /> **NOTE:** This API supports only the United States market. If you specify this query parameter, it must be set to *us*.<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds from the languages list, and combine that language with the country code that you specify to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request, or it may use an aggregated or default market for the results instead of a specified one.<br /><br /> You should use this query parameter and the `Accept-Language` query parameter only if you specify multiple languages; otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
-|<a name="mkt" />mkt|The market where the results come from. <br /><br /> **NOTE:** This API supports only the English (United States) market. If you specify this query parameter, it must be set to en-us.<br /><br /> **NOTE:** You are strongly encouraged to always specify the market, if known. Specifying the market helps Bing route the request and return an appropriate and optimal response.<br /><br /> This parameter and the [cc](#cc) query parameter are mutually exclusive&mdash;do not specify both.|String|Yes|  
+|<a name="cc" />cc|A 2-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds from the languages list, and combines that language with the country code that you specify to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request, or it may use an aggregated or default market for the results instead of a specified one.<br /><br /> You should use this query parameter and the `Accept-Language` query parameter only if you specify multiple languages; otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
+|<a name="mkt" />mkt|The market where the results come from. <br /><br />For a list of possible market values, see [Market Codes](#market-codes).<br /><br /> **NOTE:** You are strongly encouraged to always specify the market, if known. Specifying the market helps Bing route the request and return an appropriate and optimal response.<br /><br /> This parameter and the [cc](#cc) query parameter are mutually exclusive&mdash;do not specify both.|String|Yes|  
 |<a name="query" />q|The user's search term.|String|Yes|  
 |<a name="responsefilter" />responseFilter|A comma-delimited list of answers to include in the response. If you do not specify this parameter, the response includes all search answers for which there's relevant data.<br /><br /> The following are the possible filter values.<br /><br /><ul><li>Entities</li><li>Places</li></ul>|String|No|  
 |<a name="responseformat" />responseFormat|The media type to use for the response. The following are the possible case-insensitive values.<br /><ul><li>JSON</li><li>JSONLD</li></ul><br /> The default is JSON. For information about the JSON objects that the response contains, see [Response Objects](#response-objects).<br /><br />  If you specify JsonLd, the response body includes JSON-LD objects that contain the search results. For information about the JSON-LD, see [JSON-LD](http://json-ld.org/).|String|No|  
@@ -393,3 +393,43 @@ The following are unrelated entity hints.
 ## Error codes 
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes-v7.md)]
+
+## Market codes 
+The following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change. 
+  
+For a list of country codes that you may specify in the `cc` query parameter, see [Country codes](#countrycodes).  
+  
+|Country/Region|Language|Market code|  
+|---------------------|--------------|-----------------|   
+|Australia|English|en-AU|
+|Canada|English|en-CA|  
+|Canada|French|fr-CA| 
+|France|French|fr-FR|  
+|Germany|German|de-DE| 
+|India|English|en-IN|  
+|Italy|Italian|it-IT|  
+|Mexico|Spanish|es-MX| 
+|United Kingdom|English|en-GB| 
+|United States|English|en-US|  
+|United States|Spanish|es-US|
+|Spain|Spanish|es-ES|  
+|Brazil|Portuguese|pt-BR|  
+
+<a name="countrycodes"></a>   
+### Country codes  
+
+The following are the country codes that you may specify in the `cc` query parameter. The list is subject to change.  
+  
+|Country/Region|Country Code|  
+|---------------------|------------------|
+|Australia|AU|  
+|Brazil|BR|  
+|Canada|CA|    
+|France|FR|  
+|Germany|DE|    
+|India|IN|    
+|Italy|IT|     
+|Mexico|MX|    
+|Spain|ES|  
+|United Kingdom|GB|  
+|United States|US|
