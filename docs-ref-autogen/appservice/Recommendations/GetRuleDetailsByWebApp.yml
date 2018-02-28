@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}?api-version=2016-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}?updateSeen={updateSeen}&api-version=2016-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}?updateSeen={updateSeen}&recommendationId={recommendationId}&api-version=2016-03-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -44,6 +44,11 @@ uriParameters:
   description: Specify <code>true</code> to update the last-seen timestamp of the recommendation object.
   types:
   - uid: boolean
+- name: recommendationId
+  in: query
+  description: The GUID of the recommedation object if you query an expired one. You don't need to specify it to query an active entry.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -61,60 +66,79 @@ definitions:
   description: Represents a recommendation rule that the recommendation engine can perform.
   kind: object
   properties:
-  - name: name
+  - name: properties.name
     description: Unique name of the rule.
     types:
     - uid: string
-  - name: displayName
+  - name: properties.displayName
     description: UI friendly name of the rule.
     types:
     - uid: string
-  - name: message
+  - name: properties.message
     description: Localized name of the rule (Good for UI).
     types:
     - uid: string
-  - name: recommendationId
+  - name: properties.recommendationId
     description: >-
       Recommendation ID of an associated recommendation object tied to the rule, if exists.
 
       If such an object doesn't exist, it is set to null.
     types:
     - uid: string
-  - name: description
+  - name: properties.description
     description: Localized detailed description of the rule.
     types:
     - uid: string
-  - name: actionName
+  - name: properties.actionName
     description: Name of action that is recommended by this rule in string.
     types:
     - uid: string
-  - name: level
+  - name: properties.level
     description: Level of impact indicating how critical this rule is.
     types:
     - uid: NotificationLevel
-  - name: channels
+  - name: properties.channels
     description: List of available channels that this rule applies.
     types:
     - uid: Channels
-  - name: tags
+  - name: properties.tags
     description: An array of category tags that the rule contains.
     types:
     - uid: string
       isArray: true
-  - name: isDynamic
+  - name: properties.isDynamic
     description: True if this is associated with a dynamically added rule
     types:
     - uid: boolean
-  - name: extensionName
+  - name: properties.extensionName
     description: Extension name of the portal if exists. Applicable to dynamic rule only.
     types:
     - uid: string
-  - name: bladeName
+  - name: properties.bladeName
     description: Deep link to a blade on the portal. Applicable to dynamic rule only.
     types:
     - uid: string
-  - name: forwardLink
+  - name: properties.forwardLink
     description: Forward link to an external document associated with the rule. Applicable to dynamic rule only.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
     types:
     - uid: string
 - name: NotificationLevel
