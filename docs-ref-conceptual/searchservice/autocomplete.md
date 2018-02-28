@@ -46,7 +46,7 @@ The Autocomplete API support three different modes:
 
         “medic” -> “medicare coverage”, ”medical assistant”
 
-3. **oneTermWithContext** – completes the last term in a query with two or more therms, where the last two terms are a phrase that exists in the index, for example: 
+3. **oneTermWithContext** – completes the last term in a query with two or more terms, where the last two terms are a phrase that exists in the index, for example: 
 
         “washington medic” -> “washington medicaid”, ”washington medical”
 
@@ -67,15 +67,15 @@ api-key: [admin or query key]
 
  **When to use POST instead of GET**  
 
- When you use HTTP GET to call **Autocomplete**, the length of the request URL cannot exceed 8 KB. This length is usually enough for most applications. However, some applications produce very large queries, specifically when OData filter expressions are used. For these applications, HTTP POST is a better choice because it allows larger filters than GET. With POST, the number of clauses in a filter is the limiting factor, not the size of the raw filter string since the request size limit for POST is approximately 16 MB.  
+ When you use HTTP GET to call **Autocomplete**, the length of the request URL cannot exceed 8 KB. This length is enough for most applications. However, some applications produce large queries, specifically when OData filter expressions are used. For these applications, HTTP POST is a better choice because it allows larger filters than GET. However, the limiting factor for filter size is the number of clauses, not the size of the raw filter string. The request size limit for POST is approximately 16 MB.  
 
 > [!NOTE]  
->  Even though the POST request size limit is very large, filter expressions cannot be arbitrarily complex. For more information about filter complexity limitations, see [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md).  
+>  Even though the POST request size limit is large, filter expressions cannot be arbitrarily complex. For more information about filter complexity limitations, see [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md).  
 
 ## Request  
  HTTPS is required for service requests. The **Autocomplete** request can be constructed using the GET or POST methods.  
 
- The request URI specifies the name of the index to query. Parameters, such as the partially input search term, are specified on the query string in the case of GET requests, and in the request body in the case of POST requests.  
+ The request URI specifies the name of the index to query. Query parameters are specified on the query string in the case of GET requests and in the request body in the case of POST requests.  
 
  As a best practice when creating GET requests, remember to [URL-encode](https://msdn.microsoft.com/library/system.uri.escapedatastring.aspx) specific query parameters when calling the REST API directly. For **Autocomplete** operations, this includes:  
 
@@ -100,9 +100,9 @@ api-key: [admin or query key]
 |`autocompleteMode=oneTerm | twoTerms | oneTermWithContext (optional, defaults to oneTerm)`|	Sets the autocomplete mode as described above.|
 |`highlightPreTag=[string] (optional, defaults to an empty string)`|A string tag that prepends to search hits. Must be set with `highlightPostTag`. **Note:**  When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
 |`highlightPostTag=[string] (optional, defaults to an empty string)`|A string tag that appends to search hits. Must be set with `highlightPreTag`. **Note:**  When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
-|`suggesterName=[string]`|The name of the **suggester** as specified in the **suggesters** collection that's part of the index definition. A **suggester** determines which fields are scanned for suggested query terms. See [Suggesters](suggesters.md) for more information.|  
+|`suggesterName=[string]`|The name of the **suggester** as specified in the **suggesters** collection that's part of the index definition. A **suggester** determines which fields are scanned for suggested query terms. For more information see [Suggesters](suggesters.md).|  
 |`fuzzy=[boolean] (optional, default = false)`|When set to true, this API finds suggestions even if there is a substituted or missing character in the search text. While this provides a better experience in some scenarios, it comes at a performance cost as fuzzy suggestion searches are slower and consume more resources.|  
-|`searchFields=[string] (optional)`|The list of comma-separated field names to search for the specified search text. Target fields must be enabled for suggestions. See [Suggesters](suggesters.md) for more information.|  
+|`searchFields=[string] (optional)`|The list of comma-separated field names to search for the specified search text. Target fields must be enabled for suggestions. For more information see [Suggesters](suggesters.md).|  
 |`$top=# (optional, default = 5)`|The number of autocomplete suggestions to retrieve. The value must be a number between 1 and 100. **Note:**  When calling **Autocomplete** using POST, this parameter is named `top` instead of `$top`.|  
 |`$filter=[string] (optional)`|An expression that filters the documents considered for autocomplete. **Note:**  When calling **Autocomplete** using POST, this parameter is named `filter` instead of `$filter`.| 
 |`minimumCoverage (optional, defaults to 80)`|A number between 0 and 100 indicating the percentage of the index that must be covered by an autocomplete query in order for the query to be reported as a success. By default, at least 80% of the index must be available or the Autocomplete operation returns HTTP status code 503. If you set `minimumCoverage` and Autocomplete succeeds, it returns HTTP 200 and include a `@search.coverage` value in the response indicating the percentage of the index that was included in the query. **Note:**  Setting this parameter to a value lower than 100 can be useful for ensuring search availability even for services with only one replica. However, not all matching autocomplete suggestions are guaranteed to be present in the search results. If search recall is more important to your application than availability, then it's best not to lower `minimumCoverage` below its default value of 80.|  
@@ -115,7 +115,7 @@ api-key: [admin or query key]
 |--------------------|-----------------|  
 |*api-key*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Autocomplete** request can specify either an admin-key or query-key as the `api-key`. The query-key is used for query-only operations.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  For GET: None.  
@@ -138,7 +138,7 @@ api-key: [admin or query key]
 ```  
 
 ## Response 
- Status Code: "200 OK" is returned for a successful response.  
+ Status Code: "200 OK" is returned for a successful response. 
  The response payload has two properties:
 
 -   text – the completed term or phrase
@@ -159,7 +159,7 @@ api-key: [admin or query key]
 
 ## Examples  
 
-1. Retrieve 3 autocomplete suggestions where the partial search input is 'washington medic' with default mode (oneTerm):  
+1. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' with default mode (oneTerm):  
 
   ```  
   GET /indexes/hotels/docs/autocomplete?search=washington medic&$top=3&suggesterName=sg&api-version=2016-09-01-Preview
@@ -193,7 +193,7 @@ api-key: [admin or query key]
   }  
   ```  
   
-2. Retrieve 3 autocomplete suggestions where the partial search input is 'washington medic' and `autocompleteMode=twoTerms`:  
+2. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' and `autocompleteMode=twoTerms`:  
 
   ```  
   GET /indexes/hotels/docs/autocomplete?search=washington medic&$top=3&suggesterName=sg&autocompleteMode=twoTerms&api-version=2016-09-01-Preview
