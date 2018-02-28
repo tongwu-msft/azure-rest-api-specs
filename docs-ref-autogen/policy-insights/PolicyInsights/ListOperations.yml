@@ -1,0 +1,150 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.policyinsights.policyinsights.listoperations
+name: List Operations
+service: Policy Insights
+groupName: Policy Insights
+apiVersion: 2017-12-12-preview
+summary: Lists available operations.
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.PolicyInsights/operations?api-version=2017-12-12-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version to use with the client requests.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: List of available operations.
+  types:
+  - uid: Operations
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: QueryFailure
+requestHeader: []
+definitions:
+- name: Operations
+  description: List of available operations.
+  kind: object
+  properties:
+  - name: '@odata.count'
+    description: OData entity count; represents the number of operations returned.
+    types:
+    - uid: integer
+  - name: value
+    description: Operation definition.
+    types:
+    - uid: Operation
+      isArray: true
+- name: QueryFailure
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: Error definition.
+    types:
+    - uid: Error
+- name: Operation
+  description: Operation definition.
+  kind: object
+  properties:
+  - name: name
+    description: Operation name.
+    types:
+    - uid: string
+  - name: display
+    description: Display metadata associated with the operation.
+    types:
+    - uid: Display
+- name: Error
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    description: Description of the error.
+    types:
+    - uid: string
+- name: Display
+  description: Display metadata associated with the operation.
+  kind: object
+  properties:
+  - name: provider
+    description: Resource provider name.
+    types:
+    - uid: string
+  - name: resource
+    description: Resource name on which the operation is performed.
+    types:
+    - uid: string
+  - name: operation
+    description: Operation name.
+    types:
+    - uid: string
+  - name: description
+    description: Operation description.
+    types:
+    - uid: string
+examples:
+- name: List operations
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.PolicyInsights/operations?api-version=2017-12-12-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@odata.count": 4,
+        "value": [
+          {
+            "name": "default/queryResults/action",
+            "display": {
+              "provider": "Microsoft Policy Insights",
+              "resource": "Policy Events",
+              "operation": "Query Policy Events",
+              "description": "Query information about policy events."
+            }
+          },
+          {
+            "name": "default/queryResults/action",
+            "display": {
+              "provider": "Microsoft Policy Insights",
+              "resource": "Policy States",
+              "operation": "Query Policy States",
+              "description": "Query information about policy states."
+            }
+          },
+          {
+            "name": "latest/queryResults/action",
+            "display": {
+              "provider": "Microsoft Policy Insights",
+              "resource": "Policy Latest States",
+              "operation": "Query Policy Latest States",
+              "description": "Query information about policy latest states."
+            }
+          },
+          {
+            "name": "latest/summarize/action",
+            "display": {
+              "provider": "Microsoft Policy Insights",
+              "resource": "Policy Latest States",
+              "operation": "Query Policy Latest States Summary",
+              "description": "Query summary information about policy latest states."
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
