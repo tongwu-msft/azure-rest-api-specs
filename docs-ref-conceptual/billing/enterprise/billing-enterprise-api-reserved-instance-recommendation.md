@@ -31,20 +31,21 @@ Common header properties that need to be added are specified [here](https://docs
 |GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/AggregateReservationRecommendations?lookBackPeriod=7
 
 ## Response
-[<br>{<br>
+```json
+[{
 	"lookBackPeriod": "Last7Days",
-	<br>"meterId": "2e3c2132-1398-43d2-ad45-1d77f6574933",
-	<br>"skuName": "Standard_DS1_v2",
-	<br>"term": "P1Y",
-	<br>"region": "westus",
-	<br>"costWithNoRI": 186.27634908960002,
-	<br>"recommendedQuantity": 9,
-	<br>"totalCostWithRI": 143.12931642978083,
-	<br>"netSavings": 43.147032659819189,
-	<br>"firstUsageDate": "2018-02-19T00:00:00"
-<br>}<br>
+	"meterId": "2e3c2132-1398-43d2-ad45-1d77f6574933",
+	"skuName": "Standard_DS1_v2",
+	"term": "P1Y",
+	"region": "westus",
+	"costWithNoRI": 186.27634908960002,
+	"recommendedQuantity": 9,
+	"totalCostWithRI": 143.12931642978083,
+	"netSavings": 43.147032659819189,
+	"firstUsageDate": "2018-02-19T00:00:00"
+}
 ]
-
+```
 **Response property definitions**
 
 |Property Name| Type| Description
@@ -70,20 +71,23 @@ Common header properties that need to be added are specified [here](https://docs
 |GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/ReservationRecommendations?lookBackPeriod=7
 
 ## Response
-[<br>{<br>
+
+```json
+[{
 	"subscriptionId": "d143f4db-5a12-46b9-ba15-9bff298b8f45",
-	<br>"lookBackPeriod": "Last7Days",
-	<br>"meterId": "2e3c2132-1398-43d2-ad45-1d77f6574933",
-	<br>"skuName": "Standard_DS1_v2",
-	<br>"term": "P1Y",
-	<br>"region": "westus",
-	<br>"costWithNoRI": 186.27634908960002,
-	<br>"recommendedQuantity": 9,
-	<br>"totalCostWithRI": 143.12931642978083,
-	<br>"netSavings": 43.147032659819189,
-	<br>"firstUsageDate": "2018-02-19T00:00:00"
-}<br>
+	"lookBackPeriod": "Last7Days",
+	"meterId": "2e3c2132-1398-43d2-ad45-1d77f6574933",
+	"skuName": "Standard_DS1_v2",
+	"term": "P1Y",
+	"region": "westus",
+	"costWithNoRI": 186.27634908960002,
+	"recommendedQuantity": 9,
+	"totalCostWithRI": 143.12931642978083,
+	"netSavings": 43.147032659819189,
+	"firstUsageDate": "2018-02-19T00:00:00"
+}
 ]
+```
 
 **Response property definitions**
 
