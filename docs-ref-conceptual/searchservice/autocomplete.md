@@ -29,12 +29,16 @@ translation.priority.mt:
 ---
 # Autocomplete (Azure Search Service REST API)
 
+> [!NOTE]  
+> Autocomplete API is a preview feature and is not intended to be used in production code. Preview features are subject to change and are exempt from the service level agreement (SLA).
+
 The **Autocomplete API** helps users issue better search queries by completing partial search terms based on terms from an index. For example, if the query term is “medic”, the Autocomplete API will return “medicare”, “medicaid”, “medicine” if those terms are in the index. Specifically, the search engine looks for matching terms in fields that have a [**Suggester**](suggesters.md) configured.
 
  **Autocomplete Modes**  
 
 The Autocomplete API support three different modes: 
-1.	**oneTerm** – only one term is suggested as in the example above. If the query has two terms, only the last term is completed, for example:
+
+1. **oneTerm** – only one term is suggested as in the example above. If the query has two terms, only the last term is completed, for example:
   
         “washington medic” -> “medicaid”, “medicare”, “medicine”
 
