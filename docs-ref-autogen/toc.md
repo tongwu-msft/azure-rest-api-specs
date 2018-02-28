@@ -1245,8 +1245,8 @@
 ### [Bing Autosuggest API v5](../docs-ref-conceptual/cognitiveservices/bing-autosuggest-api-v5-reference.md)
 ## Bing Custom Search API
 ### [Bing Custom Search API v7](../docs-ref-conceptual/cognitiveservices/bing-custom-search-api-v7-reference.md)
-## Bing Entities Search API
-### [Bing Entities Search API v7](../docs-ref-conceptual/cognitiveservices/bing-entities-api-v7-reference.md)
+## Bing Entity Search API
+### [Bing Entity Search API v7](../docs-ref-conceptual/cognitiveservices/bing-entities-api-v7-reference.md)
 ## Bing Image Search API
 ### [Bing Image Search API v7](../docs-ref-conceptual/cognitiveservices/bing-images-api-v7-reference.md)
 ### [Bing Image Search API v5](../docs-ref-conceptual/cognitiveservices/bing-images-api-v5-reference.md)
