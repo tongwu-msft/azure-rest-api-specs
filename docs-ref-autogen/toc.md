@@ -475,6 +475,8 @@
 ### [Update Ownership Identifier](appservice/Domains/UpdateOwnershipIdentifier.yml)
 ## [Recommendations](appservice/Recommendations.yml)
 ### [Disable All For Web App](appservice/Recommendations/DisableAllForWebApp.yml)
+### [Disable Recommendation For Site](appservice/Recommendations/DisableRecommendationForSite.yml)
+### [Disable Recommendation For Subscription](appservice/Recommendations/DisableRecommendationForSubscription.yml)
 ### [Get Rule Details By Web App](appservice/Recommendations/GetRuleDetailsByWebApp.yml)
 ### [List](appservice/Recommendations/List.yml)
 ### [List History For Web App](appservice/Recommendations/ListHistoryForWebApp.yml)
