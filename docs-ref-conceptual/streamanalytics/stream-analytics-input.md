@@ -191,10 +191,7 @@ Creates a new input within a Stream Analytics job.
 
 **compression**
 
-Three types of compression types are supported- **None**, **GZip**, and **Deflate**
-
-         "type":"GZip" 
-      } 
+Three types of compression types are supported- **None**, **GZip**, and **Deflate**.
   
 ### Response  
  Status code: 201  
