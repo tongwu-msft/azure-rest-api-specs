@@ -131,6 +131,9 @@ Creates a new input within a Stream Analytics job.
             "sharedAccessPolicyKey":"***/**********/*****************************",  
             "eventHubName":"sampleEventHub"  
          }  
+      },  
+      "compression":{    
+         "type":"GZip" 
       }  
    }  
 }  
@@ -185,6 +188,13 @@ Creates a new input within a Stream Analytics job.
 |**sharedAccessPolicyName**|Yes|The shared access policy name for the target Iot Hub with Service connect permission.|  
 |**sharedAccessPolicyKey**|Yes|The shared access policy key for the target Iot Hub.|  
 |**consumerGroupName**|No|Name of an Iot Hub consumer group by which to identify this input. If not specified, the input uses the Iot Hub’s default consumer group.|  
+
+**compression**
+
+Three types of compression types are supported- **None**, **GZip**, and **Deflate**
+
+         "type":"GZip" 
+      } 
   
 ### Response  
  Status code: 201  
@@ -212,7 +222,10 @@ Creates a new input within a Stream Analytics job.
          "properties":{    
             "encoding":"UTF8"  
          }  
-      }  
+      },  
+      "compression":{    
+         "type":"GZip" 
+      }   
    }  
 }  
   
@@ -295,7 +308,10 @@ Gets information about a specific input.
          "properties":{    
             "encoding":"UTF8"  
          }  
-      }  
+      },  
+      "compression":{    
+         "type":"GZip" 
+      }   
    }  
 }  
   
@@ -361,7 +377,10 @@ Lists all of the inputs that are defined in a Stream Analytics job.
                   "fieldDelimiter":",",  
                   "encoding":"UTF8"  
                }  
-            },  
+            }, 
+            "compression":{    
+            "type":"GZip" 
+          },   
             "etag":"54eae50b-9ff2-4285-a727-773f55f5deac"  
          }  
       }  
@@ -443,6 +462,9 @@ Updates the properties that are assigned to an input.
          "properties":{    
             "encoding":"UTF8"  
          }  
+      },  
+      "compression":{    
+         "type":"GZip" 
       }  
    }  
 }  
