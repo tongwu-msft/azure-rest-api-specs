@@ -18,17 +18,17 @@ ms.date: 02/27/2018
 ms.author: manshuk
 
 ---
-# Reserved Instance Purchase Recommendation APIs for Enterprise customers
+# Reserved instance purchase recommendation APIs for enterprise customers
 
-The Reserved Instance Recommendations API looks at Customer's 7, 30 or 60 days virtual machine usage and offers Single and Shared Purchase Recommendations.
+The Reserved Instance recommendations API looks at Customer's 7, 30 or 60 days virtual machine usage and offers Single and Shared Purchase recommendations.
 
 
-## Request for Shared Reserved Instance Recommendation
+## Request for shared reserved instance recommendations
 Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). 
 
 |Method | Request URI|
 |-|-|
-|GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/AggregateReservationRecommendations?lookBackPeriod=7
+|GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/SharedReservationRecommendations?lookBackPeriod=7
 
 ## Response
 ```json
@@ -52,7 +52,7 @@ Common header properties that need to be added are specified [here](https://docs
 |-|-|-|
 |lookBackPeriod|string|String representing number of past usage days. It can either last7days, last30days or last60days|
 |meterId|string |The Meterid of the resource that should be purchased|
-|skuName|string |This is the ARM SKU that needs to be purchased|
+|skuName|string |This is the Azure Resource Manager SKU that needs to be purchased|
 |term|string| P1Y for 1 year and P3Y for 3 years|
 |region|string| Region where Reserved instance should be purchased|
 |costWithNoRI|string| Total current cost|
@@ -63,12 +63,12 @@ Common header properties that need to be added are specified [here](https://docs
 
 
 
-## Request for Single Reserved Instance Recommendation
+## Request for single reserved instance recommendations
 Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). 
 
 |Method | Request URI|
 |-|-|
-|GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/ReservationRecommendations?lookBackPeriod=7
+|GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/SingleReservationRecommendations?lookBackPeriod=7
 
 ## Response
 
@@ -96,7 +96,7 @@ Common header properties that need to be added are specified [here](https://docs
 |subscriptionId|string|SubscriptionId for which Reserved Instance should be purchased|
 |lookBackPeriod|string|String representing number of past usage days. It can either last7days, last30days or last60days|
 |meterId|string |The Meterid of the resource that should be purchased|
-|skuName|string |This is the ARM SKU that needs to be purchased|
+|skuName|string |This is the Azure Resource Manager SKU that needs to be purchased|
 |term|string| P1Y for 1 year and P3Y for 3 years|
 |region|string| Region where Reserved instance should be purchased|
 |costWithNoRI|string| Total current cost|
