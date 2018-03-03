@@ -145,7 +145,7 @@ Creates a new input within a Stream Analytics job.
 |**type**|Yes|Indicates whether the input is a source of type reference data or stream data. After an input is created, its type cannot be changed (PUT or PATCH). You must delete the input and create a new one.|  
 |**serialization**|Yes|Describes how data from this input is serialized. Allowed **serialization** type values are specific to the type of serialization used.|  
 |**datasource**|Yes|Indicates the type of data source that incoming data will be read from. Allowed **datasource** type values are specific to the type of data source used.|  
-| **compression** | No | Indicates the type of compression supported by the incoming data. |
+| **compression** | No | It indicates the compression type of the input data.|
   
  **Serialization**  
   
@@ -194,7 +194,7 @@ Creates a new input within a Stream Analytics job.
 
 |Element name|Required|Notes|  
 |------------------|--------------|-----------|  
-|**type**|Yes| It indicates the type of compression supported by the input data. Allowed values are - **None**, **GZip**, and **Deflate**.| 
+|**type**|Yes| It indicates the compression type of the input data. Allowed values are - **None**, **GZip**, and **Deflate**.| 
 
 
   
