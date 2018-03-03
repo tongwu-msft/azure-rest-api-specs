@@ -140,6 +140,9 @@ Creates a new input within a Stream Analytics job.
             "sharedAccessPolicyKey":"***/**********/*****************************",  
             "eventHubName":"sampleEventHub"  
          }  
+      },  
+      "compression":{    
+         "type":"GZip" 
       }  
    }  
 }  
@@ -151,6 +154,7 @@ Creates a new input within a Stream Analytics job.
 |**type**|Yes|Indicates whether the input is a source of type reference data or stream data. After an input is created, its type cannot be changed (PUT or PATCH). You must delete the input and create a new one.|  
 |**serialization**|Yes|Describes how data from this input is serialized. Allowed **serialization** type values are specific to the type of serialization used.|  
 |**datasource**|Yes|Indicates the type of data source that incoming data will be read from. Allowed **datasource** type values are specific to the type of data source used.|  
+| **compression** | No | Indicates the type of compression supported by the incoming data. |
   
  **Serialization**  
   
@@ -194,6 +198,14 @@ Creates a new input within a Stream Analytics job.
 |**sharedAccessPolicyName**|Yes|The shared access policy name for the target Iot Hub with Service connect permission.|  
 |**sharedAccessPolicyKey**|Yes|The shared access policy key for the target Iot Hub.|  
 |**consumerGroupName**|No|Name of an Iot Hub consumer group by which to identify this input. If not specified, the input uses the Iot Hub’s default consumer group.|  
+
+**Compression**
+
+|Element name|Required|Notes|  
+|------------------|--------------|-----------|  
+|**type**|Yes| It indicates the type of compression supported by the input data. Allowed values are - **None**, **GZip**, and **Deflate**.| 
+
+
   
 ### Response  
  Status code: 201  
@@ -221,7 +233,10 @@ Creates a new input within a Stream Analytics job.
          "properties":{    
             "encoding":"UTF8"  
          }  
-      }  
+      },  
+      "compression":{    
+         "type":"GZip" 
+      }   
    }  
 }  
   
@@ -304,7 +319,10 @@ Gets information about a specific input.
          "properties":{    
             "encoding":"UTF8"  
          }  
-      }  
+      },  
+      "compression":{    
+         "type":"GZip" 
+      }   
    }  
 }  
   
@@ -370,7 +388,10 @@ Lists all of the inputs that are defined in a Stream Analytics job.
                   "fieldDelimiter":",",  
                   "encoding":"UTF8"  
                }  
-            },  
+            }, 
+            "compression":{    
+            "type":"GZip" 
+          },   
             "etag":"54eae50b-9ff2-4285-a727-773f55f5deac"  
          }  
       }  
@@ -452,6 +473,9 @@ Updates the properties that are assigned to an input.
          "properties":{    
             "encoding":"UTF8"  
          }  
+      },  
+      "compression":{    
+         "type":"GZip" 
       }  
    }  
 }  
