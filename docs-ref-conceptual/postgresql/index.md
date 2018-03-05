@@ -8,7 +8,7 @@ ms.topic: reference
 ms.service: postgresql-database
 ms.devlang: rest-api
 service_description: Azure Database for PostgreSQL
-ms.date: 11/27/2017
+ms.date: 03/05/2018
 ---
 
 # Azure Database for PostgreSQL REST API

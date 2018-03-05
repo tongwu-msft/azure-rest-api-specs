@@ -8,7 +8,7 @@ ms.topic: reference
 ms.service: mysql-database
 ms.devlang: rest-api
 service_description: Azure Database for MySQL
-ms.date: 3/5/2018
+ms.date: 03/05/2018
 ---
 
 # Azure Database for MySQL REST API
