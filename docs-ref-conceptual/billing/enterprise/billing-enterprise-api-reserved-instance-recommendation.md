@@ -3,7 +3,7 @@ title: Azure Billing Enterprise APIs - Reserved Instance Recommendation| Microso
 description: Get Reserved Instance purchase recommendation based on past usage.
 services: ''
 documentationcenter: ''
-author: manshuk
+author: manish-shukla01
 manager: manshuk
 editor: ''
 tags: billing
