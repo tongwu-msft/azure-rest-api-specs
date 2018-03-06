@@ -318,6 +318,7 @@ For a list of country codes that you may specify in the `cc` query parameter, se
 |---------------------|--------------|-----------------| 
 |Denmark|Danish|da-DK|
 |Austria|German|de-AT| 
+|Belgium|Dutch|nl-BE|
 |Switzerland|German|de-CH|
 |Germany|German|de-DE|
 |Australia|English|en-AU|
@@ -353,8 +354,7 @@ For a list of country codes that you may specify in the `cc` query parameter, se
 |Netherlands|Dutch|nl-NL|  
 |People's republic of China|Chinese|zh-CN|  
 |Poland|Polish|pl-PL|  
-||Portuguese|pl-PT|
-|Portuguese|Brazil|pt-BR|
+|Brazil|Portuguese|pt-BR|
 |Russia|Russian|ru-RU|  
 |Sweden|Swedish|sv-SE|  
 |Turkey|Turkish|tr-TR|  
