@@ -83,7 +83,6 @@ The request may include the following query parameters. See the Required column 
 The following are the JSON response objects that the response may include. If the request succeeds, the top-level object in the response is the [SearchResponse](#searchresponse) object. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object.
 
 
-
 |Object|Description|  
 |------------|-----------------|  
 |[Entity](#entity)|Defines an entity such as a person, place, or thing.|  
@@ -101,13 +100,12 @@ The following are the JSON response objects that the response may include. If th
 |[PostalAddress](#postaladdress)|Defines a postal address.|
 |[QueryContext](#querycontext)|Defines the query context that Bing used for the request.|
 |[Identifiable](#identifiable)|A resource identifier|
-|[RankingGroup](#responsegroup)|Defines a search results group, such as mainline.|
+|[RankingGroup](#rankinggroup)|Defines a search results group, such as mainline.|
 |[RankingItem](#rankingitem)|Defines a search result item to display.|
 |[RankingResponse](#rankingresponse)|Defines where on the search results page content should be placed and in what order.|
 |[SearchResponse](#searchresponse)|The top-level object that the response includes when the request succeeds.|  
 |[TextAttribution](#textattribution)|Defines a contractual rule for plain text attribution.|  
-  
-  
+ 
 
 ### Entity  
 Defines an entity such as a person, place, or thing.  
