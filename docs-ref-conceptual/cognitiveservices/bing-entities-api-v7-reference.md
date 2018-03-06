@@ -99,8 +99,11 @@ The following are the JSON response objects that the response may include. If th
 |[Organization](#organization)|Defines a publisher.|  
 |[Place](#place)|Defines information about a local entity such as a restaurant or hotel.|  
 |[PostalAddress](#postaladdress)|Defines a postal address.|
-|[QueryContext](#querycontext)|Defines the query context that Bing used for the request.| 
-|[RankingResponse](#)|Defines where on the search results page content should be placed and in what order.|
+|[QueryContext](#querycontext)|Defines the query context that Bing used for the request.|
+|[Identifiable](#identifiable)|A resource identifier|
+|[RankingGroup](#responsegroup)|Defines a search results group, such as mainline.|
+|[RankingItem](#rankingitem)|Defines a search result item to display.|
+|[RankingResponse](#rankingresponse)|Defines where on the search results page content should be placed and in what order.|
 |[SearchResponse](#searchresponse)|The top-level object that the response includes when the request succeeds.|  
 |[TextAttribution](#textattribution)|Defines a contractual rule for plain text attribution.|  
   
@@ -272,7 +275,29 @@ Defines the query context that Bing used for the request.
 |alteredQuery|The query string used by Bing to perform the query. Bing uses the altered query string if the original query string contained spelling mistakes. For example, if the query string is `saling downwind`, the altered query string will be `sailing downwind`.<br /><br /> This field is included only if the original query string contains a spelling mistake.|String|  
 |askUserForLocation|A Boolean value that indicates whether Bing requires the user's location to provide accurate results. If you specified the user's location by using the [X-MSEdge-ClientIP](#clientip) and [X-Search-Location](#location) headers, you can ignore this field.<br /><br /> For location aware queries, such as "today's weather" or "restaurants near me" that need the user's location to provide accurate results, this field is set to **true**.<br /><br /> For location aware queries that include the location (for example, "Seattle weather"), this field is set to **false**. This field is also set to **false** for queries that are not location aware, such as "best sellers".|Boolean|  
 |originalQuery|The query string as specified in the request.|String|  
+
+<a name="identifiable">
+### Identifiable
+|Name|Value|Type|  
+|-------------|-----------------|----------|
+|id|A resource identifier|String|
  
+<a name="rankinggroup">
+### RankingGroup
+Defines a search results group, such as mainline.
+|Name|Value|Type|  
+|-------------|-----------------|----------|
+|items|A list of search results to display in the group.|RankingItem|
+
+<a name="rankingitem">
+### RankingItem
+Defines a search result item to display.
+|Name|Value|Type|  
+|-------------|-----------------|----------|
+|resultIndex|A zero-based index of the item in the answer to display. If the item does not include this field, display all items in the answer. For example, display all news articles in the News answer.|Integer|
+|answerType|The answer that contains the item to display. For example, News.<br /><br />Use the type to find the answer in the SearchResponse object. The type is the name of a SearchResponse field.<br /><br /> However, use the answer type only if this object includes the value field; otherwise, ignore it.|String|
+|textualIndex|The index of the answer in textualAnswers to display.| Unsigned Integer|
+|value|The ID that identifies either an answer to display or an item of an answer to display. If the ID identifies an answer, display all items of the answer.|Identifiable|
 
 <a name="rankingresponse"></a>   
 ### RankingResponse  
