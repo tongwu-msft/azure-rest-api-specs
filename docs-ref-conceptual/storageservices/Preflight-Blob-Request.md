@@ -78,9 +78,7 @@ The `Preflight Blob Request` operation queries the Cross-Origin Resource Sharing
  None.  
   
 ## Authorization  
- The `Preflight Blob Request` operation authenticates any request that includes proper authentication headers or includes a shared access signature (SAS).  
-  
- Anonymous non-authenticated requests will also be processed regardless of whether the resource exists, since OPTIONS preflight requests are evaluated against the account service settings.  
+The `Preflight Blob Request` operation does not require authorization, and ignores credentials if they are provided.
   
 ## Sample Request and Response  
  The following example sends a preflight request for the origin www.contoso.com, with the request method set to `PUT` and the request headers set to `content-type` and `accept`.  

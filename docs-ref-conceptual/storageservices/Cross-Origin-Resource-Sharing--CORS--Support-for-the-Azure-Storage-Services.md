@@ -31,8 +31,10 @@ Beginning with version 2013-08-15, the Azure storage services support Cross-Orig
   
  You can set CORS rules individually for each of the storage services, by calling [Set Blob Service Properties](Set-Blob-Service-Properties.md), [Set File Service Properties](Set-File-Service-Properties.md), [Set Queue Service Properties](Set-Queue-Service-Properties.md), and [Set Table Service Properties](Set-Table-Service-Properties.md). Once you set the CORS rules for the service, then a properly authenticated request made against the service from a different domain will be evaluated to determine whether it is allowed according to the rules you have specified.  
   
-> [!NOTE]
->  Note that CORS is not an authentication mechanism. Any request made against a storage resource when CORS is enabled must either have a proper authentication signature, or must be made against a public resource.  
+> [!IMPORTANT]
+>  CORS is not an authentication mechanism. Any request made against a storage resource when CORS is enabled must either have a proper authentication signature, or must be made against a public resource.
+>
+> CORS is not supported for Premium Storage accounts.
   
 ## Understanding CORS Requests  
  A CORS request from an origin domain may consist of two separate requests:  
