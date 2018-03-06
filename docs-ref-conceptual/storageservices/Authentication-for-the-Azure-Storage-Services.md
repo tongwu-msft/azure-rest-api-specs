@@ -360,10 +360,10 @@ CanonicalizedResource:
 2.  Append the resource's encoded URI path. If the request URI addresses a component of the resource, append the appropriate query string. The query string should include the question mark and the `comp` parameter (for example, `?comp=metadata`). No other parameters should be included on the query string.  
   
 ### Encoding the Signature  
- To encode the signature, call the HMAC-SHA256 algorithm on the UTF-8-encoded signature string and encode the result as Base64. Use the following format (shown as pseudocode):  
+ To encode the signature, call the HMAC-SHA256 algorithm on the UTF-8-encoded signature string and encode the result as Base64. Note that you also need to Base64-decode your storage account key. Use the following format (shown as pseudocode):  
   
 ```  
-Signature=Base64(HMAC-SHA256(UTF8(StringToSign)))  
+Signature=Base64(HMAC-SHA256(UTF8(StringToSign), Base64.decode(<your_azure_storage_account_shared_key>)))  
 ```  
   
 ## See Also  
