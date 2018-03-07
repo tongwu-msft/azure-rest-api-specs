@@ -32,16 +32,16 @@ translation.priority.mt:
   
 |**Resources**|**Base URI**|  
 |-|-|  
-|Database|https://{databaseaccount}.documents.azure.com/dbs/{db}|  
-|User|https://{databaseaccount}.documents.azure.com/dbs/{db}/users/{user}|  
-|Permission|https://{databaseaccount}.documents.azure.com/dbs/{db}/users/{user}/permissions/{perm}|  
-|Collection|https://{databaseaccount}.documents.azure.com/dbs/{db}/colls/{coll}|  
-|Stored Procedure|https://{databaseaccount}.documents.azure.com/dbs/{db}/colls/{coll}/sprocs/{sproc}|  
-|Trigger|https://{databaseaccount}.documents.azure.com/dbs/{db}/colls/{coll}/triggers/{trigger}|  
-|UDF|https://{databaseaccount}.documents.azure.com/dbs/{db}/colls/{coll}/udfs/{udf}|  
-|Document|https://{databaseaccount}.documents.azure.com/dbs/{db}/colls/{coll}/docs/{doc}|  
-|Attachment|https://{databaseaccount}.documents.azure.com/dbs/{db}/colls/{coll}/docs/{doc}/attachments/{attch}|  
-|Offer|https://{databaseaccount}.documents.azure.com/offers/{offer}|  
+|Database|'https://{databaseaccount}.documents.azure.com/dbs/{db}'|  
+|User|'https://{databaseaccount}.documents.azure.com/dbs/{db}/users/{user}'|  
+|Permission|'https://{databaseaccount}.documents.azure.com/dbs/{db}/users/{user}/permissions/{perm}'|  
+|Collection|'https://{databaseaccount}.documents.azure.com/dbs/{db}/colls/{coll}'|  
+|Stored Procedure|'https://{databaseaccount}.documents.azure.com/dbs/{db}/colls/{coll}/sprocs/{sproc}'|  
+|Trigger|'https://{databaseaccount}.documents.azure.com/dbs/{db}/colls/{coll}/triggers/{trigger}'|  
+|UDF|'https://{databaseaccount}.documents.azure.com/dbs/{db}/colls/{coll}/udfs/{udf}'|  
+|Document|'https://{databaseaccount}.documents.azure.com/dbs/{db}/colls/{coll}/docs/{doc}'|  
+|Attachment|'https://{databaseaccount}.documents.azure.com/dbs/{db}/colls/{coll}/docs/{doc}/attachments/{attch}'|  
+|Offer|'https://{databaseaccount}.documents.azure.com/offers/{offer}'|  
   
  Each allowable operation for the respective resources is discussed in the following operation articles:  
   
