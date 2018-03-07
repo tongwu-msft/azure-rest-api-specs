@@ -27,9 +27,9 @@ translation.priority.mt:
 service_description: To be added
 ---
 # Azure Cosmos DB: REST API Reference
-[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing document resources using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.  
+[Azure Cosmos DB](/azure/cosmos-db/introduction) is a globally distributed multi-model database that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing document resources using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.  
 
-The Azure Cosmos DB REST API provides programmatic access to Azure Cosmos DB resources to create, query, and delete databases, document collections, and documents. To perform operations on Azure Cosmos DB resources, you send HTTPS requests with a supported method: `GET`, `POST`, `PUT`, or `DELETE` to an endpoint that targets a resource collection or a specific resource. This section contains information about working with resources by using the REST API. 
+The Azure Cosmos DB REST API provides programmatic access to Azure Cosmos DB resources to create, query, and delete databases, document collections, and documents. To perform operations on Azure Cosmos DB resources, you send HTTPS requests with a supported method: `GET`, `POST`, `PUT`, or `DELETE` to an endpoint that targets a resource collection or a specific resource. This section explains how to work with resources by using the REST API. 
   
 The follow video gives a great introduction to Azure Cosmos DB REST APIs. 
 
