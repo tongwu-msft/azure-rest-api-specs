@@ -3,7 +3,7 @@ uid: management.azure.com.resourcemanagement.policyassignments.listforresource
 name: List For Resource
 service: Resource Management
 groupName: Policy Assignments
-apiVersion: 2016-12-01
+apiVersion: 2017-06-01-preview
 summary: Gets policy assignments for a resource.
 consumes:
 - application/json
@@ -12,8 +12,8 @@ produces:
 - application/json
 - text/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments?api-version=2016-12-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&api-version=2016-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments?api-version=2017-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&api-version=2017-06-01-preview
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -69,6 +69,10 @@ responses:
   description: OK - Returns an array of policy assignments.
   types:
   - uid: PolicyAssignmentListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: PolicyAssignmentListResult
@@ -84,6 +88,22 @@ definitions:
     description: The URL to use for getting the next set of results.
     types:
     - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates ARM is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: httpStatus
+    description: Http status code.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
 - name: PolicyAssignment
   description: The policy assignment.
   kind: object
@@ -94,13 +114,19 @@ definitions:
     types:
     - uid: string
   - name: type
+    isReadyOnly: true
     description: The type of the policy assignment.
     types:
     - uid: string
   - name: name
+    isReadyOnly: true
     description: The name of the policy assignment.
     types:
     - uid: string
+  - name: sku
+    description: The policy sku.
+    types:
+    - uid: PolicySku
   - name: properties.displayName
     description: The display name of the policy assignment.
     types:
@@ -113,12 +139,33 @@ definitions:
     description: The scope for the policy assignment.
     types:
     - uid: string
+  - name: properties.notScopes
+    description: The policy's excluded scopes.
+    types:
+    - uid: string
+      isArray: true
   - name: properties.parameters
     description: Required if a parameter is used in policy rule.
     types:
     - uid: object
   - name: properties.description
     description: This message will be part of response in case of policy violation.
+    types:
+    - uid: string
+  - name: properties.metadata
+    description: The policy assignment metadata.
+    types:
+    - uid: object
+- name: PolicySku
+  description: The policy sku.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the policy sku. Possible values are A0 and A1.
+    types:
+    - uid: string
+  - name: tier
+    description: The policy sku tier. Possible values are Free and Standard.
     types:
     - uid: string
 examples: []

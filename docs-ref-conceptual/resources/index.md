@@ -22,6 +22,7 @@ Azure Resource Manager enables you to deploy and manage the infrastructure for y
 | [Management Locks](~/docs-ref-autogen/resources/managementlocks.yml)           | Provides operations to prevent users in your organization from deleting or modifying certain resources. |
 | [Policy Assignments](~/docs-ref-autogen/resources/policyassignments.yml)       | Provides operations to assign policy definitions to a scope in your subscription. |
 | [Policy Definitions](~/docs-ref-autogen/resources/policydefinitions.yml)       | Provides operations to create policies that specify how users in your organization work with resources. |
+| [Policy Set Definitions](~/docs-ref-autogen/resources/policysetdefinitions.yml)       | Provides operations to create groups of policy definitions. |
 | [Providers](~/docs-ref-autogen/resources/providers.yml)                        | Provides operations to work with resource providers that support resources. |
 | [Resource Groups](~/docs-ref-autogen/resources/resourcegroups.yml)             | Provides operations to create, delete, and access resource groups. |
 | [Resource Links](~/docs-ref-autogen/resources/resourcelinks.yml)               | Provides operations to link resources that have logical relationships. |
