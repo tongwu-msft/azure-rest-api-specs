@@ -2500,6 +2500,8 @@
 #### [Delete](loganalytics/StorageInsights/Delete.yml)
 #### [Get](loganalytics/StorageInsights/Get.yml)
 #### [List By Workspace](loganalytics/StorageInsights/ListByWorkspace.yml)
+### [Workspace](loganalytics/Workspace.yml)
+#### [Purge](loganalytics/Workspace/Purge.yml)
 ### [Workspaces](loganalytics/Workspaces.yml)
 #### [Create Or Update](loganalytics/Workspaces/CreateOrUpdate.yml)
 #### [Delete](loganalytics/Workspaces/Delete.yml)
