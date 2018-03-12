@@ -1,5 +1,5 @@
 ---
-title: "Incremental Copy Blob"
+title: "Get Page Ranges"
 ms.custom: na
 ms.date: 2016-12-13
 ms.prod: azure
