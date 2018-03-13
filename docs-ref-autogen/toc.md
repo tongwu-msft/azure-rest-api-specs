@@ -1463,6 +1463,8 @@
 ### [List](container-instances/ContainerLogs/List.yml)
 ## [Operations](container-instances/Operations.yml)
 ### [List](container-instances/Operations/List.yml)
+## [Start Container](container-instances/StartContainer.yml)
+### [Launch Exec](container-instances/StartContainer/LaunchExec.yml)
 # [Container Registry](../docs-ref-conceptual/containerregistry/index.md)
 ## [Operations](containerregistry/Operations.yml)
 ### [List](containerregistry/Operations/List.yml)
