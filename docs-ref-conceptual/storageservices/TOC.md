@@ -45,7 +45,6 @@
 ### [Setting and Retrieving Properties and Metadata for Blob Resources](setting-and-retrieving-properties-and-metadata-for-blob-resources.md)
 ### [Specifying Conditional Headers for Blob Service Operations](specifying-conditional-headers-for-blob-service-operations.md)
 ### [Specifying the Range Header for Blob Service Operations](specifying-the-range-header-for-blob-service-operations.md)
-### [Reliable Uploads to Blob Storage via an HTML5 Control](reliable-uploads-to-blob-storage-via-an-html5-control.md)
 ### [Using Blob Service Operations with Azure Premium Storage](using-blob-service-operations-with-azure-premium-storage.md)
 ## [Operations on the Account (Blob Service)](operations-on-the-account--blob-service-.md)
 ### [List Containers](list-containers2.md)
