@@ -1,0 +1,513 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.search.getsearchresultsinsidegeometryfilter
+name: Get Search Results Inside Geometry Filter
+service: Location Based Services Functional API
+groupName: Search
+apiVersion: "1.0"
+summary: This endpoint comes handy when a list of POIs is already available and needs to be filtered using a list of geometries. It will return POIs that lie within any of the geometries.
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: POST https://atlas.microsoft.com/search/geometry/filter/{format}?subscription-key={subscription-key}&api-version=1.0
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Possible values are json & xml.
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API.  Current version is 1.0
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SearchGeometryFilterResult
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Unauthorized: Access is denied due to invalid credentials.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: Error
+requestBody:
+- parameters:
+  - name: poiList
+    in: body
+    description: List of POIs to filter.
+    types:
+    - uid: PoiDef
+      isArray: true
+  - name: geometryList
+    in: body
+    description: A GeoJSON compliant FeatureCollection object
+    types:
+    - uid: FeatureCollectionGeoJson
+requestHeader: []
+definitions:
+- name: PoiDef
+  kind: object
+  properties:
+  - name: poi
+    description: A Postion of interest
+    types:
+    - uid: Poi
+  - name: position
+    description: A Postion of interest
+    types:
+    - uid: Position
+  - name: address
+    types:
+    - uid: Address
+- name: FeatureCollectionGeoJson
+  description: A GeoJSON compliant FeatureCollection object
+  kind: object
+  properties:
+  - name: type
+    description: Type property. Value should always be equal to - FeatureCollection
+    types:
+    - uid: string
+  - name: features
+    description: A GeoJSON compliant Feature object
+    types:
+    - uid: FeatureGeoJson
+      isArray: true
+- name: SearchGeometryFilterResult
+  description: An array of of POI's is returned upon a seccessful Search
+  kind: object
+  properties:
+  - name: summary
+    isReadyOnly: true
+    description: Summary object
+    types:
+    - uid: Summary
+  - name: results
+    description: List of POIs to filter.
+    types:
+    - uid: PoiDef
+      isArray: true
+- name: Error
+  description: This object is returned when an error occurs in the Location Based Service API
+  kind: object
+  properties:
+  - name: statuscode
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+- name: GeometryFilterBody
+  description: An object with a poiList and geomentryList for POI search inside a geometry
+  kind: object
+  properties:
+  - name: poiList
+    description: List of POIs to filter.
+    types:
+    - uid: PoiDef
+      isArray: true
+  - name: geometryList
+    description: A GeoJSON compliant FeatureCollection object
+    types:
+    - uid: FeatureCollectionGeoJson
+- name: Poi
+  description: POI property
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
+  - name: phone
+    isReadyOnly: true
+    description: Phone property
+    types:
+    - uid: string
+  - name: url
+    isReadyOnly: true
+    description: URL property
+    types:
+    - uid: string
+  - name: categories
+    isReadyOnly: true
+    description: Categories array
+    types:
+    - uid: string
+      isArray: true
+  - name: classifications
+    isReadyOnly: true
+    description: Classification array
+    types:
+    - uid: Classification
+      isArray: true
+- name: Position
+  description: Coordinates of the result
+  kind: object
+  properties:
+  - name: lat
+    isReadyOnly: true
+    description: Latitude property
+    types:
+    - uid: number
+  - name: lon
+    isReadyOnly: true
+    description: Longitude property
+    types:
+    - uid: number
+- name: Address
+  description: The address of the result
+  kind: object
+  properties:
+  - name: buildingNumber
+    isReadyOnly: true
+    description: Building Number property
+    types:
+    - uid: string
+  - name: street
+    isReadyOnly: true
+    description: Street property
+    types:
+    - uid: string
+  - name: crossStreet
+    isReadyOnly: true
+    description: Cross Street property
+    types:
+    - uid: string
+  - name: streetNumber
+    isReadyOnly: true
+    description: Street Number property
+    types:
+    - uid: string
+  - name: streetName
+    isReadyOnly: true
+    description: Street Name property
+    types:
+    - uid: string
+  - name: streetNameAndNumber
+    isReadyOnly: true
+    description: Street Name and Number property
+    types:
+    - uid: string
+  - name: municipality
+    isReadyOnly: true
+    description: Municipality property
+    types:
+    - uid: string
+  - name: municipalitySubdivision
+    isReadyOnly: true
+    description: Municipality Subdivision property
+    types:
+    - uid: string
+  - name: countryTertiarySubdivision
+    isReadyOnly: true
+    description: Country Tertiary Subdivision property
+    types:
+    - uid: string
+  - name: countrySecondarySubdivision
+    isReadyOnly: true
+    description: Country Secondary Subdivision property
+    types:
+    - uid: string
+  - name: countrySubdivision
+    isReadyOnly: true
+    description: Country Subdivision property
+    types:
+    - uid: string
+  - name: postalCode
+    isReadyOnly: true
+    description: Postal Code property
+    types:
+    - uid: string
+  - name: extendedPostalCode
+    isReadyOnly: true
+    description: Extended Postal Code property
+    types:
+    - uid: string
+  - name: countryCode
+    isReadyOnly: true
+    description: Country Code property
+    types:
+    - uid: string
+  - name: country
+    isReadyOnly: true
+    description: Country property
+    types:
+    - uid: string
+  - name: countryCodeISO3
+    isReadyOnly: true
+    description: Country Code ISO3 property
+    types:
+    - uid: string
+  - name: freeformAddress
+    isReadyOnly: true
+    description: Free form Address property
+    types:
+    - uid: string
+  - name: countrySubdivisionName
+    isReadyOnly: true
+    description: Country Subdividion Name property
+    types:
+    - uid: string
+  - name: boundingBox
+    description: Bounding Box for the address
+    types:
+    - uid: BoundingBox
+- name: FeatureGeoJson
+  description: A GeoJSON compliant Feature object
+  kind: object
+  properties:
+  - name: type
+    description: Type property. Value should always be equal to - Feature
+    types:
+    - uid: string
+  - name: geometry
+    description: A GeoJSON compliant Geometry object
+    types:
+    - uid: GeometryGeoJson
+  - name: properties
+    description: Properties can contain addition metadata about the Feature. Value can be any JSON object or a JSON null value.
+    types:
+    - uid: object
+- name: Summary
+  description: Summary object
+  kind: object
+  properties:
+  - name: query
+    isReadyOnly: true
+    description: Query property
+    types:
+    - uid: string
+  - name: queryType
+    isReadyOnly: true
+    description: QueryType property
+    types:
+    - uid: string
+  - name: queryTime
+    isReadyOnly: true
+    description: QueryTime property
+    types:
+    - uid: integer
+  - name: numResults
+    isReadyOnly: true
+    description: NumResults property
+    types:
+    - uid: integer
+  - name: offset
+    isReadyOnly: true
+    description: Offset property
+    types:
+    - uid: integer
+  - name: totalResults
+    isReadyOnly: true
+    description: TotalResults property
+    types:
+    - uid: integer
+  - name: fuzzyLevel
+    isReadyOnly: true
+    description: FuzzyLevel property
+    types:
+    - uid: integer
+- name: Classification
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Code property
+    types:
+    - uid: string
+  - name: names
+    isReadyOnly: true
+    description: Names array
+    types:
+    - uid: ClassificationName
+      isArray: true
+- name: BoundingBox
+  description: Bounding Box for the address
+  kind: object
+  properties:
+  - name: northEast
+    isReadyOnly: true
+    description: The North East coordinates for the Bounding Box
+    types:
+    - uid: string
+  - name: southWest
+    isReadyOnly: true
+    description: The South West coordinates for the Bounding Box
+    types:
+    - uid: string
+- name: GeometryGeoJson
+  description: A GeoJSON compliant Geometry object
+  kind: object
+  properties:
+  - name: type
+    description: Type property. This value must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection
+    types:
+    - uid: string
+  - name: coordinates
+    description: A GeoJSON compliant LineString Geometry object
+    types:
+    - uid: LineStringGeoJson
+      isArray: true
+- name: ClassificationName
+  kind: object
+  properties:
+  - name: nameLocale
+    isReadyOnly: true
+    description: Name Locale property
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
+- name: LineStringGeoJson
+  description: A GeoJSON compliant LineString Geometry object
+  kind: object
+  properties:
+  - name: type
+    description: Type property. This value must be equal to LineString.
+    types:
+    - uid: string
+  - name: coordinates
+    description: A GeoJSON compliant LineString Geometry object
+    types:
+    - uid: LineStringGeoJson
+      isArray: true
+examples:
+- name: GetSearchResultsInsideGeometryFilter
+  request:
+    uri: POST https://atlas.microsoft.com/search/geometry/filter/json?subscription-key=<insert-key>&api-version=1.0
+    body: >-
+      {
+        "poiList": [
+          {
+            "poi": {
+              "name": "S Restaurant Tom's"
+            },
+            "address": {
+              "freeformAddress": "2880 Broadway, New York, NY 10025"
+            },
+            "position": {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  -73.96548,
+                  40.80558
+                ]
+              },
+              "properties": {
+                "prop0": "value0"
+              }
+            }
+          }
+        ],
+        "geometry": {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  -73.96548,
+                  40.80558
+                ]
+              },
+              "properties": {
+                "radius": 1000
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "summary": {
+          "numResults": 1,
+          "queryTime": 0
+        },
+        "results": [
+          {
+            "poi": {
+              "name": "S Restaurant Tom's"
+            },
+            "address": {
+              "freeformAddress": "2880 Broadway, New York, NY 10025"
+            },
+            "position": {
+              "lat": 40.80558,
+              "lon": -73.96548
+            }
+          }
+        ]
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "statuscode": "400",
+        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "statuscode": "401",
+        "message": "Unauthorized: Access is denied due to invalid credentials."
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "statuscode": "403",
+        "message": "Permission, capacity, or authentication issues."
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "statuscode": "404",
+        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "statuscode": "500",
+        "message": "An error occurred while processing the request. Please try again later."
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

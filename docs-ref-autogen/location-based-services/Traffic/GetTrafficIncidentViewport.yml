@@ -10,61 +10,61 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/traffic/incident/viewport/{format}?api-version=1.0&subscription-key={subscription-key}&boundingbox={boundingbox}&boundingzoom={boundingzoom}&overviewbox={overviewbox}&overviewzoom={overviewzoom}&copyright={copyright}
+- content: GET https://atlas.microsoft.com/traffic/incident/viewport/{format}?subscription-key={subscription-key}&api-version=1.0&boundingbox={boundingbox}&boundingzoom={boundingzoom}&overviewbox={overviewbox}&overviewzoom={overviewzoom}&copyright={copyright}
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response
-  types:
-  - uid: string
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version number of Azure LBS API.  Current version is 1.0
+  description: Desired format of the response. Possible values are json & xml.
   types:
   - uid: string
 - name: subscription-key
   in: query
   isRequired: true
-  description: Azure LBS subscription key
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API.  Current version is 1.0
   types:
   - uid: string
 - name: boundingbox
   in: query
   isRequired: true
-  description: Bounding box of the map viewport in EPSG900913 projection. The maximum size of the bounding box that can be passed is dependent on the requested zoom level. The width and height cannot exceed 4092 pixels when rendered on the given zoom level
+  description: 'The maximum size of the bounding box that can be passed is dependent on the requested zoom level. The width and height cannot exceed 4092 pixels when rendered on the given zoom level. Bounding box overview map: http://docs.openlayers.org/library/spherical_mercator.html'
   types:
   - uid: string
 - name: boundingzoom
   in: query
   isRequired: true
-  description: Zoom level of the map viewport. Used to determine whether the view can be zoomed in.  From 1 to 18
+  description: Zoom level of the map viewport. Used to determine whether the view can be zoomed in.
   types:
-  - uid: string
+  - uid: integer
 - name: overviewbox
   in: query
   isRequired: true
-  description: Bounding box of the overview map in EPSG900913 projection. Used in case the overview box/mini map has different copyright data than the main map. If there is no mini map, use the same coordinates as boundingBox above
+  description: 'Used in case the overview box/mini map has different copyright data than the main map. If there is no mini map, the same coordinates as boundingBox is used. Bounding box overview map: http://docs.openlayers.org/library/spherical_mercator.html'
   types:
   - uid: string
 - name: overviewzoom
   in: query
   isRequired: true
-  description: Zoom level of the overview map. If there is no mini map, use the same zoom level as boundingZoom above.  From 1 to 18
+  description: Zoom level of the overview map. If there is no mini map, use the same zoom level as boundingZoom.
   types:
-  - uid: string
+  - uid: integer
 - name: copyright
   in: query
   isRequired: true
-  description: true or false on whether to return copyright information
+  description: Determines what copyright information to return. When true the copyright text is returned; when false only the copyright index is returned.
   types:
-  - uid: string
+  - uid: boolean
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: trafficincidentviewport200
+  - uid: TrafficIncidentViewportResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -87,7 +87,7 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: trafficincidentviewport200
+- name: TrafficIncidentViewportResult
   description: This object is returned from a successful Traffic Incident Viewport call
   kind: object
   properties:
@@ -151,7 +151,7 @@ definitions:
 examples:
 - name: GetTrafficIncidentViewport
   request:
-    uri: GET https://atlas.microsoft.com/traffic/incident/viewport/json?api-version=1.0&boundingbox=-939584.4813015489,-23954526.723651607,14675583.153020501,25043442.895825107&boundingzoom=2&overviewbox=-939584.4813018347,-23954526.723651607,14675583.153020501,25043442.8958229083&overviewzoom=2&copyright=true
+    uri: GET https://atlas.microsoft.com/traffic/incident/viewport/json?subscription-key=<insert-key>&api-version=1.0&boundingbox=-939584.4813015489,-23954526.723651607,14675583.153020501,25043442.895825107&boundingzoom=2&overviewbox=-939584.4813018347,-23954526.723651607,14675583.153020501,25043442.8958229083&overviewzoom=2&copyright=True
   responses:
   - statusCode: "200"
     body: >-

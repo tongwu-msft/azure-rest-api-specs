@@ -1,6 +1,6 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.route.getroutedirections
-name: Get Route Directions
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.route.postroutedirections
+name: Post Route Directions
 service: Location Based Services Functional API
 groupName: Route
 apiVersion: "1.0"
@@ -10,8 +10,8 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/route/directions/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/route/directions/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&maxAlternatives={maxAlternatives}&alternativeType={alternativeType}&minDeviationDistance={minDeviationDistance}&arriveAt={arriveAt}&departAt={departAt}&minDeviationTime={minDeviationTime}&instructionsType={instructionsType}&language={language}&computeBestOrder={computeBestOrder}&routeRepresentation={routeRepresentation}&computeTravelTimeFor={computeTravelTimeFor}&vehicleHeading={vehicleHeading}&report={report}&sectionType={sectionType}&vehicleAxleWeight={vehicleAxleWeight}&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&windingness={windingness}&hilliness={hilliness}&travelMode={travelMode}&avoid={avoid}&traffic={traffic}&routeType={routeType}&vehicleLoadType={vehicleLoadType}
+- content: POST https://atlas.microsoft.com/route/directions/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: POST https://atlas.microsoft.com/route/directions/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&maxAlternatives={maxAlternatives}&alternativeType={alternativeType}&minDeviationDistance={minDeviationDistance}&minDeviationTime={minDeviationTime}&instructionsType={instructionsType}&language={language}&computeBestOrder={computeBestOrder}&routeRepresentation={routeRepresentation}&computeTravelTimeFor={computeTravelTimeFor}&vehicleHeading={vehicleHeading}&report={report}&sectionType={sectionType}&arriveAt={arriveAt}&departAt={departAt}&vehicleAxleWeight={vehicleAxleWeight}&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&windingness={windingness}&hilliness={hilliness}&travelMode={travelMode}&avoid={avoid}&traffic={traffic}&routeType={routeType}&vehicleLoadType={vehicleLoadType}
   isOptional: true
 uriParameters:
 - name: format
@@ -53,18 +53,6 @@ uriParameters:
   description: All alternative routes returned will follow the reference route (see section POST Requests) from the origin point of the calculateRoute request for at least this number of meters. Can only be used when reconstructing a route. The minDeviationDistance parameter cannot be used in conjunction with arriveAt
   types:
   - uid: integer
-- name: arriveAt
-  in: query
-  description: The date and time of arrival at the destination point. It must be specified as a dateTime. When a time zone offset is not specified it will be assumed to be that of the destination point. The arriveAt value must be in the future. The arriveAt parameter cannot be used in conjunction with departAt, minDeviationDistance or minDeviationTime.
-  types:
-  - uid: string
-  format: date-time
-- name: departAt
-  in: query
-  description: The date and time of departure from the origin point. Departure times apart from now must be specified as a dateTime. When a time zone offset is not specified, it will be assumed to be that of the origin point. The departAt value must be in the future in the date-time format (1996-12-19T16:39:57-08:00).
-  types:
-  - uid: string
-  format: date-time
 - name: minDeviationTime
   in: query
   description: All alternative routes returned will follow the reference route (see section POST Requests) from the origin point of the calculateRoute request for at least this number of seconds. Can only be used when reconstructing a route. The minDeviationTime parameter cannot be used in conjunction with arriveAt
@@ -89,7 +77,7 @@ uriParameters:
   in: query
   description: Specifies the representation of the set of routes provided as response. Possible values are polyline includes routes in the response, or none which includes only the optimized waypoint indices but does not include the routes in the response. This parameter value can only be used in conjunction with computeBestOrder true.
   types:
-  - uid: routeRepresentation
+  - uid: string
 - name: computeTravelTimeFor
   in: query
   description: Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. Possible values are none which does not compute additional travel times, or all which computes travel times for all types of traffic information and specifying all results in the fields noTrafficTravelTimeInSeconds, historicTrafficTravelTimeInSeconds and liveTrafficIncidentsTravelTimeInSeconds being included in the summaries in the route response
@@ -107,9 +95,21 @@ uriParameters:
   - uid: string
 - name: sectionType
   in: query
-  description: Specifies which of the section types are reported in the route response. For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Valid values are carTrain, ferry, tunnel, motorway, pedestrian, tollRoad, tollVignette, country, travelMode; multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car
+  description: Specifies which of the section types is reported in the route response. Valid values are carTrain, ferry, tunnel, motorway, pedestrian, tollRoad, tollVignette, country, travelMode
   types:
   - uid: sectionType
+- name: arriveAt
+  in: query
+  description: The date and time of arrival at the destination point. It must be specified as a dateTime. When a time zone offset is not specified it will be assumed to be that of the destination point. The arriveAt value must be in the future. The arriveAt parameter cannot be used in conjunction with departAt, minDeviationDistance or minDeviationTime.
+  types:
+  - uid: string
+  format: date-time
+- name: departAt
+  in: query
+  description: The date and time of departure from the origin point. Departure times apart from now must be specified as a dateTime. When a time zone offset is not specified, it will be assumed to be that of the origin point. The departAt value must be in the future in the date-time format (1996-12-19T16:39:57-08:00).
+  types:
+  - uid: string
+  format: date-time
 - name: vehicleAxleWeight
   in: query
   description: Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered.
@@ -147,7 +147,7 @@ uriParameters:
   in: query
   description: Level of turns for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
   types:
-  - uid: windingness
+  - uid: string
 - name: hilliness
   in: query
   description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
@@ -203,6 +203,19 @@ responses:
   description: An error occurred while processing the request. Please try again later.
   types:
   - uid: Error
+requestBody:
+- parameters:
+  - name: type
+    in: body
+    description: Type property. Value should always be equal to - FeatureCollection
+    types:
+    - uid: string
+  - name: features
+    in: body
+    description: A GeoJSON compliant Feature object
+    types:
+    - uid: FeatureGeoJson
+      isArray: true
 requestHeader: []
 definitions:
 - name: alternativeType
@@ -228,16 +241,6 @@ definitions:
   - name: tagged
     types:
     - uid: string
-- name: routeRepresentation
-  description: Specifies the representation of the set of routes provided as response. Possible values are polyline includes routes in the response, or none which includes only the optimized waypoint indices but does not include the routes in the response. This parameter value can only be used in conjunction with computeBestOrder true.
-  kind: enum
-  properties:
-  - name: polyline
-    types:
-    - uid: string
-  - name: none
-    types:
-    - uid: string
 - name: computeTravelTimeFor
   description: Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. Possible values are none which does not compute additional travel times, or all which computes travel times for all types of traffic information and specifying all results in the fields noTrafficTravelTimeInSeconds, historicTrafficTravelTimeInSeconds and liveTrafficIncidentsTravelTimeInSeconds being included in the summaries in the route response
   kind: enum
@@ -249,7 +252,7 @@ definitions:
     types:
     - uid: string
 - name: sectionType
-  description: Specifies which of the section types are reported in the route response. For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Valid values are carTrain, ferry, tunnel, motorway, pedestrian, tollRoad, tollVignette, country, travelMode; multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car
+  description: Specifies which of the section types is reported in the route response. Valid values are carTrain, ferry, tunnel, motorway, pedestrian, tollRoad, tollVignette, country, travelMode
   kind: enum
   properties:
   - name: carTrain
@@ -280,19 +283,6 @@ definitions:
     types:
     - uid: string
   - name: tunnel
-    types:
-    - uid: string
-- name: windingness
-  description: Level of turns for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
-  kind: enum
-  properties:
-  - name: low
-    types:
-    - uid: string
-  - name: normal
-    types:
-    - uid: string
-  - name: high
     types:
     - uid: string
 - name: hilliness
@@ -414,6 +404,22 @@ definitions:
   - name: otherHazmatHarmfulToWater
     types:
     - uid: string
+- name: FeatureGeoJson
+  description: A GeoJSON compliant Feature object
+  kind: object
+  properties:
+  - name: type
+    description: Type property. Value should always be equal to - Feature
+    types:
+    - uid: string
+  - name: geometry
+    description: A GeoJSON compliant Geometry object
+    types:
+    - uid: GeometryGeoJson
+  - name: properties
+    description: Properties can contain addition metadata about the Feature. Value can be any JSON object or a JSON null value.
+    types:
+    - uid: object
 - name: RouteDirectionsResult
   description: This object is returned from a successful Route Directions call
   kind: object
@@ -453,6 +459,32 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
+- name: FeatureCollectionGeoJson
+  description: A GeoJSON compliant FeatureCollection object
+  kind: object
+  properties:
+  - name: type
+    description: Type property. Value should always be equal to - FeatureCollection
+    types:
+    - uid: string
+  - name: features
+    description: A GeoJSON compliant Feature object
+    types:
+    - uid: FeatureGeoJson
+      isArray: true
+- name: GeometryGeoJson
+  description: A GeoJSON compliant Geometry object
+  kind: object
+  properties:
+  - name: type
+    description: Type property. This value must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection
+    types:
+    - uid: string
+  - name: coordinates
+    description: A GeoJSON compliant LineString Geometry object
+    types:
+    - uid: LineStringGeoJson
+      isArray: true
 - name: RouteDef
   kind: object
   properties:
@@ -472,6 +504,19 @@ definitions:
     description: Sections object
     types:
     - uid: Section
+      isArray: true
+- name: LineStringGeoJson
+  description: A GeoJSON compliant LineString Geometry object
+  kind: object
+  properties:
+  - name: type
+    description: Type property. This value must be equal to LineString.
+    types:
+    - uid: string
+  - name: coordinates
+    description: A GeoJSON compliant LineString Geometry object
+    types:
+    - uid: LineStringGeoJson
       isArray: true
 - name: Summary
   description: Summary object
@@ -566,7 +611,36 @@ definitions:
 examples:
 - name: GetRouteDirections
   request:
-    uri: GET https://atlas.microsoft.com/route/directions/json?subscription-key=<insert-key>&api-version=1.0&query=52.50931,13.42936:52.50274,13.43872
+    uri: POST https://atlas.microsoft.com/route/directions/json?subscription-key=<insert-key>&api-version=1.0&query=52.50931,13.42936:52.50274,13.43872
+    body: >-
+      [
+        {
+          "position": {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                13.42936,
+                52.50931
+              ]
+            },
+            "properties": {}
+          }
+        },
+        {
+          "position": {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                13.43872,
+                52.50274
+              ]
+            },
+            "properties": {}
+          }
+        }
+      ]
   responses:
   - statusCode: "200"
     body: >-

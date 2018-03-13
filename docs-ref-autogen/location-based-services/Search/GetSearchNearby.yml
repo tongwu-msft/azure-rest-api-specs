@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.search.getsearchaddress
-name: Get Search Address
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.search.getsearchnearby
+name: Get Search Nearby
 service: Location Based Services Functional API
 groupName: Search
 apiVersion: "1.0"
-summary: Returns the search results from a Address search
+summary: Returns the nearby POIs around the given location.
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/address/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/search/address/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}
+- content: GET https://atlas.microsoft.com/search/nearby/{format}?subscription-key={subscription-key}&api-version=1.0&lat={lat}&lon={lon}
+- content: GET https://atlas.microsoft.com/search/nearby/{format}?subscription-key={subscription-key}&api-version=1.0&lat={lat}&lon={lon}&limit={limit}&ofs={ofs}&countrySet={countrySet}&radius={radius}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}
   isOptional: true
 uriParameters:
 - name: format
@@ -32,17 +32,18 @@ uriParameters:
   description: Version number of Azure Maps API.  Current version is 1.0
   types:
   - uid: string
-- name: query
+- name: lat
   in: query
   isRequired: true
-  description: The applicable query string and/or coordinates
+  description: Latitude where results should be biased.  E.g. 37.337
   types:
-  - uid: string
-- name: typeahead
+  - uid: number
+- name: lon
   in: query
-  description: Boolean.  If the typeahead flag is set, the query will be interpreted as a partial input and the search will enter predictive mode
+  isRequired: true
+  description: Longitude where results should be biased.  E.g. -121.89
   types:
-  - uid: boolean
+  - uid: number
 - name: limit
   in: query
   description: Maximum number of responses that will be returned.
@@ -50,7 +51,7 @@ uriParameters:
   - uid: integer
 - name: ofs
   in: query
-  description: Starting offset of the returned results within the full result set.
+  description: Starting offset of returned results. Max value is 1900.
   types:
   - uid: integer
 - name: countrySet
@@ -58,31 +59,11 @@ uriParameters:
   description: Comma separated string of country codes, e.g. FR, ES. This will limit the search to the specified countries
   types:
   - uid: array
-- name: lat
-  in: query
-  description: Latitude where results should be biased.  E.g. 37.337
-  types:
-  - uid: number
-- name: lon
-  in: query
-  description: Longitude where results should be biased.  E.g. -121.89
-  types:
-  - uid: number
 - name: radius
   in: query
-  description: The radius in meters to for the results to be constrained to the defined area
+  description: The radius in meters to for the results to be constrained to the defined area.
   types:
   - uid: number
-- name: topLeft
-  in: query
-  description: Top left position of the bounding box.  E.g. 37.553,-122.453
-  types:
-  - uid: string
-- name: btmRight
-  in: query
-  description: Bottom right position of the bounding box. E.g. 37.553,-122.453
-  types:
-  - uid: string
 - name: language
   in: query
   description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used
@@ -90,14 +71,14 @@ uriParameters:
   - uid: string
 - name: extendedPostalCodesFor
   in: query
-  description: 'Indexes for which extended postal codes should be included in the results. Available indexes are: Addr = Address ranges, Geo = Geographies, PAD = Point Addresses, POI = Points of Interest, Str = Streets, XStr = Cross Streets (intersections)'
+  description: Indexes for which extended postal codes should be included in the results. POI = Points of Interest
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchAddressResult
+  - uid: SearchNearbyResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -120,8 +101,8 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: SearchAddressResult
-  description: This object is returned from a successful Search Address call
+- name: SearchNearbyResult
+  description: This object is returned from a successful Search Nearby call
   kind: object
   properties:
   - name: summary
@@ -133,7 +114,7 @@ definitions:
     isReadyOnly: true
     description: Results array
     types:
-    - uid: SearchAddressResultArray
+    - uid: Results
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
@@ -188,7 +169,8 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
-- name: SearchAddressResultArray
+- name: Results
+  description: Results array
   kind: object
   properties:
   - name: type
@@ -206,6 +188,20 @@ definitions:
     description: Score property
     types:
     - uid: number
+  - name: info
+    isReadyOnly: true
+    description: Info property
+    types:
+    - uid: string
+  - name: entityType
+    isReadyOnly: true
+    description: Entity Type property
+    types:
+    - uid: string
+  - name: poi
+    description: POI property
+    types:
+    - uid: Poi
   - name: address
     description: The address of the result
     types:
@@ -222,6 +218,37 @@ definitions:
     description: Entry Points array
     types:
     - uid: EntityPoint
+      isArray: true
+- name: Poi
+  description: POI property
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
+  - name: phone
+    isReadyOnly: true
+    description: Phone property
+    types:
+    - uid: string
+  - name: url
+    isReadyOnly: true
+    description: URL property
+    types:
+    - uid: string
+  - name: categories
+    isReadyOnly: true
+    description: Categories array
+    types:
+    - uid: string
+      isArray: true
+  - name: classifications
+    isReadyOnly: true
+    description: Classification array
+    types:
+    - uid: Classification
       isArray: true
 - name: Address
   description: The address of the result
@@ -360,6 +387,20 @@ definitions:
     description: Name property
     types:
     - uid: Position
+- name: Classification
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Code property
+    types:
+    - uid: string
+  - name: names
+    isReadyOnly: true
+    description: Names array
+    types:
+    - uid: ClassificationName
+      isArray: true
 - name: BoundingBox
   description: Bounding Box for the address
   kind: object
@@ -402,64 +443,218 @@ definitions:
     description: Longitude
     types:
     - uid: number
+- name: ClassificationName
+  kind: object
+  properties:
+  - name: nameLocale
+    isReadyOnly: true
+    description: Name Locale property
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
 examples:
-- name: GetSearchAddress
+- name: GetSearchPOI
   request:
-    uri: GET https://atlas.microsoft.com/search/address/json?subscription-key=<insert-key>&api-version=1.0&query=15127 NE 24th Street, Redmond, WA 98052
+    uri: GET https://atlas.microsoft.com/search/nearby/json?subscription-key=<insert-key>&api-version=1.0&lat=47.6&lon=-122.3&radius=30
   responses:
   - statusCode: "200"
     body: >-
       {
         "summary": {
-          "query": "15127 NE 24th Street, Redmond, WA 98052",
-          "queryType": "NON_NEAR",
-          "queryTime": 58,
-          "numResults": 1,
+          "queryType": "NEARBY",
+          "queryTime": 17,
+          "numResults": 3,
           "offset": 0,
-          "totalResults": 1,
-          "fuzzyLevel": 1
+          "totalResults": 3,
+          "fuzzyLevel": 1,
+          "geoBias": {
+            "lat": 47.6,
+            "lon": -122.3
+          }
         },
         "results": [
           {
-            "type": "Point Address",
-            "id": "US/PAD/p0/19173426",
-            "score": 14.51,
+            "type": "POI",
+            "id": "US/POI/p1/282915",
+            "score": 1,
+            "dist": 0,
+            "info": "search:decarta:geonames:6492268",
+            "poi": {
+              "name": "Travelodge Seattle North/Aurora",
+              "categories": [
+                "hotel"
+              ],
+              "classifications": [
+                {
+                  "code": "HOTEL_MOTEL",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "hotel"
+                    }
+                  ]
+                }
+              ]
+            },
             "address": {
-              "streetNumber": "15127",
-              "streetName": "NE 24th St",
-              "municipalitySubdivision": "Redmond",
-              "municipality": "Redmond, Adelaide, Ames Lake, Avondale, Earlmount",
+              "municipality": "Seattle",
               "countrySecondarySubdivision": "King",
-              "countryTertiarySubdivision": "Seattle East",
               "countrySubdivision": "WA",
-              "postalCode": "98052",
-              "extendedPostalCode": "980525544",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "15127 NE 24th St, Redmond, WA 980525544",
+              "freeformAddress": "Seattle, WA",
               "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 47.6308,
-              "lon": -122.1385
+              "lat": 47.6,
+              "lon": -122.3
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.6317,
-                "lon": -122.13983
+                "lat": 47.6009,
+                "lon": -122.30133
               },
               "btmRightPoint": {
-                "lat": 47.6299,
-                "lon": -122.13717
+                "lat": 47.5991,
+                "lon": -122.29867
+              }
+            }
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p1/269951",
+            "score": 0.999,
+            "dist": 24.777493439802786,
+            "info": "search:decarta:ta:840539000199001-US",
+            "poi": {
+              "name": "Seattle Housing Authority Resident Managers",
+              "phone": "+(1)-(206)-3207745",
+              "categories": [
+                "welfare organization"
+              ],
+              "classifications": [
+                {
+                  "code": "WELFARE_ORGANIZATION",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "welfare organization"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "323",
+              "streetName": "25th Ave S",
+              "municipalitySubdivision": "Atlantic, Seattle",
+              "municipality": "Beacon Hill, Seattle",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle",
+              "countrySubdivision": "WA",
+              "postalCode": "98144",
+              "extendedPostalCode": "981442460",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "323 25th Ave S, Seattle, WA 98144",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.59984,
+              "lon": -122.30023
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.60074,
+                "lon": -122.30156
+              },
+              "btmRightPoint": {
+                "lat": 47.59894,
+                "lon": -122.2989
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.6315,
-                  "lon": -122.13852
+                  "lat": 47.59983,
+                  "lon": -122.29987
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p0/3494905",
+            "score": 0.999,
+            "dist": 24.777493439802786,
+            "info": "search:decarta:ta:840531000364599-US",
+            "poi": {
+              "name": "Seattle Housing Authority",
+              "phone": "+(1)-(206)-3207745",
+              "url": "www.seattlehousing.org",
+              "categories": [
+                "residential accommodation",
+                "retirement community"
+              ],
+              "classifications": [
+                {
+                  "code": "RESIDENTIAL_ACCOMMODATION",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "residential accommodation"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "retirement community"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "323",
+              "streetName": "25th Ave S",
+              "municipalitySubdivision": "Atlantic, Seattle",
+              "municipality": "Beacon Hill, Seattle",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle",
+              "countrySubdivision": "WA",
+              "postalCode": "98144",
+              "extendedPostalCode": "981442460",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "323 25th Ave S, Seattle, WA 98144",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.59984,
+              "lon": -122.30023
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.60074,
+                "lon": -122.30156
+              },
+              "btmRightPoint": {
+                "lat": 47.59894,
+                "lon": -122.2989
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.59983,
+                  "lon": -122.29987
                 }
               }
             ]

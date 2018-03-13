@@ -10,26 +10,26 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/address/reverse/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}
-- content: GET https://atlas.microsoft.com/search/address/reverse/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}&spatialKeys={spatialKeys}&returnSpeedLimit={returnSpeedLimit}&heading={heading}&radius={radius}&number={number}&returnRoadUse={returnRoadUse}&roadUse={roadUse}
+- content: GET https://atlas.microsoft.com/search/address/reverse/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/search/address/reverse/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&spatialKeys={spatialKeys}&returnSpeedLimit={returnSpeedLimit}&heading={heading}&radius={radius}&number={number}&returnRoadUse={returnRoadUse}&roadUse={roadUse}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response
-  types:
-  - uid: string
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version number of Azure LBS API.  Current version is 1.0
+  description: Desired format of the response. Possible values are json & xml.
   types:
   - uid: string
 - name: subscription-key
   in: query
   isRequired: true
-  description: Azure LBS subscription key
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API.  Current version is 1.0
   types:
   - uid: string
 - name: query
@@ -40,24 +40,24 @@ uriParameters:
   - uid: string
 - name: spatialKeys
   in: query
-  description: true or false string.  If the spatialKeys flag is set, the response will also contain the deCarta proprietary geo-spatial key information for a specified location
+  description: Boolean.  If the spatialKeys flag is set, the response will also contain the deCarta proprietary geo-spatial key information for a specified location
   types:
-  - uid: string
+  - uid: boolean
 - name: returnSpeedLimit
   in: query
-  description: true or false string.  To enable return of the posted speedlimit
+  description: Boolean.  To enable return of the posted speedlimit
   types:
-  - uid: string
+  - uid: boolean
 - name: heading
   in: query
   description: The directional heading of the vehicle in degrees, for travel along a segment of roadway. 0 is North, 90 is East and so on, values range from -360 to 360. The precision can include upto one decimal place
   types:
-  - uid: string
+  - uid: number
 - name: radius
   in: query
   description: The maximum distance in meters from the specified position for the reversegeocode to consider.  E.g. 10000 (10km)
   types:
-  - uid: string
+  - uid: number
 - name: number
   in: query
   description: If a number is sent in along with the request, the response may include the side of the street (Left/Right) and also an offset position for that number
@@ -65,9 +65,9 @@ uriParameters:
   - uid: string
 - name: returnRoadUse
   in: query
-  description: true or false string.  To enable return of the road use array for reversegeocodes at street level
+  description: Boolean.  To enable return of the road use array for reversegeocodes at street level
   types:
-  - uid: string
+  - uid: boolean
 - name: roadUse
   in: query
   description: To restrict reversegeocodes to a certain type of roaduse. The road use array for reversegeocodes can be one or more of LimitedAccess, Arterial, Terminal, Ramp, Rotary, LocalStreet
@@ -77,7 +77,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: searchaddressreverse200
+  - uid: SearchAddressReverseResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -100,7 +100,7 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: searchaddressreverse200
+- name: SearchAddressReverseResult
   description: This object is returned from a successful Search Address Reverse call
   kind: object
   properties:
@@ -113,7 +113,7 @@ definitions:
     isReadyOnly: true
     description: Addresses array
     types:
-    - uid: Addresses
+    - uid: AddressResult
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
@@ -168,20 +168,19 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
-- name: Addresses
-  description: Addresses array
+- name: AddressResult
   kind: object
   properties:
   - name: address
     description: The address of the result
     types:
-    - uid: address
+    - uid: Address
   - name: position
     isReadyOnly: true
     description: Position property
     types:
     - uid: string
-- name: address
+- name: Address
   description: The address of the result
   kind: object
   properties:
@@ -296,7 +295,7 @@ definitions:
 examples:
 - name: GetSearchAddressReverse
   request:
-    uri: GET https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&query=37.337,-121.89
+    uri: GET https://atlas.microsoft.com/search/address/reverse/json?subscription-key=<insert-key>&api-version=1.0&query=37.337,-121.89
   responses:
   - statusCode: "200"
     body: >-

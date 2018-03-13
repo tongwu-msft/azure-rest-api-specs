@@ -10,26 +10,26 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/address/structured/{format}?api-version=1.0&subscription-key={subscription-key}&countryCode={countryCode}
-- content: GET https://atlas.microsoft.com/search/address/structured/{format}?api-version=1.0&subscription-key={subscription-key}&countryCode={countryCode}&limit={limit}&ofs={ofs}&streetNumber={streetNumber}&streetName={streetName}&crossStreet={crossStreet}&municipality={municipality}&municipalitySubdivision={municipalitySubdivision}&countryTertiarySubdivision={countryTertiarySubdivision}&countrySecondarySubdivision={countrySecondarySubdivision}&countrySubdivision={countrySubdivision}&postalCode={postalCode}&extendedPostalCodesFor={extendedPostalCodesFor}
+- content: GET https://atlas.microsoft.com/search/address/structured/{format}?subscription-key={subscription-key}&api-version=1.0&countryCode={countryCode}
+- content: GET https://atlas.microsoft.com/search/address/structured/{format}?subscription-key={subscription-key}&api-version=1.0&countryCode={countryCode}&limit={limit}&ofs={ofs}&streetNumber={streetNumber}&streetName={streetName}&crossStreet={crossStreet}&municipality={municipality}&municipalitySubdivision={municipalitySubdivision}&countryTertiarySubdivision={countryTertiarySubdivision}&countrySecondarySubdivision={countrySecondarySubdivision}&countrySubdivision={countrySubdivision}&postalCode={postalCode}&extendedPostalCodesFor={extendedPostalCodesFor}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response
-  types:
-  - uid: string
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version number of Azure LBS API.  Current version is 1.0
+  description: Desired format of the response. Possible values are json & xml.
   types:
   - uid: string
 - name: subscription-key
   in: query
   isRequired: true
-  description: Azure LBS subscription key
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API.  Current version is 1.0
   types:
   - uid: string
 - name: countryCode
@@ -42,12 +42,12 @@ uriParameters:
   in: query
   description: Maximum number of responses that will be returned
   types:
-  - uid: string
+  - uid: integer
 - name: ofs
   in: query
   description: Starting offset of the returned results within the full result set
   types:
-  - uid: string
+  - uid: integer
 - name: streetNumber
   in: query
   description: The street number portion of an address
@@ -102,7 +102,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: searchaddressstructured200
+  - uid: SearchAddressStructuredResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -125,7 +125,7 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: searchaddressstructured200
+- name: SearchAddressStructuredResult
   description: This object is returned from a successful Search Address Structured call
   kind: object
   properties:
@@ -138,7 +138,7 @@ definitions:
     isReadyOnly: true
     description: Results array
     types:
-    - uid: Results
+    - uid: SearchAddressStructuredResultArray
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
@@ -193,8 +193,7 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
-- name: Results
-  description: Results array
+- name: SearchAddressStructuredResultArray
   kind: object
   properties:
   - name: type
@@ -212,68 +211,32 @@ definitions:
     description: Score property
     types:
     - uid: number
-  - name: info
+  - name: dist
     isReadyOnly: true
-    description: Info property
+    description: Dist property
     types:
-    - uid: string
-  - name: entityType
-    isReadyOnly: true
-    description: Entity Type property
-    types:
-    - uid: string
-  - name: poi
-    description: POI property
-    types:
-    - uid: poi
+    - uid: number
   - name: address
     description: The address of the result
     types:
-    - uid: address
+    - uid: Address
   - name: position
     description: Coordinates of the result
     types:
-    - uid: position
+    - uid: Position
   - name: viewport
     description: The viewport that covers the result
     types:
-    - uid: viewport
-  - name: boundingBox
-    description: Bounding box of the result
+    - uid: Viewport
+  - name: entryPoints
+    description: Entry Points array
     types:
-    - uid: BoundingBox
-- name: poi
-  description: POI property
-  kind: object
-  properties:
-  - name: name
-    isReadyOnly: true
-    description: Name property
-    types:
-    - uid: string
-  - name: phone
-    isReadyOnly: true
-    description: Phone property
-    types:
-    - uid: string
-  - name: url
-    isReadyOnly: true
-    description: URL property
-    types:
-    - uid: string
-  - name: categories
-    isReadyOnly: true
-    description: Categories array
-    types:
-    - uid: string
+    - uid: EntityPoint
       isArray: true
-  - name: classifications
-    isReadyOnly: true
-    description: Classification array
+  - name: addressRanges
     types:
-    - uid: Classifications
-      isArray: true
-- name: address
+    - uid: AddressRanges
+- name: Address
   description: The address of the result
   kind: object
   properties:
@@ -371,7 +334,7 @@ definitions:
     description: Bounding Box for the address
     types:
     - uid: BoundingBox
-- name: position
+- name: Position
   description: Coordinates of the result
   kind: object
   properties:
@@ -385,7 +348,7 @@ definitions:
     description: Longitude property
     types:
     - uid: number
-- name: viewport
+- name: Viewport
   description: The viewport that covers the result
   kind: object
   properties:
@@ -397,6 +360,36 @@ definitions:
     description: Bottom right of the viewport
     types:
     - uid: BtmRightPoint
+- name: EntityPoint
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: Name Locale property
+    types:
+    - uid: string
+  - name: position
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: Position
+- name: AddressRanges
+  kind: object
+  properties:
+  - name: rangeLeft
+    types:
+    - uid: string
+  - name: rangeRight
+    types:
+    - uid: string
+  - name: from
+    description: A postion of start point
+    types:
+    - uid: From
+  - name: to
+    description: A postion of destination
+    types:
+    - uid: To
 - name: BoundingBox
   description: Bounding Box for the address
   kind: object
@@ -411,21 +404,6 @@ definitions:
     description: The South West coordinates for the Bounding Box
     types:
     - uid: string
-- name: Classifications
-  description: Classification array
-  kind: object
-  properties:
-  - name: code
-    isReadyOnly: true
-    description: Code property
-    types:
-    - uid: string
-  - name: names
-    isReadyOnly: true
-    description: Names array
-    types:
-    - uid: Names
-      isArray: true
 - name: TopLeftPoint
   description: Top left of the viewport
   kind: object
@@ -454,24 +432,34 @@ definitions:
     description: Longitude
     types:
     - uid: number
-- name: Names
-  description: Names array
+- name: From
+  description: A postion of start point
   kind: object
   properties:
-  - name: nameLocale
-    isReadyOnly: true
-    description: Name Locale property
+  - name: lon
+    description: longitude of start point
     types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Name property
+    - uid: number
+  - name: lat
+    description: latitude of start point
     types:
-    - uid: string
+    - uid: number
+- name: To
+  description: A postion of destination
+  kind: object
+  properties:
+  - name: lon
+    description: longitude of destination
+    types:
+    - uid: number
+  - name: lat
+    description: latitude of destination
+    types:
+    - uid: number
 examples:
 - name: GetSearchAddressStructured
   request:
-    uri: GET https://atlas.microsoft.com/search/address/structured/json?api-version=1.0&countryCode=US&streetNumber=15127&streetName=NE&2024th&20Street&municipality=Redmond&countrySubdivision=WA&postalCode=98052
+    uri: GET https://atlas.microsoft.com/search/address/structured/json?subscription-key=<insert-key>&api-version=1.0&countryCode=US&streetNumber=15127&streetName=NE&2024th&20Street&municipality=Redmond&countrySubdivision=WA&postalCode=98052
   responses:
   - statusCode: "200"
     body: >-
