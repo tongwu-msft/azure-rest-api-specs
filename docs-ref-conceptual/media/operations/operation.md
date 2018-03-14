@@ -54,7 +54,7 @@ Represents the current state of a long-running operation. Examples of long-runni
   
 |Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/api/Operations(‘*OperationId*’)|HTTP/1.1|  
+|GET|https://<accountname>.restv2.<location>.media.azure.net/api/Operations(‘*OperationId*’)|HTTP/1.1|  
   
 ### Sample Request  
   

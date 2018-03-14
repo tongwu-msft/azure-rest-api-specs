@@ -60,7 +60,7 @@ A Media Services account is associated with a `Reserved Unit Type` which determi
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|Gets information about the encoding reserved unit type associated with your account.<br /><br /> https://media.windows.net/api/EncodingReservedUnitTypes|HTTP/1.1|  
+|GET|Gets information about the encoding reserved unit type associated with your account.<br /><br /> https://<accountname>.restv2.<location>.media.azure.net/api/EncodingReservedUnitTypes|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -92,7 +92,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/library/dd541276.aspx).|https://media.windows.net/api/EncodingReservedUnitTypes(guid'*accountid*')|HTTP/1.1|  
+|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/library/dd541276.aspx).|https://<accountname>.restv2.<location>.media.azure.net/api/EncodingReservedUnitTypes(guid'*accountid*')|HTTP/1.1|  
   
 ### Sample Request  
 

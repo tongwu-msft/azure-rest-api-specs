@@ -57,7 +57,7 @@ IngestManifestAssets represent Assets within an IngestManifest that are used wit
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/API/IngestManifestAssets|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/IngestManifestAssets|HTTP/1.1|  
   
 ### Sample Request  
 
@@ -82,8 +82,8 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/IngestManifestAssets|HTTP/1.1|  
-|GET|https://media.windows.net/API/IngestManifestAssets(‘IngestManifestAsset Id’)|HTTP/1.1|  
+|GET|https://<accountname>.restv2.<location>.media.azure.net/api/IngestManifestAssets|HTTP/1.1|  
+|GET|https://<accountname>.restv2.<location>.media.azure.net/api/IngestManifestAssets(‘IngestManifestAsset Id’)|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -106,7 +106,7 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/API/IngestManifestAssets(‘IngestManifestAsset Id’)|HTTP/1.1|  
+|DELETE|https://<accountname>.restv2.<location>.media.azure.net/api/IngestManifestAssets(‘IngestManifestAsset Id’)|HTTP/1.1|  
   
 ### Sample Request  
   

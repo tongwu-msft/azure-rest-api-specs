@@ -57,14 +57,14 @@ An AccessPolicy defines the permissions and duration of access to an Asset.
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/API/AccessPolicies|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/AccessPolicies|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-POST https://media.windows.net/API/AccessPolicies HTTP/1.1  
+POST https://<accountname>.restv2.<location>.media.azure.net/api/AccessPolicies HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -83,22 +83,22 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/AccessPolicies|HTTP/1.1|  
+|GET|https://<accountname>.restv2.<location>.media.azure.net/api/AccessPolicies|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/AccessPolicies('*accesspolicyid*')|HTTP/1.1|  
+|GET|https://<accountname>.restv2.<location>.media.azure.net/api/AccessPolicies('*accesspolicyid*')|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/Assets('*assetid*')/AccessPolicies|HTTP/1.1|  
+|GET|https://<accountname>.restv2.<location>.media.azure.net/api/Assets('*assetid*')/AccessPolicies|HTTP/1.1|  
   
 ### Sample Request  
   
 To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/API/AccessPolicies('nb:pid:UUID:ad05d8fa-06a2-4e2f-8fb4-fac57875135a') HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/AccessPolicies('nb:pid:UUID:ad05d8fa-06a2-4e2f-8fb4-fac57875135a') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -114,14 +114,14 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/API/AccessPolicies('*accesspolicyid*')|HTTP/1.1|  
+|DELETE|https://<accountname>.restv2.<location>.media.azure.net/api/AccessPolicies('*accesspolicyid*')|HTTP/1.1|  
   
 ### Sample Request  
   
 To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://media.windows.net/API/AccessPolicies('nb:pid:UUID:ad05d8fa-06a2-4e2f-8fb4-fac57875135a') HTTP/1.1  
+DELETE https://<accountname>.restv2.<location>.media.azure.net/api/AccessPolicies('nb:pid:UUID:ad05d8fa-06a2-4e2f-8fb4-fac57875135a') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  

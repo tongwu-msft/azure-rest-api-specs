@@ -168,7 +168,7 @@ string base64Key = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(ak
 
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/StreamingEndpoint|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/StreamingEndpoint|HTTP/1.1|  
   
 ### Sample Request  
 
@@ -313,7 +313,7 @@ Available actions when in the **Running** state.
 
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*')/Start|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/StreamingEndpoints(‘*StreamingEndpointId*')/Start|HTTP/1.1|  
   
 ### Sample Request  
 
@@ -348,7 +348,7 @@ Available actions when in the **Stopped** state.
 
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*')/Stop|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/StreamingEndpoints(‘*StreamingEndpointId*')/Stop|HTTP/1.1|  
   
 ### Sample Request  
 
@@ -379,7 +379,7 @@ Dynamically updates the streaming unit capacity while in the running state and c
 
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*')/Scale|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/StreamingEndpoints(‘*StreamingEndpointId*')/Scale|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -415,7 +415,7 @@ StreamingEndpoints are retrieved using a GET HTTP request.
 
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|Get all StreamingEndpoints:<br /><br /> https://media.windows.net/api/StreamingEndpoints<br /><br /> Get the specified StreamingEndpoint.<br /><br /> https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*’)|HTTP/1.1|  
+|GET|Get all StreamingEndpoints:<br /><br /> https://<accountname>.restv2.<location>.media.azure.net/api/StreamingEndpoints<br /><br /> Get the specified StreamingEndpoint.<br /><br /> https://<accountname>.restv2.<location>.media.azure.net/api/StreamingEndpoints(‘*StreamingEndpointId*’)|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -445,7 +445,7 @@ Authorization: Bearer <token value>
 
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/library/dd541276.aspx).|https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*’)|HTTP/1.1|  
+|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/library/dd541276.aspx).|https://<accountname>.restv2.<location>.media.azure.net/api/StreamingEndpoints(‘*StreamingEndpointId*’)|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -481,7 +481,7 @@ Authorization: Bearer <token value>
 
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/api/StreamingEndpoints(‘*StreamingEndpointId*’)|HTTP/1.1|  
+|DELETE|https://<accountname>.restv2.<location>.media.azure.net/api/StreamingEndpoints(‘*StreamingEndpointId*’)|HTTP/1.1|  
   
 ### Sample Request  
   

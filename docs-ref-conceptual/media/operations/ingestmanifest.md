@@ -67,7 +67,7 @@ An IngestManifest represents a set of assets to be created through bulk ingestin
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/API/IngestManifests|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/IngestManifests|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -94,15 +94,15 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/IngestManifests|HTTP/1.1|  
-|GET|https://media.windows.net/API/IngestManifests(‘IngestManifest Id’)|HTTP/1.1|  
+|GET|https://<accountname>.restv2.<location>.media.azure.net/api/IngestManifests|HTTP/1.1|  
+|GET|https://<accountname>.restv2.<location>.media.azure.net/api/IngestManifests(‘IngestManifest Id’)|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/API/IngestManifests('nb:mid:UUID:a2f9a230-831e-5e40-bafa-fbf8decbee26') HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/IngestManifests('nb:mid:UUID:a2f9a230-831e-5e40-bafa-fbf8decbee26') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -118,7 +118,7 @@ Content-Length: 0
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|MERGE|https://media.windows.net/API/IngestManifests(‘IngestManifest Id’)|HTTP/1.1|  
+|MERGE|https://<accountname>.restv2.<location>.media.azure.net/api/IngestManifests(‘IngestManifest Id’)|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -145,14 +145,14 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/API/IngestManifests(‘IngestManifest Id’)|HTTP/1.1|  
+|DELETE|https://<accountname>.restv2.<location>.media.azure.net/api/IngestManifests(‘IngestManifest Id’)|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://media.windows.net/API/IngestManifests('nb:mid:UUID:45ea3cd0-b3cf-994b-8e4d-03c9620c22da') HTTP/1.1  
+DELETE https://<accountname>.restv2.<location>.media.azure.net/api/IngestManifests('nb:mid:UUID:45ea3cd0-b3cf-994b-8e4d-03c9620c22da') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  

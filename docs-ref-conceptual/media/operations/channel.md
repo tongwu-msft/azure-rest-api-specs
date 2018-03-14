@@ -225,7 +225,7 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/Channels|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -388,7 +388,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channelid*’)/Start|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/Channels(‘*channelid*’)/Start|HTTP/1.1|  
   
 ### Sample Request  
 
@@ -419,7 +419,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channelid*’)/Stop|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/Channels(‘*channelid*’)/Stop|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -450,7 +450,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|Get all Channels:<br /><br /> https://media.windows.net/api/Channels<br /><br /> Get a specified Channel.<br /><br /> https://media.windows.net/api/Channels('*channelid*')|HTTP/1.1|  
+|GET|Get all Channels:<br /><br /> https://<accountname>.restv2.<location>.media.azure.net/api/Channels<br /><br /> Get a specified Channel.<br /><br /> https://<accountname>.restv2.<location>.media.azure.net/api/Channels('*channelid*')|HTTP/1.1|  
   
 ### Sample Request  
 
@@ -481,7 +481,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channelid*’)/Reset|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/Channels(‘*channelid*’)/Reset|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -512,7 +512,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/en-us/library/dd541276.aspx).|https://media.windows.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
+|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/en-us/library/dd541276.aspx).|https://<accountname>.restv2.<location>.media.azure.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -549,7 +549,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channeled*’)/StartAdvertisement|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/Channels(‘*channeled*’)/StartAdvertisement|HTTP/1.1|  
   
  For more information, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
@@ -604,7 +604,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channeled*’)/EndAdvertisement|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/Channels(‘*channeled*’)/EndAdvertisement|HTTP/1.1|  
   
  This call should only be invoked when there is an on-going advertisement.  
   
@@ -641,7 +641,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channeled*’)/ShowSlate|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/Channels(‘*channeled*’)/ShowSlate|HTTP/1.1|  
   
  For more information, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
@@ -694,7 +694,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channelid*’)/HideSlate|HTTP/1.1|  
+|POST|https://<accountname>.restv2.<location>.media.azure.net/api/Channels(‘*channelid*’)/HideSlate|HTTP/1.1|  
   
  This call should only be invoked when there is an on-going slate.  
   
@@ -729,7 +729,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
+|DELETE|https://<accountname>.restv2.<location>.media.azure.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
   
 ### Sample Request  
 
