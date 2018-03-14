@@ -1,7 +1,7 @@
 ---
 title: "IngestManifest"
 ms.custom: ""
-ms.date: "2018-03-13"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"

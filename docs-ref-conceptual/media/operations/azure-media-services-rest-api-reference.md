@@ -1,7 +1,7 @@
 ---
 title: "Azure Media Services REST API Reference"
 ms.custom: ""
-ms.date: "2017-01-09"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"

@@ -1,7 +1,7 @@
 ---
 title: "StreamingEndpoint"
 ms.custom: ""
-ms.date: "2016-29-20"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
