@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.tagentity.detachfromoperation
 name: Detach From Operation
 service: API Management
 groupName: Tag Entity
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Detach the tag from the Operation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/tags/{tagId}?api-version=2017-03-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/tags/{tagId}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,7 +34,7 @@ uriParameters:
 - name: apiId
   in: path
   isRequired: true
-  description: API identifier. Must be unique in the current API Management service instance.
+  description: API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
@@ -44,14 +44,14 @@ uriParameters:
   description: Operation identifier within an API. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: tagId
   in: path
   isRequired: true
   description: Tag identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -59,6 +59,8 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 200 OK
+  description: Successfully detached the tag from the Operation.
 - name: 204 No Content
   description: Successfully detached the tag from the Operation.
 - name: Other Status Codes
@@ -69,7 +71,7 @@ requestHeader:
 - name: If-Match
   in: header
   isRequired: true
-  description: The entity state (Etag) version of the Api schema to update. A value of "*" can be used for If-Match to unconditionally apply the operation.
+  description: ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
   types:
   - uid: string
 definitions:
@@ -109,11 +111,12 @@ definitions:
 examples:
 - name: ApiManagementDeleteOperationTag
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d5b28d1f7fab116c282650/operations/59d5b28d1f7fab116c282651/tags/59d5b28e1f7fab116402044e?api-version=2017-03-01
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d5b28d1f7fab116c282650/operations/59d5b28d1f7fab116c282651/tags/59d5b28e1f7fab116402044e?api-version=2018-01-01
     headers:
     - name: If-Match
       value: '*'
   responses:
+  - statusCode: "200"
   - statusCode: "204"
 security:
 - type: oauth2
