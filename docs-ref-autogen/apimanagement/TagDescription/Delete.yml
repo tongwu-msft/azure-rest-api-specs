@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.tagdescription.delete
 name: Delete
 service: API Management
 groupName: Tag Description
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Delete tag description for the Api.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagId}?api-version=2017-03-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagId}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,7 +34,7 @@ uriParameters:
 - name: apiId
   in: path
   isRequired: true
-  description: API identifier. Must be unique in the current API Management service instance.
+  description: API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
@@ -44,7 +44,7 @@ uriParameters:
   description: Tag identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -52,6 +52,8 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 200 OK
+  description: Successfully deleted tag description for the Api.
 - name: 204 No Content
   description: Successfully deleted tag description for the Api.
 - name: Other Status Codes
@@ -62,7 +64,7 @@ requestHeader:
 - name: If-Match
   in: header
   isRequired: true
-  description: The entity state (Etag) version of the Api schema to update. A value of "*" can be used for If-Match to unconditionally apply the operation.
+  description: ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
   types:
   - uid: string
 definitions:
@@ -102,11 +104,12 @@ definitions:
 examples:
 - name: ApiManagementDeleteApiTagDescription
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d5b28d1f7fab116c282650/tagDescriptions/59d5b28e1f7fab116402044e?api-version=2017-03-01
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d5b28d1f7fab116c282650/tagDescriptions/59d5b28e1f7fab116402044e?api-version=2018-01-01
     headers:
     - name: If-Match
       value: '*'
   responses:
+  - statusCode: "200"
   - statusCode: "204"
 security:
 - type: oauth2

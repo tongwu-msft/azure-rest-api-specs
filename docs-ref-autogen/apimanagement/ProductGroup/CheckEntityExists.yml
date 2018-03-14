@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.productgroup.checkentityexists
 name: Check Entity Exists
 service: API Management
 groupName: Product Group
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Checks that Group entity specified by identifier is associated with the Product entity.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: HEAD https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups/{groupId}?api-version=2017-03-01
+- content: HEAD https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups/{groupId}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,14 +37,14 @@ uriParameters:
   description: Product identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: groupId
   in: path
   isRequired: true
   description: Group identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -53,7 +53,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 204 No Content
-  description: Entity exists
+  description: The Group is associated with the Product.
+- name: Other Status Codes
+  description: The Group entity is not associated with the Product.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -96,9 +98,10 @@ definitions:
 examples:
 - name: ApiManagementHeadProductGroup
   request:
-    uri: HEAD https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5931a75ae4bbd512a88c680b/groups/59306a29e4bbd510dc24e5f9?api-version=2017-03-01
+    uri: HEAD https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5931a75ae4bbd512a88c680b/groups/59306a29e4bbd510dc24e5f9?api-version=2018-01-01
   responses:
   - statusCode: "204"
+  - statusCode: "404"
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
