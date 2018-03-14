@@ -74,18 +74,18 @@ A Task is an individual operation of work on an Asset and is defined in a Job.
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/Tasks|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Tasks|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/Jobs('*jobid*')/Tasks|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs('*jobid*')/Tasks|HTTP/1.1|  
   
 ### Sample Request  
 
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://<accountname>.restv2.<location>.media.azure.net/api/Jobs('nb:jid:UUID:b1f956b3-774c-bb44-a3f7-ee47e23add31')/Tasks HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs('nb:jid:UUID:b1f956b3-774c-bb44-a3f7-ee47e23add31')/Tasks HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  

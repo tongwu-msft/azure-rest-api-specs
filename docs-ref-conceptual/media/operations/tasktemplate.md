@@ -66,18 +66,18 @@ TaskTemplates provide reusable settings for tasks that run within a JobTemplate 
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/TaskTemplates|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/TaskTemplates|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/JobTemplates('*jobtemplateid*')/TaskTemplates|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/JobTemplates('*jobtemplateid*')/TaskTemplates|HTTP/1.1|  
   
 ### Sample Request  
 
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://<accountname>.restv2.<location>.media.azure.net/api/JobTemplates('nb:jtid:UUID:b1f956b3-774c-bb44-a3f7-ee47e23aed38')/TaskTemplates HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/JobTemplates('nb:jtid:UUID:b1f956b3-774c-bb44-a3f7-ee47e23aed38')/TaskTemplates HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  

@@ -28,7 +28,7 @@ translation.priority.mt:
 # Job
 A job is an entity that contains metadata about a set of tasks. Each task performs an atomic operation on the input asset(s). A job is typically used to process one audio/video presentation. If you are processing multiple videos, create a job for each video to be encoded.  
   
- This topic gives an overview of the `Job` entity and also demonstrates how to execute various operations with the Media Services REST API.  
+ This article gives an overview of the `Job` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
 -   [Job Entity Properties](../operations/job.md#job_entity_properties)  
   
@@ -45,7 +45,7 @@ A job is an entity that contains metadata about a set of tasks. Each task perfor
 > [!IMPORTANT]
 > - When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
  
-> - When using JSON and specifying to use the __metadata keyword in the request (for example, to references a linked object) you MUST set the Accept header to JSON Verbose format (Accept: application/json;odata=verbose). Odata does not understand the \__metadata property in the request, unless you set it to verbose.  
+> - When using JSON and specifying to use the __metadata keyword in the request (for example, to reference a linked object) you MUST set the Accept header to JSON Verbose format (Accept: application/json;odata=verbose). Odata does not understand the \__metadata property in the request, unless you set it to verbose.  
   
 ##  <a name="job_entity_properties"></a> Job Entity Properties  
   
@@ -55,7 +55,7 @@ A job is an entity that contains metadata about a set of tasks. Each task perfor
 |`Name`<br /><br /> Optional.|Edm.String|Friendly name for the job. Maximum length is 4000.|  
 |`Created`<br /><br /> Read-only. Set by Media Services at creation time.|Edm.DateTime|Represents the number of milliseconds since midnight Jan 1, 1970.|  
 |`LastModified`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|This value is updated by Media Services after any property changes are made. It represents the number of milliseconds since midnight Jan 1, 1970.|  
-|`EndTime`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|The datetime when the job completed, failed, or was cancelled.|  
+|`EndTime`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|The datetime when the job completed, failed, or was canceled.|  
 |`Priority`<br /><br /> Optional.|Edm.Int32|The Priority of the job. A higher value indicates a higher priority relative to your other scheduled jobs. For example, a job with Priority = 40 will be processed before a job with Priority = 30. The upper bound is equal to MaxInt. The default is 0.|  
 |`RunningDuration`<br /><br /> Read-only. Set by Media Services.|Edm.Double|The elapsed time (in seconds) for the job|  
 |`StartTime`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|The datetime when the job started.|  
@@ -67,16 +67,16 @@ A job is an entity that contains metadata about a set of tasks. Each task perfor
 |`JobNotificationSubscriptions`<br /><br /> Optional. Cannot be updated after the entity has been created.|[JobNotificationSubscription](../operations/jobnotificationsubscription.md)<br /><br /> This property was added in Media Services version 2.1. **Warning:**  Azure queue notification may have some delay.|Navigation property that references notification subscriptions for the job.<br /><br /> This property cannot be updated after the job has been created.|  
   
 ##  <a name="create_a_job"></a> Create a Job without notification subscriptions  
- Jobs can be created with a HTTP POST request.  
+ Jobs can be created with an HTTP POST request.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://<accountname>.restv2.<location>.media.azure.net/api/Jobs|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs|HTTP/1.1|  
   
- The following code shows how to create a request using Media Services version 2.0. Remember that when using JSON and specifying to use the __metadata keyword in the request (for example, to references a linked object) you MUST set the Accept header to JSON Verbose format (Accept: application/json;odata=verbose). Odata does not understand the \__metadata property in the request, unless you set it to verbose.  
+ The following code shows how to create a request using Media Services version 2.0. Remember that when using JSON and specifying to use the __metadata keyword in the request (for example, to reference a linked object) you MUST set the Accept header to JSON Verbose format (Accept: application/json;odata=verbose). Odata does not understand the \__metadata property in the request, unless you set it to verbose.  
   
 ```  
-POST https://<accountname>.restv2.<location>.media.azure.net/api/Jobs HTTP/1.1  
+POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -87,7 +87,7 @@ Host: media.windows.net
 Content-Length: 474  
 Expect: 100-continue  
   
-{"Name" : "NewTestJob", "InputMediaAssets" : [{"__metadata" : {"uri" : "https://<accountname>.restv2.<location>.media.azure.net/api/Assets('nb%3Acid%3AUUID%3Aba5356eb-30ff-4dc6-9e5a-41e4223540e7')"}}], "Tasks" : [{"Configuration" : "H.264 HD 720p VBR", "MediaProcessorId" : "nb:mpid:UUID:2f381738-c504-4e4a-a38e-d199e207fcd5", "TaskBody" : "<?xml version=\"1.0\" encoding=\"utf-8\"?><taskBody><inputAsset>JobInputAsset(0)</inputAsset><outputAsset>JobOutputAsset(0)</outputAsset></taskBody>"}]}  
+{"Name" : "NewTestJob", "InputMediaAssets" : [{"__metadata" : {"uri" : "https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('nb%3Acid%3AUUID%3Aba5356eb-30ff-4dc6-9e5a-41e4223540e7')"}}], "Tasks" : [{"Configuration" : "H.264 HD 720p VBR", "MediaProcessorId" : "nb:mpid:UUID:2f381738-c504-4e4a-a38e-d199e207fcd5", "TaskBody" : "<?xml version=\"1.0\" encoding=\"utf-8\"?><taskBody><inputAsset>JobInputAsset(0)</inputAsset><outputAsset>JobOutputAsset(0)</outputAsset></taskBody>"}]}  
   
 ```  
   
@@ -96,15 +96,15 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://<accountname>.restv2.<location>.media.azure.net/api/$batch|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/$batch|HTTP/1.1|  
   
 
- The following example code creates an encoding `Job` with notification subscriptions for the job. Note that the `JobNotificationSubscriptions` property was added in Media Services version 2.5. Remember that when using JSON and specifying to use the __metadata keyword in the request (for example, to references a linked object) you MUST set the Accept header to JSON Verbose format (Accept: application/json;odata=verbose). Odata does not understand the \__metadata property in the request, unless you set it to verbose.  
+ The following example code creates an encoding `Job` with notification subscriptions for the job. The `JobNotificationSubscriptions` property was added in Media Services version 2.5. Remember that when using JSON and specifying to use the __metadata keyword in the request (for example, to reference a linked object) you MUST set the Accept header to JSON Verbose format (Accept: application/json;odata=verbose). Odata does not understand the \__metadata property in the request, unless you set it to verbose.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-POST https://<accountname>.restv2.<location>.media.azure.net/api/$batch HTTP/1.1  
+POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/$batch HTTP/1.1  
 User-Agent: Microsoft ADO.NET Data Services  
 DataServiceVersion: 1.0  
 MaxDataServiceVersion: 3.0  
@@ -123,7 +123,7 @@ Content-Type: multipart/mixed; boundary=changeset_0e31bdec-b799-400c-aa2f-d040aa
 Content-Type: application/http  
 Content-Transfer-Encoding: binary  
   
-POST https://<accountname>.restv2.<location>.media.azure.net/api/Jobs HTTP/1.1  
+POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs HTTP/1.1  
 Content-ID: 1  
 Content-Type: application/atom+xml  
 DataServiceVersion: 3.0;NetFx  
@@ -131,12 +131,12 @@ MaxDataServiceVersion: 3.0;NetFx
 Accept: application/atom+xml,application/xml  
 Accept-Charset: UTF-8  
   
-<?xml version="1.0" encoding="utf-8"?><entry xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml"><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/InputMediaAssets" type="application/atom+xml;type=feed" title="InputMediaAssets" href="https://<accountname>.restv2.<location>.media.azure.net/api/Assets('nb%3Acid%3AUUID%3A33662ded-f00b-4020-9fcf-4c4a22070c01')" /><id /><title /><updated>2013-04-20T22:41:57Z</updated><author><name /></author><content type="application/xml"><m:properties><d:Created m:type="Edm.DateTime">0001-01-01T00:00:00</d:Created><d:EndTime m:null="true" /><d:Id m:null="true" /><d:JobNotificationSubscriptions><d:element><d:NotificationEndPointId>nb:nepid:UUID:36e510df-8560-4bae-a698-87723f677e98</d:NotificationEndPointId><d:TargetJobState m:type="Edm.Int32">2</d:TargetJobState></d:element></d:JobNotificationSubscriptions><d:LastModified m:type="Edm.DateTime">0001-01-01T00:00:00</d:LastModified><d:Name>My MP4 to Smooth Streaming encoding job</d:Name><d:Priority m:type="Edm.Int32">0</d:Priority><d:RunningDuration m:type="Edm.Double">0</d:RunningDuration><d:StartTime m:null="true" /><d:State m:type="Edm.Int32">0</d:State><d:TemplateId m:null="true" /></m:properties></content></entry>  
+<?xml version="1.0" encoding="utf-8"?><entry xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml"><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/InputMediaAssets" type="application/atom+xml;type=feed" title="InputMediaAssets" href="https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('nb%3Acid%3AUUID%3A33662ded-f00b-4020-9fcf-4c4a22070c01')" /><id /><title /><updated>2013-04-20T22:41:57Z</updated><author><name /></author><content type="application/xml"><m:properties><d:Created m:type="Edm.DateTime">0001-01-01T00:00:00</d:Created><d:EndTime m:null="true" /><d:Id m:null="true" /><d:JobNotificationSubscriptions><d:element><d:NotificationEndPointId>nb:nepid:UUID:36e510df-8560-4bae-a698-87723f677e98</d:NotificationEndPointId><d:TargetJobState m:type="Edm.Int32">2</d:TargetJobState></d:element></d:JobNotificationSubscriptions><d:LastModified m:type="Edm.DateTime">0001-01-01T00:00:00</d:LastModified><d:Name>My MP4 to Smooth Streaming encoding job</d:Name><d:Priority m:type="Edm.Int32">0</d:Priority><d:RunningDuration m:type="Edm.Double">0</d:RunningDuration><d:StartTime m:null="true" /><d:State m:type="Edm.Int32">0</d:State><d:TemplateId m:null="true" /></m:properties></content></entry>  
 --changeset_0e31bdec-b799-400c-aa2f-d040aaa6ef2d  
 Content-Type: application/http  
 Content-Transfer-Encoding: binary  
   
-POST https://<accountname>.restv2.<location>.media.azure.net/api/$1/Tasks HTTP/1.1  
+POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/$1/Tasks HTTP/1.1  
 Content-ID: 2  
 Content-Type: application/atom+xml  
 DataServiceVersion: 3.0  
@@ -182,9 +182,9 @@ Content-Type: application/atom+xml;type=entry;charset=utf-8
 Content-ID: 1  
 X-Content-Type-Options: nosniff  
 Cache-Control: no-cache  
-Location: https://<accountname>.restv2.<location>.media.azure.net/api/Jobs('nb%3Ajid%3AUUID%3A7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab')  
+Location: https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs('nb%3Ajid%3AUUID%3A7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab')  
   
-<?xml version="1.0" encoding="utf-8"?><entry xml:base="https://<accountname>.restv2.<location>.media.azure.net/api/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml"><id>https://<accountname>.restv2.<location>.media.azure.net/api/Jobs('nb%3Ajid%3AUUID%3A7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab')</id><category term="Microsoft.Cloud.Media.Vod.Rest.Data.Models.Job" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /><link rel="edit" title="Job" href="Jobs('nb%3Ajid%3AUUID%3A7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab')" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Tasks" type="application/atom+xml;type=feed" title="Tasks" href="Jobs('nb%3Ajid%3AUUID%3A7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab')/Tasks" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/OutputMediaAssets" type="application/atom+xml;type=feed" title="OutputMediaAssets" href="Jobs('nb%3Ajid%3AUUID%3A7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab')/OutputMediaAssets" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/InputMediaAssets" type="application/atom+xml;type=feed" title="InputMediaAssets" href="Jobs('nb%3Ajid%3AUUID%3A7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab')/InputMediaAssets" /><title /><updated>2013-04-20T22:42:02Z</updated><author><name /></author><content type="application/xml"><m:properties><d:Id>nb:jid:UUID:7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab</d:Id><d:Name>My MP4 to Smooth Streaming encoding job</d:Name><d:Created m:type="Edm.DateTime">0001-01-01T00:00:00</d:Created><d:LastModified m:type="Edm.DateTime">0001-01-01T00:00:00</d:LastModified><d:EndTime m:null="true" /><d:Priority m:type="Edm.Int32">0</d:Priority><d:RunningDuration m:type="Edm.Double">0</d:RunningDuration><d:StartTime m:null="true" /><d:State m:type="Edm.Int32">0</d:State><d:TemplateId m:null="true" /><d:JobNotificationSubscriptions m:type="Collection(Microsoft.Cloud.Media.Vod.Rest.Data.Models.JobNotificationSubscription)"><d:element><d:TargetJobState m:type="Edm.Int32">2</d:TargetJobState><d:NotificationEndPointId>nb:nepid:UUID:36e510df-8560-4bae-a698-87723f677e98</d:NotificationEndPointId></d:element></d:JobNotificationSubscriptions></m:properties></content></entry>  
+<?xml version="1.0" encoding="utf-8"?><entry xml:base="https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml"><id>https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs('nb%3Ajid%3AUUID%3A7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab')</id><category term="Microsoft.Cloud.Media.Vod.Rest.Data.Models.Job" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /><link rel="edit" title="Job" href="Jobs('nb%3Ajid%3AUUID%3A7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab')" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Tasks" type="application/atom+xml;type=feed" title="Tasks" href="Jobs('nb%3Ajid%3AUUID%3A7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab')/Tasks" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/OutputMediaAssets" type="application/atom+xml;type=feed" title="OutputMediaAssets" href="Jobs('nb%3Ajid%3AUUID%3A7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab')/OutputMediaAssets" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/InputMediaAssets" type="application/atom+xml;type=feed" title="InputMediaAssets" href="Jobs('nb%3Ajid%3AUUID%3A7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab')/InputMediaAssets" /><title /><updated>2013-04-20T22:42:02Z</updated><author><name /></author><content type="application/xml"><m:properties><d:Id>nb:jid:UUID:7dc2642f-ab1e-9f4c-8ecd-027eeac2a4ab</d:Id><d:Name>My MP4 to Smooth Streaming encoding job</d:Name><d:Created m:type="Edm.DateTime">0001-01-01T00:00:00</d:Created><d:LastModified m:type="Edm.DateTime">0001-01-01T00:00:00</d:LastModified><d:EndTime m:null="true" /><d:Priority m:type="Edm.Int32">0</d:Priority><d:RunningDuration m:type="Edm.Double">0</d:RunningDuration><d:StartTime m:null="true" /><d:State m:type="Edm.Int32">0</d:State><d:TemplateId m:null="true" /><d:JobNotificationSubscriptions m:type="Collection(Microsoft.Cloud.Media.Vod.Rest.Data.Models.JobNotificationSubscription)"><d:element><d:TargetJobState m:type="Edm.Int32">2</d:TargetJobState><d:NotificationEndPointId>nb:nepid:UUID:36e510df-8560-4bae-a698-87723f677e98</d:NotificationEndPointId></d:element></d:JobNotificationSubscriptions></m:properties></content></entry>  
 --changesetresponse_10441dcf-ec34-4b8a-919e-2368b2c6444e  
 Content-Type: application/http  
 Content-Transfer-Encoding: binary  
@@ -195,9 +195,9 @@ Content-Type: application/atom+xml;type=entry;charset=utf-8
 Content-ID: 2  
 X-Content-Type-Options: nosniff  
 Cache-Control: no-cache  
-Location: https://<accountname>.restv2.<location>.media.azure.net/api/Tasks('nb%3Atid%3AUUID%3A94d3c509-24c2-467f-aa65-d16a4ea28b19')  
+Location: https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Tasks('nb%3Atid%3AUUID%3A94d3c509-24c2-467f-aa65-d16a4ea28b19')  
   
-<?xml version="1.0" encoding="utf-8"?><entry xml:base="https://<accountname>.restv2.<location>.media.azure.net/api/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml"><id>https://<accountname>.restv2.<location>.media.azure.net/api/Tasks('nb%3Atid%3AUUID%3A94d3c509-24c2-467f-aa65-d16a4ea28b19')</id><category term="Microsoft.Cloud.Media.Vod.Rest.Data.Models.Task" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /><link rel="edit" title="Task" href="Tasks('nb%3Atid%3AUUID%3A94d3c509-24c2-467f-aa65-d16a4ea28b19')" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/OutputMediaAssets" type="application/atom+xml;type=feed" title="OutputMediaAssets" href="Tasks('nb%3Atid%3AUUID%3A94d3c509-24c2-467f-aa65-d16a4ea28b19')/OutputMediaAssets" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/InputMediaAssets" type="application/atom+xml;type=feed" title="InputMediaAssets" href="Tasks('nb%3Atid%3AUUID%3A94d3c509-24c2-467f-aa65-d16a4ea28b19')/InputMediaAssets" /><title /><updated>2013-04-20T22:42:02Z</updated><author><name /></author><content type="application/xml"><m:properties><d:Id>nb:tid:UUID:94d3c509-24c2-467f-aa65-d16a4ea28b19</d:Id><d:Configuration>H264 Smooth Streaming 720p</d:Configuration><d:EndTime m:null="true" /><d:ErrorDetails m:type="Collection(Microsoft.Cloud.Media.Vod.Rest.Data.Models.ErrorDetail)" /><d:HistoricalEvents m:type="Collection(Microsoft.Cloud.Media.Vod.Rest.Data.Models.TaskHistoricalEvent)" /><d:MediaProcessorId>nb:mpid:UUID:70bdc2c3-ebf4-42a9-8542-5afc1e55d217</d:MediaProcessorId><d:Name>My Mp4 to Smooth Task</d:Name><d:PerfMessage m:null="true" /><d:Priority m:type="Edm.Int32">0</d:Priority><d:Progress m:type="Edm.Double">0</d:Progress><d:RunningDuration m:type="Edm.Double">0</d:RunningDuration><d:StartTime m:null="true" /><d:State m:type="Edm.Int32">0</d:State><d:TaskBody><?xml version="1.0" encoding="utf-16"?>  
+<?xml version="1.0" encoding="utf-8"?><entry xml:base="https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml"><id>https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Tasks('nb%3Atid%3AUUID%3A94d3c509-24c2-467f-aa65-d16a4ea28b19')</id><category term="Microsoft.Cloud.Media.Vod.Rest.Data.Models.Task" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /><link rel="edit" title="Task" href="Tasks('nb%3Atid%3AUUID%3A94d3c509-24c2-467f-aa65-d16a4ea28b19')" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/OutputMediaAssets" type="application/atom+xml;type=feed" title="OutputMediaAssets" href="Tasks('nb%3Atid%3AUUID%3A94d3c509-24c2-467f-aa65-d16a4ea28b19')/OutputMediaAssets" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/InputMediaAssets" type="application/atom+xml;type=feed" title="InputMediaAssets" href="Tasks('nb%3Atid%3AUUID%3A94d3c509-24c2-467f-aa65-d16a4ea28b19')/InputMediaAssets" /><title /><updated>2013-04-20T22:42:02Z</updated><author><name /></author><content type="application/xml"><m:properties><d:Id>nb:tid:UUID:94d3c509-24c2-467f-aa65-d16a4ea28b19</d:Id><d:Configuration>H264 Smooth Streaming 720p</d:Configuration><d:EndTime m:null="true" /><d:ErrorDetails m:type="Collection(Microsoft.Cloud.Media.Vod.Rest.Data.Models.ErrorDetail)" /><d:HistoricalEvents m:type="Collection(Microsoft.Cloud.Media.Vod.Rest.Data.Models.TaskHistoricalEvent)" /><d:MediaProcessorId>nb:mpid:UUID:70bdc2c3-ebf4-42a9-8542-5afc1e55d217</d:MediaProcessorId><d:Name>My Mp4 to Smooth Task</d:Name><d:PerfMessage m:null="true" /><d:Priority m:type="Edm.Int32">0</d:Priority><d:Progress m:type="Edm.Double">0</d:Progress><d:RunningDuration m:type="Edm.Double">0</d:RunningDuration><d:StartTime m:null="true" /><d:State m:type="Edm.Int32">0</d:State><d:TaskBody><?xml version="1.0" encoding="utf-16"?>  
 <taskBody>  
   <inputAsset>JobInputAsset(0)</inputAsset>  
   <outputAsset assetCreationOptions="0" assetName="Output asset">JobOutputAsset(0)</outputAsset>  
@@ -275,25 +275,25 @@ Location: https://<accountname>.restv2.<location>.media.azure.net/api/Tasks('nb%
  The `JobStateChange` event could have the following job states: Queued = 0, Scheduled = 1, Processing = 2, Finished = 3, Error = 4, Canceled = 5, and Canceling = 6.  
   
 ##  <a name="list_jobs"></a> List Jobs  
- Jobs can be retrieved using a HTTP GET request.  
+ Jobs can be retrieved using an HTTP GET request.  
   
 > [!IMPORTANT]
 >  When making a request to list Job entities, a maximum of 1000 will be returned per request. If you need to keep track of all submitted Jobs, you can use top/skip as described in [OData system query options](http://msdn.microsoft.com/library/gg309461.aspx).  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/Jobs|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/Jobs('*jobid*')|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs('*jobid*')|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://<accountname>.restv2.<location>.media.azure.net/api/Jobs('nb:jid:UUID:b1f956b3-774c-bb44-a3f7-ee47e23add31') HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs('nb:jid:UUID:b1f956b3-774c-bb44-a3f7-ee47e23add31') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -308,18 +308,18 @@ Host: media.windows.net
  Running Jobs can be canceled using the CancelJob function. For an example, see [REST API Functions](../operations/rest-api-functions.md).  
   
 ##  <a name="delete_job"></a> Delete a Job  
- Jobs can be deleted using a HTTP DELETE request. This is useful to clean old completed jobs from the An Azure Media Service account database.  
+ Jobs can be deleted using an HTTP DELETE request. This is useful to clean old completed jobs from the An Azure Media Service account database.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://<accountname>.restv2.<location>.media.azure.net/api/Jobs('*jobid*')|HTTP/1.1|  
+|DELETE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs('*jobid*')|HTTP/1.1|  
   
 ## Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://<accountname>.restv2.<location>.media.azure.net/api/Jobs('nb:jid:UUID:9f5b35d0-68ac-c249-8ece-ece9ea22a461') HTTP/1.1  
+DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs('nb:jid:UUID:9f5b35d0-68ac-c249-8ece-ece9ea22a461') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  

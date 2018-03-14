@@ -63,14 +63,14 @@ A ContentKey provides secure access to an Asset. In addition to creating a Conte
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://<accountname>.restv2.<location>.media.azure.net/api/ContentKeys|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/ContentKeys|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-POST https://<accountname>.restv2.<location>.media.azure.net/api/ContentKeys HTTP/1.1  
+POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/ContentKeys HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -92,7 +92,7 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://<accountname>.restv2.<location>.media.azure.net/api/ContentKeys('*ContentkeyId*')/GetKeyDeliveryUrl|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/ContentKeys('*ContentkeyId*')/GetKeyDeliveryUrl|HTTP/1.1|  
   
 ### Sample  
   
@@ -101,7 +101,7 @@ Expect: 100-continue
  Request headers:  
   
 ```  
-POST https://<accountname>.restv2.<location>.media.azure.net/api/ContentKeys('nb:kid:UUID:14e7e815-5db3-4027-9578-a55a416a3367')/GetKeyDeliveryUrl HTTP/1.1  
+POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/ContentKeys('nb:kid:UUID:14e7e815-5db3-4027-9578-a55a416a3367')/GetKeyDeliveryUrl HTTP/1.1  
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json  
 Accept-Charset: UTF-8  
@@ -127,22 +127,22 @@ Content-Length: 21
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/ContentKeys|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/ContentKeys|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/ContentKeys('*contentkeyid*')|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/ContentKeys('*contentkeyid*')|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/Assets('*assetid*')/ContentKeys|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('*assetid*')/ContentKeys|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://<accountname>.restv2.<location>.media.azure.net/api/ContentKeys('nb:kid:UUID:58b522a5-be4e-4988-8958-ee0cdb179273') HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/ContentKeys('nb:kid:UUID:58b522a5-be4e-4988-8958-ee0cdb179273') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -158,7 +158,7 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://<accountname>.restv2.<location>.media.azure.net/api/ContentKeys('*contentkeyid*')|HTTP/1.1|  
+|DELETE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/ContentKeys('*contentkeyid*')|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -167,7 +167,7 @@ Host: media.windows.net
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://<accountname>.restv2.<location>.media.azure.net/api/ContentKeys('nb:kid:UUID:58b522a5-be4e-4988-8958-ee0cdb179273') HTTP/1.1  
+DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/ContentKeys('nb:kid:UUID:58b522a5-be4e-4988-8958-ee0cdb179273') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  

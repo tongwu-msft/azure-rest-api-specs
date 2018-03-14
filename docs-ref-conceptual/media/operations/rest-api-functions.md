@@ -76,14 +76,14 @@ The following functions support the Microsoft Azure Media Services entities by p
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/CancelJob?jobid='*URL-encodedvalue*'|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/CancelJob?jobid='*URL-encodedvalue*'|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://<accountname>.restv2.<location>.media.azure.net/api/CancelJob?jobid='nb%3ajid%3aUUID%3a9e9533ba-2b9b-fa4c-a33d-73eebd49039b' HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/CancelJob?jobid='nb%3ajid%3aUUID%3a9e9533ba-2b9b-fa4c-a33d-73eebd49039b' HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -98,14 +98,14 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/CreateFileInfos?assetid='*URL-encodedvalue*'|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/CreateFileInfos?assetid='*URL-encodedvalue*'|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://<accountname>.restv2.<location>.media.azure.net/api/CreateFileInfos?assetid='nb%3Acid%3AUUID%3Ac80d312d-7cb1-44aa-bb23-2c35d10c44bd' HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/CreateFileInfos?assetid='nb%3Acid%3AUUID%3Ac80d312d-7cb1-44aa-bb23-2c35d10c44bd' HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -122,14 +122,14 @@ Content-Length: 0
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/GetProtectionKeyId?contentKeyType=*value*|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/GetProtectionKeyId?contentKeyType=*value*|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://<accountname>.restv2.<location>.media.azure.net/api/GetProtectionKeyId?contentKeyType=1 HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/GetProtectionKeyId?contentKeyType=1 HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -145,14 +145,14 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/GetProtectionKey?ProtectionKeyId='*value*'|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/GetProtectionKey?ProtectionKeyId='*value*'|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://<accountname>.restv2.<location>.media.azure.net/api/GetProtectionKey?ProtectionKeyId='B2FE17BEF56FFCB9A3FC4267D0F2AFE25CD2DE22' HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/GetProtectionKey?ProtectionKeyId='B2FE17BEF56FFCB9A3FC4267D0F2AFE25CD2DE22' HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -168,14 +168,14 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://<accountname>.restv2.<location>.media.azure.net/api/RebindContentKey?id='*contentkeyid*'&x509Certificate='*URL-encodedvalue*'|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/RebindContentKey?id='*contentkeyid*'&x509Certificate='*URL-encodedvalue*'|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://<accountname>.restv2.<location>.media.azure.net/api/RebindContentKey?id='nb%3akid%3aUUID%3a2eeba14e-613e-4af7-a926-413372cca8d5'&x509Certificate='' HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/RebindContentKey?id='nb%3akid%3aUUID%3a2eeba14e-613e-4af7-a926-413372cca8d5'&x509Certificate='' HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
