@@ -1,7 +1,7 @@
 ---
 title: "AssetFile"
 ms.custom: ""
-ms.date: "2016-07-14"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -70,22 +70,22 @@ The `AssetFile` entity represents an actual video or audio file that is stored i
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/Files|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Files|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/Files('*fileid*')|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Files('*fileid*')|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/Assets('*assetid*')/Files|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('*assetid*')/Files|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/API/Files('nb:cid:UUID:d0214595-fff0-164e-9c67-d576eba09605') HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Files('nb:cid:UUID:d0214595-fff0-164e-9c67-d576eba09605') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -100,14 +100,14 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|MERGE|https://media.windows.net/API/Files('*fileid*')|HTTP/1.1|  
+|MERGE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Files('*fileid*')|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-MERGE https://media.windows.net/API/Files('nb:cid:UUID:2710e174-3165-a34c-96ad-618714b0d504') HTTP/1.1  
+MERGE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Files('nb:cid:UUID:2710e174-3165-a34c-96ad-618714b0d504') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  

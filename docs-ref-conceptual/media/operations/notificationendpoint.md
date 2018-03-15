@@ -1,7 +1,7 @@
 ---
 title: "NotificationEndPoint"
 ms.custom: ""
-ms.date: "2017-01-09"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -59,7 +59,7 @@ The endpoint to which the notifications about the job state are sent.
  NotificationEndPoint can be creating using HTTP POST request.  
   
 ```  
-POST https://media.windows.net/API/NotificationEndPoints HTTP/1.1  
+POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints HTTP/1.1  
 User-Agent: Microsoft ADO.NET Data Services  
 DataServiceVersion: 1.0  
 MaxDataServiceVersion: 3.0  
@@ -83,7 +83,7 @@ HTTP/1.1 201 Created
 Cache-Control: no-cache  
 Content-Length: 1113  
 Content-Type: application/atom+xml;type=entry;charset=utf-8  
-Location: https://media.windows.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A1b373460-1fc4-4e80-aad6-b2b0cdb9e674')  
+Location: https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A1b373460-1fc4-4e80-aad6-b2b0cdb9e674')  
 Server: Microsoft-IIS/7.5  
 request-id: 9da4221a-7284-4767-905b-4a6823ae2f6f  
 x-ms-request-id: 9da4221a-7284-4767-905b-4a6823ae2f6f  
@@ -92,7 +92,7 @@ DataServiceVersion: 1.0;
 X-Powered-By: ASP.NET  
 Date: Sun, 21 Apr 2013 21:44:17 GMT  
   
-<?xml version="1.0" encoding="utf-8"?><entry xml:base="https://media.windows.net/api/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><id>https://media.windows.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A1b373460-1fc4-4e80-aad6-b2b0cdb9e674')</id><category term="Microsoft.Cloud.Media.Vod.Rest.Data.Models.NotificationEndPoint" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /><link rel="edit" title="NotificationEndPoint" href="NotificationEndPoints('nb%3Anepid%3AUUID%3A1b373460-1fc4-4e80-aad6-b2b0cdb9e674')" /><title /><updated>2013-04-21T21:44:17Z</updated><author><name /></author><content type="application/xml"><m:properties><d:Id>nb:nepid:UUID:1b373460-1fc4-4e80-aad6-b2b0cdb9e674</d:Id><d:Name>EndPointName1</d:Name><d:Created m:type="Edm.DateTime">2013-04-21T21:44:16.4802609Z</d:Created><d:EndPointAddress>endpointpueu1</d:EndPointAddress><d:EndPointType m:type="Edm.Int32">1</d:EndPointType></m:properties></content></entry>  
+<?xml version="1.0" encoding="utf-8"?><entry xml:base="https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><id>https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A1b373460-1fc4-4e80-aad6-b2b0cdb9e674')</id><category term="Microsoft.Cloud.Media.Vod.Rest.Data.Models.NotificationEndPoint" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /><link rel="edit" title="NotificationEndPoint" href="NotificationEndPoints('nb%3Anepid%3AUUID%3A1b373460-1fc4-4e80-aad6-b2b0cdb9e674')" /><title /><updated>2013-04-21T21:44:17Z</updated><author><name /></author><content type="application/xml"><m:properties><d:Id>nb:nepid:UUID:1b373460-1fc4-4e80-aad6-b2b0cdb9e674</d:Id><d:Name>EndPointName1</d:Name><d:Created m:type="Edm.DateTime">2013-04-21T21:44:16.4802609Z</d:Created><d:EndPointAddress>endpointpueu1</d:EndPointAddress><d:EndPointType m:type="Edm.Int32">1</d:EndPointType></m:properties></content></entry>  
   
 ```  
   
@@ -103,7 +103,7 @@ Date: Sun, 21 Apr 2013 21:44:17 GMT
  NotificationEndPoint can be updated using HTTP POST request.  
   
 ```  
-MERGE https://media.windows.net/API/NotificationEndPoints('nb%3Anepid%3AUUID%3A64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638') HTTP/1.1  
+MERGE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638') HTTP/1.1  
 User-Agent: Microsoft ADO.NET Data Services  
 DataServiceVersion: 1.0  
 MaxDataServiceVersion: 3.0  
@@ -116,7 +116,7 @@ Host: media.windows.net
 Content-Length: 690  
 Expect: 100-continue  
   
-<?xml version="1.0" encoding="utf-8"?><entry xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><id>https://media.windows.net/API/NotificationEndPoints('nb%3Anepid%3AUUID%3A64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638')</id><title /><updated>2013-04-21T21:56:15Z</updated><author><name /></author><content type="application/xml"><m:properties><d:EndPointAddress>endpointqueue2</d:EndPointAddress><d:EndPointType m:type="Edm.Int32">1</d:EndPointType><d:Id>nb:nepid:UUID:64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638</d:Id><d:Name>NewEndPoint1</d:Name></m:properties></content></entry>  
+<?xml version="1.0" encoding="utf-8"?><entry xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><id>https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638')</id><title /><updated>2013-04-21T21:56:15Z</updated><author><name /></author><content type="application/xml"><m:properties><d:EndPointAddress>endpointqueue2</d:EndPointAddress><d:EndPointType m:type="Edm.Int32">1</d:EndPointType><d:Id>nb:nepid:UUID:64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638</d:Id><d:Name>NewEndPoint1</d:Name></m:properties></content></entry>  
   
 ```  
   
@@ -139,10 +139,10 @@ Date: Sun, 21 Apr 2013 21:56:16 GMT
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
- The following request gets a specified notification point. To get all the notification points call `NotificationEndPoints` without a parameter: `GET https://media.windows.net/api/NotificationEndPoints`.  
+ The following request gets a specified notification point. To get all the notification points call `NotificationEndPoints` without a parameter: `GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints`.  
   
 ```  
-GET https://media.windows.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A6286704e-e69f-454e-80e0-7fda53ce7dba') HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A6286704e-e69f-454e-80e0-7fda53ce7dba') HTTP/1.1  
 DataServiceVersion: 1.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/atom+xml,application/xml  
@@ -167,7 +167,7 @@ DataServiceVersion: 1.0;
 X-Powered-By: ASP.NET  
 Date: Fri, 02 Aug 2013 06:25:33 GMT  
   
-<?xml version="1.0" encoding="utf-8"?><entry xml:base="https://media.windows.net/api/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><id>https://media.windows.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A6286704e-e69f-454e-80e0-7fda53ce7dba')</id><category term="Microsoft.Cloud.Media.Vod.Rest.Data.Models.NotificationEndPoint" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /><link rel="edit" title="NotificationEndPoint" href="NotificationEndPoints('nb%3Anepid%3AUUID%3A6286704e-e69f-454e-80e0-7fda53ce7dba')" /><title /><updated>2013-08-02T06:25:33Z</updated><author><name /></author><content type="application/xml"><m:properties><d:Id>nb:nepid:UUID:6286704e-e69f-454e-80e0-7fda53ce7dba</d:Id><d:Name>62abde48-420f-4f76-9ca4-9ba1d8852f38</d:Name><d:Created m:type="Edm.DateTime">2013-08-02T06:25:02.48</d:Created><d:EndPointAddress>b71b6ac6-e598-4fdf-b5cb-e8494cb955ef</d:EndPointAddress><d:EndPointType m:type="Edm.Int32">1</d:EndPointType></m:properties></content></entry>  
+<?xml version="1.0" encoding="utf-8"?><entry xml:base="https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><id>https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A6286704e-e69f-454e-80e0-7fda53ce7dba')</id><category term="Microsoft.Cloud.Media.Vod.Rest.Data.Models.NotificationEndPoint" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /><link rel="edit" title="NotificationEndPoint" href="NotificationEndPoints('nb%3Anepid%3AUUID%3A6286704e-e69f-454e-80e0-7fda53ce7dba')" /><title /><updated>2013-08-02T06:25:33Z</updated><author><name /></author><content type="application/xml"><m:properties><d:Id>nb:nepid:UUID:6286704e-e69f-454e-80e0-7fda53ce7dba</d:Id><d:Name>62abde48-420f-4f76-9ca4-9ba1d8852f38</d:Name><d:Created m:type="Edm.DateTime">2013-08-02T06:25:02.48</d:Created><d:EndPointAddress>b71b6ac6-e598-4fdf-b5cb-e8494cb955ef</d:EndPointAddress><d:EndPointType m:type="Edm.Int32">1</d:EndPointType></m:properties></content></entry>  
 ```  
   
 ##  <a name="Delete_NotificationEndPoint "></a> Delete a NotificationEndPoint  
@@ -177,7 +177,7 @@ Date: Fri, 02 Aug 2013 06:25:33 GMT
  NotificationEndPoint can be deleted using HTTP POST request.  
   
 ```  
-DELETE https://media.windows.net/API/NotificationEndPoints('nb%3Anepid%3AUUID%3A64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638') HTTP/1.1  
+DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638') HTTP/1.1  
 User-Agent: Microsoft ADO.NET Data Services  
 DataServiceVersion: 1.0  
 MaxDataServiceVersion: 3.0  

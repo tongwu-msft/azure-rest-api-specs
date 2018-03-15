@@ -1,7 +1,7 @@
 ---
 title: "JobTemplate"
 ms.custom: ""
-ms.date: "2016-07-14"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -59,14 +59,14 @@ A JobTemplate provides reusable settings for Jobs that need to be run repeatedly
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/API/JobTemplates|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/JobTemplates|HTTP/1.1|  
   
 ### Sample Request  
 
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-POST https://media.windows.net/API/JobTemplates HTTP/1.1  
+POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/JobTemplates HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -86,18 +86,18 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/JobTemplates|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/JobTemplates|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/JobTemplates('nb:jtid:UUID:ed10f137-7a8e-8343-9110-f54603d1136f')|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/JobTemplates('nb:jtid:UUID:ed10f137-7a8e-8343-9110-f54603d1136f')|HTTP/1.1|  
   
 ### Sample Request  
 
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/API/JobTemplates('nb:jtid:UUID:ed10f137-7a8e-8343-9110-f54603d1136f') HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/JobTemplates('nb:jtid:UUID:ed10f137-7a8e-8343-9110-f54603d1136f') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -113,7 +113,7 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/API/JobTemplates('*jobtemplateid*')|HTTP/1.1|  
+|DELETE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/JobTemplates('*jobtemplateid*')|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -121,7 +121,7 @@ Host: media.windows.net
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://media.windows.net/API/JobTemplates('nb:jtid:UUID:1149a161-92c6-be40-8e9c-7bf640c05df6') HTTP/1.1  
+DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/JobTemplates('nb:jtid:UUID:1149a161-92c6-be40-8e9c-7bf640c05df6') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
