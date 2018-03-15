@@ -1,7 +1,7 @@
 ---
 title: "Filter"
 ms.custom: ""
-ms.date: "2016-07-14"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -59,7 +59,7 @@ translation.priority.mt:
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/API/Filters|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Filters|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -70,7 +70,7 @@ translation.priority.mt:
  Request headers  
   
 ```  
-POST https://media.windows.net/API/Filters HTTP/1.1  
+POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Filters HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Content-Type: application/json  
@@ -127,11 +127,11 @@ HTTP/1.1 201 Created
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/Filters|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Filters|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/Filters('*filterName*')|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Filters('*filterName*')|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -141,7 +141,7 @@ HTTP/1.1 201 Created
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/API/Filters HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Filters HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Accept: application/json  
@@ -160,7 +160,7 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/library/dd541276.aspx).|https://media.windows.net/api/Filters(‘*filterName*’)|HTTP/1.1|  
+|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/library/dd541276.aspx).|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Filters(‘*filterName*’)|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -172,7 +172,7 @@ Host: media.windows.net
  Request headers:  
   
 ```  
-PATCH https://media.windows.net/API/Filters('filterName') HTTP/1.1  
+PATCH https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Filters('filterName') HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Content-Type: application/json  
@@ -215,7 +215,7 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/API/Filters('*filterName*')|HTTP/1.1|  
+|DELETE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Filters('*filterName*')|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -224,7 +224,7 @@ Host: media.windows.net
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://media.windows.net/api/Filters('Mobile') HTTP/1.1  
+DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Filters('Mobile') HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Accept: application/json  
