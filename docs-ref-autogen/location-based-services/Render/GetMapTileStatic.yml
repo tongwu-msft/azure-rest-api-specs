@@ -1,29 +1,24 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.render.getmapstatictile
-name: Get Map Static Tile
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.render.getmaptilestatic
+name: Get Map Tile Static
 service: Location Based Services Functional API
 groupName: Render
 apiVersion: "1.0"
 summary: Returns a raster map tile
 consumes: []
 produces:
+- image/png
+- image/jpg
 - application/json
-- application/xml
 paths:
-- content: GET https://atlas.microsoft.com/map/static/{format}?api-version=1.0&subscription-key={subscription-key}&version={version}&request={request}&srs={srs}&bbox={bbox}&height={height}&width={width}&layers={layers}&styles={styles}
-- content: GET https://atlas.microsoft.com/map/static/{format}?api-version=1.0&subscription-key={subscription-key}&service={service}&version={version}&request={request}&srs={srs}&bbox={bbox}&height={height}&width={width}&layers={layers}&styles={styles}
+- content: GET https://atlas.microsoft.com/map/static/{format}?subscription-key={subscription-key}&api-version=1.0&bbox={bbox}
+- content: GET https://atlas.microsoft.com/map/static/{format}?subscription-key={subscription-key}&api-version=1.0&layer={layer}&style={style}&zoom={zoom}&center={center}&bbox={bbox}&height={height}&width={width}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response
-  types:
-  - uid: string
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version number of Azure LBS API.  Current version is 1.0
+  description: Desired format of the response. Possible values are jpg & png.
   types:
   - uid: string
 - name: subscription-key
@@ -32,64 +27,53 @@ uriParameters:
   description: Azure LBS subscription key
   types:
   - uid: string
-- name: service
-  in: query
-  description: Service type.  E.g WMS
-  types:
-  - uid: string
-- name: version
+- name: api-version
   in: query
   isRequired: true
-  description: WMS service version.  E.g. 1.1.1
+  description: Version number of Azure LBS API.  Current version is 1.0
   types:
   - uid: string
-- name: request
+- name: layer
   in: query
-  isRequired: true
-  description: Request type.  E.g. GetMap
+  description: Map layer requested. Possible values are basic, hybrid & labels. If layer is set to labels or hybrid, the format should be png.
+  types:
+  - uid: format
+- name: style
+  in: query
+  description: Map style to be returned.  Currently, only style available is main.
   types:
   - uid: string
-- name: srs
+- name: zoom
   in: query
-  isRequired: true
-  description: Projection used in describing the bbox.  E.g. EPSG:4326 or EPSG:3857
+  description: 'Zoom level of the map desired.  Range is 0 to 20. Note: bbox may not be used in conjunction with center, height or width.'
+  types:
+  - uid: integer
+- name: center
+  in: query
+  description: "Coordinates of the center point. center and bbox shouldn't be used together. Format: 'lon,lat'. Projection used - EPSG:3857. Longitude range: -180 to 180. Latitude range: -85 to 85. Note: bbox may not be used in conjunction with center, height or width."
   types:
   - uid: string
 - name: bbox
   in: query
   isRequired: true
-  description: Bounding box in the projection stated in srs.  In the stucture of 'minLon, minLat, maxLon, maxLat'
+  description: "Bounding box in the projection stated in center.  Format : 'minLon, minLat, maxLon, maxLat'. Note: bbox may not be used in conjunction with center, height or width."
   types:
   - uid: string
 - name: height
   in: query
-  isRequired: true
-  description: Height of the resulting image, in pixels.  Maximum value is 2048.
+  description: 'Height of the resulting image, in pixels. Note: bbox may not be used in conjunction with center, height or width.'
   types:
-  - uid: string
+  - uid: integer
 - name: width
   in: query
-  isRequired: true
-  description: Width of the resulting image, in pixels.   Maximum value is 2048.
+  description: 'Width of the resulting image, in pixels.   Range is 1 to 8192. Default is 512. Note: bbox may not be used in conjunction with zoom, center, height or width.'
   types:
-  - uid: string
-- name: layers
-  in: query
-  isRequired: true
-  description: Map layer requested.  E.g basic
-  types:
-  - uid: string
-- name: styles
-  in: query
-  isRequired: true
-  description: Map style to be returned.  Currently, no styles are available. This parameter is present for forward compatibility; it must be used and left blank
-  types:
-  - uid: string
+  - uid: integer
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: mapstatic200
+  - uid: string
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -112,13 +96,17 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: mapstatic200
-  description: This object is returned from a successful Map Static call
-  kind: object
+- name: format
+  description: Map layer requested. Possible values are basic, hybrid & labels. If layer is set to labels or hybrid, the format should be png.
+  kind: enum
   properties:
-  - name: image
-    isReadyOnly: true
-    description: Image property
+  - name: basic
+    types:
+    - uid: string
+  - name: hybrid
+    types:
+    - uid: string
+  - name: labels
     types:
     - uid: string
 - name: Error
@@ -138,7 +126,7 @@ definitions:
 examples:
 - name: GetMapStaticTile
   request:
-    uri: GET https://atlas.microsoft.com/map/static/png?api-version=1.0&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:4326&bbox=1.355233,42.982261,24.980233,56.526017&height=768&width=1024&layers=basic&styles=1
+    uri: GET https://atlas.microsoft.com/map/static/png?subscription-key=<insert-key>&api-version=1.0&layer=basic&style=main&zoom=2&bbox=1.355233,42.982261,24.980233,56.526017
   responses:
   - statusCode: "200"
     body: '{}'
