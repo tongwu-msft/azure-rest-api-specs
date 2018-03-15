@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.productpolicy.listbyproduct
 name: List By Product
 service: API Management
 groupName: Product Policy
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Get the policy configuration at the Product level.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies?api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: Product identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -96,6 +96,10 @@ definitions:
     description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
+  - name: properties.contentFormat
+    description: Format of the policyContent.
+    types:
+    - uid: PolicyContentFormat
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -127,10 +131,22 @@ definitions:
     description: Property name.
     types:
     - uid: string
+- name: PolicyContentFormat
+  description: Format of the policyContent.
+  kind: enum
+  properties:
+  - name: xml
+    description: The contents are inline and Content type is an XML document.
+    types:
+    - uid: string
+  - name: xml-link
+    description: The policy XML document is hosted on a http endpoint accessible from the API Management service.
+    types:
+    - uid: string
 examples:
 - name: ApiManagementListProductPolicy
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/armTemplateProduct4/policies?api-version=2017-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/armTemplateProduct4/policies?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-

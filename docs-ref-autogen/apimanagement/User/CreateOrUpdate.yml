@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.user.createorupdate
 name: Create Or Update
 service: API Management
 groupName: User
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Creates or Updates a user.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: User identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -97,7 +97,12 @@ requestBody:
     description: Optional note about a user set by the administrator.
     types:
     - uid: string
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
+  types:
+  - uid: string
 definitions:
 - name: UserIdentityContract
   description: User identity details.
@@ -133,9 +138,9 @@ definitions:
     - uid: string
   - name: properties.groups
     isReadyOnly: true
-    description: Contract details.
+    description: Group contract Properties.
     types:
-    - uid: GroupContract
+    - uid: GroupContractProperties
       isArray: true
   - name: id
     isReadyOnly: true
@@ -221,44 +226,29 @@ definitions:
     types:
     - uid: UserIdentityContract
       isArray: true
-- name: GroupContract
-  description: Contract details.
+- name: GroupContractProperties
+  description: Group contract Properties.
   kind: object
   properties:
-  - name: properties.displayName
+  - name: displayName
     description: Group name.
     types:
     - uid: string
-  - name: properties.description
+  - name: description
     description: Group description. Can contain HTML formatting tags.
     types:
     - uid: string
-  - name: properties.builtIn
+  - name: builtIn
     isReadyOnly: true
     description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
     types:
     - uid: boolean
-  - name: properties.type
+  - name: type
     description: Group type.
     types:
     - uid: GroupType
-  - name: properties.externalId
+  - name: externalId
     description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type for API Management resource.
     types:
     - uid: string
 - name: UserState
@@ -325,7 +315,7 @@ definitions:
 examples:
 - name: ApiManagementCreateUserBasic
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b?api-version=2018-01-01
     body: >-
       {
         "properties": {

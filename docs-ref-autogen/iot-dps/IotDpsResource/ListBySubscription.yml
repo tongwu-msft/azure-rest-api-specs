@@ -1,0 +1,362 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothubdeviceprovisioningservice.iotdpsresource.listbysubscription
+name: List By Subscription
+service: IoT Hub Device Provisioning Service
+groupName: Iot Dps Resource
+apiVersion: 2017-11-15
+summary: Get all the provisioning services in a subscription. List all the provisioning services for a given subscription id.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Devices/provisioningServices?api-version=2017-11-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: This is a synchronous operation. The body contains a JSON-serialized array of the metadata from all the provisioning services in the subscription.
+  types:
+  - uid: ProvisioningServiceDescriptionListResult
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: ErrorDetails
+requestHeader: []
+definitions:
+- name: ProvisioningServiceDescriptionListResult
+  description: List of provisioning service descriptions.
+  kind: object
+  properties:
+  - name: value
+    description: The description of the provisioning service.
+    types:
+    - uid: ProvisioningServiceDescription
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: the next link
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: Code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: HttpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: Message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: Details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: ProvisioningServiceDescription
+  description: The description of the provisioning service.
+  kind: object
+  properties:
+  - name: etag
+    description: The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention.
+    types:
+    - uid: string
+  - name: properties
+    description: Service specific properties for a provisioning service
+    types:
+    - uid: IotDpsPropertiesDescription
+  - name: sku
+    description: SKU info for a provisioning service.
+    types:
+    - uid: IotDpsSkuInfo
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: location
+    description: The resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: IotDpsPropertiesDescription
+  description: the service specific properties of a provisoning service, including keys, linked iot hubs, current state, and system generated properties such as hostname and idScope
+  kind: object
+  properties:
+  - name: state
+    description: Current state of the provisioning service.
+    types:
+    - uid: state
+  - name: provisioningState
+    description: The ARM provisioning state of the provisioning service.
+    types:
+    - uid: string
+  - name: iotHubs
+    description: Description of the IoT hub.
+    types:
+    - uid: IotHubDefinitionDescription
+      isArray: true
+  - name: allocationPolicy
+    description: Allocation policy to be used by this provisioning service.
+    types:
+    - uid: AllocationPolicy
+  - name: serviceOperationsHostName
+    isReadyOnly: true
+    description: Service endpoint for provisioning service.
+    types:
+    - uid: string
+  - name: deviceProvisioningHostName
+    isReadyOnly: true
+    description: Device endpoint for this provisioning service.
+    types:
+    - uid: string
+  - name: idScope
+    isReadyOnly: true
+    description: Unique identifier of this provisioning service.
+    types:
+    - uid: string
+  - name: authorizationPolicies
+    description: Description of the shared access key.
+    types:
+    - uid: SharedAccessSignatureAuthorizationRule[AccessRightsDescription]
+      isArray: true
+- name: IotDpsSkuInfo
+  description: List of possible provisoning service SKUs.
+  kind: object
+  properties:
+  - name: name
+    description: Sku name.
+    types:
+    - uid: IotDpsSku
+  - name: tier
+    isReadyOnly: true
+    description: Pricing tier name of the provisioning service.
+    types:
+    - uid: string
+  - name: capacity
+    description: The number of units to provision
+    types:
+    - uid: integer
+- name: state
+  description: Current state of the provisioning service.
+  kind: enum
+  properties:
+  - name: Activating
+    types:
+    - uid: string
+  - name: Active
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: ActivationFailed
+    types:
+    - uid: string
+  - name: DeletionFailed
+    types:
+    - uid: string
+  - name: Transitioning
+    types:
+    - uid: string
+  - name: Suspending
+    types:
+    - uid: string
+  - name: Suspended
+    types:
+    - uid: string
+  - name: Resuming
+    types:
+    - uid: string
+  - name: FailingOver
+    types:
+    - uid: string
+  - name: FailoverFailed
+    types:
+    - uid: string
+- name: IotHubDefinitionDescription
+  description: Description of the IoT hub.
+  kind: object
+  properties:
+  - name: applyAllocationPolicy
+    description: Flag for applying allocationPolicy or not for a given IoT hub.
+    types:
+    - uid: boolean
+  - name: allocationWeight
+    description: Weight to apply for a given IoT hub.
+    types:
+    - uid: integer
+  - name: name
+    isReadyOnly: true
+    description: Host name of the IoT hub.
+    types:
+    - uid: string
+  - name: connectionString
+    description: Connection string of the IoT hub.
+    types:
+    - uid: string
+  - name: location
+    description: ARM region of the IoT hub.
+    types:
+    - uid: string
+- name: AllocationPolicy
+  description: Allocation policy to be used by this provisioning service.
+  kind: enum
+  properties:
+  - name: Hashed
+    types:
+    - uid: string
+  - name: GeoLatency
+    types:
+    - uid: string
+  - name: Static
+    types:
+    - uid: string
+- name: SharedAccessSignatureAuthorizationRule[AccessRightsDescription]
+  description: Description of the shared access key.
+  kind: object
+  properties:
+  - name: keyName
+    description: Name of the key.
+    types:
+    - uid: string
+  - name: primaryKey
+    description: Primary SAS key value.
+    types:
+    - uid: string
+  - name: secondaryKey
+    description: Secondary SAS key value.
+    types:
+    - uid: string
+  - name: rights
+    description: Rights that this key has.
+    types:
+    - uid: AccessRightsDescription
+- name: IotDpsSku
+  description: Sku name.
+  kind: enum
+  properties:
+  - name: S1
+    types:
+    - uid: string
+- name: AccessRightsDescription
+  description: Rights that this key has.
+  kind: enum
+  properties:
+  - name: ServiceConfig
+    types:
+    - uid: string
+  - name: EnrollmentRead
+    types:
+    - uid: string
+  - name: EnrollmentWrite
+    types:
+    - uid: string
+  - name: DeviceConnect
+    types:
+    - uid: string
+  - name: RegistrationStatusRead
+    types:
+    - uid: string
+  - name: RegistrationStatusWrite
+    types:
+    - uid: string
+examples:
+- name: DPSListBySubscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/providers/Microsoft.Devices/provisioningServices?api-version=2017-11-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "etag": "AAAAAAAADGk=",
+            "name": "myFirstProvisioningService",
+            "location": "eastus",
+            "properties": {
+              "state": "Active",
+              "allocationPolicy": "Hashed",
+              "serviceOperationsHostName": "myFirstProvisioningService.azure-devices-provisioning.net",
+              "deviceProvisioningHostName": "global.azure-devices-provisioning.net",
+              "idScope": "0ne00000012"
+            },
+            "type": "Microsoft.Devices/ProvisioningServices",
+            "id": "/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/ProvisioningServices/myFirstProvisioningService",
+            "tags": {},
+            "sku": {
+              "name": "S1",
+              "tier": "Standard",
+              "capacity": 1
+            }
+          },
+          {
+            "etag": "AAAAAAAADGk=",
+            "name": "mySecondProvisioningService",
+            "location": "eastus",
+            "properties": {
+              "state": "Active",
+              "allocationPolicy": "Hashed",
+              "serviceOperationsHostName": "myFirstProvisioningService.azure-devices-provisioning.net",
+              "deviceProvisioningHostName": "global.azure-devices-provisioning.net",
+              "idScope": "0ne00000012"
+            },
+            "type": "Microsoft.Devices/ProvisioningServices",
+            "id": "/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/ProvisioningServices/mySecondProvisioningService",
+            "tags": {},
+            "sku": {
+              "name": "S1",
+              "tier": "Standard",
+              "capacity": 1
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

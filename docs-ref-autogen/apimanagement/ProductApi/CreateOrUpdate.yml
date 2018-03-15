@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.productapi.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Product Api
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Adds an API to the specified product.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,14 +37,14 @@ uriParameters:
   description: Product identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: apiId
   in: path
   isRequired: true
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -88,9 +88,9 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.apiVersionSet
-    description: Api Version Set Contract details.
+    description: 'An API Version Set contains the common configuration for a set of API Versions relating '
     types:
-    - uid: ApiVersionSetContract
+    - uid: ApiVersionSetContractDetails
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -161,42 +161,30 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
-- name: ApiVersionSetContract
-  description: Api Version Set Contract details.
+- name: ApiVersionSetContractDetails
+  description: 'An API Version Set contains the common configuration for a set of API Versions relating '
   kind: object
   properties:
-  - name: properties.displayName
-    description: Name of API Version Set
-    types:
-    - uid: string
-  - name: properties.versioningScheme
-    description: An value that determines where the API Version identifer will be located in a HTTP request.
-    types:
-    - uid: versioningScheme
   - name: id
-    isReadyOnly: true
-    description: Resource ID.
+    description: Identifier for existing API Version Set. Omit this value to create a new Version Set.
     types:
     - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type for API Management resource.
-    types:
-    - uid: string
-  - name: properties.description
+  - name: description
     description: Description of API Version Set.
     types:
     - uid: string
-  - name: properties.versionQueryName
+  - name: versioningScheme
+    description: An value that determines where the API Version identifer will be located in a HTTP request.
+    types:
+    - uid: Segment
+    - uid: Query
+    - uid: Header
+    typesTitle: enum
+  - name: versionQueryName
     description: Name of query parameter that indicates the API Version if versioningScheme is set to `query`.
     types:
     - uid: string
-  - name: properties.versionHeaderName
+  - name: versionHeaderName
     description: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.
     types:
     - uid: string
@@ -246,22 +234,6 @@ definitions:
     description: Property name.
     types:
     - uid: string
-- name: versioningScheme
-  description: An value that determines where the API Version identifer will be located in a HTTP request.
-  kind: enum
-  properties:
-  - name: Segment
-    description: The API Version is passed in a path segment.
-    types:
-    - uid: string
-  - name: Query
-    description: The API Version is passed in a query parameter.
-    types:
-    - uid: string
-  - name: Header
-    description: The API Version is passed in a HTTP header.
-    types:
-    - uid: string
 - name: OAuth2AuthenticationSettingsContract
   description: API OAuth2 Authentication settings details.
   kind: object
@@ -277,7 +249,7 @@ definitions:
 examples:
 - name: ApiManagementCreateProductApi
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/testproduct/apis/echo-api?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/testproduct/apis/echo-api?api-version=2018-01-01
   responses:
   - statusCode: "201"
     body: >-

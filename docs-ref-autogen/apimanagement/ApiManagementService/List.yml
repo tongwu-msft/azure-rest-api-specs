@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apimanagementservice.list
 name: List
 service: API Management
 groupName: Api Management Service
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Lists all API Management services within an Azure subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/service?api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/service?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -145,9 +145,15 @@ definitions:
     types:
     - uid: HostnameConfiguration
       isArray: true
-  - name: properties.staticIps
+  - name: properties.publicIPAddresses
     isReadyOnly: true
-    description: Static IP addresses of the API Management service virtual machines. Available only for Standard and Premium SKU.
+    description: Public Static Load Balanced IP addresses of the API Management service. Available only for Basic, Standard and Premium SKU.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.privateIPAddresses
+    isReadyOnly: true
+    description: Private Static Load Balanced IP addresses of the API Management service which is deployed in an Internal Virtual Network. Available only for Basic, Standard and Premium SKU.
     types:
     - uid: string
       isArray: true
@@ -274,7 +280,7 @@ definitions:
     description: SKU properties of the API Management service.
     types:
     - uid: ApiManagementServiceSkuProperties
-  - name: staticIps
+  - name: publicIPAddresses
     isReadyOnly: true
     description: Static IP addresses of the location's virtual machines.
     types:
@@ -302,7 +308,7 @@ definitions:
     types:
     - uid: string
   - name: storeName
-    description: The local certificate store location. Only Root and CertificateAuthority are valid locations.
+    description: The System.Security.Cryptography.x509certificates.Storename certificate store location. Only Root and CertificateAuthority are valid locations.
     types:
     - uid: CertificateAuthority
     - uid: Root
@@ -390,7 +396,7 @@ definitions:
 examples:
 - name: ApiManagementListServiceBySubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ApiManagement/service?api-version=2017-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ApiManagement/service?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -415,7 +421,7 @@ examples:
               "managementApiUrl": "https://apimService3.management.azure-api.net",
               "scmUrl": "https://apimService3.scm.azure-api.net",
               "hostnameConfigurations": [],
-              "staticIps": [
+              "publicIPAddresses": [
                 "13.88.16.64"
               ],
               "additionalLocations": [
@@ -425,7 +431,7 @@ examples:
                     "name": "Premium",
                     "capacity": 1
                   },
-                  "staticIps": [
+                  "publicIPAddresses": [
                     "52.233.184.197"
                   ]
                 }
@@ -456,7 +462,7 @@ examples:
               "managementApiUrl": "https://apimService2.management.azure-api.net",
               "scmUrl": "https://apimService2.scm.azure-api.net",
               "hostnameConfigurations": [],
-              "staticIps": [
+              "publicIPAddresses": [
                 "13.64.237.151"
               ],
               "virtualNetworkType": "None"
@@ -536,7 +542,7 @@ examples:
                   }
                 }
               ],
-              "staticIps": [
+              "publicIPAddresses": [
                 "13.93.167.166"
               ],
               "virtualNetworkType": "None"

@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apidiagnosticlogger.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Api Diagnostic Logger
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Attaches a logger to a dignostic for an API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}/loggers/{loggerid}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}/loggers/{loggerid}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,21 +37,21 @@ uriParameters:
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: diagnosticId
   in: path
   isRequired: true
   description: Diagnostic identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: loggerid
   in: path
   isRequired: true
   description: Logger identifier. Must be unique in the API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -100,10 +100,6 @@ definitions:
     description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
     types:
     - uid: boolean
-  - name: properties.sampling
-    description: Sampling settings for an ApplicationInsights logger.
-    types:
-    - uid: LoggerSamplingContract
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -148,50 +144,6 @@ definitions:
     description: Azure Application Insights as log destination.
     types:
     - uid: string
-- name: LoggerSamplingContract
-  description: Sampling settigs contract.
-  kind: object
-  properties:
-  - name: properties.samplingType
-    description: Sampling type.
-    types:
-    - uid: SamplingType
-  - name: properties.percentage
-    description: Rate of sampling for fixed-rate sampling.
-    types:
-    - uid: number
-  - name: properties.maxTelemetryItemsPerSecond
-    description: Target rate of telemetry items per second.
-    types:
-    - uid: integer
-  - name: properties.evaluationInterval
-    description: Rate re-evaluation interval in ISO8601 format.
-    types:
-    - uid: string
-  - name: properties.percentageDecreaseTimeout
-    description: Duration in ISO8601 format after which it's allowed to lower the sampling rate.
-    types:
-    - uid: string
-  - name: properties.percentageIncreaseTimeout
-    description: Duration in ISO8601 format after which it's allowed to increase the sampling rate.
-    types:
-    - uid: string
-  - name: properties.minPercentage
-    description: Minimum allowed rate of sampling.
-    types:
-    - uid: number
-  - name: properties.maxPercentage
-    description: Maximum allowed rate of sampling.
-    types:
-    - uid: number
-  - name: properties.movingAverageRatio
-    description: Moving average ration assigned to most recent value.
-    types:
-    - uid: number
-  - name: properties.initialPercentage
-    description: Initial sampling rate.
-    types:
-    - uid: number
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -208,22 +160,10 @@ definitions:
     description: Property name.
     types:
     - uid: string
-- name: SamplingType
-  description: Sampling type.
-  kind: enum
-  properties:
-  - name: fixed
-    description: Fixed-rate sampling.
-    types:
-    - uid: string
-  - name: adaptive
-    description: Sampling with a dynamically adjustable rate.
-    types:
-    - uid: string
 examples:
 - name: ApiManagementCreateApiDiagnosticLogger
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/diagnostics/default/loggers/applicationinsights?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/diagnostics/default/loggers/applicationinsights?api-version=2018-01-01
   responses:
   - statusCode: "201"
     body: >-
