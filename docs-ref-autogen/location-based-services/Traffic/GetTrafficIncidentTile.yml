@@ -10,8 +10,8 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/traffic/incident/tile/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}
-- content: GET https://atlas.microsoft.com/traffic/incident/tile/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}&t={t}
+- content: GET https://atlas.microsoft.com/traffic/incident/tile/{format}?api-version=1.0&subscription-key={subscription-key}&style={style}&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/traffic/incident/tile/{format}?api-version=1.0&subscription-key={subscription-key}&style={style}&zoom={zoom}&x={x}&y={y}&t={t}
   isOptional: true
 uriParameters:
 - name: format
@@ -20,16 +20,16 @@ uriParameters:
   description: Desired format of the response
   types:
   - uid: string
-- name: subscription-key
-  in: query
-  isRequired: true
-  description: Azure Maps subscription key
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API.  Current version is 1.0
+  description: Version number of Azure LBS API.  Current version is 1.0
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure LBS subscription key
   types:
   - uid: string
 - name: style
@@ -37,25 +37,25 @@ uriParameters:
   isRequired: true
   description: The style to be used to render the tile.  Valid values are s1 which creates traffic lines with colored chevrons indicating severity, s2 or s3 which creates plain lines with different degrees of glow
   types:
-  - uid: TrafficIncidentTileStyle
+  - uid: string
 - name: zoom
   in: query
   isRequired: true
-  description: Zoom level for desired tile.
+  description: Zoom level for desired tile.  0 to 18 for raster tiles, 0 through 20 for vector tiles
   types:
-  - uid: integer
+  - uid: string
 - name: x
   in: query
   isRequired: true
   description: 'X index for the desired tile, based on Spherical Mercator projection coordinate system (EPSG:3857) '
   types:
-  - uid: integer
+  - uid: string
 - name: y
   in: query
   isRequired: true
   description: Y index for the desired tile, based on Spherical Mercator projection coordinate system (EPSG:3857)
   types:
-  - uid: integer
+  - uid: string
 - name: t
   in: query
   description: 'Reference value for the state of traffic at a particular time, obtained from the Viewport API call. It is updated every minute, and is valid for two minutes before it times out. Use -1 to get the most recent traffic information. Default: most recent traffic information'
@@ -65,7 +65,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: TrafficIncidentTileResult
+  - uid: trafficincidenttile200
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -88,23 +88,7 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: TrafficIncidentTileStyle
-  description: The style to be used to render the tile.  Valid values are s1 which creates traffic lines with colored chevrons indicating severity, s2 or s3 which creates plain lines with different degrees of glow
-  kind: enum
-  properties:
-  - name: s1
-    types:
-    - uid: string
-  - name: s2
-    types:
-    - uid: string
-  - name: s3
-    types:
-    - uid: string
-  - name: night
-    types:
-    - uid: string
-- name: TrafficIncidentTileResult
+- name: trafficincidenttile200
   description: This object is returned from a successful Traffic Incident Tile call
   kind: object
   properties:
