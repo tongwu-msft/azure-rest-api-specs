@@ -1,4 +1,4 @@
-﻿---
+---
 ms.assetid: 63a42254-f2ea-4beb-9aff-d23341006538
 title: Azure Key Vault certificates and policies | Microsoft Docs
 ms.service: key-vault
@@ -19,22 +19,22 @@ Following are a list of the tasks with each certificates and certificate policie
 
  The Azure Key Vault REST API supports the following operations on certificates.  
 
--   [Create a certificate ](../../docs-ref-autogen/keyvault/CreateCertificate.yml)
--   [Import a certificate](../../docs-ref-autogen/keyvault/ImportCertificate.yml)  
--   [List versions of a certificate](../../docs-ref-autogen/keyvault/GetCertificateVersions.yml)  
--   [List certificates](../../docs-ref-autogen/keyvault/GetCertificates.yml)  
--   [Get a certificate](../../docs-ref-autogen/keyvault/GetCertificate.yml)  
--   [Delete a certificate](../../docs-ref-autogen/keyvault/DeleteCertificate.yml)  
--   [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.yml)  
--   [Merge a certificate](../../docs-ref-autogen/keyvault/MergeCertificate.yml)
+-   [Create a certificate ](xref:keyvault.createcertificate)
+-   [Import a certificate](xref:keyvault.importcertificate)  
+-   [List versions of a certificate](xref:keyvault.getcertificateversions)  
+-   [List certificates](xref:keyvault.getcertificates)  
+-   [Get a certificate](xref:keyvault.getcertificate)  
+-   [Delete a certificate](xref:keyvault.deletecertificate)  
+-   [Update a certificate](xref:keyvault.updatecertificate)  
+-   [Merge a certificate](xref:keyvault.mergecertificate)
 
 ### Certificate management operations
 
 These REST operations are for the management of certificate operations associated with a Key Vault certificate.
 
--   [Delete certificate operation](../../docs-ref-autogen/keyvault/DeleteCertificateOperation.yml)
--   [Get certificate operation](../../docs-ref-autogen/keyvault/GetCertificateOperation.yml)
--   [Update certificate operation](../../docs-ref-autogen/keyvault/UpdateCertificateOperation.yml)
+-   [Delete certificate operation](xref:keyvault.deletecertificateoperation)
+-   [Get certificate operation](xref:keyvault.getcertificateoperation)
+-   [Update certificate operation](xref:keyvault.updatecertificateoperation)
 
 For usage detail and examples, see [Monitor and manage certificate creation](https://docs.microsoft.com/rest/api/keyvault/create-certificate-scenarios).
 
@@ -42,17 +42,17 @@ For usage detail and examples, see [Monitor and manage certificate creation](htt
 
  The following operations are available on a certificate policy:  
 
--   [Get a certificate policy](../../docs-ref-autogen/keyvault/GetCertificatePolicy.yml)  
--   [Update a certificate policy](../../docs-ref-autogen/keyvault/UpdateCertificatePolicy.yml)
+-   [Get a certificate policy](xref:keyvault.getcertificatepolicy)  
+-   [Update a certificate policy](xref:keyvault.updatecertificatepolicy)
 
 ### Soft-delete operations
 
 The soft-delete feature supports these operations for deleted certificates:
 
-- [Get deleted certificate](../../docs-ref-autogen/keyvault/GetDeletedCertificate.yml)
-- [Get deleted certificates](../../docs-ref-autogen/keyvault/GetDeletedCertificates.yml)
-- [Purge deleted certificate](../../docs-ref-autogen/keyvault/PurgeDeletedCertificate.yml)
-- [Recover deleted certificate](../../docs-ref-autogen/keyvault/RecoverDeletedCertificate.yml)
+- [Get deleted certificate](xref:keyvault.getdeletedcertificate)
+- [Get deleted certificates](xref:keyvault.getdeletedcertificates)
+- [Purge deleted certificate](xref:keyvault.purgedeletedcertificate)
+- [Recover deleted certificate](xref:keyvault.recoverdeletedcertificate)
 
 For more information on Key Vault's soft-delete feature, see [Azure Key Vault soft-delete feature overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete).
 
