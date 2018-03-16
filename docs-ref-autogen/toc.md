@@ -1788,7 +1788,7 @@
 #### [Get](datalakestore/TrustedIdProviders/Get.yml)
 #### [List By Account](datalakestore/TrustedIdProviders/ListByAccount.yml)
 #### [Update](datalakestore/TrustedIdProviders/Update.yml)
-# [DataBricks](../docs-ref-conceptual/databricks/index.md)
+# [Databricks](../docs-ref-conceptual/databricks/index.md)
 ## [Workspaces](databricks/Workspaces.yml)
 ### [Create Or Update](databricks/Workspaces/CreateOrUpdate.yml)
 ### [Delete](databricks/Workspaces/Delete.yml)
