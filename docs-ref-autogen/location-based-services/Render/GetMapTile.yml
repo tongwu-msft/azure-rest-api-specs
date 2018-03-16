@@ -7,68 +7,66 @@ apiVersion: "1.0"
 summary: Returns a raster or vector map tile
 consumes: []
 produces:
-- image/png
-- image/pbf
-- image/jpg
 - application/json
+- application/xml
 paths:
-- content: GET https://atlas.microsoft.com/map/tile/{format}?subscription-key={subscription-key}&api-version=1.0&layer={layer}&style=main&zoom={zoom}&x={x}&y={y}
-- content: GET https://atlas.microsoft.com/map/tile/{format}?subscription-key={subscription-key}&api-version=1.0&layer={layer}&style=main&zoom={zoom}&x={x}&y={y}&tileSize={tileSize}&language={language}
+- content: GET https://atlas.microsoft.com/map/tile/{format}?api-version=1.0&subscription-key={subscription-key}&layer={layer}&style=main&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/map/tile/{format}?api-version=1.0&subscription-key={subscription-key}&layer={layer}&style=main&zoom={zoom}&x={x}&y={y}&tileSize={tileSize}&language={language}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Possible values are jpg, png & pbf.
-  types:
-  - uid: string
-- name: subscription-key
-  in: query
-  isRequired: true
-  description: Azure Maps subscription key
+  description: Desired format of the response
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API.  Current version is 1.0
+  description: Version number of Azure LBS API.  Current version is 1.0
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure LBS subscription key
   types:
   - uid: string
 - name: layer
   in: query
   isRequired: true
-  description: Map layer requested. Possible values are basic,hybrid & labels.
+  description: Map layer requested
   types:
-  - uid: layer
+  - uid: string
 - name: style
   in: query
   isRequired: true
   description: Map style to be returned.  Currently there is only one style, e.g. main
   types:
-  - uid: MapTileStyle
+  - uid: string
 - name: zoom
   in: query
   isRequired: true
   description: Zoom level for desired tile.  0 to 18 for raster tiles, 0 through 20 for vector tiles
   types:
-  - uid: integer
+  - uid: string
 - name: x
   in: query
   isRequired: true
   description: 'X index for the desired tile, based on Spherical Mercator projection coordinate system (EPSG:3857) '
   types:
-  - uid: integer
+  - uid: string
 - name: y
   in: query
   isRequired: true
   description: Y index for the desired tile, based on Spherical Mercator projection coordinate system (EPSG:3857)
   types:
-  - uid: integer
+  - uid: string
 - name: tileSize
   in: query
-  description: The size of the returned map tile in pixels.
+  description: The size of the returned map tile in pixels.  E.g. 256 or 512
   types:
-  - uid: tileSize
+  - uid: string
 - name: language
   in: query
   description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used
@@ -78,7 +76,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: string
+  - uid: maptile200
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -101,38 +99,13 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: layer
-  description: Map layer requested. Possible values are basic,hybrid & labels.
-  kind: enum
+- name: maptile200
+  description: This object is returned from a successful Map Tile call
+  kind: object
   properties:
-  - name: basic
-    description: Returns a tile containing all map features including polygons, borders, roads and labels.
-    types:
-    - uid: string
-  - name: hybrid
-    description: Returns a tile containing borders, roads, and labels, and can be overlaid on other tiles (such as satellite imagery) to produce hybrid tiles.
-    types:
-    - uid: string
-  - name: labels
-    description: Returns a tile of just the map's label information.
-    types:
-    - uid: string
-- name: MapTileStyle
-  description: Map style to be returned.  Currently there is only one style, e.g. main
-  kind: enum
-  properties:
-  - name: main
-    description: Azure Maps main style
-    types:
-    - uid: string
-- name: tileSize
-  description: The size of the returned map tile in pixels.
-  kind: enum
-  properties:
-  - name: "256"
-    types:
-    - uid: string
-  - name: "512"
+  - name: image
+    isReadyOnly: true
+    description: Image property
     types:
     - uid: string
 - name: Error
@@ -155,7 +128,7 @@ examples:
     uri: GET https://atlas.microsoft.com/map/tile/png?api-version=1.0&layer=basic&style=main&zoom=6&x=10&y=22
   responses:
   - statusCode: "200"
-    body: "\"binary string image\""
+    body: '{}'
   - statusCode: "400"
     body: >-
       {

@@ -10,26 +10,26 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/map/copyright/bounding/{format}?subscription-key={subscription-key}&api-version=1.0&mincoordinates={mincoordinates}&maxcoordinates={maxcoordinates}
-- content: GET https://atlas.microsoft.com/map/copyright/bounding/{format}?subscription-key={subscription-key}&api-version=1.0&mincoordinates={mincoordinates}&maxcoordinates={maxcoordinates}&text={text}
+- content: GET https://atlas.microsoft.com/map/copyright/bounding/{format}?api-version=1.0&subscription-key={subscription-key}&mincoordinates={mincoordinates}&maxcoordinates={maxcoordinates}
+- content: GET https://atlas.microsoft.com/map/copyright/bounding/{format}?api-version=1.0&subscription-key={subscription-key}&mincoordinates={mincoordinates}&maxcoordinates={maxcoordinates}&text={text}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Possible values are json & xml.
-  types:
-  - uid: string
-- name: subscription-key
-  in: query
-  isRequired: true
-  description: Azure Maps subscription key
+  description: Desired format of the response
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API.  Current version is 1.0
+  description: Version number of Azure LBS API.  Current version is 1.0
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure LBS subscription key
   types:
   - uid: string
 - name: mincoordinates
@@ -46,14 +46,14 @@ uriParameters:
   - uid: string
 - name: text
   in: query
-  description: Boolean to exclude textual data from response. Only images and country names will be in response.
+  description: True or False string to exclude textual data from response. Only images and country names will be in response.
   types:
-  - uid: boolean
+  - uid: string
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: CopyrightBoundingResult
+  - uid: copyrightbounding200
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -76,7 +76,7 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: CopyrightBoundingResult
+- name: copyrightbounding200
   description: This object is returned from a successful Copyright Bounding call
   kind: object
   properties:
@@ -95,7 +95,7 @@ definitions:
     isReadyOnly: true
     description: Regions array
     types:
-    - uid: Region
+    - uid: Regions
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
@@ -111,7 +111,8 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
-- name: Region
+- name: Regions
+  description: Regions array
   kind: object
   properties:
   - name: copyrights
@@ -126,36 +127,37 @@ definitions:
     types:
     - uid: Country
 - name: Country
+  description: Country property
   kind: object
   properties:
-  - name: Name
+  - name: ISO3
     isReadyOnly: true
-    description: Country Name
+    description: ISO3 property
     types:
     - uid: string
-  - name: Code
+  - name: label
     isReadyOnly: true
-    description: Country Code
+    description: Label property
     types:
     - uid: string
 examples:
 - name: GetCopyrightBounding
   request:
-    uri: GET https://atlas.microsoft.com/map/copyright/bounding/json?api-version=1.0&mincoordinates=52.41064,4.84228&maxcoordinates=52.41072,4.84239&text=True
+    uri: GET https://atlas.microsoft.com/map/copyright/bounding/json?api-version=1.0&mincoordinates=52.41064,4.84228&maxcoordinates=52.41072,4.84239&text=true
   responses:
   - statusCode: "200"
     body: >-
       {
         "formatVersion": "0.0.1",
         "generalCopyrights": [
-          "© 1992 – 2016 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection, database right protection and other intellectual property rights owned by TomTom or its suppliers. The use of this material is subject to the terms of a license agreement. Any unauthorized copying or disclosure of this material will lead to criminal and civil liabilities.",
-          "Data Source © 2016 TomTom",
+          "� 1992 � 2016 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection, database right protection and other intellectual property rights owned by TomTom or its suppliers. The use of this material is subject to the terms of a license agreement. Any unauthorized copying or disclosure of this material will lead to criminal and civil liabilities.",
+          "Data Source � 2016 TomTom",
           "based on"
         ],
         "regions": [
           {
             "copyrights": [
-              "Topografische onderground Copyright © dienst voor het kadaster en de openbare registers, Apeldoorn 2016."
+              "Topografische onderground Copyright � dienst voor het kadaster en de openbare registers, Apeldoorn 2016."
             ],
             "country": {
               "ISO3": "NLD",

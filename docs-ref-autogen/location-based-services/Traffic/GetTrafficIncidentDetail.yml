@@ -10,26 +10,26 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/traffic/incident/detail/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&boundingbox={boundingbox}&boundingZoom={boundingZoom}&trafficmodelid={trafficmodelid}
-- content: GET https://atlas.microsoft.com/traffic/incident/detail/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&boundingbox={boundingbox}&boundingZoom={boundingZoom}&trafficmodelid={trafficmodelid}&language={language}&projection={projection}&geometries={geometries}&expandCluster={expandCluster}&originalPosition={originalPosition}
+- content: GET https://atlas.microsoft.com/traffic/incident/detail/{format}?api-version=1.0&subscription-key={subscription-key}&style={style}&boundingbox={boundingbox}&zoom={zoom}&trafficmodelid={trafficmodelid}
+- content: GET https://atlas.microsoft.com/traffic/incident/detail/{format}?api-version=1.0&subscription-key={subscription-key}&style={style}&boundingbox={boundingbox}&zoom={zoom}&trafficmodelid={trafficmodelid}&language={language}&projection={projection}&geometries={geometries}&expandCluster={expandCluster}&originalPosition={originalPosition}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Possible values are json & xml.
-  types:
-  - uid: string
-- name: subscription-key
-  in: query
-  isRequired: true
-  description: Azure Maps subscription key
+  description: Desired format of the response
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API.  Current version is 1.0
+  description: Version number of Azure LBS API.  Current version is 1.0
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure LBS subscription key
   types:
   - uid: string
 - name: style
@@ -37,19 +37,19 @@ uriParameters:
   isRequired: true
   description: The style that will be used to render the traffic tile in the Maps API. This will have an effect on the coordinates of traffic incidents in the reply.  Valid values are s1, s2, s3 and night
   types:
-  - uid: TrafficIncidentDetailStyle
+  - uid: string
 - name: boundingbox
   in: query
   isRequired: true
   description: The corners of the area to report on, expressed in the projection specified. These are two latitude-longitude pairs describing corners of the bounding box. First pair for lower left corner and second for upper right. All values should be separated by commas
   types:
   - uid: string
-- name: boundingZoom
+- name: zoom
   in: query
   isRequired: true
   description: Zoom level for desired tile.  0 to 18 for raster tiles, 0 through 20 for vector tiles
   types:
-  - uid: integer
+  - uid: string
 - name: trafficmodelid
   in: query
   isRequired: true
@@ -68,24 +68,24 @@ uriParameters:
   - uid: string
 - name: geometries
   in: query
-  description: The type of vector geometry added to incidents (returned in the <v> element of the response).
+  description: The type of vector geometry added to incidents (returned in the <v> element of the response).  Valid values are original which places incidents precisely on the road, or shifted which moves the incident slightly (depending on zoom level) to indicate specific road lanes
   types:
-  - uid: geometries
+  - uid: string
 - name: expandCluster
   in: query
-  description: Boolean to indicate whether to list all traffic incidents in a cluster separately
+  description: true or false to indicate whether to list all traffic incidents in a cluster separately
   types:
-  - uid: boolean
+  - uid: string
 - name: originalPosition
   in: query
-  description: Boolean on whether to return the original position of the incident (<op>) as well as the one shifted to the beginning of the traffic tube (<p>)
+  description: true or false on whether to return the original position of the incident (<op>) as well as the one shifted to the beginning of the traffic tube (<p>)
   types:
-  - uid: boolean
+  - uid: string
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: TrafficIncidentDetailResult
+  - uid: trafficincidentdetail200
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -108,41 +108,13 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: TrafficIncidentDetailStyle
-  description: The style that will be used to render the traffic tile in the Maps API. This will have an effect on the coordinates of traffic incidents in the reply.  Valid values are s1, s2, s3 and night
-  kind: enum
-  properties:
-  - name: s1
-    types:
-    - uid: string
-  - name: s2
-    types:
-    - uid: string
-  - name: s3
-    types:
-    - uid: string
-  - name: night
-    types:
-    - uid: string
-- name: geometries
-  description: The type of vector geometry added to incidents (returned in the <v> element of the response).
-  kind: enum
-  properties:
-  - name: original
-    description: Places incidents precisely on the road.
-    types:
-    - uid: string
-  - name: shifted
-    description: Moves the incident slightly (depending on zoom level) to indicate specific road lanes.
-    types:
-    - uid: string
-- name: TrafficIncidentDetailResult
+- name: trafficincidentdetail200
   description: This object is returned from a successful Traffic incident Detail call
   kind: object
   properties:
   - name: tm
     isReadyOnly: true
-    description: Main response element
+    description: TM object
     types:
     - uid: Tm
 - name: Error
@@ -160,7 +132,7 @@ definitions:
     types:
     - uid: string
 - name: Tm
-  description: Main response element
+  description: TM object
   kind: object
   properties:
   - name: '@id'
@@ -172,121 +144,98 @@ definitions:
     isReadyOnly: true
     description: POI array
     types:
-    - uid: TrafficIncidentPoi
+    - uid: Poi
       isArray: true
-- name: TrafficIncidentPoi
+- name: Poi
+  description: POI array
   kind: object
   properties:
   - name: id
     isReadyOnly: true
-    description: ID of the traffic incident
+    description: ID property
     types:
     - uid: string
   - name: p
     isReadyOnly: true
-    description: The point where an icon of the cluster or raw incident should be drawn, expressed in the requested projection. This is affected by traffic style, zoom level and road type
+    description: ID property
     types:
     - uid: P
   - name: ic
     isReadyOnly: true
-    description: The icon category associated with this incident. Values are numbers in the range 0-13, with the following meanings
+    description: IC property
     types:
     - uid: integer
   - name: ty
     isReadyOnly: true
-    description: The magnitude of delay associated with incident. These values correspond to incident colors in the traffic tiles
+    description: TY property
     types:
     - uid: integer
   - name: cbl
     isReadyOnly: true
-    description: Bottom left coordinate of the cluster in the projection of the request
+    description: CBL property
     types:
     - uid: Cbl
   - name: ctr
     isReadyOnly: true
-    description: Top right coordinate of the cluster in the projection of the request
+    description: CTR property
     types:
     - uid: Ctr
   - name: cs
     isReadyOnly: true
-    description: 'Cluster size: the number of incidents in the cluster'
+    description: CS property
     types:
     - uid: integer
   - name: l
     isReadyOnly: true
-    description: Length of the incident in meters
+    description: L property
     types:
     - uid: integer
-  - name: r
-    isReadyOnly: true
-    types:
-    - uid: string
-  - name: dl
-    isReadyOnly: true
-    types:
-    - uid: integer
-  - name: t
-    isReadyOnly: true
-    types:
-    - uid: string
-  - name: f
-    isReadyOnly: true
-    types:
-    - uid: string
-  - name: d
-    isReadyOnly: true
-    types:
-    - uid: string
-  - name: c
-    isReadyOnly: true
-    types:
-    - uid: string
 - name: P
-  description: The point where an icon of the cluster or raw incident should be drawn, expressed in the requested projection. This is affected by traffic style, zoom level and road type
+  description: ID property
   kind: object
   properties:
   - name: x
     isReadyOnly: true
-    description: x coordinate
+    description: X property
     types:
     - uid: number
   - name: y
     isReadyOnly: true
-    description: y coordinate
+    description: Y property
     types:
     - uid: number
 - name: Cbl
-  description: Bottom left coordinate of the cluster in the projection of the request
+  description: CBL property
   kind: object
   properties:
   - name: x
     isReadyOnly: true
-    description: x coordinate
+    description: X property
     types:
     - uid: number
   - name: y
     isReadyOnly: true
-    description: y coordinate
+    description: Y property
     types:
     - uid: number
 - name: Ctr
-  description: Top right coordinate of the cluster in the projection of the request
+  description: CTR property
   kind: object
   properties:
   - name: x
     isReadyOnly: true
-    description: x coordinate
+    description: X property
     types:
     - uid: number
   - name: y
     isReadyOnly: true
-    description: y coordinate
+    description: Y property
     types:
     - uid: number
 examples:
 - name: GetTrafficIncidentDetail
   request:
-    uri: GET https://atlas.microsoft.com/traffic/incident/detail/json?api-version=1.0&style=s3&boundingbox=6841263.950712,511972.674418,6886056.049288,582676.925582&boundingZoom=11&trafficmodelid=1335294634919
+    uri: GET https://atlas.microsoft.com/traffic/incident/detail/json?api-version=1.0&style=s3&boundingbox=6841263.950712,511972.674418,6886056.049288,582676.925582&trafficmodelid=1335294634919
   responses:
   - statusCode: "200"
     body: >-

@@ -28,12 +28,12 @@ Azure Database for PostgreSQL provides a managed database service for app develo
 
 | Operation group | Description |
 |---|---|
-| [Server](~/docs-ref-autogen/postgresql/Servers.yml) | Create, Restore, Update, Delete, Get, or List servers. |
-| [Configurations](~/docs-ref-autogen/postgresql/Configurations.yml) | Update, Get, and List the configuration of a server. | 
-| [Databases](~/docs-ref-autogen/postgresql/Databases.yml)  | Create, Delete, Get, or List databases in the server. | 
-| [Firewall Rules](~/docs-ref-autogen/postgresql/FirewallRules.yml) | Creates, Delete, Get, or List the firewall rules in a server. |
-| [Log Files](~/docs-ref-autogen/postgresql/LogFiles.yml) | Lists the log files in a given server. |
-| [Operations](~/docs-ref-autogen/postgresql/Operations.yml) | Lists the available REST API operations. |
+| [Server](xref:management.azure.com.postgresql.servers) | Create, Restore, Update, Delete, Get, or List servers. |
+| [Configurations](xref:management.azure.com.postgresql.configurations) | Update, Get, and List the configuration of a server. | 
+| [Databases](xref:management.azure.com.postgresql.databases)  | Create, Delete, Get, or List databases in the server. | 
+| [Firewall Rules](xref:management.azure.com.postgresql.firewallrules) | Creates, Delete, Get, or List the firewall rules in a server. |
+| [Log Files](xref:management.azure.com.postgresql.logfiles) | Lists the log files in a given server. |
+| [Operations](xref:management.azure.com.postgresql.operations) | Lists the available REST API operations. |
 
 
 ## See also

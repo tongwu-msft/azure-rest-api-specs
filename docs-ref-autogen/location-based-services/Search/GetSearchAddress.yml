@@ -4,32 +4,32 @@ name: Get Search Address
 service: Location Based Services Functional API
 groupName: Search
 apiVersion: "1.0"
-summary: In some cases, a fuzzy search might be too much.  For example, if you are only interested in traditional geocoding, Address Search can be used for address look up exclusively. The geocoding is performed by hitting the endpoint with just the address or partial address in question. The search index will be queried for everything above the street level data and no POIs will be returned. Note that the geocoder is very tolerant of typos and incomplete addresses. It will also handle everything from exact street addresses or street or intersections as well as higher level geographies such as city centers, counties, states etc.
+summary: Returns the search results from a Address search
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/address/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/search/address/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}
+- content: GET https://atlas.microsoft.com/search/address/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}
+- content: GET https://atlas.microsoft.com/search/address/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Possible values are json & xml.
-  types:
-  - uid: string
-- name: subscription-key
-  in: query
-  isRequired: true
-  description: Azure Maps subscription key
+  description: Desired format of the response
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API.  Current version is 1.0
+  description: Version number of Azure LBS API.  Current version is 1.0
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure LBS subscription key
   types:
   - uid: string
 - name: query
@@ -40,39 +40,39 @@ uriParameters:
   - uid: string
 - name: typeahead
   in: query
-  description: Boolean.  If the typeahead flag is set, the query will be interpreted as a partial input and the search will enter predictive mode
+  description: true or false.  If the typeahead flag is set, the query will be interpreted as a partial input and the search will enter�predictive�mode
   types:
-  - uid: boolean
+  - uid: string
 - name: limit
   in: query
-  description: Maximum number of responses that will be returned.
+  description: Maximum number of responses that will be returned.  Max value is 100
   types:
-  - uid: integer
+  - uid: string
 - name: ofs
   in: query
-  description: Starting offset of the returned results within the full result set.
+  description: Starting offset of the returned results within the full result set.  Max value is 1900
   types:
-  - uid: integer
+  - uid: string
 - name: countrySet
   in: query
   description: Comma separated string of country codes, e.g. FR, ES. This will limit the search to the specified countries
   types:
-  - uid: array
+  - uid: string
 - name: lat
   in: query
   description: Latitude where results should be biased.  E.g. 37.337
   types:
-  - uid: number
+  - uid: string
 - name: lon
   in: query
   description: Longitude where results should be biased.  E.g. -121.89
   types:
-  - uid: number
+  - uid: string
 - name: radius
   in: query
   description: The radius in meters to for the results to be constrained to the defined area
   types:
-  - uid: number
+  - uid: string
 - name: topLeft
   in: query
   description: Top left position of the bounding box.  E.g. 37.553,-122.453
@@ -97,7 +97,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchAddressResult
+  - uid: searchaddress200
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -120,7 +120,7 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: SearchAddressResult
+- name: searchaddress200
   description: This object is returned from a successful Search Address call
   kind: object
   properties:
@@ -133,7 +133,7 @@ definitions:
     isReadyOnly: true
     description: Results array
     types:
-    - uid: SearchAddressResultArray
+    - uid: Results
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
@@ -188,7 +188,8 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
-- name: SearchAddressResultArray
+- name: Results
+  description: Results array
   kind: object
   properties:
   - name: type
@@ -206,24 +207,68 @@ definitions:
     description: Score property
     types:
     - uid: number
+  - name: info
+    isReadyOnly: true
+    description: Info property
+    types:
+    - uid: string
+  - name: entityType
+    isReadyOnly: true
+    description: Entity Type property
+    types:
+    - uid: string
+  - name: poi
+    description: POI property
+    types:
+    - uid: poi
   - name: address
     description: The address of the result
     types:
-    - uid: Address
+    - uid: address
   - name: position
     description: Coordinates of the result
     types:
-    - uid: Position
+    - uid: position
   - name: viewport
     description: The viewport that covers the result
     types:
-    - uid: Viewport
-  - name: entryPoints
-    description: Entry Points array
+    - uid: viewport
+  - name: boundingBox
+    description: Bounding box of the result
     types:
-    - uid: EntityPoint
+    - uid: BoundingBox
+- name: poi
+  description: POI property
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
+  - name: phone
+    isReadyOnly: true
+    description: Phone property
+    types:
+    - uid: string
+  - name: url
+    isReadyOnly: true
+    description: URL property
+    types:
+    - uid: string
+  - name: categories
+    isReadyOnly: true
+    description: Categories array
+    types:
+    - uid: string
       isArray: true
-- name: Address
+  - name: classifications
+    isReadyOnly: true
+    description: Classification array
+    types:
+    - uid: Classifications
+      isArray: true
+- name: address
   description: The address of the result
   kind: object
   properties:
@@ -321,7 +366,7 @@ definitions:
     description: Bounding Box for the address
     types:
     - uid: BoundingBox
-- name: Position
+- name: position
   description: Coordinates of the result
   kind: object
   properties:
@@ -335,7 +380,7 @@ definitions:
     description: Longitude property
     types:
     - uid: number
-- name: Viewport
+- name: viewport
   description: The viewport that covers the result
   kind: object
   properties:
@@ -347,19 +392,6 @@ definitions:
     description: Bottom right of the viewport
     types:
     - uid: BtmRightPoint
-- name: EntityPoint
-  kind: object
-  properties:
-  - name: type
-    isReadyOnly: true
-    description: Name Locale property
-    types:
-    - uid: string
-  - name: position
-    isReadyOnly: true
-    description: Name property
-    types:
-    - uid: Position
 - name: BoundingBox
   description: Bounding Box for the address
   kind: object
@@ -374,6 +406,21 @@ definitions:
     description: The South West coordinates for the Bounding Box
     types:
     - uid: string
+- name: Classifications
+  description: Classification array
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Code property
+    types:
+    - uid: string
+  - name: names
+    isReadyOnly: true
+    description: Names array
+    types:
+    - uid: Names
+      isArray: true
 - name: TopLeftPoint
   description: Top left of the viewport
   kind: object
@@ -402,6 +449,20 @@ definitions:
     description: Longitude
     types:
     - uid: number
+- name: Names
+  description: Names array
+  kind: object
+  properties:
+  - name: nameLocale
+    isReadyOnly: true
+    description: Name Locale property
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
 examples:
 - name: GetSearchAddress
   request:
