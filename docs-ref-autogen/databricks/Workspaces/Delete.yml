@@ -1,0 +1,110 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.databricks.workspaces.delete
+name: Delete
+service: Databricks
+groupName: Workspaces
+apiVersion: 2018-04-01
+summary: Deletes the workspace.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: NoContent
+- name: 202 Accepted
+  description: Accepted - Returns this status until the asynchronous operation has completed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: "The code and message for an error.  \nThe error details."
+    types:
+    - uid: ErrorInfo
+- name: ErrorInfo
+  description: The code and message for an error.
+  kind: object
+  properties:
+  - name: code
+    description: A machine readable error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: innererror
+    description: Inner error details if they exist.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error's code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: target
+    description: Indicates which property in the request is responsible for the error.
+    types:
+    - uid: string
+examples:
+- name: Delete a workspace
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace?api-version=2018-04-01
+  responses:
+  - statusCode: "202"
+  - statusCode: "204"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
