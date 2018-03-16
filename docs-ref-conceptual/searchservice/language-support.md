@@ -54,7 +54,7 @@ For each field in the index definition, you can set the `analyzer` property to a
 
 Use the **searchFields** query parameter to specify which language-specific field to search against in your queries. You can review query examples that include the analyzer property in Search Documents. 
 
-For more information about index properties, see [Create Index &#40;Azure Search Service REST API&#41;](create-index.md). For more information about analysis in Azure Search, see [Analyzers in Azure Search](https://docs.microsoft.com/azure/search/search-analyzers.md)
+For more information about index properties, see [Create Index &#40;Azure Search Service REST API&#41;](create-index.md). For more information about analysis in Azure Search, see [Analyzers in Azure Search](https://docs.microsoft.com/azure/search/search-analyzers)
 
 ## Analyzer List  
  Below is the list of supported languages together with Lucene and Microsoft analyzer names.  
