@@ -16,10 +16,10 @@ Azure Container Registry is a managed Docker registry service to store and manag
 
 | Operation group | Description |
 |-----------------|-------------|
-| [Operations](~/docs-ref-autogen/containerregistry/operations.yml) | Get information about Azure Container Registry REST API operations. |
-| [Registries](~/docs-ref-autogen/containerregistry/registries.yml) | Create, read, update, and delete container registries. |
-| [Replications](~/docs-ref-autogen/containerregistry/replications.yml) | Create, read, update, and delete container registry [geo-replications](/azure/container-registry/container-registry-geo-replication). |
-| [Webhooks](~/docs-ref-autogen/containerregistry/webhooks.yml) | Create, read, update, and delete container registry [webhooks](/azure/container-registry/container-registry-webhook). |
+| [Operations](xref:management.azure.com.containerregistry.operations) | Get information about Azure Container Registry REST API operations. |
+| [Registries](xref:management.azure.com.containerregistry.registries) | Create, read, update, and delete container registries. |
+| [Replications](xref:management.azure.com.containerregistry.replications) | Create, read, update, and delete container registry [geo-replications](/azure/container-registry/container-registry-geo-replication). |
+| [Webhooks](xref:management.azure.com.containerregistry.webhooks) | Create, read, update, and delete container registry [webhooks](/azure/container-registry/container-registry-webhook). |
 
 ## See also
 

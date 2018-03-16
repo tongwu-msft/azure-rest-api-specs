@@ -10,26 +10,26 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/address/reverse/crossStreet/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/search/address/reverse/crossStreet/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&spatialKeys={spatialKeys}&heading={heading}&radius={radius}&language={language}
+- content: GET https://atlas.microsoft.com/search/address/reverse/crossStreet/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}
+- content: GET https://atlas.microsoft.com/search/address/reverse/crossStreet/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}&spatialKeys={spatialKeys}&heading={heading}&radius={radius}&language={language}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Possible values are json & xml.
-  types:
-  - uid: string
-- name: subscription-key
-  in: query
-  isRequired: true
-  description: Azure Maps subscription key
+  description: Desired format of the response
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API.  Current version is 1.0
+  description: Version number of Azure LBS API.  Current version is 1.0
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure LBS subscription key
   types:
   - uid: string
 - name: query
@@ -40,19 +40,19 @@ uriParameters:
   - uid: string
 - name: spatialKeys
   in: query
-  description: Boolean.  If the spatialKeys flag is set, the response will also contain the deCarta proprietary geo-spatial key information for a specified location
+  description: true or false string.  If the spatialKeys flag is set, the response will also contain the deCarta proprietary geo-spatial key information for a specified location
   types:
-  - uid: boolean
+  - uid: string
 - name: heading
   in: query
   description: The directional heading of the vehicle in degrees, for travel along a segment of roadway. 0 is North, 90 is East and so on, values range from -360 to 360. The precision can include upto one decimal place
   types:
-  - uid: number
+  - uid: string
 - name: radius
   in: query
   description: The maximum distance in meters from the specified position for the reversegeocode to consider.  E.g. 10000 (10km)
   types:
-  - uid: number
+  - uid: string
 - name: language
   in: query
   description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used
@@ -62,7 +62,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchAddressReverseCrossStreetResult
+  - uid: searchaddressreversecrossstreet200
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -85,7 +85,7 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: SearchAddressReverseCrossStreetResult
+- name: searchaddressreversecrossstreet200
   description: This object is returned from a successful Search Address Reverse CrossStreet call
   kind: object
   properties:
@@ -98,7 +98,7 @@ definitions:
     isReadyOnly: true
     description: Addresses array
     types:
-    - uid: AddressResult
+    - uid: Addresses
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
@@ -153,19 +153,20 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
-- name: AddressResult
+- name: Addresses
+  description: Addresses array
   kind: object
   properties:
   - name: address
     description: The address of the result
     types:
-    - uid: Address
+    - uid: address
   - name: position
     isReadyOnly: true
     description: Position property
     types:
     - uid: string
-- name: Address
+- name: address
   description: The address of the result
   kind: object
   properties:

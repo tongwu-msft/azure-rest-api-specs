@@ -23,9 +23,9 @@ You can use [.NET](https://aka.ms/search-mgmt-sdk) or [PowerShell](https://azure
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Admin Keys](../../docs-ref-autogen/searchmanagement/AdminKeys.yml)  | Create or refresh admin api-keys providing read-write access to a service. |
-| [Query Keys](../../docs-ref-autogen/searchmanagement/QueryKeys.yml)  | Create, delete, or list query api-keys providing read-only access to a service from a calling application. |
-| [Services](../../docs-ref-autogen/searchmanagement/Services.yml)  | Create, update, delete, or list search services in your Azure subscription, or check that a candidate search service name is available for use. |
+| [Admin Keys](xref:management.azure.com.searchmanagement.adminkeys)  | Create or refresh admin api-keys providing read-write access to a service. |
+| [Query Keys](xref:management.azure.com.searchmanagement.querykeys)  | Create, delete, or list query api-keys providing read-only access to a service from a calling application. |
+| [Services](xref:management.azure.com.searchmanagement.services)  | Create, update, delete, or list search services in your Azure subscription, or check that a candidate search service name is available for use. |
 
 ## See Also
 

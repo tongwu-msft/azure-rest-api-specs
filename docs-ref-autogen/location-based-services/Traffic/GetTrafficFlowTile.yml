@@ -7,11 +7,11 @@ apiVersion: "1.0"
 summary: Get the traffic flow tile for a given coordinates
 consumes: []
 produces:
-- image/png
 - application/json
+- application/xml
 paths:
-- content: GET https://atlas.microsoft.com/traffic/flow/tile/png?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}
-- content: GET https://atlas.microsoft.com/traffic/flow/tile/png?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}&thickness={thickness}
+- content: GET https://atlas.microsoft.com/traffic/flow/tile/{format}?api-version=1.0&subscription-key={subscription-key}&style={style}&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/traffic/flow/tile/{format}?api-version=1.0&subscription-key={subscription-key}&style={style}&zoom={zoom}&x={x}&y={y}&thickness={thickness}
   isOptional: true
 uriParameters:
 - name: format
@@ -20,16 +20,16 @@ uriParameters:
   description: Desired format of the response
   types:
   - uid: string
-- name: subscription-key
-  in: query
-  isRequired: true
-  description: Azure Maps subscription key
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API.  Current version is 1.0
+  description: Version number of Azure LBS API.  Current version is 1.0
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure LBS subscription key
   types:
   - uid: string
 - name: style
@@ -37,35 +37,35 @@ uriParameters:
   isRequired: true
   description: The style to be used to render the tile.  Valid values are absolute which returns colors reflecting the absolute speed measured, relative which returns the speed relative to free-flow, Relative-delay which displays relative speeds only where they are different from the freeflow speeds
   types:
-  - uid: TrafficFlowTileStyle
+  - uid: string
 - name: zoom
   in: query
   isRequired: true
-  description: Zoom level for desired tile.
+  description: Zoom level for desired tile.  0 to 18 for raster tiles, 0 through 20 for vector tiles
   types:
-  - uid: integer
+  - uid: string
 - name: x
   in: query
   isRequired: true
   description: 'X index for the desired tile, based on Spherical Mercator projection coordinate system (EPSG:3857) '
   types:
-  - uid: integer
+  - uid: string
 - name: y
   in: query
   isRequired: true
   description: Y index for the desired tile, based on Spherical Mercator projection coordinate system (EPSG:3857)
   types:
-  - uid: integer
+  - uid: string
 - name: thickness
   in: query
-  description: The segment width multiplier.
+  description: The segment width multiplier.  Valid values are from 1 to 20
   types:
-  - uid: integer
+  - uid: string
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: string
+  - uid: trafficflowtile200
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -88,24 +88,13 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: TrafficFlowTileStyle
-  description: The style to be used to render the tile.  Valid values are absolute which returns colors reflecting the absolute speed measured, relative which returns the speed relative to free-flow, Relative-delay which displays relative speeds only where they are different from the freeflow speeds
-  kind: enum
+- name: trafficflowtile200
+  description: This object is returned from a successful Traffic Flow Tile call
+  kind: object
   properties:
-  - name: absolute
-    description: Colors will reflect the absolute speed measured.
-    types:
-    - uid: string
-  - name: relative
-    description: Colors will reflect the speed relative to free-flow.
-    types:
-    - uid: string
-  - name: relative-delay
-    description: Displays relative colors only where they are different from the freeflow speeds.
-    types:
-    - uid: string
-  - name: reduced-sensitivity
-    description: Displays relative colors but a larger difference from freeflow is required for segments to change the color.
+  - name: image
+    isReadyOnly: true
+    description: Image property
     types:
     - uid: string
 - name: Error
@@ -128,7 +117,7 @@ examples:
     uri: GET https://atlas.microsoft.com/traffic/flow/tile/png?api-version=1.0&style=absolute&zoom=6&x=9&y=22
   responses:
   - statusCode: "200"
-    body: "\"binary string image\""
+    body: '{}'
   - statusCode: "400"
     body: >-
       {
