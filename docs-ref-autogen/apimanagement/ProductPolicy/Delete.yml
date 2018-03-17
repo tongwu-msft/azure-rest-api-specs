@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.productpolicy.delete
 name: Delete
 service: API Management
 groupName: Product Policy
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Deletes the policy configuration at the Product.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/policy?api-version=2017-03-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/policy?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: Product identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: policyId
   in: path
   isRequired: true
@@ -51,6 +51,8 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 200 OK
+  description: Successfully deleted the policy configuration at the Product level.
 - name: 204 No Content
   description: Successfully deleted the policy configuration at the Product level.
 - name: Other Status Codes
@@ -61,7 +63,7 @@ requestHeader:
 - name: If-Match
   in: header
   isRequired: true
-  description: The entity state (Etag) version of the product policy to update. A value of "*" can be used for If-Match to unconditionally apply the operation.
+  description: ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
   types:
   - uid: string
 definitions:
@@ -108,11 +110,12 @@ definitions:
 examples:
 - name: ApiManagementDeleteProductPolicy
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/testproduct/policies/policy?api-version=2017-03-01
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/testproduct/policies/policy?api-version=2018-01-01
     headers:
     - name: If-Match
       value: '*'
   responses:
+  - statusCode: "200"
   - statusCode: "204"
 security:
 - type: oauth2

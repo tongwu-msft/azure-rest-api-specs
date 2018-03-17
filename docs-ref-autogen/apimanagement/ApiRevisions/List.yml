@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.apirevisions.list
 name: List
 service: API Management
 groupName: Api Revisions
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Lists all revisions of an API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/revisions?api-version=2017-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/revisions?$top={$top}&$skip={$skip}&api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/revisions?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/revisions?api-version=2018-01-01&$filter={$filter}&$top={$top}&$skip={$skip}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -39,7 +39,25 @@ uriParameters:
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: >
+    | Field       | Supported operators    | Supported functions               |
+
+    |-------------|------------------------|-----------------------------------|
+
+
+
+    |apiRevision | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
+  types:
+  - uid: string
 - name: $top
   in: query
   description: Number of records to return.
@@ -52,12 +70,6 @@ uriParameters:
   types:
   - uid: integer
   format: int32
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version of the API to be used with the client request.
-  types:
-  - uid: string
 responses:
 - name: 200 OK
   description: The operation returns a list of revision details.
@@ -74,7 +86,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Api Revision details.
+    description: Summary of revision metadata.
     types:
     - uid: ApiRevisionContract
       isArray: true
@@ -100,64 +112,49 @@ definitions:
     - uid: ErrorFieldContract
       isArray: true
 - name: ApiRevisionContract
-  description: Api Revision details.
+  description: Summary of revision metadata.
   kind: object
   properties:
-  - name: properties.apiId
+  - name: apiId
     isReadyOnly: true
     description: Identifier of the API Revision.
     types:
     - uid: string
-  - name: properties.apiRevision
+  - name: apiRevision
     isReadyOnly: true
     description: Revision number of API.
     types:
     - uid: string
-  - name: properties.createdDateTime
+  - name: createdDateTime
     isReadyOnly: true
     description: 'The time the API Revision was created. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.'
     types:
     - uid: string
-  - name: properties.updatedDateTime
+  - name: updatedDateTime
     isReadyOnly: true
     description: 'The time the API Revision were updated. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.'
     types:
     - uid: string
-  - name: properties.description
+  - name: description
     isReadyOnly: true
     description: Description of the API Revision.
     types:
     - uid: string
-  - name: properties.privateUrl
+  - name: privateUrl
     isReadyOnly: true
     description: Gateway URL for accessing the non-current API Revision.
     types:
     - uid: string
-  - name: properties.isOnline
+  - name: isOnline
     isReadyOnly: true
     description: Indicates if API revision is the current api revision.
     types:
     - uid: boolean
-  - name: properties.isCurrent
+  - name: isCurrent
     isReadyOnly: true
     description: Indicates if API revision is accessible via the gateway.
     types:
     - uid: boolean
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type for API Management resource.
-    types:
-    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -177,24 +174,19 @@ definitions:
 examples:
 - name: ApiManagementListApiRevisions
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d2ef278aa04f0888cba3f3/revisions?api-version=2017-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d2ef278aa04f0888cba3f3/revisions?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/a1/revisions/5a7cb545298324c53224a799",
-            "type": "Microsoft.ApiManagement/service/apis/revisions",
-            "name": "5a7cb545298324c53224a799",
-            "properties": {
-              "apiId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/a1;rev=1",
-              "apiRevision": "1",
-              "createdDateTime": "2018-02-01T22:21:20.467Z",
-              "updatedDateTime": "2018-02-01T22:21:20.467Z",
-              "isOnline": true,
-              "isCurrent": true
-            }
+            "apiId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/a1;rev=1",
+            "apiRevision": "1",
+            "createdDateTime": "2018-02-01T22:21:20.467Z",
+            "updatedDateTime": "2018-02-01T22:21:20.467Z",
+            "isOnline": true,
+            "isCurrent": true
           }
         ],
         "nextLink": ""

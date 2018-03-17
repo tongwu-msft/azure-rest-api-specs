@@ -10,9 +10,9 @@ manager: mbaldwin
 ## Tasks
 You can do the following with certificate contacts:
 
-- [Get certificate contacts](../../docs-ref-autogen/keyvault/GetCertificateContacts.yml)
-- [Set certificate contacts](../../docs-ref-autogen/keyvault/SetCertificateContacts.yml)
-- [Delete certificate contacts](../../docs-ref-autogen/keyvault/DeleteCertificateContacts.yml)
+- [Get certificate contacts](xref:keyvault.getcertificatecontacts)
+- [Set certificate contacts](xref:keyvault.setcertificatecontacts)
+- [Delete certificate contacts](xref:keyvault.deletecertificatecontacts)
 
 ## See Also
 [Common parameters and headers](common-parameters-and-headers.md)

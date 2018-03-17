@@ -1,7 +1,7 @@
 ---
 title: "Program"
 ms.custom: ""
-ms.date: "2016-07-14"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -70,7 +70,7 @@ A Program enables you to control the publishing and storage of segments in a liv
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Programs|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -115,7 +115,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|Start|https://media.windows.net/api/Programs(‘*ProgramId*’)/Start|HTTP/1.1|  
+|Start|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs(‘*ProgramId*’)/Start|HTTP/1.1|  
   
 ### Sample Request  
 
@@ -146,7 +146,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|Stop|https://media.windows.net/api/Programs(‘*ProgramId*’)/Stop|HTTP/1.1|  
+|Stop|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs(‘*ProgramId*’)/Stop|HTTP/1.1|  
   
 ### Sample Request  
 
@@ -177,7 +177,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|Get all Programs in the Media Services account:<br /><br /> https://media.windows.net/api/Programs<br /><br /> Get a specified Program in the Media Services account:<br /><br /> https://media.windows.net/api/Programs(‘*ProgramId*’)<br /><br /> Get all Programs associated with a specified Channel:<br /><br /> https://media.windows.net/api/Channels('*channelid*')/Programs|HTTP/1.1|  
+|GET|Get all Programs in the Media Services account:<br /><br /> https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs<br /><br /> Get a specified Program in the Media Services account:<br /><br /> https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs(‘*ProgramId*’)<br /><br /> Get all Programs associated with a specified Channel:<br /><br /> https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels('*channelid*')/Programs|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -208,7 +208,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/library/dd541276.aspx).|https://media.windows.net/api/Programs(‘*ProgramId*’)|HTTP/1.1|  
+|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/library/dd541276.aspx).|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs(‘*ProgramId*’)|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -245,7 +245,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/api/Programs(‘*ProgramId*’)|HTTP/1.1|  
+|DELETE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs(‘*ProgramId*’)|HTTP/1.1|  
   
 ### Sample Request  
 

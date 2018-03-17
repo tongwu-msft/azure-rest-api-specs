@@ -3,14 +3,16 @@ uid: management.azure.com.apimanagement.subscription.update
 name: Update
 service: API Management
 groupName: Subscription
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Updates the details of a subscription specificied by its identifier.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?api-version=2017-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?api-version=2018-01-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?notify={notify}&api-version=2018-01-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +39,12 @@ uriParameters:
   description: Subscription entity Identifier. The entity represents the association between a user and a product in API Management.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+- name: notify
+  in: query
+  description: "Notify change in Subscription State. \n - If false, do not send any email notification for change of state of subscription \n - If true, send email notification of change of state of subscription "
+  types:
+  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
@@ -97,7 +104,7 @@ requestHeader:
 - name: If-Match
   in: header
   isRequired: true
-  description: ETag of the Subscription Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
+  description: ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
   types:
   - uid: string
 definitions:
@@ -195,7 +202,7 @@ definitions:
 examples:
 - name: ApiManagementUpdateSubscription
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/subscriptions/testsub?api-version=2017-03-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/subscriptions/testsub?api-version=2018-01-01
     body: >-
       {
         "properties": {

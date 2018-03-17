@@ -1,7 +1,7 @@
 ---
 title: "IngestManifest"
 ms.custom: ""
-ms.date: "2016-07-14"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -26,9 +26,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # IngestManifest
-An IngestManifest represents a set of assets to be created through bulk ingesting along with their associated asset files. Bulk ingesting allows you to decouple the file upload process from asset creation so that high performance file upload methods can be used for very large file sets during asset creation. Each asset to be created is represented by an IngestManifestAsset in the IngestManifestAssets collection contained in the manifest. Once an IngestManifestAssets is created along with its associated IngestManifestFiles, Microsoft Azure Media Services watches the Blob storage container associated with the IngestManifest via the **BlobStorageUriForUpload** property. As each file upload to the Blob storage container completes, Microsoft Azure Media Services completes a new asset for the respective IngestManifestAsset that contains that file.  
+An IngestManifest represents a set of assets to be created through bulk ingesting along with their associated asset files. Bulk ingesting allows you to decouple the file upload process from asset creation. As a result, a high-performance file upload method can be used for large file sets during asset creation. Once an IngestManifestAssets is created, along with its associated IngestManifestFiles, Microsoft Azure Media Services watches the Blob storage container associated with the IngestManifest via the **BlobStorageUriForUpload** property. As each file upload to the Blob storage container completes, Microsoft Azure Media Services completes a new asset for the respective IngestManifestAsset that contains that file.  
   
- This topic gives an overview of the `IngestManifest` entity and also demonstrates how to execute various operations with the Media Services REST API.  
+ This article gives an overview of the `IngestManifest` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
 -   [IngestManifest Entity Properties](../operations/ingestmanifest.md#ingestmanifest_entity_properties)  
   
@@ -44,7 +44,7 @@ An IngestManifest represents a set of assets to be created through bulk ingestin
 > When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
 
 > [!NOTE]
->  Each IngestManifestAssetFile associated to an IngestManifest must have a unique filename in the manifest.  
+>  Each IngestManifestAssetFile associated with an IngestManifest must have a unique filename in the manifest.  
   
 ##  <a name="ingestmanifest_entity_properties"></a> IngestManifest Entity Properties  
   
@@ -55,7 +55,7 @@ An IngestManifest represents a set of assets to be created through bulk ingestin
 |`LastModified`<br /><br /> Read-only. Set by Media Services.|Edm.DateTime|This value is updated by Media Services after any property changes are made. It represents the number of milliseconds since midnight Jan 1, 1970.|  
 |`Name`<br /><br /> Optional.|Edm.String|Friendly name for your IngestManifest.|  
 |`State`<br /><br /> Read-only. Set by Media Services.|Edm.Int32|The current state of the manifest. This value can be one of the following:<br /><br /> -   **Inactive** = 0: No pending asset creations remain. All have either completed or encountered an error.<br />-   **Activating** = 1: The manifest is not yet ready to receive files uploaded to the Blob container.<br />-   **Active** = 2: There are IngestManifestAssets pending creations and the Blob container is being monitored.|  
-|`BlobStorageUriForUpload`<br /><br /> Read-only. Set by Media Services.|Edm.String|This value is set by Media Services. This value specifies the Uri of the Blob storage container which receives the file uploads needed to complete the IngestManifestAssets.|  
+|`BlobStorageUriForUpload`<br /><br /> Read-only. Set by Media Services.|Edm.String|This value is set by Media Services. This value specifies the Uri of the Blob storage container, which receives the file uploads needed to complete the IngestManifestAssets.|  
 |`Statistics`<br /><br /> Read-only. Set by Media Services.|[IngestManifestStatistics](../operations/ingestmanifeststatistics.md)|This complex type contains statistic information to help determine the current progress of the creation of IngestManifestAssets based on all asset files related to the manifest.|  
 |`IngestManifestAssets`<br /><br /> Read-only. Set by Media Services.|[IngestManifestAsset](../operations/ingestmanifestasset.md) entity set|Navigation property that can be accessed by referencing a specific IngestManifestAsset by Id value. The returned entity set contains all IngestManifestAssets contained in the IngestManifest.|  
 |`PendingIngestManifestAssets`<br /><br /> Read-only. Set by Media Services.|[IngestManifestAsset](../operations/ingestmanifestasset.md) entity set|Navigation property that can be accessed by referencing a specific IngestManifestAsset by Id value. The returned entity set contains all IngestManifestAssets pending file upload or asset creation.|  
@@ -67,7 +67,7 @@ An IngestManifest represents a set of assets to be created through bulk ingestin
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/API/IngestManifests|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifests|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -94,15 +94,15 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/IngestManifests|HTTP/1.1|  
-|GET|https://media.windows.net/API/IngestManifests(‘IngestManifest Id’)|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifests|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifests(‘IngestManifest Id’)|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/API/IngestManifests('nb:mid:UUID:a2f9a230-831e-5e40-bafa-fbf8decbee26') HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifests('nb:mid:UUID:a2f9a230-831e-5e40-bafa-fbf8decbee26') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -114,11 +114,11 @@ Content-Length: 0
 ```  
   
 ##  <a name="update_an_ingestmanifest"></a> Update an IngestManifest  
- IngestManifests can be updated by referencing the IngestManifest Id with a HTTP MERGE request. The request body contains the properties to be updated.  
+ IngestManifests can be updated by referencing the IngestManifest Id with an HTTP MERGE request. The request body contains the properties to be updated.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|MERGE|https://media.windows.net/API/IngestManifests(‘IngestManifest Id’)|HTTP/1.1|  
+|MERGE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifests(‘IngestManifest Id’)|HTTP/1.1|  
   
 ### Sample Request  
   
@@ -145,14 +145,14 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/API/IngestManifests(‘IngestManifest Id’)|HTTP/1.1|  
+|DELETE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifests(‘IngestManifest Id’)|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://media.windows.net/API/IngestManifests('nb:mid:UUID:45ea3cd0-b3cf-994b-8e4d-03c9620c22da') HTTP/1.1  
+DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifests('nb:mid:UUID:45ea3cd0-b3cf-994b-8e4d-03c9620c22da') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  

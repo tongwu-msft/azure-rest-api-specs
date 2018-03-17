@@ -19,35 +19,35 @@ The Automation REST API provides operations for working with the following resou
 
 |Operation Group | Description |
 |----------------|-------------|
-| [Activity](~/docs-ref-autogen/automation/activity.yml) | Manage activities available from a module imported in an Automation account.|  
-| [Agent registration information](~/docs-ref-autogen/automation/agentregistrationinformation.yml) | Manage the Automation agent registration information.|  
-|[Automation account](~/docs-ref-autogen/automation/automationaccount.yml) | Manage and provide information about Automation accounts in a resource group.|  
-| [Certificate](~/docs-ref-autogen/automation/certificate.yml) | Manage and provide information about certificate assets.|  
-| [Connection type](~/docs-ref-autogen/automation/connectiontype.yml) | Manage and provide information about connection types that service connections.|  
-| [Connection](~/docs-ref-autogen/automation/connection.yml) | Manage and provide information about connections.|  
-| [Credential](~/docs-ref-autogen/automation/credential.yml) | Manage credential assets to authenticate for any resource or purpose.|  
-| [DSC compilation job](~/docs-ref-autogen/automation/dsccompilationjob.yml) | Manage and provide information about compilation jobs for DSC configurations.|  
-| [DSC configuration](~/docs-ref-autogen/automation/dscconfiguration.yml) | Manage and provide information about DSC configurations.|  
-| [DSC node](~/docs-ref-autogen/automation/dscnode.yml) | Manage and provide information about DSC nodes.|  
-| [DSC node configuration](~/docs-ref-autogen/automation/dscnodeconfiguration.yml) | Configure and provide information abut DSC nodes.|  
-| [Fields](~/docs-ref-autogen/automation/fields.yml) | Review details of modules in an Automation account.|  
-| [Hybrid Runbook Worker group](~/docs-ref-autogen/automation/hybridrunbookworkergroup.yml) | Manage Hybrid Runbook Worker groups.|  
-| [Job](~/docs-ref-autogen/automation/job.yml) |Manage runbook jobs.|  
-| [Job schedule](~/docs-ref-autogen/automation/jobschedule.yml) | Manage job schedules.|  
-| [Job stream](~/docs-ref-autogen/automation/jobstream.yml) | Review job stream for a runbook job. |  
-| [Module](~/docs-ref-autogen/automation/module.yml) | Operations for managing Windows PowerShell workflow modules.|  
-| [Node reports](~/docs-ref-autogen/automation/nodereports.yml) | Review DSC reports sent from a DSC node to Automation.|  
-| [Object data types](~/docs-ref-autogen/automation/objectdatatypes.yml) | Review details of modules in an Automation account.|  
-| [Operations](~/docs-ref-autogen/automation/operations.yml) | Review all of the available REST API options for Automation.|   
-| [Runbook](~/docs-ref-autogen/automation/runbook.yml) | Operations for managing runbooks and draft runbooks.|  
-| [Runbook draft](~/docs-ref-autogen/automation/runbookdraft.yml) | Operations for managing runbooks in Automation. |  
-| [Schedule](~/docs-ref-autogen/automation/schedule.yml) | Schedule operations for runbooks.|  
-| [Statistics](~/docs-ref-autogen/automation/statistics.yml) | Review statistics for an Automation account.|  
-| [Test job streams](~/docs-ref-autogen/automation/testjobstreams.yml) | Review job streams for a runbook job.|  
-| [Test jobs](~/docs-ref-autogen/automation/testjobs.yml) | Manage test jobs for a runbook.|  
-| [Usages](~/docs-ref-autogen/automation/usages.yml) | Review job run time minutes used for an Automation account.|  
-| [Variable](~/docs-ref-autogen/automation/variable.yml) | Manage data that you want to store in an Automation account.|  
-| [Webhook](~/docs-ref-autogen/automation/webhook.yml) | Utilize APIs to manage webhooks in an Automation account.|  
+| [Activity](xref:management.azure.com.automation.activity) | Manage activities available from a module imported in an Automation account.|  
+| [Agent registration information](xref:management.azure.com.automation.agentregistrationinformation) | Manage the Automation agent registration information.|  
+|[Automation account](xref:management.azure.com.automation.automationaccount) | Manage and provide information about Automation accounts in a resource group.|  
+| [Certificate](xref:management.azure.com.automation.certificate) | Manage and provide information about certificate assets.|  
+| [Connection type](xref:management.azure.com.automation.connectiontype) | Manage and provide information about connection types that service connections.|  
+| [Connection](xref:management.azure.com.automation.connection) | Manage and provide information about connections.|  
+| [Credential](xref:management.azure.com.automation.credential) | Manage credential assets to authenticate for any resource or purpose.|  
+| [DSC compilation job](xref:management.azure.com.automation.dsccompilationjob) | Manage and provide information about compilation jobs for DSC configurations.|  
+| [DSC configuration](xref:management.azure.com.automation.dscconfiguration) | Manage and provide information about DSC configurations.|  
+| [DSC node](xref:management.azure.com.automation.dscnode) | Manage and provide information about DSC nodes.|  
+| [DSC node configuration](xref:management.azure.com.automation.dscnodeconfiguration) | Configure and provide information abut DSC nodes.|  
+| [Fields](xref:management.azure.com.automation.fields) | Review details of modules in an Automation account.|  
+| [Hybrid Runbook Worker group](xref:management.azure.com.automation.hybridrunbookworkergroup) | Manage Hybrid Runbook Worker groups.|  
+| [Job](xref:management.azure.com.automation.job) |Manage runbook jobs.|  
+| [Job schedule](xref:management.azure.com.automation.jobschedule) | Manage job schedules.|  
+| [Job stream](xref:management.azure.com.automation.jobstream) | Review job stream for a runbook job. |  
+| [Module](xref:management.azure.com.automation.module) | Operations for managing Windows PowerShell workflow modules.|  
+| [Node reports](xref:management.azure.com.automation.nodereports) | Review DSC reports sent from a DSC node to Automation.|  
+| [Object data types](xref:management.azure.com.automation.objectdatatypes) | Review details of modules in an Automation account.|  
+| [Operations](xref:management.azure.com.automation.operations) | Review all of the available REST API options for Automation.|   
+| [Runbook](xref:management.azure.com.automation.runbook) | Operations for managing runbooks and draft runbooks.|  
+| [Runbook draft](xref:management.azure.com.automation.runbookdraft) | Operations for managing runbooks in Automation. |  
+| [Schedule](xref:management.azure.com.automation.schedule) | Schedule operations for runbooks.|  
+| [Statistics](xref:management.azure.com.automation.statistics) | Review statistics for an Automation account.|  
+| [Test job streams](xref:management.azure.com.automation.testjobstreams) | Review job streams for a runbook job.|  
+| [Test jobs](xref:management.azure.com.automation.testjob) | Manage test jobs for a runbook.|  
+| [Usages](xref:management.azure.com.automation.usages) | Review job run time minutes used for an Automation account.|  
+| [Variable](xref:management.azure.com.automation.variable) | Manage data that you want to store in an Automation account.|  
+| [Webhook](xref:management.azure.com.automation.webhook) | Utilize APIs to manage webhooks in an Automation account.|  
 
 ## See Also
 * [Azure Automation documentation](https://docs.microsoft.com/azure/automation)

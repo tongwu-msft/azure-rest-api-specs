@@ -1,0 +1,264 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.databricks.workspaces.listbysubscription
+name: List By Subscription
+service: Databricks
+groupName: Workspaces
+apiVersion: 2018-04-01
+summary: Gets all the workspaces within a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Databricks/workspaces?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns an array of workspaces.
+  types:
+  - uid: WorkspaceListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: WorkspaceListResult
+  description: List of workspaces.
+  kind: object
+  properties:
+  - name: value
+    description: Information about workspace.
+    types:
+    - uid: Workspace
+      isArray: true
+  - name: nextLink
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: "The code and message for an error.  \nThe error details."
+    types:
+    - uid: ErrorInfo
+- name: Workspace
+  description: Information about workspace.
+  kind: object
+  properties:
+  - name: sku
+    description: The SKU of the resource.
+    types:
+    - uid: Sku
+  - name: properties.managedResourceGroupId
+    description: The managed resource group Id.
+    types:
+    - uid: string
+  - name: properties.parameters
+    description: Name and value pairs that define the workspace parameters.
+    types:
+    - uid: object
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The workspace provisioning state.
+    types:
+    - uid: ProvisioningState
+  - name: properties.uiDefinitionUri
+    description: The blob URI where the UI definition file is located.
+    types:
+    - uid: string
+  - name: properties.authorizations
+    description: The workspace provider authorization.
+    types:
+    - uid: WorkspaceProviderAuthorization
+      isArray: true
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: ErrorInfo
+  description: The code and message for an error.
+  kind: object
+  properties:
+  - name: code
+    description: A machine readable error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: innererror
+    description: Inner error details if they exist.
+    types:
+    - uid: string
+- name: Sku
+  description: SKU for the resource.
+  kind: object
+  properties:
+  - name: name
+    description: The SKU name.
+    types:
+    - uid: string
+  - name: tier
+    description: The SKU tier.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Provisioning status of the workspace.
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Created
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: WorkspaceProviderAuthorization
+  description: The workspace provider authorization.
+  kind: object
+  properties:
+  - name: principalId
+    description: The provider's principal identifier. This is the identity that the provider will use to call ARM to manage the workspace resources.
+    types:
+    - uid: string
+  - name: roleDefinitionId
+    description: The provider's role definition identifier. This role will define all the permissions that the provider must have on the workspace's container resource group. This role definition cannot have permission to delete the resource group.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error's code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: target
+    description: Indicates which property in the request is responsible for the error.
+    types:
+    - uid: string
+examples:
+- name: Lists workspaces
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Databricks/workspaces?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "myWorkspace1",
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace1",
+            "type": "Microsoft.Databricks/workspaces",
+            "location": "East US 2",
+            "tags": null,
+            "sku": {
+              "name": "skuName"
+            },
+            "properties": {
+              "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+              "parameters": null,
+              "provisioningState": "Created",
+              "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json"
+            }
+          },
+          {
+            "name": "myWorkspace2",
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace2",
+            "type": "Microsoft.Databricks/workspaces",
+            "location": "East US 2",
+            "tags": null,
+            "sku": {
+              "name": "skuName"
+            },
+            "properties": {
+              "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+              "parameters": null,
+              "provisioningState": "Created",
+              "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
